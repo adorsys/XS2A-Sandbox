@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>de.adorsys.ledgers</groupId>
 		<artifactId>xs2a-connector-examples</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.1</version>
 		<relativePath>..</relativePath>
 	</parent>
 	<artifactId>online-banking-app</artifactId>
