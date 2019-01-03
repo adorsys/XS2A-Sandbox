@@ -22,9 +22,9 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 
-import de.adorsys.ledgers.LedgersRestClient;
+import de.adorsys.ledgers.middleware.client.rest.AccountRestClient;
 
-@EnableFeignClients(basePackageClasses=LedgersRestClient.class)
+@EnableFeignClients(basePackageClasses=AccountRestClient.class)
 @ComponentScan(basePackages = {"de.adorsys.ledgers.oba", "de.adorsys.psd2.consent"})
 @SpringBootApplication
 @EnableAutoConfiguration

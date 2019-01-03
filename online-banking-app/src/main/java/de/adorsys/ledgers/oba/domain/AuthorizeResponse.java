@@ -2,18 +2,28 @@ package de.adorsys.ledgers.oba.domain;
 
 import java.util.List;
 
-import de.adorsys.ledgers.domain.sca.SCAMethodTO;
+import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
+import de.adorsys.ledgers.middleware.api.domain.um.ScaUserDataTO;
 
-public class AuthorizeResponse {
+public class AuthorizeResponse extends OnlineBankingResponse  {
 
+	/*
+	 * The id of the business process, login, payment, consent.
+	 */
 	private String scaId;
 	
-	private List<SCAMethodTO> scaMethods;
+	private List<ScaUserDataTO> scaMethods;
 	
-	private String scaOpId;
-	
-	private String userMessage;
+	/*
+	 * The id of this authorisation instance.
+	 */
+	private String authorisationId;
 
+	/*
+	 * The sca status is used to manage authorisation flows.
+	 */
+	private ScaStatusTO scaStatus;
+	
 	public String getScaId() {
 		return scaId;
 	}
@@ -22,27 +32,28 @@ public class AuthorizeResponse {
 		this.scaId = scaId;
 	}
 
-	public List<SCAMethodTO> getScaMethods() {
+	public List<ScaUserDataTO> getScaMethods() {
 		return scaMethods;
 	}
 
-	public void setScaMethods(List<SCAMethodTO> scaMethods) {
+	public void setScaMethods(List<ScaUserDataTO> scaMethods) {
 		this.scaMethods = scaMethods;
 	}
 
-	public String getScaOpId() {
-		return scaOpId;
+	public ScaStatusTO getScaStatus() {
+		return scaStatus;
 	}
 
-	public void setScaOpId(String scaOpId) {
-		this.scaOpId = scaOpId;
+	public void setScaStatus(ScaStatusTO scaStatus) {
+		this.scaStatus = scaStatus;
 	}
 
-	public String getUserMessage() {
-		return userMessage;
+	public String getAuthorisationId() {
+		return authorisationId;
 	}
 
-	public void setUserMessage(String userMessage) {
-		this.userMessage = userMessage;
+	public void setAuthorisationId(String authorisationId) {
+		this.authorisationId = authorisationId;
 	}
+
 }

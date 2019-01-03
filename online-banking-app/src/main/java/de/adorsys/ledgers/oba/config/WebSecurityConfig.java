@@ -20,7 +20,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import de.adorsys.ledgers.domain.um.AccessTokenTO;
+import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.oba.auth.JWTAuthenticationFilter;
 import de.adorsys.ledgers.oba.auth.MiddlewareAuthentication;
 import de.adorsys.ledgers.oba.auth.TokenAuthenticationService;
