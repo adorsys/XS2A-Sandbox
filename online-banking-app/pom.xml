@@ -20,13 +20,13 @@
 		<!-- project dependencies -->
 		<dependency>
 			<groupId>de.adorsys.ledgers</groupId>
-			<artifactId>ledgers-rest-client2</artifactId>
-			<version>${project.version}</version>
+			<artifactId>ledgers-middleware-rest-client</artifactId>
+			<version>${ledgers.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>de.adorsys.psd2</groupId>
-			<artifactId>consent-xs2a-client</artifactId>
-			<version>${xs2a.version}</version>
+			<groupId>de.adorsys.ledgers</groupId>
+			<artifactId>consent-psu-rest-client</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 
 		<!-- spring dependencies -->
@@ -60,6 +60,16 @@
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
+		</dependency>
+		
+		<!-- Other dependencies -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+		<dependency>
+		    <groupId>com.nimbusds</groupId>
+		    <artifactId>nimbus-jose-jwt</artifactId>
 		</dependency>
 
 		<!-- test dependencies -->

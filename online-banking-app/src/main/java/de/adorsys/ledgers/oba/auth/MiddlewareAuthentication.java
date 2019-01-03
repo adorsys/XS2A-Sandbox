@@ -8,11 +8,11 @@ import java.util.List;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
-import de.adorsys.ledgers.domain.um.AccessTokenTO;
-import de.adorsys.ledgers.domain.um.AccessTypeTO;
-import de.adorsys.ledgers.domain.um.AccountAccessTO;
-import de.adorsys.ledgers.domain.um.BearerTokenTO;
-import de.adorsys.ledgers.domain.um.UserRoleTO;
+import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
+import de.adorsys.ledgers.middleware.api.domain.um.AccessTypeTO;
+import de.adorsys.ledgers.middleware.api.domain.um.AccountAccessTO;
+import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
+import de.adorsys.ledgers.middleware.api.domain.um.UserRoleTO;
 
 public class MiddlewareAuthentication extends UsernamePasswordAuthenticationToken {
 

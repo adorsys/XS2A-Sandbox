@@ -16,9 +16,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
-import de.adorsys.ledgers.LedgersRestClient;
-import de.adorsys.ledgers.domain.um.AccessTokenTO;
-import de.adorsys.ledgers.domain.um.BearerTokenTO;
+import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
+import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
+import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 
 @Service
 public class TokenAuthenticationService {
@@ -27,12 +27,12 @@ public class TokenAuthenticationService {
     private static final String TOKEN_PREFIX = "Bearer ";
     private static final String HEADER_KEY = "Authorization";
     
-    private final LedgersRestClient ledgersRestClient;
+    private final UserMgmtRestClient ledgersUserMgmt;
 
 
-	public TokenAuthenticationService(LedgersRestClient ledgersRestClient) {
+	public TokenAuthenticationService(UserMgmtRestClient ledgersUserMgmt) {
 		super();
-		this.ledgersRestClient = ledgersRestClient;
+		this.ledgersUserMgmt = ledgersUserMgmt;
 	}
 
 	public Authentication getAuthentication(HttpServletRequest request) {
@@ -52,7 +52,7 @@ public class TokenAuthenticationService {
         String accessToken = StringUtils.substringAfterLast(headerValue, " ");
 
         BearerTokenTO bearerToken = null;
-        ResponseEntity<BearerTokenTO> responseEntity = ledgersRestClient.validateToken(accessToken);
+        ResponseEntity<BearerTokenTO> responseEntity = ledgersUserMgmt.validate(accessToken);
         if(responseEntity.getStatusCode()==HttpStatus.OK) {
         	bearerToken = responseEntity.getBody();
         }
