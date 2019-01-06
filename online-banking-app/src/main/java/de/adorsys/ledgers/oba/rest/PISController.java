@@ -310,7 +310,7 @@ public class PISController extends AbstractXISController {
 	}
 	
 	private String psuId(MiddlewareAuthentication auth) {
-		return auth.getBearerToken().getAccessTokenObject().getActor();
+		return auth.getBearerToken().getAccessTokenObject().getLogin();
 	}
 
 	private void scaStatus(String paymentId, String authorisationId, ScaStatus status, MiddlewareAuthentication auth, HttpServletResponse response) throws PaymentWorkflowException {
@@ -324,7 +324,7 @@ public class PISController extends AbstractXISController {
 			ConsentReference consentReference, HttpServletResponse response) throws PaymentWorkflowException {
 		BearerTokenTO loginToken = auth.getBearerToken();
 
-		String psuId = loginToken.getAccessTokenObject().getActor();
+		String psuId = loginToken.getAccessTokenObject().getLogin();
 		String psuIdType = null;
 		String psuCorporateId = null;
 		String psuCorporateIdType = null;

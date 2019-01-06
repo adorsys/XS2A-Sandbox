@@ -64,7 +64,7 @@ public class SCAController {
 	 * 
 	 * Store the login token in a cookie.
 	 * 
-	 * If the user has no sca method, the return de consent access token.
+	 * If the user has no sca method, then return the consent access token.
 	 * 
 	 * If the user has only one sca method, sent authentication code to the user and
 	 * return the sac method id in the AuthorizeResponse
@@ -107,32 +107,28 @@ public class SCAController {
 		ScaStatusTO scaStatus = prepareAuthResponse(authResponse, loginResponse);
 		BearerTokenTO bearerToken = loginResponse.getBearerToken();
 		switch (scaStatus) {
-		case PSUAUTHENTICATED:
-			// Passwort check was successfull.
+		case PSUIDENTIFIED:
+			// Password check was successful.
 			// sca method must be selected.
 			// PSU Message will contain message for selection of sca method.
 			authResponse.setScaMethods(loginResponse.getScaMethods());
 		case FINALISED:
 			// SCA was successfull
 		case EXEMPTED:
-			// Passwort check was successfull.
+		case PSUAUTHENTICATED:
+			// Password check was successful.
 			// No auth code required.
 			// PSU Message for login complete.
 		case SCAMETHODSELECTED:
-			// Passwort check was successfull.
+			// Passwor check was successful.
 			// Method was auto selected ans auth code was sent.
 			// PSUMessage will contain prompt for auth code.
 			responseUtils.setCookies(response, consentReference, bearerToken.getAccess_token(), bearerToken.getAccessTokenObject());
 			return ResponseEntity.ok(authResponse);
-		case PSUIDENTIFIED:
-			// We know the psu but the password check didn't work.
-			// Recolect password
-			responseUtils.setCookies(response, consentReference, null, null);
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(authResponse);
 		case STARTED:
 		case FAILED:
 		default:
-			// failled Message. No repeat. Delete cookies.
+			// failed Message. No repeat. Delete cookies.
 			responseUtils.removeCookies(response);
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
@@ -151,7 +147,7 @@ public class SCAController {
 	/**
 	 * Select a method for sending the authentication code.
 	 * 
-	 * @param scaId the id of the authaurization
+	 * @param scaId the id of the login process
 	 * @param methodId the auth method id
 	 * @param authorisationId the auth id.
 	 * @param auth the authentication object
