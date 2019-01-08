@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package de.adorsys.ledgers.oba;
+package de.adorsys.ledgers.app;
 
+import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuPisRestClient;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -24,10 +25,10 @@ import org.springframework.context.annotation.ComponentScan;
 
 import de.adorsys.ledgers.middleware.client.rest.AccountRestClient;
 
-@EnableFeignClients(basePackageClasses=AccountRestClient.class)
-@ComponentScan(basePackages = {"de.adorsys.ledgers.oba", "de.adorsys.psd2.consent"})
+@EnableFeignClients(basePackageClasses= {AccountRestClient.class, CmsPsuPisRestClient.class})
 @SpringBootApplication
 @EnableAutoConfiguration
+@ComponentScan( basePackages="de.adorsys.ledgers.oba")
 public class LedgersXs2aObaApplication {
     public static void main(String[] args) {
         new SpringApplicationBuilder(LedgersXs2aObaApplication.class).run(args);

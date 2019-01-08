@@ -20,7 +20,7 @@ import de.adorsys.ledgers.oba.domain.OnlineBankingResponse;
 public abstract class AbstractXISController {
 	private static final Logger logger = LoggerFactory.getLogger(AbstractXISController.class);
 
-	@Value("${online-banking.sca.loginpage}")
+	@Value("${online-banking.sca.loginpage:web/login}")
 	private String loginPage;
 	
 	@Autowired
