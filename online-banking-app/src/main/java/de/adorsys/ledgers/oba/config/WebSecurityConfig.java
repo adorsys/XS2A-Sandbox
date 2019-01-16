@@ -36,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			"/webjars/**", "favicon.ico", "/error" };
 	private static final String[] APP_INDEX_WHITELIST = {"/", "/index.css", "/img/*", "/favicon.ico"};
 	private static final String[] APP_SCA_WHITELIST = {"/sca/login", "/pis/auth/**"};
-	private static final String[] ACTUATOR_WHITELIST = {"/health"};
+	private static final String[] ACTUATOR_WHITELIST = {"/actuator/health"};
 	
 
 	@Override
