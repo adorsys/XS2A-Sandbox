@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.adorsys.ledgers.test.oba.rest;
+package de.adorsys.ledgers.oba.rest.server;
 
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuPisClient;
 import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
@@ -30,8 +30,8 @@ import de.adorsys.ledgers.middleware.client.rest.AccountRestClient;
 @SpringBootApplication
 @EnableAutoConfiguration
 @ComponentScan( basePackages="de.adorsys.ledgers.oba")
-public class LedgersXs2aObaApp {
+public class LedgersXs2aObaApplication {
     public static void main(String[] args) {
-        new SpringApplicationBuilder(LedgersXs2aObaApp.class).run(args);
+        new SpringApplicationBuilder(LedgersXs2aObaApplication.class).run(args);
     }
 }

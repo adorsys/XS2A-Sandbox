@@ -1,0 +1,51 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>de.adorsys.ledgers</groupId>
+		<artifactId>xs2a-connector-examples</artifactId>
+		<version>0.2-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
+
+	<artifactId>oba-rest-api</artifactId>
+	<name>oba-rest-api</name>
+
+	<properties>
+		<ruleset.basedir>..</ruleset.basedir>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>de.adorsys.ledgers</groupId>
+			<artifactId>ledgers-middleware-rest-api</artifactId>
+			<version>${ledgers.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>de.adorsys.psd2</groupId>
+			<artifactId>consent-psu-api</artifactId>
+			<version>${xs2a.version}</version>
+		</dependency>
+
+		<!-- swagger -->
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-annotations</artifactId>
+		</dependency>
+
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
+
+		<!-- XS2A -->
+		<dependency>
+			<groupId>de.adorsys.psd2</groupId>
+			<artifactId>xs2a-server-api</artifactId>
+			<version>${xs2a.version}</version>
+		</dependency>
+	</dependencies>
+</project>
+

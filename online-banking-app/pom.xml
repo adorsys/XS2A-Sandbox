@@ -16,12 +16,21 @@
 	</properties>
 
 	<dependencies>
-
 		<!-- project dependencies -->
+		<dependency>
+			<groupId>de.adorsys.ledgers</groupId>
+			<artifactId>ledgers-utils</artifactId>
+			<version>${ledgers.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>de.adorsys.ledgers</groupId>
 			<artifactId>ledgers-middleware-rest-client</artifactId>
 			<version>${ledgers.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>de.adorsys.ledgers</groupId>
+			<artifactId>oba-rest-api</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>de.adorsys.ledgers</groupId>
@@ -44,10 +53,10 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		    <groupId>org.springframework.cloud</groupId>
+		    <artifactId>spring-cloud-starter-openfeign</artifactId>
+		    <version>2.0.2.RELEASE</version>
 		</dependency>
-
 		<!-- Sprinfox and swagger UI -->
 		<dependency>
 			<groupId>io.swagger</groupId>
@@ -96,7 +105,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>2.1.1.RELEASE</version>
 				<configuration>
-					<mainClass>de.adorsys.ledgers.app.LedgersXs2aObaApplication</mainClass>
+					<mainClass>de.adorsys.ledgers.oba.rest.server.LedgersXs2aObaApplication</mainClass>
 				</configuration>
 				<executions>
 					<execution>
