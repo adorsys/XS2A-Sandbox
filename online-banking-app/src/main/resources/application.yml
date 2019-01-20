@@ -26,8 +26,9 @@ spring:
 #      wrap-root-value: true
   online.banking.https.enabled: false
 
-ledgers.url: http://localhost:8088/
-xs2a.url: http://localhost:8089/
+ledgers.url: http://localhost:8088
+xs2a.url: http://localhost:8089
+cms.url: http://localhost:38080
 
 #LOGGER
 # logging.level.org.springframework.web: DEBUG
@@ -55,3 +56,14 @@ online-banking.sca:
     # How long, in seconds, the response from a pre-flight request can be cached by clients
 #    max-age: 3600
 
+feign:
+  client:
+    config:
+      default:
+        loggerLevel: full
+
+logging.level.de.adorsys.ledgers.middleware: DEBUG        
+logging.level.org.adorsys.ledgers.consent: DEBUG
+logging.level.de.adorsys.ledgers.xs2a.api: DEBUG
+logging.level.de.adorsys.ledgers.rest: DEBUG
+logging.level.de.adorsys.psd2.consent: DEBUG
