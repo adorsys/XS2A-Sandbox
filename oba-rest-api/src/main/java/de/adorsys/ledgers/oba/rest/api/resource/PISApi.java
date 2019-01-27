@@ -53,7 +53,7 @@ public interface PISApi {
 	
 	/**
 	 * Calls the consent validation page.
-	 * @param scaId the sca id
+	 * @param encryptedPaymentId the sca id
 	 * @param authorisationId the auth id
 	 * @param consentAndaccessTokenCookieString the cosent cookie
 	 * @return PaymentAuthorizeResponse
@@ -69,7 +69,7 @@ public interface PISApi {
 	/**
 	 * Selects the SCA Method for use.
 	 * 
-	 * @param scaId the sca id
+	 * @param encryptedPaymentId the sca id
 	 * @param authorisationId the auth id
 	 * @param scaMethodId sca
 	 * @param consentAndaccessTokenCookieString the cosent cookie
@@ -86,7 +86,7 @@ public interface PISApi {
 	/**
 	 * Provides a TAN for the validation of an authorization
 	 * 
-	 * @param scaId the sca id
+	 * @param encryptedPaymentId the sca id
 	 * @param authorisationId the auth id
 	 * @param consentAndaccessTokenCookieString the cosent cookie
 	 * @param authCode the auth code

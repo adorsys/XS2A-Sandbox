@@ -79,6 +79,7 @@ public class DefaultConsentReferencePolicy implements ConsentReferencePolicy {
 	/*
 	 * Verify the consent jwt. If strict is true, the jwt must contain the encryptedConsentId and the authorizationId.
 	 */
+	@SuppressWarnings("PMD")
 	private ConsentReference verifyParseJWT(String encryptedConsentId, String authorizationId, String cookieString, boolean strict) throws InvalidConsentException {
 		Date refTime = new Date();
 		try {
@@ -119,19 +120,24 @@ public class DefaultConsentReferencePolicy implements ConsentReferencePolicy {
 				throw invalidConsent(String.format("Could not verify signature of token with subject %s: ", jwtClaimsSet.getSubject()));
 			}
 
-			ConsentReference cr = new ConsentReference();
-			cr.setConsentType(ConsentType.valueOf(jwtClaimsSet.getClaim(CONSENT_TYPE_JWT_CLAIM_NAME).toString()));
-			cr.setRedirectId(jwtClaimsSet.getClaim(REDIRECT_ID_JWT_CLAIM_NAME).toString());
-			cr.setEncryptedConsentId(encryptedConsentId);
-			cr.setAuthorizationId(authorizationId);
-			cr.setCookieString(toClaim(cr));
-			
-			return cr;
+			return consentReference(encryptedConsentId, authorizationId, jwtClaimsSet);
 
 		} catch (ParseException | JOSEException e) {
 			// If we can not parse the token, we log the error and return false.
 			throw invalidConsent(e.getMessage());
 		}
+	}
+
+
+	private ConsentReference consentReference(String encryptedConsentId, String authorizationId, JWTClaimsSet jwtClaimsSet) {
+		ConsentReference cr = new ConsentReference();
+		cr.setConsentType(ConsentType.valueOf(jwtClaimsSet.getClaim(CONSENT_TYPE_JWT_CLAIM_NAME).toString()));
+		cr.setRedirectId(jwtClaimsSet.getClaim(REDIRECT_ID_JWT_CLAIM_NAME).toString());
+		cr.setEncryptedConsentId(encryptedConsentId);
+		cr.setAuthorizationId(authorizationId);
+		cr.setCookieString(toClaim(cr));
+		
+		return cr;
 	}
 	
 	private InvalidConsentException invalidConsent(String message) throws InvalidConsentException {
