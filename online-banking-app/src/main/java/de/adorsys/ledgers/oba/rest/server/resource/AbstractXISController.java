@@ -43,7 +43,7 @@ public abstract class AbstractXISController {
 		ConsentReference consentReference;
 		try {
 			consentReference = referencePolicy.fromURL(redirectId, consentType, encryptedConsentId);
-			authResponse.setScaId(consentReference.getScaId());
+			authResponse.setEncryptedConsentId(encryptedConsentId);
 			authResponse.setAuthorisationId(redirectId);
 			// 2. Set cookies
 			responseUtils.setCookies(response, consentReference, null, null);
@@ -54,7 +54,7 @@ public abstract class AbstractXISController {
 		}
 		
 		String uriString = UriComponentsBuilder.fromUriString(loginPage)
-			.queryParam("scaId", authResponse.getScaId())
+			.queryParam("encryptedConsentId", authResponse.getEncryptedConsentId())
 			.queryParam("authorisationId", authResponse.getAuthorisationId())
 			.build().toUriString();
 

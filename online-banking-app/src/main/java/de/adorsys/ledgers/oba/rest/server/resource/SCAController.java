@@ -101,8 +101,8 @@ public class SCAController implements SCAApi {
 		AuthorizeResponse authResponse = new AuthorizeResponse();
 		ConsentReference consentReference;
 		try {
-			consentReference = referencePolicy.fromRequest(scaId, responseUtils.consentCookie(cookies));
-			authResponse.setScaId(scaId);
+			consentReference = referencePolicy.fromRequest(scaId, null, responseUtils.consentCookie(cookies), false);
+			authResponse.setEncryptedConsentId(scaId);
 		} catch (InvalidConsentException e) {
 			return responseUtils.unknownCredentials(authResponse, response);
 		}
@@ -145,6 +145,7 @@ public class SCAController implements SCAApi {
 		ScaStatusTO scaStatus = loginResponse.getScaStatus();
 		authResponse.setScaStatus(scaStatus);
 		authResponse.setAuthorisationId(loginResponse.getAuthorisationId());
+		authResponse.setEncryptedConsentId(loginResponse.getScaId());
 		PsuMessage psuMessage = new PsuMessage().category(PsuMessageCategory.INFO).text(loginResponse.getPsuMessage());
 		authResponse.setPsuMessages(Arrays.asList(psuMessage));
 		return scaStatus;
@@ -170,12 +171,12 @@ public class SCAController implements SCAApi {
 
 		// build response
 		AuthorizeResponse authResponse = new AuthorizeResponse();
-		authResponse.setScaId(scaId);
+		authResponse.setEncryptedConsentId(scaId);
 		authResponse.setAuthorisationId(authorisationId);
 		
 		ConsentReference consentReference;
 		try {
-			consentReference = referencePolicy.fromRequest(scaId, responseUtils.consentCookie(cookies));
+			consentReference = referencePolicy.fromRequest(scaId, authorisationId, responseUtils.consentCookie(cookies), true);
 		} catch (InvalidConsentException e) {
 			return responseUtils.unknownCredentials(authResponse, response);
 		}
@@ -203,10 +204,11 @@ public class SCAController implements SCAApi {
 
 		// build response
 		AuthorizeResponse authResponse = new AuthorizeResponse();
-		authResponse.setScaId(scaId);
+		authResponse.setEncryptedConsentId(scaId);
+		authResponse.setAuthorisationId(authorisationId);
 		ConsentReference consentReference;
 		try {
-			consentReference = referencePolicy.fromRequest(scaId, responseUtils.consentCookie(cookies));
+			consentReference = referencePolicy.fromRequest(scaId, authorisationId, responseUtils.consentCookie(cookies), true);
 		} catch (InvalidConsentException e) {
 			return responseUtils.unknownCredentials(authResponse, response);
 		}

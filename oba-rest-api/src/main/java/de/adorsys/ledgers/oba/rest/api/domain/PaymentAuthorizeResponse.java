@@ -4,6 +4,7 @@ import de.adorsys.ledgers.middleware.api.domain.payment.BulkPaymentTO;
 import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.payment.PeriodicPaymentTO;
 import de.adorsys.ledgers.middleware.api.domain.payment.SinglePaymentTO;
+import de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO;
 
 public class PaymentAuthorizeResponse extends AuthorizeResponse  {
 	private final SinglePaymentTO singlePayment;
@@ -65,6 +66,15 @@ public class PaymentAuthorizeResponse extends AuthorizeResponse  {
 	}
 	public void setAuthMessageTemplate(String authMessageTemplate) {
 		this.authMessageTemplate = authMessageTemplate;
+	}
+	public void updatePaymentStatus(TransactionStatusTO paymentStatus) {
+		if(singlePayment!=null) {
+			singlePayment.setPaymentStatus(paymentStatus);
+		} else if (bulkPayment!=null) {
+			bulkPayment.setPaymentStatus(paymentStatus);
+		} else if (periodicPayment!=null) {
+			periodicPayment.setPaymentStatus(paymentStatus);
+		}
 	}
 	
 }
