@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTypeTO;
+import de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCALoginResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCAPaymentResponseTO;
@@ -95,7 +96,7 @@ public class PISController extends AbstractXISController implements PISApi {
 	@Override
 	@ApiOperation(value = "Identifies the user by login an pin. Return sca methods information")
 	public ResponseEntity<PaymentAuthorizeResponse> login(
-			String scaId,
+			String encryptedPaymentId,
 			String authorisationId,
 			String login,
 			String pin, 
@@ -103,14 +104,14 @@ public class PISController extends AbstractXISController implements PISApi {
 		
 		PaymentWorkflow workflow;
 		try {
-			workflow = identifyPayment(scaId, consentCookieString, login, response, null);
+			workflow = identifyPayment(encryptedPaymentId, authorisationId, false, consentCookieString, login, response, null);
 		} catch (PaymentAuthorizeException e) {
 			return e.getError();
 		}
 
 		// Authorize
 		ResponseEntity<SCALoginResponseTO> authoriseForConsent = 
-				userMgmtRestClient.authoriseForConsent(login, pin, workflow.paymentId(), workflow.scaId(), OpTypeTO.PAYMENT);
+				userMgmtRestClient.authoriseForConsent(login, pin, workflow.paymentId(), workflow.authId(), OpTypeTO.PAYMENT);
 		processSCAResponse(workflow, authoriseForConsent.getBody());
 		
 		// Success if there is a bearer token.
@@ -128,9 +129,7 @@ public class PISController extends AbstractXISController implements PISApi {
 					selectMethod(scaUserDataTO.getId(), workflow);
 				}
 
-				scaStatus(workflow, psuId, response);
-				updatePaymentStatus(response, workflow);
-				updateAspspConsentData(workflow, response);
+				updateScaStatusPaymentStatusConsentData(psuId, workflow);
 			} catch (PaymentAuthorizeException e) {
 				return e.getError();
 			}
@@ -159,26 +158,23 @@ public class PISController extends AbstractXISController implements PISApi {
 
 	@Override
 	public ResponseEntity<PaymentAuthorizeResponse> initiatePayment(
-			String scaId,String authorisationId, String consentAndaccessTokenCookieString) {
+			String encryptedPaymentId,String authorisationId, String consentAndaccessTokenCookieString) {
 		
 		try {
 			String psuId = psuId();
 			// Identity the link and load the workflow.
-			PaymentWorkflow paymentWorkflow = identifyPayment(scaId, consentAndaccessTokenCookieString, psuId, response, auth.getBearerToken());
+			PaymentWorkflow workflow = identifyPayment(encryptedPaymentId, authorisationId, true, consentAndaccessTokenCookieString, psuId, response, auth.getBearerToken());
 			
 			// Update status
-			paymentWorkflow.getScaResponse().setScaStatus(ScaStatusTO.PSUAUTHENTICATED);
-			scaStatus(paymentWorkflow, psuId, response);
+			workflow.getScaResponse().setScaStatus(ScaStatusTO.PSUAUTHENTICATED);
+			scaStatus(workflow, psuId, response);
 
-			initiatePayment(paymentWorkflow, response);
-			// UPDATE CMS
-			scaStatus(paymentWorkflow, psuId, response);
-			updatePaymentStatus(response, paymentWorkflow);
-			updateAspspConsentData(paymentWorkflow, response);
+			initiatePayment(workflow, response);
+			updateScaStatusPaymentStatusConsentData(psuId, workflow);
 
 			// Store result in token.
-			responseUtils.setCookies(response, paymentWorkflow.getConsentReference(), paymentWorkflow.bearerToken().getAccess_token(), paymentWorkflow.bearerToken().getAccessTokenObject());
-			return ResponseEntity.ok(paymentWorkflow.getAuthResponse());
+			responseUtils.setCookies(response, workflow.getConsentReference(), workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
+			return ResponseEntity.ok(workflow.getAuthResponse());
 		} catch (PaymentAuthorizeException e) {
 			return e.getError();
 		}
@@ -186,18 +182,15 @@ public class PISController extends AbstractXISController implements PISApi {
 
 	@Override
 	public ResponseEntity<PaymentAuthorizeResponse> selectMethod(
-			String scaId, String authorisationId,
+			String encryptedPaymentId, String authorisationId,
 			String scaMethodId, String consentAndaccessTokenCookieString) {
 
 		String psuId = psuId();
 		try {
-			PaymentWorkflow workflow = identifyPayment(scaId, consentAndaccessTokenCookieString, psuId, response, auth.getBearerToken());
+			PaymentWorkflow workflow = identifyPayment(encryptedPaymentId, authorisationId, true, consentAndaccessTokenCookieString, psuId, response, auth.getBearerToken());
 			selectMethod(scaMethodId, workflow);
 			
-			// UPDATE CMS
-			scaStatus(workflow, psuId, response);
-			updatePaymentStatus(response, workflow);			
-			updateAspspConsentData(workflow, response);
+			updateScaStatusPaymentStatusConsentData(psuId, workflow);
 
 			responseUtils.setCookies(response, workflow.getConsentReference(), workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
 			return ResponseEntity.ok(workflow.getAuthResponse());
@@ -208,23 +201,20 @@ public class PISController extends AbstractXISController implements PISApi {
 	
 	@Override
 	public ResponseEntity<PaymentAuthorizeResponse> authrizedPayment(
-			String scaId,
+			String encryptedPaymentId,
 			String authorisationId,
 			String consentAndaccessTokenCookieString, String authCode) {
 		
 		String psuId = psuId();
 		try {
-			PaymentWorkflow workflow = identifyPayment(scaId, consentAndaccessTokenCookieString, psuId, response, auth.getBearerToken());
+			PaymentWorkflow workflow = identifyPayment(encryptedPaymentId, authorisationId, true, consentAndaccessTokenCookieString, psuId, response, auth.getBearerToken());
 
 			authInterceptor.setAccessToken(workflow.bearerToken().getAccess_token());
 			
 			SCAPaymentResponseTO scaPaymentResponse = paymentRestClient.authorizePayment(workflow.paymentId(), workflow.authId(), authCode).getBody();
 			processPaymentResponse(workflow, scaPaymentResponse);
 
-			// UPDATE CMS
-			scaStatus(workflow, psuId, response);
-			updatePaymentStatus(response, workflow);			
-			updateAspspConsentData(workflow, response);
+			updateScaStatusPaymentStatusConsentData(psuId, workflow);
 
 			responseUtils.setCookies(response, workflow.getConsentReference(), workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
 			return ResponseEntity.ok(workflow.getAuthResponse());
@@ -233,6 +223,14 @@ public class PISController extends AbstractXISController implements PISApi {
 		} finally {
 			authInterceptor.setAccessToken(null);
 		}
+	}
+
+	private void updateScaStatusPaymentStatusConsentData(String psuId, PaymentWorkflow workflow)
+			throws PaymentAuthorizeException {
+		// UPDATE CMS
+		scaStatus(workflow, psuId, response);
+		updatePaymentStatus(response, workflow);			
+		updateAspspConsentData(workflow, response);
 	}
 
 	private void updateAspspConsentData(PaymentWorkflow paymentWorkflow, HttpServletResponse httpResp) throws PaymentAuthorizeException{
@@ -275,6 +273,7 @@ public class PISController extends AbstractXISController implements PISApi {
 			throws PaymentAuthorizeException {
 		ResponseEntity<Void> updatePaymentStatus = cmsPsuPisClient.updatePaymentStatus(
 				paymentWorkflow.getPaymentResponse().getPayment().getPaymentId(), paymentWorkflow.getPaymentStatus(), CmsPsuPisClient.DEFAULT_SERVICE_INSTANCE_ID);
+		paymentWorkflow.getAuthResponse().updatePaymentStatus(TransactionStatusTO.valueOf(paymentWorkflow.getPaymentStatus()));
 		if(!HttpStatus.OK.equals(updatePaymentStatus.getStatusCode())) {
 			throw new PaymentAuthorizeException(responseUtils.couldNotProcessRequest(AuthResp(), "Could not set payment status. See status code.", updatePaymentStatus.getStatusCode(), response));
 		}
@@ -295,13 +294,13 @@ public class PISController extends AbstractXISController implements PISApi {
 	}
 	
 	@SuppressWarnings("PMD.CyclomaticComplexity")
-	private PaymentWorkflow identifyPayment(String scaId, String consentCookieString, String psuId, HttpServletResponse response, BearerTokenTO bearerToken) throws PaymentAuthorizeException{
+	private PaymentWorkflow identifyPayment(String encryptedPaymentId, String authorizationId, boolean strict, String consentCookieString, String psuId, HttpServletResponse response, BearerTokenTO bearerToken) throws PaymentAuthorizeException{
 		ConsentReference consentReference = null;
 		try {
 			String consentCookie = responseUtils.consentCookie(consentCookieString);
-			consentReference = referencePolicy.fromRequest(scaId, consentCookie);
+			consentReference = referencePolicy.fromRequest(encryptedPaymentId, authorizationId, consentCookie, strict);
 		} catch (InvalidConsentException e) {
-			throw new PaymentAuthorizeException(responseUtils.forbidden(AuthResp(), "Invalid credentials. ScaId not matching consent cookie", response));
+			throw new PaymentAuthorizeException(responseUtils.forbidden(AuthResp(), e.getMessage(), response));
 		}
 
 		CmsPaymentResponse cmsPaymentResponse = loadPaymentByRedirectId(psuId, consentReference, response);
@@ -310,7 +309,7 @@ public class PISController extends AbstractXISController implements PISApi {
 		Object convertedPaymentTO = convertPayment(response, workflow.paymentType(), cmsPaymentResponse);
 		workflow.setAuthResponse(new PaymentAuthorizeResponse(workflow.paymentType(), convertedPaymentTO));
 		workflow.getAuthResponse().setAuthorisationId(cmsPaymentResponse.getAuthorisationId());
-		workflow.getAuthResponse().setScaId(consentReference.getScaId());
+		workflow.getAuthResponse().setEncryptedConsentId(encryptedPaymentId);
 		if(bearerToken!=null) {
 			SCAPaymentResponseTO scaPaymentResponseTO = new SCAPaymentResponseTO();
 			scaPaymentResponseTO.setBearerToken(bearerToken);

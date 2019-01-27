@@ -78,8 +78,8 @@ public class PaymentWorkflow {
 		return paymentResponse.getAuthorisationId();
 	}
 	
-	public String scaId() {
-		return consentReference.getScaId();
+	public String encryptedConsentId() {
+		return consentReference.getEncryptedConsentId();
 	}
 
 	public SCAResponseTO getScaResponse() {

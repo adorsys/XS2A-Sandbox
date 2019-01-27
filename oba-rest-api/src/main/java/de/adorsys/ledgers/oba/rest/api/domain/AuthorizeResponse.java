@@ -6,11 +6,10 @@ import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.um.ScaUserDataTO;
 
 public class AuthorizeResponse extends OnlineBankingResponse  {
-
 	/*
 	 * The id of the business process, login, payment, consent.
 	 */
-	private String scaId;
+	private String encryptedConsentId;
 	
 	private List<ScaUserDataTO> scaMethods;
 	
@@ -23,13 +22,13 @@ public class AuthorizeResponse extends OnlineBankingResponse  {
 	 * The sca status is used to manage authorisation flows.
 	 */
 	private ScaStatusTO scaStatus;
-	
-	public String getScaId() {
-		return scaId;
+
+	public String getEncryptedConsentId() {
+		return encryptedConsentId;
 	}
 
-	public void setScaId(String scaId) {
-		this.scaId = scaId;
+	public void setEncryptedConsentId(String encryptedConsentId) {
+		this.encryptedConsentId = encryptedConsentId;
 	}
 
 	public List<ScaUserDataTO> getScaMethods() {

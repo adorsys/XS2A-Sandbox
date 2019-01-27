@@ -2,17 +2,17 @@ package de.adorsys.ledgers.oba.rest.api.consentref;
 
 public class ConsentReference {
 	
-	private String scaId;
+	private String authorizationId;
 	private String redirectId;
 	private ConsentType consentType;
 	private String encryptedConsentId;
 	private String cookieString;
-	
-	public String getScaId() {
-		return scaId;
+
+	public String getAuthorizationId() {
+		return authorizationId;
 	}
-	public void setScaId(String scaId) {
-		this.scaId = scaId;
+	public void setAuthorizationId(String authorizationId) {
+		this.authorizationId = authorizationId;
 	}
 	public String getRedirectId() {
 		return redirectId;

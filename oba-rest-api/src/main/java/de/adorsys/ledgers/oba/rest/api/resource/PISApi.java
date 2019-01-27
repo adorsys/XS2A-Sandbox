@@ -35,17 +35,17 @@ public interface PISApi {
 	/**
 	 * Identifies the user by login an pin. Return sca methods information
 	 * 
-	 * @param scaId the sca id
+	 * @param encryptedPaymentId the encryptedPaymentId
 	 * @param authorisationId the auth id
 	 * @param login the login 
 	 * @param pin the password
 	 * @param consentCookieString the cosent cookie
 	 * @return PaymentAuthorizeResponse
 	 */
-	@PostMapping(path="/{scaId}/authorisation/{authorisationId}/login")
+	@PostMapping(path="/{encryptedPaymentId}/authorisation/{authorisationId}/login")
 	@ApiOperation(value = "Identifies the user by login an pin. Return sca methods information")
 	ResponseEntity<PaymentAuthorizeResponse> login(
-			@PathVariable("scaId") String scaId,
+			@PathVariable("encryptedPaymentId") String encryptedPaymentId,
 			@PathVariable("authorisationId") String authorisationId,
 			@RequestParam("login") String login,
 			@RequestParam("pin") String pin, 
@@ -58,11 +58,11 @@ public interface PISApi {
 	 * @param consentAndaccessTokenCookieString the cosent cookie
 	 * @return PaymentAuthorizeResponse
 	 */
-	@PostMapping(path="/{scaId}/authorisation/{authorisationId}/initiate")
+	@PostMapping(path="/{encryptedPaymentId}/authorisation/{authorisationId}/initiate")
 	@ApiOperation(value = "Calls the consent validation page.", 
 		authorizations = @Authorization(value = "apiKey"))
 	ResponseEntity<PaymentAuthorizeResponse> initiatePayment(
-			@PathVariable("scaId") String scaId,
+			@PathVariable("encryptedPaymentId") String encryptedPaymentId,
 			@PathVariable("authorisationId") String authorisationId,
 			@RequestHeader("Cookie") String consentAndaccessTokenCookieString);
 
@@ -75,10 +75,10 @@ public interface PISApi {
 	 * @param consentAndaccessTokenCookieString the cosent cookie
 	 * @return PaymentAuthorizeResponse
 	 */
-	@PostMapping("/{scaId}/authorisation/{authorisationId}/methods/{scaMethodId}")
+	@PostMapping("/{encryptedPaymentId}/authorisation/{authorisationId}/methods/{scaMethodId}")
 	@ApiOperation(value = "Selects the SCA Method for use.", authorizations = @Authorization(value = "apiKey"))
 	ResponseEntity<PaymentAuthorizeResponse> selectMethod(
-			@PathVariable("scaId") String scaId,
+			@PathVariable("encryptedPaymentId") String encryptedPaymentId,
 			@PathVariable("authorisationId") String authorisationId,
 			@PathVariable("scaMethodId") String scaMethodId,
 			@RequestHeader("Cookie") String consentAndaccessTokenCookieString);
@@ -92,10 +92,10 @@ public interface PISApi {
 	 * @param authCode the auth code
 	 * @return PaymentAuthorizeResponse
 	 */
-	@PostMapping(path="/{scaId}/authorisation/{authorisationId}/authCode", params= {"authCode"})
+	@PostMapping(path="/{encryptedPaymentId}/authorisation/{authorisationId}/authCode", params= {"authCode"})
 	@ApiOperation(value = "Provides a TAN for the validation of an authorization", authorizations = @Authorization(value = "apiKey"))
 	ResponseEntity<PaymentAuthorizeResponse> authrizedPayment(
-			@PathVariable("scaId") String scaId,
+			@PathVariable("encryptedPaymentId") String encryptedPaymentId,
 			@PathVariable("authorisationId") String authorisationId,
 			@RequestHeader("Cookie") String consentAndaccessTokenCookieString,
 			@RequestParam("authCode") String authCode);
