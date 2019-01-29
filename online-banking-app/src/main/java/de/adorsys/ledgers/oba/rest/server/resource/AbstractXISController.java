@@ -3,6 +3,7 @@ package de.adorsys.ledgers.oba.rest.server.resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,23 +11,43 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import de.adorsys.ledgers.middleware.api.service.TokenStorageService;
+import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.oba.rest.api.consentref.ConsentReference;
 import de.adorsys.ledgers.oba.rest.api.consentref.ConsentReferencePolicy;
 import de.adorsys.ledgers.oba.rest.api.consentref.ConsentType;
 import de.adorsys.ledgers.oba.rest.api.consentref.InvalidConsentException;
 import de.adorsys.ledgers.oba.rest.api.domain.AuthorizeResponse;
+import de.adorsys.ledgers.oba.rest.server.auth.MiddlewareAuthentication;
 
 public abstract class AbstractXISController {
 	private static final Logger logger = LoggerFactory.getLogger(AbstractXISController.class);
 
+	
+	@Autowired
+	protected AspspConsentDataClient aspspConsentDataClient;
+
+	@Autowired
+	protected TokenStorageService tokenStorageService;
+	
+	@Autowired
+	protected AuthRequestInterceptor authInterceptor;
+	
+	@Autowired
+	protected HttpServletRequest request;
+	@Autowired
+	protected HttpServletResponse response;
+	@Autowired
+	protected MiddlewareAuthentication auth;
+	
 	@Value("${online-banking.sca.loginpage:web/login}")
 	private String loginPage;
 	
 	@Autowired
-	private ConsentReferencePolicy referencePolicy;
+	protected ConsentReferencePolicy referencePolicy;
 	
 	@Autowired
-	private ResponseUtils responseUtils;
+	protected ResponseUtils responseUtils;
 	
 	public abstract String getBasePath();
 	

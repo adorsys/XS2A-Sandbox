@@ -2,11 +2,9 @@ package de.adorsys.ledgers.oba.rest.server.resource;
 
 import java.io.IOException;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuPisClient;
-import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,12 +21,9 @@ import de.adorsys.ledgers.middleware.api.domain.sca.SCAResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.ScaUserDataTO;
-import de.adorsys.ledgers.middleware.api.service.TokenStorageService;
-import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.middleware.client.rest.PaymentRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.ledgers.oba.rest.api.consentref.ConsentReference;
-import de.adorsys.ledgers.oba.rest.api.consentref.ConsentReferencePolicy;
 import de.adorsys.ledgers.oba.rest.api.consentref.ConsentType;
 import de.adorsys.ledgers.oba.rest.api.consentref.InvalidConsentException;
 import de.adorsys.ledgers.oba.rest.api.domain.AuthorizeResponse;
@@ -37,7 +32,6 @@ import de.adorsys.ledgers.oba.rest.api.domain.PaymentWorkflow;
 import de.adorsys.ledgers.oba.rest.api.domain.ValidationCode;
 import de.adorsys.ledgers.oba.rest.api.exception.PaymentAuthorizeException;
 import de.adorsys.ledgers.oba.rest.api.resource.PISApi;
-import de.adorsys.ledgers.oba.rest.server.auth.MiddlewareAuthentication;
 import de.adorsys.ledgers.oba.rest.server.mapper.BulkPaymentMapper;
 import de.adorsys.ledgers.oba.rest.server.mapper.PeriodicPaymentMapper;
 import de.adorsys.ledgers.oba.rest.server.mapper.SinglePaymentMapper;
@@ -55,17 +49,11 @@ import io.swagger.annotations.ApiOperation;
 @Api(value = PISController.BASE_PATH, tags = "PSU PIS", description = "Provides access to online banking payment functionality")
 public class PISController extends AbstractXISController implements PISApi {
 	@Autowired
-	private ConsentReferencePolicy referencePolicy;
-	@Autowired
-	private ResponseUtils responseUtils;
-	@Autowired
 	private CmsPsuPisClient cmsPsuPisClient;
 	@Autowired
 	private PaymentRestClient paymentRestClient;
 	@Autowired
 	private UserMgmtRestClient userMgmtRestClient;
-	@Autowired
-	private AspspConsentDataClient aspspConsentDataClient;
 	
 	@Autowired
 	private SinglePaymentMapper singlePaymentMapper;
@@ -73,19 +61,6 @@ public class PISController extends AbstractXISController implements PISApi {
 	private BulkPaymentMapper bulkPaymentMapper;
 	@Autowired
 	private PeriodicPaymentMapper periodicPaymentMapper;
-	
-	@Autowired
-	private TokenStorageService tokenStorageService;
-	
-	@Autowired
-	private AuthRequestInterceptor authInterceptor;
-	
-	@Autowired
-	private HttpServletRequest request;
-	@Autowired
-	private HttpServletResponse response;
-	@Autowired
-	private MiddlewareAuthentication auth;
 
 	@Override
 	public ResponseEntity<AuthorizeResponse> pisAuth(String redirectId, String encryptedPaymentId) {
@@ -114,11 +89,10 @@ public class PISController extends AbstractXISController implements PISApi {
 				userMgmtRestClient.authoriseForConsent(login, pin, workflow.paymentId(), workflow.authId(), OpTypeTO.PAYMENT);
 		processSCAResponse(workflow, authoriseForConsent.getBody());
 		
-		// Success if there is a bearer token.
-        boolean success = authoriseForConsent!=null && authoriseForConsent.getBody()!=null && authoriseForConsent.getBody().getBearerToken()!=null;
+		boolean success = AuthUtils.success(authoriseForConsent);
         
         if(success) {
-        	String psuId = psuId(workflow.bearerToken());
+        	String psuId = AuthUtils.psuId(workflow.bearerToken());
 			try {
 				scaStatus(workflow, psuId, response);
 				initiatePayment(workflow, response);
@@ -161,7 +135,7 @@ public class PISController extends AbstractXISController implements PISApi {
 			String encryptedPaymentId,String authorisationId, String consentAndaccessTokenCookieString) {
 		
 		try {
-			String psuId = psuId();
+			String psuId = AuthUtils.psuId(auth);
 			// Identity the link and load the workflow.
 			PaymentWorkflow workflow = identifyPayment(encryptedPaymentId, authorisationId, true, consentAndaccessTokenCookieString, psuId, response, auth.getBearerToken());
 			
@@ -185,7 +159,7 @@ public class PISController extends AbstractXISController implements PISApi {
 			String encryptedPaymentId, String authorisationId,
 			String scaMethodId, String consentAndaccessTokenCookieString) {
 
-		String psuId = psuId();
+		String psuId = AuthUtils.psuId(auth);
 		try {
 			PaymentWorkflow workflow = identifyPayment(encryptedPaymentId, authorisationId, true, consentAndaccessTokenCookieString, psuId, response, auth.getBearerToken());
 			selectMethod(scaMethodId, workflow);
@@ -205,7 +179,7 @@ public class PISController extends AbstractXISController implements PISApi {
 			String authorisationId,
 			String consentAndaccessTokenCookieString, String authCode) {
 		
-		String psuId = psuId();
+		String psuId = AuthUtils.psuId(auth);
 		try {
 			PaymentWorkflow workflow = identifyPayment(encryptedPaymentId, authorisationId, true, consentAndaccessTokenCookieString, psuId, response, auth.getBearerToken());
 
@@ -239,19 +213,21 @@ public class PISController extends AbstractXISController implements PISApi {
 			consentData = new CmsAspspConsentDataBase64(paymentWorkflow.paymentId(), tokenStorageService.toBase64String(paymentWorkflow.getScaResponse()));
 		} catch (IOException e) {
 			throw new PaymentAuthorizeException(
-					responseUtils.backToSender(AuthResp(), paymentWorkflow.getPaymentResponse(), 
+					responseUtils.backToSender(authResp(), paymentWorkflow.getPaymentResponse().getTppNokRedirectUri(),
+							paymentWorkflow.getPaymentResponse().getTppOkRedirectUri(),
 							httpResp, HttpStatus.INTERNAL_SERVER_ERROR, ValidationCode.CONSENT_DATA_UPDATE_FAILED));
 		}
 		ResponseEntity<?> updateAspspConsentData = aspspConsentDataClient.updateAspspConsentData(
 				paymentWorkflow.getConsentReference().getEncryptedConsentId(), consentData);
 		if(!HttpStatus.OK.equals(updateAspspConsentData.getStatusCode())) {
 			throw new PaymentAuthorizeException(
-					responseUtils.backToSender(AuthResp(), paymentWorkflow.getPaymentResponse(), 
+					responseUtils.backToSender(authResp(), paymentWorkflow.getPaymentResponse().getTppNokRedirectUri(), 
+							paymentWorkflow.getPaymentResponse().getTppOkRedirectUri(),
 							httpResp, updateAspspConsentData.getStatusCode(), ValidationCode.CONSENT_DATA_UPDATE_FAILED));
 		}
 	}
 	
-	PaymentAuthorizeResponse AuthResp(){
+	PaymentAuthorizeResponse authResp(){
 		return new PaymentAuthorizeResponse();
 	}
 	private void initiatePayment(final PaymentWorkflow paymentWorkflow, HttpServletResponse response) throws PaymentAuthorizeException {
@@ -275,7 +251,7 @@ public class PISController extends AbstractXISController implements PISApi {
 				paymentWorkflow.getPaymentResponse().getPayment().getPaymentId(), paymentWorkflow.getPaymentStatus(), CmsPsuPisClient.DEFAULT_SERVICE_INSTANCE_ID);
 		paymentWorkflow.getAuthResponse().updatePaymentStatus(TransactionStatusTO.valueOf(paymentWorkflow.getPaymentStatus()));
 		if(!HttpStatus.OK.equals(updatePaymentStatus.getStatusCode())) {
-			throw new PaymentAuthorizeException(responseUtils.couldNotProcessRequest(AuthResp(), "Could not set payment status. See status code.", updatePaymentStatus.getStatusCode(), response));
+			throw new PaymentAuthorizeException(responseUtils.couldNotProcessRequest(authResp(), "Could not set payment status. See status code.", updatePaymentStatus.getStatusCode(), response));
 		}
 	}
 
@@ -289,7 +265,7 @@ public class PISController extends AbstractXISController implements PISApi {
 		case PERIODIC:
 			return periodicPaymentMapper.toPayment((CmsPeriodicPayment)paymentResponse.getPayment());
 		default:
-			throw new PaymentAuthorizeException(responseUtils.badRequest(AuthResp(), String.format("Payment type %s not supported.", paymentType.name()), response));
+			throw new PaymentAuthorizeException(responseUtils.badRequest(authResp(), String.format("Payment type %s not supported.", paymentType.name()), response));
 		}
 	}
 	
@@ -300,7 +276,7 @@ public class PISController extends AbstractXISController implements PISApi {
 			String consentCookie = responseUtils.consentCookie(consentCookieString);
 			consentReference = referencePolicy.fromRequest(encryptedPaymentId, authorizationId, consentCookie, strict);
 		} catch (InvalidConsentException e) {
-			throw new PaymentAuthorizeException(responseUtils.forbidden(AuthResp(), e.getMessage(), response));
+			throw new PaymentAuthorizeException(responseUtils.forbidden(authResp(), e.getMessage(), response));
 		}
 
 		CmsPaymentResponse cmsPaymentResponse = loadPaymentByRedirectId(psuId, consentReference, response);
@@ -318,16 +294,6 @@ public class PISController extends AbstractXISController implements PISApi {
 		return workflow;
 	}
 	
-	private String psuId() {
-		if(auth==null) {
-			return null;
-		}
-		return psuId(auth.getBearerToken());
-	}
-	private String psuId(BearerTokenTO bearerToken) {
-		return bearerToken.getAccessTokenObject().getLogin();
-	}
-
 	private void scaStatus(PaymentWorkflow workflow, String psuId, HttpServletResponse response) throws PaymentAuthorizeException {
 		String paymentId = workflow.getPaymentResponse().getPayment().getPaymentId();
 		String authorisationId = workflow.getPaymentResponse().getAuthorisationId();
@@ -335,7 +301,7 @@ public class PISController extends AbstractXISController implements PISApi {
 		ResponseEntity<Void> resp = cmsPsuPisClient.updateAuthorisationStatus(psuId, null, null, null, 
 				paymentId, authorisationId, status, CmsPsuPisClient.DEFAULT_SERVICE_INSTANCE_ID);
 		if(!HttpStatus.OK.equals(resp.getStatusCode())) {
-			throw new PaymentAuthorizeException(responseUtils.couldNotProcessRequest(AuthResp(), "Error updating authorisation status. See error code.", resp.getStatusCode(), response));
+			throw new PaymentAuthorizeException(responseUtils.couldNotProcessRequest(authResp(), "Error updating authorisation status. See error code.", resp.getStatusCode(), response));
 		}
 	}
 
@@ -356,7 +322,7 @@ public class PISController extends AbstractXISController implements PISApi {
 		
 		if(HttpStatus.NOT_FOUND.equals(statusCode)) {
 			// ---> if(NotFound)
-			throw new PaymentAuthorizeException(responseUtils.requestWithRedNotFound(AuthResp(), response));
+			throw new PaymentAuthorizeException(responseUtils.requestWithRedNotFound(authResp(), response));
 		}
 		
 		if(HttpStatus.REQUEST_TIMEOUT.equals(statusCode)) {
@@ -369,10 +335,10 @@ public class PISController extends AbstractXISController implements PISApi {
 					:payment.getTppOkRedirectUri();
 			throw new PaymentAuthorizeException(responseUtils.redirect(location, response));
 		} else if (responseEntity.getStatusCode()!=HttpStatus.OK) {
-			throw new PaymentAuthorizeException(responseUtils.couldNotProcessRequest(AuthResp(), responseEntity.getStatusCode(), response));
+			throw new PaymentAuthorizeException(responseUtils.couldNotProcessRequest(authResp(), responseEntity.getStatusCode(), response));
 		}
 		
-		throw new PaymentAuthorizeException(responseUtils.couldNotProcessRequest(AuthResp(), statusCode, response));
+		throw new PaymentAuthorizeException(responseUtils.couldNotProcessRequest(authResp(), statusCode, response));
 	}
 
 	@Override
