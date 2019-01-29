@@ -22,7 +22,6 @@ import de.adorsys.ledgers.oba.rest.api.domain.PsuMessage;
 import de.adorsys.ledgers.oba.rest.api.domain.PsuMessageCategory;
 import de.adorsys.ledgers.oba.rest.api.domain.ValidationCode;
 import de.adorsys.ledgers.oba.rest.server.auth.MiddlewareAuthentication;
-import de.adorsys.psd2.consent.api.pis.CmsPaymentResponse;
 
 @Service
 public class ResponseUtils {
@@ -126,11 +125,11 @@ public class ResponseUtils {
 		return new ResponseEntity<T>(headers, HttpStatus.FOUND);
 	}
 
-	public <T extends OnlineBankingResponse> ResponseEntity<T> backToSender(T authResp, CmsPaymentResponse paymentResponse,
+	public <T extends OnlineBankingResponse> ResponseEntity<T> backToSender(T authResp, String tppNokRedirectUri, String tppOkRedirectUri,
 			HttpServletResponse httpResp, HttpStatus originalStatus, ValidationCode validationCode) {
-		String locationUri = StringUtils.isNotBlank(paymentResponse.getTppNokRedirectUri())
-				? paymentResponse.getTppNokRedirectUri()
-						: paymentResponse.getTppOkRedirectUri();
+		String locationUri = StringUtils.isNotBlank(tppNokRedirectUri)
+				? tppNokRedirectUri
+						: tppOkRedirectUri;
 		if(StringUtils.isBlank(locationUri)) {
 			return couldNotProcessRequest(authResp, "Missing tpp redirect uri.", HttpStatus.BAD_REQUEST, httpResp);
 		}
@@ -169,5 +168,4 @@ public class ResponseUtils {
 		}
 		return null;
 	}
-
 }

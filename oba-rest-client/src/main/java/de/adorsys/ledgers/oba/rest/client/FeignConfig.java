@@ -11,18 +11,20 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import de.adorsys.ledgers.oba.rest.utils.NullHeaderInterceptor;
 import feign.codec.Decoder;
 
 @Configuration
 public class FeignConfig {
-
+	
 	@Bean
 	public Decoder feignDecoder() {
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, false);
-		HttpMessageConverter jacksonConverter = new MappingJackson2HttpMessageConverter(mapper);
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, false);
+		objectMapper.registerModule(new JavaTimeModule());
+		HttpMessageConverter jacksonConverter = new MappingJackson2HttpMessageConverter(objectMapper);
 		ObjectFactory<HttpMessageConverters> objectFactory = () -> new HttpMessageConverters(jacksonConverter);
 		return new ResponseEntityDecoder(new SpringDecoder(objectFactory));
 	}

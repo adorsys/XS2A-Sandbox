@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private static final String[] SWAGGER_WHITELIST = { "/swagger-resources/**", "/swagger-resources", "/swagger-ui.html**", "/v2/api-docs",
 			"/webjars/**", "favicon.ico", "/error" };
 	private static final String[] APP_INDEX_WHITELIST = {"/", "/index.css", "/img/*", "/favicon.ico"};
-	private static final String[] APP_SCA_WHITELIST = {"/sca/login", "/pis/auth/**", "/pis/*/authorisation/*/login"};
+	private static final String[] APP_SCA_WHITELIST = {"/sca/login", "/pis/auth/**", "/pis/*/authorisation/*/login", "/ais/auth/**", "/ais/*/authorisation/*/login"};
 	private static final String[] ACTUATOR_WHITELIST = {"/actuator/health"};
 	
 
