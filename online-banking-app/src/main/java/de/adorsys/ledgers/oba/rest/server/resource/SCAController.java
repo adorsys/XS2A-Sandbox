@@ -32,9 +32,6 @@ public class SCAController implements SCAApi {
 
 	@Autowired
 	private UserMgmtRestClient ledgersUserMgmt;
-//
-//	@Autowired
-//	private ConsentReferencePolicy referencePolicy;
 	
 	@Autowired
 	private ResponseUtils responseUtils;
@@ -73,10 +70,8 @@ public class SCAController implements SCAApi {
 	 * Method expects
 	 * 
 	 * 
-	 * @param scaId the id of the authaurization
 	 * @param login the customer banking login
 	 * @param pin the customer banking pin
-	 * @param cookies the cookie string
 	 * @return the auth response
 	 */
 	@Override
@@ -144,13 +139,6 @@ public class SCAController implements SCAApi {
 		AuthorizeResponse authResponse = new AuthorizeResponse();
 		authResponse.setEncryptedConsentId(scaId);
 		authResponse.setAuthorisationId(authorisationId);
-//		
-//		ConsentReference consentReference;
-//		try {
-//			consentReference = referencePolicy.fromRequest(scaId, authorisationId, responseUtils.consentCookie(cookies), true);
-//		} catch (InvalidConsentException e) {
-//			return responseUtils.unknownCredentials(authResponse, response);
-//		}
 		
 		try {
 			authInterceptor.setAccessToken(auth.getBearerToken().getAccess_token());
@@ -171,13 +159,6 @@ public class SCAController implements SCAApi {
 		AuthorizeResponse authResponse = new AuthorizeResponse();
 		authResponse.setEncryptedConsentId(scaId);
 		authResponse.setAuthorisationId(authorisationId);
-//		ConsentReference consentReference;
-//		try {
-//			consentReference = referencePolicy.fromRequest(scaId, authorisationId, responseUtils.consentCookie(cookies), true);
-//		} catch (InvalidConsentException e) {
-//			return responseUtils.unknownCredentials(authResponse, response);
-//		}
-
 		
 		try {
 			authInterceptor.setAccessToken(auth.getBearerToken().getAccess_token());

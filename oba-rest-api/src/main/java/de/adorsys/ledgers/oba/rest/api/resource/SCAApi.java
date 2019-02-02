@@ -40,10 +40,8 @@ public interface SCAApi {
 	 * Method expects
 	 * 
 	 * 
-	 * @param scaId the id of the authaurization
 	 * @param login the customer banking login
 	 * @param pin the customer banking pin
-	 * @param cookies the cookie string
 	 * @return the auth response
 	 */
 	@PostMapping("/login")
