@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import de.adorsys.ledgers.oba.rest.api.domain.OnlineBankingResponse;
+import de.adorsys.ledgers.oba.rest.api.domain.AuthorizeResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
@@ -46,13 +46,11 @@ public interface SCAApi {
 	 * @param cookies the cookie string
 	 * @return the auth response
 	 */
-	@PostMapping("/{scaId}/login")
+	@PostMapping("/login")
 	@ApiOperation(value = "Identifies the user by login an pin. Return sca methods information")
-	ResponseEntity<OnlineBankingResponse> login(
-			@PathVariable("scaId") String scaId,
+	ResponseEntity<AuthorizeResponse> login(
 			@RequestParam("login") String login,
-			@RequestParam("pin") String pin,
-			@RequestHeader("Set-Cookie") String cookies);
+			@RequestParam("pin") String pin);
 
 	/**
 	 * Select a method for sending the authentication code.
@@ -63,19 +61,19 @@ public interface SCAApi {
 	 * @param cookies the cookie string
 	 * @return the auth response.
 	 */
-	@PostMapping("/{scaId}/authorisation/{authorisationId}/methods/{methodId}")
+	@PostMapping(path="/{scaId}/authorisation/{authorisationId}/methods/{methodId}")
 	@ApiOperation(value = "Selects the SCA Method for use.", authorizations = @Authorization(value = "apiKey"))
-	ResponseEntity<OnlineBankingResponse> selectMethod(
+	ResponseEntity<AuthorizeResponse> selectMethod(
 			@PathVariable("scaId") String scaId,
 			@PathVariable("authorisationId") String authorisationId,
-			@PathVariable(name = "methodId") String methodId,
-			@RequestHeader("Set-Cookie") String cookies);
+			@PathVariable("methodId") String methodId,
+			@RequestHeader("Cookie") String cookies);
 
-	@PostMapping(name="/{scaId}/authorisation/{authorisationId}/authCode", params="authCode")
+	@PostMapping(path="/{scaId}/authorisation/{authorisationId}/authCode", params="authCode")
 	@ApiOperation(value = "Validate the provided authentication code.", authorizations = @Authorization(value = "apiKey"))
-	ResponseEntity<OnlineBankingResponse> validate(
+	ResponseEntity<AuthorizeResponse> validateAuthCode(
 			@PathVariable("scaId") String scaId,
 			@PathVariable("authorisationId") String authorisationId,
 			@RequestParam(name="authCode") String authCode,
-			@RequestHeader("Set-Cookie") String cookies);
+			@RequestHeader("Cookie") String cookies);
 }

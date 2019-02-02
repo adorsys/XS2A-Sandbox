@@ -68,7 +68,7 @@ public class ResponseUtils {
 			removeCookie(response, ACCESS_TOKEN_COOKIE_NAME);
 		}
 
-		if (StringUtils.isNoneBlank(consentReference.getCookieString())) {
+		if (consentReference!=null && StringUtils.isNoneBlank(consentReference.getCookieString())) {
 			// Set cookie consent
 			Cookie consentCookie = new Cookie(CONSENT_COOKIE_NAME, consentReference.getCookieString());
 			consentCookie.setHttpOnly(true);

@@ -1,15 +1,20 @@
 package de.adorsys.ledgers.oba.rest.server.resource;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.adorsys.ledgers.consent.aspsp.rest.client.CmsAspspPiisClient;
+import org.adorsys.ledgers.consent.aspsp.rest.client.CreatePiisConsentRequest;
+import org.adorsys.ledgers.consent.aspsp.rest.client.CreatePiisConsentResponse;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +23,7 @@ import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCAConsentResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCALoginResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCAResponseTO;
+import de.adorsys.ledgers.middleware.api.domain.um.AisAccountAccessInfoTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisConsentTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.ScaUserDataTO;
@@ -30,10 +36,13 @@ import de.adorsys.ledgers.oba.rest.api.consentref.InvalidConsentException;
 import de.adorsys.ledgers.oba.rest.api.domain.AuthorizeResponse;
 import de.adorsys.ledgers.oba.rest.api.domain.ConsentAuthorizeResponse;
 import de.adorsys.ledgers.oba.rest.api.domain.ConsentWorkflow;
+import de.adorsys.ledgers.oba.rest.api.domain.CreatePiisConsentRequestTO;
+import de.adorsys.ledgers.oba.rest.api.domain.PIISConsentCreateResponse;
 import de.adorsys.ledgers.oba.rest.api.domain.ValidationCode;
 import de.adorsys.ledgers.oba.rest.api.exception.ConsentAuthorizeException;
 import de.adorsys.ledgers.oba.rest.api.resource.AISApi;
 import de.adorsys.ledgers.oba.rest.server.mapper.AisConsentMapper;
+import de.adorsys.ledgers.oba.rest.server.mapper.CreatePiisConsentRequestMapper;
 import de.adorsys.psd2.consent.api.CmsAspspConsentDataBase64;
 import de.adorsys.psd2.consent.psu.api.ais.CmsAisConsentResponse;
 import feign.FeignException;
@@ -58,6 +67,10 @@ public class AISController extends AbstractXISController implements AISApi {
 	private AisConsentMapper consentMapper;
 	@Autowired
 	private ConsentRestClient consentRestClient;
+	@Autowired
+	private CmsAspspPiisClient cmsAspspPiisClient;
+	@Autowired
+	private CreatePiisConsentRequestMapper createPiisConsentRequestMapper;
 
 	@Override
 	@ApiOperation(value = "Entry point for authenticating ais consent requests.")
@@ -182,6 +195,49 @@ public class AISController extends AbstractXISController implements AISApi {
 		}			
 	}
 	
+	@Override
+	public ResponseEntity<PIISConsentCreateResponse> grantPiisConsent(@RequestHeader("Cookie") String consentAndaccessTokenCookieString,  CreatePiisConsentRequestTO piisConsentRequestTO) {
+		
+		String psuId = AuthUtils.psuId(auth);
+		try {
+
+			authInterceptor.setAccessToken(auth.getBearerToken().getAccess_token());
+			
+			CreatePiisConsentRequest piisConsentRequest = createPiisConsentRequestMapper.fromCreatePiisConsentRequest(piisConsentRequestTO);
+			CreatePiisConsentResponse cmsCcnsent = cmsAspspPiisClient.createConsent(piisConsentRequest, psuId, null, null, null).getBody();
+			
+			// Attention intentional manual mapping. We fill up only the balances.
+			AisConsentTO pisConsent = new AisConsentTO();
+			AisAccountAccessInfoTO access = new AisAccountAccessInfoTO();
+			// Only consent we take.
+			access.setBalances(piisConsentRequest.getAccounts().stream().map(a->a.getIban()).collect(Collectors.toList()));
+			pisConsent.setAccess(access);
+			pisConsent.setFrequencyPerDay(piisConsentRequest.getAllowedFrequencyPerDay());
+			pisConsent.setId(cmsCcnsent.getConsentId());
+			// Intentionally set to true
+			pisConsent.setRecurringIndicator(true);
+			pisConsent.setTppId(piisConsentRequest.getTppInfo().getAuthorisationNumber());
+			pisConsent.setUserId(psuId);
+			pisConsent.setValidUntil(piisConsentRequest.getValidUntil());
+			
+			SCAConsentResponseTO scaConsentResponse = consentRestClient.grantPIISConsent(pisConsent).getBody();
+			ResponseEntity<?> updateAspspPiisConsentDataResponse = updateAspspPiisConsentData(cmsCcnsent.getConsentId(), scaConsentResponse);
+			if(!HttpStatus.OK.equals(updateAspspPiisConsentDataResponse.getStatusCode())){
+				return responseUtils.error(new PIISConsentCreateResponse(), updateAspspPiisConsentDataResponse.getStatusCode(),
+						"Could not update aspsp consent data", response);
+			}
+			// Send back same cookie. Delete any consent reference.
+			responseUtils.setCookies(response, null, auth.getBearerToken().getAccess_token(), auth.getBearerToken().getAccessTokenObject());
+			
+			AisConsentTO consent = scaConsentResponse.getBearerToken().getAccessTokenObject().getConsent();
+			return ResponseEntity.ok(new PIISConsentCreateResponse(consent));
+		} catch (IOException e) {
+			return responseUtils.error(new PIISConsentCreateResponse(), HttpStatus.INTERNAL_SERVER_ERROR,
+					e.getMessage(), response);
+		} finally {
+			authInterceptor.setAccessToken(null);
+		}
+	}
 
 	private ConsentWorkflow identifyConsent(String encryptedConsentId, String authorizationId, boolean strict,
 			String consentCookieString, String psuId, HttpServletResponse response, BearerTokenTO bearerToken)
@@ -297,6 +353,13 @@ public class AISController extends AbstractXISController implements AISApi {
 							httpResp, updateAspspConsentData.getStatusCode(), ValidationCode.CONSENT_DATA_UPDATE_FAILED));
 		}
 	}
+	
+	private ResponseEntity<?> updateAspspPiisConsentData(String consentId, SCAConsentResponseTO consentResponse) throws IOException{
+		CmsAspspConsentDataBase64 consentData = new CmsAspspConsentDataBase64(consentId, tokenStorageService.toBase64String(consentResponse));
+		// Encrypted consentId???
+		return aspspConsentDataClient.updateAspspConsentData(consentId, consentData);
+	}
+	
 	
 
 	@SuppressWarnings("PMD.CyclomaticComplexity")
