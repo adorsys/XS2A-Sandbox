@@ -60,6 +60,6 @@ feign:
   client:
     config:
       default:
-        loggerLevel: full
+        loggerLevel: HEADERS
 
 logging.level.de.adorsys.ledgers.middleware: DEBUG        
