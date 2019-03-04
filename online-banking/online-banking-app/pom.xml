@@ -3,16 +3,16 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>de.adorsys.ledgers</groupId>
-		<artifactId>xs2a-connector-examples</artifactId>
+		<groupId>de.adorsys.psd2.sandbox</groupId>
+		<artifactId>online-banking</artifactId>
 		<version>0.2-SNAPSHOT</version>
-		<relativePath>..</relativePath>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>online-banking-app</artifactId>
 	<name>online-banking-app</name>
 
 	<properties>
-		<ruleset.basedir>..</ruleset.basedir>
+		<ruleset.basedir>../..</ruleset.basedir>
 	</properties>
 
 	<dependencies>
