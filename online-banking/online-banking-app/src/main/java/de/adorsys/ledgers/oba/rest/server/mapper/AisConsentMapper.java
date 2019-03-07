@@ -1,11 +1,5 @@
 package de.adorsys.ledgers.oba.rest.server.mapper;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import org.springframework.stereotype.Component;
-
 import de.adorsys.ledgers.middleware.api.domain.um.AisAccountAccessInfoTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisAccountAccessTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisConsentTO;
@@ -13,15 +7,23 @@ import de.adorsys.psd2.consent.api.ais.AisAccountAccess;
 import de.adorsys.psd2.consent.api.ais.AisAccountConsent;
 import de.adorsys.psd2.xs2a.core.consent.AisConsentRequestType;
 import de.adorsys.psd2.xs2a.core.profile.AccountReference;
+import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
+import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class AisConsentMapper {
-	
+
 	public AisConsentTO toTo(AisAccountConsent consent) {
 		AisConsentTO a = new AisConsentTO();
 		a.setId(consent.getId());
-		a.setUserId(Optional.ofNullable(consent.getPsuData()).map(p -> p.getPsuId()).orElse(null));
-		a.setTppId(Optional.ofNullable(consent.getTppInfo()).map(t -> t.getAuthorisationNumber()).orElse(null));
+		a.setUserId(resolveUserId(consent.getPsuIdDataList())); // TODO should be changed after implementation of multiple sca https://git.adorsys.de/adorsys/xs2a/ledgers/issues/205
+		a.setTppId(Optional.ofNullable(consent.getTppInfo()).map(TppInfo::getAuthorisationNumber).orElse(null));
 		a.setFrequencyPerDay(consent.getFrequencyPerDay());
 		a.setAccess(toAccess(consent));
 		a.setValidUntil(consent.getValidUntil());
@@ -29,16 +31,29 @@ public class AisConsentMapper {
 		return a;
 	}
 
-	private AisAccountAccessInfoTO toAccess(AisAccountConsent consent) {
+  private String resolveUserId(List<PsuIdData> psuIdDataList) {
+    if(CollectionUtils.isEmpty(psuIdDataList)) {
+      return null;
+    }
+    return getFirstPsu(psuIdDataList)
+             .getPsuId();
+  }
+
+  private PsuIdData getFirstPsu(List<PsuIdData> psuIdDataList) {
+    return psuIdDataList.get(0);
+  }
+
+
+  private AisAccountAccessInfoTO toAccess(AisAccountConsent consent) {
 		if(consent.getAccess()==null) {
 			return null;
 		}
 		AisAccountAccess access = consent.getAccess();
 		AisAccountAccessInfoTO a = new AisAccountAccessInfoTO();
-		a.setAccounts(Optional.ofNullable(access.getAccounts()).map(l -> mapSpiAccountReferencesToString(l)).orElse(null));
-		a.setBalances(Optional.ofNullable(access.getBalances()).map(l -> mapSpiAccountReferencesToString(l)).orElse(null));
-		a.setTransactions(Optional.ofNullable(access.getTransactions()).map(l -> mapSpiAccountReferencesToString(l)).orElse(null));
-		AisConsentRequestType aisConsentRequestType = consent.getAisConsentRequestType();
+    a.setAccounts(getIbansFromAccountReference(access.getAccounts()));
+    a.setBalances(getIbansFromAccountReference(access.getBalances()));
+    a.setTransactions(getIbansFromAccountReference(access.getTransactions()));
+    AisConsentRequestType aisConsentRequestType = consent.getAisConsentRequestType();
 		boolean withBalance = consent.isWithBalance();
 		if(aisConsentRequestType!=null) {
 			switch (aisConsentRequestType) {
@@ -57,17 +72,20 @@ public class AisConsentMapper {
 				}
 				break;
 			}
-			
+
 		}
 		return a;
 	}
 
-	protected String mapSpiAccountReferenceToString(AccountReference s)
-	{
-		return s.getIban();
-	}
-	protected List<String> mapSpiAccountReferencesToString(List<AccountReference> s)
-	{
-		return s.stream().map(this::mapSpiAccountReferenceToString).collect(Collectors.toList());
-	}
+  private List<String> getIbansFromAccountReference(List<AccountReference> references) {
+    return Optional.ofNullable(references)
+      .map(this::mapAccountReferencesToString)
+      .orElse(null);
+  }
+
+  private List<String> mapAccountReferencesToString(List<AccountReference> references) {
+    return references.stream()
+      .map(AccountReference::getIban)
+      .collect(Collectors.toList());
+  }
 }
