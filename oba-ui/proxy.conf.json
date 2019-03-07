@@ -1,0 +1,44 @@
+{
+    "/users/*": {
+        "target": "http://localhost:8088",
+        "secure": false,
+        "changeOrigin": true,
+        "ws": true,
+        "logLevel": "debug"
+    },
+    "/accounts/*": {
+        "target": "http://localhost:8088",
+        "secure": false,
+        "changeOrigin": true,
+        "ws": true,
+        "logLevel": "debug"
+    },
+    "/payments/*": {
+        "target": "http://localhost:8088",
+        "secure": false,
+        "changeOrigin": true,
+        "ws": true,
+        "logLevel": "debug"
+    },
+    "/consents/*": {
+        "target": "http://localhost:8088",
+        "secure": false,
+        "changeOrigin": true,
+        "ws": true,
+        "logLevel": "debug"
+    },
+    "/staff-access/*": {
+        "target": "http://localhost:8088/",
+        "secure": false,
+        "changeOrigin": true,
+        "ws": true,
+        "logLevel": "debug"
+    },
+    "/management/*": {
+        "target": "http://localhost:8088",
+        "secure": false,
+        "changeOrigin": true,
+        "ws": true,
+        "logLevel": "debug"
+    }
+}
