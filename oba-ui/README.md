@@ -3,9 +3,11 @@
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.0.
 
 ## how to start the frontend Project
-1. navigate into the project and run in the terminal or console the following command
-	1. => npm install
-2. ,,,coming soon
+1. navigate into the repository `ledgers` and go throw the project `xs2a-connector-redirect-test` and run in the terminal or console the following command
+    1. => `mvn clean install -DskipITs=false -DwaitAtGateway=true -DUI=true`
+2. navigate into the project and run in the terminal or console the following command
+	1. => `npm install`
+3. ,,,coming soon
 
 
 ## Development server
