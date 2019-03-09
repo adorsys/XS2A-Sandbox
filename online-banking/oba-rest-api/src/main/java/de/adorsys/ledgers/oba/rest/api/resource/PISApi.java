@@ -49,7 +49,7 @@ public interface PISApi {
 			@PathVariable("authorisationId") String authorisationId,
 			@RequestParam("login") String login,
 			@RequestParam("pin") String pin, 
-			@RequestHeader("Cookie") String consentCookieString);
+			@RequestHeader(name="Cookie", required=false) String consentCookieString);
 	
 	/**
 	 * Calls the consent validation page.
@@ -64,7 +64,7 @@ public interface PISApi {
 	ResponseEntity<PaymentAuthorizeResponse> initiatePayment(
 			@PathVariable("encryptedPaymentId") String encryptedPaymentId,
 			@PathVariable("authorisationId") String authorisationId,
-			@RequestHeader("Cookie") String consentAndaccessTokenCookieString);
+			@RequestHeader(name="Cookie", required=false) String consentAndaccessTokenCookieString);
 
 	/**
 	 * Selects the SCA Method for use.
@@ -81,7 +81,7 @@ public interface PISApi {
 			@PathVariable("encryptedPaymentId") String encryptedPaymentId,
 			@PathVariable("authorisationId") String authorisationId,
 			@PathVariable("scaMethodId") String scaMethodId,
-			@RequestHeader("Cookie") String consentAndaccessTokenCookieString);
+			@RequestHeader(name="Cookie", required=false) String consentAndaccessTokenCookieString);
 
 	/**
 	 * Provides a TAN for the validation of an authorization
@@ -97,6 +97,6 @@ public interface PISApi {
 	ResponseEntity<PaymentAuthorizeResponse> authrizedPayment(
 			@PathVariable("encryptedPaymentId") String encryptedPaymentId,
 			@PathVariable("authorisationId") String authorisationId,
-			@RequestHeader("Cookie") String consentAndaccessTokenCookieString,
+			@RequestHeader(name="Cookie", required=false) String consentAndaccessTokenCookieString,
 			@RequestParam("authCode") String authCode);
 }

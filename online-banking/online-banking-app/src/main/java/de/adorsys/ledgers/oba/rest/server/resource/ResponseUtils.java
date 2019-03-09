@@ -63,6 +63,8 @@ public class ResponseUtils {
 			accessTokenCookie.setHttpOnly(true);
 			accessTokenCookie.setSecure(https_enabled);
 			accessTokenCookie.setMaxAge(validity);
+			accessTokenCookie.setDomain("localhost");
+			accessTokenCookie.setPath("/");
 			response.addCookie(accessTokenCookie);
 		} else {
 			removeCookie(response, ACCESS_TOKEN_COOKIE_NAME);
@@ -74,6 +76,8 @@ public class ResponseUtils {
 			consentCookie.setHttpOnly(true);
 			consentCookie.setSecure(https_enabled);
 			consentCookie.setMaxAge(validity);
+			consentCookie.setDomain("localhost");
+			consentCookie.setPath("/");
 			response.addCookie(consentCookie);
 		}
 	}

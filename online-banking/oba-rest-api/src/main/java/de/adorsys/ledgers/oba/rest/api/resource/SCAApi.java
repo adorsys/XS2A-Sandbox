@@ -65,7 +65,7 @@ public interface SCAApi {
 			@PathVariable("scaId") String scaId,
 			@PathVariable("authorisationId") String authorisationId,
 			@PathVariable("methodId") String methodId,
-			@RequestHeader("Cookie") String cookies);
+			@RequestHeader(name="Cookie", required=false) String cookies);
 
 	@PostMapping(path="/{scaId}/authorisation/{authorisationId}/authCode", params="authCode")
 	@ApiOperation(value = "Validate the provided authentication code.", authorizations = @Authorization(value = "apiKey"))
@@ -73,5 +73,5 @@ public interface SCAApi {
 			@PathVariable("scaId") String scaId,
 			@PathVariable("authorisationId") String authorisationId,
 			@RequestParam(name="authCode") String authCode,
-			@RequestHeader("Cookie") String cookies);
+			@RequestHeader(name="Cookie", required=false) String cookies);
 }
