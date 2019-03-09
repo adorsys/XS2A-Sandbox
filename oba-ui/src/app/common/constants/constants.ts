@@ -1,0 +1,1 @@
+export const URL_PARAMS_PROVIDER = 'ais-url-params';
