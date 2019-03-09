@@ -1,35 +1,40 @@
-import { TestBed, async } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { AppComponent } from './app.component';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {By} from '@angular/platform-browser';
+import {RouterOutlet} from '@angular/router';
+import {RouterTestingModule} from '@angular/router/testing';
+
+import {AccountDetailsComponent} from './account-details/account-details.component';
+import {AppComponent} from './app.component';
 
 describe('AppComponent', () => {
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule
-      ],
-      declarations: [
-        AppComponent
-      ],
-    }).compileComponents();
-  }));
+    let app: AppComponent;
+    let fixture: ComponentFixture<AppComponent>;
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
-  });
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                RouterTestingModule
+            ],
+            declarations: [
+                AppComponent,
+                AccountDetailsComponent
+            ],
+        }).compileComponents();
+    }));
 
-  it(`should have as title 'oba-ui'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('oba-ui');
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(AppComponent);
+        app = fixture.componentInstance;
+    });
 
-  it('should render title in a h1 tag', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to oba-ui!');
-  });
+    it('should create the app', async(() => {
+        expect(app).toBeTruthy();
+    }));
+
+    it('Should include the < router-outlet >', async(() => {
+        fixture.detectChanges();
+        const debugElement = fixture.debugElement.query(By.directive(RouterOutlet));
+        expect(debugElement).not.toBeNull();
+    }));
+
 });
