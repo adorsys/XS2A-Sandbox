@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {PSUAISService} from "../../../../api/services/psuais.service";
-import LoginUsingPOSTParams = PSUAISService.LoginUsingPOSTParams;
 import {Observable} from "rxjs/internal/Observable";
 import {ConsentAuthorizeResponse} from "../../../../api/models/consent-authorize-response";
+import LoginUsingPOSTParams = PSUAISService.LoginUsingPOSTParams;
 
 @Injectable({
   providedIn: 'root'
