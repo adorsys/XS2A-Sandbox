@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {FileItem} from 'ng2-file-upload';
-import {environment} from '../../environments/environment';
 import {UploadOptions} from '../services/upload.service';
 
 @Component({
@@ -11,7 +10,6 @@ import {UploadOptions} from '../services/upload.service';
 })
 export class UploadFileComponent implements OnInit {
 
-    private url = `${environment.staffAccessResourceEndPoint}`;
     public options: UploadOptions;
 
     constructor(private router: Router) {
