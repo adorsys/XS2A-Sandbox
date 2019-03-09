@@ -9,6 +9,8 @@ import {TanSelectionComponent} from './ais/consent/tan-selection/tan-selection.c
 import {TanConfirmationComponent} from './ais/consent/tan-confirmation/tan-confirmation.component';
 import {BankOfferedComponent} from './ais/consent/bank-offered/bank-offered.component';
 import { AccountDetailsComponent } from './account-details/account-details.component';
+import {ReactiveFormsModule} from "@angular/forms";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
     declarations: [
@@ -22,7 +24,9 @@ import { AccountDetailsComponent } from './account-details/account-details.compo
     ],
     imports: [
         BrowserModule,
-        AppRoutingModule
+        AppRoutingModule,
+        ReactiveFormsModule,
+        HttpClientModule
     ],
     providers: [],
     bootstrap: [AppComponent]
