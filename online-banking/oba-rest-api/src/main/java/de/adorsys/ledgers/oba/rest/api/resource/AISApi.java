@@ -43,7 +43,7 @@ public interface AISApi {
 			@PathVariable("authorisationId") String authorisationId,
 			@RequestParam("login") String login,
 			@RequestParam("pin") String pin, 
-			@RequestHeader("Cookie") String consentCookieString);
+			@RequestHeader(name="Cookie", required=false) String consentCookieString);
 	
 	/**
 	 * Selects the SCA Method for use.
@@ -60,7 +60,7 @@ public interface AISApi {
 			@PathVariable("encryptedConsentId") String encryptedConsentId,
 			@PathVariable("authorisationId") String authorisationId,
 			@PathVariable("scaMethodId") String scaMethodId,
-			@RequestHeader("Cookie") String consentAndaccessTokenCookieString);
+			@RequestHeader(name="Cookie", required=false) String consentAndaccessTokenCookieString);
 
 	/**
 	 * Provides a TAN for the validation of an authorization
@@ -76,11 +76,11 @@ public interface AISApi {
 	ResponseEntity<ConsentAuthorizeResponse> authrizedConsent(
 			@PathVariable("encryptedConsentId") String encryptedConsentId,
 			@PathVariable("authorisationId") String authorisationId,
-			@RequestHeader("Cookie") String consentAndaccessTokenCookieString,
+			@RequestHeader(name="Cookie", required=false) String consentAndaccessTokenCookieString,
 			@RequestParam("authCode") String authCode);
 
 	@PostMapping(path="/piis")
 	@ApiOperation(value = "Grant a piis consent", authorizations = @Authorization(value = "apiKey"))
 	ResponseEntity<PIISConsentCreateResponse> grantPiisConsent(
-			@RequestHeader("Cookie") String consentAndaccessTokenCookieString, @RequestBody CreatePiisConsentRequestTO aisConsentTO);
+			@RequestHeader(name="Cookie", required=false) String consentAndaccessTokenCookieString, @RequestBody CreatePiisConsentRequestTO aisConsentTO);
 }
