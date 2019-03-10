@@ -1,0 +1,71 @@
+<mat-card fxLayout="column" fxLayoutGap="20px" class="mat-elevation-z0">
+
+    <div fxFlex="100">
+        <label for="fileInput" class="drop-zone"
+             fxLayoutAlign="center center"
+             ng2FileDrop
+             (fileOver)="fileOverBase($event)"
+             [uploader]="uploader">
+            <span class="drop-text" [translate]="'UPLOAD.lblDropFilesHere'"></span>
+        </label>
+        <input id="fileInput" [accept]="acceptedMimes" type="file" ng2FileSelect [uploader]="uploader"/>
+    </div>
+
+    <div fxFlex="100" fxLayout="column">
+        <table *ngIf="uploader.queue.length > 0">
+            <thead>
+            <tr fxLayout="row" fxLayoutAlign="start " fxFlex="100">
+                <th [translate]="'UPLOAD.lblFilename'" fxFlex="60"></th>
+                <th [translate]="'COMMON.lblStatus'" fxFlex></th>
+                <th [translate]="'ACTION.lblActions'" fxFlex="20"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of uploader.queue" fxLayout="row" fxLayoutAlign="start ">
+              <!-- Image -->
+                <td fxLayout="column" fxFlex="50">
+                    <strong>{{ item?.file?.name }}</strong>
+                    <img [src]="item?.filePreviewPath" height="100" width="100"/>
+                </td>
+
+              <!-- Status -->
+                <td fxFlex="25">
+                    <mat-icon *ngIf="item.isSuccess">check_circle</mat-icon>
+                    <mat-icon *ngIf="item.isCancel">cancel</mat-icon>
+                    <mat-icon *ngIf="item.isError">error</mat-icon>
+                </td>
+
+              <!-- Actions -->
+                <td fxLayout="column" fxFlex="25" fxLayoutGap="10px">
+                    <button mat-raised-button (click)="item.upload()" color="primary"
+                            [disabled]="item.isReady || item.isUploading || item.isSuccess"
+                            *ngIf="uploader.queue.length === 1">
+                        <mat-icon class="mat-24">file_upload</mat-icon>
+                        <span [translate]="'UPLOAD.lblUpload'"></span>
+                    </button>
+                    <button mat-raised-button (click)="item.remove()" color="warn">
+                        <mat-icon class="mat-24">delete</mat-icon>
+                        <span [translate]="'ACTION.lblRemove'"></span>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <mat-card-actions *ngIf="uploader.queue.length > 1">
+            <button mat-raised-button color="primary" (click)="uploader.uploadAll()">
+                <mat-icon class="mat-24">file_upload</mat-icon>
+                <span [translate]="'ACTION.lblUploadAll'"></span>
+            </button>
+            <button mat-raised-button color="danger" (click)="uploader.clearQueue()">
+                <mat-icon class="mat-24">delete</mat-icon>
+                <span [translate]="'ACTION.lblRemoveAll'"></span>
+            </button>
+        </mat-card-actions>
+
+        <div *ngIf="uploader.queue.length > 0">
+            <h5 [translate]="'UPLOAD.lblQueueProgress'"></h5>
+            <mat-progress-bar mode="determinate" [value]="uploader.progress" color="accent"></mat-progress-bar>
+        </div>
+    </div>
+</mat-card>
