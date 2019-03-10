@@ -16,16 +16,9 @@ export class DocumentUploadComponent implements OnInit {
     // Options for uploading
     @Input() options: UploadOptions;
 
-    public hasBaseDropZoneOver = true;
-    public uploadFormGroup: FormGroup;
+    hasBaseDropZoneOver: boolean = true;
 
-    constructor(private uploadService: UploadService,
-                private formBuilder: FormBuilder) {
-        this.uploadFormGroup = this.formBuilder.group({
-            'login': ['', Validators.required],
-            'password': ['', Validators.required],
-            'forceUploap': ['', Validators.required]
-        });
+    constructor(private uploadService: UploadService) {
     }
 
     public get acceptedMimes(): string {
@@ -70,8 +63,10 @@ export class DocumentUploadComponent implements OnInit {
     }
 
     onAfterAddingFile(item: FileItem): void {
-        if (this.uploader.queue.length > 1) {
-            this.uploader.removeFromQueue(this.uploader.queue[0]);
+        if (this.options.maxFileSize === 1) {
+            if (this.uploader.queue.length > 1) {
+                this.uploader.removeFromQueue(this.uploader.queue[0]);
+            }
         }
     }
 
