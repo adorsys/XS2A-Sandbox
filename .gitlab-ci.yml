@@ -72,7 +72,7 @@ build_package_java8:
     BUILD_JAVA_VERSION: system@1.8
   artifacts:
     paths:
-      - "online-banking/online-banking-app/online-banking-app.jar"
+      - "online-banking/online-banking-app/target/online-banking-app.jar"
     name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}"
     expire_in: "1 day"
 
