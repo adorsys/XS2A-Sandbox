@@ -13,12 +13,16 @@ cache:
 stages:
   - "build:src"    # build jar and provide as artifact
   - "build:qa"     # run tests and code quality checks
+  - "build:image"  # dockerize jar and push to docker registry
 
 # ------------------------------------------------------------------
 # variables
 # ------------------------------------------------------------------
 
 variables:
+
+  # Online banking
+  DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING: "docker.io/adorsys/xs2a-online-banking"
 
   ###########################
   # Build variables         #
@@ -40,6 +44,17 @@ variables:
     - cat /sys/fs/cgroup/memory/memory.limit_in_bytes
     - java -XX:+PrintFlagsFinal -version | grep -Ei "maxheapsize|maxram"
     - mvn -DskipTests clean install
+
+# Build docker images and put them to DOCKER HUB repo
+.build_dockerhub_image: &build_dockerhub_image
+  script:
+    - docker build -t "$DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING:$DOCKER_TAG" online-banking/online-banking-app
+
+    - docker login -u $DOCKER_HUB_LOGIN -p $DOCKER_HUB_PASS
+
+    - docker push "$DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING:$DOCKER_TAG"
+
+    - docker logout
 
 # ------------------------------------------------------------------
 # jobs
@@ -105,3 +120,11 @@ unit_tests:
       - "**/target/surefire-reports/*"
     name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}-*"
     expire_in: "10 day"
+
+build_dockerhub_image_master:
+  stage: "build:image"
+  only:
+    - master
+  variables:
+    DOCKER_TAG: latest
+  <<: *build_dockerhub_image
