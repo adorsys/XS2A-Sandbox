@@ -23,7 +23,7 @@ import {UserDetailsComponent} from './components/users/user-details/user-details
 import {UsersComponent} from './components/users/users.component';
 import {AuthGuard} from './guards/auth.guard';
 import {AuthInterceptor} from './interceptors/auth-interceptor';
-import {UploadFileComponent} from './upload-file/upload-file.component';
+import {UploadFileComponent} from './uploadFile/uploadFile.component';
 
 @NgModule({
     declarations: [

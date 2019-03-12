@@ -12,7 +12,7 @@ import {UserCreateComponent} from './components/users/user-create/user-create.co
 import {UserDetailsComponent} from './components/users/user-details/user-details.component';
 import {UsersComponent} from './components/users/users.component';
 import {AuthGuard} from './guards/auth.guard';
-import {UploadFileComponent} from './upload-file/upload-file.component';
+import {UploadFileComponent} from './uploadFile/uploadFile.component';
 
 const routes: Routes = [
     {

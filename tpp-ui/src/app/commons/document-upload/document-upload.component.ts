@@ -1,26 +1,31 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {UploadOptions, UploadService} from '@services/upload.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {FileItem, FileUploader} from 'ng2-file-upload';
-import {MessagesService} from '@services/messages.service';
-import {TranslateService} from '@ngx-translate/core';
-import * as _ from 'lodash';
+import {UploadOptions, UploadService} from '../../services/upload.service';
 
 @Component({
     selector: 'app-document-upload',
     templateUrl: './document-upload.component.html',
-    styleUrls: ['./document-upload.component.scss']
+    styleUrls: ['./document-upload.component.css']
 })
 export class DocumentUploadComponent implements OnInit {
 
     // Object for uploading
-    uploader: FileUploader;
+    public uploader: FileUploader;
 
     // Options for uploading
     @Input() options: UploadOptions;
 
-    hasBaseDropZoneOver: boolean = true;
+    public hasBaseDropZoneOver = true;
+    public uploadFormGroup: FormGroup;
 
-    constructor(private uploadService: UploadService) {
+    constructor(private uploadService: UploadService,
+                private formBuilder: FormBuilder) {
+        this.uploadFormGroup = this.formBuilder.group({
+            'login': ['', Validators.required],
+            'password': ['', Validators.required],
+            'forceUploap': ['', Validators.required]
+        });
     }
 
     public get acceptedMimes(): string {
@@ -39,12 +44,12 @@ export class DocumentUploadComponent implements OnInit {
             if (this.options.methodAfterSuccess && typeof this.options.methodAfterSuccess === 'function') {
                 this.options.methodAfterSuccess(item, response);
             }
-            this.messageService.success('COMMON.lblSuccesfullMessage');
+            alert('Successfull uploaded');
         };
 
         this.uploader.onWhenAddingFileFailed = (item, filter, options) => {
             if (filter.name === 'mimeType' || filter.name === 'fileSize') {
-                let extensions: string = '';
+                let extensions = '';
                 if (this.options.allowedMimeType) {
                     this.options.allowedMimeType.forEach((extension: string) => {
                         extensions = extensions + extension.split('/').pop() + ', ';
@@ -52,11 +57,10 @@ export class DocumentUploadComponent implements OnInit {
                 }
                 const params: any = {
                     file: item.name,
-                    sizeLimit: (`${Math.round(this.options.maxFileSize / 1024)} KB`),
                     extensions: extensions
                 };
-                const message: string = 'ERROR.lblMessage' + filter.name;
-                this.messageService.error(this.translateService.instant(message, params));
+                const message: string = 'ERROR UPLOAD' + filter.name;
+                alert(message);
             }
         };
     }
@@ -66,14 +70,12 @@ export class DocumentUploadComponent implements OnInit {
     }
 
     onAfterAddingFile(item: FileItem): void {
-        if (this.options.maxFileSize === 1) {
+        if (this.options.queueLimit === 1) {
             if (this.uploader.queue.length > 1) {
                 this.uploader.removeFromQueue(this.uploader.queue[0]);
             }
         }
-        // Generate image preview path
-        const filePreviewPath = this.sanitizer.bypassSecurityTrustUrl((window.URL.createObjectURL(item._file)));
-        _.extend(item, {filePreviewPath: filePreviewPath});
-    }
 
+
+    }
 }
