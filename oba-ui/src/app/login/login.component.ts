@@ -5,6 +5,7 @@ import {first} from "rxjs/operators";
 import {RoutingPath} from "../common/models/routing-path.model";
 import {AisService} from "../common/services/ais.service";
 import {URL_PARAMS_PROVIDER} from "../common/constants/constants";
+import {HttpHeaders} from "@angular/common/http";
 
 @Component({
     selector: 'ais-login',
@@ -17,7 +18,8 @@ export class LoginComponent implements OnInit {
     error: string;
     authorisationId: string;
     encryptedConsentId: string;
-    Cookie: string;
+    Cookie = 'eyJraWQiOiJNQmxEd3d1NlJ4RXJ1dGhmc0QycnBZIiwiYWxnIjoiSFMyNTYifQ.eyJlbmMtY29uc2VudC1pZCI6IlA1a1p1bTZpMFZYT3E5bnNFNmcxaVNXT3RPTUxnd2c1OUtIdThVRm9ZcUJTYmRtMnR3UUhfTEJURzk0bFRJNnVTZmdpcWxER0VmWWI3aFhPeXpfUDlnPT1fPV9iUzZwNlh2VFdJIiwiY29uc2VudC10eXBlIjoiQUlTIiwicmVkaXJlY3QtaWQiOiI1ODc0YTQ4NC01NWUwLTRmNTQtYTYzYS0zN2JkNjg3YjAzMDEiLCJleHAiOjE1NTIzOTE2MDgsImlhdCI6MTU1MjM5MTMwOCwianRpIjoiX0pvX3VGaHFRdW92M0doWEZBaHV2dyJ9.4aJTNRHGg4gZGFcAlIVo-MizWwmotSik5Opf-a3I84w';
+    header = new HttpHeaders();
 
     constructor(private formBuilder: FormBuilder,
                 private router: Router,
@@ -34,6 +36,7 @@ export class LoginComponent implements OnInit {
             login: ['', Validators.required],
             pin: ['', Validators.required]
         });
+        this.header.append("Cookie", this.Cookie);
     }
 
     onSubmit() {
@@ -41,7 +44,8 @@ export class LoginComponent implements OnInit {
         this.psuAisService.loginUsingAuthorizationId({
             ...this.loginForm.value,
             encryptedConsentId: this.encryptedConsentId,
-            authorisationId: this.authorisationId
+            authorisationId: this.authorisationId,
+            headers: this.header
         })
             .pipe(first())
             .subscribe(
@@ -53,9 +57,4 @@ export class LoginComponent implements OnInit {
                     this.loading = false;
                 });
     }
-
-    //public profession = 'l homme fort';
-    //public test = 'Popol' + this.profession;
-    //public test1 = `Popol${this.profession}`;
-
 }
