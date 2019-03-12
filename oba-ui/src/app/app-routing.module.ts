@@ -6,7 +6,7 @@ import {ResultPageComponent} from './result-page/result-page.component';
 import {BankOfferedComponent} from "./ais/consent/bank-offered/bank-offered.component";
 
 export const routes: Routes = [
-    {
+   {
         path: '',
         redirectTo: '/login',
         pathMatch: 'full'
