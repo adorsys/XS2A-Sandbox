@@ -28,7 +28,6 @@ export class UploadService {
 
         return new FileUploader(
             {
-                queueLimit: options.queueLimit ? options.queueLimit : 1,
                 url: options.url,
                 method: options.method,
                 headers,

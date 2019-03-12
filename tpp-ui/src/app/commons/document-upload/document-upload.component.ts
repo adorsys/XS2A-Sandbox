@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UploadOptions, UploadService} from '@services/upload.service';
 import {FileItem, FileUploader} from 'ng2-file-upload';
 import {UploadOptions, UploadService} from '../../services/upload.service';
 
@@ -63,7 +63,7 @@ export class DocumentUploadComponent implements OnInit {
     }
 
     onAfterAddingFile(item: FileItem): void {
-        if (this.options.maxFileSize === 1) {
+        if (this.options.queueLimit === 1) {
             if (this.uploader.queue.length > 1) {
                 this.uploader.removeFromQueue(this.uploader.queue[0]);
             }

@@ -19,7 +19,6 @@ export class UploadFileComponent implements OnInit {
         this.options = {
             method: 'POST',
             url: 'api',
-            maxFileSize: 1000000, // 1000 kb
             allowedFileType: [
                 'application/x-yaml',
                 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
