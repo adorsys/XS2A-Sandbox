@@ -1,0 +1,10 @@
+
+
+ .d88b.  d8b   db db      d888888b d8b   db d88888b   d8888b.  .d8b.  d8b   db db   dD d888888b d8b   db  d888b
+.8P  Y8. 888o  88 88        `88'   888o  88 88'       88  `8D d8' `8b 888o  88 88 ,8P'   `88'   888o  88 88' Y8b
+88    88 88V8o 88 88         88    88V8o 88 88ooooo   88oooY' 88ooo88 88V8o 88 88,8P      88    88V8o 88 88
+88    88 88 V8o88 88         88    88 V8o88 88~~~~~   88~~~b. 88~~~88 88 V8o88 88`8b      88    88 V8o88 88  ooo
+`8b  d8' 88  V888 88booo.   .88.   88  V888 88.       88   8D 88   88 88  V888 88 `88.   .88.   88  V888 88. ~8~
+ `Y88P'  VP   V8P Y88888P Y888888P VP   V8P Y88888P   Y8888P' YP   YP VP   V8P YP   YD Y888888P VP   V8P  Y888P
+
+                                                                                           Adorsys GmbH & Co. KG
