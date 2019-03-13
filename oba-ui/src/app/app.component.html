@@ -9,7 +9,7 @@
 
 <div class="d-md-flex h-100 align-items-center">
     <!-- First-->
-    <div *ngIf="this.router.url !== ['/login']" class="col-md-4 p-0 bg-light h-md-100">
+    <div *ngIf="checkUrl() === -1" class="col-md-4 p-0 bg-light h-md-100">
         <div class="d-md-flex flex-column align-items-center h-100 p-4">
             <div class="d-md-flex align-items-center ">
                 <app-account-details></app-account-details>
@@ -19,7 +19,7 @@
 
     <!-- Second 1/4 -->
     <div class="col-md-9 p-0 bg-white h-md-100">
-        <div [ngClass]="{'col-md-12': this.router.url === ['/login']}" class="col-md-9 p-0 bg-white h-md-100">
+        <div [ngClass]="{'col-md-12': checkUrl() !== -1}" class="col-md-9 p-0 bg-white h-md-100">
             <div class="text-dark d-md-flex align-items-center h-100 p-4 justify-content-center">
                 <div class="fix-width">
                     <router-outlet></router-outlet>

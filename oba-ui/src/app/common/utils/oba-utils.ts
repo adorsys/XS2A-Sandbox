@@ -13,5 +13,4 @@ export class ObaUtils {
         }
         return param;
     }
-
 }
