@@ -1,3 +1,13 @@
-<p>
-  account-details works!
-</p>
+<div class="card bg-light">
+    <div class="card-body">
+        <div *ngFor="let account of AccountDetails">
+            <span class="text-dark font-weight-bold">{{account.bank}}</span> <br>
+            <small class="text-muted font-weight-light">{{account.type}}</small>
+            <p>
+                <small class="text-muted font-weight-light pb-3">{{account.iban}}</small>
+            </p>
+        </div>
+    </div>
+</div>
+
+
