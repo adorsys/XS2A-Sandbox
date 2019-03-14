@@ -17,6 +17,10 @@ const routes: Routes = [
     path: 'faqs',
     loadChildren: './faqs/faqs.module#FaqsModule',
   },
+  {
+    path: 'test-cases',
+    loadChildren: './test-cases/test-cases.module#TestCasesModule',
+  },
 ];
 
 @NgModule({
