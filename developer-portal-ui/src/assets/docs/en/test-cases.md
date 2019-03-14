@@ -8,11 +8,7 @@ Both sections provide tests for REDIRECT Strong Customer Authorisation (SCA) app
 
 ### REDIRECT approach
 
-short overview
-
 ### EMBEDDED approach
-
-short overview
 
 ## Test XS2ABank with Swagger
 
@@ -20,17 +16,11 @@ short overview
 
 You can use several typical testing flows which are described in pictures below:
 
-PICS FROM WIKI WITH SHORT description
-
 ### XS2A Interface API
-
-(description of endpoints + json examples ) ) => divide into sections (REDIRECT: PIS, AIS, PIIS; EMBEDDED: PIS, AIS, PIIS)
 
 #### REDIRECT approach
 
 ##### PIS
-
-endpoints + jsons
 
 ##### AIS
 
@@ -40,8 +30,6 @@ endpoints + jsons
 
 ##### PIS
 
-endpoints + jsons
-
 ##### AIS
 
 ##### PIIS
@@ -49,8 +37,6 @@ endpoints + jsons
 ## Postman tests
 
 Postman is an easy testing environment, where you can simply import and run prepared tests. You can download [latest Postman application](https://www.getpostman.com/downloads/).
-
-(download into sections)
 
 #### REDIRECT approach
 
