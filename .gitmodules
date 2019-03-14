@@ -1,3 +1,0 @@
-[submodule "submodules/psd2-accelerator"]
-	path = submodules/psd2-accelerator
-	url = https://github.com/adorsys/psd2-accelerator.git
