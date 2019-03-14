@@ -10,11 +10,13 @@ describe('ConfigService', () => {
     cert: 'http://kunde.de/cert-de.md',
     faq: 'http://kunde.de/faq-de.md',
     portal: 'http://kunde.de/portal-de.md',
+    testcases: 'http://kunde.de/testcases-de.md',
   };
   const contentUrlsEn: ContentUrls = {
     cert: 'http://kunde.de/cert-en.md',
     faq: 'http://kunde.de/faq-en.md',
     portal: 'http://kunde.de/portal-en.md',
+    testcases: 'http://kunde.de/testcases-en.md',
   };
   const customerConfig = {
     contactMailto: 'testmail@mail.de',

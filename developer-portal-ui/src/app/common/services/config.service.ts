@@ -49,12 +49,14 @@ export class ConfigService {
       cert: 'assets/docs/de/create-cert-page.md',
       faq: 'assets/docs/de/faq-page.md',
       portal: 'assets/docs/de/developer-portal-page.md',
+      testcases: 'assets/docs/de/test-cases.md',
     };
 
     const contentUrlsEn = {
       cert: 'assets/docs/en/create-cert-page.md',
       faq: 'assets/docs/en/faq-page.md',
       portal: 'assets/docs/en/developer-portal-page.md',
+      testcases: 'assets/docs/en/test-cases.md',
     };
 
     return {
