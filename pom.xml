@@ -42,16 +42,28 @@
             <organizationUrl>https://adorsys.de/</organizationUrl>
         </developer>
         <developer>
-            <name>Serhii Petrychenko</name>
-            <email>spe@adorsys.com.ua</email>
-            <organization>LLC Golden Dimension</organization>
-            <organizationUrl>https://adorsys.com.ua/</organizationUrl>
-        </developer>
-        <developer>
             <name>Dmytro Mishchuck</name>
             <email>dmi@adorsys.com.ua</email>
             <organization>LLC Golden Dimension</organization>
             <organizationUrl>https://adorsys.com.ua/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Mariia Polikarpova</name>
+            <email>mpo@adorsys.com.ua</email>
+            <organization>LLC Golden Dimension</organization>
+            <organizationUrl>https://adorsys.com.ua/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Petro Rudenko</name>
+            <email>pru@adorsys.com.ua</email>
+            <organization>LLC Golden Dimension</organization>
+            <organizationUrl>https://adorsys.com.ua/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Vladimir Nechai</name>
+            <email>vne@adorsys.com.ua</email>
+            <organization>adorsys GmbH &amp; Co KG</organization>
+            <organizationUrl>https://adorsys.de/</organizationUrl>
         </developer>
     </developers>
 
