@@ -1,0 +1,135 @@
+// TODO: Use just needed bootstrap modules. Not the whole package.
+@import '~bootstrap-scss';
+
+$grey: #606060;
+$dark-grey: #484848;
+$light-grey: #e8e8ea;
+$light-blue: #f8f8fc;
+$adorsys-blue: #054f72;
+
+.page {
+  font-family: 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial,
+    'Lucida Grande', sans-serif;
+  color: $grey;
+
+  .navbar {
+    margin-bottom: 2.5%;
+
+    .header {
+      margin-right: 7%;
+
+      &__logo img {
+        width: auto;
+        height: 26px;
+        padding: 0 20px 0 10px;
+      }
+      .language-switcher {
+        padding-left: 50px;
+      }
+    }
+  }
+
+  .container {
+    margin-bottom: 10%;
+    width: 57%;
+    border-width: 1px;
+    border-style: outset;
+    -webkit-box-shadow: 10px 10px 10px -8px rgba(143, 140, 143, 1);
+    -moz-box-shadow: 10px 10px 10px -8px rgba(143, 140, 143, 1);
+    box-shadow: 10px 10px 10px -8px rgba(143, 140, 143, 1);
+    padding-bottom: 1%;
+    p {
+      display: block;
+      text-align: justify;
+      font-size: 20px;
+      margin-bottom: 2%;
+      font-weight: 200;
+
+      code {
+        border: 1px solid $light-grey;
+        padding: 0.5%;
+        border-radius: 3px;
+        background-color: $light-blue;
+      }
+    }
+
+    h2 {
+      font-size: 26px;
+      margin-top: 10%;
+    }
+
+    h3 {
+      font-size: 21px;
+      margin-top: 10%;
+    }
+
+    img {
+      width: 75%;
+      padding: 3%;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    h1 {
+      display: block;
+      text-align: center;
+      color: $dark-grey;
+      font-size: 32px;
+      justify-content: center;
+      align-items: center;
+      padding: 2%;
+    }
+
+    h1 + hr {
+      margin-top: 0;
+    }
+
+    hr + h2 {
+      margin-top: 0;
+    }
+
+    hr {
+      margin-top: 10%;
+    }
+
+    .description {
+      &__text {
+        display: block;
+        text-align: justify;
+        font-size: 20px;
+        padding-bottom: 3%;
+        font-weight: 200;
+      }
+    }
+
+    .ng-invalid {
+      @extend .is-invalid;
+    }
+
+    pre code {
+      all: unset;
+    }
+
+    table,
+    td {
+      width: 100%;
+      height: 100%;
+      table-layout: fixed;
+      border-top: 1px solid $light-grey;
+      padding: 17px;
+    }
+    th {
+      background-color: $light-blue;
+      width: 100%;
+      height: 100%;
+      table-layout: fixed;
+      border-top: 1px solid $light-grey;
+      padding: 17px;
+    }
+
+    tr:nth-child(even) {
+      background-color: $light-blue;
+    }
+  }
+}
