@@ -15,7 +15,6 @@ export class AppComponent {
         private router: Router
     ) {
 
-        console.log('params: ', params);
         this.router.navigate(['./login'],
             ObaUtils.getQueryParams(params.encryptedConsentId, params.authorisationId));
 
