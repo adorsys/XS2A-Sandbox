@@ -27,6 +27,7 @@
     <module>oba-rest-api</module>
     <module>oba-rest-client</module>
     <module>online-banking-app</module>
+    <module>consent-psu-rest-client</module>
   </modules>
 
 </project>
