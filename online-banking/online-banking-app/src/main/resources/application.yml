@@ -42,20 +42,6 @@ skip.ssl.certificate.verification: true
 online-banking.sca:
   jwt.hs256.secret: 6VFX8YFQG5DLFKZIMNLGH9P406XR1SY4
 
-# ENDPOINTS CORS CONFIGURATION
-# Whether credentials are supported. When not set, credentials are not supported.
-# endpoints:
-#  cors:
-#    allow-credentials: false
-    # Comma-separated list of origins to allow. '*' allows all origins. When not set, CORS support is disabled.
-#    allowed-origins: '*'
-    # Comma-separated list of headers to include in a response.
-#    allowed-headers: '*'
-    # Comma-separated list of methods to allow. '*' allows all methods. When not set, defaults to GET.
-#    allowed-methods: DELETE,GET,OPTIONS,PATCH,POST,PUT
-    # How long, in seconds, the response from a pre-flight request can be cached by clients
-#    max-age: 3600
-
 feign:
   client:
     config:
@@ -67,3 +53,14 @@ logging.level.org.adorsys.ledgers.consent: DEBUG
 logging.level.de.adorsys.ledgers.xs2a.api: DEBUG
 logging.level.de.adorsys.ledgers.rest: DEBUG
 logging.level.de.adorsys.psd2.consent: DEBUG
+
+# Cors configuration
+management:
+  endpoints:
+    web:
+      cors:
+        allow-credentials: false
+        allowed-origins: "*"
+        allowed-headers: "*"
+        allowed-methods: GET,POST,PUT,DELETE,OPTIONS,PATCH
+        max-age: 3600
