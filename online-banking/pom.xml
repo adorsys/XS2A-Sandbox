@@ -30,4 +30,7 @@
         <module>consent-psu-rest-client</module>
     </modules>
 
+    <properties>
+        <ruleset.basedir>..</ruleset.basedir>
+    </properties>
 </project>
