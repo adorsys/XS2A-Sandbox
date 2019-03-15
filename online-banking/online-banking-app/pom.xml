@@ -30,7 +30,7 @@
         </dependency>
 
         <dependency>
-            <groupId>de.adorsys.ledgers</groupId>
+            <groupId>de.adorsys.psd2.sandbox</groupId>
             <artifactId>oba-rest-api</artifactId>
             <version>${project.version}</version>
         </dependency>
