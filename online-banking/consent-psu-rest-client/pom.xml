@@ -1,0 +1,63 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>de.adorsys.psd2.sandbox</groupId>
+		<artifactId>online-banking</artifactId>
+		<version>0.2-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
+	<artifactId>consent-psu-rest-client</artifactId>
+
+	<properties>
+		<ruleset.basedir>..</ruleset.basedir>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>de.adorsys.psd2</groupId>
+			<artifactId>consent-psu-api</artifactId>
+			<version>${xs2a.version}</version>
+		</dependency>
+		<!-- spring dependencies -->
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		    <version>2.0.2.RELEASE</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>${maven-enforcer-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>enforce-banned-dependencies</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<bannedDependencies>
+									<excludes>
+										<exclude>de.adorsys.ledgers:xs2a-connector</exclude>
+										<exclude>de.adorsys.ledgers:gateway-app</exclude>
+										<exclude>de.adorsys.ledgers:online-banking-app</exclude>
+									</excludes>
+								</bannedDependencies>
+							</rules>
+							<fail>true</fail>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
+
