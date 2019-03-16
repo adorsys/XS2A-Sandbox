@@ -347,7 +347,7 @@ module PSUPISService {
     /**
      * Cookie
      */
-    Cookie: string;
+    Cookie?: string;
   }
 
   /**
@@ -368,7 +368,7 @@ module PSUPISService {
     /**
      * Cookie
      */
-    Cookie: string;
+    Cookie?: string;
   }
 
   /**
@@ -399,7 +399,7 @@ module PSUPISService {
     /**
      * Cookie
      */
-    Cookie: string;
+    Cookie?: string;
   }
 
   /**
@@ -425,7 +425,7 @@ module PSUPISService {
     /**
      * Cookie
      */
-    Cookie: string;
+    Cookie?: string;
   }
 }
 

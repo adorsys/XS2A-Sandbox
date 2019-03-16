@@ -230,7 +230,7 @@ module PSUSCAService {
     /**
      * Cookie
      */
-    Cookie: string;
+    Cookie?: string;
   }
 
   /**
@@ -256,7 +256,7 @@ module PSUSCAService {
     /**
      * Cookie
      */
-    Cookie: string;
+    Cookie?: string;
   }
 }
 

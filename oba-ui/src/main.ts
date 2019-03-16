@@ -6,7 +6,7 @@ import { environment } from './environments/environment';
 import {URL_PARAMS_PROVIDER} from "./app/common/constants/constants";
 
 if (environment.production) {
-  enableProdMode();
+    enableProdMode();
 }
 
 const getUrlParams = (): any => {
@@ -28,8 +28,8 @@ const getUrlParams = (): any => {
 
 platformBrowserDynamic([
     {
-      provide: URL_PARAMS_PROVIDER, useValue: getUrlParams()
+        provide: URL_PARAMS_PROVIDER, useValue: getUrlParams()
     }
 
 ]).bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+    .catch(err => console.error(err));
