@@ -8,6 +8,7 @@
         <version>0.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
+
     <artifactId>online-banking-app</artifactId>
     <name>online-banking-app</name>
 
@@ -36,7 +37,7 @@
         </dependency>
 
         <dependency>
-            <groupId>de.adorsys.ledgers</groupId>
+            <groupId>de.adorsys.psd2.sandbox</groupId>
             <artifactId>consent-psu-rest-client</artifactId>
             <version>${project.version}</version>
         </dependency>
