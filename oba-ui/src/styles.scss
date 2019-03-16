@@ -3,5 +3,96 @@
 @import "./assets/themes/mobile";
 /*@import url('https://rsms.me/inter/inter-ui.css');*/
 
-.oba-app {}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter UI var alt', sans-serif;
+}
+
+.oba-app {
+
+    font-size: 1.125rem;
+
+    button {
+        height: 3.125rem !important;
+    }
+
+    .card {
+        border: none;
+
+        .btn {
+            height: 44px;
+            margin-bottom: 10px;
+
+            &:hover {
+                transition: 0.5s;
+            }
+
+            &:focus {
+                outline: none;
+            }
+
+            &:active {
+                background-color: inherit;
+            }
+        }
+
+        .btn-primary {
+            color: $COLOR_WHITE;
+            background: linear-gradient(270deg, #0DB0E2 0%, #10317D 100%) !important;
+            border: none;
+
+            &:hover {
+                background: linear-gradient(270deg, #0DB0E2 0%, #10317D 100%);
+            }
+        }
+
+        .btn-outline-secondary {
+            color: $COLOR_DARK_GREY;
+            background-color: #fff;
+            border: 1px solid $COLOR_DARK_GREY;
+            margin-right: 0;
+
+            &:hover {
+                background-color: $COLOR_GREY;
+                color: $COLOR_BLACK;
+            }
+        }
+
+        .text-dark {
+            font-size: 1rem;
+        }
+
+        .text-light-dark {
+            color: $COLOR_LIGHT_DARK;
+        }
+
+        .card-body {
+            padding: 0;
+
+            .form-control {
+                padding: 1.5rem 1rem;
+                transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+            }
+
+            .form-check-label {
+                margin-left: 30px;
+                margin-bottom: 20px;
+            }
+        }
+
+        .card-footer {
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+
+    .no-bg-color {
+        background-color: $COLOR_WHITE;
+        border: none;
+
+    }
+
+}
 

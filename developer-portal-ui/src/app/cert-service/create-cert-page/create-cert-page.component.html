@@ -1,0 +1,148 @@
+<div class="page">
+  <sb-header></sb-header>
+  <div class="container">
+    <markdown [src]="localizedContent$ | async"></markdown>
+    <form #certForm="ngForm" (ngSubmit)="createAndDownloadCert()">
+      <div *ngIf="errors">
+        <ul class="alert alert-danger">
+          <li class="list-inline" *ngFor="let error of errors">
+            {{ error.subject }}: {{ error.message }}
+          </li>
+        </ul>
+      </div>
+      <div class="row">
+        <div class="form-group col-sm-6">
+          <label>Authorization Number*</label>
+          <input
+            type="text"
+            class="form-control"
+            required
+            type="text"
+            name="authorizationNumber"
+            [(ngModel)]="certData.authorizationNumber"
+          />
+          <div class="invalid-feedback">
+            Please provide an Authorization Number.
+          </div>
+        </div>
+        <div class="form-group col-sm-6">
+          <label>Country</label>
+          <input
+            type="text"
+            class="form-control"
+            type="text"
+            name="countryName"
+            [(ngModel)]="certData.countryName"
+          />
+        </div>
+        <div class="form-group col-sm-6">
+          <label>State</label>
+          <input
+            type="text"
+            class="form-control"
+            type="text"
+            name="stateOrProvinceName"
+            [(ngModel)]="certData.stateOrProvinceName"
+          />
+        </div>
+        <div class="form-group col-sm-6">
+          <label>City</label>
+          <input
+            type="text"
+            class="form-control"
+            type="text"
+            name="localityName"
+            [(ngModel)]="certData.localityName"
+          />
+        </div>
+        <div class="form-group col-sm-6">
+          <label>Domain</label>
+          <input
+            type="text"
+            class="form-control"
+            type="text"
+            name="domainComponent"
+            [(ngModel)]="certData.domainComponent"
+          />
+        </div>
+        <div class="form-group col-sm-6">
+          <label>Organization Name*</label>
+          <input
+            type="text"
+            class="form-control"
+            required
+            type="text"
+            name="organizationName"
+            [(ngModel)]="certData.organizationName"
+          />
+          <div class="invalid-feedback">
+            Please provide an Organization Name.
+          </div>
+        </div>
+        <div class="form-group col-sm-6">
+          <label>Organization Unit</label>
+          <input
+            type="text"
+            class="form-control"
+            type="text"
+            name="organizationUnit"
+            [(ngModel)]="certData.organizationUnit"
+          />
+        </div>
+        <div class="form-group col-sm-6">
+          <label>Validity*</label>
+          <input
+            type="number"
+            class="form-control"
+            required
+            name="validity"
+            sbMax="365"
+            sbMin="1"
+            [(ngModel)]="certData.validity"
+          />
+          <div class="invalid-feedback">
+            Please specify how many days the cert will be valid (min=1;
+            max=365).
+          </div>
+        </div>
+        <div class="form-group col-sm-6">
+          <label>Roles of PSP*</label>
+          <div class="form-group">
+            <div
+              class="form-check form-check-inline"
+              *ngFor="let pspRole of pspRolesKeys"
+            >
+              <input
+                type="text"
+                class="form-check-input"
+                [ngClass]="{ 'is-invalid': !isPspRoleValid() }"
+                type="checkbox"
+                [id]="pspRole"
+                (change)="onSelectPspRole(pspRole)"
+                [checked]="isPspRoleSelected(pspRole)"
+              />
+              <label [for]="pspRole" class="form-check-label">{{
+                pspRole
+              }}</label>
+            </div>
+            <div
+              class="invalid-feedback"
+              [ngClass]="{ 'd-block': !isPspRoleValid() }"
+            >
+              Please choose a Payment Service Provider.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clearfix">
+        <button
+          type="submit"
+          class="btn btn-primary float-right"
+          [disabled]="certForm.invalid"
+        >
+          Confirm
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
