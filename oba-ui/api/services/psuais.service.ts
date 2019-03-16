@@ -334,7 +334,7 @@ module PSUAISService {
     /**
      * Cookie
      */
-    Cookie: string;
+    Cookie?: string;
   }
 
   /**
@@ -360,7 +360,7 @@ module PSUAISService {
     /**
      * Cookie
      */
-    Cookie: string;
+    Cookie?: string;
   }
 
   /**
@@ -391,7 +391,7 @@ module PSUAISService {
     /**
      * Cookie
      */
-    Cookie: string;
+    Cookie?: string;
   }
 
   /**
@@ -417,7 +417,7 @@ module PSUAISService {
     /**
      * Cookie
      */
-    Cookie: string;
+    Cookie?: string;
   }
 }
 

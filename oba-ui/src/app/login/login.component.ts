@@ -27,13 +27,12 @@ export class LoginComponent implements OnInit {
                 private router: Router,
                 private route: ActivatedRoute,
                 private psuAisService: AisService,
-                private cookieService:CookieService,
+                private cookieService: CookieService,
                 @Inject(URL_PARAMS_PROVIDER) params) {
         this.encryptedConsentId = params.encryptedConsentId;
         this.authorisationId = params.authorisationId;
 
         console.log('params: ', params);
-        console.log('Cookie', this.cookie);
     }
 
     ngOnInit() {
@@ -41,8 +40,6 @@ export class LoginComponent implements OnInit {
             login: ['', Validators.required],
             pin: ['', Validators.required]
         });
-        this.cookie = this.cookieService.get('CONSENT');
-        this.header.set('Cookie', this.cookie);
     }
 
     onSubmit() {
