@@ -3,11 +3,15 @@
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.0.
 
 ## how to start the frontend Project
-1. navigate into the repository `ledgers` and go throw the project `xs2a-connector-redirect-test` and run in the terminal or console the following command
-    1. => `mvn clean install -DskipITs=false -DwaitAtGateway=true -DUI=true`
-2. navigate into the project and run in the terminal or console the following command
-	1. => `npm install`
-3. ,,,coming soon
+
+1. navigate into the backend project `xs2a-connector-examples` make sure you are in develop and run in the terminal or console the following command to start the server:
+    1. => `mvn clean install`
+    2. => `docker-compose up`
+2. navigate into the frontend project `oba-ui` branch and then run in the terminal or console the following command:
+    1. => `npm install`
+    2. => `npm start`
+3. navigate into the repository `xs2a-connector-redirect-test` and execute the command:
+    1. `mvn test -Dtest=de.adorsys.ledgers.xs2a.test.ctk.redirect.ConsentRedirectOneScaApp`
 
 
 ## Development server
