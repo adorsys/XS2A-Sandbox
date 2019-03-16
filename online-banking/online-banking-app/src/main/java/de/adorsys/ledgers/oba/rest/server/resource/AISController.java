@@ -74,8 +74,8 @@ public class AISController extends AbstractXISController implements AISApi {
 
 	@Override
 	@ApiOperation(value = "Entry point for authenticating ais consent requests.")
-	public ResponseEntity<AuthorizeResponse> aisAuth(@RequestParam(name = "redirectId") String redirectId,
-			@RequestParam(name = "encryptedConsentId") String encryptedConsentId) {
+	public ResponseEntity<AuthorizeResponse> aisAuth(String redirectId,
+			String encryptedConsentId) {
 		return auth(redirectId, ConsentType.AIS, encryptedConsentId, request, response);
 	}
 
@@ -87,7 +87,7 @@ public class AISController extends AbstractXISController implements AISApi {
 	@Override
 	@SuppressWarnings("PMD.CyclomaticComplexity")
 	public ResponseEntity<ConsentAuthorizeResponse> login(String encryptedConsentId, String authorisationId,
-			String login, String pin, String consentCookieString) {
+			String login, String pin, @RequestHeader(name="Cookie", required=false) String consentCookieString) {
 
 		ConsentWorkflow workflow;
 		try {
@@ -151,7 +151,7 @@ public class AISController extends AbstractXISController implements AISApi {
 	public ResponseEntity<ConsentAuthorizeResponse> authrizedConsent(
 			String encryptedConsentId,
 			String authorisationId,
-			String consentAndaccessTokenCookieString, String authCode) {
+			@RequestHeader(name="Cookie", required=false) String consentAndaccessTokenCookieString, String authCode) {
 		
 		String psuId = AuthUtils.psuId(auth);
 		try {
@@ -177,7 +177,7 @@ public class AISController extends AbstractXISController implements AISApi {
 	@Override
 	public ResponseEntity<ConsentAuthorizeResponse> selectMethod(
 			String encryptedConsentId, String authorisationId,
-			String scaMethodId, String consentAndaccessTokenCookieString) {
+			String scaMethodId, @RequestHeader(name="Cookie", required=false) String consentAndaccessTokenCookieString) {
 
 		String psuId = AuthUtils.psuId(auth);
 		try {
@@ -196,7 +196,7 @@ public class AISController extends AbstractXISController implements AISApi {
 	}
 	
 	@Override
-	public ResponseEntity<PIISConsentCreateResponse> grantPiisConsent(@RequestHeader("Cookie") String consentAndaccessTokenCookieString,  CreatePiisConsentRequestTO piisConsentRequestTO) {
+	public ResponseEntity<PIISConsentCreateResponse> grantPiisConsent(@RequestHeader(name="Cookie", required=false) String consentAndaccessTokenCookieString,  CreatePiisConsentRequestTO piisConsentRequestTO) {
 		
 		String psuId = AuthUtils.psuId(auth);
 		try {
