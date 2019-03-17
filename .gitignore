@@ -18,6 +18,7 @@ node_modules
 *.sublime-workspace
 target
 *.iml
+**/pom.xml.versionsBackup
 
 # IDE - VSCode
 .vscode/*
@@ -39,3 +40,4 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
