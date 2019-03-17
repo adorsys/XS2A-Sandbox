@@ -17,15 +17,7 @@ public class ConsentRedirectOneScaApp extends AbstractConsentRedirect {
 	@BeforeClass
 	public static void initializationMethod() {
 		WebDriverManager.chromedriver().setup();		
-//		ChromeOptions chromeOptions = new ChromeOptions();
-//		chromeOptions.addArguments("--start-maximized");
-//		driver = new ChromeDriver(chromeOptions);
 	}
-	
-//	@AfterClass
-//	public static void afterMethod() {
-//		driver.close();
-//	}	
 	
 	@Override
 	protected String getPsuId() {
