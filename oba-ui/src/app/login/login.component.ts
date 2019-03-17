@@ -4,9 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {first} from "rxjs/operators";
 import {AisService} from "../common/services/ais.service";
 import {URL_PARAMS_PROVIDER} from "../common/constants/constants";
-import {HttpHeaders} from "@angular/common/http";
 import {ObaUtils} from "../common/utils/oba-utils";
-import {CookieService} from "ngx-cookie-service";
 
 @Component({
     selector: 'ais-login',
@@ -20,14 +18,11 @@ export class LoginComponent implements OnInit {
     error: string;
     authorisationId: string;
     encryptedConsentId: string;
-    cookie: string;
-    header = new HttpHeaders();
 
     constructor(private formBuilder: FormBuilder,
                 private router: Router,
                 private route: ActivatedRoute,
                 private psuAisService: AisService,
-                private cookieService: CookieService,
                 @Inject(URL_PARAMS_PROVIDER) params) {
         this.encryptedConsentId = params.encryptedConsentId;
         this.authorisationId = params.authorisationId;

@@ -8,10 +8,9 @@ import {ResultPageComponent} from './result-page/result-page.component';
 import {TanSelectionComponent} from './ais/consent/tan-selection/tan-selection.component';
 import {TanConfirmationComponent} from './ais/consent/tan-confirmation/tan-confirmation.component';
 import {BankOfferedComponent} from './ais/consent/bank-offered/bank-offered.component';
-import { AccountDetailsComponent } from './account-details/account-details.component';
+import {AccountDetailsComponent} from './account-details/account-details.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
-import {CookieService} from "ngx-cookie-service";
 
 @NgModule({
     declarations: [
@@ -30,7 +29,7 @@ import {CookieService} from "ngx-cookie-service";
         FormsModule,
         HttpClientModule
     ],
-    providers: [CookieService],
+    providers: [],
     bootstrap: [AppComponent]
 })
 export class AppModule {
