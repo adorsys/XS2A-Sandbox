@@ -1,0 +1,24 @@
+psuId: max.musterman
+payment:
+  endToEndIdentification: 456789321
+  debtorAccount:
+    iban: DE38760700240320465700
+    currency: EUR
+  creditorAccount:
+    iban: DE67760700240243265400
+    currency: EUR
+  creditorAgent: DEUTDEDB760
+  creditorName: Maria Brueckner
+  remittanceInformationUnstructured: remittance
+  instructedAmount:
+    currency: EUR
+    amount: 100
+  creditorAccount:
+    iban: DE23760700240234367800
+    currency: EUR
+  creditorAgent: DEUTDEDB760
+  creditorName: Patrick Brueckner
+  remittanceInformationUnstructured: remittance
+  instructedAmount:
+    currency: EUR
+    amount: 150

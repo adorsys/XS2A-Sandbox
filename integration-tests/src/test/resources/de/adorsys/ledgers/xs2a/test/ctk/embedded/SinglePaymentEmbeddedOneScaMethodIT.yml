@@ -1,0 +1,22 @@
+psuId: anton.brueckner
+payment:
+  endToEndIdentification: 456789321
+  debtorAccount:
+    iban: DE80760700240271232400
+    currency: EUR
+  instructedAmount:
+    currency: EUR
+    amount: 300
+  creditorAccount:
+    iban: DE38760700240320465700
+    currency: EUR
+  creditorAgent: DEUTDEDB760
+  creditorName: Max Musterman
+  creditorAddress:
+    street: SomeStreet
+    buildingNumber: 666 
+    city: Kiev
+    postalCode: 04210
+    country: UA
+  remittanceInformationUnstructured: remittance
+

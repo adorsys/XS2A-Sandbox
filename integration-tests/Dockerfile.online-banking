@@ -1,0 +1,15 @@
+FROM adorsys/openjdk-jre-base:8-minideb
+
+MAINTAINER https://github.com/adorsys/xs2a-connector-examples
+
+ENV SERVER_PORT 8090
+ENV JAVA_OPTS -Xmx512m
+ENV JAVA_TOOL_OPTIONS -Xmx512m
+
+WORKDIR /opt/online-banking
+
+COPY ./target/online-banking/online-banking-app.jar /opt/online-banking/online-banking-app.jar
+
+EXPOSE 8090
+
+CMD exec $JAVA_HOME/bin/java $JAVA_OPTS -jar /opt/online-banking/online-banking-app.jar
