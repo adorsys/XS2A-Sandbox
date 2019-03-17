@@ -34,34 +34,6 @@ services:
       timeout: 5s
       retries: 10    
 
-  online-banking:
-    container_name: ledgers-online-banking-app
-    build:
-      context: .
-      dockerfile: Dockerfile.online-banking
-    ports:
-    - "8090:8090"
-    environment:
-    - SPRING_PROFILES_ACTIVE=mockspi
-    - LEDGERS_URL=http://ledgers:8088
-    - XS2A_URL=http://gateway:8089
-    - CMS_URL=http://consent:38080
-    - FEIGN_CLIENT_CONFIG_DEFAULT_LOGGERLEVEL=NONE
-    - LOGGING_LEVEL_ROOT=INFO
-    - ONLINE_BANKING_SCA_LOGINPAGE=http://localhost:4400/
-    - ONLINE_BANKING_SCA_UIREDIRECT=true
-    networks:
-    - xs2a-net
-    depends_on:
-    - profile
-    - ledgers
-    - consent
-    healthcheck:
-      test: ["CMD", "curl", "-I", "http://online-banking:8090/actuator/health"]
-      interval: 5s
-      timeout: 5s
-      retries: 10 
-    
 
   profile:
     container_name: ledgers-xs2a-profile-app
