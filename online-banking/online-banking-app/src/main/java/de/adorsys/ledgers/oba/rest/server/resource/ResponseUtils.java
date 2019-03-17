@@ -129,6 +129,12 @@ public class ResponseUtils {
 		return new ResponseEntity<T>(headers, HttpStatus.FOUND);
 	}
 
+	public <T extends OnlineBankingResponse> ResponseEntity<T> redirectKeepCookie(String locationURI, HttpServletResponse httpResp) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.add(LOCATION_HEADER_NAME, locationURI);
+		return new ResponseEntity<T>(headers, HttpStatus.FOUND);
+	}
+	
 	public <T extends OnlineBankingResponse> ResponseEntity<T> backToSender(T authResp, String tppNokRedirectUri, String tppOkRedirectUri,
 			HttpServletResponse httpResp, HttpStatus originalStatus, ValidationCode validationCode) {
 		String locationUri = StringUtils.isNotBlank(tppNokRedirectUri)

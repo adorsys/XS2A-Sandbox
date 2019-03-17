@@ -83,7 +83,7 @@ public abstract class AbstractXISController {
 			.build().toUriString();
 
 		if(uiRedirect) {
-			return responseUtils.redirect(uriString, response);
+			return responseUtils.redirectKeepCookie(uriString, response);
 		} else {
 			response.addHeader("Location", uriString);
 			return ResponseEntity.<AuthorizeResponse>ok(authResponse);

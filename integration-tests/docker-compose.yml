@@ -1,0 +1,124 @@
+version: "3"
+
+networks:
+  xs2a-net:
+
+volumes:
+  xs2a-gateway-data:
+
+services:
+
+  gateway:
+    container_name: ledgers-xs2a-gateway-app
+    build:
+      context: .
+      dockerfile: Dockerfile.gateway
+    ports:
+    - "8089:8089"
+    environment:
+    - SPRING_PROFILES_ACTIVE=mockspi
+    - LEDGERS_URL=http://ledgers:8088
+    - ASPSP_PROFILE_BASEURL=http://profile:48080/api/v1
+    - CONSENT_SERVICE_BASEURL=http://consent:38080/api/v1
+    - SECURITY_BASIC_ENABLED=false
+    - LOGGING_LEVEL_ROOT=INFO
+    networks:
+    - xs2a-net
+    depends_on:
+    - profile
+    - ledgers
+    - consent
+    healthcheck:
+      test: ["CMD", "curl", "-I", "http://gateway:8089/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 10    
+
+
+  profile:
+    container_name: ledgers-xs2a-profile-app
+    build:
+      context: .
+      dockerfile: Dockerfile.profile
+    ports:
+    - "48080:48080"
+    networks:
+    - xs2a-net
+    environment:
+    - SECURITY_BASIC_ENABLED=false
+    - LOGGING_LEVEL_ROOT=INFO
+    healthcheck:
+      test: ["CMD", "curl", "-I", "http://profile:38080/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 10    
+
+  consent:
+    container_name: ledgers-xs2a-consent-app
+    build:
+      context: .
+      dockerfile: Dockerfile.consent
+    ports:
+    - "38080:38080"
+    environment:
+    - ASPSP_PROFILE_BASEURL=http://profile:48080/api/v1
+    - SPRING_PROFILES_ACTIVE=h2
+    - SPRING_CONFIG_LOCATION=/opt/consent-management-server/consent-management-application.yml
+    - DB_URL=jdbc:h2:/var/lib/data/xs2adbs/consent;DB_CLOSE_DELAY=-1
+    - DB_USER=sa
+    - DB_PASSWORD=sa
+    - SECURITY_BASIC_ENABLED=false
+    - LOGGING_LEVEL_ROOT=INFO
+    volumes:
+    - xs2a-gateway-data:/var/lib/data
+    networks:
+    - xs2a-net
+    depends_on:
+    - profile
+    healthcheck:
+      test: ["CMD", "curl", "-I", "http://consent:38080/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 10    
+
+  ledgers:
+    container_name: ledgers-xs2a-app
+    build:
+      context: .
+      dockerfile: Dockerfile.ledgers
+    ports:
+    - "8088:8088"
+    depends_on:
+    - fakesmtp
+    environment:
+    - SPRING_PROFILES_ACTIVE=h2
+    - DB_URL=jdbc:h2:/var/lib/data/xs2adbs/ledgers;DB_CLOSE_DELAY=-1
+    - DB_USER=sa
+    - DB_PASSWORD=sa
+    - SPRING_JPA_SHOW_SQL=false
+    - LEDGERS_MOCKBANK_DATA_LOAD=true
+    - SPRING_MAIL_HOST=fakesmtp
+    - LOGGING_LEVEL_ROOT=INFO
+    volumes:
+    - xs2a-gateway-data:/var/lib/data
+    networks:
+    - xs2a-net
+    healthcheck:
+      test: ["CMD", "curl", "-I", "http://ledgers:8088/actuator/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 20    
+
+  fakesmtp:
+    container_name: ledgers-fakesmtp-app
+    build:
+      context: .
+      dockerfile: Dockerfile.fakesmtp
+    image: adorsys/ledgers-fakesmtp-app:latest
+    ports:
+    - "2500:2500"
+    networks:
+    - xs2a-net
+    volumes:
+    - xs2a-gateway-data:/var/lib/data
+    

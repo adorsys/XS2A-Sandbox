@@ -23,6 +23,7 @@
 
     <modules>
         <module>online-banking</module>
+        <module>integration-tests</module>
     </modules>
 
     <url>https://github.com/adorsys/psd2-dynamic-sandbox</url>
@@ -80,6 +81,8 @@
         <pmd.plugin.version>3.10.0</pmd.plugin.version>
         <!-- xs2a version -->
         <xs2a.version>2.0.3</xs2a.version>
+        <connector.version>0.4-SNAPSHOT</connector.version>
+        <ledgers.version>0.3</ledgers.version>
         <!-- other properties -->
         <spring-boot-dependencies.version>2.1.1.RELEASE</spring-boot-dependencies.version>
         <spring-cloud-dependencies.version>Greenwich.M3</spring-cloud-dependencies.version>
@@ -94,7 +97,6 @@
         <cucumber.version>1.2.5</cucumber.version> <!--//TODO remove if not used-->
         <nimbus-jose-jwt.version>6.1.1</nimbus-jose-jwt.version>
         <lombok.version>1.18.4</lombok.version>
-        <ledgers.version>0.3</ledgers.version>
         <!--Sonar -->
         <sonar.core.coveragePlugin>jacoco</sonar.core.coveragePlugin>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
