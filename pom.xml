@@ -24,6 +24,7 @@
     <modules>
         <module>online-banking</module>
         <module>integration-tests</module>
+        <module>psd2-api-gateway</module>
     </modules>
 
     <url>https://github.com/adorsys/psd2-dynamic-sandbox</url>
@@ -85,7 +86,7 @@
         <ledgers.version>0.3</ledgers.version>
         <!-- other properties -->
         <spring-boot-dependencies.version>2.1.1.RELEASE</spring-boot-dependencies.version>
-        <spring-cloud-dependencies.version>Greenwich.M3</spring-cloud-dependencies.version>
+        <spring-cloud-dependencies.version>Greenwich.RELEASE</spring-cloud-dependencies.version>
         <slf4j.version>1.7.25</slf4j.version>
         <jetbrains.annotations.version>15.0</jetbrains.annotations.version>
         <javatar-commons.version>LATEST</javatar-commons.version>
@@ -150,6 +151,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
             <!-- swagger -->
 
             <dependency>
