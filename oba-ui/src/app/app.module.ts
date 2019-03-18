@@ -10,7 +10,8 @@ import {TanConfirmationComponent} from './ais/consent/tan-confirmation/tan-confi
 import {BankOfferedComponent} from './ais/consent/bank-offered/bank-offered.component';
 import {AccountDetailsComponent} from './account-details/account-details.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {AuthInterceptor} from "./common/interceptors/AuthInterceptor";
 
 @NgModule({
     declarations: [
@@ -29,7 +30,13 @@ import {HttpClientModule} from "@angular/common/http";
         FormsModule,
         HttpClientModule
     ],
-    providers: [],
+    providers: [
+      {
+        provide: HTTP_INTERCEPTORS,
+        useClass: AuthInterceptor ,
+        multi: true
+      }
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {
