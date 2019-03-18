@@ -25,8 +25,7 @@ export class UploadService {
                 url: options.url,
                 method: options.method,
                 headers,
-                allowedMimeType: options.allowedMimeType,
-
+                allowedFileType: options.allowedFileType
             });
     }
 
