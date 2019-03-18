@@ -34,14 +34,16 @@
             }
 
             &:active {
+
                 background-color: inherit;
             }
         }
 
         .btn-primary {
             color: $COLOR_WHITE;
-            background: linear-gradient(270deg, #0DB0E2 0%, #10317D 100%) !important;
+            background: linear-gradient(270deg, #0DB0E2 0%, #10317D 100%);
             border: none;
+            font-weight: 600;
 
             &:hover {
                 background: linear-gradient(270deg, #0DB0E2 0%, #10317D 100%);

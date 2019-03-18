@@ -23,7 +23,8 @@ export class LoginComponent implements OnInit {
                 private router: Router,
                 private route: ActivatedRoute,
                 private psuAisService: AisService,
-                @Inject(URL_PARAMS_PROVIDER) params) {
+                @Inject(URL_PARAMS_PROVIDER) params
+    ) {
         this.encryptedConsentId = params.encryptedConsentId;
         this.authorisationId = params.authorisationId;
 
