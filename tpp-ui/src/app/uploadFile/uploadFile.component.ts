@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {FileItem} from 'ng2-file-upload';
+import {environment} from '../../environments/environment';
 import {UploadOptions} from '../services/upload.service';
 
 @Component({
@@ -10,6 +11,7 @@ import {UploadOptions} from '../services/upload.service';
 })
 export class UploadFileComponent implements OnInit {
 
+    private url = `${environment.staffAccessResourceEndPoint}`;
     public options: UploadOptions;
 
     constructor(private router: Router) {
@@ -18,13 +20,12 @@ export class UploadFileComponent implements OnInit {
     public ngOnInit(): void {
         this.options = {
             method: 'POST',
-            url: 'api',
+            url: this.url + '/staff-access/upload',
             allowedFileType: [
-                'application/x-yaml',
-                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                'application/x-yaml'
             ],
             methodAfterSuccess: (item: FileItem, response: string) => {
-                this.router.navigate(['/users/all']); // TODO
+                this.router.navigate(['/users/all']);
             }
         };
     }

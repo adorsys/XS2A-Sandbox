@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {UploadOptions, UploadService} from '@services/upload.service';
 import {FileItem, FileUploader} from 'ng2-file-upload';
 import {UploadOptions, UploadService} from '../../services/upload.service';
 
@@ -27,7 +26,7 @@ export class DocumentUploadComponent implements OnInit {
             : null;
     }
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.uploader = this.uploadService.createInstanceFileUploader(this.options);
 
         /* Ensure again that the number of up-to-load file is always one and get the image path for preview */
