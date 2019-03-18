@@ -59,8 +59,8 @@ management:
   endpoints:
     web:
       cors:
-        allow-credentials: false
+        allow-credentials: true
         allowed-origins: http://localhost:4400
-        allowed-headers: Access-Control-Allow-Headers, Content-Type, Origin, X-Requested-With
+        allowed-headers: Access-Control-Allow-Headers, Content-Type, Origin, X-Requested-With, Cookie
         allowed-methods: GET,POST,PUT,DELETE,OPTIONS,PATCH
         max-age: 3600
