@@ -21,8 +21,8 @@ export class DocumentUploadComponent implements OnInit {
     }
 
     public get acceptedMimes(): string {
-        return (this.options && this.options.allowedMimeType)
-            ? this.options.allowedMimeType.join(',')
+        return (this.options && this.options.allowedFileType)
+            ? this.options.allowedFileType.join(',')
             : null;
     }
 
@@ -42,8 +42,8 @@ export class DocumentUploadComponent implements OnInit {
         this.uploader.onWhenAddingFileFailed = (item, filter, options) => {
             if (filter.name === 'mimeType' || filter.name === 'fileSize') {
                 let extensions = '';
-                if (this.options.allowedMimeType) {
-                    this.options.allowedMimeType.forEach((extension: string) => {
+                if (this.options.allowedFileType) {
+                    this.options.allowedFileType.forEach((extension: string) => {
                         extensions = extensions + extension.split('/').pop() + ', ';
                     });
                 }
