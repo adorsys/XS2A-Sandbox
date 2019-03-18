@@ -11,6 +11,7 @@ import {BankOfferedComponent} from './ais/consent/bank-offered/bank-offered.comp
 import {AccountDetailsComponent} from './account-details/account-details.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
+import { ScaSelectionComponent } from './ais/consent/sca-selection/sca-selection.component';
 
 @NgModule({
     declarations: [
@@ -20,7 +21,8 @@ import {HttpClientModule} from "@angular/common/http";
         TanSelectionComponent,
         TanConfirmationComponent,
         BankOfferedComponent,
-        AccountDetailsComponent
+        AccountDetailsComponent,
+        ScaSelectionComponent
     ],
     imports: [
         BrowserModule,
