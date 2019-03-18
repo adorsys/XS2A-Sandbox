@@ -14,9 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
@@ -74,8 +72,8 @@ public class AISController extends AbstractXISController implements AISApi {
 
 	@Override
 	@ApiOperation(value = "Entry point for authenticating ais consent requests.")
-	public ResponseEntity<AuthorizeResponse> aisAuth(@RequestParam(name = "redirectId") String redirectId,
-			@RequestParam(name = "encryptedConsentId") String encryptedConsentId) {
+	public ResponseEntity<AuthorizeResponse> aisAuth(String redirectId,
+			String encryptedConsentId) {
 		return auth(redirectId, ConsentType.AIS, encryptedConsentId, request, response);
 	}
 
@@ -196,7 +194,7 @@ public class AISController extends AbstractXISController implements AISApi {
 	}
 	
 	@Override
-	public ResponseEntity<PIISConsentCreateResponse> grantPiisConsent(@RequestHeader("Cookie") String consentAndaccessTokenCookieString,  CreatePiisConsentRequestTO piisConsentRequestTO) {
+	public ResponseEntity<PIISConsentCreateResponse> grantPiisConsent(String consentAndaccessTokenCookieString,  CreatePiisConsentRequestTO piisConsentRequestTO) {
 		
 		String psuId = AuthUtils.psuId(auth);
 		try {
