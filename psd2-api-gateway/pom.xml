@@ -13,7 +13,7 @@
 	<name>psd2-api-gateway</name>
 
 	<properties>
-		<ruleset.basedir>../..</ruleset.basedir>
+		<ruleset.basedir>..</ruleset.basedir>
 	</properties>
 
 	<dependencies>
