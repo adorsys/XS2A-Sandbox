@@ -30,7 +30,9 @@ export class UploadService {
                 url: options.url,
                 method: options.method,
                 headers,
-                allowedFileType: options.allowedFileType
+                // allowedFileType: options.allowedFileType,
+                // allowedMimeType: [],
+
             });
     }
 
@@ -41,6 +43,7 @@ export interface UploadOptions {
     url: string;
     queueLimit?: number;
     allowedFileType?: string[];
+    allowedMimeType?: string[];
 
     methodAfterSuccess(item?: FileItem, response?: string, status?: number, headers?: ParsedResponseHeaders): any;
 }
