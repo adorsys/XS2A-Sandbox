@@ -24,6 +24,7 @@ variables:
 
   # Online banking
   DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING: "docker.io/adorsys/xs2a-online-banking"
+  DOCKER_IMAGE_NAME_CERTIFICATE_GENERATOR: "docker.io/adorsys/certificate-generator"
 
   ###########################
   # Build variables         #
@@ -51,9 +52,13 @@ variables:
   script:
     - docker build -t "$DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING:$DOCKER_TAG" online-banking/online-banking-app
 
+    - docker build -t "DOCKER_IMAGE_NAME_CERTIFICATE_GENERATOR:$DOCKER_TAG" certificate-generator
+
     - docker login -u $DOCKER_HUB_LOGIN -p $DOCKER_HUB_PASS
 
     - docker push "$DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING:$DOCKER_TAG"
+
+    - docker push "DOCKER_IMAGE_NAME_CERTIFICATE_GENERATOR:$DOCKER_TAG"
 
     - docker logout
 
@@ -74,6 +79,7 @@ build_package_java8:
   artifacts:
     paths:
       - "online-banking/online-banking-app/target/online-banking-app.jar"
+      - "certificate-generator/target/certificate-generator.jar"
     name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}"
     expire_in: "1 day"
 
