@@ -41,8 +41,8 @@ export class DocumentUploadComponent implements OnInit {
         this.uploader.onWhenAddingFileFailed = (item, filter, options) => {
             if (filter.name === 'mimeType' || filter.name === 'fileSize') {
                 let extensions = '';
-                if (this.options.allowedFileType) {
-                    this.options.allowedFileType.forEach((extension: string) => {
+                if (this.options.allowedMimeType) {
+                    this.options.allowedMimeType.forEach((extension: string) => {
                         extensions = extensions + extension.split('/').pop() + ', ';
                     });
                 }
@@ -66,5 +66,6 @@ export class DocumentUploadComponent implements OnInit {
                 this.uploader.removeFromQueue(this.uploader.queue[0]);
             }
         }
+        console.log('etwas nnn');
     }
 }
