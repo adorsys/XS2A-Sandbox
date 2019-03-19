@@ -14,6 +14,7 @@ stages:
   - "build:src"    # build jar and provide as artifact
   - "build:qa"     # run tests and code quality checks
   - "build:image"  # dockerize jar and push to docker registry
+  - "release"
 
 # ------------------------------------------------------------------
 # variables
@@ -128,3 +129,12 @@ build_dockerhub_image_master:
   variables:
     DOCKER_TAG: latest
   <<: *build_dockerhub_image
+
+release_maven_central:
+  stage: "release"
+  only:
+    - tags
+  script:
+    - echo $SONATYPE_GPG_SECRET_KEY | base64 --decode | $SONATYPE_GPG_EXECUTABLE --import
+    - echo $SONATYPE_GPG_OWNERTRUST | base64 --decode | $SONATYPE_GPG_EXECUTABLE --import-ownertrust
+    - mvn --settings scripts/maven-release-settings.xml -Prelease -DskipTests -B -U deploy
