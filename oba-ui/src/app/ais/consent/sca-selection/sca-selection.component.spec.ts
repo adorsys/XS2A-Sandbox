@@ -19,7 +19,7 @@ describe('ScaSelectionComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('sca selection component created', () => {
     expect(component).toBeTruthy();
   });
 });
