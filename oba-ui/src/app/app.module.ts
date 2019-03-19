@@ -12,7 +12,6 @@ import {AccountDetailsComponent} from './account-details/account-details.compone
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AuthInterceptor} from "./common/interceptors/AuthInterceptor";
-import {HttpClientModule} from "@angular/common/http";
 import { ScaSelectionComponent } from './ais/consent/sca-selection/sca-selection.component';
 
 @NgModule({
