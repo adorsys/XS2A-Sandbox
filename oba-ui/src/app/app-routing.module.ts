@@ -15,7 +15,7 @@ export const routes: Routes = [
     },
     {
         path: RoutingPath.LOGIN,
-        component: ScaSelectionComponent,
+        component: LoginComponent,
     },
     {
         path: RoutingPath.RESULT,
