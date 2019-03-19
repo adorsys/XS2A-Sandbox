@@ -8,7 +8,7 @@ import { CertificateRequest } from '../../models/certificateRequest';
   providedIn: 'root',
 })
 export class CertificateService {
-  CREATE_CERT_URL = `/api/cert-generator`;
+  CREATE_CERT_URL = `http://localhost:8092/api/certificate`;
   certResponse: CertificateResponse;
 
   constructor(private httpClient: HttpClient) {}

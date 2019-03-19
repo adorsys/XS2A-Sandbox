@@ -25,6 +25,7 @@
         <module>online-banking</module>
         <module>integration-tests</module>
         <module>psd2-api-gateway</module>
+        <module>certificate-generator</module>
     </modules>
 
     <url>https://github.com/adorsys/psd2-dynamic-sandbox</url>
@@ -98,6 +99,11 @@
         <cucumber.version>1.2.5</cucumber.version> <!--//TODO remove if not used-->
         <nimbus-jose-jwt.version>6.1.1</nimbus-jose-jwt.version>
         <lombok.version>1.18.4</lombok.version>
+        <bcpkix-jdk15on.version>1.60</bcpkix-jdk15on.version>
+        <commons-io.version>2.6</commons-io.version>
+        <junit.version>4.12</junit.version>
+        <mockito.version>2.24.0</mockito.version>
+        <validation-api.version>2.0.1.Final</validation-api.version>
         <!--Sonar -->
         <sonar.core.coveragePlugin>jacoco</sonar.core.coveragePlugin>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
@@ -213,33 +219,34 @@
                 <version>${lombok.version}</version>
             </dependency>
 
-            <!-- test dependencies //TODO remove if not used-->
-            <dependency>
-                <groupId>info.cukes</groupId>
-                <artifactId>cucumber-java</artifactId>
-                <version>${cucumber.version}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>info.cukes</groupId>
-                <artifactId>cucumber-junit</artifactId>
-                <version>${cucumber.version}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>info.cukes</groupId>
-                <artifactId>cucumber-spring</artifactId>
-                <version>${cucumber.version}</version>
-                <scope>test</scope>
-            </dependency>
-
             <dependency>
                 <groupId>javax.validation</groupId>
                 <artifactId>validation-api</artifactId>
-                <version>2.0.1.Final</version>
+                <version>${validation-api.version}</version>
             </dependency>
+
+            <!-- Commons -->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
+
+            <!-- Certificate -->
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcpkix-jdk15on</artifactId>
+                <version>${bcpkix-jdk15on.version}</version>
+            </dependency>
+
+            <!-- Test dependencies -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
