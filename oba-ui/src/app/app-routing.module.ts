@@ -4,7 +4,6 @@ import {RoutingPath} from './common/models/routing-path.model';
 import {LoginComponent} from './login/login.component';
 import {ResultPageComponent} from './result-page/result-page.component';
 import {BankOfferedComponent} from "./ais/consent/bank-offered/bank-offered.component";
-import {TanConfirmationComponent} from "./ais/consent/tan-confirmation/tan-confirmation.component";
 import {ScaSelectionComponent} from "./ais/consent/sca-selection/sca-selection.component";
 
 export const routes: Routes = [
@@ -24,10 +23,6 @@ export const routes: Routes = [
     {
         path: RoutingPath.BANK_OFFERED,
         component: BankOfferedComponent,
-    },
-    {
-      path: RoutingPath.TAN_CONFIRMATION,
-      component: TanConfirmationComponent,
     },
     {
       path: RoutingPath.SELECT_SCA,

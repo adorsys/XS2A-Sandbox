@@ -4,10 +4,11 @@ import {LoginComponent} from './login/login.component';
 import {ResultPageComponent} from './result-page/result-page.component';
 
 
+
 describe('Routes', () => {
 
     it('Should contain the route for / login', () => {
-        expect(routes).toContain({path: RoutingPath.LOGIN, component: LoginComponent});
+        expect(routes).toContain({path: RoutingPath.LOGIN , component: LoginComponent});
     });
 
     it('Should contain the route for /tan-procedure', () => {
