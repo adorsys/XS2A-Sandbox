@@ -21,8 +21,8 @@ export class DocumentUploadComponent implements OnInit {
     }
 
     public get acceptedMimes(): string {
-        return (this.options && this.options.allowedFileType)
-            ? this.options.allowedFileType.join(',')
+        return (this.options && this.options.allowedMimeType)
+            ? this.options.allowedMimeType.join(',')
             : null;
     }
 
@@ -67,7 +67,6 @@ export class DocumentUploadComponent implements OnInit {
                 this.uploader.removeFromQueue(this.uploader.queue[0]);
             }
         }
-        console.log('etwas nnn');
     }
 
 
