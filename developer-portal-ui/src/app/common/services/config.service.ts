@@ -62,9 +62,10 @@ export class ConfigService {
     return {
       contactMailto: 'mailto:psd2@adorsys.de',
       certPageEnabled: true,
-      logoUrl: 'assets/logo-accelerator.svg',
+      logoUrl: 'assets/logo-xs2abank.svg',
       contentUrlsDe: contentUrlsDe,
       contentUrlsEn: contentUrlsEn,
+      xs2aBankPostmanTests: 'assets/postman-tests.zip',
     };
   }
 }

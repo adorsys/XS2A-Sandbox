@@ -7,7 +7,6 @@ import { Language } from '../../../models/language';
 })
 export class LanguageService {
   private language = Language.en;
-
   private subject = new BehaviorSubject(Language.en);
 
   constructor() {}
