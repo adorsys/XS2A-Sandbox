@@ -21,9 +21,7 @@ export class UploadFileComponent implements OnInit {
         this.options = {
             method: 'POST',
             url: this.url + '/staff-access/upload',
-            allowedFileType: [
-                'application/x-yaml'
-            ],
+
             methodAfterSuccess: (item: FileItem, response: string) => {
                 this.router.navigate(['/users/all']);
             }

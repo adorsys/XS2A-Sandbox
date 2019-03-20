@@ -17,11 +17,6 @@ export class UploadService {
         // Set the current user credentials in Headers for Basic Authorization
         const headers = [];
         // TODO which token do we need to send?
-       /* const token = '';
-        if (token) {
-            const header = {name: 'Authorization', value: `Bearer ${token}`};
-            headers.push(header);
-        }*/
         const header = {name: 'Authorization', value: 'Bearer'};
         headers.push(header);
 
@@ -30,8 +25,7 @@ export class UploadService {
                 url: options.url,
                 method: options.method,
                 headers,
-                // allowedFileType: options.allowedFileType,
-                // allowedMimeType: [],
+                allowedMimeType: options.allowedMimeType,
 
             });
     }
@@ -42,7 +36,6 @@ export interface UploadOptions {
     method: string;
     url: string;
     queueLimit?: number;
-    allowedFileType?: string[];
     allowedMimeType?: string[];
 
     methodAfterSuccess(item?: FileItem, response?: string, status?: number, headers?: ParsedResponseHeaders): any;
