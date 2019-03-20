@@ -1,5 +1,3 @@
-# Developer portal
-
 # Getting started
 
 ## Introduction

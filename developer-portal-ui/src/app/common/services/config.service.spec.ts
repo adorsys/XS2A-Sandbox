@@ -44,7 +44,7 @@ describe('ConfigService', () => {
     service.setConfig(customerConfig);
     const config = service.getConfig();
 
-    expect(config.logoUrl).toBe('assets/logo-accelerator.svg');
+    expect(config.logoUrl).toBe('assets/logo-xs2abank.svg');
     expect(config.contentUrlsDe.cert).toBe('http://kunde.de/cert-de.md');
     expect(config.certPageEnabled).toBe(false);
   });
