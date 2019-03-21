@@ -1,29 +1,44 @@
-import { TestBed, async } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { AppComponent } from './app.component';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {By} from '@angular/platform-browser';
+import {RouterOutlet} from '@angular/router';
+import {RouterTestingModule} from '@angular/router/testing';
+
+import {ApiConfiguration} from '../../api/api-configuration';
+import {AccountDetailsComponent} from './account-details/account-details.component';
+import {AppComponent} from './app.component';
+import {URL_PARAMS_PROVIDER} from './common/constants/constants';
 
 describe('AppComponent', () => {
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule
-      ],
-      declarations: [
-        AppComponent
-      ],
-    }).compileComponents();
-  }));
+    let component: AppComponent;
+    let fixture: ComponentFixture<AppComponent>;
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [
+                AppComponent,
+                AccountDetailsComponent
+            ],
+            imports: [
+                RouterTestingModule
+            ],
+            providers: [
+                ApiConfiguration,
+                {provide: URL_PARAMS_PROVIDER, useValue: {}}
+            ]
+        }).compileComponents();
+    }));
+    beforeEach(() => {
+        fixture = TestBed.createComponent(AppComponent);
+        component = fixture.componentInstance;
+    });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
-  });
+    it('should create the app', () => {
+        expect(component).toBeTruthy();
+    });
 
-  it('Should include the < router-outlet >', async(() => {
-    fixture.detectChanges();
-    const debugElement = fixture.debugElement.query(By.directive(RouterOutlet));
-    expect(debugElement).not.toBeNull();
-  }));
+    it('Should include the < router-outlet >', async(() => {
+        fixture.detectChanges();
+        const debugElement = fixture.debugElement.query(By.directive(RouterOutlet));
+        expect(debugElement).not.toBeNull();
+    }));
 
 });

@@ -1,8 +1,0 @@
-p.text-secondary {
-  opacity: .5;
-}
-
-button.btn-primary {
-  $col: blue;
-  background-image: linear-gradient(to top left, $col, lighten($col, 25%));
-}

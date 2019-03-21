@@ -1,60 +1,66 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
-import {first} from "rxjs/operators";
-import {AisService} from "../common/services/ais.service";
-import {URL_PARAMS_PROVIDER} from "../common/constants/constants";
-import {ObaUtils} from "../common/utils/oba-utils";
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Subscription} from 'rxjs';
+
+import {URL_PARAMS_PROVIDER} from '../common/constants/constants';
+import {RoutingPath} from '../common/models/routing-path.model';
+import {AisService} from '../common/services/ais.service';
+import {ShareDataService} from '../common/services/share-data.service';
+import {ObaUtils} from '../common/utils/oba-utils';
 
 @Component({
-    selector: 'ais-login',
+    selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
-    loginForm: FormGroup;
-    loading = false;
-    error: string;
-    authorisationId: string;
-    encryptedConsentId: string;
+    private subscriptions: Subscription[] = [];
+    private authorisationId: string;
+    private encryptedConsentId: string;
+    public loginForm: FormGroup;
 
     constructor(private formBuilder: FormBuilder,
                 private router: Router,
                 private route: ActivatedRoute,
-                private psuAisService: AisService,
-                @Inject(URL_PARAMS_PROVIDER) params
-    ) {
+                private _aisService: AisService,
+                private _shareService: ShareDataService,
+                @Inject(URL_PARAMS_PROVIDER) params) {
         this.encryptedConsentId = params.encryptedConsentId;
         this.authorisationId = params.authorisationId;
-
-        console.log('params: ', params);
-    }
-
-    ngOnInit() {
         this.loginForm = this.formBuilder.group({
             login: ['', Validators.required],
             pin: ['', Validators.required]
         });
     }
 
-    onSubmit() {
-        this.loading = true;
-        console.log('loginUsingAuthorizationId');
-        this.psuAisService.loginUsingAuthorizationId({
-            ...this.loginForm.value,
-            encryptedConsentId: this.encryptedConsentId,
-            authorisationId: this.authorisationId,
-        })
-            .pipe(first())
-            .subscribe(
-                data => {
-                    this.router.navigate(['/login', ObaUtils.getQueryParams(this.encryptedConsentId, this.authorisationId)]);
-                },
-                error => {
-                    this.error = error;
-                    this.loading = false;
-                });
+    public ngOnInit(): void {
+    }
+
+    public onSubmit(): void {
+        if (!!this.encryptedConsentId) {
+            this.subscriptions.push(
+                this._aisService.aisAuthorise({
+                    ...this.loginForm.value,
+                    encryptedConsentId: this.encryptedConsentId,
+                    authorisationId: this.authorisationId,
+                }).subscribe(authorisationResponse => {
+                    this._shareService.setResponse('response', authorisationResponse);
+                    // TODO Navigate to accounts Confirmation page
+                    this.router.navigate([`${RoutingPath.BANK_OFFERED}`],
+                        ObaUtils.getQueryParams(this.encryptedConsentId, this.authorisationId));
+                }, errors => console.log('http error please catch me!'))
+            );
+        }
+    }
+
+    public cancel(): void {
+        console.log('the button cancel is pressed');
+    }
+
+    public ngOnDestroy(): void {
+        this.subscriptions.forEach(sub => sub.unsubscribe());
     }
 
 }

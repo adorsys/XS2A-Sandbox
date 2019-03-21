@@ -10,17 +10,10 @@ import {ObaUtils} from "./common/utils/oba-utils";
 })
 export class AppComponent {
 
-    constructor(
-        @Inject(URL_PARAMS_PROVIDER) params,
-        private router: Router
-    ) {
-
-        this.router.navigate(['./login'],
-            ObaUtils.getQueryParams(params.encryptedConsentId, params.authorisationId));
-
+    constructor(@Inject(URL_PARAMS_PROVIDER) params) {
     }
 
-    public checkUrl = (): any => {
+    public checkUrl(): number {
         const url = window.location.href;
         return url.indexOf('/login');
     }

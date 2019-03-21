@@ -1,10 +1,12 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
+
+import {BankOfferedComponent} from './ais/consent/bank-offered/bank-offered.component';
+import {ScaSelectionComponent} from './ais/consent/sca-selection/sca-selection.component';
+import {TanConfirmationComponent} from './ais/consent/tan-confirmation/tan-confirmation.component';
 import {RoutingPath} from './common/models/routing-path.model';
 import {LoginComponent} from './login/login.component';
 import {ResultPageComponent} from './result-page/result-page.component';
-import {BankOfferedComponent} from "./ais/consent/bank-offered/bank-offered.component";
-import {ScaSelectionComponent} from "./ais/consent/sca-selection/sca-selection.component";
 
 export const routes: Routes = [
     {
@@ -25,8 +27,12 @@ export const routes: Routes = [
         component: BankOfferedComponent,
     },
     {
-      path: RoutingPath.SELECT_SCA,
-      component: ScaSelectionComponent,
+        path: RoutingPath.TAN_CONFIRMATION,
+        component: TanConfirmationComponent,
+    },
+    {
+        path: RoutingPath.SELECT_SCA,
+        component: ScaSelectionComponent,
     }
 
 ];
