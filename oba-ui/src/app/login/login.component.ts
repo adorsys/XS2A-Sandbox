@@ -8,6 +8,7 @@ import {RoutingPath} from '../common/models/routing-path.model';
 import {AisService} from '../common/services/ais.service';
 import {ShareDataService} from '../common/services/share-data.service';
 import {ObaUtils} from '../common/utils/oba-utils';
+import {ConsentAuthorizeResponse} from "../../../api/models";
 
 @Component({
     selector: 'app-login',
@@ -45,8 +46,10 @@ export class LoginComponent implements OnInit, OnDestroy {
                     ...this.loginForm.value,
                     encryptedConsentId: this.encryptedConsentId,
                     authorisationId: this.authorisationId,
-                }).subscribe(authorisationResponse => {
-                    this._shareService.setResponse('response', authorisationResponse);
+                }).subscribe((authorisationResponse: ConsentAuthorizeResponse )=> {
+
+                    this._shareService.setConsentAuthorizeResponse(authorisationResponse);
+
                     // TODO Navigate to accounts Confirmation page
                     this.router.navigate([`${RoutingPath.BANK_OFFERED}`],
                         ObaUtils.getQueryParams(this.encryptedConsentId, this.authorisationId));

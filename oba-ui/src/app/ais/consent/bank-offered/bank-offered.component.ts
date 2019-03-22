@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ShareDataService} from "../../../common/services/share-data.service";
 
 @Component({
   selector: 'app-bank-offered',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BankOfferedComponent implements OnInit {
 
-  constructor() { }
+  constructor(private sharedService: ShareDataService) { }
 
   ngOnInit() {
+    this.sharedService.getCurrentConsentAuthorizeResponse().subscribe(response => {
+      console.log(response);
+    });
+
+    this.sharedService.getCurrentlySelectedAccounts().subscribe(response => {
+      console.log(response);
+    });
   }
 
 }
