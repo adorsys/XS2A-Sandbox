@@ -11,7 +11,7 @@ import {ResultPageComponent} from './result-page/result-page.component';
 export const routes: Routes = [
     {
         path: '',
-        redirectTo: '/login',
+        redirectTo: 'login',
         pathMatch: 'full'
     },
     {

@@ -1,3 +1,32 @@
-<p>
-  bank-offered works!
-</p>
+<form [formGroup]="bankOfferedForm" (ngSubmit)="bankOfferedForm.valid && onSubmit()">
+
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title font-weight-bold">Select Bank Accounts</h2>
+            <div class="font-weight-light my-4 text-muted">Please select your Account and confirm with “Next"</div>
+
+            <div class="col-12 font-weight-light">
+                <div *ngFor="let account of Accounts, let i = index" class="form-check">
+                    <input class="form-check-input" id="account_{{i}}" formControlName="accounts" name="accounts"
+                           type="radio" [value]="account">
+                    <label class="form-check-label font-weight-bold" for="account_{{i}}"> {{account.bank}} </label><br>
+                    <label class="form-check-label" for="account_{{i}}"> {{account.iban}} </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer no-bg-color">
+            <div class="row my-3">
+                <div class="col-12 col-sm-6 pr-sm-2">
+                    <button type="button" class="btn btn-outline-secondary btn-block" (click)="cancel()">Cancel
+                    </button>
+                </div>
+                <div class="col-12 col-sm-6 pl-sm-2">
+                    <button type="submit" class="btn btn-primary btn-block" [disabled]="bankOfferedForm.invalid">Next
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>

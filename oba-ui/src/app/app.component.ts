@@ -1,7 +1,6 @@
 import {Component, Inject} from '@angular/core';
-import {URL_PARAMS_PROVIDER} from "./common/constants/constants";
-import {Router} from "@angular/router";
-import {ObaUtils} from "./common/utils/oba-utils";
+
+import {URL_PARAMS_PROVIDER} from './common/constants/constants';
 
 @Component({
     selector: 'app-root',
@@ -17,4 +16,8 @@ export class AppComponent {
         const url = window.location.href;
         return url.indexOf('/login');
     }
+
+    public checkUrlbank(): number {
+        const url = window.location.href;
+        return url.indexOf('/bank-offered');    }
 }

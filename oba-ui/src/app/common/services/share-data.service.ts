@@ -25,11 +25,13 @@ export class ShareDataService {
       return this.currentConsentAuthorizeResponse;
     }
 
-    public setSelectedAccounts(accounts: string[]): void {
+    // TODO: to be refactored when we know what object we receive in accounts
+    public setSelectedAccounts(accounts: any): void {
       this.accounts.next(accounts)
     }
 
-    public getCurrentlySelectedAccounts(): Observable<string[]> {
+    // TODO: to be refactored when we know what object we receive in accounts
+    public getCurrentlySelectedAccounts(): Observable<any> {
       return this.selectedAccounts;
     }
 
