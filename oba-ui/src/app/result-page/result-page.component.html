@@ -1,3 +1,24 @@
-<p>
-  result-page works!
-</p>
+<div class="card">
+  <div class="card-body">
+    <div *ngIf="!show">
+      <h3 class="card-title font-weight-bold">Sorry</h3>
+      <p class="card-text text-muted">
+        <small> The consent to access to your account was not given</small>
+      </p>
+        <div class="form-group d-flex flex-row justify-content-lg-between">
+            <button type="submit" class="btn btn-outline-secondary btn-block" (click)="decline()">Cancel</button>
+        </div>
+    </div>
+    <div *ngIf="show">
+      <h3 class="card-title font-weight-bold">Thank you</h3>
+      <p class="card-text text-muted">
+        <small>The consent to access to your account was successfully provided</small>
+      </p>
+        <div class="form-group d-flex flex-row justify-content-lg-between">
+            <button type="submit" class="btn btn-primary btn-block" (click)="nextPage()">Next</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+

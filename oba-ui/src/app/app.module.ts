@@ -7,7 +7,6 @@ import {AccountDetailsComponent} from './account-details/account-details.compone
 import {BankOfferedComponent} from './ais/consent/bank-offered/bank-offered.component';
 import {ScaSelectionComponent} from './ais/consent/sca-selection/sca-selection.component';
 import {TanConfirmationComponent} from './ais/consent/tan-confirmation/tan-confirmation.component';
-import {TanSelectionComponent} from './ais/consent/tan-selection/tan-selection.component';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {AuthInterceptor} from './common/interceptors/AuthInterceptor';
@@ -21,7 +20,6 @@ import {ResultPageComponent} from './result-page/result-page.component';
         AppComponent,
         LoginComponent,
         ResultPageComponent,
-        TanSelectionComponent,
         TanConfirmationComponent,
         BankOfferedComponent,
         AccountDetailsComponent,
