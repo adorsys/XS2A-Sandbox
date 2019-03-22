@@ -145,7 +145,7 @@ public class CertificateService {
             writer)) {
             pemWriter.writeObject(obj);
             pemWriter.flush();
-            return writer.toString(); //.replaceAll("\n", ""); // comment for testing purposes
+            return writer.toString().replaceAll("\n", "");
         } catch (IOException ex) {
             throw new CertificateException("Could not export certificate", ex);
         }
