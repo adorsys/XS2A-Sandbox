@@ -85,6 +85,9 @@ services:
     image: adorsys/xs2a-online-banking
     container_name: xs2a-online-banking
     restart: on-failure
+    build:
+      context: online-banking/online-banking-app
+      dockerfile: Dockerfile
     ports:
       - "8090:8090"
       - "8190:8000"
@@ -99,8 +102,11 @@ services:
 
   # Certificate generator
   certificate-generator:
-    image: adorsys/certificate-generator
+    image: adorsys/xs2a-certificate-generator
     restart: on-failure
+    build:
+      context: certificate-generator
+      dockerfile: Dockerfile
     ports:
       - "8092:8092"
     networks:
@@ -128,3 +134,17 @@ services:
       - LEDGERS_MOCKBANK_DATA_LOAD=true
     volumes:
       - xs2a-connector-data:/var/lib/data
+
+  # Xs2a online banking frontend
+  xs2a-online-banking-ui:
+    image: adorsys/xs2a-online-banking-ui
+    restart: on-failure
+    build:
+      context: oba-ui
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    networks:
+      - xs2a-net
+    environment:
+      - ONLINE_BANKING_SERVER_URL=http://xs2a-online-banking:8090
