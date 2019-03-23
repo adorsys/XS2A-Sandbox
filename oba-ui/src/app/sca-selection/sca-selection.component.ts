@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ScaUserDataTO} from "../../../../../api/models/sca-user-data-to";
+import {ScaUserDataTO} from "../../../api/models/sca-user-data-to";
 import {Router} from "@angular/router";
 
 @Component({

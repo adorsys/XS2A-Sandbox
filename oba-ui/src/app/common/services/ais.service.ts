@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/internal/Observable';
+import {AccountDetailsTO} from '../../../../api/models/account-details-to';
 
 import {ConsentAuthorizeResponse} from '../../../../api/models/consent-authorize-response';
 import {PSUAISService} from '../../../../api/services/psuais.service';
@@ -15,6 +16,10 @@ export class AisService {
 
     public aisAuthorise(params: LoginUsingPOSTParams): Observable<ConsentAuthorizeResponse> {
         return this.aisService.loginUsingPOST(params);
+    }
+
+    public getAccountsList(): Observable<Array<AccountDetailsTO>> {
+        return this.aisService.getListOfAccountsUsingGET();
     }
 
 }

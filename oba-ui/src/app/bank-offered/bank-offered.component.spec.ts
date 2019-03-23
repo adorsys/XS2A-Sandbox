@@ -4,8 +4,8 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {By} from '@angular/platform-browser';
 
 import {RouterTestingModule} from '@angular/router/testing';
-import {URL_PARAMS_PROVIDER} from '../../../common/constants/constants';
-import {ShareDataService} from '../../../common/services/share-data.service';
+import {URL_PARAMS_PROVIDER} from '../common/constants/constants';
+import {ShareDataService} from '../common/services/share-data.service';
 import {BankOfferedComponent} from './bank-offered.component';
 
 describe('BankOfferedComponent', () => {

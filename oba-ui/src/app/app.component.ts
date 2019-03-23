@@ -1,6 +1,4 @@
-import {Component, Inject} from '@angular/core';
-
-import {URL_PARAMS_PROVIDER} from './common/constants/constants';
+import {Component} from '@angular/core';
 
 @Component({
     selector: 'app-root',
@@ -9,7 +7,7 @@ import {URL_PARAMS_PROVIDER} from './common/constants/constants';
 })
 export class AppComponent {
 
-    constructor(@Inject(URL_PARAMS_PROVIDER) params) {
+    constructor() {
     }
 
     public checkUrl(): number {

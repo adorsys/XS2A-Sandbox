@@ -1,7 +1,7 @@
 /* tslint:disable */
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { ApiConfiguration, ApiConfigurationInterface } from './api-configuration';
+import { ApiConfiguration } from './api-configuration';
 
 import { PSUAISService } from './services/psuais.service';
 import { PSUPISService } from './services/psupis.service';
@@ -25,16 +25,4 @@ import { PSUSCAService } from './services/psusca.service';
     PSUSCAService
   ],
 })
-export class ApiModule {
-  static forRoot(customParams: ApiConfigurationInterface): ModuleWithProviders {
-    return {
-      ngModule: ApiModule,
-      providers: [
-        {
-          provide: ApiConfiguration,
-          useValue: {rootUrl: customParams.rootUrl}
-        }
-      ]
-    }
-  }
-}
+export class ApiModule { }

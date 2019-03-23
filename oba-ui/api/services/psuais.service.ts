@@ -7,6 +7,7 @@ import { StrictHttpResponse as __StrictHttpResponse } from '../strict-http-respo
 import { Observable as __Observable } from 'rxjs';
 import { map as __map, filter as __filter } from 'rxjs/operators';
 
+import { AccountDetailsTO } from '../models/account-details-to';
 import { AuthorizeResponse } from '../models/authorize-response';
 import { PIISConsentCreateResponse } from '../models/piisconsent-create-response';
 import { PiisConsentRequest } from '../models/piis-consent-request';
@@ -19,6 +20,7 @@ import { ConsentAuthorizeResponse } from '../models/consent-authorize-response';
   providedIn: 'root',
 })
 class PSUAISService extends __BaseService {
+  static readonly getListOfAccountsUsingGETPath = '/ais/accounts';
   static readonly aisAuthUsingGETPath = '/ais/auth';
   static readonly grantPiisConsentUsingPOSTPath = '/ais/piis';
   static readonly authrizedConsentUsingPOSTPath = '/ais/{encryptedConsentId}/authorisation/{authorisationId}/authCode';
@@ -30,6 +32,44 @@ class PSUAISService extends __BaseService {
     http: HttpClient
   ) {
     super(config, http);
+  }
+
+  /**
+   * Returns the list of all accounts linked to the connected user. Call only available to role CUSTOMER.
+   * @param Cookie Cookie
+   * @return List of accounts accessible to the user.
+   */
+  getListOfAccountsUsingGETResponse(Cookie?: string): __Observable<__StrictHttpResponse<Array<AccountDetailsTO>>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (Cookie != null) __headers = __headers.set('Cookie', Cookie.toString());
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/ais/accounts`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Array<AccountDetailsTO>>;
+      })
+    );
+  }
+  /**
+   * Returns the list of all accounts linked to the connected user. Call only available to role CUSTOMER.
+   * @param Cookie Cookie
+   * @return List of accounts accessible to the user.
+   */
+  getListOfAccountsUsingGET(Cookie?: string): __Observable<Array<AccountDetailsTO>> {
+    return this.getListOfAccountsUsingGETResponse(Cookie).pipe(
+      __map(_r => _r.body as Array<AccountDetailsTO>)
+    );
   }
 
   /**

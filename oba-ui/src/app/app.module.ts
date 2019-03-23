@@ -4,9 +4,9 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AccountDetailsComponent} from './account-details/account-details.component';
-import {BankOfferedComponent} from './ais/consent/bank-offered/bank-offered.component';
-import {ScaSelectionComponent} from './ais/consent/sca-selection/sca-selection.component';
-import {TanConfirmationComponent} from './ais/consent/tan-confirmation/tan-confirmation.component';
+import {BankOfferedComponent} from './bank-offered/bank-offered.component';
+import {ScaSelectionComponent} from './sca-selection/sca-selection.component';
+import {TanConfirmationComponent} from './tan-confirmation/tan-confirmation.component';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {AuthInterceptor} from './common/interceptors/AuthInterceptor';

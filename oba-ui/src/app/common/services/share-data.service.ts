@@ -1,38 +1,29 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable} from "rxjs";
-import {ConsentAuthorizeResponse} from "../../../../api/models";
+import {BehaviorSubject} from 'rxjs';
 
+/**
+ * @author Gerard Talla
+ * Use this service for sharing data between components.
+ * Note: For best usage, you should pass your data by giving a key that will be use to retrieve your expected data.
+ */
 @Injectable({
     providedIn: 'root'
 })
 export class ShareDataService {
+    private data = new BehaviorSubject<KeyValue>(null);
+    currentData = this.data.asObservable();
 
-    // response object
-    private consentAuthorizeResponse = new BehaviorSubject(null);
-    private currentConsentAuthorizeResponse = this.consentAuthorizeResponse.asObservable();
-
-    // accounts array
-    private accounts = new BehaviorSubject(null);
-    private selectedAccounts = this.accounts.asObservable();
-
-    constructor() {}
-
-    public setConsentAuthorizeResponse(scaMethods: ConsentAuthorizeResponse): void {
-        this.consentAuthorizeResponse.next(scaMethods)
+    constructor() {
     }
 
-    public getCurrentConsentAuthorizeResponse(): Observable<ConsentAuthorizeResponse> {
-      return this.currentConsentAuthorizeResponse;
+    changeData(data: KeyValue) {
+        this.data.next(data);
     }
-
-    // TODO: to be refactored when we know what object we receive in accounts
-    public setSelectedAccounts(accounts: any): void {
-      this.accounts.next(accounts)
-    }
-
-    // TODO: to be refactored when we know what object we receive in accounts
-    public getCurrentlySelectedAccounts(): Observable<any> {
-      return this.selectedAccounts;
-    }
-
 }
+
+export interface KeyValue {
+    key: string;
+    value: any;
+}
+
+

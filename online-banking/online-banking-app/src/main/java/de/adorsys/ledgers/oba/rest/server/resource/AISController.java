@@ -1,11 +1,15 @@
 package de.adorsys.ledgers.oba.rest.server.resource;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
+import de.adorsys.ledgers.middleware.client.rest.AccountRestClient;
+import de.adorsys.ledgers.middleware.rest.exception.ForbiddenRestException;
 import org.adorsys.ledgers.consent.aspsp.rest.client.CmsAspspPiisClient;
 import org.adorsys.ledgers.consent.aspsp.rest.client.CreatePiisConsentRequest;
 import org.adorsys.ledgers.consent.aspsp.rest.client.CreatePiisConsentResponse;
@@ -69,6 +73,8 @@ public class AISController extends AbstractXISController implements AISApi {
 	private CmsAspspPiisClient cmsAspspPiisClient;
 	@Autowired
 	private CreatePiisConsentRequestMapper createPiisConsentRequestMapper;
+	@Autowired
+	private AccountRestClient accountRestClient;
 
 	@Override
 	@ApiOperation(value = "Entry point for authenticating ais consent requests.")
@@ -102,16 +108,17 @@ public class AISController extends AbstractXISController implements AISApi {
 		boolean success = AuthUtils.success(authoriseForConsent);
 
 		if (success) {
+
 			String psuId = AuthUtils.psuId(workflow.bearerToken());
 			try {
 				scaStatus(workflow, psuId, response);
 				startConsent(workflow);
 
 				// Select sca if no alternative.
-				if (workflow.singleScaMethod()) {
-					ScaUserDataTO scaUserDataTO = workflow.scaMethods().iterator().next();
-					selectMethod(scaUserDataTO.getId(), workflow);
-				}
+//				if (workflow.singleScaMethod()) {
+//					ScaUserDataTO scaUserDataTO = workflow.scaMethods().iterator().next();
+//					selectMethod(scaUserDataTO.getId(), workflow);
+//				}
 
 				updateScaStatusConsentStatusConsentData(psuId, workflow);
 			} catch (ConsentAuthorizeException e) {
@@ -128,6 +135,8 @@ public class AISController extends AbstractXISController implements AISApi {
 			case FINALISED:
 			case PSUAUTHENTICATED:
 			case SCAMETHODSELECTED:
+				ResponseEntity<List<AccountDetailsTO>> listOfAccounts = accountRestClient.getListOfAccounts();
+				workflow.getAuthResponse().setAccounts(listOfAccounts.getBody());
 				responseUtils.setCookies(response, workflow.getConsentReference(),
 						workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
 				return ResponseEntity.ok(workflow.getAuthResponse());
@@ -232,6 +241,18 @@ public class AISController extends AbstractXISController implements AISApi {
 		} catch (IOException e) {
 			return responseUtils.error(new PIISConsentCreateResponse(), HttpStatus.INTERNAL_SERVER_ERROR,
 					e.getMessage(), response);
+		} finally {
+			authInterceptor.setAccessToken(null);
+		}
+	}
+
+	@Override
+	public ResponseEntity<List<AccountDetailsTO>> getListOfAccounts(String accessTokenCookieString) throws ForbiddenRestException {
+		try {
+			// Set access token
+			authInterceptor.setAccessToken(auth.getBearerToken().getAccess_token());
+			ResponseEntity<List<AccountDetailsTO>> listOfAccounts = accountRestClient.getListOfAccounts();
+			return ResponseEntity.ok(listOfAccounts.getBody());
 		} finally {
 			authInterceptor.setAccessToken(null);
 		}

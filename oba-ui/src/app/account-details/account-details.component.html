@@ -1,12 +1,11 @@
 <div class="card bg-light">
     <div class="card-body">
-        <div *ngFor="let account of AccountDetails">
-            <span class="text-dark font-weight-bold">{{account.bank}}</span> <br>
-            <small class="text-muted font-weight-light">{{account.type}}</small>
-            <p>
-                <small class="text-muted font-weight-light pb-3">{{account.iban}}</small>
-            </p>
-        </div>
+        <span class="text-dark font-weight-bold">{{accountDetails?.bank}}</span> <br>
+        <small class="text-muted font-weight-light pb-3">{{accountDetails?.iban}}</small><br>
+        <small class="text-muted font-weight-light">{{accountDetails?.bban}}</small><br>
+        <small class="text-muted font-weight-light">{{accountDetails?.pan}}</small><br>
+        <small class="text-muted font-weight-light">{{accountDetails?.msisdn}}</small><br>
+        <small class="text-muted font-weight-light">{{accountDetails?.currency}}</small><br>
     </div>
 </div>
 

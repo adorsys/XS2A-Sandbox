@@ -1,3 +1,5 @@
+export { AccountBalanceTO } from './models/account-balance-to';
+export { AccountDetailsTO } from './models/account-details-to';
 export { AccountReferenceTO } from './models/account-reference-to';
 export { AddressTO } from './models/address-to';
 export { AisAccountAccessInfo } from './models/ais-account-access-info';

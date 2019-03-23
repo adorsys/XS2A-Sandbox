@@ -6,11 +6,21 @@
             <div class="font-weight-light my-4 text-muted">Please select your Account and confirm with “Next"</div>
 
             <div class="col-12 font-weight-light">
-                <div *ngFor="let account of Accounts, let i = index" class="form-check">
+                <div *ngFor="let account of accounts, let i = index" class="form-check border">
                     <input class="form-check-input" id="account_{{i}}" formControlName="accounts" name="accounts"
-                           type="radio" [value]="account">
-                    <label class="form-check-label font-weight-bold" for="account_{{i}}"> {{account.bank}} </label><br>
-                    <label class="form-check-label" for="account_{{i}}"> {{account.iban}} </label>
+                           type="checkbox" [value]="account">
+                    <label class="form-check-label font-weight-bold"
+                           for="account_{{i}}"> {{account.product}} </label><br>
+                    <label class="form-check-label" for="account_{{i}}"> {{account.iban}} </label><br>
+                    <div class="options mx-5">
+                        <input class="form-check-input" id="balance_{{i}}" formControlName="balances" name="balances"
+                               type="checkbox" [value]="">
+                        <label for="balance_{{i}}">Read Balances</label> <br>
+                        <input class="form-check-input" id="transaction_{{i}}" formControlName="transactions"
+                               name="transactions"
+                               type="checkbox" [value]="">
+                        <label for="transaction_{{i}}">Read Transactions</label>
+                    </div>
                 </div>
             </div>
         </div>

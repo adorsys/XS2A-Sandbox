@@ -3,12 +3,11 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 
-import {URL_PARAMS_PROVIDER} from '../common/constants/constants';
+import {LOGIN_RESPONSE, URL_PARAMS_PROVIDER} from '../common/constants/constants';
 import {RoutingPath} from '../common/models/routing-path.model';
 import {AisService} from '../common/services/ais.service';
 import {ShareDataService} from '../common/services/share-data.service';
 import {ObaUtils} from '../common/utils/oba-utils';
-import {ConsentAuthorizeResponse} from "../../../api/models";
 
 @Component({
     selector: 'app-login',
@@ -46,11 +45,11 @@ export class LoginComponent implements OnInit, OnDestroy {
                     ...this.loginForm.value,
                     encryptedConsentId: this.encryptedConsentId,
                     authorisationId: this.authorisationId,
-                }).subscribe((authorisationResponse: ConsentAuthorizeResponse )=> {
-
-                    this._shareService.setConsentAuthorizeResponse(authorisationResponse);
-
-                    // TODO Navigate to accounts Confirmation page
+                }).subscribe(authorisationResponse => {
+                    this._shareService.changeData({
+                        key: LOGIN_RESPONSE,
+                        value: authorisationResponse
+                    });
                     this.router.navigate([`${RoutingPath.BANK_OFFERED}`],
                         ObaUtils.getQueryParams(this.encryptedConsentId, this.authorisationId));
                 }, errors => console.log('http error please catch me!'))

@@ -1,5 +1,8 @@
 package de.adorsys.ledgers.oba.rest.api.resource;
 
+import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
+import de.adorsys.ledgers.middleware.rest.exception.ForbiddenRestException;
+import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,9 +15,8 @@ import de.adorsys.ledgers.oba.rest.api.domain.AuthorizeResponse;
 import de.adorsys.ledgers.oba.rest.api.domain.ConsentAuthorizeResponse;
 import de.adorsys.ledgers.oba.rest.api.domain.CreatePiisConsentRequestTO;
 import de.adorsys.ledgers.oba.rest.api.domain.PIISConsentCreateResponse;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Authorization;
+
+import java.util.List;
 
 @Api(value = AISApi.BASE_PATH, tags = "PSU AIS", description = "Provides access to online banking payment functionality")
 public interface AISApi {
@@ -83,4 +85,19 @@ public interface AISApi {
 	@ApiOperation(value = "Grant a piis consent", authorizations = @Authorization(value = "apiKey"))
 	ResponseEntity<PIISConsentCreateResponse> grantPiisConsent(
 			@RequestHeader(name="Cookie", required=false) String consentAndaccessTokenCookieString, @RequestBody CreatePiisConsentRequestTO aisConsentTO);
+
+	/**
+	 * Return the list of accounts linked with the current customer.
+	 *
+	 * @return : the list of accounts linked with the current customer.
+	 */
+	@GetMapping(path = "/accounts")
+	@ApiOperation(value="List fo Accessible Accounts", authorizations =@Authorization(value="apiKey"),
+			notes="Returns the list of all accounts linked to the connected user. "
+					+ "Call only available to role CUSTOMER.")
+	@ApiResponses(value={
+			@ApiResponse(code=200, response= AccountDetailsTO[].class, message="List of accounts accessible to the user.")
+	})
+	ResponseEntity<List<AccountDetailsTO>> getListOfAccounts(@RequestHeader(name="Cookie", required=false) String accessTokenCookieString)  throws ForbiddenRestException;
 }
+
