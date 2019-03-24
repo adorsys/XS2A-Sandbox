@@ -1,6 +1,7 @@
 package de.adorsys.ledgers.oba.rest.api.resource;
 
 import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
+import de.adorsys.ledgers.middleware.api.domain.um.AisConsentTO;
 import de.adorsys.ledgers.middleware.rest.exception.ForbiddenRestException;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,17 @@ public interface AISApi {
 			@RequestParam(name = "encryptedConsentId") String encryptedConsentId);
 
 	/**
-	 * Identifies the user by login an pin. Return sca methods information
+	 * Identifies the user by login an pin.
+	 * 
+	 * The returned object contains: 
+	 * <ul>
+	 * 	<li>A list of accounts
+	 * 		<p>This is supposed to be used to display the list of accounts to the psu</p>
+	 * 	</li>
+	 *  <li>An AisConsent object
+	 *  	<p>This consent is initialized, but might not contain any more information</p>
+	 *  </li>
+	 * </ul>
 	 * 
 	 * @param encryptedConsentId the encryptedConsentId
 	 * @param authorisationId the auth id
@@ -46,6 +57,26 @@ public interface AISApi {
 			@RequestParam("login") String login,
 			@RequestParam("pin") String pin, 
 			@RequestHeader(name="Cookie", required=false) String consentCookieString);
+	
+	/**
+	 * Start the consent process. By sending the customer request consent to the core banking.
+	 * 
+	 * @param encryptedConsentId the encrypted consent id
+	 * @param authorisationId the authorization id
+	 * @param consentAndaccessTokenCookieString the consent cookie
+	 * @param aisConsent the consent request object
+	 * @return ConsentAuthorizeResponse
+	 */
+	@PostMapping("/{encryptedConsentId}/authorisation/{authorisationId}/start")
+	@ApiOperation(value = "Starts the cosent authaurization process after user selects which account to grant access to", 
+		authorizations = @Authorization(value = "apiKey"))
+	ResponseEntity<ConsentAuthorizeResponse> startConsentAuth(
+			@PathVariable("encryptedConsentId") String encryptedConsentId,
+			@PathVariable("authorisationId") String authorisationId,
+			@RequestHeader(name="Cookie", required=false) String consentAndaccessTokenCookieString,
+			@RequestBody AisConsentTO aisConsent);
+
+	
 	
 	/**
 	 * Selects the SCA Method for use.
@@ -84,7 +115,7 @@ public interface AISApi {
 	@PostMapping(path="/piis")
 	@ApiOperation(value = "Grant a piis consent", authorizations = @Authorization(value = "apiKey"))
 	ResponseEntity<PIISConsentCreateResponse> grantPiisConsent(
-			@RequestHeader(name="Cookie", required=false) String consentAndaccessTokenCookieString, @RequestBody CreatePiisConsentRequestTO aisConsentTO);
+			@RequestHeader(name="Cookie", required=false) String consentAndaccessTokenCookieString, @RequestBody CreatePiisConsentRequestTO piisConsentTO);
 
 	/**
 	 * Return the list of accounts linked with the current customer.

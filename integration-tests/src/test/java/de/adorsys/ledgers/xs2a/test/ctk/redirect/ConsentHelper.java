@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
+import de.adorsys.ledgers.middleware.api.domain.um.AisConsentTO;
 import de.adorsys.ledgers.middleware.api.domain.um.ScaUserDataTO;
 import de.adorsys.ledgers.oba.rest.api.domain.AuthorizeResponse;
 import de.adorsys.ledgers.oba.rest.api.domain.ConsentAuthorizeResponse;
@@ -32,6 +33,8 @@ import de.adorsys.psd2.model.ConsentStatus;
 import de.adorsys.psd2.model.ConsentStatusResponse200;
 import de.adorsys.psd2.model.Consents;
 import de.adorsys.psd2.model.ConsentsResponse201;
+import de.adorsys.psd2.model.ScaStatus;
+import de.adorsys.psd2.model.ScaStatusResponse;
 import de.adorsys.psd2.model.TransactionDetails;
 import de.adorsys.psd2.model.TransactionList;
 import de.adorsys.psd2.model.TransactionsResponse200Json;
@@ -62,6 +65,9 @@ public class ConsentHelper {
 	private final ConsentApiClient consentApi;
 	private final ObaAisApiClient obaAisApiClient;
 	private final AccountApiClient accountApi;
+	
+	private final String psuPassword;
+	private static final String PSU_TAN = "123456";
 
 	public ConsentHelper(String pSU_ID, String iban, ConsentApiClient consentApi, ObaAisApiClient obaAisApiClient,
 			AccountApiClient accountApi) {
@@ -71,8 +77,20 @@ public class ConsentHelper {
 		this.consentApi = consentApi;
 		this.obaAisApiClient = obaAisApiClient;
 		this.accountApi = accountApi;
+		this.psuPassword = "12345";
 	}
 
+	public ConsentHelper(String pSU_ID, String iban, ConsentApiClient consentApi, ObaAisApiClient obaAisApiClient,
+			AccountApiClient accountApi, String pusPassword) {
+		super();
+		PSU_ID = pSU_ID;
+		this.iban = iban;
+		this.consentApi = consentApi;
+		this.obaAisApiClient = obaAisApiClient;
+		this.accountApi = accountApi;
+		this.psuPassword = pusPassword;
+	}
+	
 	public ResponseEntity<ConsentsResponse201> createDedicatedConsent() {
 		return createConsent(dedicatedConsent());
 	}
@@ -81,7 +99,7 @@ public class ConsentHelper {
 		return createConsent(allPSD2Consent());
 	}
 	
-	private ResponseEntity<ConsentsResponse201> createConsent(Consents consents) {
+	public ResponseEntity<ConsentsResponse201> createConsent(Consents consents) {
 		UUID xRequestID = UUID.randomUUID();
 		String tpPRedirectPreferred = "true";
 		String tpPRedirectURI = "http://localhost:8080/tpp/ok";
@@ -122,7 +140,7 @@ public class ConsentHelper {
 		List<String> cookieStrings = aisAuth.getHeaders().get("Set-Cookie");
 		String consentCookieString = cu.readCookie(cookieStrings, "CONSENT");
 		ResponseEntity<ConsentAuthorizeResponse> loginResponse = obaAisApiClient.login(encryptedConsentId,
-				authorisationId, PSU_ID, "12345", cu.resetCookies(cookieStrings));
+				authorisationId, PSU_ID, psuPassword, cu.resetCookies(cookieStrings));
 
 		Assert.assertNotNull(loginResponse);
 		Assert.assertTrue(loginResponse.getStatusCode().is2xxSuccessful());
@@ -147,6 +165,56 @@ public class ConsentHelper {
 		return consentStatus;
 	}
 
+	public ResponseEntity<ScaStatusResponse> loadConsentScaStatus(String encryptedConsentId, String authorisationId) {
+		UUID xRequestID = UUID.randomUUID();
+		ResponseEntity<ScaStatusResponse> consentScaStatus = consentApi._getConsentScaStatus(
+				encryptedConsentId, authorisationId, xRequestID, digest, signature, tpPSignatureCertificate, 
+				psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, 
+				psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+
+		Assert.assertNotNull(consentScaStatus);
+		Assert.assertEquals(HttpStatus.OK, consentScaStatus.getStatusCode());
+		return consentScaStatus;
+	}
+	
+	public ResponseEntity<ConsentAuthorizeResponse> startSCA(ResponseEntity<ConsentAuthorizeResponse> authResponseWrapper, String iban,
+			boolean account, boolean balance, boolean transaction) {
+		Assert.assertNotNull(authResponseWrapper);
+		Assert.assertTrue(authResponseWrapper.getStatusCode().is2xxSuccessful());
+		List<String> cookieStrings = authResponseWrapper.getHeaders().get("Set-Cookie");
+		String consentCookieString = cu.readCookie(cookieStrings, "CONSENT");
+		Assert.assertNotNull(consentCookieString);
+		String accessTokenCookieString = cu.readCookie(cookieStrings, "ACCESS_TOKEN");
+		Assert.assertNotNull(accessTokenCookieString);
+
+		ConsentAuthorizeResponse authResponse = authResponseWrapper.getBody();
+		
+		AisConsentTO aisConsent  = authResponse.getConsent();
+		if(account) {
+			authResponse.getConsent().getAccess().setAccounts(Arrays.asList(iban));
+		}
+		if(balance) {
+			authResponse.getConsent().getAccess().setBalances(Arrays.asList(iban));
+		}
+		if(transaction) {
+			authResponse.getConsent().getAccess().setTransactions(Arrays.asList(iban));
+		}
+		ResponseEntity<ConsentAuthorizeResponse> startConsentAuthWrapper = obaAisApiClient.startConsentAuth(authResponse.getEncryptedConsentId(), authResponse.getAuthorisationId(), 
+				cu.resetCookies(cookieStrings), aisConsent);
+
+		Assert.assertNotNull(startConsentAuthWrapper);
+		Assert.assertTrue(startConsentAuthWrapper.getStatusCode().is2xxSuccessful());
+		cookieStrings = startConsentAuthWrapper.getHeaders().get("Set-Cookie");
+		consentCookieString = cu.readCookie(cookieStrings, "CONSENT");
+		Assert.assertNotNull(consentCookieString);
+		accessTokenCookieString = cu.readCookie(cookieStrings, "ACCESS_TOKEN");
+		Assert.assertNotNull(accessTokenCookieString);
+
+		return startConsentAuthWrapper;
+		
+		
+	}
+
 	String getScaRedirect(@NotNull @Valid Map map) {
 		return (String) map.get("scaRedirect");
 	}
@@ -163,7 +231,7 @@ public class ConsentHelper {
 		ConsentAuthorizeResponse authResponse = authResponseWrapper.getBody();
 		
 		ResponseEntity<ConsentAuthorizeResponse> authrizedConsentResponseWrapper = obaAisApiClient.authrizedConsent(authResponse.getEncryptedConsentId(), authResponse.getAuthorisationId(), 
-				cu.resetCookies(cookieStrings), "123456");
+				cu.resetCookies(cookieStrings), PSU_TAN);
 
 		Assert.assertNotNull(authrizedConsentResponseWrapper);
 		Assert.assertTrue(authrizedConsentResponseWrapper.getStatusCode().is2xxSuccessful());
@@ -227,8 +295,14 @@ public class ConsentHelper {
 		Assert.assertNotNull(consents);
 		ConsentStatus consentStatus = consents.getConsentStatus();
 		Assert.assertNotNull(consentStatus);
-		Assert.assertEquals(ConsentStatus.RECEIVED, consentStatus);
+		Assert.assertEquals(status, consentStatus);
 	}
+	
+	public void checkConsentScaStatusFromXS2A(String encryptedConsentId, String authorisationId, ScaStatus scaStatus) {
+		ResponseEntity<ScaStatusResponse> consentScaStatus = loadConsentScaStatus(encryptedConsentId, authorisationId);
+    	Assert.assertEquals(scaStatus, consentScaStatus.getBody().getScaStatus());
+	}
+	
 	
 	private Consents dedicatedConsent() {
 		Consents consents = new Consents();

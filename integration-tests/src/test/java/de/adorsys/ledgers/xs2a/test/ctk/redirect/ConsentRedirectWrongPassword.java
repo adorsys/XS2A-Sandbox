@@ -23,22 +23,28 @@ import feign.FeignException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = StarterApplication.class)
-public class ConsentRedirectUnknownUser extends AbstractConsentRedirect {
+public class ConsentRedirectWrongPassword extends AbstractConsentRedirect {
+	
 	@Autowired
 	private ObjectMapper mapper;
-
-	@Override
+	
+    @Override
     protected String getPsuId() {
-        return "user.unknown";
+		return "anton.brueckner";
     }
 
     @Override
     protected String getIban() {
         return "DE80760700240271232400";
     }
+    
+    @Override
+	protected String getPsuPassword() {
+		return "wrong password";
+	}
 
-    @Test
-    public void authenticating_a_user_for_consent_with_wrong_user_name_must_return_401() throws JsonParseException, JsonMappingException, IOException {
+	@Test
+    public void login_for_consent_with_wrong_password_must_return_401_and_scaStatus_PSU_IDENTIFIED() throws JsonParseException, JsonMappingException, IOException {
 
         ResponseEntity<ConsentsResponse201> createConsentResp = consentHelper.createDedicatedConsent();
 
@@ -57,8 +63,9 @@ public class ConsentRedirectUnknownUser extends AbstractConsentRedirect {
         } catch (FeignException f) {
         	Assert.assertEquals(401, f.status());
         	ConsentAuthorizeResponse authorizeResponse = mapper.readValue(f.content(), ConsentAuthorizeResponse.class);
-			consentHelper.checkConsentScaStatusFromXS2A(authorizeResponse.getEncryptedConsentId(), 
-					authorizeResponse.getAuthorisationId(), ScaStatus.STARTED);
+			consentHelper.checkConsentScaStatusFromXS2A(authorizeResponse.getEncryptedConsentId(), authorizeResponse.getAuthorisationId(), ScaStatus.PSUIDENTIFIED);
         }
+        
+        
     }
 }

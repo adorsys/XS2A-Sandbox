@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
+import {ConsentAuthorizeResponse} from 'api/models';
 
 /**
  * @author Gerard Talla
@@ -10,20 +11,14 @@ import {BehaviorSubject} from 'rxjs';
     providedIn: 'root'
 })
 export class ShareDataService {
-    private data = new BehaviorSubject<KeyValue>(null);
+    private data = new BehaviorSubject<ConsentAuthorizeResponse>(null);
     currentData = this.data.asObservable();
+
 
     constructor() {
     }
 
-    changeData(data: KeyValue) {
+    changeData(data: ConsentAuthorizeResponse) {
         this.data.next(data);
     }
 }
-
-export interface KeyValue {
-    key: string;
-    value: any;
-}
-
-

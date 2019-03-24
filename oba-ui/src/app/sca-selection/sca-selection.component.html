@@ -11,16 +11,16 @@
                type="radio"
                name="scaMethod"
                [id]="scaMethod.id"
-               [checked]="i == 0">
+               [checked]="i == 0" (select)="handleMethodSelectedEvent(scaMethod)">
         <label class="form-check-label ml-4" [for]="scaMethod.id">
-          {{scaMethod.scaMethod}}
+          {{scaMethod.scaMethod}} with value {{scaMethod.methodValue}}
         </label>
       </div>
     </div>
 
     <div class="form-group d-flex flex-row justify-content-lg-between">
       <button class="btn md-6 w-100 mr-sm-2 mr-md-3 btn-outline-secondary" (click)="onCancel()">Cancel</button>
-      <button class="btn md-6 w-100 btn-primary" (click)="onNext()">Next</button>
+      <button  type="submit" class="btn md-6 w-100 btn-primary" >Send Code</button>
     </div>
   </form>
 

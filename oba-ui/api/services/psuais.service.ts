@@ -12,6 +12,7 @@ import { AuthorizeResponse } from '../models/authorize-response';
 import { PIISConsentCreateResponse } from '../models/piisconsent-create-response';
 import { PiisConsentRequest } from '../models/piis-consent-request';
 import { ConsentAuthorizeResponse } from '../models/consent-authorize-response';
+import { AisConsentRequest } from '../models/ais-consent-request';
 
 /**
  * Provides access to online banking account functionality
@@ -26,6 +27,7 @@ class PSUAISService extends __BaseService {
   static readonly authrizedConsentUsingPOSTPath = '/ais/{encryptedConsentId}/authorisation/{authorisationId}/authCode';
   static readonly loginUsingPOSTPath = '/ais/{encryptedConsentId}/authorisation/{authorisationId}/login';
   static readonly selectMethodUsingPOSTPath = '/ais/{encryptedConsentId}/authorisation/{authorisationId}/methods/{scaMethodId}';
+  static readonly startConsentAuthUsingPOSTPath = '/ais/{encryptedConsentId}/authorisation/{authorisationId}/start';
 
   constructor(
     config: __Configuration,
@@ -341,6 +343,63 @@ class PSUAISService extends __BaseService {
       __map(_r => _r.body as ConsentAuthorizeResponse)
     );
   }
+
+  /**
+   * @param params The `PSUAISService.StartConsentAuthUsingPOSTParams` containing the following parameters:
+   *
+   * - `encryptedConsentId`: encryptedConsentId
+   *
+   * - `authorisationId`: authorisationId
+   *
+   * - `aisConsent`: aisConsent
+   *
+   * - `Cookie`: Cookie
+   *
+   * @return OK
+   */
+  startConsentAuthUsingPOSTResponse(params: PSUAISService.StartConsentAuthUsingPOSTParams): __Observable<__StrictHttpResponse<ConsentAuthorizeResponse>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+
+    __body = params.aisConsent;
+    if (params.Cookie != null) __headers = __headers.set('Cookie', params.Cookie.toString());
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/ais/${params.encryptedConsentId}/authorisation/${params.authorisationId}/start`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<ConsentAuthorizeResponse>;
+      })
+    );
+  }
+  /**
+   * @param params The `PSUAISService.StartConsentAuthUsingPOSTParams` containing the following parameters:
+   *
+   * - `encryptedConsentId`: encryptedConsentId
+   *
+   * - `authorisationId`: authorisationId
+   *
+   * - `aisConsent`: aisConsent
+   *
+   * - `Cookie`: Cookie
+   *
+   * @return OK
+   */
+  startConsentAuthUsingPOST(params: PSUAISService.StartConsentAuthUsingPOSTParams): __Observable<ConsentAuthorizeResponse> {
+    return this.startConsentAuthUsingPOSTResponse(params).pipe(
+      __map(_r => _r.body as ConsentAuthorizeResponse)
+    );
+  }
 }
 
 module PSUAISService {
@@ -453,6 +512,32 @@ module PSUAISService {
      * authorisationId
      */
     authorisationId: string;
+
+    /**
+     * Cookie
+     */
+    Cookie?: string;
+  }
+
+  /**
+   * Parameters for startConsentAuthUsingPOST
+   */
+  export interface StartConsentAuthUsingPOSTParams {
+
+    /**
+     * encryptedConsentId
+     */
+    encryptedConsentId: string;
+
+    /**
+     * authorisationId
+     */
+    authorisationId: string;
+
+    /**
+     * aisConsent
+     */
+    aisConsent: AisConsentRequest;
 
     /**
      * Cookie

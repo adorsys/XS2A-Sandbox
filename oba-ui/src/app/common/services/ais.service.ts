@@ -6,6 +6,7 @@ import {ConsentAuthorizeResponse} from '../../../../api/models/consent-authorize
 import {PSUAISService} from '../../../../api/services/psuais.service';
 import LoginUsingPOSTParams = PSUAISService.LoginUsingPOSTParams;
 
+
 @Injectable({
     providedIn: 'root'
 })
@@ -20,6 +21,14 @@ export class AisService {
 
     public getAccountsList(): Observable<Array<AccountDetailsTO>> {
         return this.aisService.getListOfAccountsUsingGET();
+    }
+
+    public startConsentAuth(params: PSUAISService.StartConsentAuthUsingPOSTParams): Observable<ConsentAuthorizeResponse> {
+        return this.aisService.startConsentAuthUsingPOST(params);
+    }
+
+    public selectScaMethod(params: PSUAISService.SelectMethodUsingPOSTParams): Observable<ConsentAuthorizeResponse> {
+        return this.aisService.selectMethodUsingPOST(params);
     }
 
 }

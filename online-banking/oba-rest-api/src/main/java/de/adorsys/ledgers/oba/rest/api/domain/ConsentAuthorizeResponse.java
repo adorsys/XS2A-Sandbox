@@ -34,4 +34,9 @@ public class ConsentAuthorizeResponse extends AuthorizeResponse  {
 	public void setAccounts(List<AccountDetailsTO> accounts) {
 		this.accounts = accounts;
 	}
+
+	public void setConsent(AisConsentTO consent) {
+		this.consent = consent;
+	}
+	
 }

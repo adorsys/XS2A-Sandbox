@@ -4,6 +4,7 @@ import de.adorsys.psd2.model.ConsentStatus;
 import de.adorsys.psd2.model.ConsentsResponse201;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -26,6 +27,8 @@ public class ConsentRedirectMultipleScaApp extends AbstractConsentRedirect {
 	protected String getIban() {
 		return "DE38760700240320465700";
 	}
+	
+	@Ignore
 	@Test
 	public void test_initiate_dedicated_consent() {
 		

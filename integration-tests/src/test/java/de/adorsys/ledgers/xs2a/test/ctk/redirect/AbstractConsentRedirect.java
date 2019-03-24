@@ -26,7 +26,11 @@ public abstract class AbstractConsentRedirect {
 	
 	@Before
 	public void before() {
-		consentHelper = new ConsentHelper(getPsuId(), getIban(), consentApi, obaAisApiClient, accountApi);
+		consentHelper = new ConsentHelper(getPsuId(), getIban(), consentApi, obaAisApiClient, accountApi, getPsuPassword());
+	}
+	
+	protected String getPsuPassword() {
+		return "12345";
 	}
 
 	protected abstract String getIban();

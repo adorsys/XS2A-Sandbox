@@ -6,8 +6,8 @@ feign:
         readTimeout: 60000
         loggerLevel: full
 
-logging.level.root: WARN
-logging.level.org.springframework.boot: WARN
-logging.level.de.adorsys: WARN        
-# logging.level.de.adorsys.ledgers.xs2a: DEBUG        
-# logging.level.de.adorsys.ledgers.oba.rest: DEBUG
+# logging.level.root: WARN
+# logging.level.org.springframework.boot: WARN
+# logging.level.de.adorsys: WARN        
+logging.level.de.adorsys.ledgers.xs2a: DEBUG        
+logging.level.de.adorsys.ledgers.oba.rest: DEBUG

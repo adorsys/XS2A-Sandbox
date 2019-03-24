@@ -170,6 +170,20 @@ public class ResponseUtils {
 	}
 
 	private String cookie(String cookieString, String name) {
+		if(cookieString==null) {
+			return null;
+		}
+		
+		String cookieParamName=name+"=";
+		
+		// Fix Java: rfc2965 want cookie to be separated by comma.
+		// SOmehow i am receiving some semicolon separated cookies.
+		// Quick Fix: First strip the preceeding cookies if not the first.
+		if(!StringUtils.startsWithIgnoreCase(cookieString, cookieParamName)) {
+			int indexOfIgnoreCase = StringUtils.indexOfIgnoreCase(cookieString, cookieParamName);
+			cookieString = cookieString.substring(indexOfIgnoreCase);
+		}
+		// The proce
 		List<HttpCookie> cookies = HttpCookie.parse(cookieString);		
 		for (HttpCookie httpCookie : cookies) {
 			if(StringUtils.equalsIgnoreCase(httpCookie.getName(), name)){

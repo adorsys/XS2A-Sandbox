@@ -7,20 +7,40 @@
 
             <div class="col-12 font-weight-light">
                 <div *ngFor="let account of accounts, let i = index" class="form-check border">
-                    <input class="form-check-input" id="account_{{i}}" formControlName="accounts" name="accounts"
-                           type="checkbox" [value]="account">
+                    <input class="form-check-input" id="account_{{i}}" name="accounts"
+                    [value]="account.iban"
+                    (change)="handleObjectSelectedEvent(account.iban, authResponse.consent.access.accounts)"
+                    [checked]="authResponse.consent.access.accounts.indexOf(account.iban) > -1"
+                           type="checkbox">
                     <label class="form-check-label font-weight-bold"
-                           for="account_{{i}}"> {{account.product}} </label><br>
+                           for="account_{{i}}">Read account data for {{account.product}} </label><br>
                     <label class="form-check-label" for="account_{{i}}"> {{account.iban}} </label><br>
-                    <div class="options mx-5">
-                        <input class="form-check-input" id="balance_{{i}}" formControlName="balances" name="balances"
-                               type="checkbox" [value]="">
-                        <label for="balance_{{i}}">Read Balances</label> <br>
-                        <input class="form-check-input" id="transaction_{{i}}" formControlName="transactions"
-                               name="transactions"
-                               type="checkbox" [value]="">
-                        <label for="transaction_{{i}}">Read Transactions</label>
-                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 font-weight-light">
+                <div *ngFor="let account of accounts, let i = index" class="form-check border">
+                    <input class="form-check-input" id="balance_{{i}}" name="balances"
+                    [value]="account.iban"
+                    (change)="handleObjectSelectedEvent(account.iban, authResponse.consent.access.balances)"
+                    [checked]="authResponse.consent.access.balances.indexOf(account.iban) > -1"
+                           type="checkbox">
+                    <label class="form-check-label font-weight-bold"
+                           for="balance_{{i}}">Read balances for {{account.product}} </label><br>
+                    <label class="form-check-label" for="balance_{{i}}"> {{account.iban}} </label><br>
+                </div>
+            </div>
+
+            <div class="col-12 font-weight-light">
+                <div *ngFor="let account of accounts, let i = index" class="form-check border">
+                    <input class="form-check-input" id="transation_{{i}}" name="accounts"
+                    [value]="account.iban"
+                    (change)="handleObjectSelectedEvent(account.iban, authResponse.consent.access.transactions)"
+                    [checked]="authResponse.consent.access.transactions.indexOf(account.iban) > -1"
+                           type="checkbox">
+                    <label class="form-check-label font-weight-bold"
+                           for="transation_{{i}}">Read transactions for {{account.product}} </label><br>
+                    <label class="form-check-label" for="transation_{{i}}"> {{account.iban}} </label><br>
                 </div>
             </div>
         </div>
