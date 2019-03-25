@@ -169,7 +169,8 @@ public class ResponseUtils {
 		return cookie(cookieString, ACCESS_TOKEN_COOKIE_NAME);
 	}
 
-	private String cookie(String cookieString, String name) {
+	private String cookie(String cookieStringIn, String name) {
+		String cookieString = cookieStringIn;
 		if(cookieString==null) {
 			return null;
 		}

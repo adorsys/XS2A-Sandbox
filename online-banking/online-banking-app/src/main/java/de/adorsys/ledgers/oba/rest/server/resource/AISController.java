@@ -92,7 +92,7 @@ public class AISController extends AbstractXISController implements AISApi {
 	}
 
 	@Override
-	@SuppressWarnings("PMD.CyclomaticComplexity")
+	@SuppressWarnings({"PMD.CyclomaticComplexity", "PMD.NPathComplexity"})
 	public ResponseEntity<ConsentAuthorizeResponse> login(String encryptedConsentId, String authorisationId,
 			String login, String pin, String consentCookieString) {
 

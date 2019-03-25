@@ -1,5 +1,12 @@
 package de.adorsys.ledgers.oba.rest.server.mapper;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.stereotype.Component;
+
 import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisAccountAccessInfoTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisAccountAccessTypeTO;
@@ -10,13 +17,6 @@ import de.adorsys.psd2.xs2a.core.consent.AisConsentRequestType;
 import de.adorsys.psd2.xs2a.core.profile.AccountReference;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
-import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.stereotype.Component;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Component
 public class AisConsentMapper {
