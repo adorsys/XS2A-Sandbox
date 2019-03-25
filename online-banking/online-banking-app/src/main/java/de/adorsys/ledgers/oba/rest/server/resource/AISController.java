@@ -226,21 +226,6 @@ public class AISController extends AbstractXISController implements AISApi {
 		
 	}
 	
-	/*
-	 * Loads the list of accounts from the ledgers. 
-	 * 
-	 * We assume the access token needed to authenticate with the server is contained in the workflow object.
-	 * It is the responsibility of the caller to make sure the workflow ist propertly filled with a bearer token.
-	 */
-	private List<AccountDetailsTO> listOfAccounts(ConsentWorkflow workflow) {
-		try {
-			authInterceptor.setAccessToken(workflow.bearerToken().getAccess_token());
-			return accountRestClient.getListOfAccounts().getBody();
-		} finally {
-			authInterceptor.setAccessToken(null);
-		}
-	}
-	
 	@Override
 	public ResponseEntity<ConsentAuthorizeResponse> authrizedConsent(
 			String encryptedConsentId,
@@ -345,6 +330,29 @@ public class AISController extends AbstractXISController implements AISApi {
 		}
 	}
 
+	@Override
+	public ResponseEntity<ConsentAuthorizeResponse> aisDone(String encryptedConsentId, String authorisationId,
+			String consentAndaccessTokenCookieString, Boolean forgetConsent, Boolean backToTpp) {
+		try {
+			String psuId = AuthUtils.psuId(auth);
+			ConsentWorkflow workflow = identifyConsent(encryptedConsentId, authorisationId, true, consentAndaccessTokenCookieString, psuId, response, auth.getBearerToken());
+			
+			// Decision on how to proceed will strongly depend on the sca status.
+			ScaStatusTO scaStatus = workflow.getAuthResponse().getScaStatus();
+			// First determine the redirect link. Either SCA was and we have finalized
+			// or it didn't work or is not done and we send back nok.
+			String redirectURL = workflow.getConsentResponse().getTppNokRedirectUri();
+			if(ScaStatusTO.FINALISED.equals(scaStatus)) {
+				redirectURL = workflow.getConsentResponse().getTppOkRedirectUri();
+			}
+			
+			return responseUtils.redirect(redirectURL, response);
+		} catch (ConsentAuthorizeException e) {
+			return e.getError();
+		}
+	}
+	
+	
 	/*
 	 * Identifying the consent associated with a request. Each request sent to consent endpoint is 
 	 * associated with to parameter:
@@ -540,6 +548,20 @@ public class AISController extends AbstractXISController implements AISApi {
 		
 		throw new ConsentAuthorizeException(responseUtils.couldNotProcessRequest(authResp(), statusCode, response));
 	}
-	
+
+	/*
+	 * Loads the list of accounts from the ledgers. 
+	 * 
+	 * We assume the access token needed to authenticate with the server is contained in the workflow object.
+	 * It is the responsibility of the caller to make sure the workflow ist propertly filled with a bearer token.
+	 */
+	private List<AccountDetailsTO> listOfAccounts(ConsentWorkflow workflow) {
+		try {
+			authInterceptor.setAccessToken(workflow.bearerToken().getAccess_token());
+			return accountRestClient.getListOfAccounts().getBody();
+		} finally {
+			authInterceptor.setAccessToken(null);
+		}
+	}
 	
 }

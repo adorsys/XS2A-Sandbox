@@ -130,5 +130,27 @@ public interface AISApi {
 			@ApiResponse(code=200, response= AccountDetailsTO[].class, message="List of accounts accessible to the user.")
 	})
 	ResponseEntity<List<AccountDetailsTO>> getListOfAccounts(@RequestHeader(name="Cookie", required=false) String accessTokenCookieString)  throws ForbiddenRestException;
+	
+	
+	/**
+	 * This call provides the server with the opportunity to close this session and 
+	 * redirect the PSU to the TPP or close the application window.
+	 * 
+	 * In any case, the session of the user will be closed and cookies will be deleted.
+	 * 
+	 * @param encryptedConsentId
+	 * @param authorisationId
+	 * @return
+	 */
+	@GetMapping(path="/{encryptedConsentId}/authorisation/{authorisationId}/done", params= {"forgetConsent","backToTpp"})
+	@ApiOperation(value="Close cosent session", authorizations =@Authorization(value="apiKey"),
+	notes="This call provides the server with the opportunity to close this session and "
+			+ "redirect the PSU to the TPP or close the application window.")
+	ResponseEntity<ConsentAuthorizeResponse> aisDone(
+			@PathVariable("encryptedConsentId") String encryptedConsentId,
+			@PathVariable("authorisationId") String authorisationId,
+			@RequestHeader(name="Cookie", required=false) String consentAndaccessTokenCookieString,
+			@RequestParam(name="forgetConsent", required=false) Boolean forgetConsent,
+			@RequestParam(name="backToTpp", required=false) Boolean backToTpp);
 }
 

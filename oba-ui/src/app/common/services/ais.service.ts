@@ -31,4 +31,11 @@ export class AisService {
         return this.aisService.selectMethodUsingPOST(params);
     }
 
+    public authrizedConsent(params: PSUAISService.AuthrizedConsentUsingPOSTParams): Observable<ConsentAuthorizeResponse> {
+        return this.aisService.authrizedConsentUsingPOST(params);
+    }
+
+    public aisDone(params: PSUAISService.AisDoneUsingGETParams): void {
+        this.aisService.aisDoneUsingGET(params);
+    }
 }

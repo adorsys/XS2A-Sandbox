@@ -1,16 +1,31 @@
-<div class="card">
-  <div class="tan-confirm">
+<form [formGroup]="tanForm" (ngSubmit)="tanForm.valid && onSubmit()">
 
-    <h3 class="text-adorsys mb-4 text-left">TAN confirmation</h3>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title font-weight-bold">TAN confirmation</h2>
+            <div class="font-weight-light my-4 text-muted">We have sent you an E-Mail with the TAN. Please check your email and fill in the field below.</div>
 
-    <p class="text-secondary mb-5 text-left">
-      We have sent you an E-Mail with the TAN. Please check your email and fill in the field below.
-    </p>
+            <div class="col-12 font-weight-light">
+                <div class=" row form-group">
+                    <label class="text-muted" for="tan">TAN</label>
+                    <input [ngClass]="{'is-invalid': tanForm.get('authCode')?.errors && tanForm.get('authCode')?.dirty}"
+                           class="form-control" formControlName="authCode" id="authCode" name="authCode" type="password">
+                </div>
+            </div>
+        </div>
 
-    <form class="tan-confirm-form form-inline my-2">
-      <input type="password" class="tan-confirm-input form-control mr-2 col-md-7" id="confirmTAN">
-      <button type="submit" class="btn btn-primary col-md-4">OK</button>
-    </form>
+        <div class="card-footer no-bg-color">
+            <div class="row my-3">
+                <div class="col-12 col-sm-6 pr-sm-2">
+                    <button type="button"  class="btn btn-outline-secondary btn-block" (click)="cancel()">Cancel
+                    </button>
+                </div>
+                <div class="col-12 col-sm-6 pl-sm-2">
+                    <button type="submit" class="btn btn-primary btn-block" [disabled]="tanForm.invalid">Next
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-  </div>
-</div>
+</form>

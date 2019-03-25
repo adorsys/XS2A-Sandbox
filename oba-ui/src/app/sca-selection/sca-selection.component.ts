@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ScaUserDataTO } from '../../../api/models/sca-user-data-to';
 import { Router } from '@angular/router';
 import { ShareDataService } from '../common/services/share-data.service';
-import { ConsentAuthorizeResponse} from 'api/models';
+import { ConsentAuthorizeResponse } from 'api/models';
 import { AisService } from '../common/services/ais.service';
 import { Subscription } from 'rxjs';
 import { RoutingPath } from '../common/models/routing-path.model';
 import { ObaUtils } from '../common/utils/oba-utils';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-sca-selection',
@@ -18,12 +19,20 @@ export class ScaSelectionComponent implements OnInit {
     private subscriptions: Subscription[] = [];
     public authResponse: ConsentAuthorizeResponse;
     public selectedScaMethod: ScaUserDataTO;
+    public scaForm: FormGroup;
 
     sorry: 0;
     success: 1;
-    constructor(private router: Router,
-                private aisService: AisService,
-                private shareService: ShareDataService) { }
+    constructor(
+        private formBuilder: FormBuilder,
+        private router: Router,
+        private aisService: AisService,
+        private shareService: ShareDataService) {
+        this.scaForm = this.formBuilder.group({
+            scaMethod: ['', Validators.required],
+        });
+
+    }
 
     ngOnInit() {
         // fetch data that we save before after login
@@ -31,13 +40,19 @@ export class ScaSelectionComponent implements OnInit {
             if (data) {
                 // TODO extract the Accounts, Balances and Transactions from data.value
                 console.log('response object: ', data);
-                this.shareService.currentData.subscribe(authResponse => this.authResponse = authResponse);
+                this.shareService.currentData.subscribe(authResponse => {
+                    this.authResponse = authResponse;
+                    if (this.authResponse.scaMethods && this.authResponse.scaMethods.length === 1) {
+                        this.selectedScaMethod = this.authResponse.scaMethods[0];
+                    }
+                });
             }
         });
     }
 
     public onSubmit(): void {
-        if (!this.selectedScaMethod) {
+        console.log('selecting sca');
+        if (!this.authResponse || !this.selectedScaMethod) {
             console.log('No sca method selected.');
             return;
         }
@@ -64,6 +79,7 @@ export class ScaSelectionComponent implements OnInit {
     }
 
     handleMethodSelectedEvent(scaMethod: ScaUserDataTO): void {
+        console.log('No sca method selected.');
         this.selectedScaMethod = scaMethod;
     }
 }

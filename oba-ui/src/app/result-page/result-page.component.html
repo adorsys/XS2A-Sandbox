@@ -1,22 +1,19 @@
 <div class="card">
   <div class="card-body">
-    <div *ngIf="!show">
+    <div *ngIf="scaStatus('failed')">
       <h3 class="card-title font-weight-bold">Sorry</h3>
       <p class="card-text text-muted">
         <small> The consent to access to your account was not given</small>
       </p>
-        <div class="form-group d-flex flex-row justify-content-lg-between">
-            <button type="submit" class="btn btn-outline-secondary btn-block" (click)="decline()">Cancel</button>
-        </div>
-    </div>
-    <div *ngIf="show">
+    <div *ngIf="scaStatus('finalised')">
       <h3 class="card-title font-weight-bold">Thank you</h3>
       <p class="card-text text-muted">
         <small>The consent to access to your account was successfully provided</small>
       </p>
-        <div class="form-group d-flex flex-row justify-content-lg-between">
-            <button type="submit" class="btn btn-primary btn-block" (click)="nextPage()">Next</button>
-        </div>
+    </div>
+    <div class="form-group d-flex flex-row justify-content-lg-between">
+        <button class="btn md-6 w-100 mr-sm-2 mr-md-3 btn-outline-secondary" (click)="forgetConsent()">Forget Consent</button>
+        <button  type="submit" class="btn md-6 w-100 btn-primary" (click)="backToTpp()">Back to TPP</button>
     </div>
   </div>
 </div>

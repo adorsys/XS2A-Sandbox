@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,8 +43,6 @@ public abstract class AbstractXISController {
 	
 	@Value("${online-banking.sca.loginpage:http://localhost:4400/}")
 	private String loginPage;
-	
-	private static final String NO_REDIRECT_HEADER_PARAM = "X-NO-REDIRECT";
 	
 	@Autowired
 	protected ConsentReferencePolicy referencePolicy;

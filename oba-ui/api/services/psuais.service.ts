@@ -25,6 +25,7 @@ class PSUAISService extends __BaseService {
   static readonly aisAuthUsingGETPath = '/ais/auth';
   static readonly grantPiisConsentUsingPOSTPath = '/ais/piis';
   static readonly authrizedConsentUsingPOSTPath = '/ais/{encryptedConsentId}/authorisation/{authorisationId}/authCode';
+  static readonly aisDoneUsingGETPath = '/ais/{encryptedConsentId}/authorisation/{authorisationId}/done';
   static readonly loginUsingPOSTPath = '/ais/{encryptedConsentId}/authorisation/{authorisationId}/login';
   static readonly selectMethodUsingPOSTPath = '/ais/{encryptedConsentId}/authorisation/{authorisationId}/methods/{scaMethodId}';
   static readonly startConsentAuthUsingPOSTPath = '/ais/{encryptedConsentId}/authorisation/{authorisationId}/start';
@@ -221,6 +222,70 @@ class PSUAISService extends __BaseService {
    */
   authrizedConsentUsingPOST(params: PSUAISService.AuthrizedConsentUsingPOSTParams): __Observable<ConsentAuthorizeResponse> {
     return this.authrizedConsentUsingPOSTResponse(params).pipe(
+      __map(_r => _r.body as ConsentAuthorizeResponse)
+    );
+  }
+
+  /**
+   * This call provides the server with the opportunity to close this session and redirect the PSU to the TPP or close the application window.
+   * @param params The `PSUAISService.AisDoneUsingGETParams` containing the following parameters:
+   *
+   * - `forgetConsent`: forgetConsent
+   *
+   * - `encryptedConsentId`: encryptedConsentId
+   *
+   * - `backToTpp`: backToTpp
+   *
+   * - `authorisationId`: authorisationId
+   *
+   * - `Cookie`: Cookie
+   *
+   * @return OK
+   */
+  aisDoneUsingGETResponse(params: PSUAISService.AisDoneUsingGETParams): __Observable<__StrictHttpResponse<ConsentAuthorizeResponse>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (params.forgetConsent != null) __params = __params.set('forgetConsent', params.forgetConsent.toString());
+
+    if (params.backToTpp != null) __params = __params.set('backToTpp', params.backToTpp.toString());
+
+    if (params.Cookie != null) __headers = __headers.set('Cookie', params.Cookie.toString());
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/ais/${params.encryptedConsentId}/authorisation/${params.authorisationId}/done`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<ConsentAuthorizeResponse>;
+      })
+    );
+  }
+  /**
+   * This call provides the server with the opportunity to close this session and redirect the PSU to the TPP or close the application window.
+   * @param params The `PSUAISService.AisDoneUsingGETParams` containing the following parameters:
+   *
+   * - `forgetConsent`: forgetConsent
+   *
+   * - `encryptedConsentId`: encryptedConsentId
+   *
+   * - `backToTpp`: backToTpp
+   *
+   * - `authorisationId`: authorisationId
+   *
+   * - `Cookie`: Cookie
+   *
+   * @return OK
+   */
+  aisDoneUsingGET(params: PSUAISService.AisDoneUsingGETParams): __Observable<ConsentAuthorizeResponse> {
+    return this.aisDoneUsingGETResponse(params).pipe(
       __map(_r => _r.body as ConsentAuthorizeResponse)
     );
   }
@@ -455,6 +520,37 @@ module PSUAISService {
      * authCode
      */
     authCode: string;
+
+    /**
+     * Cookie
+     */
+    Cookie?: string;
+  }
+
+  /**
+   * Parameters for aisDoneUsingGET
+   */
+  export interface AisDoneUsingGETParams {
+
+    /**
+     * forgetConsent
+     */
+    forgetConsent: string;
+
+    /**
+     * encryptedConsentId
+     */
+    encryptedConsentId: string;
+
+    /**
+     * backToTpp
+     */
+    backToTpp: string;
+
+    /**
+     * authorisationId
+     */
+    authorisationId: string;
 
     /**
      * Cookie
