@@ -36,6 +36,9 @@ services:
     environment:
       - JAVA_TOOL_OPTIONS="-Xmx256M"
       - SPRING_PROFILES_ACTIVE=debug_mode
+      - BANK_PROFILE_PATH=bank_profile_ledgers.yml
+    volumes:
+      - ./bank-profile/bank_profile_ledgers.yml:/opt/profile/bank_profile_ledgers.yml
     ports:
       - "48080:8080"
     networks:
@@ -99,6 +102,9 @@ services:
     environment:
       - XS2A_URL=http://xs2a-connector-examples:8089
       - LEDGERS_URL=http://ledgers:8088
+      - CMS_URL=http://xs2a-consent-management:8080
+      - ONLINE_BANKING_SCA_LOGINPAGE=http://localhost:4400/
+      - ONLINE_BANKING_SCA_UIREDIRECT=true
 
   # Certificate generator
   certificate-generator:
@@ -143,7 +149,7 @@ services:
       context: oba-ui
       dockerfile: Dockerfile
     ports:
-      - "4200:4200"
+      - "4400:4400"
     networks:
       - xs2a-net
     environment:
