@@ -2,9 +2,6 @@
 # Global settings
 # ------------------------------------------------------------------
 
-cache:
-  paths:
-    - /builds/adorsys/xs2a/psd2-dynamic-sandbox/.m2/repository
 
 # ------------------------------------------------------------------
 # stages
@@ -26,6 +23,8 @@ variables:
   DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING: "docker.io/adorsys/xs2a-online-banking"
   DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR: "docker.io/adorsys/xs2a-certificate-generator"
   DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI: "docker.io/adorsys/xs2a-online-banking-ui"
+  DOCKER_IMAGE_NAME_XS2A_TPP_UI: "docker.io/adorsys/xs2a-bank-tpp-ui"
+  DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI: "docker.io/adorsys/xs2a-bank-devportal"
 
   ###########################
   # Build variables         #
@@ -47,29 +46,89 @@ variables:
     - cat /sys/fs/cgroup/memory/memory.limit_in_bytes
     - java -XX:+PrintFlagsFinal -version | grep -Ei "maxheapsize|maxram"
     - mvn -DskipTests clean install
+  cache:
+    key: "Java_${CI_COMMIT_REF_SLUG}"
+    paths:
+    - /builds/adorsys/xs2a/psd2-dynamic-sandbox/.m2/repository
 
 # Build docker images and put them to DOCKER HUB repo
-.build_dockerhub_image: &build_dockerhub_image
+.build_docker_images: &build_docker_images
   script:
     - docker build -t "$DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING:$DOCKER_TAG" online-banking/online-banking-app
-
     - docker build -t "$DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR:$DOCKER_TAG" certificate-generator
+#    - docker build -t "$DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI:$DOCKER_TAG" oba-ui
+    - docker build -t "$DOCKER_IMAGE_NAME_XS2A_TPP_UI:$DOCKER_TAG" tpp-ui
+    - docker build -t "$DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI:$DOCKER_TAG" developer-portal-ui
 
-    - docker build -t "$DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI:$DOCKER_TAG" oba-ui
+.push_dockerhub_images: &push_dockerhub_images
+  script:
+    - docker build -t "$DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING:$DOCKER_TAG" online-banking/online-banking-app
+    - docker build -t "$DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR:$DOCKER_TAG" certificate-generator
+#    - docker build -t "$DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI:$DOCKER_TAG" oba-ui
+    - docker build -t "$DOCKER_IMAGE_NAME_XS2A_TPP_UI:$DOCKER_TAG" tpp-ui
+    - docker build -t "$DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI:$DOCKER_TAG" developer-portal-ui
 
     - docker login -u $DOCKER_HUB_LOGIN -p $DOCKER_HUB_PASS
-
     - docker push "$DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING:$DOCKER_TAG"
-
     - docker push "$DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR:$DOCKER_TAG"
-
     - docker push "$DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI:$DOCKER_TAG"
-
     - docker logout
 
 # ------------------------------------------------------------------
 # jobs
 # ------------------------------------------------------------------
+
+
+build devportal frontend:
+  stage: "build:src"
+  image: "adorsys/ci-build"
+  script:
+    - cd developer-portal-ui
+    - npm install
+    - npm run build --prod
+  cache:
+    key: "DEVPORTAL_${CI_COMMIT_REF_SLUG}"
+    paths:
+      - developer-portal-ui/node_modules
+  artifacts:
+    paths:
+      - "developer-portal-ui/dist"
+    name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}"
+    expire_in: "1 day"
+
+#build oba frontend:
+#  stage: "build:src"
+#  image: "adorsys/ci-build"
+#  script:
+#    - cd oba-ui
+#    - npm install
+#    - npm run build --prod
+#  cache:
+#    key: "OBA_UI_${CI_COMMIT_REF_SLUG}"
+#    paths:
+#      - oba-ui/node_modules
+#  artifacts:
+#    paths:
+#      - "oba-ui/dist"
+#    name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}"
+#    expire_in: "1 day"
+
+build tpp frontend:
+  stage: "build:src"
+  image: "adorsys/ci-build"
+  script:
+    - cd tpp-ui
+    - npm install
+    - npm run build --prod
+  cache:
+    key: "TPP_UI_${CI_COMMIT_REF_SLUG}"
+    paths:
+      - tpp-ui/node_modules
+  artifacts:
+    paths:
+      - "tpp-ui/dist"
+    name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}"
+    expire_in: "1 day"
 
 build_package_java11:
   <<: *build_java
@@ -93,6 +152,10 @@ pmd_report:
   image: "adorsys/ci-build"
   script:
     - mvn -Dmaven.test.skip=true package pmd:pmd
+  cache:
+    key: "Java_${CI_COMMIT_REF_SLUG}"
+    paths:
+      - /builds/adorsys/xs2a/psd2-dynamic-sandbox/.m2/repository
   artifacts:
     paths:
       - "qa/pmd/pmd-ruleset.xml"
@@ -100,16 +163,59 @@ pmd_report:
       - "**/*/pmd.xml"
     name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}-pmd"
     expire_in: "10 day"
+#
+#test tpp frontend:
+#  stage: "build:qa"
+#  image: "adorsys/ci-build"
+#  script:
+#    - nvm use
+#    - cd tpp-ui
+#    - npm run test-ci
+#  cache:
+#    key: "TPP_UI_${CI_COMMIT_REF_SLUG}"
+#    paths:
+#      - tpp-ui/node_modules
+#
+#test oba frontend:
+#  stage: "build:qa"
+#  image: "adorsys/ci-build"
+#  script:
+#    - cd oba-ui
+#    - npm test
+#  cache:
+#    key: "OBA_UI_${CI_COMMIT_REF_SLUG}"
+#    paths:
+#      - oba-ui/node_modules
+#
+#test developer portal frontend:
+#  stage: "build:qa"
+#  image: "adorsys/ci-build"
+#  script:
+#    - nvm use
+#    - cd developer-portal-ui
+#    - npm run test-ci
+#  cache:
+#    key: "DEVPORTAL_${CI_COMMIT_REF_SLUG}"
+#    paths:
+#      - developer-portal-ui/node_modules
 
 check_pmd:
   stage: "build:qa"
   image: "adorsys/ci-build"
+  cache:
+    key: "Java_${CI_COMMIT_REF_SLUG}"
+    paths:
+      - /builds/adorsys/xs2a/psd2-dynamic-sandbox/.m2/repository
   script:
     - mvn -Dmaven.test.skip=true package pmd:check
 
 check_javadoc_java8:
   stage: "build:qa"
   image: "adorsys/ci-build"
+  cache:
+    key: "Java_${CI_COMMIT_REF_SLUG}"
+    paths:
+      - /builds/adorsys/xs2a/psd2-dynamic-sandbox/.m2/repository
   script:
     - cat /sys/fs/cgroup/memory/memory.limit_in_bytes
     - java -XX:+PrintFlagsFinal -version | grep -Ei "maxheapsize|maxram"
@@ -123,6 +229,10 @@ check_javadoc_java8:
 unit_tests:
   stage: "build:qa"
   image: "adorsys/ci-build"
+  cache:
+    key: "Java_${CI_COMMIT_REF_SLUG}"
+    paths:
+      - /builds/adorsys/xs2a/psd2-dynamic-sandbox/.m2/repository
   script:
     - cat /sys/fs/cgroup/memory/memory.limit_in_bytes
     - java -XX:+PrintFlagsFinal -version | grep -Ei "maxheapsize|maxram"
@@ -133,17 +243,27 @@ unit_tests:
     name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}-*"
     expire_in: "10 day"
 
+test building docker images:
+  stage: "build:qa"
+  variables:
+    DOCKER_TAG: test
+  <<: *build_docker_images
+
 build_dockerhub_image_master:
   stage: "build:image"
   only:
     - master
   variables:
     DOCKER_TAG: latest
-  <<: *build_dockerhub_image
+  <<: *push_dockerhub_images
 
 release_maven_central:
   stage: "release"
   image: "adorsys/ci-build"
+  cache:
+    key: "Java_${CI_COMMIT_REF_SLUG}"
+    paths:
+      - /builds/adorsys/xs2a/psd2-dynamic-sandbox/.m2/repository
   only:
     - tags
   script:
