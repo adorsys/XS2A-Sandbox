@@ -149,4 +149,4 @@ release_maven_central:
   script:
     - echo $SONATYPE_GPG_SECRET_KEY | base64 --decode | $SONATYPE_GPG_EXECUTABLE --import
     - echo $SONATYPE_GPG_OWNERTRUST | base64 --decode | $SONATYPE_GPG_EXECUTABLE --import-ownertrust
-    - mvn --settings scripts/maven-release-settings.xml -Prelease -DskipTests -B -U deploy
+    - mvn --settings scripts/mvn-release-settings.xml -Prelease -DskipTests -B -U deploy
