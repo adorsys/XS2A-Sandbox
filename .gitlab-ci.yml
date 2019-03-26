@@ -143,6 +143,7 @@ build_dockerhub_image_master:
 
 release_maven_central:
   stage: "release"
+  image: "adorsys/ci-build"
   only:
     - tags
   script:
