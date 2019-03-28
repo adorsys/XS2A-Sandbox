@@ -24,6 +24,7 @@ import {UsersComponent} from './components/users/users.component';
 import {AuthGuard} from './guards/auth.guard';
 import {AuthInterceptor} from './interceptors/auth-interceptor';
 import {UploadFileComponent} from './uploadFile/uploadFile.component';
+import {TestDataGenerationComponent} from "./components/testDataGeneration/test-data-generation.component";
 
 @NgModule({
     declarations: [
@@ -43,7 +44,8 @@ import {UploadFileComponent} from './uploadFile/uploadFile.component';
         UserCreateComponent,
         AccountComponent,
         UploadFileComponent,
-        DocumentUploadComponent
+        DocumentUploadComponent,
+        TestDataGenerationComponent
     ],
     imports: [
         BrowserModule,
