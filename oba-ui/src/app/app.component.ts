@@ -17,5 +17,11 @@ export class AppComponent {
 
     public checkUrlbank(): number {
         const url = window.location.href;
-        return url.indexOf('/bank-offered');    }
+        return url.indexOf('/bank-offered');
+    }
+
+    public checkUrlResult(): number {
+      const url = window.location.href;
+      return url.indexOf('/result');
+    }
 }

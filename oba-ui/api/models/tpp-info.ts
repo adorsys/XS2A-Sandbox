@@ -3,14 +3,14 @@ import { TppRedirectUri } from './tpp-redirect-uri';
 export interface TppInfo {
 
   /**
+   * Organisation
+   */
+  organisation: string;
+
+  /**
    * Authorization number
    */
   authorisationNumber: string;
-
-  /**
-   * National competent authority id
-   */
-  authorityId: string;
 
   /**
    * National competent authority name
@@ -33,9 +33,9 @@ export interface TppInfo {
   issuerCN: string;
 
   /**
-   * Organisation
+   * National competent authority id
    */
-  organisation: string;
+  authorityId: string;
 
   /**
    * Organisation unit

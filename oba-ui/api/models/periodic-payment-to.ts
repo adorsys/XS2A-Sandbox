@@ -4,8 +4,8 @@ import { AddressTO } from './address-to';
 import { AmountTO } from './amount-to';
 import { LocalTime } from './local-time';
 export interface PeriodicPaymentTO {
+  frequency?: 'Daily' | 'Weekly' | 'EveryTwoWeeks' | 'Monthly' | 'EveryTwoMonths' | 'Quarterly' | 'SemiAnnual' | 'Annual';
   creditorAccount?: AccountReferenceTO;
-  creditorAddress?: AddressTO;
   creditorAgent?: string;
   creditorName?: string;
   dayOfExecution?: number;
@@ -13,7 +13,7 @@ export interface PeriodicPaymentTO {
   endDate?: string;
   endToEndIdentification?: string;
   executionRule?: string;
-  frequency?: 'Daily' | 'Weekly' | 'EveryTwoWeeks' | 'Monthly' | 'EveryTwoMonths' | 'Quarterly' | 'SemiAnnual' | 'Annual';
+  creditorAddress?: AddressTO;
   instructedAmount?: AmountTO;
   paymentId?: string;
   paymentProduct?: 'SEPA' | 'INSTANT_SEPA' | 'TARGET2' | 'CROSS_BORDER';

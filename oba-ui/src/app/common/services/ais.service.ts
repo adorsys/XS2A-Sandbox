@@ -5,6 +5,7 @@ import {AccountDetailsTO} from '../../../../api/models/account-details-to';
 import {ConsentAuthorizeResponse} from '../../../../api/models/consent-authorize-response';
 import {PSUAISService} from '../../../../api/services/psuais.service';
 import LoginUsingPOSTParams = PSUAISService.LoginUsingPOSTParams;
+import RevokeConsentUsingDELETEParams = PSUAISService.RevokeConsentUsingDELETEParams;
 
 
 @Injectable({
@@ -35,7 +36,11 @@ export class AisService {
         return this.aisService.authrizedConsentUsingPOST(params);
     }
 
-    public aisDone(params: PSUAISService.AisDoneUsingGETParams): void {
-        this.aisService.aisDoneUsingGET(params);
+    public revokeConsent(params: RevokeConsentUsingDELETEParams): Observable<ConsentAuthorizeResponse> {
+      return this.aisService.revokeConsentUsingDELETE(params);
+    }
+
+    public aisDone(params: PSUAISService.AisDoneUsingGETParams): Observable<ConsentAuthorizeResponse> {
+        return this.aisService.aisDoneUsingGET(params);
     }
 }

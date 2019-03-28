@@ -1,5 +1,5 @@
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {NgModule} from '@angular/core';
+import {ErrorHandler, NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 
@@ -14,6 +14,7 @@ import {AisService} from './common/services/ais.service';
 import {ShareDataService} from './common/services/share-data.service';
 import {LoginComponent} from './login/login.component';
 import {ResultPageComponent} from './result-page/result-page.component';
+import {ObaErrorsHandler} from "./common/interceptors/ObaErrorsHandler";
 
 @NgModule({
     declarations: [
@@ -39,6 +40,10 @@ import {ResultPageComponent} from './result-page/result-page.component';
             provide: HTTP_INTERCEPTORS,
             useClass: AuthInterceptor,
             multi: true
+        },
+        {
+            provide: ErrorHandler,
+            useClass: ObaErrorsHandler
         }
     ],
     bootstrap: [AppComponent]

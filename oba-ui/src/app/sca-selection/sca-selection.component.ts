@@ -21,8 +21,6 @@ export class ScaSelectionComponent implements OnInit {
     public selectedScaMethod: ScaUserDataTO;
     public scaForm: FormGroup;
 
-    sorry: 0;
-    success: 1;
     constructor(
         private formBuilder: FormBuilder,
         private router: Router,
@@ -31,7 +29,6 @@ export class ScaSelectionComponent implements OnInit {
         this.scaForm = this.formBuilder.group({
             scaMethod: ['', Validators.required],
         });
-
     }
 
     ngOnInit() {
@@ -70,8 +67,16 @@ export class ScaSelectionComponent implements OnInit {
         );
     }
 
+    // TODO: move to Oba Util
     public onCancel(): void {
-        this.router.navigate(['/result', this.sorry]);
+      this.router.navigate([`${RoutingPath.RESULT}`]);
+      this.aisService.revokeConsent({
+        encryptedConsentId: this.authResponse.encryptedConsentId,
+        authorisationId: this.authResponse.authorisationId}).subscribe(authResponse => {
+        this.shareService.changeData(authResponse);
+        this.router.navigate([`${RoutingPath.RESULT}`],
+          ObaUtils.getQueryParams(this.authResponse.encryptedConsentId, this.authResponse.authorisationId));
+      });
     }
 
     get scaMehods(): ScaUserDataTO[] {

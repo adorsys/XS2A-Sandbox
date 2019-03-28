@@ -1,7 +1,13 @@
 package de.adorsys.psd2.sandbox.certificate.service;
 
 import com.nimbusds.jose.util.X509CertUtils;
-import de.adorsys.psd2.sandbox.certificate.domain.*;
+import de.adorsys.psd2.sandbox.certificate.domain.IssuerData;
+import de.adorsys.psd2.sandbox.certificate.domain.SubjectData;
+import de.adorsys.psd2.sandbox.certificate.domain.CertificateRequest;
+import de.adorsys.psd2.sandbox.certificate.domain.CertificateResponse;
+import de.adorsys.psd2.sandbox.certificate.domain.NcaId;
+import de.adorsys.psd2.sandbox.certificate.domain.NcaName;
+import de.adorsys.psd2.sandbox.certificate.domain.PspRole;
 import de.adorsys.psd2.sandbox.certificate.exception.CertificateException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
@@ -114,7 +120,7 @@ public class CertificateService {
      * @return X509Certificate
      */
     private X509Certificate generateCertificate(SubjectData subjectData, IssuerData issuerData,
-                                               QCStatement statement) {
+                                                QCStatement statement) {
         JcaContentSignerBuilder builder = new JcaContentSignerBuilder("SHA256WithRSAEncryption");
 
         ContentSigner contentSigner;

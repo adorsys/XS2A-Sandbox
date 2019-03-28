@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                     this.shareService.changeData(authorisationResponse);
                     this.router.navigate([`${RoutingPath.BANK_OFFERED}`],
                         ObaUtils.getQueryParams(this.encryptedConsentId, this.authorisationId));
-                }, errors => console.log('http error please catch me!'))
+                })
             );
         }
     }

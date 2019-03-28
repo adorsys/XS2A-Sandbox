@@ -1,20 +1,5 @@
 package de.adorsys.ledgers.xs2a.test.ctk.redirect;
 
-import java.net.URI;
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
-import org.junit.Assert;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisConsentTO;
 import de.adorsys.ledgers.middleware.api.domain.um.ScaUserDataTO;
@@ -23,21 +8,17 @@ import de.adorsys.ledgers.oba.rest.api.domain.ConsentAuthorizeResponse;
 import de.adorsys.ledgers.oba.rest.client.ObaAisApiClient;
 import de.adorsys.ledgers.xs2a.api.client.AccountApiClient;
 import de.adorsys.ledgers.xs2a.api.client.ConsentApiClient;
-import de.adorsys.psd2.model.AccountAccess;
+import de.adorsys.psd2.model.*;
 import de.adorsys.psd2.model.AccountAccess.AllPsd2Enum;
-import de.adorsys.psd2.model.AccountDetails;
-import de.adorsys.psd2.model.AccountList;
-import de.adorsys.psd2.model.AccountReference;
-import de.adorsys.psd2.model.AccountReport;
-import de.adorsys.psd2.model.ConsentStatus;
-import de.adorsys.psd2.model.ConsentStatusResponse200;
-import de.adorsys.psd2.model.Consents;
-import de.adorsys.psd2.model.ConsentsResponse201;
-import de.adorsys.psd2.model.ScaStatus;
-import de.adorsys.psd2.model.ScaStatusResponse;
-import de.adorsys.psd2.model.TransactionDetails;
-import de.adorsys.psd2.model.TransactionList;
-import de.adorsys.psd2.model.TransactionsResponse200Json;
+import org.junit.Assert;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.net.URI;
+import java.time.LocalDate;
+import java.util.*;
 
 public class ConsentHelper {
 
@@ -102,8 +83,8 @@ public class ConsentHelper {
 	public ResponseEntity<ConsentsResponse201> createConsent(Consents consents) {
 		UUID xRequestID = UUID.randomUUID();
 		String tpPRedirectPreferred = "true";
-		String tpPRedirectURI = "http://localhost:8080/tpp/ok";
-		String tpPNokRedirectURI =  "http://localhost:8080/tpp/nok";
+		String tpPRedirectURI = "https://weather.com/";
+		String tpPNokRedirectURI =  "https://sinoptik.ua/";
 		Boolean tpPExplicitAuthorisationPreferred = false;
 
 		ResponseEntity<ConsentsResponse201> consentsResponse201 = consentApi._createConsent(xRequestID, consents,

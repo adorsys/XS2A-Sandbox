@@ -63,7 +63,15 @@ export class BankOfferedComponent implements OnInit {
     }
 
     public cancel(): void {
-        console.log('the button cancel is pressed');
+      this.aisService.revokeConsent({
+        encryptedConsentId: this.authResponse.encryptedConsentId,
+        authorisationId: this.authResponse.authorisationId}).subscribe(authResponse => {
+          console.log(authResponse);
+          this.authResponse = authResponse;
+          this.shareService.changeData(this.authResponse);
+          this.router.navigate([`${RoutingPath.RESULT}`],
+            ObaUtils.getQueryParams(this.authResponse.encryptedConsentId, this.authResponse.authorisationId));
+        });
     }
 
     handleObjectSelectedEvent(value, container): void {
