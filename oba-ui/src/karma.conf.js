@@ -41,6 +41,6 @@ module.exports = function (config) {
                 ]
             }
         },
-        singleRun: true // TODO env.environment.karma.singleRun
+        singleRun: true
     });
 };

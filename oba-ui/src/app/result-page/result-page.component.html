@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card w-100">
   <div class="card-body">
 
     <ng-template [ngIf]="scaStatus" [ngIfElse]="scaStatusEmpty">
@@ -35,8 +35,10 @@
       </div>
     </ng-template>
 
-    <div class="form-group d-flex flex-row justify-content-lg-between">
-      <a class="btn md-6 w-100 btn-primary" [href]="ref">Back to TPP</a>
+    <div class="form-group my-3">
+      <a class="btn btn-primary button-icon d-flex align-items-center" [href]="ref">
+        <span class="mx-auto">My Account</span>
+      </a>
     </div>
   </div>
 </div>

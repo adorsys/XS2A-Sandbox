@@ -58,7 +58,7 @@ export class BankOfferedComponent implements OnInit {
                 this.shareService.changeData(this.authResponse);
                 this.router.navigate([`${RoutingPath.SELECT_SCA}`],
                     ObaUtils.getQueryParams(this.authResponse.encryptedConsentId, this.authResponse.authorisationId));
-            }, errors => console.log('http error please catch me!'))
+            })
         );
     }
 

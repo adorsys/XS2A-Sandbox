@@ -35,7 +35,7 @@ export class ScaSelectionComponent implements OnInit {
         // fetch data that we save before after login
         this.shareService.currentData.subscribe(data => {
             if (data) {
-                // TODO extract the Accounts, Balances and Transactions from data.value
+                // TODO extract the Accounts, Balances and Transactions from data.value https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/issues/9
                 console.log('response object: ', data);
                 this.shareService.currentData.subscribe(authResponse => {
                     this.authResponse = authResponse;
@@ -63,11 +63,11 @@ export class ScaSelectionComponent implements OnInit {
                 this.shareService.changeData(this.authResponse);
                 this.router.navigate([`${RoutingPath.TAN_CONFIRMATION}`],
                     ObaUtils.getQueryParams(this.authResponse.encryptedConsentId, this.authResponse.authorisationId));
-            }, errors => console.log('http error please catch me!'))
+            })
         );
     }
 
-    // TODO: move to Oba Util
+    // TODO: move to Oba Util https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/issues/9
     public onCancel(): void {
       this.router.navigate([`${RoutingPath.RESULT}`]);
       this.aisService.revokeConsent({

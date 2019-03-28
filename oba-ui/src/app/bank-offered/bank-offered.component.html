@@ -2,7 +2,7 @@
 
     <div class="card">
         <div class="card-body">
-            <h2 class="card-title font-weight-bold">Select Bank Accounts</h2>
+            <h2 class="card-title font-weight-bold">Select bank accounts and account accesses</h2>
             <div class="font-weight-light my-4 text-muted">Please select your Account and confirm with “Next"</div>
 
             <div class="col-12 font-weight-light">
@@ -13,7 +13,7 @@
                     [checked]="authResponse.consent.access.accounts.indexOf(account.iban) > -1"
                            type="checkbox">
                     <label class="form-check-label font-weight-bold"
-                           for="account_{{i}}">Read account data for {{account.product}} </label><br>
+                           for="account_{{i}}">Account access for {{account.product}} </label><br>
                     <label class="form-check-label" for="account_{{i}}"> {{account.iban}} </label><br>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                     [checked]="authResponse.consent.access.balances.indexOf(account.iban) > -1"
                            type="checkbox">
                     <label class="form-check-label font-weight-bold"
-                           for="balance_{{i}}">Read balances for {{account.product}} </label><br>
+                           for="balance_{{i}}">Access to balances for {{account.product}} </label><br>
                     <label class="form-check-label" for="balance_{{i}}"> {{account.iban}} </label><br>
                 </div>
             </div>
@@ -39,7 +39,7 @@
                     [checked]="authResponse.consent.access.transactions.indexOf(account.iban) > -1"
                            type="checkbox">
                     <label class="form-check-label font-weight-bold"
-                           for="transation_{{i}}">Read transactions for {{account.product}} </label><br>
+                           for="transation_{{i}}">Access to transactions for {{account.product}} </label><br>
                     <label class="form-check-label" for="transation_{{i}}"> {{account.iban}} </label><br>
                 </div>
             </div>

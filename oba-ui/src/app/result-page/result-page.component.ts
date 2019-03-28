@@ -18,32 +18,27 @@ export class ResultPageComponent implements OnInit {
   public revoked: boolean;
   public ref: string;
 
-  constructor(public router: Router,
+  constructor(private router: Router,
               private route: ActivatedRoute,
               private aisService: AisService,
               private shareService: ShareDataService) {
   }
 
   public ngOnInit(): void {
+    // get query params
+    this.route.queryParams.subscribe(params => {
+      // TODO: use routerlink to build a link https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/issues/8
+      this.ref = 'http://localhost:8090/ais/' + params['encryptedConsentId'] +
+        '/authorisation/' + params['authorisationId'] +
+        '/done?backToTpp=true&forgetConsent=true';
+    });
+
+    // get consent data from shared service
     this.shareService.currentData.subscribe(data => {
-      console.log(data);
       if (data) {
         this.shareService.currentData.subscribe(authResponse => {
           this.authResponse = authResponse;
           this.scaStatus = this.authResponse.scaStatus;
-
-          // TODO: use routerlink to build a link
-          this.ref = 'http://localhost:8090/ais/' + this.authResponse.encryptedConsentId +
-          '/authorisation/' + this.authResponse.authorisationId +
-          '/done?backToTpp=true&forgetConsent=true';
-
-          if (this.scaStatus == 'finalised') {
-            this.finalised = true;
-          } else {
-            this.failed = true;
-          }
-
-          console.log(this.scaStatus);
         });
       }
     });

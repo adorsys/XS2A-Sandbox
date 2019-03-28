@@ -5,29 +5,40 @@
             <h2 class="card-title font-weight-bold">Welcome</h2>
             <div class="font-weight-light my-4 text-muted">Please log in with your bank account username.</div>
 
-            <div class="col-12 font-weight-light">
-                <div class=" row form-group">
-                    <label class="text-muted" for="login">Login</label>
-                    <input [ngClass]="{'is-invalid': loginForm.get('login')?.errors && loginForm.get('login')?.dirty}"
-                           class="form-control" formControlName="login" id="login" name="login" type="text">
-                </div>
-                <div class=" row form-group">
-                    <label class="text-muted" for="login">PIN</label>
-                    <input [ngClass]="{'is-invalid': loginForm.get('pin')?.errors && loginForm.get('pin')?.dirty}"
-                           class="form-control" formControlName="pin" id="pin" name="pin" type="password">
-                </div>
+            <div *ngIf="invalidCredentials" class="alert alert-danger">
+              Invalid credentials
             </div>
-        </div>
+
+            <div class="form-group">
+              <label for="login" class="text-muted">Your login:</label><br>
+              <input type="text"
+                     id="login"
+                     name="login"
+                     formControlName="login"
+                     placeholder="Enter your login"
+                     [ngClass]="{ 'is-invalid': loginForm.controls['login'].touched && loginForm.controls['login'].errors }"
+                     class="form-control">
+              <div class="invalid-feedback" *ngIf="loginForm.controls['login'].touched && loginForm.controls['login'].hasError('required')">Login is required</div>
+            </div>
+
+            <div class="form-group">
+              <label for="pin" class="text-muted">Pin:</label><br>
+              <input type="password"
+                     id="pin"
+                     name="pin"
+                     formControlName="pin"
+                     placeholder="Enter you pin"
+                     [ngClass]="{ 'is-invalid': loginForm.controls['pin'].touched && loginForm.controls['pin'].errors }"
+                     class="form-control">
+              <div class="invalid-feedback" *ngIf="loginForm.controls['pin'].touched && loginForm.controls['pin'].hasError('required')">Pin is required</div>
+            </div>
+
+          </div>
 
         <div class="card-footer no-bg-color">
             <div class="row my-3">
-                <div class="col-12 col-sm-6 pr-sm-2">
-                    <button type="button"  class="btn btn-outline-secondary btn-block" (click)="cancel()">Cancel
-                    </button>
-                </div>
-                <div class="col-12 col-sm-6 pl-sm-2">
-                    <button type="submit" class="btn btn-primary btn-block" [disabled]="loginForm.invalid">Next
-                    </button>
+                <div class="col">
+                    <button type="submit" class="btn btn-primary btn-block" [disabled]="loginForm.invalid">Login</button>
                 </div>
             </div>
         </div>

@@ -8,6 +8,7 @@ import {RoutingPath} from '../common/models/routing-path.model';
 import {AisService} from '../common/services/ais.service';
 import {ShareDataService} from '../common/services/share-data.service';
 import {ObaUtils} from '../common/utils/oba-utils';
+import {catchError} from "rxjs/operators";
 
 @Component({
     selector: 'app-login',
@@ -19,7 +20,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private subscriptions: Subscription[] = [];
     private authorisationId: string;
     private encryptedConsentId: string;
-    public loginForm: FormGroup;
+    loginForm: FormGroup;
+    invalidCredentials: boolean;
 
     constructor(private formBuilder: FormBuilder,
                 private router: Router,
@@ -29,13 +31,13 @@ export class LoginComponent implements OnInit, OnDestroy {
                 @Inject(URL_PARAMS_PROVIDER) params) {
         this.encryptedConsentId = params.encryptedConsentId;
         this.authorisationId = params.authorisationId;
-        this.loginForm = this.formBuilder.group({
-            login: ['', Validators.required],
-            pin: ['', Validators.required]
-        });
     }
 
     public ngOnInit(): void {
+      this.loginForm = this.formBuilder.group({
+        login: ['', Validators.required],
+        pin: ['', Validators.required]
+      });
     }
 
     public onSubmit(): void {
@@ -49,13 +51,12 @@ export class LoginComponent implements OnInit, OnDestroy {
                     this.shareService.changeData(authorisationResponse);
                     this.router.navigate([`${RoutingPath.BANK_OFFERED}`],
                         ObaUtils.getQueryParams(this.encryptedConsentId, this.authorisationId));
+                }, (error) => {
+                  console.log(error);
+                  this.invalidCredentials = true;
                 })
             );
         }
-    }
-
-    public cancel(): void {
-        console.log('the button cancel is pressed');
     }
 
     public ngOnDestroy(): void {

@@ -18,6 +18,7 @@ export class TanConfirmationComponent implements OnInit {
     private subscriptions: Subscription[] = [];
     public authResponse: ConsentAuthorizeResponse;
     public tanForm: FormGroup;
+    public invalidTanCount = 0;
 
     constructor(private formBuilder: FormBuilder,
                 private router: Router,
@@ -55,6 +56,12 @@ export class TanConfirmationComponent implements OnInit {
                 this.shareService.changeData(this.authResponse);
                 this.router.navigate([`${RoutingPath.RESULT}`],
                     ObaUtils.getQueryParams(this.authResponse.encryptedConsentId, this.authResponse.authorisationId));
+            }, (error) => {
+                this.invalidTanCount++;
+
+                if (this.invalidTanCount >= 3) {
+                  throw error;
+                }
             })
         );
     }
