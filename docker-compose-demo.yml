@@ -147,7 +147,7 @@ services:
     restart: on-failure
     build:
       context: oba-ui
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.demo
     ports:
       - "4400:4400"
     networks:
@@ -161,19 +161,19 @@ services:
     restart: on-failure
     build:
       context: tpp-ui
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.demo
     ports:
       - "4205:4205"
     networks:
       - xs2a-net
 
   # Developer portal ui
-  developer-portal-ui:
+  xs2a-developer-portal-ui:
     image: adorsys/developer-portal-ui
     restart: on-failure
     build:
       context: developer-portal-ui
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.demo
     ports:
       - "4206:4206"
     networks:
