@@ -166,15 +166,3 @@ services:
       - "4205:4205"
     networks:
       - xs2a-net
-
-  # Developer portal ui
-  xs2a-developer-portal-ui:
-    image: adorsys/developer-portal-ui
-    restart: on-failure
-    build:
-      context: developer-portal-ui
-      dockerfile: Dockerfile.demo
-    ports:
-      - "4206:4206"
-    networks:
-      - xs2a-net

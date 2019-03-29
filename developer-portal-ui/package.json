@@ -57,7 +57,7 @@
     "karma-jasmine": "~1.1.2",
     "karma-jasmine-html-reporter": "^0.2.2",
     "lint-staged": "^8.0.4",
-    "node-sass": "^4.9.4",
+    "node-sass": "^4.11.0",
     "prettier": "1.15.2",
     "prettier-check": "^2.0.0",
     "protractor": "~5.4.0",
