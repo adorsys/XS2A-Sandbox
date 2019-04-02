@@ -1,62 +1,74 @@
 <form [formGroup]="bankOfferedForm" (ngSubmit)="bankOfferedForm.valid && onSubmit()">
 
-    <div class="card">
-        <div class="card-body">
-            <h2 class="card-title font-weight-bold">Select bank accounts and account accesses</h2>
-            <div class="font-weight-light my-4 text-muted">Please select your Account and confirm with “Next"</div>
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title font-weight-bold">Select ibans and account accesses</h2>
+      <div class="font-weight-light my-4 text-muted">Please select ibans and types of accesses you give to the TPP, then
+        confirm with “Next". Account access would be selected
+        by default for every iban of your choice.
+      </div>
 
-            <div class="col-12 font-weight-light">
-                <div *ngFor="let account of accounts, let i = index" class="form-check border">
-                    <input class="form-check-input" id="account_{{i}}" name="accounts"
-                    [value]="account.iban"
-                    (change)="handleObjectSelectedEvent(account.iban, authResponse.consent.access.accounts)"
-                    [checked]="authResponse.consent.access.accounts.indexOf(account.iban) > -1"
-                           type="checkbox">
-                    <label class="form-check-label font-weight-bold"
-                           for="account_{{i}}">Account access for {{account.product}} </label><br>
-                    <label class="form-check-label" for="account_{{i}}"> {{account.iban}} </label><br>
-                </div>
-            </div>
+      <div class="col-12 font-weight-light" *ngFor="let account of accounts, let i = index">
 
-            <div class="col-12 font-weight-light">
-                <div *ngFor="let account of accounts, let i = index" class="form-check border">
-                    <input class="form-check-input" id="balance_{{i}}" name="balances"
-                    [value]="account.iban"
-                    (change)="handleObjectSelectedEvent(account.iban, authResponse.consent.access.balances)"
-                    [checked]="authResponse.consent.access.balances.indexOf(account.iban) > -1"
-                           type="checkbox">
-                    <label class="form-check-label font-weight-bold"
-                           for="balance_{{i}}">Access to balances for {{account.product}} </label><br>
-                    <label class="form-check-label" for="balance_{{i}}"> {{account.iban}} </label><br>
-                </div>
-            </div>
+        <div class="form-check">
+          <input class="form-check-input" id="iban_{{i}}" name="ibans"
+                 [value]="account.iban"
+                 (change)="handleObjectSelectedEvent(account.iban, consentAccounts)"
+                 [checked]="accountsChecked(account)"
+                 type="checkbox">
 
-            <div class="col-12 font-weight-light">
-                <div *ngFor="let account of accounts, let i = index" class="form-check border">
-                    <input class="form-check-input" id="transation_{{i}}" name="accounts"
-                    [value]="account.iban"
-                    (change)="handleObjectSelectedEvent(account.iban, authResponse.consent.access.transactions)"
-                    [checked]="authResponse.consent.access.transactions.indexOf(account.iban) > -1"
-                           type="checkbox">
-                    <label class="form-check-label font-weight-bold"
-                           for="transation_{{i}}">Access to transactions for {{account.product}} </label><br>
-                    <label class="form-check-label" for="transation_{{i}}"> {{account.iban}} </label><br>
-                </div>
-            </div>
+          <label class="form-check-label" for="iban_{{i}}"> {{account.iban}} </label><br>
+
+          <div class="form-check">
+            <input class="form-check-input" id="account_{{i}}" name="accounts"
+                   [value]="account.iban"
+                   (change)="handleObjectSelectedEvent(account.iban, consentAccounts)"
+                   [checked]="accountsChecked(account)"
+                   type="checkbox"
+                   [disabled]="!accountsChecked(account)">
+            <label class="form-check-label font-weight-bold"
+                   for="account_{{i}}"> Accounts </label><br>
+          </div>
+
+          <div class="form-check">
+            <input class="form-check-input" id="balance_{{i}}" name="balances"
+                   [value]="account.iban"
+                   (change)="handleObjectSelectedEvent(account.iban, consentBalances)"
+                   [checked]="accountsChecked(account) && balancesChecked(account)"
+                   type="checkbox"
+                   [disabled]="!accountsChecked(account)">
+            <label class="form-check-label font-weight-bold"
+                   for="balance_{{i}}"> Balances </label><br>
+          </div>
+
+          <div class="form-check">
+            <input class="form-check-input" id="transation_{{i}}" name="transactions"
+                   [value]="account.iban"
+                   (change)="handleObjectSelectedEvent(account.iban, consentTransactions)"
+                   [checked]="accountsChecked(account) && transactionsChecked(account)"
+                   type="checkbox"
+                   [disabled]="!accountsChecked(account)">
+            <label class="form-check-label font-weight-bold"
+                   for="transation_{{i}}"> Transactions </label><br>
+          </div>
+
         </div>
 
-        <div class="card-footer no-bg-color">
-            <div class="row my-3">
-                <div class="col-12 col-sm-6 pr-sm-2">
-                    <button type="button" class="btn btn-outline-secondary btn-block" (click)="cancel()">Cancel
-                    </button>
-                </div>
-                <div class="col-12 col-sm-6 pl-sm-2">
-                    <button type="submit" class="btn btn-primary btn-block" [disabled]="bankOfferedForm.invalid">Next
-                    </button>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
+
+    <div class="card-footer no-bg-color">
+      <div class="row my-3">
+        <div class="col-12 col-sm-6 pr-sm-2">
+          <button type="button" class="btn btn-outline-secondary btn-block" (click)="cancel()">Cancel
+          </button>
+        </div>
+        <div class="col-12 col-sm-6 pl-sm-2">
+          <button type="submit" class="btn btn-primary btn-block" [disabled]="bankOfferedForm.invalid">Next
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </form>

@@ -9,7 +9,6 @@ export class ShareDataService {
     private data = new BehaviorSubject<ConsentAuthorizeResponse>(null);
     currentData = this.data.asObservable();
 
-
     constructor() {
     }
 
