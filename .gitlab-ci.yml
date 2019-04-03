@@ -163,41 +163,6 @@ pmd_report:
       - "**/*/pmd.xml"
     name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}-pmd"
     expire_in: "10 day"
-#
-#test tpp frontend:
-#  stage: "build:qa"
-#  image: "adorsys/ci-build"
-#  script:
-#    - nvm use
-#    - cd tpp-ui
-#    - npm run test-ci
-#  cache:
-#    key: "TPP_UI_${CI_COMMIT_REF_SLUG}"
-#    paths:
-#      - tpp-ui/node_modules
-#
-#test oba frontend:
-#  stage: "build:qa"
-#  image: "adorsys/ci-build"
-#  script:
-#    - cd oba-ui
-#    - npm test
-#  cache:
-#    key: "OBA_UI_${CI_COMMIT_REF_SLUG}"
-#    paths:
-#      - oba-ui/node_modules
-#
-#test developer portal frontend:
-#  stage: "build:qa"
-#  image: "adorsys/ci-build"
-#  script:
-#    - nvm use
-#    - cd developer-portal-ui
-#    - npm run test-ci
-#  cache:
-#    key: "DEVPORTAL_${CI_COMMIT_REF_SLUG}"
-#    paths:
-#      - developer-portal-ui/node_modules
 
 check_pmd:
   stage: "build:qa"
