@@ -9,7 +9,7 @@ But befor you run this, first proceed with:
 
 ```
 > mvn clean install
-> cd instegration-tests
+> cd integration-tests
 > docker-compose build
 > docker-compose up
 
@@ -21,7 +21,7 @@ THe online banking module provides a spring boot application class that can be u
 
 ```
 > mvn clean install
-> cd instegration-tests
+> cd integration-tests
 > docker-compose -f integration-tests/docker-compose-no-oba.yml build
 > docker-compose -f integration-tests/docker-compose-no-oba.yml up
 
@@ -30,7 +30,7 @@ Then separately start the online banking application in you ide using following 
 
 on the console
 ```
-> cd instegration-tests
+> cd integration-tests
 > java -jar target/online-banking/online-banking-app.jar --online-banking.sca.uiRedirect=true --online-banking.sca.loginpage=http://localhost:4400/
 
 ```
@@ -61,7 +61,7 @@ After starting the sandbox, you can run the following class to initialize a cons
 You can also run the test from an ide using:
 
 ```
-> cd instegration-tests
+> cd integration-tests
 > mvn test -Dtest=de.adorsys.ledgers.xs2a.test.ctk.redirect.ConsentRedirectOneScaApp
 
 ```
