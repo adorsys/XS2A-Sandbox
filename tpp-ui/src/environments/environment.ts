@@ -3,9 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
-  server: 'http://localhost:8088',
-  staffAccessResourceEndPoint: 'http://localhost:8088/staff-access'
+    production: false,
+    server: 'http://localhost:8088',
+    staffAccessResourceEndPoint: 'http://localhost:8088/staff-access',
+    certificateGenerationServer: 'http://localhost:8092'
 };
 
 /*
