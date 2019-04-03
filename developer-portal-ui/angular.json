@@ -17,8 +17,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "baseHref": "/app/",
-            "deployUrl": "/app/",
             "outputPath": "dist/psd2-accelerator",
             "index": "src/index.html",
             "main": "src/main.ts",

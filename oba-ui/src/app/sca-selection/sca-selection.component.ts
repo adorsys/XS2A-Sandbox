@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ScaUserDataTO } from '../../../api/models/sca-user-data-to';
+import { ScaUserDataTO } from '../api/models';
 import { Router } from '@angular/router';
 import { ShareDataService } from '../common/services/share-data.service';
-import { ConsentAuthorizeResponse } from 'api/models';
+import { ConsentAuthorizeResponse } from '../api/models';
 import { AisService } from '../common/services/ais.service';
 import { Subscription } from 'rxjs';
 import { RoutingPath } from '../common/models/routing-path.model';

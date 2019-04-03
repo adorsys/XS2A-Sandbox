@@ -3,17 +3,13 @@ import { AccountReferenceTO } from './account-reference-to';
 import { AddressTO } from './address-to';
 import { AmountTO } from './amount-to';
 import { LocalTime } from './local-time';
-export interface PeriodicPaymentTO {
-  frequency?: 'Daily' | 'Weekly' | 'EveryTwoWeeks' | 'Monthly' | 'EveryTwoMonths' | 'Quarterly' | 'SemiAnnual' | 'Annual';
+export interface SinglePaymentTO {
   creditorAccount?: AccountReferenceTO;
+  creditorAddress?: AddressTO;
   creditorAgent?: string;
   creditorName?: string;
-  dayOfExecution?: number;
   debtorAccount?: AccountReferenceTO;
-  endDate?: string;
   endToEndIdentification?: string;
-  executionRule?: string;
-  creditorAddress?: AddressTO;
   instructedAmount?: AmountTO;
   paymentId?: string;
   paymentProduct?: 'SEPA' | 'INSTANT_SEPA' | 'TARGET2' | 'CROSS_BORDER';
@@ -21,5 +17,4 @@ export interface PeriodicPaymentTO {
   remittanceInformationUnstructured?: string;
   requestedExecutionDate?: string;
   requestedExecutionTime?: LocalTime;
-  startDate?: string;
 }

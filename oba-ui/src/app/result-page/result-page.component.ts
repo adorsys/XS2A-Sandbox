@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ConsentAuthorizeResponse} from 'api/models';
+import {ConsentAuthorizeResponse} from '../api/models';
 import {ShareDataService} from '../common/services/share-data.service';
 import {AisService} from '../common/services/ais.service';
 

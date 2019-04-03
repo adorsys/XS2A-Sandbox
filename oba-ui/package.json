@@ -3,11 +3,10 @@
     "version": "0.0.0",
     "scripts": {
         "ng": "ng",
-        "load-api": "bash load-api.sh",
-        "swagger-gen": "npm run load-api && ng-swagger-gen -i ./api/kontrakte/oba.json -o ./api/",
-        "start": "rm -rf ./api && npm run swagger-gen && ng serve --port=4400 --proxy-config=proxy.conf.json",
-        "build": "rm -rf ./api && npm run swagger-gen && ng build",
-        "test": "ng test --browsers ChromeHeadless --watch=false --environment=prod",
+        "start": "ng serve",
+        "build": "ng build",
+        "test": "ng test",
+        "test-ci": "ng test --browsers ChromeCi --watch=false --code-coverage --environment=prod",
         "lint": "ng lint",
         "e2e": "ng e2e"
     },

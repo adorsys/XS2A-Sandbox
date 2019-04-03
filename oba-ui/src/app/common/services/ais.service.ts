@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/internal/Observable';
-import {AccountDetailsTO} from '../../../../api/models/account-details-to';
+import {AccountDetailsTO} from '../../api/models';
 
-import {ConsentAuthorizeResponse} from '../../../../api/models/consent-authorize-response';
-import {PSUAISService} from '../../../../api/services/psuais.service';
+import {ConsentAuthorizeResponse} from '../../api/models/consent-authorize-response';
+import {PSUAISService} from '../../api/services';
 import LoginUsingPOSTParams = PSUAISService.LoginUsingPOSTParams;
 import RevokeConsentUsingDELETEParams = PSUAISService.RevokeConsentUsingDELETEParams;
 

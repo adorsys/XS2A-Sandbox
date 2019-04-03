@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AisService } from '../common/services/ais.service';
 import { ShareDataService } from '../common/services/share-data.service';
-import { ConsentAuthorizeResponse } from 'api/models';
+import { ConsentAuthorizeResponse } from '../api/models';
 import { RoutingPath } from '../common/models/routing-path.model';
 import { ObaUtils } from '../common/utils/oba-utils';
 

@@ -29,6 +29,7 @@ class PSUAISService extends __BaseService {
   static readonly loginUsingPOSTPath = '/ais/{encryptedConsentId}/authorisation/{authorisationId}/login';
   static readonly selectMethodUsingPOSTPath = '/ais/{encryptedConsentId}/authorisation/{authorisationId}/methods/{scaMethodId}';
   static readonly startConsentAuthUsingPOSTPath = '/ais/{encryptedConsentId}/authorisation/{authorisationId}/start';
+  static readonly revokeConsentUsingDELETEPath = '/ais/{encryptedConsentId}/{authorisationId}';
 
   constructor(
     config: __Configuration,
@@ -465,6 +466,60 @@ class PSUAISService extends __BaseService {
       __map(_r => _r.body as ConsentAuthorizeResponse)
     );
   }
+
+  /**
+   * This call provides the server with the opportunity to close this session and revoke consent.
+   * @param params The `PSUAISService.RevokeConsentUsingDELETEParams` containing the following parameters:
+   *
+   * - `encryptedConsentId`: encryptedConsentId
+   *
+   * - `authorisationId`: authorisationId
+   *
+   * - `Cookie`: Cookie
+   *
+   * @return OK
+   */
+  revokeConsentUsingDELETEResponse(params: PSUAISService.RevokeConsentUsingDELETEParams): __Observable<__StrictHttpResponse<ConsentAuthorizeResponse>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+
+    if (params.Cookie != null) __headers = __headers.set('Cookie', params.Cookie.toString());
+    let req = new HttpRequest<any>(
+      'DELETE',
+      this.rootUrl + `/ais/${params.encryptedConsentId}/${params.authorisationId}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<ConsentAuthorizeResponse>;
+      })
+    );
+  }
+  /**
+   * This call provides the server with the opportunity to close this session and revoke consent.
+   * @param params The `PSUAISService.RevokeConsentUsingDELETEParams` containing the following parameters:
+   *
+   * - `encryptedConsentId`: encryptedConsentId
+   *
+   * - `authorisationId`: authorisationId
+   *
+   * - `Cookie`: Cookie
+   *
+   * @return OK
+   */
+  revokeConsentUsingDELETE(params: PSUAISService.RevokeConsentUsingDELETEParams): __Observable<ConsentAuthorizeResponse> {
+    return this.revokeConsentUsingDELETEResponse(params).pipe(
+      __map(_r => _r.body as ConsentAuthorizeResponse)
+    );
+  }
 }
 
 module PSUAISService {
@@ -634,6 +689,27 @@ module PSUAISService {
      * aisConsent
      */
     aisConsent: AisConsentRequest;
+
+    /**
+     * Cookie
+     */
+    Cookie?: string;
+  }
+
+  /**
+   * Parameters for revokeConsentUsingDELETE
+   */
+  export interface RevokeConsentUsingDELETEParams {
+
+    /**
+     * encryptedConsentId
+     */
+    encryptedConsentId: string;
+
+    /**
+     * authorisationId
+     */
+    authorisationId: string;
 
     /**
      * Cookie

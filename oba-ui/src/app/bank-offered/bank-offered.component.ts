@@ -1,13 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {AccountDetailsTO} from '../../../api/models/account-details-to';
-import {RoutingPath} from '../common/models/routing-path.model';
-import {AisService} from '../common/services/ais.service';
-import {ShareDataService} from '../common/services/share-data.service';
-import {ObaUtils} from '../common/utils/oba-utils';
-import {ConsentAuthorizeResponse} from 'api/models';
-import {Subscription} from 'rxjs';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AccountDetailsTO } from '../api/models';
+import { RoutingPath } from '../common/models/routing-path.model';
+import { AisService } from '../common/services/ais.service';
+import { ShareDataService } from '../common/services/share-data.service';
+import { ObaUtils } from '../common/utils/oba-utils';
+import { ConsentAuthorizeResponse } from '../api/models';
+import { Subscription } from 'rxjs';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-bank-offered',

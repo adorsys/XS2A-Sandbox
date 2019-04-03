@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 
 import {ShareDataService} from '../common/services/share-data.service';
-import { ConsentAuthorizeResponse } from 'api/models';
+import { ConsentAuthorizeResponse } from '../api/models';
 
 @Component({
     selector: 'app-account-details',
