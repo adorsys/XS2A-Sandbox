@@ -19,9 +19,4 @@ export class AppComponent {
         const url = window.location.href;
         return url.indexOf('/bank-offered');
     }
-
-    public checkUrlResult(): number {
-      const url = window.location.href;
-      return url.indexOf('/result');
-    }
 }

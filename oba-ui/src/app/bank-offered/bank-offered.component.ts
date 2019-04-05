@@ -19,6 +19,7 @@ export class BankOfferedComponent implements OnInit {
   private subscriptions: Subscription[] = [];
   public authResponse: ConsentAuthorizeResponse;
   public bankOfferedForm: FormGroup;
+  public bankOffered: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -31,7 +32,10 @@ export class BankOfferedComponent implements OnInit {
   public ngOnInit(): void {
     this.shareService.currentData.subscribe(data => {
       if (data) {
-        this.shareService.currentData.subscribe(authResponse => this.authResponse = authResponse);
+        this.shareService.currentData.subscribe(authResponse => {
+          this.authResponse = authResponse;
+          this.bankOffered = this.isBankOfferedConsent();
+        });
       }
     });
   }
@@ -103,6 +107,25 @@ export class BankOfferedComponent implements OnInit {
 
   get consentTransactions(): Array<string> {
     return this.authResponse.consent.access.transactions;
+  }
+
+  private isBankOfferedConsent() {
+    return this.isEmptyAccountAccess() && this.isEmptyBalancesAccess() && this.isEmptyTransactionsAccess();
+  }
+
+  private isEmptyAccountAccess(): boolean {
+    return this.authResponse.consent.access.accounts == null ||
+      this.authResponse.consent.access.accounts.length == 0;
+  }
+
+  private isEmptyBalancesAccess(): boolean {
+    return this.authResponse.consent.access.balances == null ||
+      this.authResponse.consent.access.balances.length == 0;
+  }
+
+  private isEmptyTransactionsAccess(): boolean {
+    return this.authResponse.consent.access.transactions == null ||
+      this.authResponse.consent.access.transactions.length == 0;
   }
 
 }

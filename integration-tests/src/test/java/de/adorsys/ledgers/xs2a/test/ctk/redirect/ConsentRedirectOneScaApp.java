@@ -1,21 +1,16 @@
 package de.adorsys.ledgers.xs2a.test.ctk.redirect;
 
-import java.time.LocalDate;
-import java.util.Collections;
-import java.util.List;
-
+import de.adorsys.psd2.model.*;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.http.ResponseEntity;
 
-import de.adorsys.psd2.model.AccountAccess;
-import de.adorsys.psd2.model.AccountReference;
-import de.adorsys.psd2.model.ConsentStatus;
-import de.adorsys.psd2.model.Consents;
-import de.adorsys.psd2.model.ConsentsResponse201;
-import io.github.bonigarcia.wdm.WebDriverManager;
+import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
 
 public class ConsentRedirectOneScaApp extends AbstractConsentRedirect {
 	
