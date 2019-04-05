@@ -27,7 +27,7 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
         	logger.trace("doFilter start");
         }
 
-        Authentication authentication = SecurityContextHolder .getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
             if(logger.isDebugEnabled()) {
             	logger.debug("Authentication is null. Try to get authentication from request...");

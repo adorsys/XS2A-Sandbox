@@ -8,7 +8,6 @@ import {RoutingPath} from '../common/models/routing-path.model';
 import {AisService} from '../common/services/ais.service';
 import {ShareDataService} from '../common/services/share-data.service';
 import {ObaUtils} from '../common/utils/oba-utils';
-import {catchError} from "rxjs/operators";
 
 @Component({
     selector: 'app-login',
@@ -18,8 +17,9 @@ import {catchError} from "rxjs/operators";
 export class LoginComponent implements OnInit, OnDestroy {
 
     private subscriptions: Subscription[] = [];
-    private authorisationId: string;
-    private encryptedConsentId: string;
+    private readonly authorisationId: string;
+    private readonly encryptedConsentId: string;
+    private readonly redirectId: string;
     loginForm: FormGroup;
     invalidCredentials: boolean;
 
@@ -30,14 +30,24 @@ export class LoginComponent implements OnInit, OnDestroy {
                 private shareService: ShareDataService,
                 @Inject(URL_PARAMS_PROVIDER) params) {
         this.encryptedConsentId = params.encryptedConsentId;
-        this.authorisationId = params.authorisationId;
+        this.authorisationId = params.redirectId;
+        this.redirectId = params.redirectId;
     }
 
     public ngOnInit(): void {
-      this.loginForm = this.formBuilder.group({
-        login: ['', Validators.required],
-        pin: ['', Validators.required]
-      });
+        this.loginForm = this.formBuilder.group({
+          login: ['', Validators.required],
+          pin: ['', Validators.required]
+        });
+
+        // get ais auth code
+        this.subscriptions.push(
+            this.aisService.aisAuthCode({encryptedConsentId: this.encryptedConsentId, redirectId: this.redirectId})
+              .subscribe(authCodeResponse => this.shareService.changeData(authCodeResponse),
+              (error) => {
+              console.log(error);
+            })
+        );
     }
 
     public onSubmit(): void {

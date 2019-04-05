@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/internal/Observable';
-import {AccountDetailsTO} from '../../api/models';
+import {AccountDetailsTO, AuthorizeResponse} from '../../api/models';
 
 import {ConsentAuthorizeResponse} from '../../api/models/consent-authorize-response';
 import {PSUAISService} from '../../api/services';
 import LoginUsingPOSTParams = PSUAISService.LoginUsingPOSTParams;
+import AisAuthGetGETParams = PSUAISService.AisAuthUsingGETParams;
 import RevokeConsentUsingDELETEParams = PSUAISService.RevokeConsentUsingDELETEParams;
 
 
@@ -14,6 +15,10 @@ import RevokeConsentUsingDELETEParams = PSUAISService.RevokeConsentUsingDELETEPa
 export class AisService {
 
     constructor(private aisService: PSUAISService) {
+    }
+
+    public aisAuthCode(params: AisAuthGetGETParams): Observable<AuthorizeResponse> {
+      return this.aisService.aisAuthUsingGET(params);
     }
 
     public aisAuthorise(params: LoginUsingPOSTParams): Observable<ConsentAuthorizeResponse> {

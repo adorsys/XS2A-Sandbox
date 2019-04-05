@@ -106,18 +106,6 @@ services:
       - ONLINE_BANKING_SCA_LOGINPAGE=http://localhost:4400/
       - ONLINE_BANKING_SCA_UIREDIRECT=true
 
-  # Certificate generator
-  certificate-generator:
-    image: adorsys/xs2a-certificate-generator
-    restart: on-failure
-    build:
-      context: certificate-generator
-      dockerfile: Dockerfile
-    ports:
-      - "8092:8092"
-    networks:
-      - xs2a-net
-
   # Ledgers
   ledgers:
     image: adorsys/ledgers:0.3.7
@@ -176,5 +164,17 @@ services:
       dockerfile: Dockerfile
     ports:
       - "4206:4206"
+    networks:
+      - xs2a-net
+
+  # Certificate generator
+  certificate-generator:
+    image: adorsys/xs2a-certificate-generator
+    restart: on-failure
+    build:
+      context: certificate-generator
+      dockerfile: Dockerfile
+    ports:
+      - "8092:8092"
     networks:
       - xs2a-net
