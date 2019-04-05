@@ -25,6 +25,8 @@ import {AuthGuard} from './guards/auth.guard';
 import {AuthInterceptor} from './interceptors/auth-interceptor';
 import {UploadFileComponent} from './uploadFile/uploadFile.component';
 import {TestDataGenerationComponent} from "./components/testDataGeneration/test-data-generation.component";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {InfoModule} from "./commons/info/info.module";
 
 @NgModule({
     declarations: [
@@ -53,6 +55,8 @@ import {TestDataGenerationComponent} from "./components/testDataGeneration/test-
         HttpClientModule,
         FormsModule,
         ReactiveFormsModule,
+        InfoModule,
+        BrowserAnimationsModule,
         FileUploadModule
     ],
     providers: [

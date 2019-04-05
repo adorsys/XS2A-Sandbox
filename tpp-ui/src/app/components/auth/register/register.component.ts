@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 import {CertGenerationService} from "../../../services/cert-generation.service";
 import {combineLatest} from "rxjs";
 import JSZip from 'jszip';
+import {InfoService} from "../../../commons/info/info.service";
 
 @Component({
     selector: 'app-register',
@@ -32,6 +33,7 @@ export class RegisterComponent implements OnInit {
 
     constructor(private service: AuthService,
                 private certGenerationService: CertGenerationService,
+                private infoService: InfoService,
                 private router: Router) {
     }
 
@@ -49,7 +51,7 @@ export class RegisterComponent implements OnInit {
 
         if (this.generateCertificate) {
             if (this.certificateForm.invalid) {
-                return
+                return;
             }
 
             // combine observables
@@ -62,16 +64,32 @@ export class RegisterComponent implements OnInit {
                 const encodedCert = combinedData[1].encodedCert;
                 const privateKey = combinedData[1].privateKey;
 
-                this.createZipUrl(encodedCert, privateKey).then(url => this.downloadFile(url))
-                    .then(() =>
-                        this.router.navigate(['/login'])
-                    );
+                this.createZipUrl(encodedCert, privateKey).then(url =>
+                    this.router.navigate(['/login'])
+                        .then(() => {
+
+                            this.infoService.openFeedback(`You have been successfully registered and your certificate generated.
+                            The download will start automatically within the 2 seconds`);
+
+                            setTimeout(() => {
+                                this.downloadFile(url);
+                            }, 2000, url)
+
+                        })
+                );
             });
         } else {
             this.service.register(this.userForm.value, branch.value)
-                .subscribe(() => this.router.navigate(['/login']),
-                    () =>
-                        this.errorMessage = 'TPP with this login or email exists already');
+                .subscribe(() => {
+                    this.router.navigate(['/login'])
+                        .then(() => {
+                            this.infoService.openFeedback(`You have been successfully registered.`);
+                        });
+                    }, () => {
+                        this.infoService.openFeedback('TPP with this login or email exists already', {
+                            severity: 'error'
+                        })
+                });
 
         }
     }
@@ -99,14 +117,18 @@ export class RegisterComponent implements OnInit {
 
     private initializeCertificateGeneratorForm(): void {
         this.certificateForm = new FormGroup({
-            authorizationNumber: new FormControl('', Validators.required),
-            organizationName: new FormControl('', Validators.required),
-            countryName: new FormControl(''),
-            domainComponent: new FormControl('', Validators.required),
-            localityName: new FormControl(''),
-            organizationUnit: new FormControl(''),
-            stateOrProvinceName: new FormControl(''),
-            validity: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$"),]), //TODO: validation to be > 0
+            authorizationNumber: new FormControl('ID12345', Validators.required),
+            organizationName: new FormControl('Awesome TPP', Validators.required),
+            countryName: new FormControl('Germany'),
+            domainComponent: new FormControl('awesome-tpp.de', Validators.required),
+            localityName: new FormControl('Nuremberg'),
+            organizationUnit: new FormControl('IT department'),
+            stateOrProvinceName: new FormControl('Bayern'),
+            validity: new FormControl('365', [
+                Validators.required,
+                Validators.pattern("^[0-9]*$"),
+                Validators.min(0)
+            ]),
             roles: new FormArray([], Validators.required)
         });
     }
