@@ -8,6 +8,7 @@ import {RoutingPath} from '../common/models/routing-path.model';
 import {AisService} from '../common/services/ais.service';
 import {ShareDataService} from '../common/services/share-data.service';
 import {ObaUtils} from '../common/utils/oba-utils';
+import {PisService} from "../common/services/pis.service";
 
 @Component({
     selector: 'app-login',
@@ -17,10 +18,11 @@ import {ObaUtils} from '../common/utils/oba-utils';
 export class LoginComponent implements OnInit, OnDestroy {
 
     private subscriptions: Subscription[] = [];
+    private operation: string;
+    private paymentId: string;
     private readonly authorisationId: string;
     private readonly encryptedConsentId: string;
     private readonly redirectId: string;
-    private operationType: string;
     loginForm: FormGroup;
     invalidCredentials: boolean;
 
@@ -28,19 +30,21 @@ export class LoginComponent implements OnInit, OnDestroy {
                 private router: Router,
                 private route: ActivatedRoute,
                 private aisService: AisService,
+                private pisService: PisService,
                 private shareService: ShareDataService,
                 @Inject(URL_PARAMS_PROVIDER) params) {
+        this.operation = params.operation;
         this.encryptedConsentId = params.encryptedConsentId;
+        this.paymentId = params.paymentId;
         this.authorisationId = params.redirectId;
         this.redirectId = params.redirectId;
     }
 
     public ngOnInit(): void {
         this.initializeLoginForm();
-        this.operationType = this.route.snapshot.params['operation'];
 
       // get ais auth code and cookies
-        if (this.operationType === 'ais') {
+        if (this.operation === 'ais') {
           this.subscriptions.push(
             this.aisService.aisAuthCode({encryptedConsentId: this.encryptedConsentId, redirectId: this.redirectId})
               .subscribe(authCodeResponse => this.shareService.changeData(authCodeResponse),
@@ -48,15 +52,22 @@ export class LoginComponent implements OnInit, OnDestroy {
                   console.log(error);
                 })
           );
-        } else if (this.operationType === 'ais') {
+        } else if (this.operation === 'pis') {
           this.subscriptions.push(
-
+            this.pisService.pisAuthCode({encryptedPaymentId: this.paymentId, redirectId: this.redirectId})
+              .subscribe(authCodeResponse => this.shareService.changeData(authCodeResponse),
+                (error) => {
+                  console.log(error);
+                })
           );
         }
 
     }
 
     public onSubmit(): void {
+      //get auth code
+
+
         if (!!this.encryptedConsentId) {
             this.subscriptions.push(
                 this.aisService.aisAuthorise({

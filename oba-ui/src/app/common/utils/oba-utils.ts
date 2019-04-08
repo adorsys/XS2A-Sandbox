@@ -1,8 +1,17 @@
 export class ObaUtils {
 
-    public static getQueryParams(encryptedConsentId: string, authorisationId: string, redirectId?: string) {
+    public static getQueryParams(
+      operation: string,
+      encryptedConsentId?: string,
+      paymentId?: string,
+      authorisationId?: string,
+      redirectId?: string
+    ) {
+
         return { queryParams: {
+                operation: ObaUtils.decodeParam(encryptedConsentId),
                 encryptedConsentId: ObaUtils.decodeParam(encryptedConsentId),
+                paymentId: ObaUtils.decodeParam(paymentId),
                 authorisationId: ObaUtils.decodeParam(authorisationId),
                 redirectId: ObaUtils.decodeParam(redirectId)}
         };
