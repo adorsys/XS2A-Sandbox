@@ -18,7 +18,7 @@ import {PisService} from "../common/services/pis.service";
 export class LoginComponent implements OnInit, OnDestroy {
 
     private subscriptions: Subscription[] = [];
-    private readonly operation: string;
+    private operation: string;
     private readonly paymentId: string;
     private readonly authorisationId: string;
     private readonly encryptedConsentId: string;
@@ -74,6 +74,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                     authorisationId: this.authorisationId,
                 }).subscribe(authorisationResponse => {
                     this.shareService.changeData(authorisationResponse);
+                    this.shareService.setOperationType('ais');
                     this.router.navigate([`${RoutingPath.BANK_OFFERED}`],
                         ObaUtils.getQueryParams(this.encryptedConsentId, this.authorisationId));
                 }, (error) => {
@@ -89,9 +90,10 @@ export class LoginComponent implements OnInit, OnDestroy {
                 authorisationId: this.authorisationId,
               }).subscribe(authorisationResponse => {
                 console.log(authorisationResponse);
-                // this.shareService.changeData(authorisationResponse);
-                // this.router.navigate([`${RoutingPath.BANK_OFFERED}`],
-                //   ObaUtils.getQueryParams(this.encryptedConsentId, this.authorisationId));
+                this.shareService.changeData(authorisationResponse);
+                this.shareService.setOperationType('pis');
+                this.router.navigate([`${RoutingPath.SELECT_SCA}`],
+                  ObaUtils.getQueryParams(this.operation, null, this.paymentId, this.authorisationId));
               }, (error) => {
                 console.log(error);
                 this.invalidCredentials = true;

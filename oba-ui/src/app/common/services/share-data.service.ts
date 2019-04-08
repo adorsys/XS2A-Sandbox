@@ -1,18 +1,26 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
-import {ConsentAuthorizeResponse} from '../../api/models';
+import {ConsentAuthorizeResponse, PaymentAuthorizeResponse} from '../../api/models';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ShareDataService {
-    private data = new BehaviorSubject<ConsentAuthorizeResponse>(null);
+    // response data
+    private data = new BehaviorSubject<ConsentAuthorizeResponse|PaymentAuthorizeResponse>(null);
     currentData = this.data.asObservable();
 
-    constructor() {
-    }
+    // operation type
+    private operationType = new BehaviorSubject<string>(null);
+    currentOperation = this.operationType.asObservable();
+
+    constructor() {}
 
     changeData(data: ConsentAuthorizeResponse) {
         this.data.next(data);
+    }
+
+    setOperationType(operation: string) {
+      this.operationType.next(operation);
     }
 }
