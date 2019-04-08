@@ -1,7 +1,7 @@
 export class ObaUtils {
 
     public static getQueryParams(
-      operation: string,
+      operation?: string,
       encryptedConsentId?: string,
       paymentId?: string,
       authorisationId?: string,
