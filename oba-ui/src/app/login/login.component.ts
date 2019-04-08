@@ -18,8 +18,8 @@ import {PisService} from "../common/services/pis.service";
 export class LoginComponent implements OnInit, OnDestroy {
 
     private subscriptions: Subscription[] = [];
-    private operation: string;
-    private paymentId: string;
+    private readonly operation: string;
+    private readonly paymentId: string;
     private readonly authorisationId: string;
     private readonly encryptedConsentId: string;
     private readonly redirectId: string;
@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.initializeLoginForm();
 
-      // get ais auth code and cookies
+      // get auth code and cookies
         if (this.operation === 'ais') {
           this.subscriptions.push(
             this.aisService.aisAuthCode({encryptedConsentId: this.encryptedConsentId, redirectId: this.redirectId})
@@ -65,8 +65,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     public onSubmit(): void {
-      //get auth code
-
 
         if (!!this.encryptedConsentId) {
             this.subscriptions.push(
@@ -82,6 +80,22 @@ export class LoginComponent implements OnInit, OnDestroy {
                   console.log(error);
                   this.invalidCredentials = true;
                 })
+            );
+        } else if (!!this.paymentId) {
+            this.subscriptions.push(
+              this.pisService.pisLogin({
+                ...this.loginForm.value,
+                encryptedPaymentId: this.paymentId,
+                authorisationId: this.authorisationId,
+              }).subscribe(authorisationResponse => {
+                console.log(authorisationResponse);
+                // this.shareService.changeData(authorisationResponse);
+                // this.router.navigate([`${RoutingPath.BANK_OFFERED}`],
+                //   ObaUtils.getQueryParams(this.encryptedConsentId, this.authorisationId));
+              }, (error) => {
+                console.log(error);
+                this.invalidCredentials = true;
+              })
             );
         }
     }
