@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private readonly authorisationId: string;
     private readonly encryptedConsentId: string;
     private readonly redirectId: string;
+    private operationType: string;
     loginForm: FormGroup;
     invalidCredentials: boolean;
 
@@ -35,19 +36,24 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.loginForm = this.formBuilder.group({
-          login: ['', Validators.required],
-          pin: ['', Validators.required]
-        });
+        this.initializeLoginForm();
+        this.operationType = this.route.snapshot.params['operation'];
 
-        // get ais auth code
-        this.subscriptions.push(
+      // get ais auth code and cookies
+        if (this.operationType === 'ais') {
+          this.subscriptions.push(
             this.aisService.aisAuthCode({encryptedConsentId: this.encryptedConsentId, redirectId: this.redirectId})
               .subscribe(authCodeResponse => this.shareService.changeData(authCodeResponse),
-              (error) => {
-              console.log(error);
-            })
-        );
+                (error) => {
+                  console.log(error);
+                })
+          );
+        } else if (this.operationType === 'ais') {
+          this.subscriptions.push(
+
+          );
+        }
+
     }
 
     public onSubmit(): void {
@@ -71,6 +77,14 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     public ngOnDestroy(): void {
         this.subscriptions.forEach(sub => sub.unsubscribe());
+    }
+
+
+    private initializeLoginForm(): void {
+      this.loginForm = this.formBuilder.group({
+        login: ['', Validators.required],
+        pin: ['', Validators.required]
+      });
     }
 
 }
