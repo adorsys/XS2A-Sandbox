@@ -7,9 +7,9 @@ setting:
     - EMBEDDED
   tppSignatureRequired: false
   bankOfferedConsentSupport: true
-  pisRedirectUrlToAspsp: http://localhost:4400/operation/pis?paymentId={encrypted-payment-id}&redirectId={redirect-id}
-  pisPaymentCancellationRedirectUrlToAspsp: http://localhost:4400/operation/pis-cancellation?paymentId={encrypted-payment-id}&redirectId={redirect-id}
-  aisRedirectUrlToAspsp: http://localhost:4400/operation/ais?encryptedConsentId={encrypted-consent-id}&redirectId={redirect-id}
+  pisRedirectUrlToAspsp: http://localhost:4400/login?operation=pis&paymentId={encrypted-payment-id}&redirectId={redirect-id}
+  pisPaymentCancellationRedirectUrlToAspsp: http://localhost:4400/login?operation=pis-cancellation&paymentId={encrypted-payment-id}&redirectId={redirect-id}
+  aisRedirectUrlToAspsp: http://localhost:4400/login?operation=ais&encryptedConsentId={encrypted-consent-id}&redirectId={redirect-id}
 
   multicurrencyAccountLevel: SUBACCOUNT
   availableBookingStatuses:
