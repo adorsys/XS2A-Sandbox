@@ -22,6 +22,7 @@ import de.adorsys.psd2.consent.api.pis.CmsBulkPayment;
 import de.adorsys.psd2.consent.api.pis.CmsPaymentResponse;
 import de.adorsys.psd2.consent.api.pis.CmsPeriodicPayment;
 import de.adorsys.psd2.consent.api.pis.CmsSinglePayment;
+import feign.FeignException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuPisClient;
@@ -35,6 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+//TODO refactor and write tests https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/issues/33
 @RestController(PisCancellationController.BASE_PATH)
 @RequestMapping(PisCancellationController.BASE_PATH)
 @Api(value = PisCancellationController.BASE_PATH, tags = "PSU PIS Cancellation", description = "Provides access to online banking payment functionality")
@@ -82,6 +84,7 @@ public class PisCancellationController extends AbstractXISController implements 
             String psuId = AuthUtils.psuId(cancellationWorkflow.bearerToken());
             try {
                 updateAuthorisationStatus(cancellationWorkflow, psuId, response);
+                initiateCancelPayment(cancellationWorkflow);
 
                 if (cancellationWorkflow.singleScaMethod()) {
                     ScaUserDataTO scaUserDataTO = cancellationWorkflow.scaMethods().iterator().next();
@@ -110,29 +113,6 @@ public class PisCancellationController extends AbstractXISController implements 
         } else {
             responseUtils.removeCookies(response);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-    }
-
-    @Override
-    public ResponseEntity<PaymentAuthorizeResponse> initiatePaymentCancellation(
-        String encryptedPaymentId, String authorisationId, String consentAndAccessTokenCookieString) {
-
-        try {
-            String psuId = AuthUtils.psuId(auth);
-            // Identity the link and load the cancellationWorkflow.
-            PaymentWorkflow cancellationWorkflow = identifyPayment(encryptedPaymentId, authorisationId, true, consentAndAccessTokenCookieString, psuId, response, auth.getBearerToken());
-
-            // Update status
-            cancellationWorkflow.getScaResponse().setScaStatus(ScaStatusTO.PSUAUTHENTICATED);
-            updateAuthorisationStatus(cancellationWorkflow, psuId, response);
-
-            updateScaStatusPaymentStatusConsentData(psuId, cancellationWorkflow);
-
-            // Store result in token.
-            responseUtils.setCookies(response, cancellationWorkflow.getConsentReference(), cancellationWorkflow.bearerToken().getAccess_token(), cancellationWorkflow.bearerToken().getAccessTokenObject());
-            return ResponseEntity.ok(cancellationWorkflow.getAuthResponse());
-        } catch (PaymentAuthorizeException e) {
-            return e.getError();
         }
     }
 
@@ -167,9 +147,10 @@ public class PisCancellationController extends AbstractXISController implements 
 
             authInterceptor.setAccessToken(cancellationWorkflow.bearerToken().getAccess_token());
 
-            SCAPaymentResponseTO scaPaymentResponse = paymentRestClient.authorizePayment(cancellationWorkflow.paymentId(), cancellationWorkflow.authId(), authCode).getBody();
+            SCAPaymentResponseTO scaPaymentResponse = paymentRestClient.authorizeCancelPayment(cancellationWorkflow.paymentId(), cancellationWorkflow.authId(), authCode).getBody();
             processPaymentResponse(cancellationWorkflow, scaPaymentResponse);
 
+            cancellationWorkflow.setPaymentStatus(TransactionStatusTO.CANC.toString());
             updateScaStatusPaymentStatusConsentData(psuId, cancellationWorkflow);
 
             responseUtils.setCookies(response, cancellationWorkflow.getConsentReference(), cancellationWorkflow.bearerToken().getAccess_token(), cancellationWorkflow.bearerToken().getAccessTokenObject());
@@ -181,11 +162,23 @@ public class PisCancellationController extends AbstractXISController implements 
         }
     }
 
+    private void initiateCancelPayment(final PaymentWorkflow paymentWorkflow) throws PaymentAuthorizeException {
+        try {
+            authInterceptor.setAccessToken(paymentWorkflow.bearerToken().getAccess_token());
+            SCAPaymentResponseTO paymentResponseTO = paymentRestClient.initiatePmtCancellation(paymentWorkflow.paymentId()).getBody();
+            processPaymentResponse(paymentWorkflow, paymentResponseTO);
+        } catch (FeignException f) {
+            paymentWorkflow.setErrorCode(HttpStatus.valueOf(f.status()));
+            throw f;
+        } finally {
+            authInterceptor.setAccessToken(null);
+        }
+    }
+
     private void updateScaStatusPaymentStatusConsentData(String psuId, PaymentWorkflow cancellationWorkflow)
         throws PaymentAuthorizeException {
-        // UPDATE CMS
         updateAuthorisationStatus(cancellationWorkflow, psuId, response);
-        updatePaymentStatus(response, cancellationWorkflow);
+        updateCmsPaymentStatus(response, cancellationWorkflow);
         updateAspspConsentData(cancellationWorkflow, response);
     }
 
@@ -213,7 +206,7 @@ public class PisCancellationController extends AbstractXISController implements 
         return new PaymentAuthorizeResponse();
     }
 
-    private void updatePaymentStatus(HttpServletResponse response, PaymentWorkflow paymentWorkflow)
+    private void updateCmsPaymentStatus(HttpServletResponse response, PaymentWorkflow paymentWorkflow)
         throws PaymentAuthorizeException {
         ResponseEntity<Void> updatePaymentStatusResponse = cmsPsuPisClient.updatePaymentStatus(
             paymentWorkflow.getPaymentResponse().getPayment().getPaymentId(), paymentWorkflow.getPaymentStatus(), CmsPsuPisClient.DEFAULT_SERVICE_INSTANCE_ID);
@@ -315,7 +308,7 @@ public class PisCancellationController extends AbstractXISController implements 
         try {
             authInterceptor.setAccessToken(cancellationWorkflow.bearerToken().getAccess_token());
 
-            SCAPaymentResponseTO paymentResponseTO = paymentRestClient.selectMethod(cancellationWorkflow.paymentId(), cancellationWorkflow.authId(), scaMethodId).getBody();
+            SCAPaymentResponseTO paymentResponseTO = paymentRestClient.selecCancelPaymentSCAtMethod(cancellationWorkflow.paymentId(), cancellationWorkflow.authId(), scaMethodId).getBody();
             processPaymentResponse(cancellationWorkflow, paymentResponseTO);
             return paymentResponseTO;
         } finally {

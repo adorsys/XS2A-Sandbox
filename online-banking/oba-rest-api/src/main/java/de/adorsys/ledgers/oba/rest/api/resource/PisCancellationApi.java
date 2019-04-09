@@ -35,21 +35,6 @@ public interface PisCancellationApi {
         @RequestHeader(name = "Cookie", required = false) String consentCookieString);
 
 	/**
-	 * Calls the consent validation page.
-	 * @param encryptedPaymentId the sca id
-	 * @param authorisationId the auth id
-	 * @param consentAndaccessTokenCookieString the cosent cookie
-	 * @return PaymentAuthorizeResponse
-	 */
-	@PostMapping(path="/{encryptedPaymentId}/authorisation/{authorisationId}/initiate")
-	@ApiOperation(value = "Calls the consent validation page.",
-		authorizations = @Authorization(value = "apiKey"))
-	ResponseEntity<PaymentAuthorizeResponse> initiatePaymentCancellation(
-        @PathVariable("encryptedPaymentId") String encryptedPaymentId,
-        @PathVariable("authorisationId") String authorisationId,
-        @RequestHeader(name = "Cookie", required = false) String consentAndaccessTokenCookieString);
-
-	/**
 	 * Selects the SCA Method for use.
 	 *
 	 * @param encryptedPaymentId the sca id
