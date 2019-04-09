@@ -9,6 +9,7 @@ import { RoutingPath } from '../common/models/routing-path.model';
 import { ObaUtils } from '../common/utils/oba-utils';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {PisService} from "../common/services/pis.service";
+import {PisCancellationService} from "../common/services/pis-cancellation.service";
 
 @Component({
     selector: 'app-sca-selection',
@@ -28,6 +29,7 @@ export class ScaSelectionComponent implements OnInit {
         private router: Router,
         private aisService: AisService,
         private pisService: PisService,
+        private pisCancellationService: PisCancellationService,
         private shareService: ShareDataService) {
         this.scaForm = this.formBuilder.group({
             scaMethod: ['', Validators.required],
@@ -78,6 +80,18 @@ export class ScaSelectionComponent implements OnInit {
           );
         } else if (this.operation == 'pis') {
           this.pisService.selectScaMethod({
+            encryptedPaymentId: this.authResponse.encryptedConsentId,
+            authorisationId: this.authResponse.authorisationId,
+            scaMethodId: this.selectedScaMethod.id
+          }).subscribe(authResponse => {
+            console.log(authResponse);
+            this.authResponse = authResponse;
+            this.shareService.changeData(this.authResponse);
+            this.router.navigate([`${RoutingPath.TAN_CONFIRMATION}`],
+              ObaUtils.getQueryParams(this.operation, null, this.authResponse.encryptedConsentId, this.authResponse.authorisationId, null));
+          })
+        } else if (this.operation == 'pis-cancellation') {
+          this.pisCancellationService.selectScaMethod({
             encryptedPaymentId: this.authResponse.encryptedConsentId,
             authorisationId: this.authResponse.authorisationId,
             scaMethodId: this.selectedScaMethod.id
