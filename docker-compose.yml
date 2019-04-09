@@ -129,43 +129,43 @@ services:
     volumes:
       - xs2a-connector-data:/var/lib/data
 
-  # Xs2a online banking frontend
-  xs2a-online-banking-ui:
-    image: adorsys/xs2a-online-banking-ui
-    restart: on-failure
-    build:
-      context: oba-ui
-      dockerfile: Dockerfile
-    ports:
-      - "4400:4400"
-    networks:
-      - xs2a-net
-    environment:
-      - ONLINE_BANKING_SERVER_URL=http://xs2a-online-banking:8090
-
-  # TPP-UI
-  xs2a-tpp-ui:
-    image: adorsys/tpp-ui
-    restart: on-failure
-    build:
-      context: tpp-ui
-      dockerfile: Dockerfile
-    ports:
-      - "4205:4205"
-    networks:
-      - xs2a-net
-
-  # Developer portal ui
-  developer-portal-ui:
-    image: adorsys/developer-portal-ui
-    restart: on-failure
-    build:
-      context: developer-portal-ui
-      dockerfile: Dockerfile
-    ports:
-      - "4206:4206"
-    networks:
-      - xs2a-net
+#  # Xs2a online banking frontend
+#  xs2a-online-banking-ui:
+#    image: adorsys/xs2a-online-banking-ui
+#    restart: on-failure
+#    build:
+#      context: oba-ui
+#      dockerfile: Dockerfile
+#    ports:
+#      - "4400:4400"
+#    networks:
+#      - xs2a-net
+#    environment:
+#      - ONLINE_BANKING_SERVER_URL=http://xs2a-online-banking:8090
+#
+#  # TPP-UI
+#  xs2a-tpp-ui:
+#    image: adorsys/tpp-ui
+#    restart: on-failure
+#    build:
+#      context: tpp-ui
+#      dockerfile: Dockerfile
+#    ports:
+#      - "4205:4205"
+#    networks:
+#      - xs2a-net
+#
+#  # Developer portal ui
+#  developer-portal-ui:
+#    image: adorsys/developer-portal-ui
+#    restart: on-failure
+#    build:
+#      context: developer-portal-ui
+#      dockerfile: Dockerfile
+#    ports:
+#      - "4206:4206"
+#    networks:
+#      - xs2a-net
 
   # Certificate generator
   certificate-generator:
