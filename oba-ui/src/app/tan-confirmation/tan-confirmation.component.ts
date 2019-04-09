@@ -8,6 +8,11 @@ import {ConsentAuthorizeResponse} from '../api/models';
 import {RoutingPath} from '../common/models/routing-path.model';
 import {ObaUtils} from '../common/utils/oba-utils';
 import {PisService} from "../common/services/pis.service";
+import {PisCancellationService} from "../common/services/pis-cancellation.service";
+import {PSUAISService} from "../api/services/psuais.service";
+import AuthrizedConsentUsingPOSTParams = PSUAISService.AuthrizedConsentUsingPOSTParams;
+import {PSUPISCancellationService} from "../api/services/psupiscancellation.service";
+import AuthorisePaymentUsingPOSTParams = PSUPISCancellationService.AuthorisePaymentUsingPOSTParams;
 
 @Component({
   selector: 'app-tan-confirmation',
@@ -28,6 +33,7 @@ export class TanConfirmationComponent implements OnInit {
               private route: ActivatedRoute,
               private aisService: AisService,
               private pisService: PisService,
+              private pisCancellationService: PisCancellationService,
               private shareService: ShareDataService) {
     this.tanForm = this.formBuilder.group({
       authCode: ['', Validators.required]
@@ -59,7 +65,7 @@ export class TanConfirmationComponent implements OnInit {
 
     if (this.operation == 'ais') {
       this.subscriptions.push(
-        this.aisService.authrizedConsent({
+        this.aisService.authrizedConsent(<AuthrizedConsentUsingPOSTParams>{
           ...this.tanForm.value,
           encryptedConsentId: this.authResponse.encryptedConsentId,
           authorisationId: this.authResponse.authorisationId,
@@ -78,7 +84,26 @@ export class TanConfirmationComponent implements OnInit {
       );
     } else if (this.operation == 'pis') {
       this.subscriptions.push(
-        this.pisService.authorizePayment({
+        this.pisService.authorizePayment(<AuthorisePaymentUsingPOSTParams>{
+          ...this.tanForm.value,
+          encryptedPaymentId: this.authResponse.encryptedConsentId,
+          authorisationId: this.authResponse.authorisationId,
+        }).subscribe(authResponse => {
+          this.authResponse = authResponse;
+          this.shareService.changeData(this.authResponse);
+          this.router.navigate([`${RoutingPath.RESULT}`],
+            ObaUtils.getQueryParams(this.authResponse.encryptedConsentId, this.authResponse.authorisationId));
+        }, (error) => {
+          this.invalidTanCount++;
+
+          if (this.invalidTanCount >= 3) {
+            throw error;
+          }
+        })
+      );
+    } else if (this.operation === 'pis-cancellation') {
+      this.subscriptions.push(
+        this.pisCancellationService.authorizePayment(<AuthorisePaymentUsingPOSTParams>{
           ...this.tanForm.value,
           encryptedPaymentId: this.authResponse.encryptedConsentId,
           authorisationId: this.authResponse.authorisationId,
