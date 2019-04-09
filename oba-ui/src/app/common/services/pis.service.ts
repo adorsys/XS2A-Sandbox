@@ -6,6 +6,7 @@ import {PaymentAuthorizeResponse} from "../../api/models";
 import LoginUsingPOST1Params = PSUPISService.LoginUsingPOST1Params;
 import SelectMethodUsingPOST1Params = PSUPISService.SelectMethodUsingPOST1Params;
 import PisAuthUsingGETParams = PSUPISService.PisAuthUsingGETParams;
+import AuthrizedPaymentUsingPOSTParams = PSUPISService.AuthrizedPaymentUsingPOSTParams;
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +26,9 @@ export class PisService {
 
   public selectScaMethod(params: SelectMethodUsingPOST1Params): Observable<PaymentAuthorizeResponse> {
     return this.pisService.selectMethodUsingPOST1(params);
+  }
+
+  public authorizePayment(params: AuthrizedPaymentUsingPOSTParams): Observable<PaymentAuthorizeResponse> {
+    return this.pisService.authrizedPaymentUsingPOST(params);
   }
 }

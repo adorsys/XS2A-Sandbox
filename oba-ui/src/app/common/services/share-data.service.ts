@@ -12,6 +12,7 @@ export class ShareDataService {
 
     // operation type
     private operationType = new BehaviorSubject<string>(null);
+
     currentOperation = this.operationType.asObservable();
 
     constructor() {}
