@@ -10,6 +10,12 @@ import {ShareDataService} from '../common/services/share-data.service';
 import {ObaUtils} from '../common/utils/oba-utils';
 import {PisService} from "../common/services/pis.service";
 import {PisCancellationService} from "../common/services/pis-cancellation.service";
+import {PSUAISService} from "../api/services/psuais.service";
+import LoginUsingPOSTParams = PSUAISService.LoginUsingPOSTParams;
+import {PSUPISService} from "../api/services/psupis.service";
+import LoginUsingPOST2Params = PSUPISService.LoginUsingPOST2Params;
+import {PSUPISCancellationService} from "../api/services/psupiscancellation.service";
+import LoginUsingPOST1Params = PSUPISCancellationService.LoginUsingPOST1Params;
 
 @Component({
   selector: 'app-login',
@@ -19,7 +25,7 @@ import {PisCancellationService} from "../common/services/pis-cancellation.servic
 export class LoginComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
-  private operation: string;
+  private readonly operation: string;
   private readonly paymentId: string;
   private readonly authorisationId: string;
   private readonly encryptedConsentId: string;
@@ -71,9 +77,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public onSubmit(): void {
 
-    if (!!this.encryptedConsentId) {
+    if (this.operation === 'ais') {
       this.subscriptions.push(
-        this.aisService.aisAuthorise({
+        this.aisService.aisAuthorise(<LoginUsingPOSTParams>{
           ...this.loginForm.value,
           encryptedConsentId: this.encryptedConsentId,
           authorisationId: this.authorisationId,
@@ -87,9 +93,9 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.invalidCredentials = true;
         })
       );
-    } else if (!!this.paymentId) {
+    } else if (this.operation === 'pis') {
       this.subscriptions.push(
-        this.pisService.pisLogin({
+        this.pisService.pisLogin(<LoginUsingPOST2Params>{
           ...this.loginForm.value,
           encryptedPaymentId: this.paymentId,
           authorisationId: this.authorisationId,
@@ -97,6 +103,23 @@ export class LoginComponent implements OnInit, OnDestroy {
           console.log(authorisationResponse);
           this.shareService.changeData(authorisationResponse);
           this.shareService.setOperationType('pis');
+          this.router.navigate([`${RoutingPath.SELECT_SCA}`],
+            ObaUtils.getQueryParams(this.operation, null, this.paymentId, this.authorisationId));
+        }, (error) => {
+          console.log(error);
+          this.invalidCredentials = true;
+        })
+      );
+    } else if (this.operation === 'pis-cancellation') {
+      this.subscriptions.push(
+        this.pisCancellationService.pisCancellationLogin(<LoginUsingPOST1Params>{
+          ...this.loginForm.value,
+          encryptedPaymentId: this.paymentId,
+          authorisationId: this.authorisationId,
+        }).subscribe(authorisationResponse => {
+          console.log(authorisationResponse);
+          this.shareService.changeData(authorisationResponse);
+          this.shareService.setOperationType('pis-cancellation');
           this.router.navigate([`${RoutingPath.SELECT_SCA}`],
             ObaUtils.getQueryParams(this.operation, null, this.paymentId, this.authorisationId));
         }, (error) => {
