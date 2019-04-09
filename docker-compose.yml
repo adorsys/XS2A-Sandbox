@@ -17,7 +17,7 @@ services:
       - "8089:8089"
       - "8189:8000"
     environment:
-      - SPRING_PROFILES_ACTIVE=mockspi
+      - SPRING_PROFILES_ACTIVE=mock-qwac
       - ASPSP-PROFILE_BASEURL=http://xs2a-aspsp-profile:8080/api/v1
       - CONSENT-SERVICE_BASEURL=http://xs2a-consent-management:8080/api/v1
       - LEDGERS_URL=http://ledgers:8088
@@ -30,7 +30,7 @@ services:
 
   # Xs2a aspsp profile
   xs2a-aspsp-profile:
-    image: adorsys/xs2a-aspsp-profile:2.1.1
+    image: adorsys/xs2a-aspsp-profile:develop
     container_name: xs2a-aspsp-profile
     restart: on-failure
     environment:
@@ -46,7 +46,7 @@ services:
 
   # Consent management
   xs2a-consent-management:
-    image: adorsys/xs2a-consent-management:2.1.1
+    image: adorsys/xs2a-consent-management:develop
     container_name: xs2a-consent-management
     restart: on-failure
     ports:
@@ -84,27 +84,27 @@ services:
       - POSTGRESQL_PASSWORD=cms
 
   # Xs2a online banking backend
-  xs2a-online-banking:
-    image: adorsys/xs2a-online-banking
-    container_name: xs2a-online-banking
-    restart: on-failure
-    build:
-      context: online-banking/online-banking-app
-      dockerfile: Dockerfile
-    ports:
-      - "8090:8090"
-      - "8190:8000"
-    depends_on:
-      - ledgers
-      - xs2a-connector-examples
-    networks:
-      - xs2a-net
-    environment:
-      - XS2A_URL=http://xs2a-connector-examples:8089
-      - LEDGERS_URL=http://ledgers:8088
-      - CMS_URL=http://xs2a-consent-management:8080
-      - ONLINE_BANKING_SCA_LOGINPAGE=http://localhost:4400/
-      - ONLINE_BANKING_SCA_UIREDIRECT=true
+#  xs2a-online-banking:
+#    image: adorsys/xs2a-online-banking
+#    container_name: xs2a-online-banking
+#    restart: on-failure
+#    build:
+#      context: online-banking/online-banking-app
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8090:8090"
+#      - "8190:8000"
+#    depends_on:
+#      - ledgers
+#      - xs2a-connector-examples
+#    networks:
+#      - xs2a-net
+#    environment:
+#      - XS2A_URL=http://xs2a-connector-examples:8089
+#      - LEDGERS_URL=http://ledgers:8088
+#      - CMS_URL=http://xs2a-consent-management:8080
+#      - ONLINE_BANKING_SCA_LOGINPAGE=http://localhost:4400/
+#      - ONLINE_BANKING_SCA_UIREDIRECT=true
 
   # Ledgers
   ledgers:
