@@ -9,109 +9,110 @@ import {AisService} from '../common/services/ais.service';
 import {ShareDataService} from '../common/services/share-data.service';
 import {ObaUtils} from '../common/utils/oba-utils';
 import {PisService} from "../common/services/pis.service";
+import {PisCancellationService} from "../common/services/pis-cancellation.service";
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss']
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
-    private subscriptions: Subscription[] = [];
-    private operation: string;
-    private readonly paymentId: string;
-    private readonly authorisationId: string;
-    private readonly encryptedConsentId: string;
-    private readonly redirectId: string;
-    loginForm: FormGroup;
-    invalidCredentials: boolean;
+  private subscriptions: Subscription[] = [];
+  private operation: string;
+  private readonly paymentId: string;
+  private readonly authorisationId: string;
+  private readonly encryptedConsentId: string;
+  private readonly redirectId: string;
+  loginForm: FormGroup;
+  invalidCredentials: boolean;
 
-    constructor(private formBuilder: FormBuilder,
-                private router: Router,
-                private route: ActivatedRoute,
-                private aisService: AisService,
-                private pisService: PisService,
-                private shareService: ShareDataService,
-                @Inject(URL_PARAMS_PROVIDER) params) {
-        this.operation = params.operation;
-        this.encryptedConsentId = params.encryptedConsentId;
-        this.paymentId = params.paymentId;
-        this.authorisationId = params.redirectId;
-        this.redirectId = params.redirectId;
+  constructor(private formBuilder: FormBuilder,
+              private router: Router,
+              private route: ActivatedRoute,
+              private aisService: AisService,
+              private pisService: PisService,
+              private pisCancellationService: PisCancellationService,
+              private shareService: ShareDataService,
+              @Inject(URL_PARAMS_PROVIDER) params) {
+    this.operation = params.operation;
+    this.encryptedConsentId = params.encryptedConsentId;
+    this.paymentId = params.paymentId;
+    this.authorisationId = params.redirectId;
+    this.redirectId = params.redirectId;
+  }
+
+  ngOnInit() {
+    this.initializeLoginForm();
+
+    // get auth code and cookies
+    if (this.operation === 'ais') {
+      this.subscriptions.push(
+        this.aisService.aisAuthCode({encryptedConsentId: this.encryptedConsentId, redirectId: this.redirectId})
+          .subscribe(authCodeResponse => this.shareService.changeData(authCodeResponse),
+            (error) => {
+              console.log(error);
+            })
+      )
+    } else if (this.operation === 'pis' || this.operation === 'pis-cancellation') {
+      this.subscriptions.push(
+        this.pisService.pisAuthCode({encryptedPaymentId: this.paymentId, redirectId: this.redirectId})
+          .subscribe(authCodeResponse => this.shareService.changeData(authCodeResponse),
+            (error) => {
+              console.log(error);
+            })
+      );
     }
+  }
 
-    public ngOnInit(): void {
-        this.initializeLoginForm();
+  ngOnDestroy() {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
 
-      // get auth code and cookies
-        if (this.operation === 'ais') {
-          this.subscriptions.push(
-            this.aisService.aisAuthCode({encryptedConsentId: this.encryptedConsentId, redirectId: this.redirectId})
-              .subscribe(authCodeResponse => this.shareService.changeData(authCodeResponse),
-                (error) => {
-                  console.log(error);
-                })
-          );
-        } else if (this.operation === 'pis') {
-          this.subscriptions.push(
-            this.pisService.pisAuthCode({encryptedPaymentId: this.paymentId, redirectId: this.redirectId})
-              .subscribe(authCodeResponse => this.shareService.changeData(authCodeResponse),
-                (error) => {
-                  console.log(error);
-                })
-          );
-        }
+  public onSubmit(): void {
 
+    if (!!this.encryptedConsentId) {
+      this.subscriptions.push(
+        this.aisService.aisAuthorise({
+          ...this.loginForm.value,
+          encryptedConsentId: this.encryptedConsentId,
+          authorisationId: this.authorisationId,
+        }).subscribe(authorisationResponse => {
+          this.shareService.changeData(authorisationResponse);
+          this.shareService.setOperationType('ais');
+          this.router.navigate([`${RoutingPath.BANK_OFFERED}`],
+            ObaUtils.getQueryParams(this.encryptedConsentId, this.authorisationId));
+        }, (error) => {
+          console.log(error);
+          this.invalidCredentials = true;
+        })
+      );
+    } else if (!!this.paymentId) {
+      this.subscriptions.push(
+        this.pisService.pisLogin({
+          ...this.loginForm.value,
+          encryptedPaymentId: this.paymentId,
+          authorisationId: this.authorisationId,
+        }).subscribe(authorisationResponse => {
+          console.log(authorisationResponse);
+          this.shareService.changeData(authorisationResponse);
+          this.shareService.setOperationType('pis');
+          this.router.navigate([`${RoutingPath.SELECT_SCA}`],
+            ObaUtils.getQueryParams(this.operation, null, this.paymentId, this.authorisationId));
+        }, (error) => {
+          console.log(error);
+          this.invalidCredentials = true;
+        })
+      );
     }
-
-    public onSubmit(): void {
-
-        if (!!this.encryptedConsentId) {
-            this.subscriptions.push(
-                this.aisService.aisAuthorise({
-                    ...this.loginForm.value,
-                    encryptedConsentId: this.encryptedConsentId,
-                    authorisationId: this.authorisationId,
-                }).subscribe(authorisationResponse => {
-                    this.shareService.changeData(authorisationResponse);
-                    this.shareService.setOperationType('ais');
-                    this.router.navigate([`${RoutingPath.BANK_OFFERED}`],
-                        ObaUtils.getQueryParams(this.encryptedConsentId, this.authorisationId));
-                }, (error) => {
-                  console.log(error);
-                  this.invalidCredentials = true;
-                })
-            );
-        } else if (!!this.paymentId) {
-            this.subscriptions.push(
-              this.pisService.pisLogin({
-                ...this.loginForm.value,
-                encryptedPaymentId: this.paymentId,
-                authorisationId: this.authorisationId,
-              }).subscribe(authorisationResponse => {
-                console.log(authorisationResponse);
-                this.shareService.changeData(authorisationResponse);
-                this.shareService.setOperationType('pis');
-                this.router.navigate([`${RoutingPath.SELECT_SCA}`],
-                  ObaUtils.getQueryParams(this.operation, null, this.paymentId, this.authorisationId));
-              }, (error) => {
-                console.log(error);
-                this.invalidCredentials = true;
-              })
-            );
-        }
-    }
-
-    public ngOnDestroy(): void {
-        this.subscriptions.forEach(sub => sub.unsubscribe());
-    }
+  }
 
 
-    private initializeLoginForm(): void {
-      this.loginForm = this.formBuilder.group({
-        login: ['', Validators.required],
-        pin: ['', Validators.required]
-      });
-    }
+  private initializeLoginForm(): void {
+    this.loginForm = this.formBuilder.group({
+      login: ['', Validators.required],
+      pin: ['', Validators.required]
+    });
+  }
 
 }
