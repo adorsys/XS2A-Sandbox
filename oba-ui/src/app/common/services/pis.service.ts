@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
-import {PSUPISService} from "../../api/services";
+import {PSUPISCancellationService, PSUPISService} from "../../api/services";
 import {Observable} from "rxjs";
 import {AuthorizeResponse} from "../../api/models/authorize-response";
 import {PaymentAuthorizeResponse} from "../../api/models";
-import LoginUsingPOST1Params = PSUPISService.LoginUsingPOST1Params;
-import SelectMethodUsingPOST1Params = PSUPISService.SelectMethodUsingPOST1Params;
 import PisAuthUsingGETParams = PSUPISService.PisAuthUsingGETParams;
-import AuthrizedPaymentUsingPOSTParams = PSUPISService.AuthrizedPaymentUsingPOSTParams;
+import LoginUsingPOST2Params = PSUPISService.LoginUsingPOST2Params;
+import SelectMethodUsingPOST2Params = PSUPISService.SelectMethodUsingPOST2Params;
+import AuthorisePaymentUsingPOSTParams = PSUPISCancellationService.AuthorisePaymentUsingPOSTParams;
 
 @Injectable({
   providedIn: 'root'
@@ -20,15 +20,15 @@ export class PisService {
     return this.pisService.pisAuthUsingGET(params);
   }
 
-  public pisLogin(params: LoginUsingPOST1Params): Observable<PaymentAuthorizeResponse> {
-    return this.pisService.loginUsingPOST1(params);
+  public pisLogin(params: LoginUsingPOST2Params): Observable<PaymentAuthorizeResponse> {
+    return this.pisService.loginUsingPOST2(params);
   }
 
-  public selectScaMethod(params: SelectMethodUsingPOST1Params): Observable<PaymentAuthorizeResponse> {
-    return this.pisService.selectMethodUsingPOST1(params);
+  public selectScaMethod(params: SelectMethodUsingPOST2Params): Observable<PaymentAuthorizeResponse> {
+    return this.pisService.selectMethodUsingPOST2(params);
   }
 
-  public authorizePayment(params: AuthrizedPaymentUsingPOSTParams): Observable<PaymentAuthorizeResponse> {
+  public authorizePayment(params: AuthorisePaymentUsingPOSTParams): Observable<PaymentAuthorizeResponse> {
     return this.pisService.authrizedPaymentUsingPOST(params);
   }
 }
