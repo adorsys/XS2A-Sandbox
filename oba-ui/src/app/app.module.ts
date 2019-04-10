@@ -12,41 +12,39 @@ import {AppComponent} from './app.component';
 import {AuthInterceptor} from './common/interceptors/AuthInterceptor';
 import {AisService} from './common/services/ais.service';
 import {ShareDataService} from './common/services/share-data.service';
-import {LoginComponent} from './login/login.component';
 import {ResultPageComponent} from './result-page/result-page.component';
 import {ObaErrorsHandler} from "./common/interceptors/ObaErrorsHandler";
+import {NotFoundComponent} from './not-found/not-found.component';
+import {LoginComponent} from "./login/login.component";
+import {NgHttpLoaderModule} from "ng-http-loader";
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        LoginComponent,
-        ResultPageComponent,
-        TanConfirmationComponent,
-        BankOfferedComponent,
-        AccountDetailsComponent,
-        ScaSelectionComponent
-    ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        ReactiveFormsModule,
-        FormsModule,
-        HttpClientModule
-    ],
-    providers: [
-        AisService,
-        ShareDataService,
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: AuthInterceptor,
-            multi: true
-        },
-        {
-            provide: ErrorHandler,
-            useClass: ObaErrorsHandler
-        }
-    ],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    NotFoundComponent,
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
+    HttpClientModule,
+    NgHttpLoaderModule.forRoot()
+  ],
+  providers: [
+    AisService,
+    ShareDataService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
+    {
+      provide: ErrorHandler,
+      useClass: ObaErrorsHandler
+    }
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 }

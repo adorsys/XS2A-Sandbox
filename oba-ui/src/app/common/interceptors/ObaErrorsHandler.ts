@@ -21,19 +21,19 @@ export class ObaErrorsHandler implements ErrorHandler {
     let httpErrorCode = error.httpErrorCode;
     this.activatedRoute.queryParams.subscribe(params => {
       console.log(params);
-      switch (httpErrorCode) {
-        case UNAUTHORIZED:
-          this.zone.run(() => this.router.navigate(['result'], {queryParams: params}));
-          break;
-        case FORBIDDEN:
-          this.zone.run(() => this.router.navigate(['result'], {queryParams: params}));
-          break;
-        case BAD_REQUEST:
-          this.zone.run(() => this.router.navigate(['result'], {queryParams: params}));
-          break;
-        default:
-          this.zone.run(() => this.router.navigate(['result'], {queryParams: params}));
-      }
+      // switch (httpErrorCode) {
+      //   case UNAUTHORIZED:
+      //     this.zone.run(() => this.router.navigate(['result'], {queryParams: params}));
+      //     break;
+      //   case FORBIDDEN:
+      //     this.zone.run(() => this.router.navigate(['result'], {queryParams: params}));
+      //     break;
+      //   case BAD_REQUEST:
+      //     this.zone.run(() => this.router.navigate(['result'], {queryParams: params}));
+      //     break;
+      //   default:
+      //     this.zone.run(() => this.router.navigate(['result'], {queryParams: params}));
+      // }
     });
   }
 
