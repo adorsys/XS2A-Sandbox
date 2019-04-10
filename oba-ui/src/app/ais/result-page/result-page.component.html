@@ -1,0 +1,54 @@
+<div class="d-md-flex align-items-center">
+  <div class="col bg-white h-md-100">
+    <div class="d-md-flex align-items-center h-100 p-4 justify-content-center">
+      <div class="d-md-flex align-items-center">
+
+        <div class="card w-100">
+          <div class="card-body">
+
+            <ng-template [ngIf]="scaStatus" [ngIfElse]="scaStatusEmpty">
+              <div [ngSwitch]="scaStatus">
+                <div *ngSwitchCase="'finalised'">
+                  <h3 class="card-title font-weight-bold">Success</h3>
+                  <p class="card-text text-muted">
+                    <small>The consent to access to your account has been successfully provided</small>
+                  </p>
+                </div>
+
+                <div *ngSwitchCase="'exempted'">
+                  <h3 class="card-title font-weight-bold">Revoked</h3>
+                  <p class="card-text text-muted">
+                    <small> The consent to access to your account has been revoked</small>
+                  </p>
+                </div>
+
+                <div *ngSwitchDefault>
+                  <h3 class="card-title font-weight-bold">Sorry</h3>
+                  <p class="card-text text-muted">
+                    <small> The consent to access to your account was not given</small>
+                  </p>
+                </div>
+              </div>
+            </ng-template>
+
+            <ng-template #scaStatusEmpty>
+              <div>
+                <h3 class="card-title font-weight-bold">Sorry</h3>
+                <p class="card-text text-muted">
+                  <small>Error occurred</small>
+                </p>
+              </div>
+            </ng-template>
+
+            <div class="form-group my-3">
+              <a class="btn btn-primary button-icon d-flex align-items-center" [href]="ref">
+                <span class="mx-auto">Back to TPP page</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

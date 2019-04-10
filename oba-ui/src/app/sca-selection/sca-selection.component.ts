@@ -72,6 +72,7 @@ export class ScaSelectionComponent implements OnInit {
               authorisationId: this.authResponse.authorisationId,
               scaMethodId: this.selectedScaMethod.id
             }).subscribe(authResponse => {
+
               this.authResponse = authResponse;
               this.shareService.changeData(this.authResponse);
               this.router.navigate([`${RoutingPath.TAN_CONFIRMATION}`],

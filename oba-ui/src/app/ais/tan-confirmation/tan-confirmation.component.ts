@@ -8,7 +8,6 @@ import {PisService} from "../../common/services/pis.service";
 import {PisCancellationService} from "../../common/services/pis-cancellation.service";
 import {ShareDataService} from "../../common/services/share-data.service";
 import {RoutingPath} from "../../common/models/routing-path.model";
-import {ObaUtils} from "../../common/utils/oba-utils";
 import {PSUAISService} from "../../api/services/psuais.service";
 import AuthrizedConsentUsingPOSTParams = PSUAISService.AuthrizedConsentUsingPOSTParams;
 
@@ -37,7 +36,7 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
 
-    this.initializeTanForm();
+    this.initTanForm();
 
     // get query params
     this.shareService.currentOperation
@@ -116,7 +115,7 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
     });
   }
 
-  private initializeTanForm(): void {
+  private initTanForm(): void {
     this.tanForm = this.formBuilder.group({
       authCode: ['', Validators.required]
     });

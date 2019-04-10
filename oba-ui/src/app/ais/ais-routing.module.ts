@@ -3,6 +3,9 @@ import {RouterModule, Routes} from '@angular/router';
 import {RoutingPath} from "../common/models/routing-path.model";
 import {LoginComponent} from "./login/login.component";
 import {GrantConsentComponent} from "./grant-consent/grant-consent.component";
+import {SelectScaComponent} from "./select-sca/select-sca.component";
+import {ResultPageComponent} from "./result-page/result-page.component";
+import {TanConfirmationComponent} from "./tan-confirmation/tan-confirmation.component";
 
 const routes: Routes = [
   {
@@ -12,20 +15,20 @@ const routes: Routes = [
   {
     path: RoutingPath.GRANT_CONSENT,
     component: GrantConsentComponent,
+  },
+  {
+    path: RoutingPath.SELECT_SCA,
+    component: SelectScaComponent
+  },
+  {
+    path: RoutingPath.TAN_CONFIRMATION,
+    component: TanConfirmationComponent,
+  },
+  {
+    path: RoutingPath.RESULT,
+    component: ResultPageComponent,
   }
-  // {
-  //   path: RoutingPath.RESULT,
-  //   component: ResultPageComponent,
-  // },
 
-  // {
-  //   path: RoutingPath.TAN_CONFIRMATION,
-  //   component: TanConfirmationComponent,
-  // },
-  // {
-  //   path: RoutingPath.SELECT_SCA,
-  //   component: ScaSelectionComponent
-  // }
 ];
 
 @NgModule({

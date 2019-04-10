@@ -80,20 +80,27 @@ export class SelectScaComponent implements OnInit, OnDestroy {
       }).subscribe(authResponse => {
         this.authResponse = authResponse;
         this.shareService.changeData(this.authResponse);
-        this.router.navigate([`${RoutingPath.TAN_CONFIRMATION}`]);
+        this.router.navigate([`${RoutingPath.ACCOUNT_INFORMATION}/${RoutingPath.TAN_CONFIRMATION}`]);
       })
     );
   }
 
   // TODO: move to Oba Util https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/issues/9
   public onCancel(): void {
-    this.router.navigate([`${RoutingPath.RESULT}`]);
     this.aisService.revokeConsent({
       encryptedConsentId: this.authResponse.encryptedConsentId,
       authorisationId: this.authResponse.authorisationId
     }).subscribe(authResponse => {
-      this.shareService.changeData(authResponse);
-      this.router.navigate([`${RoutingPath.RESULT}`]);
+      console.log(authResponse);
+      this.router.navigate([`${RoutingPath.ACCOUNT_INFORMATION}/${RoutingPath.RESULT}`], {
+        queryParams: {
+          encryptedConsentId: this.authResponse.encryptedConsentId,
+          authorisationId: this.authResponse.authorisationId
+        }
+      }).then(() => {
+        this.authResponse = authResponse;
+        this.shareService.changeData(this.authResponse);
+      });
     });
   }
 
