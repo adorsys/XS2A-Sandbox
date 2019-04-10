@@ -24,7 +24,6 @@ import LoginUsingPOST1Params = PSUPISCancellationService.LoginUsingPOST1Params;
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
-  private subscriptions: Subscription[] = [];
   private readonly operation: string;
   private readonly paymentId: string;
   private readonly authorisationId: string;
@@ -53,32 +52,27 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     // get auth code and cookies
     if (this.operation === 'ais') {
-      this.subscriptions.push(
-        this.aisService.aisAuthCode({encryptedConsentId: this.encryptedConsentId, redirectId: this.redirectId})
-          .subscribe(authCodeResponse => this.shareService.changeData(authCodeResponse),
-            (error) => {
-              console.log(error);
-            })
-      )
+      this.aisService.aisAuthCode({encryptedConsentId: this.encryptedConsentId, redirectId: this.redirectId})
+        .subscribe(authCodeResponse => this.shareService.changeData(authCodeResponse),
+          (error) => {
+            console.log(error);
+          });
     } else if (this.operation === 'pis' || this.operation === 'pis-cancellation') {
-      this.subscriptions.push(
-        this.pisService.pisAuthCode({encryptedPaymentId: this.paymentId, redirectId: this.redirectId})
-          .subscribe(authCodeResponse => this.shareService.changeData(authCodeResponse),
-            (error) => {
-              console.log(error);
-            })
-      );
+      this.pisService.pisAuthCode({encryptedPaymentId: this.paymentId, redirectId: this.redirectId})
+        .subscribe(authCodeResponse => this.shareService.changeData(authCodeResponse),
+          (error) => {
+            console.log(error);
+          });
     }
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+    // this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
   public onSubmit(): void {
 
     if (this.operation === 'ais') {
-      this.subscriptions.push(
         this.aisService.aisAuthorise(<LoginUsingPOSTParams>{
           ...this.loginForm.value,
           encryptedConsentId: this.encryptedConsentId,
@@ -91,10 +85,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         }, (error) => {
           console.log(error);
           this.invalidCredentials = true;
-        })
-      );
+        });
     } else if (this.operation === 'pis') {
-      this.subscriptions.push(
         this.pisService.pisLogin(<LoginUsingPOST2Params>{
           ...this.loginForm.value,
           encryptedPaymentId: this.paymentId,
@@ -108,10 +100,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         }, (error) => {
           console.log(error);
           this.invalidCredentials = true;
-        })
-      );
+        });
     } else if (this.operation === 'pis-cancellation') {
-      this.subscriptions.push(
         this.pisCancellationService.pisCancellationLogin(<LoginUsingPOST1Params>{
           ...this.loginForm.value,
           encryptedPaymentId: this.paymentId,
@@ -125,11 +115,9 @@ export class LoginComponent implements OnInit, OnDestroy {
         }, (error) => {
           console.log(error);
           this.invalidCredentials = true;
-        })
-      );
+        });
     }
   }
-
 
   private initializeLoginForm(): void {
     this.loginForm = this.formBuilder.group({
