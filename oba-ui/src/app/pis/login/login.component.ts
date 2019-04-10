@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       } as LoginUsingPOST2Params).subscribe(authorisationResponse => {
         console.log(authorisationResponse);
         this.shareService.changeData(authorisationResponse);
-        this.router.navigate([`${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.GRANT_CONSENT}`]);
+        this.router.navigate([`${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.CONFIRM_PAYMENT}`]);
       }, (error) => {
         console.log(error);
         this.invalidCredentials = true;
