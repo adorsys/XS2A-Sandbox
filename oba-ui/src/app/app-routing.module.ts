@@ -8,6 +8,10 @@ export const routes: Routes = [
     path: 'account-information',
     loadChildren: './ais/ais.module#AisModule'
   },
+  {
+    path: 'payment-initiation',
+    loadChildren: './pis/pis.module#PisModule'
+  },
   // {
   //   path: '',
   //   redirectTo: 'login',
