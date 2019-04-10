@@ -16,10 +16,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class BankOfferedComponent implements OnInit {
 
-  private subscriptions: Subscription[] = [];
   public authResponse: ConsentAuthorizeResponse;
+  public operation: string;
+  public encryptedConsentId: string;
+  public authorisationId: string;
   public bankOfferedForm: FormGroup;
   public bankOffered: boolean;
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -30,6 +33,7 @@ export class BankOfferedComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+
     this.shareService.currentData.subscribe(data => {
       if (data) {
         this.shareService.currentData.subscribe(authResponse => {
@@ -40,7 +44,7 @@ export class BankOfferedComponent implements OnInit {
     });
   }
 
-  public onSubmit(): void {
+  public onSubmit() {
     if (!this.authResponse) {
       console.log('Missing application data');
       return;
@@ -53,8 +57,7 @@ export class BankOfferedComponent implements OnInit {
       }).subscribe(authResponse => {
         this.authResponse = authResponse;
         this.shareService.changeData(this.authResponse);
-        this.router.navigate([`${RoutingPath.SELECT_SCA}`],
-          ObaUtils.getQueryParams(this.authResponse.encryptedConsentId, this.authResponse.authorisationId));
+        this.router.navigate([`${RoutingPath.SELECT_SCA}`]);
       })
     );
   }
@@ -67,8 +70,7 @@ export class BankOfferedComponent implements OnInit {
       console.log(authResponse);
       this.authResponse = authResponse;
       this.shareService.changeData(this.authResponse);
-      this.router.navigate([`${RoutingPath.RESULT}`],
-        ObaUtils.getQueryParams(this.authResponse.encryptedConsentId, this.authResponse.authorisationId));
+      this.router.navigate([`${RoutingPath.RESULT}`]);
     });
   }
 

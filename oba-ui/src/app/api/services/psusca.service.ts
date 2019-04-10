@@ -16,9 +16,9 @@ import { AuthorizeResponse } from '../models/authorize-response';
   providedIn: 'root',
 })
 class PSUSCAService extends __BaseService {
-  static readonly loginUsingPOST2Path = '/sca/login';
+  static readonly loginUsingPOST3Path = '/sca/login';
   static readonly validateAuthCodeUsingPOSTPath = '/sca/{scaId}/authorisation/{authorisationId}/authCode';
-  static readonly selectMethodUsingPOST2Path = '/sca/{scaId}/authorisation/{authorisationId}/methods/{methodId}';
+  static readonly selectMethodUsingPOST3Path = '/sca/{scaId}/authorisation/{authorisationId}/methods/{methodId}';
 
   constructor(
     config: __Configuration,
@@ -28,7 +28,7 @@ class PSUSCAService extends __BaseService {
   }
 
   /**
-   * @param params The `PSUSCAService.LoginUsingPOST2Params` containing the following parameters:
+   * @param params The `PSUSCAService.LoginUsingPOST3Params` containing the following parameters:
    *
    * - `pin`: pin
    *
@@ -36,7 +36,7 @@ class PSUSCAService extends __BaseService {
    *
    * @return OK
    */
-  loginUsingPOST2Response(params: PSUSCAService.LoginUsingPOST2Params): __Observable<__StrictHttpResponse<AuthorizeResponse>> {
+  loginUsingPOST3Response(params: PSUSCAService.LoginUsingPOST3Params): __Observable<__StrictHttpResponse<AuthorizeResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -60,7 +60,7 @@ class PSUSCAService extends __BaseService {
     );
   }
   /**
-   * @param params The `PSUSCAService.LoginUsingPOST2Params` containing the following parameters:
+   * @param params The `PSUSCAService.LoginUsingPOST3Params` containing the following parameters:
    *
    * - `pin`: pin
    *
@@ -68,8 +68,8 @@ class PSUSCAService extends __BaseService {
    *
    * @return OK
    */
-  loginUsingPOST2(params: PSUSCAService.LoginUsingPOST2Params): __Observable<AuthorizeResponse> {
-    return this.loginUsingPOST2Response(params).pipe(
+  loginUsingPOST3(params: PSUSCAService.LoginUsingPOST3Params): __Observable<AuthorizeResponse> {
+    return this.loginUsingPOST3Response(params).pipe(
       __map(_r => _r.body as AuthorizeResponse)
     );
   }
@@ -132,7 +132,7 @@ class PSUSCAService extends __BaseService {
   }
 
   /**
-   * @param params The `PSUSCAService.SelectMethodUsingPOST2Params` containing the following parameters:
+   * @param params The `PSUSCAService.SelectMethodUsingPOST3Params` containing the following parameters:
    *
    * - `scaId`: scaId
    *
@@ -144,7 +144,7 @@ class PSUSCAService extends __BaseService {
    *
    * @return OK
    */
-  selectMethodUsingPOST2Response(params: PSUSCAService.SelectMethodUsingPOST2Params): __Observable<__StrictHttpResponse<AuthorizeResponse>> {
+  selectMethodUsingPOST3Response(params: PSUSCAService.SelectMethodUsingPOST3Params): __Observable<__StrictHttpResponse<AuthorizeResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -170,7 +170,7 @@ class PSUSCAService extends __BaseService {
     );
   }
   /**
-   * @param params The `PSUSCAService.SelectMethodUsingPOST2Params` containing the following parameters:
+   * @param params The `PSUSCAService.SelectMethodUsingPOST3Params` containing the following parameters:
    *
    * - `scaId`: scaId
    *
@@ -182,8 +182,8 @@ class PSUSCAService extends __BaseService {
    *
    * @return OK
    */
-  selectMethodUsingPOST2(params: PSUSCAService.SelectMethodUsingPOST2Params): __Observable<AuthorizeResponse> {
-    return this.selectMethodUsingPOST2Response(params).pipe(
+  selectMethodUsingPOST3(params: PSUSCAService.SelectMethodUsingPOST3Params): __Observable<AuthorizeResponse> {
+    return this.selectMethodUsingPOST3Response(params).pipe(
       __map(_r => _r.body as AuthorizeResponse)
     );
   }
@@ -192,9 +192,9 @@ class PSUSCAService extends __BaseService {
 module PSUSCAService {
 
   /**
-   * Parameters for loginUsingPOST2
+   * Parameters for loginUsingPOST3
    */
-  export interface LoginUsingPOST2Params {
+  export interface LoginUsingPOST3Params {
 
     /**
      * pin
@@ -234,9 +234,9 @@ module PSUSCAService {
   }
 
   /**
-   * Parameters for selectMethodUsingPOST2
+   * Parameters for selectMethodUsingPOST3
    */
-  export interface SelectMethodUsingPOST2Params {
+  export interface SelectMethodUsingPOST3Params {
 
     /**
      * scaId

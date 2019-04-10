@@ -18,6 +18,10 @@ export class ResultPageComponent implements OnInit {
   public revoked: boolean;
   public ref: string;
 
+  private operation: string;
+  private encryptedConsentId: string;
+  private authorisationId: string;
+
   constructor(private router: Router,
               private route: ActivatedRoute,
               private aisService: AisService,
@@ -25,11 +29,14 @@ export class ResultPageComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    //getting app init data: operation, encryptedConsentId and authorisationId
+    this.getAppInitData();
+
     // get query params
     this.route.queryParams.subscribe(params => {
       // TODO: use routerlink to build a link https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/issues/8
-      this.ref = 'http://localhost:8090/ais/' + params['encryptedConsentId'] +
-        '/authorisation/' + params['authorisationId'] +
+      this.ref = 'http://localhost:8090/ais/' + this.encryptedConsentId +
+        '/authorisation/' + this.authorisationId +
         '/done?backToTpp=true&forgetConsent=true';
     });
 
@@ -60,5 +67,17 @@ export class ResultPageComponent implements OnInit {
       forgetConsent: 'true',
       backToTpp: 'true'
     }).subscribe(res => console.log(res));
+  }
+
+  private getAppInitData(): void {
+    this.shareService.currentOperation.subscribe(operation => {
+      this.operation = operation;
+    });
+    this.shareService.currentEncryptedConsentId.subscribe(encryptedConsentId => {
+      this.encryptedConsentId = encryptedConsentId;
+    });
+    this.shareService.currentAuthorisationId.subscribe(authorisationId => {
+      this.authorisationId = authorisationId;
+    });
   }
 }

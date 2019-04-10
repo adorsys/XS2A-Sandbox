@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationInterface } from './api-configuration';
 
 import { PSUAISService } from './services/psuais.service';
+import { PSUPISCancellationService } from './services/psupiscancellation.service';
 import { PSUPISService } from './services/psupis.service';
 import { PSUSCAService } from './services/psusca.service';
 
@@ -21,6 +22,7 @@ import { PSUSCAService } from './services/psusca.service';
   providers: [
     ApiConfiguration,
     PSUAISService,
+    PSUPISCancellationService,
     PSUPISService,
     PSUSCAService
   ],

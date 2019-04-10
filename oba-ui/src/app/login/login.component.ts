@@ -87,9 +87,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           authorisationId: this.authorisationId,
         }).subscribe(authorisationResponse => {
           this.shareService.changeData(authorisationResponse);
-          this.shareService.setOperationType('ais');
-          this.router.navigate([`${RoutingPath.BANK_OFFERED}`],
-            ObaUtils.getQueryParams(this.operation, this.encryptedConsentId, null, this.authorisationId));
+          this.router.navigate([`${RoutingPath.BANK_OFFERED}`]);
         }, (error) => {
           console.log(error);
           this.invalidCredentials = true;
@@ -104,9 +102,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         }).subscribe(authorisationResponse => {
           console.log(authorisationResponse);
           this.shareService.changeData(authorisationResponse);
-          this.shareService.setOperationType('pis');
-          this.router.navigate([`${RoutingPath.SELECT_SCA}`],
-            ObaUtils.getQueryParams(this.operation, null, this.paymentId, this.authorisationId));
+          this.router.navigate([`${RoutingPath.SELECT_SCA}`]);
         }, (error) => {
           console.log(error);
           this.invalidCredentials = true;
@@ -121,9 +117,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         }).subscribe(authorisationResponse => {
           console.log(authorisationResponse);
           this.shareService.changeData(authorisationResponse);
-          this.shareService.setOperationType('pis-cancellation');
-          this.router.navigate([`${RoutingPath.SELECT_SCA}`],
-            ObaUtils.getQueryParams(this.operation, null, this.paymentId, this.authorisationId));
+          this.router.navigate([`${RoutingPath.SELECT_SCA}`]);
         }, (error) => {
           console.log(error);
           this.invalidCredentials = true;
@@ -141,6 +135,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private initAppData(): void {
     this.shareService.setOperationType(this.operation);
+    this.shareService.setEncryptedConsentId(this.encryptedConsentId);
+    this.shareService.setPaymentId(this.paymentId);
+    this.shareService.setAuthorisationId(this.authorisationId);
   }
 
 }
