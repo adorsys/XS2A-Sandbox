@@ -20,8 +20,8 @@ class PSUPISService extends __BaseService {
   static readonly pisAuthUsingGETPath = '/pis/auth';
   static readonly authrizedPaymentUsingPOSTPath = '/pis/{encryptedPaymentId}/authorisation/{authorisationId}/authCode';
   static readonly initiatePaymentUsingPOSTPath = '/pis/{encryptedPaymentId}/authorisation/{authorisationId}/initiate';
-  static readonly loginUsingPOST1Path = '/pis/{encryptedPaymentId}/authorisation/{authorisationId}/login';
-  static readonly selectMethodUsingPOST1Path = '/pis/{encryptedPaymentId}/authorisation/{authorisationId}/methods/{scaMethodId}';
+  static readonly loginUsingPOST2Path = '/pis/{encryptedPaymentId}/authorisation/{authorisationId}/login';
+  static readonly selectMethodUsingPOST2Path = '/pis/{encryptedPaymentId}/authorisation/{authorisationId}/methods/{scaMethodId}';
 
   constructor(
     config: __Configuration,
@@ -187,7 +187,7 @@ class PSUPISService extends __BaseService {
   }
 
   /**
-   * @param params The `PSUPISService.LoginUsingPOST1Params` containing the following parameters:
+   * @param params The `PSUPISService.LoginUsingPOST2Params` containing the following parameters:
    *
    * - `pin`: pin
    *
@@ -201,7 +201,7 @@ class PSUPISService extends __BaseService {
    *
    * @return OK
    */
-  loginUsingPOST1Response(params: PSUPISService.LoginUsingPOST1Params): __Observable<__StrictHttpResponse<PaymentAuthorizeResponse>> {
+  loginUsingPOST2Response(params: PSUPISService.LoginUsingPOST2Params): __Observable<__StrictHttpResponse<PaymentAuthorizeResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -228,7 +228,7 @@ class PSUPISService extends __BaseService {
     );
   }
   /**
-   * @param params The `PSUPISService.LoginUsingPOST1Params` containing the following parameters:
+   * @param params The `PSUPISService.LoginUsingPOST2Params` containing the following parameters:
    *
    * - `pin`: pin
    *
@@ -242,14 +242,14 @@ class PSUPISService extends __BaseService {
    *
    * @return OK
    */
-  loginUsingPOST1(params: PSUPISService.LoginUsingPOST1Params): __Observable<PaymentAuthorizeResponse> {
-    return this.loginUsingPOST1Response(params).pipe(
+  loginUsingPOST2(params: PSUPISService.LoginUsingPOST2Params): __Observable<PaymentAuthorizeResponse> {
+    return this.loginUsingPOST2Response(params).pipe(
       __map(_r => _r.body as PaymentAuthorizeResponse)
     );
   }
 
   /**
-   * @param params The `PSUPISService.SelectMethodUsingPOST1Params` containing the following parameters:
+   * @param params The `PSUPISService.SelectMethodUsingPOST2Params` containing the following parameters:
    *
    * - `scaMethodId`: scaMethodId
    *
@@ -261,7 +261,7 @@ class PSUPISService extends __BaseService {
    *
    * @return OK
    */
-  selectMethodUsingPOST1Response(params: PSUPISService.SelectMethodUsingPOST1Params): __Observable<__StrictHttpResponse<PaymentAuthorizeResponse>> {
+  selectMethodUsingPOST2Response(params: PSUPISService.SelectMethodUsingPOST2Params): __Observable<__StrictHttpResponse<PaymentAuthorizeResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -287,7 +287,7 @@ class PSUPISService extends __BaseService {
     );
   }
   /**
-   * @param params The `PSUPISService.SelectMethodUsingPOST1Params` containing the following parameters:
+   * @param params The `PSUPISService.SelectMethodUsingPOST2Params` containing the following parameters:
    *
    * - `scaMethodId`: scaMethodId
    *
@@ -299,8 +299,8 @@ class PSUPISService extends __BaseService {
    *
    * @return OK
    */
-  selectMethodUsingPOST1(params: PSUPISService.SelectMethodUsingPOST1Params): __Observable<PaymentAuthorizeResponse> {
-    return this.selectMethodUsingPOST1Response(params).pipe(
+  selectMethodUsingPOST2(params: PSUPISService.SelectMethodUsingPOST2Params): __Observable<PaymentAuthorizeResponse> {
+    return this.selectMethodUsingPOST2Response(params).pipe(
       __map(_r => _r.body as PaymentAuthorizeResponse)
     );
   }
@@ -372,9 +372,9 @@ module PSUPISService {
   }
 
   /**
-   * Parameters for loginUsingPOST1
+   * Parameters for loginUsingPOST2
    */
-  export interface LoginUsingPOST1Params {
+  export interface LoginUsingPOST2Params {
 
     /**
      * pin
@@ -403,9 +403,9 @@ module PSUPISService {
   }
 
   /**
-   * Parameters for selectMethodUsingPOST1
+   * Parameters for selectMethodUsingPOST2
    */
-  export interface SelectMethodUsingPOST1Params {
+  export interface SelectMethodUsingPOST2Params {
 
     /**
      * scaMethodId
