@@ -21,8 +21,6 @@ export class GrantConsentComponent implements OnInit, OnDestroy {
   public bankOfferedForm: FormGroup;
   public bankOffered: boolean;
 
-  missingApplicationData: boolean;
-
   private subscriptions: Subscription[] = [];
 
   constructor(
@@ -63,7 +61,6 @@ export class GrantConsentComponent implements OnInit, OnDestroy {
 
   public onSubmit() {
     if (!this.authResponse) {
-      this.missingApplicationData = true;
       console.log('Missing application data');
       return;
     }
@@ -81,21 +78,23 @@ export class GrantConsentComponent implements OnInit, OnDestroy {
   }
 
   public onCancel(): void {
-    this.aisService.revokeConsent({
-      encryptedConsentId: this.authResponse.encryptedConsentId,
-      authorisationId: this.authResponse.authorisationId
-    }).subscribe(authResponse => {
-      console.log(authResponse);
-      this.router.navigate([`${RoutingPath.ACCOUNT_INFORMATION}/${RoutingPath.RESULT}`], {
-        queryParams: {
-          encryptedConsentId: this.authResponse.encryptedConsentId,
-          authorisationId: this.authResponse.authorisationId
-        }
-      }).then(() => {
-        this.authResponse = authResponse;
-        this.shareService.changeData(this.authResponse);
-      });
-    });
+    this.subscriptions.push(
+      this.aisService.revokeConsent({
+        encryptedConsentId: this.authResponse.encryptedConsentId,
+        authorisationId: this.authResponse.authorisationId
+      }).subscribe(authResponse => {
+        console.log(authResponse);
+        this.router.navigate([`${RoutingPath.ACCOUNT_INFORMATION}/${RoutingPath.RESULT}`], {
+          queryParams: {
+            encryptedConsentId: this.authResponse.encryptedConsentId,
+            authorisationId: this.authResponse.authorisationId
+          }
+        }).then(() => {
+          this.authResponse = authResponse;
+          this.shareService.changeData(this.authResponse);
+        });
+      })
+    );
   }
 
   handleObjectSelectedEvent(value, container): void {
