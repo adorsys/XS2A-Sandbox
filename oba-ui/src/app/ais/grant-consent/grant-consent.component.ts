@@ -51,11 +51,6 @@ export class GrantConsentComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe(params => {
-      this.encryptedConsentId = params['encryptedConsentId'];
-      this.authorisationId = params['authorisationId'];
-    });
-
     this.shareService.currentData.subscribe(data => {
       if (data) {
         this.shareService.currentData.subscribe(authResponse => {
