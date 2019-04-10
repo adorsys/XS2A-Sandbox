@@ -5,7 +5,7 @@ export  enum RoutingPath {
     RESULT = 'result',
     BANK_OFFERED = 'bank-offered',
     GRANT_CONSENT = 'grant-consent',
-    CONFIRM_PAYMENT = 'grant-consent',
+    CONFIRM_PAYMENT = 'confirm-payment',
     SELECT_SCA = 'select-sca',
     TAN_CONFIRMATION = 'tan-confirm'
 
