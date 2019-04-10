@@ -22,9 +22,6 @@ export class SelectScaComponent implements OnInit, OnDestroy {
   public selectedScaMethod: ScaUserDataTO;
   public scaForm: FormGroup;
 
-  public encryptedConsentId: string;
-  public authorisationId: string;
-
   private subscriptions: Subscription[] = [];
 
   constructor(
@@ -32,8 +29,6 @@ export class SelectScaComponent implements OnInit, OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private aisService: AisService,
-    private pisService: PisService,
-    private pisCancellationService: PisCancellationService,
     private shareService: ShareDataService) {
     this.scaForm = this.formBuilder.group({
       scaMethod: ['', Validators.required],
@@ -45,11 +40,6 @@ export class SelectScaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.activatedRoute.queryParams.subscribe(params => {
-      this.encryptedConsentId = params['encryptedConsentId'];
-      this.authorisationId = params['authorisationId'];
-    });
-
     // fetch data that we save before after login
     this.shareService.currentData.subscribe(data => {
       if (data) {
