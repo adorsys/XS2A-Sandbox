@@ -9,7 +9,7 @@
   </div>
 
   <!--&lt;!&ndash; Second 1/4 &ndash;&gt;-->
-  <div class="col-md-9 bg-white h-md-100">
+  <div class="col-md-8 bg-white h-md-100">
     <div class="d-md-flex align-items-center h-100 p-4 justify-content-center">
       <div class="d-md-flex align-items-center ">
         <form [formGroup]="bankOfferedForm" (ngSubmit)="bankOfferedForm.valid && onSubmit()">
@@ -79,6 +79,9 @@
                 <div class="font-weight-light my-4 text-muted">Please check ibans and types of accesses you give to the TPP,
                   then
                   confirm with “Next".
+                </div>
+                <div *ngIf="missingApplicationData" class="alert alert-danger">
+                  Missing application data
                 </div>
               </ng-template>
             </div>

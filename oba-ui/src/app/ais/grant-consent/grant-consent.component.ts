@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ConsentAuthorizeResponse} from "../../api/models/consent-authorize-response";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Subscription} from "rxjs";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {AisService} from "../../common/services/ais.service";
 import {ShareDataService} from "../../common/services/share-data.service";
 import {RoutingPath} from "../../common/models/routing-path.model";
@@ -16,22 +16,29 @@ import {AccountDetailsTO} from "../../api/models/account-details-to";
 export class GrantConsentComponent implements OnInit, OnDestroy {
 
   public authResponse: ConsentAuthorizeResponse;
-  public operation: string;
   public encryptedConsentId: string;
   public authorisationId: string;
   public bankOfferedForm: FormGroup;
   public bankOffered: boolean;
+
+  missingApplicationData: boolean;
+
   private subscriptions: Subscription[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private aisService: AisService,
     private shareService: ShareDataService) {
     this.bankOfferedForm = this.formBuilder.group({});
   }
 
   public ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.encryptedConsentId = params['encryptedConsentId'];
+      this.authorisationId = params['authorisationId'];
+    });
 
     this.shareService.currentData.subscribe(data => {
       if (data) {
@@ -43,8 +50,25 @@ export class GrantConsentComponent implements OnInit, OnDestroy {
     });
   }
 
+  get accounts(): Array<AccountDetailsTO> {
+    return this.authResponse ? this.authResponse.accounts : [];
+  }
+
+  get consentAccounts(): Array<string> {
+    return this.authResponse.consent.access.accounts;
+  }
+
+  get consentBalances(): Array<string> {
+    return this.authResponse.consent.access.balances;
+  }
+
+  get consentTransactions(): Array<string> {
+    return this.authResponse.consent.access.transactions;
+  }
+
   public onSubmit() {
     if (!this.authResponse) {
+      this.missingApplicationData = true;
       console.log('Missing application data');
       return;
     }
@@ -56,7 +80,12 @@ export class GrantConsentComponent implements OnInit, OnDestroy {
       }).subscribe(authResponse => {
         this.authResponse = authResponse;
         this.shareService.changeData(this.authResponse);
-        this.router.navigate([`${RoutingPath.SELECT_SCA}`]);
+        this.router.navigate([`${RoutingPath.ACCOUNT_INFORMATION}/${RoutingPath.SELECT_SCA}`], {
+          queryParams: {
+            encryptedConsentId: this.encryptedConsentId,
+            authorisationId: this.authorisationId
+          }
+        });
       })
     );
   }
@@ -94,20 +123,8 @@ export class GrantConsentComponent implements OnInit, OnDestroy {
     return this.authResponse.consent.access.transactions.indexOf(account.iban) > -1;
   }
 
-  get accounts(): Array<AccountDetailsTO> {
-    return this.authResponse ? this.authResponse.accounts : [];
-  }
-
-  get consentAccounts(): Array<string> {
-    return this.authResponse.consent.access.accounts;
-  }
-
-  get consentBalances(): Array<string> {
-    return this.authResponse.consent.access.balances;
-  }
-
-  get consentTransactions(): Array<string> {
-    return this.authResponse.consent.access.transactions;
+  ngOnDestroy() {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
   private isBankOfferedConsent() {
@@ -127,9 +144,6 @@ export class GrantConsentComponent implements OnInit, OnDestroy {
   private isEmptyTransactionsAccess(): boolean {
     return this.authResponse.consent.access.transactions == null ||
       this.authResponse.consent.access.transactions.length == 0;
-  }
-
-  ngOnDestroy(): void {
   }
 
 }
