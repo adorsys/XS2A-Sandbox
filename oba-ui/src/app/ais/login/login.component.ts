@@ -46,7 +46,12 @@ export class LoginComponent implements OnInit, OnDestroy {
       } as LoginUsingPOSTParams).subscribe(authorisationResponse => {
         console.log(authorisationResponse);
         this.shareService.changeData(authorisationResponse);
-        // this.router.navigate([`${RoutingPath.BANK_OFFERED}`]);
+        this.router.navigate([`${RoutingPath.ACCOUNT_INFORMATION}/${RoutingPath.GRANT_CONSENT}`], {
+          queryParams: {
+            encryptedConsentId: this.encryptedConsentId,
+            authorisationId: this.redirectId
+          }
+        });
       }, (error) => {
         console.log(error);
         this.invalidCredentials = true;
@@ -73,7 +78,6 @@ export class LoginComponent implements OnInit, OnDestroy {
             })
       );
     })
-
   }
 
   private initLoginForm(): void {

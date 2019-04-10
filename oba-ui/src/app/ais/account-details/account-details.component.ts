@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from "rxjs";
 import {ConsentAuthorizeResponse} from "../../api/models/consent-authorize-response";
 import {ShareDataService} from "../../common/services/share-data.service";
@@ -8,7 +8,7 @@ import {ShareDataService} from "../../common/services/share-data.service";
   templateUrl: './account-details.component.html',
   styleUrls: ['./account-details.component.scss']
 })
-export class AccountDetailsComponent implements OnInit {
+export class AccountDetailsComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
   // public accountDetails: any = {};
