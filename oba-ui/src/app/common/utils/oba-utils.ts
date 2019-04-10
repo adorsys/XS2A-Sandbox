@@ -9,7 +9,7 @@ export class ObaUtils {
     ) {
 
         return { queryParams: {
-                operation: ObaUtils.decodeParam(encryptedConsentId),
+                operation: ObaUtils.decodeParam(operation),
                 encryptedConsentId: ObaUtils.decodeParam(encryptedConsentId),
                 paymentId: ObaUtils.decodeParam(paymentId),
                 authorisationId: ObaUtils.decodeParam(authorisationId),
