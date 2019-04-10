@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 
-import {AUTH_RESPONSE, URL_PARAMS_PROVIDER} from '../common/constants/constants';
+import {URL_PARAMS_PROVIDER} from '../common/constants/constants';
 import {RoutingPath} from '../common/models/routing-path.model';
 import {AisService} from '../common/services/ais.service';
 import {ShareDataService} from '../common/services/share-data.service';
@@ -24,13 +24,15 @@ import LoginUsingPOST1Params = PSUPISCancellationService.LoginUsingPOST1Params;
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
+  loginForm: FormGroup;
+  invalidCredentials: boolean;
+
+  private subscriptions: Subscription[] = [];
   private readonly operation: string;
   private readonly paymentId: string;
   private readonly authorisationId: string;
   private readonly encryptedConsentId: string;
   private readonly redirectId: string;
-  loginForm: FormGroup;
-  invalidCredentials: boolean;
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
@@ -48,31 +50,37 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.initializeLoginForm();
+    this.initAppData();
+    this.initLoginForm();
 
     // get auth code and cookies
     if (this.operation === 'ais') {
-      this.aisService.aisAuthCode({encryptedConsentId: this.encryptedConsentId, redirectId: this.redirectId})
-        .subscribe(authCodeResponse => this.shareService.changeData(authCodeResponse),
-          (error) => {
-            console.log(error);
-          });
+      this.subscriptions.push(
+        this.aisService.aisAuthCode({encryptedConsentId: this.encryptedConsentId, redirectId: this.redirectId})
+          .subscribe(authCodeResponse => this.shareService.changeData(authCodeResponse),
+            (error) => {
+              console.log(error);
+            })
+      );
     } else if (this.operation === 'pis' || this.operation === 'pis-cancellation') {
-      this.pisService.pisAuthCode({encryptedPaymentId: this.paymentId, redirectId: this.redirectId})
-        .subscribe(authCodeResponse => this.shareService.changeData(authCodeResponse),
-          (error) => {
-            console.log(error);
-          });
+      this.subscriptions.push(
+        this.pisService.pisAuthCode({encryptedPaymentId: this.paymentId, redirectId: this.redirectId})
+          .subscribe(authCodeResponse => this.shareService.changeData(authCodeResponse),
+            (error) => {
+              console.log(error);
+            })
+      );
     }
   }
 
   ngOnDestroy() {
-    // this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
   public onSubmit(): void {
 
     if (this.operation === 'ais') {
+      this.subscriptions.push(
         this.aisService.aisAuthorise(<LoginUsingPOSTParams>{
           ...this.loginForm.value,
           encryptedConsentId: this.encryptedConsentId,
@@ -85,8 +93,10 @@ export class LoginComponent implements OnInit, OnDestroy {
         }, (error) => {
           console.log(error);
           this.invalidCredentials = true;
-        });
+        })
+      );
     } else if (this.operation === 'pis') {
+      this.subscriptions.push(
         this.pisService.pisLogin(<LoginUsingPOST2Params>{
           ...this.loginForm.value,
           encryptedPaymentId: this.paymentId,
@@ -100,8 +110,10 @@ export class LoginComponent implements OnInit, OnDestroy {
         }, (error) => {
           console.log(error);
           this.invalidCredentials = true;
-        });
+        })
+      )
     } else if (this.operation === 'pis-cancellation') {
+      this.subscriptions.push(
         this.pisCancellationService.pisCancellationLogin(<LoginUsingPOST1Params>{
           ...this.loginForm.value,
           encryptedPaymentId: this.paymentId,
@@ -115,15 +127,20 @@ export class LoginComponent implements OnInit, OnDestroy {
         }, (error) => {
           console.log(error);
           this.invalidCredentials = true;
-        });
+        })
+      );
     }
   }
 
-  private initializeLoginForm(): void {
+  private initLoginForm(): void {
     this.loginForm = this.formBuilder.group({
       login: ['', Validators.required],
       pin: ['', Validators.required]
     });
+  }
+
+  private initAppData(): void {
+    this.shareService.setOperationType(this.operation);
   }
 
 }
