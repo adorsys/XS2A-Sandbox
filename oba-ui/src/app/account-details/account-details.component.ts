@@ -12,7 +12,6 @@ import { ConsentAuthorizeResponse } from '../api/models';
 export class AccountDetailsComponent implements OnInit, OnDestroy {
 
     private subscriptions: Subscription[] = [];
-    // public accountDetails: any = {};
 
     public authResponse: ConsentAuthorizeResponse;
 
