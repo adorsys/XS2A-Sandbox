@@ -1,15 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ConsentAuthorizeResponse} from "../../api/models/consent-authorize-response";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
-import {AisService} from "../../common/services/ais.service";
 import {PisService} from "../../common/services/pis.service";
-import {PisCancellationService} from "../../common/services/pis-cancellation.service";
 import {ShareDataService} from "../../common/services/share-data.service";
 import {RoutingPath} from "../../common/models/routing-path.model";
-import {PSUAISService} from "../../api/services/psuais.service";
-import AuthrizedConsentUsingPOSTParams = PSUAISService.AuthrizedConsentUsingPOSTParams;
+import {PaymentAuthorizeResponse} from "../../api/models";
+import {PSUPISCancellationService} from "../../api/services/psupiscancellation.service";
+import AuthorisePaymentUsingPOSTParams = PSUPISCancellationService.AuthorisePaymentUsingPOSTParams;
 
 @Component({
   selector: 'app-tan-confirmation',
@@ -18,7 +16,7 @@ import AuthrizedConsentUsingPOSTParams = PSUAISService.AuthrizedConsentUsingPOST
 })
 export class TanConfirmationComponent implements OnInit, OnDestroy {
 
-  public authResponse: ConsentAuthorizeResponse;
+  public authResponse: PaymentAuthorizeResponse;
   public tanForm: FormGroup;
   public invalidTanCount = 0;
 
@@ -28,8 +26,7 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
   constructor(private formBuilder: FormBuilder,
               private router: Router,
               private route: ActivatedRoute,
-              private aisService: AisService,
-              private pisCancellationService: PisCancellationService,
+              private pisService: PisService,
               private shareService: ShareDataService) {
   }
 
@@ -64,13 +61,13 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
     console.log('TAN: ' + this.tanForm.value);
 
     this.subscriptions.push(
-      this.aisService.authrizedConsent({
+      this.pisService.authorizePayment({
         ...this.tanForm.value,
-        encryptedConsentId: this.authResponse.encryptedConsentId,
+        encryptedPaymentId: this.authResponse.encryptedConsentId,
         authorisationId: this.authResponse.authorisationId,
-      } as AuthrizedConsentUsingPOSTParams).subscribe(authResponse => {
+      } as AuthorisePaymentUsingPOSTParams).subscribe(authResponse => {
         console.log(authResponse);
-        this.router.navigate([`${RoutingPath.ACCOUNT_INFORMATION}/${RoutingPath.RESULT}`], {
+        this.router.navigate([`${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.RESULT}`], {
           queryParams: {
             encryptedConsentId: this.authResponse.encryptedConsentId,
             authorisationId: this.authResponse.authorisationId,
@@ -83,7 +80,7 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
         this.invalidTanCount++;
 
         if (this.invalidTanCount >= 3) {
-          this.router.navigate([`${RoutingPath.ACCOUNT_INFORMATION}/${RoutingPath.RESULT}`], {
+          this.router.navigate([`${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.RESULT}`], {
             queryParams: {
               encryptedConsentId: this.authResponse.encryptedConsentId,
               authorisationId: this.authResponse.authorisationId,
@@ -96,23 +93,7 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
     );
   }
 
-  public onCancel(): void {
-    this.aisService.revokeConsent({
-      encryptedConsentId: this.authResponse.encryptedConsentId,
-      authorisationId: this.authResponse.authorisationId
-    }).subscribe(authResponse => {
-      console.log(authResponse);
-      this.router.navigate([`${RoutingPath.ACCOUNT_INFORMATION}/${RoutingPath.RESULT}`], {
-        queryParams: {
-          encryptedConsentId: this.authResponse.encryptedConsentId,
-          authorisationId: this.authResponse.authorisationId
-        }
-      }).then(() => {
-        this.authResponse = authResponse;
-        this.shareService.changeData(this.authResponse);
-      });
-    });
-  }
+  public onCancel(): void {}
 
   private initTanForm(): void {
     this.tanForm = this.formBuilder.group({
