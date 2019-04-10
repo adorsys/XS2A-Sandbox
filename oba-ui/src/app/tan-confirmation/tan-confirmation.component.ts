@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {Router, ActivatedRoute} from '@angular/router';
@@ -19,7 +19,7 @@ import AuthorisePaymentUsingPOSTParams = PSUPISCancellationService.AuthorisePaym
   templateUrl: './tan-confirmation.component.html',
   styleUrls: ['./tan-confirmation.component.scss']
 })
-export class TanConfirmationComponent implements OnInit {
+export class TanConfirmationComponent implements OnInit, OnDestroy {
 
   public authResponse: ConsentAuthorizeResponse;
   public tanForm: FormGroup;
@@ -35,13 +35,13 @@ export class TanConfirmationComponent implements OnInit {
               private pisService: PisService,
               private pisCancellationService: PisCancellationService,
               private shareService: ShareDataService) {
-    this.tanForm = this.formBuilder.group({
-      authCode: ['', Validators.required]
-    });
   }
 
   public ngOnInit(): void {
-    // get current operation
+
+    this.initializeTanForm();
+
+    // get query params
     this.shareService.currentOperation
       .subscribe((operation: string) => {
         this.operation = operation;
@@ -54,6 +54,10 @@ export class TanConfirmationComponent implements OnInit {
         this.shareService.currentData.subscribe(authResponse => this.authResponse = authResponse);
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
   public onSubmit(): void {
@@ -133,6 +137,12 @@ export class TanConfirmationComponent implements OnInit {
       this.shareService.changeData(this.authResponse);
       this.router.navigate([`${RoutingPath.RESULT}`],
         ObaUtils.getQueryParams(this.authResponse.encryptedConsentId, this.authResponse.authorisationId));
+    });
+  }
+
+  private initializeTanForm(): void {
+    this.tanForm = this.formBuilder.group({
+      authCode: ['', Validators.required]
     });
   }
 

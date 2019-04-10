@@ -87,7 +87,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.shareService.changeData(authorisationResponse);
           this.shareService.setOperationType('ais');
           this.router.navigate([`${RoutingPath.BANK_OFFERED}`],
-            ObaUtils.getQueryParams(this.encryptedConsentId, this.authorisationId));
+            ObaUtils.getQueryParams(this.operation, this.encryptedConsentId, null, this.authorisationId));
         }, (error) => {
           console.log(error);
           this.invalidCredentials = true;
