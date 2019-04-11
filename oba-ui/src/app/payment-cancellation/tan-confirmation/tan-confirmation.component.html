@@ -1,0 +1,56 @@
+<div class="d-md-flex align-items-center">
+  <!-- First-->
+  <div class="col-md-4 p-0 bg-light h-md-100">
+    <div class="d-md-flex align-items-center h-100 justify-content-center">
+      <div class="d-md-flex align-items-center ">
+        <app-payment-details></app-payment-details>
+      </div>
+    </div>
+  </div>
+
+  <!--&lt;!&ndash; Second 1/4 &ndash;&gt;-->
+  <div class="col-md-8 bg-white h-md-100">
+    <div class="d-md-flex align-items-center h-100 p-4 justify-content-center">
+      <div class="d-md-flex align-items-center ">
+
+        <form [formGroup]="tanForm" (ngSubmit)="tanForm.valid && onSubmit()">
+
+          <div class="card">
+            <div class="card-body">
+              <h2 class="card-title font-weight-bold">TAN confirmation</h2>
+              <div class="font-weight-light my-4 text-muted">We have sent you an E-Mail with the TAN. Please check your email and fill in the field below.</div>
+
+              <div *ngIf="invalidTanCount > 0" class="alert alert-danger">
+                Invalid TAN. You have {{3 - invalidTanCount}} more tries.
+              </div>
+
+              <div class="col-12 font-weight-light">
+                <div class=" row form-group">
+                  <label class="text-muted" for="authCode">TAN</label>
+                  <input [ngClass]="{'is-invalid': tanForm.get('authCode')?.errors && tanForm.get('authCode')?.dirty}"
+                         class="form-control" formControlName="authCode" id="authCode" name="authCode" type="password">
+                </div>
+              </div>
+            </div>
+
+            <div class="card-footer no-bg-color">
+              <div class="row my-3">
+                <div class="col-12 col-sm-6 pr-sm-2">
+                  <button type="button"  class="btn btn-outline-secondary btn-block" (click)="onCancel()">Cancel
+                  </button>
+                </div>
+                <div class="col-12 col-sm-6 pl-sm-2">
+                  <button type="submit" class="btn btn-primary btn-block" [disabled]="tanForm.invalid">Next
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </form>
+
+
+      </div>
+    </div>
+  </div>
+</div>
