@@ -70,6 +70,7 @@ public class AISController extends AbstractXISController implements AISApi { //N
     @Autowired
     private AccountRestClient accountRestClient;
 
+    //TODO remove and refactor https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/issues/43
     private ScaStatusTO scaStatus;
     private String tppNokRedirectUri;
     private String tppOkRedirectUri;
@@ -338,11 +339,10 @@ public class AISController extends AbstractXISController implements AISApi { //N
 
     @Override
     public ResponseEntity<ConsentAuthorizeResponse> aisDone(String encryptedConsentId, String authorisationId,
-                                                            String consentAndaccessTokenCookieString, Boolean forgetConsent, Boolean backToTpp) {
-        String redirectURL = tppNokRedirectUri;
-        if (ScaStatusTO.FINALISED.equals(scaStatus)) {
-            redirectURL = tppOkRedirectUri;
-        }
+                                                            String consentAndAccessTokenCookieString, Boolean forgetConsent, Boolean backToTpp) {
+        String redirectURL = ScaStatusTO.FINALISED.equals(scaStatus)
+                                 ? tppNokRedirectUri
+                                 : tppOkRedirectUri;
 
         return responseUtils.redirect(redirectURL, response);
     }

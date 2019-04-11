@@ -136,7 +136,7 @@ public interface AISApi {
      * @return
      */
     @GetMapping(path = "/{encryptedConsentId}/authorisation/{authorisationId}/done", params = {"forgetConsent", "backToTpp"})
-    @ApiOperation(value = "Close cosent session", authorizations = @Authorization(value = "apiKey"),
+    @ApiOperation(value = "Close consent session", authorizations = @Authorization(value = "apiKey"),
         notes = "This call provides the server with the opportunity to close this session and "
                     + "redirect the PSU to the TPP or close the application window.")
     ResponseEntity<ConsentAuthorizeResponse> aisDone(

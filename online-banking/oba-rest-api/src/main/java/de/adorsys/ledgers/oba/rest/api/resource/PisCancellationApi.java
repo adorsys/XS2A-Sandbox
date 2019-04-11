@@ -5,10 +5,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Api(value = PisCancellationApi.BASE_PATH, tags = "PSU PIS", description = "Provides access to online banking payment functionality")
 public interface PisCancellationApi {
@@ -67,4 +64,26 @@ public interface PisCancellationApi {
         @PathVariable("authorisationId") String authorisationId,
         @RequestHeader(name = "Cookie", required = false) String consentAndaccessTokenCookieString,
         @RequestParam("authCode") String authCode);
+
+    /**
+     * This call provides the server with the opportunity to close this session and
+     * redirect the PSU to the TPP or close the application window.
+     * <p>
+     * In any case, the session of the user will be closed and cookies will be deleted.
+     *
+     * @param encryptedPaymentId ID of Payment
+     * @param authorisationId ID of related Payment Authorisation
+     * @return redirect location header with TPP url
+     */
+    @GetMapping(path = "/{encryptedPaymentId}/authorisation/{authorisationId}/done", params = {"forgetConsent", "backToTpp"})
+    @ApiOperation(value = "Close consent session", authorizations = @Authorization(value = "apiKey"),
+        notes = "This call provides the server with the opportunity to close this session and "
+                    + "redirect the PSU to the TPP or close the application window.")
+    ResponseEntity<PaymentAuthorizeResponse> pisDone(
+        @PathVariable("encryptedPaymentId") String encryptedPaymentId,
+        @PathVariable("authorisationId") String authorisationId,
+        @RequestHeader(name = "Cookie", required = false) String consentAndAccessTokenCookieString,
+        @RequestParam(name = "forgetConsent", required = false) Boolean forgetConsent,
+        @RequestParam(name = "backToTpp", required = false) Boolean backToTpp);
+
 }
