@@ -12,6 +12,10 @@ export const routes: Routes = [
     path: 'payment-initiation',
     loadChildren: './pis/pis.module#PisModule'
   },
+  {
+    path: 'payment-cancellation',
+    loadChildren: './payment-cancellation/payment-cancellation.module#PaymentCancellationModule'
+  },
   // {
   //   path: '',
   //   redirectTo: 'login',
