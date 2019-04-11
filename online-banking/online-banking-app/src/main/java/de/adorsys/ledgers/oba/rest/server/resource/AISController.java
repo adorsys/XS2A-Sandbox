@@ -358,7 +358,7 @@ public class AISController extends AbstractXISController implements AISApi { //N
             return ResponseEntity.badRequest().build();
         }
 
-        if (revokeConsent(workflow.encryptedConsentId(), psuId) && exemptAuthorisationStatus(workflow.encryptedConsentId(), psuId, authorisationId)) {
+        if (failAuthorisation(workflow.encryptedConsentId(), psuId, authorisationId)) {
             return ResponseEntity.ok(buildResponseForSuccessfulConsentRevoke());
         }
 
@@ -373,16 +373,9 @@ public class AISController extends AbstractXISController implements AISApi { //N
         return workflow;
     }
 
-    private boolean revokeConsent(String encryptedConsentId, String psuId) {
-        ResponseEntity<Boolean> revokeConsentResponse = cmsPsuAisClient.revokeConsent(encryptedConsentId, psuId, null, null, null,
-                                                                                      CmsPsuAisClient.DEFAULT_SERVICE_INSTANCE_ID);
-
-        return revokeConsentResponse.getStatusCode() == HttpStatus.OK;
-    }
-
-    private boolean exemptAuthorisationStatus(String encryptedConsentId, String psuId, String authorisationId) {
+    private boolean failAuthorisation(String encryptedConsentId, String psuId, String authorisationId) {
         ResponseEntity<Boolean> updateAuthorisationStatusResponse = cmsPsuAisClient.updateAuthorisationStatus(encryptedConsentId,
-                                                                                                              "EXEMPTED", authorisationId, psuId, null, null, null,
+                                                                                                              "FAILED", authorisationId, psuId, null, null, null,
                                                                                                               CmsPsuAisClient.DEFAULT_SERVICE_INSTANCE_ID);
 
         return updateAuthorisationStatusResponse.getStatusCode() == HttpStatus.OK;

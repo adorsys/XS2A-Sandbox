@@ -147,10 +147,10 @@ public interface AISApi {
         @RequestParam(name = "backToTpp", required = false) Boolean backToTpp);
 
     /**
-     * Revokes AIS Consent object by its ID. Consent gets status "Revoked by PSU".
+     * Fails AIS Consent authorisation object by its ID.
      *
      * @param encryptedConsentId ID of Consent
-     * @return <code>true</code> if consent was found and revoked. <code>false</code> otherwise.
+     * @return <code>true</code> if consent authorisation was found and failed. <code>false</code> otherwise.
      */
     @DeleteMapping(path = "/{encryptedConsentId}/{authorisationId}")
     @ApiOperation(value = "Revoke consent", authorizations = @Authorization(value = "apiKey"),

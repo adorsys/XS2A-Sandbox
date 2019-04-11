@@ -10,10 +10,7 @@ import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.ledgers.oba.rest.api.consentref.ConsentReference;
 import de.adorsys.ledgers.oba.rest.api.consentref.ConsentType;
 import de.adorsys.ledgers.oba.rest.api.consentref.InvalidConsentException;
-import de.adorsys.ledgers.oba.rest.api.domain.AuthorizeResponse;
-import de.adorsys.ledgers.oba.rest.api.domain.PaymentAuthorizeResponse;
-import de.adorsys.ledgers.oba.rest.api.domain.PaymentWorkflow;
-import de.adorsys.ledgers.oba.rest.api.domain.ValidationCode;
+import de.adorsys.ledgers.oba.rest.api.domain.*;
 import de.adorsys.ledgers.oba.rest.api.exception.PaymentAuthorizeException;
 import de.adorsys.ledgers.oba.rest.api.resource.PISApi;
 import de.adorsys.ledgers.oba.rest.server.mapper.BulkPaymentMapper;
@@ -88,7 +85,7 @@ public class PISController extends AbstractXISController implements PISApi {
         if (success) {
             String psuId = AuthUtils.psuId(workflow.bearerToken());
             try {
-                scaStatus(workflow, psuId, response);
+                updateAuthorisationStatus(workflow, psuId, response);
                 initiatePayment(workflow, response);
 
                 // Select sca if no alternative.
@@ -135,7 +132,7 @@ public class PISController extends AbstractXISController implements PISApi {
 
             // Update status
             workflow.getScaResponse().setScaStatus(ScaStatusTO.PSUAUTHENTICATED);
-            scaStatus(workflow, psuId, response);
+            updateAuthorisationStatus(workflow, psuId, response);
 
             initiatePayment(workflow, response);
             updateScaStatusPaymentStatusConsentData(psuId, workflow);
@@ -193,10 +190,32 @@ public class PISController extends AbstractXISController implements PISApi {
         }
     }
 
+    @Override
+    public ResponseEntity<PaymentAuthorizeResponse> failPaymentAuthorisation(String encryptedPaymentId, String authorisationId, String cookieString) {
+        String psuId = AuthUtils.psuId(auth);
+        try {
+            PaymentWorkflow workflow = identifyPayment(encryptedPaymentId, authorisationId, true, cookieString, psuId, response, auth.getBearerToken());
+
+            authInterceptor.setAccessToken(workflow.bearerToken().getAccess_token());
+
+            workflow.getScaResponse().setScaStatus(ScaStatusTO.FAILED);
+            updateAuthorisationStatus(workflow, psuId, response);
+            updateAspspConsentData(workflow, response);
+
+            responseUtils.removeCookies(response);
+            return ResponseEntity.ok(workflow.getAuthResponse());
+        } catch (PaymentAuthorizeException e) {
+            responseUtils.removeCookies(response);
+            return e.getError();
+        } finally {
+            authInterceptor.setAccessToken(null);
+        }
+    }
+
     private void updateScaStatusPaymentStatusConsentData(String psuId, PaymentWorkflow workflow)
         throws PaymentAuthorizeException {
         // UPDATE CMS
-        scaStatus(workflow, psuId, response);
+        updateAuthorisationStatus(workflow, psuId, response);
         updatePaymentStatus(response, workflow);
         updateAspspConsentData(workflow, response);
     }
@@ -289,13 +308,13 @@ public class PISController extends AbstractXISController implements PISApi {
         return workflow;
     }
 
-    private void scaStatus(PaymentWorkflow workflow, String psuId, HttpServletResponse response) throws PaymentAuthorizeException {
+    private void updateAuthorisationStatus(PaymentWorkflow workflow, String psuId, HttpServletResponse response) throws PaymentAuthorizeException {
         String paymentId = workflow.getPaymentResponse().getPayment().getPaymentId();
         String authorisationId = workflow.getPaymentResponse().getAuthorisationId();
         String status = workflow.getAuthResponse().getScaStatus().name();
         ResponseEntity<Void> resp = cmsPsuPisClient.updateAuthorisationStatus(psuId, null, null, null,
                                                                               paymentId, authorisationId, status, CmsPsuPisClient.DEFAULT_SERVICE_INSTANCE_ID);
-        if (!HttpStatus.OK.equals(resp.getStatusCode())) {
+        if (resp.getStatusCode() != HttpStatus.OK) {
             throw new PaymentAuthorizeException(responseUtils.couldNotProcessRequest(authResp(), "Error updating authorisation status. See error code.", resp.getStatusCode(), response));
         }
     }
