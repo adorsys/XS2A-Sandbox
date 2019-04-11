@@ -1,211 +1,91 @@
-<div id="register">
-    <div class="container">
-        <div id="register-row" class="row justify-content-center align-items-center">
-            <div id="register-column" class="col-md-6">
-                <div id="register-box" class="col-md-12">
-
-                    <form id="register-form" [formGroup]="userForm" autocomplete="off">
-                        <h3 class="text-center text-adorsys">Adorsys TPP Sandbox</h3>
-                        <div *ngIf="errorMessage" class="alert alert-danger">
-                            {{errorMessage}}
-                        </div>
-
-                        <div class="form-group">
-                            <label for="branch" class="form-group required">Your TPP ID</label>
-                            <input type="text" #branchInput
-                                   class="form-control"
-                                   id="branch"
-                                   autocomplete="off"
-                                   placeholder="please input your TPP ID"
-                                   formControlName="branch"
-                                   [ngClass]="{'is-invalid': branch.invalid && (submitted || branch.dirty || branch.touched)}">
-                            <div *ngIf="branch.errors?.required && (submitted || branch.dirty || branch.touched)"
-                                 class="invalid-feedback d-block">
-                                Required
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email"
-                                   autocomplete="off"
-                                   class="form-control"
-                                   placeholder="Your contact email"
-                                   id="email"
-                                   formControlName="email"
-                                   [ngClass]="{'is-invalid': email.invalid && (submitted || email.dirty || email.touched)}">
-                            <div *ngIf="email.errors?.required && (submitted || email.dirty || email.touched)"
-                                 class="invalid-feedback d-block">
-                                Required
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="registerTTP" class="form-group required">Login</label>
-                            <input type="text"
-                                   autocomplete="off"
-                                   class="form-control"
-                                   id="registerTTP"
-                                   placeholder="your login into TTP sandbox"
-                                   formControlName="login"
-                                   [ngClass]="{'is-invalid': login.invalid && (submitted || login.dirty || login.touched)}">
-                            <div *ngIf="login.errors?.required && (submitted || login.dirty || login.touched)"
-                                 class="invalid-feedback d-block">
-                                Required
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="pin">PIN</label>
-                            <input type="password"
-                                   autocomplete="new-password"
-                                   class="form-control"
-                                   id="pin"
-                                   placeholder="your pin for TPP dashboard access"
-                                   formControlName="pin"
-                                   [ngClass]="{'is-invalid': pin.invalid && (submitted || pin.dirty || pin.touched)}">
-                            <div *ngIf="pin.errors?.required && (submitted || pin.dirty || pin.touched)"
-                                 class="invalid-feedback d-block">
-                                Required
-                            </div>
-                        </div>
-
-                        <div class="form-check">
-                            <input type="checkbox"
-                                   class="form-check-input"
-                                   id="generateCertificate"
-                                   [checked]="generateCertificate"
-                                   (change)="generateCertificate = !generateCertificate">
-                            <label class="form-check-label" for="generateCertificate">Generate Certificate</label>
-                        </div>
-                    </form>
-
-                    <div class="card" *ngIf="generateCertificate">
-                        <div class="card-body">
-                            <h5 class="card-title">Certificate generation</h5>
-                            <form [formGroup]="certificateForm" autocomplete="off">
-                                <div class="row">
-                                    <div class="form-group col-sm-6">
-                                        <label>Authorization Number*</label>
-                                        <input type="text"
-                                               autocomplete="off"
-                                               class="form-control"
-                                               id="authorizationNumber"
-                                               placeholder="Authorization Number"
-                                               formControlName="authorizationNumber"
-                                               [ngClass]="{'is-invalid': authorizationNumber.invalid && (submitted || authorizationNumber.dirty || authorizationNumber.touched)}"/>
-                                        <div *ngIf="authorizationNumber.errors?.required && (submitted || authorizationNumber.dirty || authorizationNumber.touched)"
-                                             class="invalid-feedback d-block">
-                                            Authorization Number required
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-sm-6">
-                                        <label>Country</label>
-                                        <input type="text"
-                                               autocomplete="off"
-                                               class="form-control"
-                                               id="country"
-                                               placeholder="Country Name"
-                                               formControlName="countryName"/>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="form-group col-sm-6">
-                                        <label>State</label>
-                                        <input type="text"
-                                               autocomplete="off"
-                                               class="form-control"
-                                               id="state"
-                                               placeholder="State"
-                                               formControlName="stateOrProvinceName"/>
-                                    </div>
-                                    <div class="form-group col-sm-6">
-                                        <label>City</label>
-                                        <input type="text"
-                                               autocomplete="off"
-                                               class="form-control"
-                                               id="city"
-                                               placeholder="City"
-                                               formControlName="localityName"/>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="form-group col-sm-6">
-                                        <label>Organization Name*</label>
-                                        <input type="text"
-                                               autocomplete="off"
-                                               class="form-control"
-                                               id="organizationName"
-                                               placeholder="Organization Name"
-                                               formControlName="organizationName"
-                                               [ngClass]="{'is-invalid': organizationName.invalid && (submitted || organizationName.dirty || organizationName.touched)}"/>
-                                        <div *ngIf="organizationName.errors?.required && (submitted || organizationName.dirty || organizationName.touched)"
-                                             class="invalid-feedback d-block">
-                                            Organization Name required
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-sm-6">
-                                        <label>Domain</label>
-                                        <input type="text"
-                                               autocomplete="off"
-                                               class="form-control"
-                                               id="domain"
-                                               placeholder="Domain"
-                                               formControlName="domainComponent"/>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="form-group col-sm-6">
-                                        <label>Validity (days)*</label>
-                                        <input type="number"
-                                               autocomplete="off"
-                                               class="form-control"
-                                               id="validity"
-                                               placeholder="Validity"
-                                               formControlName="validity"
-                                               [ngClass]="{'is-invalid': validity.invalid && (submitted || validity.dirty || validity.touched)}"/>
-                                        <div *ngIf="validity.errors?.required && (submitted || validity.dirty || validity.touched)"
-                                             class="invalid-feedback d-block">
-                                            Validity required
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-sm-6">
-                                        <label>Organization Unit</label>
-                                        <input type="text"
-                                               autocomplete="off"
-                                               class="form-control"
-                                               id="organizationUnit"
-                                               placeholder="Organization Unit"
-                                               formControlName="organizationUnit"/>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="form-check mx-3 my-1" *ngFor="let role of rolesOptions">
-                                        <input type="checkbox"
-                                               #roleInput
-                                               [value]="role"
-                                               (change)="handleTppRoles(roleInput)"
-                                               class="form-check-input">
-                                        <label class="form-check-label" for="generateCertificate">{{role}}</label>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
-
-                    <div class="row my-3 mx-4">
-                        <button type="submit"
-                                (click)="onSubmit(branchInput)"
-                                class="btn btn-info" [innerHTML]="!generateCertificate ?'Register': 'Register & Generate'"></button>
-                        <a routerLink="/login" class="btn btn-link">Login</a>
-                    </div>
-
+<div class="mt-5"></div>
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <form [formGroup]="userForm" autocomplete="off" class="mb-3">
+                <h3 class="card-title text-center">Adorsys TPP Sandbox</h3>
+                <div *ngIf="errorMessage" class="alert alert-danger">
+                    {{errorMessage}}
                 </div>
+
+                <div class="form-group">
+                    <label for="branch" class="form-group required">Your TPP ID</label>
+                    <input type="text"
+                           autocomplete="off"
+                           class="form-control"
+                           id="branch"
+                           placeholder="please input your TPP ID"
+                           formControlName="branch"
+                           [ngClass]="{'is-invalid': userForm.get('branch')?.errors && userForm.get('branch')?.dirty}">
+                    <div class="invalid-feedback"
+                         *ngIf="userForm.get('branch')?.errors?.required && userForm.get('branch')?.dirty">
+                        TPP ID is Required
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email"
+                           autocomplete="off"
+                           class="form-control"
+                           placeholder="Your contact email"
+                           id="email"
+                           formControlName="email"
+                           [ngClass]="{'is-invalid': userForm.get('email')?.errors && userForm.get('email')?.dirty}">
+                    <div class="invalid-feedback"
+                         *ngIf="userForm.get('email')?.errors?.required && userForm.get('email')?.dirty">
+                        Email is Required
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="registerTTP" class="form-group required">Login</label>
+                    <input type="text"
+                           autocomplete="off"
+                           class="form-control"
+                           id="registerTTP"
+                           placeholder="your login into TTP sandbox"
+                           formControlName="login"
+                           [ngClass]="{'is-invalid': userForm.get('login')?.errors && userForm.get('login')?.dirty}">
+                    <div class="invalid-feedback"
+                         *ngIf="userForm.get('login')?.errors?.required && userForm.get('login')?.dirty">
+                        Login is Required
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="pin">PIN</label>
+                    <input type="password"
+                           autocomplete="new-password"
+                           class="form-control"
+                           id="pin"
+                           placeholder="your pin for TPP dashboard access"
+                           formControlName="pin"
+                           [ngClass]="{'is-invalid': userForm.get('pin')?.errors && userForm.get('pin')?.dirty}">
+                    <div class="invalid-feedback"
+                         *ngIf="userForm.get('pin')?.errors?.required && userForm.get('pin')?.dirty">
+                        Pin is Required
+                    </div>
+                </div>
+
+                <div class="form-check">
+                    <input type="checkbox"
+                           class="form-check-input"
+                           id="generateCertificate"
+                           [checked]="generateCertificate"
+                           (change)="generateCertificate = !generateCertificate">
+                    <label class="form-check-label" for="generateCertificate">Generate Certificate</label>
+                </div>
+            </form>
+            <div class="" *ngIf="generateCertificate">
+                <app-certificate (certificateValue)="getCertificateValue($event)"></app-certificate>
+            </div>
+
+            <div class="">
+                <button (click)="onSubmit()" class="btn btn-info"
+                        [disabled]="userForm?.invalid || (generateCertificate&&!certificateValue)"
+                        [innerHTML]="!generateCertificate ?'Register': 'Register & Generate'"></button>
+                <a routerLink="/login" class="btn btn-link">Login</a>
             </div>
         </div>
     </div>
