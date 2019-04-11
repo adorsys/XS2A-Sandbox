@@ -341,8 +341,8 @@ public class AISController extends AbstractXISController implements AISApi { //N
     public ResponseEntity<ConsentAuthorizeResponse> aisDone(String encryptedConsentId, String authorisationId,
                                                             String consentAndAccessTokenCookieString, Boolean forgetConsent, Boolean backToTpp) {
         String redirectURL = ScaStatusTO.FINALISED.equals(scaStatus)
-                                 ? tppNokRedirectUri
-                                 : tppOkRedirectUri;
+                                 ? tppOkRedirectUri
+                                 : tppNokRedirectUri;
 
         return responseUtils.redirect(redirectURL, response);
     }
