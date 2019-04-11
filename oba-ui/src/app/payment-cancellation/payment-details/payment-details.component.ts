@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Subscription} from "rxjs";
 import {PaymentAuthorizeResponse} from "../../api/models/payment-authorize-response";
 import {ShareDataService} from "../../common/services/share-data.service";
@@ -10,11 +10,11 @@ import {ShareDataService} from "../../common/services/share-data.service";
 })
 export class PaymentDetailsComponent implements OnInit {
 
+  public authResponse: PaymentAuthorizeResponse;
   private subscriptions: Subscription[] = [];
 
-  public authResponse: PaymentAuthorizeResponse;
-
-  constructor(private sharedService: ShareDataService) {}
+  constructor(private sharedService: ShareDataService) {
+  }
 
   ngOnInit() {
     this.sharedService.currentData.subscribe(
