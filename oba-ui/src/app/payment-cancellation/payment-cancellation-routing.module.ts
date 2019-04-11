@@ -13,7 +13,7 @@ const routes: Routes = [
     component: LoginComponent,
   },
   {
-    path: RoutingPath.CONFIRM_PAYMENT,
+    path: RoutingPath.CONFIRM_CANCELLATION,
     component: ConfirmCancellationComponent,
   },
   {
