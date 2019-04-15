@@ -1,0 +1,34 @@
+@import "~src/assets/themes/variables";
+
+form {
+    font-weight: 100;
+}
+
+.card {
+    max-width: 400px;
+    border: none;
+    margin: 5vh auto 15vh auto;
+
+    &-title {
+        margin: 1.5rem;
+    }
+
+    &__headline {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 300px;
+    }
+
+    &__subtitle {
+        font-size: 1.3rem;
+        color: $light-grey;
+    }
+}
+
+.form__margin {
+    margin-bottom: 4rem;
+}
+
+.create-account a{
+    color: $light-grey;
+}

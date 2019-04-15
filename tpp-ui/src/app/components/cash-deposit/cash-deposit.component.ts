@@ -6,7 +6,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 @Component({
   selector: 'app-cash-deposit',
   templateUrl: './cash-deposit.component.html',
-  styleUrls: ['./cash-deposit.component.css']
+  styleUrls: ['./cash-deposit.component.scss']
 })
 export class CashDepositComponent implements OnInit {
 

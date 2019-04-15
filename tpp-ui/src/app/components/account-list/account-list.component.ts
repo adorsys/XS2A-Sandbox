@@ -6,7 +6,7 @@ import {Account} from "../../models/account.model"
 @Component({
   selector: 'app-account-list',
   templateUrl: './account-list.component.html',
-  styleUrls: ['./account-list.component.css']
+  styleUrls: ['./account-list.component.scss']
 })
 export class AccountListComponent implements OnInit {
   accounts: Account[];

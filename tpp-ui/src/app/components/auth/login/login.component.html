@@ -1,44 +1,49 @@
-<div id="login">
-  <div class="container">
-    <div id="login-row" class="row justify-content-center align-items-center">
-      <div id="login-column" class="col-md-6">
-        <div id="login-box" class="col-md-12">
-          <form id="login-form" class="form" [formGroup]="loginForm">
-            <h3 class="text-center text-adorsys">Adorsys TPP Sandbox</h3>
+<form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+    <div class="card">
+        <div class="card-body">
+            <div class="card__headline text-center">
+                <h2 class="card-title font-weight-bold">Welcome</h2>
+                <div class="my-4 card__subtitle">
+                    Please log in with your bank account username
+                </div>
+            </div>
             <div *ngIf="errorMessage" class="alert alert-danger">
-              {{errorMessage}}
+                {{errorMessage}}
             </div>
-            <div class="form-group">
-              <label for="userLogin" class="text-adorsys">Your login:</label><br>
-              <input type="text"
-                     id="userLogin"
-                     name="login"
-                     formControlName="login"
-                     placeholder="Enter your login"
-                     [ngClass]="{ 'is-invalid': loginForm.controls['login'].touched && loginForm.controls['login'].errors }"
-                     class="form-control">
-              <div class="invalid-feedback" *ngIf="loginForm.controls['login'].touched && loginForm.controls['login'].hasError('required')">Login is required</div>
+           <div class="form__margin">
+               <div class="form-group">
+                   <label for="login">Login</label>
+                   <input [ngClass]="{'is-invalid': loginForm.get('login')?.errors && loginForm.get('login')?.dirty}"
+                          autocomplete="off"
+                          class="form-control"
+                          formControlName="login"
+                          id="login"
+                          type="text">
+                   <div *ngIf="loginForm.get('login')?.errors?.required && loginForm.get('login')?.dirty"
+                        class="invalid-feedback">
+                       Login is Required
+                   </div>
+               </div>
+
+               <div class="form-group">
+                   <label for="pin">PIN</label>
+                   <input [ngClass]="{'is-invalid': loginForm.get('pin')?.errors && loginForm.get('pin')?.dirty}"
+                          autocomplete="new-password"
+                          class="form-control"
+                          formControlName="pin"
+                          id="pin"
+                          type="password">
+                   <div *ngIf="loginForm.get('pin')?.errors?.required && loginForm.get('pin')?.dirty"
+                        class="invalid-feedback">
+                       Pin is Required
+                   </div>
+               </div>
+           </div>
+            <button class="btn btn-primary btn-block" type="submit">Login</button>
+            <div class="text-center create-account">
+                <a routerLink="/register" class="text-light-grey">Create new account</a>
             </div>
-            <div class="form-group">
-              <label for="pin" class="text-adorsys">Pin:</label><br>
-              <input type="password"
-                     id="pin"
-                     name="pin"
-                     formControlName="pin"
-                     placeholder="Enter you pin"
-                     [ngClass]="{ 'is-invalid': loginForm.controls['pin'].touched && loginForm.controls['pin'].errors }"
-                     class="form-control">
-              <div class="invalid-feedback" *ngIf="loginForm.controls['pin'].touched && loginForm.controls['pin'].hasError('required')">Pin is required</div>
-            </div>
-            <div class="form-group">
-              <button type="submit"
-                      (click)="onSubmit()"
-                      class="btn btn-info">Sign in</button>
-              <a routerLink="/register" class="btn btn-link">Register</a>
-            </div>
-          </form>
         </div>
-      </div>
     </div>
-  </div>
-</div>
+</form>
+

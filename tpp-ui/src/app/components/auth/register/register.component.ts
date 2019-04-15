@@ -12,7 +12,7 @@ import {InfoService} from "../../../commons/info/info.service";
 @Component({
     selector: 'app-register',
     templateUrl: './register.component.html',
-    styleUrls: ['../auth.component.css']
+    styleUrls: ['../auth.component.scss']
 })
 export class RegisterComponent implements OnInit {
 

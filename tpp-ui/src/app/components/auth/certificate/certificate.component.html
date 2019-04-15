@@ -1,8 +1,6 @@
-<div class="">
-    <h4 class="card-title text-center m-4">Certificate generation</h4>
     <form (change)="onChange()" [formGroup]="certificateFormGroup" autocomplete="off">
-        <div class="row">
-            <div class="form-group col-12 col-md-6">
+        <h4 class="card-title text-center font-weight-bold">Certificate generation</h4>
+            <div class="form-group">
                 <label>Authorization Number*</label>
                 <input [ngClass]="{'is-invalid': certificateFormGroup.get('authorizationNumber')?.errors && certificateFormGroup.get('authorizationNumber')?.dirty}"
                        autocomplete="off"
@@ -16,7 +14,7 @@
                     Authorization Number required
                 </div>
             </div>
-            <div class="form-group col-12 col-md-6">
+            <div class="form-group">
                 <label>Country</label>
                 <input autocomplete="off"
                        class="form-control"
@@ -25,10 +23,8 @@
                        placeholder="Country Name"
                        type="text"/>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="form-group col-12 col-md-6">
+            <div class="form-group">
                 <label>State</label>
                 <input autocomplete="off"
                        class="form-control"
@@ -37,7 +33,7 @@
                        placeholder="State"
                        type="text"/>
             </div>
-            <div class="form-group col-12 col-md-6">
+            <div class="form-group">
                 <label>City</label>
                 <input autocomplete="off"
                        class="form-control"
@@ -46,10 +42,8 @@
                        placeholder="City"
                        type="text"/>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="form-group col-12 col-md-6">
+            <div class="form-group">
                 <label>Organization Name*</label>
                 <input [ngClass]="{'is-invalid': certificateFormGroup.get('organizationName')?.errors && certificateFormGroup.get('organizationName')?.dirty}"
                        autocomplete="off"
@@ -63,7 +57,7 @@
                     Organization Name required
                 </div>
             </div>
-            <div class="form-group col-12 col-md-6">
+            <div class="form-group">
                 <label>Domain</label>
                 <input autocomplete="off"
                        class="form-control"
@@ -72,10 +66,8 @@
                        placeholder="Domain"
                        type="text"/>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="form-group col-12 col-md-6">
+            <div class="form-group">
                 <label>Validity (days)*</label>
                 <input [ngClass]="{'is-invalid': certificateFormGroup.get('validity')?.errors && certificateFormGroup.get('validity')?.dirty}"
                        autocomplete="off"
@@ -88,7 +80,7 @@
                     Validity required
                 </div>
             </div>
-            <div class="form-group col-12 col-md-6">
+            <div class="form-group">
                 <label>Organization Unit</label>
                 <input autocomplete="off"
                        class="form-control"
@@ -97,9 +89,8 @@
                        placeholder="Organization Unit"
                        type="text"/>
             </div>
-        </div>
 
-        <div class="row mb-3">
+        <div class="row">
             <div *ngFor="let role of checkboxArray.controls; let i = index;" class="form-check mx-3 my-1">
                 <input (change)="getSelectedCheckboxValue()"
                        [checked]="role.value"
@@ -115,4 +106,3 @@
             </div>
         </div>
     </form>
-</div>

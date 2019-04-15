@@ -6,7 +6,7 @@ import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 @Component({
     selector: 'test-data-generation',
     templateUrl: './test-data-generation.component.html',
-    styleUrls: ['./test-data-generation.component.css']
+    styleUrls: ['./test-data-generation.component.scss']
 })
 export class TestDataGenerationComponent implements OnInit {
     private form = new FormGroup({});

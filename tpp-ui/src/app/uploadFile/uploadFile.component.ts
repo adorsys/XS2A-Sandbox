@@ -7,7 +7,7 @@ import {UploadOptions} from '../services/upload.service';
 @Component({
     selector: 'app-upload-file',
     templateUrl: './uploadFile.component.html',
-    styleUrls: ['./uploadFile.component.css']
+    styleUrls: ['./uploadFile.component.scss']
 })
 export class UploadFileComponent implements OnInit {
 

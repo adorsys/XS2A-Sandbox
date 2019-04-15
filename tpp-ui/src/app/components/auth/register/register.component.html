@@ -1,92 +1,92 @@
-<div class="mt-5"></div>
-<div class="container">
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
     <div class="card">
         <div class="card-body">
-            <form [formGroup]="userForm" autocomplete="off" class="mb-3">
-                <h3 class="card-title text-center">Adorsys TPP Sandbox</h3>
-                <div *ngIf="errorMessage" class="alert alert-danger">
-                    {{errorMessage}}
-                </div>
-
-                <div class="form-group">
-                    <label for="branch" class="form-group required">Your TPP ID</label>
-                    <input type="text"
-                           autocomplete="off"
-                           class="form-control"
-                           id="branch"
-                           placeholder="please input your TPP ID"
-                           formControlName="branch"
-                           [ngClass]="{'is-invalid': userForm.get('branch')?.errors && userForm.get('branch')?.dirty}">
-                    <div class="invalid-feedback"
-                         *ngIf="userForm.get('branch')?.errors?.required && userForm.get('branch')?.dirty">
-                        TPP ID is Required
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email"
-                           autocomplete="off"
-                           class="form-control"
-                           placeholder="Your contact email"
-                           id="email"
-                           formControlName="email"
-                           [ngClass]="{'is-invalid': userForm.get('email')?.errors && userForm.get('email')?.dirty}">
-                    <div class="invalid-feedback"
-                         *ngIf="userForm.get('email')?.errors?.required && userForm.get('email')?.dirty">
-                        Email is Required
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="registerTTP" class="form-group required">Login</label>
-                    <input type="text"
-                           autocomplete="off"
-                           class="form-control"
-                           id="registerTTP"
-                           placeholder="your login into TTP sandbox"
-                           formControlName="login"
-                           [ngClass]="{'is-invalid': userForm.get('login')?.errors && userForm.get('login')?.dirty}">
-                    <div class="invalid-feedback"
-                         *ngIf="userForm.get('login')?.errors?.required && userForm.get('login')?.dirty">
-                        Login is Required
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="pin">PIN</label>
-                    <input type="password"
-                           autocomplete="new-password"
-                           class="form-control"
-                           id="pin"
-                           placeholder="your pin for TPP dashboard access"
-                           formControlName="pin"
-                           [ngClass]="{'is-invalid': userForm.get('pin')?.errors && userForm.get('pin')?.dirty}">
-                    <div class="invalid-feedback"
-                         *ngIf="userForm.get('pin')?.errors?.required && userForm.get('pin')?.dirty">
-                        Pin is Required
-                    </div>
-                </div>
-
-                <div class="form-check">
-                    <input type="checkbox"
-                           class="form-check-input"
-                           id="generateCertificate"
-                           [checked]="generateCertificate"
-                           (change)="generateCertificate = !generateCertificate">
-                    <label class="form-check-label" for="generateCertificate">Generate Certificate</label>
-                </div>
-            </form>
-            <div class="" *ngIf="generateCertificate">
-                <app-certificate (certificateValue)="getCertificateValue($event)"></app-certificate>
+            <div class="card__headline text-center">
+                <h2 class="card-title font-weight-bold">Register</h2>
+            </div>
+            <div *ngIf="errorMessage" class="alert alert-danger">
+                {{errorMessage}}
             </div>
 
-            <div class="">
-                <button (click)="onSubmit()" class="btn btn-info"
-                        [disabled]="userForm?.invalid || (generateCertificate&&!certificateValue)"
-                        [innerHTML]="!generateCertificate ?'Register': 'Register & Generate'"></button>
-                <a routerLink="/login" class="btn btn-link">Login</a>
+          <div class="form__margin">
+              <div class="form-group">
+                  <label for="branch">Your TPP ID</label>
+                  <input [ngClass]="{'is-invalid': userForm.get('branch')?.errors && userForm.get('branch')?.dirty}"
+                         autocomplete="off"
+                         class="form-control"
+                         formControlName="branch"
+                         id="branch"
+                         type="text">
+                  <div *ngIf="userForm.get('branch')?.errors?.required && userForm.get('branch')?.dirty"
+                       class="invalid-feedback">
+                      TPP ID is Required
+                  </div>
+              </div>
+
+              <div class="form-group">
+                  <label for="email">E-Mail Adress</label>
+                  <input [ngClass]="{'is-invalid': userForm.get('email')?.errors && userForm.get('email')?.dirty}"
+                         autocomplete="off"
+                         class="form-control"
+                         formControlName="email"
+                         id="email"
+                         type="email">
+                  <div *ngIf="userForm.get('email')?.errors?.required && userForm.get('email')?.dirty"
+                       class="invalid-feedback">
+                      Email is Required
+                  </div>
+              </div>
+
+              <div class="form-group">
+                  <label for="registerTTP">Loginname</label>
+                  <input [ngClass]="{'is-invalid': userForm.get('login')?.errors && userForm.get('login')?.dirty}"
+                         autocomplete="off"
+                         class="form-control"
+                         formControlName="login"
+                         id="registerTTP"
+                         type="text">
+                  <div *ngIf="userForm.get('login')?.errors?.required && userForm.get('login')?.dirty"
+                       class="invalid-feedback">
+                      Login is Required
+                  </div>
+              </div>
+
+              <div class="form-group">
+                  <label for="pin">PIN</label>
+                  <input [ngClass]="{'is-invalid': userForm.get('pin')?.errors && userForm.get('pin')?.dirty}"
+                         autocomplete="new-password"
+                         class="form-control"
+                         formControlName="pin"
+                         id="pin"
+                         type="password">
+                  <div *ngIf="userForm.get('pin')?.errors?.required && userForm.get('pin')?.dirty"
+                       class="invalid-feedback">
+                      Pin is Required
+                  </div>
+              </div>
+
+              <div class="form-check">
+                  <input (change)="generateCertificate = !generateCertificate"
+                         [checked]="generateCertificate"
+                         class="form-check-input"
+                         id="generateCertificate"
+                         type="checkbox">
+                  <label class="form-check-label" for="generateCertificate">Generate Certificate</label>
+              </div>
+
+              <div *ngIf="generateCertificate" class="">
+                  <app-certificate (certificateValue)="getCertificateValue($event)"></app-certificate>
+              </div>
+          </div>
+
+            <div>
+                <button [disabled]="userForm?.invalid || (generateCertificate&&!certificateValue)"
+                        [innerHTML]="!generateCertificate ?'Register': 'Register & Generate'"
+                        class="btn btn-primary btn-block"></button>
+                <div class="text-center create-account">
+                    <a routerLink="/login" class="text-light-grey">Login</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</form>
