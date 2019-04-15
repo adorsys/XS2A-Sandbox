@@ -17,7 +17,7 @@ import { PaymentAuthorizeResponse } from '../models/payment-authorize-response';
 })
 class PSUPISCancellationService extends __BaseService {
   static readonly authorisePaymentUsingPOSTPath = '/pis-cancellation/{encryptedPaymentId}/authorisation/{authorisationId}/authCode';
-  static readonly initiatePaymentCancellationUsingPOSTPath = '/pis-cancellation/{encryptedPaymentId}/authorisation/{authorisationId}/initiate';
+  static readonly pisDoneUsingGETPath = '/pis-cancellation/{encryptedPaymentId}/authorisation/{authorisationId}/done';
   static readonly loginUsingPOST1Path = '/pis-cancellation/{encryptedPaymentId}/authorisation/{authorisationId}/login';
   static readonly selectMethodUsingPOST1Path = '/pis-cancellation/{encryptedPaymentId}/authorisation/{authorisationId}/methods/{scaMethodId}';
 
@@ -86,9 +86,14 @@ class PSUPISCancellationService extends __BaseService {
   }
 
   /**
-   * @param params The `PSUPISCancellationService.InitiatePaymentCancellationUsingPOSTParams` containing the following parameters:
+   * This call provides the server with the opportunity to close this session and redirect the PSU to the TPP or close the application window.
+   * @param params The `PSUPISCancellationService.PisDoneUsingGETParams` containing the following parameters:
+   *
+   * - `forgetConsent`: forgetConsent
    *
    * - `encryptedPaymentId`: encryptedPaymentId
+   *
+   * - `backToTpp`: backToTpp
    *
    * - `authorisationId`: authorisationId
    *
@@ -96,16 +101,18 @@ class PSUPISCancellationService extends __BaseService {
    *
    * @return OK
    */
-  initiatePaymentCancellationUsingPOSTResponse(params: PSUPISCancellationService.InitiatePaymentCancellationUsingPOSTParams): __Observable<__StrictHttpResponse<PaymentAuthorizeResponse>> {
+  pisDoneUsingGETResponse(params: PSUPISCancellationService.PisDoneUsingGETParams): __Observable<__StrictHttpResponse<PaymentAuthorizeResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
+    if (params.forgetConsent != null) __params = __params.set('forgetConsent', params.forgetConsent.toString());
 
+    if (params.backToTpp != null) __params = __params.set('backToTpp', params.backToTpp.toString());
 
     if (params.Cookie != null) __headers = __headers.set('Cookie', params.Cookie.toString());
     let req = new HttpRequest<any>(
-      'POST',
-      this.rootUrl + `/pis-cancellation/${params.encryptedPaymentId}/authorisation/${params.authorisationId}/initiate`,
+      'GET',
+      this.rootUrl + `/pis-cancellation/${params.encryptedPaymentId}/authorisation/${params.authorisationId}/done`,
       __body,
       {
         headers: __headers,
@@ -121,9 +128,14 @@ class PSUPISCancellationService extends __BaseService {
     );
   }
   /**
-   * @param params The `PSUPISCancellationService.InitiatePaymentCancellationUsingPOSTParams` containing the following parameters:
+   * This call provides the server with the opportunity to close this session and redirect the PSU to the TPP or close the application window.
+   * @param params The `PSUPISCancellationService.PisDoneUsingGETParams` containing the following parameters:
+   *
+   * - `forgetConsent`: forgetConsent
    *
    * - `encryptedPaymentId`: encryptedPaymentId
+   *
+   * - `backToTpp`: backToTpp
    *
    * - `authorisationId`: authorisationId
    *
@@ -131,8 +143,8 @@ class PSUPISCancellationService extends __BaseService {
    *
    * @return OK
    */
-  initiatePaymentCancellationUsingPOST(params: PSUPISCancellationService.InitiatePaymentCancellationUsingPOSTParams): __Observable<PaymentAuthorizeResponse> {
-    return this.initiatePaymentCancellationUsingPOSTResponse(params).pipe(
+  pisDoneUsingGET(params: PSUPISCancellationService.PisDoneUsingGETParams): __Observable<PaymentAuthorizeResponse> {
+    return this.pisDoneUsingGETResponse(params).pipe(
       __map(_r => _r.body as PaymentAuthorizeResponse)
     );
   }
@@ -286,14 +298,24 @@ module PSUPISCancellationService {
   }
 
   /**
-   * Parameters for initiatePaymentCancellationUsingPOST
+   * Parameters for pisDoneUsingGET
    */
-  export interface InitiatePaymentCancellationUsingPOSTParams {
+  export interface PisDoneUsingGETParams {
+
+    /**
+     * forgetConsent
+     */
+    forgetConsent: string;
 
     /**
      * encryptedPaymentId
      */
     encryptedPaymentId: string;
+
+    /**
+     * backToTpp
+     */
+    backToTpp: string;
 
     /**
      * authorisationId

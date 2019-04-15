@@ -129,7 +129,7 @@ services:
     volumes:
       - xs2a-connector-data:/var/lib/data
 
-#  # Xs2a online banking frontend
+  # Xs2a online banking frontend
   xs2a-online-banking-ui:
     image: adorsys/xs2a-online-banking-ui
     restart: on-failure
@@ -143,7 +143,7 @@ services:
     environment:
       - ONLINE_BANKING_SERVER_URL=http://xs2a-online-banking:8090
 
-#  # TPP-UI
+  # TPP-UI
   xs2a-tpp-ui:
     image: adorsys/tpp-ui
     restart: on-failure
