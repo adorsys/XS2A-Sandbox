@@ -93,7 +93,14 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
     );
   }
 
-  public onCancel(): void {}
+  public onCancel(): void {
+    this.router.navigate([`${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.RESULT}`], {
+      queryParams: {
+        encryptedConsentId: this.authResponse.encryptedConsentId,
+        authorisationId: this.authResponse.authorisationId
+      }
+    });
+  }
 
   private initTanForm(): void {
     this.tanForm = this.formBuilder.group({

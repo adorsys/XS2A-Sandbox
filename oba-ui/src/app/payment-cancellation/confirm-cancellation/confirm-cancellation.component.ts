@@ -46,6 +46,12 @@ export class ConfirmCancellationComponent implements OnInit {
   }
 
   public onCancel(): void {
+    this.router.navigate([`${RoutingPath.PAYMENT_CANCELLATION}/${RoutingPath.RESULT}`], {
+      queryParams: {
+        encryptedConsentId: this.authResponse.encryptedConsentId,
+        authorisationId: this.authResponse.authorisationId
+      }
+    });
   }
 
   ngOnDestroy(): void {

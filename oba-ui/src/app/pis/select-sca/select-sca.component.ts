@@ -73,6 +73,12 @@ export class SelectScaComponent implements OnInit {
   }
 
   public onCancel(): void {
+    this.router.navigate([`${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.RESULT}`], {
+      queryParams: {
+        encryptedConsentId: this.authResponse.encryptedConsentId,
+        authorisationId: this.authResponse.authorisationId
+      }
+    });
   }
 
   handleMethodSelectedEvent(scaMethod: ScaUserDataTO): void {

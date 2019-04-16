@@ -48,6 +48,12 @@ export class ConfirmPaymentComponent implements OnInit, OnDestroy {
   }
 
   public onCancel(): void {
+    this.router.navigate([`${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.RESULT}`], {
+      queryParams: {
+        encryptedConsentId: this.authResponse.encryptedConsentId,
+        authorisationId: this.authResponse.authorisationId
+      }
+    });
   }
 
   ngOnDestroy(): void {
