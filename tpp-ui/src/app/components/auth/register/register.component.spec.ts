@@ -1,25 +1,133 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ReactiveFormsModule} from "@angular/forms";
+import {RouterTestingModule} from "@angular/router/testing";
+import {HttpClientModule} from "@angular/common/http";
+import {DebugElement} from "@angular/core";
+import {By} from "@angular/platform-browser";
 
-import { RegisterComponent } from './register.component';
+import {InfoModule} from "../../../commons/info/info.module";
+import {RegisterComponent} from './register.component';
+import {CertificateComponent} from "../certificate/certificate.component";
 
-describe('RegisterComponent', () => {
-  let component: RegisterComponent;
-  let fixture: ComponentFixture<RegisterComponent>;
+fdescribe('RegisterComponent', () => {
+    let component: RegisterComponent;
+    let registerFixture: ComponentFixture<RegisterComponent>;
+    let de: DebugElement;
+    let el: HTMLElement;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ RegisterComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                ReactiveFormsModule,
+                RouterTestingModule,
+                HttpClientModule,
+                InfoModule,
+            ],
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(RegisterComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+            declarations: [RegisterComponent, CertificateComponent]
+        })
+            .compileComponents();
+    }));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    beforeEach(() => {
+        registerFixture = TestBed.createComponent(RegisterComponent);
+        component = registerFixture.componentInstance;
+
+        de = registerFixture.debugElement.query(By.css('form'));
+        el = de.nativeElement;
+
+        registerFixture.detectChanges();
+    });
+
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
+
+    it('userForm should be invalid when at least one field is empty', () => {
+        expect(component.userForm.valid).toBeFalsy();
+    });
+
+    it('branch field validity', () => {
+        let errors = {};
+        const branch = component.userForm.controls['branch'];
+        expect(branch.valid).toBeFalsy();
+
+        // branch field is required
+        errors = branch.errors || {};
+        expect(errors['required']).toBeTruthy();
+
+        // set branch to something correct
+        branch.setValue('foo');
+        errors = branch.errors || {};
+        expect(errors['required']).toBeFalsy();
+    });
+
+    it('login field validity', () => {
+        let errors = {};
+        const login = component.userForm.controls['login'];
+        expect(login.valid).toBeFalsy();
+
+        // login field is required
+        errors = login.errors || {};
+        expect(errors['required']).toBeTruthy();
+
+        // set login to something correct
+        login.setValue('test@test.de');
+        errors = login.errors || {};
+        expect(errors['required']).toBeFalsy();
+    });
+
+    it('email field validity', () => {
+        let errors = {};
+        const email = component.userForm.controls['email'];
+        expect(email.valid).toBeFalsy();
+
+        // email field is required
+        errors = email.errors || {};
+        expect(errors['required']).toBeTruthy();
+
+        // set email to something incorrect
+        email.setValue('testtests.de');
+        errors = email.errors || {};
+        expect(errors['email']).toBeTruthy();
+
+        // set email to something correct
+        email.setValue('test@test.de');
+        errors = email.errors || {};
+        expect(errors['required']).toBeFalsy();
+    });
+
+    it('pin field validity', () => {
+        let errors = {};
+        const pin = component.userForm.controls['pin'];
+        expect(pin.valid).toBeFalsy();
+
+        // pin field is required
+        errors = pin.errors || {};
+        expect(errors['required']).toBeTruthy();
+
+        // set pin to something correct
+        pin.setValue('12345678');
+        errors = pin.errors || {};
+        expect(errors['required']).toBeFalsy();
+    });
+
+
+    it(`Submit button should be disabled`, () => {
+        expect(component.userForm.valid).toBeFalsy();
+        el = registerFixture.debugElement.query(By.css('button')).nativeElement.disabled;
+        expect(el).toBeTruthy();
+    });
+
+    it(`Submit button should be enabled`, () => {
+        component.userForm.controls['branch'].setValue('test');
+        component.userForm.controls['login'].setValue('test');
+        component.userForm.controls['email'].setValue('asd@asd.com');
+        component.userForm.controls['pin'].setValue('1234');
+
+        registerFixture.detectChanges();
+        el = registerFixture.debugElement.query(By.css('button')).nativeElement.disabled;
+        expect(el).toBeFalsy();
+    });
+
 });
