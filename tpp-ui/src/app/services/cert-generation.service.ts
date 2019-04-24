@@ -12,6 +12,6 @@ export class CertGenerationService {
     constructor(private http: HttpClient) {}
 
     public generate(certData: any) {
-        return this.http.post(this.url + '/api/certificate', certData);
+        return this.http.post(this.url + '/api/cert-generator', certData);
     }
 }

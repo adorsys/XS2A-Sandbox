@@ -46,4 +46,9 @@ export interface CertificateRequest {
    * Number of days the certificate is valid
    */
   validity?: number;
+
+  /**
+   * Common name of your corporation headquarter
+   */
+  commonName: string;
 }

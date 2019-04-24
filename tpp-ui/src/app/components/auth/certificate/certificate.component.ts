@@ -59,6 +59,7 @@ export class CertificateComponent implements OnInit {
             localityName: ['Nuremberg', Validators.required],
             organizationUnit: ['IT department', Validators.required],
             stateOrProvinceName: ['Bayern', Validators.required],
+            commonName: ['XS2A Sandbox', Validators.required],
             validity: ['365',
                 [
                     Validators.required,

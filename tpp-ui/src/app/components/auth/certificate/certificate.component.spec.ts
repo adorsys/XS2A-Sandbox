@@ -68,6 +68,21 @@ fdescribe('CertificateComponent', () => {
         expect(errors['required']).toBeTruthy();
     });
 
+    it('commonName field validity', () => {
+        let errors = {};
+        const commonName = component.certificateFormGroup.controls['commonName'];
+        expect(commonName.valid).toBeTruthy();
+
+        // commonName field is required
+        errors = commonName.errors || {};
+        expect(errors['required']).toBeFalsy();
+
+        // set commonName to something correct
+        commonName.setValue('');
+        errors = commonName.errors || {};
+        expect(errors['required']).toBeTruthy();
+    });
+
     it('Germany field validity', () => {
         let errors = {};
         const Germany = component.certificateFormGroup.controls['countryName'];
