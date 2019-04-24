@@ -8,13 +8,11 @@ import {AuthInterceptor} from './common/interceptors/AuthInterceptor';
 import {AisService} from './common/services/ais.service';
 import {ShareDataService} from './common/services/share-data.service';
 import {ObaErrorsHandler} from "./common/interceptors/ObaErrorsHandler";
-import {NotFoundComponent} from './not-found/not-found.component';
 import {NgHttpLoaderModule} from "ng-http-loader";
 
 @NgModule({
   declarations: [
-    AppComponent,
-    NotFoundComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,

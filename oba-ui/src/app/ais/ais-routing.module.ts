@@ -6,6 +6,7 @@ import {GrantConsentComponent} from "./grant-consent/grant-consent.component";
 import {SelectScaComponent} from "./select-sca/select-sca.component";
 import {ResultPageComponent} from "./result-page/result-page.component";
 import {TanConfirmationComponent} from "./tan-confirmation/tan-confirmation.component";
+import {NotFoundComponent} from "../not-found/not-found.component";
 
 const routes: Routes = [
   {
@@ -27,6 +28,10 @@ const routes: Routes = [
   {
     path: RoutingPath.RESULT,
     component: ResultPageComponent,
+  },
+  {
+    path: '**',
+    component: NotFoundComponent
   }
 
 ];

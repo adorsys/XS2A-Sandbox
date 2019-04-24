@@ -17,7 +17,7 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    component: NotFoundComponent
+    redirectTo: '/account-information/login'
   }
 
 ];
