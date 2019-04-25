@@ -1,0 +1,37 @@
+[[section-solution-strategy]]
+== Solution Strategy
+
+
+[role="arc42help"]
+****
+.Contents
+A short summary and explanation of the fundamental decisions and solution strategies, that shape the system's architecture. These include
+
+* technology decisions
+* decisions about the top-level decomposition of the system, e.g. usage of an architectural pattern or design pattern
+* decisions on how to achieve key quality goals
+* relevant organizational decisions, e.g. selecting a development process or delegating certain tasks to third parties.
+
+.Motivation
+These decisions form the cornerstones for your architecture. They are the basis for many other detailed decisions or implementation rules.
+
+.Form
+Keep the explanation of these key decisions short.
+
+Motivate what you have decided and why you decided that way,
+based upon your problem statement, the quality goals and key constraints.
+Refer to details in the following sections.
+****
+
+image::xs2asandbox.svg[High-level Architecture XS2A Sandbox, 80%, title="High-level Architecture XS2A Sandbox", align="center"]
+
+The XS2A Sandbox bundles one top level component: the _sandbox_. The _sandbox_ contains the XS2A API (with XS2A Interface, ASPSP-profile and Consent-management system), does the certificate handling, provides TPP UI, Online Banking UI and documentation in the developer portal.
+
+
+=== TPP Certificate Handling
+
+Issuing a real certificate just for testing purposes would be a bit too much effort, which is why the XS2A Sandbox acts as a TSP issuing Qualified Website Authentication Certificates (QWAC) valid only for the XS2A Sandbox. A QWAC is defined in https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32014R0910&from=EN[eIDAS] and is implemented as a https://www.ietf.org/rfc/rfc3739.txt[X.509] certificate.
+
+For PSD2-purposes the certificate gets extended by the QcStatement containing appropriate values such as the role(s) of the PSP (see https://www.etsi.org/deliver/etsi_ts/119400_119499/119495/01.01.02_60/ts_119495v010102p.pdf[ETSI]).
+
+After embedding the QWAC in the actual XS2A request, the role and the signature get validated at a central reverse proxy before it gets finally passed to the interface where the banking logic happens. The technical documentation of the XS2A interface can be accessed https://sandbox-portal.dev.adorsys.de/swagger-ui.html?urls.primaryName=PSD2%20API[here].

@@ -1,0 +1,98 @@
+[[section-introduction-and-goals]]
+== Introduction and Goals
+
+=== Introduction
+
+The https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32015L2366&from=EN[Payment Service Directive 2 (PSD2)] instructs banks to provide a fully productive Access-to-Account (XS2A) interface to Third Party Provider (TPPs) until September 2019. XS2A itself consists of banking services to initiate payments (PIS), request account data (AIS) and get the confirmation of the availability of funds (PIIS). In order to guarantee the compliance of this deadline due to adaptions and bugs, PSD2 claims the banks to provide a functional sandbox offering the XS2A services in a non-productive environment until March 2019.
+
+
+==== Details about PSD2
+
+PSD2 is aiming to open banks to TPPs in a harmonized and high secure manner. A reason for passing this directive is to innovate banking applications by introducing new non-banking players and make banking more attractive to the end consumer.
+
+PSD2 itself is an EU directive describing requirements for banks on a very high level embedded in law paragraphs. The document contains links to Regulatory Technical Standards (RTS) prescribing technical descriptions like the Strong Customer Authentication (SCA). Those documents are very abstract and still close to the law which is a great challenge to interpret them correctly.
+
+The Berlin-Group Initiative https://www.berlin-group.org/[NextGenPSD2] joint forces to create an open specification of the XS2A to harmonize this interface. Amongst NextGenPSD2 a few other players like https://www.openbanking.org.uk/about-us/[OpenBanking] and https://www.stet.eu/en/psd2/[STET] are aiming to achieve the same goals.
+
+
+==== XS2A Sandbox Project
+
+image::xs2asandbox.svg[High-level Architecture XS2A Sandbox, 80%, title="High-level Architecture XS2A Sandbox", align="center"]
+
+According to the law every European bank must provide a sandbox so that TPPs can begin integrating against it. The adorsys XS2A Sandbox is a full implementation of this sandbox. It provides an XS2A API which is compliant to the Berlin Group XS2A spec (Version 1.3).
+
+Besides the actual interface, PSD2 instructs banks to offer a technical documentation free of charge containing amongst others, information about supported payment products and payment services. That documentation is provided by us as well.
+
+In order to access the XS2A services a TPP has to register at its National Competent Authority (NCA) and request an QWAC certificate from a Trust Service Provider (TSP). The XS2A Sandbox allows TPPs to create test certificates by themselves so they can access the API. The certificates are valid QWAC certificates, signed by a custom XS2A Sandbox CA.
+
+The *XS2A Sandbox* project bundles the described PSD2 components created at adorsys. The project is a self contained application which enables customers to provide a PSD2 compliant API for testing.
+
+
+=== Requirements Overview
+
+The XS2A Sandbox has to fulfill the following requirements:
+
+* Get banks compliant to the law in June 2019
+* Be configurable to match the banks business features
+* Make the technical documentation of the XS2A interface accessible
+* Allow TPPs to test services based on dynamically generated data with the help of TPP-UI and Online Banking UI
+* QWAC (certificate for authentication as specified in https://www.etsi.org/deliver/etsi_ts/119400_119499/119495/01.01.02_60/ts_119495v010102p.pdf[ETSI], https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32014R0910&from=EN[eIDAS]) can be issued by the TPP itself and used as in the real world
+
+
+=== Quality Goals
+
+[options="header"]
+|===
+| Quality Goal       | Scenario
+| PSD2 Compliance    |
+The XS2A Sandbox must be PSD2 compliant. Neither ease of use nor cool technologies help the user if they fail the audit because of us.
+| Fast Onboarding    |
+As a potential user of the XS2A Sandbox you should be able to get the application running within minutes. We need to provide good documentation, sensible defaults and a simple setup.
+| Simple Deployment  |
+The XS2A Sandbox should be easy to deploy in enterprise contexts. This requires a simple architecture (e.g. not too many deployments, proven technology) and good documentation.
+|===
+
+
+=== Stakeholders
+
+[cols="1,2,3,4", options="header"]
+|===
+| Name              | Role                               | Contact        | Expectation
+| Denys Golubiev    | Software Architect PSD2            | dgo@adorsys.de
+a|
+- get feedback about XS2A (quality, design)
+- maybe move work to us (mockbank)
+| Francis Pouatcha  | Software Architect PSD2, Sales     | fpo@adorsys.de
+a|
+- needs some sort of roadmap and progress reported from us
+- needs to collaborate with us so we can properly align the backlog with vision/sales
+| Peer Schmid       | Portfolio Manager PSD2             | psc@adorsys.de
+a|
+- expects us to work in short iterations to get features out of the door quickly so we can provide fast feedback to him
+- needs to be kept up to date if we (plan to) change stuff that impacts our customers
+- needs some sort of roadmap and progress reported from us
+| Rene Pongratz     | Sales       | rpo@adorsys.de
+a|
+- needs some sort of roadmap and progress reported from us
+- needs to collaborate with us so we can properly align the backlog with vision/sales
+| Stefan Hamm       | Sales        | sha@adorsys.de
+a|
+- needs some sort of roadmap and progress reported from us
+- needs to collaborate with us so we can properly align the backlog with vision/sales
+|===
+
+
+=== Product Team
+
+[options="header"]
+|===
+| Name              | Role                    | Contact
+| Francis Pouatcha  | Developer, business analyst, Architect | fpo@adorsys.de
+| Dmytro Storozhyk  | Product owner           | dst@adorsys.com.ua
+| Petro Rudenko     | Developer               | pru@adorsys.com.ua
+| Dmytro Mishchuk   | Developer               | dmi@adorsys.com.ua
+| Mariia Polikarpova| Developer               | mpo@adorsys.com.ua
+| Vladimir Nechai   | Developer               | vne@adorsys.de
+| Nicole Wesemeyer  | Business analyst        | nwe@adorsys.de
+| Julia Kantorski   | Designer                | jka@adorsys.de
+|===

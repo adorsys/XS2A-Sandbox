@@ -1,0 +1,48 @@
+[[section-glossary]]
+== Glossary
+
+
+
+[role="arc42help"]
+****
+.Contents
+The most important domain and technical terms that your stakeholders use when discussing the system.
+
+You can also see the glossary as source for translations if you work in multi-language teams.
+
+.Motivation
+You should clearly define your terms, so that all stakeholders
+
+* have an identical understanding of these terms
+* do not use synonyms and homonyms
+
+.Form
+A table with columns <Term> and <Definition>.
+
+Potentially more columns in case you need translations.
+
+****
+
+[options="header"]
+|===
+| Term         | Name                                                           | Description
+| <AISP>       | <Account Information Service Provider>                         | TPP application that reads and processes payment information of the PSU, with the purpose of providing a richer set of banking data. Such an application might also be called a Personal Finance Manager (PFM).
+| <ASPSP>      | <Account Servicing Payment Service Provider>                   | Payment service provider providing and maintaining a payment account for a PSU. It is mostly referred to a bank.
+| <CA>         | <Certificate Authority>                                        | Entity that is issuing certificates. In this context it is a synonym to a TSP.
+| <CSR>        | <Certificate Signing Request>                                  | Message sent by a TPP to CA in order to request a digital identity.
+| <eIDAS>      | <electronic Identification, Authentication and Trust Services> | EU regulation that is addressing a secure communication for electronic transactions. eIDAS contains QWAC and QSealC.
+| <NCA>        | <National Competent Authority>                                 | National organisations that have competences in banking supervision. In Germany the NCA is called BaFin.
+| <PIISP>      | <Payment Instrument Issuer Service Provider>                   | TPP that issues payment instrument to the user. A most commonly known payment instrument is the "Credit Card".
+| <PISP>       | <Payment Initiation Service Provider>                          | TPP application that initiates payments on behalf of the PSU
+| <PSD2>       | <Payment Service Directive 2>                                  | European revised payment service directive.
+| <PSP>        | <Payment Service Provider>                                     | End user with a bank account accessing banking services via appropriate applications.
+| <PSU>        | <Payment Service User>                                         | Individual or organisation that owns a bank account and can consume payment services. The PSU is generally the owner of the payment account, or in case of organisation has a legitimate access to the payment account.
+| <QWAC>       | <Qualified Website Authentication Certificate>                 | Institution certified by the NCA issuing eIDAS Certificates to registered TPPs.
+| <RTS>        | <Regulatory Technical Standards>                               | Technical standards referenced by PSD2.
+| <SSL>        | <Secure Sockets Layer>                                         | Standardised security protocol for communication.
+| <SCA>        | <Strong Customer Authentication>                               | PSD2 refers from SCA to Two-Factor Authentication of PSU
+| <TPP>        | <Third Party Provider>                                         | In this context a TPP is a FinTech corporation that develops applications in scope of AISP, PISP or PIISP.
+| <TSP>        | <Trusted Services Provider>                                    | Institution certified by the NCA issuing eIDAS Certificates to registered TPPs.
+| <XS2A>       | <Access-to-Account>                                            | Interface provided by ASPSPs offering payment services to TPPs
+| <LB>         | <Load Balancer>                                                | A infrastructure component which routes HTTP traffic to backend services and often does things like SSL termination.
+|===

@@ -1,0 +1,25 @@
+[[section-system-scope-and-context]]
+== System Scope and Context
+
+=== Business Context
+
+image::businesscontex.svg[Business Context Diagram, title="Business Context Diagram" align="center"]
+
+[options="header"]
+|===
+| Neighbor           | Description
+| 👤  TPP Developer
+| Registers at the XS2A Sandbox in order to gain access to the test API and documentation.
+Uses TPP UI for getting a valid QWAC Certificate and generate users and accounts. Uses Online
+Banking to test Redirect SCA approach.
+| 👤  Bank Admin
+| Configures the XS2A Sandbox and manages TPPs.
+| 👤  Bank Ops
+| Deploys the XS2A Sandbox. Simple deployment
+is a central quality goal we design for, so the user is mentioned here.
+| Bank CMS
+a|
+We assume that potential customers already have some sort of Content-Management-System in place we need to integrate with. So we must be able to provide content (e.g. documentation) in a format that's easy to work with (e.g. favor plain text over PDF). The CMS could be an API management solution as well, depending on the customers infrastructure.
+
+NOTE: if there is no CMS in place we provide the proper UI and built-in solution.
+|===

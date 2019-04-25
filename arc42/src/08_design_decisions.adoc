@@ -1,0 +1,26 @@
+[[section-design-decisions]]
+== Design Decisions
+
+Micro-service architecture::
++
+Our project design features micro-service architecture making it flexible and easily scalable, yet simple and understandable.
+Project consists of:
+
+* Angular modules for the frontend (Developer Portal, Online Banking UI, TPP UI)
+* Java based backend modules (XS2A Interface, Consent Management, ASPSP Profile, Ledgers, XS2A Gateway, Certificate Generator)
++
+
+Stick to a Tech-Stack Commonly Found in Banks::
+We try to be conservative in our tech choice. To reduce friction we use technologies that our potential
+customers know and can handle.
++
+Right now we use:
+
+* Java 8 / Spring Boot 2
+* Angular 7
+* PostgreSQL
+* Docker
+
+Continuous development & update::
+All projects included into Dynamic Sandbox are continuously developed and updated to latest BerlinGroup PSD2 Specification and
+are always up to date featuring latest releases of all components.

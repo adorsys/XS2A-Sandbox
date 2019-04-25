@@ -1,0 +1,76 @@
+[[section-building-block-view]]
+
+
+== Building Block View
+
+=== Whitebox Overall System
+
+.whitebox-overall-lvl1
+image::writebox.svg[Whitebox Overall System Level 1, 60%, title="Whitebox Overall System Level 1", align="center"]
+
+Motivation::
+
+The application has micro-service architecture and uses Spring Boot 2.1.1. Every independent feature "xyz" maps to a top level package (`de.adorsys.psd2.sandbox.xyz`) (backend) or a top level folder (`src/app/xyz`) (UI). The UI is
+implemented as an Angular app and bundled at build time in the backend JAR. The XS2A Sandbox consists of the _sandbox_ and depends on XS2A and Ledgers.
+
+
+Contained Building Blocks::
+
+[cols="1,2" options="header"]
+|===
+| **Name**              | **Description**
+
+| certificate-generator
+| Create QWAC certificates to allow TPPs access to the XS2A API via SSL Client Authentication. Java module.
+
+| developer-portal
+| Provide documentation about the API (e.g. OpenAPI), supported use cases (XS2A), getting started and examples in one place. The content is static but embedded in the Angular app.
+
+| oba-ui
+| Online banking user interface that provides interface to test REDIRECT SCA approach when confirming consent, payment or cancelling payment. This module is Angular application.
+
+| tpp-ui
+| TPP user interface that helps to log a TPP in, create certificate for TPP, upload and manage test test data (users, bank accounts, transactions etc). This module is Angular application.
+
+| online-banking              | Provides backend functionality for online banking UI. This module is a Java application.
+| bank-profile | This module consists of 1 .yaml file with ASPSP-specific information (bank profile). The file can be configured depending on ASPSP features and restrictions.
+|===
+
+XS2A Sandbox depends on XS2A (consent-management, aspsp-profile, XS2A interface) and Ledgers.
+
+=== Level 2
+
+==== White Box _xs2a_
+
+.whitebox-xs2a-lvl2
+image::generated/whitebox-2-xs2a.png[Whitebox xs2a Level 2, 60%, title="Whitebox xs2a Level 2", align="center"]
+
+[cols="1,2" options="header"]
+|===
+| **Name**              | **Responsibility**
+
+| PIS
+| Provide the Payment Initiation Service implementation for XS2A (implements interface from `xs2a-impl`). Uses the _testdata_ module for the actual values.
+
+| AIS
+| Provide the Account Initiation Service implementation for XS2A (implements interface from `xs2a-impl`). Uses the _testdata_ module for the actual values.
+
+| PIIS
+| Provide the Payment Issuer Instruments implementation for XS2A (implements interface from `xs2a-impl`). Uses the _testdata_ module for the actual values.
+
+| aspsp-profile (library)
+| Expose the XS2A configuration via REST API. The actual values come from the top level _config_ module. Is provided by the `profile` library from XS2A and embedded in our sandbox. Needed by `xs2a-impl` and not directly called by us.
+
+Part of the https://github.com/adorsys/xs2a[adorsys PSD2 XS2A implementation].
+
+| consent-management (library)
+| Handle consents for us. Every payment or account information needs/creates a consent. Is
+provided by the `consent-management` library from XS2A and embedded in our sandbox.
+
+Part of the https://github.com/adorsys/xs2a[adorsys PSD2 XS2A implementation].
+
+| xs2a-impl (library)
+| Provide the XS2A business implementation (e.g. validation, handling of consents via `consent-management`). Calls our own `AIS`/`PIS`/`PIIS` implementations.
+
+Part of the https://github.com/adorsys/xs2a[adorsys PSD2 XS2A implementation].
+|===
