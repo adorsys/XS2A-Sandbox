@@ -1,3 +1,6 @@
-[role="main"] {
-  padding-top: 48px; /* Space for fixed navbar */
+@import "~src/assets/themes/variables";
+
+.router {
+  background-color: $light-grey-10;
+  height: 100%;
 }

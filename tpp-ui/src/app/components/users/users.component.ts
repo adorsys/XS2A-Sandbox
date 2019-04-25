@@ -10,6 +10,7 @@ import {User} from "../../models/user.model";
 export class UsersComponent implements OnInit {
 
   users: User[];
+  userFilter: any = {login: ''};
 
   constructor(private userService: UserService) { }
 

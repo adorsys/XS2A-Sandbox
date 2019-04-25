@@ -40,6 +40,8 @@ export class RegisterComponent implements OnInit {
 
     public onSubmit(): void {
 
+        console.log(this.userForm.controls);
+
         const branch = this.userForm.get('branch').value;
         this.submitted = true;
         let message: string;
@@ -96,7 +98,12 @@ export class RegisterComponent implements OnInit {
 
     private initializeRegisterForm(): void {
         this.userForm = this.formBuilder.group({
-            branch: ['', Validators.required],
+            branch: ['', [
+                Validators.required,
+                Validators.pattern("^[0-9]*$"),
+                Validators.minLength(8),
+                Validators.maxLength(8)
+            ]],
             login: ['', Validators.required],
             email: ['', [Validators.required, Validators.email]],
             pin: ['', Validators.required]
@@ -120,7 +127,7 @@ export class RegisterComponent implements OnInit {
     private downloadFile(url: string) {
         const element = document.createElement('a');
         element.setAttribute('href', url);
-        element.setAttribute('download', 'psu_cert.zip');
+        element.setAttribute('download', 'tpp_cert.zip');
         element.style.display = 'none';
         document.body.appendChild(element);
         element.click();

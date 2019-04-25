@@ -1,42 +1,36 @@
-<nav class="col-md-2 d-none d-md-block bg-light sidebar">
-    <div class="sidebar-sticky">
-        <ul class="nav flex-column">
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                <span>User management</span>
-            </h6>
-            <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/users/create']" [routerLinkActive]="['active']">
-                    <span data-feather="file"></span>
-                    Create User
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/users/all']" [routerLinkActive]="['active']">
-                    <span data-feather="file"></span>
-                    My Users
-                </a>
-            </li>
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                <span>Account management</span>
-            </h6>
-            <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/accounts']" [routerLinkActive]="['active']">
-                    <span data-feather="users"></span>
-                    Users Accounts
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/upload']" [routerLinkActive]="['active']">
-                    <span data-feather="upload"></span>
-                    Upload File
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/generate-test-data']" [routerLinkActive]="['active']">
-                    <span data-feather="generate-test-data"></span>
-                    Generate Test Data
-                </a>
-            </li>
-        </ul>
-    </div>
-</nav>
+<div>
+    <ul class="nav flex-md-column">
+        <li class="nav-item">
+            <a [routerLinkActive]="['active']" [routerLink]="['/accounts']" class="nav-link ">
+                <div class="icon__container">
+                    <app-icon svgIcon="account" inline="true"></app-icon>
+                </div>
+                <span class="nav__title">Users Accounts</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a [routerLinkActive]="['active']" [routerLink]="['/users/all']" class="nav-link ">
+                <div class="icon__container">
+                    <app-icon svgIcon="icon_user" inline="true" class="icon--medium"></app-icon>
+                </div>
+                <span class="nav__title">My users list</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a [routerLinkActive]="['active']" [routerLink]="['/upload']" class="nav-link">
+                <div class="icon__container">
+                    <app-icon svgIcon="icon_upload" inline="true" class="icon--medium"></app-icon>
+                </div>
+                <span class="nav__title">Upload File</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a [routerLinkActive]="['active']" [routerLink]="['/generate-test-data']" class="nav-link">
+                <div class="icon__container">
+                    <app-icon svgIcon="generate_test_data" inline="true"></app-icon>
+                </div>
+                <span class="nav__title">Generate Test Data</span>
+            </a>
+        </li>
+    </ul>
+</div>

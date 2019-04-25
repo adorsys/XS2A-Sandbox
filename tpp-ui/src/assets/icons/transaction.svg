@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="9px" height="9px" viewBox="0 0 9 9" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.3 (67297) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <g id="TPP-Dashboard" stroke="none" stroke-width="1" fill="currentColor" fill-rule="evenodd">
+        <g id="List-of-users" transform="translate(-806.000000, -572.000000)" fill="#202223">
+            <g id="Group" transform="translate(806.000000, 572.000000)">
+                <g id="icons8-arrow">
+                    <path d="M5.57142857,0 L5.57142857,1.25 L0.428571429,1.25 C0.192,1.25 0,1.362 0,1.5 L0,2.5 C0,2.638 0.192,2.75 0.428571429,2.75 L5.57142857,2.75 L5.57142857,4 L9,2 L5.57142857,0 Z" id="Path"></path>
+                </g>
+                <g id="icons8-arrow-copy" transform="translate(4.500000, 7.000000) rotate(-180.000000) translate(-4.500000, -7.000000) translate(0.000000, 5.000000)">
+                    <path d="M5.57142857,0 L5.57142857,1.25 L0.428571429,1.25 C0.192,1.25 0,1.362 0,1.5 L0,2.5 C0,2.638 0.192,2.75 0.428571429,2.75 L5.57142857,2.75 L5.57142857,4 L9,2 L5.57142857,0 Z" id="Path"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

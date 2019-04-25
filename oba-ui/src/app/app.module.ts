@@ -10,6 +10,7 @@ import {ShareDataService} from './common/services/share-data.service';
 import {ObaErrorsHandler} from "./common/interceptors/ObaErrorsHandler";
 import {NgHttpLoaderModule} from "ng-http-loader";
 
+
 @NgModule({
   declarations: [
     AppComponent

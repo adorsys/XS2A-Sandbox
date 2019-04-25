@@ -33,6 +33,11 @@ fdescribe('CertificateComponent', () => {
         expect(component).toBeTruthy();
     });
 
+    it('certificateFormGroup should be valid by default', () => {
+        expect(component.certificateFormGroup.valid).toBeTruthy();
+    });
+
+    // Because we hardcoded the default value
     it('certificateFormGroup should be invalid when at least one field is empty', () => {
         component.certificateFormGroup.controls['authorizationNumber'].setValue('');
         expect(component.certificateFormGroup.valid).toBeFalsy();
@@ -47,7 +52,7 @@ fdescribe('CertificateComponent', () => {
         errors = authorizationNumber.errors || {};
         expect(errors['required']).toBeFalsy();
 
-        // set authorizationNumber to something correct
+        // set authorizationNumber to something incorrect
         authorizationNumber.setValue('');
         errors = authorizationNumber.errors || {};
         expect(errors['required']).toBeTruthy();
@@ -62,7 +67,7 @@ fdescribe('CertificateComponent', () => {
         errors = organizationName.errors || {};
         expect(errors['required']).toBeFalsy();
 
-        // set organizationName to something correct
+        // set organizationName to something incorrect
         organizationName.setValue('');
         errors = organizationName.errors || {};
         expect(errors['required']).toBeTruthy();
@@ -92,7 +97,7 @@ fdescribe('CertificateComponent', () => {
         errors = Germany.errors || {};
         expect(errors['required']).toBeFalsy();
 
-        // set Germany to something correct
+        // set Germany to something incorrect
         Germany.setValue('');
         errors = Germany.errors || {};
         expect(errors['required']).toBeTruthy();
@@ -107,7 +112,7 @@ fdescribe('CertificateComponent', () => {
         errors = domainComponent.errors || {};
         expect(errors['required']).toBeFalsy();
 
-        // set domainComponent to something correct
+        // set domainComponent to something incorrect
         domainComponent.setValue('');
         errors = domainComponent.errors || {};
         expect(errors['required']).toBeTruthy();
@@ -122,7 +127,7 @@ fdescribe('CertificateComponent', () => {
         errors = localityName.errors || {};
         expect(errors['required']).toBeFalsy();
 
-        // set localityName to something correct
+        // set localityName to something incorrect
         localityName.setValue('');
         errors = localityName.errors || {};
         expect(errors['required']).toBeTruthy();
@@ -137,7 +142,7 @@ fdescribe('CertificateComponent', () => {
         errors = organizationUnit.errors || {};
         expect(errors['required']).toBeFalsy();
 
-        // set organizationUnit to something correct
+        // set organizationUnit to something incorrect
         organizationUnit.setValue('');
         errors = organizationUnit.errors || {};
         expect(errors['required']).toBeTruthy();
@@ -152,7 +157,7 @@ fdescribe('CertificateComponent', () => {
         errors = stateOrProvinceName.errors || {};
         expect(errors['required']).toBeFalsy();
 
-        // set stateOrProvinceName to something correct
+        // set stateOrProvinceName to something incorrect
         stateOrProvinceName.setValue('');
         errors = stateOrProvinceName.errors || {};
         expect(errors['required']).toBeTruthy();
@@ -172,7 +177,7 @@ fdescribe('CertificateComponent', () => {
         errors = validity.errors || {};
         expect(errors['pattern']).toBeTruthy();
 
-        // set validity to something correct
+        // set validity to something incorrect
         validity.setValue('');
         errors = validity.errors || {};
         expect(errors['required']).toBeTruthy();
@@ -188,7 +193,7 @@ fdescribe('CertificateComponent', () => {
         errors = roles.errors || {};
         expect(errors['required']).toBeFalsy();
 
-        // set validity to something correct
+        // set validity to something incorrect
         roles.setValue(['', '', '']);
         component.getSelectedCheckboxValue();
         expect(component.rolesOptionsError).toBeTruthy();
