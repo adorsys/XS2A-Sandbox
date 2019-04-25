@@ -59,7 +59,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=cms
       - SPRING_DATASOURCE_PASSWORD=cms
       - SERVER_KEY=ledgers_conenctor_secret
-      - LIQUIBASE_ENABLED=true
+      - SPRING_LIQUIBASE_ENABLED=true
     depends_on:
       - xs2a-consent-management-db
 
@@ -108,7 +108,7 @@ services:
 
   # Ledgers
   ledgers:
-    image: adorsys/ledgers:0.3.7
+    image: adorsys/ledgers:0.3.8
     container_name: ledgers
     restart: on-failure
     networks:
