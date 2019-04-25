@@ -207,6 +207,8 @@ pmd_report:
 
 check_pmd:
   stage: "build:qa"
+  except:
+    - develop
   cache:
     key: "Java_${CI_COMMIT_REF_SLUG}"
     paths:
@@ -216,6 +218,8 @@ check_pmd:
 
 check_javadoc_java8:
   stage: "build:qa"
+  except:
+    - develop
   cache:
     key: "Java_${CI_COMMIT_REF_SLUG}"
     paths:
@@ -232,6 +236,8 @@ check_javadoc_java8:
 
 unit_tests:
   stage: "build:qa"
+  except:
+    - develop
   cache:
     key: "Java_${CI_COMMIT_REF_SLUG}"
     paths:
@@ -248,6 +254,8 @@ unit_tests:
 
 test building docker images:
   stage: "build:qa"
+  except:
+    - develop
   variables:
     DOCKER_TAG: test
   <<: *build_docker_images
