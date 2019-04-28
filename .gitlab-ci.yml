@@ -9,11 +9,11 @@ image: "adorsys/ci-build"
 # ------------------------------------------------------------------
 
 stages:
-  - "build:src"         # build jar and provide as artifact
-  - "build:qa"          # run tests and code quality checks
-  - "build:image"       # dockerize jar and push to docker registry
-  - "deploy:openshift"  # push to openshift registry
-  - "release"
+  - "Compile"  # build jar and provide as artifact
+  - "Test"     # run tests and code quality checks
+  - "Package"  # dockerize jar and push to docker registry
+  - "Deploy"   # push to openshift registry
+  - "release"  # release
 
 # ------------------------------------------------------------------
 # variables
@@ -55,7 +55,7 @@ variables:
 # ------------------------------------------------------------------
 
 .build_java: &build_java
-  stage: "build:src"
+  stage: "Compile"
   script:
     - jabba use $BUILD_JAVA_VERSION
     - cat /sys/fs/cgroup/memory/memory.limit_in_bytes
@@ -143,7 +143,7 @@ variables:
 # ------------------------------------------------------------------
 
 build devportal frontend:
-  stage: "build:src"
+  stage: "Compile"
   script:
     - cd developer-portal-ui
     - npm install
@@ -159,7 +159,7 @@ build devportal frontend:
     expire_in: "1 day"
 
 build oba frontend:
- stage: "build:src"
+ stage: "Compile"
  script:
     - cd oba-ui
     - npm install
@@ -175,7 +175,7 @@ build oba frontend:
     expire_in: "1 day"
 
 build tpp frontend:
-  stage: "build:src"
+  stage: "Compile"
   script:
     - cd tpp-ui
     - npm install
@@ -208,7 +208,7 @@ build_package_java8:
     expire_in: "1 day"
 
 pmd_report:
-  stage: "build:src"
+  stage: "Compile"
   script:
     - mvn -Dmaven.test.skip=true package pmd:pmd
   cache:
@@ -224,7 +224,7 @@ pmd_report:
     expire_in: "10 day"
 
 check_pmd:
-  stage: "build:qa"
+  stage: "Test"
   except:
     - develop
   cache:
@@ -235,7 +235,7 @@ check_pmd:
     - mvn -Dmaven.test.skip=true package pmd:check
 
 check_javadoc_java8:
-  stage: "build:qa"
+  stage: "Test"
   except:
     - develop
   cache:
@@ -253,7 +253,7 @@ check_javadoc_java8:
     expire_in: "10 day"
 
 unit_tests:
-  stage: "build:qa"
+  stage: "Test"
   except:
     - develop
   cache:
@@ -271,7 +271,7 @@ unit_tests:
     expire_in: "10 day"
 
 test building docker images:
-  stage: "build:qa"
+  stage: "Test"
   except:
     - develop
   variables:
@@ -281,7 +281,7 @@ test building docker images:
 # develop
 
 build_dockerhub_image_develop:
-  stage: "build:image"
+  stage: "Package"
   only:
     - develop
   variables:
@@ -296,7 +296,7 @@ build_dockerhub_image_develop:
 # temporary deactivated because of missing dockerhub repositories
 # TODO: reactivate
 #deploy_openshift_develop:
-#  stage: "deploy:openshift"
+#  stage: "Deploy"
 #  only:
 #    - develop
 #  variables:
@@ -307,7 +307,7 @@ build_dockerhub_image_develop:
 # master
 
 build_dockerhub_image_master:
-  stage: "build:image"
+  stage: "Package"
   only:
     - master
   variables:
