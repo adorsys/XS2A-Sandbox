@@ -1,8 +1,8 @@
-FROM nginx:1.15.5
+FROM adorsys/nginx:alpine
 MAINTAINER https://github.com/adorsys/xs2a
 
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY dist/oba-ui /usr/share/nginx/html
+COPY nginx.conf /opt/app-root/etc/nginx.d/nginx.conf
+COPY dist/oba-ui /opt/app-root/src
 
 EXPOSE 4400
 
