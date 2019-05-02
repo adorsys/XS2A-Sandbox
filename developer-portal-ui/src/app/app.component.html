@@ -1,1 +1,74 @@
-<div class="nav-offset"><router-outlet></router-outlet></div>
+<div class="nav-bar">
+  <img
+    class="logo"
+    src="../assets/images/Logo_XS2ASandbox.png"
+    (click)="goToPage('home')"
+  />
+  <div>
+    <span
+      class="header-item"
+      [ngStyle]="
+        this.currentRouteUrl === '/getting-started' ? { opacity: 1 } : null
+      "
+      (click)="goToPage('getting-started')"
+      >Getting started</span
+    >
+    <span
+      class="header-item"
+      [ngStyle]="
+        this.currentRouteUrl === '/test-cases/redirect' ||
+        this.currentRouteUrl === '/test-cases' ||
+        this.currentRouteUrl === '/test-cases/embedded' ||
+        this.currentRouteUrl === '/test-cases/testing-flows'
+          ? { opacity: 1 }
+          : null
+      "
+      (click)="goToPage('/test-cases/redirect')"
+      >Test cases</span
+    >
+    <span
+      class="header-item"
+      [ngStyle]="this.currentRouteUrl === '/faq' ? { opacity: 1 } : null"
+      (click)="goToPage('/faq')"
+      >FAQs</span
+    >
+    <span
+      class="header-item"
+      [ngStyle]="this.currentRouteUrl === '/contact' ? { opacity: 1 } : null"
+      (click)="goToPage('/contact')"
+      >Contact</span
+    >
+  </div>
+</div>
+
+<router-outlet (activate)="onActivate($event)"></router-outlet>
+
+<div class="footer-bar">
+  <div class="footer-top-items">
+    <img
+      class="logo"
+      src="../assets/images/Logo_XS2ASandbox.png"
+      (click)="goToPage('home')"
+    />
+    <div>
+      <span class="footer-item" (click)="goToPage('getting-started')"
+        >Getting started</span
+      >
+      <span class="footer-item" (click)="goToPage('/test-cases/redirect')"
+        >Test cases</span
+      >
+      <span class="footer-item" (click)="goToPage('/faq')">FAQs</span>
+      <span class="footer-item" (click)="goToPage('/contact')">Contact</span>
+    </div>
+  </div>
+  <div class="social-media">
+    <a href="https://www.facebook.com/adorsysGmbH/" target="_blank"
+      ><i class="fab fa-facebook-f"></i
+    ></a>
+    <a
+      href="https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/"
+      target="_blank"
+      ><i class="fab fa-linkedin-in"></i
+    ></a>
+  </div>
+</div>

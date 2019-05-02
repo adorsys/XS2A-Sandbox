@@ -1,1 +1,0 @@
-../../../../../docs/de/faq-page.md

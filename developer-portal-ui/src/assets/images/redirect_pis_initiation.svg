@@ -1,0 +1,814 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     contentScriptType="application/ecmascript" contentStyleType="text/css" height="3059px" preserveAspectRatio="none"
+     style="width:1539px;height:3059px;" version="1.1" viewBox="0 0 1539 3059" width="1539px" zoomAndPan="magnify">
+    <defs>
+        <filter height="300%" id="f780enlzdh34p" width="300%" x="-1" y="-1">
+            <feGaussianBlur result="blurOut" stdDeviation="2.0"/>
+            <feColorMatrix in="blurOut" result="blurOut2" type="matrix"
+                           values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/>
+            <feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/>
+            <feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/>
+        </filter>
+    </defs>
+    <g>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="446.0371" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="47" y="172.4199"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="484.7266" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="47" y="935.9414"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="391.7266" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="244" y="172.4199"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="628.0371" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="244" y="1420.668"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="420.7266" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="244" y="2533.4316"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="137.9316" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="590" y="217.041"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="74.6211" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="590" y="444.9043"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="488.7949" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="590" y="1490.2891"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="484.7266" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="590" y="2048.7051"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="335.7949" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="590" y="2618.3633"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="54.3105" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="851" y="246.3516"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="162.9316" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="851" y="1653.2207"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="183.8633" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="851" y="2186.6367"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="193.5527" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="895" y="688.0781"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="54.3105" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="895" y="1075.1836"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="54.3105" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="895" y="1257.7363"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="54.3105" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="895" y="1544.5996"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="54.3105" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="895" y="1870.4629"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="54.3105" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="895" y="2078.0156"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="54.3105" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="895" y="2424.8105"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="54.3105" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="895" y="2672.6738"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="54.3105" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="895" y="2870.5371"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="317.4844" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="1287" y="618.457"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="376.1055" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="1287" y="990.252"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="54.3105" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="1477" y="1158.8047"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="54.3105" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="1477" y="1707.5313"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="54.3105" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="1477" y="2240.9473"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 5.0,5.0;" x1="52" x2="52" y1="86.4883"
+              y2="2972.1582"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 5.0,5.0;" x1="249" x2="249" y1="86.4883"
+              y2="2972.1582"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 5.0,5.0;" x1="595" x2="595" y1="86.4883"
+              y2="2972.1582"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 5.0,5.0;" x1="856" x2="856" y1="86.4883"
+              y2="2972.1582"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 5.0,5.0;" x1="900" x2="900" y1="86.4883"
+              y2="2972.1582"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 5.0,5.0;" x1="1292" x2="1292" y1="86.4883"
+              y2="2972.1582"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 5.0,5.0;" x1="1482" x2="1482" y1="86.4883"
+              y2="2972.1582"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="26"
+              x="36" y="83.5352">PSU
+        </text>
+        <ellipse cx="52" cy="13" fill="#FEFECE" filter="url(#f780enlzdh34p)" rx="8" ry="8"
+                 style="stroke: #A80036; stroke-width: 2.0;"/>
+        <path d="M52,21 L52,48 M39,29 L65,29 M52,48 L39,63 M52,48 L65,63 " fill="none" filter="url(#f780enlzdh34p)"
+              style="stroke: #A80036; stroke-width: 2.0;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="26"
+              x="36" y="2984.6934">PSU
+        </text>
+        <ellipse cx="52" cy="2997.6465" fill="#FEFECE" filter="url(#f780enlzdh34p)" rx="8" ry="8"
+                 style="stroke: #A80036; stroke-width: 2.0;"/>
+        <path
+            d="M52,3005.6465 L52,3032.6465 M39,3013.6465 L65,3013.6465 M52,3032.6465 L39,3047.6465 M52,3032.6465 L65,3047.6465 "
+            fill="none" filter="url(#f780enlzdh34p)" style="stroke: #A80036; stroke-width: 2.0;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="25"
+              x="233.5" y="83.5352">TPP
+        </text>
+        <ellipse cx="249" cy="54" fill="#FEFECE" filter="url(#f780enlzdh34p)" rx="12" ry="12"
+                 style="stroke: #A80036; stroke-width: 2.0;"/>
+        <line style="stroke: #A80036; stroke-width: 2.0;" x1="237" x2="261" y1="68" y2="68"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="25"
+              x="233.5" y="2984.6934">TPP
+        </text>
+        <ellipse cx="249" cy="3003.6465" fill="#FEFECE" filter="url(#f780enlzdh34p)" rx="12" ry="12"
+                 style="stroke: #A80036; stroke-width: 2.0;"/>
+        <line style="stroke: #A80036; stroke-width: 2.0;" x1="237" x2="261" y1="3017.6465" y2="3017.6465"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="36"
+              x="574" y="83.5352">XS2A
+        </text>
+        <ellipse cx="595" cy="54" fill="#FEFECE" filter="url(#f780enlzdh34p)" rx="12" ry="12"
+                 style="stroke: #A80036; stroke-width: 2.0;"/>
+        <line style="stroke: #A80036; stroke-width: 2.0;" x1="583" x2="607" y1="68" y2="68"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="36"
+              x="574" y="2984.6934">XS2A
+        </text>
+        <ellipse cx="595" cy="3003.6465" fill="#FEFECE" filter="url(#f780enlzdh34p)" rx="12" ry="12"
+                 style="stroke: #A80036; stroke-width: 2.0;"/>
+        <line style="stroke: #A80036; stroke-width: 2.0;" x1="583" x2="607" y1="3017.6465" y2="3017.6465"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="20"
+              x="843" y="83.5352">SPI
+        </text>
+        <ellipse cx="856" cy="54" fill="#FEFECE" filter="url(#f780enlzdh34p)" rx="12" ry="12"
+                 style="stroke: #A80036; stroke-width: 2.0;"/>
+        <line style="stroke: #A80036; stroke-width: 2.0;" x1="844" x2="868" y1="68" y2="68"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="20"
+              x="843" y="2984.6934">SPI
+        </text>
+        <ellipse cx="856" cy="3003.6465" fill="#FEFECE" filter="url(#f780enlzdh34p)" rx="12" ry="12"
+                 style="stroke: #A80036; stroke-width: 2.0;"/>
+        <line style="stroke: #A80036; stroke-width: 2.0;" x1="844" x2="868" y1="3017.6465" y2="3017.6465"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="30"
+              x="882" y="83.5352">CMS
+        </text>
+        <ellipse cx="900" cy="54" fill="#FEFECE" filter="url(#f780enlzdh34p)" rx="12" ry="12"
+                 style="stroke: #A80036; stroke-width: 2.0;"/>
+        <line style="stroke: #A80036; stroke-width: 2.0;" x1="888" x2="912" y1="68" y2="68"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="30"
+              x="882" y="2984.6934">CMS
+        </text>
+        <ellipse cx="900" cy="3003.6465" fill="#FEFECE" filter="url(#f780enlzdh34p)" rx="12" ry="12"
+                 style="stroke: #A80036; stroke-width: 2.0;"/>
+        <line style="stroke: #A80036; stroke-width: 2.0;" x1="888" x2="912" y1="3017.6465" y2="3017.6465"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="108"
+              x="1235" y="83.5352">Online_banking
+        </text>
+        <ellipse cx="1292" cy="54" fill="#FEFECE" filter="url(#f780enlzdh34p)" rx="12" ry="12"
+                 style="stroke: #A80036; stroke-width: 2.0;"/>
+        <line style="stroke: #A80036; stroke-width: 2.0;" x1="1280" x2="1304" y1="68" y2="68"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="108"
+              x="1235" y="2984.6934">Online_banking
+        </text>
+        <ellipse cx="1292" cy="3003.6465" fill="#FEFECE" filter="url(#f780enlzdh34p)" rx="12" ry="12"
+                 style="stroke: #A80036; stroke-width: 2.0;"/>
+        <line style="stroke: #A80036; stroke-width: 2.0;" x1="1280" x2="1304" y1="3017.6465" y2="3017.6465"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="96"
+              x="1431" y="83.5352">Core_banking
+        </text>
+        <ellipse cx="1482" cy="54" fill="#FEFECE" filter="url(#f780enlzdh34p)" rx="12" ry="12"
+                 style="stroke: #A80036; stroke-width: 2.0;"/>
+        <line style="stroke: #A80036; stroke-width: 2.0;" x1="1470" x2="1494" y1="68" y2="68"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="96"
+              x="1431" y="2984.6934">Core_banking
+        </text>
+        <ellipse cx="1482" cy="3003.6465" fill="#FEFECE" filter="url(#f780enlzdh34p)" rx="12" ry="12"
+                 style="stroke: #A80036; stroke-width: 2.0;"/>
+        <line style="stroke: #A80036; stroke-width: 2.0;" x1="1470" x2="1494" y1="3017.6465" y2="3017.6465"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="446.0371" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="47" y="172.4199"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="484.7266" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="47" y="935.9414"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="391.7266" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="244" y="172.4199"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="628.0371" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="244" y="1420.668"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="420.7266" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="244" y="2533.4316"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="137.9316" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="590" y="217.041"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="74.6211" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="590" y="444.9043"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="488.7949" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="590" y="1490.2891"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="484.7266" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="590" y="2048.7051"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="335.7949" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="590" y="2618.3633"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="54.3105" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="851" y="246.3516"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="162.9316" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="851" y="1653.2207"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="183.8633" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="851" y="2186.6367"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="193.5527" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="895" y="688.0781"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="54.3105" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="895" y="1075.1836"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="54.3105" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="895" y="1257.7363"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="54.3105" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="895" y="1544.5996"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="54.3105" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="895" y="1870.4629"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="54.3105" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="895" y="2078.0156"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="54.3105" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="895" y="2424.8105"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="54.3105" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="895" y="2672.6738"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="54.3105" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="895" y="2870.5371"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="317.4844" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="1287" y="618.457"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="376.1055" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="1287" y="990.252"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="54.3105" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="1477" y="1158.8047"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="54.3105" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="1477" y="1707.5313"/>
+        <rect fill="#FFFFFF" filter="url(#f780enlzdh34p)" height="54.3105" style="stroke: #A80036; stroke-width: 1.0;"
+              width="10" x="1477" y="2240.9473"/>
+        <path d="M905,101.4883 L905,141.4883 L1089,141.4883 L1089,111.4883 L1079,101.4883 L905,101.4883 " fill="#FBFB77"
+              filter="url(#f780enlzdh34p)" style="stroke: #A80036; stroke-width: 1.0;"/>
+        <path d="M1079,101.4883 L1079,111.4883 L1089,111.4883 L1079,101.4883 " fill="#FBFB77"
+              style="stroke: #A80036; stroke-width: 1.0;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="163"
+              x="911" y="119.0566">For an Authorithation Call
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="135"
+              x="911" y="134.3672">CMS-PSU-API is used
+        </text>
+        <polygon fill="#A80036" points="232,168.4199,242,172.4199,232,176.4199,236,172.4199"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="57" x2="238" y1="172.4199" y2="172.4199"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="102"
+              x="64" y="167.6777">Initiate payment
+        </text>
+        <polygon fill="#A80036" points="578,213.041,588,217.041,578,221.041,582,217.041"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="254" x2="584" y1="217.041" y2="217.041"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="164"
+              x="261" y="196.9883">REST Call Initiate payment
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="262"
+              x="261" y="212.2988">POST "/v1/payments/{payment-product}"
+        </text>
+        <polygon fill="#A80036" points="839,242.3516,849,246.3516,839,250.3516,843,246.3516"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="600" x2="845" y1="246.3516" y2="246.3516"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="172"
+              x="607" y="241.6094">Java Call SPIinitiatePayment
+        </text>
+        <polygon fill="#A80036" points="611,296.6621,601,300.6621,611,304.6621,607,300.6621"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="605" x2="855" y1="300.6621"
+              y2="300.6621"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="227"
+              x="617" y="295.9199">SpiSinglePaymentInitiationResponse
+        </text>
+        <polygon fill="#A80036" points="265,350.9727,255,354.9727,265,358.9727,261,354.9727"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="259" x2="594" y1="354.9727"
+              y2="354.9727"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="175"
+              x="271" y="350.2305">Payment initiation response
+        </text>
+        <polygon fill="#A80036" points="578,440.9043,588,444.9043,578,448.9043,582,444.9043"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="254" x2="584" y1="444.9043" y2="444.9043"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="263"
+              x="261" y="409.541">REST Call Initiate authorithation implicitly
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="317"
+              x="261" y="424.8516">POST"/v1/{payment-service }/{payment-product}/
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="177"
+              x="261" y="440.1621">{paymentId}/authorisations"
+        </text>
+        <path d="M8,392.9727 L8,447.9727 L235,447.9727 L235,402.9727 L225,392.9727 L8,392.9727 " fill="#FBFB77"
+              filter="url(#f780enlzdh34p)" style="stroke: #A80036; stroke-width: 1.0;"/>
+        <path d="M225,392.9727 L225,402.9727 L235,402.9727 L225,392.9727 " fill="#FBFB77"
+              style="stroke: #A80036; stroke-width: 1.0;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="155"
+              x="14" y="410.541">in case of Multilevel SCA
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="146"
+              x="14" y="425.8516">the authorisation steps
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="206"
+              x="14" y="441.1621">should be repeated for other PSU
+        </text>
+        <polygon fill="#A80036" points="265,515.5254,255,519.5254,265,523.5254,261,519.5254"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="259" x2="594" y1="519.5254"
+              y2="519.5254"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="178"
+              x="271" y="499.4727">Start authorisation response
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="121"
+              x="271" y="514.7832">"link_SCARedirect "
+        </text>
+        <polygon fill="#A80036" points="68,560.1465,58,564.1465,68,568.1465,64,564.1465"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="62" x2="248" y1="564.1465"
+              y2="564.1465"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="163"
+              x="74" y="544.0938">Feedback to the customer
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="160"
+              x="74" y="559.4043">Authorise the transaction
+        </text>
+        <polygon fill="#A80036" points="1275,614.457,1285,618.457,1275,622.457,1279,618.457"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="52" x2="1281" y1="618.457" y2="618.457"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="348"
+              x="59" y="613.7148">PSU re-direct to an authorisation webpage of the ASPSP
+        </text>
+        <polygon fill="#A80036" points="916,684.0781,906,688.0781,916,692.0781,912,688.0781"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="910" x2="1286" y1="688.0781" y2="688.0781"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="213"
+              x="922" y="668.0254">REST Call GetPaymentByRedirectId
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="312"
+              x="922" y="683.3359">"GET/psu-api/v1/payment/redirect/{redirect-id}"
+        </text>
+        <polygon fill="#A80036" points="1275,738.3887,1285,742.3887,1275,746.3887,1279,742.3887"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="905" x2="1281" y1="742.3887"
+              y2="742.3887"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="141"
+              x="912" y="737.6465">CmsPaymentResponse
+        </text>
+        <polygon fill="#A80036" points="916,823.3203,906,827.3203,916,831.3203,912,827.3203"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="910" x2="1286" y1="827.3203" y2="827.3203"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="193"
+              x="922" y="791.957">REST Call UpdatePsuIdPayment
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="273"
+              x="922" y="807.2676">"PUT/psu-api/v1/payment/authorithation/
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="182"
+              x="922" y="822.5781">{authorisation-id}/psu-data"
+        </text>
+        <polygon fill="#A80036" points="1275,877.6309,1285,881.6309,1275,885.6309,1279,881.6309"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="900" x2="1281" y1="881.6309"
+              y2="881.6309"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="325"
+              x="907" y="876.8887">Response "http Codes: 200 successful or 400 error"
+        </text>
+        <polygon fill="#A80036" points="68,931.9414,58,935.9414,68,939.9414,64,935.9414"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="62" x2="1291" y1="935.9414"
+              y2="935.9414"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="202"
+              x="74" y="931.1992">Authorisation Process Response
+        </text>
+        <polygon fill="#A80036" points="1275,986.252,1285,990.252,1275,994.252,1279,990.252"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="57" x2="1281" y1="990.252" y2="990.252"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="203"
+              x="64" y="985.5098">The PSU Authorises the Payment
+        </text>
+        <polygon fill="#A80036" points="916,1071.1836,906,1075.1836,916,1079.1836,912,1075.1836"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="910" x2="1286" y1="1075.1836" y2="1075.1836"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="231"
+              x="922" y="1039.8203">REST Call UpdateAuthorisationStatus
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="356"
+              x="922" y="1055.1309">"PUT/psu-api/v1/payment/{payment-id}/authorisation/
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="217"
+              x="922" y="1070.4414">{authorisation-id}/status/{status}"
+        </text>
+        <polygon fill="#A80036" points="1275,1125.4941,1285,1129.4941,1275,1133.4941,1279,1129.4941"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="900" x2="1281" y1="1129.4941"
+              y2="1129.4941"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="325"
+              x="907" y="1124.752">Response "http Codes: 200 successful or 400 error"
+        </text>
+        <polygon fill="#A80036" points="1465,1154.8047,1475,1158.8047,1465,1162.8047,1469,1158.8047"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="1297" x2="1471" y1="1158.8047" y2="1158.8047"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="106"
+              x="1304" y="1154.0625">Execute Payment
+        </text>
+        <polygon fill="#A80036" points="1308,1209.1152,1298,1213.1152,1308,1217.1152,1304,1213.1152"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="1302" x2="1481" y1="1213.1152"
+              y2="1213.1152"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="156"
+              x="1314" y="1208.373">Response PaymentStatus
+        </text>
+        <polygon fill="#A80036" points="916,1253.7363,906,1257.7363,916,1261.7363,912,1257.7363"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="910" x2="1286" y1="1257.7363" y2="1257.7363"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="198"
+              x="922" y="1237.6836">REST Call UpdatePaymentStatus
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="363"
+              x="922" y="1252.9941">"PUT/psu-api/v1/payment/{payment-id}/status/{status}"
+        </text>
+        <polygon fill="#A80036" points="1275,1308.0469,1285,1312.0469,1275,1316.0469,1279,1312.0469"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="900" x2="1281" y1="1312.0469"
+              y2="1312.0469"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="325"
+              x="907" y="1307.3047">Response "http Codes: 200 successful or 400 error"
+        </text>
+        <polygon fill="#A80036" points="68,1362.3574,58,1366.3574,68,1370.3574,64,1366.3574"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="62" x2="1291" y1="1366.3574"
+              y2="1366.3574"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="121"
+              x="74" y="1361.6152">Payment confirmed
+        </text>
+        <polygon fill="#A80036" points="232,1416.668,242,1420.668,232,1424.668,236,1420.668"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="52" x2="238" y1="1420.668" y2="1420.668"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="128"
+              x="59" y="1415.9258">Redirect back to TPP
+        </text>
+        <polygon fill="#A80036" points="578,1486.2891,588,1490.2891,578,1494.2891,582,1490.2891"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="254" x2="584" y1="1490.2891" y2="1490.2891"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="183"
+              x="261" y="1470.2363">REST Call get payment status
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="304"
+              x="261" y="1485.5469">"GET/v1/{payment-service}/{paymentId}/status"
+        </text>
+        <polygon fill="#A80036" points="883,1540.5996,893,1544.5996,883,1548.5996,887,1544.5996"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="600" x2="889" y1="1544.5996" y2="1544.5996"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="162"
+              x="607" y="1539.8574">REST Call GetPaymentById
+        </text>
+        <polygon fill="#A80036" points="611,1594.9102,601,1598.9102,611,1602.9102,607,1598.9102"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="605" x2="899" y1="1598.9102"
+              y2="1598.9102"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="162"
+              x="617" y="1594.168">Payment Object Response
+        </text>
+        <polygon fill="#A80036" points="839,1649.2207,849,1653.2207,839,1657.2207,843,1653.2207"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="600" x2="845" y1="1653.2207" y2="1653.2207"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="218"
+              x="607" y="1648.4785">Java Call SPI GetPaymentStatusByid
+        </text>
+        <polygon fill="#A80036" points="1465,1703.5313,1475,1707.5313,1465,1711.5313,1469,1707.5313"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="861" x2="1471" y1="1707.5313" y2="1707.5313"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="139"
+              x="868" y="1702.7891">GetPaymentStatusById
+        </text>
+        <polygon fill="#A80036" points="872,1757.8418,862,1761.8418,872,1765.8418,868,1761.8418"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="866" x2="1481" y1="1761.8418"
+              y2="1761.8418"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="181"
+              x="878" y="1757.0996">Transaction Status Response
+        </text>
+        <polygon fill="#A80036" points="611,1812.1523,601,1816.1523,611,1820.1523,607,1816.1523"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="605" x2="855" y1="1816.1523"
+              y2="1816.1523"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="181"
+              x="617" y="1811.4102">Transaction Status Response
+        </text>
+        <polygon fill="#A80036" points="883,1866.4629,893,1870.4629,883,1874.4629,887,1870.4629"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="600" x2="889" y1="1870.4629" y2="1870.4629"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="219"
+              x="607" y="1865.7207">REST Call UpdateTransactionStatus
+        </text>
+        <polygon fill="#A80036" points="611,1920.7734,601,1924.7734,611,1928.7734,607,1924.7734"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="605" x2="899" y1="1924.7734" y2="1924.7734"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="221"
+              x="617" y="1920.0313">UpdateTransactionStatus Response
+        </text>
+        <polygon fill="#A80036" points="265,1975.084,255,1979.084,265,1983.084,261,1979.084"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="259" x2="594" y1="1979.084"
+              y2="1979.084"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="181"
+              x="271" y="1974.3418">Transaction Status Response
+        </text>
+        <polygon fill="#A80036" points="578,2044.7051,588,2048.7051,578,2052.7051,582,2048.7051"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="249" x2="584" y1="2048.7051" y2="2048.7051"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="256"
+              x="256" y="2028.6523">REST Call Get Payment Request "GET/v1/
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="200"
+              x="256" y="2043.9629">{payment-service}/{paymentId}"
+        </text>
+        <polygon fill="#A80036" points="883,2074.0156,893,2078.0156,883,2082.0156,887,2078.0156"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="600" x2="889" y1="2078.0156" y2="2078.0156"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="162"
+              x="607" y="2073.2734">REST Call GetPaymentById
+        </text>
+        <polygon fill="#A80036" points="611,2128.3262,601,2132.3262,611,2136.3262,607,2132.3262"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="605" x2="899" y1="2132.3262"
+              y2="2132.3262"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="162"
+              x="617" y="2127.584">Payment Object Response
+        </text>
+        <polygon fill="#A80036" points="839,2182.6367,849,2186.6367,839,2190.6367,843,2186.6367"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="600" x2="845" y1="2186.6367" y2="2186.6367"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="176"
+              x="607" y="2181.8945">Java Call SPIGetPaymentbyId
+        </text>
+        <polygon fill="#A80036" points="1465,2236.9473,1475,2240.9473,1465,2244.9473,1469,2240.9473"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="861" x2="1471" y1="2240.9473" y2="2240.9473"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="100"
+              x="868" y="2236.2051">GetPaymentById
+        </text>
+        <polygon fill="#A80036" points="872,2291.2578,862,2295.2578,872,2299.2578,868,2295.2578"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="866" x2="1481" y1="2295.2578"
+              y2="2295.2578"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="162"
+              x="878" y="2290.5156">Payment Object Response
+        </text>
+        <polygon fill="#A80036" points="611,2366.5,601,2370.5,611,2374.5,607,2370.5"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="605" x2="855" y1="2370.5"
+              y2="2370.5"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="119"
+              x="617" y="2319.8262">SpiSinglrPayment /
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="133"
+              x="617" y="2335.1367">SpiPeriodicPayment /
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="110"
+              x="617" y="2350.4473">SpiBulkPayment /
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="97"
+              x="617" y="2365.7578">SpiPaymentInfo
+        </text>
+        <polygon fill="#A80036" points="883,2420.8105,893,2424.8105,883,2428.8105,887,2424.8105"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="600" x2="889" y1="2424.8105" y2="2424.8105"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="159"
+              x="607" y="2420.0684">REST Call UpdatePayment
+        </text>
+        <polygon fill="#A80036" points="611,2475.1211,601,2479.1211,611,2483.1211,607,2479.1211"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="605" x2="899" y1="2479.1211"
+              y2="2479.1211"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="161"
+              x="617" y="2474.3789">UpdatePayment Response
+        </text>
+        <polygon fill="#A80036" points="265,2529.4316,255,2533.4316,265,2537.4316,261,2533.4316"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="259" x2="594" y1="2533.4316"
+              y2="2533.4316"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="142"
+              x="271" y="2528.6895">Get Payment Response
+        </text>
+        <polygon fill="#A80036" points="578,2614.3633,588,2618.3633,578,2622.3633,582,2618.3633"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="254" x2="584" y1="2618.3633" y2="2618.3633"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="269"
+              x="261" y="2583">REST Call Get Authorisation Sub-resources
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="298"
+              x="261" y="2598.3105">"GET/v1/{payment-service}/{payment-product}
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="184"
+              x="261" y="2613.6211">/{paymentId/authorisations}"
+        </text>
+        <polygon fill="#A80036" points="883,2668.6738,893,2672.6738,883,2676.6738,887,2672.6738"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="600" x2="889" y1="2672.6738" y2="2672.6738"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="193"
+              x="607" y="2667.9316">GetAuthorisationsByPaymentId
+        </text>
+        <polygon fill="#A80036" points="611,2722.9844,601,2726.9844,611,2730.9844,607,2726.9844"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="605" x2="899" y1="2726.9844"
+              y2="2726.9844"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="257"
+              x="617" y="2722.2422">GetAuthorisationsByPaymentId Response
+        </text>
+        <polygon fill="#A80036" points="265,2752.2949,255,2756.2949,265,2760.2949,261,2756.2949"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="259" x2="589" y1="2756.2949"
+              y2="2756.2949"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="136"
+              x="271" y="2751.5527">Authorisation Ids List
+        </text>
+        <polygon fill="#A80036" points="578,2837.2266,588,2841.2266,578,2845.2266,582,2841.2266"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="254" x2="584" y1="2841.2266" y2="2841.2266"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="173"
+              x="261" y="2805.8633">REST Call Get Authorisation
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="305"
+              x="261" y="2821.1738">"GET/v1/{payment-service}/{payment-product}/
+        </text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="294"
+              x="261" y="2836.4844">{paymentId/authorisations}/{authorithationId}"
+        </text>
+        <polygon fill="#A80036" points="883,2866.5371,893,2870.5371,883,2874.5371,887,2870.5371"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0;" x1="600" x2="889" y1="2870.5371" y2="2870.5371"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="167"
+              x="607" y="2865.7949">GetAuthorisationScaStatus
+        </text>
+        <polygon fill="#A80036" points="611,2920.8477,601,2924.8477,611,2928.8477,607,2924.8477"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="605" x2="899" y1="2924.8477"
+              y2="2924.8477"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="231"
+              x="617" y="2920.1055">GetAuthorisationScaStatus Response
+        </text>
+        <polygon fill="#A80036" points="260,2950.1582,250,2954.1582,260,2958.1582,256,2954.1582"
+                 style="stroke: #A80036; stroke-width: 1.0;"/>
+        <line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="254" x2="594" y1="2954.1582"
+              y2="2954.1582"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="64"
+              x="266" y="2949.416">Sca Status
+        </text><!--
+@startuml
+actor PSU
+entity TPP
+entity XS2A
+entity SPI
+entity SPI
+entity CMS
+entity Online_banking
+entity Core_banking
+note right of CMS
+For an Authorithation Call
+CMS-PSU-API is used
+end note
+PSU->TPP: Initiate payment
+activate TPP
+activate PSU
+TPP -> XS2A: REST Call Initiate payment\nPOST "/v1/payments/{payment-product}"
+activate XS2A
+XS2A->SPI: Java Call SPIinitiatePayment
+activate SPI
+|||
+SPI- ->XS2A: SpiSinglePaymentInitiationResponse
+deactivate SPI
+|||
+XS2A- ->TPP:Payment initiation response
+deactivate XS2A
+|||
+TPP->XS2A: REST Call Initiate authorithation implicitly \nPOST"/v1/{payment-service }/{payment-product}/\n{paymentId}/authorisations"
+activate XS2A
+note left
+         in case of Multilevel SCA
+         the authorisation steps
+         should be repeated for other PSU
+end note
+|||
+XS2A- ->TPP:Start authorisation response\n"link_SCARedirect "
+deactivate XS2A
+TPP- ->PSU: Feedback to the customer\nAuthorise the transaction
+deactivate TPP
+|||
+PSU->Online_banking: PSU re-direct to an authorisation webpage of the ASPSP
+deactivate PSU
+activate Online_banking
+|||
+Online_banking->CMS: REST Call GetPaymentByRedirectId\n"GET/psu-api/v1/payment/redirect/{redirect-id}"
+activate CMS
+|||
+CMS- ->Online_banking: CmsPaymentResponse
+|||
+Online_banking->CMS: REST Call UpdatePsuIdPayment\n"PUT/psu-api/v1/payment/authorithation/\n{authorisation-id}/psu-data"
+|||
+CMS- ->Online_banking: Response "http Codes: 200 successful or 400 error"
+deactivate CMS
+|||
+Online_banking- ->PSU: Authorisation Process Response
+deactivate Online_banking
+activate PSU
+|||
+PSU->Online_banking: The PSU Authorises the Payment
+activate Online_banking
+|||
+Online_banking->CMS: REST Call UpdateAuthorisationStatus\n"PUT/psu-api/v1/payment/{payment-id}/authorisation/\n{authorisation-id}/status/{status}"
+activate CMS
+|||
+CMS- ->Online_banking: Response "http Codes: 200 successful or 400 error"
+deactivate CMS
+Online_banking->Core_banking: Execute Payment
+activate Core_banking
+|||
+Core_banking- ->Online_banking: Response PaymentStatus
+deactivate Core_banking
+Online_banking->CMS: REST Call UpdatePaymentStatus\n"PUT/psu-api/v1/payment/{payment-id}/status/{status}"
+activate CMS
+|||
+CMS- ->Online_banking: Response "http Codes: 200 successful or 400 error"
+deactivate CMS
+|||
+Online_banking- ->PSU: Payment confirmed
+deactivate Online_banking
+|||
+PSU->TPP: Redirect back to TPP
+deactivate PSU
+activate TPP
+|||
+TPP->XS2A: REST Call get payment status\n"GET/v1/{payment-service}/{paymentId}/status"
+activate XS2A
+|||
+XS2A->CMS: REST Call GetPaymentById
+activate CMS
+|||
+CMS- ->XS2A: Payment Object Response
+deactivate CMS
+|||
+XS2A->SPI: Java Call SPI GetPaymentStatusByid
+activate SPI
+|||
+SPI->Core_banking: GetPaymentStatusById
+activate Core_banking
+|||
+Core_banking- ->SPI: Transaction Status Response
+deactivate Core_banking
+|||
+SPI- ->XS2A: Transaction Status Response
+deactivate SPI
+|||
+XS2A->CMS: REST Call UpdateTransactionStatus
+activate CMS
+|||
+CMS->XS2A: UpdateTransactionStatus Response
+deactivate CMS
+|||
+XS2A- ->TPP: Transaction Status Response
+deactivate XS2A
+|||
+TPP->XS2A: REST Call Get Payment Request "GET/v1/\n{payment-service}/{paymentId}"
+deactivate TPP
+activate XS2A
+XS2A->CMS: REST Call GetPaymentById
+activate CMS
+|||
+CMS- ->XS2A: Payment Object Response
+deactivate CMS
+|||
+XS2A->SPI: Java Call SPIGetPaymentbyId
+activate SPI
+|||
+SPI->Core_banking: GetPaymentById
+activate Core_banking
+|||
+Core_banking- ->SPI: Payment Object Response
+deactivate Core_banking
+SPI- ->XS2A: SpiSinglrPayment /\nSpiPeriodicPayment /\nSpiBulkPayment /\nSpiPaymentInfo
+deactivate SPI
+|||
+XS2A->CMS: REST Call UpdatePayment
+activate CMS
+|||
+CMS- ->XS2A: UpdatePayment Response
+deactivate CMS
+|||
+XS2A- ->TPP: Get Payment Response
+deactivate XS2A
+activate TPP
+|||
+TPP->XS2A: REST Call Get Authorisation Sub-resources\n"GET/v1/{payment-service}/{payment-product}\n/{paymentId/authorisations}"
+activate XS2A
+|||
+XS2A->CMS: GetAuthorisationsByPaymentId
+activate CMS
+|||
+CMS- ->XS2A: GetAuthorisationsByPaymentId Response
+deactivate CMS
+XS2A- ->TPP: Authorisation Ids List
+|||
+TPP->XS2A: REST Call Get Authorisation\n"GET/v1/{payment-service}/{payment-product}/\n{paymentId/authorisations}/{authorithationId}"
+XS2A->CMS: GetAuthorisationScaStatus
+activate CMS
+|||
+CMS- ->XS2A: GetAuthorisationScaStatus Response
+deactivate CMS
+XS2A- ->TPP: Sca Status
+deactivate XS2A
+deactivate TPP
+@enduml
+
+PlantUML version 1.2018.11(Sat Sep 22 19:43:53 EEST 2018)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 1.8.0_152-release-1343-b28
+Operating System: Mac OS X
+OS Version: 10.14.3
+Default Encoding: UTF-8
+Language: en
+Country: UA
+-->
+    </g>
+</svg>

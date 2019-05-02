@@ -1,0 +1,181 @@
+<div class="endpoint-wrapper">
+  <!-- Segments -->
+  <div class="endpoint-segment-wrapper">
+    <div
+      class="endpoint-segment-item"
+      [ngClass]="
+        activeSegment === 'documentation' ? 'left-item' : 'unactive-item'
+      "
+      (click)="changeSegment('documentation')"
+    >
+      <span>Documentation</span>
+    </div>
+    <div
+      class="endpoint-segment-item"
+      [ngClass]="activeSegment === 'play-data' ? 'left-item' : 'unactive-item'"
+      (click)="changeSegment('play-data')"
+    >
+      <span>Play with data</span>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="endpoint-main-content">
+    <!-- Documentation -->
+    <div
+      class="endpoint-documentation"
+      *ngIf="activeSegment === 'documentation'; else: play_with_data"
+    >
+      <h1>STEP 2: Payment cancellation authorisation</h1>
+      <span class="bold-text"
+        >Payment cancellation authorisation for user with no SCA methods</span
+      >
+      <p>
+        8. Continue payment cancellation authorisation with call to
+        <span class="bold-text">PUT</span> endpoint
+        <app-line-command
+          title="/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{cancellationId}"
+        ></app-line-command>
+        . Choose the same
+        <app-line-command title="payment-service"></app-line-command>
+        and
+        <app-line-command title="payment-product"></app-line-command>
+        you chose in <span class="bold-text">STEP 1</span>. Fill headers with
+        the same values as in previous POST command.
+      </p>
+      <p>
+        9. Enter payment id you have got from
+        <span class="bold-text">STEP 1</span> in the field
+        <app-line-command title="paymentId"></app-line-command>
+        . Enter cancellation id you have got from the previous POST endpoint in
+        the field
+        <app-line-command title="cancellationId"></app-line-command>
+        .
+      </p>
+      <p>10. Insert into request body the following json:</p>
+      <p class="json-text">{{ jsonData1 | json }}</p>
+      <p>
+        Put in <span class="bold-text">YOUR_USER_PASSWORD</span> the password of
+        the user you chose (you can view users and their information in TPP-UI).
+      </p>
+      <p>
+        11. Execute endpoint and get
+        <app-line-command title="200 HTTP code"></app-line-command>
+        .
+      </p>
+
+      <span class="bold-text"
+        >Payment cancellation authorisation for user with single SCA
+        method</span
+      >
+      <p>
+        8. Continue payment cancellation authorisation with call to
+        <span class="bold-text">PUT</span> endpoint
+        <app-line-command
+          title="/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{cancellationId}"
+        ></app-line-command>
+        . Choose the same
+        <app-line-command title="payment-service"></app-line-command>
+        and
+        <app-line-command title="payment-product"></app-line-command>
+        you chose in <span class="bold-text">STEP 1</span>. Fill headers with
+        the same values as in previous POST command.
+      </p>
+      <p>
+        9. Enter payment id you have got from
+        <span class="bold-text">STEP 1</span> in the field
+        <app-line-command title="paymentId"></app-line-command>
+        . Enter cancellation id you have got from the previous POST endpoint in
+        the field
+        <app-line-command title="cancellationId"></app-line-command>
+        .
+      </p>
+      <p>10. Insert into request body the following json:</p>
+      <p class="json-text">{{ jsonData1 | json }}</p>
+      <p>
+        Put in <span class="bold-text">YOUR_USER_PASSWORD</span> the password of
+        the user you chose (you can view users and their information in TPP-UI).
+      </p>
+      <p>
+        11. Execute endpoint and get
+        <app-line-command title="200 HTTP code"></app-line-command>
+        .
+      </p>
+      <p>
+        12. Execute this PUT endpoint again, but this time update request body:
+        fill it with the following json:
+      </p>
+      <p class="json-text">{{ jsonData2 | json }}</p>
+      <p>
+        User has only one SCA method, so test TAN
+        <app-line-command title="123456"></app-line-command>
+        was sent to the user, and now you need to enter this data and execute
+        PUT command. The response should be 200.
+      </p>
+
+      <span class="bold-text"
+        >Payment cancellation authorisation for user with multiple SCA
+        methods</span
+      >
+      <p>
+        8. Continue payment cancellation authorisation with call to
+        <span class="bold-text">PUT</span> endpoint
+        <app-line-command
+          title="/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{cancellationId}"
+        ></app-line-command>
+        . Choose the same
+        <app-line-command title="payment-service"></app-line-command>
+        and
+        <app-line-command title="payment-product"></app-line-command>
+        you chose in <span class="bold-text">STEP 1</span>. Fill headers with
+        the same values as in previous POST command.
+      </p>
+      <p>
+        9. Enter payment id you have got from
+        <span class="bold-text">STEP 1</span> in the field
+        <app-line-command title="paymentId"></app-line-command>
+        . Enter cancellation id you have got from the previous POST endpoint in
+        the field
+        <app-line-command title="cancellationId"></app-line-command>
+        .
+      </p>
+      <p>10. Insert into request body the following json:</p>
+      <p class="json-text">{{ jsonData1 | json }}</p>
+      <p>
+        Put in <span class="bold-text">YOUR_USER_PASSWORD</span> the password of
+        the user you chose (you can view users and their information in TPP-UI).
+      </p>
+      <p>
+        11. Execute endpoint and get
+        <app-line-command title="200 HTTP code"></app-line-command>
+        and list of authorisation methods in response.
+      </p>
+      <p>
+        12. Execute this PUT endpoint again, but this time update request body:
+        fill it with the following json:
+      </p>
+      <p class="json-text">{{ jsonData3 | json }}</p>
+      <p>
+        Put in placeholder
+        <span class="italic-text">YOUR_AUTHENTICATION_METHOD_ID</span> any value
+        of authenticationMethodId of your choice. The response should be 200.
+      </p>
+      <p>
+        13. Execute this PUT endpoint again, update request body: fill it with
+        the following json:
+      </p>
+      <p class="json-text">{{ jsonData2 | json }}</p>
+      <p>
+        User has only one SCA method, so test TAN
+        <app-line-command title="123456"></app-line-command>
+        was sent to the user, and now you need to enter this data and execute
+        PUT command. The response should be 200.
+      </p>
+    </div>
+
+    <!-- Play with data -->
+    <ng-template #play_with_data>
+      <div class="endpoint-play-with-data"><h1>Coming soon...</h1></div>
+    </ng-template>
+  </div>
+</div>

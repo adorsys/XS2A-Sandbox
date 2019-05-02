@@ -1,0 +1,56 @@
+<div class="endpoint-wrapper">
+  <!-- Segments -->
+  <div class="endpoint-segment-wrapper">
+    <div
+      class="endpoint-segment-item"
+      [ngClass]="
+        activeSegment === 'documentation' ? 'left-item' : 'unactive-item'
+      "
+      (click)="changeSegment('documentation')"
+    >
+      <span>Documentation</span>
+    </div>
+    <div
+      class="endpoint-segment-item"
+      [ngClass]="activeSegment === 'play-data' ? 'left-item' : 'unactive-item'"
+      (click)="changeSegment('play-data')"
+    >
+      <span>Play with data</span>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="endpoint-main-content">
+    <!-- Documentation -->
+    <div
+      class="endpoint-documentation"
+      *ngIf="activeSegment === 'documentation'; else: play_with_data"
+    >
+      <p>
+        1. Try GET endpoint
+        <app-line-command title="/v1/consents/{consentId}"></app-line-command>
+        to get consent information and GET endpoint
+        <app-line-command
+          title="/v1/consents/{consentId}/status"
+        ></app-line-command>
+        to check current status of the consent.
+      </p>
+      <p>
+        2. Try GET endpoint
+        <app-line-command
+          title="/v1/consents/{consentId}/authorisations"
+        ></app-line-command>
+        to get authorisation information and GET endpoint
+        <app-line-command
+          title="/v1/consents/{consentId}/authorisations/{authorisationId}"
+        ></app-line-command>
+        to check current status of the authorisation.
+      </p>
+    </div>
+
+    <!-- Play with data -->
+    <ng-template #play_with_data>
+      <div class="endpoint-play-with-data"><h1>Coming soon...</h1></div>
+    </ng-template>
+  </div>
+</div>

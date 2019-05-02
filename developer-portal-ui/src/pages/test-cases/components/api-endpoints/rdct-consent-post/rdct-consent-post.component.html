@@ -1,0 +1,83 @@
+<div class="endpoint-wrapper">
+  <!-- Segments -->
+  <div class="endpoint-segment-wrapper">
+    <div
+      class="endpoint-segment-item"
+      [ngClass]="
+        activeSegment === 'documentation' ? 'left-item' : 'unactive-item'
+      "
+      (click)="changeSegment('documentation')"
+    >
+      <span>Documentation</span>
+    </div>
+    <div
+      class="endpoint-segment-item"
+      [ngClass]="activeSegment === 'play-data' ? 'left-item' : 'unactive-item'"
+      (click)="changeSegment('play-data')"
+    >
+      <span>Play with data</span>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="endpoint-main-content">
+    <!-- Documentation -->
+    <div
+      class="endpoint-documentation"
+      *ngIf="activeSegment === 'documentation'; else: play_with_data"
+    >
+      <h1>STEP 1: Create consent</h1>
+      <p>
+        1. Open swagger tab "Account Information Service (AIS)", open
+        <span class="bold-text">POST</span> endpoint
+        <app-line-command title="/v1/consents"></app-line-command>.
+      </p>
+      <p>
+        2. Press <span class="italic-text">"Try it out"</span>, fill the header
+        fields with the following values:
+      </p>
+
+      <div class="api-table bg th"><span>Header</span> <span>Value</span></div>
+      <div class="api-table">
+        <span>X-Request-ID</span>
+        <span>2f77a125-aa7a-45c0-b414-cea25a116035</span>
+      </div>
+      <div class="api-table bg">
+        <span>TPP-Explicit-Authorisation-Preferred</span> <span>true</span>
+      </div>
+      <div class="api-table">
+        <span>PSU-ID</span> <span>YOUR_USER_LOGIN</span>
+      </div>
+      <div class="api-table bg">
+        <span>PSU-IP-Address</span> <span>1.1.1.1</span>
+      </div>
+
+      <p>
+        Put in <span class="bold-text">YOUR_USER_IBAN</span> the name of the
+        user you chose (you can view users and their information in TPP-UI).
+      </p>
+      <p>
+        Insert into request body the following json for available accounts
+        consent:
+      </p>
+      <p class="json-text">{{ jsonData | json }}</p>
+      <p>
+        Change placeholder <span class="bold-text">YOUR_USER_IBAN</span> to the
+        IBAN of the user (IBAN should match user login you entered in PSU-ID
+        header above).
+      </p>
+      <p>5. Execute and get response with code 201 and related information.</p>
+      <h1>STEP 2: Authorise consent</h1>
+      <p>
+        1. Start with the authorisation process for consent: follow the link
+        <app-line-command title="scaRedirect"></app-line-command> to the online
+        banking page.
+      </p>
+    </div>
+
+    <!-- Play with data -->
+    <ng-template #play_with_data>
+      <div class="endpoint-play-with-data"><h1>Coming soon...</h1></div>
+    </ng-template>
+  </div>
+</div>

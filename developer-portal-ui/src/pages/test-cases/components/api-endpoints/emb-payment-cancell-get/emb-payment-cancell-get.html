@@ -1,0 +1,48 @@
+<div class="endpoint-wrapper">
+  <!-- Segments -->
+  <div class="endpoint-segment-wrapper">
+    <div
+      class="endpoint-segment-item"
+      [ngClass]="activeSegment === 'documentation' ? 'left-item' : 'unactive-item'"
+      (click)="changeSegment('documentation')"
+    >
+      <span>Documentation</span>
+    </div>
+    <div
+      class="endpoint-segment-item"
+      [ngClass]="activeSegment === 'play-data' ? 'left-item' : 'unactive-item'"
+      (click)="changeSegment('play-data')"
+    >
+      <span>Play with data</span>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="endpoint-main-content">
+    <!-- Documentation -->
+    <div
+      class="endpoint-documentation"
+      *ngIf="activeSegment === 'documentation';else play_with_data"
+    >
+      <p>
+        12. Try GET endpoint
+        <app-line-command
+          title="/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{cancellationId}"
+        ></app-line-command>
+        to check current status of the cancellation authorisation.
+      </p>
+      <p>
+        13. Try GET endpoint
+        <app-line-command
+          title="/v1/{payment-service}/{payment-product}/{paymentId}/status"
+        ></app-line-command>
+        to get current payment status (in should be `CANC`, cancelled).
+      </p>
+    </div>
+
+    <!-- Play with data -->
+    <ng-template #play_with_data>
+      <div class="endpoint-play-with-data"><h1>Coming soon...</h1></div>
+    </ng-template>
+  </div>
+</div>

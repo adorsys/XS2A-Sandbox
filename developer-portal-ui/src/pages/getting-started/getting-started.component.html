@@ -1,0 +1,379 @@
+<div style="padding: 0 17vw;">
+  <section>
+    <div class="divider"></div>
+    <h1 class="title">Introduction</h1>
+    <p>
+      The
+      <a
+        target="_blank"
+        href="https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32015L2366&from=EN"
+      >
+        Payment Service Directive 2 (PSD2)</a
+      >
+      instructs banks (Account Servicing Payment Service Providers or ASPSPs) to
+      provide a fully productive Access-to-Account (XS2A) interface to Third
+      Party Providers (TPPs) until September 2019. XS2A itself consists of
+      banking services to initiate payments (PIS), request account data (AIS)
+      and get the confirmation of the availability of funds (PIIS). In order to
+      guarantee the compliance of this deadline due to adaptions and bugs, PSD2
+      claims the banks to provide a functional dynamic sandbox offering the XS2A
+      services in a non-productive environment until June 2019.
+    </p>
+
+    <p>
+      The <span class="bold">XS2ASandbox</span> is a dynamic sandbox environment
+      that fully meets the PSD2 requirements for providing APIs for Third-Party
+      Providers (TPP). Based on the Berlin Group’s NextGen PSD2 specification
+      for access to accounts (XS2A),
+    </p>
+
+    <p>
+      This developer portal is created to help TPP developers start working with
+      XS2ASandbox.
+    </p>
+  </section>
+
+  <section>
+    <div class="divider"></div>
+    <h1>XS2ASandbox architecture and modules</h1>
+    <p>
+      Components of XS2ASandbox with their connections to each other are shown
+      in Figure 1.1.
+    </p>
+    <img
+      style="width: 100%;"
+      src="../../assets/images/Graphic_XS2A_Sandbox.jpg"
+    />
+    <span style="font-style: italic;color: #606060;font-size: 1vw"
+      >Figure 1.1: Components of the XS2ASandbox</span
+    >
+  </section>
+
+  <section>
+    <div class="divider"></div>
+    <h1>XS2A Interface</h1>
+    <p>
+      Central component of the <span class="bold">XS2ASandbox</span> is the XS2A
+      interface which meets the requirements of the
+      <a target="_blank" href="https://www.berlin-group.org/">Berlin Group</a>
+      (Version 1.3) and is based on test data. You can visit our
+      <a target="_blank" href="http://localhost:8080/swagger-ui.html"
+        >XS2A Swagger UI</a
+      >
+      or find full
+      <a target="_blank" href="https://github.com/adorsys/xs2a"
+        >OpenSource XS2A Interface on Github.</a
+      >
+    </p>
+  </section>
+
+  <section>
+    <div class="divider"></div>
+    <h1>ASPSP-Profile</h1>
+    <p>
+      Besides the actual interface, PSD2 instructs ASPSPs to offer a technical
+      documentation free of charge containing amongst others, information about
+      supported payment products and payment services. This information is
+      stored in <span class="bold">ASPSP-profile</span> (bank profile), a
+      service based on yaml file where a bank can provide available payment
+      products, payment services, supported SCA approaches and other
+      bank-specific settings.
+    </p>
+    <div class="divider"></div>
+    <h2>Active XS2A Configuration (Bank Profile)</h2>
+    <ul>
+      <li>Supported SCA-Approach: Redirect</li>
+      <li>
+        Available payment types and payment products for each type:
+        <ul>
+          <li>Single (sepa-credit-transfers)</li>
+          <li>Future-Dated (sepa-credit-transfers)</li>
+          <li>Bulk (sepa-credit-transfers)</li>
+          <li>Periodic (sepa-credit-transfers)</li>
+        </ul>
+      </li>
+      <li>Confirmation of Funds: supported</li>
+      <li>
+        Redirect URLs to Online Banking:
+        <ul>
+          <li>
+            Redirect URL for Payment confirmation: **
+            http://localhost:4400/payment-initiation/login?paymentId=encrypted-payment-id&redirectId=redirect-id
+            **
+          </li>
+          <li>
+            Redirect URL for Payment cancellation: **
+            http://localhost:4400/payment-cancellation/login?paymentId=encrypted-payment-id&redirectId=redirect-id
+            **
+          </li>
+          <li>
+            Redirect URL for Account Consent confirmation: **
+            http://localhost:4400/account-information/login?encryptedConsentId=encrypted-consent-id&redirectId=redirect-id
+            **
+          </li>
+        </ul>
+      </li>
+      <li>
+        Supported types of Consents:
+        <ul>
+          <li>Dedicated: Yes</li>
+          <li>Bank-Offered: Yes</li>
+          <li>Global: Yes</li>
+          <li>Available Accounts: Yes</li>
+        </ul>
+      </li>
+    </ul>
+
+    <span style="font-size: 1.2vw;color: #9e9e9e;"
+      >Currently disabled features:</span
+    >
+
+    <ul>
+      <li>Signing Basket</li>
+      <li>Delta-Reports</li>
+    </ul>
+
+    <div class="divider"></div>
+    <h2>Corresponding ASPSP-Profile settings in .yaml file:</h2>
+
+    <span style="white-space: pre; line-height: 1.5vw; font-size: 1.2vw;">{{
+      'setting: \n' +
+        'frequencyPerDay: 5 \n' +
+        'combinedServiceIndicator: false \n' +
+        'scaApproaches:  \n' +
+        '- REDIRECT  \n' +
+        '- EMBEDDED \n' +
+        'tppSignatureRequired: false \n' +
+        'bankOfferedConsentSupport: true \n' +
+        'pisRedirectUrlToAspsp: http://localhost:4400/payment-initiation/login?paymentId={encrypted-payment-id}&redirectId={redirect-id} \n' +
+        'pisPaymentCancellationRedirectUrlToAspsp: http://localhost:4400/payment-cancellation/login?paymentId={encrypted-payment-id}&redirectId={redirect-id} \n' +
+        'aisRedirectUrlToAspsp: http://localhost:4400/account-information/login?encryptedConsentId={encrypted-consent-id}&redirectId={redirect-id} \n' +
+        'multicurrencyAccountLevel: SUBACCOUNT \n' +
+        'availableBookingStatuses:  \n' +
+        '- BOOKED  \n' +
+        '- PENDING \n' +
+        'supportedAccountReferenceFields: \n ' +
+        '- MSISDN \n' +
+        'consentLifetime: 0 \n' +
+        'transactionLifetime: 0 \n' +
+        'allPsd2Support: true \n' +
+        'transactionsWithoutBalancesSupported: true \n' +
+        'signingBasketSupported: false \n' +
+        'paymentCancellationAuthorizationMandated: true \n' +
+        'piisConsentSupported: true \n' +
+        'deltaReportSupported: false \n' +
+        'redirectUrlExpirationTimeMs: 600000 \n' +
+        'notConfirmedConsentExpirationPeriodMs: 86400000 \n' +
+        'notConfirmedPaymentExpirationPeriodMs: 86400000 \n' +
+        'supportedPaymentTypeAndProductMatrix: \n' +
+        'SINGLE:  \n' +
+        '- sepa-credit-transfers  \n' +
+        '- instant-sepa-credit-transfers \n' +
+        'PERIODIC:  \n' +
+        '- sepa-credit-transfers  \n' +
+        '- instant-sepa-credit-transfers \n' +
+        'BULK: \n ' +
+        '- sepa-credit-transfers  \n' +
+        '- instant-sepa-credit-transfers \n' +
+        'paymentCancellationRedirectUrlExpirationTimeMs: 600000 \n' +
+        'availableAccountsConsentSupported: true \n' +
+        'scaByOneTimeAvailableAccountsConsentRequired: true \n' +
+        'psuInInitialRequestMandated: false \n'
+    }}</span>
+  </section>
+
+  <section>
+    <div class="divider"></div>
+    <h1>TPP Certificate Service</h1>
+    <p>
+      Usually, before accessing the XS2A services a TPP would need to register
+      at its National Competent Authority (NCA) and request an
+      <a
+        target="_blank"
+        href="https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32014R0910&from=EN"
+        >eIDAS</a
+      >
+      certificate at an appropriate Trust Service Provider (TSP). Issuing a real
+      certificate just for testing purposes would be too much effort, which is
+      why the <span class="bold">XS2ASandbox</span> is additionally simulating a
+      fictional TSP issuing Qualified Website Authentication Certificates
+      (QWAC). A QWAC is part of eIDAS and might be better known
+      <a target="_blank" href="https://www.ietf.org/rfc/rfc3739.txt"
+        >as X.509</a
+      >
+      certificate. For PSD2-purposes the certificate gets extended by the
+      QcStatement containing appropriate values such as the role(s) of the PSP
+      (see
+      <a
+        target="_blank"
+        href="https://www.etsi.org/deliver/etsi_ts/119400_119499/119495/01.01.02_60/ts_119495v010102p.pdf"
+        >ETSI</a
+      >).
+    </p>
+
+    <p>
+      After embedding the QWAC in the actual XS2A request, the role and the
+      signature get validated at a central reverse proxy before it gets finally
+      passed to the interface where the banking logic happens.
+    </p>
+  </section>
+
+  <section>
+    <div class="divider"></div>
+    <h1>TPP User Interface</h1>
+    <p>
+      TPP developers can register themselves into the system, obtain certificate
+      and download test data for their TPP application using generated
+      certificate and prepared data in TPP UI.
+    </p>
+  </section>
+
+  <section>
+    <div class="divider"></div>
+    <h1>Online banking</h1>
+    <p>
+      In case of REDIRECT SCA approach a user wants to provide consent for using
+      their account information or for payment confirmation/cancellation. Online
+      banking is a user interface to provide consent to a bank. Links for a
+      consent confirmation and payment confirmation or cancellation are provided
+      in the response of the corresponding endpoints.
+    </p>
+  </section>
+
+  <section>
+    <div class="divider"></div>
+    <h1>Links to environments</h1>
+    <div class="links-to-environments bg th">
+      <span>Service</span> <span>Local environment</span>
+      <span>XS2ASandbox environment</span>
+    </div>
+    <div class="links-to-environments">
+      <span>Developer portal</span>
+      <a target="_blank" href="http://localhost:4206">http://localhost:4206</a>
+    </div>
+    <div class="links-to-environments">
+      <span>XS2A Interface Swagger</span>
+      <a target="_blank" href="http://localhost:8080/swagger-ui.html"
+        >http://localhost:8089/swagger-ui.html</a
+      >
+    </div>
+    <div class="links-to-environments bg">
+      <span>Consent management system</span>
+      <a target="_blank" href="http://localhost:38080/swagger-ui.html"
+        >http://localhost:38080/swagger-ui.html</a
+      >
+    </div>
+    <div class="links-to-environments bg">
+      <span>Ledgers</span>
+      <a target="_blank" href="http://localhost:8088/swagger-ui.html"
+        >http://localhost:8088/swagger-ui.html</a
+      >
+    </div>
+    <div class="links-to-environments bg">
+      <span>ASPSP-Profile Swagger</span>
+      <a target="_blank" href="http://localhost:48080/swagger-ui.html"
+        >http://localhost:48080/swagger-ui.html</a
+      >
+    </div>
+    <div class="links-to-environments bg">
+      <span>TPP User Interface</span>
+      <a target="_blank" href="http://localhost:4205">http://localhost:4205</a>
+    </div>
+    <div class="links-to-environments">
+      <span>Online banking UI</span>
+      <a target="_blank" href="http://localhost:4400/">http://localhost:4400</a>
+    </div>
+    <div class="links-to-environments bg">
+      <span>Online banking backend</span>
+      <a target="_blank" href="http://localhost:8090/swagger-ui.html"
+        >http://localhost:8090/swagger-ui.html</a
+      >
+    </div>
+  </section>
+
+  <section>
+    <div class="divider"></div>
+    <h1>How to download, setup and run the project</h1>
+    <h2>Prerequisites</h2>
+    <p>
+      To run <span class="bold">XS2ASandbox</span> locally you are required to
+      have <span class="bold">Docker</span> installed on your machine. You can
+      download it
+      <a target="_blank" href="https://www.docker.com/get-started">here.</a> If
+      you already have docker installed, you can use the following commands to
+      clean up running containers and prevent errors with ports:
+    </p>
+    <span class="app-line-command-wrapper">
+      <span>docker rm -vf $(docker ps -a -q)</span> <br />
+    </span>
+    <span class="app-line-command-wrapper">
+      <br />
+      <span>docker rmi -f $(docker images -a -q)</span>
+    </span>
+    <h2>Download XS2ASandbox</h2>
+    <p>
+      Download the project directly
+      <a target="_blank" href="https://github.com/adorsys/XS2A-Sandbox"
+        >from GitHub</a
+      >
+      or use command:
+    </p>
+    <span class="app-line-command-wrapper">
+      <span>git clone https://github.com/adorsys/XS2A-Sandbox</span>
+    </span>
+
+    <h2>Run XS2ASandbox</h2>
+    <p>After downloading the project go to the project directory:</p>
+    <span class="app-line-command-wrapper"> <span>cd XS2A-Sandbox</span> </span>
+    <p>You can run all the services with a simple docker command:</p>
+    <span class="app-line-command-wrapper">
+      <span>docker-compose up</span>
+    </span>
+  </section>
+
+  <section>
+    <div class="divider"></div>
+    <h1>How to register TPP and start testing</h1>
+    <ol>
+      <li>
+        Open
+        <a target="_blank" href="http://localhost:4205"
+          >TPP User Interface login page</a
+        >.
+      </li>
+      <li>
+        If you have no login and password - register yourself by clicking
+        "Register" button.
+      </li>
+      <li>
+        Register yourself, create a certificate and log into the system. Note:
+        TPP ID should consist of at least 8 digits, no letters or other signs
+        allowed.
+      </li>
+      <li>Upload the test data and start testing.</li>
+      <span
+        >Whole flow for TPPs to start their work with XS2ASandbox is displayed
+        in Figure 1.2:</span
+      >
+      <img style="width: 100%" src="../../assets/images/Flow.png" />
+      <span style="font-style: italic;color: #606060;font-size: 1vw"
+        >Figure 1.2: TPP flow step-by-step</span
+      >
+    </ol>
+  </section>
+
+  <section>
+    <div class="divider"></div>
+    <h1>What's next?</h1>
+    <p>
+      When you are done with all steps from
+      <span class="app-line-command-wrapper"><span>Getting started</span></span>
+      manual, check
+      <span class="app-line-command-wrapper"><span>Test cases</span></span>
+      section for further testing. There you will find prepared
+      <span class="bold">Postman tests</span>, XS2A Interface API description
+      and instructions how to test XS2ASandbox with
+      <span class="bold">Swagger</span>.
+    </p>
+  </section>
+</div>

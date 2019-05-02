@@ -1,0 +1,287 @@
+<!-- home header -->
+<div class="home-header">
+  <h1 class="header-title">Developer Portal</h1>
+  <h1 class="header-title">by adorsys</h1>
+
+  <div style="margin-top: 3vw">
+    <h2 class="header-subtitle">Creating new, digital</h2>
+    <h2 class="header-subtitle">services through Open</h2>
+    <h2 class="header-subtitle">Banking</h2>
+  </div>
+</div>
+
+<!-- What is XS2A Sandbox -->
+<div class="what-sandbox-wrapper">
+  <h1 class="what-sandbox-title">What is XS2A Sandbox?</h1>
+
+  <p class="what-sandbox-desc">
+    The <span style="color: #000">XS2A Sandbox</span> is a dynamic sandbox
+    environment that fully meets the PSD2 requirements for providing APIs for
+    Third-Party Providers (TPP). Based on the Berlin Group’s NextGen PSD2
+    specification for access to accounts (XS2A),
+    <span style="color: #000">XS2A Sandbox</span> meets all the regulatory
+    requirements and is NISP compliant. This developer portal is created to help
+    TPP developers start working with XS2A Sandbox.
+  </p>
+</div>
+
+<!-- How to use Sandbox -->
+<div class="how-use-api">
+  <h1 class="how-use-api-title">How to use XS2A Sandbox</h1>
+  <div class="steps-wrapper">
+    <div class="step">
+      <span>Step 1</span> <span>Read «Getting started» manual</span>
+    </div>
+    <div class="arrow-right"></div>
+
+    <div class="step">
+      <span>Step 2</span> <span>Download, install and run XS2A Sandbox</span>
+    </div>
+    <div class="arrow-right"></div>
+
+    <div class="step">
+      <span>Step 3</span> <span>Read «Testing flows» and start testing!</span>
+    </div>
+  </div>
+</div>
+
+<!-- PSD2 and XS2A -->
+<div class="open-banking">
+  <div class="divider"></div>
+  <h1 class="open-banking-title">PSD2 and Open Banking</h1>
+  <p class="open-banking-desc">
+    The
+    <a
+      href="https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32015L2366&from=EN"
+      target="_blank"
+      >Payment Service Directive 2 (PSD2)</a
+    >
+    instructs banks (Account Servicing Payment Service Providers or ASPSPs) to
+    provide a fully productive Access-to-Account (XS2A) interface to Third Party
+    Providers (TPPs) until September 2019. XS2A itself consists of banking
+    services to initiate payments (PIS), request account data (AIS) and get the
+    confirmation of the availability of funds (PIIS). In order to guarantee the
+    compliance of this deadline due to adaptions and bugs, PSD2 claims the banks
+    to provide a functional dynamic sandbox offering the XS2A services in a
+    non-productive environment until June 2019.
+  </p>
+</div>
+
+<!-- Our Product -->
+<div class="our-product">
+  <div class="divider"></div>
+  <h1 class="our-product-title">Our Product</h1>
+  <span class="our-product-subtitle">Lorem ipsum dolor</span>
+  <div class="product-card">
+    <div class="product-card-logo-wrapper">
+      <img
+        class="product-logo"
+        src="../../assets/images/Logo_XS2ASandbox.png"
+        alt="XS2A Bank logo"
+      />
+    </div>
+    <div class="product-card-info">
+      <div class="product-card-desc">
+        <p>XS2A</p>
+        <button class="product-card-btn">123</button>
+        <p class="product-card-text">
+          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+          nonumy eirmod tempor invidunt ut labore et dolore
+        </p>
+      </div>
+      <div class="product-card-btns">
+        <button>See Details</button> <button>Documentation</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- XS2A Sandbox Features block -->
+<div id="slider">
+  <h1>XS2A Sandbox Features</h1>
+  <p class="features-description">
+    PSD2 Accelerator is a dynamic sandbox environment: you can create users,
+    payments and consents, play with data for testing purposes. With dynamic
+    sandbox TPP UI you can access banking API directly, get TPP certificate and
+    manage testing accounts. The developer portal contains testing instructions
+    and all needed test-cases. All PSD2 Accelerator services can be installed
+    and run in one simple command. Two main SCA approaches are supported:
+    REDIRECT and EMBEDDED. For redirect approach online banking demo UI was
+    created.
+  </p>
+  <div *ngFor="let slide of slides" class="slide">
+    <img src="{{slide.photoUrl}}" alt="" />
+    <p>{{ slide.title }}</p>
+    <div class="slide-image-wrapper">
+      <span>{{ slide.description }}</span>
+    </div>
+  </div>
+  <div class="button-block"><button *ngFor="let item of slides"></button></div>
+</div>
+
+<!-- Product history -->
+<div class="product-history-wrapper">
+  <div class="product-history-header-wrapper">
+    <div class="divider"></div>
+    <h1 class="title">Product History</h1>
+  </div>
+  <div class="history-scheme">
+    <button>Start</button>
+    <div class="start-vertical-divider"></div>
+    <div class="product-history-info-wrapper">
+      <ng-container *ngFor="let text of productHistory; let i = index">
+        <div
+          class="main-info-wrapper"
+          *ngIf="!text['isToday']"
+          [ngClass]="text['orderNumber'] % 2 === 0 ? 'flex-end' : 'flex-start'"
+          [style.opacity]="checkTodayDay(text['date']) ? '.5' : null"
+        >
+          <div
+            class="info-wrapper"
+            [ngStyle]="
+              text['orderNumber'] % 2 === 0
+                ? { 'align-items': 'flex-start', 'margin-right': '8vw' }
+                : {
+                    'align-items': 'flex-end',
+                    'margin-left': '8vw',
+                    'text-align': 'end'
+                  }
+            "
+          >
+            <span>{{
+              i === 0 || i === 1
+                ? (text['date'] | date: 'dd.MM.yyyy')
+                : (text['date'] | date: 'MM.yyyy')
+            }}</span>
+            <h1>{{ text['title'] }}</h1>
+            <div class="text-wrapper">
+              <i class="fas fa-check-circle" *ngIf="text['text'] !== ''"></i>
+              <p>{{ text['text'] }}</p>
+            </div>
+            <div
+              class="circle-divider"
+              [ngStyle]="
+                text['orderNumber'] % 2 !== 0
+                  ? { 'flex-direction': 'row-reverse', right: '-8.5vw' }
+                  : { left: '-8.4vw' }
+              "
+            >
+              <div class="circle"></div>
+              <div class="divider"></div>
+            </div>
+          </div>
+          <div
+            class="vertical-divider"
+            [style.display]="i === productHistory.length - 1 ? 'none' : null"
+            [ngStyle]="
+              text['orderNumber'] % 2 !== 0
+                ? { right: '42.9vw' }
+                : { left: '43vw' }
+            "
+          ></div>
+        </div>
+        <div class="today-wrapper" *ngIf="text['isToday']">
+          <button>Today</button>
+          <div
+            class="vertical-divider"
+            *ngIf="productHistory.length - 1 !== i"
+          ></div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<!-- Any questions section -->
+<div class="any-questions">
+  <div class="divider"></div>
+  <h1 class="any-questions-title">Any Questions?</h1>
+  <span class="any-questions-subtitle">Ask this guy.</span>
+  <div class="person-card">
+    <div class="person-card-image-wrapper">
+      <img src="../../assets/images/Rene.png" alt="" />
+    </div>
+    <div class="person-card-info">
+      <div class="main-personal-info">
+        <span>René Pongratz</span> <span>Software Architect &</span>
+        <span>Expert for API Management</span>
+      </div>
+      <div class="sub-personal-info">
+        <a href="mailto:psd2@adorsys.de">psd2@adorsys.de</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Clients section -->
+<!-- <div class="clients-section"> -->
+<!-- <div class="divider"></div> -->
+<!-- <h1 class="clients-section-title">Clients, we already made happy</h1> -->
+<!--
+  <span class="clients-section-subtitle">Lorem ipsum dolor sit amet</span>
+-->
+<!-- </div> -->
+<!-- <div class="clients-cards"> -->
+<!-- <div class="card"> -->
+<!-- <img -->
+<!--
+  src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Bank-Verlag_logo.svg/1280px-Bank-Verlag_logo.svg.png"
+-->
+<!-- alt=""> -->
+<!-- </div> -->
+<!-- <div class="card"> -->
+<!-- <img -->
+<!--
+  src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Bank-Verlag_logo.svg/1280px-Bank-Verlag_logo.svg.png"
+-->
+<!-- alt=""> -->
+<!-- </div> -->
+<!-- <div class="card"> -->
+<!--
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Logo_Datev.png/220px-Logo_Datev.png" alt="">
+-->
+<!-- </div> -->
+<!-- <div class="card"> -->
+<!--
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Logo_Datev.png/220px-Logo_Datev.png" alt="">
+-->
+<!-- </div> -->
+<!-- <div class="card"> -->
+<!--
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Logo_Datev.png/220px-Logo_Datev.png" alt="">
+-->
+<!-- </div> -->
+<!-- <div class="card"> -->
+<!--
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Logo_Datev.png/220px-Logo_Datev.png" alt="">
+-->
+<!-- </div> -->
+<!-- <div class="card"> -->
+<!--
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Logo_Datev.png/220px-Logo_Datev.png" alt="">
+-->
+<!-- </div> -->
+<!-- <div class="card"> -->
+<!--
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Logo_Datev.png/220px-Logo_Datev.png" alt="">
+-->
+<!-- </div> -->
+<!-- <div class="card"> -->
+<!--
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Logo_Datev.png/220px-Logo_Datev.png" alt="">
+-->
+<!-- </div> -->
+<!-- </div> -->
+
+<!-- What to stay up to date? -->
+<!-- <div class="what-say-section"> -->
+<!-- <h1>What to stay up to date?</h1> -->
+<!--
+  <p>At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
+-->
+<!-- Lorem ipsum dolor sit amet.</p> -->
+<!-- <div class="input-wrapper"> -->
+<!-- <input type="text" placeholder="Enter your email"> -->
+<!-- <button>Subscribe</button> -->
+<!-- </div> -->
+<!-- </div> -->

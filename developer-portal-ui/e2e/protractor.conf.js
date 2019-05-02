@@ -8,17 +8,6 @@ exports.config = {
   specs: ['./src/**/*.e2e-spec.ts'],
   capabilities: {
     browserName: 'chrome',
-    chromeOptions: {
-      args: ['--no-sandbox', '--test-type=browser'],
-      prefs: {
-        'plugins.always_open_pdf_externally': true,
-        download: {
-          prompt_for_download: false,
-          default_directory: '',
-          directory_upgrade: true,
-        },
-      },
-    },
   },
   directConnect: true,
   baseUrl: 'http://localhost:4200/',

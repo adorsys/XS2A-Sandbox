@@ -4,7 +4,7 @@ MAINTAINER https://github.com/adorsys/xs2a
 
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 COPY entry.sh /opt/entry.sh
-ADD dist/psd2-accelerator /usr/share/nginx/html
+ADD dist/developer-portal /usr/share/nginx/html
 
 RUN chgrp -R root /var/cache/nginx && \
     find /var/cache/nginx -type d -exec chmod 775 {} \; && \

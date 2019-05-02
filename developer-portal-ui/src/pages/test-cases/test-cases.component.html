@@ -1,0 +1,224 @@
+<div class="documentation-header-section">
+  <h1 class="documentation-header-title">Test cases</h1>
+  <div class="documentation-header-desc">
+    <p>
+      After loading test data into the system, TPP developer can test
+      XS2ASandbox endpoints with Swagger or Postman tests. In Swagger section
+      you can find information about usage of Swagger, prepared test data
+      (Jsons) for testing and short API documentation.
+    </p>
+    <p>
+      In
+      <a routerLink="/test-cases/postman-testing">Postman tests section</a> you
+      can find information about usage of Postman for testing and download
+      prepared Postman tests with testing data.
+    </p>
+    <p>
+      Both sections provide tests for REDIRECT Strong Customer Authorisation
+      (SCA) approach and EMBEDDED SCA Approach for Payment Initiation Service
+      (PIS), Account Information Service (AIS) and Payment Instrument Issuer
+      Service (PIIS).
+    </p>
+  </div>
+</div>
+
+<div class="test-cases-main">
+  <div class="left-section">
+    <div class="introduction">
+      <p>INTRODUCTION</p>
+      <span routerLink="/test-cases/redirect">Redirect approach</span>
+      <span routerLink="/test-cases/embedded">Embedded approach</span>
+      <span routerLink="/test-cases/testing-flows">Testing flows</span>
+    </div>
+    <div class="xs-bank">
+      <p>XS2A Sandbox</p>
+      <ul>
+        <li>
+          <span>Swagger testing</span>
+          <ul>
+            <li>
+              <span>Redirect:</span>
+              <ul>
+                <li>
+                  <span>Payment Initiation Flow</span>
+                  <ul>
+                    <li
+                      class="clickable-item post"
+                      routerLink="/test-cases/redirect-payment-initiation-post"
+                    >
+                      POST endpoint
+                      {{ '/v1/{payment-service}/{payment-product}' }}
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <span>Payment Cancellation Flow</span>
+                  <ul>
+                    <li
+                      class="clickable-item post"
+                      routerLink="/test-cases/redirect-cancellation-post"
+                    >
+                      POST endpoint
+                      {{ '/v1/{payment-service}/{payment-product}' }}
+                    </li>
+                    <li
+                      class="clickable-item delete"
+                      routerLink="/test-cases/redirect-cancellation-delete"
+                    >
+                      DELETE endpoint
+                      {{
+                        '/v1/{payment-service}/{payment-product}/{paymentId}'
+                      }}
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <span>Consent Initiation Flow</span>
+                  <ul>
+                    <li
+                      class="clickable-item post"
+                      routerLink="/test-cases/redirect-consent-post"
+                    >
+                      POST endpoint /v1/consents
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <span>Embedded:</span>
+              <ul>
+                <li>
+                  <span>Payment Initiation Flow</span>
+                  <ul>
+                    <li
+                      class="clickable-item post"
+                      routerLink="/test-cases/embedded-payment-initiation-create-post"
+                    >
+                      POST endpoint
+                      {{ '/v1/{payment-service}/{payment-product}' }}
+                    </li>
+                    <li
+                      class="clickable-item post"
+                      routerLink="/test-cases/embedded-payment-initiation-auth-post"
+                    >
+                      POST endpoint
+                      {{
+                        '/v1/{payment-service}/{payment-product}/{paymentId}/authorisations'
+                      }}
+                    </li>
+                    <li
+                      class="clickable-item put"
+                      routerLink="/test-cases/embedded-payment-initiation-put"
+                    >
+                      PUT endpoint
+                      {{
+                        '/v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}'
+                      }}
+                    </li>
+                    <li
+                      class="clickable-item get"
+                      routerLink="/test-cases/embedded-payment-initiation-get"
+                    >
+                      GET endpoint
+                      {{
+                        '/v1/{payment-service}/{payment-product}/{paymentId}'
+                      }}
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <span>Payment Cancellation Flow</span>
+                  <ul>
+                    <li
+                      class="clickable-item post"
+                      routerLink="/test-cases/embedded-payment-cancellation-post"
+                    >
+                      POST endpoint
+                      {{ '/v1/{payment-service}/{payment-product}' }}
+                    </li>
+                    <li
+                      class="clickable-item delete"
+                      routerLink="/test-cases/embedded-payment-cancellation-delete"
+                    >
+                      DELETE endpoint
+                      {{
+                        '/v1/{payment-service}/{payment-product}/{paymentId}'
+                      }}
+                    </li>
+                    <li
+                      class="clickable-item post"
+                      routerLink="/test-cases/embedded-payment-cancellation-post-2"
+                    >
+                      POST endpoint
+                      {{
+                        '/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations'
+                      }}
+                    </li>
+                    <li
+                      class="clickable-item put"
+                      routerLink="/test-cases/embedded-payment-cancellation-put"
+                    >
+                      PUT endpoint
+                      {{
+                        '/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{cancellationId}'
+                      }}
+                    </li>
+                    <li
+                      class="clickable-item get"
+                      routerLink="/test-cases/embedded-payment-cancellation-get"
+                    >
+                      GET endpoint
+                      {{
+                        '/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{cancellationId}'
+                      }}
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <span>Consent Initiation Flow</span>
+                  <ul>
+                    <li
+                      class="clickable-item post"
+                      routerLink="/test-cases/embedded-consent-create-post"
+                    >
+                      POST endpoint /v1/consents
+                    </li>
+                    <li
+                      class="clickable-item post"
+                      routerLink="/test-cases/embedded-consent-auth-post"
+                    >
+                      POST endpoint
+                      {{ '/v1/consents/{consentId}/authorisations' }}
+                    </li>
+                    <li
+                      class="clickable-item put"
+                      routerLink="/test-cases/embedded-consent-put"
+                    >
+                      PUT endpoint
+                      {{
+                        '/v1/consents/{consentId}/authorisations/{authorisationId}'
+                      }}
+                    </li>
+                    <li
+                      class="clickable-item get"
+                      routerLink="/test-cases/embedded-consent-get"
+                    >
+                      GET endpoint {{ '/v1/consents/{consentId}' }}
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <span class="clickable-item" routerLink="/test-cases/postman-testing"
+            >Postman testing</span
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="right-section"><router-outlet></router-outlet></div>
+</div>
