@@ -7,9 +7,9 @@ import { HomeComponent } from '../pages/home/home.component';
 import { GettingStartedComponent } from '../pages/getting-started/getting-started.component';
 import { FaqComponent } from '../pages/faq/faq.component';
 import { TestCasesModule } from '../pages/test-cases/test-cases.module';
-import { MarkdownModule, MarkedOptions, MarkedRenderer } from 'ngx-markdown';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { ContactComponent } from '../pages/contact/contact.component';
+import { RestService } from '../services/rest.service';
 
 @NgModule({
   declarations: [
@@ -19,16 +19,8 @@ import { ContactComponent } from '../pages/contact/contact.component';
     FaqComponent,
     ContactComponent,
   ],
-  imports: [
-    BrowserModule,
-    TestCasesModule,
-    AppRoutingModule,
-    HttpClientModule,
-    MarkdownModule.forRoot({
-      loader: HttpClient,
-    }),
-  ],
-  providers: [],
+  imports: [BrowserModule, TestCasesModule, AppRoutingModule, HttpClientModule],
+  providers: [RestService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

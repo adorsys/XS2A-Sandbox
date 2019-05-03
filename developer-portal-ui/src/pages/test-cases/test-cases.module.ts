@@ -24,6 +24,7 @@ import { EmbPaymentInitCreatePostComponent } from './components/api-endpoints/em
 import { EmbPaymentInitAuthPostComponent } from './components/api-endpoints/emb-payment-init-auth-post/emb-payment-init-auth-post.component';
 import { EmbPaymentInitPutComponent } from './components/api-endpoints/emb-payment-init-put/emb-payment-init-put.component';
 import { EmbPaymentInitGetComponent } from './components/api-endpoints/emb-payment-init-get/emb-payment-init-get.component';
+import { PlayWthDataComponent } from './components/play-with-data/play-wth-data.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { EmbPaymentInitGetComponent } from './components/api-endpoints/emb-payme
     EmbPaymentInitAuthPostComponent,
     EmbPaymentInitPutComponent,
     EmbPaymentInitGetComponent,
+    PlayWthDataComponent,
   ],
   imports: [CommonModule, TestCasesRoutingModule],
 })
