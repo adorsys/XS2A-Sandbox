@@ -10,7 +10,7 @@ services:
 
   # Xs2a connector example
   xs2a-connector-examples:
-    image: adorsys/xs2a-connector-examples:develop
+    image: adorsys/xs2a-connector-examples:3.2
     container_name: xs2a-connector-examples
     restart: on-failure
     ports:
@@ -30,7 +30,7 @@ services:
 
   # Xs2a aspsp profile
   xs2a-aspsp-profile:
-    image: adorsys/xs2a-aspsp-profile:develop
+    image: adorsys/xs2a-aspsp-profile:3.2
     container_name: xs2a-aspsp-profile
     restart: on-failure
     environment:
@@ -46,7 +46,7 @@ services:
 
   # Consent management
   xs2a-consent-management:
-    image: adorsys/xs2a-consent-management:develop
+    image: adorsys/xs2a-consent-management:3.2
     container_name: xs2a-consent-management
     restart: on-failure
     ports:
@@ -117,7 +117,7 @@ services:
       - "8088:8088"
       - "8188:8001"
     environment:
-      - SPRING_PROFILES_ACTIVE=postgres
+      - SPRING_PROFILES_ACTIVE=postgres,develop
       - SPRING_JPA_SHOW_SQL=false
       - DB_HOST=xs2a-consent-management-db
       - DB_URL=jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=ledgers
