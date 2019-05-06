@@ -3,7 +3,7 @@
 VERSION=$(shell jq -r .version developer-portal-ui/package.json)
 ARC42_SRC = $(shell find arc42/src)
 PLANTUML_SRC = $(shell find arc42/diagrams -type f -name '*.puml')
-DEPENDENCIES = jq npm docker-compose mvn
+DEPENDENCIES = jq npm plantuml asciidoctor docker-compose mvn docker
 
 all: build-java-services build-ui-services build-arc-42 ## Build all services
 
