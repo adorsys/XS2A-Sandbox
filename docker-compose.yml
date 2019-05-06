@@ -125,7 +125,7 @@ services:
       - DB_USER=cms
       - DB_PASSWORD=cms
       - LIQUIBASE_ENABLED=true
-      - LEDGERS_MOCKBANK_DATA_LOAD=true
+      - SCA_MULTILEVEL_ENABLED=false
     volumes:
       - xs2a-connector-data:/var/lib/data
 
