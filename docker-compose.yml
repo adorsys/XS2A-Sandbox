@@ -10,7 +10,7 @@ services:
 
   # Xs2a connector example
   xs2a-connector-examples:
-    image: adorsys/xs2a-connector-examples:3.2
+    image: adorsys/xs2a-connector-examples:3.2.1
     container_name: xs2a-connector-examples
     restart: on-failure
     ports:
@@ -20,6 +20,7 @@ services:
       - SPRING_PROFILES_ACTIVE=mock-qwac
       - ASPSP-PROFILE_BASEURL=http://xs2a-aspsp-profile:8080/api/v1
       - CONSENT-SERVICE_BASEURL=http://xs2a-consent-management:8080/api/v1
+      - CMS_URL=http://xs2a-consent-management:8080
       - LEDGERS_URL=http://ledgers:8088
     networks:
       - xs2a-net

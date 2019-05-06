@@ -43,7 +43,7 @@
 		<dependency>
 			<groupId>de.adorsys.ledgers</groupId>
 			<artifactId>xs2a-rest-client</artifactId>
-			<version>${connector.version}</version>
+			<version>0.4-SNAPSHOT</version> <!-- TODO need to clarify -->
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -136,7 +136,7 @@
 						<artifactItem>
 							<groupId>de.adorsys.ledgers</groupId>
 							<artifactId>consent-management-server</artifactId>
-							<version>${connector.version}</version>
+							<version>0.4-SNAPSHOT</version> <!-- TODO need to clarify -->
 							<type>jar</type>
 							<overWrite>true</overWrite>
 							<outputDirectory>${project.build.directory}/consents</outputDirectory>
