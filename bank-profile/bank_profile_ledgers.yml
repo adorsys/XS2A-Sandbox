@@ -3,8 +3,8 @@ setting:
   frequencyPerDay: 5
   combinedServiceIndicator: false
   scaApproaches:
-    - REDIRECT
     - EMBEDDED
+    - REDIRECT
   tppSignatureRequired: false
   bankOfferedConsentSupport: true
   pisRedirectUrlToAspsp: http://localhost:4400/payment-initiation/login?paymentId={encrypted-payment-id}&redirectId={redirect-id}
