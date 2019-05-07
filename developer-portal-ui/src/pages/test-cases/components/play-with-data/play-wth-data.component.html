@@ -1,4 +1,76 @@
 <div class="play-with-data-wrapper">
-  <span>{{ method }}</span> <span></span>
-  <button (click)="sendRequest()">submit</button>
+  <div class="request-method">
+    <span
+      [ngStyle]="
+        method === 'POST'
+          ? { 'background-color': '#4acb91' }
+          : method === 'GET'
+          ? { 'background-color': '#007db8' }
+          : method === 'PUT'
+          ? { 'background-color': '#ffa93f' }
+          : method === 'DELETE'
+          ? { 'background-color': '#b22f3f' }
+          : null
+      "
+      class="line-command-wrapper"
+      ><span>{{ method }}</span>
+    </span>
+    <span style="font-size: 1vw">{{ url }}</span>
+  </div>
+
+  <ng-container *ngIf="false">
+    <div class="play-with-data-table bg th">
+      <span>Parameter</span> <span>Value</span>
+    </div>
+    <div class="play-with-data-table">
+      <span>param 1</span> <input type="text" value="value1" />
+    </div>
+    <div class="play-with-data-table bg" style="margin-bottom: 2vw">
+      <span>param 2</span> <input type="text" value="value2" />
+    </div>
+  </ng-container>
+
+  <div class="play-with-data-table bg th">
+    <span>Header</span> <span>Value</span>
+  </div>
+  <div
+    class="play-with-data-table"
+    *ngFor="let item of (headers | keyvalue); let i = index; trackBy: trackByFn"
+    [ngClass]="i % 2 ? 'bg' : null"
+  >
+    <span>{{ item.key }}</span>
+    <input [(ngModel)]="headers[item.key]" type="text" />
+  </div>
+
+  <div class="send-body" *ngIf="body">
+    <span>Body</span>
+    <textarea name="" id="textArea" cols="30" rows="10">
+      {{ body | json }}</textarea
+    >
+  </div>
+
+  <div *ngIf="response.status || response.statusText" class="response-status">
+    <span style="margin: 2vw 0; display: block; font-size: 2vw">Status</span>
+    <div class="response-status-wrapper">
+      <span>{{ response.status }}</span> <span>{{ response.statusText }}</span>
+    </div>
+  </div>
+
+  <div *ngIf="response.body" class="response-body">
+    <span>Response body</span>
+    <p class="response-body-text">{{ response.body | json }}</p>
+  </div>
+
+  <ngx-loading
+    [show]="dataService.isLoading"
+    [config]="{
+      backdropBackgroundColour: 'rgba(255,255,255,0.5)',
+      backdropBorderRadius: '10px',
+      primaryColour: '#000',
+      secondaryColour: '#000',
+      tertiaryColour: '#000'
+    }"
+  ></ngx-loading>
+
+  <button class="submit-btn" (click)="sendRequest()">Submit</button>
 </div>

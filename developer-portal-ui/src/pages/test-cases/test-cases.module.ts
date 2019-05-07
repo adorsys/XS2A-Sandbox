@@ -25,6 +25,8 @@ import { EmbPaymentInitAuthPostComponent } from './components/api-endpoints/emb-
 import { EmbPaymentInitPutComponent } from './components/api-endpoints/emb-payment-init-put/emb-payment-init-put.component';
 import { EmbPaymentInitGetComponent } from './components/api-endpoints/emb-payment-init-get/emb-payment-init-get.component';
 import { PlayWthDataComponent } from './components/play-with-data/play-wth-data.component';
+import { FormsModule } from '@angular/forms';
+import { ngxLoadingAnimationTypes, NgxLoadingModule } from 'ngx-loading';
 
 @NgModule({
   declarations: [
@@ -53,6 +55,13 @@ import { PlayWthDataComponent } from './components/play-with-data/play-wth-data.
     EmbPaymentInitGetComponent,
     PlayWthDataComponent,
   ],
-  imports: [CommonModule, TestCasesRoutingModule],
+  imports: [
+    CommonModule,
+    TestCasesRoutingModule,
+    FormsModule,
+    NgxLoadingModule.forRoot({
+      animationType: ngxLoadingAnimationTypes.wanderingCubes,
+    }),
+  ],
 })
 export class TestCasesModule {}

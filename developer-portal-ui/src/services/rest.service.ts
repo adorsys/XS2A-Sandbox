@@ -5,13 +5,24 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class RestService {
   constructor(private http: HttpClient) {}
-  // serverUrl = 'http://localhost:8088';
-  serverUrl = 'http://localhost:8089/v1/consents';
+  // serverUrl = 'https://xs2a.integ.cloud.adorsys.de/v1/consents';
+  serverUrl = 'http://localhost:8089/';
 
-  public postRequest(body, headerParams): Observable<any> {
-    const headers = new HttpHeaders(headerParams);
-    console.log('body:', body);
-    console.log('headers:', headers);
-    return this.http.post(this.serverUrl, body, { headers });
+  public sendRequest(method, url, body?, headerParams?): Observable<any> {
+    switch (method) {
+      case 'POST':
+        return this.http.post(this.serverUrl + url, body, {
+          observe: 'response',
+          headers: new HttpHeaders(headerParams),
+        });
+      case 'GET':
+      // TODO return get request here
+      case 'PUT':
+      // TODO return put request here
+      case 'DELETE':
+      // TODO return delete request here
+      default:
+        break;
+    }
   }
 }

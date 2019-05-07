@@ -220,5 +220,7 @@
       </ul>
     </div>
   </div>
-  <div class="right-section"><router-outlet></router-outlet></div>
+  <div class="right-section">
+    <router-outlet (activate)="onActivate($event)"></router-outlet>
+  </div>
 </div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-root',
@@ -7,16 +8,20 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  currentRouteUrl = '';
-
-  constructor(private router: Router, private actRoute: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private actRoute: ActivatedRoute,
+    public dataService: DataService
+  ) {}
 
   goToPage(page) {
     this.router.navigateByUrl(`/${page}`);
   }
 
   onActivate(ev) {
-    this.currentRouteUrl = this.actRoute['_routerState'].snapshot.url;
+    this.dataService.currentRouteUrl = this.actRoute[
+      '_routerState'
+    ].snapshot.url;
   }
 
   ngOnInit() {}

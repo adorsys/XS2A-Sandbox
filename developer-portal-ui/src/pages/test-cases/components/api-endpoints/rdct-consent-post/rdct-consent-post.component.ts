@@ -43,12 +43,6 @@ export class RdctConsentPOSTComponent implements OnInit {
       validUntil: '2019-10-10',
     };
     this.headers = {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'DELETE, POST, GET, OPTIONS',
-      'Access-Control-Allow-Headers':
-        'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With',
-      'Content-Type': 'application/json',
-      accept: '*/*',
       'X-Request-ID': '2f77a125-aa7a-45c0-b414-cea25a116035',
       'TPP-Explicit-Authorisation-Preferred': true,
       'PSU-ID': 'YOUR_USER_LOGIN',

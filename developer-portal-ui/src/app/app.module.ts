@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,6 +12,7 @@ import { TestCasesModule } from '../pages/test-cases/test-cases.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ContactComponent } from '../pages/contact/contact.component';
 import { RestService } from '../services/rest.service';
+import { DataService } from '../services/data.service';
 
 @NgModule({
   declarations: [
@@ -19,8 +22,17 @@ import { RestService } from '../services/rest.service';
     FaqComponent,
     ContactComponent,
   ],
-  imports: [BrowserModule, TestCasesModule, AppRoutingModule, HttpClientModule],
-  providers: [RestService],
+  imports: [
+    BrowserModule,
+    TestCasesModule,
+    AppRoutingModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      timeOut: 1300,
+    }),
+  ],
+  providers: [RestService, DataService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
