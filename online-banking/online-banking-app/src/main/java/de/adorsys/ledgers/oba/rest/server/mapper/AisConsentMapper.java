@@ -1,5 +1,13 @@
 package de.adorsys.ledgers.oba.rest.server.mapper;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.stereotype.Component;
+
+import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisAccountAccessInfoTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisAccountAccessTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisConsentTO;
@@ -9,12 +17,6 @@ import de.adorsys.psd2.xs2a.core.consent.AisConsentRequestType;
 import de.adorsys.psd2.xs2a.core.profile.AccountReference;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
-import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Component
 public class AisConsentMapper {
@@ -28,6 +30,44 @@ public class AisConsentMapper {
 		a.setAccess(toAccess(consent));
 		a.setValidUntil(consent.getValidUntil());
 		a.setRecurringIndicator(consent.isRecurringIndicator());
+		return a;
+	}
+	
+	public AisAccountAccess accountAccess(AisAccountAccessInfoTO access, List<AccountDetailsTO> accountDetails) {
+		// TODO missing relationship to currency here.
+		List<AccountReference> accounts = mapToAccountReference(access.getAccounts(), accountDetails);
+		List<AccountReference> balances = mapToAccountReference(access.getBalances(), accountDetails);
+		List<AccountReference> transactions = mapToAccountReference(access.getTransactions(), accountDetails);
+		String availableAccounts = access.getAvailableAccounts()!=null 
+				? access.getAvailableAccounts().name() : null;
+		String allPsd2 = access.getAllPsd2()!=null 
+				? access.getAllPsd2().name() : null;
+		return new AisAccountAccess(accounts, balances, transactions, availableAccounts, allPsd2);
+	}
+	
+	private List<AccountReference> mapToAccountReference(List<String> ibans, List<AccountDetailsTO> accountDetails){
+		return ibans==null
+				? null
+						: ibans.stream().map(iban -> toAccountReference(iban, accountDetails))
+						.collect(Collectors.toList());
+			
+	}
+	
+	private AccountReference toAccountReference(String iban, List<AccountDetailsTO> accountDetails) {
+		return accountDetails.stream().filter(a -> a.getIban().equals(iban)).findFirst()
+			.map(this::accountDetail2Reference).orElse(null);
+		
+	}
+	
+	private AccountReference accountDetail2Reference(AccountDetailsTO ad) {
+		AccountReference a = new AccountReference();
+		a.setAspspAccountId(ad.getId());
+		a.setBban(ad.getBban());
+		a.setCurrency(ad.getCurrency());
+		a.setIban(ad.getIban());
+		a.setMaskedPan(ad.getMaskedPan());
+		a.setMsisdn(ad.getMsisdn());
+		a.setPan(ad.getPan());
 		return a;
 	}
 

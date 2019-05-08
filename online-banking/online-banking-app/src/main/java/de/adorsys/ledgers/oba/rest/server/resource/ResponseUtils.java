@@ -129,6 +129,12 @@ public class ResponseUtils {
 		return new ResponseEntity<T>(headers, HttpStatus.FOUND);
 	}
 
+	public <T extends OnlineBankingResponse> ResponseEntity<T> redirectKeepCookie(String locationURI, HttpServletResponse httpResp) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.add(LOCATION_HEADER_NAME, locationURI);
+		return new ResponseEntity<T>(headers, HttpStatus.FOUND);
+	}
+	
 	public <T extends OnlineBankingResponse> ResponseEntity<T> backToSender(T authResp, String tppNokRedirectUri, String tppOkRedirectUri,
 			HttpServletResponse httpResp, HttpStatus originalStatus, ValidationCode validationCode) {
 		String locationUri = StringUtils.isNotBlank(tppNokRedirectUri)
@@ -163,7 +169,22 @@ public class ResponseUtils {
 		return cookie(cookieString, ACCESS_TOKEN_COOKIE_NAME);
 	}
 
-	private String cookie(String cookieString, String name) {
+	private String cookie(String cookieStringIn, String name) {
+		String cookieString = cookieStringIn;
+		if(cookieString==null) {
+			return null;
+		}
+		
+		String cookieParamName=name+"=";
+		
+		// Fix Java: rfc2965 want cookie to be separated by comma.
+		// SOmehow i am receiving some semicolon separated cookies.
+		// Quick Fix: First strip the preceeding cookies if not the first.
+		if(!StringUtils.startsWithIgnoreCase(cookieString, cookieParamName)) {
+			int indexOfIgnoreCase = StringUtils.indexOfIgnoreCase(cookieString, cookieParamName);
+			cookieString = cookieString.substring(indexOfIgnoreCase);
+		}
+		// The proce
 		List<HttpCookie> cookies = HttpCookie.parse(cookieString);		
 		for (HttpCookie httpCookie : cookies) {
 			if(StringUtils.equalsIgnoreCase(httpCookie.getName(), name)){

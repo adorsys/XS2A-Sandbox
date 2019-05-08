@@ -15,14 +15,19 @@
     font-size: 1.125rem;
 
     button {
-        height: 3.125rem !important;
+        height: 3.125rem;
+    }
+
+    input[type='text'], input[type='password'] {
+        height: 3.125rem;
     }
 
     .card {
         border: none;
 
         .btn {
-            height: 44px;
+            height: 56px;
+            width: 192px;
             margin-bottom: 10px;
 
             &:hover {
@@ -40,17 +45,17 @@
 
         .btn-primary {
             color: $COLOR_WHITE;
-            background: linear-gradient(270deg, #0DB0E2 0%, #10317D 100%) !important;
-            border: none;
+            background: linear-gradient(129.54deg, #0DB0E2 0%, #10317D 100%);
+            border-radius: 3px;
 
             &:hover {
-                background: linear-gradient(270deg, #0DB0E2 0%, #10317D 100%);
+                background-color: $COLOR_DARK_BLUE;
             }
         }
 
         .btn-outline-secondary {
             color: $COLOR_DARK_GREY;
-            background-color: #fff;
+            background-color: $COLOR_WHITE;
             border: 1px solid $COLOR_DARK_GREY;
             margin-right: 0;
 
@@ -95,4 +100,5 @@
     }
 
 }
+
 

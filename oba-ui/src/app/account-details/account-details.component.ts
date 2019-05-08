@@ -1,22 +1,44 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Subscription} from 'rxjs';
+
+import {ShareDataService} from '../common/services/share-data.service';
+import { ConsentAuthorizeResponse } from 'api/models';
 
 @Component({
     selector: 'app-account-details',
     templateUrl: './account-details.component.html',
     styleUrls: ['./account-details.component.scss']
 })
-export class AccountDetailsComponent implements OnInit {
+export class AccountDetailsComponent implements OnInit, OnDestroy {
 
-    public AccountDetails = [
-        {bank: 'Deutsche Bank', type: 'Daily Account', iban: 'DE89 3704 0440 5320 1300 00'},
-        {bank: 'Commerzbank', type: 'Saving Account', iban: 'DE89 0440 5320 3704 1300 00'},
-        {bank: 'Sparda Bank', type: 'Checking Account', iban: 'DE89 5320 1300 3704 0440 00'}
-    ];
+    private subscriptions: Subscription[] = [];
+    // public accountDetails: any = {};
 
-    constructor() {
-    }
+    public authResponse: ConsentAuthorizeResponse;
+
+    constructor(private sharedService: ShareDataService) {}
 
     ngOnInit() {
+        this.sharedService.currentData.subscribe(
+            authResponse => this.authResponse = authResponse
+        );
+    }
+
+    public ngOnDestroy(): void {
+        this.subscriptions.forEach(sub => sub.unsubscribe());
+    }
+
+    get accounts(): string[] {
+        if (!this.authResponse) {return []; }
+        return this.authResponse.consent.access.accounts || [];
+    }
+    get balances(): string[] {
+        if (!this.authResponse) {return []; }
+        return this.authResponse.consent.access.balances || [];
+    }
+    get transactions(): string[] {
+        if (!this.authResponse) {return []; }
+        return this.authResponse.consent.access.transactions || [];
     }
 
 }

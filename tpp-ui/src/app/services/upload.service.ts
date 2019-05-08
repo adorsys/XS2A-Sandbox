@@ -5,7 +5,6 @@ import {FileItem} from 'ng2-file-upload/file-upload/file-item.class';
 import {ParsedResponseHeaders} from 'ng2-file-upload/file-upload/file-uploader.class';
 import 'rxjs/add/operator/map';
 
-
 @Injectable({
     providedIn: 'root'
 })
@@ -16,23 +15,17 @@ export class UploadService {
 
     createInstanceFileUploader(options: UploadOptions): FileUploader {
         // Set the current user credentials in Headers for Basic Authorization
-        // TODO CHECK IF AUTH NEEDED
         const headers = [];
-        const token = 'xxxx';
-        if (token) {
-            /* TODO CHECK IF AUTH NEEDED
-            const header = {name: 'Authorization', value: 'Basic ' + token};
-            headers.push(header);
-            */
-        }
+        // TODO which token do we need to send?
+        const header = {name: 'Authorization', value: 'Bearer'};
+        headers.push(header);
 
         return new FileUploader(
             {
-                queueLimit: options.queueLimit ? options.queueLimit : 1,
                 url: options.url,
                 method: options.method,
                 headers,
-                allowedMimeType: options.allowedMimeType
+                allowedFileType: options.allowedMimeType
             });
     }
 
@@ -43,8 +36,6 @@ export interface UploadOptions {
     url: string;
     queueLimit?: number;
     allowedMimeType?: string[];
-    allowedFileType?: string[];
-    context?: string;
 
     methodAfterSuccess(item?: FileItem, response?: string, status?: number, headers?: ParsedResponseHeaders): any;
 }

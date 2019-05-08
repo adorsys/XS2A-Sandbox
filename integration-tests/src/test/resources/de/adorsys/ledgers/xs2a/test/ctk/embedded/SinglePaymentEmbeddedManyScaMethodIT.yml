@@ -1,0 +1,22 @@
+psuId: max.musterman
+payment:
+  endToEndIdentification: 456329321
+  debtorAccount:
+    iban: DE38760700240320465700
+    currency: EUR
+  instructedAmount:
+    currency: EUR
+    amount: 240
+  creditorAccount:
+    iban: DE69760700240340283600
+    currency: EUR
+  creditorAgent: DEUTDEDB760
+  creditorName: Marion Mueller
+  creditorAddress:
+    street: SomeStreet
+    buildingNumber: 777 
+    city: Kiev
+    postalCode: 04210
+    country: UA
+  remittanceInformationUnstructured: remittance
+

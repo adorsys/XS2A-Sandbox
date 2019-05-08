@@ -1,8 +1,12 @@
 package de.adorsys.ledgers.oba.rest.api.domain;
 
+import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisConsentTO;
 
+import java.util.List;
+
 public class ConsentAuthorizeResponse extends AuthorizeResponse  {
+	private List<AccountDetailsTO> accounts;
 	private AisConsentTO consent;
 	private String authMessageTemplate;
 	
@@ -22,4 +26,17 @@ public class ConsentAuthorizeResponse extends AuthorizeResponse  {
 	public AisConsentTO getConsent() {
 		return consent;
 	}
+
+	public List<AccountDetailsTO> getAccounts() {
+		return accounts;
+	}
+
+	public void setAccounts(List<AccountDetailsTO> accounts) {
+		this.accounts = accounts;
+	}
+
+	public void setConsent(AisConsentTO consent) {
+		this.consent = consent;
+	}
+	
 }

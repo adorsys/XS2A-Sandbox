@@ -1,5 +1,3 @@
-# Developer portal
-
 # Getting started
 
 ## Introduction
@@ -134,13 +132,13 @@ In case of REDIRECT SCA approach a user wants to provide consent for using their
 
 | Service                 | Local environment                      | XS2ABank environment |
 | ----------------------- | -------------------------------------- | -------------------- |
-| XS2A Interface Swagger  | http://localhost:8080/swagger-ui.html  |                      |
+| XS2A Interface Swagger  | http://localhost:8089/swagger-ui.html  |                      |
 | ASPSP-Profile Swagger   | http://localhost:48080/swagger-ui.html |                      |
-| TPP Certificate Service | http://localhost:48080/swagger-ui.html |                      |
-| TPP User Interface      | http://localhost:48080/swagger-ui.html |                      |
-| Online banking          | http://localhost:8080/swagger-ui.html  |                      |
+| TPP Certificate Service | http://localhost:4200/swagger-ui.html  |                      |
+| TPP User Interface      | http://localhost:4200/swagger-ui.html  |                      |
+| Online banking          | http://localhost:8090/                 |                      |
 
-## How to download, setup and run the project (UPDATE AFTER CLARIFICATION)
+## How to download, setup and run the project
 
 ### Prerequisites
 
@@ -160,7 +158,7 @@ After downloading the project go to the project directory:
 
 You can run all the services with a simple docker command:
 
-`docker-compose -f docker-compose-all.yml up`
+`docker-compose -f docker-compose.yml up`
 
 ## How to register TPP and start testing
 
@@ -176,4 +174,4 @@ _Figure 1.2: TPP flow step-by-step_
 
 ## What's next?
 
-When you are done with all steps from `Getting started` manual, check [Test cases](LINK TO TEST CASES) section for further testing. There you will find prepared **Postman tests**, XS2A Interface API description and instructions how to test XS2ABank with **Swagger**.
+When you are done with all steps from `Getting started` manual, check <a href='link'>Test cases</a> section for further testing. There you will find prepared **Postman tests**, XS2A Interface API description and instructions how to test XS2ABank with **Swagger**.

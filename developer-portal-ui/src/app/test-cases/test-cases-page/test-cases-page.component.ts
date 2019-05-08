@@ -34,4 +34,14 @@ export class TestCasesPageComponent implements OnInit {
     }
     return this.config.contentUrlsEn.testcases;
   }
+
+  downloadFile() {
+    const element = document.createElement('a');
+    element.setAttribute('href', this.config.xs2aBankPostmanTests);
+    element.setAttribute('download', 'postman_tests.zip');
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
 }

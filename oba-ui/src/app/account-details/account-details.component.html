@@ -1,13 +1,27 @@
 <div class="card bg-light">
     <div class="card-body">
-        <div *ngFor="let account of AccountDetails">
-            <span class="text-dark font-weight-bold">{{account.bank}}</span> <br>
-            <small class="text-muted font-weight-light">{{account.type}}</small>
-            <p>
-                <small class="text-muted font-weight-light pb-3">{{account.iban}}</small>
-            </p>
+        <div class="col-12 font-weight-light">
+            <div *ngFor="let account of accounts, let i = index" class="form-check">
+                <label class="form-check-label font-weight-bold" for="account_{{i}}">Read account data for
+                    Ibans </label><br>
+                <label class="form-check-label" for="account_{{i}}"> {{account}} </label><br>
+            </div>
+        </div>
+
+        <div class="col-12 font-weight-light">
+            <div *ngFor="let balance of balances, let i = index" class="form-check">
+                <label class="form-check-label font-weight-bold" for="balance_{{i}}">Read balances for
+                    Ibans </label><br>
+                <label class="form-check-label" for="balance_{{i}}"> {{balance}} </label><br>
+            </div>
+        </div>
+
+        <div class="col-12 font-weight-light">
+            <div *ngFor="let transaction of transactions, let i = index" class="form-check">
+                <label class="form-check-label font-weight-bold" for="transation_{{i}}">Read transactions for
+                    Ibans </label><br>
+                <label class="form-check-label" for="transation_{{i}}"> {{transaction}} </label><br>
+            </div>
         </div>
     </div>
 </div>
-
-

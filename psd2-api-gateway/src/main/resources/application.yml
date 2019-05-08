@@ -1,0 +1,19 @@
+server:
+  port: 8000
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: oba-server
+        uri: http://localhost:8090
+        predicates:
+        - Path=/*
+      - id: oba-ui
+        uri: http://localhost:4400
+        predicates:
+        - Path=/web/*
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

@@ -3,33 +3,37 @@ import {By} from '@angular/platform-browser';
 import {RouterOutlet} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 
+import {ApiConfiguration} from '../../api/api-configuration';
 import {AccountDetailsComponent} from './account-details/account-details.component';
 import {AppComponent} from './app.component';
+import {URL_PARAMS_PROVIDER} from './common/constants/constants';
 
 describe('AppComponent', () => {
-    let app: AppComponent;
+    let component: AppComponent;
     let fixture: ComponentFixture<AppComponent>;
-
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [
-                RouterTestingModule
-            ],
             declarations: [
                 AppComponent,
                 AccountDetailsComponent
             ],
+            imports: [
+                RouterTestingModule
+            ],
+            providers: [
+                ApiConfiguration,
+                {provide: URL_PARAMS_PROVIDER, useValue: {}}
+            ]
         }).compileComponents();
     }));
-
     beforeEach(() => {
         fixture = TestBed.createComponent(AppComponent);
-        app = fixture.componentInstance;
+        component = fixture.componentInstance;
     });
 
-    it('should create the app', async(() => {
-        expect(app).toBeTruthy();
-    }));
+    it('should create the app', () => {
+        expect(component).toBeTruthy();
+    });
 
     it('Should include the < router-outlet >', async(() => {
         fixture.detectChanges();
