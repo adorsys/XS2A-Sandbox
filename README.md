@@ -4,6 +4,8 @@ Implementation of the dynamic sandbox based on the adorsys ledgers core banking 
 
 ## Running the XS2ASandbox
 
+0.For build and run XS2ASandbox requires GNU Make to be installed on your local machine. Please, make sure it is installed.
+
 1.Download the project and go to the project directory:
 
 ```sh
@@ -19,22 +21,27 @@ $ make check
 ```
 
 If something is missing, install it to your local machine, otherwise the build will fail. 
-List of dependencies that are required to use XS2ASandbox: **nodeJs**, **AngularCLI**, **asciidoctor**, **jq**, **docker**, **docker-compose**, **maven**, **plantuml**.
+List of dependencies that are required to use XS2ASandbox: **Java 8**, **nodeJs**, **AngularCLI**, **asciidoctor**, **jq**, **docker**, **docker-compose**, **maven**, **plantuml**.
 Here are links where you can install needed dependencies:
 
 | Dependency         | Link                                    |                                                     
 |--------------------|-----------------------------------------|
-| nodeJs             | https://nodejs.org/en/download          | 
-| AngularCLI         | https://angular.io/guide/quickstart     |                                                                                                        
-| asciidoctor        | https://asciidoctor.org                 |
-| jq                 | https://stedolan.github.io/jq/download  |
-| docker             | https://www.docker.com/get-started      |
-| docker-compose     | https://docs.docker.com/compose/install |
-| maven              | https://maven.apache.org/download.cgi   |
-| planuml            | http://plantuml.com/en/starting         |
+| Java 8             | https://openjdk.java.net/install/       | 
+| Node.js 11.x        | https://nodejs.org/en/download          | 
+| Angular CLI 7.x     | https://angular.io/guide/quickstart     |                                                                                                        
+| Asciidoctor 2.0    | https://asciidoctor.org                 |
+| jq 1.6             | https://stedolan.github.io/jq/download  |
+| Docker    1.17     | https://www.docker.com/get-started      |
+| Docker Compose 1.24| https://docs.docker.com/compose/install |
+| Maven    3.5       | https://maven.apache.org/download.cgi   |
+| PlantUML 1.2019.3  | http://plantuml.com/en/starting         |
 
 
-**Note**: check amount of memory given to **Docker** (Open Docker -> Preferences -> Advanced -> Memory). For a fast and painless start of all the services it should be not less than 5 GB.
+**Note 1**: please, use **Node.js** version lower than **12** (e.g. **10.x.x** or **11.x.x**). Otherwise angular applications would not be built due to
+version conflicts.
+
+**Note 2**: check amount of memory given to **Docker** (Open Docker Desktop -> Preferences -> Advanced -> Memory).
+For a fast and painless start of all the services it should be not less than 5 GB.
 
 3.Build and run the project with Makefile:
   
