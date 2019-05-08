@@ -5,6 +5,8 @@ networks:
 
 volumes:
   xs2a-connector-data:
+  xs2a-fakesmtp-data:
+  xs2a-ledgers-data:
 
 services:
 
@@ -127,8 +129,12 @@ services:
       - DB_PASSWORD=cms
       - LIQUIBASE_ENABLED=true
       - SCA_MULTILEVEL_ENABLED=false
+      - SPRING_MAIL_HOST=fakesmtp
+      - SPRING_MAIL_PORT=25
     volumes:
-      - xs2a-connector-data:/var/lib/data
+      - xs2a-ledgers-data:/var/lib/data
+    depends_on:
+      - fakesmtp
 
   # Xs2a online banking frontend
   xs2a-online-banking-ui:
@@ -179,3 +185,11 @@ services:
       - "8092:8092"
     networks:
       - xs2a-net
+
+  # Fake SMTP
+  fakesmtp:
+    image: munkyboy/fakesmtp:latest
+    networks:
+      - xs2a-net
+    volumes:
+      - xs2a-fakesmtp-data:/var/mail
