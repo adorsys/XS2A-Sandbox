@@ -12,7 +12,7 @@ export class AppComponent {
   urlPath = location.pathname;
 
   constructor(private _iconRegistry: IconRegistry, private _sanitizer: DomSanitizer) {
-    const icons = ['user', 'account', 'upload', 'icon_upload', 'euro', 'add', 'generate_test_data', 'icon_user'];
+    const icons = ['user', 'account', 'upload', 'euro', 'add', 'generate_test_data'];
     icons.forEach(val => {
       _iconRegistry.addSvgIcon(
           val,

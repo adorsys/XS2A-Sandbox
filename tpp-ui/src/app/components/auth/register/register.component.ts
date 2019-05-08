@@ -40,8 +40,6 @@ export class RegisterComponent implements OnInit {
 
     public onSubmit(): void {
 
-        console.log(this.userForm.controls);
-
         const branch = this.userForm.get('branch').value;
         this.submitted = true;
         let message: string;

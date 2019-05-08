@@ -8,10 +8,17 @@ import {By} from "@angular/platform-browser";
 import {InfoModule} from "../../../commons/info/info.module";
 import {RegisterComponent} from './register.component';
 import {CertificateComponent} from "../certificate/certificate.component";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {AuthService} from "../../../services/auth.service";
+import {Observable} from "rxjs";
+import {Router} from "@angular/router";
 
-fdescribe('RegisterComponent', () => {
+describe('RegisterComponent', () => {
     let component: RegisterComponent;
     let registerFixture: ComponentFixture<RegisterComponent>;
+    let authService: AuthService;
+    let router: Router;
+
     let de: DebugElement;
     let el: HTMLElement;
 
@@ -19,11 +26,11 @@ fdescribe('RegisterComponent', () => {
         TestBed.configureTestingModule({
             imports: [
                 ReactiveFormsModule,
-                RouterTestingModule,
-                HttpClientModule,
+                HttpClientTestingModule,
+                RouterTestingModule.withRoutes([]),
                 InfoModule,
             ],
-
+            providers: [AuthService],
             declarations: [RegisterComponent, CertificateComponent]
         })
             .compileComponents();
@@ -32,10 +39,10 @@ fdescribe('RegisterComponent', () => {
     beforeEach(() => {
         registerFixture = TestBed.createComponent(RegisterComponent);
         component = registerFixture.componentInstance;
-
+        authService = TestBed.get(AuthService);
+        router = TestBed.get(Router);
         de = registerFixture.debugElement.query(By.css('form'));
         el = de.nativeElement;
-
         registerFixture.detectChanges();
     });
 
@@ -120,7 +127,7 @@ fdescribe('RegisterComponent', () => {
     });
 
     it(`Submit button should be enabled`, () => {
-        component.userForm.controls['branch'].setValue('test');
+        component.userForm.controls['branch'].setValue('12345678');
         component.userForm.controls['login'].setValue('test');
         component.userForm.controls['email'].setValue('asd@asd.com');
         component.userForm.controls['pin'].setValue('1234');
@@ -129,5 +136,23 @@ fdescribe('RegisterComponent', () => {
         el = registerFixture.debugElement.query(By.css('button')).nativeElement.disabled;
         expect(el).toBeFalsy();
     });
+
+    it('should register and redirect user', () => {
+        component.userForm.controls['branch'].setValue('12345678');
+        component.userForm.controls['login'].setValue('test');
+        component.userForm.controls['email'].setValue('asd@asd.com');
+        component.userForm.controls['pin'].setValue('1234');
+        expect(component.generateCertificate).toBeFalsy();
+        expect(component.userForm.valid).toBeTruthy()
+
+        // submit form
+        let registerSpy = spyOn(authService, 'register').and.callFake(() => Observable.of({value: "sample response"}));
+        let navigateSpy = spyOn(router, 'navigate');
+        component.onSubmit();
+        expect(registerSpy).toHaveBeenCalled();
+        // expect(navigateSpy).toHaveBeenCalledWith(['/login']);
+    });
+
+
 
 });
