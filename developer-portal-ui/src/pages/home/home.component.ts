@@ -19,8 +19,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.slides = [
       {
         title: 'Plug and Play',
-        description:
-          'Ready to use solution, which can be installed very easily',
+        description: 'Ready to use solution, which can be easily installed',
         photoUrl: '../assets/icons/plug&play.png',
         author: 'by John Doe, Position',
       },
@@ -32,21 +31,20 @@ export class HomeComponent implements OnInit, AfterViewInit {
       },
       {
         title: 'Reliable test options',
-        description:
-          'TPP-Test certificate generation tool and NISP Tests supported',
+        description: 'TPP-Test certificate generation tool and NISP Tests',
         photoUrl: '../assets/icons/tested.png',
         author: 'by Mark Travis, Back',
       },
       {
         title: 'Customizable User Interface',
-        description: 'TPP-UI for users and accout management on bankside',
+        description: 'TPP-UI for users and account management on the bank side',
         photoUrl: '../assets/icons/customized.png',
         author: 'by Mark Travis, Back',
       },
       {
         title: 'Customer focused',
         description:
-          'Client-oriented approch, flexible solution for customer needs and customer support',
+          'Client-oriented approach, flexible solution for customer needs and customer support',
         photoUrl: '../assets/icons/user-centered.png',
         author: 'by Mark Travis, Back',
       },
@@ -58,14 +56,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
       },
       {
         title: 'Wide range of services',
-        description: 'Accountig Service, Security Service and Payment Service',
+        description: 'Accounting Service, Security Service and Payment Service',
         photoUrl: '../assets/icons/service.png',
         author: 'by Mark Travis, Back',
       },
       {
         title: 'Open source',
         description:
-          'Open source available on GitHub, constantly updated product',
+          'Open source project, available on GitHub and constantly updated',
         photoUrl: '../assets/icons/open_source.png',
         author: 'by Mark Travis, Back',
       },
@@ -96,7 +94,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         title: 'Release of XS2A Sandbox ver 1.0',
         date: 1556658000000,
         text:
-          'Support of Redirect and Embedded aproach: TPP-UI, Online Banking',
+          'Support of Redirect and Embedded approach: TPP-UI, Online Banking',
         isToday: false,
         orderNumber: 3,
       },
