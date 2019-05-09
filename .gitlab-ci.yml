@@ -41,6 +41,7 @@ variables:
   ############################
 
   OPENSHIFT_NAMESPACE_DEV: "adorsys-dynamic-sandbox-dev"
+  OPENSHIFT_NAMESPACE_DEMO: "adorsys-dynamic-sandbox-demo"
 
   ###########################
   # Build variables         #
@@ -95,18 +96,18 @@ variables:
 # TODO: remove
 .push_openshift_images: &push_openshift_images
   script:
-    - docker build -t "${OPENSHIFT_REGISTRY}/adorsys-dynamic-sandbox-dev/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:latest" online-banking/online-banking-app
-    - docker build -t "${OPENSHIFT_REGISTRY}/adorsys-dynamic-sandbox-dev/${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}:latest" certificate-generator
-    - docker build -t "${OPENSHIFT_REGISTRY}/adorsys-dynamic-sandbox-dev/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:latest" oba-ui
-    - docker build -t "${OPENSHIFT_REGISTRY}/adorsys-dynamic-sandbox-dev/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:latest" tpp-ui
-    - docker build -t "${OPENSHIFT_REGISTRY}/adorsys-dynamic-sandbox-dev/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:latest" developer-portal-ui
+    - docker build -t "${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:latest" online-banking/online-banking-app
+    - docker build -t "${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}:latest" certificate-generator
+    - docker build -t "${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:latest" oba-ui
+    - docker build -t "${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:latest" tpp-ui
+    - docker build -t "${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:latest" developer-portal-ui
 
     - docker login -u openshift -p $OPENSHIFT_TOKEN $OPENSHIFT_REGISTRY
-    - docker push "${OPENSHIFT_REGISTRY}/adorsys-dynamic-sandbox-dev/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:latest"
-    - docker push "${OPENSHIFT_REGISTRY}/adorsys-dynamic-sandbox-dev/${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}:latest"
-    - docker push "${OPENSHIFT_REGISTRY}/adorsys-dynamic-sandbox-dev/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:latest"
-    - docker push "${OPENSHIFT_REGISTRY}/adorsys-dynamic-sandbox-dev/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:latest"
-    - docker push "${OPENSHIFT_REGISTRY}/adorsys-dynamic-sandbox-dev/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:latest"
+    - docker push "${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:latest"
+    - docker push "${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}:latest"
+    - docker push "${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:latest"
+    - docker push "${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:latest"
+    - docker push "${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:latest"
     - docker logout
 
 # Copy Dockerhub images to Openshift (depending on ${DOCKER_TAG})
@@ -272,8 +273,6 @@ unit_tests:
 
 test building docker images:
   stage: "Test"
-  except:
-    - develop
   variables:
     DOCKER_TAG: test
   <<: *build_docker_images
@@ -291,6 +290,7 @@ build_dockerhub_image_develop:
   #<<: *push_dockerhub_images
   # temporary workaround for non existing dockerhub repositories
   # TODO: remove
+    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_DEV} # Openshift target namespace
   <<: *push_openshift_images
 
 # temporary deactivated because of missing dockerhub repositories
@@ -312,7 +312,13 @@ build_dockerhub_image_master:
     - master
   variables:
     DOCKER_TAG: latest
-  <<: *push_dockerhub_images
+  # temporary deactivated because of non existing dockerhub repositories
+  # TODO: reactivate
+  #<<: *push_dockerhub_images
+  # temporary workaround for non existing dockerhub repositories
+  # TODO: remove
+    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_DEMO} # Openshift target namespace
+  <<: *push_openshift_images
 
 # tags
 
