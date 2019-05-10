@@ -1,0 +1,132 @@
+/*=== Documentation header section ===*/
+
+.documentation-header-section {
+  padding: 5vw 5vw 3vw 5vw;
+  .documentation-header-title {
+    opacity: 0.9;
+    font-weight: 600;
+    font-size: 2.8vw;
+    color: #054f72;
+  }
+  .documentation-header-desc {
+    color: #868e96;
+    opacity: 0.9;
+    font-size: 1.4vw;
+    line-height: 2.2vw;
+    font-weight: 800;
+  }
+}
+
+/*=== Test cases main section ===*/
+
+.test-cases-main {
+  display: flex;
+  padding: 2vw;
+  .left-section {
+    background-color: #fff;
+    width: 25vw;
+    .introduction {
+      display: flex;
+      flex-direction: column;
+      border-bottom: 1px solid #eeeeee;
+      padding: 2vw;
+      p {
+        color: #000;
+        font-size: 1.6vw;
+      }
+      span {
+        margin-bottom: 1vw;
+        font-size: 1vw;
+        cursor: pointer;
+        color: #484848;
+        outline: none;
+        &:hover {
+          color: #0984bf;
+        }
+      }
+    }
+    .xs-bank {
+      display: flex;
+      flex-direction: column;
+      //border-bottom: 1px solid #EEEEEE;
+      padding: 2vw;
+      .clickable-item {
+        outline: none;
+        &:hover {
+          color: #0984bf;
+          cursor: pointer;
+        }
+      }
+      p {
+        color: #000;
+        font-size: 1.6vw;
+      }
+      span {
+        color: #484848;
+        outline: none;
+      }
+      ul {
+        margin-top: 0;
+        margin-bottom: 1vw;
+        color: #484848;
+        outline: none;
+        text-decoration: none;
+        list-style: none;
+        padding: 0;
+        li {
+          font-size: 1.2vw;
+          margin: 1vw 1vw 1vw 0;
+          span {
+            font-size: 1.3vw;
+          }
+          ul {
+            padding-left: 1.5vw;
+            li {
+              margin: 0.5vw;
+              font-size: 1vw;
+              span {
+                font-size: 1.1vw;
+              }
+              ul {
+                li {
+                  margin: 0.4vw;
+                  font-size: 0.8vw;
+                  text-overflow: ellipsis;
+                  overflow: hidden;
+                  span {
+                    font-size: 1vw;
+                  }
+                  ul {
+                    li::before {
+                      content: '•';
+                      font-size: 1.1vw !important;
+                      text-align: center;
+                      align-items: center;
+                    }
+                    .post::before {
+                      color: #4acb91;
+                    }
+                    .get::before {
+                      color: #007db8;
+                    }
+                    .put::before {
+                      color: #ffa93f;
+                    }
+                    .delete::before {
+                      color: #b22f3f;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .right-section {
+    width: 100%;
+    background-color: #eeeeee;
+  }
+}

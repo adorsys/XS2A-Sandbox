@@ -1,17 +1,12 @@
 package de.adorsys.ledgers.oba.rest.api.resource;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import de.adorsys.ledgers.oba.rest.api.domain.AuthorizeResponse;
 import de.adorsys.ledgers.oba.rest.api.domain.PaymentAuthorizeResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @Api(value = PISApi.BASE_PATH, tags = "PSU PIS", description = "Provides access to online banking payment functionality")
 public interface PISApi {
@@ -99,4 +94,40 @@ public interface PISApi {
 			@PathVariable("authorisationId") String authorisationId,
 			@RequestHeader(name="Cookie", required=false) String consentAndaccessTokenCookieString,
 			@RequestParam("authCode") String authCode);
+
+    /**
+     * Fails PIS authorisation object by its ID.
+     *
+     * @param encryptedPaymentId ID of Payment
+     * @return <code>true</code> if payment authorisation was found and failed. <code>false</code> otherwise.
+     */
+    @DeleteMapping(path = "/{encryptedPaymentId}/{authorisationId}")
+    @ApiOperation(value = "Fail payment authorisation", authorizations = @Authorization(value = "apiKey"),
+        notes = "This call provides the server with the opportunity to close this session and "
+                    + "revoke consent.")
+    ResponseEntity<PaymentAuthorizeResponse> failPaymentAuthorisation(@PathVariable("encryptedPaymentId") String encryptedPaymentId,
+                                                           @PathVariable("authorisationId") String authorisationId,
+                                                           @RequestHeader(name = "Cookie", required = false) String cookieString);
+
+    /**
+     * This call provides the server with the opportunity to close this session and
+     * redirect the PSU to the TPP or close the application window.
+     * <p>
+     * In any case, the session of the user will be closed and cookies will be deleted.
+     *
+     * @param encryptedPaymentId ID of Payment
+     * @param authorisationId ID of related Payment Authorisation
+     * @return redirect location header with TPP url
+     */
+    @GetMapping(path = "/{encryptedPaymentId}/authorisation/{authorisationId}/done", params = {"forgetConsent", "backToTpp"})
+    @ApiOperation(value = "Close consent session", authorizations = @Authorization(value = "apiKey"),
+        notes = "This call provides the server with the opportunity to close this session and "
+                    + "redirect the PSU to the TPP or close the application window.")
+    ResponseEntity<PaymentAuthorizeResponse> pisDone(
+        @PathVariable("encryptedPaymentId") String encryptedPaymentId,
+        @PathVariable("authorisationId") String authorisationId,
+        @RequestHeader(name = "Cookie", required = false) String consentAndAccessTokenCookieString,
+        @RequestParam(name = "forgetConsent", required = false) Boolean forgetConsent,
+        @RequestParam(name = "backToTpp", required = false) Boolean backToTpp);
+
 }

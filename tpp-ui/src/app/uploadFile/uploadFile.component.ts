@@ -7,7 +7,7 @@ import {UploadOptions} from '../services/upload.service';
 @Component({
     selector: 'app-upload-file',
     templateUrl: './uploadFile.component.html',
-    styleUrls: ['./uploadFile.component.css']
+    styleUrls: ['./uploadFile.component.scss']
 })
 export class UploadFileComponent implements OnInit {
 
@@ -19,13 +19,12 @@ export class UploadFileComponent implements OnInit {
 
     public ngOnInit(): void {
         this.options = {
-            method: 'POST',
-            url: this.url + '/staff-access/upload',
+            method: 'PUT',
+            url: this.url + '/upload',
 
             methodAfterSuccess: (item: FileItem, response: string) => {
                 this.router.navigate(['/users/all']);
             }
         };
     }
-
 }

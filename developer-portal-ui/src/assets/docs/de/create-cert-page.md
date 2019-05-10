@@ -1,1 +1,0 @@
-../../../../../docs/de/create-cert-page.md

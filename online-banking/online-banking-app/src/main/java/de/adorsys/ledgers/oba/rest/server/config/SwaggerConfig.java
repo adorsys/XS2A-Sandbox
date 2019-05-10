@@ -24,7 +24,7 @@ public class SwaggerConfig {
     @Bean
     public Docket productApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-                   .groupName("PUS-API")
+                   .groupName("PSU-API")
                    .select()
                    .apis(RequestHandlerSelectors.basePackage("de.adorsys.ledgers.oba.rest"))
                    .paths(PathSelectors.any())
@@ -57,10 +57,10 @@ public class SwaggerConfig {
                                       "fpo@adorsys.de");
 
         return new ApiInfo(
-            "Ledgers",
-            "Implementation of a simple double entry accounting module with a sample deposit account module. "
-                + "We have 3 preloaded users: <b>marion.mueller</b>, <b>anton.brueckner</b>, <b>max.musterman</b> all with the PIN <b>12345</b>. "
-                + "You can use the User Login API <b>/users/authorise2</b> endpoint to gain an access token. Then use the access token with the prefix 'Bearer ' to Authorize on this ui.",
+            "Online banking",
+            "Implementation of backend for online banking UI. "
+                + "We have 3 preloaded users in Ledgers: <b>marion.mueller</b>, <b>anton.brueckner</b>, <b>max.musterman</b> all with the PIN <b>12345</b>. "
+                + "You can use the User Login API from Ledgers <b>/users/authorise2</b> endpoint to gain an access token. Then use the access token with the prefix 'Bearer ' to Authorize on this ui.",
             "0.5.0",
             "Terms of Service: to be edited...",
             contact,

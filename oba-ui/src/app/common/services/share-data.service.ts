@@ -1,24 +1,51 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
-import {ConsentAuthorizeResponse} from 'api/models';
+import {ConsentAuthorizeResponse, PaymentAuthorizeResponse} from '../../api/models';
 
-/**
- * @author Gerard Talla
- * Use this service for sharing data between components.
- * Note: For best usage, you should pass your data by giving a key that will be use to retrieve your expected data.
- */
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class ShareDataService {
-    private data = new BehaviorSubject<ConsentAuthorizeResponse>(null);
-    currentData = this.data.asObservable();
+  // response data
+  private data = new BehaviorSubject<ConsentAuthorizeResponse | PaymentAuthorizeResponse>(null);
+  currentData = this.data.asObservable();
 
+  // operation type
+  private operationType = new BehaviorSubject<string>(null);
+  currentOperation = this.operationType.asObservable();
 
-    constructor() {
-    }
+  // encrypted Consent ID
+  private encryptedConsentId = new BehaviorSubject<string>(null);
+  currentEncryptedConsentId = this.encryptedConsentId.asObservable();
 
-    changeData(data: ConsentAuthorizeResponse) {
-        this.data.next(data);
-    }
+  // encrypted Payment ID
+  private paymentId = new BehaviorSubject<string>(null);
+  currentPaymentId = this.paymentId.asObservable();
+
+  // encrypted Payment ID
+  private authorisationId = new BehaviorSubject<string>(null);
+  currentAuthorisationId = this.authorisationId.asObservable();
+
+  constructor() {
+  }
+
+  changeData(data: ConsentAuthorizeResponse) {
+    this.data.next(data);
+  }
+
+  setOperationType(operation: string) {
+    this.operationType.next(operation);
+  }
+
+  setEncryptedConsentId(encryptedConsentId: string) {
+    this.encryptedConsentId.next(encryptedConsentId);
+  }
+
+  setPaymentId(paymentId: string) {
+    this.paymentId.next(paymentId);
+  }
+
+  setAuthorisationId(authorisationId: string) {
+    this.authorisationId.next(authorisationId);
+  }
 }

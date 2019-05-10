@@ -5,21 +5,24 @@ networks:
 
 volumes:
   xs2a-connector-data:
+  xs2a-fakesmtp-data:
+  xs2a-ledgers-data:
 
 services:
 
   # Xs2a connector example
   xs2a-connector-examples:
-    image: adorsys/xs2a-connector-examples:develop
+    image: adorsys/xs2a-connector-examples:3.2.1
     container_name: xs2a-connector-examples
     restart: on-failure
     ports:
       - "8089:8089"
       - "8189:8000"
     environment:
-      - SPRING_PROFILES_ACTIVE=mockspi
+      - SPRING_PROFILES_ACTIVE=mock-qwac
       - ASPSP-PROFILE_BASEURL=http://xs2a-aspsp-profile:8080/api/v1
       - CONSENT-SERVICE_BASEURL=http://xs2a-consent-management:8080/api/v1
+      - CMS_URL=http://xs2a-consent-management:8080
       - LEDGERS_URL=http://ledgers:8088
     networks:
       - xs2a-net
@@ -30,12 +33,15 @@ services:
 
   # Xs2a aspsp profile
   xs2a-aspsp-profile:
-    image: adorsys/xs2a-aspsp-profile:2.1.1
+    image: adorsys/xs2a-aspsp-profile:3.2
     container_name: xs2a-aspsp-profile
     restart: on-failure
     environment:
       - JAVA_TOOL_OPTIONS="-Xmx256M"
       - SPRING_PROFILES_ACTIVE=debug_mode
+      - BANK_PROFILE_PATH=bank_profile_ledgers.yml
+    volumes:
+      - ./bank-profile/bank_profile_ledgers.yml:/opt/profile/bank_profile_ledgers.yml
     ports:
       - "48080:8080"
     networks:
@@ -43,7 +49,7 @@ services:
 
   # Consent management
   xs2a-consent-management:
-    image: adorsys/xs2a-consent-management:2.1.1
+    image: adorsys/xs2a-consent-management:3.2
     container_name: xs2a-consent-management
     restart: on-failure
     ports:
@@ -56,7 +62,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=cms
       - SPRING_DATASOURCE_PASSWORD=cms
       - SERVER_KEY=ledgers_conenctor_secret
-      - LIQUIBASE_ENABLED=true
+      - SPRING_LIQUIBASE_ENABLED=true
     depends_on:
       - xs2a-consent-management-db
 
@@ -99,6 +105,74 @@ services:
     environment:
       - XS2A_URL=http://xs2a-connector-examples:8089
       - LEDGERS_URL=http://ledgers:8088
+      - CMS_URL=http://xs2a-consent-management:8080
+      - ONLINE_BANKING_SCA_LOGINPAGE=http://localhost:4400/
+      - ONLINE_BANKING_SCA_UIREDIRECT=true
+
+  # Ledgers
+  ledgers:
+    image: adorsys/ledgers:0.3.8
+    container_name: ledgers
+    restart: on-failure
+    networks:
+      - xs2a-net
+    ports:
+      - "8088:8088"
+      - "8188:8001"
+    environment:
+      - SPRING_PROFILES_ACTIVE=postgres,develop
+      - SPRING_JPA_SHOW_SQL=false
+      - DB_HOST=xs2a-consent-management-db
+      - DB_URL=jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=ledgers
+      - DB_DATABASE=consent
+      - DB_USER=cms
+      - DB_PASSWORD=cms
+      - LIQUIBASE_ENABLED=true
+      - SCA_MULTILEVEL_ENABLED=false
+      - SPRING_MAIL_HOST=fakesmtp
+      - SPRING_MAIL_PORT=25
+    volumes:
+      - xs2a-ledgers-data:/var/lib/data
+    depends_on:
+      - fakesmtp
+
+  # Xs2a online banking frontend
+  xs2a-online-banking-ui:
+    image: adorsys/xs2a-online-banking-ui
+    restart: on-failure
+    build:
+      context: oba-ui
+      dockerfile: Dockerfile
+    ports:
+      - "4400:4400"
+    networks:
+      - xs2a-net
+    environment:
+      - ONLINE_BANKING_SERVER_URL=http://xs2a-online-banking:8090
+
+  # TPP-UI
+  xs2a-tpp-ui:
+    image: adorsys/tpp-ui
+    restart: on-failure
+    build:
+      context: tpp-ui
+      dockerfile: Dockerfile
+    ports:
+      - "4205:4205"
+    networks:
+      - xs2a-net
+
+  # Developer portal ui
+  developer-portal-ui:
+    image: adorsys/developer-portal-ui
+    restart: on-failure
+    build:
+      context: developer-portal-ui
+      dockerfile: Dockerfile
+    ports:
+      - "4206:4206"
+    networks:
+      - xs2a-net
 
   # Certificate generator
   certificate-generator:
@@ -112,39 +186,10 @@ services:
     networks:
       - xs2a-net
 
-  # Ledgers
-  ledgers:
-    image: adorsys/ledgers:0.3.6.1
-    container_name: ledgers
-    restart: on-failure
+  # Fake SMTP
+  fakesmtp:
+    image: munkyboy/fakesmtp:latest
     networks:
       - xs2a-net
-    ports:
-      - "8088:8088"
-      - "8188:8001"
-    environment:
-      - SPRING_PROFILES_ACTIVE=postgres
-      - SPRING_JPA_SHOW_SQL=false
-      - DB_HOST=xs2a-consent-management-db
-      - DB_URL=jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=ledgers
-      - DB_DATABASE=consent
-      - DB_USER=cms
-      - DB_PASSWORD=cms
-      - LIQUIBASE_ENABLED=true
-      - LEDGERS_MOCKBANK_DATA_LOAD=true
     volumes:
-      - xs2a-connector-data:/var/lib/data
-
-  # Xs2a online banking frontend
-  xs2a-online-banking-ui:
-    image: adorsys/xs2a-online-banking-ui
-    restart: on-failure
-    build:
-      context: oba-ui
-      dockerfile: Dockerfile
-    ports:
-      - "4200:4200"
-    networks:
-      - xs2a-net
-    environment:
-      - ONLINE_BANKING_SERVER_URL=http://xs2a-online-banking:8090
+      - xs2a-fakesmtp-data:/var/mail

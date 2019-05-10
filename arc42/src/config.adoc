@@ -1,0 +1,12 @@
+// where are images located?
+:imagesdir: ./images
+
+// print warnings if used attributes are not set (e.g. acc-version)
+:attribute-missing: warn
+
+// default if not set externally
+:acc-version: 0.0.0
+
+// enable toc
+:toc-title: Table of Contents
+:toc:

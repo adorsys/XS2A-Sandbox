@@ -1,15 +1,23 @@
-import { Component, NgModule } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { LanguageService } from './common/services/language.service';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'sb-root',
+  selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.scss'],
 })
-@NgModule({
-  imports: [LanguageService],
-})
-export class AppComponent {
-  constructor(private http: HttpClient) {}
+export class AppComponent implements OnInit {
+  currentRouteUrl = '';
+
+  constructor(private router: Router, private actRoute: ActivatedRoute) {}
+
+  goToPage(page) {
+    this.router.navigateByUrl(`/${page}`);
+  }
+
+  onActivate(ev) {
+    this.currentRouteUrl = this.actRoute['_routerState'].snapshot.url;
+  }
+
+  ngOnInit() {}
 }

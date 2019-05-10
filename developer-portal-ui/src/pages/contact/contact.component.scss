@@ -1,0 +1,140 @@
+/*=== Any questions section ===*/
+
+.divider {
+  height: 0.5vw;
+  width: 6vw;
+  background-color: #eed52f;
+}
+
+.any-questions {
+  width: 50vw;
+  margin: 5vw auto 0 auto;
+  .any-questions-title {
+    margin: 2vw 0 1vw 0;
+    opacity: 0.9;
+    font-weight: 600;
+    font-size: 2.8vw;
+    color: #054f72;
+  }
+  .any-questions-subtitle {
+    opacity: 0.9;
+    font-size: 2.8vw;
+    color: #868e96;
+  }
+  .person-card {
+    display: flex;
+    justify-content: space-between;
+    height: 15vw;
+    box-shadow: 0px 1px 18px -12px #524c52;
+    margin: 4vw 0;
+    .person-card-image-wrapper {
+      background-color: #eeeeee;
+      width: 50%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      img {
+        height: 100%;
+      }
+    }
+    .person-card-info {
+      width: 44%;
+      padding: 5% 3%;
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+      div {
+        display: flex;
+        flex-direction: column;
+        span {
+          margin-bottom: 0.7vw;
+        }
+      }
+      .main-personal-info {
+        span {
+          &:first-of-type {
+            font-size: 2vw;
+            font-weight: 600;
+            color: #212529;
+            opacity: 0.9;
+          }
+          font-size: 0.9vw;
+          color: #054f72;
+        }
+      }
+      .sub-personal-info {
+        a {
+          color: #0984bf;
+          font-size: 1vw;
+        }
+      }
+    }
+  }
+}
+
+/*===Contact section ===*/
+.contacts-wrapper {
+  width: 50vw;
+  margin: 5vw auto 0 auto;
+  .contacts-title {
+    margin: 2vw 0 1vw 0;
+    opacity: 0.9;
+    font-weight: 600;
+    font-size: 2.8vw;
+    color: #054f72;
+  }
+  .contacts-card {
+    display: flex;
+    justify-content: space-between;
+    height: 13vw;
+    box-shadow: 0px 1px 18px -12px #524c52;
+    margin: 3vw 0;
+    .contacts-content {
+      width: 44%;
+      padding: 5% 3%;
+      display: flex;
+      flex-direction: column;
+      &:first-of-type {
+        background-color: #eeeeee;
+      }
+      div {
+        display: flex;
+        flex-direction: column;
+        span {
+          margin-bottom: 0.7vw;
+        }
+      }
+      .main-personal-info {
+        span {
+          &:first-of-type {
+            font-size: 1.5vw;
+            font-weight: 600;
+            color: #212529;
+            opacity: 0.9;
+          }
+          font-size: 0.9vw;
+          color: #000000;
+        }
+      }
+      .sub-personal-info {
+        a {
+          color: #0984bf;
+          font-size: 1vw;
+          margin-bottom: 1vw;
+          i {
+            margin-right: 0.5vw;
+          }
+        }
+        .social-network {
+          display: flex;
+          flex-direction: row;
+          i {
+            color: #0984bf;
+            font-size: 1.5vw;
+            margin-right: 1vw;
+          }
+        }
+      }
+    }
+  }
+}

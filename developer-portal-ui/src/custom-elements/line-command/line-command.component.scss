@@ -1,0 +1,12 @@
+.app-line-command-wrapper {
+  border: 1px solid #e8e8ea;
+  padding: 0.5%;
+  border-radius: 3px;
+  background-color: #f8f8fc;
+  span {
+    font-size: 1vw;
+    color: #e83e8c;
+    word-break: break-word;
+    //white-space: nowrap;
+  }
+}

@@ -1,0 +1,31 @@
+# About the XS2A Sandbox Architecture Documentation
+
+## How to Build
+
+* check if you have _jq_, _plantuml_ and _asiidoctor_ installed
++
+```sh
+$ make check
+```
+
+* install if needed
++
+```sh
+$ brew install plantuml jq
+$ gem install asciidoctor
+```
+
+* create architecture documentation
++
+```sh
+$ make arc42/xs2a-sandbox-arc42.html
+```
+
+## Tools Used for Diagrams
+
+We use https://plantuml.com/[PlantUML] for simple diagrams. This allow us to put the plain text
+diagram sources under source control. PlantUML diagrams are put into the `diagrams` folder and
+are named `*.puml`. At build time we generate PNGs from them and put them in the ignored folder
+`images/generated`.
+
+More complex diagrams (like the diagram in Deployment View) are created with https://draw.io, which is now completely free and even offers a https://about.draw.io/integrations[desktop app]. _draw.io_ diagrams are saved as XML, also put in the `images` folder.

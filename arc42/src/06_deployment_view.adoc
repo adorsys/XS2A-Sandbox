@@ -1,0 +1,131 @@
+[[section-deployment-view]]
+
+
+== Deployment View
+
+=== adorsys Sample Setup
+
+.deployment-view
+image::deployment-view.svg[Deployment View, 100%, align="center"]
+
+The XS2A Sandbox consists of 10 deployments, united into one docker-compose file. The _sandbox_ itself provides the XS2A API and a 3 web applications (and its API): developer portal, online banking and TPP UI.
+XS2A API is hosted on port `:8080`, TPP UI is hosted on port `:4205`, online banking is hosted on port  `:4400` and the _developer portal_ is hosted on port `:4206` (all ports can be configured).
+XS2A needs access to a database to persist the Consent Management state.
+The configuration for the _sandbox_ is completely externalized (see <<Configuration>>).
+
+=== Release Artifacts
+
+We use https://github.com/adorsys/XS2A-Sandbox to publish our release notes and source code.
+
+Docker Images are released to https://hub.docker.com/u/adorsys[adorsys DockerHub account].
+
+[options="header"]
+|=======
+| Artifact  | Image Name
+| xs2a-connector-examples |  adorsys/xs2a-connector-example
+| xs2a-aspsp-profile | adorsys/xs2a-aspsp-profile
+| xs2a-consent-management| adorsys/xs2a-consent-management
+| ledgers | adorsys/ledgers
+|=======
+
+[subs=attributes+]
+[source,shell]
+----
+$ docker-compose up
+----
+
+=== Configuration
+
+Configuration is done via https://docs.spring.io/spring-boot/docs/1.5.18.RELEASE/reference/htmlsingle/#boot-features-external-config[Spring Boot Externalized Configuration] and can be set via CLI arg, system property or environment variable. Since we intensively use Docker in our setup and environment variables are the idiomatic approach to configuration there, we stick to environment variables in the examples.
+
+NOTE: Spring Boot automatically translates properties to environment variables. The environment variable `SPRING_DATASOURCE_URL` sets the property `spring.datasource.url`. Consult the https://docs.spring.io/spring-boot/docs/1.5.18.RELEASE/reference/htmlsingle/#boot-features-external-config-application-property-files[Spring Boot documentation] for more information.
+
+==== Sandbox
+
+[options="header"]
+|=======
+| Property                   | Description        | Default
+| BANK_PROFILE_PATH
+a| File path to the customized `bank_profile.yml`.
+
+Possible values could be `bank_profile.yml` (relative) or `/mnt/my_bank_profile.yml`
+
+This is the actual business configuration reflecting the PSD2 features your bank offers. You can find the relevant documentation for this file at the https://github.com/adorsys/xs2a/blob/1.11/aspsp-profile/README.md[XS2A GitHub Project].
+
+For an example and the actual default values used in the sandbox see the <<sample-bank-profile>> below.
+
+| Points to the default `bank_profile.yml` YML embedded in the application
+| SANDBOX_TESTDATA_TRANSACTIONS_PATH | Path and filename of the custom transaction data | Points to the default `transactions_dump.csv` CSV embedded in the application
+| SANDBOX_TESTDATA_USD_ENABLED | Enables/Disables the account with the currency US-Dollar of PSU-Successful.
+
+Possible values are: _true_ or _false_  | _true_
+| CERTIFICATE_FILTER
+a| Set to the format of the QWAC certificate in the `tpp-qwac-certificate` header. This value depends on your SSL-Proxy configuration. Possible values are:
+
+- _default_ for https://en.wikipedia.org/wiki/Privacy-Enhanced_Mail[PEM] format without line breaks. Also known as "base64" format of the certificate.
+- _tab_ for https://en.wikipedia.org/wiki/Privacy-Enhanced_Mail[PEM] format with tabs (`\t`) instead of line breaks
+- _mock_ disables the QWAC authentication and uses a hard coded test certificate instead (*do not use in prod!*)
+
+| _tab_
+| SANDBOX_FEATURE_UI_ENABLED                     | Enables/Disables the Sandbox UI.
+
+ Possible values are: _true_ or _false_                   | _true_
+| SPRING_DATASOURCE_PASSWORD                     | DB password                         | _(not set)_
+| SPRING_DATASOURCE_URL                          | JDBC URL                            | _(not set)_
+| SPRING_DATASOURCE_USERNAME                     | DB username                         | _(not set)_
+| SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA
+| DB schema name (depends on used DB and configuration)                                | _(not set)_
+| SANDBOX_FEATURE_UI_CERTPAGE_ENABLED            | Enables/Disables the certificate page in the ui
+
+Possible values are: _true_ or _false_            | _true_
+| SANDBOX_UI_CONTACT_MAILTO                       | Contact email address
+
+ Format: _mailto:YOUR@MAILADRESS.DE_ | psd2@adorsys.de
+| SANDBOX_UI_LOGO_URL                                | URL to customized ui logo           | Points to the default xs2a sandbox logo embedded in the application
+| SANDBOX_UI_CONTENT_URLS_DE_CERT                        | URL to customized german markdown file for certificate page | Points to the default german `create-cert-page.md` embedded in the application
+| SANDBOX_UI_CONTENT_URLS_DE_FAQ                        | URL to customized german markdown file for faq page | Points to the default german `faq-page.md` embedded in the application
+| SANDBOX_UI_CONTENT_URLS_DE_PORTAL                        | URL to customized german markdown file for portal page | Points to the default german `developer-portal-page.md` embedded in the application
+| SANDBOX_UI_CONTENT_URLS_EN_CERT                        | URL to customized english markdown file for certificate page | Points to the default english `create-cert-page.md` embedded in the application
+| SANDBOX_UI_CONTENT_URLS_EN_FAQ                        | URL to customized english markdown file for faq page | Points to the default english `faq-page.md` embedded in the application
+| SANDBOX_UI_CONTENT_URLS_EN_PORTAL                        | URL to customized english markdown file for portal page | Points to the default english `developer-portal-page.md` embedded in the application
+| LOGGING_CONFIG                                 | Location of the logback configuration  | _classpath:logback.xml_
+| CONSOLE_LOG_PATTERN                            | Sandbox log pattern (note: `logging.pattern.console` if not as ENV) | _[%-5level][%d{HH:mm:ss.SSS}] - %logger: %message%n%xException_
+|=======
+
+WARNING: It is required to enable CORS in the service which serves the customized markdown files for the UI. Otherwise the content can't be loaded and stays empty.
+
+[[sample-bank-profile]]
+.Sample bank_profile.yml
+[source,yaml]
+----
+include::../../bank-profile/bank_profile_ledgers.yml[]
+----
+
+==== Technical Requirements / Sizing
+
+- the _sandbox_ needs a recent JDK 8 (if you aren't using the Docker Image)
+- HA setup is possible
+  - all state is shared in the DB
+  - zero downtime deployments are **not** guaranteed (see the note about <<downtime_db_migration, DB migrations>>)
+  - DB availability depends on your setup
+- supported databases (see <<Use Your Own Database>>):
+  ** PostgreSQL 9+
+  ** Oracle 11g+
+  ** MariaDB 10+
+- 2-4 GiB RAM per _sandbox_ deployment is a good starting point for prod *(monitor this!)*
+- _ssl-proxy_ needs 128 - 512 MiB RAM *(don't use in prod!)*
+- the DB schema needs enough disk space because consents are persisted here (grows over time) *(monitor this!)*
+
+==== Logging
+
+We use a modified https://docs.spring.io/spring-boot/docs/1.5.18.RELEASE/reference/html/howto-logging.html[Spring Boot logging configuration] with logback and log everything to stdout.
+
+* `FILE` appender is disabled
+* additional `access-log` logger which logs TPP access
+* default configuration parameters for the `CONSOLE` are supported
+
+The default log level is `INFO`. Set a different level with `LOGGING_LEVEL_ROOT=WARN` (global) or with `LOGGING_LEVEL_de.adorsys.psd2=WARN` (for everything below `de.adorsys.psd2`; please note the casing).
+
+To use a custom log configuration start the XS2A Sandbox with `-Dlogging.config=my-logging-config.xml` to use your file at `$CWD/my-logging-config.xml`. See <<Configuration>>
+
+WARNING: If you use your own `logback.xml` we can't guarantee that the default Spring Boot configuration properties still work. Please check the docs thoroughly. Have a look at the https://docs.spring.io/spring-boot/docs/1.5.18.RELEASE/reference/html/howto-logging.html[Spring Boot logging configuration], the https://logback.qos.ch/manual/configuration.html[Logback Documentation] and our `logback.xml` to see whats possible.

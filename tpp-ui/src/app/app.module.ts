@@ -24,6 +24,13 @@ import {UsersComponent} from './components/users/users.component';
 import {AuthGuard} from './guards/auth.guard';
 import {AuthInterceptor} from './interceptors/auth-interceptor';
 import {UploadFileComponent} from './uploadFile/uploadFile.component';
+import {TestDataGenerationComponent} from "./components/testDataGeneration/test-data-generation.component";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {InfoModule} from "./commons/info/info.module";
+import {CertificateComponent} from "./components/auth/certificate/certificate.component";
+import {IconModule} from "./commons/icon/icon.module";
+import {NgHttpLoaderModule} from 'ng-http-loader';
+import {FilterPipeModule} from "ngx-filter-pipe";
 
 @NgModule({
     declarations: [
@@ -43,7 +50,9 @@ import {UploadFileComponent} from './uploadFile/uploadFile.component';
         UserCreateComponent,
         AccountComponent,
         UploadFileComponent,
-        DocumentUploadComponent
+        DocumentUploadComponent,
+        TestDataGenerationComponent,
+        CertificateComponent
     ],
     imports: [
         BrowserModule,
@@ -51,7 +60,12 @@ import {UploadFileComponent} from './uploadFile/uploadFile.component';
         HttpClientModule,
         FormsModule,
         ReactiveFormsModule,
-        FileUploadModule
+        IconModule,
+        InfoModule,
+        BrowserAnimationsModule,
+        FileUploadModule,
+        FilterPipeModule,
+        NgHttpLoaderModule.forRoot()
     ],
     providers: [
         AuthGuard,

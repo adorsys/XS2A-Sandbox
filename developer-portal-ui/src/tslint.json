@@ -1,7 +1,7 @@
 {
-  "extends": ["../tslint.json", "tslint-config-prettier"],
+  "extends": "../tslint.json",
   "rules": {
-    "directive-selector": [true, "attribute", "sb", "camelCase"],
-    "component-selector": [true, "element", "sb", "kebab-case"]
+    "directive-selector": [true, "attribute", "app", "camelCase"],
+    "component-selector": [true, "element", "app", "kebab-case"]
   }
 }

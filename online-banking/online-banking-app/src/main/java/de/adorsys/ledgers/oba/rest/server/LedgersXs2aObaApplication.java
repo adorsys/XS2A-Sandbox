@@ -25,9 +25,9 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 
-@EnableFeignClients(basePackageClasses= {AccountRestClient.class, CmsPsuPisClient.class, AspspConsentDataClient.class, CmsAspspPiisClient.class})
+@EnableFeignClients(basePackageClasses = {AccountRestClient.class, CmsPsuPisClient.class, AspspConsentDataClient.class, CmsAspspPiisClient.class})
 @SpringBootApplication
-@ComponentScan( basePackages="de.adorsys.ledgers.oba")
+@ComponentScan(basePackages = "de.adorsys.ledgers.oba")
 public class LedgersXs2aObaApplication {
     public static void main(String[] args) {
         new SpringApplicationBuilder(LedgersXs2aObaApplication.class).run(args);

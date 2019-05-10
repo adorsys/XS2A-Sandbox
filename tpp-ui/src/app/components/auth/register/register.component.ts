@@ -1,46 +1,134 @@
-import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {AuthService} from "../../../services/auth.service";
+import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+
+import {combineLatest} from "rxjs";
+import JSZip from 'jszip';
+
+import {AuthService} from "../../../services/auth.service";
+import {CertGenerationService} from "../../../services/cert-generation.service";
+import {InfoService} from "../../../commons/info/info.service";
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+    selector: 'app-register',
+    templateUrl: './register.component.html',
+    styleUrls: ['../auth.component.scss']
 })
 export class RegisterComponent implements OnInit {
 
-  userForm = new FormGroup({
-    branch: new FormControl('', Validators.required),
-    login: new FormControl('', Validators.required),
-    email: new FormControl('', Validators.required),
-    pin: new FormControl('', Validators.required)
-  });
-  submitted: boolean;
-  errorMessage: string; //TODO: errors handling with error interceptor
+    public userForm: FormGroup;
+    public certificateValue = {};
 
-  constructor(private service: AuthService, private router: Router) { }
+    public generateCertificate: boolean;
+    public submitted: boolean;
+    public errorMessage: string; //TODO: errors handling with error interceptor
 
-  ngOnInit() {
-  }
-
-  onSubmit(branch: HTMLInputElement) {
-    this.submitted = true;
-    if (this.userForm.invalid) {
-      return;
+    constructor(private service: AuthService,
+                private certGenerationService: CertGenerationService,
+                private infoService: InfoService,
+                private router: Router,
+                private formBuilder: FormBuilder) {
     }
 
-    this.service.register(this.userForm.value, branch.value)
-      .subscribe(() => this.router.navigate(['/login']),
-          () =>
-            this.errorMessage = 'TPP with this login or email exists already');
-  }
+    ngOnInit() {
+        this.initializeRegisterForm();
+    }
 
-  get login() { return this.userForm.get('login'); }
+    getCertificateValue(event) {
+        this.certificateValue = event;
+    }
 
-  get branch() { return this.userForm.get('branch'); }
+    public onSubmit(): void {
 
-  get email() { return this.userForm.get('email'); }
+        const branch = this.userForm.get('branch').value;
+        this.submitted = true;
+        let message: string;
 
-  get pin() { return this.userForm.get('pin'); }
+        if (this.generateCertificate && this.certificateValue) {
+            // combine observables
+            combineLatest([
+                this.service.register(this.userForm.value, branch),
+                this.certGenerationService.generate(this.certificateValue)
+            ]).subscribe((combinedData: any) => {
+
+                // get cert generation params
+                const encodedCert = combinedData[1].encodedCert;
+                const privateKey = combinedData[1].privateKey;
+
+                this.createZipUrl(encodedCert, privateKey).then(url => {
+                        message = 'You have been successfully registered and your certificate generated. The download will start automatically within the 2 seconds';
+                        this.navigateAndGiveFeedback(url, message);
+                    }
+                );
+            });
+        } else {
+            this.service.register(this.userForm.value, branch)
+                .subscribe(() => {
+                    message = 'You have been successfully registered.';
+                    this.navigateAndGiveFeedback('', message);
+                }, () => {
+                    this.infoService.openFeedback('TPP with this login or email exists already', {
+                        severity: 'error'
+                    })
+                });
+
+        }
+    }
+
+    private navigateAndGiveFeedback(url: string, message: string) {
+        this.router.navigate(['/login'])
+            .then(() => {
+                this.infoService.openFeedback(message);
+                if (url) {
+                    setTimeout(() => {
+                        this.downloadFile(url);
+                    }, 2000, url)
+                }
+            })
+    }
+
+    private generateZipFile(certBlob, keyBlob): Promise<any> {
+        const zip = new JSZip();
+        zip.file('certificate.pem', certBlob);
+        zip.file('private.key', keyBlob);
+        return zip.generateAsync({type: 'blob'});
+    }
+
+    private initializeRegisterForm(): void {
+        this.userForm = this.formBuilder.group({
+            branch: ['', [
+                Validators.required,
+                Validators.pattern("^[0-9]*$"),
+                Validators.minLength(8),
+                Validators.maxLength(8)
+            ]],
+            login: ['', Validators.required],
+            email: ['', [Validators.required, Validators.email]],
+            pin: ['', Validators.required]
+        });
+    }
+
+    private createZipUrl(encodedCert: string, privateKey: string): Promise<string> {
+        const blobCert = new Blob([encodedCert], {
+            type: 'text/plain',
+        });
+        const blobKey = new Blob([privateKey], {
+            type: 'text/plain',
+        });
+        return this.generateZipFile(blobCert, blobKey).then(
+            zip => {
+                return window.URL.createObjectURL(zip);
+            }
+        );
+    }
+
+    private downloadFile(url: string) {
+        const element = document.createElement('a');
+        element.setAttribute('href', url);
+        element.setAttribute('download', 'tpp_cert.zip');
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    }
 }

@@ -1,0 +1,102 @@
+/* You can add global styles to this file, and also import other style files */
+//@import "~bootstrap/dist/css/bootstrap.css";
+@import "./assets/themes/bootstrap";
+@import "~bootstrap/scss/bootstrap";
+@import "~font-awesome/css/font-awesome.css";
+@import "~material-icons/iconfont/material-icons.css";
+@import "./assets/themes/variables";
+@import "./assets/themes/fonts";
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+label {
+    color: $light-grey;
+    font-size: 1.1rem;
+    font-family: 'Metropolis', sans-serif;
+}
+
+.header {
+    &__title {
+        font-size: 2rem;
+    }
+}
+
+.btn {
+    color: $btn-text-color;
+    margin-bottom: 1.1rem;
+    width: 200px;
+
+    &:hover {
+        transition: 0.5s;
+    }
+
+    &:focus {
+        outline: none;
+    }
+
+    &:active {
+        background-color: inherit;
+    }
+
+    &-primary {
+        background: $primary-gradient;
+        border: none;
+    }
+}
+
+a {
+    font-size: 1.1rem;
+    color: $dark-80;
+
+    &.active {
+        color: $primary;
+    }
+
+    &:hover {
+        transition: 0.5s;
+    }
+}
+
+.card {
+    .card-body {
+        &--large {
+            padding: 2rem 2rem;
+        }
+    }
+
+    &--small {
+        max-width: 500px;
+    }
+}
+
+.icon__container {
+    width: 24px;
+    height: 24px;
+    margin-right: 16px;
+
+    .icon {
+        &--small {
+            width: 20px;
+            height: 20px;
+        }
+
+        &--medium {
+            width: 28px;
+            height: 28px;
+        }
+    }
+}
+
+.nav-item {
+    &:not(:last-of-type) {
+        margin-bottom: 10px;
+    }
+
+    .nav-link {
+        display: flex;
+        justify-content: flex-start;
+    }
+}

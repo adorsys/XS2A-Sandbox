@@ -2,19 +2,18 @@
 # Global settings
 # ------------------------------------------------------------------
 
-cache:
-  paths:
-    - /builds/adorsys/xs2a/psd2-dynamic-sandbox/.m2/repository
+image: "adorsys/ci-build"
 
 # ------------------------------------------------------------------
 # stages
 # ------------------------------------------------------------------
 
 stages:
-  - "build:src"    # build jar and provide as artifact
-  - "build:qa"     # run tests and code quality checks
-  - "build:image"  # dockerize jar and push to docker registry
-  - "release"
+  - "Compile"  # build jar and provide as artifact
+  - "Test"     # run tests and code quality checks
+  - "Package"  # dockerize jar and push to docker registry
+  - "Deploy"   # push to openshift registry
+  - "release"  # release
 
 # ------------------------------------------------------------------
 # variables
@@ -23,9 +22,25 @@ stages:
 variables:
 
   # Online banking
-  DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING: "docker.io/adorsys/xs2a-online-banking"
-  DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR: "docker.io/adorsys/xs2a-certificate-generator"
-  DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI: "docker.io/adorsys/xs2a-online-banking-ui"
+  DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING: "xs2a-online-banking"
+  DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR: "xs2a-certificate-generator"
+  DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI: "xs2a-online-banking-ui"
+  DOCKER_IMAGE_NAME_XS2A_TPP_UI: "xs2a-bank-tpp-ui"
+  DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI: "xs2a-bank-devportal"
+
+  ###########################
+  # Public Dockerhub Images #
+  ###########################
+
+  DOCKERHUB_REGISTRY: "docker.io"
+
+  DOCKERHUB_NAMESPACE: "adorsys"
+
+  ############################
+  # Private Openshift Images #
+  ############################
+
+  OPENSHIFT_NAMESPACE_DEV: "adorsys-dynamic-sandbox-dev"
 
   ###########################
   # Build variables         #
@@ -40,36 +55,140 @@ variables:
 # ------------------------------------------------------------------
 
 .build_java: &build_java
-  stage: "build:src"
-  image: "adorsys/ci-build"
+  stage: "Compile"
   script:
     - jabba use $BUILD_JAVA_VERSION
     - cat /sys/fs/cgroup/memory/memory.limit_in_bytes
     - java -XX:+PrintFlagsFinal -version | grep -Ei "maxheapsize|maxram"
     - mvn -DskipTests clean install
+  cache:
+    key: "Java_${CI_COMMIT_REF_SLUG}"
+    paths:
+    - /builds/adorsys/xs2a/psd2-dynamic-sandbox/.m2/repository
 
 # Build docker images and put them to DOCKER HUB repo
-.build_dockerhub_image: &build_dockerhub_image
+.build_docker_images: &build_docker_images
   script:
-    - docker build -t "$DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING:$DOCKER_TAG" online-banking/online-banking-app
+    - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${DOCKER_TAG}" online-banking/online-banking-app
+    - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}:${DOCKER_TAG}" certificate-generator
+    - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:${DOCKER_TAG}" oba-ui
+    - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${DOCKER_TAG}" tpp-ui
+    - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:${DOCKER_TAG}" developer-portal-ui
 
-    - docker build -t "$DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR:$DOCKER_TAG" certificate-generator
-
-    - docker build -t "$DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI:$DOCKER_TAG" oba-ui
+.push_dockerhub_images: &push_dockerhub_images
+  script:
+    - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${DOCKER_TAG}" online-banking/online-banking-app
+    - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}:${DOCKER_TAG}" certificate-generator
+    - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:${DOCKER_TAG}" oba-ui
+    - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${DOCKER_TAG}" tpp-ui
+    - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:${DOCKER_TAG}" developer-portal-ui
 
     - docker login -u $DOCKER_HUB_LOGIN -p $DOCKER_HUB_PASS
-
-    - docker push "$DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING:$DOCKER_TAG"
-
-    - docker push "$DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR:$DOCKER_TAG"
-
-    - docker push "$DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI:$DOCKER_TAG"
-
+    - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${DOCKER_TAG}"
+    - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}:${DOCKER_TAG}"
+    - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:${DOCKER_TAG}"
+    - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${DOCKER_TAG}"
+    - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:${DOCKER_TAG}"
     - docker logout
+
+# temporary workaround for non existing dockerhub repositories
+# TODO: remove
+.push_openshift_images: &push_openshift_images
+  script:
+    - docker build -t "${OPENSHIFT_REGISTRY}/adorsys-dynamic-sandbox-dev/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:latest" online-banking/online-banking-app
+    - docker build -t "${OPENSHIFT_REGISTRY}/adorsys-dynamic-sandbox-dev/${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}:latest" certificate-generator
+    - docker build -t "${OPENSHIFT_REGISTRY}/adorsys-dynamic-sandbox-dev/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:latest" oba-ui
+    - docker build -t "${OPENSHIFT_REGISTRY}/adorsys-dynamic-sandbox-dev/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:latest" tpp-ui
+    - docker build -t "${OPENSHIFT_REGISTRY}/adorsys-dynamic-sandbox-dev/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:latest" developer-portal-ui
+
+    - docker login -u openshift -p $OPENSHIFT_TOKEN $OPENSHIFT_REGISTRY
+    - docker push "${OPENSHIFT_REGISTRY}/adorsys-dynamic-sandbox-dev/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:latest"
+    - docker push "${OPENSHIFT_REGISTRY}/adorsys-dynamic-sandbox-dev/${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}:latest"
+    - docker push "${OPENSHIFT_REGISTRY}/adorsys-dynamic-sandbox-dev/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:latest"
+    - docker push "${OPENSHIFT_REGISTRY}/adorsys-dynamic-sandbox-dev/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:latest"
+    - docker push "${OPENSHIFT_REGISTRY}/adorsys-dynamic-sandbox-dev/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:latest"
+    - docker logout
+
+# Copy Dockerhub images to Openshift (depending on ${DOCKER_TAG})
+.deploy_openshift: &deploy_openshift
+  script:
+    - >-
+      skopeo copy
+      --dest-creds=openshift:${OPENSHIFT_TOKEN}
+      "docker://${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${DOCKER_TAG}"
+      "docker://${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:latest"
+    - >-
+      skopeo copy
+      --dest-creds=openshift:${OPENSHIFT_TOKEN}
+      "docker://${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}:${DOCKER_TAG}"
+      "docker://${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}:latest"
+    - >-
+      skopeo copy
+      --dest-creds=openshift:${OPENSHIFT_TOKEN}
+      "docker://${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:${DOCKER_TAG}"
+      "docker://${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:latest"
+    - >-
+      skopeo copy
+      --dest-creds=openshift:${OPENSHIFT_TOKEN}
+      "docker://${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${DOCKER_TAG}"
+      "docker://${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:latest"
+    - >-
+      skopeo copy
+      --dest-creds=openshift:${OPENSHIFT_TOKEN}
+      "docker://${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:${DOCKER_TAG}"
+      "docker://${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:latest"
 
 # ------------------------------------------------------------------
 # jobs
 # ------------------------------------------------------------------
+
+build devportal frontend:
+  stage: "Compile"
+  script:
+    - cd developer-portal-ui
+    - npm install
+    - npm run build --prod
+  cache:
+    key: "DEVPORTAL_${CI_COMMIT_REF_SLUG}"
+    paths:
+      - developer-portal-ui/node_modules
+  artifacts:
+    paths:
+      - "developer-portal-ui/dist"
+    name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}"
+    expire_in: "1 day"
+
+build oba frontend:
+ stage: "Compile"
+ script:
+    - cd oba-ui
+    - npm install
+    - npm run build --prod
+ cache:
+    key: "OBA_UI_${CI_COMMIT_REF_SLUG}"
+    paths:
+     - oba-ui/node_modules
+ artifacts:
+    paths:
+     - "oba-ui/dist"
+    name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}"
+    expire_in: "1 day"
+
+build tpp frontend:
+  stage: "Compile"
+  script:
+    - cd tpp-ui
+    - npm install
+    - npm run build --prod
+  cache:
+    key: "TPP_UI_${CI_COMMIT_REF_SLUG}"
+    paths:
+      - tpp-ui/node_modules
+  artifacts:
+    paths:
+      - "tpp-ui/dist"
+    name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}"
+    expire_in: "1 day"
 
 build_package_java11:
   <<: *build_java
@@ -89,10 +208,13 @@ build_package_java8:
     expire_in: "1 day"
 
 pmd_report:
-  stage: "build:src"
-  image: "adorsys/ci-build"
+  stage: "Compile"
   script:
     - mvn -Dmaven.test.skip=true package pmd:pmd
+  cache:
+    key: "Java_${CI_COMMIT_REF_SLUG}"
+    paths:
+      - /builds/adorsys/xs2a/psd2-dynamic-sandbox/.m2/repository
   artifacts:
     paths:
       - "qa/pmd/pmd-ruleset.xml"
@@ -102,14 +224,24 @@ pmd_report:
     expire_in: "10 day"
 
 check_pmd:
-  stage: "build:qa"
-  image: "adorsys/ci-build"
+  stage: "Test"
+  except:
+    - develop
+  cache:
+    key: "Java_${CI_COMMIT_REF_SLUG}"
+    paths:
+      - /builds/adorsys/xs2a/psd2-dynamic-sandbox/.m2/repository
   script:
     - mvn -Dmaven.test.skip=true package pmd:check
 
 check_javadoc_java8:
-  stage: "build:qa"
-  image: "adorsys/ci-build"
+  stage: "Test"
+  except:
+    - develop
+  cache:
+    key: "Java_${CI_COMMIT_REF_SLUG}"
+    paths:
+      - /builds/adorsys/xs2a/psd2-dynamic-sandbox/.m2/repository
   script:
     - cat /sys/fs/cgroup/memory/memory.limit_in_bytes
     - java -XX:+PrintFlagsFinal -version | grep -Ei "maxheapsize|maxram"
@@ -121,8 +253,13 @@ check_javadoc_java8:
     expire_in: "10 day"
 
 unit_tests:
-  stage: "build:qa"
-  image: "adorsys/ci-build"
+  stage: "Test"
+  except:
+    - develop
+  cache:
+    key: "Java_${CI_COMMIT_REF_SLUG}"
+    paths:
+      - /builds/adorsys/xs2a/psd2-dynamic-sandbox/.m2/repository
   script:
     - cat /sys/fs/cgroup/memory/memory.limit_in_bytes
     - java -XX:+PrintFlagsFinal -version | grep -Ei "maxheapsize|maxram"
@@ -133,17 +270,58 @@ unit_tests:
     name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}-*"
     expire_in: "10 day"
 
+test building docker images:
+  stage: "Test"
+  except:
+    - develop
+  variables:
+    DOCKER_TAG: test
+  <<: *build_docker_images
+
+# develop
+
+build_dockerhub_image_develop:
+  stage: "Package"
+  only:
+    - develop
+  variables:
+    DOCKER_TAG: develop
+  # temporary deactivated because of non existing dockerhub repositories
+  # TODO: reactivate
+  #<<: *push_dockerhub_images
+  # temporary workaround for non existing dockerhub repositories
+  # TODO: remove
+  <<: *push_openshift_images
+
+# temporary deactivated because of missing dockerhub repositories
+# TODO: reactivate
+#deploy_openshift_develop:
+#  stage: "Deploy"
+#  only:
+#    - develop
+#  variables:
+#    DOCKER_TAG: develop # Dockerhub source tag
+#    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_DEV} # Openshift target namespace
+#  <<: *deploy_openshift
+
+# master
+
 build_dockerhub_image_master:
-  stage: "build:image"
+  stage: "Package"
   only:
     - master
   variables:
     DOCKER_TAG: latest
-  <<: *build_dockerhub_image
+  <<: *push_dockerhub_images
+
+# tags
 
 release_maven_central:
   stage: "release"
-  image: "adorsys/ci-build"
+  cache:
+    key: "Java_${CI_COMMIT_REF_SLUG}"
+    paths:
+      - /builds/adorsys/xs2a/psd2-dynamic-sandbox/.m2/repository
   only:
     - tags
   script:

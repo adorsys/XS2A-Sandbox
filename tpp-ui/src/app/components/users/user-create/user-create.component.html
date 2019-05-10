@@ -1,140 +1,172 @@
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+<div class="container-fluid">
 
-  <div *ngIf="formControl['login'].value; else noUserLogin">
-    <h1 class="h2">{{formControl['login'].value}}</h1>
-  </div>
-
-  <ng-template #noUserLogin>
-    <h1 class="h2">New user</h1>
-  </ng-template>
-</div>
-
-<div class="container">
-  <form autocomplete="off" [formGroup]="userForm">
-    <div class="form-group required">
-      <div class="card">
-        <div class="card-header">
-         <h5>User Information</h5>
-        </div>
-        <div class="card-body">
-          <div class="row">
-            <div class="col-lg-8 col-md-8 col-sm-6 my-1">
-              <label for="email" class="control-label">Email</label>
-              <input type="email"
-                     class="form-control"
-                     formControlName="email"
-                     id="email"
-                     autocomplete="off"
-                     aria-describedby="emailHelp"
-                     [ngClass]="{ 'is-invalid': (formControl['email'].touched || submitted) && formControl['email'].errors }"
-                     placeholder="Enter email">
-              <div class="invalid-feedback" *ngIf="(formControl['email'].touched || submitted) && formControl['email'].hasError('required')">Email is required</div>
-              <div class="invalid-feedback" *ngIf="(formControl['email'].touched || submitted) && formControl['email'].hasError('email')">Email is invalid</div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-8 col-md-8 col-sm-6 my-1">
-              <label for="login" class="control-label">Login</label>
-              <input type="text"
-                     class="form-control"
-                     formControlName="login"
-                     id="login"
-                     autocomplete="off"
-                     aria-describedby="emailHelp"
-                     [ngClass]="{ 'is-invalid': (formControl['login'].touched || submitted) && formControl['login'].errors }"
-                     placeholder="Enter your banking login">
-              <div class="invalid-feedback" *ngIf="(formControl['login'].touched || submitted) && formControl['login'].hasError('required')">
-                Login is required
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-8 col-md-8 col-sm-6 my-1">
-                <label for="pin" class="control-label">Pin</label>
-                <input type="password"
-                       class="form-control"
-                       autocomplete="new-password"
-                       formControlName="pin"
-                       id="pin"
-                       aria-describedby="pinHelp"
-                       [ngClass]="{ 'is-invalid': (formControl['pin'].touched || submitted) && formControl['pin'].errors }"
-                       placeholder="Enter pin">
-                <div class="invalid-feedback" *ngIf="(formControl['pin'].touched || submitted) && formControl['pin'].hasError('required')">
-                  Pin is required
+    <div class="card">
+        <div class="border-bottom">
+            <div class="card-body">
+                <div *ngIf="formControl['login'].value; else noUserLogin">
+                    <div class="header__title">{{formControl['login'].value}}</div>
                 </div>
-                <div class="invalid-feedback" *ngIf="(formControl['pin'].touched || submitted) && formControl['pin'].hasError('minlength')">
-                  Pin must contain at least 5 characters
+
+                <ng-template #noUserLogin>
+                    <div class="header__title">Create new user</div>
+                </ng-template>
+            </div>
+        </div>
+        <form [formGroup]="userForm" autocomplete="off">
+            <div class="card-body pb-0">
+                <h5>User Information</h5>
+            </div>
+            <div class="border-bottom">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-md-6 form-group ">
+                            <label class="control-label" for="email">Email</label>
+                            <input [ngClass]="{ 'is-invalid': (formControl['email'].touched || submitted) && formControl['email'].errors }"
+                                   aria-describedby="emailHelp"
+                                   autocomplete="off"
+                                   class="form-control"
+                                   formControlName="email"
+                                   id="email"
+                                   placeholder="Enter email"
+                                   type="email">
+                            <div *ngIf="(formControl['email'].touched || submitted) && formControl['email'].hasError('required')"
+                                 class="invalid-feedback">
+                                Email is required
+                            </div>
+                            <div *ngIf="(formControl['email'].touched || submitted) && formControl['email'].hasError('email')"
+                                 class="invalid-feedback">
+                                Email is invalid
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-12 col-md-6 form-group ">
+                                    <label class="control-label" for="login">Login</label>
+                                    <input [ngClass]="{ 'is-invalid': (formControl['login'].touched || submitted) && formControl['login'].errors }"
+                                           aria-describedby="emailHelp"
+                                           autocomplete="off"
+                                           class="form-control"
+                                           formControlName="login"
+                                           id="login"
+                                           placeholder="Enter your banking login"
+                                           type="text">
+                                    <div *ngIf="(formControl['login'].touched || submitted) && formControl['login'].hasError('required')"
+                                         class="invalid-feedback">
+                                        Login is required
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-3">
+                                    <label class="control-label" for="pin">Pin</label>
+                                    <input [ngClass]="{ 'is-invalid': (formControl['pin'].touched || submitted) && formControl['pin'].errors }"
+                                           aria-describedby="pinHelp"
+                                           autocomplete="new-password"
+                                           class="form-control"
+                                           formControlName="pin"
+                                           id="pin"
+                                           placeholder="Enter pin"
+                                           type="password">
+                                    <div *ngIf="(formControl['pin'].touched || submitted) && formControl['pin'].hasError('required')"
+                                         class="invalid-feedback">
+                                        Pin is required
+                                    </div>
+                                    <div *ngIf="(formControl['pin'].touched || submitted) && formControl['pin'].hasError('minlength')"
+                                         class="invalid-feedback">
+                                        Pin must contain at least 5 characters
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
-        </div>
-      </div>
+            <div formArrayName="scaUserData">
+
+                <div class="card-body pb-0">
+                    <div class="d-block d-md-flex justify-content-between">
+                            <h5 class="d-inline">User authentication Information</h5>
+                      <div class="">
+                          <div class="d-flex " (click)="addScaDataItem()">
+                              <div class="">
+                                  <small>Add SCA method</small>
+                              </div>
+                              <div class="text-primary align-items-start icon">
+                                  <app-icon inline="true" svgIcon="add"></app-icon>
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="border-bottom">
+                    <div class="card-body">
+                        <div *ngFor="let scaDataItem of formControl['scaUserData']['controls']; let i=index" class="mb-4">
+                            <div class="row">
+                                <div class="col-12 col-md-8">
+                                    <div [formGroupName]="i" class="form-group">
+                                        <label class="control-label" for="scaData">SCA</label>
+                                        <input [ngClass]="{ 'is-invalid': (scaDataItem.controls['methodValue'].touched || submitted) && scaDataItem.controls['methodValue'].errors }"
+                                               aria-describedby="scaDataHelp"
+                                               class="form-control"
+                                               formControlName="methodValue"
+                                               id="scaData"
+                                               placeholder="Please input SCA method for user"
+                                               type="text">
+                                        <div *ngIf="(scaDataItem.controls['methodValue'].touched || submitted) && scaDataItem.controls['methodValue'].hasError('required')"
+                                             class="invalid-feedback">
+                                            Authentication Email or Phone number is required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4 my-auto">
+                                    <div [formGroupName]="i">
+                                        <div class="d-flex">
+                                            <div class="form-check mr-4">
+                                                <input class="form-check-input"
+                                                       formControlName="scaMethod"
+                                                       id="scaUserDataEmail{{i}}"
+                                                       type="radio"
+                                                       value="EMAIL">
+                                                <label class="form-check-label" for="scaUserDataEmail{{i}}">
+                                                    Email
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check mr-4">
+                                                <input class="form-check-input"
+                                                       formControlName="scaMethod"
+                                                       id="scaUserDataPhone{{i}}"
+                                                       type="radio"
+                                                       value="MOBILE">
+                                                <label class="form-check-label" for="scaUserDataPhone{{i}}">
+                                                    Mobile
+                                                </label>
+                                            </div>
+                                            <button (click)="removeScaDataItem(i)"
+                                                    *ngIf="userForm.controls['scaUserData'].controls.length > 0"
+                                                    aria-label="Close"
+                                                    class="close"
+                                                    type="button">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="card-body text-right">
+                <button (click)="onSubmit()"
+                        class="btn btn-primary"
+                        type="submit">Submit
+                </button>
+            </div>
+
+        </form>
     </div>
-
-    <div class="form-group required" formArrayName="scaUserData">
-      <div class="card">
-        <div class="card-header">
-          <h5 class="d-inline">User authentication Information</h5>
-          <button class="d-inline btn-sm btn-outline-secondary float-right" (click)="addScaDataItem()">add new authentication method</button>
-        </div>
-        <div class="card-body">
-          <div class="row" *ngFor="let scaDataItem of formControl['scaUserData']['controls']; let i=index">
-
-            <div class="col-lg-8 col-md-8 col-sm-6 my-1" [formGroupName]="i">
-              <label for="scaData" class="control-label">SCA</label>
-              <input type="text"
-                     class="form-control"
-                     id="scaData"
-                     formControlName="methodValue"
-                     aria-describedby="scaDataHelp"
-                     [ngClass]="{ 'is-invalid': (scaDataItem.controls['methodValue'].touched || submitted) && scaDataItem.controls['methodValue'].errors }"
-                     placeholder="Please input SCA method for user">
-              <div class="invalid-feedback" *ngIf="(scaDataItem.controls['methodValue'].touched || submitted) && scaDataItem.controls['methodValue'].hasError('required')">
-                Authentication Email or Phone number is required
-              </div>
-            </div>
-
-            <div class="col-auto mt-auto mb-3" [formGroupName]="i">
-              <div class="form-check form-check-inline">
-                <input class="form-check-input"
-                       type="radio"
-                       id="scaUserDataEmail{{i}}"
-                       formControlName="scaMethod"
-                       value="EMAIL">
-                <label class="form-check-label" for="scaUserDataEmail{{i}}">
-                  Email
-                </label>
-              </div>
-
-              <div class="form-check form-check-inline">
-                <input class="form-check-input"
-                       type="radio"
-                       id="scaUserDataPhone{{i}}"
-                       formControlName="scaMethod"
-                       value="MOBILE">
-                <label class="form-check-label" for="scaUserDataPhone{{i}}">
-                  Mobile
-                </label>
-              </div>
-
-              <button class="close"
-                      type="button"
-                      *ngIf="userForm.controls['scaUserData'].controls.length > 0"
-                      (click)="removeScaDataItem(i)"
-                      aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <button type="submit"
-            class="btn btn-primary"
-            (click)="onSubmit()">Submit</button>
-
-  </form>
 </div>
 

@@ -8,7 +8,7 @@ import {map} from "rxjs/operators";
 @Component({
   selector: 'app-account-detail',
   templateUrl: './account-detail.component.html',
-  styleUrls: ['./account-detail.component.css']
+  styleUrls: ['./account-detail.component.scss']
 })
 export class AccountDetailComponent implements OnInit {
   accountForm = new FormGroup({

@@ -13,6 +13,7 @@ import {UserDetailsComponent} from './components/users/user-details/user-details
 import {UsersComponent} from './components/users/users.component';
 import {AuthGuard} from './guards/auth.guard';
 import {UploadFileComponent} from './uploadFile/uploadFile.component';
+import {TestDataGenerationComponent} from './components/testDataGeneration/test-data-generation.component'
 
 const routes: Routes = [
     {
@@ -61,6 +62,10 @@ const routes: Routes = [
                 path: 'upload',
                 component: UploadFileComponent
             },
+            {
+                path: "generate-test-data",
+                component: TestDataGenerationComponent
+            }
         ]
     },
     {

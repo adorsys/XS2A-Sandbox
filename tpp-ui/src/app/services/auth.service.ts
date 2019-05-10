@@ -55,14 +55,13 @@ export class AuthService {
     return localStorage.getItem(this.authTokenStorageKey);
   }
 
-  register(user: User, branch) {
-    console.log(user);
+  register(user: User, branch): Observable<any> {
     return this.http.post(this.url + '/users/register', user, {
       params: {branch: branch}
     });
   }
 
-  runAs(user: Credentials, x: () => Observable<Object>) {
+/*  runAs(user: Credentials, x: () => Observable<Object>) {
     return this.authorize(user).pipe(
       flatMap(jwt => {
         this.overridingJwt = jwt;
@@ -70,5 +69,5 @@ export class AuthService {
       }),
       finalize(() => this.overridingJwt = null)
     );
-  }
+  }*/
 }
