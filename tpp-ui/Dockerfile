@@ -2,7 +2,7 @@
 FROM nginx:1.15.5
 MAINTAINER https://github.com/adorsys/xs2a
 
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf.template
 COPY entry.sh /opt/entry.sh
 ADD dist/tpp-ui /usr/share/nginx/html
 
