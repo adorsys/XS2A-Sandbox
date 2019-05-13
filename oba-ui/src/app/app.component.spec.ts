@@ -3,10 +3,10 @@ import {By} from '@angular/platform-browser';
 import {RouterOutlet} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 
-import {ApiConfiguration} from '../../api/api-configuration';
 import {AccountDetailsComponent} from './account-details/account-details.component';
 import {AppComponent} from './app.component';
 import {URL_PARAMS_PROVIDER} from './common/constants/constants';
+import {ApiConfiguration} from "./api/api-configuration";
 
 describe('AppComponent', () => {
     let component: AppComponent;

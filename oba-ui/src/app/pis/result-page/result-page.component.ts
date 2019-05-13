@@ -26,7 +26,7 @@ export class ResultPageComponent implements OnInit {
     // get query params and build link
     this.route.queryParams.subscribe(params => {
       // TODO: use routerlink to build a link https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/issues/8
-      this.ref = 'http://localhost:8090/pis/' + params['encryptedConsentId'] +
+      this.ref = '/pis/' + params['encryptedConsentId'] +
         '/authorisation/' + params['authorisationId'] +
         '/done?backToTpp=true&forgetConsent=true';
     });

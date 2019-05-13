@@ -1,20 +1,20 @@
 {
     "/ais/*": {
-        "target": "http://localhost:8090",
+        "target": "/ais/",
         "secure": false,
         "changeOrigin": true,
         "ws": true,
         "logLevel": "debug"
     },
     "/pis/*": {
-        "target": "http://localhost:8090",
+        "target": "/pis/",
         "secure": false,
         "changeOrigin": true,
         "ws": true,
         "logLevel": "debug"
     },
-    "/sca/*": {
-        "target": "http://localhost:8090",
+    "/pis-cancellation/*": {
+        "target": "/pis-cancellation/",
         "secure": false,
         "changeOrigin": true,
         "ws": true,

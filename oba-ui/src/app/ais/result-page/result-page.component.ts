@@ -25,7 +25,7 @@ export class ResultPageComponent implements OnInit, OnDestroy {
     // get query params and build link
     this.route.queryParams.subscribe(params => {
       // TODO: use routerlink to build a link https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/issues/8
-      this.ref = 'http://localhost:8090/ais/' + params['encryptedConsentId'] +
+      this.ref = '/ais/' + params['encryptedConsentId'] +
         '/authorisation/' + params['authorisationId'] +
         '/done?backToTpp=true&forgetConsent=true';
     });

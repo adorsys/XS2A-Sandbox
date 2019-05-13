@@ -148,7 +148,10 @@ services:
     networks:
       - xs2a-net
     environment:
-      - ONLINE_BANKING_SERVER_URL=http://xs2a-online-banking:8090
+      ONLINE_BANKING_SERVER_URL: "http://xs2a-online-banking:8090"
+    depends_on:
+      - xs2a-online-banking
+
 
   # TPP-UI
   xs2a-tpp-ui:
@@ -164,6 +167,8 @@ services:
       - "4205:4205"
     networks:
       - xs2a-net
+    depends_on:
+      - ledgers
 
   # Developer portal ui
   developer-portal-ui:
