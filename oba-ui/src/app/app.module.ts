@@ -9,6 +9,7 @@ import {AisService} from './common/services/ais.service';
 import {ShareDataService} from './common/services/share-data.service';
 import {ObaErrorsHandler} from "./common/interceptors/ObaErrorsHandler";
 import {NgHttpLoaderModule} from "ng-http-loader";
+import {ApiModule} from "./api/api.module";
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import {NgHttpLoaderModule} from "ng-http-loader";
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
+    ApiModule.forRoot({rootUrl: ''}),
     NgHttpLoaderModule.forRoot()
   ],
   providers: [

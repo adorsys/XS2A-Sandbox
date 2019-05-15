@@ -19,7 +19,7 @@
               <div *ngIf="bankOffered else dedicated">
                 <h2 class="card-title font-weight-bold">Select ibans and account accesses</h2>
 
-                <div class="font-weight-light my-4 text-muted">Please select ibans and types of accesses you give to the TPP,
+                <div class="font-weight-light my-4 text-muted">Please select ibans and types of accesses you are granting to the TPP,
                   then
                   confirm with “Next". Account access would be selected
                   by default for every iban of your choice.
@@ -76,7 +76,7 @@
 
               <ng-template #dedicated>
                 <h2 class="card-title font-weight-bold">Confirm your consent</h2>
-                <div class="font-weight-light my-4 text-muted">Please check ibans and types of accesses you give to the TPP,
+                <div class="font-weight-light my-4 text-muted">Please check ibans and types of accesses you are granting to the TPP,
                   then
                   confirm with “Next".
                 </div>
@@ -90,7 +90,7 @@
                   </button>
                 </div>
                 <div class="col-12 col-sm-6 pl-sm-2">
-                  <button type="submit" class="btn btn-primary btn-block" [disabled]="bankOfferedForm.invalid">Next
+                  <button type="submit" class="btn btn-primary btn-block" [disabled]="!bankOfferedConsentFormValid">Next
                   </button>
                 </div>
               </div>
