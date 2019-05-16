@@ -22,7 +22,7 @@ import {ApiModule} from "./api/api.module";
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    ApiModule.forRoot({rootUrl: ''}),
+    ApiModule.forRoot({rootUrl: '/oba-proxy/'}),
     NgHttpLoaderModule.forRoot()
   ],
   providers: [
