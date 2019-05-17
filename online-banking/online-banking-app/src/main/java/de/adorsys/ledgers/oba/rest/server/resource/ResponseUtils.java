@@ -8,6 +8,8 @@ import java.util.concurrent.TimeUnit;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import de.adorsys.ledgers.oba.rest.server.config.cors.CookieConfigProperties;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,6 +26,7 @@ import de.adorsys.ledgers.oba.rest.api.domain.ValidationCode;
 import de.adorsys.ledgers.oba.rest.server.auth.MiddlewareAuthentication;
 
 @Service
+@RequiredArgsConstructor
 public class ResponseUtils {
 	private static final String LOCATION_HEADER_NAME = "Location";
 	public static final String CONSENT_COOKIE_NAME = "CONSENT";
@@ -33,12 +36,7 @@ public class ResponseUtils {
 	public static final String UNKNOWN_CREDENTIALS = "Unknown credentials";
 	public static final String REQUEST_WITH_REDIRECT_NOT_FOUND = "Request with redirect id not found";
 
-//	@Value("${online.banking.https.enabled:false}")
-	private static final boolean https_enabled = false;
-
-	public ResponseUtils() {
-//		this.https_enabled = https_enabled;
-	}
+	private final CookieConfigProperties cookieConfigProperties;
 
 	/*
 	 * Set both access token cookie and consent cookie.
@@ -54,17 +52,16 @@ public class ResponseUtils {
 	public void setCookies(HttpServletResponse response, ConsentReference consentReference, String accessTokenString,
 			AccessTokenTO accessTokenTO) {
 
-		int validity = 300;// default to five seconds.
+		int validity = cookieConfigProperties.getMaxAge();// default to five seconds.
 		if (StringUtils.isNoneBlank(accessTokenString) && accessTokenTO != null) {
 			long diffInMillies = Math.abs(new Date().getTime() - accessTokenTO.getExp().getTime());
 			validity = ((Long) TimeUnit.SECONDS.convert(diffInMillies, TimeUnit.MILLISECONDS)).intValue();
 			// Set Cookie. Access Token
 			Cookie accessTokenCookie = new Cookie(ACCESS_TOKEN_COOKIE_NAME, accessTokenString);
-			accessTokenCookie.setHttpOnly(true);
-			accessTokenCookie.setSecure(https_enabled);
+			accessTokenCookie.setHttpOnly(cookieConfigProperties.isHttpOnly());
+			accessTokenCookie.setSecure(cookieConfigProperties.isSecure());
 			accessTokenCookie.setMaxAge(validity);
-			accessTokenCookie.setDomain("localhost");
-			accessTokenCookie.setPath("/");
+			accessTokenCookie.setPath(cookieConfigProperties.getPath());
 			response.addCookie(accessTokenCookie);
 		} else {
 			removeCookie(response, ACCESS_TOKEN_COOKIE_NAME);
@@ -74,10 +71,9 @@ public class ResponseUtils {
 			// Set cookie consent
 			Cookie consentCookie = new Cookie(CONSENT_COOKIE_NAME, consentReference.getCookieString());
 			consentCookie.setHttpOnly(true);
-			consentCookie.setSecure(https_enabled);
+			consentCookie.setSecure(cookieConfigProperties.isSecure());
 			consentCookie.setMaxAge(validity);
-			consentCookie.setDomain("localhost");
-			consentCookie.setPath("/");
+			consentCookie.setPath(cookieConfigProperties.getPath());
 			response.addCookie(consentCookie);
 		}
 	}
@@ -89,8 +85,8 @@ public class ResponseUtils {
 
 	private void removeCookie(HttpServletResponse response, String cookieName) {
 		Cookie cookie = new Cookie(cookieName, "");
-		cookie.setHttpOnly(true);
-		cookie.setSecure(https_enabled);
+		cookie.setHttpOnly(cookieConfigProperties.isHttpOnly());
+		cookie.setSecure(cookieConfigProperties.isSecure());
 		cookie.setMaxAge(0);
 		response.addCookie(cookie);
 	}
