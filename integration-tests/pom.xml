@@ -40,18 +40,19 @@
 			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>de.adorsys.ledgers</groupId>
-			<artifactId>xs2a-rest-client</artifactId>
-			<version>0.4-SNAPSHOT</version> <!-- TODO need to clarify -->
-			<scope>test</scope>
-		</dependency>
+
 		<dependency>
 			<groupId>de.adorsys.psd2</groupId>
 			<artifactId>xs2a-server-api</artifactId>
 			<version>${xs2a.version}</version>
-			<scope>test</scope>
 		</dependency>
+
+        <!-- Swagger -->
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>${swagger-annotations.version}</version>
+        </dependency>
 
 		<!-- Commons -->
 		<dependency>
@@ -134,9 +135,9 @@
 							<destFileName>gateway-app.jar</destFileName>
 						</artifactItem>
 						<artifactItem>
-							<groupId>de.adorsys.ledgers</groupId>
-							<artifactId>consent-management-server</artifactId>
-							<version>0.4-SNAPSHOT</version> <!-- TODO need to clarify -->
+                            <groupId>de.adorsys.psd2</groupId>
+                            <artifactId>cms-standalone-service</artifactId>
+                            <version>${xs2a.version}</version>
 							<type>jar</type>
 							<overWrite>true</overWrite>
 							<outputDirectory>${project.build.directory}/consents</outputDirectory>
@@ -147,7 +148,7 @@
 							<artifactId>ledgers-app</artifactId>
 							<version>${ledgers.version}</version>
 							<type>jar</type>
-							<overWrite>false</overWrite>
+							<overWrite>true</overWrite>
 							<outputDirectory>${project.build.directory}/ledgers</outputDirectory>
 							<destFileName>ledgers-app.jar</destFileName>
 						</artifactItem>
@@ -265,8 +266,8 @@
 								<argument>java</argument>
 								<argument>-jar</argument>
 								<argument>${project.build.directory}/ledgers/ledgers-app.jar</argument>
-								<argument>--spring.profiles.active=h2</argument>
-								<argument>--ledgers.mockbank.data.load=true</argument>
+								<argument>--spring.profiles.active=h2,develop</argument>
+								<argument>--sca.multilevel.enabled=false</argument>
 								<argument>--spring.jpa.show-sql=false</argument>
 								<argument>--log4j.logger.org.springframework=WARN</argument>
 								<argument>--logging.level.root=WARN</argument>
@@ -346,7 +347,7 @@
 								<argument>java</argument>
 								<argument>-jar</argument>
 								<argument>${project.build.directory}/gateway/gateway-app.jar</argument>
-								<argument>--spring.profiles.active=mockspi</argument>
+								<argument>--spring.profiles.active=mock-qwac</argument>
 								<argument>--security.basic.enabled=false</argument>
 								<argument>--log4j.logger.org.springframework=WARN</argument>
 								<argument>--logging.level.root=WARN</argument>

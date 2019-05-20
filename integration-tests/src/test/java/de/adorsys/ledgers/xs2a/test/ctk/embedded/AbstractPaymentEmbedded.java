@@ -1,5 +1,6 @@
 package de.adorsys.ledgers.xs2a.test.ctk.embedded;
 
+import de.adorsys.ledgers.xs2a.client.PaymentApiClient;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 
-import de.adorsys.ledgers.xs2a.api.client.PaymentApiClient;
 import de.adorsys.ledgers.xs2a.test.ctk.StarterApplication;
 
 @RunWith(SpringJUnit4ClassRunner.class)
