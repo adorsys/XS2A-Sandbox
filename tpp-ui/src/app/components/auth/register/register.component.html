@@ -10,18 +10,19 @@
 
           <div class="form__margin">
               <div class="form-group">
-                  <label for="branch">Your TPP ID</label>
-                  <input [ngClass]="{'is-invalid': userForm.get('branch')?.errors && userForm.get('branch')?.dirty}"
+                  <label for="branch">Your TPP ID*</label>
+                  <input [ngClass]="{'is-invalid': userForm.get('branch')?.errors && userForm.get('branch')?.touched
+                  || submitted && userForm.get('branch')?.errors}"
                          autocomplete="off"
                          class="form-control"
                          formControlName="branch"
                          id="branch"
                          type="text">
-                  <div *ngIf="userForm.get('branch')?.errors?.required && userForm.get('branch')?.dirty"
+                  <div *ngIf="userForm.get('branch')?.errors?.required"
                        class="invalid-feedback">
                       TPP ID is Required
                   </div>
-                  <div *ngIf="userForm.get('branch')?.errors && userForm.get('branch')?.dirty"
+                  <div *ngIf="userForm.get('branch')?.errors?.minlength"
                        class="invalid-feedback">
                       TPP ID has to be 8 digits
                   </div>
@@ -29,41 +30,43 @@
 
               <div class="form-group">
                   <label for="email">E-Mail Address</label>
-                  <input [ngClass]="{'is-invalid': userForm.get('email')?.errors && userForm.get('email')?.dirty}"
+                  <input [ngClass]="{'is-invalid': userForm.get('email')?.errors && userForm.get('email')?.touched}"
                          autocomplete="off"
                          class="form-control"
                          formControlName="email"
                          id="email"
                          type="email">
-                  <div *ngIf="userForm.get('email')?.errors?.required && userForm.get('email')?.dirty"
+                  <div *ngIf="userForm.get('email')?.hasError('pattern')"
                        class="invalid-feedback">
-                      Email is Required
+                      Email is not valid
                   </div>
               </div>
 
               <div class="form-group">
-                  <label for="registerTTP">Loginname</label>
-                  <input [ngClass]="{'is-invalid': userForm.get('login')?.errors && userForm.get('login')?.dirty}"
+                  <label for="registerTTP">Loginname*</label>
+                  <input [ngClass]="{'is-invalid': userForm.get('login')?.errors && userForm.get('login')?.touched
+                   || submitted && userForm.get('login')?.errors}"
                          autocomplete="off"
                          class="form-control"
                          formControlName="login"
                          id="registerTTP"
                          type="text">
-                  <div *ngIf="userForm.get('login')?.errors?.required && userForm.get('login')?.dirty"
+                  <div *ngIf="userForm.get('login')?.errors?.required"
                        class="invalid-feedback">
                       Login is Required
                   </div>
               </div>
 
               <div class="form-group">
-                  <label for="pin">PIN</label>
-                  <input [ngClass]="{'is-invalid': userForm.get('pin')?.errors && userForm.get('pin')?.dirty}"
+                  <label for="pin">PIN*</label>
+                  <input [ngClass]="{'is-invalid': userForm.get('pin')?.errors && userForm.get('pin')?.touched
+                   || submitted && userForm.get('pin')?.errors}"
                          autocomplete="new-password"
                          class="form-control"
                          formControlName="pin"
                          id="pin"
                          type="password">
-                  <div *ngIf="userForm.get('pin')?.errors?.required && userForm.get('pin')?.dirty"
+                  <div *ngIf="userForm.get('pin')?.errors?.required"
                        class="invalid-feedback">
                       Pin is Required
                   </div>
@@ -84,8 +87,7 @@
           </div>
 
             <div>
-                <button [disabled]="userForm?.invalid || (generateCertificate&&!certificateValue)"
-                        [innerHTML]="!generateCertificate ?'Register': 'Register & Generate'"
+                <button [innerHTML]="!generateCertificate ?'Register': 'Register & Generate'"
                         class="btn btn-primary btn-block"></button>
                 <div class="text-center create-account">
                     <a routerLink="/login" class="text-light-grey">Login</a>

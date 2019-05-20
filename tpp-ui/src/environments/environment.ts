@@ -20,9 +20,8 @@
 
 export const environment = {
     production: false,
-    server: '/ledgers/',
-    staffAccessResourceEndPoint: '/ledgers/staff-access/',
-    certificateGenerationServer: '/certgen/'
+    staffAccessResourceEndPoint: '/ledgers/staff-access',
+    certificateGenerationServer: '/certgen'
 };
 
 /*

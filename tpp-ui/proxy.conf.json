@@ -1,0 +1,21 @@
+{
+  "/ledgers/*": {
+    "target": "http://localhost:8088",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/ledgers": ""
+    }
+  },
+
+  "/certgen/*": {
+    "target": "http://localhost:8092",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/certgen": ""
+    }
+  }
+}

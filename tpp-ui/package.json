@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --port=4200 --proxy-config proxy.conf.json",
     "build": "ng build",
     "test": "ng test",
     "test-ci": "ng test --browsers ChromeCi --watch=false --code-coverage",
@@ -32,7 +32,6 @@
     "ng-http-loader": "^5.1.0",
     "ng2-file-upload": "^1.3.0",
     "ngx-filter-pipe": "^2.1.2",
-    "node-sass": "^4.12.0",
     "rxjs": "^6.4.0",
     "rxjs-compat": "^6.3.3",
     "zone.js": "^0.8.29"
