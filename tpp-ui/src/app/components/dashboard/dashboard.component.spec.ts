@@ -5,6 +5,7 @@ import {DashboardComponent} from './dashboard.component';
 import {NavbarComponent} from "../../commons/navbar/navbar.component";
 import {SidebarComponent} from "../../commons/sidebar/sidebar.component";
 import {IconModule} from "../../commons/icon/icon.module";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('DashboardComponent', () => {
     let component: DashboardComponent;
@@ -14,6 +15,7 @@ describe('DashboardComponent', () => {
         TestBed.configureTestingModule({
             imports: [
                 RouterTestingModule,
+                HttpClientTestingModule,
                 IconModule
             ],
             declarations: [DashboardComponent, NavbarComponent, SidebarComponent]

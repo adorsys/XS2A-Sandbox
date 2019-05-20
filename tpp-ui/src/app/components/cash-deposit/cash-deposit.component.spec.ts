@@ -42,20 +42,20 @@ describe('CashDepositComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('should deposit cash when form is valid and submitted', () => {
+    it('should deposit cash when cashDepositForm is valid and submitted', () => {
         expect(component.submitted).toBeFalsy();
 
-        // set valid values for form
-        component.form.controls['currency'].setValue('EUR');
-        component.form.controls['amount'].setValue('50');
+        // set valid values for cashDepositForm
+        component.cashDepositForm.controls['currency'].setValue('EUR');
+        component.cashDepositForm.controls['amount'].setValue('50');
 
-        // form submit
+        // cashDepositForm submit
         const sampleResponse = {value: 'sample response'};
         let depositCashSpy = spyOn(accountService, 'depositCash').and.callFake(() => Observable.of(sampleResponse));
         let navigateSpy = spyOn(router, 'navigate');
         component.onSubmit();
         expect(component.submitted).toBeTruthy();
-        expect(component.form.valid).toBeTruthy();
+        expect(component.cashDepositForm.valid).toBeTruthy();
         expect(depositCashSpy).toHaveBeenCalled();
         expect(navigateSpy).toHaveBeenCalledWith(['/accounts']);
     });

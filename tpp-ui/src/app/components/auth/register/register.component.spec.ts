@@ -1,17 +1,17 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {ReactiveFormsModule} from "@angular/forms";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {RouterTestingModule} from "@angular/router/testing";
-import {HttpClientModule} from "@angular/common/http";
+import {Router} from "@angular/router";
 import {DebugElement} from "@angular/core";
 import {By} from "@angular/platform-browser";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {Observable} from "rxjs";
 
 import {InfoModule} from "../../../commons/info/info.module";
 import {RegisterComponent} from './register.component';
 import {CertificateComponent} from "../certificate/certificate.component";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {AuthService} from "../../../services/auth.service";
-import {Observable} from "rxjs";
-import {Router} from "@angular/router";
 
 describe('RegisterComponent', () => {
     let component: RegisterComponent;
@@ -27,7 +27,8 @@ describe('RegisterComponent', () => {
             imports: [
                 ReactiveFormsModule,
                 HttpClientTestingModule,
-                RouterTestingModule.withRoutes([]),
+                RouterTestingModule,
+                BrowserAnimationsModule,
                 InfoModule,
             ],
             providers: [AuthService],
@@ -85,23 +86,12 @@ describe('RegisterComponent', () => {
     });
 
     it('email field validity', () => {
-        let errors = {};
         const email = component.userForm.controls['email'];
-        expect(email.valid).toBeFalsy();
-
-        // email field is required
-        errors = email.errors || {};
-        expect(errors['required']).toBeTruthy();
-
-        // set email to something incorrect
-        email.setValue('testtests.de');
-        errors = email.errors || {};
-        expect(errors['email']).toBeTruthy();
 
         // set email to something correct
         email.setValue('test@test.de');
-        errors = email.errors || {};
-        expect(errors['required']).toBeFalsy();
+       let  errors = email.errors || {};
+        expect(errors['email']).toBeFalsy();
     });
 
     it('pin field validity', () => {
@@ -117,13 +107,6 @@ describe('RegisterComponent', () => {
         pin.setValue('12345678');
         errors = pin.errors || {};
         expect(errors['required']).toBeFalsy();
-    });
-
-
-    it(`Submit button should be disabled`, () => {
-        expect(component.userForm.valid).toBeFalsy();
-        el = registerFixture.debugElement.query(By.css('button')).nativeElement.disabled;
-        expect(el).toBeTruthy();
     });
 
     it(`Submit button should be enabled`, () => {
@@ -143,16 +126,13 @@ describe('RegisterComponent', () => {
         component.userForm.controls['email'].setValue('asd@asd.com');
         component.userForm.controls['pin'].setValue('1234');
         expect(component.generateCertificate).toBeFalsy();
-        expect(component.userForm.valid).toBeTruthy()
+        expect(component.userForm.valid).toBeTruthy();
 
         // submit form
         let registerSpy = spyOn(authService, 'register').and.callFake(() => Observable.of({value: "sample response"}));
-        let navigateSpy = spyOn(router, 'navigate');
+        let navigateSpy = spyOn(router, 'navigate').and.callFake(() => Promise.resolve([]));
         component.onSubmit();
         expect(registerSpy).toHaveBeenCalled();
-        // expect(navigateSpy).toHaveBeenCalledWith(['/login']);
+         expect(navigateSpy).toHaveBeenCalledWith(['/login']);
     });
-
-
-
 });
