@@ -61,7 +61,8 @@
         Insert into request body the following json for available accounts
         consent:
       </p>
-      <p class="json-text">{{ jsonData | json }}</p>
+      <app-code-area [json]="jsonData" [id]="'ECCP'"></app-code-area>
+
       <p>
         Change placeholder <span class="bold-text">YOUR_USER_IBAN</span> to the
         IBAN of the user (IBAN should match user login you entered in PSU-ID

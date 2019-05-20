@@ -16,9 +16,9 @@ indent_style = space
 indent_size = 4
 continuation_indent_size = 4
 
-[*.{js,css,html}]
+[*.{js,ts,scss,css,html}]
 indent_style = space
-indent_size = 4
+indent_size = 2
 insert_final_newline = false
 
 [*.yml]

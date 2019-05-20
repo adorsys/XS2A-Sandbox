@@ -27,6 +27,8 @@ import { EmbPaymentInitGetComponent } from './components/api-endpoints/emb-payme
 import { PlayWthDataComponent } from './components/play-with-data/play-wth-data.component';
 import { FormsModule } from '@angular/forms';
 import { ngxLoadingAnimationTypes, NgxLoadingModule } from 'ngx-loading';
+import { CodeAreaComponent } from '../../custom-elements/code-area/code-area.component';
+import { PrettyJsonPipe } from '../../pipes/pretty-json.pipe';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import { ngxLoadingAnimationTypes, NgxLoadingModule } from 'ngx-loading';
     TestingFlowsComponent,
     PostmanTestingComponent,
     LineCommandComponent,
+    CodeAreaComponent,
     RdctConsentPOSTComponent,
     RdctPaymentCancellationPostComponent,
     RdctPaymentCancellationDeleteComponent,
@@ -54,6 +57,7 @@ import { ngxLoadingAnimationTypes, NgxLoadingModule } from 'ngx-loading';
     EmbPaymentInitPutComponent,
     EmbPaymentInitGetComponent,
     PlayWthDataComponent,
+    PrettyJsonPipe,
   ],
   imports: [
     CommonModule,

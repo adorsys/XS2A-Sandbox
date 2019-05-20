@@ -1,0 +1,21 @@
+.collapse-content {
+  min-height: 3.8vw;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+
+.json-text {
+  span {
+    cursor: pointer;
+    display: block;
+    text-align: center;
+    color: white;
+  }
+  .top-span {
+    margin-top: -0.15vw;
+    margin-bottom: 0.5vw;
+  }
+  .bottom-span {
+    margin-top: 0.5vw;
+  }
+}

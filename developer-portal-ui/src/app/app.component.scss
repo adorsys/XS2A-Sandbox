@@ -28,6 +28,12 @@
   }
 }
 
+/deep/ .collapse-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+
 .footer-bar {
   height: 16vw;
   padding: 0 5vw;

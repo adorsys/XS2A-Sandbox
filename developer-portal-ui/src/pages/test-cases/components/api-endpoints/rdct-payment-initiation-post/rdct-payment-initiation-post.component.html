@@ -79,26 +79,30 @@
         <app-line-command title="payments"></app-line-command>, insert into
         request body the following json:
       </p>
-      <p class="json-text">{{ jsonData1 | json }}</p>
+      <app-code-area [json]="jsonData1" [id]="'RPIP-1'"></app-code-area>
+
       <p>
         If you chose to create periodic payment by setting
         <app-line-command title="payment-service"></app-line-command> to
         <app-line-command title="periodic-payments"></app-line-command>, insert
         into request body the following json:
       </p>
-      <p class="json-text">{{ jsonData2 | json }}</p>
+      <app-code-area [json]="jsonData2" [id]="'RPIP-2'"></app-code-area>
+
       <p>
         If you chose to create bulk payment by setting
         <app-line-command title="payment-service"></app-line-command> to
         <app-line-command title="bulk-payments"></app-line-command>, insert into
         request body the following json:
       </p>
-      <p class="json-text">{{ jsonData3 | json }}</p>
+      <app-code-area [json]="jsonData3" [id]="'RPIP-3'"></app-code-area>
+
       <p>
         Change placeholder <span class="bold-text">YOUR_USER_IBAN</span> in
         section
       </p>
-      <p class="json-text">{{ jsonData4 | json }}</p>
+      <app-code-area [json]="jsonData4" [id]="'RPIP-4'"></app-code-area>
+
       <p>
         of the json you chose to the IBAN of the user (IBAN should match user
         login you entered in PSU-ID header above).
