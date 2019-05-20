@@ -1,24 +1,13 @@
 {
-    "/ais/*": {
-        "target": "http://localhost:8090",
-        "secure": false,
-        "changeOrigin": true,
-        "ws": true,
-        "logLevel": "debug"
-    },
-    "/pis/*": {
-        "target": "http://localhost:8090",
-        "secure": false,
-        "changeOrigin": true,
-        "ws": true,
-        "logLevel": "debug"
-    },
-    "/sca/*": {
-        "target": "http://localhost:8090",
-        "secure": false,
-        "changeOrigin": true,
-        "ws": true,
-        "logLevel": "debug"
+  "/oba-proxy/*": {
+    "target": "http://localhost:8090",
+    "secure": false,
+    "changeOrigin": true,
+    "ws": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/oba-proxy": ""
     }
+  }
 }
 

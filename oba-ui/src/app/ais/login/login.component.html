@@ -5,8 +5,9 @@
         <form [formGroup]="loginForm" (ngSubmit)="loginForm.valid && onSubmit()">
 
           <div class="card">
+            <img class="card-img-top pb-3" src="./assets/images/Logo_XS2ASandbox.png" alt="adorsys Online banking">
             <div class="card-body">
-              <h2 class="card-title font-weight-bold">Welcome</h2>
+              <h2 class="card-title text-center font-weight-bold">adorsys Online banking</h2>
               <div class="font-weight-light my-4 text-muted">Please log in with your bank account username.</div>
 
               <div *ngIf="invalidCredentials" class="alert alert-danger">

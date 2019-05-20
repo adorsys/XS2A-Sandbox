@@ -1,8 +1,12 @@
 <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
     <div class="card">
+        <img class="card-img-top" src="./assets/images/Logo_XS2ASandbox.png" alt="XS2ASandbox TPP dashboard">
         <div class="card-body">
             <div class="card__headline text-center">
-                <h2 class="card-title font-weight-bold">Register</h2>
+                <h2 class="card-title font-weight-bold">adorsys TPP UI</h2>
+                <div class="my-4 card__subtitle">
+                    Please register in order to use adorsys TPP UI
+                </div>
             </div>
             <div *ngIf="errorMessage" class="alert alert-danger">
                 {{errorMessage}}
