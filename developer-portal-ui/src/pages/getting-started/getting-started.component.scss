@@ -30,7 +30,7 @@ p {
 }
 
 a {
-  font-size: 1.4vw;
+  font-size: 1vw;
 }
 
 img {
@@ -49,7 +49,11 @@ section {
     display: flex;
     align-items: center;
     padding-left: 1vw;
-    height: 3vw;
+    height: 4.1vw;
+    a {
+      width: 30%;
+      display: block;
+    }
     span {
       width: 30%;
       font-size: 1vw;
