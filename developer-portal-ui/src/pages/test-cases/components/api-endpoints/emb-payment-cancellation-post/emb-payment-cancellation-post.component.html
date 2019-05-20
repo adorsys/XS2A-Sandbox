@@ -152,7 +152,12 @@
 
     <!-- Play with data -->
     <ng-template #play_with_data>
-      <div class="endpoint-play-with-data"><h1>Coming soon...</h1></div>
+      <app-play-wth-data
+        method="POST"
+        [headers]="headers"
+        [body]="body"
+        url="/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations"
+      ></app-play-wth-data>
     </ng-template>
   </div>
 </div>

@@ -87,7 +87,12 @@
 
     <!-- Play with data -->
     <ng-template #play_with_data>
-      <div class="endpoint-play-with-data"><h1>Coming soon...</h1></div>
+      <app-play-wth-data
+        method="POST"
+        [headers]="headers"
+        [body]="body"
+        url="/v1/consents"
+      ></app-play-wth-data>
     </ng-template>
   </div>
 </div>

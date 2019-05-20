@@ -52,13 +52,14 @@ export class RdctConsentPOSTComponent implements OnInit {
       access: {
         accounts: [],
         balances: [],
-        allPsd2: 'allAccounts',
         transactions: [],
+        availableAccounts: 'allAccounts',
+        allPsd2: 'allAccounts',
       },
+      recurringIndicator: false,
+      validUntil: '2020-12-31',
+      frequencyPerDay: 4,
       combinedServiceIndicator: false,
-      frequencyPerDay: 10,
-      recurringIndicator: true,
-      validUntil: '2019-10-10',
     };
   }
 
