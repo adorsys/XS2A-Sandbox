@@ -1,6 +1,9 @@
 FROM nginx:1.15.5
 MAINTAINER https://github.com/adorsys/xs2a
 
+ENV NGINX_ACCESS_LOG_DEBUG combined
+ENV NGINX_ERROR_LOG_DEBUG error
+
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf.template
 COPY entry.sh /opt/entry.sh
 ADD dist/oba-ui /usr/share/nginx/html
