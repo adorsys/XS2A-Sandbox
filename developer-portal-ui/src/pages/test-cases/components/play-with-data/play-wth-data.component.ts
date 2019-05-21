@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { RestService } from '../../../../services/rest.service';
 import { DataService } from '../../../../services/data.service';
+import { getStatusText } from 'http-status-codes';
 
 @Component({
   selector: 'app-play-wth-data',
@@ -12,12 +13,37 @@ export class PlayWthDataComponent implements OnInit {
   @Input() headers: object;
   @Input() body: object;
   @Input() url: string;
+  @Input() paymentServiceFlag: boolean;
+  @Input() paymentProductFlag: boolean;
+  @Input() paymentIdFlag: boolean;
   response: object = {};
+  paymentService = 'payments';
+  paymentProduct = '/sepa-credit-transfers';
+  paymentId = 'paymentId';
+  paymentServiceSelect = ['payments', 'bulk-payments', 'periodic-payments'];
+  paymentProductSelect = [
+    'sepa-credit-transfers',
+    'instant-sepa-credit-transfers',
+    'target-2-payments',
+    'cross-border-credit-transfers',
+    'pain.001-sepa-credit-transfers',
+    'pain.001-instant-sepa-credit-transfers',
+    'pain.001-target-2-payments',
+    'pain.001-cross-border-credit-transfers',
+  ];
 
   constructor(
     public restService: RestService,
     public dataService: DataService
   ) {}
+
+  /**
+   * Get status text by status code
+   * using http-status-codes library
+   */
+  getStatusText(status) {
+    return getStatusText(status);
+  }
 
   sendRequest() {
     this.dataService.isLoading = true;
@@ -28,13 +54,18 @@ export class PlayWthDataComponent implements OnInit {
     if (this.isValidJSONString(respBodyEl['value'])) {
       const bodyValue = JSON.parse(respBodyEl['value']);
       this.restService
-        .sendRequest(this.method, this.url, bodyValue, this.headers)
+        .sendRequest(
+          this.method,
+          this.url + this.paymentService + this.paymentProduct,
+          bodyValue,
+          this.headers
+        )
         .subscribe(
           resp => {
             this.response = Object.assign(resp);
             this.dataService.isLoading = false;
             this.dataService.showToast('Request sent', 'Success!', 'success');
-            console.log('response:', this.response);
+            console.log('response:', JSON.stringify(this.response));
           },
           err => {
             this.dataService.isLoading = false;
@@ -44,7 +75,7 @@ export class PlayWthDataComponent implements OnInit {
               'error'
             );
             this.response = Object.assign(err);
-            console.log('err', err);
+            console.log('err', JSON.stringify(err));
           }
         );
     } else {
@@ -68,5 +99,17 @@ export class PlayWthDataComponent implements OnInit {
     return index;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.table(
+      this.method,
+      this.url,
+      this.paymentServiceFlag,
+      this.paymentProductFlag
+    );
+    this.paymentService = this.paymentServiceFlag ? 'payments' : '';
+    this.paymentProduct = this.paymentProductFlag
+      ? '/sepa-credit-transfers'
+      : '';
+    console.table(this.url, this.paymentService, this.paymentProduct);
+  }
 }

@@ -8,7 +8,13 @@ export class RestService {
   // serverUrl = 'https://xs2a.integ.cloud.adorsys.de/v1/consents';
   serverUrl = 'http://localhost:8089/';
 
-  public sendRequest(method, url, body?, headerParams?): Observable<any> {
+  public sendRequest(
+    method,
+    url,
+    body?,
+    headerParams?,
+    params?
+  ): Observable<any> {
     switch (method) {
       case 'POST':
         return this.http.post(this.serverUrl + url, body, {
@@ -16,11 +22,20 @@ export class RestService {
           headers: new HttpHeaders(headerParams),
         });
       case 'GET':
-      // TODO return get request here
+        return this.http.get(this.serverUrl + `${url}/${params}`, {
+          observe: 'response',
+          headers: new HttpHeaders(headerParams),
+        });
       case 'PUT':
-      // TODO return put request here
+        return this.http.put(this.serverUrl + url, body, {
+          observe: 'response',
+          headers: new HttpHeaders(headerParams),
+        });
       case 'DELETE':
-      // TODO return delete request here
+        return this.http.delete(this.serverUrl + `${url}/${params}`, {
+          observe: 'response',
+          headers: new HttpHeaders(headerParams),
+        });
       default:
         break;
     }

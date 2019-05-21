@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ContactComponent } from '../pages/contact/contact.component';
 import { RestService } from '../services/rest.service';
 import { DataService } from '../services/data.service';
+import { TestValuesComponent } from '../pages/test-cases/components/test-values/test-values.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { DataService } from '../services/data.service';
     GettingStartedComponent,
     FaqComponent,
     ContactComponent,
+    TestValuesComponent,
   ],
   imports: [
     BrowserModule,

@@ -3,9 +3,9 @@
     <span class="top-span" *ngIf="!shown" (click)="collapseThis(id)">
       Show Body
     </span>
-    {{ json | prettyJson }}
-    <span class="bottom-span" *ngIf="shown" (click)="collapseThis(id)">
+    <span class="top-span" *ngIf="shown" (click)="collapseThis(id)">
       Hide Body
     </span>
+    {{ json | prettyJson }}
   </p>
 </div>

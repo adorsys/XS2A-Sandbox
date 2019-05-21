@@ -6,6 +6,25 @@
     align-items: center;
     margin-bottom: 2vw;
   }
+  select {
+    font-size: 1vw;
+    border: none;
+    background: #f7f7f7;
+    box-shadow: none;
+    color: #3b4151;
+  }
+  select:focus {
+    outline: unset !important;
+  }
+  .payment-id {
+    width: 8vw;
+    height: 13px;
+    padding: 0 2px 1px 2px;
+
+    font-size: 1vw;
+    border: none;
+    background: #f7f7f7;
+  }
   .line-command-wrapper {
     width: 4vw;
     display: flex;

@@ -82,10 +82,13 @@
     <!-- Play with data -->
     <ng-template #play_with_data>
       <app-play-wth-data
-        method="DELETE"
+        method="POST"
         [headers]="headers"
         [body]="body"
-        url="/v1/{payment-service}/{payment-product}/{paymentId}"
+        [paymentServiceFlag]="true"
+        [paymentProductFlag]="true"
+        [paymentIdFlag]="true"
+        url="v1/"
       ></app-play-wth-data>
     </ng-template>
   </div>

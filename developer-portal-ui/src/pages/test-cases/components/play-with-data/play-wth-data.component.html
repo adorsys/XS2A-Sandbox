@@ -15,7 +15,36 @@
       class="line-command-wrapper"
       ><span>{{ method }}</span>
     </span>
-    <span style="font-size: 1vw">{{ url }}</span>
+    <div class="url">
+      <span style="font-size: 1vw">{{ url }}</span>
+
+      <select
+        *ngIf="paymentServiceFlag"
+        [(ngModel)]="paymentService"
+        id="paymentService"
+      >
+        <option [value]="ps" *ngFor="let ps of paymentServiceSelect">
+          {{ ps }}
+        </option>
+      </select>
+      <span style="font-size: 1vw">/</span>
+      <select
+        *ngIf="paymentProductFlag"
+        [(ngModel)]="paymentProduct"
+        id="paymentProduct"
+      >
+        <option [value]="'/' + pp" *ngFor="let pp of paymentProductSelect">
+          {{ pp }}
+        </option>
+      </select>
+      <span style="font-size: 1vw">/</span>
+      <input
+        type="text"
+        class="payment-id"
+        *ngIf="paymentIdFlag"
+        [(ngModel)]="paymentId"
+      />
+    </div>
   </div>
 
   <ng-container *ngIf="false">
@@ -52,7 +81,8 @@
   <div *ngIf="response.status || response.statusText" class="response-status">
     <span style="margin: 2vw 0; display: block; font-size: 2vw">Status</span>
     <div class="response-status-wrapper">
-      <span>{{ response.status }}</span> <span>{{ response.statusText }}</span>
+      <span>{{ response.status }}</span>
+      <span>{{ getStatusText(response.status) }}</span>
     </div>
   </div>
 
