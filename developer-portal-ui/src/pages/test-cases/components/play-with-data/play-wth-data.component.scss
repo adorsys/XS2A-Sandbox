@@ -1,6 +1,7 @@
 .play-with-data-wrapper {
   padding: 2vw;
   position: relative;
+
   .request-method {
     display: flex;
     align-items: center;
@@ -17,13 +18,38 @@
     outline: unset !important;
   }
   .payment-id {
+    margin-top: -0.15vw;
     width: 8vw;
-    height: 13px;
-    padding: 0 2px 1px 2px;
+    height: 0.75vw;
+    padding: 0.3vw 0.6vw 0.35vw 0.6vw;
 
     font-size: 1vw;
     border: none;
+    border-radius: 0.25vw;
     background: #f7f7f7;
+    color: #3b4151;
+  }
+  .payment-id:focus {
+    outline: unset !important;
+  }
+
+  .full-path {
+    margin-bottom: 2vw;
+    span {
+      font-size: 1vw;
+      padding-top: 0.5vw;
+      padding-bottom: 0.5vw;
+      color: #3b4151 !important;
+      background: #f7f7f7;
+    }
+    span:first-child {
+      font-weight: bold;
+      padding-left: 0.5vw;
+      padding-right: 0.35vw;
+    }
+    span:last-child {
+      padding-right: 0.5vw;
+    }
   }
   .line-command-wrapper {
     width: 4vw;
@@ -63,7 +89,7 @@
     }
     textarea {
       display: block;
-      width: 32vw !important;
+      width: 46.58vw !important;
       font-size: 1vw;
       resize: vertical;
       padding: 1vw;

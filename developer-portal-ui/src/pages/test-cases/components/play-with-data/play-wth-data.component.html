@@ -27,7 +27,7 @@
           {{ ps }}
         </option>
       </select>
-      <span style="font-size: 1vw">/</span>
+      <span style="font-size: 1vw" *ngIf="paymentProductFlag">/</span>
       <select
         *ngIf="paymentProductFlag"
         [(ngModel)]="paymentProduct"
@@ -37,7 +37,7 @@
           {{ pp }}
         </option>
       </select>
-      <span style="font-size: 1vw">/</span>
+      <span style="font-size: 1vw" *ngIf="paymentIdFlag">/</span>
       <input
         type="text"
         class="payment-id"
@@ -45,6 +45,12 @@
         [(ngModel)]="paymentId"
       />
     </div>
+  </div>
+  <div class="full-path">
+    <span>Full path:</span> <span>{{ url }}</span>
+    <span *ngIf="paymentService">{{ paymentService }}</span>
+    <span *ngIf="paymentProduct">{{ paymentProduct }}</span>
+    <span *ngIf="paymentId">{{ '/' + paymentId }}</span>
   </div>
 
   <ng-container *ngIf="false">
@@ -73,9 +79,13 @@
 
   <div class="send-body" *ngIf="body">
     <span>Body</span>
-    <textarea name="" id="textArea" cols="30" rows="10">
-      {{ body | json }}</textarea
-    >
+    <textarea
+      name=""
+      id="textArea"
+      cols="30"
+      rows="10"
+      [value]="body | json"
+    ></textarea>
   </div>
 
   <div *ngIf="response.status || response.statusText" class="response-status">

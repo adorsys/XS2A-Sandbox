@@ -17,6 +17,7 @@ export class PlayWthDataComponent implements OnInit {
   @Input() paymentProductFlag: boolean;
   @Input() paymentIdFlag: boolean;
   response: object = {};
+  finallUrl: string;
   paymentService = 'payments';
   paymentProduct = '/sepa-credit-transfers';
   paymentId = 'paymentId';
@@ -54,12 +55,7 @@ export class PlayWthDataComponent implements OnInit {
     if (this.isValidJSONString(respBodyEl['value'])) {
       const bodyValue = JSON.parse(respBodyEl['value']);
       this.restService
-        .sendRequest(
-          this.method,
-          this.url + this.paymentService + this.paymentProduct,
-          bodyValue,
-          this.headers
-        )
+        .sendRequest(this.method, this.finallUrl, bodyValue, this.headers)
         .subscribe(
           resp => {
             this.response = Object.assign(resp);
@@ -110,6 +106,9 @@ export class PlayWthDataComponent implements OnInit {
     this.paymentProduct = this.paymentProductFlag
       ? '/sepa-credit-transfers'
       : '';
+    this.paymentId = this.paymentIdFlag ? 'paymentId' : '';
+    this.finallUrl = this.url + this.paymentService + this.paymentProduct;
+    this.finallUrl += this.paymentId ? '/' + this.paymentId : '';
     console.table(this.url, this.paymentService, this.paymentProduct);
   }
 }

@@ -45,7 +45,7 @@ export class RdctConsentPOSTComponent implements OnInit {
     this.headers = {
       'X-Request-ID': '2f77a125-aa7a-45c0-b414-cea25a116035',
       'TPP-Explicit-Authorisation-Preferred': true,
-      'PSU-ID': 'anton.brueckner',
+      'PSU-ID': 'YOUR_USER_LOGIN',
       'PSU-IP-Address': '1.1.1.1',
       'TPP-Redirect-Preferred': true,
       'TPP-Redirect-URI': 'https://adorsys.de/en/psd2-tpp/',
