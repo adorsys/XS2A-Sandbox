@@ -5,7 +5,7 @@
     <parent>
         <artifactId>psd2-dynamic-sandbox</artifactId>
         <groupId>de.adorsys.psd2.sandbox</groupId>
-        <version>1.1-SNAPSHOT</version>
+        <version>1.1-RC1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
