@@ -18,6 +18,11 @@ export class EmbPaymentInitPutComponent implements OnInit {
   }
 
   init() {
+    this.body = {
+      psuData: {
+        password: '{{psu_id_password}}',
+      },
+    };
     this.headers = {
       'X-Request-ID': '2f77a125-aa7a-45c0-b414-cea25a116035',
       'TPP-Explicit-Authorisation-Preferred': true,

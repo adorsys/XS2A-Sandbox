@@ -156,7 +156,9 @@
         method="POST"
         [headers]="headers"
         [body]="body"
-        url="/v1/{payment-service}/{payment-product}"
+        [paymentServiceFlag]="true"
+        [paymentProductFlag]="true"
+        url="v1/"
       ></app-play-wth-data>
     </ng-template>
   </div>

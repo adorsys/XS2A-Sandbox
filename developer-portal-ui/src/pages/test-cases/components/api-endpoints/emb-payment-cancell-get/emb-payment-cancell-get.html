@@ -45,8 +45,12 @@
       <app-play-wth-data
         method="GET"
         [headers]="headers"
-        [body]="body"
-        url="/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{cancellationId}"
+        [paymentServiceFlag]="true"
+        [paymentProductFlag]="true"
+        [paymentIdFlag]="true"
+        [variablePathEnd]="'/cancellation-authorisations'"
+        [cancellationIdFlag]="true"
+        url="v1/"
       ></app-play-wth-data>
     </ng-template>
   </div>

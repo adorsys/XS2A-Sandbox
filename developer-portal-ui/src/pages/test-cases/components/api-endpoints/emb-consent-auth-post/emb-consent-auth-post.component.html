@@ -150,8 +150,9 @@
       <app-play-wth-data
         method="POST"
         [headers]="headers"
-        [body]="body"
-        url="/v1/consents/{consentId}/authorisations"
+        [consentIdFlag]="true"
+        [variablePathEnd]="'/authorisations'"
+        url="v1/consents"
       ></app-play-wth-data>
     </ng-template>
   </div>

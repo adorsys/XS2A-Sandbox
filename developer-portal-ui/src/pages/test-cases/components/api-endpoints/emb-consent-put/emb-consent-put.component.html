@@ -230,7 +230,10 @@
         method="PUT"
         [headers]="headers"
         [body]="body"
-        url="/v1/consents/{consentId}/authorisations/{authorisationId}"
+        [consentIdFlag]="true"
+        [variablePathEnd]="'/authorisations'"
+        [authorisationIdFlag]="true"
+        url="v1/consents"
       ></app-play-wth-data>
     </ng-template>
   </div>

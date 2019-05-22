@@ -41,6 +41,19 @@ export class EmbConsentCreatePostComponent implements OnInit {
   }
 
   init() {
+    this.body = {
+      access: {
+        accounts: [],
+        balances: [],
+        transactions: [],
+        availableAccounts: 'allAccounts',
+        allPsd2: 'allAccounts',
+      },
+      recurringIndicator: false,
+      validUntil: '2020-12-31',
+      frequencyPerDay: 4,
+      combinedServiceIndicator: false,
+    };
     this.headers = {
       'X-Request-ID': '2f77a125-aa7a-45c0-b414-cea25a116035',
       'TPP-Explicit-Authorisation-Preferred': true,

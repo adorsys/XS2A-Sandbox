@@ -230,7 +230,12 @@
         method="PUT"
         [headers]="headers"
         [body]="body"
-        url="/v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}"
+        [paymentServiceFlag]="true"
+        [paymentProductFlag]="true"
+        [paymentIdFlag]="true"
+        [variablePathEnd]="'/authorisations'"
+        [authorisationIdFlag]="true"
+        url="v1/"
       ></app-play-wth-data>
     </ng-template>
   </div>

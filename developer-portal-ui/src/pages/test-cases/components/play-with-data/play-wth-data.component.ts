@@ -16,11 +16,20 @@ export class PlayWthDataComponent implements OnInit {
   @Input() paymentServiceFlag: boolean;
   @Input() paymentProductFlag: boolean;
   @Input() paymentIdFlag: boolean;
+  @Input() cancellationIdFlag: boolean;
+  @Input() consentIdFlag: boolean;
+  @Input() authorisationIdFlag: boolean;
+  @Input() variablePathEnd: string;
+
   response: object = {};
-  finallUrl: string;
-  paymentService = 'payments';
-  paymentProduct = '/sepa-credit-transfers';
-  paymentId = 'paymentId';
+  finalUrl: string;
+  paymentService = '';
+  paymentProduct = '';
+  paymentId = '';
+  cancellationId = '';
+  consentId = '';
+  authorisationId = '';
+
   paymentServiceSelect = ['payments', 'bulk-payments', 'periodic-payments'];
   paymentProductSelect = [
     'sepa-credit-transfers',
@@ -43,19 +52,40 @@ export class PlayWthDataComponent implements OnInit {
    * using http-status-codes library
    */
   getStatusText(status) {
-    return getStatusText(status);
+    if (status) {
+      return getStatusText(status);
+    } else {
+      return '';
+    }
   }
 
   sendRequest() {
     this.dataService.isLoading = true;
 
-    // TODO check if request has body or make switch case for get, post, delete and put
+    this.finalUrl = this.url;
+    if (this.paymentServiceFlag) {
+      this.finalUrl += this.paymentService + this.paymentProduct;
 
+      this.finalUrl += this.paymentId ? '/' + this.paymentId : '';
+      this.finalUrl += this.variablePathEnd ? this.variablePathEnd : '';
+      this.finalUrl += this.authorisationId ? '/' + this.authorisationId : '';
+      this.finalUrl += this.cancellationId ? '/' + this.cancellationId : '';
+    } else if (this.consentIdFlag) {
+      this.finalUrl += '/' + this.consentId;
+
+      this.finalUrl += this.variablePathEnd ? this.variablePathEnd : '';
+      this.finalUrl += this.authorisationId ? '/' + this.authorisationId : '';
+    } else {
+      this.finalUrl = this.url;
+    }
+
+    console.log(this.variablePathEnd);
+    console.log('path: ', this.finalUrl);
     const respBodyEl = document.getElementById('textArea');
-    if (this.isValidJSONString(respBodyEl['value'])) {
-      const bodyValue = JSON.parse(respBodyEl['value']);
+    if (!respBodyEl || this.isValidJSONString(respBodyEl['value'])) {
+      const bodyValue = respBodyEl ? JSON.parse(respBodyEl['value']) : {};
       this.restService
-        .sendRequest(this.method, this.finallUrl, bodyValue, this.headers)
+        .sendRequest(this.method, this.finalUrl, this.headers, bodyValue)
         .subscribe(
           resp => {
             this.response = Object.assign(resp);
@@ -107,8 +137,8 @@ export class PlayWthDataComponent implements OnInit {
       ? '/sepa-credit-transfers'
       : '';
     this.paymentId = this.paymentIdFlag ? 'paymentId' : '';
-    this.finallUrl = this.url + this.paymentService + this.paymentProduct;
-    this.finallUrl += this.paymentId ? '/' + this.paymentId : '';
-    console.table(this.url, this.paymentService, this.paymentProduct);
+    this.cancellationId = this.cancellationIdFlag ? 'cancellationId' : '';
+    this.consentId = this.consentIdFlag ? 'consentId' : '';
+    this.authorisationId = this.authorisationIdFlag ? 'authorisationId' : '';
   }
 }

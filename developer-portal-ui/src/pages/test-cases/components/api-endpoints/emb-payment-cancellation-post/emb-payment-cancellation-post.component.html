@@ -155,8 +155,11 @@
       <app-play-wth-data
         method="POST"
         [headers]="headers"
-        [body]="body"
-        url="/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations"
+        [paymentServiceFlag]="true"
+        [paymentProductFlag]="true"
+        [paymentIdFlag]="true"
+        [variablePathEnd]="'/cancellation-authorisations'"
+        url="v1/"
       ></app-play-wth-data>
     </ng-template>
   </div>

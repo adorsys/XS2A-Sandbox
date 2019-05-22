@@ -19,6 +19,31 @@ export class RdctPaymentCancellationPostComponent implements OnInit {
   }
 
   init() {
+    this.body = {
+      endToEndIdentification: 'D1',
+      debtorAccount: {
+        currency: 'EUR',
+        iban: 'DE80760700240271232400',
+      },
+      instructedAmount: {
+        currency: 'EUR',
+        amount: '50.00',
+      },
+      creditorAccount: {
+        currency: 'EUR',
+        iban: 'DE15500105172295759744',
+      },
+      creditorAgent: 'AAAADEBBXXX',
+      creditorName: 'WBG',
+      creditorAddress: {
+        buildingNumber: '56',
+        city: 'Nürnberg',
+        country: 'DE',
+        postalCode: '90543',
+        street: 'WBG Straße',
+      },
+      remittanceInformationUnstructured: 'Ref. Number WBG-1222',
+    };
     this.headers = {
       'X-Request-ID': '2f77a125-aa7a-45c0-b414-cea25a116035',
       'TPP-Explicit-Authorisation-Preferred': true,

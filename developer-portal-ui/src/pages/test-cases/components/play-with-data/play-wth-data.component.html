@@ -37,12 +37,40 @@
           {{ pp }}
         </option>
       </select>
-      <span style="font-size: 1vw" *ngIf="paymentIdFlag">/</span>
+      <span style="font-size: 1vw" *ngIf="paymentIdFlag || consentIdFlag"
+        >/</span
+      >
       <input
         type="text"
         class="payment-id"
         *ngIf="paymentIdFlag"
         [(ngModel)]="paymentId"
+      />
+      <input
+        type="text"
+        class="payment-id"
+        *ngIf="consentIdFlag"
+        [(ngModel)]="consentId"
+      />
+      <span style="font-size: 1vw" *ngIf="variablePathEnd">{{
+        variablePathEnd
+      }}</span>
+      <span
+        style="font-size: 1vw"
+        *ngIf="authorisationIdFlag || cancellationIdFlag"
+        >/</span
+      >
+      <input
+        type="text"
+        class="payment-id"
+        *ngIf="authorisationIdFlag"
+        [(ngModel)]="authorisationId"
+      />
+      <input
+        type="text"
+        class="payment-id"
+        *ngIf="cancellationIdFlag"
+        [(ngModel)]="cancellationId"
       />
     </div>
   </div>
@@ -51,6 +79,10 @@
     <span *ngIf="paymentService">{{ paymentService }}</span>
     <span *ngIf="paymentProduct">{{ paymentProduct }}</span>
     <span *ngIf="paymentId">{{ '/' + paymentId }}</span>
+    <span *ngIf="consentIdFlag">{{ '/' + consentId }}</span>
+    <span *ngIf="variablePathEnd">{{ variablePathEnd }}</span>
+    <span *ngIf="authorisationId">{{ '/' + authorisationId }}</span>
+    <span *ngIf="cancellationId">{{ '/' + cancellationId }}</span>
   </div>
 
   <ng-container *ngIf="false">

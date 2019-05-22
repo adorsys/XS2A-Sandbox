@@ -50,5 +50,7 @@ export class TestCasesComponent implements OnInit {
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.collapseThis('redirect');
+  }
 }
