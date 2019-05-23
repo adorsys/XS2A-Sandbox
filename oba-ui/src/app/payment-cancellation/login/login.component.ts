@@ -49,9 +49,6 @@ export class LoginComponent implements OnInit {
         console.log(authorisationResponse);
         this.shareService.changeData(authorisationResponse);
         this.router.navigate([`${RoutingPath.PAYMENT_CANCELLATION}/${RoutingPath.CONFIRM_CANCELLATION}`]);
-      }, (error) => {
-        console.log(error);
-        this.invalidCredentials = true;
       })
     );
   }
