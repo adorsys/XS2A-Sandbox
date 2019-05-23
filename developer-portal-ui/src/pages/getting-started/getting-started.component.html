@@ -44,9 +44,7 @@
       style="width: 100%;"
       src="../../assets/images/Graphic_XS2A_Sandbox.jpg"
     />
-    <span style="font-style: italic;color: #606060;font-size: 1vw"
-      >Figure 1.1: Components of the XS2ASandbox</span
-    >
+    <p>Figure 1.1: Components of the XS2ASandbox</p>
   </section>
 
   <section>
@@ -54,10 +52,14 @@
     <h1>XS2A Interface</h1>
     <p>
       Central component of the <span class="bold">XS2ASandbox</span> is the XS2A
-      interface which meets the requirements of the
-      <a target="_blank" href="https://www.berlin-group.org/">Berlin Group</a>
+      interface which meets the requirements of the Berlin Group's specification
+      <a
+        target="_blank"
+        href="https://www.berlin-group.org/psd2-access-to-bank-accounts"
+        >NextGenPSD2</a
+      >
       (Version 1.3) and is based on test data. You can visit our
-      <a target="_blank" href="http://localhost:8080/swagger-ui.html"
+      <a target="_blank" href="http://localhost:8089/swagger-ui.html"
         >XS2A Swagger UI</a
       >
       or find full
@@ -136,50 +138,55 @@
     <div class="divider"></div>
     <h2>Corresponding ASPSP-Profile settings in .yaml file:</h2>
 
-    <span style="white-space: pre; line-height: 1.5vw; font-size: 1.2vw;">{{
-      'setting: \n' +
-        'frequencyPerDay: 5 \n' +
-        'combinedServiceIndicator: false \n' +
-        'scaApproaches:  \n' +
-        '- REDIRECT  \n' +
-        '- EMBEDDED \n' +
-        'tppSignatureRequired: false \n' +
-        'bankOfferedConsentSupport: true \n' +
-        'pisRedirectUrlToAspsp: http://localhost:4400/payment-initiation/login?paymentId={encrypted-payment-id}&redirectId={redirect-id} \n' +
-        'pisPaymentCancellationRedirectUrlToAspsp: http://localhost:4400/payment-cancellation/login?paymentId={encrypted-payment-id}&redirectId={redirect-id} \n' +
-        'aisRedirectUrlToAspsp: http://localhost:4400/account-information/login?encryptedConsentId={encrypted-consent-id}&redirectId={redirect-id} \n' +
-        'multicurrencyAccountLevel: SUBACCOUNT \n' +
-        'availableBookingStatuses:  \n' +
-        '- BOOKED  \n' +
-        '- PENDING \n' +
-        'supportedAccountReferenceFields: \n ' +
-        '- MSISDN \n' +
-        'consentLifetime: 0 \n' +
-        'transactionLifetime: 0 \n' +
-        'allPsd2Support: true \n' +
-        'transactionsWithoutBalancesSupported: true \n' +
-        'signingBasketSupported: false \n' +
-        'paymentCancellationAuthorizationMandated: true \n' +
-        'piisConsentSupported: true \n' +
-        'deltaReportSupported: false \n' +
-        'redirectUrlExpirationTimeMs: 600000 \n' +
-        'notConfirmedConsentExpirationPeriodMs: 86400000 \n' +
-        'notConfirmedPaymentExpirationPeriodMs: 86400000 \n' +
-        'supportedPaymentTypeAndProductMatrix: \n' +
-        'SINGLE:  \n' +
-        '- sepa-credit-transfers  \n' +
-        '- instant-sepa-credit-transfers \n' +
-        'PERIODIC:  \n' +
-        '- sepa-credit-transfers  \n' +
-        '- instant-sepa-credit-transfers \n' +
-        'BULK: \n ' +
-        '- sepa-credit-transfers  \n' +
-        '- instant-sepa-credit-transfers \n' +
-        'paymentCancellationRedirectUrlExpirationTimeMs: 600000 \n' +
-        'availableAccountsConsentSupported: true \n' +
-        'scaByOneTimeAvailableAccountsConsentRequired: true \n' +
-        'psuInInitialRequestMandated: false \n'
-    }}</span>
+    <div class="yaml">
+      {{
+        'setting: \n' +
+          'frequencyPerDay: 5 \n' +
+          'combinedServiceIndicator: false \n' +
+          'scaApproaches:  \n' +
+          '- REDIRECT  \n' +
+          '- EMBEDDED \n' +
+          'tppSignatureRequired: false \n' +
+          'bankOfferedConsentSupport: true \n' +
+          'pisRedirectUrlToAspsp: http://localhost:4400/payment-initiation/' +
+          'login?paymentId={encrypted-payment-id}&redirectId={redirect-id} \n' +
+          'pisPaymentCancellationRedirectUrlToAspsp: http://localhost:4400/' +
+          'payment-cancellation/login?paymentId={encrypted-payment-id}&redirectId={redirect-id} \n' +
+          'aisRedirectUrlToAspsp: http://localhost:4400/account-information/' +
+          'login?encryptedConsentId={encrypted-consent-id}&redirectId={redirect-id} \n' +
+          'multicurrencyAccountLevel: SUBACCOUNT \n' +
+          'availableBookingStatuses:  \n' +
+          '- BOOKED  \n' +
+          '- PENDING \n' +
+          'supportedAccountReferenceFields: \n ' +
+          '- MSISDN \n' +
+          'consentLifetime: 0 \n' +
+          'transactionLifetime: 0 \n' +
+          'allPsd2Support: true \n' +
+          'transactionsWithoutBalancesSupported: true \n' +
+          'signingBasketSupported: false \n' +
+          'paymentCancellationAuthorizationMandated: true \n' +
+          'piisConsentSupported: true \n' +
+          'deltaReportSupported: false \n' +
+          'redirectUrlExpirationTimeMs: 600000 \n' +
+          'notConfirmedConsentExpirationPeriodMs: 86400000 \n' +
+          'notConfirmedPaymentExpirationPeriodMs: 86400000 \n' +
+          'supportedPaymentTypeAndProductMatrix: \n' +
+          'SINGLE:  \n' +
+          '- sepa-credit-transfers  \n' +
+          '- instant-sepa-credit-transfers \n' +
+          'PERIODIC:  \n' +
+          '- sepa-credit-transfers  \n' +
+          '- instant-sepa-credit-transfers \n' +
+          'BULK: \n ' +
+          '- sepa-credit-transfers  \n' +
+          '- instant-sepa-credit-transfers \n' +
+          'paymentCancellationRedirectUrlExpirationTimeMs: 600000 \n' +
+          'availableAccountsConsentSupported: true \n' +
+          'scaByOneTimeAvailableAccountsConsentRequired: true \n' +
+          'psuInInitialRequestMandated: false \n'
+      }}
+    </div>
   </section>
 
   <section>
@@ -257,9 +264,9 @@
       <span
         ><a
           target="_blank"
-          href="https://dev-dynamicsandbox-developerportalui.cloud.adorsys.de"
+          href="https://demo-dynamicsandbox-developerportalui.cloud.adorsys.de"
         >
-          https://dev-dynamicsandbox-developerportalui.cloud.adorsys.de</a
+          https://demo-dynamicsandbox-developerportalui.cloud.adorsys.de</a
         >
       </span>
     </div>
@@ -273,9 +280,9 @@
       <span
         ><a
           target="_blank"
-          href="https://dev-dynamicsandbox-xs2a.cloud.adorsys.de"
+          href="https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/"
         >
-          https://dev-dynamicsandbox-xs2a.cloud.adorsys.de</a
+          https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/</a
         >
       </span>
     </div>
@@ -289,9 +296,9 @@
       <span
         ><a
           target="_blank"
-          href="https://dev-dynamicsandbox-cms.cloud.adorsys.de"
+          href="https://demo-dynamicsandbox-cms.cloud.adorsys.de"
         >
-          https://dev-dynamicsandbox-cms.cloud.adorsys.de</a
+          https://demo-dynamicsandbox-cms.cloud.adorsys.de</a
         >
       </span>
     </div>
@@ -305,9 +312,9 @@
       <span
         ><a
           target="_blank"
-          href="https://dev-dynamicsandbox-ledgers.cloud.adorsys.de"
+          href="https://demo-dynamicsandbox-ledgers.cloud.adorsys.de"
         >
-          https://dev-dynamicsandbox-ledgers.cloud.adorsys.de</a
+          https://demo-dynamicsandbox-ledgers.cloud.adorsys.de</a
         >
       </span>
     </div>
@@ -321,9 +328,9 @@
       <span
         ><a
           target="_blank"
-          href="https://dev-dynamicsandbox-aspspprofile.cloud.adorsys.de"
+          href="https://demo-dynamicsandbox-aspspprofile.cloud.adorsys.de"
         >
-          https://dev-dynamicsandbox-aspspprofile.cloud.adorsys.de</a
+          https://demo-dynamicsandbox-aspspprofile.cloud.adorsys.de</a
         >
       </span>
     </div>
@@ -337,9 +344,9 @@
       <span
         ><a
           target="_blank"
-          href="https://dev-dynamicsandbox-tppui.cloud.adorsys.de/login"
+          href="https://demo-dynamicsandbox-tppui.cloud.adorsys.de/login"
         >
-          https://dev-dynamicsandbox-tppui.cloud.adorsys.de/login</a
+          https://demo-dynamicsandbox-tppui.cloud.adorsys.de/login</a
         >
       </span>
     </div>
@@ -353,9 +360,9 @@
       <span
         ><a
           target="_blank"
-          href="https://dev-dynamicsandbox-onlinebankingui.cloud.adorsys.de/account-information/login"
+          href="https://demo-dynamicsandbox-onlinebankingui.cloud.adorsys.de/account-information/login"
         >
-          https://dev-dynamicsandbox-onlinebankingui.cloud.adorsys.de/account-information/login</a
+          https://demo-dynamicsandbox-onlinebankingui.cloud.adorsys.de/account-information/login</a
         >
       </span>
     </div>
@@ -369,9 +376,9 @@
       <span
         ><a
           target="_blank"
-          href="https://dev-dynamicsandbox-onlinebanking.cloud.adorsys.de/swagger-ui.html"
+          href="https://demo-dynamicsandbox-onlinebanking.cloud.adorsys.de/swagger-ui.html"
         >
-          https://dev-dynamicsandbox-onlinebanking.cloud.adorsys.de/swagger-ui.html</a
+          https://demo-dynamicsandbox-onlinebanking.cloud.adorsys.de/swagger-ui.html</a
         >
       </span>
     </div>
@@ -385,9 +392,9 @@
       <span
         ><a
           target="_blank"
-          href="https://dev-dynamicsandbox-certificategenerator.cloud.adorsys.de/swagger-ui.html"
+          href="https://demo-dynamicsandbox-certificategenerator.cloud.adorsys.de/swagger-ui.html"
         >
-          https://dev-dynamicsandbox-certificategenerator.cloud.adorsys.de/swagger-ui.html</a
+          https://demo-dynamicsandbox-certificategenerator.cloud.adorsys.de/swagger-ui.html</a
         >
       </span>
     </div>
@@ -408,9 +415,9 @@
     <p>
       If something is missing, install it to your local machine, otherwise the
       build will fail. List of dependencies that are required to use
-      XS2ASandbox: Java 8, nodeJs, AngularCLI, asciidoctor, jq, docker,
-      docker-compose, maven, plantuml. Here are links where you can install
-      needed dependencies:
+      XS2ASandbox: Java 8, NodeJs, Angular CLI, Asciidoctor, jq, Docker, Docker
+      Compose, Maven, PlantUML. Here are links where you can install needed
+      dependencies:
     </p>
     <section>
       <div class="links-to-environments bg th">
@@ -561,6 +568,83 @@
 
   <section>
     <div class="divider"></div>
+    <h1>Troubleshooting</h1>
+
+    <p>
+      These are common mistakes you can get during the start of XS2ASandbox and
+      an instruction how to get rid of it:
+    </p>
+
+    <h2>Liquibase changelog error</h2>
+
+    <p>
+      This error can be produced if you had unsuccessful start of XS2ASandbox
+      earlier. Example of possible stack trace:
+    </p>
+
+    <div class="yaml">
+      {{
+        'ledgers                       | 2019-05-02 13:54:29.410  INFO 1 --- [           main] liquibase.executor.jvm.JdbcExecutor      : SELECT LOCKED FROM ledgers.databasechangeloglock WHERE ID=1 \n' +
+          'ledgers                       | 2019-05-02 13:54:39.697  INFO 1 --- [           main] l.lockservice.StandardLockService        : Waiting for changelog lock.... \n' +
+          'ledgers                       | 2019-05-02 13:54:55.137  INFO 1 --- [           main] liquibase.executor.jvm.JdbcExecutor      : SELECT LOCKED FROM ledgers.databasechangeloglock WHERE ID=1 \n' +
+          'ledgers                       | 2019-05-02 13:55:35.940  INFO 1 --- [           main] l.lockservice.StandardLockService        : Waiting for changelog lock.... \n' +
+          'ledgers                       | 2019-05-02 13:55:45.995  INFO 1 --- [           main] liquibase.executor.jvm.JdbcExecutor      : SELECT LOCKED FROM ledgers.databasechangeloglock WHERE ID=1 \n' +
+          'ledgers                       | 2019-05-02 13:55:46.967  INFO 1 --- [           main] l.lockservice.StandardLockService        : Waiting for changelog lock.... \n' +
+          'ledgers                       | 2019-05-02 13:55:59.167  INFO 1 --- [           main] liquibase.executor.jvm.JdbcExecutor      : SELECT LOCKED FROM ledgers.databasechangeloglock WHERE ID=1 \n' +
+          'ledgers                       | 2019-05-02 13:57:38.705  INFO 1 --- [           main] l.lockservice.StandardLockService        : Waiting for changelog lock.... \n' +
+          'ledgers exited with code 137'
+      }}
+    </div>
+
+    <p>Possible solution:</p>
+    <p>
+      Find and delete all folders "ledgerdbs" and "xs2adbs". Clear all docker
+      containers with command:
+    </p>
+
+    <span class="app-line-command-wrapper">
+      <span>docker-compose rm -s -f -v</span> <br />
+    </span>
+
+    <p>Restart all services.</p>
+
+    <h2>Node version error</h2>
+
+    <p>
+      This error can be produced because of wrong NodeJs version (version higher
+      than 11.x) Example of possible stack trace:
+    </p>
+
+    <div class="yaml">
+      {{
+        'gyp ERR! build error \n' +
+          'gyp ERR! stack Error: `make` failed with exit code: 2 \n' +
+          'gyp ERR! stack     at ChildProcess.onExit (/Users/rpo/XS2A-Sandbox/developer-portal-ui/node_modules/node-gyp/lib/build.js:262:23) \n' +
+          'gyp ERR! stack     at ChildProcess.emit (events.js:196:13) \n' +
+          'gyp ERR! stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:256:12) \n' +
+          'gyp ERR! System Darwin 17.7.0 \n' +
+          'gyp ERR! command "/usr/local/Cellar/node/12.1.0/bin/node" "/Users/rpo/XS2A-Sandbox/developer-portal-ui/node_modules/node-gyp/bin/node-gyp.js" "rebuild" "--verbose" "--libsass_ext=" "--libsass_cflags=" "--libsass_ldflags=" "--libsass_library=" \n' +
+          'gyp ERR! cwd /Users/rpo/XS2A-Sandbox/developer-portal-ui/node_modules/@angular-devkit/build-angular/node_modules/node-sass \n' +
+          'gyp ERR! node -v v12.1.0 \n' +
+          'gyp ERR! node-gyp -v v3.8.0 \n' +
+          'gyp ERR! not ok'
+      }}
+    </div>
+
+    <p>Possible solution:</p>
+
+    <p>First, check your version of NodeJs with the command:</p>
+    <span class="app-line-command-wrapper"> <span>node -v</span> <br /> </span>
+
+    <p>
+      If version is higher than 11.x - change version of NodeJs to earlier one.
+    </p>
+    <h2></h2>
+  </section>
+
+  <section>
+    <div class="divider"></div>
+
     <h1>How to register TPP and start testing</h1>
     <ol>
       <li>
@@ -579,14 +663,12 @@
         allowed.
       </li>
       <li>Upload the test data and start testing.</li>
-      <span
-        >Whole flow for TPPs to start their work with XS2ASandbox is displayed
-        in Figure 1.2:</span
-      >
+      <p>
+        Whole flow for TPPs to start their work with XS2ASandbox is displayed in
+        Figure 1.2:
+      </p>
       <img style="width: 100%" src="../../assets/images/Flow.png" />
-      <span style="font-style: italic;color: #606060;font-size: 1vw"
-        >Figure 1.2: TPP flow step-by-step</span
-      >
+      <p>Figure 1.2: TPP flow step-by-step</p>
     </ol>
   </section>
 
@@ -595,12 +677,10 @@
     <h1>What's next?</h1>
     <p>
       When you are done with all steps from
-      <span class="app-line-command-wrapper"><span>Getting started</span></span>
-      manual, check
-      <span class="app-line-command-wrapper"><span>Test cases</span></span>
-      section for further testing. There you will find prepared
-      <span class="bold">Postman tests</span>, XS2A Interface API description
-      and instructions how to test XS2ASandbox with
+      <a href="/getting-started">Getting started</a> manual, check
+      <a href="/test-cases">Test cases</a> section for further testing. There
+      you will find prepared <span class="bold">Postman tests</span>, XS2A
+      Interface API description and instructions how to test XS2ASandbox with
       <span class="bold">Swagger</span>.
     </p>
   </section>
