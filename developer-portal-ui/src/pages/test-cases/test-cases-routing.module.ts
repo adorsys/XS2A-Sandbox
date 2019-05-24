@@ -31,6 +31,10 @@ const routes: Routes = [
     component: TestCasesComponent,
     children: [
       {
+        path: 'test-values',
+        component: TestValuesComponent,
+      },
+      {
         path: 'testing-flows',
         component: TestingFlowsComponent,
       },

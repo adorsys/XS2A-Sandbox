@@ -1,0 +1,139 @@
+.play-with-data-wrapper {
+  padding: 2vw;
+  position: relative;
+
+  .request-method {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2vw;
+  }
+  select {
+    font-size: 1vw;
+    border: none;
+    background: #f7f7f7;
+    box-shadow: none;
+    color: #3b4151;
+  }
+  select:focus {
+    outline: unset !important;
+  }
+  .payment-id {
+    margin-top: -0.15vw;
+    width: 8vw;
+    height: 0.75vw;
+    padding: 0.3vw 0.6vw 0.35vw 0.6vw;
+
+    font-size: 1vw;
+    border: none;
+    border-radius: 0.25vw;
+    background: #f7f7f7;
+    color: #3b4151;
+  }
+  .payment-id:focus {
+    outline: unset !important;
+  }
+
+  .full-path {
+    margin-bottom: 2vw;
+    span {
+      font-size: 1vw;
+      padding-top: 0.5vw;
+      padding-bottom: 0.5vw;
+      color: #3b4151 !important;
+      background: #f7f7f7;
+    }
+    span:first-child {
+      font-weight: bold;
+      padding-left: 0.5vw;
+      padding-right: 0.35vw;
+    }
+    span:last-child {
+      padding-right: 0.5vw;
+    }
+  }
+  .line-command-wrapper {
+    width: 4vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e8e8ea;
+    padding: 0.5%;
+    margin-right: 0.5vw;
+    border-radius: 3px;
+    span {
+      font-size: 1vw;
+      color: #fff;
+    }
+  }
+  .play-with-data-table {
+    display: flex;
+    align-items: center;
+    padding-left: 1vw;
+    height: 3vw;
+    span {
+      width: 40%;
+      font-size: 1vw;
+    }
+    input {
+      outline: none;
+      width: 15vw;
+      font-size: 1vw;
+      padding: 0.2vw 0.5vw;
+    }
+  }
+  .send-body {
+    span {
+      margin: 2vw 0;
+      display: block;
+      font-size: 2vw;
+    }
+    textarea {
+      display: block;
+      width: 46.58vw !important;
+      font-size: 1vw;
+      resize: vertical;
+      padding: 1vw;
+    }
+  }
+  .response-status {
+    .response-status-wrapper {
+      background-color: #f3f3f3;
+      padding: 0.5vw 0 0.5vw 1vw;
+      span {
+        font-size: 1vw;
+        &:first-of-type {
+          margin-right: 2vw;
+          font-weight: 800;
+        }
+      }
+    }
+  }
+  .response-body {
+    overflow: hidden;
+    white-space: nowrap;
+    word-break: break-all;
+    span {
+      margin: 2vw 0;
+      display: block;
+      font-size: 2vw;
+    }
+    .response-body-text {
+      padding: 0.7vw;
+      font-size: 0.7vw;
+      color: black;
+      background-color: #eeeeee;
+      white-space: pre-wrap;
+      line-height: 1.3vw !important;
+    }
+  }
+  .submit-btn {
+    background-color: #054f72;
+    color: #fff;
+    width: 10vw;
+    height: 2.5vw;
+    font-size: 1vw;
+    margin-top: 2.5vw;
+    outline: none;
+    cursor: pointer;
+  }
+}

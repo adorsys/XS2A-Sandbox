@@ -64,7 +64,8 @@
         user you chose (you can view users and their information in TPP-UI).
       </p>
       <p>8. Insert into request body the following json:</p>
-      <p class="json-text">{{ jsonData1 | json }}</p>
+      <app-code-area [json]="jsonData1" [id]="'EPIP-1'"></app-code-area>
+
       <p>
         Put in <span class="bold-text">YOUR_USER_PASSWORD</span> the password of
         the user you chose (you can view users and their information in TPP-UI).
@@ -113,7 +114,8 @@
         user you chose (you can view users and their information in TPP-UI).
       </p>
       <p>8. Insert into request body the following json:</p>
-      <p class="json-text">{{ jsonData1 | json }}</p>
+      <app-code-area [json]="jsonData1" [id]="'EPIP-2'"></app-code-area>
+
       <p>
         Put in <span class="bold-text">YOUR_USER_PASSWORD</span> the password of
         the user you chose (you can view users and their information in TPP-UI).
@@ -131,7 +133,8 @@
         10. Execute this PUT endpoint again, but this time update request body:
         fill it with the following json:
       </p>
-      <p class="json-text">{{ jsonData2 | json }}</p>
+      <app-code-area [json]="jsonData2" [id]="'EPIP-3'"></app-code-area>
+
       <p>
         User has only one SCA method, so test TAN
         <app-line-command title="123456"></app-line-command>
@@ -178,7 +181,8 @@
         user you chose (you can view users and their information in TPP-UI).
       </p>
       <p>8. Insert into request body the following json:</p>
-      <p class="json-text">{{ jsonData1 | json }}</p>
+      <app-code-area [json]="jsonData1" [id]="'EPIP-4'"></app-code-area>
+
       <p>
         Put in <span class="bold-text">YOUR_USER_PASSWORD</span> the password of
         the user you chose (you can view users and their information in TPP-UI).
@@ -192,7 +196,8 @@
         10. Execute this PUT endpoint again, but this time update request body:
         fill it with the following json:
       </p>
-      <p class="json-text">{{ jsonData3 | json }}</p>
+      <app-code-area [json]="jsonData3" [id]="'EPIP-5'"></app-code-area>
+
       <p>
         Put in placeholder
         <span class="italic-text">"YOUR_AUTHENTICATION_METHOD_ID"</span> any
@@ -207,7 +212,8 @@
         11. Execute this PUT endpoint again, update request body: fill it with
         the following json:
       </p>
-      <p class="json-text">{{ jsonData2 | json }}</p>
+      <app-code-area [json]="jsonData2" [id]="'EPIP-6'"></app-code-area>
+
       <p>
         SCA method was chosen, so test TAN
         <app-line-command title="123456"></app-line-command> was sent to the
@@ -222,7 +228,17 @@
 
     <!-- Play with data -->
     <ng-template #play_with_data>
-      <div class="endpoint-play-with-data"><h1>Coming soon...</h1></div>
+      <app-play-wth-data
+        method="PUT"
+        [headers]="headers"
+        [body]="body"
+        [paymentServiceFlag]="true"
+        [paymentProductFlag]="true"
+        [paymentIdFlag]="true"
+        [variablePathEnd]="'/authorisations'"
+        [authorisationIdFlag]="true"
+        url="v1/"
+      ></app-play-wth-data>
     </ng-template>
   </div>
 </div>

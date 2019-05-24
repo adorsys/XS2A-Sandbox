@@ -1,0 +1,148 @@
+<div class="play-with-data-wrapper">
+  <div class="request-method">
+    <span
+      [ngStyle]="
+        method === 'POST'
+          ? { 'background-color': '#4acb91' }
+          : method === 'GET'
+          ? { 'background-color': '#007db8' }
+          : method === 'PUT'
+          ? { 'background-color': '#ffa93f' }
+          : method === 'DELETE'
+          ? { 'background-color': '#b22f3f' }
+          : null
+      "
+      class="line-command-wrapper"
+      ><span>{{ method }}</span>
+    </span>
+    <div class="url">
+      <span style="font-size: 1vw">{{ url }}</span>
+
+      <select
+        *ngIf="paymentServiceFlag"
+        [(ngModel)]="paymentService"
+        id="paymentService"
+      >
+        <option [value]="ps" *ngFor="let ps of paymentServiceSelect">
+          {{ ps }}
+        </option>
+      </select>
+      <span style="font-size: 1vw" *ngIf="paymentProductFlag">/</span>
+      <select
+        *ngIf="paymentProductFlag"
+        [(ngModel)]="paymentProduct"
+        id="paymentProduct"
+      >
+        <option [value]="'/' + pp" *ngFor="let pp of paymentProductSelect">
+          {{ pp }}
+        </option>
+      </select>
+      <span style="font-size: 1vw" *ngIf="paymentIdFlag || consentIdFlag"
+        >/</span
+      >
+      <input
+        type="text"
+        class="payment-id"
+        *ngIf="paymentIdFlag"
+        [(ngModel)]="paymentId"
+      />
+      <input
+        type="text"
+        class="payment-id"
+        *ngIf="consentIdFlag"
+        [(ngModel)]="consentId"
+      />
+      <span style="font-size: 1vw" *ngIf="variablePathEnd">{{
+        variablePathEnd
+      }}</span>
+      <span
+        style="font-size: 1vw"
+        *ngIf="authorisationIdFlag || cancellationIdFlag"
+        >/</span
+      >
+      <input
+        type="text"
+        class="payment-id"
+        *ngIf="authorisationIdFlag"
+        [(ngModel)]="authorisationId"
+      />
+      <input
+        type="text"
+        class="payment-id"
+        *ngIf="cancellationIdFlag"
+        [(ngModel)]="cancellationId"
+      />
+    </div>
+  </div>
+  <div class="full-path">
+    <span>Full path:</span> <span>{{ url }}</span>
+    <span *ngIf="paymentService">{{ paymentService }}</span>
+    <span *ngIf="paymentProduct">{{ paymentProduct }}</span>
+    <span *ngIf="paymentId">{{ '/' + paymentId }}</span>
+    <span *ngIf="consentIdFlag">{{ '/' + consentId }}</span>
+    <span *ngIf="variablePathEnd">{{ variablePathEnd }}</span>
+    <span *ngIf="authorisationId">{{ '/' + authorisationId }}</span>
+    <span *ngIf="cancellationId">{{ '/' + cancellationId }}</span>
+  </div>
+
+  <ng-container *ngIf="false">
+    <div class="play-with-data-table bg th">
+      <span>Parameter</span> <span>Value</span>
+    </div>
+    <div class="play-with-data-table">
+      <span>param 1</span> <input type="text" value="value1" />
+    </div>
+    <div class="play-with-data-table bg" style="margin-bottom: 2vw">
+      <span>param 2</span> <input type="text" value="value2" />
+    </div>
+  </ng-container>
+
+  <div class="play-with-data-table bg th">
+    <span>Header</span> <span>Value</span>
+  </div>
+  <div
+    class="play-with-data-table"
+    *ngFor="let item of (headers | keyvalue); let i = index; trackBy: trackByFn"
+    [ngClass]="i % 2 ? 'bg' : null"
+  >
+    <span>{{ item.key }}</span>
+    <input [(ngModel)]="headers[item.key]" type="text" />
+  </div>
+
+  <div class="send-body" *ngIf="body">
+    <span>Body</span>
+    <textarea
+      name=""
+      id="textArea"
+      cols="30"
+      rows="10"
+      [value]="body | json"
+    ></textarea>
+  </div>
+
+  <div *ngIf="response.status || response.statusText" class="response-status">
+    <span style="margin: 2vw 0; display: block; font-size: 2vw">Status</span>
+    <div class="response-status-wrapper">
+      <span>{{ response.status }}</span>
+      <span>{{ getStatusText(response.status) }}</span>
+    </div>
+  </div>
+
+  <div *ngIf="response.body" class="response-body">
+    <span>Response body</span>
+    <p class="response-body-text">{{ response.body | json }}</p>
+  </div>
+
+  <ngx-loading
+    [show]="dataService.isLoading"
+    [config]="{
+      backdropBackgroundColour: 'rgba(255,255,255,0.5)',
+      backdropBorderRadius: '10px',
+      primaryColour: '#000',
+      secondaryColour: '#000',
+      tertiaryColour: '#000'
+    }"
+  ></ngx-loading>
+
+  <button class="submit-btn" (click)="sendRequest()">Submit</button>
+</div>

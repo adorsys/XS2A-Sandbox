@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TestValuesComponent } from './test-values.component';
+import { PlayWthDataComponent } from './play-wth-data.component';
 
-describe('TestValuesComponent', () => {
-  let component: TestValuesComponent;
-  let fixture: ComponentFixture<TestValuesComponent>;
+describe('PlayWthDataComponent', () => {
+  let component: PlayWthDataComponent;
+  let fixture: ComponentFixture<PlayWthDataComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TestValuesComponent],
+      declarations: [PlayWthDataComponent],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TestValuesComponent);
+    fixture = TestBed.createComponent(PlayWthDataComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

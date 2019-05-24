@@ -42,8 +42,11 @@
               </span>
             </li>
             <li>
-              <span>Redirect:</span>
-              <ul>
+              <span class="clickable-item" (click)="collapseThis('redirect')">
+                <span *ngIf="!redirectFlag">+ Redirect:</span>
+                <span *ngIf="redirectFlag" class="minus">- Redirect:</span>
+              </span>
+              <ul class="collapse-content" id="redirect-content">
                 <li>
                   <span>Payment Initiation Flow</span>
                   <ul>
@@ -91,8 +94,11 @@
               </ul>
             </li>
             <li>
-              <span>Embedded:</span>
-              <ul>
+              <span class="clickable-item" (click)="collapseThis('embedded')">
+                <span *ngIf="!embeddedFlag">+ </span>
+                <span *ngIf="embeddedFlag" class="minus">- </span> Embedded:
+              </span>
+              <ul class="collapse-content" id="embedded-content">
                 <li>
                   <span>Payment Initiation Flow</span>
                   <ul>
@@ -225,5 +231,7 @@
       </ul>
     </div>
   </div>
-  <div class="right-section"><router-outlet></router-outlet></div>
+  <div class="right-section">
+    <router-outlet (activate)="onActivate($event)"></router-outlet>
+  </div>
 </div>

@@ -11,11 +11,45 @@ export class EmbPaymentCancellPostComponent implements OnInit {
   jsonData2: object = {};
   jsonData3: object = {};
   jsonData4: object = {};
+  headers: object = {};
+  body: object = {};
+
   constructor() {
     this.init();
   }
 
   init() {
+    this.body = {
+      endToEndIdentification: 'D1',
+      debtorAccount: {
+        currency: 'EUR',
+        iban: 'DE80760700240271232400',
+      },
+      instructedAmount: {
+        currency: 'EUR',
+        amount: '50.00',
+      },
+      creditorAccount: {
+        currency: 'EUR',
+        iban: 'DE15500105172295759744',
+      },
+      creditorAgent: 'AAAADEBBXXX',
+      creditorName: 'WBG',
+      creditorAddress: {
+        buildingNumber: '56',
+        city: 'Nürnberg',
+        country: 'DE',
+        postalCode: '90543',
+        street: 'WBG Straße',
+      },
+      remittanceInformationUnstructured: 'Ref. Number WBG-1222',
+    };
+    this.headers = {
+      'X-Request-ID': '2f77a125-aa7a-45c0-b414-cea25a116035',
+      'TPP-Explicit-Authorisation-Preferred': true,
+      'PSU-ID': 'YOUR_USER_LOGIN',
+      'PSU-IP-Address': '1.1.1.1',
+    };
     this.jsonData1 = {
       endToEndIdentification: 'WBG-123456789',
       debtorAccount: {

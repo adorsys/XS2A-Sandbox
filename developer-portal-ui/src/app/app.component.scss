@@ -1,10 +1,14 @@
 .nav-bar {
+  position: fixed;
+  width: 76vw;
   height: 7.5vw;
   display: flex;
   padding: 0 5vw;
   justify-content: space-between;
   align-items: center;
   background-color: #fff;
+  z-index: 2;
+  top: 0;
   .header-item {
     opacity: 0.3;
     font-size: 1.2vw;
@@ -22,6 +26,12 @@
     width: 13vw;
     cursor: pointer;
   }
+}
+
+/deep/ .collapse-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
 }
 
 .footer-bar {
