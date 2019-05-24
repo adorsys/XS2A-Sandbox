@@ -235,7 +235,7 @@ check_javadoc_java8:
     name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}-javadoc"
     expire_in: "10 day"
 
-unit_tests:
+backend_unit_tests:
   stage: "Test"
   except:
     - develop
@@ -252,6 +252,22 @@ unit_tests:
       - "**/target/surefire-reports/*"
     name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}-*"
     expire_in: "10 day"
+
+ttp_frontend_unit_tests:
+  stage: "Test"
+  script:
+  - cd tpp-ui
+  - nvm use 10
+  - npm ci
+  - npm run test-ci
+
+oba_frontend_unit_tests:
+  stage: "Test"
+  script:
+  - cd oba-ui
+  - nvm use 10
+  - npm ci
+  - npm run test-ci
 
 test building docker images:
   stage: "Test"

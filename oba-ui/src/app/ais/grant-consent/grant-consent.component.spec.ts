@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GrantConsentComponent } from './grant-consent.component';
+import {AccountDetailsComponent} from "../account-details/account-details.component";
+import {ReactiveFormsModule} from "@angular/forms";
+import {RouterTestingModule} from "@angular/router/testing";
 
 describe('GrantConsentComponent', () => {
   let component: GrantConsentComponent;
@@ -8,7 +11,11 @@ describe('GrantConsentComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GrantConsentComponent ]
+      imports: [
+        RouterTestingModule,
+        ReactiveFormsModule
+      ],
+      declarations: [ GrantConsentComponent, AccountDetailsComponent ]
     })
     .compileComponents();
   }));

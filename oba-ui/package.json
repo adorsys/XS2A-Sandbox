@@ -8,7 +8,7 @@
         "start": "rm -rf ./src/app/api && npm run swagger-gen && ng serve --port=4400 --proxy-config=proxy.conf.json",
         "build": "ng build",
         "test": "rm -rf ./src/app/api && npm run swagger-gen && ng test",
-        "test-ci": "ng test --browsers ChromeCi --watch=false --code-coverage --environment=prod",
+        "test-ci": "ng test --browsers ChromeHeadless --watch=false --environment=prod",
         "lint": "ng lint",
         "e2e": "ng e2e"
     },

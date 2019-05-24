@@ -8,7 +8,7 @@
 
   <!--&lt;!&ndash; Second 1/4 &ndash;&gt;-->
   <div class="col-md-8 bg-white h-md-100">
-    <div class="d-md-flex align-items-center h-100 p-4 justify-content-center">
+    <div *ngIf="accounts.length > 0" class="d-md-flex align-items-center h-100 p-4 justify-content-center">
       <form [formGroup]="bankOfferedForm" (ngSubmit)="bankOfferedForm.valid && onSubmit()">
         <div class="card">
           <div class="card-body">

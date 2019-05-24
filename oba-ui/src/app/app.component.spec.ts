@@ -7,38 +7,40 @@ import {AccountDetailsComponent} from './account-details/account-details.compone
 import {AppComponent} from './app.component';
 import {URL_PARAMS_PROVIDER} from './common/constants/constants';
 import {ApiConfiguration} from "./api/api-configuration";
+import {NgHttpLoaderModule} from "ng-http-loader";
 
 describe('AppComponent', () => {
-    let component: AppComponent;
-    let fixture: ComponentFixture<AppComponent>;
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            declarations: [
-                AppComponent,
-                AccountDetailsComponent
-            ],
-            imports: [
-                RouterTestingModule
-            ],
-            providers: [
-                ApiConfiguration,
-                {provide: URL_PARAMS_PROVIDER, useValue: {}}
-            ]
-        }).compileComponents();
-    }));
-    beforeEach(() => {
-        fixture = TestBed.createComponent(AppComponent);
-        component = fixture.componentInstance;
-    });
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        AppComponent,
+        AccountDetailsComponent
+      ],
+      imports: [
+        RouterTestingModule,
+        NgHttpLoaderModule.forRoot()
+      ],
+      providers: [
+        ApiConfiguration,
+        {provide: URL_PARAMS_PROVIDER, useValue: {}}
+      ]
+    }).compileComponents();
+  }));
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
+  });
 
-    it('should create the app', () => {
-        expect(component).toBeTruthy();
-    });
+  it('should create the app', () => {
+    expect(component).toBeTruthy();
+  });
 
-    it('Should include the < router-outlet >', async(() => {
-        fixture.detectChanges();
-        const debugElement = fixture.debugElement.query(By.directive(RouterOutlet));
-        expect(debugElement).not.toBeNull();
-    }));
+  it('Should include the < router-outlet >', async(() => {
+    fixture.detectChanges();
+    const debugElement = fixture.debugElement.query(By.directive(RouterOutlet));
+    expect(debugElement).not.toBeNull();
+  }));
 
 });

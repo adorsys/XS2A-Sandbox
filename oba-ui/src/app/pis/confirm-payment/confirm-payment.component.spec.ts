@@ -1,6 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ConfirmPaymentComponent } from './confirm-payment.component';
+import {ConfirmPaymentComponent} from './confirm-payment.component';
+import {PaymentDetailsComponent} from "../payment-details/payment-details.component";
+import {RouterTestingModule} from "@angular/router/testing";
 
 describe('ConfirmPaymentComponent', () => {
   let component: ConfirmPaymentComponent;
@@ -8,9 +10,10 @@ describe('ConfirmPaymentComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ConfirmPaymentComponent ]
+      imports: [RouterTestingModule],
+      declarations: [ConfirmPaymentComponent, PaymentDetailsComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
