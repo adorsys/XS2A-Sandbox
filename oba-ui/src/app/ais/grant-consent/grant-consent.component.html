@@ -34,7 +34,7 @@
                 <div class="form-check">
                   <input class="form-check-input" id="iban_{{i}}" name="ibans"
                          [value]="account.iban"
-                         (change)="handleObjectSelectedEvent(account.iban, consentAccounts)"
+                         (change)="handleIbanCheckbox(account.iban)"
                          [checked]="accountsChecked(account)"
                          type="checkbox">
 
@@ -43,7 +43,7 @@
                   <div class="form-check">
                     <input class="form-check-input" id="account_{{i}}" name="accounts"
                            [value]="account.iban"
-                           (change)="handleObjectSelectedEvent(account.iban, consentAccounts)"
+                           (change)="handleIbanCheckbox(account.iban)"
                            [checked]="accountsChecked(account)"
                            type="checkbox"
                            [disabled]="!accountsChecked(account)">
