@@ -66,7 +66,7 @@ a|
 a|
 - needs some sort of roadmap and progress reported from us
 - needs to collaborate with us so we can properly align the backlog with vision/sales
-| Peer Schmid       | Portfolio Manager PSD2             | psc@adorsys.de
+| Michael Guss       | Portfolio Manager PSD2             | mgu@adorsys.de
 a|
 - expects us to work in short iterations to get features out of the door quickly so we can provide fast feedback to him
 - needs to be kept up to date if we (plan to) change stuff that impacts our customers

@@ -32,6 +32,8 @@ import org.adorsys.ledgers.consent.aspsp.rest.client.CreatePiisConsentResponse;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,7 +50,11 @@ import java.util.stream.Collectors;
 @RestController(AISController.BASE_PATH)
 @RequestMapping(AISController.BASE_PATH)
 @Api(value = AISController.BASE_PATH, tags = "PSU AIS", description = "Provides access to online banking account functionality")
-public class AISController extends AbstractXISController implements AISApi { //NOPMD
+@SuppressWarnings("PMD.TooManyMethods")
+public class AISController extends AbstractXISController implements AISApi {
+
+    private static final Logger logger = LoggerFactory.getLogger(AISController.class);
+
     @Autowired
     private HttpServletRequest request;
     @Autowired
@@ -79,6 +85,9 @@ public class AISController extends AbstractXISController implements AISApi { //N
     @ApiOperation(value = "Entry point for authenticating ais consent requests.")
     public ResponseEntity<AuthorizeResponse> aisAuth(String redirectId,
                                                      String encryptedConsentId) {
+
+        logger.debug("encryptedConsentId: {}", encryptedConsentId);
+
         return auth(redirectId, ConsentType.AIS, encryptedConsentId, request, response);
     }
 
@@ -88,7 +97,7 @@ public class AISController extends AbstractXISController implements AISApi { //N
     }
 
     @Override
-    @SuppressWarnings({"PMD.CyclomaticComplexity", "PMD.NPathComplexity"})
+    @SuppressWarnings({"PMD.CyclomaticComplexity", "PMD.NPathComplexity", "PMD.ExcessiveMethodLength"})
     public ResponseEntity<ConsentAuthorizeResponse> login(String encryptedConsentId, String authorisationId,
                                                           String login, String pin, String consentCookieString) {
 
@@ -96,11 +105,19 @@ public class AISController extends AbstractXISController implements AISApi { //N
         // match value stored in the cookie.
         // The load initiated consent from consent database, and store it in the response.
         // Also hold Bearer Token in the consent workflow if any.
+
         ConsentWorkflow workflow;
         try {
             workflow = identifyConsent(encryptedConsentId, authorisationId, false, consentCookieString, login, response,
                                        null);
+
+            logger.debug("Login: {}", login);
+
+
             CmsAisConsentResponse consent = workflow.getConsentResponse();
+
+            logger.debug("authorisationId: {}", consent.getAuthorisationId());
+
             tppNokRedirectUri = consent.getTppNokRedirectUri();
             tppOkRedirectUri = consent.getTppOkRedirectUri();
             scaStatus = ScaStatusTO.RECEIVED;
@@ -127,6 +144,9 @@ public class AISController extends AbstractXISController implements AISApi { //N
                 // My current response: I think we have to set PSU SCA status to PSUIDENTIFIED.
                 try {
                     workflow.getAuthResponse().setScaStatus(ScaStatusTO.PSUIDENTIFIED);
+
+                    logger.debug("403 Error: {}", ScaStatusTO.PSUIDENTIFIED);
+
                     // Store the id of the psu
                     updatePSUIdentification(workflow, login);
                     // Store the SCA Status

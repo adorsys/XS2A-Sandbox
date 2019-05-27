@@ -39,6 +39,10 @@ const routes: Routes = [
         component: TestingFlowsComponent,
       },
       {
+        path: 'test-values',
+        component: TestValuesComponent,
+      },
+      {
         path: 'embedded',
         component: EmbeddedComponent,
       },

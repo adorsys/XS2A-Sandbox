@@ -1,55 +1,51 @@
-import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AccountService} from "../../services/account.service";
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
-  selector: 'app-cash-deposit',
-  templateUrl: './cash-deposit.component.html',
-  styleUrls: ['./cash-deposit.component.scss']
+    selector: 'app-cash-deposit',
+    templateUrl: './cash-deposit.component.html',
+    styleUrls: ['./cash-deposit.component.scss']
 })
 export class CashDepositComponent implements OnInit {
 
-  form = new FormGroup({
-    'currency': new FormControl({value: 'EUR', disabled: true}, Validators.required),
-    'amount': new FormControl('', Validators.required),
-  });
+    cashDepositForm: FormGroup;
 
-  submitted: boolean;
-  accountId: string;
-  errorMessage: string;
+    submitted: boolean;
+    accountId: string;
+    errorMessage: string;
 
-  constructor(private accountService: AccountService,
-              private activatedRoute: ActivatedRoute,
-              private router: Router) { }
-
-  ngOnInit() {
-     this.accountId = this.activatedRoute.snapshot.paramMap.get('id');
-  }
-
-  onSubmit() {
-    this.submitted = true;
-    if (this.form.invalid) {
-      return;
+    constructor(private accountService: AccountService,
+                private activatedRoute: ActivatedRoute,
+                private router: Router,
+                private formBuilder: FormBuilder,) {
     }
 
-    this.accountService.depositCash(this.accountId, this.form.getRawValue())
-      .subscribe(
-        () => this.router.navigate(['/accounts']),
-          error => {
-                  if (typeof error.error === 'object') {
-                    this.errorMessage = error.error.status + ' ' + error.error.error + ': ' + error.error.message;
-                  } else {
-                    this.errorMessage = error.status + ' ' + error.error
-                  }
-          });
-  }
+    ngOnInit() {
+        this.accountId = this.activatedRoute.snapshot.paramMap.get('id');
 
-  get amount() {
-    return this.form.get('amount');
-  }
+        this.cashDepositForm = this.formBuilder.group({
+            currency: [{value: 'EUR', disabled: true}, Validators.required],
+            amount: ['', [Validators.required, Validators.min(0)]],
+        });
+    }
 
-  get currency() {
-    return this.form.get('currency');
-  }
+    onSubmit() {
+        this.submitted = true;
+        if (this.cashDepositForm.invalid) {
+            return;
+        }
+
+        this.accountService.depositCash(this.accountId, this.cashDepositForm.getRawValue())
+            .subscribe(
+                () => this.router.navigate(['/accounts']),
+                error => {
+                    if (typeof error.error === 'object') {
+                        this.errorMessage = error.error.status + ' ' + error.error.error + ': ' + error.error.message;
+                    } else {
+                        this.errorMessage = error.status + ' ' + error.error
+                    }
+                });
+    }
 }

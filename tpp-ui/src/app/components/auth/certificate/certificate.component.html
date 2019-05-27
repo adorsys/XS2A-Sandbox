@@ -3,7 +3,7 @@
     <div class="form-group">
         <label>Common Name*</label>
         <input
-            [ngClass]="{'is-invalid': certificateFormGroup.get('commonName')?.errors && certificateFormGroup.get('commonName')?.dirty}"
+            [ngClass]="{'is-invalid': certificateFormGroup.get('commonName')?.errors && certificateFormGroup.get('commonName')?.touched}"
             autocomplete="off"
             class="form-control"
             formControlName="commonName"
@@ -18,7 +18,7 @@
     <div class="form-group">
         <label>Authorization Number*</label>
         <input
-            [ngClass]="{'is-invalid': certificateFormGroup.get('authorizationNumber')?.errors && certificateFormGroup.get('authorizationNumber')?.dirty}"
+            [ngClass]="{'is-invalid': certificateFormGroup.get('authorizationNumber')?.errors && certificateFormGroup.get('authorizationNumber')?.touched}"
             autocomplete="off"
             class="form-control"
             formControlName="authorizationNumber"
@@ -62,7 +62,7 @@
     <div class="form-group">
         <label>Organization Name*</label>
         <input
-            [ngClass]="{'is-invalid': certificateFormGroup.get('organizationName')?.errors && certificateFormGroup.get('organizationName')?.dirty}"
+            [ngClass]="{'is-invalid': certificateFormGroup.get('organizationName')?.errors && certificateFormGroup.get('organizationName')?.touched}"
             autocomplete="off"
             class="form-control"
             formControlName="organizationName"
@@ -87,14 +87,15 @@
     <div class="form-group">
         <label>Validity (days)*</label>
         <input
-            [ngClass]="{'is-invalid': certificateFormGroup.get('validity')?.errors && certificateFormGroup.get('validity')?.dirty}"
+            [ngClass]="{'is-invalid': certificateFormGroup.get('validity')?.errors && certificateFormGroup.get('validity')?.touched}"
             autocomplete="off"
             class="form-control"
             formControlName="validity"
             id="validity"
             placeholder="Validity"
             type="number"/>
-        <div *ngIf="certificateFormGroup.get('validity')?.errors?.required" class="invalid-feedback d-block">
+        <div *ngIf="certificateFormGroup.get('validity')?.errors?.required"
+             class="invalid-feedback d-block">
             Validity required
         </div>
     </div>
@@ -113,7 +114,7 @@
             <input (change)="getSelectedCheckboxValue()"
                    [checked]="role.value"
                    [formControl]="role"
-                   [ngClass]="{'is-invalid': rolesOptionsError && certificateFormGroup.get('roles')?.dirty}"
+                   [ngClass]="{'is-invalid': rolesOptionsError && certificateFormGroup.get('roles')?.touched}"
                    class="form-check-input"
                    id="inlineCheckbox{{i}}"
                    type="checkbox">

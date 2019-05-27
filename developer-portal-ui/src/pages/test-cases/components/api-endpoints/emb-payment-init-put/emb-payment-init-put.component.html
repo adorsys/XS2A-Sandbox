@@ -60,7 +60,7 @@
         <span>PSU-IP-Address</span> <span>1.1.1.1</span>
       </div>
       <p>
-        Put in <span class="bold-text">YOUR_USER_IBAN</span> the name of the
+        Put in <span class="bold-text">YOUR_USER_LOGIN</span> the name of the
         user you chose (you can view users and their information in TPP-UI).
       </p>
       <p>8. Insert into request body the following json:</p>
@@ -110,7 +110,7 @@
         <span>PSU-IP-Address</span> <span>1.1.1.1</span>
       </div>
       <p>
-        Put in <span class="bold-text">YOUR_USER_IBAN</span> the name of the
+        Put in <span class="bold-text">YOUR_USER_LOGIN</span> the name of the
         user you chose (you can view users and their information in TPP-UI).
       </p>
       <p>8. Insert into request body the following json:</p>
@@ -139,7 +139,8 @@
         User has only one SCA method, so test TAN
         <app-line-command title="123456"></app-line-command>
         was sent to the user, and now you need to enter this data and execute
-        PUT command. The response should be 200 and
+        PUT command. The response should be
+        <app-line-command title="200 HTTP code"></app-line-command> and
         <app-line-command title="scaStatus: Finalised"></app-line-command>
         .
       </p>
@@ -176,7 +177,7 @@
         <span>PSU-IP-Address</span> <span>1.1.1.1</span>
       </div>
       <p>
-        Put in <span class="bold-text">YOUR_USER_IBAN</span> the name of the
+        Put in <span class="bold-text">YOUR_USER_LOGIN</span> the name of the
         user you chose (you can view users and their information in TPP-UI).
       </p>
       <p>8. Insert into request body the following json:</p>
@@ -201,7 +202,7 @@
         Put in placeholder
         <span class="italic-text">"YOUR_AUTHENTICATION_METHOD_ID"</span> any
         value of authenticationMethodId of your choice. The response should be
-        200 and
+        <app-line-command title="200 HTTP code"></app-line-command> and
         <app-line-command
           title="scaStatus: ScaMethodSelected"
         ></app-line-command
@@ -219,7 +220,8 @@
         user, and now you need to enter this data and execute PUT command.
       </p>
       <p>
-        The response should be 200 and
+        The response should be
+        <app-line-command title="200 HTTP code"></app-line-command> and
         <app-line-command title="scaStatus: Finalised"></app-line-command>.
       </p>
     </div>

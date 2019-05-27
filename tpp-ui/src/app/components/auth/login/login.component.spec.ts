@@ -6,11 +6,14 @@ import {DebugElement} from "@angular/core";
 import {By} from "@angular/platform-browser";
 
 import {LoginComponent} from './login.component';
+import {AuthService} from "../../../services/auth.service";
 
 
-fdescribe('LoginComponent', () => {
+describe('LoginComponent', () => {
     let component: LoginComponent;
     let fixture: ComponentFixture<LoginComponent>;
+    let authService: AuthService;
+    let authServiceSpy;
     let de: DebugElement;
     let el: HTMLElement;
 
@@ -21,6 +24,7 @@ fdescribe('LoginComponent', () => {
                 RouterTestingModule,
                 HttpClientModule
             ],
+            providers: [ AuthService ],
 
             declarations: [LoginComponent]
         })
@@ -31,11 +35,27 @@ fdescribe('LoginComponent', () => {
         fixture = TestBed.createComponent(LoginComponent);
         component = fixture.componentInstance;
 
+        authService = fixture.debugElement.injector.get(AuthService);
+
         de = fixture.debugElement.query(By.css('form'));
         el = de.nativeElement;
 
         fixture.detectChanges();
         component.ngOnInit();
+    });
+
+    it('should call login on the service', () => {
+        authServiceSpy = spyOn(authService, 'login').and.callThrough();
+
+        const form = component.loginForm;
+        form.controls['login'].setValue('test');
+        form.controls['pin'].setValue('12345678');
+
+        el = fixture.debugElement.query(By.css('button')).nativeElement;
+        el.click();
+
+        expect(authServiceSpy).toHaveBeenCalledWith({login: 'test', pin: '12345678',  role: "STAFF"});
+        expect(authServiceSpy).toHaveBeenCalled();
     });
 
     it('should create', () => {
@@ -81,9 +101,9 @@ fdescribe('LoginComponent', () => {
         expect(component.errorMessage).toEqual('Please enter your credentials');
     });
 
-/*    it('Set error message by button click and invalid form', () => {
+    it('Set error message by button click and invalid form', () => {
         el = fixture.debugElement.query(By.css('button')).nativeElement;
         el.click();
         expect(component.errorMessage).toEqual('Please enter your credentials');
-    });*/
+    });
 });

@@ -6,7 +6,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {CertificateComponent} from './certificate.component';
 
 
-fdescribe('CertificateComponent', () => {
+describe('CertificateComponent', () => {
     let component: CertificateComponent;
     let fixture: ComponentFixture<CertificateComponent>;
 

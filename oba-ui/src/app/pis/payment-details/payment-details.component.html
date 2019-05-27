@@ -1,5 +1,5 @@
 <div class="card bg-light">
-  <div class="card-body">
+  <div *ngIf="authResponse" class="card-body">
     <h4>Creditor account</h4>
     <b><p>{{authResponse.singlePayment.creditorAccount.iban}}</p></b>
 

@@ -4,7 +4,6 @@ import {ScaUserDataTO} from "../../api/models/sca-user-data-to";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
-import {PisService} from "../../common/services/pis.service";
 import {ShareDataService} from "../../common/services/share-data.service";
 import {RoutingPath} from "../../common/models/routing-path.model";
 import {PisCancellationService} from "../../common/services/pis-cancellation.service";

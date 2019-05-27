@@ -1,42 +1,36 @@
-<div class="d-md-flex align-items-center">
+<div class="d-md-flex align-items-center h-100 align-items-stretch">
   <!-- First-->
-  <div class="col-md-4 p-0 bg-light h-md-100">
+  <div class="col-md-4 p-0 bg-light">
     <div class="d-md-flex align-items-center h-100 justify-content-center">
-      <div class="d-md-flex align-items-center ">
-        <app-payment-details></app-payment-details>
-      </div>
+      <app-payment-details></app-payment-details>
     </div>
   </div>
 
   <!--&lt;!&ndash; Second 1/4 &ndash;&gt;-->
   <div class="col-md-8 bg-white h-md-100">
     <div class="d-md-flex align-items-center h-100 p-4 justify-content-center">
-      <div class="d-md-flex align-items-center ">
+      <div class="card">
+        <div class="card-body">
 
-          <div class="card">
-            <div class="card-body">
+          <h2 class="card-title font-weight-bold">Confirm your payment</h2>
+          <div class="font-weight-light my-4 text-muted">Please check your payment information you about to execute,
+            then
+            confirm with “Next".
+          </div>
+        </div>
 
-                <h2 class="card-title font-weight-bold">Confirm your payment</h2>
-                <div class="font-weight-light my-4 text-muted">Please check your payment information you about to execute,
-                  then
-                  confirm with “Next".
-                </div>
+        <div class="card-footer no-bg-color">
+          <div class="row my-3">
+            <div class="col-12 col-sm-6 pr-sm-2">
+              <button type="button" class="btn btn-outline-secondary btn-block" (click)="onCancel()">Cancel
+              </button>
             </div>
-
-            <div class="card-footer no-bg-color">
-              <div class="row my-3">
-                <div class="col-12 col-sm-6 pr-sm-2">
-                  <button type="button" class="btn btn-outline-secondary btn-block" (click)="onCancel()">Cancel
-                  </button>
-                </div>
-                <div class="col-12 col-sm-6 pl-sm-2">
-                  <button type="submit" (click)="onConfirm()" class="btn btn-primary btn-block">Next
-                  </button>
-                </div>
-              </div>
+            <div class="col-12 col-sm-6 pl-sm-2">
+              <button type="submit" (click)="onConfirm()" class="btn btn-primary btn-block">Next
+              </button>
             </div>
           </div>
-
+        </div>
       </div>
     </div>
   </div>

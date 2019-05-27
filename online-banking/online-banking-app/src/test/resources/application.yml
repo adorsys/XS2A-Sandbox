@@ -16,15 +16,19 @@ server:
   # Authorization HTTP header requires to enlarge max header size.
   max-http-header-size: 65000
   port: 8090
+  servlet:
+    session:
+      cookie:
+        secure: false
+        max-age: 300
+        http-only: true
+        path: /
 
 spring:
   application.name: ledgers-xs2a-oba
   jackson:
     serialization:
       write_dates_as_timestamps: false
-      # Swagger stops working when we activate this property.
-#      wrap-root-value: true
-  online.banking.https.enabled: false
 
 ledgers.url: http://localhost:8088
 xs2a.url: http://localhost:8089

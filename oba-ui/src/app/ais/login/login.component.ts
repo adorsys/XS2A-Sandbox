@@ -47,9 +47,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         console.log(authorisationResponse);
         this.shareService.changeData(authorisationResponse);
         this.router.navigate([`${RoutingPath.ACCOUNT_INFORMATION}/${RoutingPath.GRANT_CONSENT}`]);
-      }, (error) => {
-        console.log(error);
-        this.invalidCredentials = true;
       })
     );
   }

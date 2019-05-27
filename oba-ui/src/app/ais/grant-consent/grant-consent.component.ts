@@ -48,6 +48,10 @@ export class GrantConsentComponent implements OnInit, OnDestroy {
     return this.authResponse.consent.access.transactions;
   }
 
+  get bankOfferedConsentFormValid(): boolean {
+    return this.consentAccounts.length > 0 || this.consentBalances.length > 0 || this.consentTransactions.length > 0
+  }
+
   public ngOnInit(): void {
     this.shareService.currentData.subscribe(data => {
       if (data) {
