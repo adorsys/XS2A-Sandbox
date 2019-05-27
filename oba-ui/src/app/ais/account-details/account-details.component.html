@@ -1,29 +1,30 @@
 <div class="card bg-light">
   <div class="card-body">
-    <div class="col-12 font-weight-light">
-      <div *ngFor="let account of accounts, let i = index" class="form-check">
-        <label class="form-check-label font-weight-bold" for="account_{{i}}">
+
+    <div class="font-weight-light mb-2">
+      <div *ngFor="let account of accounts">
+        <h5 class="font-weight-bold mb-0">
           Access to account data for
-        </label><br>
-        <label class="form-check-label" for="account_{{i}}"> {{account}} </label><br>
+        </h5>
+        <p> {{account}} </p>
       </div>
     </div>
 
-    <div class="col-12 font-weight-light">
-      <div *ngFor="let balance of balances, let i = index" class="form-check">
-        <label class="form-check-label font-weight-bold" for="balance_{{i}}">
+    <div class="font-weight-light mb-2">
+      <div *ngFor="let balance of balances">
+        <h5 class="font-weight-bold mb-0">
           Access to balances for
-        </label><br>
-        <label class="form-check-label" for="balance_{{i}}"> {{balance}} </label><br>
+        </h5>
+        <p> {{balance}} </p>
       </div>
     </div>
 
-    <div class="col-12 font-weight-light">
-      <div *ngFor="let transaction of transactions, let i = index" class="form-check">
-        <label class="form-check-label font-weight-bold" for="transation_{{i}}">
+    <div class="font-weight-light mb-2">
+      <div *ngFor="let transaction of transactions">
+        <h5 class="font-weight-bold mb-0">
           Access to transactions for
-        </label><br>
-        <label class="form-check-label" for="transation_{{i}}"> {{transaction}} </label><br>
+        </h5>
+        <p> {{transaction}} </p>
       </div>
     </div>
   </div>

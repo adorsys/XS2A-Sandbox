@@ -12,6 +12,11 @@
     padding: 0;
 }
 
+.logo {
+    width: 200px;
+    height: auto;
+}
+
 label {
     color: $light-grey;
     font-size: 1.1rem;
@@ -98,5 +103,12 @@ a {
     .nav-link {
         display: flex;
         justify-content: flex-start;
+    }
+}
+
+
+@media (max-width: 767px) {
+    .bg-sm-light {
+        background-color: $light-grey-10;
     }
 }
