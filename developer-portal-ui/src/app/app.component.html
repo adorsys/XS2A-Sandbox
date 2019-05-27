@@ -10,7 +10,7 @@
     <span
       class="header-item"
       [ngStyle]="
-        dataService.currentRouteUrl === '/getting-started'
+        dataService.currentRouteUrl.includes('getting-started')
           ? { opacity: 1 }
           : null
       "
@@ -29,14 +29,16 @@
     >
     <span
       class="header-item"
-      [ngStyle]="dataService.currentRouteUrl === '/faq' ? { opacity: 1 } : null"
+      [ngStyle]="
+        dataService.currentRouteUrl.includes('faq') ? { opacity: 1 } : null
+      "
       (click)="goToPage('/faq')"
       >FAQs</span
     >
     <span
       class="header-item"
       [ngStyle]="
-        dataService.currentRouteUrl === '/contact' ? { opacity: 1 } : null
+        dataService.currentRouteUrl.includes('contact') ? { opacity: 1 } : null
       "
       (click)="goToPage('/contact')"
       >Contact</span
