@@ -15,11 +15,13 @@ export class AppComponent implements OnInit {
   ) {}
 
   goToPage(page) {
-    this.router.navigateByUrl(`/${page}`);
+    this.router.navigateByUrl(`/${page}#top`);
   }
 
   onActivate(ev) {
-    this.dataService.currentRouteUrl = this.actRoute['_routerState'].snapshot.url;
+    this.dataService.currentRouteUrl = this.actRoute[
+      '_routerState'
+    ].snapshot.url;
   }
 
   ngOnInit() {}

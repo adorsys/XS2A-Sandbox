@@ -28,6 +28,12 @@
   }
 }
 
+#top {
+  position: absolute;
+  top: 0;
+  height: 7.5vw;
+}
+
 /deep/ .collapse-content {
   max-height: 0;
   overflow: hidden;
