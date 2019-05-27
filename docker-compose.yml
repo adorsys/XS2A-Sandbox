@@ -5,12 +5,14 @@ networks:
 
 volumes:
   xs2a-connector-data:
+  xs2a-fakesmtp-data:
+  xs2a-ledgers-data:
 
 services:
 
   # Xs2a connector example
   xs2a-connector-examples:
-    image: adorsys/xs2a-connector-examples:develop
+    image: adorsys/xs2a-connector-examples:3.3.2
     container_name: xs2a-connector-examples
     restart: on-failure
     ports:
@@ -20,6 +22,7 @@ services:
       - SPRING_PROFILES_ACTIVE=mock-qwac
       - ASPSP-PROFILE_BASEURL=http://xs2a-aspsp-profile:8080/api/v1
       - CONSENT-SERVICE_BASEURL=http://xs2a-consent-management:8080/api/v1
+      - CMS_URL=http://xs2a-consent-management:8080
       - LEDGERS_URL=http://ledgers:8088
     networks:
       - xs2a-net
@@ -30,7 +33,7 @@ services:
 
   # Xs2a aspsp profile
   xs2a-aspsp-profile:
-    image: adorsys/xs2a-aspsp-profile:develop
+    image: adorsys/xs2a-aspsp-profile:3.3.2
     container_name: xs2a-aspsp-profile
     restart: on-failure
     environment:
@@ -46,7 +49,7 @@ services:
 
   # Consent management
   xs2a-consent-management:
-    image: adorsys/xs2a-consent-management:develop
+    image: adorsys/xs2a-consent-management:3.3.2
     container_name: xs2a-consent-management
     restart: on-failure
     ports:
@@ -117,7 +120,7 @@ services:
       - "8088:8088"
       - "8188:8001"
     environment:
-      - SPRING_PROFILES_ACTIVE=postgres
+      - SPRING_PROFILES_ACTIVE=postgres,develop
       - SPRING_JPA_SHOW_SQL=false
       - DB_HOST=xs2a-consent-management-db
       - DB_URL=jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=ledgers
@@ -125,9 +128,13 @@ services:
       - DB_USER=cms
       - DB_PASSWORD=cms
       - LIQUIBASE_ENABLED=true
-      - LEDGERS_MOCKBANK_DATA_LOAD=true
+      - SCA_MULTILEVEL_ENABLED=false
+      - SPRING_MAIL_HOST=fakesmtp
+      - SPRING_MAIL_PORT=25
     volumes:
-      - xs2a-connector-data:/var/lib/data
+      - xs2a-ledgers-data:/var/lib/data
+    depends_on:
+      - fakesmtp
 
   # Xs2a online banking frontend
   xs2a-online-banking-ui:
@@ -141,12 +148,18 @@ services:
     networks:
       - xs2a-net
     environment:
-      - ONLINE_BANKING_SERVER_URL=http://xs2a-online-banking:8090
+      ONLINE_BANKING_SERVER_URL: "http://xs2a-online-banking:8090"
+    depends_on:
+      - xs2a-online-banking
+
 
   # TPP-UI
   xs2a-tpp-ui:
     image: adorsys/tpp-ui
     restart: on-failure
+    environment:
+      LEDGERS_URL: "http://ledgers:8088"
+      CERT_GEN_URL: "http://certificate-generator:8092"
     build:
       context: tpp-ui
       dockerfile: Dockerfile
@@ -154,6 +167,8 @@ services:
       - "4205:4205"
     networks:
       - xs2a-net
+    depends_on:
+      - ledgers
 
   # Developer portal ui
   developer-portal-ui:
@@ -178,3 +193,11 @@ services:
       - "8092:8092"
     networks:
       - xs2a-net
+
+  # Fake SMTP
+  fakesmtp:
+    image: munkyboy/fakesmtp:latest
+    networks:
+      - xs2a-net
+    volumes:
+      - xs2a-fakesmtp-data:/var/mail

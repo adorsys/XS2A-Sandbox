@@ -71,6 +71,12 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
+            "codeCoverageExclude": [
+              "src/app/commons/info/**",
+              "src/app/commons/icon/**",
+              "src/app/commons/document-upload/**",
+              "src/app/app.component.ts"
+            ],
             "styles": [
               "src/styles.scss"
             ],

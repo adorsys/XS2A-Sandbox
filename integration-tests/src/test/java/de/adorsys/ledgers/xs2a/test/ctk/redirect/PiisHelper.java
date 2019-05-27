@@ -9,6 +9,8 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import de.adorsys.ledgers.xs2a.client.FundsConfirmationApiClient;
+import de.adorsys.ledgers.xs2a.client.FundsConfirmationResponse;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import org.springframework.http.HttpStatus;
@@ -21,8 +23,6 @@ import de.adorsys.ledgers.oba.rest.api.domain.CreatePiisConsentRequestTO;
 import de.adorsys.ledgers.oba.rest.api.domain.PIISConsentCreateResponse;
 import de.adorsys.ledgers.oba.rest.client.ObaAisApiClient;
 import de.adorsys.ledgers.oba.rest.client.ObaScaApiClient;
-import de.adorsys.ledgers.xs2a.api.client.FundsConfirmationApiClient;
-import de.adorsys.ledgers.xs2a.api.client.FundsConfirmationResponse;
 import de.adorsys.psd2.model.AccountReference;
 import de.adorsys.psd2.model.Amount;
 import de.adorsys.psd2.model.ConfirmationOfFunds;

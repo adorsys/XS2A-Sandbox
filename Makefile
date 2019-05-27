@@ -1,15 +1,18 @@
-.PHONY: all run test clean
+.PHONY: all run test clean start
 
 VERSION=$(shell jq -r .version developer-portal-ui/package.json)
 ARC42_SRC = $(shell find arc42/src)
 PLANTUML_SRC = $(shell find arc42/diagrams -type f -name '*.puml')
-DEPENDENCIES = jq npm docker-compose mvn
+DEPENDENCIES = jq npm plantuml asciidoctor docker-compose mvn docker
 
 all: build-java-services build-ui-services build-arc-42 ## Build all services
 
 ## Run section ##
 run: all ## Run everything with docker-compose after building
 	docker-compose up --build
+
+start: ## Start everything with docker-compose without building
+	docker-compose up
 
 ## Build section ##
 build-java-services: ## Build java services

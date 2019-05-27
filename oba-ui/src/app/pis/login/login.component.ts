@@ -47,9 +47,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         console.log(authorisationResponse);
         this.shareService.changeData(authorisationResponse);
         this.router.navigate([`${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.CONFIRM_PAYMENT}`]);
-      }, (error) => {
-        console.log(error);
-        this.invalidCredentials = true;
       })
     );
   }

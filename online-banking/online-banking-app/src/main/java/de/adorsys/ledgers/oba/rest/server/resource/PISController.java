@@ -237,7 +237,10 @@ public class PISController extends AbstractXISController implements PISApi {
     private void updateScaStatusPaymentStatusConsentData(String psuId, PaymentWorkflow workflow)
         throws PaymentAuthorizeException {
         // UPDATE CMS
-        updateAuthorisationStatus(workflow, psuId, response);
+        SCAResponseTO scaResponse = workflow.getScaResponse();
+        if (scaResponse != null && scaResponse.getScaStatus() != ScaStatusTO.EXEMPTED) {
+            updateAuthorisationStatus(workflow, psuId, response);
+        }
         updatePaymentStatus(response, workflow);
         updateAspspConsentData(workflow, response);
     }
@@ -249,16 +252,16 @@ public class PISController extends AbstractXISController implements PISApi {
         } catch (IOException e) {
             throw new PaymentAuthorizeException(
                 responseUtils.backToSender(authResp(), paymentWorkflow.getPaymentResponse().getTppNokRedirectUri(),
-                                           paymentWorkflow.getPaymentResponse().getTppOkRedirectUri(),
-                                           httpResp, HttpStatus.INTERNAL_SERVER_ERROR, ValidationCode.CONSENT_DATA_UPDATE_FAILED));
+                    paymentWorkflow.getPaymentResponse().getTppOkRedirectUri(),
+                    httpResp, HttpStatus.INTERNAL_SERVER_ERROR, ValidationCode.CONSENT_DATA_UPDATE_FAILED));
         }
         ResponseEntity<?> updateAspspConsentData = aspspConsentDataClient.updateAspspConsentData(
             paymentWorkflow.getConsentReference().getEncryptedConsentId(), consentData);
         if (!HttpStatus.OK.equals(updateAspspConsentData.getStatusCode())) {
             throw new PaymentAuthorizeException(
                 responseUtils.backToSender(authResp(), paymentWorkflow.getPaymentResponse().getTppNokRedirectUri(),
-                                           paymentWorkflow.getPaymentResponse().getTppOkRedirectUri(),
-                                           httpResp, updateAspspConsentData.getStatusCode(), ValidationCode.CONSENT_DATA_UPDATE_FAILED));
+                    paymentWorkflow.getPaymentResponse().getTppOkRedirectUri(),
+                    httpResp, updateAspspConsentData.getStatusCode(), ValidationCode.CONSENT_DATA_UPDATE_FAILED));
         }
     }
 
@@ -335,7 +338,7 @@ public class PISController extends AbstractXISController implements PISApi {
         String authorisationId = workflow.getPaymentResponse().getAuthorisationId();
         String status = workflow.getAuthResponse().getScaStatus().name();
         ResponseEntity<Void> resp = cmsPsuPisClient.updateAuthorisationStatus(psuId, null, null, null,
-                                                                              paymentId, authorisationId, status, CmsPsuPisClient.DEFAULT_SERVICE_INSTANCE_ID);
+            paymentId, authorisationId, status, CmsPsuPisClient.DEFAULT_SERVICE_INSTANCE_ID);
         if (resp.getStatusCode() != HttpStatus.OK) {
             throw new PaymentAuthorizeException(responseUtils.couldNotProcessRequest(authResp(), "Error updating authorisation status. See error code.", resp.getStatusCode(), response));
         }

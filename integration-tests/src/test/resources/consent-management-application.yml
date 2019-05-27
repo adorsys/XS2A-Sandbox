@@ -15,7 +15,7 @@
 #
 server:
   # Authorization HTTP header requires to enlarge max header size.
-  max-http-header-size: 65000
+  max-http-header-size: 1048576
   port: 38080
 
 spring:
@@ -62,7 +62,7 @@ server_key: test123
 application.ais.transaction.max-length: 1000
 
 #LOGGER
-logging.level.org.springframework.web: ERROR
+logging.level.org.springframework.web: WARN
 
 license.url: https://github.com/adorsys/xs2a/blob/master/LICENSE.md
 springfox.documentation.swagger.v2.path: /swagger.json
@@ -70,7 +70,7 @@ springfox.documentation.swagger.v2.path: /swagger.json
 skip.ssl.certificate.verification: true
 
 # Profile Service config
-bank_profile.path: /bank_profile_mockbank.yml
+bank_profile.path: /bank_profile_ledgers.yml
 
 # ENDPOINTS CORS CONFIGURATION
 # Whether credentials are supported. When not set, credentials are not supported.

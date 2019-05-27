@@ -51,13 +51,6 @@ export class UserCreateComponent implements OnInit {
     })
   }
 
-  initAccountAccessData() {
-    return this.formBuilder.group({
-      accessType: ['OWNER', Validators.required],
-      iban: ['', Validators.required]
-    })
-  }
-
   addScaDataItem() {
     const control = <FormArray>this.userForm.controls['scaUserData'];
     control.push(this.initScaData());

@@ -29,6 +29,8 @@ import { FormsModule } from '@angular/forms';
 import { ngxLoadingAnimationTypes, NgxLoadingModule } from 'ngx-loading';
 import { CodeAreaComponent } from '../../custom-elements/code-area/code-area.component';
 import { PrettyJsonPipe } from '../../pipes/pretty-json.pipe';
+import { TestValuesComponent } from './components/test-values/test-values.component';
+
 
 @NgModule({
   declarations: [

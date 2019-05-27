@@ -51,13 +51,23 @@
       <div class="api-table bg">
         <span>PSU-IP-Address</span> <span>1.1.1.1</span>
       </div>
+      <div class="api-table">
+        <span>TPP-Redirect-Preferred</span> <span>true</span>
+      </div>
+      <div class="api-table bg">
+        <span>TPP-Redirect-URI</span>
+        <span>https://adorsys.de/en/psd2-tpp/</span>
+      </div>
+      <div class="api-table">
+        <span>TPP-Nok-Redirect-URI</span> <span>https://www.google.com</span>
+      </div>
 
       <p>
-        Put in <span class="bold-text">YOUR_USER_IBAN</span> the name of the
+        Put in <span class="bold-text">YOUR_USER_LOGIN</span> the name of the
         user you chose (you can view users and their information in TPP-UI).
       </p>
       <p>
-        Insert into request body the following json for available accounts
+        3. Insert into request body the following json for available accounts
         consent:
       </p>
       <app-code-area [json]="jsonData" [id]="'RCP'"></app-code-area>
@@ -67,7 +77,7 @@
         IBAN of the user (IBAN should match user login you entered in PSU-ID
         header above).
       </p>
-      <p>5. Execute and get response with code 201 and related information.</p>
+      <p>4. Execute and get response with code 201 and related information.</p>
       <h1>STEP 2: Authorise consent</h1>
       <p>
         1. Start with the authorisation process for consent: follow the link
