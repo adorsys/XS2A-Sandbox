@@ -91,7 +91,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         orderNumber: 2,
       },
       {
-        title: 'Release of XS2A Sandbox ver 1.0',
+        title: 'Release of XS2ASandbox ver 1.0',
         date: 1556658000000,
         text:
           'Support of Redirect and Embedded approach: TPP-UI, Online Banking',
