@@ -4,9 +4,10 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class RestService {
-  constructor(private http: HttpClient) {}
   // serverUrl = 'https://xs2a.integ.cloud.adorsys.de/v1/consents';
-  serverUrl = 'http://localhost:8089/';
+  serverUrl = '/xs2a-proxy/';
+
+  constructor(private http: HttpClient) {}
 
   public sendRequest(method, url, headerParams, body?): Observable<any> {
     switch (method) {

@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --proxy-config proxy.conf.json",
+    "start": "ng serve --proxy-config proxy.conf.json --port 4206",
     "build": "ng build",
     "test": "ng test",
     "test-headless": "ng test --browsers ChromeHeadless",

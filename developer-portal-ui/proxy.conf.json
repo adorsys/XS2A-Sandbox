@@ -1,7 +1,11 @@
 {
-  "!/app/**": {
-    "target": "http://localhost:8081",
+  "/xs2a-proxy/*": {
+    "target": "http://localhost:8089",
     "secure": false,
-    "logLevel": "debug"
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/xs2a-proxy": ""
+    }
   }
 }

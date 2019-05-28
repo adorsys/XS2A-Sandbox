@@ -181,6 +181,10 @@ services:
       - "4206:4206"
     networks:
       - xs2a-net
+    depends_on:
+      - xs2a-connector-examples
+    environment:
+      - XS2A_URL=http://xs2a-connector-examples:8089
 
   # Certificate generator
   certificate-generator:
