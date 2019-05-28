@@ -8,10 +8,12 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
+@Slf4j
 public class JWTAuthenticationFilter extends GenericFilterBean {
 
     private TokenAuthenticationService tokenAuthenticationService;
@@ -23,14 +25,14 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
             throws IOException, ServletException {
-        if(logger.isTraceEnabled()) {
-        	logger.trace("doFilter start");
+        if(log.isTraceEnabled()) {
+            log.trace("doFilter start");
         }
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
-            if(logger.isDebugEnabled()) {
-            	logger.debug("Authentication is null. Try to get authentication from request...");
+            if(log.isDebugEnabled()) {
+                log.debug("Authentication is null. Try to get authentication from request...");
             }
 
             authentication = tokenAuthenticationService.getAuthentication((HttpServletRequest) request);
@@ -39,8 +41,8 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
 
         filterChain.doFilter(request, response);
 
-        if(logger.isTraceEnabled()) {
-        	logger.trace("doFilter end");
+        if(log.isTraceEnabled()) {
+            log.trace("doFilter end");
         }
     }
 }

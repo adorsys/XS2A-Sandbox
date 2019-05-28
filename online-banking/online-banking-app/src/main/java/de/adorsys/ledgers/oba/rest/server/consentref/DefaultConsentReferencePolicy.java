@@ -12,22 +12,20 @@ import de.adorsys.ledgers.oba.rest.api.consentref.ConsentReferencePolicy;
 import de.adorsys.ledgers.oba.rest.api.consentref.ConsentType;
 import de.adorsys.ledgers.oba.rest.api.consentref.InvalidConsentException;
 import de.adorsys.ledgers.util.Ids;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.text.ParseException;
 import java.util.Date;
 
+@Slf4j
 public class DefaultConsentReferencePolicy implements ConsentReferencePolicy {
     private static final String CONSENT_TYPE_JWT_CLAIM_NAME = "consent-type";
     private static final String REDIRECT_ID_JWT_CLAIM_NAME = "redirect-id";
     private static final String ENC_CONSENT_ID_JWT_CLAIM_NAME = "enc-consent-id";
     private static final String AUTH_ID_JWT_CLAIM_NAME = "auth-id";
-
-    private static final Logger logger = LoggerFactory.getLogger(DefaultConsentReferencePolicy.class);
 
     @Value("${online-banking.sca.jwt.hs256.secret}")
     private String hmacSecret;
@@ -139,7 +137,7 @@ public class DefaultConsentReferencePolicy implements ConsentReferencePolicy {
     }
 
     private InvalidConsentException invalidConsent(String message) throws InvalidConsentException {
-        logger.warn(message);
+        log.warn(message);
         return new InvalidConsentException(message);
     }
 }

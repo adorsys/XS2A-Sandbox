@@ -96,13 +96,11 @@
         <!-- other properties -->
         <spring-boot-dependencies.version>2.1.1.RELEASE</spring-boot-dependencies.version>
         <spring-cloud-dependencies.version>Greenwich.RELEASE</spring-cloud-dependencies.version>
-        <slf4j.version>1.7.25</slf4j.version>
         <jetbrains.annotations.version>15.0</jetbrains.annotations.version>
         <javatar-commons.version>LATEST</javatar-commons.version>
         <org.mapstruct.version>1.2.0.Final</org.mapstruct.version>
         <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
         <swagger-annotations.version>1.5.20</swagger-annotations.version>
-        <log4j.version>1.2.17</log4j.version>
         <google.guava.version>23.0</google.guava.version>
         <nimbus-jose-jwt.version>6.1.1</nimbus-jose-jwt.version>
         <lombok.version>1.18.4</lombok.version>
@@ -183,14 +181,6 @@
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger-ui</artifactId>
                 <version>${springfox-swagger2.version}</version>
-            </dependency>
-
-            <!-- logging dependencies -->
-
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${slf4j.version}</version>
             </dependency>
 
             <!-- other dependencies -->
