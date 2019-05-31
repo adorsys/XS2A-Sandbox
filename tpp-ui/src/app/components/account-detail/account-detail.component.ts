@@ -66,6 +66,10 @@ export class AccountDetailComponent implements OnInit {
   }
 
   get iban() {
+    if (this.accountForm.get('iban').value) {
+      const ibanValue = this.accountForm.get('iban').value;
+      this.accountForm.get('iban').setValue(ibanValue.replace(/\s/g, ''));
+    }
     return this.accountForm.get('iban');
   }
 
@@ -79,6 +83,7 @@ export class AccountDetailComponent implements OnInit {
     if (this.accountForm.invalid) {
       return;
     }
+
     this.accountService.createAccount(this.userID, this.accountForm.getRawValue())
       .subscribe(() => this.router.navigate(['/accounts']), error => {
         if (typeof error.error === 'object') {
