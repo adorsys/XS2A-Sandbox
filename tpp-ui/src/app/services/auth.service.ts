@@ -18,7 +18,7 @@ export class AuthService {
     private jwtHelperService = new JwtHelperService();
     private headers = new HttpHeaders({
         'Content-Type': 'application/json',
-        'accept': '*/*'
+        'accept': 'application/json'
     });
 
     constructor(private http: HttpClient, private router: Router) {

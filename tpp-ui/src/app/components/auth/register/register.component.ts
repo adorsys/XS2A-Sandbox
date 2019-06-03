@@ -8,6 +8,7 @@ import JSZip from 'jszip';
 import {AuthService} from "../../../services/auth.service";
 import {CertGenerationService} from "../../../services/cert-generation.service";
 import {InfoService} from "../../../commons/info/info.service";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
     selector: 'app-register',
@@ -22,7 +23,7 @@ export class RegisterComponent implements OnInit {
 
     public generateCertificate: boolean;
     public submitted: boolean;
-    public errorMessage: string; //TODO: errors handling with error interceptor
+    public errorMessage: string;
 
     constructor(private service: AuthService,
                 private certGenerationService: CertGenerationService,
@@ -65,18 +66,39 @@ export class RegisterComponent implements OnInit {
                         this.navigateAndGiveFeedback(url, message);
                     }
                 );
+            }, (error: HttpErrorResponse) => {
+                if (error.status === 500) {
+                    // should be thrown when 500 occurs, however since we have unhandled errors on Ledgers side, we will show a custom error on this page
+                    // throw new HttpErrorResponse(error);
+
+                    this.infoService.openFeedback("Provided Login or Email are already taken", {
+                        severity: 'error'
+                    })
+                } else {
+                    this.infoService.openFeedback(error.message, {
+                        severity: 'error'
+                    })
+                }
             });
         } else {
             this.service.register(this.userForm.value, branch)
                 .subscribe(() => {
                     message = 'You have been successfully registered.';
                     this.navigateAndGiveFeedback('', message);
-                }, () => {
-                    this.infoService.openFeedback('TPP with this login or email exists already', {
-                        severity: 'error'
-                    })
-                });
+                }, (error: HttpErrorResponse) => {
+                    if (error.status === 500) {
+                        // should be thrown when 500 occurs, however since we have unhandled errors on Ledgers side, we will show a custom error on this page
+                        // throw new HttpErrorResponse(error);
 
+                        this.infoService.openFeedback("Provided Login or Email are already taken", {
+                            severity: 'error'
+                        })
+                    } else {
+                        this.infoService.openFeedback(error.message, {
+                            severity: 'error'
+                        })
+                    }
+                });
         }
     }
 
