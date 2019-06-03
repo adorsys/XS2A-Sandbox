@@ -3,6 +3,7 @@ package de.adorsys.ledgers.oba.rest.server.resource;
 import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.*;
 import de.adorsys.ledgers.middleware.api.domain.um.AisAccountAccessInfoTO;
+import de.adorsys.ledgers.middleware.api.domain.um.AisAccountAccessTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisConsentTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.AccountRestClient;
@@ -184,6 +185,18 @@ public class AISController extends AbstractXISController implements AISApi {
                 case SCAMETHODSELECTED:
                     List<AccountDetailsTO> listOfAccounts = listOfAccounts(workflow);
                     workflow.getAuthResponse().setAccounts(listOfAccounts);
+
+                    // update consent accounts, transactions and balances if global consent flag is set
+                    AisAccountAccess consentAccountAccess = workflow.getConsentResponse().getAccountConsent().getAccess();
+                    if (isConsentGlobal(consentAccountAccess)) {
+                        AisAccountAccessInfoTO authAccountAccess = workflow.getAuthResponse().getConsent().getAccess();
+
+                        List<String> ibans = extractUserIbans(listOfAccounts);
+                        authAccountAccess.setAccounts(ibans);
+                        authAccountAccess.setTransactions(ibans);
+                        authAccountAccess.setBalances(ibans);
+                    }
+
                     responseUtils.setCookies(response, workflow.getConsentReference(),
                                              workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
                     return ResponseEntity.ok(workflow.getAuthResponse());
@@ -625,6 +638,23 @@ public class AISController extends AbstractXISController implements AISApi {
         } finally {
             authInterceptor.setAccessToken(null);
         }
+    }
+
+    /**
+     * Returns list of accounts' IBANs to which user has an access.
+     * Necessary for Global Consent and All Accounts Consent.
+     *
+     * @param accounts user account accesses
+     */
+    private List<String> extractUserIbans(List<AccountDetailsTO> accounts) {
+        return accounts
+                   .stream()
+                   .map(AccountDetailsTO::getIban)
+                   .collect(Collectors.toList());
+    }
+
+    private boolean isConsentGlobal(AisAccountAccess aisAccountAccess) {
+        return AisAccountAccessTypeTO.ALL_ACCOUNTS.toString().equals(aisAccountAccess.getAllPsd2());
     }
 
 }
