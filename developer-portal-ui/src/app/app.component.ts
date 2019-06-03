@@ -19,7 +19,9 @@ export class AppComponent implements OnInit {
   }
 
   onActivate(ev) {
-    this.dataService.currentRouteUrl = this.actRoute['_routerState'].snapshot.url;
+    this.dataService.currentRouteUrl = this.actRoute[
+      '_routerState'
+    ].snapshot.url;
   }
 
   ngOnInit() {}
