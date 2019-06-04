@@ -41,6 +41,7 @@ variables:
   ############################
 
   OPENSHIFT_NAMESPACE_DEV: "adorsys-dynamic-sandbox-dev"
+  OPENSHIFT_NAMESPACE_INTEG: "adorsys-dynamic-sandbox-integ"
   OPENSHIFT_NAMESPACE_DEMO: "adorsys-dynamic-sandbox-demo"
 
   ###########################
@@ -309,6 +310,25 @@ deploy_openshift_develop:
   variables:
     DOCKER_TAG: develop # Dockerhub source tag
     OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_DEV} # Openshift target namespace
+  <<: *deploy_openshift
+
+# nightly
+
+build_dockerhub_image_nightly:
+  stage: "Package"
+  only:
+    - schedules
+  variables:
+    DOCKER_TAG: nightly
+  <<: *push_dockerhub_images
+
+deploy_openshift_nightly:
+  stage: "Deploy"
+  only:
+    - schedules
+  variables:
+    DOCKER_TAG: nightly # Dockerhub source tag
+    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_INTEG} # Openshift target namespace
   <<: *deploy_openshift
 
 # master
