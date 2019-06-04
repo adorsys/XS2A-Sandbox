@@ -126,12 +126,6 @@ export class PlayWthDataComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.table(
-      this.method,
-      this.url,
-      this.paymentServiceFlag,
-      this.paymentProductFlag
-    );
     this.paymentService = this.paymentServiceFlag ? 'payments' : '';
     this.paymentProduct = this.paymentProductFlag
       ? '/sepa-credit-transfers'

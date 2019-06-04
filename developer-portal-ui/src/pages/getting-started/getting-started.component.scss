@@ -9,6 +9,10 @@ h1 {
   font-weight: 900;
 }
 
+.getting-started-container {
+  padding: 0 16vw
+}
+
 .divider {
   margin-top: 3vw;
   height: 0.5vw;
@@ -49,7 +53,7 @@ section {
     display: flex;
     align-items: center;
     padding-left: 1vw;
-    height: 4.1vw;
+    height: 5.3vw;
     a {
       width: 30%;
       display: block;
