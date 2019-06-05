@@ -1,5 +1,9 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import {
+  ContactInfo,
+  CustomizeService,
+} from '../../services/customize.service';
 
 @Component({
   selector: 'app-home',
@@ -10,8 +14,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
   slides = [];
   today = +new Date();
   productHistory = [];
+  contactInfo: ContactInfo;
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private customizeService: CustomizeService
+  ) {
     this.init();
   }
 
@@ -150,6 +158,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    const theme = this.customizeService.getTheme();
+    this.contactInfo = theme.contactInfo;
     if (this.productHistory[this.productHistory.length - 1].date < this.today) {
       this.productHistory.push({
         title: '',

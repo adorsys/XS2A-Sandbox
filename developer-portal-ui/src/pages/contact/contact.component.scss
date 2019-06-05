@@ -29,16 +29,17 @@
     margin: 4vw 0;
     .person-card-image-wrapper {
       background-color: #eeeeee;
-      width: 50%;
       height: 100%;
+      width: 50%;
       display: flex;
       justify-content: center;
+      align-items: center;
       img {
         height: 100%;
       }
     }
     .person-card-info {
-      width: 44%;
+      min-width: 50%;
       padding: 5% 3%;
       display: flex;
       justify-content: space-between;
@@ -92,7 +93,7 @@
     padding: 2vw;
     background-color: #eeeeee;
     .contacts-content {
-      width: 18.5vw;
+      min-width: 18.5vw;
       padding: 5% 3%;
       display: flex;
       flex-direction: column;

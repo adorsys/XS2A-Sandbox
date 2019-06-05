@@ -1,19 +1,14 @@
 @import '~ngx-toastr/toastr.css';
+@import './assets/themes/variables';
+
 body {
   padding: 7.5vw 7vw 0 7vw;
   margin: 0;
   background-color: #fafafa;
 }
 
-p,
-span,
-h1,
-h2,
-a,
-ul,
-li,
-button {
-  font-family: 'Arial', sans-serif;
+* {
+  font-family: inherit;
 }
 
 .bold-text {
@@ -27,14 +22,17 @@ button {
 .bg {
   background-color: #f3f3f3;
 }
+
 .th {
   font-weight: 900;
 }
+
 .api-table {
   display: flex;
   align-items: center;
   padding-left: 1vw;
   height: 3vw;
+
   span {
     width: 40%;
     font-size: 1vw;
@@ -50,13 +48,43 @@ button {
   line-height: 1.3vw !important;
 }
 
+.btn {
+  color: $btn-text-color;
+  margin-bottom: 1.1rem;
+  width: 200px;
+}
+
+.btn-primary {
+  color: $COLOR_WHITE;
+  background: linear-gradient(129.54deg, #0db0e2 0%, #10317d 100%);
+  border-radius: 3px;
+
+  &:hover {
+    background: $COLOR_DARK_BLUE;
+  }
+}
+
+.btn-outline-secondary {
+  color: $COLOR_DARK_GREY;
+  background-color: $COLOR_WHITE;
+  border: 1px solid $COLOR_DARK_GREY;
+  border-radius: 3px;
+
+  &:hover {
+    background-color: $COLOR_GREY;
+    color: $COLOR_BLACK;
+  }
+}
+
 .endpoint-wrapper {
   padding: 2vw;
+
   .endpoint-segment-wrapper {
     display: flex;
     flex-direction: row;
     position: relative;
     top: 1px;
+
     .endpoint-segment-item {
       height: 3vw;
       width: 17vw;
@@ -64,10 +92,12 @@ button {
       justify-content: center;
       align-items: center;
       cursor: pointer;
+
       span {
         font-size: 1vw;
       }
     }
+
     .left-item {
       background-color: #fff;
       border-left: 1px solid #979797;
@@ -77,25 +107,32 @@ button {
       border-bottom: 1px solid #fff;
       position: relative;
     }
+
     .unactive-item {
       background-color: #e6e6e6;
     }
+
     .play-with-data {
       background-color: #e6e6e6;
     }
   }
+
   .endpoint-main-content {
     background-color: #fff;
     border: 1px solid #979797;
+
     .endpoint-play-with-data {
       padding: 2vw;
     }
+
     .endpoint-documentation {
       padding: 2vw;
+
       p {
         font-size: 1vw;
         line-height: 2vw;
       }
+
       span {
         font-size: 1vw;
       }

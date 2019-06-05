@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  ContactInfo,
+  CustomizeService,
+  OfficeInfo,
+} from '../../services/customize.service';
 
 @Component({
   selector: 'app-contact',
@@ -6,7 +11,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./contact.component.scss'],
 })
 export class ContactComponent implements OnInit {
-  constructor() {}
+  contactInfo: ContactInfo;
+  officesInfo: OfficeInfo[];
 
-  ngOnInit() {}
+  constructor(public customizeService: CustomizeService) {}
+
+  ngOnInit() {
+    const theme = this.customizeService.getTheme();
+    this.contactInfo = theme.contactInfo;
+    this.officesInfo = theme.officesInfo;
+  }
 }

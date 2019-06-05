@@ -166,18 +166,18 @@
 <div class="any-questions">
   <div class="divider"></div>
   <h1 class="any-questions-title">Any Questions?</h1>
-  <span class="any-questions-subtitle">Ask this guy.</span>
+  <span class="any-questions-subtitle">Ask this person.</span>
   <div class="person-card">
     <div class="person-card-image-wrapper">
-      <img src="../../assets/images/Rene.png" alt="" />
+      <img [src]="contactInfo.img" alt="" />
     </div>
     <div class="person-card-info">
       <div class="main-personal-info">
-        <span>René Pongratz</span> <span>Software Architect &</span>
-        <span>Expert for API Management</span>
+        <span>{{ contactInfo.name }}</span>
+        <span>{{ contactInfo.position }}</span>
       </div>
-      <div class="sub-personal-info">
-        <a href="mailto:psd2@adorsys.de">psd2@adorsys.de</a>
+      <div class="sub-personal-info" *ngIf="contactInfo.email">
+        <a [href]="'mailto:' + contactInfo.email">{{ contactInfo.email }}</a>
       </div>
     </div>
   </div>
