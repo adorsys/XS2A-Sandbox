@@ -27,48 +27,7 @@
       *ngIf="activeSegment === 'documentation'; else: play_with_data"
     >
       <h1>STEP 2: Consent authorisation</h1>
-      <span class="bold-text"
-        >Consent authorisation for user with no SCA methods</span
-      >
-      <p>
-        1. Start authorisation process with
-        <span class="bold-text">POST</span> endpoint
-        <app-line-command
-          title="/v1/consents/{consentId}/authorisations"
-        ></app-line-command>
-        .
-      </p>
-      <p>
-        2. Enter consent id you have got from the previous response in
-        <span class="bold-text">STEP 1</span> in the field
-        <app-line-command title="consentId"></app-line-command>
-        .
-      </p>
-      <p>
-        3. After choosing payment service and payment product, fill the header
-        fields with the following values:
-      </p>
-      <div class="api-table bg th"><span>Header</span> <span>Value</span></div>
-      <div class="api-table">
-        <span>X-Request-ID</span>
-        <span>2f77a125-aa7a-45c0-b414-cea25a116035</span>
-      </div>
-      <div class="api-table bg">
-        <span>PSU-ID</span> <span>YOUR_USER_LOGIN</span>
-      </div>
-      <p>
-        Put in <span class="bold-text">YOUR_USER_LOGIN</span> the name of the
-        user you chose (you can view users and their information in TPP-UI).
-      </p>
-      <p>
-        4. Start authorisation by hitting
-        <span class="italic-text">"Execute"</span> button and get 201 HTTP code
-        and related information.
-      </p>
 
-      <span class="bold-text"
-        >Consent authorisation for user with single SCA method</span
-      >
       <p>
         1. Start authorisation process with
         <span class="bold-text">POST</span> endpoint
@@ -84,47 +43,8 @@
         .
       </p>
       <p>
-        3. After choosing payment service and payment product, fill the header
-        fields with the following values:
-      </p>
-      <div class="api-table bg th"><span>Header</span> <span>Value</span></div>
-      <div class="api-table">
-        <span>X-Request-ID</span>
-        <span>2f77a125-aa7a-45c0-b414-cea25a116035</span>
-      </div>
-      <div class="api-table bg">
-        <span>PSU-ID</span> <span>YOUR_USER_LOGIN</span>
-      </div>
-      <p>
-        Put in <span class="bold-text">YOUR_USER_LOGIN</span> the name of the
-        user you chose (you can view users and their information in TPP-UI).
-      </p>
-      <p>
-        4. Start authorisation by hitting
-        <span class="italic-text">"Execute"</span> button and get 201 HTTP code
-        and related information.
-      </p>
-
-      <span class="bold-text"
-        >Consent authorisation for user with multiple SCA methods</span
-      >
-      <p>
-        1. Start authorisation process with
-        <span class="bold-text">POST</span> endpoint
-        <app-line-command
-          title="/v1/consents/{consentId}/authorisations"
-        ></app-line-command>
-        .
-      </p>
-      <p>
-        2. Enter consent id you have got from the previous response in
-        <span class="bold-text">STEP 1</span> in the field
-        <app-line-command title="consentId"></app-line-command>
-        .
-      </p>
-      <p>
-        3. After choosing payment service and payment product, fill the header
-        fields with the following values:
+        3. After providing consent id, fill the header fields with the following
+        values:
       </p>
       <div class="api-table bg th"><span>Header</span> <span>Value</span></div>
       <div class="api-table">

@@ -58,7 +58,7 @@
         user you chose (you can view users and their information in TPP-UI).
       </p>
       <p>
-        Insert into request body the following json for available accounts
+        3. Insert into request body the following json for available accounts
         consent:
       </p>
       <app-code-area [json]="jsonData" [id]="'ECCP'"></app-code-area>
@@ -68,8 +68,8 @@
         IBAN of the user (IBAN should match user login you entered in PSU-ID
         header above).
       </p>
-      <p>5. Execute and get response with code 201 and related information.</p>
-      <p>6. Start with the authorisation process.</p>
+      <p>4. Execute and get response with code 201 and related information.</p>
+      <p>5. Start with the authorisation process.</p>
       <p>
         Pay attention to the amount of SCA methods user has: if user has no SCA
         methods, test consent initiation with the flow described below in

@@ -28,7 +28,6 @@
     >
       <h1>STEP 2: Payment cancellation authorisation</h1>
 
-      <span class="bold-text">Payment cancellation without authorisation</span>
       <p>
         1. Initiate cancellation process with
         <span class="bold-text">DELETE</span> endpoint
@@ -63,119 +62,6 @@
       <p>
         4. Hit <span class="italic-text">Execute</span> button and get 200 HTTP
         code and related information.
-      </p>
-
-      <span class="bold-text"
-        >Payment cancellation authorisation for user with no SCA methods</span
-      >
-      <p>
-        1. Initiate cancellation process with
-        <span class="bold-text">DELETE</span> endpoint
-        <app-line-command
-          title="/v1/{payment-service}/{payment-product}/{paymentId}"
-        ></app-line-command>
-        . Choose the same
-        <app-line-command title="payment-service"></app-line-command>
-        and
-        <app-line-command title="payment-product"></app-line-command>
-        you chose in <span class="bold-text">STEP 1</span>.
-      </p>
-      <p>
-        2. Enter payment id you have got from the previous response in
-        <span class="bold-text">STEP 1</span> in the field
-        <app-line-command title="paymentId"></app-line-command>.
-      </p>
-      <p>
-        3. After choosing payment service and payment product, fill the header
-        fields with the following values:
-      </p>
-      <div class="api-table bg th"><span>Header</span> <span>Value</span></div>
-      <div class="api-table">
-        <span>X-Request-ID</span>
-        <span>2f77a125-aa7a-45c0-b414-cea25a116035</span>
-      </div>
-      <div class="api-table bg">
-        <span>PSU-IP-Address</span> <span>1.1.1.1</span>
-      </div>
-      <p>
-        4. Hit <span class="italic-text">"Execute"</span> button and get success
-        HTTP code and related information.
-      </p>
-
-      <span class="bold-text"
-        >Payment cancellation authorisation for user with single SCA
-        method</span
-      >
-      <p>
-        1. Initiate cancellation process with
-        <span class="bold-text">DELETE</span> endpoint
-        <app-line-command
-          title="/v1/{payment-service}/{payment-product}/{paymentId}"
-        ></app-line-command>
-        . Choose the same
-        <app-line-command title="payment-service"></app-line-command>
-        and
-        <app-line-command title="payment-product"></app-line-command>
-        you chose in <span class="bold-text">STEP 1</span>.
-      </p>
-      <p>
-        2. Enter payment id you have got from the previous response in
-        <span class="bold-text">STEP 1</span> in the field
-        <app-line-command title="paymentId"></app-line-command>.
-      </p>
-      <p>
-        3. After choosing payment service and payment product, fill the header
-        fields with the following values:
-      </p>
-      <div class="api-table bg th"><span>Header</span> <span>Value</span></div>
-      <div class="api-table">
-        <span>X-Request-ID</span>
-        <span>2f77a125-aa7a-45c0-b414-cea25a116035</span>
-      </div>
-      <div class="api-table bg">
-        <span>PSU-IP-Address</span> <span>1.1.1.1</span>
-      </div>
-      <p>
-        4. Hit <span class="italic-text">"Execute"</span> button and get success
-        HTTP code and related information.
-      </p>
-
-      <span class="bold-text"
-        >Payment cancellation authorisation for user with multiple SCA
-        methods</span
-      >
-      <p>
-        1. Initiate cancellation process with
-        <span class="bold-text">DELETE</span> endpoint
-        <app-line-command
-          title="/v1/{payment-service}/{payment-product}/{paymentId}"
-        ></app-line-command>
-        . Choose the same
-        <app-line-command title="payment-service"></app-line-command>
-        and
-        <app-line-command title="payment-product"></app-line-command>
-        you chose in <span class="bold-text">STEP 1</span>.
-      </p>
-      <p>
-        2. Enter payment id you have got from the previous response in
-        <span class="bold-text">STEP 1</span> in the field
-        <app-line-command title="paymentId"></app-line-command>.
-      </p>
-      <p>
-        3. After choosing payment service and payment product, fill the header
-        fields with the following values:
-      </p>
-      <div class="api-table bg th"><span>Header</span> <span>Value</span></div>
-      <div class="api-table">
-        <span>X-Request-ID</span>
-        <span>2f77a125-aa7a-45c0-b414-cea25a116035</span>
-      </div>
-      <div class="api-table bg">
-        <span>PSU-IP-Address</span> <span>1.1.1.1</span>
-      </div>
-      <p>
-        4. Hit <span class="italic-text">"Execute"</span> button and get success
-        HTTP code and related information.
       </p>
     </div>
 
