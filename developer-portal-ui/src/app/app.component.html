@@ -2,8 +2,8 @@
   class="nav-bar"
   *ngIf="!dataService.currentRouteUrl.includes('admin')"
   [ngStyle]="{
-    backgroundColor: globalSettings.headerBG,
-    color: globalSettings.headerFontColor
+    backgroundColor: globalSettings?.headerBG,
+    color: globalSettings?.headerFontColor
   }"
 >
   <img
@@ -65,8 +65,8 @@
   class="footer-bar"
   *ngIf="!dataService.currentRouteUrl.includes('admin')"
   [ngStyle]="{
-    backgroundColor: globalSettings.footerBG,
-    color: globalSettings.footerFontColor
+    backgroundColor: globalSettings?.footerBG,
+    color: globalSettings?.footerFontColor
   }"
 >
   <div class="footer-top-items">
@@ -89,22 +89,22 @@
 
   <div
     class="social-media"
-    *ngIf="globalSettings.facebook || globalSettings.linkedIn"
+    *ngIf="globalSettings?.facebook || globalSettings?.linkedIn"
   >
-    <div *ngIf="globalSettings.facebook">
-      <a [href]="globalSettings.facebook" target="_blank">
+    <div *ngIf="globalSettings?.facebook">
+      <a [href]="globalSettings?.facebook" target="_blank">
         <i
           class="fab fa-facebook-f"
-          [ngStyle]="{ color: globalSettings.footerFontColor }"
+          [ngStyle]="{ color: globalSettings?.footerFontColor }"
         ></i>
       </a>
     </div>
 
-    <div *ngIf="globalSettings.linkedIn">
-      <a [href]="globalSettings.linkedIn" target="_blank">
+    <div *ngIf="globalSettings?.linkedIn">
+      <a [href]="globalSettings?.linkedIn" target="_blank">
         <i
           class="fab fa-linkedin-in"
-          [ngStyle]="{ color: globalSettings.footerFontColor }"
+          [ngStyle]="{ color: globalSettings?.footerFontColor }"
         ></i>
       </a>
     </div>

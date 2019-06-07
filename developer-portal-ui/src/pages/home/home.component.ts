@@ -24,6 +24,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   init() {
+    setInterval(() => {
+      this.contactInfo = this.customizeService.getTheme().contactInfo;
+    }, 500);
+
     this.slides = [
       {
         title: 'Plug and Play',
@@ -158,8 +162,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    const theme = this.customizeService.getTheme();
-    this.contactInfo = theme.contactInfo;
     if (this.productHistory[this.productHistory.length - 1].date < this.today) {
       this.productHistory.push({
         title: '',

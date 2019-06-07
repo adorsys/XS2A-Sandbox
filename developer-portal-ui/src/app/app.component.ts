@@ -22,7 +22,19 @@ export class AppComponent implements OnInit {
     public dataService: DataService,
     public loginService: LoginService,
     public customizeService: CustomizeService
-  ) {
+  ) {}
+
+  goToPage(page) {
+    this.router.navigateByUrl(`/${page}`);
+  }
+
+  onActivate(ev) {
+    this.dataService.currentRouteUrl = this.actRoute[
+      '_routerState'
+    ].snapshot.url;
+  }
+
+  ngOnInit() {
     let theme: Theme;
     this.customizeService.getJSON().then(data => {
       theme = data;
@@ -37,16 +49,4 @@ export class AppComponent implements OnInit {
       this.customizeService.setUserTheme(theme);
     });
   }
-
-  goToPage(page) {
-    this.router.navigateByUrl(`/${page}`);
-  }
-
-  onActivate(ev) {
-    this.dataService.currentRouteUrl = this.actRoute[
-      '_routerState'
-    ].snapshot.url;
-  }
-
-  ngOnInit() {}
 }

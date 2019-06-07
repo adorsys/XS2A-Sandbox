@@ -9,7 +9,7 @@ export class CustomizeService {
   private STATUS_WAS_CHANGED = false;
   private DEFAULT_THEME: Theme = {
     globalSettings: {
-      logo: '../assets/images/Logo_XS2ASandbox.png',
+      logo: '../assets/UI/Logo_XS2ASandbox.png',
       fontFamily: 'Arial, sans-serif',
       headerBG: '#ffffff',
       headerFontColor: '#000000',
@@ -19,7 +19,7 @@ export class CustomizeService {
       linkedIn: 'https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/',
     },
     contactInfo: {
-      img: '../../assets/images/Rene.png',
+      img: 'Rene.png',
       name: 'René Pongratz',
       position: 'Software Architect & Expert for API Management',
       email: 'psd2@adorsys.de',
