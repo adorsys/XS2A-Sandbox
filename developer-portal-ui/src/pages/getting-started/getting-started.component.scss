@@ -10,7 +10,7 @@ h1 {
 }
 
 .getting-started-container {
-  padding: 0 16vw
+  padding: 0 16vw;
 }
 
 .divider {
@@ -25,7 +25,8 @@ h2 {
   color: #5f5f5f;
 }
 
-p, li {
+p,
+li {
   color: #868e96;
   opacity: 0.9;
   font-size: 1.4vw;
@@ -73,6 +74,21 @@ section {
       color: #e83e8c;
       word-break: break-word;
     }
+  }
+}
+
+.customization {
+  .JSON {
+    cursor: pointer;
+    color: #0000ee;
+    text-decoration: underline;
+  }
+
+  ul:first-child {
+    padding-inline-start: 20px;
+  }
+  ol > li:nth-child(2) {
+    margin-bottom: 0.7vw;
   }
 }
 

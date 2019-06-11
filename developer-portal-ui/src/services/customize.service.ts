@@ -97,8 +97,12 @@ export class CustomizeService {
       });
   }
 
-  getTheme() {
-    return this.USER_THEME;
+  getTheme(type?: string) {
+    if (type) {
+      return this.DEFAULT_THEME;
+    } else {
+      return this.USER_THEME;
+    }
   }
 
   getDefaultTheme(): Promise<Theme> {

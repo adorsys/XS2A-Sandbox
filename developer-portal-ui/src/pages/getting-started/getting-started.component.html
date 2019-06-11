@@ -677,6 +677,76 @@
     </ol>
   </section>
 
+  <section class="customization">
+    <div class="divider"></div>
+    <h1>How to customize UI of developer portal</h1>
+    <ol>
+      <li>Create .json file with name UITheme.</li>
+      <li>
+        <span class="JSON" (click)="exportTheme()">Json example</span>
+        <app-code-area
+          [json]="defaultTheme"
+          [id]="'defaultTheme'"
+        ></app-code-area>
+      </li>
+      <li>
+        Json fields.
+        <ul>
+          <li>
+            globalSettings - required
+            <ul>
+              <li>
+                logo - required, value: string, http url or file name with
+                extension or ' '
+              </li>
+              <li>
+                fontFamily - optional, value: string, font-name or font-name,
+                font-family
+              </li>
+              <li>headerBG - optional, value: string, hex</li>
+              <li>headerFontColor - optional, value: string, hex</li>
+              <li>footerBG - optional, value: string, hex</li>
+              <li>footerFontColor - optional, value: string, hex</li>
+              <li>facebook - optional, value: string, http url</li>
+              <li>linkedIn - optional, value: string, http url</li>
+            </ul>
+          </li>
+          <li>
+            contactInfo - required
+            <ul>
+              <li>name - required, value: string</li>
+              <li>position - required, value: string</li>
+              <li>
+                img - required, value: string, http url or file name with
+                extension
+              </li>
+              <li>email - optional, value: string</li>
+              <li>phone - optional, value: string</li>
+            </ul>
+          </li>
+          <li>
+            officesInfo - required. Array of 2 elements.
+            <ul>
+              <li>city - required, value: string</li>
+              <li>company - required, value: string</li>
+              <li>addressFirstLine - required, value: string</li>
+              <li>addressSecondLine - required, value: string</li>
+              <li>phone - optional, value: string</li>
+              <li>email - optional, value: string</li>
+              <li>facebook - optional, value: string, http url</li>
+              <li>linkedIn - optional, value: string, http url</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        When you create .json file and fill all required fields, put this file
+        with logo and contact person images in folder ../assets/UI/
+      </li>
+      <li>Customization completed, congratulations!</li>
+    </ol>
+  </section>
+
   <section>
     <div class="divider"></div>
     <h1>What's next?</h1>

@@ -68,5 +68,6 @@ import { TestValuesComponent } from './components/test-values/test-values.compon
       animationType: ngxLoadingAnimationTypes.wanderingCubes,
     }),
   ],
+  exports: [CodeAreaComponent],
 })
 export class TestCasesModule {}
