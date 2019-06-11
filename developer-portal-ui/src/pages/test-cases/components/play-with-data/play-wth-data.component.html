@@ -1,6 +1,7 @@
 <div class="play-with-data-wrapper">
   <div class="request-method">
-    <span class="line-command-wrapper"
+    <span
+      class="line-command-wrapper"
       [ngStyle]="
         method === 'POST'
           ? { 'background-color': '#4acb91' }
@@ -11,54 +12,87 @@
           : method === 'DELETE'
           ? { 'background-color': '#b22f3f' }
           : null
-      ">
+      "
+    >
       <span>{{ method }}</span>
     </span>
     <div class="url">
       <span class="top-line">{{ url }}</span>
-      <select id="paymentService"
-              *ngIf="paymentServiceFlag"
-              [(ngModel)]="paymentService">
+      <select
+        id="paymentService"
+        *ngIf="paymentServiceFlag"
+        [(ngModel)]="paymentService"
+      >
         <option [value]="ps" *ngFor="let ps of paymentServiceSelect">
           {{ ps }}
         </option>
       </select>
-      <span class="top-line" *ngIf="paymentProductFlag || accountIdFlag">/</span>
-      <input type="text" class="payment-id"
-             *ngIf="accountIdFlag"
-             [(ngModel)]="accountId"/>
-      <select id="paymentProduct"
-              *ngIf="paymentProductFlag"
-              [(ngModel)]="paymentProduct">
+      <span class="top-line" *ngIf="paymentProductFlag || accountIdFlag"
+        >/</span
+      >
+      <input
+        type="text"
+        class="payment-id"
+        *ngIf="accountIdFlag"
+        [(ngModel)]="accountId"
+      />
+      <select
+        id="paymentProduct"
+        *ngIf="paymentProductFlag"
+        [(ngModel)]="paymentProduct"
+      >
         <option [value]="'/' + pp" *ngFor="let pp of paymentProductSelect">
           {{ pp }}
         </option>
       </select>
       <span class="top-line" *ngIf="paymentIdFlag || consentIdFlag">/</span>
 
-      <input type="text" class="payment-id"
-             *ngIf="paymentIdFlag"
-             [(ngModel)]="paymentId"/>
+      <input
+        type="text"
+        class="payment-id"
+        *ngIf="paymentIdFlag"
+        [(ngModel)]="paymentId"
+      />
 
-      <input type="text" class="payment-id"
-             *ngIf="consentIdFlag"
-             [(ngModel)]="consentId"/>
+      <input
+        type="text"
+        class="payment-id"
+        *ngIf="consentIdFlag"
+        [(ngModel)]="consentId"
+      />
 
-      <span class="top-line" *ngIf="variablePathEnd">{{variablePathEnd}}</span>
-      <span class="top-line" *ngIf="authorisationIdFlag || cancellationIdFlag || transactionIdFlag">/</span>
-      <input type="text" class="payment-id"
-             *ngIf="authorisationIdFlag"
-             [(ngModel)]="authorisationId"/>
-      <input type="text" class="payment-id"
-             *ngIf="cancellationIdFlag"
-             [(ngModel)]="cancellationId"/>
-      <input type="text" class="payment-id"
-             *ngIf="transactionIdFlag"
-             [(ngModel)]="transactionId"/>
+      <span class="top-line" *ngIf="variablePathEnd">{{
+        variablePathEnd
+      }}</span>
+      <span
+        class="top-line"
+        *ngIf="authorisationIdFlag || cancellationIdFlag || transactionIdFlag"
+        >/</span
+      >
+      <input
+        type="text"
+        class="payment-id"
+        *ngIf="authorisationIdFlag"
+        [(ngModel)]="authorisationId"
+      />
+      <input
+        type="text"
+        class="payment-id"
+        *ngIf="cancellationIdFlag"
+        [(ngModel)]="cancellationId"
+      />
+      <input
+        type="text"
+        class="payment-id"
+        *ngIf="transactionIdFlag"
+        [(ngModel)]="transactionId"
+      />
       <span class="top-line" *ngIf="bookingStatusFlag">?bookingStatus=</span>
-      <select id="bookingStatus"
-              *ngIf="bookingStatusFlag"
-              [(ngModel)]="bookingStatus">
+      <select
+        id="bookingStatus"
+        *ngIf="bookingStatusFlag"
+        [(ngModel)]="bookingStatus"
+      >
         <option [value]="bs" *ngFor="let bs of bookingStatusSelect">
           {{ bs }}
         </option>
@@ -126,5 +160,14 @@
     }"
   ></ngx-loading>
 
-  <button class="submit-btn" (click)="sendRequest()">Submit</button>
+  <div class="btns">
+    <button class="submit-btn" (click)="sendRequest()">Submit</button>
+    <a
+      [href]="redirectUrl"
+      target="_blank"
+      class="redirect-btn"
+      *ngIf="redirectUrl"
+      >Redirect Url</a
+    >
+  </div>
 </div>

@@ -103,7 +103,7 @@
     .status-style {
       margin: 2vw 0;
       display: block;
-      font-size: 2vw
+      font-size: 2vw;
     }
     .response-status-wrapper {
       background-color: #f3f3f3;
@@ -135,14 +135,39 @@
       line-height: 1.3vw !important;
     }
   }
-  .submit-btn {
-    background-color: #054f72;
-    color: #fff;
-    width: 10vw;
-    height: 2.5vw;
-    font-size: 1vw;
-    margin-top: 2.5vw;
-    outline: none;
-    cursor: pointer;
+
+  .btns {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .submit-btn {
+      background-color: #054f72;
+      color: #fff;
+      width: 10vw;
+      height: 2.5vw;
+      font-size: 1vw;
+      margin-top: 2.5vw;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .redirect-btn {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 0.596vw 0;
+      background-color: #054f72;
+      color: #fff;
+      width: 9.8vw;
+      font-size: 1vw;
+      margin-top: 2.5vw;
+      outline: none;
+      cursor: pointer;
+
+      border-color: rgb(216, 216, 216) rgb(209, 209, 209) rgb(186, 186, 186);
+      border-style: solid;
+      border-width: 1px;
+    }
   }
 }
