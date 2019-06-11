@@ -11,6 +11,7 @@ import {InfoService} from "../../commons/info/info.service";
 })
 export class TestDataGenerationComponent implements OnInit {
     submitted: boolean;
+    generatePaymentsFlag: boolean;
     private form = new FormGroup({});
     private fileUrl: SafeResourceUrl;
     private message = 'Test data has been successfully generated. The automatic download of the test yml file will start within some seconds.';
@@ -25,7 +26,7 @@ export class TestDataGenerationComponent implements OnInit {
     }
 
     generate() {
-        return this.generationService.generateTestData()
+        return this.generationService.generateTestData(this.generatePaymentsFlag)
             .subscribe(data => {
                     this.infoService.openFeedback(this.message);
 

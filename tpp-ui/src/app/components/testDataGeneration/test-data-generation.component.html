@@ -2,7 +2,20 @@
     <div class="header__title">Generate NISP compliant Test Data</div>
     <div class="card card--small">
         <div class="card-body">
-            <button (click)="generate()" class="btn btn-primary my-0">Generate and Download</button>
+            <form class="form-inline">
+                <div class="form-check mr-2">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           [checked]="generatePaymentsFlag"
+                           (change)="generatePaymentsFlag = !generatePaymentsFlag"
+                           id="generatePayments">
+                    <label class="form-check-label" for="generatePayments">
+                        Generate Payment Data
+                    </label>
+                </div>
+                <button (click)="generate()" class="btn btn-primary my-0">Generate and Download</button>
+            </form>
+
         </div>
     </div>
 </div>
