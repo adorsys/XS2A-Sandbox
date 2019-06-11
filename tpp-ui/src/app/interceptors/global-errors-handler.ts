@@ -23,52 +23,13 @@ export class GlobalErrorsHandler implements ErrorHandler {
         return this.injector.get(ActivatedRoute);
     }
 
-    public handleError(error: HttpErrorResponse) {
-        console.error("TPP UI error handler: ", error);
-
-        let httpErrorCode = error.status;
-
-        console.log(httpErrorCode);
-
-        this.zone.run(() => {
-
-            // default error handling
-            switch (httpErrorCode) {
-                case 401: {
-                    this.infoService.openFeedback('Invalid authentication credentials', {
-                        severity: 'error'
-                    });
-                    break;
-                }
-                case 403: {
-                    this.infoService.openFeedback('You have no rights to execute this action', {
-                        severity: 'error'
-                    });
-                    break;
-                }
-                case 404: {
-                    this.infoService.openFeedback('Required resource not found', {
-                        severity: 'error'
-                    });
-                    break;
-                }
-                case 409: {
-                    this.infoService.openFeedback('Conflict. A record with the given email or login already exists.', {
-                        severity: 'error'
-                    });
-                    break;
-                }
-                default: {
-                    // if required could be redirected to internal server error page
-                    this.infoService.openFeedback('Internal server error. Please contact technical support', {
-                        severity: 'error'
-                    });
-                    break;
-                }
-            }
-
+    public handleError(errorResponse: HttpErrorResponse) {
+        console.error("TPP UI error handler: ", errorResponse);
+        let error = errorResponse.error;
+        let errorMessage = error?error.message:errorResponse.statusText;
+        this.infoService.openFeedback(errorMessage, {
+            severity: 'error'
         });
-
     }
 
 }

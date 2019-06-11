@@ -85,12 +85,6 @@ export class AccountDetailComponent implements OnInit {
     }
 
     this.accountService.createAccount(this.userID, this.accountForm.getRawValue())
-      .subscribe(() => this.router.navigate(['/accounts']), error => {
-        if (typeof error.error === 'object') {
-          this.errorMessage = error.error.status + ' ' + error.error.error + ': ' + error.error.message;
-        } else {
-          this.errorMessage = error.status + ' ' + error.error
-        }
-      });
+      .subscribe(() => this.router.navigate(['/accounts']));
   }
 }
