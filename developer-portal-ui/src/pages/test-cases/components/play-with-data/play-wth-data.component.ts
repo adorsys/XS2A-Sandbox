@@ -23,6 +23,7 @@ export class PlayWthDataComponent implements OnInit {
   @Input() consentIdFlag: boolean;
   @Input() authorisationIdFlag: boolean;
   @Input() variablePathEnd: string;
+  @Input() fieldsToCopy: string[];
 
   response: object = {};
   finalUrl: string;
@@ -141,6 +142,43 @@ export class PlayWthDataComponent implements OnInit {
     return index;
   }
 
+  copyThis(index: number) {
+    const copyText = document.getElementById(`input-${index}`);
+    this.copyTextToClipboard(copyText['value'], index);
+  }
+
+  copyTextToClipboard(text: string, index: number) {
+    if (!navigator['clipboard']) {
+      this.fallbackCopyTextToClipboard(text, index);
+      return;
+    }
+    navigator['clipboard'].writeText(text).then(() => {
+      console.log('Async: Copying to clipboard was successful!');
+      this.dataService.showToast(`${this.fieldsToCopy[index]} copied`, 'Copy success!', 'success');
+    }, (err) => {
+      console.error('Async: Could not copy text: ', err);
+    });
+  }
+
+  fallbackCopyTextToClipboard(text: string, index: number) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+      const successful = document.execCommand('copy');
+      const msg = successful ? 'successful' : 'unsuccessful';
+      console.log('Fallback: Copying text command was ' + msg);
+      this.dataService.showToast(`${this.fieldsToCopy[index]} copied`, 'Copy success!', 'success');
+    } catch (err) {
+      console.error('Fallback: Oops, unable to copy', err);
+    }
+
+    document.body.removeChild(textArea);
+  }
+
   ngOnInit() {
     this.paymentService = this.paymentServiceFlag ? 'payments' : '';
     this.paymentProduct = this.paymentProductFlag
@@ -153,5 +191,6 @@ export class PlayWthDataComponent implements OnInit {
     this.accountId = this.accountIdFlag ? 'accountId' : '';
     this.transactionId = this.transactionIdFlag ? 'transactionId' : '';
     this.bookingStatus = this.bookingStatusFlag ? 'booked' : '';
+    this.fieldsToCopy = this.fieldsToCopy ? this.fieldsToCopy : [];
   }
 }

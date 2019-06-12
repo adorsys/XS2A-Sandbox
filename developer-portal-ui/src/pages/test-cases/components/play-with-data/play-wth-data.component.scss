@@ -136,6 +136,43 @@
     }
   }
 
+  table {
+    width: 100%;
+    .copy-field-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .copy-label {
+        width: 7vw;
+        label {
+          display: block;
+          font-size: 1vw;
+        }
+      }
+      .copy-field {
+        width: calc(100% - 20vw);
+        input {
+          width: 100%;
+          display: block;
+          height: 2vw;
+          padding-left: .5vw;
+          font-size: 1vw;
+        }
+      }
+      .copy-btn {
+        display: block;
+        background-color: #054f72;
+        color: #fff;
+        width: 10vw;
+        height: 2.5vw;
+        font-size: 1vw;
+        outline: none;
+        cursor: pointer;
+      }
+    }
+  }
+
   .btns {
     display: flex;
     justify-content: space-between;

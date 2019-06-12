@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-rdct-consent-post',
-  templateUrl: './rdct-consent-post.component.html',
-  styleUrls: ['./rdct-consent-post.component.scss'],
+  templateUrl: './rdct-consent-post.component.html'
 })
 export class RdctConsentPOSTComponent implements OnInit {
   activeSegment = 'documentation';

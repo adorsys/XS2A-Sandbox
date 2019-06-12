@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-emb-payment-init-create-post',
-  templateUrl: './emb-payment-init-create-post.component.html',
-  styleUrls: ['./emb-payment-init-create-post.component.scss'],
+  templateUrl: './emb-payment-init-create-post.component.html'
 })
 export class EmbPaymentInitCreatePostComponent implements OnInit {
   activeSegment = 'documentation';

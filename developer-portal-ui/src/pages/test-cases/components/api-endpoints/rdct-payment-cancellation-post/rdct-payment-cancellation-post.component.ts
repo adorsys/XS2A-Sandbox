@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-rdct-cancellation-post',
-  templateUrl: './rdct-payment-cancellation-post.component.html',
-  styleUrls: ['./rdct-payment-cancellation-post.component.scss'],
+  templateUrl: './rdct-payment-cancellation-post.component.html'
 })
 export class RdctPaymentCancellationPostComponent implements OnInit {
   activeSegment = 'documentation';

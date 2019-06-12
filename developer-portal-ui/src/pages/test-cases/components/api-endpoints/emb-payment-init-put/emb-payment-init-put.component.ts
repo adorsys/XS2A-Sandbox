@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-emb-payment-init-put',
-  templateUrl: './emb-payment-init-put.component.html',
-  styleUrls: ['./emb-payment-init-put.component.scss'],
+  templateUrl: './emb-payment-init-put.component.html'
 })
 export class EmbPaymentInitPutComponent implements OnInit {
   activeSegment = 'documentation';

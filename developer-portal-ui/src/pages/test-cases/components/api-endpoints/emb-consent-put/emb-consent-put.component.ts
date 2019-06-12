@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-emb-consent-put',
-  templateUrl: './emb-consent-put.component.html',
-  styleUrls: ['./emb-consent-put.component.scss'],
+  templateUrl: './emb-consent-put.component.html'
 })
 export class EmbConsentPutComponent implements OnInit {
   activeSegment = 'documentation';

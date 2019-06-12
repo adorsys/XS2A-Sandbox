@@ -99,7 +99,7 @@
       </select>
     </div>
   </div>
-  <div class="full-path">
+  <div class="full-path" *ngIf="false">
     <span>Full path:</span> <span>{{ url }}</span>
     <span *ngIf="paymentService">{{ paymentService }}</span>
     <span *ngIf="paymentProduct">{{ paymentProduct }}</span>
@@ -147,6 +147,24 @@
   <div *ngIf="response.body" class="response-body">
     <span>Response body</span>
     <p class="response-body-text">{{ response.body | json }}</p>
+  </div>
+  
+  <div *ngIf="fieldsToCopy.length && response.body">
+    <table>
+      <tr class="copy-field-wrapper" *ngFor="let field of fieldsToCopy; let i = index">
+        <td class="copy-label">
+          <label [for]="'input-' + i">{{field}}</label>
+        </td>
+        <td class="copy-field">
+          <input type="text"
+                 [value]="response.body[field]"
+                 [id]="'input-' + i">
+        </td>
+        <td>
+          <button class="copy-btn" (click)="copyThis(i)">Copy</button>
+        </td>
+      </tr>
+    </table>
   </div>
 
   <ngx-loading

@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-emb-consent-create-post',
-  templateUrl: './emb-consent-create-post.component.html',
-  styleUrls: ['./emb-consent-create-post.component.scss'],
+  templateUrl: './emb-consent-create-post.component.html'
 })
 export class EmbConsentCreatePostComponent implements OnInit {
   activeSegment = 'documentation';
