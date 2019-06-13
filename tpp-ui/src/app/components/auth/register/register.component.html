@@ -42,13 +42,18 @@
               </div>
 
               <div class="form-group">
-                  <label for="email">E-Mail Address</label>
-                  <input [ngClass]="{'is-invalid': userForm.get('email')?.errors && userForm.get('email')?.touched}"
+                  <label for="email">E-Mail Address*</label>
+                  <input [ngClass]="{'is-invalid': userForm.get('email')?.errors && userForm.get('email')?.touched
+                  || submitted && userForm.get('email')?.errors}"
                          autocomplete="off"
                          class="form-control"
                          formControlName="email"
                          id="email"
                          type="email">
+                  <div *ngIf="userForm.get('email')?.errors?.required"
+                       class="invalid-feedback">
+                      Email is required
+                  </div>
                   <div *ngIf="userForm.get('email')?.hasError('pattern')"
                        class="invalid-feedback">
                       Email is not valid
