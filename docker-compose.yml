@@ -149,8 +149,10 @@ services:
       - xs2a-net
     environment:
       ONLINE_BANKING_SERVER_URL: "http://xs2a-online-banking:8090"
+      DEV_PORTAL_URL: "http://localhost:4206"
     depends_on:
       - xs2a-online-banking
+      - developer-portal-ui
 
 
   # TPP-UI
