@@ -221,6 +221,78 @@
                 </li>
               </ul>
             </li>
+            <li>
+              <span class="clickable-item" (click)="collapseThis('account')">
+                <span *ngIf="!accountFlag">+ </span>
+                <span *ngIf="accountFlag" class="minus">- </span> Account
+                Information:
+              </span>
+              <ul class="collapse-content" id="account-content">
+                <li>
+                  <span>Read Account List</span>
+                  <ul>
+                    <li
+                      class="clickable-item get"
+                      routerLink="/test-cases/account-information-accounts-get"
+                    >
+                      GET endpoint {{ '/v1/accounts' }}
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  <span>Read Account Details</span>
+                  <ul>
+                    <li
+                      class="clickable-item get"
+                      routerLink="/test-cases/account-information-account-get"
+                    >
+                      GET endpoint {{ '/v1/accounts/{account-id}' }}
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  <span>Read Balance</span>
+                  <ul>
+                    <li
+                      class="clickable-item get"
+                      routerLink="/test-cases/account-information-balance-get"
+                    >
+                      GET endpoint {{ '/v1/accounts/{account-id}/balances' }}
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  <span>Read List of Transactions</span>
+                  <ul>
+                    <li
+                      class="clickable-item get"
+                      routerLink="/test-cases/account-information-transactions-get"
+                    >
+                      GET endpoint
+                      {{ '/v1/accounts/{account-id}/transactions' }}
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  <span>Read Transaction Details</span>
+                  <ul>
+                    <li
+                      class="clickable-item get"
+                      routerLink="/test-cases/account-information-transaction-get"
+                    >
+                      GET endpoint
+                      {{
+                        '/v1/accounts/{account-id}/transactions/{transactionId}'
+                      }}
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
           </ul>
         </li>
         <li>

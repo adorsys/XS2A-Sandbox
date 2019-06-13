@@ -10,16 +10,13 @@ import { DataService } from '../../services/data.service';
 export class TestCasesComponent implements OnInit {
   redirectFlag = false;
   embeddedFlag = false;
+  accountFlag = false;
 
   constructor(
     private router: Router,
     public dataService: DataService,
     private actRoute: ActivatedRoute
   ) {}
-
-  navigateTo(component) {
-    // this.router.navigate([component]);
-  }
 
   onActivate(ev) {
     this.dataService.currentRouteUrl = this.actRoute[
@@ -38,6 +35,9 @@ export class TestCasesComponent implements OnInit {
         break;
       case 'embedded':
         this.embeddedFlag = !this.embeddedFlag;
+        break;
+      case 'account':
+        this.accountFlag = !this.accountFlag;
         break;
     }
 

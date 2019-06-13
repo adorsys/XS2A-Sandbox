@@ -13,6 +13,9 @@ export class PlayWthDataComponent implements OnInit {
   @Input() headers: object;
   @Input() body: object;
   @Input() url: string;
+  @Input() accountIdFlag: boolean;
+  @Input() bookingStatusFlag: boolean;
+  @Input() transactionIdFlag: boolean;
   @Input() paymentServiceFlag: boolean;
   @Input() paymentProductFlag: boolean;
   @Input() paymentIdFlag: boolean;
@@ -29,6 +32,9 @@ export class PlayWthDataComponent implements OnInit {
   cancellationId = '';
   consentId = '';
   authorisationId = '';
+  accountId = '';
+  transactionId = '';
+  bookingStatus = '';
 
   paymentServiceSelect = ['payments', 'bulk-payments', 'periodic-payments'];
   paymentProductSelect = [
@@ -41,6 +47,7 @@ export class PlayWthDataComponent implements OnInit {
     'pain.001-target-2-payments',
     'pain.001-cross-border-credit-transfers',
   ];
+  bookingStatusSelect = ['booked', 'pending', 'both'];
 
   constructor(
     public restService: RestService,
@@ -75,8 +82,12 @@ export class PlayWthDataComponent implements OnInit {
 
       this.finalUrl += this.variablePathEnd ? this.variablePathEnd : '';
       this.finalUrl += this.authorisationId ? '/' + this.authorisationId : '';
-    } else {
-      this.finalUrl = this.url;
+    } else if (this.accountIdFlag) {
+      this.finalUrl += '/' + this.accountId;
+
+      this.finalUrl += this.variablePathEnd ? this.variablePathEnd : '';
+      this.finalUrl += this.bookingStatus ? '?bookingStatus=' + this.bookingStatus : '';
+      this.finalUrl += this.transactionId ? '/' + this.transactionId : '';
     }
 
     console.log(this.variablePathEnd);
@@ -127,12 +138,13 @@ export class PlayWthDataComponent implements OnInit {
 
   ngOnInit() {
     this.paymentService = this.paymentServiceFlag ? 'payments' : '';
-    this.paymentProduct = this.paymentProductFlag
-      ? '/sepa-credit-transfers'
-      : '';
+    this.paymentProduct = this.paymentProductFlag ? '/sepa-credit-transfers' : '';
     this.paymentId = this.paymentIdFlag ? 'paymentId' : '';
     this.cancellationId = this.cancellationIdFlag ? 'cancellationId' : '';
     this.consentId = this.consentIdFlag ? 'consentId' : '';
     this.authorisationId = this.authorisationIdFlag ? 'authorisationId' : '';
+    this.accountId = this.accountIdFlag ? 'accountId' : '';
+    this.transactionId = this.transactionIdFlag ? 'transactionId' : '';
+    this.bookingStatus = this.bookingStatusFlag ? 'booked' : '';
   }
 }

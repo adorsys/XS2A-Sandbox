@@ -2,6 +2,10 @@
   padding: 2vw;
   position: relative;
 
+  .top-line {
+    font-size: 1vw;
+  }
+
   .request-method {
     display: flex;
     align-items: center;
@@ -96,6 +100,11 @@
     }
   }
   .response-status {
+    .status-style {
+      margin: 2vw 0;
+      display: block;
+      font-size: 2vw
+    }
     .response-status-wrapper {
       background-color: #f3f3f3;
       padding: 0.5vw 0 0.5vw 1vw;
