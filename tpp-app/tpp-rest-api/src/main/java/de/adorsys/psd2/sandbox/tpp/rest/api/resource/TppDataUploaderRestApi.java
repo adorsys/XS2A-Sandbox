@@ -11,13 +11,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 @Api(tags = "TPP data uploader")
-public interface TppDataUploaderApi {
+public interface TppDataUploaderRestApi {
+    String BASE_PATH = TppRestApi.BASE_PATH + "/data";
 
     @ApiOperation(value = "Upload YAML file with basic test data", authorizations = @Authorization(value = "apiKey"))
     @PutMapping("/upload")
-    ResponseEntity<String> uploadYamlData(@RequestBody MultipartFile file);
+    ResponseEntity<String> uploadData(@RequestBody MultipartFile file);
 
-    @ApiOperation(value = "Generate YAML test data and upload it to Ledgers", authorizations = @Authorization(value = "apiKey"))
+    @ApiOperation(value = "Generate test data and upload it to Ledgers", authorizations = @Authorization(value = "apiKey"))
     @GetMapping(value = "/generate")
-    ResponseEntity<Resource> generateFile();
+    ResponseEntity<Resource> generateData();
 }

@@ -97,6 +97,7 @@
         <!-- other properties -->
         <spring-boot-dependencies.version>2.1.1.RELEASE</spring-boot-dependencies.version>
         <spring-cloud-dependencies.version>Greenwich.RELEASE</spring-cloud-dependencies.version>
+        <feign.version>10.2.3</feign.version>
         <jetbrains.annotations.version>15.0</jetbrains.annotations.version>
         <javatar-commons.version>LATEST</javatar-commons.version>
         <org.mapstruct.version>1.2.0.Final</org.mapstruct.version>
