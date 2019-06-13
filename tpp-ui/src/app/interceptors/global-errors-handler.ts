@@ -25,10 +25,13 @@ export class GlobalErrorsHandler implements ErrorHandler {
 
     public handleError(errorResponse: HttpErrorResponse) {
         console.error("TPP UI error handler: ", errorResponse);
-        let error = errorResponse.error;
-        let errorMessage = error?error.message:errorResponse.statusText;
-        this.infoService.openFeedback(errorMessage, {
-            severity: 'error'
+
+        this.zone.run(() => {
+            let error = errorResponse.error;
+            let errorMessage = error?error.message:errorResponse.statusText;
+            this.infoService.openFeedback(errorMessage, {
+                severity: 'error'
+            });
         });
     }
 
