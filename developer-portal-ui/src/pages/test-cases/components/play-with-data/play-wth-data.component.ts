@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { RestService } from '../../../../services/rest.service';
 import { DataService } from '../../../../services/data.service';
 import { getStatusText } from 'http-status-codes';
+import { pathOr } from 'ramda';
 
 @Component({
   selector: 'app-play-wth-data',
@@ -152,12 +153,19 @@ export class PlayWthDataComponent implements OnInit {
       this.fallbackCopyTextToClipboard(text, index);
       return;
     }
-    navigator['clipboard'].writeText(text).then(() => {
-      console.log('Async: Copying to clipboard was successful!');
-      this.dataService.showToast(`${this.fieldsToCopy[index]} copied`, 'Copy success!', 'success');
-    }, (err) => {
-      console.error('Async: Could not copy text: ', err);
-    });
+    navigator['clipboard'].writeText(text).then(
+      () => {
+        console.log('Async: Copying to clipboard was successful!');
+        this.dataService.showToast(
+          `${this.fieldsToCopy[index]} copied`,
+          'Copy success!',
+          'success'
+        );
+      },
+      err => {
+        console.error('Async: Could not copy text: ', err);
+      }
+    );
   }
 
   fallbackCopyTextToClipboard(text: string, index: number) {
@@ -171,12 +179,48 @@ export class PlayWthDataComponent implements OnInit {
       const successful = document.execCommand('copy');
       const msg = successful ? 'successful' : 'unsuccessful';
       console.log('Fallback: Copying text command was ' + msg);
-      this.dataService.showToast(`${this.fieldsToCopy[index]} copied`, 'Copy success!', 'success');
+      this.dataService.showToast(
+        `${this.fieldsToCopy[index]} copied`,
+        'Copy success!',
+        'success'
+      );
     } catch (err) {
       console.error('Fallback: Oops, unable to copy', err);
     }
 
     document.body.removeChild(textArea);
+  }
+
+  getCopyValue(i) {
+    let r = pathOr('', ['body', this.fieldsToCopy[i]], this.response);
+
+    if (r === '') {
+      const h = pathOr(
+        null,
+        ['body', '_links', 'updatePsuAuthentication', 'href'],
+        this.response
+      );
+      if (h) {
+        r = this._getLinkParam(h, i);
+      } else if (i === 1) {
+        r = this.paymentId;
+      }
+    }
+
+    return r;
+  }
+
+  /**
+   * @param h - link
+   * @param i - index
+   */
+  private _getLinkParam(h, i) {
+    const linkParts = h.split('/');
+    if (i === 0) {
+      return linkParts[linkParts.length - 1];
+    } else {
+      return linkParts[linkParts.length - 3];
+    }
   }
 
   ngOnInit() {
