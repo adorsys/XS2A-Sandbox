@@ -1,5 +1,6 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.config;
 
+import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
 import de.adorsys.psd2.sandbox.tpp.rest.server.auth.LoginAuthenticationFilter;
@@ -10,7 +11,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import static de.adorsys.psd2.sandbox.tpp.rest.server.auth.PermittedResources.*;
@@ -21,25 +21,26 @@ import static de.adorsys.psd2.sandbox.tpp.rest.server.auth.PermittedResources.*;
 public class TppWebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserMgmtStaffRestClient userMgmtStaffRestClient;
     private final UserMgmtRestClient ledgersUserMgmt;
+    private final AuthRequestInterceptor authInterceptor;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+            .and()
             .authorizeRequests().antMatchers(INDEX_WHITELIST).permitAll()
-                .and()
+            .and()
             .authorizeRequests().antMatchers(APP_WHITELIST).permitAll()
-                .and()
+            .and()
             .authorizeRequests().antMatchers(SWAGGER_WHITELIST).permitAll()
-                .and()
+            .and()
             .cors()
-                .and()
+            .and()
             .authorizeRequests().anyRequest().authenticated();
 
         http.headers().frameOptions().disable();
 
-        http.addFilterBefore(new LoginAuthenticationFilter(userMgmtStaffRestClient), UsernamePasswordAuthenticationFilter.class);
-        http.addFilterBefore(new TokenAuthenticationFilter(ledgersUserMgmt), BasicAuthenticationFilter.class);
+        http.addFilterBefore(new LoginAuthenticationFilter(userMgmtStaffRestClient), BasicAuthenticationFilter.class);
+        http.addFilterBefore(new TokenAuthenticationFilter(ledgersUserMgmt, authInterceptor), BasicAuthenticationFilter.class);
     }
 }

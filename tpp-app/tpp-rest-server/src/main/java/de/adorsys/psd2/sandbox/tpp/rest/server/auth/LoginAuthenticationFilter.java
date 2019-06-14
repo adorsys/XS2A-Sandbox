@@ -1,6 +1,5 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.auth;
 
-import com.google.common.base.Strings;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCALoginResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCAResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
@@ -8,6 +7,7 @@ import de.adorsys.ledgers.middleware.api.domain.um.UserCredentialsTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserRoleTO;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
 import feign.FeignException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
 
 import javax.servlet.FilterChain;
@@ -36,7 +36,7 @@ public class LoginAuthenticationFilter extends AbstractAuthFilter {
         String login = obtainFromHeader(request, USER_LOGIN);
         String pin = obtainFromHeader(request, USER_PIN);
 
-        if (Strings.isNullOrEmpty(login) || Strings.isNullOrEmpty(pin)) {
+        if (StringUtils.isBlank(login) || StringUtils.isBlank(pin)) {
             chain.doFilter(request, response);
             return;
         }
@@ -45,22 +45,23 @@ public class LoginAuthenticationFilter extends AbstractAuthFilter {
             try {
                 ResponseEntity<SCALoginResponseTO> loginResponse = userMgmtStaffRestClient.login(new UserCredentialsTO(login, pin, UserRoleTO.STAFF));
 
-                BearerTokenTO token = Optional.ofNullable(loginResponse.getBody())
-                                          .map(SCAResponseTO::getBearerToken)
-                                          .orElseThrow(() -> new RestException("Couldn't get bearer token"));
+                BearerTokenTO bearerTokenTO = Optional.ofNullable(loginResponse.getBody())
+                                                  .map(SCAResponseTO::getBearerToken)
+                                                  .orElseThrow(() -> new RestException("Couldn't get bearer token"));
 
-                fillSecurityContext(token);
-                addAccessTokenHeader(token, response);
+                fillSecurityContext(bearerTokenTO);
+                addBearerTokenHeader(bearerTokenTO.getAccess_token(), response);
 
             } catch (FeignException | RestException e) {
                 handleAuthenticationFailure(response, e);
+                return;
             }
         }
         chain.doFilter(request, response);
     }
 
-    private void addAccessTokenHeader(BearerTokenTO token, HttpServletResponse response) {
-        response.setHeader(ACCESS_TOKEN, token.getAccess_token());
+    private void addBearerTokenHeader(String token, HttpServletResponse response) {
+        response.setHeader(AUTHORIZATION_HEADER, BEARER_TOKEN_PREFIX + token);
     }
 }
 
