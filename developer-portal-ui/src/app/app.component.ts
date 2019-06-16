@@ -41,10 +41,16 @@ export class AppComponent implements OnInit {
       this.customizeService.changeFontFamily(theme.globalSettings.fontFamily);
       this.globalSettings = theme.globalSettings;
       if (theme.globalSettings.logo.indexOf('/') === -1) {
-        theme.globalSettings.logo = '../assets/UI/' + theme.globalSettings.logo;
+        theme.globalSettings.logo =
+          '../assets/UI' +
+          (this.customizeService.isCustom() ? '/custom/' : '/') +
+          theme.globalSettings.logo;
       }
       if (theme.contactInfo.img.indexOf('/') === -1) {
-        theme.contactInfo.img = '../assets/UI/' + theme.contactInfo.img;
+        theme.contactInfo.img =
+          '../assets/UI' +
+          (this.customizeService.isCustom() ? '/custom/' : '/') +
+          theme.contactInfo.img;
       }
       this.customizeService.setUserTheme(theme);
     });

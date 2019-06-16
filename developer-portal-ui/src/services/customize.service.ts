@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class CustomizeService {
   private NEW_THEME_WAS_SET = false;
   private STATUS_WAS_CHANGED = false;
+  private IS_CUSTOM = false;
   private DEFAULT_THEME: Theme = {
     globalSettings: {
       logo: '../assets/UI/Logo_XS2ASandbox.png',
@@ -74,27 +75,35 @@ export class CustomizeService {
 
   public getJSON(): Promise<Theme> {
     return this.http
-      .get('../assets/UI/UITheme.json')
+      .get('../assets/UI/custom/UITheme.json')
       .toPromise()
       .then(data => {
         let theme = data;
+        this.IS_CUSTOM = true;
         try {
           JSON.parse(JSON.stringify(theme));
           const errors = this.validateTheme(theme);
           if (errors.length) {
             console.log(errors);
             theme = this.getDefaultTheme();
+            this.IS_CUSTOM = false;
           }
         } catch (e) {
           console.log(e);
           theme = this.getDefaultTheme();
+          this.IS_CUSTOM = false;
         }
         return theme as Theme;
       })
       .catch(e => {
         console.log(e);
+        this.IS_CUSTOM = false;
         return this.getDefaultTheme();
       });
+  }
+
+  isCustom() {
+    return this.IS_CUSTOM;
   }
 
   getTheme(type?: string) {
@@ -117,6 +126,7 @@ export class CustomizeService {
   setDefaultTheme() {
     this.NEW_THEME_WAS_SET = false;
     this.STATUS_WAS_CHANGED = !this.STATUS_WAS_CHANGED;
+    this.IS_CUSTOM = false;
     this.changeFontFamily();
     this.USER_THEME = {
       globalSettings: {
@@ -150,6 +160,7 @@ export class CustomizeService {
     this.changeFontFamily(this.USER_THEME.globalSettings.fontFamily);
     this.NEW_THEME_WAS_SET = true;
     this.STATUS_WAS_CHANGED = !this.STATUS_WAS_CHANGED;
+    this.IS_CUSTOM = true;
   }
 
   getLogo() {
