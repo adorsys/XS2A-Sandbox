@@ -1,12 +1,13 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {catchError, map} from "rxjs/operators";
-import {Observable, of} from "rxjs";
+import { Observable, of} from "rxjs";
 import {JwtHelperService} from "@auth0/angular-jwt";
 import {Credentials} from "../models/credentials.model";
 import {User} from "../models/user.model";
 import {Router} from "@angular/router";
+import {AutoLogoutService} from "./auto-logout.service";
 
 @Injectable({
     providedIn: 'root'
@@ -16,12 +17,8 @@ export class AuthService {
     public url = `${environment.staffAccessResourceEndPoint}`;
     private authTokenStorageKey = 'token';
     private jwtHelperService = new JwtHelperService();
-    private headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-        'accept': 'application/json'
-    });
 
-    constructor(private http: HttpClient, private router: Router) {
+    constructor(private http: HttpClient, private router: Router, private autoLogoutService: AutoLogoutService) {
     }
 
     authorize(credentials: Credentials): Observable<string> {
@@ -34,6 +31,7 @@ export class AuthService {
     login(credentials: any): Observable<boolean> {
         return this.authorize(credentials).pipe(
             map(jwt => {
+                this.autoLogoutService.initializeTokenMonitoring();
                 localStorage.setItem(this.authTokenStorageKey, jwt);
                 return true;
             }),
@@ -46,6 +44,7 @@ export class AuthService {
     }
 
     logout() {
+        this.autoLogoutService.resetMonitoringConfig();
         localStorage.removeItem(this.authTokenStorageKey);
         this.router.navigate(['/logout']);
     }
@@ -58,13 +57,5 @@ export class AuthService {
         return this.http.post(this.url + '/users/register', user, {
             params: {branch: branch}
         });
-    }
-
-    getTokenExpirationDate(token: string): Date {
-        const decoded = this.jwtHelperService.decodeToken(token);
-        if (decoded.exp === undefined) return null;
-        const date = new Date(0);
-        date.setUTCSeconds(decoded.exp);
-        return date;
     }
 }

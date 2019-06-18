@@ -32,6 +32,7 @@ import {IconModule} from "./commons/icon/icon.module";
 import {NgHttpLoaderModule} from 'ng-http-loader';
 import {FilterPipeModule} from "ngx-filter-pipe";
 import {GlobalErrorsHandler} from "./interceptors/global-errors-handler";
+import {AutoLogoutService} from "./services/auto-logout.service";
 
 @NgModule({
     declarations: [
@@ -69,6 +70,7 @@ import {GlobalErrorsHandler} from "./interceptors/global-errors-handler";
         NgHttpLoaderModule.forRoot()
     ],
     providers: [
+        AutoLogoutService,
         AuthGuard,
         {
             provide: HTTP_INTERCEPTORS,
