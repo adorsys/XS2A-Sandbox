@@ -45,6 +45,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -278,7 +279,13 @@ public class AISController extends AbstractXISController implements AISApi {
             cmsPsuAisClient.confirmConsent(workflow.consentId(), psuId, null, null, null, CmsPsuAisClient.DEFAULT_SERVICE_INSTANCE_ID);
             updateScaStatusConsentStatusConsentData(psuId, workflow);
 
-            responseUtils.setCookies(response, workflow.getConsentReference(), workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
+            // if consent is partially authorized the access token is null
+            Optional<BearerTokenTO> accessToken = Optional.ofNullable(workflow.bearerToken());
+            if (accessToken.isPresent()) {
+                responseUtils.setCookies(response, workflow.getConsentReference(), workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
+            } else {
+                responseUtils.setCookies(response, workflow.getConsentReference(), "", null);
+            }
 
             scaStatus = workflow.getAuthResponse().getScaStatus();
             return ResponseEntity.ok(workflow.getAuthResponse());
