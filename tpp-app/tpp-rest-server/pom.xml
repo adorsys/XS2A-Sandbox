@@ -29,7 +29,6 @@
         <dependency>
             <groupId>de.adorsys.ledgers</groupId>
             <artifactId>ledgers-middleware-rest-client</artifactId>
-            <version>${ledgers.version}</version>
         </dependency>
 
         <!-- Spring dependencies -->
@@ -69,6 +68,11 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
         </dependency>
     </dependencies>
 

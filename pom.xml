@@ -147,8 +147,14 @@
     <dependencyManagement>
         <dependencies>
 
+            <!-- Ledgers dependencies -->
+            <dependency>
+                <groupId>de.adorsys.ledgers</groupId>
+                <artifactId>ledgers-middleware-rest-client</artifactId>
+                <version>${ledgers.version}</version>
+            </dependency>
+
             <!-- spring dependencies -->
-            <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-dependencies -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
