@@ -51,6 +51,12 @@ export class TestCasesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.collapseThis('redirect');
+    if (this.dataService.currentRouteUrl.includes('redirect')) {
+      this.collapseThis('redirect');
+    } else if (this.dataService.currentRouteUrl.includes('embedded')) {
+      this.collapseThis('embedded');
+    } else {
+      this.collapseThis('account');
+    }
   }
 }
