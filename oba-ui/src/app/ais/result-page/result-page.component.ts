@@ -26,7 +26,7 @@ export class ResultPageComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     // get dev portal link
-    this.devPortalLink = this.settingService.settings.devPortalUrl;
+    this.devPortalLink = this.settingService.settings.devPortalUrl + '/test-cases/redirect-consent-post';
 
     // get query params and build link
     this.route.queryParams.subscribe(params => {
