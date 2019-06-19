@@ -35,6 +35,12 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
+
+        <!--User defined dependencies-->
+        <dependency>
+            <groupId>de.adorsys.ledgers</groupId>
+            <artifactId>ledgers-middleware-service-api</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
