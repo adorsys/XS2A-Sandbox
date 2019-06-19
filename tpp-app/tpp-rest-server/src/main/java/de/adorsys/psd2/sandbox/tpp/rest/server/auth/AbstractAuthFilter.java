@@ -3,6 +3,7 @@ package de.adorsys.psd2.sandbox.tpp.rest.server.auth;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
+import de.adorsys.psd2.sandbox.tpp.rest.server.exception.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,9 +27,8 @@ abstract class AbstractAuthFilter extends GenericFilterBean {
     protected void handleAuthenticationFailure(HttpServletResponse response, Exception e) throws IOException {
         log.error(e.getMessage());
 
-        Map<String, Object> data = new HashMap<>();
-        data.put("message", e.getMessage());
-        data.put("code", UNAUTHORIZED.value());
+        Map<String, String> data = new ErrorResponse()
+                                       .buildContent(UNAUTHORIZED.value(), e.getMessage());
 
         response.setStatus(UNAUTHORIZED.value());
         response.getOutputStream()

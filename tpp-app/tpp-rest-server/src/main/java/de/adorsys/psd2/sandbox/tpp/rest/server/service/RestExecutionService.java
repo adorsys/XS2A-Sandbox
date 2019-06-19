@@ -12,13 +12,12 @@ import de.adorsys.psd2.sandbox.tpp.rest.server.model.UploadedData;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -42,24 +41,18 @@ public class RestExecutionService {
     private UploadedData initialiseDataSets(DataPayload payload) {
         List<UserTO> users = Optional.ofNullable(payload.getUsers())
                                  .orElse(Collections.emptyList());
-        Map<String, AccountDetailsTO> accounts = getAccountsForUploadedData(payload);
-        Map<String, AccountBalance> balances = getBalancesForUploadedData(payload);
+        Map<String, AccountDetailsTO> accounts = getTargetData(payload.getAccounts(), AccountDetailsTO::getIban);
+        Map<String, AccountBalance> balances = getTargetData(payload.getBalancesList(), AccountBalance::getIban);
 
         return new UploadedData(users, accounts, balances);
     }
 
-    private Map<String, AccountBalance> getBalancesForUploadedData(DataPayload payload) {
-        return Optional.ofNullable(payload.getBalancesList())
-                   .orElse(Collections.emptyList())
-                   .stream()
-                   .collect(Collectors.toMap(AccountBalance::getIban, b -> b));
-    }
-
-    private Map<String, AccountDetailsTO> getAccountsForUploadedData(DataPayload payload) {
-        return Optional.ofNullable(payload.getAccounts())
-                   .orElse(Collections.emptyList())
-                   .stream()
-                   .collect(Collectors.toMap(AccountDetailsTO::getIban, a -> a));
+    private <T> Map<String, T> getTargetData(List<T> source, Function<T, String> function) {
+        if (CollectionUtils.isEmpty(source)) {
+            return new HashMap<>();
+        }
+        return source.stream()
+                   .collect(Collectors.toMap(function, Function.identity()));
     }
 
     private boolean updateUsers(UploadedData data) {

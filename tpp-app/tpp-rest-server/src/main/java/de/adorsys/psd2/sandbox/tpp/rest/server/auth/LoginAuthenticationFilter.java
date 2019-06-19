@@ -61,7 +61,7 @@ public class LoginAuthenticationFilter extends AbstractAuthFilter {
     }
 
     private void addBearerTokenHeader(String token, HttpServletResponse response) {
-        response.setHeader(AUTHORIZATION_HEADER, BEARER_TOKEN_PREFIX + token);
+        response.setHeader(ACCESS_TOKEN, token);
     }
 }
 
