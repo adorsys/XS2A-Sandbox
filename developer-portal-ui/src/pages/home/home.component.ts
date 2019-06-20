@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   init() {
     setInterval(() => {
       this.contactInfo = this.customizeService.getTheme().contactInfo;
-    }, 500);
+    }, 100);
 
     this.slides = [
       {

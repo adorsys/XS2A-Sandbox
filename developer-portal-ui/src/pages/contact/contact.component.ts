@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  ContactInfo,
-  CustomizeService,
-  OfficeInfo,
-} from '../../services/customize.service';
+import { ContactInfo, CustomizeService, OfficeInfo, Theme } from '../../services/customize.service';
 
 @Component({
   selector: 'app-contact',
@@ -17,8 +13,11 @@ export class ContactComponent implements OnInit {
   constructor(public customizeService: CustomizeService) {}
 
   ngOnInit() {
-    const theme = this.customizeService.getTheme();
-    this.contactInfo = theme.contactInfo;
-    this.officesInfo = theme.officesInfo;
+    let theme: Theme;
+    setInterval(() => {
+      theme = this.customizeService.getTheme();
+      this.contactInfo = theme.contactInfo;
+      this.officesInfo = theme.officesInfo;
+    }, 100);
   }
 }

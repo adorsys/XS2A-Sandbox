@@ -5,15 +5,15 @@
   <span class="any-questions-subtitle">Ask this person.</span>
   <div class="person-card">
     <div class="person-card-image-wrapper">
-      <img [src]="contactInfo.img" alt="" />
+      <img [src]="contactInfo?.img" alt="" />
     </div>
     <div class="person-card-info">
       <div class="main-personal-info">
-        <span>{{ contactInfo.name }}</span>
-        <span>{{ contactInfo.position }}</span>
+        <span>{{ contactInfo?.name }}</span>
+        <span>{{ contactInfo?.position }}</span>
       </div>
-      <div class="sub-personal-info" *ngIf="contactInfo.email">
-        <a [href]="'mailto:' + contactInfo.email">{{ contactInfo.email }}</a>
+      <div class="sub-personal-info" *ngIf="contactInfo?.email">
+        <a [href]="'mailto:' + contactInfo?.email">{{ contactInfo?.email }}</a>
       </div>
     </div>
   </div>
@@ -27,32 +27,32 @@
   <div class="contacts-card">
     <div class="contacts-content" *ngFor="let office of officesInfo">
       <div class="main-personal-info">
-        <span>{{ office.city }}</span> <span>{{ office.company }}</span>
-        <span>{{ office.addressFirstLine }}</span>
-        <span>{{ office.addressSecondLine }}</span>
+        <span>{{ office?.city }}</span> <span>{{ office?.company }}</span>
+        <span>{{ office?.addressFirstLine }}</span>
+        <span>{{ office?.addressSecondLine }}</span>
       </div>
       <div class="sub-personal-info">
-        <div *ngIf="office.phone">
-          <a [href]="'tel:' + office.phone">
-            <i class="fas fa-phone"></i>{{ office.phone }}
+        <div *ngIf="office?.phone">
+          <a [href]="'tel:' + office?.phone">
+            <i class="fas fa-phone"></i>{{ office?.phone }}
           </a>
         </div>
 
-        <div *ngIf="office.email">
-          <a [href]="'mailto:' + office.email">
-            <i class="fas fa-envelope"></i>{{ office.email }}
+        <div *ngIf="office?.email">
+          <a [href]="'mailto:' + office?.email">
+            <i class="fas fa-envelope"></i>{{ office?.email }}
           </a>
         </div>
 
-        <div class="social-network" *ngIf="office.linkedIn || office.facebook">
-          <div *ngIf="office.facebook">
-            <a [href]="office.facebook" target="_blank">
+        <div class="social-network" *ngIf="office?.linkedIn || office?.facebook">
+          <div *ngIf="office?.facebook">
+            <a [href]="office?.facebook" target="_blank">
               <i class="fab fa-facebook-square"></i>
             </a>
           </div>
 
-          <div *ngIf="office.linkedIn">
-            <a [href]="office.linkedIn" target="_blank">
+          <div *ngIf="office?.linkedIn">
+            <a [href]="office?.linkedIn" target="_blank">
               <i class="fab fa-linkedin"></i>
             </a>
           </div>
