@@ -90,6 +90,10 @@ section {
   ol > li:nth-child(2) {
     margin-bottom: 0.7vw;
   }
+
+  .steps-list {
+    padding-inline-start: 15px;
+  }
 }
 
 .yaml {

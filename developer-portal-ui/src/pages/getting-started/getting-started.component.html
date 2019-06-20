@@ -740,8 +740,74 @@
         </ul>
       </li>
       <li>
-        When you create .json file and fill all required fields, put this file
-        with logo and contact person images in folder ../assets/UI/
+        When you create .json (e.g. UITheme.json) file and fill all required
+        fields, put this file with logo (e.g. logo.png) and contact person (e.g.
+        contact.png) images in folder
+        <span class="app-line-command-wrapper">
+          <span>../assets/UI/custom/</span>
+        </span>
+      </li>
+      <li>
+        Steps for putting files in this folder:
+        <ul class="steps-list">
+          <li>
+            Navigate to local source folder (where the customisation files are
+            stored):
+          </li>
+          <span class="app-line-command-wrapper">
+            <span>cd ./local_src_folder/</span>
+          </span>
+          <li>Login to Openshift:</li>
+          <span class="app-line-command-wrapper"> <span>oc login</span> </span>
+          <li>Navigate to the Openshift project.</li>
+          <li>We select the development environment for our example.</li>
+          <li>
+            Please choose one of the following:
+            <ul>
+              <li>adorsys-dynamic-sandbox-dev</li>
+              <li>adorsys-dynamic-sandbox-integ</li>
+              <li>adorsys-dynamic-sandbox-demo</li>
+            </ul>
+          </li>
+          <span class="app-line-command-wrapper">
+            <span> oc project adorsys-dynamic-sandbox-dev </span>
+          </span>
+          <li>
+            Copy the customisation files to the running Developer Portal UI
+            application pod:
+            <ul>
+              <li>
+                <span class="app-line-command-wrapper">
+                  <span
+                    >oc cp ./logo.png $(oc get pods |grep "developerportalui"
+                    |awk '{{
+                      '{print $1}'
+                    }}'):/usr/share/nginx/html/assets/UI/custom/</span
+                  >
+                </span>
+              </li>
+              <li>
+                <span class="app-line-command-wrapper">
+                  <span
+                    >oc cp ./contact.png $(oc get pods |grep "developerportalui"
+                    |awk '{{
+                      '{print $1}'
+                    }}'):/usr/share/nginx/html/assets/UI/custom/</span
+                  >
+                </span>
+              </li>
+              <li>
+                <span class="app-line-command-wrapper">
+                  <span
+                    >oc cp ./ $(oc get pods |grep "developerportalui" |awk '{{
+                      '{print $1}'
+                    }}'):/usr/share/nginx/html/assets/UI/custom/</span
+                  >
+                </span>
+              </li>
+            </ul>
+          </li>
+        </ul>
       </li>
       <li>Customization completed, congratulations!</li>
     </ol>
