@@ -93,7 +93,7 @@
         <xs2a.version>3.4</xs2a.version>
         <psd2.certificate.generator.version>1.5.0</psd2.certificate.generator.version>
         <connector.version>3.4</connector.version>
-        <ledgers.version>0.3.8</ledgers.version>
+        <ledgers.version>0.4</ledgers.version>
         <!-- other properties -->
         <spring-boot-dependencies.version>2.1.1.RELEASE</spring-boot-dependencies.version>
         <spring-cloud-dependencies.version>Greenwich.RELEASE</spring-cloud-dependencies.version>
