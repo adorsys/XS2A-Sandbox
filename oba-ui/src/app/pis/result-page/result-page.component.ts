@@ -26,7 +26,7 @@ export class ResultPageComponent implements OnInit {
 
   public ngOnInit(): void {
     // get dev portal link
-    this.devPortalLink = this.settingService.settings.devPortalUrl + 'test-cases/redirect-payment-initiation-post';
+    this.devPortalLink = this.settingService.settings.devPortalUrl + '/test-cases/redirect-payment-initiation-post';
 
     // get query params and build link
     this.route.queryParams.subscribe(params => {
