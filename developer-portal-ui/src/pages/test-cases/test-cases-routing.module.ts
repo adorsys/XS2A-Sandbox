@@ -92,7 +92,7 @@ const routes: Routes = [
         component: EmbConsentGetComponent,
       },
       {
-        path: 'embedded-payment-cancellation-post',
+        path: 'embedded-payment-cancellation-post-1',
         component: EmbPaymentCancellPostComponent,
       },
       {
