@@ -3,11 +3,12 @@ package de.adorsys.psd2.sandbox.tpp.rest.server.service;
 import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
+import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.AccountBalance;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.DataPayload;
 import de.adorsys.psd2.sandbox.tpp.rest.server.utils.IbanGenerator;
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.NotNull;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -16,21 +17,27 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class TestsDataGenerationService {
+    private static final String MSG_NO_DATA_IN_FILE = "Seems no data is present in file!";
+    private static final String MSG_USER_NOT_FOUND = "User Not Found";
+    private static final String MSG_NO_BRANCH_SET = "This User does not belong to any Branch";
+
     private final ParseService parseService;
     private final RestExecutionService executionService;
     private final UserMgmtRestClient userMgmtRestClient;
 
     public byte[] generate() {
-        UserTO userTO = userMgmtRestClient.getUser()
-                            .getBody();
-
-        String branch = Optional.ofNullable(userTO)
+        UserTO user = userMgmtRestClient.getUser()
+                          .getBody();
+        String branch = Optional.ofNullable(user)
                             .map(UserTO::getBranch)
-                            .orElseThrow(() -> new RuntimeException("User not found"));
+                            .orElseThrow(() -> new TppException(MSG_USER_NOT_FOUND, 404));
+        if (StringUtils.isEmpty(branch)) {
+            throw new TppException(MSG_NO_BRANCH_SET, 400);
+        }
 
         DataPayload dataPayload = parseService.getDefaultData()
                                       .map(d -> generateData(d, branch))
-                                      .orElseThrow(() -> new RuntimeException("Seems no data is present in file!"));
+                                      .orElseThrow(() -> new TppException(MSG_NO_DATA_IN_FILE, 400));
 
         executionService.updateLedgers(dataPayload);
         return parseService.getFile(dataPayload);
@@ -56,7 +63,6 @@ public class TestsDataGenerationService {
         return Optional.ofNullable(list).orElse(Collections.emptyList());
     }
 
-    @NotNull
     private String getLastTwoSymbols(AccountDetailsTO a) {
         return a.getIban()
                    .substring(a.getIban().length() - 2);
@@ -69,7 +75,7 @@ public class TestsDataGenerationService {
     }
 
     private AccountDetailsTO generateDetails(AccountDetailsTO details, String branch) {
-        String iban = generateIban(branch, details.getIban());
+        String iban = IbanGenerator.generateIbanForNispAccount(branch, details.getIban());
         details.setIban(iban);
         return details;
     }
@@ -85,18 +91,13 @@ public class TestsDataGenerationService {
         return user;
     }
 
-    @NotNull
     private String addBranchPrefix(String branch, String concatObj) {
         return branch + "_" + concatObj;
-    }
-
-    private String generateIban(String branch, String iban) {
-        return IbanGenerator.generateIban(branch, iban);
     }
 
     private String getGeneratedIbanOrNew(String iban, String branch, Map<String, AccountDetailsTO> detailsMap) {
         return detailsMap.containsKey(iban)
                    ? detailsMap.get(iban).getIban()
-                   : generateIban(branch, iban);
+                   : IbanGenerator.generateIbanForNispAccount(branch, iban);
     }
 }

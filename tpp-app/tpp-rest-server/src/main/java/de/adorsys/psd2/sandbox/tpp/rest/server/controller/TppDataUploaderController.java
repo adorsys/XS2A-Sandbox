@@ -2,6 +2,7 @@ package de.adorsys.psd2.sandbox.tpp.rest.server.controller;
 
 import de.adorsys.psd2.sandbox.tpp.rest.api.resource.TppDataUploaderRestApi;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.DataPayload;
+import de.adorsys.psd2.sandbox.tpp.rest.server.service.IbanGenerationService;
 import de.adorsys.psd2.sandbox.tpp.rest.server.service.ParseService;
 import de.adorsys.psd2.sandbox.tpp.rest.server.service.RestExecutionService;
 import de.adorsys.psd2.sandbox.tpp.rest.server.service.TestsDataGenerationService;
@@ -27,6 +28,7 @@ public class TppDataUploaderController implements TppDataUploaderRestApi {
     private final RestExecutionService restExecutionService;
     private final ParseService parseService;
     private final TestsDataGenerationService generationService;
+    private final IbanGenerationService ibanGenerationService;
 
     @Override
     public ResponseEntity<String> uploadData(MultipartFile file) {
@@ -54,6 +56,11 @@ public class TppDataUploaderController implements TppDataUploaderRestApi {
                    .contentLength(bytes.length)
                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
                    .body(resource);
+    }
+
+    @Override
+    public ResponseEntity<String> generateIban() {
+        return ResponseEntity.ok(ibanGenerationService.generateRandomIban());
     }
 
 

@@ -21,4 +21,8 @@ public interface TppDataUploaderRestApi {
     @ApiOperation(value = "Generate test data and upload it to Ledgers", authorizations = @Authorization(value = "apiKey"))
     @GetMapping(value = "/generate")
     ResponseEntity<Resource> generateData();
+
+    @ApiOperation(value = "Generate random IBAN", authorizations = @Authorization(value = "apiKey"))
+    @GetMapping("/generate/iban")
+    ResponseEntity<String> generateIban();
 }
