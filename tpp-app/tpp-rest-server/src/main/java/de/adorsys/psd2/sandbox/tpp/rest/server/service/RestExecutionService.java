@@ -6,6 +6,7 @@ import de.adorsys.ledgers.middleware.api.domain.um.AccountAccessTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
 import de.adorsys.ledgers.middleware.client.rest.AccountMgmtStaffRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
+import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.AccountBalance;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.DataPayload;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.UploadedData;
@@ -27,15 +28,13 @@ public class RestExecutionService {
     private final AccountMgmtStaffRestClient accountRestClient;
     private final UserMgmtStaffRestClient userRestClient;
 
-    public boolean updateLedgers(DataPayload payload) {
-        boolean result = doUpdate(payload);
-        log.info("Result of update is: {}", result ? "success" : "failure");
-        return result;
-    }
-
-    private boolean doUpdate(DataPayload payload) {
+    public void updateLedgers(DataPayload payload) {
+        if (payload.isNotValidPayload()) {
+            throw new TppException("Payload data is invalid", 400);
+        }
         UploadedData data = initialiseDataSets(payload);
-        return updateUsers(data) && updateBalances(data);
+        updateUsers(data);
+        updateBalances(data);
     }
 
     private UploadedData initialiseDataSets(DataPayload payload) {
@@ -55,19 +54,10 @@ public class RestExecutionService {
                    .collect(Collectors.toMap(function, Function.identity()));
     }
 
-    private boolean updateUsers(UploadedData data) {
+    private void updateUsers(UploadedData data) {
         for (UserTO user : data.getUsers()) {
-            try {
-                user = userRestClient.createUser(user).getBody();
-            } catch (FeignException f) {
-                String msg = String.format("User: %s probably already exists", user.getLogin());
-                if (f.status() == 500 || f.status() == 403) {
-                    msg = String.format("Connection problem %s", f.getMessage());
-                    log.error(msg);
-                    return false;
-                }
-                log.error(msg);
-            }
+            user = userRestClient.createUser(user).getBody();
+
             Optional.ofNullable(user)
                 .ifPresent(u -> {
                     if (!data.getDetails().isEmpty()) {
@@ -75,7 +65,6 @@ public class RestExecutionService {
                     }
                 });
         }
-        return true;
     }
 
     private void createAccountsForUser(String userId, List<AccountAccessTO> accesses, Map<String, AccountDetailsTO> details) {
@@ -93,20 +82,14 @@ public class RestExecutionService {
         }
     }
 
-    private boolean updateBalances(UploadedData data) {
+    private void updateBalances(UploadedData data) {
         if (data.getBalances().isEmpty()) {
-            return true;
+            return;
         }
-        try {
-            List<AccountDetailsTO> accountsAtLedgers = Optional.ofNullable(accountRestClient.getListOfAccounts().getBody())
-                                                           .orElse(Collections.emptyList());
-            accountsAtLedgers
-                .forEach(a -> updateBalanceIfPresent(a, data.getBalances()));
-            return true;
-        } catch (FeignException e) {
-            log.error("Could not retrieve accounts from Ledgers");
-            return false;
-        }
+        List<AccountDetailsTO> accountsAtLedgers = Optional.ofNullable(accountRestClient.getListOfAccounts().getBody())
+                                                       .orElse(Collections.emptyList());
+        accountsAtLedgers
+            .forEach(a -> updateBalanceIfPresent(a, data.getBalances()));
     }
 
     private void updateBalanceIfPresent(AccountDetailsTO detail, Map<String, AccountBalance> balances) {

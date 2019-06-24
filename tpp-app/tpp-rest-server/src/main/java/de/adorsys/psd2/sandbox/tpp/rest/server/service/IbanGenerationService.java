@@ -18,8 +18,6 @@ public class IbanGenerationService {
     private static final String MSG_NO_IBAN_AVAILABLE = "Could not generate new IBAN, seems you used out all possible combinations";
     private static final String MSG_USER_NOT_FOUND = "User Not Found";
 
-    private final ParseService parseService;
-    private final RestExecutionService executionService;
     private final UserMgmtRestClient userMgmtRestClient;
 
     public String generateRandomIban() {

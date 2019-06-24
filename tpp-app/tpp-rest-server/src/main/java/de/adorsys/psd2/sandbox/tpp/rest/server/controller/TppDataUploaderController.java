@@ -1,6 +1,7 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.controller;
 
 import de.adorsys.psd2.sandbox.tpp.rest.api.resource.TppDataUploaderRestApi;
+import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.DataPayload;
 import de.adorsys.psd2.sandbox.tpp.rest.server.service.IbanGenerationService;
 import de.adorsys.psd2.sandbox.tpp.rest.server.service.ParseService;
@@ -11,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,14 +33,11 @@ public class TppDataUploaderController implements TppDataUploaderRestApi {
     @Override
     public ResponseEntity<String> uploadData(MultipartFile file) {
         log.info("Update file received");
-        DataPayload parsed = parseService.getDataFromFile(file);
-        if (parsed == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Could not parse data");
-        }
-        log.info("Read data is successful");
-        return restExecutionService.updateLedgers(parsed)
-                   ? ResponseEntity.ok("Data successfully updated")
-                   : new ResponseEntity<>("Could not update data.", HttpStatus.EXPECTATION_FAILED);
+        DataPayload parsed = parseService.getDataFromFile(file)
+                                 .orElseThrow(() -> new TppException("Could not parse data", 400));
+
+        restExecutionService.updateLedgers(parsed);
+        return ResponseEntity.ok("Data successfully updated");
     }
 
     @Override
