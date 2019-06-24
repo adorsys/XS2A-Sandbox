@@ -28,8 +28,8 @@ export class RdctConsentPOSTComponent implements OnInit {
         },
       ],
     },
-    combinedServiceIndicator: true,
-    frequencyPerDay: 15,
+    combinedServiceIndicator: false,
+    frequencyPerDay: 50,
     recurringIndicator: true,
     validUntil: '2019-10-10',
   };

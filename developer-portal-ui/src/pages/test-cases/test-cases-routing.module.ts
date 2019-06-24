@@ -23,6 +23,7 @@ import { EmbPaymentInitCreatePostComponent } from './components/api-endpoints/em
 import { EmbPaymentInitAuthPostComponent } from './components/api-endpoints/emb-payment-init-auth-post/emb-payment-init-auth-post.component';
 import { EmbPaymentInitPutComponent } from './components/api-endpoints/emb-payment-init-put/emb-payment-init-put.component';
 import { EmbPaymentInitGetComponent } from './components/api-endpoints/emb-payment-init-get/emb-payment-init-get.component';
+import { TestValuesComponent } from './components/test-values/test-values.component';
 
 const routes: Routes = [
   {
@@ -32,6 +33,10 @@ const routes: Routes = [
       {
         path: 'testing-flows',
         component: TestingFlowsComponent,
+      },
+      {
+        path: 'test-values',
+        component: TestValuesComponent,
       },
       {
         path: 'embedded',

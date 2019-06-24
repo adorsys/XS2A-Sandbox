@@ -12,7 +12,7 @@ services:
 
   # Xs2a connector example
   xs2a-connector-examples:
-    image: adorsys/xs2a-connector-examples:3.2.1
+    image: adorsys/xs2a-connector-examples:3.3.2
     container_name: xs2a-connector-examples
     restart: on-failure
     ports:
@@ -33,7 +33,7 @@ services:
 
   # Xs2a aspsp profile
   xs2a-aspsp-profile:
-    image: adorsys/xs2a-aspsp-profile:3.2
+    image: adorsys/xs2a-aspsp-profile:3.3.2
     container_name: xs2a-aspsp-profile
     restart: on-failure
     environment:
@@ -49,7 +49,7 @@ services:
 
   # Consent management
   xs2a-consent-management:
-    image: adorsys/xs2a-consent-management:3.2
+    image: adorsys/xs2a-consent-management:3.3.2
     container_name: xs2a-consent-management
     restart: on-failure
     ports:
@@ -148,12 +148,18 @@ services:
     networks:
       - xs2a-net
     environment:
-      - ONLINE_BANKING_SERVER_URL=http://xs2a-online-banking:8090
+      ONLINE_BANKING_SERVER_URL: "http://xs2a-online-banking:8090"
+    depends_on:
+      - xs2a-online-banking
+
 
   # TPP-UI
   xs2a-tpp-ui:
     image: adorsys/tpp-ui
     restart: on-failure
+    environment:
+      LEDGERS_URL: "http://ledgers:8088"
+      CERT_GEN_URL: "http://certificate-generator:8092"
     build:
       context: tpp-ui
       dockerfile: Dockerfile
@@ -161,6 +167,8 @@ services:
       - "4205:4205"
     networks:
       - xs2a-net
+    depends_on:
+      - ledgers
 
   # Developer portal ui
   developer-portal-ui:

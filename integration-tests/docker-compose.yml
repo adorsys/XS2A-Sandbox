@@ -16,7 +16,7 @@ services:
     ports:
     - "8089:8089"
     environment:
-    - SPRING_PROFILES_ACTIVE=mockspi
+    - SPRING_PROFILES_ACTIVE=mock-qwak
     - LEDGERS_URL=http://ledgers:8088
     - ASPSP_PROFILE_BASEURL=http://profile:48080/api/v1
     - CONSENT_SERVICE_BASEURL=http://consent:38080/api/v1
@@ -42,7 +42,7 @@ services:
     ports:
     - "8090:8090"
     environment:
-    - SPRING_PROFILES_ACTIVE=mockspi
+    - SPRING_PROFILES_ACTIVE=mock-qwak
     - LEDGERS_URL=http://ledgers:8088
     - XS2A_URL=http://gateway:8089
     - CMS_URL=http://consent:38080
@@ -76,7 +76,7 @@ services:
     - SECURITY_BASIC_ENABLED=false
     - LOGGING_LEVEL_ROOT=INFO
     healthcheck:
-      test: ["CMD", "curl", "-I", "http://profile:38080/health"]
+      test: ["CMD", "curl", "-I", "http://profile:48080/health"]
       interval: 5s
       timeout: 5s
       retries: 10    
@@ -119,14 +119,14 @@ services:
     depends_on:
     - fakesmtp
     environment:
-    - SPRING_PROFILES_ACTIVE=h2
+    - SPRING_PROFILES_ACTIVE=h2,develop
     - DB_URL=jdbc:h2:/var/lib/data/xs2adbs/ledgers;DB_CLOSE_DELAY=-1
     - DB_USER=sa
     - DB_PASSWORD=sa
     - SPRING_JPA_SHOW_SQL=false
-    - LEDGERS_MOCKBANK_DATA_LOAD=true
     - SPRING_MAIL_HOST=fakesmtp
     - LOGGING_LEVEL_ROOT=INFO
+    - SCA_MULTILEVEL_ENABLED=false
     volumes:
     - xs2a-gateway-data:/var/lib/data
     networks:
@@ -149,4 +149,3 @@ services:
     - xs2a-net
     volumes:
     - xs2a-gateway-data:/var/lib/data
-    

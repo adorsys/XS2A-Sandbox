@@ -4,99 +4,104 @@
 /*@import url('https://rsms.me/inter/inter-ui.css');*/
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Inter UI var alt', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter UI var alt', sans-serif;
 }
 
 .oba-app {
 
-    font-size: 1.125rem;
+  font-size: 1.125rem;
 
-    button {
-        height: 3.125rem;
+  button {
+    height: 3.125rem;
+  }
+
+  input[type='text'], input[type='password'] {
+    height: 3.125rem;
+  }
+
+  .card {
+    border: none;
+
+    .card-img-top {
+      width: 420px;
+      margin: auto;
     }
 
-    input[type='text'], input[type='password'] {
-        height: 3.125rem;
+    .btn {
+      height: 56px;
+      margin-bottom: 10px;
+
+      &:hover {
+        transition: 0.5s;
+      }
+
+      &:focus {
+        outline: none;
+      }
+
+      &:active {
+        background-color: inherit;
+      }
     }
 
-    .card {
-        border: none;
+    .btn-primary {
+      color: $COLOR_WHITE;
+      background: linear-gradient(129.54deg, #0DB0E2 0%, #10317D 100%);
+      border-radius: 3px;
 
-        .btn {
-            height: 56px;
-            margin-bottom: 10px;
-
-            &:hover {
-                transition: 0.5s;
-            }
-
-            &:focus {
-                outline: none;
-            }
-
-            &:active {
-                background-color: inherit;
-            }
-        }
-
-        .btn-primary {
-            color: $COLOR_WHITE;
-            background: linear-gradient(129.54deg, #0DB0E2 0%, #10317D 100%);
-            border-radius: 3px;
-
-            &:hover {
-                background-color: $COLOR_DARK_BLUE;
-            }
-        }
-
-        .btn-outline-secondary {
-            color: $COLOR_DARK_GREY;
-            background-color: $COLOR_WHITE;
-            border: 1px solid $COLOR_DARK_GREY;
-            margin-right: 0;
-
-            &:hover {
-                background-color: $COLOR_GREY;
-                color: $COLOR_BLACK;
-            }
-        }
-
-        .text-dark {
-            font-size: 1rem;
-        }
-
-        .text-light-dark {
-            color: $COLOR_LIGHT_DARK;
-        }
-
-        .card-body {
-            padding: 0;
-
-            .form-control {
-                padding: 1.5rem 1rem;
-                transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-            }
-
-            .form-check-label {
-                margin-left: 30px;
-                margin-bottom: 20px;
-            }
-        }
-
-        .card-footer {
-            padding-left: 0;
-            padding-right: 0;
-        }
+      &:hover {
+        background-color: $COLOR_DARK_BLUE;
+      }
     }
 
-    .no-bg-color {
-        background-color: $COLOR_WHITE;
-        border: none;
+    .btn-outline-secondary {
+      color: $COLOR_DARK_GREY;
+      background-color: $COLOR_WHITE;
+      border: 1px solid $COLOR_DARK_GREY;
+      margin-right: 0;
 
+      &:hover {
+        background-color: $COLOR_GREY;
+        color: $COLOR_BLACK;
+      }
     }
+
+    .text-dark {
+      font-size: 1rem;
+    }
+
+    .text-light-dark {
+      color: $COLOR_LIGHT_DARK;
+    }
+
+    .card-body {
+      padding: 0;
+
+      .form-control {
+        padding: 1.5rem 1rem;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+      }
+
+      .form-check-label {
+        margin-left: 30px;
+        margin-bottom: 20px;
+      }
+    }
+
+    .card-footer {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
+  .no-bg-color {
+    background-color: $COLOR_WHITE;
+    border: none;
+
+  }
 
 }
 

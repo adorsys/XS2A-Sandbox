@@ -7,15 +7,16 @@ setting:
     - REDIRECT
   tppSignatureRequired: false
   bankOfferedConsentSupport: true
-  pisRedirectUrlToAspsp: http://localhost:8090/pis/auth?paymentId={encrypted-payment-id}&redirectId={redirect-id}
-  pisPaymentCancellationRedirectUrlToAspsp: http://localhost:8090/pis/cancellation/auth??paymentId={encrypted-payment-id}&redirectId={redirect-id}
-  aisRedirectUrlToAspsp: http://localhost:8090/ais/auth?encryptedConsentId={encrypted-consent-id}&redirectId={redirect-id}
+  pisRedirectUrlToAspsp: http://localhost:4400/payment-initiation/login?paymentId={encrypted-payment-id}&redirectId={redirect-id}
+  pisPaymentCancellationRedirectUrlToAspsp: http://localhost:4400/payment-cancellation/login?paymentId={encrypted-payment-id}&redirectId={redirect-id}
+  aisRedirectUrlToAspsp: http://localhost:4400/account-information/login?encryptedConsentId={encrypted-consent-id}&redirectId={redirect-id}
 
   multicurrencyAccountLevel: SUBACCOUNT
   availableBookingStatuses:
     - BOOKED
     - PENDING
   supportedAccountReferenceFields:
+    - IBAN
     - MSISDN
   consentLifetime: 0
   transactionLifetime: 0

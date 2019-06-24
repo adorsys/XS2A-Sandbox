@@ -38,7 +38,15 @@ export class IconComponent implements OnChanges {
     private _elementRef: ElementRef<HTMLElement>,
     private _iconRegistry: IconRegistry,
     private _sanitizer: DomSanitizer
-  ) {}
+  ) {
+    const icons = ['user', 'account', 'upload', 'euro', 'add', 'generate_test_data'];
+    icons.forEach(val => {
+      _iconRegistry.addSvgIcon(
+          val,
+          _sanitizer.bypassSecurityTrustResourceUrl('assets/icons/'+val+'.svg')
+      );
+    });
+  }
 
   private _splitIconName(iconName: string): [string, string] {
     if (!iconName) {

@@ -16,6 +16,7 @@ import {InfoService} from "../../../commons/info/info.service";
 })
 export class RegisterComponent implements OnInit {
 
+
     public userForm: FormGroup;
     public certificateValue = {};
 
@@ -40,8 +41,12 @@ export class RegisterComponent implements OnInit {
 
     public onSubmit(): void {
 
+        if (this.userForm.invalid || !this.certificateValue) {
+            this.submitted = true;
+            return;
+        }
+
         const branch = this.userForm.get('branch').value;
-        this.submitted = true;
         let message: string;
 
         if (this.generateCertificate && this.certificateValue) {
@@ -103,7 +108,7 @@ export class RegisterComponent implements OnInit {
                 Validators.maxLength(8)
             ]],
             login: ['', Validators.required],
-            email: ['', [Validators.required, Validators.email]],
+            email: ['', [Validators.pattern(new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)),]],
             pin: ['', Validators.required]
         });
     }

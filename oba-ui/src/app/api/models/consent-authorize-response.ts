@@ -11,5 +11,5 @@ export interface ConsentAuthorizeResponse {
   encryptedConsentId?: string;
   psuMessages?: Array<PsuMessage>;
   scaMethods?: Array<ScaUserDataTO>;
-  scaStatus?: 'received' | 'psuIdentified' | 'psuAuthenticated' | 'scaMethodSelected' | 'started' | 'finalised' | 'failed' | 'exempted' | 'partiallyAuthorised';
+  scaStatus?: 'received' | 'psuIdentified' | 'psuAuthenticated' | 'scaMethodSelected' | 'started' | 'finalised' | 'failed' | 'exempted';
 }

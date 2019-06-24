@@ -16,7 +16,7 @@ services:
     ports:
     - "8089:8089"
     environment:
-    - SPRING_PROFILES_ACTIVE=mockspi
+    - SPRING_PROFILES_ACTIVE=mock-qwak
     - LEDGERS_URL=http://ledgers:8088
     - ASPSP_PROFILE_BASEURL=http://profile:48080/api/v1
     - CONSENT_SERVICE_BASEURL=http://consent:38080/api/v1
@@ -121,4 +121,3 @@ services:
     - xs2a-net
     volumes:
     - xs2a-gateway-data:/var/lib/data
-    

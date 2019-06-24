@@ -20,7 +20,7 @@ public class BulkPaymentEmbeddedOneScaMethodIT extends AbstractPaymentEmbedded {
 		paymentInitService.validateResponseStatus(loginResponse, ScaStatus.SCAMETHODSELECTED);
 		paymentInitService.checkTxStatus(loginResponse, TransactionStatus.ACCP);
 
-		UpdatePsuAuthenticationResponse psuAuthenticationResponse = paymentInitService.authCode(loginResponse);
+		UpdatePsuAuthenticationResponse psuAuthenticationResponse = paymentInitService.authCode();
 		paymentInitService.validateResponseStatus(psuAuthenticationResponse, ScaStatus.FINALISED);
 		paymentInitService.checkTxStatus(psuAuthenticationResponse, TransactionStatus.ACSP);
     }

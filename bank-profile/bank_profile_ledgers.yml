@@ -16,6 +16,7 @@ setting:
     - BOOKED
     - PENDING
   supportedAccountReferenceFields:
+    - IBAN
     - MSISDN
   consentLifetime: 0
   transactionLifetime: 0

@@ -1,0 +1,20 @@
+.test-values-wrapper {
+  padding: 2vw;
+  p {
+    color: #46494c;
+    opacity: 0.9;
+    font-size: 1.2vw;
+    line-height: 2vw;
+    font-weight: 800;
+  }
+  button {
+    height: 3vw;
+    color: #fff;
+    outline: none;
+    width: 10vw;
+    font-size: 1vw;
+    background-color: #1575a2;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+}

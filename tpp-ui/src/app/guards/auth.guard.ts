@@ -4,13 +4,13 @@ import {AuthService} from "../services/auth.service";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private authService: AuthService,
-              private router: Router) {}
+  constructor(private authService: AuthService) {}
 
   canActivate() {
-    const res = this.authService.isLoggedIn();
+    let res = this.authService.isLoggedIn();
+
     if (!res) {
-      this.router.navigate(['/login']);
+      this.authService.logout();
       // show login form
     }
     return res;

@@ -6,17 +6,20 @@ import {HttpClientTestingModule, HttpTestingController} from '@angular/common/ht
 import {AuthService} from './auth.service';
 import {environment} from "../../environments/environment";
 import {User} from "../models/user.model";
+import {RouterTestingModule} from "@angular/router/testing";
+import {Router} from "@angular/router";
 
 describe('AuthService', () => {
     let httpTestingController: HttpTestingController;
     let authService: AuthService;
+    let router: Router;
     const url = `${environment.staffAccessResourceEndPoint + '/users'}`;
 
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                HttpClientModule,
+                RouterTestingModule,
                 HttpClientTestingModule,
             ],
             providers: [AuthService, JwtHelperService]
@@ -24,6 +27,7 @@ describe('AuthService', () => {
 
         httpTestingController = TestBed.get(HttpTestingController);
         authService = TestBed.get(AuthService);
+        router = TestBed.get(Router);
     });
 
     afterEach(() => {
@@ -35,8 +39,11 @@ describe('AuthService', () => {
     }));
 
     it('should delete token on logout', () => {
+        let navigateSpy = spyOn(router, 'navigate').and.callFake(() => Promise.resolve([]));
         authService.logout();
+
         expect(localStorage.getItem('token')).toBeNull();
+        expect(navigateSpy).toHaveBeenCalledWith(['/logout']);
     });
 
     it('should call authorize when login', () => {

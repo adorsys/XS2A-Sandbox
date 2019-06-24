@@ -24,7 +24,6 @@ export class LoginComponent implements OnInit {
             pin: ['', Validators.required],
             role: ['STAFF']
         });
-        this.authService.logout();
     }
 
     onSubmit() {
