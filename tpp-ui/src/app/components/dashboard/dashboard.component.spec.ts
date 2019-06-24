@@ -6,6 +6,8 @@ import {NavbarComponent} from "../../commons/navbar/navbar.component";
 import {SidebarComponent} from "../../commons/sidebar/sidebar.component";
 import {IconModule} from "../../commons/icon/icon.module";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {LoginComponent} from "../auth/login/login.component";
+import {ReactiveFormsModule} from "@angular/forms";
 
 describe('DashboardComponent', () => {
     let component: DashboardComponent;
@@ -14,11 +16,12 @@ describe('DashboardComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                RouterTestingModule,
+                RouterTestingModule.withRoutes( [{ path: 'logout', component: LoginComponent }]),
                 HttpClientTestingModule,
+                ReactiveFormsModule,
                 IconModule
             ],
-            declarations: [DashboardComponent, NavbarComponent, SidebarComponent]
+            declarations: [DashboardComponent, NavbarComponent, SidebarComponent, LoginComponent]
         })
             .compileComponents();
     }));

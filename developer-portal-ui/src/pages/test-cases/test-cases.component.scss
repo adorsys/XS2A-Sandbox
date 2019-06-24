@@ -1,7 +1,7 @@
 /*=== Documentation header section ===*/
 
 .documentation-header-section {
-  padding: 5vw 5vw 3vw 5vw;
+  padding: 0 5vw;
   .documentation-header-title {
     opacity: 0.9;
     font-weight: 600;
@@ -87,6 +87,11 @@
               span {
                 font-size: 1.1vw;
               }
+
+              .minus {
+                margin-left: 0.26vw;
+              }
+
               ul {
                 li {
                   margin: 0.4vw;

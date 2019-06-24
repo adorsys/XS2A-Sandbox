@@ -24,17 +24,21 @@ import { EmbPaymentInitCreatePostComponent } from './components/api-endpoints/em
 import { EmbPaymentInitAuthPostComponent } from './components/api-endpoints/emb-payment-init-auth-post/emb-payment-init-auth-post.component';
 import { EmbPaymentInitPutComponent } from './components/api-endpoints/emb-payment-init-put/emb-payment-init-put.component';
 import { EmbPaymentInitGetComponent } from './components/api-endpoints/emb-payment-init-get/emb-payment-init-get.component';
-import { TestValuesComponent } from './components/test-values/test-values.component';
+import { PlayWthDataComponent } from './components/play-with-data/play-wth-data.component';
+import { FormsModule } from '@angular/forms';
+import { ngxLoadingAnimationTypes, NgxLoadingModule } from 'ngx-loading';
+import { CodeAreaComponent } from '../../custom-elements/code-area/code-area.component';
+import { PrettyJsonPipe } from '../../pipes/pretty-json.pipe';
 
 @NgModule({
   declarations: [
     RedirectComponent,
     TestCasesComponent,
-    TestValuesComponent,
     EmbeddedComponent,
     TestingFlowsComponent,
     PostmanTestingComponent,
     LineCommandComponent,
+    CodeAreaComponent,
     RdctConsentPOSTComponent,
     RdctPaymentCancellationPostComponent,
     RdctPaymentCancellationDeleteComponent,
@@ -52,7 +56,21 @@ import { TestValuesComponent } from './components/test-values/test-values.compon
     EmbPaymentInitAuthPostComponent,
     EmbPaymentInitPutComponent,
     EmbPaymentInitGetComponent,
+    PlayWthDataComponent,
+    PrettyJsonPipe,
   ],
-  imports: [CommonModule, TestCasesRoutingModule],
+  imports: [
+    CommonModule,
+    TestCasesRoutingModule,
+    FormsModule,
+    NgxLoadingModule.forRoot({
+      animationType: ngxLoadingAnimationTypes.wanderingCubes,
+    }),
+  ],
+  exports: [
+    LineCommandComponent,
+    PlayWthDataComponent,
+    CodeAreaComponent
+  ]
 })
 export class TestCasesModule {}

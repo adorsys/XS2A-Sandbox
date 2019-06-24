@@ -9,7 +9,12 @@ export class TestDataGenerationService {
     constructor(private http: HttpClient) {
     }
 
-    public generateTestData() {
-        return this.http.get(this.url + '/generate', {responseType: 'text'});
+    public generateTestData(generatePaymentsFlag: boolean) {
+        return this.http.get(this.url + '/generate', {
+            params: {
+                generatePayments: generatePaymentsFlag === undefined? 'false' : String(generatePaymentsFlag)
+            },
+            responseType: 'text'
+        });
     }
 }

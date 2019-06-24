@@ -1,38 +1,74 @@
 .nav-bar {
+  position: fixed;
+  width: 76vw;
   height: 7.5vw;
   display: flex;
   padding: 0 5vw;
   justify-content: space-between;
   align-items: center;
-  background-color: #fff;
+  z-index: 9999;
+  top: 0;
+  .nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
   .header-item {
     opacity: 0.3;
     font-size: 1.2vw;
     margin-right: 2vw;
     cursor: pointer;
-    //&:hover {
-    //  opacity: 1;
-    //}
     &:last-of-type {
       margin-right: 0;
     }
   }
+  .header-icons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 2vw;
+
+    height: 4vw;
+    width: 1.5vw;
+    i {
+      cursor: pointer;
+      opacity: 0.3;
+      display: block;
+      font-size: 1.8vw;
+      margin-left: 0.4vw;
+    }
+    i:hover {
+      opacity: 1;
+    }
+  }
   .logo {
-    height: 2vw;
-    width: 13vw;
+    max-height: 75%;
+    max-width: 25%;
     cursor: pointer;
   }
 }
 
+/deep/ .collapse-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
 .footer-bar {
-  height: 16vw;
+  height: 13vw;
   padding: 0 5vw;
-  background-color: #054f72;
   .footer-top-items {
-    padding-top: 3vw;
+    height: 7.5vw;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    .logo {
+      max-height: 75%;
+      max-width: 25%;
+      cursor: pointer;
+    }
     .footer-item {
       opacity: 0.3;
       font-size: 1.1vw;
@@ -40,29 +76,20 @@
       &:hover {
         opacity: 0.9;
       }
-      color: #fff;
       cursor: pointer;
       &:last-of-type {
         margin-right: 0;
       }
     }
   }
-  .logo {
-    height: 2vw;
-    width: 13vw;
-    cursor: pointer;
-    //filter: brightness(0) invert(1);
-  }
   .social-media {
     float: right;
-    margin-top: 5vw;
-    i {
-      cursor: pointer;
-      font-size: 1vw;
-      color: #fff;
-      margin-left: 1.5vw;
-      &:hover {
-        color: #000;
+    div {
+      display: unset;
+      i {
+        cursor: pointer;
+        font-size: 1vw;
+        margin-left: 1.5vw;
       }
     }
   }

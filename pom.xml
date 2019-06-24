@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.adorsys.psd2.sandbox</groupId>
     <artifactId>psd2-dynamic-sandbox</artifactId>
-    <version>1.1-RC1</version>
+    <version>1.1</version>
     <packaging>pom</packaging>
 
     <name>PSD2 Dynamic Sandbox</name>
@@ -33,6 +33,7 @@
         <module>integration-tests</module>
         <module>psd2-api-gateway</module>
         <module>certificate-generator</module>
+        <module>tpp-app</module>
     </modules>
 
     <url>https://github.com/adorsys/psd2-dynamic-sandbox</url>
@@ -89,27 +90,26 @@
         <java.version>1.8</java.version>
         <pmd.plugin.version>3.10.0</pmd.plugin.version>
         <!-- xs2a version -->
-        <xs2a.version>3.3.2</xs2a.version>
+        <xs2a.version>3.4</xs2a.version>
         <psd2.certificate.generator.version>1.5.0</psd2.certificate.generator.version>
-        <connector.version>3.3.2</connector.version>
-        <ledgers.version>0.3.8</ledgers.version>
+        <connector.version>3.4</connector.version>
+        <ledgers.version>0.4</ledgers.version>
         <!-- other properties -->
         <spring-boot-dependencies.version>2.1.1.RELEASE</spring-boot-dependencies.version>
         <spring-cloud-dependencies.version>Greenwich.RELEASE</spring-cloud-dependencies.version>
-        <slf4j.version>1.7.25</slf4j.version>
+        <feign.version>10.2.3</feign.version>
         <jetbrains.annotations.version>15.0</jetbrains.annotations.version>
         <javatar-commons.version>LATEST</javatar-commons.version>
         <org.mapstruct.version>1.2.0.Final</org.mapstruct.version>
         <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
         <swagger-annotations.version>1.5.20</swagger-annotations.version>
-        <log4j.version>1.2.17</log4j.version>
         <google.guava.version>23.0</google.guava.version>
         <nimbus-jose-jwt.version>6.1.1</nimbus-jose-jwt.version>
         <lombok.version>1.18.4</lombok.version>
         <bcpkix-jdk15on.version>1.60</bcpkix-jdk15on.version>
         <commons-io.version>2.6</commons-io.version>
         <junit.version>4.12</junit.version>
-        <mockito.version>2.24.0</mockito.version>
+        <mockito.version>1.10.19</mockito.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <!--Sonar -->
         <sonar.core.coveragePlugin>jacoco</sonar.core.coveragePlugin>
@@ -147,8 +147,20 @@
     <dependencyManagement>
         <dependencies>
 
+            <!-- Ledgers dependencies -->
+            <dependency>
+                <groupId>de.adorsys.ledgers</groupId>
+                <artifactId>ledgers-middleware-service-api</artifactId>
+                <version>${ledgers.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>de.adorsys.ledgers</groupId>
+                <artifactId>ledgers-middleware-rest-client</artifactId>
+                <version>${ledgers.version}</version>
+            </dependency>
+
             <!-- spring dependencies -->
-            <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-dependencies -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -183,14 +195,6 @@
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger-ui</artifactId>
                 <version>${springfox-swagger2.version}</version>
-            </dependency>
-
-            <!-- logging dependencies -->
-
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${slf4j.version}</version>
             </dependency>
 
             <!-- other dependencies -->
@@ -244,6 +248,13 @@
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>${mockito.version}</version>
                 <scope>test</scope>
             </dependency>
 

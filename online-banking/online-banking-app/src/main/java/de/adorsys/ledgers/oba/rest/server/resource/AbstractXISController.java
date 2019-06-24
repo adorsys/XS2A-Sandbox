@@ -8,9 +8,8 @@ import de.adorsys.ledgers.oba.rest.api.consentref.ConsentType;
 import de.adorsys.ledgers.oba.rest.api.consentref.InvalidConsentException;
 import de.adorsys.ledgers.oba.rest.api.domain.AuthorizeResponse;
 import de.adorsys.ledgers.oba.rest.server.auth.MiddlewareAuthentication;
+import lombok.extern.slf4j.Slf4j;
 import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +18,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Slf4j
 public abstract class AbstractXISController {
-    private static final Logger logger = LoggerFactory.getLogger(AbstractXISController.class);
-
 
     @Autowired
     protected AspspConsentDataClient aspspConsentDataClient;
@@ -89,7 +87,7 @@ public abstract class AbstractXISController {
             // 2. Set cookies
             responseUtils.setCookies(response, consentReference, null, null);
         } catch (InvalidConsentException e) {
-            logger.info(e.getMessage());
+            log.info(e.getMessage());
             responseUtils.removeCookies(response);
             return responseUtils.unknownCredentials(authResponse, response);
         }

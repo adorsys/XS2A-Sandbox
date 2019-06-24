@@ -1,11 +1,20 @@
-<div class="d-md-flex align-items-center bg-white h-md-100">
+<div class="bg-sm-light sticky-top">
+  <div class="container-fluid">
+    <nav class="navbar navbar-light text-primary py-3">
+      <a class="navbar-brand" href="#">
+        <img src="./assets/images/Logo_XS2ASandbox.png" class="logo" alt="XS2ASandbox TPP dashboard">
+      </a>
+    </nav>
+  </div>
+</div>
+
+<div class="d-md-flex bg-white h-md-100">
   <div class="col">
     <div class="d-md-flex align-items-center h-100 p-4 justify-content-center">
       <div class="d-md-flex align-items-center">
         <form [formGroup]="loginForm" (ngSubmit)="loginForm.valid && onSubmit()">
 
           <div class="card">
-            <img class="card-img-top pb-3" src="./assets/images/Logo_XS2ASandbox.png" alt="adorsys Online banking">
             <div class="card-body">
               <h2 class="card-title text-center font-weight-bold">adorsys Online banking</h2>
               <div class="font-weight-light my-4 text-muted">Please log in with your bank account username.</div>
@@ -23,7 +32,10 @@
                        placeholder="Enter your login"
                        [ngClass]="{ 'is-invalid': loginForm.controls['login'].touched && loginForm.controls['login'].errors }"
                        class="form-control">
-                <div class="invalid-feedback" *ngIf="loginForm.controls['login'].touched && loginForm.controls['login'].hasError('required')">Login is required</div>
+                <div class="invalid-feedback"
+                     *ngIf="loginForm.controls['login'].touched && loginForm.controls['login'].hasError('required')">
+                  Login is required
+                </div>
               </div>
 
               <div class="form-group">
@@ -35,7 +47,10 @@
                        placeholder="Enter you pin"
                        [ngClass]="{ 'is-invalid': loginForm.controls['pin'].touched && loginForm.controls['pin'].errors }"
                        class="form-control">
-                <div class="invalid-feedback" *ngIf="loginForm.controls['pin'].touched && loginForm.controls['pin'].hasError('required')">Pin is required</div>
+                <div class="invalid-feedback"
+                     *ngIf="loginForm.controls['pin'].touched && loginForm.controls['pin'].hasError('required')">
+                  Pin is required
+                </div>
               </div>
 
             </div>

@@ -1,5 +1,9 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import {
+  ContactInfo,
+  CustomizeService,
+} from '../../services/customize.service';
 
 @Component({
   selector: 'app-home',
@@ -10,12 +14,20 @@ export class HomeComponent implements OnInit, AfterViewInit {
   slides = [];
   today = +new Date();
   productHistory = [];
+  contactInfo: ContactInfo;
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private customizeService: CustomizeService
+  ) {
     this.init();
   }
 
   init() {
+    setInterval(() => {
+      this.contactInfo = this.customizeService.getTheme().contactInfo;
+    }, 100);
+
     this.slides = [
       {
         title: 'Plug and Play',
@@ -91,7 +103,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         orderNumber: 2,
       },
       {
-        title: 'Release of XS2A Sandbox ver 1.0',
+        title: 'Release of XS2ASandbox ver 1.0',
         date: 1556658000000,
         text:
           'Support of Redirect and Embedded approach: TPP-UI, Online Banking',

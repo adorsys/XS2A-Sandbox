@@ -88,7 +88,7 @@ Possible values are: _true_ or _false_            | _true_
 | SANDBOX_UI_CONTENT_URLS_EN_CERT                        | URL to customized english markdown file for certificate page | Points to the default english `create-cert-page.md` embedded in the application
 | SANDBOX_UI_CONTENT_URLS_EN_FAQ                        | URL to customized english markdown file for faq page | Points to the default english `faq-page.md` embedded in the application
 | SANDBOX_UI_CONTENT_URLS_EN_PORTAL                        | URL to customized english markdown file for portal page | Points to the default english `developer-portal-page.md` embedded in the application
-| LOGGING_CONFIG                                 | Location of the logback configuration  | _classpath:logback.xml_
+| LOGGING_CONFIG                                 | Location of the logback configuration  | _classpath:logback-spring.xml_
 | CONSOLE_LOG_PATTERN                            | Sandbox log pattern (note: `logging.pattern.console` if not as ENV) | _[%-5level][%d{HH:mm:ss.SSS}] - %logger: %message%n%xException_
 |=======
 
@@ -121,7 +121,6 @@ include::../../bank-profile/bank_profile_ledgers.yml[]
 We use a modified https://docs.spring.io/spring-boot/docs/1.5.18.RELEASE/reference/html/howto-logging.html[Spring Boot logging configuration] with logback and log everything to stdout.
 
 * `FILE` appender is disabled
-* additional `access-log` logger which logs TPP access
 * default configuration parameters for the `CONSOLE` are supported
 
 The default log level is `INFO`. Set a different level with `LOGGING_LEVEL_ROOT=WARN` (global) or with `LOGGING_LEVEL_de.adorsys.psd2=WARN` (for everything below `de.adorsys.psd2`; please note the casing).

@@ -1,0 +1,145 @@
+@import '../../assets/themes/variables';
+
+i {
+  cursor: pointer;
+  opacity: 0.3;
+  display: block;
+  font-size: 1.7vw;
+  margin-left: 0.45vw;
+}
+
+i:hover {
+  opacity: 1;
+}
+
+#modal {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 13.4vw;
+  max-height: 0;
+  top: 7.5vw;
+  right: 0;
+  background-color: #fff;
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+
+    span {
+      display: block;
+      font-weight: bold;
+      color: #000000;
+      font-size: 1vw;
+      margin-left: 1vw;
+      margin-top: 1vw;
+    }
+  }
+
+  .modal-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 1vw;
+
+    label,
+    button {
+      margin-left: 1vw;
+      margin-top: 0.5vw;
+      font-size: 0.8vw;
+      display: block;
+      input {
+        outline: none;
+        width: 10vw;
+        font-size: 0.7vw;
+        margin-top: 0.15vw;
+        padding: 0.2vw 0.5vw;
+      }
+    }
+
+    input[type='file'] {
+      display: none;
+    }
+
+    .export-settings {
+      width: 11.2vw;
+      margin-left: 1vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .export {
+        display: block;
+        margin-left: unset;
+        max-width: 10vw;
+      }
+    }
+
+    button.export {
+      width: 11.4vw;
+    }
+
+    .custom-file-upload {
+      display: inline-block;
+      width: 11.2vw;
+      font-size: 0.8vw;
+      font-weight: bold;
+      color: #444444;
+      text-decoration: none;
+      padding-top: 0.25vw;
+      padding-bottom: 0.25vw;
+      text-align: center;
+      outline: none;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 2px;
+      background: #f5f5f5 linear-gradient(#f4f4f4, #f1f1f1);
+      transition: all 0.218s ease 0s;
+    }
+
+    .custom-file-upload:hover {
+      color: rgb(24, 24, 24);
+      border: 1px solid rgb(198, 198, 198);
+      background: #f7f7f7 linear-gradient(#f7f7f7, #f1f1f1);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .custom-file-upload:active {
+      color: rgb(51, 51, 51);
+      border: 1px solid #cccccc;
+      background: #eeeeee linear-gradient(#eeeeee, #e0e0e0);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) inset;
+    }
+  }
+
+  .modal-footer {
+    display: flex;
+    justify-content: space-between;
+
+    margin-top: 1vw;
+
+    button {
+      display: block;
+      height: 2vw;
+      margin-bottom: 1vw;
+      border: none;
+      outline: none;
+      transition: all 0.218s ease 0.1s;
+
+      span {
+        color: white;
+        font-weight: bold;
+        font-size: 0.9vw;
+      }
+    }
+    .save {
+      margin-left: 1vw;
+      margin-right: 0.5vw;
+      transition: unset;
+    }
+    .close {
+      margin-right: 1vw;
+      margin-left: 0.5vw;
+    }
+  }
+}

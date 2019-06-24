@@ -68,7 +68,16 @@
       <div class="api-table bg">
         <span>PSU-IP-Address</span> <span>1.1.1.1</span>
       </div>
-
+      <div class="api-table">
+        <span>TPP-Redirect-Preferred</span> <span>true</span>
+      </div>
+      <div class="api-table bg">
+        <span>TPP-Redirect-URI</span>
+        <span>https://adorsys.de/en/psd2-tpp/</span>
+      </div>
+      <div class="api-table">
+        <span>TPP-Nok-Redirect-URI</span> <span>https://www.google.com</span>
+      </div>
       <p>
         Put in <span class="bold-text">YOUR_USER_LOGIN</span> the name of the
         user you chose (you can view users and their information in TPP-UI).
@@ -79,26 +88,30 @@
         <app-line-command title="payments"></app-line-command>, insert into
         request body the following json:
       </p>
-      <p class="json-text">{{ jsonData1 | json }}</p>
+      <app-code-area [json]="jsonData1" [id]="'RPIP-1'"></app-code-area>
+
       <p>
         If you chose to create periodic payment by setting
         <app-line-command title="payment-service"></app-line-command> to
         <app-line-command title="periodic-payments"></app-line-command>, insert
         into request body the following json:
       </p>
-      <p class="json-text">{{ jsonData2 | json }}</p>
+      <app-code-area [json]="jsonData2" [id]="'RPIP-2'"></app-code-area>
+
       <p>
         If you chose to create bulk payment by setting
         <app-line-command title="payment-service"></app-line-command> to
         <app-line-command title="bulk-payments"></app-line-command>, insert into
         request body the following json:
       </p>
-      <p class="json-text">{{ jsonData3 | json }}</p>
+      <app-code-area [json]="jsonData3" [id]="'RPIP-3'"></app-code-area>
+
       <p>
         Change placeholder <span class="bold-text">YOUR_USER_IBAN</span> in
         section
       </p>
-      <p class="json-text">{{ jsonData4 | json }}</p>
+      <app-code-area [json]="jsonData4" [id]="'RPIP-4'"></app-code-area>
+
       <p>
         of the json you chose to the IBAN of the user (IBAN should match user
         login you entered in PSU-ID header above).
@@ -114,7 +127,15 @@
 
     <!-- Play with data -->
     <ng-template #play_with_data>
-      <div class="endpoint-play-with-data"><h1>Coming soon...</h1></div>
+      <app-play-wth-data
+        method="POST"
+        [headers]="headers"
+        [body]="body"
+        [paymentServiceFlag]="true"
+        [paymentProductFlag]="true"
+        [url]="'v1/'"
+        [fieldsToCopy]="['paymentId']"
+      ></app-play-wth-data>
     </ng-template>
   </div>
 </div>

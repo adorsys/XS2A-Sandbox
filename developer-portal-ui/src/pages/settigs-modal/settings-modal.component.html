@@ -1,0 +1,46 @@
+<i class="fas fa-cogs" (click)="collapseThis('modal')"></i>
+
+<div class="collapse-content" id="modal">
+  <div class="modal-header"><span class="modal-title">Settings</span></div>
+
+  <div class="modal-body">
+    <label for="import" class="custom-file-upload"> Import theme </label>
+    <input
+      type="file"
+      accept="application/json"
+      id="import"
+      (change)="onFileChanged($event)"
+      (click)="onFileClear($event)"
+    />
+    <button class="custom-file-upload export" (click)="collapseThis('export')">
+      Export theme
+    </button>
+    <div class="collapse-content export-settings" id="export">
+      <button
+        class="custom-file-upload export"
+        (click)="exportTheme('defaultTheme')"
+      >
+        Default theme
+      </button>
+      <button
+        class="custom-file-upload export"
+        (click)="exportTheme('userTheme')"
+      >
+        User theme
+      </button>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary save" (click)="save()">
+      Save
+    </button>
+    <button
+      type="submit"
+      class="btn btn-outline-secondary close"
+      (click)="close()"
+    >
+      Close
+    </button>
+  </div>
+</div>

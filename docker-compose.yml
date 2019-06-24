@@ -12,7 +12,7 @@ services:
 
   # Xs2a connector example
   xs2a-connector-examples:
-    image: adorsys/xs2a-connector-examples:3.3.2
+    image: adorsys/xs2a-connector-examples:3.4
     container_name: xs2a-connector-examples
     restart: on-failure
     ports:
@@ -33,7 +33,7 @@ services:
 
   # Xs2a aspsp profile
   xs2a-aspsp-profile:
-    image: adorsys/xs2a-aspsp-profile:3.3.2
+    image: adorsys/xs2a-aspsp-profile:3.4
     container_name: xs2a-aspsp-profile
     restart: on-failure
     environment:
@@ -49,7 +49,7 @@ services:
 
   # Consent management
   xs2a-consent-management:
-    image: adorsys/xs2a-consent-management:3.3.2
+    image: adorsys/xs2a-consent-management:3.4
     container_name: xs2a-consent-management
     restart: on-failure
     ports:
@@ -111,7 +111,7 @@ services:
 
   # Ledgers
   ledgers:
-    image: adorsys/ledgers:0.3.8
+    image: adorsys/ledgers:0.4
     container_name: ledgers
     restart: on-failure
     networks:
@@ -149,8 +149,10 @@ services:
       - xs2a-net
     environment:
       ONLINE_BANKING_SERVER_URL: "http://xs2a-online-banking:8090"
+      DEV_PORTAL_URL: "http://localhost:4206"
     depends_on:
       - xs2a-online-banking
+      - developer-portal-ui
 
 
   # TPP-UI
@@ -181,6 +183,10 @@ services:
       - "4206:4206"
     networks:
       - xs2a-net
+    depends_on:
+      - xs2a-connector-examples
+    environment:
+      - XS2A_URL=http://xs2a-connector-examples:8089
 
   # Certificate generator
   certificate-generator:

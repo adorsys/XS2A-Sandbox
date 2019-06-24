@@ -3,6 +3,7 @@ package de.adorsys.ledgers.oba.rest.server.resource;
 import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.*;
 import de.adorsys.ledgers.middleware.api.domain.um.AisAccountAccessInfoTO;
+import de.adorsys.ledgers.middleware.api.domain.um.AisAccountAccessTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisConsentTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.AccountRestClient;
@@ -26,14 +27,13 @@ import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import feign.FeignException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.adorsys.ledgers.consent.aspsp.rest.client.CmsAspspPiisClient;
 import org.adorsys.ledgers.consent.aspsp.rest.client.CreatePiisConsentRequest;
 import org.adorsys.ledgers.consent.aspsp.rest.client.CreatePiisConsentResponse;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,15 +45,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestController(AISController.BASE_PATH)
 @RequestMapping(AISController.BASE_PATH)
 @Api(value = AISController.BASE_PATH, tags = "PSU AIS", description = "Provides access to online banking account functionality")
 @SuppressWarnings("PMD.TooManyMethods")
 public class AISController extends AbstractXISController implements AISApi {
-
-    private static final Logger logger = LoggerFactory.getLogger(AISController.class);
 
     @Autowired
     private HttpServletRequest request;
@@ -86,7 +86,7 @@ public class AISController extends AbstractXISController implements AISApi {
     public ResponseEntity<AuthorizeResponse> aisAuth(String redirectId,
                                                      String encryptedConsentId) {
 
-        logger.debug("encryptedConsentId: {}", encryptedConsentId);
+        log.debug("encryptedConsentId: {}", encryptedConsentId);
 
         return auth(redirectId, ConsentType.AIS, encryptedConsentId, request, response);
     }
@@ -111,12 +111,12 @@ public class AISController extends AbstractXISController implements AISApi {
             workflow = identifyConsent(encryptedConsentId, authorisationId, false, consentCookieString, login, response,
                                        null);
 
-            logger.debug("Login: {}", login);
+            log.debug("Login: {}", login);
 
 
             CmsAisConsentResponse consent = workflow.getConsentResponse();
 
-            logger.debug("authorisationId: {}", consent.getAuthorisationId());
+            log.debug("authorisationId: {}", consent.getAuthorisationId());
 
             tppNokRedirectUri = consent.getTppNokRedirectUri();
             tppOkRedirectUri = consent.getTppOkRedirectUri();
@@ -145,7 +145,7 @@ public class AISController extends AbstractXISController implements AISApi {
                 try {
                     workflow.getAuthResponse().setScaStatus(ScaStatusTO.PSUIDENTIFIED);
 
-                    logger.debug("403 Error: {}", ScaStatusTO.PSUIDENTIFIED);
+                    log.debug("403 Error: {}", ScaStatusTO.PSUIDENTIFIED);
 
                     // Store the id of the psu
                     updatePSUIdentification(workflow, login);
@@ -186,6 +186,18 @@ public class AISController extends AbstractXISController implements AISApi {
                 case SCAMETHODSELECTED:
                     List<AccountDetailsTO> listOfAccounts = listOfAccounts(workflow);
                     workflow.getAuthResponse().setAccounts(listOfAccounts);
+
+                    // update consent accounts, transactions and balances if global consent flag is set
+                    AisAccountAccess consentAccountAccess = workflow.getConsentResponse().getAccountConsent().getAccess();
+                    if (isConsentGlobal(consentAccountAccess)) {
+                        AisAccountAccessInfoTO authAccountAccess = workflow.getAuthResponse().getConsent().getAccess();
+
+                        List<String> ibans = extractUserIbans(listOfAccounts);
+                        authAccountAccess.setAccounts(ibans);
+                        authAccountAccess.setTransactions(ibans);
+                        authAccountAccess.setBalances(ibans);
+                    }
+
                     responseUtils.setCookies(response, workflow.getConsentReference(),
                                              workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
                     return ResponseEntity.ok(workflow.getAuthResponse());
@@ -267,7 +279,13 @@ public class AISController extends AbstractXISController implements AISApi {
             cmsPsuAisClient.confirmConsent(workflow.consentId(), psuId, null, null, null, CmsPsuAisClient.DEFAULT_SERVICE_INSTANCE_ID);
             updateScaStatusConsentStatusConsentData(psuId, workflow);
 
-            responseUtils.setCookies(response, workflow.getConsentReference(), workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
+            // if consent is partially authorized the access token is null
+            Optional<BearerTokenTO> accessToken = Optional.ofNullable(workflow.bearerToken());
+            if (accessToken.isPresent()) {
+                responseUtils.setCookies(response, workflow.getConsentReference(), workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
+            } else {
+                responseUtils.setCookies(response, workflow.getConsentReference(), "", null);
+            }
 
             scaStatus = workflow.getAuthResponse().getScaStatus();
             return ResponseEntity.ok(workflow.getAuthResponse());
@@ -627,6 +645,23 @@ public class AISController extends AbstractXISController implements AISApi {
         } finally {
             authInterceptor.setAccessToken(null);
         }
+    }
+
+    /**
+     * Returns list of accounts' IBANs to which user has an access.
+     * Necessary for Global Consent and All Accounts Consent.
+     *
+     * @param accounts user account accesses
+     */
+    private List<String> extractUserIbans(List<AccountDetailsTO> accounts) {
+        return accounts
+                   .stream()
+                   .map(AccountDetailsTO::getIban)
+                   .collect(Collectors.toList());
+    }
+
+    private boolean isConsentGlobal(AisAccountAccess aisAccountAccess) {
+        return AisAccountAccessTypeTO.ALL_ACCOUNTS.toString().equals(aisAccountAccess.getAllPsd2());
     }
 
 }

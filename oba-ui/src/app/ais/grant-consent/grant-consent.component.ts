@@ -110,6 +110,18 @@ export class GrantConsentComponent implements OnInit, OnDestroy {
     }
   }
 
+  handleIbanCheckbox(value): void {
+
+    // accounts
+    this.handleSplice(this.consentAccounts, value, true);
+
+    // balances
+    this.handleSplice(this.consentBalances, value, false);
+
+    // transactions
+    this.handleSplice(this.consentTransactions, value, false);
+  }
+
   public accountsChecked(account): boolean {
     return this.authResponse.consent.access.accounts.indexOf(account.iban) > -1
   }
@@ -124,6 +136,15 @@ export class GrantConsentComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  private handleSplice(consentArray: string[], value: string, isConsent: boolean): void {
+    const idx = consentArray.indexOf(value);
+    if (idx > -1) { // is currently selected
+      consentArray.splice(idx, 1);
+    } else if (isConsent) { // is newly selected
+      this.consentAccounts.push(value);
+    }
   }
 
   private isBankOfferedConsent() {

@@ -1,11 +1,11 @@
 <nav class="navbar navbar-light py-3">
     <a class="navbar-brand text-primary mr-4" routerLink="/">
-        <img src="./assets/images/Logo_XS2ASandbox.png" width="240" alt="adorsys TPP UI">
+        <img src="./assets/images/Logo_XS2ASandbox.png" class="logo" alt="adorsys TPP UI">
         <span class="ml-3">adorsys TPP UI</span>
     </a>
       <ul class="nav ml-auto">
           <li class="nav-item">
-              <a [routerLink]="['/logout']" class="nav-link px-0">
+              <a (click)="onLogout()" [routerLinkActive]="['active']" class="btn nav-link px-0 mb-0">
                   <div class="mr-2">
                       <img src="./assets/icons/sign_out.svg">
                   </div>

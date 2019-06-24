@@ -58,17 +58,18 @@
         user you chose (you can view users and their information in TPP-UI).
       </p>
       <p>
-        Insert into request body the following json for available accounts
+        3. Insert into request body the following json for available accounts
         consent:
       </p>
-      <p class="json-text">{{ jsonData | json }}</p>
+      <app-code-area [json]="jsonData" [id]="'ECCP'"></app-code-area>
+
       <p>
         Change placeholder <span class="bold-text">YOUR_USER_IBAN</span> to the
         IBAN of the user (IBAN should match user login you entered in PSU-ID
         header above).
       </p>
-      <p>5. Execute and get response with code 201 and related information.</p>
-      <p>6. Start with the authorisation process.</p>
+      <p>4. Execute and get response with code 201 and related information.</p>
+      <p>5. Start with the authorisation process.</p>
       <p>
         Pay attention to the amount of SCA methods user has: if user has no SCA
         methods, test consent initiation with the flow described below in
@@ -86,7 +87,13 @@
 
     <!-- Play with data -->
     <ng-template #play_with_data>
-      <div class="endpoint-play-with-data"><h1>Coming soon...</h1></div>
+      <app-play-wth-data
+        method="POST"
+        [headers]="headers"
+        [body]="body"
+        url="v1/consents"
+        [fieldsToCopy]="['consentId']"
+      ></app-play-wth-data>
     </ng-template>
   </div>
 </div>

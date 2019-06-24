@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "./assets/themes/variables";
 @import "./assets/themes/mobile";
+@import "~material-icons/iconfont/material-icons.css";
 /*@import url('https://rsms.me/inter/inter-ui.css');*/
 
 * {
@@ -11,6 +12,11 @@
 }
 
 .oba-app {
+
+  .logo {
+    width: 200px;
+    height: auto;
+  }
 
   font-size: 1.125rem;
 
@@ -105,4 +111,9 @@
 
 }
 
+@media (max-width: 767px) {
+  .bg-sm-light {
+    background-color: $COLOR_LIGHT_GREY-10;
+  }
+}
 

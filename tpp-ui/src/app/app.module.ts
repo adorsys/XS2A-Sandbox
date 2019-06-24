@@ -1,5 +1,5 @@
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {NgModule} from '@angular/core';
+import {ErrorHandler, NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {FileUploadModule} from 'ng2-file-upload';
@@ -31,6 +31,8 @@ import {CertificateComponent} from "./components/auth/certificate/certificate.co
 import {IconModule} from "./commons/icon/icon.module";
 import {NgHttpLoaderModule} from 'ng-http-loader';
 import {FilterPipeModule} from "ngx-filter-pipe";
+import {GlobalErrorsHandler} from "./interceptors/global-errors-handler";
+import {AutoLogoutService} from "./services/auto-logout.service";
 
 @NgModule({
     declarations: [
@@ -68,8 +70,17 @@ import {FilterPipeModule} from "ngx-filter-pipe";
         NgHttpLoaderModule.forRoot()
     ],
     providers: [
+        AutoLogoutService,
         AuthGuard,
-        {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true
+        },
+        {
+            provide: ErrorHandler,
+            useClass: GlobalErrorsHandler
+        }
     ],
     bootstrap: [AppComponent]
 })

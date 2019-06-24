@@ -14,7 +14,7 @@ export class AuthInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return fromPromise(this.handleRequest(request, next)).pipe(
             catchError(errors => {
-                return this.handleErrors(errors);
+                return observableThrowError(errors);
             })
         );
     }
@@ -24,14 +24,5 @@ export class AuthInterceptor implements HttpInterceptor {
             request = request.clone({setHeaders: {Authorization: 'Bearer ' + this.authService.getAuthorizationToken()}});
         }
         return next.handle(request).toPromise();
-    }
-
-    private handleErrors(errorResp: HttpErrorResponse) {
-        let error = errorResp.error;
-
-        if (error.status === 403 || error.status === 401) {
-            this.authService.logout();
-        }
-        return observableThrowError(error);
     }
 }

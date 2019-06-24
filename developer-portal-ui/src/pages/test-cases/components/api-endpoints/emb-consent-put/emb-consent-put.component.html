@@ -66,7 +66,8 @@
       </div>
 
       <p>8. Insert into request body the following json:</p>
-      <p class="json-text">{{ jsonData1 | json }}</p>
+      <app-code-area [json]="jsonData1" [id]="'ECP-1'"></app-code-area>
+
       <p>
         Put in <span class="bold-text">YOUR_USER_PASSWORD</span> the password of
         the user you chose (you can view users and their information in TPP-UI).
@@ -114,7 +115,8 @@
         user you chose (you can view users and their information in TPP-UI).
       </p>
       <p>8. Insert into request body the following json:</p>
-      <p class="json-text">{{ jsonData1 | json }}</p>
+      <app-code-area [json]="jsonData1" [id]="'ECP-2'"></app-code-area>
+
       <p>
         Put in <span class="bold-text">YOUR_USER_PASSWORD</span> the password of
         the user you chose (you can view users and their information in TPP-UI).
@@ -132,7 +134,8 @@
         10. Execute this PUT endpoint again, but this time update request body:
         fill it with the following json:
       </p>
-      <p class="json-text">{{ jsonData2 | json }}</p>
+      <app-code-area [json]="jsonData2" [id]="'ECP-3'"></app-code-area>
+
       <p>
         User has only one SCA method, so test TAN
         <app-line-command title="123456"></app-line-command>
@@ -140,7 +143,8 @@
         PUT command.
       </p>
       <p>
-        The response should be 200 and
+        The response should be
+        <app-line-command title="200 HTTP code"></app-line-command> and
         <app-line-command title="scaStatus: Finalised"></app-line-command>
         .
       </p>
@@ -176,7 +180,8 @@
         <span>PSU-IP-Address</span> <span>1.1.1.1</span>
       </div>
       <p>8. Insert into request body the following json:</p>
-      <p class="json-text">{{ jsonData2 | json }}</p>
+      <app-code-area [json]="jsonData2" [id]="'ECP-4'"></app-code-area>
+
       <p>
         Put in <span class="bold-text">YOUR_USER_PASSWORD</span> the password of
         the user you chose (you can view users and their information in TPP-UI).
@@ -190,11 +195,13 @@
         10. Execute this PUT endpoint again, but this time update request body:
         fill it with the following json:
       </p>
-      <p class="json-text">{{ jsonData3 | json }}</p>
+      <app-code-area [json]="jsonData3" [id]="'ECP-5'"></app-code-area>
+
       <p>
         Put in placeholder
         <span class="italic-text">YOUR_AUTHENTICATION_METHOD_ID</span> any value
-        of authenticationMethodId of your choice. The response should be 200 and
+        of authenticationMethodId of your choice. The response should be
+        <app-line-command title="200 HTTP code"></app-line-command> and
         <app-line-command
           title="scaStatus: ScaMethodSelected"
         ></app-line-command>
@@ -204,7 +211,8 @@
         11. Execute this PUT endpoint again, update request body: fill it with
         the following json:
       </p>
-      <p class="json-text">{{ jsonData2 | json }}</p>
+      <app-code-area [json]="jsonData2" [id]="'ECP-6'"></app-code-area>
+
       <p>
         SCA method was chosen, so test TAN
         <app-line-command title="123456"></app-line-command>
@@ -212,7 +220,8 @@
         PUT command.
       </p>
       <p>
-        The response should be 200 and
+        The response should be
+        <app-line-command title="200 HTTP code"></app-line-command> and
         <app-line-command title="scaStatus: Finalised"></app-line-command>
         .
       </p>
@@ -220,7 +229,15 @@
 
     <!-- Play with data -->
     <ng-template #play_with_data>
-      <div class="endpoint-play-with-data"><h1>Coming soon...</h1></div>
+      <app-play-wth-data
+        method="PUT"
+        [headers]="headers"
+        [body]="body"
+        [consentIdFlag]="true"
+        [variablePathEnd]="'/authorisations'"
+        [authorisationIdFlag]="true"
+        url="v1/consents"
+      ></app-play-wth-data>
     </ng-template>
   </div>
 </div>

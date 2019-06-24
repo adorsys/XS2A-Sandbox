@@ -1,5 +1,5 @@
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {ErrorHandler, NgModule} from '@angular/core';
+import {APP_INITIALIZER, ErrorHandler, NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {AppRoutingModule} from './app-routing.module';
@@ -10,15 +10,25 @@ import {ShareDataService} from './common/services/share-data.service';
 import {ObaErrorsHandler} from "./common/interceptors/ObaErrorsHandler";
 import {NgHttpLoaderModule} from "ng-http-loader";
 import {ApiModule} from "./api/api.module";
+import {InternalServerErrorComponent} from './internal-server-error/internal-server-error.component';
+import {InfoModule} from "./common/info/info.module";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {SettingsHttpService} from "./common/services/settings-http.service";
 
+export function app_Init(settingsHttpService: SettingsHttpService) {
+  return () => settingsHttpService.initializeApp();
+}
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    InternalServerErrorComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
+    InfoModule,
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
@@ -28,6 +38,7 @@ import {ApiModule} from "./api/api.module";
   providers: [
     AisService,
     ShareDataService,
+    { provide: APP_INITIALIZER, useFactory: app_Init, deps: [SettingsHttpService], multi: true },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
