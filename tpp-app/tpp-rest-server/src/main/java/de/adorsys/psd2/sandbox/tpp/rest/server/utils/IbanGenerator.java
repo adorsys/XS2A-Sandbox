@@ -25,7 +25,7 @@ public class IbanGenerator {
         if (isDigitsAndSize(tppCode, ALLOWED_LENGTH_OF_TPP_CODE) && isDigitsAndSize(ibanEnding, ALLOWED_LENGTH_OF_IBAN_SUFFIX)) {
             BigInteger totalNr = new BigInteger(bankCode + tppCode + ibanEnding + "131400");
             String checkSum = String.format("%02d", 98 - totalNr.remainder(BigInteger.valueOf(97)).intValue());
-            return COUNTRY_CODE_PREFIX + checkSum + BANK_CODE_NISP + tppCode + ibanEnding;
+            return COUNTRY_CODE_PREFIX + checkSum + bankCode + tppCode + ibanEnding;
         }
         throw new TppException(String.format("Inappropriate data for IBAN creation %s %s", tppCode, ibanEnding), 400);
     }

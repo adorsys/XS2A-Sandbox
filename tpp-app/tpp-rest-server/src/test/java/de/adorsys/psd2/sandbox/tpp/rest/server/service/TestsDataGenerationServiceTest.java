@@ -25,8 +25,8 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class TestsDataGenerationServiceTest {
     private static final String TPP_ID = "11111111";
-    private static final String IBAN_PRIMARY = "DE04760700241111111100";
-    private static final String IBAN_LAST = "DE47760700241111111199";
+    private static final String IBAN_PRIMARY = "DE04760501011111111100";
+    private static final String IBAN_LAST = "DE47760501011111111199";
 
     @InjectMocks
     private IbanGenerationService generationService;

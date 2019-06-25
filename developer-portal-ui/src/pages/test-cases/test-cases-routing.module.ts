@@ -24,11 +24,11 @@ import { EmbPaymentInitAuthPostComponent } from './components/api-endpoints/emb-
 import { EmbPaymentInitPutComponent } from './components/api-endpoints/emb-payment-init-put/emb-payment-init-put.component';
 import { EmbPaymentInitGetComponent } from './components/api-endpoints/emb-payment-init-get/emb-payment-init-get.component';
 import { TestValuesComponent } from './components/test-values/test-values.component';
-import {AccinfAccountsGetComponent} from './components/api-endpoints/accinf-accounts-get/accinf-accounts-get.component';
-import {AccinfAccountGetComponent} from './components/api-endpoints/accinf-account-get/accinf-account-get.component';
-import {AccinfBalanceGetComponent} from './components/api-endpoints/accinf-balance-get/accinf-balance-get.component';
-import {AccinfTransactionsGetComponent} from './components/api-endpoints/accinf-transactions-get/accinf-transactions-get.component';
-import {AccinfTransactionGetComponent} from './components/api-endpoints/accinf-transaction-get/accinf-transaction-get.component';
+import { AccinfAccountsGetComponent } from './components/api-endpoints/accinf-accounts-get/accinf-accounts-get.component';
+import { AccinfAccountGetComponent } from './components/api-endpoints/accinf-account-get/accinf-account-get.component';
+import { AccinfBalanceGetComponent } from './components/api-endpoints/accinf-balance-get/accinf-balance-get.component';
+import { AccinfTransactionsGetComponent } from './components/api-endpoints/accinf-transactions-get/accinf-transactions-get.component';
+import { AccinfTransactionGetComponent } from './components/api-endpoints/accinf-transaction-get/accinf-transaction-get.component';
 
 const routes: Routes = [
   {
