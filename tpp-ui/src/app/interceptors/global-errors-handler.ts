@@ -23,16 +23,27 @@ export class GlobalErrorsHandler implements ErrorHandler {
         return this.injector.get(ActivatedRoute);
     }
 
-    public handleError(errorResponse: HttpErrorResponse) {
-        console.error("TPP UI error handler: ", errorResponse);
+    public handleError(errorObj) {
+        console.error("TPP UI error handler: ", errorObj);
 
-        this.zone.run(() => {
-            let error = errorResponse.error;
-            let errorMessage = error?error.message:errorResponse.statusText;
-            this.infoService.openFeedback(errorMessage, {
-                severity: 'error'
+        if (errorObj instanceof HttpErrorResponse) {
+
+            this.zone.run(() => {
+                let error = errorObj.error;
+                let errorMessage = error ? error.message : error.statusText;
+                this.infoService.openFeedback(errorMessage, {
+                    severity: 'error'
+                });
             });
-        });
+        } else {
+            this.zone.run(() => {
+                let errorMessage = errorObj.message;
+                this.infoService.openFeedback(errorMessage, {
+                    severity: 'info'
+                });
+            });
+        }
+
     }
 
 }
