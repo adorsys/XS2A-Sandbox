@@ -8,14 +8,14 @@
       "
       (click)="changeSegment('documentation')"
     >
-      <span>Documentation</span>
+      <span>{{'TEST_CASES.COMPONENTS.TABS.DOC' | translate}}</span>
     </div>
     <div
       class="endpoint-segment-item"
       [ngClass]="activeSegment === 'play-data' ? 'left-item' : 'unactive-item'"
       (click)="changeSegment('play-data')"
     >
-      <span>Play with data</span>
+      <span>{{'TEST_CASES.COMPONENTS.TABS.PLAY' | translate}}</span>
     </div>
   </div>
 
@@ -27,24 +27,18 @@
       *ngIf="activeSegment === 'documentation'; else: play_with_data"
     >
       <p>
-        1. Try GET endpoint
+        {{'TEST_CASES.COMPONENTS.EMB_CONS_GET.PART_1' | translate}}
         <app-line-command title="/v1/consents/{consentId}"></app-line-command>
-        to get consent information and GET endpoint
-        <app-line-command
-          title="/v1/consents/{consentId}/status"
-        ></app-line-command>
-        to check current status of the consent.
+        {{'TEST_CASES.COMPONENTS.EMB_CONS_GET.PART_2' | translate}}
+        <app-line-command title="/v1/consents/{consentId}/status"></app-line-command>
+        {{'TEST_CASES.COMPONENTS.EMB_CONS_GET.PART_3' | translate}}
       </p>
       <p>
-        2. Try GET endpoint
-        <app-line-command
-          title="/v1/consents/{consentId}/authorisations"
-        ></app-line-command>
-        to get authorisation information and GET endpoint
-        <app-line-command
-          title="/v1/consents/{consentId}/authorisations/{authorisationId}"
-        ></app-line-command>
-        to check current status of the authorisation.
+        {{'TEST_CASES.COMPONENTS.EMB_CONS_GET.PART_4' | translate}}
+        <app-line-command title="/v1/consents/{consentId}/authorisations"></app-line-command>
+        {{'TEST_CASES.COMPONENTS.EMB_CONS_GET.PART_5' | translate}}
+        <app-line-command title="/v1/consents/{consentId}/authorisations/{authorisationId}"></app-line-command>
+        {{'TEST_CASES.COMPONENTS.EMB_CONS_GET.PART_6' | translate}}
       </p>
     </div>
 

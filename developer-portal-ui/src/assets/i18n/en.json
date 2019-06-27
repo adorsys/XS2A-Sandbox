@@ -1,0 +1,858 @@
+{
+  "HEADER": {
+    "GETTING_STARTED": "Getting started",
+    "TEST_CASES": "Test cases",
+    "FAQ": "FAQs",
+    "CONTACT": "Contact"
+  },
+  "FOOTER": {
+    "GETTING_STARTED": "Getting started",
+    "TEST_CASES": "Test cases",
+    "FAQ": "FAQs",
+    "CONTACT": "Contact"
+  },
+  "HOME": {
+    "HEADER": {
+      "TITLE_1": "Developer Portal",
+      "TITLE_2": "by adorsys",
+      "SUBTITLE_1": "Creating new, digital",
+      "SUBTITLE_2": "services through Open",
+      "SUBTITLE_3": "Banking"
+    },
+    "WHAT_IS": {
+      "TITLE": "What is XS2ASandbox?",
+      "CONTENT": {
+        "XS2A": "XS2ASandbox",
+        "PART_1": "is a dynamic sandbox\n  environment that fully meets the PSD2 requirements for providing APIs for\n  Third-Party Providers (TPP). Based on the Berlin Group’s NextGen PSD2\n  specification for access to accounts (XS2A),",
+        "PART_2": "meets all the regulatory\n  requirements and is NISP compliant. This developer portal is created to help\n  TPP developers start working with XS2ASandbox."
+      }
+    },
+    "HOW_TO": {
+      "TITLE": "How to use XS2ASandbox",
+      "STEP_1": {
+        "TITLE": "Step 1",
+        "CONTENT": "Read «Getting started» manual"
+      },
+      "STEP_2": {
+        "TITLE": "Step 2",
+        "CONTENT": "Download, install and run XS2ASandbox"
+      },
+      "STEP_3": {
+        "TITLE": "Step 3",
+        "CONTENT": "Read «Testing flows» and start testing!"
+      }
+    },
+    "PSD2": {
+      "TITLE": "PSD2 and Open Banking",
+      "LINK": "Payment Service Directive 2 (PSD2)",
+      "CONTENT": "instructs banks (Account Servicing Payment Service Providers or ASPSPs) to\n provide a fully productive Access-to-Account (XS2A) interface to Third Party\n Providers (TPPs) until September 2019. XS2A itself consists of banking\n services to initiate payments (PIS), request account data (AIS) and get the\n confirmation of the availability of funds (PIIS). In order to guarantee the\n compliance of this deadline due to adaptations and bugs, PSD2 claims the\n banks to provide a functional dynamic sandbox offering the XS2A services in\n a non-productive environment until June 2019."
+    },
+    "FEATURES": {
+      "TITLE": "XS2ASandbox Features",
+      "CONTENT": "XS2ASandbox is a dynamic sandbox environment: you can create users, payments\n    and consents, play with data for testing purposes. With dynamic sandbox TPP\n    UI you can access banking API directly, get TPP certificate and manage\n    testing accounts. The developer portal contains testing instructions and all\n    needed test-cases. All XS2ASandbox services can be installed and run in one\n    simple command. Two main SCA approaches are supported: REDIRECT and\n    EMBEDDED. For redirect approach online banking demo UI was created.",
+      "SLIDES": {
+        "SLIDE_1": {
+          "TITLE": "Plug and Play",
+          "CONTENT": "Ready to use solution, which can be easily installed"
+        },
+        "SLIDE_2": {
+          "TITLE": "Detailed Documentation",
+          "CONTENT": "Well described documentation on a developer portal"
+        },
+        "SLIDE_3": {
+          "TITLE": "Reliable test options",
+          "CONTENT": "TPP-Test certificate generation tool and NISP Tests"
+        },
+        "SLIDE_4": {
+          "TITLE": "Customizable User Interface",
+          "CONTENT": "TPP-UI for users and account management on the bank side"
+        },
+        "SLIDE_5": {
+          "TITLE": "Customer focused",
+          "CONTENT": "Client-oriented approach, flexible solution for customer needs and customer support"
+        },
+        "SLIDE_6": {
+          "TITLE": "Realistic Simulation",
+          "CONTENT": "Real bank system emulations with embedded XS2A API"
+        },
+        "SLIDE_7": {
+          "TITLE": "Wide range of services",
+          "CONTENT": "Accounting Service, Security Service and Payment Service"
+        },
+        "SLIDE_8": {
+          "TITLE": "Open source",
+          "CONTENT": "Open source project, available on GitHub and constantly updated"
+        }
+      }
+    },
+    "HISTORY": {
+      "TITLE": "Product History",
+      "PRODUCT": {
+        "POINT_1": {
+          "TITLE": "Project Kick-Off with two Team Members",
+          "CONTENT": ""
+        },
+        "POINT_2": {
+          "TITLE": "PreDemo of MVP 1.0",
+          "CONTENT": "Embedded approach: PIS, AIS, PIIS"
+        },
+        "POINT_3": {
+          "TITLE": "DEMO of MVP 1.0",
+          "CONTENT": "Embedded and redirected approaches"
+        },
+        "POINT_4": {
+          "TITLE": "Release of XS2ASandbox ver 1.0",
+          "CONTENT": "Support of Redirect and Embedded approach: TPP-UI, Online Banking"
+        },
+        "POINT_5": {
+          "TITLE": "Release ver 1.1",
+          "CONTENT": "Multilevel SCA, Multicurrency accounts"
+        }
+      }
+    },
+    "QUESTIONS": {
+      "TITLE": "Any Questions?",
+      "ASK": "Ask this person."
+    }
+  },
+  "GETTING_STARTED": {
+    "INTRODUCTION": {
+      "TITLE": "Introduction",
+      "CONTENT": {
+        "LINK": "Payment Service Directive 2 (PSD2)",
+        "PART_1": "instructs banks (Account Servicing Payment Service Providers or ASPSPs) to\n provide a fully productive Access-to-Account (XS2A) interface to Third\n Party Providers (TPPs) until September 2019. XS2A itself consists of\n banking services to initiate payments (PIS), request account data (AIS)\n and get the confirmation of the availability of funds (PIIS). In order to\n guarantee the compliance of this deadline due to adaptions and bugs, PSD2\n claims the banks to provide a functional dynamic sandbox offering the XS2A\n services in a non-productive environment until June 2019.",
+        "XS2A": "XS2ASandbox",
+        "PART_2": "is a dynamic sandbox environment\n that fully meets the PSD2 requirements for providing APIs for Third-Party\n Providers (TPP). Based on the Berlin Group’s NextGen PSD2 specification\n for access to accounts (XS2A),",
+        "PART_3": "This developer portal is created to help TPP developers start working with\n XS2ASandbox."
+      }
+    },
+    "ARCHITECTURE": {
+      "TITLE": "XS2ASandbox architecture and modules",
+      "CONTENT": "Components of XS2ASandbox with their connections to each other are shown\n in Figure 1.1.",
+      "CAPTION": "Figure 1.1: Components of the XS2ASandbox"
+    },
+    "INTERFACE": {
+      "TITLE": "XS2A Interface",
+      "CONTENT": {
+        "PART_1": "Central component of the",
+        "XS2A": "XS2ASandbox",
+        "PART_2": "is the XS2A\n interface which meets the requirements of the Berlin Group's specification",
+        "PART_3": "(Version 1.3) and is based on test data. You can visit our",
+        "PART_4": "or find full",
+        "LINK": "OpenSource XS2A Interface on Github."
+      }
+    },
+    "PROFILE": {
+      "TITLE": "ASPSP-Profile",
+      "CONTENT": {
+        "PART_1": "Besides the actual interface, PSD2 instructs ASPSPs to offer a technical\n documentation free of charge containing amongst others, information about\n supported payment products and payment services. This information is\n stored in ",
+        "ASPSP": "ASPSP-profile",
+        "PART_2": "(bank profile), a\n service based on yaml file where a bank can provide available payment\n products, payment services, supported SCA approaches and other\n bank-specific settings."
+      },
+      "SUBTITLE_1": "Active XS2A Configuration (Bank Profile)",
+      "LIST": {
+        "LI_1": "Supported SCA-Approach: Redirect, Embedded",
+        "LI_2": "Available payment types and payment products for each type:",
+        "UL_1": {
+          "LI_1": "Single (sepa-credit-transfers)",
+          "LI_2": "Future-Dated (sepa-credit-transfers)",
+          "LI_3": "Bulk (sepa-credit-transfers)",
+          "LI_4": "Periodic (sepa-credit-transfers)"
+        },
+        "LI_3": "Confirmation of Funds: supported",
+        "LI_4": "Redirect URLs to Online Banking:",
+        "UL_2": {
+          "LI_1": "Redirect URL for Payment confirmation: **\n http://localhost:4400/payment-initiation/login?paymentId=encrypted-payment-id&redirectId=redirect-id\n **",
+          "LI_2": "Redirect URL for Payment cancellation: **\n http://localhost:4400/payment-cancellation/login?paymentId=encrypted-payment-id&redirectId=redirect-id\n **",
+          "LI_3": "Redirect URL for Account Consent confirmation: **\n http://localhost:4400/account-information/login?encryptedConsentId=encrypted-consent-id&redirectId=redirect-id\n **"
+        },
+        "LI_5": "Supported types of Consents:",
+        "UL_3": {
+          "LI_1": "Dedicated: Yes",
+          "LI_2": "Bank-Offered: Yes",
+          "LI_3": "Global: Yes",
+          "LI_4": "Available Accounts: Yes"
+        },
+        "DISABLED": "Currently disabled features:",
+        "LI_6": "Signing Basket",
+        "LI_7": "Delta-Reports"
+      },
+      "SUBTITLE_2": "Corresponding ASPSP-Profile settings in .yaml file:"
+    },
+    "CERTIFICATE": {
+      "TITLE": "TPP Certificate Service",
+      "CONTENT": {
+        "PART_1": "Usually, before accessing the XS2A services a TPP would need to register\n at its National Competent Authority (NCA) and request an",
+        "PART_2": "certificate at an appropriate Trust Service Provider (TSP). Issuing a real\n certificate just for testing purposes would be too much effort, which is\n why the ",
+        "XS2A": "XS2ASandbox",
+        "PART_3": "is additionally simulating a\n fictional TSP issuing Qualified Website Authentication Certificates\n (QWAC). A QWAC is part of eIDAS and might be better known",
+        "PART_4": "certificate. For PSD2-purposes the certificate gets extended by the\n QcStatement containing appropriate values such as the role(s) of the PSP\n (see",
+        "PART_5": "After embedding the QWAC in the actual XS2A request, the role and the\n signature get validated at a central reverse proxy before it gets finally\n passed to the interface where the banking logic happens."
+      }
+    },
+    "UI": {
+      "TITLE": "TPP User Interface",
+      "CONTENT": "TPP developers can register themselves into the system, obtain certificate\n and download test data for their TPP application using generated\n certificate and prepared data in TPP UI."
+    },
+    "OBA": {
+      "TITLE": "Online banking",
+      "CONTENT": "In case of REDIRECT SCA approach a user wants to provide consent for using\n their account information or for payment confirmation/cancellation. Online\n banking is a user interface to provide consent to a bank. Links for a\n consent confirmation and payment confirmation or cancellation are provided\n in the response of the corresponding endpoints."
+    },
+    "LINKS_TO": {
+      "TITLE": "Links to environments",
+      "TABLE": {
+        "R1_C1": "Service",
+        "R1_C2": "Local environment",
+        "R1_C3": "XS2ASandbox Demo environment",
+        "R2": "Developer portal",
+        "R3": "XS2A Interface Swagger",
+        "R4": "Consent management system",
+        "R5": "Ledgers",
+        "R6": "ASPSP-Profile Swagger",
+        "R7": "TPP User Interface",
+        "R8": "Online banking UI",
+        "R9": "Online banking backend",
+        "R10": "Certificate Generator"
+      }
+    },
+    "HOW_TO_DOWN": {
+      "TITLE": "How to download, setup and run the project",
+      "SUBTITLE_1": "Prerequisites",
+      "CONTENT": {
+        "PART_1": "This sandbox runs with the docker-compose that can be found at\n docker-compose.yml and Makefile in project directory. But before you run\n XS2ASandbox, first check if all build dependencies are installed:",
+        "PART_2": "If something is missing, install it to your local machine, otherwise the\n build will fail. List of dependencies that are required to use\n XS2ASandbox: Java 8, NodeJs, Angular CLI, Asciidoctor, jq, Docker, Docker\n Compose, Maven, PlantUML. Here are links where you can install needed\n dependencies:",
+        "TH_1": "Dependency",
+        "TH_2": "Link",
+        "PART_3": "Stop running containers in terminal with key combination Control + C.",
+        "PART_4": "You can remove all the Sandbox containers from Docker with the following\n      command:"
+      },
+      "SUBTITLE_2": "Note 1",
+      "TEXT_1": "Please, use Node.js version lower than 12 (e.g. 10.x.x or 11.x.x).\n Otherwise angular applications would not be built due to version\n conflicts.",
+      "SUBTITLE_3": "Note 2",
+      "TEXT_2": "Check amount of memory given to Docker (Open Docker Desktop -> Preferences\n -> Advanced -> Memory). For a fast and painless start of all the services\n it should be not less than 5 GB.",
+      "SUBSECTION_1": {
+        "TITLE": "Download XS2ASandbox",
+        "PART_1": "Download the project directly",
+        "LINK": "from GitHub",
+        "PART_2": "or use command:"
+      },
+      "SUBSECTION_2": {
+        "TITLE": "Build and run XS2ASandbox",
+        "PART_1": "After downloading the project go to the project directory:",
+        "PART_2": "Build all the services with the command:",
+        "PART_3": "After building services you can run XS2ASandbox in two ways - with a\n simple docker command:",
+        "PART_4": "Or with Makefile commands:",
+        "PART_5": "1. Build and run services",
+        "PART_6": "2. Run services without build"
+      }
+    },
+    "TROUBLES": {
+      "TITLE": "Troubleshooting",
+      "PART_1": "These are common mistakes you can get during the start of XS2ASandbox and\n an instruction how to get rid of it:",
+      "SUBTITLE_1": "Liquibase changelog error",
+      "PART_2": "This error can be produced if you had unsuccessful start of XS2ASandbox\n earlier. Example of possible stack trace:",
+      "PART_3": "Possible solution:",
+      "PART_4": "Find and delete all folders \"ledgerdbs\" and \"xs2adbs\". Clear all docker\n containers with command:",
+      "PART_5": "Restart all services.",
+      "SUBTITLE_2": "Node version error",
+      "PART_6": "This error can be produced because of wrong NodeJs version (version higher\n than 11.x). Example of possible stack trace:",
+      "PART_7": "Possible solution:",
+      "PART_8": "First, check your version of NodeJs with the command:",
+      "PART_9": "If version is higher than 11.x - change version of NodeJs to earlier one."
+    },
+    "HOW_TO_REG": {
+      "TITLE": "How to register TPP and start testing",
+      "LIST": {
+        "LI_1": "Open",
+        "LINK": "TPP User Interface login page",
+        "LI_2": "If you have no login and password - register yourself by clicking\n \"Register\" button.",
+        "LI_3": "Register yourself, create a certificate and log into the system. Note:\n  TPP ID should consist of at least 8 digits, no letters or other signs\n allowed.",
+        "LI_4": "Upload the test data and start testing.",
+        "TEXT_1": "Whole flow for TPPs to start their work with XS2ASandbox is displayed in\n Figure 1.2:",
+        "TEXT_2": "Figure 1.2: TPP flow step-by-step"
+      }
+    },
+    "HOW_TO_CST": {
+      "TITLE": "How to customize UI of developer portal",
+      "TOP_LIST": {
+        "LI_1": "Create .json file with name UITheme.",
+        "LI_2": "Json example",
+        "LI_3": "Json fields.",
+        "LIST_1": {
+          "LI_1": "globalSettings - required",
+          "INNER_LIST_1": {
+            "LI_1": "logo - required, value: string, http url or file name with\n extension or ' '",
+            "LI_2": "fontFamily - optional, value: string, font-name or font-name,\n font-family",
+            "LI_3": "headerBG - optional, value: string, hex",
+            "LI_4": "headerFontColor - optional, value: string, hex",
+            "LI_5": "footerBG - optional, value: string, hex",
+            "LI_6": "footerFontColor - optional, value: string, hex",
+            "LI_7": "facebook - optional, value: string, http url",
+            "LI_8": "linkedIn - optional, value: string, http url"
+          },
+          "LI_2": "contactInfo - required",
+          "INNER_LIST_2": {
+            "LI_1": "name - required, value: string",
+            "LI_2": "position - required, value: string",
+            "LI_3": "img - required, value: string, http url or file name with\n extension",
+            "LI_4": "email - optional, value: string",
+            "LI_5": "phone - optional, value: string"
+          },
+          "LI_3": "officesInfo - required. Array of 2 elements.",
+          "INNER_LIST_3": {
+            "LI_1": "city - required, value: string",
+            "LI_2": "company - required, value: string",
+            "LI_3": "addressFirstLine - required, value: string",
+            "LI_4": "addressSecondLine - required, value: string",
+            "LI_5": "phone - optional, value: string",
+            "LI_6": "email - optional, value: string",
+            "LI_7": "facebook - optional, value: string, http url",
+            "LI_8": "linkedIn - optional, value: string, http url"
+          }
+        },
+        "LI_4": "When you create .json (e.g. UITheme.json) file and fill all required\n fields, put this file with logo (e.g. logo.png) and contact person (e.g.\n contact.png) images in folder",
+        "LI_5": "Steps for putting files in this folder:",
+        "LIST_2": {
+          "LI_1": "Navigate to local source folder (where the customisation files are\n stored):",
+          "LI_2": "Login to Openshift:",
+          "LI_3": "Navigate to the Openshift project.",
+          "LI_4": "We select the development environment for our example.",
+          "LI_5": "Please choose one of the following:",
+          "LI_6": "Copy the customisation files to the running Developer Portal UI\n application pod:"
+        },
+        "LI_6": "Customization completed, congratulations!"
+      }
+    },
+    "WHAT_NEXT": {
+      "TITLE": "What's next?",
+      "PART_1": "When you are done with all steps from",
+      "LINK_1": "Getting started",
+      "PART_2": "manual, check",
+      "LINK_2": "Test cases",
+      "PART_3": "section for further testing. There\n you will find prepared ",
+      "POSTMAN": "Postman tests",
+      "PART_4": ", XS2A\n Interface API description and instructions how to test XS2ASandbox with"
+    }
+  },
+  "TEST_CASES": {
+    "TITLE": "Test cases",
+    "TEXT_1": "After loading test data into the system, TPP developer can test\n XS2ASandbox endpoints with Swagger or Postman tests. In Swagger section\n you can find information about usage of Swagger, prepared test data\n (Jsons) for testing and short API documentation.",
+    "LINK": "In Postman tests section",
+    "TEXT_2": " you\n can find information about usage of Postman for testing and download\n prepared Postman tests with testing data.",
+    "TEXT_3": "Both sections provide tests for REDIRECT Strong Customer Authorisation\n (SCA) approach and EMBEDDED SCA Approach for Payment Initiation Service\n (PIS), Account Information Service (AIS) and Payment Instrument Issuer\n Service (PIIS).",
+    "INTRODUCTION": {
+      "TITLE": "INTRODUCTION",
+      "REDIRECT":  "Redirect approach",
+      "EMBEDDED": "Embedded approach",
+      "TESTING": "Testing flows",
+      "MENU": {
+        "LI_1": "Swagger testing",
+        "SUBMENU": {
+          "LI_0": "Predefined test values for all tests (TAN and PIN):",
+          "LI_1": "Redirect:",
+          "LIST_1": {
+            "LI_1": "Payment Initiation Flow",
+            "LI_2": "Payment Cancellation Flow",
+            "LI_3": "Consent Initiation Flow"
+          },
+          "LI_2": "Embedded:",
+          "LI_3": "Account Information:",
+          "LIST_2": {
+            "LI_1": "Read Account List",
+            "LI_2": "Read Account Details",
+            "LI_3": "Read Balance",
+            "LI_4": "Read List of Transactions",
+            "LI_5": "Read Transaction Details"
+          }
+        },
+        "LI_2": "Postman testing"
+      }
+    },
+    "REDIRECT": {
+      "TITLE": "Short overview of REDIRECT approach:",
+      "LI_1": "The whole SCA process with two different factors (e.g. username/password\n as proof of knowledge and a one time password (TAN) as proof of\n possession) is provided by the ASPSP and executed directly between PSU and\n ASPSP.",
+      "LI_2": "Therefore, the PSU needs to gets redirected from PISP to ASPSP.",
+      "LI_3": "The SCA of the PSU is executed directly between the ASPSP and the PSU.",
+      "LI_4": "After completion of the SCA the PSU gets redirected back to the PISP."
+    },
+    "EMBEDDED": {
+      "TITLE": "Short overview of EMBEDDED approach:",
+      "LI_1": "The whole SCA process with two different factors (e.g. username/password\n as proof of knowledge and a one time password (TAN) as proof of\n possession) is provided by the TPP and executed not directly between PSU\n and ASPSP, but with TPPs calls to XS2A Interface.",
+      "LI_2": "TPP uses predefined XS2A endpoints to complete authorisation flow."
+    },
+    "TESTING": {
+      "TEXT_1": "You can use 3 typical testing flows for REDIRECT and EMBEDDED SCA approaches\n with Swagger.",
+      "TEXT_2": "To open Swagger page of XS2ASandbox locally start all the services with\n docker command from ",
+      "LINK_1": "Getting Started.",
+      "TEXT_3": "After starting all the\n services, go to your local",
+      "LINK_2": "XS2A Interface Swagger Page",
+      "TEXT_4": "To open Swagger page on the cloud follow",
+      "LINK_3": "this link."
+    },
+    "TEST_VALUES": {
+      "TEXT_1": "For all the tests in Redirect and Embedded approaches it is required to use\n PIN for logging into the account and TAN number for SCA.",
+      "TEXT_2": "Test value for PIN for all automatically generated users:",
+      "TEXT_3": "Test value for TAN in all tests:"
+    },
+    "POSTMAN_TESTING": {
+      "TEXT_1": "Postman is an easy testing environment, where you can simply import and run\n prepared tests.",
+      "TEXT_2": "Download latest Postman application to use prepared Postman tests",
+      "LINK": "here.",
+      "TEXT_3": "You can download Postman tests with environmental variables for all the\n endpoints by clicking \"Download\" button below.",
+      "DOWNLOAD": "Download",
+      "TEXT_4": "After downloading the files, import them into Postman and start testing."
+    },
+    "COMPONENTS": {
+      "TABS": {
+        "DOC": "Documentation",
+        "PLAY": "Play with data"
+      },
+      "TH": {
+        "TH_1": "Header",
+        "TH_2": "Value"
+      },
+      "CODE_AREA": {
+        "SHOW": "Show Body",
+        "HIDE": "Hide Body"
+      },
+      "RDCT_PAY_INIT_POST": {
+        "TITLE_1": "STEP 1: Create payment",
+        "PART_1": "Open swagger tab \"Payment Initiation Service (PIS)\", open",
+        "PART_2": "2. Press ",
+        "ITALIC_SPAN": "Try it out",
+        "PART_3": ". Choose:",
+        "PART_4": "and",
+        "PART_5": ". Default values would be",
+        "PART_6": "in",
+        "PART_7": "and",
+        "PART_8": "in ",
+        "PART_9": "3. After choosing payment service and payment product, fill the header\n fields with the following values:",
+        "PART_10": "Put in ",
+        "PART_11": "the name of the\n user you chose (you can view users and their information in TPP-UI).",
+        "PART_12": "4. If you chose to create single payment by setting",
+        "PART_13": " to",
+        "PART_14": ", insert into\n request body the following json:",
+        "PART_15": "If you chose to create periodic payment by setting",
+        "PART_16": " to",
+        "PART_17": ", insert\n into request body the following json:",
+        "PART_18": "If you chose to create bulk payment by setting",
+        "PART_19": " to",
+        "PART_20": ", insert into\n request body the following json:",
+        "PART_21": "Change placeholder ",
+        "PART_22": " in\n section",
+        "PART_23": "of the json you chose to the IBAN of the user (IBAN should match user\n login you entered in PSU-ID header above).",
+        "PART_24": "5. Execute and get response with code 201 and related information.",
+        "TITLE_2": "STEP 2: Authorise payment",
+        "PART_25": "Start with the authorisation process. Follow",
+        "PART_26": " link to the\n online banking page."
+      },
+      "RDCT_PAY_DELETE": {
+        "TITLE_1": "STEP 2: Cancel payment",
+        "PART_1": "Start with the authorisation process. Follow",
+        "PART_2": "link to the online banking page.",
+        "PART_3": "1. Initiate cancellation process with",
+        "PART_4": "Choose the same",
+        "PART_5": "and",
+        "PART_6": "you chose in ",
+        "STEP": "STEP 1",
+        "PART_7": "2. Enter payment id you have got from the previous response in",
+        "PART_8": "in the field",
+        "PART_9": "3. After choosing payment service and payment product, fill the header\n fields with the following values:",
+        "PART_10": "4. Hit ",
+        "ITALIC_SPAN": "\"Execute\"",
+        "PART_11": "button and get 200\n HTTP code and related information.",
+        "TITLE_2": "STEP 3: Authorise payment",
+        "PART_12": "1. Start with the authorisation process for cancellation. Follow",
+        "PART_13": "link to the online banking page."
+      },
+      "RDCT_CONS": {
+        "TITLE_1": "STEP 1: Create consent",
+        "PART_1": "1. Open swagger tab \"Account Information Service (AIS)\", open",
+        "PART_2": "2. Press ",
+        "ITALIC_SPAN": "\"Try it out\"",
+        "PART_3": ", fill the header\n fields with the following values:",
+        "PART_4": "Put in ",
+        "PART_5": " the name of the\n user you chose (you can view users and their information in TPP-UI).",
+        "PART_6": "3. Insert into request body the following json for available accounts\n consent:",
+        "STEP": "STEP 1",
+        "PART_7": "Change placeholder ",
+        "PART_8": " to the\n IBAN of the user (IBAN should match user login you entered in PSU-ID\n header above).",
+        "PART_9": "4. Execute and get response with code 201 and related information.",
+        "TITLE_2": "STEP 2: Authorise consent",
+        "PART_10": "1. Start with the authorisation process for consent: follow the link",
+        "PART_11": "to the online\n banking page."
+      },
+      "EMB_IN_CR_POST": {
+        "PART_25": "6. Start with the authorisation process.",
+        "PART_26": "Pay attention to the amount of SCA methods user has: if user has no SCA\n methods, test payment initiation with the flow described below in",
+        "ITALIC_1": "\"Payment authorisation for user with no SCA methods\"",
+        "PART_27": ". For user with single SCA method check",
+        "ITALIC_2": "\"Payment authorisation for user with single SCA method\"",
+        "PART_28": ", and for user with multiple SCA methods check",
+        "ITALIC_3": "\"Payment authorisation for user with multiple SCA methods\""
+      },
+      "EMB_IN_AUTH_POST": {
+        "TITLE": "STEP 2: Authorise payment",
+        "PART_1": "1. Start authorisation process with",
+        "PART_2": ". Choose the same",
+        "PART_3": "and",
+        "PART_4": "you chose in ",
+        "STEP": "STEP 1",
+        "PART_5": "2. Enter payment id you have got from the previous response in",
+        "PART_6": "in the field",
+        "PART_7": "3. After choosing payment service and payment product, fill the header\n fields with the following values:",
+        "PART_8": "Put in ",
+        "PART_9": "the name of the\n user you chose (you can view users and their information in TPP-UI).",
+        "PART_10": "4. Start authorisation by hitting",
+        "ITALIC_SPAN": "\"Execute\"",
+        "PART_11": "button and get 201 HTTP code\n and related information."
+      },
+      "EMB_IN_PUT": {
+        "TITLE": "STEP 2: Authorise payment",
+        "SUBTITLE_1": "Payment authorisation for user with no SCA methods",
+        "PART_1": "5. Continue payment authorisation with call to",
+        "PART_2": "6. Enter payment id in the field in the field",
+        "PART_3": "and authorisation id you received from POST endpoint (start\n authorisation) in",
+        "PART_4": "field.",
+        "PART_5": "7. Fill the header fields with the following values:",
+        "PART_6": "Put in ",
+        "PART_7": " the name of the\n user you chose (you can view users and their information in TPP-UI).",
+        "PART_8": "8. Insert into request body the following json:",
+        "PART_9": "Put in ",
+        "PART_10": " the password of\n the user you chose (you can view users and their information in TPP-UI).",
+        "PART_11": "9. Execute endpoint and get",
+        "PART_12": "and",
+        "PART_13": "in response.",
+        "SUBTITLE_2": "Payment authorisation for user with single SCA method",
+        "PART_14": "5. Continue payment authorisation with call to",
+        "PART_15": "6. Enter payment id in the field in the field",
+        "PART_16": "and authorisation id you received from POST endpoint (start\n authorisation) in",
+        "PART_17": "field.",
+        "PART_18": "7. Fill the header fields with the following values:",
+        "PART_19": "Put in ",
+        "PART_20": " the name of the\n user you chose (you can view users and their information in TPP-UI).",
+        "PART_21": "8. Insert into request body the following json:",
+        "PART_22": "Put in ",
+        "PART_23": " the password of\n the user you chose (you can view users and their information in TPP-UI).",
+        "PART_24": "9. Execute endpoint and get",
+        "PART_25": "and",
+        "PART_26": "in response.",
+        "PART_27": "10. Execute this PUT endpoint again, but this time update request body:\n fill it with the following json:",
+        "PART_28": "User has only one SCA method, so test TAN",
+        "PART_29": "was sent to the user, and now you need to enter this data and execute\n PUT command. The response should be",
+        "PART_30": "and",
+        "SUBTITLE_3": "Payment authorisation for user with multiple SCA methods",
+        "PART_31": "5. Continue payment authorisation with call to",
+        "PART_32": "6. Enter payment id in the field in the field",
+        "PART_33": "and authorisation id you received from POST endpoint (start\n authorisation) in",
+        "PART_34": "field.",
+        "PART_35": "7. Fill the header fields with the following values:",
+        "PART_36": "Put in ",
+        "PART_37": " the name of the\n user you chose (you can view users and their information in TPP-UI).",
+        "PART_38": "8. Insert into request body the following json:",
+        "PART_39": "Put in ",
+        "PART_40": " the password of\n the user you chose (you can view users and their information in TPP-UI).",
+        "PART_41": "9. Execute endpoint and get",
+        "PART_42": " and list of\n authorisation methods in response.",
+        "PART_43": "10. Execute this PUT endpoint again, but this time update request body:\n fill it with the following json:",
+        "PART_44": "Put in placeholder",
+        "PART_45": "any\n value of authenticationMethodId of your choice. The response should be",
+        "PART_46": " and",
+        "PART_47": "11. Execute this PUT endpoint again, update request body: fill it with\n the following json:",
+        "PART_48": "SCA method was chosen, so test TAN",
+        "PART_49": " was sent to the\n user, and now you need to enter this data and execute PUT command.",
+        "PART_50": "The response should be",
+        "PART_51": " and"
+      },
+      "EMB_IN_GET": {
+        "PART_1": "1. Try GET endpoint",
+        "PART_2": "to get payment information and GET endpoint",
+        "PART_3": "to check current status of the payment.",
+        "PART_4": "2. Try GET endpoint",
+        "PART_5": "to get authorisation information and GET endpoint",
+        "PART_6": "to check current status of the authorisation.",
+        "SUBTITLE": "Main steps:",
+        "PART_7": "1. Choose",
+        "PART_8": "and",
+        "PART_9": ". Use the same values you used in the steps before.",
+        "PART_10": "2. After choosing payment service and payment product, fill the header\n fields with the following values:",
+        "PART_11": "Put in ",
+        "PART_12": "the name of the\n user you chose (you can view users and their information in TPP-UI)."
+      },
+      "EMB_CANCEL_POST": {
+        "PART_25": "6. Start with the authorisation process. If the payment is not\n authorised yet - authorise payment with the flows above (depending on\n the amount of SCA methods chosen user has).",
+        "PART_26": "7. If the payment is already authorised - proceed with payment\n cancellation.",
+        "PART_27": "Pay attention to the ASPSP-Profile option",
+        "PART_28": "If this option is set to",
+        "PART_29": ", then check",
+        "BOLD_1": "Payment cancellation without authorisation",
+        "PART_30": "flow.",
+        "PART_31": "If the option is set to",
+        "PART_32": ", pay attention to the amount of SCA methods user has: if user has no\n SCA methods, test payment initiation with the flow described below in",
+        "BOLD_2": "Payment cancellation authorisation for user with no SCA methods",
+        "PART_33": ". For user with single SCA method check",
+        "BOLD_3": "Payment cancellation authorisation for user with single SCA method",
+        "PART_34": ", and for user with multiple SCA methods check",
+        "BOLD_4": "Payment cancellation authorisation for user with multiple SCA methods"
+      },
+      "EMB_CANS_DELETE": {
+        "TITLE": "STEP 2: Payment cancellation authorisation",
+        "PART_1": "1. Initiate cancellation process with",
+        "PART_2": ". Choose the same",
+        "PART_3": "and",
+        "PART_4": "you chose in ",
+        "STEP": "STEP 1",
+        "PART_5": "2. Enter payment id you have got from the previous response in",
+        "PART_6": "in the field",
+        "PART_7": "3. After choosing payment service and payment product, fill the header\n fields with the following values:",
+        "PART_8": "4. Hit ",
+        "ITALIC": "\"Execute\"",
+        "PART_9": "button and get 200 HTTP\n code and related information."
+      },
+      "EMB_CANS_POST": {
+        "TITLE": "STEP 2: Payment cancellation authorisation",
+        "PART_1": "4. Start payment cancellation authorisation with",
+        "PART_2": ". Choose the same",
+        "PART_3": "and",
+        "PART_4": "you chose in ",
+        "STEP": "STEP 1",
+        "PART_5": "5. Enter payment id you have got from the previous response in",
+        "PART_6": "in the field",
+        "PART_7": "6. Fill the header fields with the following values:",
+        "PART_8": "Put in ",
+        "PART_9": " the name of the\n user you chose (you can view users and their information in TPP-UI).",
+        "PART_10": "7. Execute the command and get 201 response and related information."
+      },
+      "EMB_CANS_PUT": {
+        "TITLE": "STEP 2: Payment cancellation authorisation",
+        "SUBTITLE_1": "Payment cancellation authorisation for user with no SCA methods",
+        "PART_1": "8. Continue payment cancellation authorisation with call to",
+        "PART_2": ". Choose the same",
+        "PART_3": "and",
+        "PART_4": "you chose in ",
+        "STEP": "STEP 1",
+        "PART_5": ". Fill headers with\n the same values as in previous POST command.",
+        "PART_6": "9. Enter payment id you have got from",
+        "PART_7": " in the field",
+        "PART_8": ". Enter cancellation id you have got from the previous POST endpoint in\n the field",
+        "PART_9": "10. Insert into request body the following json:",
+        "PART_10": "Put in ",
+        "PART_11": " the password of\n the user you chose (you can view users and their information in TPP-UI).",
+        "PART_12": "11. Execute endpoint and get",
+        "SUBTITLE_2": "Payment cancellation authorisation for user with single SCA method",
+        "PART_13": "8. Continue payment cancellation authorisation with call to",
+        "PART_14": ". Choose the same",
+        "PART_15": "and",
+        "PART_16": "you chose in ",
+        "PART_17": ". Fill headers with\n the same values as in previous POST command.",
+        "PART_18": "9. Enter payment id you have got from",
+        "PART_19": " in the field",
+        "PART_20": ". Enter cancellation id you have got from the previous POST endpoint in\n the field",
+        "PART_21": "10. Insert into request body the following json:",
+        "PART_22": "Put in ",
+        "PART_23": " the password of\n the user you chose (you can view users and their information in TPP-UI).",
+        "PART_24": "11. Execute endpoint and get",
+        "PART_25": "12. Execute this PUT endpoint again, but this time update request body:\n fill it with the following json:",
+        "PART_26": "User has only one SCA method, so test TAN",
+        "PART_27": "was sent to the user, and now you need to enter this data and execute\n PUT command. The response should be",
+        "SUBTITLE_3": "Payment cancellation authorisation for user with multiple SCA methods",
+        "PART_28": "8. Continue payment cancellation authorisation with call to",
+        "PART_29": ". Choose the same",
+        "PART_30": "and",
+        "PART_31": "you chose in ",
+        "PART_32": ". Fill headers with\n the same values as in previous POST command.",
+        "PART_33": "9. Enter payment id you have got from",
+        "PART_34": " in the field",
+        "PART_35": ". Enter cancellation id you have got from the previous POST endpoint in\n the field",
+        "PART_36": "10. Insert into request body the following json:",
+        "PART_37": "Put in ",
+        "PART_38": " the password of\n the user you chose (you can view users and their information in TPP-UI).",
+        "PART_39": "11. Execute endpoint and get",
+        "PART_40": "and list of authorisation methods in response.",
+        "PART_41": "12. Execute this PUT endpoint again, but this time update request body:\n fill it with the following json:",
+        "PART_42": "Put in placeholder",
+        "PART_43": " any value\n of authenticationMethodId of your choice. The response should be",
+        "PART_44": "13. Execute this PUT endpoint again, update request body: fill it with\n the following json:",
+        "PART_45": "User has only one SCA method, so test TAN",
+        "PART_46": "was sent to the user, and now you need to enter this data and execute\n PUT command. The response should be"
+      },
+      "EMB_CANS_GET": {
+        "PART_1": "12. Try GET endpoint",
+        "PART_2": "to check current status of the cancellation authorisation.",
+        "PART_3": "13. Try GET endpoint",
+        "PART_4": "to get current payment status (it should be `CANC`, cancelled)."
+      },
+      "EMB_CONS_CR": {
+        "PART_10": "5. Start with the authorisation process.",
+        "PART_11": "Pay attention to the amount of SCA methods user has: if user has no SCA\n methods, test consent initiation with the flow described below in",
+        "ITALIC_1": "\"Consent authorisation for user with no SCA methods\"",
+        "PART_12": ". For user with single SCA method check",
+        "ITALIC_2": "\"Consent authorisation for user with single SCA method\"",
+        "PART_13": ", and for user with multiple SCA methods check",
+        "ITALIC_3": "\"Consent authorisation for user with multiple SCA methods\""
+      },
+      "EMB_CONS_AUTH": {
+        "TITLE": "STEP 2: Consent authorisation",
+        "PART_1": "1. Start authorisation process with",
+        "PART_2": "2. Enter consent id you have got from the previous response in",
+        "STEP": "STEP 1",
+        "PART_3": " in the field",
+        "PART_4": "3. After providing consent id, fill the header fields with the following\n values:",
+        "PART_5": "Put in ",
+        "PART_6": " the name of the\n user you chose (you can view users and their information in TPP-UI).",
+        "PART_7": "4. Start authorisation by hitting",
+        "ITALIC": "\"Execute\"",
+        "PART_8": " button and get 201 HTTP code\n and related information."
+      },
+      "EMB_CONS_PUT": {
+        "TITLE": "STEP 2: Consent authorisation",
+        "SUBTITLE_1": "Consent authorisation for user with no SCA methods",
+        "PART_1": "4. Start authorisation by hitting",
+        "ITALIC": "\"Execute\"",
+        "PART_2": "button and get 201 HTTP code\n and related information.",
+        "PART_3": "5. Continue payment authorisation with call to",
+        "PART_4": "6. Enter consent id in the field",
+        "PART_5": "and authorisation id you received from POST endpoint (start\n authorisation) in",
+        "PART_6": "field.",
+        "PART_7": "7. Fill the header fields with the following values:",
+        "PART_8": "8. Insert into request body the following json:",
+        "PART_9": "Put in ",
+        "PART_10": " the password of\n the user you chose (you can view users and their information in TPP-UI).",
+        "PART_11": "9. Execute endpoint and get",
+        "PART_12": "and",
+        "PART_13": "in response.",
+        "SUBTITLE_2": "Consent authorisation for user with single SCA method",
+        "PART_14": "5. Continue payment authorisation with call to",
+        "PART_15": "6. Enter consent id in the field",
+        "PART_16": "and authorisation id you received from POST endpoint (start\n authorisation) in",
+        "PART_17": "field.",
+        "PART_18": "7. Fill the header fields with the following values:",
+        "PART_19": "Put in ",
+        "PART_20": " the name of the\n user you chose (you can view users and their information in TPP-UI).",
+        "PART_21": "8. Insert into request body the following json:",
+        "PART_22": "Put in ",
+        "PART_23": " the password of\n the user you chose (you can view users and their information in TPP-UI).",
+        "PART_24": "9. Execute endpoint and get",
+        "PART_25": "and",
+        "PART_26": "in response.",
+        "PART_27": "10. Execute this PUT endpoint again, but this time update request body:\n fill it with the following json:",
+        "PART_28": "User has only one SCA method, so test TAN",
+        "PART_29": "was sent to the user, and now you need to enter this data and execute\n PUT command.",
+        "PART_30": "The response should be",
+        "PART_31": "and",
+        "SUBTITLE_3": "Consent authorisation for user with multiple SCA methods",
+        "PART_32": "5. Continue payment authorisation with call to",
+        "PART_33": "6. Enter consent id in the field",
+        "PART_34": "and authorisation id you received from POST endpoint (start\n authorisation) in",
+        "PART_35": "field.",
+        "PART_36": "7. Fill the header fields with the following values:",
+        "PART_37": "8. Insert into request body the following json:",
+        "PART_38": "Put in ",
+        "PART_39": " the password of\n the user you chose (you can view users and their information in TPP-UI).",
+        "PART_40": "9. Execute endpoint and get",
+        "PART_41": "and list of authorisation methods in response.",
+        "PART_42": "10. Execute this PUT endpoint again, but this time update request body:\n fill it with the following json:",
+        "PART_43": "Put in placeholder",
+        "PART_44": " any value\n of authenticationMethodId of your choice. The response should be",
+        "PART_45": "and",
+        "PART_46": "11. Execute this PUT endpoint again, update request body: fill it with\n the following json:",
+        "PART_47": "SCA method was chosen, so test TAN",
+        "PART_48": "was sent to the user, and now you need to enter this data and execute\n PUT command.",
+        "PART_49": "The response should be",
+        "PART_50": "and"
+      },
+      "EMB_CONS_GET": {
+        "PART_1": "1. Try GET endpoint",
+        "PART_2": "to get consent information and GET endpoint",
+        "PART_3": "to check current status of the consent.",
+        "PART_4": "2. Try GET endpoint",
+        "PART_5": "to get authorisation information and GET endpoint",
+        "PART_6": "to check current status of the authorisation."
+      },
+      "AC_INF_ACS": {
+        "PART_1": "1. Try GET endpoint",
+        "PART_2": "to get account with chosen consent-id",
+        "PART_3": "Put in ",
+        "PART_4": " the consent-id of accounts\n that you want to get(you can view users and their information in TPP-UI)."
+      },
+      "AC_INF_AC": {
+        "PART_1": "1. Try GET endpoint",
+        "PART_2": "to get account with chosen account-id",
+        "PART_3": "Put in ",
+        "PART_4": " the consent-id of account\n that you want to get(you can view users and their information in TPP-UI)."
+      },
+      "AC_INF_BAL": {
+        "PART_1": "1. Try GET endpoint",
+        "PART_2": "to get account's list of balances",
+        "PART_3": "Put in ",
+        "PART_4": " the consent-id of account\n that you want to get(you can view users and their information in TPP-UI)."
+      },
+      "AC_INF_TRS": {
+        "PART_1": "1. Try GET endpoint",
+        "PART_2": "to get account's list of transactions with chosen booking status.",
+        "PART_3": "Put in ",
+        "PART_4": " the consent-id of account\n that you want to get(you can view users and their information in TPP-UI)."
+      },
+      "AC_INF_TR": {
+        "PART_1": "1. Try GET endpoint",
+        "PART_2": "to get account's transaction with current id.",
+        "PART_3": "Put in ",
+        "PART_4": " the consent-id of account\n that you want to get(you can view users and their information in TPP-UI)."
+      }
+    }
+  },
+  "FAQ": {
+    "TITLE": "Frequently Asked Questions",
+    "CONSENTS": {
+      "TITLE": "Consents",
+      "SUBTITLE_1": "Why can't I create a consent?",
+      "PART_1": "The role within the QWAC Certificate does not contain the role AIS. In\n this case you should receive a similar error:",
+      "PART_2": "Solution: Either create a new certificate containing the role AIS and\n embed this certificate in your request or decode your certificate and\n check the qcStatement which should contain \"PSP_AI\".",
+      "PART_3": "Another possibility is that the attribute \"recurringIndicator\" within your\n request is set to \"false\", while the attribute \"frequencyPerDay\" does not\n equal \"1\". By default the \"recurringIndicator\" should be \"true\" since a\n TPP wants to access the account data in the addressed period of time. When\n the TPP however wants to just display a list of possible accounts to the\n PSU, a one-time access is enough. In this case you should receive the\n following Error:",
+      "PART_4": "Solution: If you want to access the account data using this consent just\n once, change the value of \"frequencyPerDay\" to \"1\". Otherwise assign\n \"true\" to the \"recurringIndicator\".",
+      "SUBTITLE_2": "Why can't I access my account data?",
+      "PART_5": "It is possible that the issued consent does not permit this operation. An\n AIS-Consent defines three levels of access. The first level allows access\n to \"accounts\", the second to \"balances\" and the third to \"transactions\".\n Combinations are possible and a selection of either \"balances\" or\n \"transactions\" grants access to \"accounts\" as well. A consent granting\n access to e.g. accounts and transactions does not allow to call the\n balance endpoint.",
+      "PART_6": "In this case you should receive the following error:",
+      "TODO": "TODO",
+      "PART_7": "Solution: Ask the PSU to create a new consent allowing you access the\n appropriate endpoints.",
+      "PART_8": "Another reason might be that the consent status is not valid. A status\n will e.g. expire automatically when the \"expirationDate\" defined within\n the consent is exceeded. It might also be possible that an error occurred\n while performing SCA. For more detailed information see FAQs on Strong\n Customer Authentication."
+    },
+    "STRONG": {
+      "TITLE": "Strong Customer Authentication",
+      "SUBTITLE_1": "How can I change the transaction/consent status?",
+      "PART_1": "By default a new created transaction/consent has the status",
+      "RECEIVED": "\"received\"",
+      "PART_2": ". In order to perform SCA using\n REDIRECT approach, the sandbox provides a Redirect Server where the status\n gets updated depending on the PSU. Since SCA for REDIRECT is simplified\n for this sandbox, it is enough to pass a PSU-ID via Query-Parameter to\n simulate the whole SCA. An example is provided in the following:",
+      "PART_3": "The Query Parameter psu-id is mandatory. If it is not provided, the\n Redirect Server will display a default error message.",
+      "SUBTITLE_2": "Why can't I change the transaction/consent status using a specific PSU?",
+      "PART_4": "If the transaction/consent status is \"received\", it can be possible that\n the PSU-ID does not match IBAN in the payment initiation or consent\n creation request. The mapping between PSU-ID and IBAN(s) is documented in\n the developer portal. If the status doesn't change even though SCA was\n performed and the IBAN matches the PSU-ID, check the PSU-ID for typos and\n case sensitivity."
+    },
+    "CERTIFICATES": {
+      "TITLE": "Certificates",
+      "SUBTITLE_1": "How can I create a valid certificate?",
+      "PART_1": "In order to access the XS2A API, a TPP needs to have a valid Qualified\n Website Authentication Certificate (QWAC) which usually gets issued by a\n registered Trust Service Provider. For the use of this sandbox you can\n issue test certificates here:",
+      "PART_2": ". You get a self signed certificate",
+      "PART_3": "nd a\n corresponding private key",
+      "PART_4": "embedded in a",
+      "PART_5": " file.",
+      "SUBTITLE_2": "How can I embed a certificate in a request?",
+      "PART_6": "Once you received a QWAC you need to embed it to your request. There are\n many tools to perform REST calls. We explain configuration with two of the\n most common ones - cURL and Postman. cURL: add the",
+      "PART_7": " file\n using",
+      "PART_8": "and the private key using",
+      "PART_9": ". Note that you may need to adapt the relative path to your files.\n Postman: Navigate to",
+      "PART_10": "and set the host url (in our examples this would be",
+      "PART_11": "). Note that ",
+      "PART_12": " as well as the\n port 443 are already set. Then add your",
+      "PART_13": " and",
+      "PART_14": " file.\n The passphrase must be left empty.",
+      "SUBTITLE_3": "Why does my QWAC certificate not work?",
+      "PART_15": "Requests might still not work even though a certificate is added. This\n happens when certificates expire. Each certificate has an attribute\n \"validUntil\" with the expiration date. In this case you should receive the\n following error:",
+      "PART_16": "You need the PSU to create a new consent and use the new consentId.\n Another possibility is that the certificate does not contain the role you\n need for your request. E.g. having the role \"PIS\" does not permit you to\n create consents. In such a case you should receive the following error:"
+    }
+  },
+  "CONTACT": {
+    "TITLE_1": "Any Questions?",
+    "SUBTITLE": "Ask this person.",
+    "TITLE_2": "Contact"
+  }
+}

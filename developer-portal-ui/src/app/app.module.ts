@@ -9,7 +9,7 @@ import { HomeComponent } from '../pages/home/home.component';
 import { GettingStartedComponent } from '../pages/getting-started/getting-started.component';
 import { FaqComponent } from '../pages/faq/faq.component';
 import { TestCasesModule } from '../pages/test-cases/test-cases.module';
-import { HttpClientModule } from '@angular/common/http';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { ContactComponent } from '../pages/contact/contact.component';
 import { RestService } from '../services/rest.service';
 import { DataService } from '../services/data.service';
@@ -22,6 +22,9 @@ import { AccinfAccountGetComponent } from '../pages/test-cases/components/api-en
 import { AccinfBalanceGetComponent } from '../pages/test-cases/components/api-endpoints/accinf-balance-get/accinf-balance-get.component';
 import { AccinfTransactionsGetComponent } from '../pages/test-cases/components/api-endpoints/accinf-transactions-get/accinf-transactions-get.component';
 import { AccinfTransactionGetComponent } from '../pages/test-cases/components/api-endpoints/accinf-transaction-get/accinf-transaction-get.component';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {HttpLoaderFactory} from '../services/translate.factory';
+
 
 @NgModule({
   declarations: [
@@ -47,6 +50,13 @@ import { AccinfTransactionGetComponent } from '../pages/test-cases/components/ap
     BrowserAnimationsModule,
     ToastrModule.forRoot({
       timeOut: 1300,
+    }),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
     }),
     ReactiveFormsModule,
     FormsModule,

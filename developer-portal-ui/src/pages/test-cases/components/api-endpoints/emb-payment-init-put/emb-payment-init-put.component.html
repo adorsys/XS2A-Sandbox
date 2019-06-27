@@ -8,14 +8,14 @@
       "
       (click)="changeSegment('documentation')"
     >
-      <span>Documentation</span>
+      <span>{{'TEST_CASES.COMPONENTS.TABS.DOC' | translate}}</span>
     </div>
     <div
       class="endpoint-segment-item"
       [ngClass]="activeSegment === 'play-data' ? 'left-item' : 'unactive-item'"
       (click)="changeSegment('play-data')"
     >
-      <span>Play with data</span>
+      <span>{{'TEST_CASES.COMPONENTS.TABS.PLAY' | translate}}</span>
     </div>
   </div>
 
@@ -26,29 +26,26 @@
       class="endpoint-documentation"
       *ngIf="activeSegment === 'documentation'; else: play_with_data"
     >
-      <h1>STEP 2: Authorise payment</h1>
+      <h1>{{'TEST_CASES.COMPONENTS.EMB_IN_PUT.TITLE' | translate}}</h1>
 
-      <span class="bold-text"
-        >Payment authorisation for user with no SCA methods</span
-      >
+      <span class="bold-text">{{'TEST_CASES.COMPONENTS.EMB_IN_PUT.SUBTITLE_1' | translate}}</span>
       <p>
-        5. Continue payment authorisation with call to
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_1' | translate}}
         <span class="bold-text">PUT</span> endpoint
-        <app-line-command
-          title="/v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}"
-        ></app-line-command>
-        .
+        <app-line-command title="/v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}"></app-line-command>.
       </p>
       <p>
-        6. Enter payment id in the field in the field
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_2' | translate}}
         <app-line-command title="paymentId"></app-line-command>
-        and authorisation id you received from POST endpoint (start
-        authorisation) in
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_3' | translate}}
         <app-line-command title="authorisationId"></app-line-command>
-        field.
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_4' | translate}}
       </p>
-      <p>7. Fill the header fields with the following values:</p>
-      <div class="api-table bg th"><span>Header</span> <span>Value</span></div>
+      <p>{{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_5' | translate}}</p>
+      <div class="api-table bg th">
+        <span>{{'TEST_CASES.COMPONENTS.TH.TH_1' | translate}}</span>
+        <span>{{'TEST_CASES.COMPONENTS.TH.TH_2' | translate}}</span>
+      </div>
       <div class="api-table">
         <span>X-Request-ID</span>
         <span>2f77a125-aa7a-45c0-b414-cea25a116035</span>
@@ -60,45 +57,44 @@
         <span>PSU-IP-Address</span> <span>1.1.1.1</span>
       </div>
       <p>
-        Put in <span class="bold-text">YOUR_USER_LOGIN</span> the name of the
-        user you chose (you can view users and their information in TPP-UI).
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_6' | translate}}
+        <span class="bold-text">YOUR_USER_LOGIN</span>
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_7' | translate}}
       </p>
-      <p>8. Insert into request body the following json:</p>
+      <p>{{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_8' | translate}}</p>
       <app-code-area [json]="jsonData1" [id]="'EPIP-1'"></app-code-area>
 
       <p>
-        Put in <span class="bold-text">YOUR_USER_PASSWORD</span> the password of
-        the user you chose (you can view users and their information in TPP-UI).
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_9' | translate}}
+        <span class="bold-text">YOUR_USER_PASSWORD</span>
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_10' | translate}}
       </p>
       <p>
-        9. Execute endpoint and get
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_11' | translate}}
         <app-line-command title="200 HTTP code"></app-line-command>
-        and
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_12' | translate}}
         <app-line-command title="scaStatus: Finalised"></app-line-command>
-        in response.
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_13' | translate}}
       </p>
 
-      <span class="bold-text"
-        >Payment authorisation for user with single SCA method</span
-      >
+      <span class="bold-text">{{'TEST_CASES.COMPONENTS.EMB_IN_PUT.SUBTITLE_2' | translate}}</span>
       <p>
-        5. Continue payment authorisation with call to
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_14' | translate}}
         <span class="bold-text">PUT</span> endpoint
-        <app-line-command
-          title="/v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}"
-        ></app-line-command>
-        .
+        <app-line-command title="/v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}"></app-line-command>.
       </p>
       <p>
-        6. Enter payment id in the field in the field
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_15' | translate}}
         <app-line-command title="paymentId"></app-line-command>
-        and authorisation id you received from POST endpoint (start
-        authorisation) in
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_16' | translate}}
         <app-line-command title="authorisationId"></app-line-command>
-        field.
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_17' | translate}}
       </p>
-      <p>7. Fill the header fields with the following values:</p>
-      <div class="api-table bg th"><span>Header</span> <span>Value</span></div>
+      <p>{{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_18' | translate}}</p>
+      <div class="api-table bg th">
+        <span>{{'TEST_CASES.COMPONENTS.TH.TH_1' | translate}}</span>
+        <span>{{'TEST_CASES.COMPONENTS.TH.TH_2' | translate}}</span>
+      </div>
       <div class="api-table">
         <span>X-Request-ID</span>
         <span>2f77a125-aa7a-45c0-b414-cea25a116035</span>
@@ -110,62 +106,55 @@
         <span>PSU-IP-Address</span> <span>1.1.1.1</span>
       </div>
       <p>
-        Put in <span class="bold-text">YOUR_USER_LOGIN</span> the name of the
-        user you chose (you can view users and their information in TPP-UI).
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_19' | translate}}
+        <span class="bold-text">YOUR_USER_LOGIN</span>
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_20' | translate}}
       </p>
-      <p>8. Insert into request body the following json:</p>
+      <p>{{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_21' | translate}}</p>
       <app-code-area [json]="jsonData1" [id]="'EPIP-2'"></app-code-area>
 
       <p>
-        Put in <span class="bold-text">YOUR_USER_PASSWORD</span> the password of
-        the user you chose (you can view users and their information in TPP-UI).
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_22' | translate}}
+        <span class="bold-text">YOUR_USER_PASSWORD</span>
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_23' | translate}}
       </p>
       <p>
-        9. Execute endpoint and get
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_24' | translate}}
         <app-line-command title="200 HTTP code"></app-line-command>
-        and
-        <app-line-command
-          title="scaStatus: ScaMethodSelected"
-        ></app-line-command>
-        in response.
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_25' | translate}}
+        <app-line-command title="scaStatus: ScaMethodSelected"></app-line-command>
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_26' | translate}}
       </p>
-      <p>
-        10. Execute this PUT endpoint again, but this time update request body:
-        fill it with the following json:
-      </p>
+      <p>{{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_27' | translate}}</p>
       <app-code-area [json]="jsonData2" [id]="'EPIP-3'"></app-code-area>
 
       <p>
-        User has only one SCA method, so test TAN
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_28' | translate}}
         <app-line-command title="123456"></app-line-command>
-        was sent to the user, and now you need to enter this data and execute
-        PUT command. The response should be
-        <app-line-command title="200 HTTP code"></app-line-command> and
-        <app-line-command title="scaStatus: Finalised"></app-line-command>
-        .
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_29' | translate}}
+        <app-line-command title="200 HTTP code"></app-line-command>
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_30' | translate}}
+        <app-line-command title="scaStatus: Finalised"></app-line-command>.
       </p>
 
-      <span class="bold-text"
-        >Payment authorisation for user with multiple SCA methods</span
-      >
+      <span class="bold-text">{{'TEST_CASES.COMPONENTS.EMB_IN_PUT.SUBTITLE_3' | translate}}</span>
       <p>
-        5. Continue payment authorisation with call to
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_31' | translate}}
         <span class="bold-text">PUT</span> endpoint
-        <app-line-command
-          title="/v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}"
-        ></app-line-command>
-        .
+        <app-line-command title="/v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}"></app-line-command>.
       </p>
       <p>
-        6. Enter payment id in the field in the field
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_32' | translate}}
         <app-line-command title="paymentId"></app-line-command>
-        and authorisation id you received from POST endpoint (start
-        authorisation) in
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_33' | translate}}
         <app-line-command title="authorisationId"></app-line-command>
-        field.
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_34' | translate}}
       </p>
-      <p>7. Fill the header fields with the following values:</p>
-      <div class="api-table bg th"><span>Header</span> <span>Value</span></div>
+      <p>{{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_35' | translate}}</p>
+      <div class="api-table bg th">
+        <span>{{'TEST_CASES.COMPONENTS.TH.TH_1' | translate}}</span>
+        <span>{{'TEST_CASES.COMPONENTS.TH.TH_2' | translate}}</span>
+      </div>
       <div class="api-table">
         <span>X-Request-ID</span>
         <span>2f77a125-aa7a-45c0-b414-cea25a116035</span>
@@ -177,51 +166,48 @@
         <span>PSU-IP-Address</span> <span>1.1.1.1</span>
       </div>
       <p>
-        Put in <span class="bold-text">YOUR_USER_LOGIN</span> the name of the
-        user you chose (you can view users and their information in TPP-UI).
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_36' | translate}}
+        <span class="bold-text">YOUR_USER_LOGIN</span>
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_37' | translate}}
       </p>
-      <p>8. Insert into request body the following json:</p>
+      <p>{{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_38' | translate}}</p>
       <app-code-area [json]="jsonData1" [id]="'EPIP-4'"></app-code-area>
 
       <p>
-        Put in <span class="bold-text">YOUR_USER_PASSWORD</span> the password of
-        the user you chose (you can view users and their information in TPP-UI).
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_39' | translate}}
+        <span class="bold-text">YOUR_USER_PASSWORD</span>
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_40' | translate}}
       </p>
       <p>
-        9. Execute endpoint and get
-        <app-line-command title="200 HTTP code"></app-line-command> and list of
-        authorisation methods in response.
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_41' | translate}}
+        <app-line-command title="200 HTTP code"></app-line-command>
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_42' | translate}}
       </p>
-      <p>
-        10. Execute this PUT endpoint again, but this time update request body:
-        fill it with the following json:
-      </p>
+      <p>{{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_43' | translate}}</p>
       <app-code-area [json]="jsonData3" [id]="'EPIP-5'"></app-code-area>
 
       <p>
-        Put in placeholder
-        <span class="italic-text">"YOUR_AUTHENTICATION_METHOD_ID"</span> any
-        value of authenticationMethodId of your choice. The response should be
-        <app-line-command title="200 HTTP code"></app-line-command> and
-        <app-line-command
-          title="scaStatus: ScaMethodSelected"
-        ></app-line-command
-        >.
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_44' | translate}}
+        <span class="italic-text">"YOUR_AUTHENTICATION_METHOD_ID"</span>
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_45' | translate}}
+        <app-line-command title="200 HTTP code"></app-line-command>
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_46' | translate}}
+        <app-line-command title="scaStatus: ScaMethodSelected"></app-line-command>.
       </p>
       <p>
-        11. Execute this PUT endpoint again, update request body: fill it with
-        the following json:
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_47' | translate}}
       </p>
       <app-code-area [json]="jsonData2" [id]="'EPIP-6'"></app-code-area>
 
       <p>
-        SCA method was chosen, so test TAN
-        <app-line-command title="123456"></app-line-command> was sent to the
-        user, and now you need to enter this data and execute PUT command.
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_48' | translate}}
+        <app-line-command title="123456"></app-line-command>
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_49' | translate}}
       </p>
       <p>
-        The response should be
-        <app-line-command title="200 HTTP code"></app-line-command> and
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_50' | translate}}
+        <app-line-command title="200 HTTP code"></app-line-command>
+        {{'TEST_CASES.COMPONENTS.EMB_IN_PUT.PART_51' | translate}}
         <app-line-command title="scaStatus: Finalised"></app-line-command>.
       </p>
     </div>

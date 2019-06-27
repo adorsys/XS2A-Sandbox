@@ -7,6 +7,7 @@ import {
   GlobalSettings,
   Theme,
 } from '../services/customize.service';
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-root',
@@ -21,8 +22,13 @@ export class AppComponent implements OnInit {
     private actRoute: ActivatedRoute,
     public dataService: DataService,
     public loginService: LoginService,
-    public customizeService: CustomizeService
-  ) {}
+    public customizeService: CustomizeService,
+    private translateService: TranslateService
+  ) {
+    this.translateService.addLangs(['en', 'ua', 'es']);
+    this.translateService.setDefaultLang('en');
+    this.translateService.use('en');
+  }
 
   goToPage(page) {
     this.router.navigateByUrl(`/${page}`);
@@ -34,7 +40,12 @@ export class AppComponent implements OnInit {
     ].snapshot.url;
   }
 
+  initializeTranslation() {
+
+  }
+
   ngOnInit() {
+    this.initializeTranslation();
     let theme: Theme;
     this.customizeService.getJSON().then(data => {
       theme = data;

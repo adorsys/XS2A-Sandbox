@@ -1,161 +1,93 @@
 <div style="padding: 0 10vw;">
-  <h1 class="faq-title">Frequently Asked Questions</h1>
+  <h1 class="faq-title">{{'FAQ.TITLE' | translate}}</h1>
 
   <section>
     <div class="divider"></div>
-    <h1>Consents</h1>
-    <h2>Why can't I create a consent?</h2>
-    <p class="default-text">
-      The role within the QWAC Certificate does not contain the role AIS. In
-      this case you should receive a similar error:
-    </p>
-    <p class="json-text">{{ jsonData1 | json }}</p>
-    <p class="default-text">
-      Solution: Either create a new certificate containing the role AIS and
-      embed this certificate in your request or decode your certificate and
-      check the qcStatement which should contain "PSP_AI".
-    </p>
-    <p class="default-text">
-      Another possibility is that the attribute "recurringIndicator" within your
-      request is set to "false", while the attribute "frequencyPerDay" does not
-      equal "1". By default the "recurringIndicator" should be "true" since a
-      TPP wants to access the account data in the addressed period of time. When
-      the TPP however wants to just display a list of possible accounts to the
-      PSU, a one-time access is enough. In this case you should receive the
-      following Error:
-    </p>
-    <p class="json-text">{{ jsonData2 | json }}</p>
-    <p class="default-text">
-      Solution: If you want to access the account data using this consent just
-      once, change the value of "frequencyPerDay" to "1". Otherwise assign
-      "true" to the "recurringIndicator".
-    </p>
-    <h2>Why can't I access my account data?</h2>
-    <p class="default-text">
-      It is possible that the issued consent does not permit this operation. An
-      AIS-Consent defines three levels of access. The first level allows access
-      to "accounts", the second to "balances" and the third to "transactions".
-      Combinations are possible and a selection of either "balances" or
-      "transactions" grants access to "accounts" as well. A consent granting
-      access to e.g. accounts and transactions does not allow to call the
-      balance endpoint.
-    </p>
-    <p class="default-text">
-      In this case you should receive the following error:
-    </p>
-    <span class="italic-text">TODO</span>
-    <p class="default-text">
-      Solution: Ask the PSU to create a new consent allowing you access the
-      appropriate endpoints.
-    </p>
-    <p class="default-text">
-      Another reason might be that the consent status is not valid. A status
-      will e.g. expire automatically when the "expirationDate" defined within
-      the consent is exceeded. It might also be possible that an error occurred
-      while performing SCA. For more detailed information see FAQs on Strong
-      Customer Authentication.
-    </p>
+    <h1>{{'FAQ.CONSENTS.TITLE' | translate}}</h1>
+    <h2>{{'FAQ.CONSENTS.SUBTITLE_1' | translate}}</h2>
+    <p class="default-text"> {{'FAQ.CONSENTS.PART_1' | translate}} </p>
+    <p class="json-text"> {{ jsonData1 | json }} </p>
+    <p class="default-text"> {{'FAQ.CONSENTS.PART_2' | translate}} </p>
+    <p class="default-text"> {{'FAQ.CONSENTS.PART_3' | translate}} </p>
+    <p class="json-text"> {{ jsonData2 | json }} </p>
+    <p class="default-text"> {{'FAQ.CONSENTS.PART_4' | translate}} </p>
+    <h2> {{'FAQ.CONSENTS.SUBTITLE_2' | translate}} </h2>
+    <p class="default-text"> {{'FAQ.CONSENTS.PART_5' | translate}} </p>
+    <p class="default-text"> {{'FAQ.CONSENTS.PART_6' | translate}} </p>
+    <span class="italic-text"> {{'FAQ.CONSENTS.TODO' | translate}} </span>
+    <p class="default-text"> {{'FAQ.CONSENTS.PART_7' | translate}} </p>
+    <p class="default-text"> {{'FAQ.CONSENTS.PART_8' | translate}} </p>
   </section>
+
   <section>
     <div class="divider"></div>
-    <h1>Strong Customer Authentication</h1>
-    <h2>How can I change the transaction/consent status?</h2>
+    <h1>{{'FAQ.STRONG.TITLE' | translate}}</h1>
+    <h2>{{'FAQ.STRONG.SUBTITLE' | translate}}</h2>
     <p class="default-text">
-      By default a new created transaction/consent has the status
-      <span class="italic-text">"received"</span>. In order to perform SCA using
-      REDIRECT approach, the sandbox provides a Redirect Server where the status
-      gets updated depending on the PSU. Since SCA for REDIRECT is simplified
-      for this sandbox, it is enough to pass a PSU-ID via Query-Parameter to
-      simulate the whole SCA. An example is provided in the following:
+      {{'FAQ.STRONG.PART_1' | translate}}
+      <span class="italic-text">{{'FAQ.STRONG.RECEIVED' | translate}}</span>
+      {{'FAQ.STRONG.PART_2' | translate}}
     </p>
     <p>
       GET
       <span class="app-line-command-wrapper">
-        <span
-          >https://sandbox-api.dev.adorsys.de/v1/online-banking/init/pis/5239763c-8641-41cc-a354-d52d35da0c9e?psu-id=PSU-Successful</span
-        >
+        <span>
+          https://sandbox-api.dev.adorsys.de/v1/online-banking/init/pis/5239763c-8641-41cc-a354-d52d35da0c9e?psu-id=PSU-Successful
+        </span>
       </span>
     </p>
-    <p class="default-text">
-      The Query Parameter psu-id is mandatory. If it is not provided, the
-      Redirect Server will display a default error message.
-    </p>
-    <h2>
-      Why can't I change the transaction/consent status using a specific PSU?
-    </h2>
-    <p class="default-text">
-      If the transaction/consent status is "received", it can be possible that
-      the PSU-ID does not match IBAN in the payment initiation or consent
-      creation request. The mapping between PSU-ID and IBAN(s) is documented in
-      the developer portal. If the status doesn't change even though SCA was
-      performed and the IBAN matches the PSU-ID, check the PSU-ID for typos and
-      case sensitivity.
-    </p>
+    <p class="default-text"> {{'FAQ.STRONG.PART_3' | translate}} </p>
+    <h2>{{'FAQ.STRONG.SUBTITLE_2' | translate}}</h2>
+    <p class="default-text"> {{'FAQ.STRONG.PART_4' | translate}} </p>
   </section>
 
   <section>
     <div class="divider"></div>
-    <h1>Certificates</h1>
-    <h2>How can I create a valid certificate?</h2>
+    <h1>{{'FAQ.CERTIFICATES.TITLE' | translate}}</h1>
+    <h2>{{'FAQ.CERTIFICATES.SUBTITLE_1' | translate}}</h2>
     <p class="default-text">
-      In order to access the XS2A API, a TPP needs to have a valid Qualified
-      Website Authentication Certificate (QWAC) which usually gets issued by a
-      registered Trust Service Provider. For the use of this sandbox you can
-      issue test certificates here:
-      <a
-        target="_blank"
-        href="https://sandbox-portal.dev.adorsys.de/app/certificate-service"
-        >https://sandbox-portal.dev.adorsys.de/app/certificate-service</a
-      >. You get a self signed certificate
-      <span class="app-line-command-wrapper"> <span>(.pem)</span> </span> and a
-      corresponding private key
+      {{'FAQ.CERTIFICATES.PART_1' | translate}}
+      <a target="_blank" href="https://sandbox-portal.dev.adorsys.de/app/certificate-service">
+        https://sandbox-portal.dev.adorsys.de/app/certificate-service
+      </a>{{'FAQ.CERTIFICATES.PART_2' | translate}}
+      <span class="app-line-command-wrapper"> <span>(.pem)</span> </span>
+      {{'FAQ.CERTIFICATES.PART_3' | translate}}
       <span class="app-line-command-wrapper"> <span>(.key)</span> </span>
-      embedded in a
-      <span class="app-line-command-wrapper"> <span>.zip</span> </span> file.
+      {{'FAQ.CERTIFICATES.PART_4' | translate}}
+      <span class="app-line-command-wrapper"> <span>.zip</span> </span>
+      {{'FAQ.CERTIFICATES.PART_5' | translate}}
     </p>
 
-    <h2>How can I embed a certificate in a request?</h2>
+    <h2>{{'FAQ.CERTIFICATES.SUBTITLE_2' | translate}}</h2>
     <p class="default-text">
-      Once you received a QWAC you need to embed it to your request. There are
-      many tools to perform REST calls. We explain configuration with two of the
-      most common ones - cURL and Postman. cURL: add the
-      <span class="app-line-command-wrapper"> <span>.pem</span> </span> file
-      using
+      {{'FAQ.CERTIFICATES.PART_6' | translate}}
+      <span class="app-line-command-wrapper"> <span>.pem</span> </span>
+      {{'FAQ.CERTIFICATES.PART_7' | translate}}
       <span class="app-line-command-wrapper">
         <span>--cert ./certificate.p</span>
       </span>
-      and the private key using
+      {{'FAQ.CERTIFICATES.PART_8' | translate}}
       <span class="app-line-command-wrapper">
         <span>--key ./private.key</span> </span
-      >. Note that you may need to adapt the relative path to your files.
-      Postman: Navigate to
+      >{{'FAQ.CERTIFICATES.PART_9' | translate}}
       <span class="italic-text"
         >"Preferences > Certificates > Add Certificate"</span
       >
-      and set the host url (in our examples this would be
+      {{'FAQ.CERTIFICATES.PART_10' | translate}}
       <a target="_blank" href="https://sandbox-api.dev.adorsys.de"
         >https://sandbox-api.dev.adorsys.de</a
-      >). Note that <span class="italic-text">"https://"</span> as well as the
-      port 443 are already set. Then add your
-      <span class="app-line-command-wrapper"> <span>.pem</span> </span> and
-      <span class="app-line-command-wrapper"> <span>.key</span> </span> file.
-      The passphrase must be left empty.
+      >{{'FAQ.CERTIFICATES.PART_11' | translate}}<span class="italic-text">"https://"</span>
+      {{'FAQ.CERTIFICATES.PART_12' | translate}}
+      <span class="app-line-command-wrapper"> <span>.pem</span> </span>
+      {{'FAQ.CERTIFICATES.PART_13' | translate}}
+      <span class="app-line-command-wrapper"> <span>.key</span> </span>
+      {{'FAQ.CERTIFICATES.PART_14' | translate}}
     </p>
 
-    <h2>Why does my QWAC certificate not work?</h2>
-    <p class="default-text">
-      Requests might still not work even though a certificate is added. This
-      happens when certificates expire. Each certificate has an attribute
-      "validUntil" with the expiration date. In this case you should receive the
-      following error:
-    </p>
+    <h2>{{'FAQ.CERTIFICATES.SUBTITLE_3' | translate}}</h2>
+    <p class="default-text">{{'FAQ.CERTIFICATES.PART_15' | translate}}</p>
     <p class="json-text">{{ jsonData3 | json }}</p>
-    <p class="default-text">
-      You need the PSU to create a new consent and use the new consentId.
-      Another possibility is that the certificate does not contain the role you
-      need for your request. E.g. having the role "PIS" does not permit you to
-      create consents. In such a case you should receive the following error:
-    </p>
+    <p class="default-text">{{'FAQ.CERTIFICATES.PART_16' | translate}}</p>
     <p class="json-text">{{ jsonData4 | json }}</p>
   </section>
 </div>

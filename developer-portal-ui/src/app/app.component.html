@@ -21,7 +21,7 @@
             : null
         "
         (click)="goToPage('getting-started')"
-        >Getting started</span
+        >{{'HEADER.GETTING_STARTED' | translate}}</span
       >
       <span
         class="header-item"
@@ -31,7 +31,7 @@
             : null
         "
         (click)="goToPage('/test-cases/redirect')"
-        >Test cases</span
+        >{{'HEADER.TEST_CASES' | translate}}</span
       >
       <span
         class="header-item"
@@ -39,7 +39,7 @@
           dataService.currentRouteUrl.includes('faq') ? { opacity: 1 } : null
         "
         (click)="goToPage('/faq')"
-        >FAQs</span
+        >{{'HEADER.FAQ' | translate}}</span
       >
       <span
         class="header-item"
@@ -49,7 +49,7 @@
             : null
         "
         (click)="goToPage('/contact')"
-        >Contact</span
+        >{{'HEADER.CONTACT' | translate}}</span
       >
     </div>
     <div class="header-icons" *ngIf="this.loginService.isLoggedIn()">
@@ -76,14 +76,10 @@
       (click)="goToPage('home')"
     />
     <div>
-      <span class="footer-item" (click)="goToPage('getting-started')"
-        >Getting started</span
-      >
-      <span class="footer-item" (click)="goToPage('/test-cases/redirect')"
-        >Test cases</span
-      >
-      <span class="footer-item" (click)="goToPage('/faq')">FAQs</span>
-      <span class="footer-item" (click)="goToPage('/contact')">Contact</span>
+      <span class="footer-item" (click)="goToPage('getting-started')">{{'FOOTER.GETTING_STARTED' | translate}}</span>
+      <span class="footer-item" (click)="goToPage('/test-cases/redirect')">{{'FOOTER.TEST_CASES' | translate}}</span>
+      <span class="footer-item" (click)="goToPage('/faq')">{{'FOOTER.FAQ' | translate}}</span>
+      <span class="footer-item" (click)="goToPage('/contact')">{{'FOOTER.CONTACT' | translate}}</span>
     </div>
   </div>
 

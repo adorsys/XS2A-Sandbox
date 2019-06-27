@@ -1,10 +1,10 @@
 <div class="collapse-content" [id]="id">
   <p class="json-text">
     <span class="top-span" *ngIf="!shown" (click)="collapseThis(id)">
-      Show Body
+      {{'TEST_CASES.COMPONENTS.CODE_AREA.SHOW' | translate}}
     </span>
     <span class="top-span" *ngIf="shown" (click)="collapseThis(id)">
-      Hide Body
+      {{'TEST_CASES.COMPONENTS.CODE_AREA.HIDE' | translate}}
     </span>
     {{ json | prettyJson }}
   </p>
