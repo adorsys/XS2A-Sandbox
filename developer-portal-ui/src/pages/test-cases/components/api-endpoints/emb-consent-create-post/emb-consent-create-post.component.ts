@@ -46,7 +46,7 @@ export class EmbConsentCreatePostComponent implements OnInit {
       availableAccounts: 'allAccounts',
       allPsd2: 'allAccounts',
     },
-    recurringIndicator: false,
+    recurringIndicator: true,
     validUntil: '2020-12-31',
     frequencyPerDay: 4,
     combinedServiceIndicator: false,
