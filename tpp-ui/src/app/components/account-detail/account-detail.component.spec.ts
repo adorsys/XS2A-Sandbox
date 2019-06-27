@@ -9,6 +9,8 @@ import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {Observable} from "rxjs";
 import {Account, AccountStatus, AccountType, UsageType} from "../../models/account.model";
 import {AccountComponent} from "../account/account.component";
+import {InfoService} from "../../commons/info/info.service";
+import {InfoModule} from "../../commons/info/info.module";
 
 describe('AccountDetailComponent', () => {
     let component: AccountDetailComponent;
@@ -22,11 +24,12 @@ describe('AccountDetailComponent', () => {
                 RouterTestingModule.withRoutes([{path: 'accounts', component: AccountComponent}]),
                 ReactiveFormsModule,
                 HttpClientTestingModule,
+                InfoModule,
                 FormsModule,
                 HttpClientModule,
             ],
             declarations: [ AccountDetailComponent, AccountComponent ],
-            providers: [AccountService]
+            providers: [AccountService, InfoService]
         })
             .compileComponents();
     }));

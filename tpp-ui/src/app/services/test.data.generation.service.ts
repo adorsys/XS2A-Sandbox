@@ -17,4 +17,8 @@ export class TestDataGenerationService {
             responseType: 'text'
         });
     }
+
+    public generateIban() {
+        return this.http.get(environment.tppBackend + '/data/generate/iban', {responseType: "text"});
+    }
 }

@@ -4,6 +4,8 @@ import {AccountStatus, AccountType, UsageType} from "../../models/account.model"
 import {AccountService} from "../../services/account.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {map} from "rxjs/operators";
+import {TestDataGenerationService} from "../../services/test.data.generation.service";
+import {InfoService} from "../../commons/info/info.service";
 
 @Component({
   selector: 'app-account-detail',
@@ -39,7 +41,9 @@ export class AccountDetailComponent implements OnInit {
   constructor(
     private accountService: AccountService,
     private router: Router,
-    private activatedRoute: ActivatedRoute) { }
+    private activatedRoute: ActivatedRoute,
+    private generationService: TestDataGenerationService,
+    private infoService: InfoService) { }
 
   ngOnInit() {
     this.activatedRoute.params
@@ -86,5 +90,13 @@ export class AccountDetailComponent implements OnInit {
 
     this.accountService.createAccount(this.userID, this.accountForm.getRawValue())
       .subscribe(() => this.router.navigate(['/accounts']));
+  }
+
+  generateIban() {
+    return this.generationService.generateIban()
+        .subscribe(data => {
+          this.accountForm.get('iban').setValue(data);
+          this.infoService.openFeedback('IBAN has been successfully generated');
+        });
   }
 }

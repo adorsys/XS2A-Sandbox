@@ -46,17 +46,30 @@
         </div>
         <div class="form-group required">
           <label class="control-label" for="iban">IBAN</label>
-          <input [ngClass]="{'is-invalid': iban.invalid && (iban.dirty || iban.touched || submitted)}"
-                 class="form-control"
-                 formControlName="iban"
-                 id="iban"
-                 type="text">
+          <div class="input-group">
+            <input [ngClass]="{'is-invalid': iban.invalid && (iban.dirty || iban.touched || submitted)}"
+                   class="form-control"
+                   formControlName="iban"
+                   id="iban"
+                   type="text">
+
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary bg-light text-black-50 mb-0" (click) = "generateIban()">Generate IBAN</button>
+            </div>
+
+            <div class="invalid-feedback">
+              <div *ngIf="iban.errors?.required">
+                Required
+              </div>
+            </div>
+          </div>
           <div class="invalid-feedback">
             <div *ngIf="iban.errors?.required">
-              Required
+              IBAN Required
             </div>
           </div>
         </div>
+
         <div class="form-group required">
           <label class="control-label" for="accountStatus">Account status</label>
           <select [ngClass]="{'is-invalid': accountStatus.invalid && (accountStatus.dirty || accountStatus.touched || submitted)}" class="form-control" formControlName="accountStatus"
