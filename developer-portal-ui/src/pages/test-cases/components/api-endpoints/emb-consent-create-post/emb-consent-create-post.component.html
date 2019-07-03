@@ -8,14 +8,14 @@
       "
       (click)="changeSegment('documentation')"
     >
-      <span>{{'TEST_CASES.COMPONENTS.TABS.DOC' | translate}}</span>
+      <span>{{ 'TEST_CASES.COMPONENTS.TABS.DOC' | translate }}</span>
     </div>
     <div
       class="endpoint-segment-item"
       [ngClass]="activeSegment === 'play-data' ? 'left-item' : 'unactive-item'"
       (click)="changeSegment('play-data')"
     >
-      <span>{{'TEST_CASES.COMPONENTS.TABS.PLAY' | translate}}</span>
+      <span>{{ 'TEST_CASES.COMPONENTS.TABS.PLAY' | translate }}</span>
     </div>
   </div>
 
@@ -26,21 +26,23 @@
       class="endpoint-documentation"
       *ngIf="activeSegment === 'documentation'; else: play_with_data"
     >
-      <h1>{{'TEST_CASES.COMPONENTS.RDCT_CONS.TITLE_1' | translate}}</h1>
+      <h1>{{ 'TEST_CASES.COMPONENTS.RDCT_CONS.TITLE_1' | translate }}</h1>
       <p>
-        {{'TEST_CASES.COMPONENTS.RDCT_CONS.PART_1' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.RDCT_CONS.PART_1' | translate }}
         <span class="bold-text">POST</span> endpoint
         <app-line-command title="/v1/consents"></app-line-command>.
       </p>
       <p>
-        {{'TEST_CASES.COMPONENTS.RDCT_CONS.PART_2' | translate}}
-        <span class="italic-text">{{'TEST_CASES.COMPONENTS.RDCT_CONS.ITALIC_SPAN' | translate}}</span>
-        {{'TEST_CASES.COMPONENTS.RDCT_CONS.PART_3' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.RDCT_CONS.PART_2' | translate }}
+        <span class="italic-text">{{
+          'TEST_CASES.COMPONENTS.RDCT_CONS.ITALIC_SPAN' | translate
+        }}</span>
+        {{ 'TEST_CASES.COMPONENTS.RDCT_CONS.PART_3' | translate }}
       </p>
 
       <div class="api-table bg th">
-        <span>{{'TEST_CASES.COMPONENTS.TH.TH_1' | translate}}</span>
-        <span>{{'TEST_CASES.COMPONENTS.TH.TH_2' | translate}}</span>
+        <span>{{ 'TEST_CASES.COMPONENTS.TH.TH_1' | translate }}</span>
+        <span>{{ 'TEST_CASES.COMPONENTS.TH.TH_2' | translate }}</span>
       </div>
       <div class="api-table">
         <span>X-Request-ID</span>
@@ -57,28 +59,36 @@
       </div>
 
       <p>
-        {{'TEST_CASES.COMPONENTS.RDCT_CONS.PART_4' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.RDCT_CONS.PART_4' | translate }}
         <span class="bold-text">YOUR_USER_LOGIN</span>
-        {{'TEST_CASES.COMPONENTS.RDCT_CONS.PART_5' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.RDCT_CONS.PART_5' | translate }}
       </p>
-      <p>{{'TEST_CASES.COMPONENTS.RDCT_CONS.PART_6' | translate}}</p>
+      <p>{{ 'TEST_CASES.COMPONENTS.RDCT_CONS.PART_6' | translate }}</p>
       <app-code-area [json]="jsonData" [id]="'ECCP'"></app-code-area>
 
       <p>
-        {{'TEST_CASES.COMPONENTS.RDCT_CONS.PART_7' | translate}}
-        <span class="bold-text">YOUR_USER_IBAN</span>
-        {{'TEST_CASES.COMPONENTS.RDCT_CONS.PART_8' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.RDCT_CONS.PART_7' | translate }}
+        <span class="bold-text" *ngIf="languageService.getLang() !== 'ua'"
+          >YOUR_USER_IBAN</span
+        >
+        {{ 'TEST_CASES.COMPONENTS.RDCT_CONS.PART_8' | translate }}
       </p>
-      <p>{{'TEST_CASES.COMPONENTS.RDCT_CONS.PART_9' | translate}}</p>
-      <p>5. Start with the authorisation process.</p>
+      <p>{{ 'TEST_CASES.COMPONENTS.RDCT_CONS.PART_9' | translate }}</p>
+      <p>{{ 'TEST_CASES.COMPONENTS.EMB_IN_CR_POST.PART_25' | translate }}</p>
       <p>
-        Pay attention to the amount of SCA methods user has: if user has no SCA
-        methods, test consent initiation with the flow described below in
-        <span class="italic-text">"Consent authorisation for user with no SCA methods"</span>
-        . For user with single SCA method check
-        <span class="italic-text">"Consent authorisation for user with single SCA method"</span>
-        , and for user with multiple SCA methods check
-        <span class="italic-text">"Consent authorisation for user with multiple SCA methods"</span>.
+        {{ 'TEST_CASES.COMPONENTS.EMB_IN_CR_POST.PART_26' | translate }}
+        <span class="italic-text">{{
+          'TEST_CASES.COMPONENTS.EMB_IN_CR_POST.ITALIC_1' | translate
+        }}</span>
+        {{ 'TEST_CASES.COMPONENTS.EMB_IN_CR_POST.PART_27' | translate }}
+        <span class="italic-text">{{
+          'TEST_CASES.COMPONENTS.EMB_IN_CR_POST.ITALIC_2' | translate
+        }}</span>
+        {{ 'TEST_CASES.COMPONENTS.EMB_IN_CR_POST.PART_28' | translate }}
+        <span class="italic-text">{{
+          'TEST_CASES.COMPONENTS.EMB_IN_CR_POST.ITALIC_3' | translate
+        }}</span
+        >.
       </p>
     </div>
 

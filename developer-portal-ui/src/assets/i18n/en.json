@@ -22,6 +22,7 @@
     "WHAT_IS": {
       "TITLE": "What is XS2ASandbox?",
       "CONTENT": {
+        "THE": "The",
         "XS2A": "XS2ASandbox",
         "PART_1": "is a dynamic sandbox\n  environment that fully meets the PSD2 requirements for providing APIs for\n  Third-Party Providers (TPP). Based on the Berlin Group’s NextGen PSD2\n  specification for access to accounts (XS2A),",
         "PART_2": "meets all the regulatory\n  requirements and is NISP compliant. This developer portal is created to help\n  TPP developers start working with XS2ASandbox."
@@ -44,6 +45,7 @@
     },
     "PSD2": {
       "TITLE": "PSD2 and Open Banking",
+      "THE": "The",
       "LINK": "Payment Service Directive 2 (PSD2)",
       "CONTENT": "instructs banks (Account Servicing Payment Service Providers or ASPSPs) to\n provide a fully productive Access-to-Account (XS2A) interface to Third Party\n Providers (TPPs) until September 2019. XS2A itself consists of banking\n services to initiate payments (PIS), request account data (AIS) and get the\n confirmation of the availability of funds (PIIS). In order to guarantee the\n compliance of this deadline due to adaptations and bugs, PSD2 claims the\n banks to provide a functional dynamic sandbox offering the XS2A services in\n a non-productive environment until June 2019."
     },
@@ -119,8 +121,10 @@
     "INTRODUCTION": {
       "TITLE": "Introduction",
       "CONTENT": {
+        "THE_1": "The",
         "LINK": "Payment Service Directive 2 (PSD2)",
         "PART_1": "instructs banks (Account Servicing Payment Service Providers or ASPSPs) to\n provide a fully productive Access-to-Account (XS2A) interface to Third\n Party Providers (TPPs) until September 2019. XS2A itself consists of\n banking services to initiate payments (PIS), request account data (AIS)\n and get the confirmation of the availability of funds (PIIS). In order to\n guarantee the compliance of this deadline due to adaptions and bugs, PSD2\n claims the banks to provide a functional dynamic sandbox offering the XS2A\n services in a non-productive environment until June 2019.",
+        "THE_2": "The",
         "XS2A": "XS2ASandbox",
         "PART_2": "is a dynamic sandbox environment\n that fully meets the PSD2 requirements for providing APIs for Third-Party\n Providers (TPP). Based on the Berlin Group’s NextGen PSD2 specification\n for access to accounts (XS2A),",
         "PART_3": "This developer portal is created to help TPP developers start working with\n XS2ASandbox."
@@ -342,7 +346,7 @@
     "TEXT_3": "Both sections provide tests for REDIRECT Strong Customer Authorisation\n (SCA) approach and EMBEDDED SCA Approach for Payment Initiation Service\n (PIS), Account Information Service (AIS) and Payment Instrument Issuer\n Service (PIIS).",
     "INTRODUCTION": {
       "TITLE": "INTRODUCTION",
-      "REDIRECT":  "Redirect approach",
+      "REDIRECT": "Redirect approach",
       "EMBEDDED": "Embedded approach",
       "TESTING": "Testing flows",
       "MENU": {
@@ -596,18 +600,7 @@
         "BOLD_4": "Payment cancellation authorisation for user with multiple SCA methods"
       },
       "EMB_CANS_DELETE": {
-        "TITLE": "STEP 2: Payment cancellation authorisation",
-        "PART_1": "1. Initiate cancellation process with",
-        "PART_2": ". Choose the same",
-        "PART_3": "and",
-        "PART_4": "you chose in ",
-        "STEP": "STEP 1",
-        "PART_5": "2. Enter payment id you have got from the previous response in",
-        "PART_6": "in the field",
-        "PART_7": "3. After choosing payment service and payment product, fill the header\n fields with the following values:",
-        "PART_8": "4. Hit ",
-        "ITALIC": "\"Execute\"",
-        "PART_9": "button and get 200 HTTP\n code and related information."
+        "TITLE": "STEP 2: Payment cancellation authorisation"
       },
       "EMB_CANS_POST": {
         "TITLE": "STEP 2: Payment cancellation authorisation",
@@ -681,15 +674,6 @@
         "PART_2": "to check current status of the cancellation authorisation.",
         "PART_3": "13. Try GET endpoint",
         "PART_4": "to get current payment status (it should be `CANC`, cancelled)."
-      },
-      "EMB_CONS_CR": {
-        "PART_10": "5. Start with the authorisation process.",
-        "PART_11": "Pay attention to the amount of SCA methods user has: if user has no SCA\n methods, test consent initiation with the flow described below in",
-        "ITALIC_1": "\"Consent authorisation for user with no SCA methods\"",
-        "PART_12": ". For user with single SCA method check",
-        "ITALIC_2": "\"Consent authorisation for user with single SCA method\"",
-        "PART_13": ", and for user with multiple SCA methods check",
-        "ITALIC_3": "\"Consent authorisation for user with multiple SCA methods\""
       },
       "EMB_CONS_AUTH": {
         "TITLE": "STEP 2: Consent authorisation",

@@ -8,14 +8,14 @@
       "
       (click)="changeSegment('documentation')"
     >
-      <span>{{'TEST_CASES.COMPONENTS.TABS.DOC' | translate}}</span>
+      <span>{{ 'TEST_CASES.COMPONENTS.TABS.DOC' | translate }}</span>
     </div>
     <div
       class="endpoint-segment-item"
       [ngClass]="activeSegment === 'play-data' ? 'left-item' : 'unactive-item'"
       (click)="changeSegment('play-data')"
     >
-      <span>{{'TEST_CASES.COMPONENTS.TABS.PLAY' | translate}}</span>
+      <span>{{ 'TEST_CASES.COMPONENTS.TABS.PLAY' | translate }}</span>
     </div>
   </div>
 
@@ -26,36 +26,41 @@
       class="endpoint-documentation"
       *ngIf="activeSegment === 'documentation'; else: play_with_data"
     >
-      <h1>{{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.TITLE_1' | translate}}</h1>
+      <h1>
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.TITLE_1' | translate }}
+      </h1>
       <p>
-        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_1' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_1' | translate }}
         <span class="bold-text">POST</span> endpoint
-        <app-line-command title="/v1/{payment-service}/{payment-product}"></app-line-command>.
+        <app-line-command
+          title="/v1/{payment-service}/{payment-product}"
+        ></app-line-command
+        >.
       </p>
       <p>
-        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_2' | translate}}
-        <span class="italic-text">{{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.ITALIC_SPAN' | translate}}</span>
-        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_3' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_2' | translate }}
+        <span class="italic-text">{{
+          'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.ITALIC_SPAN' | translate
+        }}</span>
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_3' | translate }}
         <app-line-command title="payment-service"></app-line-command>
-        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_4' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_4' | translate }}
         <app-line-command title="payment-product"></app-line-command>
-        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_5' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_5' | translate }}
         <app-line-command title="payments"></app-line-command>
-        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_6' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_6' | translate }}
         <app-line-command title="payment-service"></app-line-command>
-        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_7' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_7' | translate }}
         <app-line-command title="sepa-credit-transfers"></app-line-command>
-        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_8' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_8' | translate }}
         <app-line-command title="payment-product"></app-line-command>.
       </p>
 
-      <p>
-        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_9' | translate}}
-      </p>
+      <p>{{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_9' | translate }}</p>
 
       <div class="api-table bg th">
-        <span>{{'TEST_CASES.COMPONENTS.TH.TH_1' | translate}}</span>
-        <span>{{'TEST_CASES.COMPONENTS.TH.TH_2' | translate}}</span>
+        <span>{{ 'TEST_CASES.COMPONENTS.TH.TH_1' | translate }}</span>
+        <span>{{ 'TEST_CASES.COMPONENTS.TH.TH_2' | translate }}</span>
       </div>
       <div class="api-table">
         <span>X-Request-ID</span>
@@ -81,68 +86,79 @@
         <span>TPP-Nok-Redirect-URI</span> <span>https://www.google.com</span>
       </div>
       <p>
-        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_10' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_10' | translate }}
         <span class="bold-text">YOUR_USER_LOGIN</span>
-        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_11' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_11' | translate }}
       </p>
       <p>
-        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_12' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_12' | translate }}
         <app-line-command title="payment-service"></app-line-command>
-        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_13' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_13' | translate }}
         <app-line-command title="payments"></app-line-command>
-        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_14' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_14' | translate }}
       </p>
       <app-code-area [json]="jsonData1" [id]="'EPCPost-1'"></app-code-area>
 
       <p>
-        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_15' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_15' | translate }}
         <app-line-command title="payment-service"></app-line-command>
-        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_16' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_16' | translate }}
         <app-line-command title="periodic-payments"></app-line-command>
-        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_17' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_17' | translate }}
       </p>
       <app-code-area [json]="jsonData2" [id]="'EPCPost-2'"></app-code-area>
 
       <p>
-        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_18' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_18' | translate }}
         <app-line-command title="payment-service"></app-line-command>
-        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_19' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_19' | translate }}
         <app-line-command title="bulk-payments"></app-line-command>
-        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_20' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_20' | translate }}
       </p>
       <app-code-area [json]="jsonData3" [id]="'EPCPost-3'"></app-code-area>
 
       <p>
-        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_21' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_21' | translate }}
         <span class="bold-text">YOUR_USER_IBAN</span>
-        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_22' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_22' | translate }}
       </p>
       <app-code-area [json]="jsonData4" [id]="'EPCPost-4'"></app-code-area>
 
       <p>
-        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_23' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_23' | translate }}
       </p>
-      <p>{{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_24' | translate}}</p>
-      <p>{{'TEST_CASES.COMPONENTS.EMB_CANCEL_POST.PART_25' | translate}}</p>
-      <p>{{'TEST_CASES.COMPONENTS.EMB_CANCEL_POST.PART_26' | translate}}</p>
       <p>
-        {{'TEST_CASES.COMPONENTS.EMB_CANCEL_POST.PART_27' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_24' | translate }}
+      </p>
+      <p>{{ 'TEST_CASES.COMPONENTS.EMB_CANCEL_POST.PART_25' | translate }}</p>
+      <p>{{ 'TEST_CASES.COMPONENTS.EMB_CANCEL_POST.PART_26' | translate }}</p>
+      <p>
+        {{ 'TEST_CASES.COMPONENTS.EMB_CANCEL_POST.PART_27' | translate }}
         <span class="bold-text">paymentCancellationAuthorisationMandated</span>.
-        {{'TEST_CASES.COMPONENTS.EMB_CANCEL_POST.PART_28' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.EMB_CANCEL_POST.PART_28' | translate }}
         <app-line-command title="false"></app-line-command>
-        {{'TEST_CASES.COMPONENTS.EMB_CANCEL_POST.PART_29' | translate}}
-        <span class="bold-text">{{'TEST_CASES.COMPONENTS.EMB_CANCEL_POST.BOLD_1' | translate}}</span>
-        {{'TEST_CASES.COMPONENTS.EMB_CANCEL_POST.PART_29' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.EMB_CANCEL_POST.PART_29' | translate }}
+        <span class="bold-text">{{
+          'TEST_CASES.COMPONENTS.EMB_CANCEL_POST.BOLD_1' | translate
+        }}</span>
+        {{ 'TEST_CASES.COMPONENTS.EMB_CANCEL_POST.PART_30' | translate }}
       </p>
       <p>
-        {{'TEST_CASES.COMPONENTS.EMB_CANCEL_POST.PART_30' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.EMB_CANCEL_POST.PART_31' | translate }}
         <app-line-command title="true"></app-line-command>
-        {{'TEST_CASES.COMPONENTS.EMB_CANCEL_POST.PART_31' | translate}}
-        <span class="bold-text">{{'TEST_CASES.COMPONENTS.EMB_CANCEL_POST.BOLD_2' | translate}}</span>
-        {{'TEST_CASES.COMPONENTS.EMB_CANCEL_POST.PART_32' | translate}}
-        <span class="bold-text">{{'TEST_CASES.COMPONENTS.EMB_CANCEL_POST.BOLD_3' | translate}}</span>
-        {{'TEST_CASES.COMPONENTS.EMB_CANCEL_POST.PART_33' | translate}}
-        <span class="bold-text">{{'TEST_CASES.COMPONENTS.EMB_CANCEL_POST.BOLD_4' | translate}}</span>.
+        {{ 'TEST_CASES.COMPONENTS.EMB_CANCEL_POST.PART_32' | translate }}
+        <span class="bold-text">{{
+          'TEST_CASES.COMPONENTS.EMB_CANCEL_POST.BOLD_2' | translate
+        }}</span>
+        {{ 'TEST_CASES.COMPONENTS.EMB_CANCEL_POST.PART_33' | translate }}
+        <span class="bold-text">{{
+          'TEST_CASES.COMPONENTS.EMB_CANCEL_POST.BOLD_3' | translate
+        }}</span>
+        {{ 'TEST_CASES.COMPONENTS.EMB_CANCEL_POST.PART_34' | translate }}
+        <span class="bold-text">{{
+          'TEST_CASES.COMPONENTS.EMB_CANCEL_POST.BOLD_4' | translate
+        }}</span
+        >.
       </p>
     </div>
 

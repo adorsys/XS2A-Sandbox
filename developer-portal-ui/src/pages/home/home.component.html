@@ -1,40 +1,46 @@
 <!-- home header -->
 <div class="home-header">
-  <h1 class="header-title">{{'HOME.HEADER.TITLE_1' | translate}}</h1>
-  <h1 class="header-title">{{'HOME.HEADER.TITLE_2' | translate}}</h1>
+  <h1 class="header-title">{{ 'HOME.HEADER.TITLE_1' | translate }}</h1>
+  <h1 class="header-title">{{ 'HOME.HEADER.TITLE_2' | translate }}</h1>
 
   <div style="margin-top: 3vw">
-    <h2 class="header-subtitle">{{'HOME.HEADER.SUBTITLE_1' | translate}}</h2>
-    <h2 class="header-subtitle">{{'HOME.HEADER.SUBTITLE_2' | translate}}</h2>
-    <h2 class="header-subtitle">{{'HOME.HEADER.SUBTITLE_3' | translate}}</h2>
+    <h2 class="header-subtitle">{{ 'HOME.HEADER.SUBTITLE_1' | translate }}</h2>
+    <h2 class="header-subtitle">{{ 'HOME.HEADER.SUBTITLE_2' | translate }}</h2>
+    <h2 class="header-subtitle">{{ 'HOME.HEADER.SUBTITLE_3' | translate }}</h2>
   </div>
 </div>
 
 <!-- What is XS2ASandbox -->
 <div class="what-sandbox-wrapper">
-  <h1 class="what-sandbox-title">{{'HOME.WHAT_IS.TITLE' | translate}}</h1>
+  <h1 class="what-sandbox-title">{{ 'HOME.WHAT_IS.TITLE' | translate }}</h1>
   <p class="what-sandbox-desc">
-    <span class="black">{{'HOME.WHAT_IS.CONTENT.XS2A' | translate}}</span> {{'HOME.WHAT_IS.CONTENT.PART_1' | translate}}
-    <span class="black">{{'HOME.WHAT_IS.CONTENT.XS2A' | translate}}</span> {{'HOME.WHAT_IS.CONTENT.PART_2' | translate}}
+    {{ 'HOME.WHAT_IS.CONTENT.THE' | translate }}
+    <span class="black">{{ 'HOME.WHAT_IS.CONTENT.XS2A' | translate }}</span>
+    {{ 'HOME.WHAT_IS.CONTENT.PART_1' | translate }}
+    <span class="black">{{ 'HOME.WHAT_IS.CONTENT.XS2A' | translate }}</span>
+    {{ 'HOME.WHAT_IS.CONTENT.PART_2' | translate }}
   </p>
 </div>
 
 <!-- How to use Sandbox -->
 <div class="how-use-api">
-  <h1 class="how-use-api-title">{{'HOME.HOW_TO.TITLE' | translate}}</h1>
+  <h1 class="how-use-api-title">{{ 'HOME.HOW_TO.TITLE' | translate }}</h1>
   <div class="steps-wrapper">
     <div class="step">
-      <span>{{'HOME.HOW_TO.STEP_1.TITLE' | translate}}</span> <span>{{'HOME.HOW_TO.STEP_1.CONTENT' | translate}}</span>
+      <span>{{ 'HOME.HOW_TO.STEP_1.TITLE' | translate }}</span>
+      <span>{{ 'HOME.HOW_TO.STEP_1.CONTENT' | translate }}</span>
     </div>
     <div class="arrow-right"></div>
 
     <div class="step">
-      <span>{{'HOME.HOW_TO.STEP_2.TITLE' | translate}}</span> <span>{{'HOME.HOW_TO.STEP_2.CONTENT' | translate}}</span>
+      <span>{{ 'HOME.HOW_TO.STEP_2.TITLE' | translate }}</span>
+      <span>{{ 'HOME.HOW_TO.STEP_2.CONTENT' | translate }}</span>
     </div>
     <div class="arrow-right"></div>
 
     <div class="step">
-      <span>{{'HOME.HOW_TO.STEP_3.TITLE' | translate}}</span> <span>{{'HOME.HOW_TO.STEP_3.CONTENT' | translate}}</span>
+      <span>{{ 'HOME.HOW_TO.STEP_3.TITLE' | translate }}</span>
+      <span>{{ 'HOME.HOW_TO.STEP_3.CONTENT' | translate }}</span>
     </div>
   </div>
 </div>
@@ -42,26 +48,28 @@
 <!-- PSD2 and XS2A -->
 <div class="open-banking">
   <div class="divider"></div>
-  <h1 class="open-banking-title">{{'HOME.PSD2.TITLE' | translate}}</h1>
+  <h1 class="open-banking-title">{{ 'HOME.PSD2.TITLE' | translate }}</h1>
   <p class="open-banking-desc">
-    <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32015L2366&from=EN" target="_blank">
-      {{'HOME.PSD2.LINK' | translate}}
+    {{ 'HOME.PSD2.THE' | translate }}
+    <a
+      href="https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32015L2366&from=EN"
+      target="_blank"
+    >
+      {{ 'HOME.PSD2.LINK' | translate }}
     </a>
-    {{'HOME.PSD2.CONTENT' | translate}}
+    {{ 'HOME.PSD2.CONTENT' | translate }}
   </p>
 </div>
 
 <!-- XS2ASandbox Features block -->
 <div id="slider">
-  <h1>{{'HOME.FEATURES.TITLE' | translate}}</h1>
-  <p class="features-description">
-    {{'HOME.FEATURES.CONTENT' | translate}}
-  </p>
+  <h1>{{ 'HOME.FEATURES.TITLE' | translate }}</h1>
+  <p class="features-description">{{ 'HOME.FEATURES.CONTENT' | translate }}</p>
   <div *ngFor="let slide of slides" class="slide">
     <img [src]="slide?.photoUrl" alt="" />
-    <p>{{ slide.title | translate}}</p>
+    <p>{{ slide.title | translate }}</p>
     <div class="slide-image-wrapper">
-      <span>{{ slide.description | translate}}</span>
+      <span>{{ slide.description | translate }}</span>
     </div>
   </div>
   <div class="button-block"><button *ngFor="let item of slides"></button></div>
@@ -96,11 +104,15 @@
                   }
             "
           >
-            <span>{{i === 0 || i === 1 ? (text['date'] | date: 'dd.MM.yyyy') : (text['date'] | date: 'MM.yyyy')}}</span>
+            <span>{{
+              i === 0 || i === 1
+                ? (text['date'] | date: 'dd.MM.yyyy')
+                : (text['date'] | date: 'MM.yyyy')
+            }}</span>
             <h1>{{ text['title'] | translate }}</h1>
             <div class="text-wrapper">
               <i class="fas fa-check-circle" *ngIf="i !== 0"></i>
-              <p>{{ text['text'] | translate}}</p>
+              <p>{{ text['text'] | translate }}</p>
             </div>
             <div
               class="circle-divider"
@@ -139,8 +151,10 @@
 <!-- Any questions section -->
 <div class="any-questions">
   <div class="divider"></div>
-  <h1 class="any-questions-title">{{'HOME.QUESTIONS.TITLE' | translate}}</h1>
-  <span class="any-questions-subtitle">{{'HOME.QUESTIONS.ASK' | translate}}</span>
+  <h1 class="any-questions-title">{{ 'HOME.QUESTIONS.TITLE' | translate }}</h1>
+  <span class="any-questions-subtitle">{{
+    'HOME.QUESTIONS.ASK' | translate
+  }}</span>
   <div
     class="person-card"
     *ngIf="contactInfo?.img || contactInfo?.name || contactInfo?.position"

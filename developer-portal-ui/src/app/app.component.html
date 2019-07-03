@@ -52,6 +52,22 @@
         >{{'HEADER.CONTACT' | translate}}</span
       >
     </div>
+    <div class="langs-wrapper">
+      <div class="lang" (click)="collapseThis()">
+        <img class="lang-img" [src]="langIcons[lang]" [alt]="lang">
+        <span class="lang-span">{{lang}}</span>
+      </div>
+
+      <div id="langs" [ngClass]="langCollapsed ? 'collapse-menu--collapsed' : 'collapse-menu'">
+        <div class="lang-wrapper" *ngFor="let lng of langs" (click)="changeLang(lng)" [hidden]="lng === lang" >
+          <div>
+            <img class="lang-img" [src]="langIcons[lng]" [alt]="lng">
+            <span class="lang-span">{{lng}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="header-icons" *ngIf="this.loginService.isLoggedIn()">
       <i class="fas fa-sign-out-alt" (click)="loginService.logOut()"></i>
       <app-settings-modal></app-settings-modal>
