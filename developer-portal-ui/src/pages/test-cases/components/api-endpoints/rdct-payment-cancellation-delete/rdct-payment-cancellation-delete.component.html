@@ -8,14 +8,14 @@
       "
       (click)="changeSegment('documentation')"
     >
-      <span>Documentation</span>
+      <span>{{'TEST_CASES.COMPONENTS.TABS.DOC' | translate}}</span>
     </div>
     <div
       class="endpoint-segment-item"
       [ngClass]="activeSegment === 'play-data' ? 'left-item' : 'unactive-item'"
       (click)="changeSegment('play-data')"
     >
-      <span>Play with data</span>
+      <span>{{'TEST_CASES.COMPONENTS.TABS.PLAY' | translate}}</span>
     </div>
   </div>
 
@@ -26,14 +26,14 @@
       class="endpoint-documentation"
       *ngIf="activeSegment === 'documentation'; else: play_with_data"
     >
-      <h1>STEP 2: Cancel payment</h1>
+      <h1>{{'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.TITLE_1' | translate}}</h1>
       <p>
-        Start with the authorisation process. Follow
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_1' | translate}}
         <app-line-command title="scaRedirect"></app-line-command>
-        link to the online banking page.
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_2' | translate}}
       </p>
       <p>
-        1. Initiate cancellation process with
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_3' | translate}}
         <span class="bold-text">DELETE</span> endpoint
         <app-line-command
           title="/v1/{payment-service}/{payment-product}/{paymentId}"
@@ -41,25 +41,27 @@
         >.
       </p>
       <p>
-        Choose the same
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_4' | translate}}
         <app-line-command title="payment-service"></app-line-command>
-        and
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_5' | translate}}
         <app-line-command title="payment-product"></app-line-command>
-        you chose in <span class="bold-text">STEP 1</span>.
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_6' | translate}}
+        <span class="bold-text">{{'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.STEP' | translate}}</span>.
       </p>
 
       <p>
-        2. Enter payment id you have got from the previous response in
-        <span class="bold-text">STEP 1</span> in the field
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_7' | translate}}
+        <span class="bold-text">{{'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.STEP' | translate}}</span>
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_8' | translate}}
         <app-line-command title="paymentId"></app-line-command>.
       </p>
 
-      <p>
-        3. After choosing payment service and payment product, fill the header
-        fields with the following values:
-      </p>
+      <p>{{'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_9' | translate}}</p>
 
-      <div class="api-table bg th"><span>Header</span> <span>Value</span></div>
+      <div class="api-table bg th">
+        <span>{{'TEST_CASES.COMPONENTS.TH.TH_1' | translate}}</span>
+        <span>{{'TEST_CASES.COMPONENTS.TH.TH_2' | translate}}</span>
+      </div>
       <div class="api-table">
         <span>X-Request-ID</span>
         <span>2f77a125-aa7a-45c0-b414-cea25a116035</span>
@@ -78,14 +80,15 @@
         <span>TPP-Nok-Redirect-URI</span> <span>https://www.google.com</span>
       </div>
       <p>
-        4. Hit <span class="italic-text">"Execute"</span> button and get 200
-        HTTP code and related information.
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_10' | translate}}
+        <span class="italic-text">{{'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.ITALIC_SPAN' | translate}}</span>
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_11' | translate}}
       </p>
-      <h1>STEP 3: Authorise payment</h1>
+      <h1>{{'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.TITLE_2' | translate}}</h1>
       <p>
-        1. Start with the authorisation process for cancellation. Follow
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_12' | translate}}
         <app-line-command title="scaRedirect"></app-line-command>
-        link to the online banking page.
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_13' | translate}}
       </p>
     </div>
 

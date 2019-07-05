@@ -8,14 +8,14 @@
       "
       (click)="changeSegment('documentation')"
     >
-      <span>Documentation</span>
+      <span>{{'TEST_CASES.COMPONENTS.TABS.DOC' | translate}}</span>
     </div>
     <div
       class="endpoint-segment-item"
       [ngClass]="activeSegment === 'play-data' ? 'left-item' : 'unactive-item'"
       (click)="changeSegment('play-data')"
     >
-      <span>Play with data</span>
+      <span>{{'TEST_CASES.COMPONENTS.TABS.PLAY' | translate}}</span>
     </div>
   </div>
 
@@ -26,35 +26,37 @@
       class="endpoint-documentation"
       *ngIf="activeSegment === 'documentation'; else: play_with_data"
     >
-      <h1>STEP 1: Create payment</h1>
+      <h1>{{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.TITLE_1' | translate}}</h1>
       <p>
-        1. Open swagger tab "Payment Initiation Service (PIS)", open
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_1' | translate}}
         <span class="bold-text">POST</span> endpoint
-        <app-line-command
-          title="/v1/{payment-service}/{payment-product}"
-        ></app-line-command>
-        .
+        <app-line-command title="/v1/{payment-service}/{payment-product}"></app-line-command>.
       </p>
       <p>
-        2. Press <span class="italic-text">"Try it out"</span>. Choose
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_2' | translate}}
+        <span class="italic-text">{{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.ITALIC_SPAN' | translate}}</span>
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_3' | translate}}
         <app-line-command title="payment-service"></app-line-command>
-        and
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_4' | translate}}
         <app-line-command title="payment-product"></app-line-command>
-        . Default values would be
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_5' | translate}}
         <app-line-command title="payments"></app-line-command>
-        in
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_6' | translate}}
         <app-line-command title="payment-service"></app-line-command>
-        and
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_7' | translate}}
         <app-line-command title="sepa-credit-transfers"></app-line-command>
-        in
-        <app-line-command title="payment-product"></app-line-command>
-        .
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_8' | translate}}
+        <app-line-command title="payment-product"></app-line-command>.
       </p>
+
       <p>
-        3. After choosing payment service and payment product, fill the header
-        fields with the following values:
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_9' | translate}}
       </p>
-      <div class="api-table bg th"><span>Header</span> <span>Value</span></div>
+
+      <div class="api-table bg th">
+        <span>{{'TEST_CASES.COMPONENTS.TH.TH_1' | translate}}</span>
+        <span>{{'TEST_CASES.COMPONENTS.TH.TH_2' | translate}}</span>
+      </div>
       <div class="api-table">
         <span>X-Request-ID</span>
         <span>2f77a125-aa7a-45c0-b414-cea25a116035</span>
@@ -68,62 +70,67 @@
       <div class="api-table bg">
         <span>PSU-IP-Address</span> <span>1.1.1.1</span>
       </div>
-
+      <div class="api-table">
+        <span>TPP-Redirect-Preferred</span> <span>true</span>
+      </div>
+      <div class="api-table bg">
+        <span>TPP-Redirect-URI</span>
+        <span>https://adorsys.de/en/psd2-tpp/</span>
+      </div>
+      <div class="api-table">
+        <span>TPP-Nok-Redirect-URI</span> <span>https://www.google.com</span>
+      </div>
       <p>
-        Put in <span class="bold-text">YOUR_USER_LOGIN</span> the name of the
-        user you chose (you can view users and their information in TPP-UI).
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_10' | translate}}
+        <span class="bold-text">YOUR_USER_LOGIN</span>
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_11' | translate}}
       </p>
       <p>
-        4. If you chose to create single payment by setting
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_12' | translate}}
         <app-line-command title="payment-service"></app-line-command>
-        to
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_13' | translate}}
         <app-line-command title="payments"></app-line-command>
-        , insert into request body the following json:
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_14' | translate}}
       </p>
       <app-code-area [json]="jsonData1" [id]="'EPICP-1'"></app-code-area>
 
       <p>
-        If you chose to create periodic payment by setting
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_15' | translate}}
         <app-line-command title="payment-service"></app-line-command>
-        to
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_16' | translate}}
         <app-line-command title="periodic-payments"></app-line-command>
-        , insert into request body the following json:
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_17' | translate}}
       </p>
       <app-code-area [json]="jsonData2" [id]="'EPICP-2'"></app-code-area>
 
       <p>
-        If you chose to create bulk payment by setting
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_18' | translate}}
         <app-line-command title="payment-service"></app-line-command>
-        to
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_19' | translate}}
         <app-line-command title="bulk-payments"></app-line-command>
-        , insert into request body the following json:
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_20' | translate}}
       </p>
       <app-code-area [json]="jsonData3" [id]="'EPICP-3'"></app-code-area>
 
       <p>
-        Change placeholder <span class="bold-text">YOUR_USER_IBAN</span> in
-        section
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_21' | translate}}
+        <span class="bold-text">YOUR_USER_IBAN</span>
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_22' | translate}}
       </p>
       <app-code-area [json]="jsonData4" [id]="'EPICP-4'"></app-code-area>
 
       <p>
-        of the json you chose to the IBAN of the user (IBAN should match user
-        login you entered in PSU-ID header above).
+        {{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_23' | translate}}
       </p>
-      <p>5. Execute and get response with code 201 and related information.</p>
-      <p>6. Start with the authorisation process.</p>
+      <p>{{'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_24' | translate}}</p>
+      <p>{{'TEST_CASES.COMPONENTS.EMB_IN_CR_POST.PART_25' | translate}}</p>
       <p>
-        Pay attention to the amount of SCA methods user has: if user has no SCA
-        methods, test payment initiation with the flow described below in
-        <span class="italic-text"
-          >"Payment authorisation for user with no SCA methods"</span
-        >. For user with single SCA method check
-        <span class="italic-text"
-          >"Payment authorisation for user with single SCA method"</span
-        >, and for user with multiple SCA methods check
-        <span class="italic-text"
-          >"Payment authorisation for user with multiple SCA methods"</span
-        >.
+        {{'TEST_CASES.COMPONENTS.EMB_IN_CR_POST.PART_26' | translate}}
+        <span class="italic-text">{{'TEST_CASES.COMPONENTS.EMB_IN_CR_POST.ITALIC_1' | translate}}</span>
+        {{'TEST_CASES.COMPONENTS.EMB_IN_CR_POST.PART_27' | translate}}
+        <span class="italic-text">{{'TEST_CASES.COMPONENTS.EMB_IN_CR_POST.ITALIC_2' | translate}}</span>
+        {{'TEST_CASES.COMPONENTS.EMB_IN_CR_POST.PART_28' | translate}}
+        <span class="italic-text">{{'TEST_CASES.COMPONENTS.EMB_IN_CR_POST.ITALIC_3' | translate}}</span>.
       </p>
     </div>
 

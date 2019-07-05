@@ -7,6 +7,8 @@ import {
   GlobalSettings,
   Theme,
 } from '../services/customize.service';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../services/language.service';
 
 @Component({
   selector: 'app-root',
@@ -15,14 +17,28 @@ import {
 })
 export class AppComponent implements OnInit {
   globalSettings: GlobalSettings;
+  lang = 'en';
+  langs: string[] = ['en', 'ua', 'es', 'de'];
+  langIcons: object = {
+    en: '../assets/icons/united-kingdom.png',
+    de: '../assets/icons/germany.png',
+    es: '../assets/icons/spain.png',
+    ua: '../assets/icons/ukraine.png',
+  };
+  private langCollapsed: boolean;
 
   constructor(
     private router: Router,
     private actRoute: ActivatedRoute,
     public dataService: DataService,
     public loginService: LoginService,
-    public customizeService: CustomizeService
-  ) {}
+    public customizeService: CustomizeService,
+    private translateService: TranslateService,
+    private languageService: LanguageService
+  ) {
+    this.languageService.initializeTranslation();
+    this.langCollapsed = true;
+  }
 
   goToPage(page) {
     this.router.navigateByUrl(`/${page}`);
@@ -32,6 +48,16 @@ export class AppComponent implements OnInit {
     this.dataService.currentRouteUrl = this.actRoute[
       '_routerState'
     ].snapshot.url;
+  }
+
+  changeLang(lang: string) {
+    this.languageService.setLang(lang);
+    this.lang = this.languageService.getLang();
+    this.collapseThis();
+  }
+
+  collapseThis() {
+    this.langCollapsed = !this.langCollapsed;
   }
 
   ngOnInit() {

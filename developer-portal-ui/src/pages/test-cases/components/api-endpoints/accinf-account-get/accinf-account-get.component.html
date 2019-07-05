@@ -8,14 +8,14 @@
       "
       (click)="changeSegment('documentation')"
     >
-      <span>Documentation</span>
+      <span>{{'TEST_CASES.COMPONENTS.TABS.DOC' | translate}}</span>
     </div>
     <div
       class="endpoint-segment-item"
       [ngClass]="activeSegment === 'play-data' ? 'left-item' : 'unactive-item'"
       (click)="changeSegment('play-data')"
     >
-      <span>Play with data</span>
+      <span>{{'TEST_CASES.COMPONENTS.TABS.PLAY' | translate}}</span>
     </div>
   </div>
 
@@ -27,11 +27,14 @@
       *ngIf="activeSegment === 'documentation'; else: play_with_data"
     >
       <p>
-        1. Try GET endpoint
+        {{'TEST_CASES.COMPONENTS.AC_INF_AC.PART_1' | translate}}
         <app-line-command title="/v1/accounts/{account-id}"></app-line-command>
-        to get account with chosen account-id
+        {{'TEST_CASES.COMPONENTS.AC_INF_AC.PART_2' | translate}}
       </p>
-      <div class="api-table bg th"><span>Header</span> <span>Value</span></div>
+      <div class="api-table bg th">
+        <span>{{'TEST_CASES.COMPONENTS.TH.TH_1' | translate}}</span>
+        <span>{{'TEST_CASES.COMPONENTS.TH.TH_2' | translate}}</span>
+      </div>
       <div class="api-table">
         <span>X-Request-ID</span>
         <span>2f77a125-aa7a-45c0-b414-cea25a116035</span>
@@ -43,8 +46,9 @@
         <span>PSU-IP-Address</span> <span>1.1.1.1</span>
       </div>
       <p>
-        Put in <span class="bold-text">CONSENT_ID</span> the consent-id of account
-        that you want to get(you can view users and their information in TPP-UI).
+        {{'TEST_CASES.COMPONENTS.AC_INF_AC.PART_3' | translate}}
+        <span class="bold-text">CONSENT_ID</span>
+        {{'TEST_CASES.COMPONENTS.AC_INF_AC.PART_4' | translate}}
       </p>
     </div>
 

@@ -29,6 +29,9 @@ import { FormsModule } from '@angular/forms';
 import { ngxLoadingAnimationTypes, NgxLoadingModule } from 'ngx-loading';
 import { CodeAreaComponent } from '../../custom-elements/code-area/code-area.component';
 import { PrettyJsonPipe } from '../../pipes/pretty-json.pipe';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {HttpLoaderFactory} from '../../services/translate.factory';
+import {HttpClient} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -66,6 +69,7 @@ import { PrettyJsonPipe } from '../../pipes/pretty-json.pipe';
     NgxLoadingModule.forRoot({
       animationType: ngxLoadingAnimationTypes.wanderingCubes,
     }),
+    TranslateModule,
   ],
   exports: [
     LineCommandComponent,

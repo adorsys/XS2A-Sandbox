@@ -8,14 +8,14 @@
       "
       (click)="changeSegment('documentation')"
     >
-      <span>Documentation</span>
+      <span>{{'TEST_CASES.COMPONENTS.TABS.DOC' | translate}}</span>
     </div>
     <div
       class="endpoint-segment-item"
       [ngClass]="activeSegment === 'play-data' ? 'left-item' : 'unactive-item'"
       (click)="changeSegment('play-data')"
     >
-      <span>Play with data</span>
+      <span>{{'TEST_CASES.COMPONENTS.TABS.PLAY' | translate}}</span>
     </div>
   </div>
 
@@ -26,18 +26,22 @@
       class="endpoint-documentation"
       *ngIf="activeSegment === 'documentation'; else: play_with_data"
     >
-      <h1>STEP 1: Create consent</h1>
+      <h1>{{'TEST_CASES.COMPONENTS.RDCT_CONS.TITLE_1' | translate}}</h1>
       <p>
-        1. Open swagger tab "Account Information Service (AIS)", open
+        {{'TEST_CASES.COMPONENTS.RDCT_CONS.PART_1' | translate}}
         <span class="bold-text">POST</span> endpoint
         <app-line-command title="/v1/consents"></app-line-command>.
       </p>
       <p>
-        2. Press <span class="italic-text">"Try it out"</span>, fill the header
-        fields with the following values:
+        {{'TEST_CASES.COMPONENTS.RDCT_CONS.PART_2' | translate}}
+        <span class="italic-text">{{'TEST_CASES.COMPONENTS.RDCT_CONS.ITALIC_SPAN' | translate}}</span>
+        {{'TEST_CASES.COMPONENTS.RDCT_CONS.PART_3' | translate}}
       </p>
 
-      <div class="api-table bg th"><span>Header</span> <span>Value</span></div>
+      <div class="api-table bg th">
+        <span>{{'TEST_CASES.COMPONENTS.TH.TH_1' | translate}}</span>
+        <span>{{'TEST_CASES.COMPONENTS.TH.TH_2' | translate}}</span>
+      </div>
       <div class="api-table">
         <span>X-Request-ID</span>
         <span>2f77a125-aa7a-45c0-b414-cea25a116035</span>
@@ -63,26 +67,24 @@
       </div>
 
       <p>
-        Put in <span class="bold-text">YOUR_USER_LOGIN</span> the name of the
-        user you chose (you can view users and their information in TPP-UI).
+        {{'TEST_CASES.COMPONENTS.RDCT_CONS.PART_4' | translate}}
+        <span class="bold-text">YOUR_USER_LOGIN</span>
+        {{'TEST_CASES.COMPONENTS.RDCT_CONS.PART_5' | translate}}
       </p>
-      <p>
-        3. Insert into request body the following json for available accounts
-        consent:
-      </p>
+      <p>{{'TEST_CASES.COMPONENTS.RDCT_CONS.PART_6' | translate}}</p>
       <app-code-area [json]="jsonData" [id]="'RCP'"></app-code-area>
 
       <p>
-        Change placeholder <span class="bold-text">YOUR_USER_IBAN</span> to the
-        IBAN of the user (IBAN should match user login you entered in PSU-ID
-        header above).
+        {{'TEST_CASES.COMPONENTS.RDCT_CONS.PART_7' | translate}}
+        <span class="bold-text">YOUR_USER_IBAN</span>
+        {{'TEST_CASES.COMPONENTS.RDCT_CONS.PART_8' | translate}}
       </p>
-      <p>4. Execute and get response with code 201 and related information.</p>
-      <h1>STEP 2: Authorise consent</h1>
+      <p>{{'TEST_CASES.COMPONENTS.RDCT_CONS.PART_9' | translate}}</p>
+      <h1>{{'TEST_CASES.COMPONENTS.RDCT_CONS.TITLE_2' | translate}}</h1>
       <p>
-        1. Start with the authorisation process for consent: follow the link
-        <app-line-command title="scaRedirect"></app-line-command> to the online
-        banking page.
+        {{'TEST_CASES.COMPONENTS.RDCT_CONS.PART_10' | translate}}
+        <app-line-command title="scaRedirect"></app-line-command>
+        {{'TEST_CASES.COMPONENTS.RDCT_CONS.PART_11' | translate}}
       </p>
     </div>
 

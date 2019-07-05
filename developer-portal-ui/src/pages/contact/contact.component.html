@@ -1,8 +1,8 @@
 <!-- Any questions section -->
 <div class="any-questions">
   <div class="divider"></div>
-  <h1 class="any-questions-title">Any Questions?</h1>
-  <span class="any-questions-subtitle">Ask this person.</span>
+  <h1 class="any-questions-title">{{'CONTACT.TITLE_1' | translate}}</h1>
+  <span class="any-questions-subtitle">{{'CONTACT.SUBTITLE' | translate}}</span>
   <div class="person-card">
     <div class="person-card-image-wrapper">
       <img [src]="contactInfo?.img" alt="" />
@@ -22,7 +22,7 @@
 <!-- Contacts section -->
 <div class="contacts-wrapper">
   <div class="divider"></div>
-  <h1 class="contacts-title">Contact</h1>
+  <h1 class="contacts-title">{{'CONTACT.TITLE_2' | translate}}</h1>
 
   <div class="contacts-card">
     <div class="contacts-content" *ngFor="let office of officesInfo">

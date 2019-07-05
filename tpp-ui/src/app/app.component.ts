@@ -1,6 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AuthService} from "./services/auth.service";
-import {Subscription} from "rxjs";
+import {Component, OnInit} from '@angular/core';
 
 @Component({
     selector: 'app-root',
@@ -13,5 +11,7 @@ export class AppComponent implements OnInit {
     constructor() {
     }
 
-    ngOnInit() {}
+    ngOnInit() {
+    }
+
 }

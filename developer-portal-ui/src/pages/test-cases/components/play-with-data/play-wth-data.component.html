@@ -114,7 +114,8 @@
   </div>
 
   <div class="play-with-data-table bg th">
-    <span>Header</span> <span>Value</span>
+    <span>{{'TEST_CASES.COMPONENTS.TH.TH_1' | translate}}</span>
+    <span>{{'TEST_CASES.COMPONENTS.TH.TH_2' | translate}}</span>
   </div>
   <div
     class="play-with-data-table"
@@ -171,10 +172,7 @@
             />
           </td>
           <td>
-            <button
-              class="copy-btn"
-              (click)="copyService.copyThis(i, fieldsToCopy)"
-            >
+            <button class="copy-btn" (click)="copyService.copyThis(i, fieldsToCopy)">
               Copy
             </button>
           </td>
@@ -196,12 +194,8 @@
 
   <div class="btns">
     <button class="submit-btn" (click)="sendRequest()">Submit</button>
-    <a
-      [href]="redirectUrl"
-      target="_blank"
-      class="redirect-btn"
-      *ngIf="redirectUrl"
-      >Redirect Url</a
-    >
+    <a [href]="redirectUrl" target="_blank" class="redirect-btn" *ngIf="redirectUrl">
+      Redirect Url
+    </a>
   </div>
 </div>

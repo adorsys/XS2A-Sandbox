@@ -8,59 +8,48 @@
       "
       (click)="changeSegment('documentation')"
     >
-      <span>Documentation</span>
+      <span>{{'TEST_CASES.COMPONENTS.TABS.DOC' | translate}}</span>
     </div>
     <div
       class="endpoint-segment-item"
       [ngClass]="activeSegment === 'play-data' ? 'left-item' : 'unactive-item'"
       (click)="changeSegment('play-data')"
     >
-      <span>Play with data</span>
+      <span>{{'TEST_CASES.COMPONENTS.TABS.PLAY' | translate}}</span>
     </div>
   </div>
 
   <!-- Main content -->
   <div class="endpoint-main-content">
     <!-- Documentation -->
-    <div
-      class="endpoint-documentation"
-      *ngIf="activeSegment === 'documentation'; else: play_with_data"
-    >
+    <div class="endpoint-documentation" *ngIf="activeSegment === 'documentation'; else: play_with_data">
       <p>
-        1. Try GET endpoint
-        <app-line-command
-          title="/v1/{payment-service}/{payment-product}/{paymentId}"
-        ></app-line-command>
-        to get payment information and GET endpoint
-        <app-line-command
-          title="/v1/{payment-service}/{payment-product}/{paymentId}/status"
-        ></app-line-command>
-        to check current status of the payment.
+        {{'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_1' | translate}}
+        <app-line-command title="/v1/{payment-service}/{payment-product}/{paymentId}"></app-line-command>
+        {{'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_2' | translate}}
+        <app-line-command title="/v1/{payment-service}/{payment-product}/{paymentId}/status"></app-line-command>
+        {{'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_3' | translate}}
       </p>
       <p>
-        2. Try GET endpoint
-        <app-line-command
-          title="/v1/{payment-service}/{payment-product}/{paymentId}/authorisations"
-        ></app-line-command>
-        to get authorisation information and GET endpoint
-        <app-line-command
-          title="/v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}"
-        ></app-line-command>
-        to check current status of the authorisation.
+        {{'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_4' | translate}}
+        <app-line-command title="/v1/{payment-service}/{payment-product}/{paymentId}/authorisations"></app-line-command>
+        {{'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_5' | translate}}
+        <app-line-command title="/v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}"></app-line-command>
+        {{'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_6' | translate}}
       </p>
-      <span class="bold-text">Main steps:</span>
+      <span class="bold-text">{{'TEST_CASES.COMPONENTS.EMB_IN_GET.SUBTITLE' | translate}}</span>
       <p>
-        1. Choose
+        {{'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_7' | translate}}
         <app-line-command title="payment-service"></app-line-command>
-        and
+        {{'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_8' | translate}}
         <app-line-command title="payment-product"></app-line-command>
-        . Use the same values you used in the steps before.
+        {{'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_9' | translate}}
       </p>
-      <p>
-        2. After choosing payment service and payment product, fill the header
-        fields with the following values:
-      </p>
-      <div class="api-table bg th"><span>Header</span> <span>Value</span></div>
+      <p>{{'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_10' | translate}}</p>
+      <div class="api-table bg th">
+        <span>{{'TEST_CASES.COMPONENTS.TH.TH_1' | translate}}</span>
+        <span>{{'TEST_CASES.COMPONENTS.TH.TH_2' | translate}}</span>
+      </div>
       <div class="api-table">
         <span>X-Request-ID</span>
         <span>2f77a125-aa7a-45c0-b414-cea25a116035</span>
@@ -75,8 +64,9 @@
         <span>PSU-IP-Address</span> <span>1.1.1.1</span>
       </div>
       <p>
-        Put in <span class="bold-text">YOUR_USER_LOGIN</span> the name of the
-        user you chose (you can view users and their information in TPP-UI).
+        {{'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_11' | translate}}
+        <span class="bold-text">YOUR_USER_LOGIN</span>
+        {{'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_12' | translate}}
       </p>
     </div>
 

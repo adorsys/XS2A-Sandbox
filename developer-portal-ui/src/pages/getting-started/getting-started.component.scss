@@ -7,6 +7,7 @@ h1 {
 
 .bold {
   font-weight: 900;
+  color: black;
 }
 
 .getting-started-container {
@@ -40,6 +41,7 @@ a {
 
 img {
   margin-top: 3vw;
+  width: 100%;
 }
 
 section {
@@ -63,6 +65,10 @@ section {
       width: 30%;
       font-size: 1vw;
     }
+  }
+  .currently-disabled-features {
+    font-size: 1.2vw;
+    color: #9e9e9e;
   }
   .app-line-command-wrapper {
     border: 1px solid #e8e8ea;

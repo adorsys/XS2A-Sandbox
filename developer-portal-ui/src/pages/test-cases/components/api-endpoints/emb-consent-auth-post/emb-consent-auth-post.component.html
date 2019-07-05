@@ -8,14 +8,14 @@
       "
       (click)="changeSegment('documentation')"
     >
-      <span>Documentation</span>
+      <span>{{'TEST_CASES.COMPONENTS.TABS.DOC' | translate}}</span>
     </div>
     <div
       class="endpoint-segment-item"
       [ngClass]="activeSegment === 'play-data' ? 'left-item' : 'unactive-item'"
       (click)="changeSegment('play-data')"
     >
-      <span>Play with data</span>
+      <span>{{'TEST_CASES.COMPONENTS.TABS.PLAY' | translate}}</span>
     </div>
   </div>
 
@@ -26,27 +26,24 @@
       class="endpoint-documentation"
       *ngIf="activeSegment === 'documentation'; else: play_with_data"
     >
-      <h1>STEP 2: Consent authorisation</h1>
+      <h1>{{'TEST_CASES.COMPONENTS.EMB_CONS_AUTH.TITLE' | translate}}</h1>
 
       <p>
-        1. Start authorisation process with
+        {{'TEST_CASES.COMPONENTS.EMB_CONS_AUTH.PART_1' | translate}}
         <span class="bold-text">POST</span> endpoint
-        <app-line-command
-          title="/v1/consents/{consentId}/authorisations"
-        ></app-line-command>
-        .
+        <app-line-command title="/v1/consents/{consentId}/authorisations"></app-line-command>.
       </p>
       <p>
-        2. Enter consent id you have got from the previous response in
-        <span class="bold-text">STEP 1</span> in the field
-        <app-line-command title="consentId"></app-line-command>
-        .
+        {{'TEST_CASES.COMPONENTS.EMB_CONS_AUTH.PART_2' | translate}}
+        <span class="bold-text">{{'TEST_CASES.COMPONENTS.EMB_CONS_AUTH.STEP' | translate}}</span>
+        {{'TEST_CASES.COMPONENTS.EMB_CONS_AUTH.PART_3' | translate}}
+        <app-line-command title="consentId"></app-line-command>.
       </p>
-      <p>
-        3. After providing consent id, fill the header fields with the following
-        values:
-      </p>
-      <div class="api-table bg th"><span>Header</span> <span>Value</span></div>
+      <p>{{'TEST_CASES.COMPONENTS.EMB_CONS_AUTH.PART_4' | translate}}</p>
+      <div class="api-table bg th">
+        <span>{{'TEST_CASES.COMPONENTS.TH.TH_1' | translate}}</span>
+        <span>{{'TEST_CASES.COMPONENTS.TH.TH_2' | translate}}</span>
+      </div>
       <div class="api-table">
         <span>X-Request-ID</span>
         <span>2f77a125-aa7a-45c0-b414-cea25a116035</span>
@@ -55,13 +52,14 @@
         <span>PSU-ID</span> <span>YOUR_USER_LOGIN</span>
       </div>
       <p>
-        Put in <span class="bold-text">YOUR_USER_LOGIN</span> the name of the
-        user you chose (you can view users and their information in TPP-UI).
+        {{'TEST_CASES.COMPONENTS.EMB_CONS_AUTH.PART_5' | translate}}
+        <span class="bold-text">YOUR_USER_LOGIN</span>
+        {{'TEST_CASES.COMPONENTS.EMB_CONS_AUTH.PART_6' | translate}}
       </p>
       <p>
-        4. Start authorisation by hitting
-        <span class="italic-text">"Execute"</span> button and get 201 HTTP code
-        and related information.
+        {{'TEST_CASES.COMPONENTS.EMB_CONS_AUTH.PART_7' | translate}}
+        <span class="italic-text">{{'TEST_CASES.COMPONENTS.EMB_CONS_AUTH.ITALIC' | translate}}</span>
+        {{'TEST_CASES.COMPONENTS.EMB_CONS_AUTH.PART_8' | translate}}
       </p>
     </div>
 

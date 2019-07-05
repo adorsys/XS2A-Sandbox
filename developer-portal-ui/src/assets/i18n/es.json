@@ -1,0 +1,842 @@
+{
+  "HEADER": {
+    "GETTING_STARTED": "Getting started",
+    "TEST_CASES": "Casos de prueba",
+    "FAQ": "FAQ",
+    "CONTACT": "Contactos"
+  },
+  "FOOTER": {
+    "GETTING_STARTED": "Getting started",
+    "TEST_CASES": "Casos de prueba",
+    "FAQ": "FAQs",
+    "CONTACT": "Contactos"
+  },
+  "HOME": {
+    "HEADER": {
+      "TITLE_1": "Portal de desarrolladores",
+      "TITLE_2": "por adorsys",
+      "SUBTITLE_1": "Creando nuevos, digitales",
+      "SUBTITLE_2": "servicios a través de Open",
+      "SUBTITLE_3": "Banking"
+    },
+    "WHAT_IS": {
+      "TITLE": "¿Qué es XS2A Sandbox?",
+      "CONTENT": {
+        "THE": "El",
+        "XS2A": "XS2ASandbox",
+        "PART_1": "es un entorno dinámico de sandbox que cumple completamente con los requisitos de PSD2 para proporcionar API para terceros proveedores (TPP). Basado en la especificación NextGen PSD2 de Berlin Group para el acceso a las cuentas (XS2A),",
+        "PART_2": "cumple todos los requisitos reglamentarios y cumple con NISP. Este portal de desarrolladores se crea para ayudar a los desarrolladores de TPP a comenzar a trabajar con XS2A Sandbox."
+      }
+    },
+    "HOW_TO": {
+      "TITLE": "Cómo usar el XS2A Sandbox",
+      "STEP_1": {
+        "TITLE": "Paso 1",
+        "CONTENT": "Leer el manual de «Cómo empezar»."
+      },
+      "STEP_2": {
+        "TITLE": "Paso 2",
+        "CONTENT": "Descargar, instalar y ejecutar XS2A Sandbox"
+      },
+      "STEP_3": {
+        "TITLE": "Paso 3",
+        "CONTENT": "¡Lea «Prueba de flujos» y comience a probar!"
+      }
+    },
+    "PSD2": {
+      "TITLE": "PSD2 y Open Banking",
+      "THE": "La",
+      "LINK": "Directiva de Servicios de Pago 2 (PSD2)",
+      "CONTENT": "instruye a los bancos (Proveedores de Servicios de Pago de Servicio de Cuentas o ASPSP) para que proporcionen una interfaz de Acceso a la Cuenta (XS2A) completamente productiva a Terceros Proveedores (TPP) hasta septiembre de 2019. El propio XS2A consiste en servicios bancarios para iniciar pagos (PIS), solicitar datos de cuenta (AIS) y obtener la confirmación de la disponibilidad de fondos (PIIS). Para garantizar el cumplimiento de este plazo debido a las adaptaciones y los errores, PSD2 reclama a los bancos que proporcionen un Sandbox dinámica y funcional que ofrece los servicios XS2A en un entorno no productivo hasta junio de 2019."
+    },
+    "FEATURES": {
+      "TITLE": "XS2ASandbox Features",
+      "CONTENT": "XS2ASandbox is a dynamic sandbox environment: you can create users, payments\n    and consents, play with data for testing purposes. With dynamic sandbox TPP\n    UI you can access banking API directly, get TPP certificate and manage\n    testing accounts. The developer portal contains testing instructions and all\n    needed test-cases. All XS2ASandbox services can be installed and run in one\n    simple command. Two main SCA approaches are supported: REDIRECT and\n    EMBEDDED. For redirect approach online banking demo UI was created.",
+      "SLIDES": {
+        "SLIDE_1": {
+          "TITLE": "Plug and Play",
+          "CONTENT": "Ready to use solution, which can be easily installed"
+        },
+        "SLIDE_2": {
+          "TITLE": "Detailed Documentation",
+          "CONTENT": "Well described documentation on a developer portal"
+        },
+        "SLIDE_3": {
+          "TITLE": "Reliable test options",
+          "CONTENT": "TPP-Test certificate generation tool and NISP Tests"
+        },
+        "SLIDE_4": {
+          "TITLE": "Customizable User Interface",
+          "CONTENT": "TPP-UI for users and account management on the bank side"
+        },
+        "SLIDE_5": {
+          "TITLE": "Customer focused",
+          "CONTENT": "Client-oriented approach, flexible solution for customer needs and customer support"
+        },
+        "SLIDE_6": {
+          "TITLE": "Realistic Simulation",
+          "CONTENT": "Real bank system emulations with embedded XS2A API"
+        },
+        "SLIDE_7": {
+          "TITLE": "Wide range of services",
+          "CONTENT": "Accounting Service, Security Service and Payment Service"
+        },
+        "SLIDE_8": {
+          "TITLE": "Open source",
+          "CONTENT": "Open source project, available on GitHub and constantly updated"
+        }
+      }
+    },
+    "HISTORY": {
+      "TITLE": "Product History",
+      "PRODUCT": {
+        "POINT_1": {
+          "TITLE": "Project Kick-Off with two Team Members",
+          "CONTENT": ""
+        },
+        "POINT_2": {
+          "TITLE": "PreDemo of MVP 1.0",
+          "CONTENT": "Embedded approach: PIS, AIS, PIIS"
+        },
+        "POINT_3": {
+          "TITLE": "DEMO of MVP 1.0",
+          "CONTENT": "Embedded and redirected approaches"
+        },
+        "POINT_4": {
+          "TITLE": "Release of XS2ASandbox ver 1.0",
+          "CONTENT": "Support of Redirect and Embedded approach: TPP-UI, Online Banking"
+        },
+        "POINT_5": {
+          "TITLE": "Release ver 1.1",
+          "CONTENT": "Multilevel SCA, Multicurrency accounts"
+        }
+      }
+    },
+    "QUESTIONS": {
+      "TITLE": "¿Tienes algunas preguntas?",
+      "ASK": "Pregunta a este hombre."
+    }
+  },
+  "GETTING_STARTED": {
+    "INTRODUCTION": {
+      "TITLE": "Empezando",
+      "CONTENT": {
+        "THE_1": "La",
+        "LINK": "Directiva de Servicios de Pago 2 (PSD2)",
+        "PART_1": "instruye a los bancos (Proveedores de Servicios de Pago de Servicio de Cuentas o ASPSP) para que proporcionen una interfaz de Acceso a la Cuenta (XS2A) completamente productiva a Terceros Proveedores (TPP) hasta septiembre de 2019. El propio XS2A consiste en servicios bancarios para iniciar pagos (PIS), solicitar datos de cuenta (AIS) y obtener la confirmación de la disponibilidad de fondos (PIIS). Para garantizar el cumplimiento de este plazo debido a las adaptaciones y los errores, PSD2 reclama a los bancos que proporcionen un Sandbox dinámica y funcional que ofrece los servicios XS2A en un entorno no productivo hasta junio de 2019.",
+        "THE_2": "El",
+        "XS2A": "XS2ASandbox",
+        "PART_2": "es un entorno de entorno de pruebas dinámico que cumple completamente los requisitos de PSD2 para proporcionar API a Terceros Proveedores(TPP). Basado en la especificación NextGen PSD2 del Grupo de Berlín para el acceso a cuentas (XS2A),",
+        "PART_3": "Este portal de desarrolladores se crea para ayudar a los desarrolladores de TPP a comenzar a trabajar con XS2ASandbox."
+      }
+    },
+    "ARCHITECTURE": {
+      "TITLE": "Arquitectura y módulos de XS2ASandbox",
+      "CONTENT": "Los componentes de XS2ASandbox con sus conexiones entre sí se muestran en la Figura 1.1.",
+      "CAPTION": "Figura 1.1: Componentes de la XS2ASandbox"
+    },
+    "INTERFACE": {
+      "TITLE": "Interfaz XS2A",
+      "CONTENT": {
+        "PART_1": "El componente central de",
+        "XS2A": "XS2ASandbox",
+        "PART_2": "es la interfaz XS2A que cumple con los requisitos del Grupo de Berlín",
+        "PART_3": "(versión 1.3) y se basa en datos de prueba. Puede visitar nuestra interfaz de usuario",
+        "PART_4": "o encontrar la interfaz completa de ",
+        "LINK": "OpenSource XS2A en Github."
+      }
+    },
+    "PROFILE": {
+      "TITLE": "Perfil ASPSP",
+      "CONTENT": {
+        "PART_1": "Además de la interfaz real, PSD2 instruye a los ASPSP para que ofrezcan una documentación técnica gratuita que contenga, entre otros, información sobre productos de pago admitidos y servicios de pago. Esta información se almacena en",
+        "ASPSP": "ASPSP-profile",
+        "PART_2": " (perfil de banco), un servicio basado en el archivo yaml donde un banco puede proporcionar productos de pago, servicios de pago, enfoques SCA compatibles y otras configuraciones específicas del banco."
+      },
+      "SUBTITLE_1": "Configuración activa de XS2A (perfil del banco)",
+      "LIST": {
+        "LI_1": "Enfoque SCA soportado: Redirect y Embeded",
+        "LI_2": "Tipos de pago disponibles y productos de pago para cada tipo:",
+        "UL_1": {
+          "LI_1": "Soltero (sepa-credit-transfers)",
+          "LI_2": "Fechado en el futuro (sepa-credit-transfers)",
+          "LI_3": "Masivo (sepa-credit-transfers)",
+          "LI_4": "Periódico (sepa-credit-transfers)"
+        },
+        "LI_3": "Confirmación de Fondos: apoyado",
+        "LI_4": "Redireccionar URLs a la Banca en Línea",
+        "UL_2": {
+          "LI_1": "Redirect URL for Payment confirmation: **\n http://localhost:4400/payment-initiation/login?paymentId=encrypted-payment-id&redirectId=redirect-id\n **",
+          "LI_2": "Redirect URL for Payment cancellation: **\n http://localhost:4400/payment-cancellation/login?paymentId=encrypted-payment-id&redirectId=redirect-id\n **",
+          "LI_3": "Redirect URL for Account Consent confirmation: **\n http://localhost:4400/account-information/login?encryptedConsentId=encrypted-consent-id&redirectId=redirect-id\n **"
+        },
+        "LI_5": "Tipos de Consentimientos soportados:",
+        "UL_3": {
+          "LI_1": "Dedicado: si",
+          "LI_2": "Ofrecido por el Banco: si",
+          "LI_3": "Global: si",
+          "LI_4": "Cuentas disponibles: si"
+        },
+        "DISABLED": "Características actualmente deshabilitadas:",
+        "LI_6": "Cesta de firma",
+        "LI_7": "Informes delta"
+      },
+      "SUBTITLE_2": "Configuración de perfil ASPSP correspondiente en el archivo .yaml:"
+    },
+    "CERTIFICATE": {
+      "TITLE": "Servicio de Certificación TPP",
+      "CONTENT": {
+        "PART_1": "Generalmente, antes de acceder a los servicios XS2A, un TPP tendría que registrarse en su Autoridad Nacional Competente (NCA) y solicitar un certificado",
+        "PART_2": "en un Proveedor de Servicios de Fideicomiso (TSP) apropiado. Sería demasiado esfuerzo emitir un certificado real solo para fines de prueba, por lo que",
+        "XS2A": "XS2ASandbox",
+        "PART_3": "simula además un TSP ficticio que emite Certificados de autenticación de sitios web calificados (QWAC). Un QWAC es parte de eIDAS y podría ser mejor conocido como certificado",
+        "PART_4": "Para propósitos de PSD2, el certificado se extiende por QcStatement que contiene los valores apropiados, como los roles del PSP (consulte",
+        "PART_5": "Después de incrustar el QWAC en la solicitud XS2A real, el rol y la firma se validan en un proxy central inverso antes de pasar finalmente a la interfaz donde tiene lugar la lógica bancaria."
+      }
+    },
+    "UI": {
+      "TITLE": "Interfaz de usuario TPP",
+      "CONTENT": "Los desarrolladores de TPP pueden registrarse en el sistema, obtener certificados y descargar datos de prueba para su aplicación TPP utilizando el certificado generado y los datos preparados en la interfaz de usuario de TPP."
+    },
+    "OBA": {
+      "TITLE": "Online Banking",
+      "CONTENT": "En el caso de un enfoque de REDIRECT SCA, un usuario desea dar su consentimiento para utilizar la información de su cuenta o para confirmar / cancelar el pago. La banca en línea es una interfaz de usuario para proporcionar consentimiento a un banco. Los enlaces para la confirmación de consentimiento y la confirmación o cancelación de pago se proporcionan en la respuesta de los puntos finales correspondientes."
+    },
+    "LINKS_TO": {
+      "TITLE": "Enlaces a entornos",
+      "TABLE": {
+        "R1_C1": "Service",
+        "R1_C2": "Local environment",
+        "R1_C3": "XS2ASandbox Demo environment",
+        "R2": "Developer portal",
+        "R3": "XS2A Interface Swagger",
+        "R4": "Consent management system",
+        "R5": "Ledgers",
+        "R6": "ASPSP-Profile Swagger",
+        "R7": "TPP User Interface",
+        "R8": "Online banking UI",
+        "R9": "Online banking backend",
+        "R10": "Certificate Generator"
+      }
+    },
+    "HOW_TO_DOWN": {
+      "TITLE": "Cómo descargar, configurar y ejecutar el proyecto",
+      "SUBTITLE_1": "Prerrequisitos",
+      "CONTENT": {
+        "PART_1": "Este sandbox se ejecuta con el docker-compose que se puede encontrar en docker-compose.yml y Makefile en el directorio del proyecto. Pero antes de ejecutar XS2ASandbox, primero verifique si todas las dependencias de compilación están instaladas:",
+        "PART_2": "Si falta algo, instálelo en su máquina local, de lo contrario la compilación fallará. Lista de dependencias que se requieren para usar XS2ASandbox: Java 8, NodeJs, CLI angular, Asciidoctor, jq, Docker, Docker Compose, Maven, PlantUML. Aquí están los enlaces donde puede instalar las dependencias necesarias:",
+        "TH_1": "Dependency",
+        "TH_2": "Link",
+        "PART_3": "Dejar de correr contenedores en terminal con combinación de teclas Control + C.",
+        "PART_4": "Puede eliminar todos los contenedores de Sandbox de Docker con el siguiente comando:"
+      },
+      "SUBTITLE_2": "Nota 1",
+      "TEXT_1": "Utilice la versión Node.js inferior a 12 (por ejemplo, 10.x.x o 11.x.x). De lo contrario, las aplicaciones angular no se construirían debido a conflictos de versión.",
+      "SUBTITLE_3": "Nota 2",
+      "TEXT_2": "Verifique la cantidad de memoria asignada a Docker (Abra Docker Desktop -> Preferencias -> Avanzado -> Memoria). Para un inicio rápido e indoloro de todos los servicios, no debe ser inferior a 5 GB",
+      "SUBSECTION_1": {
+        "TITLE": "Descargar XS2ASandbox",
+        "PART_1": "Descargue el proyecto directamente",
+        "LINK": "desde GitHub",
+        "PART_2": "o use el comando:"
+      },
+      "SUBSECTION_2": {
+        "TITLE": "Construye y ejecuta XS2ASandbox",
+        "PART_1": "Después de descargar el proyecto vaya al directorio del proyecto:",
+        "PART_2": "Construye todos los servicios con el comando:",
+        "PART_3": "Después de crear los servicios, puede ejecutar XS2ASandbox de dos maneras, con un simple comando acoplable:",
+        "PART_4": "O con los comandos de Makefile:",
+        "PART_5": "1. Construir y ejecutar servicios",
+        "PART_6": "2. Ejecutar servicios sin construir"
+      }
+    },
+    "TROUBLES": {
+      "TITLE": "Solución de problemas",
+      "PART_1": "Estos son errores comunes que puede obtener durante el inicio de XS2ASandbox y una instrucción sobre cómo deshacerse de él:",
+      "SUBTITLE_1": "Error de lista de cambios de liquibase",
+      "PART_2": "Este error puede producirse si tuvo un inicio incorrecto de XS2ASandbox anteriormente. Ejemplo de posible stack trace:",
+      "PART_3": "Solución posible:",
+      "PART_4": "Busque y elimine todas las carpetas \"ledgerdbs\" y \"xs2adbs\". Borrar todos los contenedores docker con el comando:",
+      "PART_5": "Reinicie todos los servicios.",
+      "SUBTITLE_2": "Error de versión del nodo",
+      "PART_6": "Este error se puede producir debido a una versión incorrecta de NodeJs (versión superior a 11.x). Ejemplo de posible  stack trace:",
+      "PART_7": "Solución posible:",
+      "PART_8": "Primero, verifique su versión de NodeJs con el comando:",
+      "PART_9": "Si la versión es superior a 11.x, cambie la versión de NodeJs a una anterior."
+    },
+    "HOW_TO_REG": {
+      "TITLE": "Cómo registrar TPP y comenzar testing",
+      "LIST": {
+        "LI_1": "Abra la página de inicio de sesión",
+        "LINK": "de la interfaz de usuario de TPP",
+        "LI_2": "Si Usted no tiene nombre de usuario y contraseña, regístrese Usted mismo haciendo clic en el botón \"Registrarse\".",
+        "LI_3": "Regístrese, cree un certificado e inicie sesión en el sistema. Nota: la identificación de TPP debe constar de al menos 8 dígitos, no se permiten letras ni otros signos.",
+        "LI_4": "Sube los datos de prueba y comienza a probar.",
+        "TEXT_1": "El flujo completo para que los TPP comiencen su trabajo con XS2ASandbox se muestra en la Figura 1.2:",
+        "TEXT_2": "Figura 1.2: flujo de TPP paso a paso"
+      }
+    },
+    "HOW_TO_CST": {
+      "TITLE": "How to customize UI of developer portal",
+      "TOP_LIST": {
+        "LI_1": "Create .json file with name UITheme.",
+        "LI_2": "Json example",
+        "LI_3": "Json fields.",
+        "LIST_1": {
+          "LI_1": "globalSettings - required",
+          "INNER_LIST_1": {
+            "LI_1": "logo - required, value: string, http url or file name with\n extension or ' '",
+            "LI_2": "fontFamily - optional, value: string, font-name or font-name,\n font-family",
+            "LI_3": "headerBG - optional, value: string, hex",
+            "LI_4": "headerFontColor - optional, value: string, hex",
+            "LI_5": "footerBG - optional, value: string, hex",
+            "LI_6": "footerFontColor - optional, value: string, hex",
+            "LI_7": "facebook - optional, value: string, http url",
+            "LI_8": "linkedIn - optional, value: string, http url"
+          },
+          "LI_2": "contactInfo - required",
+          "INNER_LIST_2": {
+            "LI_1": "name - required, value: string",
+            "LI_2": "position - required, value: string",
+            "LI_3": "img - required, value: string, http url or file name with\n extension",
+            "LI_4": "email - optional, value: string",
+            "LI_5": "phone - optional, value: string"
+          },
+          "LI_3": "officesInfo - required. Array of 2 elements.",
+          "INNER_LIST_3": {
+            "LI_1": "city - required, value: string",
+            "LI_2": "company - required, value: string",
+            "LI_3": "addressFirstLine - required, value: string",
+            "LI_4": "addressSecondLine - required, value: string",
+            "LI_5": "phone - optional, value: string",
+            "LI_6": "email - optional, value: string",
+            "LI_7": "facebook - optional, value: string, http url",
+            "LI_8": "linkedIn - optional, value: string, http url"
+          }
+        },
+        "LI_4": "When you create .json (e.g. UITheme.json) file and fill all required\n fields, put this file with logo (e.g. logo.png) and contact person (e.g.\n contact.png) images in folder",
+        "LI_5": "Steps for putting files in this folder:",
+        "LIST_2": {
+          "LI_1": "Navigate to local source folder (where the customisation files are\n stored):",
+          "LI_2": "Login to Openshift:",
+          "LI_3": "Navigate to the Openshift project.",
+          "LI_4": "We select the development environment for our example.",
+          "LI_5": "Please choose one of the following:",
+          "LI_6": "Copy the customisation files to the running Developer Portal UI\n application pod:"
+        },
+        "LI_6": "Customization completed, congratulations!"
+      }
+    },
+    "WHAT_NEXT": {
+      "TITLE": "¿Que sigue?",
+      "PART_1": "Cuando haya terminado con todos los pasos",
+      "LINK_1": "del Manual de introducción",
+      "PART_2": "consulte la sección",
+      "LINK_2": "Casos de prueba",
+      "PART_3": "para realizar más pruebas. Allí encontrará las pruebas preparadas ",
+      "POSTMAN": "de Postman",
+      "PART_4": ", la descripción de la interfaz de la interfaz XS2A y las instrucciones para probar XS2ASandbox con"
+    }
+  },
+  "TEST_CASES": {
+    "TITLE": "Casos de prueba",
+    "TEXT_1": "Después de cargar los datos de prueba en el sistema, el desarrollador de TPP puede probar los puntos finales de XS2ASandbox con las pruebas de Swagger o Postman. En la sección Swagger puede encontrar información sobre el uso de Swagger, datos de prueba preparados (Jsons) para pruebas y documentación corta de API.",
+    "LINK": "En la sección de pruebas de Postman",
+    "TEXT_2": " puede encontrar información sobre el uso de Postman para las pruebas y descargar pruebas preparadas de Postman con datos de pruebas.",
+    "TEXT_3": "Ambas secciones proporcionan pruebas para el enfoque de REDIRECT Strong Authorization (SCA) y EMBEDDED SCA Approach for Payment Initiation Service (PIS), Account Information Service (AIS) y Payment Instrument Issuer Service (PIIS).",
+    "INTRODUCTION": {
+      "TITLE": "INTRODUCCIÓN",
+      "REDIRECT": "Enfoque redirecto",
+      "EMBEDDED": "Enfoque integrado",
+      "TESTING": "Flujos de prueba",
+      "MENU": {
+        "LI_1": "Pruebas Swagger",
+        "SUBMENU": {
+          "LI_0": "Predefined test values for all tests (TAN and PIN):",
+          "LI_1": "Redirect:",
+          "LIST_1": {
+            "LI_1": "Flujo de iniciación de pago",
+            "LI_2": "Flujo de cancelación de pago",
+            "LI_3": "Flujo de Iniciación del Consentimiento"
+          },
+          "LI_2": "Embedded:",
+          "LI_3": "Account Information:",
+          "LIST_2": {
+            "LI_1": "Read Account List",
+            "LI_2": "Read Account Details",
+            "LI_3": "Read Balance",
+            "LI_4": "Read List of Transactions",
+            "LI_5": "Read Transaction Details"
+          }
+        },
+        "LI_2": "Postman testing"
+      }
+    },
+    "REDIRECT": {
+      "TITLE": "Breve resumen del enfoque REDIRECT:",
+      "LI_1": "Todo el proceso de SCA con dos factores diferentes (por ejemplo, nombre de usuario / contraseña como prueba de conocimiento y una contraseña única (TAN) como prueba de posesión) lo proporciona el ASPSP y se ejecuta directamente entre la PSU y el ASPSP.",
+      "LI_2": "Por lo tanto, la PSU debe redirigirse desde PISP a ASPSP.",
+      "LI_3": "El SCA de la PSU se ejecuta directamente entre el ASPSP y la PSU.",
+      "LI_4": "Después de completar el SCA, la PSU se redirige de nuevo al PISP."
+    },
+    "EMBEDDED": {
+      "TITLE": "Breve resumen de enfoque EMBEDDED:",
+      "LI_1": "Todo el proceso de SCA con dos factores diferentes (por ejemplo, nombre de usuario / contraseña como prueba de conocimiento y una contraseña única (TAN) como prueba de posesión) proporciona por el TPP y se ejecuta no directamente entre PSU y ASPSP, pero con llamadas de TPP al XS2A Interfaz.",
+      "LI_2": "TPP utiliza puntos finales XS2A predefinidos para completar el flujo de autorización."
+    },
+    "TESTING": {
+      "TEXT_1": "Puede usar 3 flujos de prueba típicos para los enfoques REDIRECT y EMBEDDED SCA con Swagger.",
+      "TEXT_2": "Para abrir la página Swagger de XS2ASandbox, inicie localmente todos los servicios con el comando de docker desde ",
+      "LINK_1": "la Introducción.",
+      "TEXT_3": "Después de iniciar todos los servicios, vaya a su página local",
+      "LINK_2": "de Swagger de interfaz XS2A.",
+      "TEXT_4": "Para abrir la página Swagger en la nube sigue",
+      "LINK_3": "este enlace."
+    },
+    "TEST_VALUES": {
+      "TEXT_1": "For all the tests in Redirect and Embedded approaches it is required to use\n PIN for logging into the account and TAN number for SCA.",
+      "TEXT_2": "Test value for PIN for all automatically generated users:",
+      "TEXT_3": "Test value for TAN in all tests:"
+    },
+    "POSTMAN_TESTING": {
+      "TEXT_1": "Postman es un entorno de prueba fácil, donde puede importar y ejecutar pruebas preparadas de manera simple.",
+      "TEXT_2": "Descargue la última aplicación de Postman para utilizar las pruebas preparadas de Postman",
+      "LINK": "aquí.",
+      "TEXT_3": "Puede descargar las pruebas de Postman con variables de entorno para todos los puntos finales haciendo clic en el botón \"Descargar\" a continuación.",
+      "DOWNLOAD": "Descargar",
+      "TEXT_4": "Después de descargar los archivos, impórtelos a Postman y comience a probar."
+    },
+    "COMPONENTS": {
+      "TABS": {
+        "DOC": "Documentation",
+        "PLAY": "Play with data"
+      },
+      "TH": {
+        "TH_1": "Header",
+        "TH_2": "Value"
+      },
+      "CODE_AREA": {
+        "SHOW": "Muestra cuerpo",
+        "HIDE": "Ocultar cuerpo\n"
+      },
+      "RDCT_PAY_INIT_POST": {
+        "TITLE_1": "PASO 1: Crear pago",
+        "PART_1": "Abra la pestaña \"Servicio de inicio de pagos (PIS)\", abra el punto",
+        "PART_2": "2. Pulse ",
+        "ITALIC_SPAN": "Pruébelo",
+        "PART_3": ". Elige:",
+        "PART_4": "y",
+        "PART_5": ". Los valores por defecto serían ",
+        "PART_6": "en",
+        "PART_7": "y",
+        "PART_8": "en ",
+        "PART_9": "3. espués de elegir el servicio de pago y el producto de pago, complete los campos de encabezado con los siguientes valores:",
+        "PART_10": "Ponga en ",
+        "PART_11": "el nombre del usuario que eligió (puede ver los usuarios y su información en TPP-UI).",
+        "PART_12": "4. Si eligió crear un pago único configurando",
+        "PART_13": " de",
+        "PART_14": ", inserte en el cuerpo de la solicitud el siguiente json:",
+        "PART_15": "Si eligió crear un pago periódico configurando",
+        "PART_16": " en",
+        "PART_17": ", inserte en el cuerpo de la solicitud el siguiente json:",
+        "PART_18": "Si eligió crear un pago masivo configurando",
+        "PART_19": " en",
+        "PART_20": ", inserte en el cuerpo de la solicitud el siguiente json:",
+        "PART_21": "Cambiar el marcador de posición ",
+        "PART_22": " en la sección",
+        "PART_23": "del json que eligió para el IBAN del usuario (el IBAN debe coincidir con el nombre del usuario que puso en el encabezado PSU-ID arriba).",
+        "PART_24": "5. Ejecutar y obtener respuesta con el código 201 e información relacionada.",
+        "TITLE_2": "PASO 2: Autorizar el pago",
+        "PART_25": "Comience con el proceso de autorización. Siga el enlace",
+        "PART_26": " a la página de online banking."
+      },
+      "RDCT_PAY_DELETE": {
+        "TITLE_1": "Paso 2: Cancelar el pago",
+        "PART_1": "Comience con el proceso de autorización. Siga el enlace",
+        "PART_2": " a la página de online banking.",
+        "PART_3": "1.  Inicie el proceso de cancelación con",
+        "PART_4": "Elija el mismo ",
+        "PART_5": "y",
+        "PART_6": "que eligió en el ",
+        "STEP": "PASO 1",
+        "PART_7": "2. Introduce la identificación de pago que obtuvo de la respuesta anterior en el",
+        "PART_8": "en el campo",
+        "PART_9": "3. Después de elegir el servicio de pago y el producto de pago, complete los campos de cabecera con los siguientes valores:",
+        "PART_10": "4. Presione el botón ",
+        "ITALIC_SPAN": "\"Execute\"",
+        "PART_11": "y obtenga 200 códigos HTTP e información relacionada.",
+        "TITLE_2": "PASO 3: Autorizar el pago",
+        "PART_12": "1. Comience con el proceso de autorización para la cancelación. Siga el enlace",
+        "PART_13": "a la página de online banking."
+      },
+      "RDCT_CONS": {
+        "TITLE_1": "PASO 1: Crear el consentimiento",
+        "PART_1": "1. Abra la pestaña \"Account Information Service (AIS)\", abra el punto",
+        "PART_2": "2. Presione ",
+        "ITALIC_SPAN": "\"Pruébelo\"",
+        "PART_3": ", complete los campos de cabecera con los siguientes valores:",
+        "PART_4": "Introduzca en ",
+        "PART_5": " el nombre del usuario que eligió (puede ver los usuarios y su información en TPP-UI).",
+        "PART_6": "3. Inserta en el cuerpo de la solicitud el siguiente json para el consentimiento de las cuentas disponibles:",
+        "STEP": "STEP 1",
+        "PART_7": "Introduzca en ",
+        "PART_8": " el IBAN del usuario (el IBAN debe coincidir con el nombre del usuario que puso en el encabezado PSU-ID arriba)",
+        "PART_9": "4. Ejecutar y obtener respuesta con el código 201 e información relacionada.",
+        "TITLE_2": "PASO 2: Autorizar el consentimiento.",
+        "PART_10": "1. Comience con el proceso de autorización para el consentimiento: siga el enlace",
+        "PART_11": "a la página de banca en línea."
+      },
+      "EMB_IN_CR_POST": {
+        "PART_25": "6.  Comience con el proceso de autorización.",
+        "PART_26": "Preste atención a la cantidad de métodos SCA que tiene el usuario: si el usuario no tiene métodos SCA, prueba  la iniciación con el flujo que se describe a continuación en",
+        "ITALIC_1": "\"Autorización de pago para usuarios sin métodos SCA\"",
+        "PART_27": ". Para usuarios con un solo método SCA, consulta",
+        "ITALIC_2": "\"Autorización de pago para usuarios con un solo método SCA\"",
+        "PART_28": ", y para usuarios con múltiples métodos SCA consulta",
+        "ITALIC_3": "\"Autorización de pago para usuarios con varios métodos SCA\""
+      },
+      "EMB_IN_AUTH_POST": {
+        "TITLE": "STEP 2: Authorise payment",
+        "PART_1": "1. Start authorisation process with",
+        "PART_2": ". Choose the same",
+        "PART_3": "and",
+        "PART_4": "you chose in ",
+        "STEP": "STEP 1",
+        "PART_5": "2. Enter payment id you have got from the previous response in",
+        "PART_6": "in the field",
+        "PART_7": "3. After choosing payment service and payment product, fill the header\n fields with the following values:",
+        "PART_8": "Put in ",
+        "PART_9": "the name of the\n user you chose (you can view users and their information in TPP-UI).",
+        "PART_10": "4. Start authorisation by hitting",
+        "ITALIC_SPAN": "\"Execute\"",
+        "PART_11": "button and get 201 HTTP code\n and related information."
+      },
+      "EMB_IN_PUT": {
+        "TITLE": "PASO 2: Autorizar el pago",
+        "SUBTITLE_1": "Autorización de pago para el usuario sin métodos SCA.",
+        "PART_1": "5. Continue la autorización de pago con la llamada al punto",
+        "PART_2": "6. Introduzca la ID de pago en el campo",
+        "PART_3": "y la ID de autorización que recibió del punto final de POST (autorización de inicio) en el campo",
+        "PART_4": "",
+        "PART_5": "7. Rellene los campos de encabezado con los siguientes valores:",
+        "PART_6": "Ponga en ",
+        "PART_7": " el nombre del usuario que eligió (puede ver los usuarios y su información en TPP-UI).",
+        "PART_8": "8. Insertar en el cuerpo de la solicitud el siguiente json:",
+        "PART_9": "Introduzca en ",
+        "PART_10": " la contraseña del usuario que eligió (puede ver los usuarios y su información en TPP-UI).",
+        "PART_11": "9. Ejecute el punto final y obtenga",
+        "PART_12": "y",
+        "PART_13": "en respuesta.",
+        "SUBTITLE_2": "Autorización de pago para el usuario con un solo método SCA.",
+        "PART_14": "5. Continuar la autorización de pago con la llamada al punto",
+        "PART_15": "6. Introduzca la ID de pago en el campo",
+        "PART_16": "y la ID de autorización que recibió del punto final de POST (autorización de inicio) en el campo",
+        "PART_17": "",
+        "PART_18": "7. Rellene los campos de encabezado con los siguientes valores:",
+        "PART_19": "Ponga en ",
+        "PART_20": " el nombre del usuario que eligió (puede ver los usuarios y su información en TPP-UI).",
+        "PART_21": "8. Insertar en el cuerpo de la solicitud el siguiente json:",
+        "PART_22": "Ponga en ",
+        "PART_23": " a contraseña del usuario que eligió (puede ver los usuarios y su información en TPP-UI).",
+        "PART_24": "9. Ejecute el punto final y obtenga",
+        "PART_25": "y",
+        "PART_26": "en respuesta.",
+        "PART_27": "10. Ejecute este punto final PUT nuevamente, pero esta vez actualice el cuerpo de la solicitud: rellénelo con el siguiente json:",
+        "PART_28": "El usuario solo tiene un método SCA, por lo que se envió la prueba TAN",
+        "PART_29": "al usuario, y ahora necesita ingresar estos datos y ejecutar el comando PUT. La respuesta debe ser",
+        "PART_30": "y",
+        "SUBTITLE_3": "Autorización de pago para el usuario con múltiples métodos SCA.",
+        "PART_31": "5. Continue la autorización de pago con la llamada al punto",
+        "PART_32": "6. Introduzca la ID de pago en el campo en",
+        "PART_33": "y la ID de autorización que recibió del punto final de POST (autorización de inicio) en el campo",
+        "PART_34": "",
+        "PART_35": "7. Rellene los campos de encabezado con los siguientes valores:",
+        "PART_36": "Ponga en ",
+        "PART_37": " el nombre del usuario que eligió (puede ver los usuarios y su información en TPP-UI).",
+        "PART_38": "8. Insertar en el cuerpo de la solicitud el siguiente json:",
+        "PART_39": "Introduzca en ",
+        "PART_40": " la contraseña del usuario que eligió (puede ver los usuarios y su información en TPP-UI).",
+        "PART_41": "9.  Ejecute el punto final y obtenga ",
+        "PART_42": " y una lista de métodos de autorización en respuesta.",
+        "PART_43": "10. Ejecute este punto final PUT nuevamente, pero esta vez actualice el cuerpo de la solicitud: rellénelo con el siguiente json:",
+        "PART_44": "Coloque en el marcador de posición ",
+        "PART_45": "cualquier valor de authenticationMethodId de su elección. La respuesta debe ser",
+        "PART_46": " y",
+        "PART_47": "11. Ejecute este punto final PUT nuevamente, cuerpo de solicitud de actualización: rellénelo con el siguiente json:",
+        "PART_48": "Se eligió el método SCA, por lo que la prueba TAN",
+        "PART_49": " se envió al usuario, y ahora necesita ingresar estos datos y ejecutar el comando PUT.",
+        "PART_50": "La respuesta debe ser",
+        "PART_51": " y"
+      },
+      "EMB_IN_GET": {
+        "PART_1": "1. Pruebe GET endpoint",
+        "PART_2": "para obtener información de pago y GET endpoint",
+        "PART_3": "para comprobar el estado actual del pago.",
+        "PART_4": "2. Pruebe GET endpoint",
+        "PART_5": "para obtener información de autorización y GET endpoint",
+        "PART_6": "para verificar el estado actual de la autorización.",
+        "SUBTITLE": "Pasos principales:",
+        "PART_7": "1. Elegir",
+        "PART_8": "y",
+        "PART_9": ". Use los mismos valores que usó en los pasos anteriores.",
+        "PART_10": "Después de elegir el servicio de pago y el producto de pago, complete los campos de encabezado con los siguientes valores:",
+        "PART_11": "Ponga en ",
+        "PART_12": "el nombre del usuario que eligió (puede ver los usuarios y su información en TPP-UI)."
+      },
+      "EMB_CANCEL_POST": {
+        "PART_25": "6. Comience con el proceso de autorización.",
+        "PART_26": "7. Si el pago ya está autorizado, proceda con la cancelación del pago.",
+        "PART_27": "Preste atención a la opción ASPSP-perfil",
+        "PART_28": "Si esta opción está configurada en",
+        "PART_29": ", entonces consult",
+        "BOLD_1": "Cancelación de pago sin flujo de autorización.",
+        "PART_30": "",
+        "PART_31": "Si la opción se establece en",
+        "PART_32": ", preste atención a la cantidad de métodos SCA que tiene el usuario: si el usuario no tiene métodos SCA, inicie la prueba de pago con el flujo que se describe a continuación en",
+        "BOLD_2": "Autorización de cancelación de pago para usuarios sin métodos SCA",
+        "PART_33": ". Para usuarios con un solo método SCA, consulte",
+        "BOLD_3": "la autorización de cancelación de pago para usuarios con un solo método SCA",
+        "PART_34": ", y para usuarios con múltiples métodos SCA consulte la",
+        "BOLD_4": "autorización de cancelación de pagos para usuarios con varios métodos SCA"
+      },
+      "EMB_CANS_DELETE": {
+        "TITLE": "PASO 2: Autorización de cancelación de pago"
+      },
+      "EMB_CANS_POST": {
+        "TITLE": "PASO 2: Autorización de cancelación de pago",
+        "PART_1": "4. Inicie la autorización de cancelación de pago con el punto",
+        "PART_2": ". Elija el mismo",
+        "PART_3": "y",
+        "PART_4": "que eligió en el ",
+        "STEP": "PASO 1",
+        "PART_5": "5. Ingrese la identificación de pago que obtuvo de la respuesta anterior en el",
+        "PART_6": "en el campo",
+        "PART_7": "6. Rellene los campos de encabezado con los siguientes valores:",
+        "PART_8": "Ponga en ",
+        "PART_9": " el nombre del usuario que eligió (puede ver los usuarios y su información en TPP-UI).",
+        "PART_10": "7. Ejecute el comando y obtenga 201 respuestas e información relacionada."
+      },
+      "EMB_CANS_PUT": {
+        "TITLE": "PASO 2: Autorización de cancelación de pago",
+        "SUBTITLE_1": "Autorización de cancelación de pago para el usuario sin métodos SCA.",
+        "PART_1": "8. Continue con la autorización de cancelación de pago con la llamada al punto ",
+        "PART_2": ". Elija el mismo",
+        "PART_3": "y",
+        "PART_4": "que eligió en e ",
+        "STEP": "PASO 1",
+        "PART_5": ". Rellene los encabezados con los mismos valores que en el comando POST anterior.",
+        "PART_6": "9. Ingrese la identificación de pago que recibió del",
+        "PART_7": " en el campo",
+        "PART_8": ". Ingrese el ID de cancelación que obtuvo del punto final POST anterior en el campo",
+        "PART_9": "10. Insertar en el cuerpo de la solicitud el siguiente json:",
+        "PART_10": "Introduzca en ",
+        "PART_11": " la contraseña del usuario que eligió (puede ver los usuarios y su información en TPP-UI).",
+        "PART_12": "11. Ejecutar punto final y obtene",
+        "SUBTITLE_2": "Autorización de cancelación de pago para usuario con un solo métodos SCA.",
+        "PART_13": "8. Continue con la autorización de cancelación de pago con la llamada al punto",
+        "PART_14": ". Elija el mismo",
+        "PART_15": "y",
+        "PART_16": "que eligió en el ",
+        "PART_17": ". Rellene los encabezados con los mismos valores que en el comando POST anterior.",
+        "PART_18": "9. Ingrese la identificación de pago que recibió del",
+        "PART_19": " en el campo",
+        "PART_20": ". Ingrese el ID de cancelación que obtuvo del punto final POST anterior en el campo",
+        "PART_21": "10. Insertar en el cuerpo de la solicitud el siguiente json:",
+        "PART_22": "Introduzca en ",
+        "PART_23": " la contraseña del usuario que eligió (puede ver los usuarios y su información en TPP-UI).",
+        "PART_24": "11. Ejecutar punto final y obtene",
+        "PART_25": "12. Ejecute este punto final PUT nuevamente, pero esta vez actualice el cuerpo de la solicitud: rellénelo con el siguiente json:",
+        "PART_26": "El usuario solo tiene un método SCA, por lo que se envió la prueba TAN",
+        "PART_27": "al usuario, y ahora necesita ingresar estos datos y ejecutar el comando PUT. La respuesta debe ser",
+        "SUBTITLE_3": "Autorización de cancelación de pago para usuario con múltiples métodos SCA.",
+        "PART_28": "8. Continue con la autorización de cancelación de pago con la llamada al punto",
+        "PART_29": ". Elija el mismo",
+        "PART_30": "y",
+        "PART_31": "que eligió en el ",
+        "PART_32": ". Rellene los encabezados con los mismos valores que en el comando POST anterior.",
+        "PART_33": "9. Ingrese la identificación de pago que recibió del",
+        "PART_34": " en el campo",
+        "PART_35": ". Ingrese el ID de cancelación que obtuvo del punto final POST anterior en el campo",
+        "PART_36": "10. Insertar en el cuerpo de la solicitud el siguiente json:",
+        "PART_37": "Introduzca en ",
+        "PART_38": " la contraseña del usuario que eligió (puede ver los usuarios y su información en TPP-UI).",
+        "PART_39": "11. Ejecutar punto final y obtene",
+        "PART_40": "",
+        "PART_41": "12. Ejecute este punto final PUT nuevamente, pero esta vez actualice el cuerpo de la solicitud: rellénelo con el siguiente json:",
+        "PART_42": "Coloque en el marcador de posición",
+        "PART_43": " cualquier valor de authenticationMethodId de su elección. La respuesta debe ser",
+        "PART_44": "13. Vuelva a ejecutar este punto final PUT, cuerpo de solicitud de actualización: rellénelo con el siguiente json:",
+        "PART_45": "El usuario solo tiene un método SCA, por lo que se envió la prueba TAN",
+        "PART_46": "al usuario, y ahora necesita ingresar estos datos y ejecutar el comando PUT. La respuesta debe ser"
+      },
+      "EMB_CANS_GET": {
+        "PART_1": "12. Pruebe  GET endpoint",
+        "PART_2": "para verificar el estado actual de la autorización de cancelación.",
+        "PART_3": "13. Pruebe GET endpoint",
+        "PART_4": "para obtener el estado de pago actual (en debe ser `CANC`, cancelado)."
+      },
+      "EMB_CONS_AUTH": {
+        "TITLE": "PASO 2: Autorización de consentimiento",
+        "PART_1": "1. Inicie el proceso de autorización con el punto",
+        "PART_2": "2. Ingrese el ID de consentimiento que obtuvo de la respuesta anterior en el",
+        "STEP": "PASO 1",
+        "PART_3": " en el campo",
+        "PART_4": "3. Después de elegir el servicio de pago y el producto de pago, complete los campos de encabezado con los siguientes valores:",
+        "PART_5": "Ponga en ",
+        "PART_6": " el nombre del usuario que eligió (puede ver los usuarios y su información en TPP-UI).",
+        "PART_7": "4. Comience la autorización presionando el botón",
+        "ITALIC": "\"Execute\"",
+        "PART_8": " y obtenga 201 código HTTP e información relacionada."
+      },
+      "EMB_CONS_PUT": {
+        "TITLE": "PASO 2: Autorización del consentimiento",
+        "SUBTITLE_1": "Autorización de consentimiento para el usuario sin métodos SCA",
+        "PART_1": "4. Comience la autorización presionando el botón",
+        "ITALIC": "\"Execute\"",
+        "PART_2": "y obtenga 201 código HTTP e información relacionada.",
+        "PART_3": "5. Continuar la autorización de pago con la llamada al punto",
+        "PART_4": "6. Ingrese el ID de consentimiento en el campo",
+        "PART_5": "y el ID de autorización que recibió del punto final de POST (autorización de inicio) en el campo",
+        "PART_6": "",
+        "PART_7": "7. Rellene los campos de encabezado con los siguientes valores:",
+        "PART_8": "8. Insiere en el cuerpo de la solicitud el siguiente json:",
+        "PART_9": "Introduzca en ",
+        "PART_10": " la contraseña del usuario que eligió (puede ver los usuarios y su información en TPP-UI).",
+        "PART_11": "9. Ejecute el punto final y obtenga",
+        "PART_12": "y",
+        "PART_13": "en respuesta.",
+        "SUBTITLE_2": "Autorización de consentimiento para usuario con método SCA único.",
+        "PART_14": "5. Continuar la autorización de pago con la llamada al punto",
+        "PART_15": "6. Ingrese el ID de consentimiento en el campo",
+        "PART_16": "y el ID de autorización que recibió del punto final de POST (autorización de inicio) en el ",
+        "PART_17": "",
+        "PART_18": "7. Rellene los campos de encabezado con los siguientes valores:",
+        "PART_19": "Ponga en ",
+        "PART_20": " el nombre del usuario que eligió (puede ver los usuarios y su información en TPP-UI).",
+        "PART_21": "8. Insiere en el cuerpo de la solicitud el siguiente json:",
+        "PART_22": "Introduzca en ",
+        "PART_23": " la contraseña del usuario que eligió (puede ver los usuarios y su información en TPP-UI).",
+        "PART_24": "9. Ejecute el punto final y obtenga",
+        "PART_25": "y",
+        "PART_26": "en respuesta.",
+        "PART_27": "10. Ejecute este punto final PUT nuevamente, pero esta vez actualice el cuerpo de la solicitud: rellénelo con el siguiente json:",
+        "PART_28": "El usuario solo tiene un método SCA, por lo que se envió la prueba TAN",
+        "PART_29": "al usuario, y ahora necesita ingresar estos datos y ejecutar el comando PUT.",
+        "PART_30": "La respuesta debe ser",
+        "PART_31": "y",
+        "SUBTITLE_3": "Autorización de consentimiento para usuario con múltiples métodos SCA.",
+        "PART_32": "5. Continuar la autorización de pago con la llamada al punto",
+        "PART_33": "6. Ingrese el ID de consentimiento en el campo",
+        "PART_34": "y el ID de autorización que recibió del punto final de POST (autorización de inicio) en el campo",
+        "PART_35": "",
+        "PART_36": "7. Rellene los campos de encabezado con los siguientes valores:",
+        "PART_37": "8. Insiere en el cuerpo de la solicitud el siguiente json:",
+        "PART_38": "Introduzca en ",
+        "PART_39": " la contraseña del usuario que eligió (puede ver los usuarios y su información en TPP-UI).",
+        "PART_40": "9. Ejecute el punto final y obtenga",
+        "PART_41": "y una lista de métodos de autorización en respuesta.",
+        "PART_42": "10. Ejecute este punto final PUT nuevamente, pero esta vez actualice el cuerpo de la solicitud: rellénelo con el siguiente json:",
+        "PART_43": "Coloque en el marcador de posición",
+        "PART_44": " cualquier valor de authenticationMethodId de su elección. La respuesta debe ser",
+        "PART_45": "y",
+        "PART_46": "11. Ejecute este punto final PUT nuevamente, cuerpo de solicitud de actualización: rellénelo con el siguiente json:",
+        "PART_47": "Se eligió el método SCA, por lo que la prueba TAN",
+        "PART_48": "se envió al usuario, y ahora necesita ingresar estos datos y ejecutar el comando PUT.",
+        "PART_49": "La respuesta debe ser",
+        "PART_50": "y"
+      },
+      "EMB_CONS_GET": {
+        "PART_1": "1. Pruebe GET endpoint",
+        "PART_2": "para obtener información de consentimiento y GET endpoint",
+        "PART_3": "para verificar el estado actual del consentimiento.",
+        "PART_4": "2. Pruebe GET endpoint",
+        "PART_5": "obtener información de autorización y GET endpoint",
+        "PART_6": "para verificar el estado actual de la autorización."
+      },
+      "AC_INF_ACS": {
+        "PART_1": "1. Try GET endpoint",
+        "PART_2": "to get account with chosen consent-id",
+        "PART_3": "Put in ",
+        "PART_4": " the consent-id of accounts\n that you want to get(you can view users and their information in TPP-UI)."
+      },
+      "AC_INF_AC": {
+        "PART_1": "1. Try GET endpoint",
+        "PART_2": "to get account with chosen account-id",
+        "PART_3": "Put in ",
+        "PART_4": " the consent-id of account\n that you want to get(you can view users and their information in TPP-UI)."
+      },
+      "AC_INF_BAL": {
+        "PART_1": "1. Try GET endpoint",
+        "PART_2": "to get account's list of balances",
+        "PART_3": "Put in ",
+        "PART_4": " the consent-id of account\n that you want to get(you can view users and their information in TPP-UI)."
+      },
+      "AC_INF_TRS": {
+        "PART_1": "1. Try GET endpoint",
+        "PART_2": "to get account's list of transactions with chosen booking status.",
+        "PART_3": "Put in ",
+        "PART_4": " the consent-id of account\n that you want to get(you can view users and their information in TPP-UI)."
+      },
+      "AC_INF_TR": {
+        "PART_1": "1. Try GET endpoint",
+        "PART_2": "to get account's transaction with current id.",
+        "PART_3": "Put in ",
+        "PART_4": " the consent-id of account\n that you want to get(you can view users and their information in TPP-UI)."
+      }
+    }
+  },
+  "FAQ": {
+    "TITLE": "P+F(preguntas mas frequentes)",
+    "CONSENTS": {
+      "TITLE": "Consentimientos",
+      "SUBTITLE_1": "¿Por qué no puedo crear un consentimiento?",
+      "PART_1": "La función dentro del Certificado QWAC no contiene la función AIS. En este caso debería recibir un error similar:",
+      "PART_2": "Solución: cree un nuevo certificado que contenga la función AIS e inserte este certificado en su solicitud o decodifique su certificado y verifique la qcStatement que debe contener “PSP_AI\".",
+      "PART_3": "Otra posibilidad es que el atributo \"recurringIndicator\" dentro de su solicitud esté configurado en \"false\", mientras que el atributo \"frequencyPerDay\" no es igual a \"1\". De forma predeterminada, el \"recurringIndicator\" debe ser \"true\", ya que un TPP desea acceder a los datos de la cuenta en el período de tiempo indicado. Sin embargo, cuando el TPP solo quiere mostrar una lista de posibles cuentas para la PSU, basta con un acceso único. En este caso debería recibir el siguiente error:",
+      "PART_4": "Solución: Si desea acceder a los datos de la cuenta con este consentimiento solo una vez, cambie el valor de \"frequencyPerDay\" a \"1\". De lo contrario, asigne \"true\" al “\"recurringIndicator\".",
+      "SUBTITLE_2": "¿Por qué no puedo acceder a los datos de mi cuenta?",
+      "PART_5": "Es posible que el consentimiento emitido no permita esta operación. Un AIS-Consent define tres niveles de acceso. El primer nivel permite el acceso a \"accounts\", el segundo a \"balances\" y el tercero a “transactions\". Hay algunas posibles combinaciones y una selección de \"balances\" o \"transactions\" también otorga acceso a \"accounts\". Un consentimiento que otorga acceso a las cuentas y transacciones no permite llamar al punto final de saldo.",
+      "PART_6": "En este caso debería recibir el siguiente error:",
+      "TODO": "TODO",
+      "PART_7": "Solución: solicite a la PSU que cree un nuevo consentimiento que le permita acceder a los puntos finales apropiados.",
+      "PART_8": "Otra razón podría ser que el estado de consentimiento no es válido. Un estado será, por ejemplo, expira automáticamente cuando se excede la \"expirationDate\" definida en el consentimiento. También podría ser posible que se haya producido un error al realizar SCA. Para obtener información más detallada, consulte las P+F sobre autenticación fuerte de clientes(Strong Customer Authentication)"
+    },
+    "STRONG": {
+      "TITLE": "Strong Customer Authentication (Autenticación de cliente fuerte)",
+      "SUBTITLE_1": "¿Cómo puedo cambiar el estado de la transacción / consentimiento?",
+      "PART_1": "Por defecto, una nueva transacción / consentimiento creado tiene el estado",
+      "RECEIVED": "\"received\"",
+      "PART_2": ". Para realizar SCA utilizando el enfoque REDIRECT, el sandbox proporciona un Redirect Server donde el estado se actualiza según la PSU. Como SCA para REDIRECT está simplificado para este entorno limitado, es suficiente pasar un PSU-ID a través de Query-Parameter para simular todo el SCA. A continuación se proporciona un ejemplo:",
+      "PART_3": "El Query Parameter psu-id es obligatorio. Si no se proporciona, el servidor de redirección mostrará un mensaje de error predeterminado.",
+      "SUBTITLE_2": "¿Por qué no puedo cambiar el estado de la transacción / consentimiento con una PSU específica?",
+      "PART_4": "Si el estado de la transacción / consentimiento es “recieved\", es posible que el PSU-ID no coincida con el IBAN en el inicio de pago o la solicitud de creación de consentimiento. La asignación entre PSU-ID y IBAN (s) se documenta en el portal del desarrollador. Si el estado no cambia a pesar de que se realizó SCA y el IBAN coincide con la ID de la PSU, verifique la ID de la PSU para detectar errores tipográficos y la sensibilidad de las mayúsculas y minúsculas."
+    },
+    "CERTIFICATES": {
+      "TITLE": "Certificados",
+      "SUBTITLE_1": "\n¿Cómo puedo crear un certificado válido?",
+      "PART_1": "Para acceder a la XS2A API, un TPP debe tener un Qualified Website Authentication Certificate  (QWAC, por sus siglas en inglés) válido que generalmente es emitido por un registrado Trust Service Provider.\nPara el uso de este sandbox, puede emitir certificados de prueba aquí:",
+      "PART_2": ". Obtendrá un certificado autofirmado",
+      "PART_3": "y una clave privada correspondiente",
+      "PART_4": "incrustadas en un archivo",
+      "PART_5": "",
+      "SUBTITLE_2": "¿Cómo puedo incrustar un certificado en una solicitud?",
+      "PART_6": "Después de recibir un QWAC, debe integrarlo a su solicitud. Hay muchas herramientas para realizar llamadas REST. Explicamos la configuración con dos de los más comunes: cURL y Postman. cURL: agregue el archivo",
+      "PART_7": " usando",
+      "PART_8": "y la clave privada usando",
+      "PART_9": ". Tenga en cuenta que es posible que deba adaptar la ruta relativa a sus archivos. Postman: vaya a",
+      "PART_10": "y configure la URL del host (en nuestros ejemplos, esto sería",
+      "PART_11": "). Tenga en cuenta que ",
+      "PART_12": " así como el puerto 443 ya están configurados. Luego agrega tu archivo",
+      "PART_13": " y",
+      "PART_14": " La frase de contraseña debe dejarse vacía.",
+      "SUBTITLE_3": "¿Por qué mi certificado QWAC no funciona?",
+      "PART_15": "Es posible que las solicitudes aún no funcionen aunque se agregue un certificado. Esto sucede cuando los certificados expiran. Cada certificado tiene un atributo \"validUntil\" con la fecha de vencimiento. En este caso debería recibir el siguiente error:",
+      "PART_16": "Necesita la PSU para crear un nuevo consentimiento y utilizar el nuevo ID de consentimiento. Otra posibilidad es que el certificado no contenga la función que necesita para su solicitud. P.ej. tener el rol \"PIS\" no le permite crear consentimientos. En tal caso, debería recibir el siguiente error:"
+    }
+  },
+  "CONTACT": {
+    "TITLE_1": "¿Tienes algunas preguntas?",
+    "SUBTITLE": "Pregunta a este hombre.",
+    "TITLE_2": "Contactos"
+  }
+}

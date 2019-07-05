@@ -21,7 +21,8 @@
 export const environment = {
     production: false,
     staffAccessResourceEndPoint: '/ledgers/staff-access',
-    certificateGenerationServer: '/certgen'
+    certificateGenerationServer: '/certgen',
+    tppBackend: 'tpp'
 };
 
 /*

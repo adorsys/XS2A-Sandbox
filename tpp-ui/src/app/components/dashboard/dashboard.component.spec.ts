@@ -8,10 +8,12 @@ import {IconModule} from "../../commons/icon/icon.module";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {LoginComponent} from "../auth/login/login.component";
 import {ReactiveFormsModule} from "@angular/forms";
+import {AuthService} from "../../services/auth.service";
 
 describe('DashboardComponent', () => {
     let component: DashboardComponent;
     let fixture: ComponentFixture<DashboardComponent>;
+    const authServiceSpy = jasmine.createSpyObj('AuthService', ['isLoggedIn', 'logout']);
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -21,6 +23,7 @@ describe('DashboardComponent', () => {
                 ReactiveFormsModule,
                 IconModule
             ],
+            providers: [TestBed.overrideProvider(AuthService, {useValue: authServiceSpy})],
             declarations: [DashboardComponent, NavbarComponent, SidebarComponent, LoginComponent]
         })
             .compileComponents();
@@ -29,10 +32,12 @@ describe('DashboardComponent', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(DashboardComponent);
         component = fixture.componentInstance;
+        authServiceSpy.isLoggedIn.and.returnValue(true);
         fixture.detectChanges();
     });
 
     it('should create', () => {
         expect(component).toBeTruthy();
+        expect(authServiceSpy.isLoggedIn).toHaveBeenCalled();
     });
 });

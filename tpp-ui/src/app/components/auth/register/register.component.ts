@@ -66,38 +66,12 @@ export class RegisterComponent implements OnInit {
                         this.navigateAndGiveFeedback(url, message);
                     }
                 );
-            }, (error: HttpErrorResponse) => {
-                if (error.status === 500) {
-                    // should be thrown when 500 occurs, however since we have unhandled errors on Ledgers side, we will show a custom error on this page
-                    // throw new HttpErrorResponse(error);
-
-                    this.infoService.openFeedback("Provided Login or Email are already taken", {
-                        severity: 'error'
-                    })
-                } else {
-                    this.infoService.openFeedback(error.message, {
-                        severity: 'error'
-                    })
-                }
             });
         } else {
             this.service.register(this.userForm.value, branch)
                 .subscribe(() => {
                     message = 'You have been successfully registered.';
                     this.navigateAndGiveFeedback('', message);
-                }, (error: HttpErrorResponse) => {
-                    if (error.status === 500) {
-                        // should be thrown when 500 occurs, however since we have unhandled errors on Ledgers side, we will show a custom error on this page
-                        // throw new HttpErrorResponse(error);
-
-                        this.infoService.openFeedback("Provided Login or Email are already taken", {
-                            severity: 'error'
-                        })
-                    } else {
-                        this.infoService.openFeedback(error.message, {
-                            severity: 'error'
-                        })
-                    }
                 });
         }
     }

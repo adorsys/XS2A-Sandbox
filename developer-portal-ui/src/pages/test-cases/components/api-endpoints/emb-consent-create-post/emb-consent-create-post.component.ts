@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { LanguageService } from '../../../../../services/language.service';
 
 @Component({
   selector: 'app-emb-consent-create-post',
-  templateUrl: './emb-consent-create-post.component.html'
+  templateUrl: './emb-consent-create-post.component.html',
 })
 export class EmbConsentCreatePostComponent implements OnInit {
   activeSegment = 'documentation';
@@ -46,13 +47,13 @@ export class EmbConsentCreatePostComponent implements OnInit {
       availableAccounts: 'allAccounts',
       allPsd2: 'allAccounts',
     },
-    recurringIndicator: false,
+    recurringIndicator: true,
     validUntil: '2020-12-31',
     frequencyPerDay: 4,
     combinedServiceIndicator: false,
   };
 
-  constructor() {}
+  constructor(public languageService: LanguageService) {}
 
   changeSegment(segment) {
     this.activeSegment = segment;
