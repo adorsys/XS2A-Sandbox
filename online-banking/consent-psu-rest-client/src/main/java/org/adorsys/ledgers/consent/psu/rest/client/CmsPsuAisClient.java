@@ -18,6 +18,7 @@ package org.adorsys.ledgers.consent.psu.rest.client;
 
 import java.util.List;
 
+import de.adorsys.psd2.consent.api.ais.CmsAisConsentResponse;
 import org.adorsys.ledgers.consent.xs2a.rest.config.FeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 import de.adorsys.psd2.consent.api.ais.AisAccountConsent;
 import de.adorsys.psd2.consent.psu.api.ais.CmsAisConsentAccessRequest;
-import de.adorsys.psd2.consent.psu.api.ais.CmsAisConsentResponse;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

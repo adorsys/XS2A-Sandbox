@@ -42,7 +42,7 @@ public class AisConsentMapper {
 				? access.getAvailableAccounts().name() : null;
 		String allPsd2 = access.getAllPsd2()!=null 
 				? access.getAllPsd2().name() : null;
-		return new AisAccountAccess(accounts, balances, transactions, availableAccounts, allPsd2);
+		return new AisAccountAccess(accounts, balances, transactions, availableAccounts, allPsd2, null);
 	}
 	
 	private List<AccountReference> mapToAccountReference(List<String> ibans, List<AccountDetailsTO> accountDetails){

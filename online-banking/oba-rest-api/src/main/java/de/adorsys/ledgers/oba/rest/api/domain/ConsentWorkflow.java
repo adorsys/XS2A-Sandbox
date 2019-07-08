@@ -2,6 +2,7 @@ package de.adorsys.ledgers.oba.rest.api.domain;
 
 import java.util.List;
 
+import de.adorsys.psd2.consent.api.ais.CmsAisConsentResponse;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 
@@ -10,7 +11,6 @@ import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.ScaUserDataTO;
 import de.adorsys.ledgers.oba.rest.api.consentref.ConsentReference;
-import de.adorsys.psd2.consent.psu.api.ais.CmsAisConsentResponse;
 
 public class ConsentWorkflow {
 	private final CmsAisConsentResponse consentResponse;

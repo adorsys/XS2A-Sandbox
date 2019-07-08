@@ -12,7 +12,7 @@ services:
 
   # Xs2a connector example
   xs2a-connector-examples:
-    image: adorsys/xs2a-connector-examples:3.4
+    image: adorsys/xs2a-connector-examples:3.7
     container_name: xs2a-connector-examples
     restart: on-failure
     ports:
@@ -33,7 +33,7 @@ services:
 
   # Xs2a aspsp profile
   xs2a-aspsp-profile:
-    image: adorsys/xs2a-aspsp-profile:3.4
+    image: adorsys/xs2a-aspsp-profile:3.7
     container_name: xs2a-aspsp-profile
     restart: on-failure
     environment:
@@ -49,7 +49,7 @@ services:
 
   # Consent management
   xs2a-consent-management:
-    image: adorsys/xs2a-consent-management:3.4
+    image: adorsys/xs2a-consent-management:3.7
     container_name: xs2a-consent-management
     restart: on-failure
     ports:
@@ -111,7 +111,7 @@ services:
 
   # Ledgers
   ledgers:
-    image: adorsys/ledgers:0.4
+    image: adorsys/ledgers:0.5
     container_name: ledgers
     restart: on-failure
     networks:
@@ -189,18 +189,6 @@ services:
       - xs2a-net
     depends_on:
       - ledgers
-
-  # TPP-REST-SERVER
-  xs2a-tpp-rest-server:
-    image: adorsys/tpp-rest-server
-    restart: on-failure
-    build:
-      context: tpp-app/tpp-rest-server
-      dockerfile: Dockerfile
-    ports:
-      - "8093:8000"
-    networks:
-      - xs2a-net
 
   # Developer portal ui
   developer-portal-ui:
