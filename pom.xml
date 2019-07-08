@@ -289,10 +289,8 @@
                     <failOnViolation>true</failOnViolation>
                     <printFailingErrors>true</printFailingErrors>
                     <excludeRoots>
-                        <excludeRoot>../xs2a-connector/target/generated-sources/annotations
-                        </excludeRoot>
-                        <excludeRoot>../online-banking-app/target/generated-sources/annotations
-                        </excludeRoot>
+                        <excludeRoot>../online-banking-app/target/generated-sources/annotations/</excludeRoot>
+                        <excludeRoot>../tpp-rest-server/target/generated-sources/annotations/</excludeRoot>
                     </excludeRoots>
                 </configuration>
             </plugin>
@@ -444,7 +442,6 @@
                             </execution>
                         </executions>
                     </plugin>
-
                 </plugins>
             </build>
         </profile>
