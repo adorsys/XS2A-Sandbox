@@ -161,6 +161,7 @@ services:
     restart: on-failure
     environment:
       LEDGERS_URL: "http://ledgers:8088"
+      TPP_REST_SERVER_URL: "http://xs2a-tpp-rest-server:8093"
       CERT_GEN_URL: "http://certificate-generator:8092"
     build:
       context: tpp-ui
@@ -171,6 +172,35 @@ services:
       - xs2a-net
     depends_on:
       - ledgers
+      - xs2a-tpp-rest-server
+
+  # TPP-REST-SERVER
+  xs2a-tpp-rest-server:
+    image: adorsys/tpp-rest-server
+    restart: on-failure
+    environment:
+      LEDGERS_URL: "http://ledgers:8088"
+    build:
+      context: tpp-app/tpp-rest-server
+      dockerfile: Dockerfile
+    ports:
+      - "8093:8000"
+    networks:
+      - xs2a-net
+    depends_on:
+      - ledgers
+
+  # TPP-REST-SERVER
+  xs2a-tpp-rest-server:
+    image: adorsys/tpp-rest-server
+    restart: on-failure
+    build:
+      context: tpp-app/tpp-rest-server
+      dockerfile: Dockerfile
+    ports:
+      - "8093:8000"
+    networks:
+      - xs2a-net
 
   # Developer portal ui
   developer-portal-ui:

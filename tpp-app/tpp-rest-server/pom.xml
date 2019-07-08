@@ -16,6 +16,7 @@
     </properties>
 
     <artifactId>tpp-rest-server</artifactId>
+    <name>tpp-rest-server</name>
 
     <dependencies>
 
@@ -95,6 +96,7 @@
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
