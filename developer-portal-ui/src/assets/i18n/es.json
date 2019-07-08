@@ -50,8 +50,8 @@
       "CONTENT": "instruye a los bancos (Proveedores de Servicios de Pago de Servicio de Cuentas o ASPSP) para que proporcionen una interfaz de Acceso a la Cuenta (XS2A) completamente productiva a Terceros Proveedores (TPP) hasta septiembre de 2019. El propio XS2A consiste en servicios bancarios para iniciar pagos (PIS), solicitar datos de cuenta (AIS) y obtener la confirmación de la disponibilidad de fondos (PIIS). Para garantizar el cumplimiento de este plazo debido a las adaptaciones y los errores, PSD2 reclama a los bancos que proporcionen un Sandbox dinámica y funcional que ofrece los servicios XS2A en un entorno no productivo hasta junio de 2019."
     },
     "FEATURES": {
-      "TITLE": "XS2ASandbox Features",
-      "CONTENT": "XS2ASandbox is a dynamic sandbox environment: you can create users, payments\n    and consents, play with data for testing purposes. With dynamic sandbox TPP\n    UI you can access banking API directly, get TPP certificate and manage\n    testing accounts. The developer portal contains testing instructions and all\n    needed test-cases. All XS2ASandbox services can be installed and run in one\n    simple command. Two main SCA approaches are supported: REDIRECT and\n    EMBEDDED. For redirect approach online banking demo UI was created.",
+      "TITLE": "XS2ASandbox características",
+      "CONTENT": "XS2ASandbox es un entorno dinámico de sandbox: se puede crear usuarios, pagos y consentimientos, jugar con datos para propósitos de prueba. Con dinamica\n sandbox TPP UI se puede acceder directamente a la API de la banca, obtener el certificado de TPP y administrar las cuentas de prueba. El portal de desarrolladores contiene instrucciones de prueba y todos los casos de prueba necesarios. Todos los servicios de XS2ASandbox se pueden instalar y ejecutar en un solo comando. Se admiten dos enfoques principales de SCA:\n REDIRECTO E INTEGRADO. Para el enfoque redirecto  fue creado el online banking  demo UI.",
       "SLIDES": {
         "SLIDE_1": {
           "TITLE": "Plug and Play",
@@ -88,27 +88,27 @@
       }
     },
     "HISTORY": {
-      "TITLE": "Product History",
+      "TITLE": "La historia del producto",
       "PRODUCT": {
         "POINT_1": {
-          "TITLE": "Project Kick-Off with two Team Members",
+          "TITLE": "Inicio del producto con dos miembros del equipo",
           "CONTENT": ""
         },
         "POINT_2": {
-          "TITLE": "PreDemo of MVP 1.0",
-          "CONTENT": "Embedded approach: PIS, AIS, PIIS"
+          "TITLE": "PreDemo de MVP 1.0",
+          "CONTENT": "Enfoque integrado:PIS, AIS, PIIS"
         },
         "POINT_3": {
-          "TITLE": "DEMO of MVP 1.0",
-          "CONTENT": "Embedded and redirected approaches"
+          "TITLE": "Demo de MVP 1.0",
+          "CONTENT": "Enfoques redirecto e integrado."
         },
         "POINT_4": {
-          "TITLE": "Release of XS2ASandbox ver 1.0",
-          "CONTENT": "Support of Redirect and Embedded approach: TPP-UI, Online Banking"
+          "TITLE": "Lanzamiento del  XS2A Sandbox ver  1.0",
+          "CONTENT": "Soporte de Enfoques redirecto e integrado: TPP-UI, Online Banking."
         },
         "POINT_5": {
-          "TITLE": "Release ver 1.1",
-          "CONTENT": "Multilevel SCA, Multicurrency accounts"
+          "TITLE": "Lanzamiento del ver 1.1",
+          "CONTENT": "SCA multinivel, cuenta de multimoneda"
         }
       }
     },
@@ -496,20 +496,20 @@
         "ITALIC_3": "\"Autorización de pago para usuarios con varios métodos SCA\""
       },
       "EMB_IN_AUTH_POST": {
-        "TITLE": "STEP 2: Authorise payment",
-        "PART_1": "1. Start authorisation process with",
-        "PART_2": ". Choose the same",
+        "TITLE": "PASO 2. AUTORIZAR EL PAGO",
+        "PART_1": "1. Comience con el proceso de autorización con la llamada del punto",
+        "PART_2": "autorisations. Elija el mismo",
         "PART_3": "and",
-        "PART_4": "you chose in ",
-        "STEP": "STEP 1",
-        "PART_5": "2. Enter payment id you have got from the previous response in",
-        "PART_6": "in the field",
-        "PART_7": "3. After choosing payment service and payment product, fill the header\n fields with the following values:",
-        "PART_8": "Put in ",
-        "PART_9": "the name of the\n user you chose (you can view users and their information in TPP-UI).",
-        "PART_10": "4. Start authorisation by hitting",
+        "PART_4": "como en el ",
+        "STEP": "Paso 1",
+        "PART_5": "2. Introduzca la ID de pago en el campo",
+        "PART_6": "que recibió en el paso previo ",
+        "PART_7": "3. Después de introducirla, rellene los campos de encabezado con los siguientes valores:",
+        "PART_8": "Ponga en ",
+        "PART_9": "el nombre del usuario que eligió (puede ver los usuarios y su información en TPP-UI).",
+        "PART_10": "4. Empieza la autorización empujando el botón",
         "ITALIC_SPAN": "\"Execute\"",
-        "PART_11": "button and get 201 HTTP code\n and related information."
+        "PART_11": "y obteniendo el 201 HTTP code y la información relacionada."
       },
       "EMB_IN_PUT": {
         "TITLE": "PASO 2: Autorizar el pago",
