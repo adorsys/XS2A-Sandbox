@@ -87,6 +87,7 @@ public class ResponseUtils {
 		Cookie cookie = new Cookie(cookieName, "");
 		cookie.setHttpOnly(cookieConfigProperties.isHttpOnly());
 		cookie.setSecure(cookieConfigProperties.isSecure());
+        cookie.setPath(cookieConfigProperties.getPath());
 		cookie.setMaxAge(0);
 		response.addCookie(cookie);
 	}

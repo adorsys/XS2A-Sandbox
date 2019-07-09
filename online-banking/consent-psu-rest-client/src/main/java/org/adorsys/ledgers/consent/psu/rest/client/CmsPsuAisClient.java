@@ -16,28 +16,20 @@
 
 package org.adorsys.ledgers.consent.psu.rest.client;
 
-import java.util.List;
-
+import de.adorsys.psd2.consent.api.ais.AisAccountConsent;
 import de.adorsys.psd2.consent.api.ais.CmsAisConsentResponse;
+import de.adorsys.psd2.consent.api.ais.CmsConsentIdentifier;
+import de.adorsys.psd2.consent.psu.api.ais.CmsAisConsentAccessRequest;
+import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
+import io.swagger.annotations.*;
 import org.adorsys.ledgers.consent.xs2a.rest.config.FeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.*;
 
-import de.adorsys.psd2.consent.api.ais.AisAccountConsent;
-import de.adorsys.psd2.consent.psu.api.ais.CmsAisConsentAccessRequest;
-import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import java.util.List;
 
-@FeignClient(value = "cmsPsuAis", url = "${cms.url}", path="/psu-api/v1/ais/consent", primary=false, configuration=FeignConfig.class)
+@FeignClient(value = "cmsPsuAis", url = "${cms.url}", path = "/psu-api/v1/ais/consent", primary = false, configuration = FeignConfig.class)
 @Api(value = "psu-api/v1/ais/consent", tags = "PSU AIS, Consents", description = "Provides access to consent management system for PSU AIS")
 public interface CmsPsuAisClient {
     String DEFAULT_SERVICE_INSTANCE_ID = "UNDEFINED";
@@ -171,7 +163,7 @@ public interface CmsPsuAisClient {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK", response = CmsAisConsentResponse.class),
         @ApiResponse(code = 408, message = "Request Timeout")})
-    ResponseEntity<CmsAisConsentResponse> getConsentByRedirectId(
+    ResponseEntity<CmsConsentIdentifier> getConsentByRedirectId(
         @ApiParam(value = "Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP's documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session. ")
         @RequestHeader(value = "psu-id", required = false) String psuId,
         @ApiParam(value = "Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility. ")
@@ -182,6 +174,24 @@ public interface CmsPsuAisClient {
         @RequestHeader(value = "psu-corporate-id-type", required = false) String psuCorporateIdType,
         @ApiParam(name = "redirect-id", value = "The redirect identification assigned to the created payment", required = true, example = "bf489af6-a2cb-4b75-b71d-d66d58b934d7")
         @PathVariable("redirect-id") String redirectId,
+        @RequestHeader(value = "instance-id", required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId);
+
+    @GetMapping(path = "/{consent-id}")
+    @ApiOperation(value = "Returns AIS Consent object by its ID.")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "OK", response = AisAccountConsent.class),
+        @ApiResponse(code = 404, message = "Not Found")})
+    ResponseEntity<AisAccountConsent> getConsentByConsentId(
+        @ApiParam(name = "consent-id", value = "The account consent identification assigned to the created account consent.", example = "bf489af6-a2cb-4b75-b71d-d66d58b934d7")
+        @PathVariable("consent-id") String consentId,
+        @ApiParam(value = "Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP's documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceding AIS service in the same session. ")
+        @RequestHeader(value = "psu-id", required = false) String psuId,
+        @ApiParam(value = "Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility. ")
+        @RequestHeader(value = "psu-id-type", required = false) String psuIdType,
+        @ApiParam(value = "Might be mandated in the ASPSP's documentation. Only used in a corporate context. ")
+        @RequestHeader(value = "psu-corporate-id", required = false) String psuCorporateId,
+        @ApiParam(value = "Might be mandated in the ASPSP's documentation. Only used in a corporate context. ")
+        @RequestHeader(value = "psu-corporate-id-type", required = false) String psuCorporateIdType,
         @RequestHeader(value = "instance-id", required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId);
 
     @PutMapping(path = "/{consent-id}/save-access")

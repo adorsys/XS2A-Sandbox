@@ -21,7 +21,9 @@ import de.adorsys.ledgers.oba.rest.server.mapper.AisConsentMapper;
 import de.adorsys.ledgers.oba.rest.server.mapper.CreatePiisConsentRequestMapper;
 import de.adorsys.psd2.consent.api.CmsAspspConsentDataBase64;
 import de.adorsys.psd2.consent.api.ais.AisAccountAccess;
+import de.adorsys.psd2.consent.api.ais.AisAccountConsent;
 import de.adorsys.psd2.consent.api.ais.CmsAisConsentResponse;
+import de.adorsys.psd2.consent.api.ais.CmsConsentIdentifier;
 import de.adorsys.psd2.consent.psu.api.ais.CmsAisConsentAccessRequest;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import feign.FeignException;
@@ -47,6 +49,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient.DEFAULT_SERVICE_INSTANCE_ID;
 
 @Slf4j
 @RestController(AISController.BASE_PATH)
@@ -276,7 +280,7 @@ public class AISController extends AbstractXISController implements AISApi {
             SCAConsentResponseTO scaConsentResponse = consentRestClient.authorizeConsent(workflow.consentId(), authorisationId, authCode).getBody();
 
             storeSCAResponseIntoWorkflow(workflow, scaConsentResponse);
-            cmsPsuAisClient.confirmConsent(workflow.consentId(), psuId, null, null, null, CmsPsuAisClient.DEFAULT_SERVICE_INSTANCE_ID);
+            cmsPsuAisClient.confirmConsent(workflow.consentId(), psuId, null, null, null, DEFAULT_SERVICE_INSTANCE_ID);
             updateScaStatusConsentStatusConsentData(psuId, workflow);
 
             // if consent is partially authorized the access token is null
@@ -414,7 +418,7 @@ public class AISController extends AbstractXISController implements AISApi {
     private boolean failAuthorisation(String encryptedConsentId, String psuId, String authorisationId) {
         ResponseEntity<Boolean> updateAuthorisationStatusResponse = cmsPsuAisClient.updateAuthorisationStatus(encryptedConsentId,
                                                                                                               "FAILED", authorisationId, psuId, null, null, null,
-                                                                                                              CmsPsuAisClient.DEFAULT_SERVICE_INSTANCE_ID);
+                                                                                                              DEFAULT_SERVICE_INSTANCE_ID);
 
         return updateAuthorisationStatusResponse.getStatusCode() == HttpStatus.OK;
     }
@@ -458,7 +462,7 @@ public class AISController extends AbstractXISController implements AISApi {
         throws ConsentAuthorizeException {
 
         // Parse and verify the consent cookie.
-        ConsentReference consentReference = null;
+        ConsentReference consentReference;
         try {
             String consentCookie = responseUtils.consentCookie(consentCookieString);
             consentReference = referencePolicy.fromRequest(encryptedConsentId, authorizationId, consentCookie, strict);
@@ -494,7 +498,7 @@ public class AISController extends AbstractXISController implements AISApi {
         throws ConsentAuthorizeException {
         String status = workflow.getAuthResponse().getScaStatus().name();
         ResponseEntity<Boolean> resp = cmsPsuAisClient.updateAuthorisationStatus(workflow.consentId(), status,
-                                                                                 workflow.authId(), psuId, null, null, null, CmsPsuAisClient.DEFAULT_SERVICE_INSTANCE_ID);
+                                                                                 workflow.authId(), psuId, null, null, null, DEFAULT_SERVICE_INSTANCE_ID);
         if (!HttpStatus.OK.equals(resp.getStatusCode())) {
             throw new ConsentAuthorizeException(responseUtils.couldNotProcessRequest(authResp(),
                                                                                      "Error updating authorisation status. See error code.", resp.getStatusCode(), response));
@@ -504,7 +508,7 @@ public class AISController extends AbstractXISController implements AISApi {
     private void updatePSUIdentification(ConsentWorkflow workflow, String psuId) throws ConsentAuthorizeException {
         PsuIdData psuIdData = new PsuIdData(psuId, null, null, null);
         ResponseEntity<Void> resp = cmsPsuAisClient.updatePsuDataInConsent(workflow.consentId(), workflow.authId(),
-                                                                           CmsPsuAisClient.DEFAULT_SERVICE_INSTANCE_ID, psuIdData);
+                                                                           DEFAULT_SERVICE_INSTANCE_ID, psuIdData);
         if (!HttpStatus.OK.equals(resp.getStatusCode())) {
             throw new ConsentAuthorizeException(responseUtils.couldNotProcessRequest(authResp(),
                                                                                      "Error updating psu identification. See error code.", resp.getStatusCode(), response));
@@ -601,13 +605,17 @@ public class AISController extends AbstractXISController implements AISApi {
         String psuCorporateIdType = null;
         String redirectId = consentReference.getRedirectId();
         // 4. After user login:
-        ResponseEntity<CmsAisConsentResponse> responseEntity = cmsPsuAisClient.getConsentByRedirectId(
-            psuId, psuIdType, psuCorporateId, psuCorporateIdType, redirectId, CmsPsuAisClient.DEFAULT_SERVICE_INSTANCE_ID);
+        ResponseEntity<CmsConsentIdentifier> responseEntity = cmsPsuAisClient.getConsentByRedirectId(
+            psuId, psuIdType, psuCorporateId, psuCorporateIdType, redirectId, DEFAULT_SERVICE_INSTANCE_ID);
 
         HttpStatus statusCode = responseEntity.getStatusCode();
+        CmsConsentIdentifier consentIdentifier = Optional.ofNullable(responseEntity.getBody())
+                                                     .orElseThrow(() -> new ConsentAuthorizeException(responseUtils.couldNotProcessRequest(authResp(), statusCode, response)));
 
         if (HttpStatus.OK.equals(statusCode)) {
-            return responseEntity.getBody();
+            AisAccountConsent accountConsent = cmsPsuAisClient.getConsentByConsentId(consentIdentifier.getConsentId(), psuId, psuIdType, psuCorporateId, psuCorporateIdType, DEFAULT_SERVICE_INSTANCE_ID)
+                                         .getBody();
+            return new CmsAisConsentResponse(accountConsent, consentIdentifier.getAuthorisationId(), consentIdentifier.getTppOkRedirectUri(), consentIdentifier.getTppNokRedirectUri());
         }
 
         if (HttpStatus.NOT_FOUND.equals(statusCode)) {
@@ -619,10 +627,9 @@ public class AISController extends AbstractXISController implements AISApi {
             // ---> if(Expired, TPP-Redirect-URL)
             // 3.a0) LogOut User
             // 3.a1) Send back to TPP
-            CmsAisConsentResponse consent = responseEntity.getBody();
-            String location = StringUtils.isNotBlank(consent.getTppNokRedirectUri())
-                                  ? consent.getTppNokRedirectUri()
-                                  : consent.getTppOkRedirectUri();
+            String location = StringUtils.isNotBlank(consentIdentifier.getTppNokRedirectUri())
+                                  ? consentIdentifier.getTppNokRedirectUri()
+                                  : consentIdentifier.getTppOkRedirectUri();
             throw new ConsentAuthorizeException(responseUtils.redirect(location, response));
         } else if (responseEntity.getStatusCode() != HttpStatus.OK) {
             throw new ConsentAuthorizeException(responseUtils.couldNotProcessRequest(authResp(), responseEntity.getStatusCode(), response));
