@@ -10,7 +10,7 @@ export class CustomizeService {
   private IS_CUSTOM = false;
   private DEFAULT_THEME: Theme = {
     globalSettings: {
-      logo: '../assets/UI/Logo_XS2ASandbox.png',
+      logo: 'Logo_XS2ASandbox.png',
       fontFamily: 'Arial, sans-serif',
       headerBG: '#ffffff',
       headerFontColor: '#000000',

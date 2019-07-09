@@ -1,16 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-code-area',
   templateUrl: './code-area.component.html',
   styleUrls: ['./code-area.component.scss'],
 })
-export class CodeAreaComponent implements OnInit {
+export class CodeAreaComponent {
   @Input() json: object;
   @Input() id: string;
   shown = false;
-
-  constructor() {}
 
   collapseThis(collapseId: string) {
     const collapsibleItemContent = document.getElementById(collapseId);
@@ -26,5 +24,4 @@ export class CodeAreaComponent implements OnInit {
     }
   }
 
-  ngOnInit() {}
 }

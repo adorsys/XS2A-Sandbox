@@ -1,12 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RdctPaymentCancellationDeleteComponent } from './rdct-payment-cancellation-delete.component';
+import { EmbPaymentCancellGetComponent } from './emb-payment-cancell-get.component';
 import {Component, Input, Pipe, PipeTransform} from '@angular/core';
-import {LineCommandComponent} from "../../../../../custom-elements/line-command/line-command.component";
+import {LineCommandComponent} from '../../../../../custom-elements/line-command/line-command.component';
 
-describe('RdctPaymentCancellationDeleteComponent', () => {
-  let component: RdctPaymentCancellationDeleteComponent;
-  let fixture: ComponentFixture<RdctPaymentCancellationDeleteComponent>;
+describe('EmbPaymentCancellGetComponent', () => {
+  let component: EmbPaymentCancellGetComponent;
+  let fixture: ComponentFixture<EmbPaymentCancellGetComponent>;
 
   @Component({
     selector: 'app-play-wth-data',
@@ -17,6 +17,8 @@ describe('RdctPaymentCancellationDeleteComponent', () => {
     @Input() paymentServiceFlag: boolean;
     @Input() paymentProductFlag: boolean;
     @Input() paymentIdFlag: boolean;
+    @Input() variablePathEnd: string;
+    @Input() cancellationIdFlag: boolean;
   }
 
   @Pipe({name: 'translate'})
@@ -30,16 +32,16 @@ describe('RdctPaymentCancellationDeleteComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        RdctPaymentCancellationDeleteComponent,
-        MockPlayWithDataComponent,
+        EmbPaymentCancellGetComponent,
         TranslatePipe,
+        MockPlayWithDataComponent,
         LineCommandComponent
       ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RdctPaymentCancellationDeleteComponent);
+    fixture = TestBed.createComponent(EmbPaymentCancellGetComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -48,3 +50,4 @@ describe('RdctPaymentCancellationDeleteComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+

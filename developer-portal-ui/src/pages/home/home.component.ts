@@ -11,111 +11,97 @@ import {
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit, AfterViewInit {
-  slides = [];
   today = +new Date();
-  productHistory = [];
   contactInfo: ContactInfo;
+  slides = [
+    {
+      title: 'HOME.FEATURES.SLIDES.SLIDE_1.TITLE',
+      description: 'HOME.FEATURES.SLIDES.SLIDE_1.CONTENT',
+      photoUrl: '../assets/icons/plug&play.png',
+      author: 'by John Doe, Position',
+    },
+    {
+      title: 'HOME.FEATURES.SLIDES.SLIDE_2.TITLE',
+      description: 'HOME.FEATURES.SLIDES.SLIDE_2.CONTENT',
+      photoUrl: '../assets/icons/developer.png',
+      author: 'by Test Name, Front',
+    },
+    {
+      title: 'HOME.FEATURES.SLIDES.SLIDE_3.TITLE',
+      description: 'HOME.FEATURES.SLIDES.SLIDE_3.CONTENT',
+      photoUrl: '../assets/icons/tested.png',
+      author: 'by Mark Travis, Back',
+    },
+    {
+      title: 'HOME.FEATURES.SLIDES.SLIDE_4.TITLE',
+      description: 'HOME.FEATURES.SLIDES.SLIDE_4.CONTENT',
+      photoUrl: '../assets/icons/customized.png',
+      author: 'by Mark Travis, Back',
+    },
+    {
+      title: 'HOME.FEATURES.SLIDES.SLIDE_5.TITLE',
+      description: 'HOME.FEATURES.SLIDES.SLIDE_5.CONTENT',
+      photoUrl: '../assets/icons/user-centered.png',
+      author: 'by Mark Travis, Back',
+    },
+    {
+      title: 'HOME.FEATURES.SLIDES.SLIDE_6.TITLE',
+      description: 'HOME.FEATURES.SLIDES.SLIDE_6.CONTENT',
+      photoUrl: '../assets/icons/prototyp.png',
+      author: 'by Mark Travis, Back',
+    },
+    {
+      title: 'HOME.FEATURES.SLIDES.SLIDE_7.TITLE',
+      description: 'HOME.FEATURES.SLIDES.SLIDE_7.CONTENT',
+      photoUrl: '../assets/icons/service.png',
+      author: 'by Mark Travis, Back',
+    },
+    {
+      title: 'HOME.FEATURES.SLIDES.SLIDE_8.TITLE',
+      description: 'HOME.FEATURES.SLIDES.SLIDE_8.CONTENT',
+      photoUrl: '../assets/icons/open_source.png',
+      author: 'by Mark Travis, Back',
+    },
+  ];
+  productHistory = [
+    {
+      title: 'HOME.HISTORY.PRODUCT.POINT_1.TITLE',
+      text: 'HOME.HISTORY.PRODUCT.POINT_1.CONTENT',
+      date: 1550181600000,
+      isToday: false,
+      orderNumber: 0,
+    },
+    {
+      title: 'HOME.HISTORY.PRODUCT.POINT_2.TITLE',
+      text: 'HOME.HISTORY.PRODUCT.POINT_2.CONTENT',
+      date: 1553724000000,
+      isToday: false,
+      orderNumber: 1,
+    },
+    {
+      title: 'HOME.HISTORY.PRODUCT.POINT_3.TITLE',
+      text: 'HOME.HISTORY.PRODUCT.POINT_3.CONTENT',
+      date: 1554066000000,
+      isToday: false,
+      orderNumber: 2,
+    },
+    {
+      title: 'HOME.HISTORY.PRODUCT.POINT_4.TITLE',
+      text: 'HOME.HISTORY.PRODUCT.POINT_4.CONTENT',
+      date: 1556658000000,
+      isToday: false,
+      orderNumber: 3,
+    },
+    {
+      title: 'HOME.HISTORY.PRODUCT.POINT_5.TITLE',
+      text: 'HOME.HISTORY.PRODUCT.POINT_5.CONTENT',
+      date: 1559336400000,
+      isToday: false,
+      orderNumber: 4,
+    }
+  ];
 
-  constructor(
-    private router: Router,
-    private customizeService: CustomizeService
-  ) {
-    this.init();
-  }
-
-  init() {
-    setInterval(() => {
-      this.contactInfo = this.customizeService.getTheme().contactInfo;
-    }, 100);
-
-    this.slides = [
-      {
-        title: 'HOME.FEATURES.SLIDES.SLIDE_1.TITLE',
-        description: 'HOME.FEATURES.SLIDES.SLIDE_1.CONTENT',
-        photoUrl: '../assets/icons/plug&play.png',
-        author: 'by John Doe, Position',
-      },
-      {
-        title: 'HOME.FEATURES.SLIDES.SLIDE_2.TITLE',
-        description: 'HOME.FEATURES.SLIDES.SLIDE_2.CONTENT',
-        photoUrl: '../assets/icons/developer.png',
-        author: 'by Test Name, Front',
-      },
-      {
-        title: 'HOME.FEATURES.SLIDES.SLIDE_3.TITLE',
-        description: 'HOME.FEATURES.SLIDES.SLIDE_3.CONTENT',
-        photoUrl: '../assets/icons/tested.png',
-        author: 'by Mark Travis, Back',
-      },
-      {
-        title: 'HOME.FEATURES.SLIDES.SLIDE_4.TITLE',
-        description: 'HOME.FEATURES.SLIDES.SLIDE_4.CONTENT',
-        photoUrl: '../assets/icons/customized.png',
-        author: 'by Mark Travis, Back',
-      },
-      {
-        title: 'HOME.FEATURES.SLIDES.SLIDE_5.TITLE',
-        description: 'HOME.FEATURES.SLIDES.SLIDE_5.CONTENT',
-        photoUrl: '../assets/icons/user-centered.png',
-        author: 'by Mark Travis, Back',
-      },
-      {
-        title: 'HOME.FEATURES.SLIDES.SLIDE_6.TITLE',
-        description: 'HOME.FEATURES.SLIDES.SLIDE_6.CONTENT',
-        photoUrl: '../assets/icons/prototyp.png',
-        author: 'by Mark Travis, Back',
-      },
-      {
-        title: 'HOME.FEATURES.SLIDES.SLIDE_7.TITLE',
-        description: 'HOME.FEATURES.SLIDES.SLIDE_7.CONTENT',
-        photoUrl: '../assets/icons/service.png',
-        author: 'by Mark Travis, Back',
-      },
-      {
-        title: 'HOME.FEATURES.SLIDES.SLIDE_8.TITLE',
-        description: 'HOME.FEATURES.SLIDES.SLIDE_8.CONTENT',
-        photoUrl: '../assets/icons/open_source.png',
-        author: 'by Mark Travis, Back',
-      },
-    ];
-    this.productHistory = [
-      {
-        title: 'HOME.HISTORY.PRODUCT.POINT_1.TITLE',
-        text: 'HOME.HISTORY.PRODUCT.POINT_1.CONTENT',
-        date: 1550181600000,
-        isToday: false,
-        orderNumber: 0,
-      },
-      {
-        title: 'HOME.HISTORY.PRODUCT.POINT_2.TITLE',
-        text: 'HOME.HISTORY.PRODUCT.POINT_2.CONTENT',
-        date: 1553724000000,
-        isToday: false,
-        orderNumber: 1,
-      },
-      {
-        title: 'HOME.HISTORY.PRODUCT.POINT_3.TITLE',
-        text: 'HOME.HISTORY.PRODUCT.POINT_3.CONTENT',
-        date: 1554066000000,
-        isToday: false,
-        orderNumber: 2,
-      },
-      {
-        title: 'HOME.HISTORY.PRODUCT.POINT_4.TITLE',
-        text: 'HOME.HISTORY.PRODUCT.POINT_4.CONTENT',
-        date: 1556658000000,
-        isToday: false,
-        orderNumber: 3,
-      },
-      {
-        title: 'HOME.HISTORY.PRODUCT.POINT_5.TITLE',
-        text: 'HOME.HISTORY.PRODUCT.POINT_5.CONTENT',
-        date: 1559336400000,
-        isToday: false,
-        orderNumber: 4,
-      },
-    ];
-  }
+  constructor(private customizeService: CustomizeService) {}
 
   checkTodayDay(date) {
     if (date > this.today) {
@@ -159,6 +145,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.contactInfo = this.customizeService.getTheme().contactInfo;
+
     if (this.productHistory[this.productHistory.length - 1].date < this.today) {
       this.productHistory.push({
         title: '',

@@ -19,9 +19,7 @@ export class TestCasesComponent implements OnInit {
   ) {}
 
   onActivate(ev) {
-    this.dataService.currentRouteUrl = this.actRoute[
-      '_routerState'
-    ].snapshot.url;
+    this.dataService.setRouterUrl(this.actRoute['_routerState'].snapshot.url);
   }
 
   collapseThis(collapseId: string): void {
@@ -49,9 +47,9 @@ export class TestCasesComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.dataService.currentRouteUrl.includes('redirect')) {
+    if (this.dataService.getRouterUrl().includes('redirect')) {
       this.collapseThis('redirect');
-    } else if (this.dataService.currentRouteUrl.includes('embedded')) {
+    } else if (this.dataService.getRouterUrl().includes('embedded')) {
       this.collapseThis('embedded');
     } else {
       this.collapseThis('account');

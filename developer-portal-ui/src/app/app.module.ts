@@ -14,16 +14,14 @@ import { ContactComponent } from '../pages/contact/contact.component';
 import { RestService } from '../services/rest.service';
 import { DataService } from '../services/data.service';
 import { TestValuesComponent } from '../pages/test-cases/components/test-values/test-values.component';
-import { AdminComponent } from '../pages/admin/admin.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SettingsModalComponent } from '../pages/settigs-modal/settings-modal.component';
 import { AccinfAccountsGetComponent } from '../pages/test-cases/components/api-endpoints/accinf-accounts-get/accinf-accounts-get.component';
 import { AccinfAccountGetComponent } from '../pages/test-cases/components/api-endpoints/accinf-account-get/accinf-account-get.component';
 import { AccinfBalanceGetComponent } from '../pages/test-cases/components/api-endpoints/accinf-balance-get/accinf-balance-get.component';
 import { AccinfTransactionsGetComponent } from '../pages/test-cases/components/api-endpoints/accinf-transactions-get/accinf-transactions-get.component';
 import { AccinfTransactionGetComponent } from '../pages/test-cases/components/api-endpoints/accinf-transaction-get/accinf-transaction-get.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { HttpLoaderFactory } from '../services/translate.factory';
+import { HttpLoaderFactory } from '../services/language.service';
 import { SettingsLoadService } from '../services/settings-load.service';
 
 export function app_Init(settingsLoadService: SettingsLoadService) {
@@ -38,8 +36,6 @@ export function app_Init(settingsLoadService: SettingsLoadService) {
     FaqComponent,
     ContactComponent,
     TestValuesComponent,
-    AdminComponent,
-    SettingsModalComponent,
     AccinfAccountsGetComponent,
     AccinfAccountGetComponent,
     AccinfBalanceGetComponent,
@@ -65,7 +61,7 @@ export function app_Init(settingsLoadService: SettingsLoadService) {
     ReactiveFormsModule,
     FormsModule,
   ],
-  exports: [SettingsModalComponent],
+  exports: [],
   providers: [
     {
       provide: APP_INITIALIZER,

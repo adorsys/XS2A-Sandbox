@@ -182,7 +182,7 @@
   </div>
 
   <ngx-loading
-    [show]="dataService.isLoading"
+    [show]="dataService.getIsLoading()"
     [config]="{
       backdropBackgroundColour: 'rgba(255,255,255,0.5)',
       backdropBorderRadius: '10px',

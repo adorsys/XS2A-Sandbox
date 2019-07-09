@@ -12,13 +12,11 @@ import { Settings } from '../../models/settings.model';
 export class GettingStartedComponent implements OnInit {
   defaultTheme: Theme;
   settings: Settings;
+
   constructor(
-    private customizeService: CustomizeService,
-    private settingsService: SettingsService
-  ) {
-    this.defaultTheme = customizeService.getTheme('default');
-    this.defaultTheme.globalSettings.logo = 'Logo_XS2ASandbox.png';
-  }
+      private customizeService: CustomizeService,
+      private settingsService: SettingsService
+  ) {}
 
   exportTheme() {
     const blob = new Blob([JSON.stringify(this.defaultTheme, null, 2)], {
@@ -28,6 +26,8 @@ export class GettingStartedComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.defaultTheme = this.customizeService.getTheme('default');
+
     this.settings = this.settingsService.settings;
     console.log(this.settings);
   }
