@@ -120,8 +120,8 @@
         'setting: \n' +
           'frequencyPerDay: 5 \n' +
           'combinedServiceIndicator: false \n' +
-          'scaApproaches:  \n' +
-          '- REDIRECT  \n' +
+          'scaApproaches: \n' +
+          '- REDIRECT \n' +
           '- EMBEDDED \n' +
           'tppSignatureRequired: false \n' +
           'bankOfferedConsentSupport: true \n' +
@@ -132,8 +132,8 @@
           'aisRedirectUrlToAspsp: http://localhost:4400/account-information/' +
           'login?encryptedConsentId={encrypted-consent-id}&redirectId={redirect-id} \n' +
           'multicurrencyAccountLevel: SUBACCOUNT \n' +
-          'availableBookingStatuses:  \n' +
-          '- BOOKED  \n' +
+          'availableBookingStatuses: \n' +
+          '- BOOKED \n' +
           '- PENDING \n' +
           'supportedAccountReferenceFields: \n ' +
           '- MSISDN \n' +
@@ -149,14 +149,14 @@
           'notConfirmedConsentExpirationPeriodMs: 86400000 \n' +
           'notConfirmedPaymentExpirationPeriodMs: 86400000 \n' +
           'supportedPaymentTypeAndProductMatrix: \n' +
-          'SINGLE:  \n' +
-          '- sepa-credit-transfers  \n' +
+          'SINGLE: \n' +
+          '- sepa-credit-transfers \n' +
           '- instant-sepa-credit-transfers \n' +
-          'PERIODIC:  \n' +
-          '- sepa-credit-transfers  \n' +
+          'PERIODIC: \n' +
+          '- sepa-credit-transfers \n' +
           '- instant-sepa-credit-transfers \n' +
           'BULK: \n ' +
-          '- sepa-credit-transfers  \n' +
+          '- sepa-credit-transfers \n' +
           '- instant-sepa-credit-transfers \n' +
           'paymentCancellationRedirectUrlExpirationTimeMs: 600000 \n' +
           'availableAccountsConsentSupported: true \n' +
@@ -214,153 +214,24 @@
       <span>{{ 'GETTING_STARTED.LINKS_TO.TABLE.R1_C3' | translate }}</span>
     </div>
 
-    <div class="links-to-environments">
-      <span>{{ 'GETTING_STARTED.LINKS_TO.TABLE.R2' | translate }}</span>
-      <span>
-        <a target="_blank" href="http://localhost:4206">
-          http://localhost:4206
-        </a>
-      </span>
-      <span>
-        <a
-          target="_blank"
-          href="https://demo-dynamicsandbox-developerportalui.cloud.adorsys.de"
-        >
-          https://demo-dynamicsandbox-developerportalui.cloud.adorsys.de
-        </a>
-      </span>
-    </div>
+    <div
+      *ngFor="let link of settings.envLinks; let i = index"
+      class="links-to-environments"
+      [ngClass]="i % 2 == 0 ? '' : 'bg'"
+    >
+      <span>{{
+        'GETTING_STARTED.LINKS_TO.TABLE.' + link.name | translate
+      }}</span>
 
-    <div class="links-to-environments bg">
-      <span>{{ 'GETTING_STARTED.LINKS_TO.TABLE.R3' | translate }}</span>
       <span>
-        <a target="_blank" href="http://localhost:8080/swagger-ui.html">
-          http://localhost:8089/swagger-ui.html
+        <a target="_blank" href="{{link.localEnvironmentLink}}">
+          {{ link.localEnvironmentLink }}
         </a>
       </span>
-      <span>
-        <a
-          target="_blank"
-          href="https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/"
-        >
-          https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/
-        </a>
-      </span>
-    </div>
 
-    <div class="links-to-environments">
-      <span>{{ 'GETTING_STARTED.LINKS_TO.TABLE.R4' | translate }}</span>
       <span>
-        <a target="_blank" href="http://localhost:38080/swagger-ui.html">
-          http://localhost:38080/swagger-ui.html
-        </a>
-      </span>
-      <span>
-        <a
-          target="_blank"
-          href="https://demo-dynamicsandbox-cms.cloud.adorsys.de"
-        >
-          https://demo-dynamicsandbox-cms.cloud.adorsys.de
-        </a>
-      </span>
-    </div>
-
-    <div class="links-to-environments bg">
-      <span>{{ 'GETTING_STARTED.LINKS_TO.TABLE.R5' | translate }}</span>
-      <span>
-        <a target="_blank" href="http://localhost:8088/swagger-ui.html">
-          http://localhost:8088/swagger-ui.html
-        </a>
-      </span>
-      <span>
-        <a
-          target="_blank"
-          href="https://demo-dynamicsandbox-ledgers.cloud.adorsys.de"
-        >
-          https://demo-dynamicsandbox-ledgers.cloud.adorsys.de
-        </a>
-      </span>
-    </div>
-    <div class="links-to-environments">
-      <span>{{ 'GETTING_STARTED.LINKS_TO.TABLE.R6' | translate }}</span>
-      <span>
-        <a target="_blank" href="http://localhost:48080/swagger-ui.html">
-          http://localhost:48080/swagger-ui.html
-        </a>
-      </span>
-      <span>
-        <a
-          target="_blank"
-          href="https://demo-dynamicsandbox-aspspprofile.cloud.adorsys.de"
-        >
-          https://demo-dynamicsandbox-aspspprofile.cloud.adorsys.de
-        </a>
-      </span>
-    </div>
-
-    <div class="links-to-environments bg">
-      <span>{{ 'GETTING_STARTED.LINKS_TO.TABLE.R7' | translate }}</span>
-      <span>
-        <a target="_blank" href="http://localhost:4205">
-          http://localhost:4205
-        </a>
-      </span>
-      <span>
-        <a
-          target="_blank"
-          href="https://demo-dynamicsandbox-tppui.cloud.adorsys.de/login"
-        >
-          https://demo-dynamicsandbox-tppui.cloud.adorsys.de/login
-        </a>
-      </span>
-    </div>
-
-    <div class="links-to-environments">
-      <span>{{ 'GETTING_STARTED.LINKS_TO.TABLE.R8' | translate }}</span>
-      <span>
-        <a target="_blank" href="http://localhost:4400/">
-          http://localhost:4400
-        </a>
-      </span>
-      <span>
-        <a
-          target="_blank"
-          href="https://demo-dynamicsandbox-onlinebankingui.cloud.adorsys.de/account-information/login"
-        >
-          https://demo-dynamicsandbox-onlinebankingui.cloud.adorsys.de/account-information/login
-        </a>
-      </span>
-    </div>
-
-    <div class="links-to-environments bg">
-      <span>{{ 'GETTING_STARTED.LINKS_TO.TABLE.R9' | translate }}</span>
-      <span>
-        <a target="_blank" href="http://localhost:8090/swagger-ui.html">
-          http://localhost:8090/swagger-ui.html
-        </a>
-      </span>
-      <span>
-        <a
-          target="_blank"
-          href="https://demo-dynamicsandbox-onlinebanking.cloud.adorsys.de/swagger-ui.html"
-        >
-          https://demo-dynamicsandbox-onlinebanking.cloud.adorsys.de/swagger-ui.html
-        </a>
-      </span>
-    </div>
-    <div class="links-to-environments">
-      <span>{{ 'GETTING_STARTED.LINKS_TO.TABLE.R10' | translate }}</span>
-      <span>
-        <a target="_blank" href="http://localhost:8090/swagger-ui.html">
-          http://localhost:8092/swagger-ui.html
-        </a>
-      </span>
-      <span>
-        <a
-          target="_blank"
-          href="https://demo-dynamicsandbox-certificategenerator.cloud.adorsys.de/swagger-ui.html"
-        >
-          https://demo-dynamicsandbox-certificategenerator.cloud.adorsys.de/swagger-ui.html
+        <a target="_blank" href="{{link.productionEnvironmentLink}}">
+          {{ link.productionEnvironmentLink }}
         </a>
       </span>
     </div>
@@ -527,14 +398,22 @@
 
     <div class="yaml">
       {{
-        'ledgers                       | 2019-05-02 13:54:29.410  INFO 1 --- [           main] liquibase.executor.jvm.JdbcExecutor      : SELECT LOCKED FROM ledgers.databasechangeloglock WHERE ID=1 \n' +
-          'ledgers                       | 2019-05-02 13:54:39.697  INFO 1 --- [           main] l.lockservice.StandardLockService        : Waiting for changelog lock.... \n' +
-          'ledgers                       | 2019-05-02 13:54:55.137  INFO 1 --- [           main] liquibase.executor.jvm.JdbcExecutor      : SELECT LOCKED FROM ledgers.databasechangeloglock WHERE ID=1 \n' +
-          'ledgers                       | 2019-05-02 13:55:35.940  INFO 1 --- [           main] l.lockservice.StandardLockService        : Waiting for changelog lock.... \n' +
-          'ledgers                       | 2019-05-02 13:55:45.995  INFO 1 --- [           main] liquibase.executor.jvm.JdbcExecutor      : SELECT LOCKED FROM ledgers.databasechangeloglock WHERE ID=1 \n' +
-          'ledgers                       | 2019-05-02 13:55:46.967  INFO 1 --- [           main] l.lockservice.StandardLockService        : Waiting for changelog lock.... \n' +
-          'ledgers                       | 2019-05-02 13:55:59.167  INFO 1 --- [           main] liquibase.executor.jvm.JdbcExecutor      : SELECT LOCKED FROM ledgers.databasechangeloglock WHERE ID=1 \n' +
-          'ledgers                       | 2019-05-02 13:57:38.705  INFO 1 --- [           main] l.lockservice.StandardLockService        : Waiting for changelog lock.... \n' +
+        'ledgers | 2019-05-02 13:54:29.410 INFO 1 --- [ main] liquibase.executor.jvm.JdbcExecutor : SELECT LOCKED
+            FROM ledgers.databasechangeloglock WHERE ID=1 \n' +
+          'ledgers | 2019-05-02 13:54:39.697 INFO 1 --- [ main] l.lockservice.StandardLockService : Waiting for
+            changelog lock.... \n' +
+          'ledgers | 2019-05-02 13:54:55.137 INFO 1 --- [ main] liquibase.executor.jvm.JdbcExecutor : SELECT LOCKED
+            FROM ledgers.databasechangeloglock WHERE ID=1 \n' +
+          'ledgers | 2019-05-02 13:55:35.940 INFO 1 --- [ main] l.lockservice.StandardLockService : Waiting for
+            changelog lock.... \n' +
+          'ledgers | 2019-05-02 13:55:45.995 INFO 1 --- [ main] liquibase.executor.jvm.JdbcExecutor : SELECT LOCKED
+            FROM ledgers.databasechangeloglock WHERE ID=1 \n' +
+          'ledgers | 2019-05-02 13:55:46.967 INFO 1 --- [ main] l.lockservice.StandardLockService : Waiting for
+            changelog lock.... \n' +
+          'ledgers | 2019-05-02 13:55:59.167 INFO 1 --- [ main] liquibase.executor.jvm.JdbcExecutor : SELECT LOCKED
+            FROM ledgers.databasechangeloglock WHERE ID=1 \n' +
+          'ledgers | 2019-05-02 13:57:38.705 INFO 1 --- [ main] l.lockservice.StandardLockService : Waiting for
+            changelog lock.... \n' +
           'ledgers exited with code 137'
       }}
     </div>
@@ -556,12 +435,17 @@
       {{
         'gyp ERR! build error \n' +
           'gyp ERR! stack Error: `make` failed with exit code: 2 \n' +
-          'gyp ERR! stack     at ChildProcess.onExit (/Users/rpo/XS2A-Sandbox/developer-portal-ui/node_modules/node-gyp/lib/build.js:262:23) \n' +
-          'gyp ERR! stack     at ChildProcess.emit (events.js:196:13) \n' +
-          'gyp ERR! stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:256:12) \n' +
+          'gyp ERR! stack at ChildProcess.onExit
+            (/Users/rpo/XS2A-Sandbox/developer-portal-ui/node_modules/node-gyp/lib/build.js:262:23) \n' +
+          'gyp ERR! stack at ChildProcess.emit (events.js:196:13) \n' +
+          'gyp ERR! stack at Process.ChildProcess._handle.onexit (internal/child_process.js:256:12) \n' +
           'gyp ERR! System Darwin 17.7.0 \n' +
-          'gyp ERR! command "/usr/local/Cellar/node/12.1.0/bin/node" "/Users/rpo/XS2A-Sandbox/developer-portal-ui/node_modules/node-gyp/bin/node-gyp.js" "rebuild" "--verbose" "--libsass_ext=" "--libsass_cflags=" "--libsass_ldflags=" "--libsass_library=" \n' +
-          'gyp ERR! cwd /Users/rpo/XS2A-Sandbox/developer-portal-ui/node_modules/@angular-devkit/build-angular/node_modules/node-sass \n' +
+          'gyp ERR! command "/usr/local/Cellar/node/12.1.0/bin/node"
+            "/Users/rpo/XS2A-Sandbox/developer-portal-ui/node_modules/node-gyp/bin/node-gyp.js" "rebuild" "--verbose"
+            "--libsass_ext=" "--libsass_cflags=" "--libsass_ldflags=" "--libsass_library=" \n' +
+          'gyp ERR! cwd
+            /Users/rpo/XS2A-Sandbox/developer-portal-ui/node_modules/@angular-devkit/build-angular/node_modules/node-sass
+            \n' +
           'gyp ERR! node -v v12.1.0 \n' +
           'gyp ERR! node-gyp -v v3.8.0 \n' +
           'gyp ERR! not ok'

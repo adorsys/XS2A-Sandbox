@@ -208,15 +208,15 @@
         "R1_C1": "Сервіс",
         "R1_C2": "Локальне середовище",
         "R1_C3": "XS2ASandbox Демо-середовище",
-        "R2": "Портал розробника",
-        "R3": "Інтерфейс XS2A",
-        "R4": "Consent management system",
-        "R5": "Ledgers",
-        "R6": "ASPSP-профіль Swagger",
-        "R7": "Інтерфейс TPP",
-        "R8": "Онлайн-банкінг",
-        "R9": "Сервер онлайн-банкінгу",
-        "R10": "Генератор сертифікатів"
+        "DEVELOPER_PORTAL": "Портал розробника",
+        "XS2A_INTERFACE_SWAGGER": "Інтерфейс XS2A",
+        "CONSENT_MANAGEMENT_SYSTEM": "Consent management system",
+        "LEDGERS": "Ledgers",
+        "ASPSP_PROFILE_SWAGGER": "ASPSP-профіль Swagger",
+        "TPP_UI": "Інтерфейс TPP",
+        "ONLINE_BANKING_UI": "Онлайн-банкінг",
+        "ONLINE_BANKING_BACKEND": "Сервер онлайн-банкінгу",
+        "CERTIFICATE_GENERATOR": "Генератор сертифікатів"
       }
     },
     "HOW_TO_DOWN": {

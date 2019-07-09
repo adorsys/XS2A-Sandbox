@@ -208,15 +208,15 @@
         "R1_C1": "Service",
         "R1_C2": "Local environment",
         "R1_C3": "XS2ASandbox Demo environment",
-        "R2": "Developer portal",
-        "R3": "XS2A Interface Swagger",
-        "R4": "Consent management system",
-        "R5": "Ledgers",
-        "R6": "ASPSP-Profile Swagger",
-        "R7": "TPP User Interface",
-        "R8": "Online banking UI",
-        "R9": "Online banking backend",
-        "R10": "Certificate Generator"
+        "DEVELOPER_PORTAL": "Developer portal",
+        "XS2A_INTERFACE_SWAGGER": "XS2A Interface Swagger",
+        "CONSENT_MANAGEMENT_SYSTEM": "Consent management system",
+        "LEDGERS": "Ledgers",
+        "ASPSP_PROFILE_SWAGGER": "ASPSP-Profile Swagger",
+        "TPP_UI": "TPP User Interface",
+        "ONLINE_BANKING_UI": "Online banking UI",
+        "ONLINE_BANKING_BACKEND": "Online banking backend",
+        "CERTIFICATE_GENERATOR": "Certificate Generator"
       }
     },
     "HOW_TO_DOWN": {

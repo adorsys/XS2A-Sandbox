@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomizeService, Theme } from '../../services/customize.service';
 import { saveAs } from 'file-saver';
+import { SettingsService } from '../../services/settings.service';
+import { Settings } from '../../models/settings.model';
 
 @Component({
   selector: 'app-getting-started',
@@ -9,7 +11,11 @@ import { saveAs } from 'file-saver';
 })
 export class GettingStartedComponent implements OnInit {
   defaultTheme: Theme;
-  constructor(private customizeService: CustomizeService) {
+  settings: Settings;
+  constructor(
+    private customizeService: CustomizeService,
+    private settingsService: SettingsService
+  ) {
     this.defaultTheme = customizeService.getTheme('default');
     this.defaultTheme.globalSettings.logo = 'Logo_XS2ASandbox.png';
   }
@@ -21,5 +27,8 @@ export class GettingStartedComponent implements OnInit {
     saveAs(blob, 'exampleTheme');
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.settings = this.settingsService.settings;
+    console.log(this.settings);
+  }
 }
