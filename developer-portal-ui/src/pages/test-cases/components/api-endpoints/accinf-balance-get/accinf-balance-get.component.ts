@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-accinf-balance-get',
   templateUrl: './accinf-balance-get.component.html'
 })
-export class AccinfBalanceGetComponent implements OnInit {
+export class AccinfBalanceGetComponent {
 
   activeSegment = 'documentation';
   headers: object = {
@@ -13,12 +13,9 @@ export class AccinfBalanceGetComponent implements OnInit {
     'PSU-IP-Address': '1.1.1.1',
   };
 
-  constructor() {}
-
   changeSegment(segment) {
-    this.activeSegment = segment;
+    if (segment === 'documentation' || segment === 'play-data') {
+      this.activeSegment = segment;
+    }
   }
-
-  ngOnInit() {}
-
 }

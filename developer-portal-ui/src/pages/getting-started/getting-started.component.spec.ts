@@ -86,8 +86,19 @@ describe('GettingStartedComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create (not all)', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should export theme', () => {
+    expect(component.exportTheme()).toBeTruthy();
+  });
+
+  it('should set settings and default theme in ngOnInit', () => {
+    component.ngOnInit();
+
+    expect(component.defaultTheme).not.toBeUndefined();
+    expect(component.settings).not.toBeUndefined();
   });
 
 });

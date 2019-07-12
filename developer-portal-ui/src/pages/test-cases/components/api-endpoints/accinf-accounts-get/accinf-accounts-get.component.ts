@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-accinf-accounts-get',
   templateUrl: './accinf-accounts-get.component.html'
 })
-export class AccinfAccountsGetComponent implements OnInit {
+export class AccinfAccountsGetComponent {
+
   activeSegment = 'documentation';
   headers: object = {
     'X-Request-ID': '2f77a125-aa7a-45c0-b414-cea25a116035',
@@ -12,12 +13,9 @@ export class AccinfAccountsGetComponent implements OnInit {
     'PSU-IP-Address': '1.1.1.1',
   };
 
-  constructor() {
-  }
-
   changeSegment(segment) {
-    this.activeSegment = segment;
+    if (segment === 'documentation' || segment === 'play-data') {
+      this.activeSegment = segment;
+    }
   }
-
-  ngOnInit() {}
 }

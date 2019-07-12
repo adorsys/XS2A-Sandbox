@@ -16,7 +16,7 @@ describe('DataService', () => {
     });
   });
 
-  it('should be created (not all)', inject([DataService], (service: DataService) => {
+  it('should be created', inject([DataService], (service: DataService) => {
     expect(service).toBeTruthy();
   }));
 });

@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EmbeddedComponent } from './embedded.component';
-import {Pipe, PipeTransform} from "@angular/core";
+import {Pipe, PipeTransform} from '@angular/core';
 
 describe('EmbeddedComponent', () => {
   let component: EmbeddedComponent;
@@ -30,7 +30,7 @@ describe('EmbeddedComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create (not all)', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

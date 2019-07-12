@@ -145,7 +145,6 @@ export class PlayWthDataComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('fields', this.fieldsToCopy);
     this.paymentService = this.paymentServiceFlag ? 'payments' : '';
     this.paymentProduct = this.paymentProductFlag ? '/sepa-credit-transfers' : '';
     this.paymentId = this.paymentIdFlag ? 'paymentId' : '';

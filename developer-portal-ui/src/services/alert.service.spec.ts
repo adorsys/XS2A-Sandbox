@@ -15,7 +15,7 @@ describe('AlertService', () => {
     });
   });
 
-  it('should be created (not all)', inject([AlertService], (service: AlertService) => {
+  it('should be created (unused)', inject([AlertService], (service: AlertService) => {
     expect(service).toBeTruthy();
   }));
 });

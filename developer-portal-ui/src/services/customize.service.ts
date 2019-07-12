@@ -123,38 +123,6 @@ export class CustomizeService {
       });
   }
 
-  setDefaultTheme() {
-    this.NEW_THEME_WAS_SET = false;
-    this.STATUS_WAS_CHANGED = !this.STATUS_WAS_CHANGED;
-    this.IS_CUSTOM = false;
-    this.changeFontFamily();
-    this.USER_THEME = {
-      globalSettings: {
-        logo: '',
-        fontFamily: '',
-      },
-      contactInfo: {
-        img: '',
-        name: '',
-        position: '',
-      },
-      officesInfo: [
-        {
-          city: '',
-          company: '',
-          addressFirstLine: '',
-          addressSecondLine: '',
-        },
-        {
-          city: '',
-          company: '',
-          addressFirstLine: '',
-          addressSecondLine: '',
-        },
-      ],
-    };
-  }
-
   setUserTheme(theme: Theme) {
     this.USER_THEME = theme;
     this.changeFontFamily(this.USER_THEME.globalSettings.fontFamily);

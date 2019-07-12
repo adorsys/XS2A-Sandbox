@@ -19,8 +19,8 @@ export class SettingsLoadService {
         .toPromise()
         .then(settings => {
           if (settings instanceof Array) {
-            for (let i = 0; i < settings.length; i++) {
-              if (!(settings[i] instanceof EnvLink)) {
+            for (const s of settings) {
+              if (!(s instanceof EnvLink)) {
                 this.settingsService.fallbackToDefault();
                 break;
               }

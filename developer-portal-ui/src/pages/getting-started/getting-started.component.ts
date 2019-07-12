@@ -18,17 +18,23 @@ export class GettingStartedComponent implements OnInit {
       private settingsService: SettingsService
   ) {}
 
-  exportTheme() {
-    const blob = new Blob([JSON.stringify(this.defaultTheme, null, 2)], {
-      type: 'application/json',
-    });
-    saveAs(blob, 'exampleTheme');
+  exportTheme(): boolean {
+    let exportResult = false;
+    try {
+      const blob = new Blob([JSON.stringify(this.defaultTheme, null, 2)], {
+        type: 'application/json',
+      });
+      saveAs(blob, 'exampleTheme');
+      exportResult = true;
+    } catch (e) {
+      console.log(e);
+    }
+    return exportResult;
   }
 
   ngOnInit() {
     this.defaultTheme = this.customizeService.getTheme('default');
 
     this.settings = this.settingsService.settings;
-    console.log(this.settings);
   }
 }

@@ -84,15 +84,4 @@ describe('ContactComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should set contact info and office info in ngOnInit', () => {
-    const getThemeSpy = spyOn(customizeService, 'getTheme').and.callThrough();
-
-    component.ngOnInit();
-
-    expect(getThemeSpy).toHaveBeenCalled();
-    expect(component.contactInfo).not.toBeUndefined();
-    expect(component.officesInfo).not.toBeUndefined();
-    expect(component.officesInfo.length).toEqual(2);
-  });
 });

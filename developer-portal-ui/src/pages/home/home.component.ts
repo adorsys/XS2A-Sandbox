@@ -101,12 +101,18 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
   ];
 
-  constructor(private customizeService: CustomizeService) {}
+  constructor(private customizeService: CustomizeService) {
+    setInterval(() => {
+      this.contactInfo = this.customizeService.getTheme().contactInfo;
+    }, 100);
+  }
 
   checkTodayDay(date) {
+    let isToday = false;
     if (date > this.today) {
-      return true;
+      isToday = true;
     }
+    return isToday;
   }
 
   slider() {
@@ -145,8 +151,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.contactInfo = this.customizeService.getTheme().contactInfo;
-
     if (this.productHistory[this.productHistory.length - 1].date < this.today) {
       this.productHistory.push({
         title: '',
@@ -164,7 +168,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         orderNumber: null,
       });
     } else {
-      for (let i = 0; i < this.productHistory.length; i++) {
+      for (let i = 0; i < this.productHistory.length - 1; i++) {
         if (
           this.productHistory[i].date <= this.today &&
           this.productHistory[i + 1].date > this.today

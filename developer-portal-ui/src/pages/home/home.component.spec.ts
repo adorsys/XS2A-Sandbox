@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { HomeComponent } from './home.component';
+import {HomeComponent} from './home.component';
 import {Pipe, PipeTransform} from '@angular/core';
 import {CustomizeService} from '../../services/customize.service';
 
@@ -65,7 +65,7 @@ describe('HomeComponent', () => {
         TranslatePipe
       ],
       providers: [
-        { provide: CustomizeService, useValue: CustomizeServiceStub }
+        {provide: CustomizeService, useValue: CustomizeServiceStub}
       ]
     }).compileComponents();
   }));
@@ -76,7 +76,19 @@ describe('HomeComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create (not all)', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should check is it today', () => {
+    expect(component.checkTodayDay(+new Date())).toBeTruthy();
+    expect(component.checkTodayDay(0)).toBeFalsy();
+  });
+
+  it('should set product history in ngOnInit', () => {
+    component.ngOnInit();
+
+    expect(component.productHistory[component.productHistory.length - 1].date > component.today).toBeFalsy();
+    expect(component.productHistory[0].date > component.today).toBeFalsy();
   });
 });
