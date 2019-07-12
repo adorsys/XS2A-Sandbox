@@ -29,4 +29,8 @@ export class AccountService {
   depositCash(accountId: string, amount: Amount) {
     return this.http.post(this.url + '/accounts/' + accountId + '/cash', amount);
   }
+
+  updateAccountAccessForUser(accountAccess) {
+    return this.http.put(this.url + '/accounts/access', {accountAccess});
+  }
 }

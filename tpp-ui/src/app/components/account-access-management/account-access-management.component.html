@@ -1,0 +1,63 @@
+<div class="container-fluid">
+    <div class="header__title">Account access management</div>
+
+    <div class="card card--small">
+        <div class="card-body--large">
+            <form (ngSubmit)="onSubmit()" [formGroup]="accountAccessForm">
+                <div *ngIf="errorMessage" class="alert alert-danger">
+                    {{errorMessage}}
+                </div>
+
+                <div class="form-group required">
+                    <label class="control-label" for="userId">User login</label>
+                    <select [ngClass]="{'is-invalid': accountAccessForm.get('userId')?.errors && (accountAccessForm.get('userId').dirty
+           || accountAccessForm.get('userId').touched || submitted)}" class="form-control" formControlName="userId"
+                            id="userId">
+                        <option *ngFor="let user of users" [value]="user.id">{{user?.login}}</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        <div *ngIf="accountAccessForm.get('userId')?.errors?.required">
+                            Login name is Required
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="scaWeight">SCA Weight</label>
+                    <input [ngClass]="{'is-invalid':  accountAccessForm.get('scaWeight')?.errors && accountAccessForm.get('scaWeight')?.touched
+                    || submitted && accountAccessForm.get('scaWeight')?.errors}"
+                           class="form-control"
+                           formControlName="scaWeight"
+                           id="scaWeight"
+                           placeholder="0"
+                           type="number">
+                    <div *ngIf="accountAccessForm.get('scaWeight')?.errors?.required"
+                         class="invalid-feedback">
+                        scaWeight is required
+                    </div>
+                    <div *ngIf="accountAccessForm.get('scaWeight')?.errors?.min || accountAccessForm.get('scaWeight')?.errors?.max"
+                         class="invalid-feedback">
+                        The scaWeight must be between 0 and 100
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <select [ngClass]="{'is-invalid': accountAccessForm.get('role')?.errors && (accountAccessForm.get('role').dirty
+           || accountAccessForm.get('role').touched || submitted)}" class="form-control" formControlName="role"
+                            id="role">
+                        <option *ngFor="let role of roles" [value]="role">{{role}}</option>
+                    </select>
+                    <div *ngIf="accountAccessForm.get('role')?.errors?.required"
+                         class="invalid-feedback">
+                        Role ist required
+                    </div>
+
+                </div>
+                <div class="text-right">
+                    <button class="btn btn-primary" type="submit">Grant access</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
