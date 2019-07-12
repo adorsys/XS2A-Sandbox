@@ -49,7 +49,7 @@ export class AppComponent implements OnInit {
   changeLang(lang: string) {
     this.lang = lang;
     this.languageService.setLang(lang);
-    this.setLangCollapsed(false);
+    this.collapseThis();
   }
 
   setLangCollapsed(value: boolean) {

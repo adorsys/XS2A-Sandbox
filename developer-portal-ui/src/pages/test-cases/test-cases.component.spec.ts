@@ -43,7 +43,27 @@ describe('TestCasesComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create (not all)', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should collapse', () => {
+    let colHigh = document.getElementById('redirect-content').style.maxHeight;
+    component.collapseThis('redirect');
+    expect(document.getElementById('redirect-content').style.maxHeight).not.toBe(colHigh);
+    component.collapseThis('redirect');
+    expect(document.getElementById('redirect-content').style.maxHeight).toBe(colHigh);
+
+    colHigh = document.getElementById('embedded-content').style.maxHeight;
+    component.collapseThis('embedded');
+    expect(document.getElementById('embedded-content').style.maxHeight).not.toBe(colHigh);
+    component.collapseThis('embedded');
+    expect(document.getElementById('embedded-content').style.maxHeight).toBe(colHigh);
+
+    colHigh = document.getElementById('account-content').style.maxHeight;
+    component.collapseThis('account');
+    expect(document.getElementById('account-content').style.maxHeight).not.toBe(colHigh);
+    component.collapseThis('account');
+    expect(document.getElementById('account-content').style.maxHeight).toBe(colHigh);
   });
 });

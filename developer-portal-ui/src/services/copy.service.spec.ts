@@ -18,7 +18,7 @@ describe('CopyService', () => {
     });
   });
 
-  it('should be created (not all)', inject([CopyService], (service: CopyService) => {
+  it('should be created', inject([CopyService], (service: CopyService) => {
     expect(service).toBeTruthy();
   }));
 });

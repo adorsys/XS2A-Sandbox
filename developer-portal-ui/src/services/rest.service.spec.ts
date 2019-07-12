@@ -1,9 +1,12 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { RestService } from './rest.service';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 
 describe('RestService', () => {
+  let service: RestService;
+  let httpTestingController: HttpTestingController;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -13,9 +16,15 @@ describe('RestService', () => {
         RestService
       ]
     });
+    service = TestBed.get(RestService);
+    httpTestingController = TestBed.get(HttpTestingController);
   });
 
-  it('should be created (not all)', inject([RestService], (service: RestService) => {
+  afterEach(() => {
+    httpTestingController.verify();
+  });
+
+  it('should be created', () => {
     expect(service).toBeTruthy();
-  }));
+  });
 });

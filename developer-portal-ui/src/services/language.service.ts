@@ -7,7 +7,7 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
   providedIn: 'root',
 })
 export class LanguageService {
-  lang = 'en';
+  private lang = 'en';
 
   constructor(private translateService: TranslateService) {}
 

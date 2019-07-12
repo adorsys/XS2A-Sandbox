@@ -58,7 +58,7 @@ describe('PlayWthDataComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create (not all)', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

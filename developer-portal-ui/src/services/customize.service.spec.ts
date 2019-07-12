@@ -78,8 +78,8 @@ describe('CustomizeService', () => {
         CustomizeService,
       ]
     });
-    httpTestingController = TestBed.get(HttpTestingController);
     service = TestBed.get(CustomizeService);
+    httpTestingController = TestBed.get(HttpTestingController);
   });
 
   afterEach(() => {
