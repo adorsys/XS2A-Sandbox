@@ -147,6 +147,7 @@ variables:
 build devportal frontend:
   stage: "Compile"
   script:
+    - scripts/.update-postman-test-files.sh
     - cd developer-portal-ui
     - npm install
     - npm run build --prod
