@@ -10,7 +10,6 @@ import de.adorsys.ledgers.middleware.client.rest.AccountRestClient;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.middleware.client.rest.ConsentRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
-import de.adorsys.ledgers.middleware.rest.exception.ForbiddenRestException;
 import de.adorsys.ledgers.oba.rest.api.consentref.ConsentReference;
 import de.adorsys.ledgers.oba.rest.api.consentref.ConsentType;
 import de.adorsys.ledgers.oba.rest.api.consentref.InvalidConsentException;
@@ -366,7 +365,7 @@ public class AISController extends AbstractXISController implements AISApi {
     }
 
     @Override
-    public ResponseEntity<List<AccountDetailsTO>> getListOfAccounts(String accessTokenCookieString) throws ForbiddenRestException {
+    public ResponseEntity<List<AccountDetailsTO>> getListOfAccounts(String accessTokenCookieString) {
         try {
             // Set access token
             authInterceptor.setAccessToken(auth.getBearerToken().getAccess_token());

@@ -2,7 +2,6 @@ package de.adorsys.ledgers.oba.rest.api.resource;
 
 import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisConsentTO;
-import de.adorsys.ledgers.middleware.rest.exception.ForbiddenRestException;
 import de.adorsys.ledgers.oba.rest.api.domain.AuthorizeResponse;
 import de.adorsys.ledgers.oba.rest.api.domain.ConsentAuthorizeResponse;
 import de.adorsys.ledgers.oba.rest.api.domain.CreatePiisConsentRequestTO;
@@ -122,7 +121,7 @@ public interface AISApi {
     @ApiResponses(value = {
         @ApiResponse(code = 200, response = AccountDetailsTO[].class, message = "List of accounts accessible to the user.")
     })
-    ResponseEntity<List<AccountDetailsTO>> getListOfAccounts(@RequestHeader(name = "Cookie", required = false) String accessTokenCookieString) throws ForbiddenRestException;
+    ResponseEntity<List<AccountDetailsTO>> getListOfAccounts(@RequestHeader(name = "Cookie", required = false) String accessTokenCookieString);
 
 
     /**
@@ -157,8 +156,8 @@ public interface AISApi {
         notes = "This call provides the server with the opportunity to close this session and "
                     + "revoke consent.")
     ResponseEntity<ConsentAuthorizeResponse> revokeConsent(@PathVariable("encryptedConsentId") String encryptedConsentId,
-                                 @PathVariable("authorisationId") String authorisationId,
-                                 @RequestHeader(name = "Cookie", required = false) String cookieString);
+                                                           @PathVariable("authorisationId") String authorisationId,
+                                                           @RequestHeader(name = "Cookie", required = false) String cookieString);
 
 }
 
