@@ -2,7 +2,7 @@ package de.adorsys.ledgers.oba.rest.api.domain;
 
 import java.util.List;
 
-import de.adorsys.psd2.consent.api.ais.CmsAisConsentResponse;
+import de.adorsys.psd2.consent.psu.api.ais.CmsAisConsentResponse;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 

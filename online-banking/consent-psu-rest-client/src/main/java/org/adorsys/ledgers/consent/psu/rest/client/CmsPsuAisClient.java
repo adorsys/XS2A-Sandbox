@@ -17,9 +17,8 @@
 package org.adorsys.ledgers.consent.psu.rest.client;
 
 import de.adorsys.psd2.consent.api.ais.AisAccountConsent;
-import de.adorsys.psd2.consent.api.ais.CmsAisConsentResponse;
-import de.adorsys.psd2.consent.api.ais.CmsConsentIdentifier;
 import de.adorsys.psd2.consent.psu.api.ais.CmsAisConsentAccessRequest;
+import de.adorsys.psd2.consent.psu.api.ais.CmsAisConsentResponse;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import io.swagger.annotations.*;
 import org.adorsys.ledgers.consent.xs2a.rest.config.FeignConfig;
@@ -163,7 +162,7 @@ public interface CmsPsuAisClient {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK", response = CmsAisConsentResponse.class),
         @ApiResponse(code = 408, message = "Request Timeout")})
-    ResponseEntity<CmsConsentIdentifier> getConsentByRedirectId(
+    ResponseEntity<CmsAisConsentResponse> getConsentByRedirectId(
         @ApiParam(value = "Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP's documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session. ")
         @RequestHeader(value = "psu-id", required = false) String psuId,
         @ApiParam(value = "Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility. ")

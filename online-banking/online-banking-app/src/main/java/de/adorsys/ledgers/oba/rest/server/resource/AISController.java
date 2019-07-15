@@ -21,10 +21,8 @@ import de.adorsys.ledgers.oba.rest.server.mapper.AisConsentMapper;
 import de.adorsys.ledgers.oba.rest.server.mapper.CreatePiisConsentRequestMapper;
 import de.adorsys.psd2.consent.api.CmsAspspConsentDataBase64;
 import de.adorsys.psd2.consent.api.ais.AisAccountAccess;
-import de.adorsys.psd2.consent.api.ais.AisAccountConsent;
-import de.adorsys.psd2.consent.api.ais.CmsAisConsentResponse;
-import de.adorsys.psd2.consent.api.ais.CmsConsentIdentifier;
 import de.adorsys.psd2.consent.psu.api.ais.CmsAisConsentAccessRequest;
+import de.adorsys.psd2.consent.psu.api.ais.CmsAisConsentResponse;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import feign.FeignException;
 import io.swagger.annotations.Api;
@@ -523,7 +521,7 @@ public class AISController extends AbstractXISController implements AISApi {
         try {
             // Map the requested access and push it to the consent management system.
             AisAccountAccess accountAccess = consentMapper.accountAccess(aisConsent.getAccess(), listOfAccounts);
-            CmsAisConsentAccessRequest accountAccessRequest = new CmsAisConsentAccessRequest(accountAccess, aisConsent.getValidUntil(), aisConsent.getFrequencyPerDay(), false, aisConsent.isRecurringIndicator());
+            CmsAisConsentAccessRequest accountAccessRequest = new CmsAisConsentAccessRequest(accountAccess, aisConsent.getValidUntil(), aisConsent.getFrequencyPerDay());
             cmsPsuAisClient.putAccountAccessInConsent(workflow.consentId(), accountAccessRequest);
 
             // Prepare consent object for ledger
@@ -605,17 +603,13 @@ public class AISController extends AbstractXISController implements AISApi {
         String psuCorporateIdType = null;
         String redirectId = consentReference.getRedirectId();
         // 4. After user login:
-        ResponseEntity<CmsConsentIdentifier> responseEntity = cmsPsuAisClient.getConsentByRedirectId(
+        ResponseEntity<CmsAisConsentResponse> responseEntity = cmsPsuAisClient.getConsentByRedirectId(
             psuId, psuIdType, psuCorporateId, psuCorporateIdType, redirectId, DEFAULT_SERVICE_INSTANCE_ID);
 
         HttpStatus statusCode = responseEntity.getStatusCode();
-        CmsConsentIdentifier consentIdentifier = Optional.ofNullable(responseEntity.getBody())
-                                                     .orElseThrow(() -> new ConsentAuthorizeException(responseUtils.couldNotProcessRequest(authResp(), statusCode, response)));
 
         if (HttpStatus.OK.equals(statusCode)) {
-            AisAccountConsent accountConsent = cmsPsuAisClient.getConsentByConsentId(consentIdentifier.getConsentId(), psuId, psuIdType, psuCorporateId, psuCorporateIdType, DEFAULT_SERVICE_INSTANCE_ID)
-                                         .getBody();
-            return new CmsAisConsentResponse(accountConsent, consentIdentifier.getAuthorisationId(), consentIdentifier.getTppOkRedirectUri(), consentIdentifier.getTppNokRedirectUri());
+            return responseEntity.getBody();
         }
 
         if (HttpStatus.NOT_FOUND.equals(statusCode)) {
@@ -627,9 +621,10 @@ public class AISController extends AbstractXISController implements AISApi {
             // ---> if(Expired, TPP-Redirect-URL)
             // 3.a0) LogOut User
             // 3.a1) Send back to TPP
-            String location = StringUtils.isNotBlank(consentIdentifier.getTppNokRedirectUri())
-                                  ? consentIdentifier.getTppNokRedirectUri()
-                                  : consentIdentifier.getTppOkRedirectUri();
+            CmsAisConsentResponse consent = responseEntity.getBody();
+            String location = StringUtils.isNotBlank(consent.getTppNokRedirectUri())
+                                  ? consent.getTppNokRedirectUri()
+                                  : consent.getTppOkRedirectUri();
             throw new ConsentAuthorizeException(responseUtils.redirect(location, response));
         } else if (responseEntity.getStatusCode() != HttpStatus.OK) {
             throw new ConsentAuthorizeException(responseUtils.couldNotProcessRequest(authResp(), responseEntity.getStatusCode(), response));
