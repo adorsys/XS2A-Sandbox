@@ -44,7 +44,7 @@ public class ConsentEmbeddedUnknownUser  extends AbstractConsentEmbedded {
 			// TODO:  Middleware return not found. SPI design does not allow
 			// pass thru of code. https://git.adorsys.de/adorsys/xs2a/aspsp-xs2a/issues/629
 			//			Assert.assertEquals(HttpStatus.NOT_FOUND.value(), f.status());		
-			Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), f.status());		
+			Assert.assertEquals(HttpStatus.UNAUTHORIZED.value(), f.status());
 		}
 
 	}

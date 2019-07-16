@@ -63,6 +63,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=cms
       - SERVER_KEY=ledgers_conenctor_secret
       - SPRING_LIQUIBASE_ENABLED=true
+      - USED-NON-RECURRING-CONSENT-EXPIRATION.CRON.EXPRESSION=0 0 * * * *
     depends_on:
       - xs2a-consent-management-db
 

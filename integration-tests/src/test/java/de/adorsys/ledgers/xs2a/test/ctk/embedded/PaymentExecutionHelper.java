@@ -93,8 +93,9 @@ public class PaymentExecutionHelper {
     }
 
     public ResponseEntity<PaymentInitiationStatusResponse200Json> loadPaymentStatus(UpdatePsuAuthenticationResponse resp) {
-        String self = getLink(resp.getLinks(), "self");
-        String paymentId = StringUtils.substringAfterLast(self, "/");
+        String self = getLink(resp.getLinks(), "scaStatus");
+        String part = StringUtils.substringBeforeLast(self,"/authorisations");
+        String paymentId = StringUtils.substringAfterLast(part, "/");
         UUID xRequestID = UUID.randomUUID();
         return paymentApi
                    ._getPaymentInitiationStatus(paymentService, paymentProduct, paymentId, xRequestID, digest, signature,
