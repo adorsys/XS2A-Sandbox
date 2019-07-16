@@ -6,11 +6,16 @@ import {FileUploadModule} from "ng2-file-upload";
 import {DocumentUploadComponent} from "../commons/document-upload/document-upload.component";
 import {IconModule} from "../commons/icon/icon.module";
 import {UploadFileComponent} from './uploadFile.component';
+import {InfoService} from "../commons/info/info.service";
+import {SpinnerVisibilityService} from "ng-http-loader";
+import {InfoModule} from "../commons/info/info.module";
 
 
 describe('UploadFileComponent', () => {
     let component: UploadFileComponent;
     let fixture: ComponentFixture<UploadFileComponent>;
+    let infoService: InfoService;
+    let spinnerService: SpinnerVisibilityService;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -18,9 +23,11 @@ describe('UploadFileComponent', () => {
                 FileUploadModule,
                 RouterTestingModule,
                 HttpClientModule,
+                InfoModule,
                 IconModule
             ],
-            declarations: [UploadFileComponent, DocumentUploadComponent]
+            declarations: [UploadFileComponent, DocumentUploadComponent],
+            providers: [InfoService, SpinnerVisibilityService]
         })
             .compileComponents();
     }));
@@ -29,6 +36,8 @@ describe('UploadFileComponent', () => {
         fixture = TestBed.createComponent(UploadFileComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
+        infoService = TestBed.get(InfoService);
+        spinnerService = TestBed.get(SpinnerVisibilityService);
     });
 
     it('should create', () => {
