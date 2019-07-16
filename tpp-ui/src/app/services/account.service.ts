@@ -21,6 +21,7 @@ export class AccountService {
   }
 
   createAccount(userId: string, account: Account) {
+    console.log(userId);
     return this.http.post(this.url + '/accounts', account,{
       params: {userId: userId}
     });

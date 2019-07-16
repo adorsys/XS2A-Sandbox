@@ -2,6 +2,7 @@ package de.adorsys.psd2.sandbox.tpp.rest.api.resource;
 
 import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
 import de.adorsys.ledgers.middleware.api.domain.payment.AmountTO;
+import de.adorsys.psd2.sandbox.tpp.rest.api.domain.AccountAccess;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.DepositAccount;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,12 @@ public interface TppAccountsRestApi {
         authorizations = @Authorization(value = "apiKey"))
     @PostMapping
     ResponseEntity<Void> createAccount(@RequestParam(value = "userId") String userId, @RequestBody DepositAccount account);
+
+    @ApiOperation(value = "Update Account access for a given user",
+        notes = "Endpoint to update account access with given iban for a user with given ID ",
+        authorizations = @Authorization(value = "apiKey"))
+    @PutMapping("/access")
+    ResponseEntity<Void> updateAccountAccess(@RequestBody AccountAccess accountAccess);
 
     /**
      * Returns the list of accounts that belong to the same branch as STAFF user.
