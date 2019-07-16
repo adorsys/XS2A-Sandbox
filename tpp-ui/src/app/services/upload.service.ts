@@ -16,7 +16,6 @@ export class UploadService {
     createInstanceFileUploader(options: UploadOptions): FileUploader {
         // Set the current user credentials in Headers for Basic Authorization
         const headers = [];
-        // TODO which token do we need to send?
         const header = {name: 'Authorization', value: 'Bearer '.concat(this.auth.getAuthorizationToken())};
         headers.push(header);
 

@@ -9,8 +9,7 @@ describe('UserService', () => {
     let httpTestingController: HttpTestingController;
     let userService: UserService;
 
-    let roles = {param: 'roles', value: 'CUSTOMER'};
-    const url = `${environment.staffAccessResourceEndPoint + '/users'}?${roles.param}=${roles.value}`;
+    const url = `${environment.tppBackend + '/users'}`;
 
     beforeEach(() => {
         TestBed.configureTestingModule({

@@ -9,16 +9,12 @@ import {Observable} from "rxjs";
 })
 export class UserService {
 
-  public url = `${environment.staffAccessResourceEndPoint}`;
+  public url = `${environment.tppBackend}`;
 
   constructor(private http: HttpClient) { }
 
   listUsers(): Observable<User[]> {
-    let userRole = 'CUSTOMER'; // for now only users with CUSTOMER role
-    return this.http.get<User[]>(this.url + '/users', {
-      params:
-        {roles: userRole}
-    });
+    return this.http.get<User[]>(this.url + '/users');
   }
 
   getUser(userId: string): Observable<User> {

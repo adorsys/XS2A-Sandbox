@@ -8,7 +8,6 @@ import JSZip from 'jszip';
 import {AuthService} from "../../../services/auth.service";
 import {CertGenerationService} from "../../../services/cert-generation.service";
 import {InfoService} from "../../../commons/info/info.service";
-import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
     selector: 'app-register',
@@ -47,13 +46,12 @@ export class RegisterComponent implements OnInit {
             return;
         }
 
-        const branch = this.userForm.get('branch').value;
         let message: string;
 
         if (this.generateCertificate && this.certificateValue) {
             // combine observables
             combineLatest([
-                this.service.register(this.userForm.value, branch),
+                this.service.register(this.userForm.value),
                 this.certGenerationService.generate(this.certificateValue)
             ]).subscribe((combinedData: any) => {
 
@@ -68,7 +66,7 @@ export class RegisterComponent implements OnInit {
                 );
             });
         } else {
-            this.service.register(this.userForm.value, branch)
+            this.service.register(this.userForm.value)
                 .subscribe(() => {
                     message = 'You have been successfully registered.';
                     this.navigateAndGiveFeedback('', message);
@@ -97,7 +95,7 @@ export class RegisterComponent implements OnInit {
 
     private initializeRegisterForm(): void {
         this.userForm = this.formBuilder.group({
-            branch: ['', [
+            id: ['', [
                 Validators.required,
                 Validators.pattern("^[0-9]*$"),
                 Validators.minLength(8),

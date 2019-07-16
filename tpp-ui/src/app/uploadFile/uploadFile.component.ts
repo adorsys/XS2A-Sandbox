@@ -11,7 +11,7 @@ import {UploadOptions} from '../services/upload.service';
 })
 export class UploadFileComponent implements OnInit {
 
-    private url = `${environment.staffAccessResourceEndPoint}`;
+    private url = `${environment.tppBackend}`;
     public options: UploadOptions;
 
     constructor(private router: Router) {
@@ -20,7 +20,7 @@ export class UploadFileComponent implements OnInit {
     public ngOnInit(): void {
         this.options = {
             method: 'PUT',
-            url: this.url + '/upload',
+            url: this.url + '/data/upload',
 
             methodAfterSuccess: (item: FileItem, response: string) => {
                 this.router.navigate(['/users/all']);

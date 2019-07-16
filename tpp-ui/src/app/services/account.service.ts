@@ -8,7 +8,7 @@ import {Amount} from "../models/amount.model";
 })
 export class AccountService {
 
-  private url = `${environment.staffAccessResourceEndPoint}`;
+  private url = `${environment.tppBackend}`;
 
   constructor(private http: HttpClient) { }
 
@@ -22,12 +22,12 @@ export class AccountService {
 
   createAccount(userId: string, account: Account) {
     return this.http.post(this.url + '/accounts', account,{
-      params: {userID: userId}
+      params: {userId: userId}
     });
   }
 
   depositCash(accountId: string, amount: Amount) {
-    return this.http.post(this.url + '/accounts/' + accountId + '/cash', amount);
+    return this.http.post(this.url + '/accounts/' + accountId + '/deposit-cash', amount);
   }
 
   updateAccountAccessForUser(accountAccess) {
