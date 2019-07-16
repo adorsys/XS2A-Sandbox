@@ -41,10 +41,10 @@ public class TppDataUploaderController implements TppDataUploaderRestApi {
     }
 
     @Override
-    public ResponseEntity<Resource> generateData() {
+    public ResponseEntity<Resource> generateData(boolean generatePayments) {
         log.info("Request to create test data received");
 
-        byte[] bytes = generationService.generate();
+        byte[] bytes = generationService.generate(generatePayments);
 
         InputStreamResource resource = new InputStreamResource(new ByteArrayInputStream(bytes));
         HttpHeaders headers = getExportFileHttpHeaders();

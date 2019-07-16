@@ -24,14 +24,20 @@ public class DataPayload {
     private List<UserTO> users;
     private List<AccountDetailsTO> accounts;
     private List<AccountBalance> balancesList;
+
+    private boolean generatePayments;
+
+    @JsonIgnore
+    private String branch;
+
     @JsonIgnore
     private Map<String, String> generatedIbans = new HashMap<>();
 
     @JsonIgnore
     public boolean isNotValidPayload() {
         return CollectionUtils.isEmpty(users)
-                          || CollectionUtils.isEmpty(balancesList)
-                          || CollectionUtils.isEmpty(accounts);
+                   || CollectionUtils.isEmpty(balancesList)
+                   || CollectionUtils.isEmpty(accounts);
     }
 
     public DataPayload updateIbanForBranch(String branch) {

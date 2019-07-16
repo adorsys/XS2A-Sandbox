@@ -15,8 +15,9 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UploadedData {
-
     private List<UserTO> users = new ArrayList<>();
     private Map<String, AccountDetailsTO> details = new HashMap<>(); // k -> IBAN, v -> Details
     private Map<String, AccountBalance> balances = new HashMap<>();  // k -> IBAN, v -> Balance
+    private boolean generatePayments;
+    private String branch;
 }
