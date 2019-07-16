@@ -25,7 +25,7 @@
                        type="radio"
                        name="scaMethod"
                        [id]="scaMethod.id"
-                       [checked]="i == 0" (change)="handleMethodSelectedEvent(scaMethod)">
+                       (change)="handleMethodSelectedEvent(scaMethod)">
                 <label class="form-check-label ml-4" [for]="scaMethod.id">
                   {{scaMethod.scaMethod}} with value {{scaMethod.methodValue}}
                 </label>
