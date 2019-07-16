@@ -1,8 +1,11 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import de.adorsys.psd2.sandbox.tpp.rest.server.exception.ErrorResponse;
 import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
 import feign.FeignException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,13 +13,19 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.HandlerMethod;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Map;
 
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @Slf4j
+@RequiredArgsConstructor
 @RestControllerAdvice(basePackages = "de.adorsys.psd2.sandbox.tpp.rest.server.controller")
 public class TppExceptionAdvisor {
+    private static final String DEV_MESSAGE = "devMessage";
+
+    private final ObjectMapper objectMapper;
 
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<Map> handleException(Exception ex, HandlerMethod handlerMethod) {
@@ -40,8 +49,20 @@ public class TppExceptionAdvisor {
         log.warn("FeignException handled in service: {}, message: {}",
                  handlerMethod.getMethod().getDeclaringClass().getSimpleName(), ex.getMessage());
 
-        Map<String, String> body = buildContentMap(ex.status(), ex.getMessage());
+        Map<String, String> body = buildContentMap(ex.status(), resolveErrorMessage(ex));
         return new ResponseEntity<>(body, HttpStatus.valueOf(ex.status()));
+    }
+
+    private String resolveErrorMessage(FeignException ex) {
+        ObjectReader reader = objectMapper.readerFor(Map.class);
+        String jsonContent = new String(ex.content(), Charset.defaultCharset());
+        try {
+            Map<String, String> map = reader.readValue(jsonContent);
+            return map.getOrDefault(DEV_MESSAGE, ex.getMessage());
+        } catch (IOException e) {
+            log.warn("Couldn't read json content");
+        }
+        return ex.getMessage();
     }
 
     private Map<String, String> buildContentMap(int code, String message) {
