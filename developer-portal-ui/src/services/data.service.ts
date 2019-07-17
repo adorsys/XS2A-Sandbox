@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import {Injectable} from '@angular/core';
+import {ToastrService} from 'ngx-toastr';
 
 @Injectable()
 export class DataService {
-  isLoading = false;
-  currentRouteUrl = '';
+  private isLoading = false;
+  private currentRouteUrl = '';
 
   constructor(private toastr: ToastrService) {}
 
@@ -14,5 +14,21 @@ export class DataService {
     } else {
       this.toastr.error(message, title);
     }
+  }
+
+  setIsLoading(value: boolean) {
+    this.isLoading = value;
+  }
+
+  getIsLoading() {
+    return this.isLoading;
+  }
+
+  setRouterUrl(val: string) {
+    this.currentRouteUrl = val;
+  }
+
+  getRouterUrl(): string {
+    return this.currentRouteUrl;
   }
 }

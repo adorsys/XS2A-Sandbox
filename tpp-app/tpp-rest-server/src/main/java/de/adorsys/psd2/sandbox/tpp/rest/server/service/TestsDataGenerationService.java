@@ -19,7 +19,7 @@ public class TestsDataGenerationService {
     private final RestExecutionService executionService;
     private final UserMgmtRestClient userMgmtRestClient;
 
-    public byte[] generate() {
+    public byte[] generate(boolean generatePayments) {
         Optional<UserTO> user = Optional.ofNullable(userMgmtRestClient.getUser()
                                                         .getBody());
 
@@ -29,6 +29,8 @@ public class TestsDataGenerationService {
         DataPayload payload = parseService.getDefaultData()
                                   .map(p -> p.updateIbanForBranch(branch))
                                   .orElseThrow(() -> new TppException(CAN_NOT_LOAD_DEFAULT_DATA, 400));
+        payload.setBranch(branch);
+        payload.setGeneratePayments(generatePayments);
 
         executionService.updateLedgers(payload);
         return parseService.generateFileByPayload(payload);

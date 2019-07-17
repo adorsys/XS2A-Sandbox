@@ -50,8 +50,8 @@
       "CONTENT": "instruye a los bancos (Proveedores de Servicios de Pago de Servicio de Cuentas o ASPSP) para que proporcionen una interfaz de Acceso a la Cuenta (XS2A) completamente productiva a Terceros Proveedores (TPP) hasta septiembre de 2019. El propio XS2A consiste en servicios bancarios para iniciar pagos (PIS), solicitar datos de cuenta (AIS) y obtener la confirmación de la disponibilidad de fondos (PIIS). Para garantizar el cumplimiento de este plazo debido a las adaptaciones y los errores, PSD2 reclama a los bancos que proporcionen un Sandbox dinámica y funcional que ofrece los servicios XS2A en un entorno no productivo hasta junio de 2019."
     },
     "FEATURES": {
-      "TITLE": "XS2ASandbox Features",
-      "CONTENT": "XS2ASandbox is a dynamic sandbox environment: you can create users, payments\n    and consents, play with data for testing purposes. With dynamic sandbox TPP\n    UI you can access banking API directly, get TPP certificate and manage\n    testing accounts. The developer portal contains testing instructions and all\n    needed test-cases. All XS2ASandbox services can be installed and run in one\n    simple command. Two main SCA approaches are supported: REDIRECT and\n    EMBEDDED. For redirect approach online banking demo UI was created.",
+      "TITLE": "XS2ASandbox características",
+      "CONTENT": "XS2ASandbox es un entorno dinámico de sandbox: se puede crear usuarios, pagos y consentimientos, jugar con datos para propósitos de prueba. Con dinamica\n sandbox TPP UI se puede acceder directamente a la API de la banca, obtener el certificado de TPP y administrar las cuentas de prueba. El portal de desarrolladores contiene instrucciones de prueba y todos los casos de prueba necesarios. Todos los servicios de XS2ASandbox se pueden instalar y ejecutar en un solo comando. Se admiten dos enfoques principales de SCA:\n REDIRECTO E INTEGRADO. Para el enfoque redirecto  fue creado el online banking  demo UI.",
       "SLIDES": {
         "SLIDE_1": {
           "TITLE": "Plug and Play",
@@ -88,27 +88,27 @@
       }
     },
     "HISTORY": {
-      "TITLE": "Product History",
+      "TITLE": "La historia del producto",
       "PRODUCT": {
         "POINT_1": {
-          "TITLE": "Project Kick-Off with two Team Members",
+          "TITLE": "Inicio del producto con dos miembros del equipo",
           "CONTENT": ""
         },
         "POINT_2": {
-          "TITLE": "PreDemo of MVP 1.0",
-          "CONTENT": "Embedded approach: PIS, AIS, PIIS"
+          "TITLE": "PreDemo de MVP 1.0",
+          "CONTENT": "Enfoque integrado:PIS, AIS, PIIS"
         },
         "POINT_3": {
-          "TITLE": "DEMO of MVP 1.0",
-          "CONTENT": "Embedded and redirected approaches"
+          "TITLE": "Demo de MVP 1.0",
+          "CONTENT": "Enfoques redirecto e integrado."
         },
         "POINT_4": {
-          "TITLE": "Release of XS2ASandbox ver 1.0",
-          "CONTENT": "Support of Redirect and Embedded approach: TPP-UI, Online Banking"
+          "TITLE": "Lanzamiento del  XS2A Sandbox ver  1.0",
+          "CONTENT": "Soporte de Enfoques redirecto e integrado: TPP-UI, Online Banking."
         },
         "POINT_5": {
-          "TITLE": "Release ver 1.1",
-          "CONTENT": "Multilevel SCA, Multicurrency accounts"
+          "TITLE": "Lanzamiento del ver 1.1",
+          "CONTENT": "SCA multinivel, cuenta de multimoneda"
         }
       }
     },
@@ -208,15 +208,15 @@
         "R1_C1": "Service",
         "R1_C2": "Local environment",
         "R1_C3": "XS2ASandbox Demo environment",
-        "R2": "Developer portal",
-        "R3": "XS2A Interface Swagger",
-        "R4": "Consent management system",
-        "R5": "Ledgers",
-        "R6": "ASPSP-Profile Swagger",
-        "R7": "TPP User Interface",
-        "R8": "Online banking UI",
-        "R9": "Online banking backend",
-        "R10": "Certificate Generator"
+        "DEVELOPER_PORTAL": "Developer portal",
+        "XS2A_INTERFACE_SWAGGER": "XS2A Interface Swagger",
+        "CONSENT_MANAGEMENT_SYSTEM": "Consent management system",
+        "LEDGERS": "Ledgers",
+        "ASPSP_PROFILE_SWAGGER": "ASPSP-Profile Swagger",
+        "TPP_UI": "TPP User Interface",
+        "ONLINE_BANKING_UI": "Online banking UI",
+        "ONLINE_BANKING_BACKEND": "Online banking backend",
+        "CERTIFICATE_GENERATOR": "Certificate Generator"
       }
     },
     "HOW_TO_DOWN": {
@@ -277,15 +277,15 @@
       }
     },
     "HOW_TO_CST": {
-      "TITLE": "How to customize UI of developer portal",
+      "TITLE": "Cómo personalizar el portal de desarrolladores",
       "TOP_LIST": {
-        "LI_1": "Create .json file with name UITheme.",
-        "LI_2": "Json example",
-        "LI_3": "Json fields.",
+        "LI_1": "Crea un archivo .json con el nombre UITheme.",
+        "LI_2": "Ejemplo de Json:",
+        "LI_3": "Campos de Json.",
         "LIST_1": {
-          "LI_1": "globalSettings - required",
+          "LI_1": "globalSettings - requeridos",
           "INNER_LIST_1": {
-            "LI_1": "logo - required, value: string, http url or file name with\n extension or ' '",
+            "LI_1": "logo - requeridos, value: string, http url or file name with\n extension or ' '",
             "LI_2": "fontFamily - optional, value: string, font-name or font-name,\n font-family",
             "LI_3": "headerBG - optional, value: string, hex",
             "LI_4": "headerFontColor - optional, value: string, hex",
@@ -294,37 +294,37 @@
             "LI_7": "facebook - optional, value: string, http url",
             "LI_8": "linkedIn - optional, value: string, http url"
           },
-          "LI_2": "contactInfo - required",
+          "LI_2": "contactInfo - requeridos",
           "INNER_LIST_2": {
-            "LI_1": "name - required, value: string",
-            "LI_2": "position - required, value: string",
-            "LI_3": "img - required, value: string, http url or file name with\n extension",
+            "LI_1": "name - requeridos, value: string",
+            "LI_2": "position - requeridos, value: string",
+            "LI_3": "img - requeridos, value: string, http url or file name with\n extension",
             "LI_4": "email - optional, value: string",
             "LI_5": "phone - optional, value: string"
           },
-          "LI_3": "officesInfo - required. Array of 2 elements.",
+          "LI_3": "officesInfo - requeridos. Array de 2 elementos.",
           "INNER_LIST_3": {
-            "LI_1": "city - required, value: string",
-            "LI_2": "company - required, value: string",
-            "LI_3": "addressFirstLine - required, value: string",
-            "LI_4": "addressSecondLine - required, value: string",
+            "LI_1": "city - requeridos, value: string",
+            "LI_2": "company - requeridos, value: string",
+            "LI_3": "addressFirstLine - requeridos, value: string",
+            "LI_4": "addressSecondLine - requeridos, value: string",
             "LI_5": "phone - optional, value: string",
             "LI_6": "email - optional, value: string",
             "LI_7": "facebook - optional, value: string, http url",
             "LI_8": "linkedIn - optional, value: string, http url"
           }
         },
-        "LI_4": "When you create .json (e.g. UITheme.json) file and fill all required\n fields, put this file with logo (e.g. logo.png) and contact person (e.g.\n contact.png) images in folder",
-        "LI_5": "Steps for putting files in this folder:",
+        "LI_4": "Cuando cree el archivo .json (por ejemplo, UITheme.json) y complete todos los campos requeridos, coloque este archivo con el logotipo (por ejemplo, logo.png) y la persona de contacto (por ejemplo, contact.png) en la carpeta",
+        "LI_5": "Pasos para poner archivos en esta carpeta:",
         "LIST_2": {
-          "LI_1": "Navigate to local source folder (where the customisation files are\n stored):",
-          "LI_2": "Login to Openshift:",
-          "LI_3": "Navigate to the Openshift project.",
-          "LI_4": "We select the development environment for our example.",
-          "LI_5": "Please choose one of the following:",
-          "LI_6": "Copy the customisation files to the running Developer Portal UI\n application pod:"
+          "LI_1": "Navegue a la carpeta de origen local (donde se almacenan los archivos de personalización):",
+          "LI_2": "Inicia sesión en Openshift:",
+          "LI_3": "Navegar al proyecto Openshift.",
+          "LI_4": "Seleccionamos el entorno de desarrollo para nuestro ejemplo.",
+          "LI_5": "Elija uno de los siguientes:",
+          "LI_6": "Copie los archivos de personalización en el pod de aplicación de la interfaz de usuario del Portal de desarrollador en ejecución:"
         },
-        "LI_6": "Customization completed, congratulations!"
+        "LI_6": "Personalización esta completada, felicitaciones!"
       }
     },
     "WHAT_NEXT": {
@@ -360,13 +360,13 @@
             "LI_3": "Flujo de Iniciación del Consentimiento"
           },
           "LI_2": "Embedded:",
-          "LI_3": "Account Information:",
+          "LI_3": "Información de la cuenta:",
           "LIST_2": {
-            "LI_1": "Read Account List",
-            "LI_2": "Read Account Details",
-            "LI_3": "Read Balance",
-            "LI_4": "Read List of Transactions",
-            "LI_5": "Read Transaction Details"
+            "LI_1": "Leer lista de cuentas",
+            "LI_2": "Leer detalles de la cuenta",
+            "LI_3": "Leer balance",
+            "LI_4": "Leer la lista de transacciones",
+            "LI_5": "Leer los detalles de la transacción"
           }
         },
         "LI_2": "Postman testing"
@@ -496,20 +496,20 @@
         "ITALIC_3": "\"Autorización de pago para usuarios con varios métodos SCA\""
       },
       "EMB_IN_AUTH_POST": {
-        "TITLE": "STEP 2: Authorise payment",
-        "PART_1": "1. Start authorisation process with",
-        "PART_2": ". Choose the same",
+        "TITLE": "PASO 2. AUTORIZAR EL PAGO",
+        "PART_1": "1. Comience con el proceso de autorización con la llamada del punto",
+        "PART_2": "autorisations. Elija el mismo",
         "PART_3": "and",
-        "PART_4": "you chose in ",
-        "STEP": "STEP 1",
-        "PART_5": "2. Enter payment id you have got from the previous response in",
-        "PART_6": "in the field",
-        "PART_7": "3. After choosing payment service and payment product, fill the header\n fields with the following values:",
-        "PART_8": "Put in ",
-        "PART_9": "the name of the\n user you chose (you can view users and their information in TPP-UI).",
-        "PART_10": "4. Start authorisation by hitting",
+        "PART_4": "como en el ",
+        "STEP": "Paso 1",
+        "PART_5": "2. Introduzca la ID de pago en el campo",
+        "PART_6": "que recibió en el paso previo ",
+        "PART_7": "3. Después de introducirla, rellene los campos de encabezado con los siguientes valores:",
+        "PART_8": "Ponga en ",
+        "PART_9": "el nombre del usuario que eligió (puede ver los usuarios y su información en TPP-UI).",
+        "PART_10": "4. Empieza la autorización empujando el botón",
         "ITALIC_SPAN": "\"Execute\"",
-        "PART_11": "button and get 201 HTTP code\n and related information."
+        "PART_11": "y obteniendo el 201 HTTP code y la información relacionada."
       },
       "EMB_IN_PUT": {
         "TITLE": "PASO 2: Autorizar el pago",
@@ -754,34 +754,34 @@
         "PART_6": "para verificar el estado actual de la autorización."
       },
       "AC_INF_ACS": {
-        "PART_1": "1. Try GET endpoint",
-        "PART_2": "to get account with chosen consent-id",
-        "PART_3": "Put in ",
-        "PART_4": " the consent-id of accounts\n that you want to get(you can view users and their information in TPP-UI)."
+        "PART_1": "1. Pruebe punto final GET",
+        "PART_2": " para obtener una cuenta con el ID de consentimiento elegido",
+        "PART_3": "Ponga en ",
+        "PART_4": " de consentimiento de la cuenta que quiere obtener (puede ver los usuarios y su información en TPP-UI)."
       },
       "AC_INF_AC": {
-        "PART_1": "1. Try GET endpoint",
-        "PART_2": "to get account with chosen account-id",
-        "PART_3": "Put in ",
-        "PART_4": " the consent-id of account\n that you want to get(you can view users and their information in TPP-UI)."
+        "PART_1": "1. Pruebe punto final GET",
+        "PART_2": "para obtener la cuenta con el ID de cuenta elegida",
+        "PART_3": "Ponga en ",
+        "PART_4": " de consentimiento de la cuenta que quiere obtener (puede ver los usuarios y su información en TPP-UI)."
       },
       "AC_INF_BAL": {
-        "PART_1": "1. Try GET endpoint",
-        "PART_2": "to get account's list of balances",
-        "PART_3": "Put in ",
-        "PART_4": " the consent-id of account\n that you want to get(you can view users and their information in TPP-UI)."
+        "PART_1": "1. Pruebe punto final GET",
+        "PART_2": "para obtener la lista de saldos de la cuenta",
+        "PART_3": "Ponga en ",
+        "PART_4": " de consentimiento de la cuenta que quiere obtener (puede ver los usuarios y su información en TPP-UI)."
       },
       "AC_INF_TRS": {
-        "PART_1": "1. Try GET endpoint",
-        "PART_2": "to get account's list of transactions with chosen booking status.",
-        "PART_3": "Put in ",
-        "PART_4": " the consent-id of account\n that you want to get(you can view users and their information in TPP-UI)."
+        "PART_1": "1. Pruebe punto final GET",
+        "PART_2": "para obtener la lista de transacciones de la cuenta con el estado de reserva elegido.",
+        "PART_3": "Ponga en ",
+        "PART_4": " de consentimiento de la cuenta que quiere obtener (puede ver los usuarios y su información en TPP-UI)."
       },
       "AC_INF_TR": {
-        "PART_1": "1. Try GET endpoint",
-        "PART_2": "to get account's transaction with current id.",
-        "PART_3": "Put in ",
-        "PART_4": " the consent-id of account\n that you want to get(you can view users and their information in TPP-UI)."
+        "PART_1": "1. Pruebe punto final GET",
+        "PART_2": "para obtener la transacción de la cuenta con la identificación actual.",
+        "PART_3": "Ponga en ",
+        "PART_4": " de consentimiento de la cuenta que quiere obtener (puede ver los usuarios y su información en TPP-UI)."
       }
     }
   },

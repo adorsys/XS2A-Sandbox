@@ -23,6 +23,9 @@
         <div class="col-12 col-md-3 ">Balance</div>
         <div class="col-12 col-md-9 text-muted">{{account?.balances[0].amount.amount}}</div>
       </div>
+      <div class="">
+        <button class="btn btn-primary"  [routerLink]="['/accounts/' + account?.id + '/access']">Access management</button>
+      </div>
     </div>
   </div>
 

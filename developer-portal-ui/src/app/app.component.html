@@ -1,56 +1,34 @@
-<div
-  class="nav-bar"
-  *ngIf="!dataService.currentRouteUrl.includes('admin')"
-  [ngStyle]="{
-    backgroundColor: globalSettings?.headerBG,
-    color: globalSettings?.headerFontColor
-  }"
+<div class="nav-bar"
+     [ngStyle]="{
+       backgroundColor: globalSettings?.headerBG,
+       color: globalSettings?.headerFontColor
+     }"
 >
-  <img
-    class="logo"
-    [src]="customizeService.getLogo()"
-    (click)="goToPage('home')"
-  />
+  <img class="logo"
+       [src]="customizeService.getLogo()"
+       (click)="goToPage('home')"/>
   <div class="nav">
     <div>
-      <span
-        class="header-item"
-        [ngStyle]="
-          dataService.currentRouteUrl.includes('getting-started')
-            ? { opacity: 1 }
-            : null
-        "
-        (click)="goToPage('getting-started')"
-        >{{'HEADER.GETTING_STARTED' | translate}}</span
-      >
-      <span
-        class="header-item"
-        [ngStyle]="
-          dataService.currentRouteUrl.includes('test-cases')
-            ? { opacity: 1 }
-            : null
-        "
-        (click)="goToPage('/test-cases/redirect')"
-        >{{'HEADER.TEST_CASES' | translate}}</span
-      >
-      <span
-        class="header-item"
-        [ngStyle]="
-          dataService.currentRouteUrl.includes('faq') ? { opacity: 1 } : null
-        "
-        (click)="goToPage('/faq')"
-        >{{'HEADER.FAQ' | translate}}</span
-      >
-      <span
-        class="header-item"
-        [ngStyle]="
-          dataService.currentRouteUrl.includes('contact')
-            ? { opacity: 1 }
-            : null
-        "
-        (click)="goToPage('/contact')"
-        >{{'HEADER.CONTACT' | translate}}</span
-      >
+      <span class="header-item"
+            [ngStyle]="dataService.getRouterUrl().includes('getting-started') ? { opacity: 1 } : ''"
+            (click)="goToPage('getting-started')">
+        {{'HEADER.GETTING_STARTED' | translate}}
+      </span>
+      <span class="header-item"
+            [ngStyle]="dataService.getRouterUrl().includes('test-cases') ? { opacity: 1 } : ''"
+            (click)="goToPage('/test-cases/redirect')">
+        {{'HEADER.TEST_CASES' | translate}}
+      </span>
+      <span class="header-item"
+            [ngStyle]="dataService.getRouterUrl().includes('faq') ? { opacity: 1 } : ''"
+            (click)="goToPage('/faq')">
+        {{'HEADER.FAQ' | translate}}
+      </span>
+      <span class="header-item"
+            [ngStyle]="dataService.getRouterUrl().includes('contact') ? { opacity: 1 } : ''"
+            (click)="goToPage('/contact')">
+        {{'HEADER.CONTACT' | translate}}
+      </span>
     </div>
     <div class="langs-wrapper">
       <div class="lang" (click)="collapseThis()">
@@ -58,8 +36,8 @@
         <span class="lang-span">{{lang}}</span>
       </div>
 
-      <div id="langs" [ngClass]="langCollapsed ? 'collapse-menu--collapsed' : 'collapse-menu'">
-        <div class="lang-wrapper" *ngFor="let lng of langs" (click)="changeLang(lng)" [hidden]="lng === lang" >
+      <div id="langs" [ngClass]="getLangCollapsed() ? 'collapse-menu--collapsed' : 'collapse-menu'">
+        <div class="lang-wrapper" *ngFor="let lng of langs" (click)="changeLang(lng)" [hidden]="lng === lang">
           <div>
             <img class="lang-img" [src]="langIcons[lng]" [alt]="lng">
             <span class="lang-span">{{lng}}</span>
@@ -67,57 +45,39 @@
         </div>
       </div>
     </div>
-
-    <div class="header-icons" *ngIf="this.loginService.isLoggedIn()">
-      <i class="fas fa-sign-out-alt" (click)="loginService.logOut()"></i>
-      <app-settings-modal></app-settings-modal>
-    </div>
   </div>
 </div>
 
 <router-outlet (activate)="onActivate($event)"></router-outlet>
 
-<div
-  class="footer-bar"
-  *ngIf="!dataService.currentRouteUrl.includes('admin')"
-  [ngStyle]="{
-    backgroundColor: globalSettings?.footerBG,
-    color: globalSettings?.footerFontColor
-  }"
+<div class="footer-bar"
+     [ngStyle]="{
+       backgroundColor: globalSettings?.footerBG,
+       color: globalSettings?.footerFontColor
+     }"
 >
   <div class="footer-top-items">
-    <img
-      class="logo"
-      [src]="customizeService.getLogo()"
-      (click)="goToPage('home')"
-    />
+    <img class="logo"
+         [src]="customizeService.getLogo()"
+         (click)="goToPage('home')"/>
     <div>
       <span class="footer-item" (click)="goToPage('getting-started')">{{'FOOTER.GETTING_STARTED' | translate}}</span>
-      <span class="footer-item" (click)="goToPage('/test-cases/redirect')">{{'FOOTER.TEST_CASES' | translate}}</span>
-      <span class="footer-item" (click)="goToPage('/faq')">{{'FOOTER.FAQ' | translate}}</span>
-      <span class="footer-item" (click)="goToPage('/contact')">{{'FOOTER.CONTACT' | translate}}</span>
+      <span class="footer-item" (click)="goToPage('test-cases/redirect')">{{'FOOTER.TEST_CASES' | translate}}</span>
+      <span class="footer-item" (click)="goToPage('faq')">{{'FOOTER.FAQ' | translate}}</span>
+      <span class="footer-item" (click)="goToPage('contact')">{{'FOOTER.CONTACT' | translate}}</span>
     </div>
   </div>
 
-  <div
-    class="social-media"
-    *ngIf="globalSettings?.facebook || globalSettings?.linkedIn"
-  >
+  <div class="social-media" *ngIf="globalSettings?.facebook || globalSettings?.linkedIn">
     <div *ngIf="globalSettings?.facebook">
       <a [href]="globalSettings?.facebook" target="_blank">
-        <i
-          class="fab fa-facebook-f"
-          [ngStyle]="{ color: globalSettings?.footerFontColor }"
-        ></i>
+        <i class="fab fa-facebook-f" [ngStyle]="{ color: globalSettings?.footerFontColor }"></i>
       </a>
     </div>
 
     <div *ngIf="globalSettings?.linkedIn">
       <a [href]="globalSettings?.linkedIn" target="_blank">
-        <i
-          class="fab fa-linkedin-in"
-          [ngStyle]="{ color: globalSettings?.footerFontColor }"
-        ></i>
+        <i class="fab fa-linkedin-in" [ngStyle]="{ color: globalSettings?.footerFontColor }"></i>
       </a>
     </div>
   </div>

@@ -40,7 +40,7 @@
                   <span>{{'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_1.LI_1' | translate}}</span>
                   <ul>
                     <li class="clickable-item post" routerLink="/test-cases/redirect-payment-initiation-post"
-                        [ngStyle]="dataService.currentRouteUrl.includes('redirect-payment-initiation-post')
+                        [ngStyle]="dataService.getRouterUrl().includes('redirect-payment-initiation-post')
                           ? { 'font-weight': 'bold' }
                           : null
                       ">
@@ -52,14 +52,14 @@
                   <span>{{'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_1.LI_2' | translate}}</span>
                   <ul>
                     <li class="clickable-item post" routerLink="/test-cases/redirect-cancellation-post"
-                        [ngStyle]="dataService.currentRouteUrl.includes('redirect-cancellation-post')
+                        [ngStyle]="dataService.getRouterUrl().includes('redirect-cancellation-post')
                           ? { 'font-weight': 'bold' }
                           : null
                       ">
                       POST endpoint {{ '/v1/{payment-service}/{payment-product}' }}
                     </li>
                     <li class="clickable-item delete" routerLink="/test-cases/redirect-cancellation-delete"
-                        [ngStyle]="dataService.currentRouteUrl.includes('redirect-cancellation-delete')
+                        [ngStyle]="dataService.getRouterUrl().includes('redirect-cancellation-delete')
                           ? { 'font-weight': 'bold' }
                           : null
                       ">
@@ -71,7 +71,7 @@
                   <span>{{'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_1.LI_3' | translate}}</span>
                   <ul>
                     <li class="clickable-item post" routerLink="/test-cases/redirect-consent-post"
-                        [ngStyle]="dataService.currentRouteUrl.includes('redirect-consent-post')
+                        [ngStyle]="dataService.getRouterUrl().includes('redirect-consent-post')
                           ? { 'font-weight': 'bold' }
                           : null
                       ">
@@ -92,21 +92,21 @@
                   <span> {{'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_1.LI_1' | translate}} </span>
                   <ul>
                     <li class="clickable-item post" routerLink="/test-cases/embedded-payment-initiation-create-post"
-                        [ngStyle]="dataService.currentRouteUrl.includes('embedded-payment-initiation-create-post')
+                        [ngStyle]="dataService.getRouterUrl().includes('embedded-payment-initiation-create-post')
                           ? { 'font-weight': 'bold' }
                           : null
                       ">
                       POST endpoint {{ '/v1/{payment-service}/{payment-product}' }}
                     </li>
                     <li class="clickable-item post" routerLink="/test-cases/embedded-payment-initiation-auth-post"
-                        [ngStyle]="dataService.currentRouteUrl.includes('embedded-payment-initiation-auth-post')
+                        [ngStyle]="dataService.getRouterUrl().includes('embedded-payment-initiation-auth-post')
                           ? { 'font-weight': 'bold' }
                           : null
                       ">
                       POST endpoint {{'/v1/{payment-service}/{payment-product}/{paymentId}/authorisations'}}
                     </li>
                     <li class="clickable-item put" routerLink="/test-cases/embedded-payment-initiation-put"
-                        [ngStyle]="dataService.currentRouteUrl.includes('embedded-payment-initiation-put')
+                        [ngStyle]="dataService.getRouterUrl().includes('embedded-payment-initiation-put')
                           ? { 'font-weight': 'bold' }
                           : null
                       ">
@@ -114,7 +114,7 @@
                       endpoint {{'/v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}'}}
                     </li>
                     <li class="clickable-item get" routerLink="/test-cases/embedded-payment-initiation-get"
-                        [ngStyle]="dataService.currentRouteUrl.includes('embedded-payment-initiation-get')
+                        [ngStyle]="dataService.getRouterUrl().includes('embedded-payment-initiation-get')
                           ? { 'font-weight': 'bold' }
                           : null
                       ">
@@ -126,21 +126,21 @@
                   <span>{{'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_1.LI_2' | translate}}</span>
                   <ul>
                     <li class="clickable-item post" routerLink="/test-cases/embedded-payment-cancellation-post-1"
-                        [ngStyle]="dataService.currentRouteUrl.includes('embedded-payment-cancellation-post-1')
+                        [ngStyle]="dataService.getRouterUrl().includes('embedded-payment-cancellation-post-1')
                           ? { 'font-weight': 'bold' }
                           : null
                       ">
                       POST endpoint {{ '/v1/{payment-service}/{payment-product}' }}
                     </li>
                     <li class="clickable-item delete" routerLink="/test-cases/embedded-payment-cancellation-delete"
-                        [ngStyle]="dataService.currentRouteUrl.includes('embedded-payment-cancellation-delete')
+                        [ngStyle]="dataService.getRouterUrl().includes('embedded-payment-cancellation-delete')
                           ? { 'font-weight': 'bold' }
                           : null
                       ">
                       DELETE endpoint {{'/v1/{payment-service}/{payment-product}/{paymentId}'}}
                     </li>
                     <li class="clickable-item post" routerLink="/test-cases/embedded-payment-cancellation-post-2"
-                        [ngStyle]="dataService.currentRouteUrl.includes('embedded-payment-cancellation-post-2')
+                        [ngStyle]="dataService.getRouterUrl().includes('embedded-payment-cancellation-post-2')
                           ? { 'font-weight': 'bold' }
                           : null
                       ">
@@ -148,7 +148,7 @@
                       endpoint {{'/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations'}}
                     </li>
                     <li class="clickable-item put" routerLink="/test-cases/embedded-payment-cancellation-put"
-                        [ngStyle]="dataService.currentRouteUrl.includes('embedded-payment-cancellation-put')
+                        [ngStyle]="dataService.getRouterUrl().includes('embedded-payment-cancellation-put')
                           ? { 'font-weight': 'bold' }
                           : null
                       ">
@@ -156,7 +156,7 @@
                       endpoint {{'/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{cancellationId}'}}
                     </li>
                     <li class="clickable-item get" routerLink="/test-cases/embedded-payment-cancellation-get"
-                        [ngStyle]="dataService.currentRouteUrl.includes('embedded-payment-cancellation-get')
+                        [ngStyle]="dataService.getRouterUrl().includes('embedded-payment-cancellation-get')
                           ? { 'font-weight': 'bold' }
                           : null
                       ">
@@ -169,28 +169,28 @@
                   <span>{{'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_1.LI_3' | translate}}</span>
                   <ul>
                     <li class="clickable-item post" routerLink="/test-cases/embedded-consent-create-post"
-                        [ngStyle]="dataService.currentRouteUrl.includes('embedded-consent-create-post')
+                        [ngStyle]="dataService.getRouterUrl().includes('embedded-consent-create-post')
                           ? { 'font-weight': 'bold' }
                           : null
                       ">
                       POST endpoint /v1/consents
                     </li>
                     <li class="clickable-item post" routerLink="/test-cases/embedded-consent-auth-post"
-                        [ngStyle]="dataService.currentRouteUrl.includes('embedded-consent-auth-post')
+                        [ngStyle]="dataService.getRouterUrl().includes('embedded-consent-auth-post')
                           ? { 'font-weight': 'bold' }
                           : null
                       ">
                       POST endpoint {{ '/v1/consents/{consentId}/authorisations' }}
                     </li>
                     <li class="clickable-item put" routerLink="/test-cases/embedded-consent-put"
-                        [ngStyle]="dataService.currentRouteUrl.includes('embedded-consent-put')
+                        [ngStyle]="dataService.getRouterUrl().includes('embedded-consent-put')
                           ? { 'font-weight': 'bold' }
                           : null
                       ">
                       PUT endpoint {{ '/v1/consents/{consentId}/authorisations/{authorisationId}' }}
                     </li>
                     <li class="clickable-item get" routerLink="/test-cases/embedded-consent-get"
-                        [ngStyle]="dataService.currentRouteUrl.includes('embedded-consent-get')
+                        [ngStyle]="dataService.getRouterUrl().includes('embedded-consent-get')
                           ? { 'font-weight': 'bold' }
                           : null
                       ">
@@ -211,7 +211,7 @@
                   <span>{{'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_2.LI_1' | translate}}</span>
                   <ul>
                     <li class="clickable-item get" routerLink="/test-cases/account-information-accounts-get"
-                        [ngStyle]="dataService.currentRouteUrl.includes('account-information-accounts-get')
+                        [ngStyle]="dataService.getRouterUrl().includes('account-information-accounts-get')
                           ? { 'font-weight': 'bold' }
                           : null
                       ">
@@ -224,7 +224,7 @@
                   <span>{{'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_2.LI_2' | translate}}</span>
                   <ul>
                     <li class="clickable-item get" routerLink="/test-cases/account-information-account-get"
-                        [ngStyle]="dataService.currentRouteUrl.includes('account-information-account-get')
+                        [ngStyle]="dataService.getRouterUrl().includes('account-information-account-get')
                           ? { 'font-weight': 'bold' }
                           : null
                       ">
@@ -237,7 +237,7 @@
                   <span>{{'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_2.LI_3' | translate}}</span>
                   <ul>
                     <li class="clickable-item get" routerLink="/test-cases/account-information-balance-get"
-                        [ngStyle]="dataService.currentRouteUrl.includes('account-information-balance-get')
+                        [ngStyle]="dataService.getRouterUrl().includes('account-information-balance-get')
                           ? { 'font-weight': 'bold' }
                           : null
                       ">
@@ -250,7 +250,7 @@
                   <span>{{'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_2.LI_4' | translate}}</span>
                   <ul>
                     <li class="clickable-item get" routerLink="/test-cases/account-information-transactions-get"
-                        [ngStyle]="dataService.currentRouteUrl.includes('account-information-transactions-get')
+                        [ngStyle]="dataService.getRouterUrl().includes('account-information-transactions-get')
                           ? { 'font-weight': 'bold' }
                           : null
                       ">
@@ -263,7 +263,7 @@
                   <span>{{'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_2.LI_5' | translate}}</span>
                   <ul>
                     <li class="clickable-item get" routerLink="/test-cases/account-information-transaction-get"
-                        [ngStyle]="dataService.currentRouteUrl.includes('account-information-transaction-get')
+                        [ngStyle]="dataService.getRouterUrl().includes('account-information-transaction-get')
                           ? { 'font-weight': 'bold' }
                           : null
                       ">

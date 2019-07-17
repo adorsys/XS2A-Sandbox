@@ -10,7 +10,7 @@ export class CustomizeService {
   private IS_CUSTOM = false;
   private DEFAULT_THEME: Theme = {
     globalSettings: {
-      logo: '../assets/UI/Logo_XS2ASandbox.png',
+      logo: 'Logo_XS2ASandbox.png',
       fontFamily: 'Arial, sans-serif',
       headerBG: '#ffffff',
       headerFontColor: '#000000',
@@ -121,38 +121,6 @@ export class CustomizeService {
       .then(data => {
         return data as Theme;
       });
-  }
-
-  setDefaultTheme() {
-    this.NEW_THEME_WAS_SET = false;
-    this.STATUS_WAS_CHANGED = !this.STATUS_WAS_CHANGED;
-    this.IS_CUSTOM = false;
-    this.changeFontFamily();
-    this.USER_THEME = {
-      globalSettings: {
-        logo: '',
-        fontFamily: '',
-      },
-      contactInfo: {
-        img: '',
-        name: '',
-        position: '',
-      },
-      officesInfo: [
-        {
-          city: '',
-          company: '',
-          addressFirstLine: '',
-          addressSecondLine: '',
-        },
-        {
-          city: '',
-          company: '',
-          addressFirstLine: '',
-          addressSecondLine: '',
-        },
-      ],
-    };
   }
 
   setUserTheme(theme: Theme) {

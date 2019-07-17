@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../services/data.service';
-import { LoginService } from '../services/login.service';
 import {
   CustomizeService,
   GlobalSettings,
@@ -31,13 +30,12 @@ export class AppComponent implements OnInit {
     private router: Router,
     private actRoute: ActivatedRoute,
     public dataService: DataService,
-    public loginService: LoginService,
     public customizeService: CustomizeService,
     private translateService: TranslateService,
     private languageService: LanguageService
   ) {
     this.languageService.initializeTranslation();
-    this.langCollapsed = true;
+    this.setLangCollapsed(true);
   }
 
   goToPage(page) {
@@ -45,19 +43,25 @@ export class AppComponent implements OnInit {
   }
 
   onActivate(ev) {
-    this.dataService.currentRouteUrl = this.actRoute[
-      '_routerState'
-    ].snapshot.url;
+    this.dataService.setRouterUrl(this.actRoute['_routerState'].snapshot.url);
   }
 
   changeLang(lang: string) {
+    this.lang = lang;
     this.languageService.setLang(lang);
-    this.lang = this.languageService.getLang();
     this.collapseThis();
   }
 
+  setLangCollapsed(value: boolean) {
+    this.langCollapsed = value;
+  }
+
   collapseThis() {
-    this.langCollapsed = !this.langCollapsed;
+    this.setLangCollapsed(!this.getLangCollapsed());
+  }
+
+  getLangCollapsed() {
+    return this.langCollapsed;
   }
 
   ngOnInit() {

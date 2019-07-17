@@ -14,7 +14,6 @@ import java.util.Map;
 
 import static de.adorsys.psd2.sandbox.tpp.rest.server.utils.IbanGenerator.generateIbanForNispAccount;
 import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
-import static org.apache.commons.collections4.PredicateUtils.notNullPredicate;
 
 @Data
 @NoArgsConstructor
@@ -25,13 +24,20 @@ public class DataPayload {
     private List<UserTO> users;
     private List<AccountDetailsTO> accounts;
     private List<AccountBalance> balancesList;
+
+    private boolean generatePayments;
+
+    @JsonIgnore
+    private String branch;
+
     @JsonIgnore
     private Map<String, String> generatedIbans = new HashMap<>();
 
+    @JsonIgnore
     public boolean isNotValidPayload() {
-        return CollectionUtils.filter(users, notNullPredicate()) ||
-                   CollectionUtils.filter(accounts, notNullPredicate()) ||
-                   CollectionUtils.filter(balancesList, notNullPredicate());
+        return CollectionUtils.isEmpty(users)
+                   || CollectionUtils.isEmpty(balancesList)
+                   || CollectionUtils.isEmpty(accounts);
     }
 
     public DataPayload updateIbanForBranch(String branch) {

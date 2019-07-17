@@ -697,10 +697,6 @@
 										"value": "{{x_request_id}}"
 									}
 								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
 								"url": {
 									"raw": "{{protocol}}://{{url_xs2a}}/v1/consents/{{consent_id}}",
 									"protocol": "{{protocol}}",
@@ -810,10 +806,6 @@
 										"value": "{{x_request_id}}"
 									}
 								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
 								"url": {
 									"raw": "{{protocol}}://{{url_xs2a}}/v1/consents/{{consent_id}}/authorisations/{{authorisation_id}}",
 									"protocol": "{{protocol}}",
@@ -931,10 +923,6 @@
 										"value": "{{x_request_id}}"
 									}
 								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
 								"url": {
 									"raw": "{{protocol}}://{{url_xs2a}}/v1/consents/{{consent_id}}/status",
 									"protocol": "{{protocol}}",
@@ -1086,10 +1074,6 @@
 										"type": "text"
 									}
 								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
 								"url": {
 									"raw": "http://localhost:8089/v1/accounts/aaaaaaaaaa/transactions/?bookingStatus=both",
 									"protocol": "http",
@@ -1806,10 +1790,6 @@
 										"value": "{{x_request_id}}"
 									}
 								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
 								"url": {
 									"raw": "{{protocol}}://{{url_xs2a}}/v1/consents/{{consent_id}}",
 									"protocol": "{{protocol}}",
@@ -1919,10 +1899,6 @@
 										"value": "{{x_request_id}}"
 									}
 								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
 								"url": {
 									"raw": "{{protocol}}://{{url_xs2a}}/v1/consents/{{consent_id}}/authorisations/{{authorisation_id}}",
 									"protocol": "{{protocol}}",
@@ -2040,10 +2016,6 @@
 										"value": "{{x_request_id}}"
 									}
 								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
 								"url": {
 									"raw": "{{protocol}}://{{url_xs2a}}/v1/consents/{{consent_id}}/status",
 									"protocol": "{{protocol}}",
@@ -2878,10 +2850,6 @@
 										"value": "{{x_request_id}}"
 									}
 								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
 								"url": {
 									"raw": "{{protocol}}://{{url_xs2a}}/v1/consents/{{consent_id}}",
 									"protocol": "{{protocol}}",
@@ -2991,10 +2959,6 @@
 										"value": "{{x_request_id}}"
 									}
 								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
 								"url": {
 									"raw": "{{protocol}}://{{url_xs2a}}/v1/consents/{{consent_id}}/authorisations/{{authorisation_id}}",
 									"protocol": "{{protocol}}",
@@ -3112,10 +3076,6 @@
 										"value": "{{x_request_id}}"
 									}
 								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
 								"url": {
 									"raw": "{{protocol}}://{{url_xs2a}}/v1/consents/{{consent_id}}/status",
 									"protocol": "{{protocol}}",
@@ -4109,10 +4069,6 @@
 										"value": "{{x_request_id}}"
 									}
 								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
 								"url": {
 									"raw": "{{protocol}}://{{url_xs2a}}/v1/consents/{{consent_id}}",
 									"protocol": "{{protocol}}",
@@ -4222,10 +4178,6 @@
 										"value": "{{x_request_id}}"
 									}
 								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
 								"url": {
 									"raw": "{{protocol}}://{{url_xs2a}}/v1/consents/{{consent_id}}/authorisations/{{authorisation_id}}",
 									"protocol": "{{protocol}}",
@@ -4343,10 +4295,6 @@
 										"value": "{{x_request_id}}"
 									}
 								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
 								"url": {
 									"raw": "{{protocol}}://{{url_xs2a}}/v1/consents/{{consent_id}}/status",
 									"protocol": "{{protocol}}",
@@ -5169,10 +5117,6 @@
 										"value": "{{x_request_id}}"
 									}
 								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
 								"url": {
 									"raw": "{{protocol}}://{{url_xs2a}}/v1/consents/{{consent_id}}",
 									"protocol": "{{protocol}}",
@@ -5282,10 +5226,6 @@
 										"value": "{{x_request_id}}"
 									}
 								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
 								"url": {
 									"raw": "{{protocol}}://{{url_xs2a}}/v1/consents/{{consent_id}}/authorisations/{{authorisation_id}}",
 									"protocol": "{{protocol}}",
@@ -5403,10 +5343,6 @@
 										"value": "{{x_request_id}}"
 									}
 								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
 								"url": {
 									"raw": "{{protocol}}://{{url_xs2a}}/v1/consents/{{consent_id}}/status",
 									"protocol": "{{protocol}}",
@@ -5962,8 +5898,8 @@
 													"    pm.expect(jsonData).to.have.property('_links');",
 													"    const _links = jsonData._links;",
 													"    ",
-													"    pm.expect(_links).to.have.property('status');",
-													"    pm.expect(_links).to.have.property('self');",
+													"    pm.expect(_links).to.have.property('scaStatus');",
+													"    pm.expect(_links).to.have.property('authoriseTransaction');",
 													"});",
 													"",
 													"pm.test(\"Select chosenScaMethod exist\", () => {",
@@ -6770,8 +6706,7 @@
 													"    pm.expect(jsonData).to.have.property('_links');",
 													"    const _links = jsonData._links;",
 													"    ",
-													"    pm.expect(_links).to.have.property('status');",
-													"    pm.expect(_links).to.have.property('self');",
+													"    pm.expect(_links).to.have.property('scaStatus');",
 													"    pm.expect(_links).to.have.property('updatePsuAuthentication');",
 													"});"
 												],
@@ -6994,10 +6929,6 @@
 												"value": "{{x_request_id}}"
 											}
 										],
-										"body": {
-											"mode": "raw",
-											"raw": ""
-										},
 										"url": {
 											"raw": "{{protocol}}://{{url_xs2a}}/v1/{{payment_service}}/{{payment_product}}/{{payment_id}}/authorisations",
 											"protocol": "{{protocol}}",
@@ -7044,8 +6975,7 @@
 													"    pm.expect(jsonData).to.have.property('_links');",
 													"    const _links = jsonData._links;",
 													"    ",
-													"    pm.expect(_links).to.have.property('status');",
-													"    pm.expect(_links).to.have.property('self');",
+													"    pm.expect(_links).to.have.property('scaStatus');",
 													"});"
 												],
 												"type": "text/javascript"
@@ -7268,10 +7198,6 @@
 												"value": "{{x_request_id}}"
 											}
 										],
-										"body": {
-											"mode": "raw",
-											"raw": ""
-										},
 										"url": {
 											"raw": "{{protocol}}://{{url_xs2a}}/v1/{{payment_service}}/{{payment_product}}/{{payment_id}}/authorisations/{{authorisation_id}}",
 											"protocol": "{{protocol}}",
@@ -7394,10 +7320,6 @@
 												"value": "{{x_request_id}}"
 											}
 										],
-										"body": {
-											"mode": "raw",
-											"raw": ""
-										},
 										"url": {
 											"raw": "{{protocol}}://{{url_xs2a}}/v1/{{payment_service}}/{{payment_product}}/{{payment_id}}",
 											"protocol": "{{protocol}}",
@@ -7514,10 +7436,6 @@
 												"value": "{{x_request_id}}"
 											}
 										],
-										"body": {
-											"mode": "raw",
-											"raw": ""
-										},
 										"url": {
 											"raw": "{{protocol}}://{{url_xs2a}}/v1/{{payment_service}}/{{payment_product}}/{{payment_id}}/status",
 											"protocol": "{{protocol}}",
@@ -7787,8 +7705,7 @@
 													"    pm.expect(jsonData).to.have.property('_links');",
 													"    const _links = jsonData._links;",
 													"    ",
-													"    pm.expect(_links).to.have.property('status');",
-													"    pm.expect(_links).to.have.property('self');",
+													"    pm.expect(_links).to.have.property('scaStatus');",
 													"    pm.expect(_links).to.have.property('updatePsuAuthentication');",
 													"});"
 												],
@@ -7946,8 +7863,7 @@
 													"    pm.expect(jsonData).to.have.property('_links');",
 													"    const _links = jsonData._links;",
 													"    ",
-													"    pm.expect(_links).to.have.property('status');",
-													"    pm.expect(_links).to.have.property('self');",
+													"    pm.expect(_links).to.have.property('scaStatus');",
 													"});",
 													"",
 													"pm.test(\"Select chosenScaMethod exist\", () => {",
@@ -8189,10 +8105,6 @@
 												"value": "{{x_request_id}}"
 											}
 										],
-										"body": {
-											"mode": "raw",
-											"raw": ""
-										},
 										"url": {
 											"raw": "{{protocol}}://{{url_xs2a}}/v1/{{payment_service}}/{{payment_product}}/{{payment_id}}/authorisations",
 											"protocol": "{{protocol}}",
@@ -8239,8 +8151,7 @@
 													"    pm.expect(jsonData).to.have.property('_links');",
 													"    const _links = jsonData._links;",
 													"    ",
-													"    pm.expect(_links).to.have.property('status');",
-													"    pm.expect(_links).to.have.property('self');",
+													"    pm.expect(_links).to.have.property('scaStatus');",
 													"});"
 												],
 												"type": "text/javascript"
@@ -8463,10 +8374,6 @@
 												"value": "{{x_request_id}}"
 											}
 										],
-										"body": {
-											"mode": "raw",
-											"raw": ""
-										},
 										"url": {
 											"raw": "{{protocol}}://{{url_xs2a}}/v1/{{payment_service}}/{{payment_product}}/{{payment_id}}/authorisations/{{authorisation_id}}",
 											"protocol": "{{protocol}}",
@@ -8589,10 +8496,6 @@
 												"value": "{{x_request_id}}"
 											}
 										],
-										"body": {
-											"mode": "raw",
-											"raw": ""
-										},
 										"url": {
 											"raw": "{{protocol}}://{{url_xs2a}}/v1/{{payment_service}}/{{payment_product}}/{{payment_id}}",
 											"protocol": "{{protocol}}",
@@ -8709,10 +8612,6 @@
 												"value": "{{x_request_id}}"
 											}
 										],
-										"body": {
-											"mode": "raw",
-											"raw": ""
-										},
 										"url": {
 											"raw": "{{protocol}}://{{url_xs2a}}/v1/{{payment_service}}/{{payment_product}}/{{payment_id}}/status",
 											"protocol": "{{protocol}}",
@@ -8982,8 +8881,7 @@
 													"    pm.expect(jsonData).to.have.property('_links');",
 													"    const _links = jsonData._links;",
 													"    ",
-													"    pm.expect(_links).to.have.property('status');",
-													"    pm.expect(_links).to.have.property('self');",
+													"    pm.expect(_links).to.have.property('scaStatus');",
 													"    pm.expect(_links).to.have.property('updatePsuAuthentication');",
 													"});"
 												],
@@ -9305,8 +9203,7 @@
 													"    pm.expect(jsonData).to.have.property('_links');",
 													"    const _links = jsonData._links;",
 													"    ",
-													"    pm.expect(_links).to.have.property('status');",
-													"    pm.expect(_links).to.have.property('self');",
+													"    pm.expect(_links).to.have.property('scaStatus');",
 													"});",
 													"",
 													"pm.test(\"Select chosenScaMethod exist\", () => {",
@@ -9550,10 +9447,6 @@
 												"value": "{{x_request_id}}"
 											}
 										],
-										"body": {
-											"mode": "raw",
-											"raw": ""
-										},
 										"url": {
 											"raw": "{{protocol}}://{{url_xs2a}}/v1/{{payment_service}}/{{payment_product}}/{{payment_id}}/authorisations",
 											"protocol": "{{protocol}}",
@@ -9600,8 +9493,7 @@
 													"    pm.expect(jsonData).to.have.property('_links');",
 													"    const _links = jsonData._links;",
 													"    ",
-													"    pm.expect(_links).to.have.property('status');",
-													"    pm.expect(_links).to.have.property('self');",
+													"    pm.expect(_links).to.have.property('scaStatus');",
 													"});"
 												],
 												"type": "text/javascript"
@@ -9824,10 +9716,6 @@
 												"value": "{{x_request_id}}"
 											}
 										],
-										"body": {
-											"mode": "raw",
-											"raw": ""
-										},
 										"url": {
 											"raw": "{{protocol}}://{{url_xs2a}}/v1/{{payment_service}}/{{payment_product}}/{{payment_id}}/authorisations/{{authorisation_id}}",
 											"protocol": "{{protocol}}",
@@ -9950,10 +9838,6 @@
 												"value": "{{x_request_id}}"
 											}
 										],
-										"body": {
-											"mode": "raw",
-											"raw": ""
-										},
 										"url": {
 											"raw": "{{protocol}}://{{url_xs2a}}/v1/{{payment_service}}/{{payment_product}}/{{payment_id}}",
 											"protocol": "{{protocol}}",
@@ -10070,10 +9954,6 @@
 												"value": "{{x_request_id}}"
 											}
 										],
-										"body": {
-											"mode": "raw",
-											"raw": ""
-										},
 										"url": {
 											"raw": "{{protocol}}://{{url_xs2a}}/v1/{{payment_service}}/{{payment_product}}/{{payment_id}}/status",
 											"protocol": "{{protocol}}",
@@ -10331,8 +10211,7 @@
 													"    pm.expect(jsonData).to.have.property('_links');",
 													"    const _links = jsonData._links;",
 													"    ",
-													"    pm.expect(_links).to.have.property('status');",
-													"    pm.expect(_links).to.have.property('self');",
+													"    pm.expect(_links).to.have.property('scaStatus');",
 													"    pm.expect(_links).to.have.property('updatePsuAuthentication');",
 													"});"
 												],
@@ -10500,8 +10379,7 @@
 													"    pm.expect(jsonData).to.have.property('_links');",
 													"    const _links = jsonData._links;",
 													"    ",
-													"    pm.expect(_links).to.have.property('status');",
-													"    pm.expect(_links).to.have.property('self');",
+													"    pm.expect(_links).to.have.property('scaStatus');",
 													"});"
 												],
 												"type": "text/javascript"
@@ -10724,10 +10602,6 @@
 												"value": "{{x_request_id}}"
 											}
 										],
-										"body": {
-											"mode": "raw",
-											"raw": ""
-										},
 										"url": {
 											"raw": "{{protocol}}://{{url_xs2a}}/v1/bulk-payments/{{payment_product}}/{{payment_id}}/authorisations",
 											"protocol": "{{protocol}}",
@@ -10839,10 +10713,6 @@
 												"value": "{{x_request_id}}"
 											}
 										],
-										"body": {
-											"mode": "raw",
-											"raw": ""
-										},
 										"url": {
 											"raw": "{{protocol}}://{{url_xs2a}}/v1/bulk-payments/{{payment_product}}/{{payment_id}}/authorisations/{{authorisation_id}}",
 											"protocol": "{{protocol}}",
@@ -10968,10 +10838,6 @@
 												"value": "{{x_request_id}}"
 											}
 										],
-										"body": {
-											"mode": "raw",
-											"raw": ""
-										},
 										"url": {
 											"raw": "{{protocol}}://{{url_xs2a}}/v1/bulk-payments/{{payment_product}}/{{payment_id}}",
 											"protocol": "{{protocol}}",
@@ -11088,10 +10954,6 @@
 												"value": "{{x_request_id}}"
 											}
 										],
-										"body": {
-											"mode": "raw",
-											"raw": ""
-										},
 										"url": {
 											"raw": "{{protocol}}://{{url_xs2a}}/v1/bulk-payments/{{payment_product}}/{{payment_id}}/status",
 											"protocol": "{{protocol}}",
@@ -11408,7 +11270,8 @@
 													},
 													{
 														"key": "tpp-qwac-certificate",
-														"value": "qwac certificate"
+														"value": "qwac certificate",
+														"disabled": true
 													},
 													{
 														"key": "x-request-id",
@@ -11747,7 +11610,8 @@
 													},
 													{
 														"key": "tpp-qwac-certificate",
-														"value": "qwac certificate"
+														"value": "qwac certificate",
+														"disabled": true
 													},
 													{
 														"key": "x-request-id",
@@ -14499,10 +14363,6 @@
 												"value": "{{x_request_id}}"
 											}
 										],
-										"body": {
-											"mode": "raw",
-											"raw": ""
-										},
 										"url": {
 											"raw": "{{protocol}}://{{url_xs2a}}/v1/accounts?withBalance={{with_balance}}",
 											"protocol": "{{protocol}}",
@@ -14638,10 +14498,6 @@
 												"value": "{{x_request_id}}"
 											}
 										],
-										"body": {
-											"mode": "raw",
-											"raw": ""
-										},
 										"url": {
 											"raw": "{{protocol}}://{{url_xs2a}}/v1/accounts/{{account_id_cur}}?withBalance={{with_balance}}",
 											"protocol": "{{protocol}}",
@@ -14773,10 +14629,6 @@
 												"value": "{{x_request_id}}"
 											}
 										],
-										"body": {
-											"mode": "raw",
-											"raw": ""
-										},
 										"url": {
 											"raw": "{{protocol}}://{{url_xs2a}}/v1/accounts/{{account_id_cur}}/balances",
 											"protocol": "{{protocol}}",
@@ -14931,10 +14783,6 @@
 												"value": "{{x_request_id}}"
 											}
 										],
-										"body": {
-											"mode": "raw",
-											"raw": ""
-										},
 										"url": {
 											"raw": "{{protocol}}://{{url_xs2a}}/v1/accounts/{{account_id_cur}}/transactions?bookingStatus={{booking_status}}&dateFrom=2018-01-01&dateTo=2019-12-12&withBalance={{with_balance}}",
 											"protocol": "{{protocol}}",
@@ -15076,10 +14924,6 @@
 												"value": "{{x_request_id}}"
 											}
 										],
-										"body": {
-											"mode": "raw",
-											"raw": ""
-										},
 										"url": {
 											"raw": "{{protocol}}://{{url_xs2a}}/v1/accounts/{{account_id_cur}}/transactions/{{resource_id}}",
 											"protocol": "{{protocol}}",

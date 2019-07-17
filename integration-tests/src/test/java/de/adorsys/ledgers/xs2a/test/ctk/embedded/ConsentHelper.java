@@ -212,7 +212,7 @@ public class ConsentHelper {
         LocalDate dateFrom = LocalDate.of(2017, 01, 01);
         LocalDate dateTo = LocalDate.of(2020, 01, 01);
         // WARNING case sensitive
-        String bookingStatus = "both";
+        String bookingStatus = "booked";
         String entryReferenceFrom = null;
         Boolean deltaList = false;
         TransactionsResponse200Json transactionsResponse200Json = accountApi

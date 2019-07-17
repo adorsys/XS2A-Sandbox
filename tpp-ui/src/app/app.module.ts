@@ -33,6 +33,7 @@ import {NgHttpLoaderModule} from 'ng-http-loader';
 import {FilterPipeModule} from "ngx-filter-pipe";
 import {GlobalErrorsHandler} from "./interceptors/global-errors-handler";
 import {AutoLogoutService} from "./services/auto-logout.service";
+import { AccountAccessManagementComponent } from './components/account-access-management/account-access-management.component';
 
 @NgModule({
     declarations: [
@@ -54,7 +55,8 @@ import {AutoLogoutService} from "./services/auto-logout.service";
         UploadFileComponent,
         DocumentUploadComponent,
         TestDataGenerationComponent,
-        CertificateComponent
+        CertificateComponent,
+        AccountAccessManagementComponent
     ],
     imports: [
         BrowserModule,

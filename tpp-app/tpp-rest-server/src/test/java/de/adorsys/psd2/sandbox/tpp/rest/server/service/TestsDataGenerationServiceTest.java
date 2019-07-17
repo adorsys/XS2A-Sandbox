@@ -59,11 +59,18 @@ public class TestsDataGenerationServiceTest {
     private List<AccountAccessTO> getAccountAccess(boolean isCompleted) {
         List<AccountAccessTO> access = IntStream.range(0, 100)
                                            .mapToObj(i -> IbanGenerator.generateRandomIban(TPP_ID, i))
-                                           .map(iban -> new AccountAccessTO(iban, AccessTypeTO.OWNER, null))
+                                           .map(this::buildOwnerAccess)
                                            .collect(Collectors.toList());
         if (!isCompleted) {
             access.remove(access.size() - 1);
         }
+        return access;
+    }
+
+    private AccountAccessTO buildOwnerAccess(String iban) {
+        AccountAccessTO access = new AccountAccessTO();
+        access.setAccessType(AccessTypeTO.OWNER);
+        access.setIban(iban);
         return access;
     }
 

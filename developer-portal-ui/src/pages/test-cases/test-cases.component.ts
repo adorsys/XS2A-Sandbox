@@ -19,42 +19,42 @@ export class TestCasesComponent implements OnInit {
   ) {}
 
   onActivate(ev) {
-    this.dataService.currentRouteUrl = this.actRoute[
-      '_routerState'
-    ].snapshot.url;
+    this.dataService.setRouterUrl(this.actRoute['_routerState'].snapshot.url);
   }
 
   collapseThis(collapseId: string): void {
-    const collapsibleItemContent = document.getElementById(
-      `${collapseId}-content`
-    );
+    if (collapseId === 'redirect' || collapseId === 'embedded' || collapseId === 'account') {
+      const collapsibleItemContent = document.getElementById(
+        `${collapseId}-content`
+      );
 
-    switch (collapseId) {
-      case 'redirect':
-        this.redirectFlag = !this.redirectFlag;
-        break;
-      case 'embedded':
-        this.embeddedFlag = !this.embeddedFlag;
-        break;
-      case 'account':
-        this.accountFlag = !this.accountFlag;
-        break;
-    }
+      switch (collapseId) {
+        case 'redirect':
+          this.redirectFlag = !this.redirectFlag;
+          break;
+        case 'embedded':
+          this.embeddedFlag = !this.embeddedFlag;
+          break;
+        case 'account':
+          this.accountFlag = !this.accountFlag;
+          break;
+      }
 
-    if (collapsibleItemContent.style.maxHeight) {
-      collapsibleItemContent.style.maxHeight = '';
-    } else {
-      collapsibleItemContent.style.maxHeight = '50vw';
+      if (collapsibleItemContent.style.maxHeight) {
+        collapsibleItemContent.style.maxHeight = '';
+      } else {
+        collapsibleItemContent.style.maxHeight = '50vw';
+      }
     }
   }
 
   ngOnInit() {
-    if (this.dataService.currentRouteUrl.includes('redirect')) {
-      this.collapseThis('redirect');
-    } else if (this.dataService.currentRouteUrl.includes('embedded')) {
+    if (this.dataService.getRouterUrl().includes('account')) {
+      this.collapseThis('account');
+    } else if (this.dataService.getRouterUrl().includes('embedded')) {
       this.collapseThis('embedded');
     } else {
-      this.collapseThis('account');
+      this.collapseThis('redirect');
     }
   }
 }

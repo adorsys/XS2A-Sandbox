@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'prettyJson',
 })
 export class PrettyJsonPipe implements PipeTransform {
-  transform(value: any, args?: any): any {
+  transform(value: any): any {
     return JSON.stringify(value, null, 4);
   }
 }

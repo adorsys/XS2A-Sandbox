@@ -7,12 +7,13 @@ volumes:
   xs2a-connector-data:
   xs2a-fakesmtp-data:
   xs2a-ledgers-data:
+  xs2a-tpp-rest-server-data:
 
 services:
 
   # Xs2a connector example
   xs2a-connector-examples:
-    image: adorsys/xs2a-connector-examples:3.4
+    image: adorsys/xs2a-connector-examples:3.6.1
     container_name: xs2a-connector-examples
     restart: on-failure
     ports:
@@ -33,7 +34,7 @@ services:
 
   # Xs2a aspsp profile
   xs2a-aspsp-profile:
-    image: adorsys/xs2a-aspsp-profile:3.4
+    image: adorsys/xs2a-aspsp-profile:3.6.1
     container_name: xs2a-aspsp-profile
     restart: on-failure
     environment:
@@ -49,7 +50,7 @@ services:
 
   # Consent management
   xs2a-consent-management:
-    image: adorsys/xs2a-consent-management:3.4
+    image: adorsys/xs2a-consent-management:3.6.1
     container_name: xs2a-consent-management
     restart: on-failure
     ports:
@@ -63,6 +64,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=cms
       - SERVER_KEY=ledgers_conenctor_secret
       - SPRING_LIQUIBASE_ENABLED=true
+      - USED-NON-RECURRING-CONSENT-EXPIRATION.CRON.EXPRESSION=0 0 * * * *
     depends_on:
       - xs2a-consent-management-db
 
@@ -111,7 +113,7 @@ services:
 
   # Ledgers
   ledgers:
-    image: adorsys/ledgers:0.4
+    image: adorsys/ledgers:0.7
     container_name: ledgers
     restart: on-failure
     networks:
@@ -160,8 +162,8 @@ services:
     image: adorsys/tpp-ui
     restart: on-failure
     environment:
-      LEDGERS_URL: "http://ledgers:8088"
-      CERT_GEN_URL: "http://certificate-generator:8092"
+      - TPP_REST_SERVER_URL=http://xs2a-tpp-rest-server:8093
+      - CERT_GEN_URL=http://certificate-generator:8092
     build:
       context: tpp-ui
       dockerfile: Dockerfile
@@ -170,7 +172,26 @@ services:
     networks:
       - xs2a-net
     depends_on:
+      - certificate-generator
+      - xs2a-tpp-rest-server
+
+  # TPP-REST-SERVER
+  xs2a-tpp-rest-server:
+    image: adorsys/tpp-rest-server
+    restart: on-failure
+    environment:
+      LEDGERS_URL: "http://ledgers:8088"
+    build:
+      context: tpp-app/tpp-rest-server
+      dockerfile: Dockerfile
+    ports:
+      - "8093:8093"
+    networks:
+      - xs2a-net
+    depends_on:
       - ledgers
+    volumes:
+      - xs2a-tpp-rest-server-data:/var/lib/data
 
   # Developer portal ui
   developer-portal-ui:

@@ -1,14 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-line-command',
   templateUrl: './line-command.component.html',
   styleUrls: ['./line-command.component.scss'],
 })
-export class LineCommandComponent implements OnInit {
+export class LineCommandComponent {
   @Input() title: string;
-
-  constructor() {}
-
-  ngOnInit() {}
 }

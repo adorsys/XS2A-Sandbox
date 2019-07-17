@@ -55,18 +55,18 @@ describe('RegisterComponent', () => {
         expect(component.userForm.valid).toBeFalsy();
     });
 
-    it('branch field validity', () => {
+    it('TPP ID field validity', () => {
         let errors = {};
-        const branch = component.userForm.controls['branch'];
-        expect(branch.valid).toBeFalsy();
+        const tppId = component.userForm.controls['id'];
+        expect(tppId.valid).toBeFalsy();
 
         // branch field is required
-        errors = branch.errors || {};
+        errors = tppId.errors || {};
         expect(errors['required']).toBeTruthy();
 
         // set branch to something correct
-        branch.setValue('foo');
-        errors = branch.errors || {};
+        tppId.setValue('foo');
+        errors = tppId.errors || {};
         expect(errors['required']).toBeFalsy();
     });
 
@@ -110,7 +110,7 @@ describe('RegisterComponent', () => {
     });
 
     it(`Submit button should be enabled`, () => {
-        component.userForm.controls['branch'].setValue('12345678');
+        component.userForm.controls['id'].setValue('12345678');
         component.userForm.controls['login'].setValue('test');
         component.userForm.controls['email'].setValue('asd@asd.com');
         component.userForm.controls['pin'].setValue('1234');
@@ -121,7 +121,7 @@ describe('RegisterComponent', () => {
     });
 
     it('should register and redirect user', () => {
-        component.userForm.controls['branch'].setValue('12345678');
+        component.userForm.controls['id'].setValue('12345678');
         component.userForm.controls['login'].setValue('test');
         component.userForm.controls['email'].setValue('asd@asd.com');
         component.userForm.controls['pin'].setValue('1234');

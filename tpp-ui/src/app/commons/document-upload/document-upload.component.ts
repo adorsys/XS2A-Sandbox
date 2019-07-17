@@ -1,6 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FileItem, FileUploader} from 'ng2-file-upload';
 import {UploadOptions, UploadService} from '../../services/upload.service';
+import {InfoService} from "../info/info.service";
+import {SpinnerVisibilityService} from "ng-http-loader";
+import {error} from "util";
 
 @Component({
     selector: 'app-document-upload',
@@ -17,7 +20,9 @@ export class DocumentUploadComponent implements OnInit {
 
     hasBaseDropZoneOver: boolean = true;
 
-    constructor(private uploadService: UploadService) {
+    constructor(private uploadService: UploadService,
+                private spinner: SpinnerVisibilityService,
+                private infoService: InfoService) {
     }
 
     public get acceptedMimes(): string {
@@ -32,11 +37,19 @@ export class DocumentUploadComponent implements OnInit {
         /* Ensure again that the number of up-to-load file is always one and get the image path for preview */
         this.uploader.onAfterAddingFile = (item) => this.onAfterAddingFile(item);
 
+        this.uploader.onProgressAll = (progress) => {
+            this.spinner.show();
+        };
+
+        this.uploader.response.subscribe(() => {
+            this.spinner.hide();
+        });
+
         this.uploader.onCompleteItem = (item: FileItem, response: string, status, headers) => {
             if (this.options.methodAfterSuccess && typeof this.options.methodAfterSuccess === 'function') {
                 this.options.methodAfterSuccess(item, response);
             }
-            alert('Successfull uploaded');
+            this.infoService.openFeedback("File successfully uploaded");
         };
 
         this.uploader.onWhenAddingFileFailed = (item, filter, options) => {
@@ -52,7 +65,7 @@ export class DocumentUploadComponent implements OnInit {
                     extensions: extensions
                 };
                 const message: string = 'ERROR UPLOAD' + filter.name;
-                alert(message);
+                this.infoService.openFeedback(message, {severity: "error"});
             }
         };
     }

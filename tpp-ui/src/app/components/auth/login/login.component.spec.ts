@@ -54,7 +54,7 @@ describe('LoginComponent', () => {
         el = fixture.debugElement.query(By.css('button')).nativeElement;
         el.click();
 
-        expect(authServiceSpy).toHaveBeenCalledWith({login: 'test', pin: '12345678',  role: "STAFF"});
+        expect(authServiceSpy).toHaveBeenCalledWith({login: 'test', pin: '12345678'});
         expect(authServiceSpy).toHaveBeenCalled();
     });
 

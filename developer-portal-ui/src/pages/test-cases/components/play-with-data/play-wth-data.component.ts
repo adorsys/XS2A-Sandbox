@@ -71,7 +71,7 @@ export class PlayWthDataComponent implements OnInit {
   }
 
   sendRequest() {
-    this.dataService.isLoading = true;
+    this.dataService.setIsLoading(true);
 
     this.finalUrl = this.url;
     if (this.paymentServiceFlag) {
@@ -109,11 +109,11 @@ export class PlayWthDataComponent implements OnInit {
             if (this.response['body']._links.hasOwnProperty('scaRedirect')) {
               this.redirectUrl += this.response['body']._links.scaRedirect.href;
             }
-            this.dataService.isLoading = false;
+            this.dataService.setIsLoading(false);
             this.dataService.showToast('Request sent', 'Success!', 'success');
           },
           err => {
-            this.dataService.isLoading = false;
+            this.dataService.setIsLoading(false);
             this.dataService.showToast(
               'Something went wrong!',
               'Error!',
@@ -124,7 +124,7 @@ export class PlayWthDataComponent implements OnInit {
           }
         );
     } else {
-      this.dataService.isLoading = false;
+      this.dataService.setIsLoading(false);
       this.dataService.showToast('Body in not valid!', 'Error!', 'error');
     }
   }
@@ -145,7 +145,6 @@ export class PlayWthDataComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('fields', this.fieldsToCopy);
     this.paymentService = this.paymentServiceFlag ? 'payments' : '';
     this.paymentProduct = this.paymentProductFlag ? '/sepa-credit-transfers' : '';
     this.paymentId = this.paymentIdFlag ? 'paymentId' : '';

@@ -14,6 +14,7 @@ import {UsersComponent} from './components/users/users.component';
 import {AuthGuard} from './guards/auth.guard';
 import {UploadFileComponent} from './uploadFile/uploadFile.component';
 import {TestDataGenerationComponent} from './components/testDataGeneration/test-data-generation.component'
+import {AccountAccessManagementComponent} from "./components/account-access-management/account-access-management.component";
 
 const routes: Routes = [
     {
@@ -35,9 +36,14 @@ const routes: Routes = [
                 component: AccountComponent
             },
             {
+                path: 'accounts/:id/access',
+                component: AccountAccessManagementComponent
+            },
+            {
                 path: 'accounts/:id/deposit-cash',
                 component: CashDepositComponent
             },
+
             {
                 path: 'users/all',
                 component: UsersComponent

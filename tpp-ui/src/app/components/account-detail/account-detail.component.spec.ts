@@ -20,7 +20,6 @@ describe('AccountDetailComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                ReactiveFormsModule,
                 RouterTestingModule.withRoutes([{path: 'accounts', component: AccountComponent}]),
                 ReactiveFormsModule,
                 HttpClientTestingModule,

@@ -157,7 +157,9 @@ export class RdctPaymentInitiationPostComponent implements OnInit {
   constructor() {}
 
   changeSegment(segment) {
-    this.activeSegment = segment;
+    if (segment === 'documentation' || segment === 'play-data') {
+      this.activeSegment = segment;
+    }
   }
 
   ngOnInit() {}

@@ -1,19 +1,18 @@
 import {inject, TestBed} from '@angular/core/testing';
-import {HttpClientModule} from '@angular/common/http';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 
 import {AuthService} from './auth.service';
 import {environment} from "../../environments/environment";
-import {User} from "../models/user.model";
 import {RouterTestingModule} from "@angular/router/testing";
 import {Router} from "@angular/router";
+import {TppInfo} from "../models/tpp-info.model";
 
 describe('AuthService', () => {
     let httpTestingController: HttpTestingController;
     let authService: AuthService;
     let router: Router;
-    const url = `${environment.staffAccessResourceEndPoint + '/users'}`;
+    const url = `${environment.tppBackend}`;
 
 
     beforeEach(() => {
@@ -48,7 +47,7 @@ describe('AuthService', () => {
 
     it('should call authorize when login', () => {
         let getAuthorizationTokenSpy = spyOn(authService, 'authorize').and.callThrough();
-        let credentialsMock = {login: 's', pin: 'q', role: 'STAFF'};
+        let credentialsMock = {login: 's', pin: 'q'};
         authService.login(credentialsMock);
         expect(getAuthorizationTokenSpy).toHaveBeenCalled();
     });
@@ -59,8 +58,9 @@ describe('AuthService', () => {
         expect(authService.isLoggedIn()).toBeFalsy();
 
         // login credential is not correct
-        let credentialsMock = {login: 'q', pin: 'q', role: 'STAFF'};
+        let credentialsMock = {login: 'q', pin: 'q'};
         authService.login(credentialsMock).subscribe(response => {
+            console.log(response);
             expect(response).toBeFalsy()
         });
 
@@ -76,15 +76,15 @@ describe('AuthService', () => {
         let credentialsMock = {
             email: 'test@test.de',
             login: 'test',
-            branch: '12345678',
+            id: '12345678',
             pin: '123456'
         };
 
-        authService.register(credentialsMock as User, credentialsMock.branch).subscribe(response => {
+        authService.register(credentialsMock as TppInfo).subscribe(response => {
             expect(response.email).toBe('test@test.de')
         });
 
-        let req = httpTestingController.expectOne(url + '/register?branch=12345678');
+        let req = httpTestingController.expectOne(url + '/register');
         expect(req.cancelled).toBeFalsy();
         expect(req.request.method).toEqual('POST');
         req.flush(credentialsMock);
