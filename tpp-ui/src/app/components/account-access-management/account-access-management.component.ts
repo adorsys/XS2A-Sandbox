@@ -4,8 +4,9 @@ import {User} from "../../models/user.model";
 import {UserService} from "../../services/user.service";
 import {Subscription} from "rxjs";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {AccountService} from "../../services/account.service";
+import {InfoService} from "../../commons/info/info.service";
 
 @Component({
     selector: 'app-account-access-management',
@@ -22,11 +23,13 @@ export class AccountAccessManagementComponent implements OnInit {
 
     submitted = false;
     errorMessage = null;
-    roles = ['OWNER', 'READ', 'DISPOSE'];
+    accessTypes = ['OWNER', 'READ', 'DISPOSE'];
 
     constructor(private userService: UserService,
                 private accountService: AccountService,
+                private infoService: InfoService,
                 private formBuilder: FormBuilder,
+                private router: Router,
                 private route: ActivatedRoute) {
 
         this.route.params.subscribe(params => {
@@ -44,9 +47,9 @@ export class AccountAccessManagementComponent implements OnInit {
     setupAccountAccessFormControl(): void {
         this.accountAccessForm = this.formBuilder.group({
             iban: [''],
-            userId: ['', Validators.required],
+            id: ['', Validators.required],
             scaWeight: [0, [Validators.required, Validators.min(0), Validators.max(100)]],
-            role: ['READ', [Validators.required]]
+            accessType: ['READ', [Validators.required]]
         });
     }
 
@@ -64,7 +67,13 @@ export class AccountAccessManagementComponent implements OnInit {
 
         this.accountAccessForm.get('iban').setValue(this.account.iban);
         this.accountService.updateAccountAccessForUser(this.accountAccessForm.getRawValue()).subscribe(response => {
-            console.log(response);
+            this.infoService
+                .openFeedback("Access to account " + this.account.iban + " successfully granted", {duration: 3000});
+
+            setTimeout(() => {
+                this.router.navigate(['/users'])
+            }, 3000)
+
         });
     }
 

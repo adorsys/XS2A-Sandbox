@@ -9,14 +9,14 @@
                 </div>
 
                 <div class="form-group required">
-                    <label class="control-label" for="userId">User login</label>
-                    <select [ngClass]="{'is-invalid': accountAccessForm.get('userId')?.errors && (accountAccessForm.get('userId').dirty
-           || accountAccessForm.get('userId').touched || submitted)}" class="form-control" formControlName="userId"
-                            id="userId">
+                    <label class="control-label" for="id">User login</label>
+                    <select [ngClass]="{'is-invalid': accountAccessForm.get('id')?.errors && (accountAccessForm.get('id').dirty
+           || accountAccessForm.get('id').touched || submitted)}" class="form-control" formControlName="id"
+                            id="id">
                         <option *ngFor="let user of users" [value]="user.id">{{user?.login}}</option>
                     </select>
                     <div class="invalid-feedback">
-                        <div *ngIf="accountAccessForm.get('userId')?.errors?.required">
+                        <div *ngIf="accountAccessForm.get('id')?.errors?.required">
                             Login name is Required
                         </div>
                     </div>
@@ -42,13 +42,13 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="role">Role</label>
-                    <select [ngClass]="{'is-invalid': accountAccessForm.get('role')?.errors && (accountAccessForm.get('role').dirty
-           || accountAccessForm.get('role').touched || submitted)}" class="form-control" formControlName="role"
-                            id="role">
-                        <option *ngFor="let role of roles" [value]="role">{{role}}</option>
+                    <label for="accessType">Role</label>
+                    <select [ngClass]="{'is-invalid': accountAccessForm.get('accessType')?.errors && (accountAccessForm.get('accessType').dirty
+           || accountAccessForm.get('accessType').touched || submitted)}" class="form-control" formControlName="accessType"
+                            id="accessType">
+                        <option *ngFor="let accessType of accessTypes" [value]="accessType">{{accessType}}</option>
                     </select>
-                    <div *ngIf="accountAccessForm.get('role')?.errors?.required"
+                    <div *ngIf="accountAccessForm.get('accessType')?.errors?.required"
                          class="invalid-feedback">
                         Role ist required
                     </div>

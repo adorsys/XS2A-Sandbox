@@ -5,6 +5,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {AccountService} from "../../services/account.service";
 import {RouterTestingModule} from "@angular/router/testing";
+import {InfoModule} from "../../commons/info/info.module";
+import {InfoService} from "../../commons/info/info.service";
 
 describe('AccountAccessManagementComponent', () => {
     let component: AccountAccessManagementComponent;
@@ -16,10 +18,11 @@ describe('AccountAccessManagementComponent', () => {
                 ReactiveFormsModule,
                 HttpClientTestingModule,
                 RouterTestingModule,
+                InfoModule,
                 FormsModule,
             ],
             declarations: [AccountAccessManagementComponent],
-            providers: [AccountService]
+            providers: [AccountService, InfoService]
         })
             .compileComponents();
     }));
