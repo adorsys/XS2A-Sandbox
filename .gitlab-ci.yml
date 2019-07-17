@@ -21,6 +21,8 @@ stages:
 
 variables:
 
+  GIT_SUBMODULE_STRATEGY: normal
+
   # Online banking
   DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING: "xs2a-online-banking"
   DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR: "xs2a-certificate-generator"
