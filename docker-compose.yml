@@ -7,6 +7,7 @@ volumes:
   xs2a-connector-data:
   xs2a-fakesmtp-data:
   xs2a-ledgers-data:
+  xs2a-tpp-rest-server-data:
 
 services:
 
@@ -161,9 +162,8 @@ services:
     image: adorsys/tpp-ui
     restart: on-failure
     environment:
-      LEDGERS_URL: "http://ledgers:8088"
-      TPP_REST_SERVER_URL: "http://xs2a-tpp-rest-server:8093"
-      CERT_GEN_URL: "http://certificate-generator:8092"
+      - TPP_REST_SERVER_URL=http://xs2a-tpp-rest-server:8093
+      - CERT_GEN_URL=http://certificate-generator:8092
     build:
       context: tpp-ui
       dockerfile: Dockerfile
@@ -172,7 +172,7 @@ services:
     networks:
       - xs2a-net
     depends_on:
-      - ledgers
+      - certificate-generator
       - xs2a-tpp-rest-server
 
   # TPP-REST-SERVER
@@ -185,11 +185,13 @@ services:
       context: tpp-app/tpp-rest-server
       dockerfile: Dockerfile
     ports:
-      - "8093:8000"
+      - "8093:8093"
     networks:
       - xs2a-net
     depends_on:
       - ledgers
+    volumes:
+      - xs2a-tpp-rest-server-data:/var/lib/data
 
   # Developer portal ui
   developer-portal-ui:

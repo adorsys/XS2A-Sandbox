@@ -71,7 +71,7 @@ export class AccountAccessManagementComponent implements OnInit {
                 .openFeedback("Access to account " + this.account.iban + " successfully granted", {duration: 3000});
 
             setTimeout(() => {
-                this.router.navigate(['/users'])
+                this.router.navigate(['/users/all'])
             }, 3000)
 
         });
