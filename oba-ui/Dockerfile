@@ -13,7 +13,8 @@ RUN chgrp -R root /var/cache/nginx && \
     find /var/cache/nginx -type f -exec chmod 664 {} \; && \
     chmod 775 /var/run && \
     chmod 775 /opt/entry.sh && \
-    chmod -R 777 /etc/nginx/conf.d
+    chmod -R 777 /etc/nginx/conf.d && \
+    chmod o+w /usr/share/nginx/html/assets/settings.json
 
 EXPOSE 4400
 
