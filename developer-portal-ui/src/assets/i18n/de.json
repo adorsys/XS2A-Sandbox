@@ -394,9 +394,9 @@
       "LINK_3": "öffnen."
     },
     "TEST_VALUES": {
-      "TEXT_1": "Für alle Tests, sowohl die Redirect als auch die Embedded Ansätze, wird ein PIN benötigt, um sich in den Account einzuloggen, und eine TAN für die SCA Methoden.",
+      "TEXT_1": "Für alle Tests, sowohl die Redirect als auch die Embedded Ansätze, wird ein PIN benötigt, um sich in den Account einzuloggen, und eine TAN für die SCA Methoden. Bitte, nutzen Sie existierende E-Mail-Adressen auf die Sie Zugriff haben, da an diese die generierten TAN des ausgewählten Nutzers geschickt wird.",
       "TEXT_2": "Der Test-PIN wird automatisch für jeden Nutzer generiert und lautet:",
-      "TEXT_3": "Die Test-TAN für alle Tests lautet: "
+      "TEXT_3": "Folgende Test-TAN ist nur gültig, wenn Sie die Sandbox lokal über das ‘dev’ Profil laufen lassen: "
     },
     "POSTMAN_TESTING": {
       "TEXT_1": "Postman ist eine einfache Testumgebung, in der man erstellte Tests importieren und laufen lassen kann.",
@@ -542,8 +542,8 @@
         "PART_25": "und",
         "PART_26": "ausgegeben.",
         "PART_27": "10. Führen Sie diesen Endpunkt erneut durch, fügen Sie nun aber folgenden Json Code in das Anforderungsfeld:",
-        "PART_28": "Da der Nutzer nur eine Sca-Methode hat, wird ihm die Test-TAN",
-        "PART_29": "geschickt. Diese TAN wird nun in der Json für den auszuführenden PUT Befehl angegeben. Drücken Sie „Execute“. Es wird Ihnen",
+        "PART_28": "Der Nutzer hat nur eine SCA Methode, daher wurde die generierte TAN bereits an die angegebene Nutzer-Mail geschickt.",
+        "PART_29": "Diese TAN wird nun in der Json für den auszuführenden PUT Befehl angegeben. Drücken Sie „Execute“. Es wird Ihnen",
         "PART_30": "und",
         "SUBTITLE_3": "Zahlungsautorisierung für Nutzer mit mehreren SCA-Methoden",
         "PART_31": "5. Setzen Sie den Autorisierungsprozess mit dem",
@@ -563,8 +563,8 @@
         "PART_45": "geben Sie die ID, der von Ihnen ausgewählte Autorisierungsmethode, an. Drücken Sie „Execute“. Es wird Ihnen",
         "PART_46": " und",
         "PART_47": "11. Führen Sie diesen Endpunkt erneut durch, fügen Sie nun aber folgenden Json Code in das Anforderungsfeld:",
-        "PART_48": "Da eine Sca-Methode festgelegt wurde, wird dem Nutzer die Test-TAN ",
-        "PART_49": " geschickt. Diese TAN wird nun in der Json für den auszuführenden PUT Befehl angegeben.",
+        "PART_48": "Da eine Sca-Methode festgelegt wurde, daher wurde die generierte TAN bereits an die angegebene Nutzer-Mail geschickt.",
+        "PART_49": "Diese TAN wird nun in der Json für den auszuführenden PUT Befehl angegeben.",
         "PART_50": "Drücken Sie „Execute“. Es wird Ihnen",
         "PART_51": " und"
       },
@@ -646,8 +646,8 @@
         "PART_23": " geben Sie das Passwort des ausgewählten Nutzers an mit dem Sie sich eingeloggt haben. (Sie können Nutzer und deren Daten in der TPP-UI einsehen).",
         "PART_24": "11. Drücken Sie „Execute“. Es wird Ihnen",
         "PART_25": "12. Führen Sie diesen PUT Endpunkt erneut durch, fügen Sie nun aber folgenden Json Code in das Anforderungsfeld:",
-        "PART_26": "Da der Nutzer nur eine Sca-Methode hat, wird ihm direkt die Test-TAN",
-        "PART_27": "geschickt. Diese TAN wird nun in der Json für den auszuführenden PUT Befehl angegeben. Als Antwort sollten Sie erneut",
+        "PART_26": "Da der Nutzer nur eine Sca-Methode hat, daher wurde die generierte TAN bereits an die angegebene Nutzer-Mail geschickt.",
+        "PART_27": "Diese TAN wird nun in der Json für den auszuführenden PUT Befehl angegeben. Als Antwort sollten Sie erneut",
         "SUBTITLE_3": "Zahlungsstornierung autorisieren für Nutzer mit mehreren SCA-Methoden",
         "PART_28": "8. Setzen Sie den Autorisierungsprozess mit dem",
         "PART_29": "fort. Achten Sie darauf, dass Sie die gleichen ",
@@ -666,8 +666,8 @@
         "PART_42": "Anstelle von",
         "PART_43": " geben Sie die ID, der von Ihnen ausgewählte Autorisierungsmethode, an. Als Antwort sollten Sie erneut",
         "PART_44": "13. Führen Sie diesen PUT Endpunkt erneut durch, fügen Sie nun aber folgenden Json Code in das Anforderungsfeld:",
-        "PART_45": "Da eine Sca-Methode zuvor festgelegt wurde, wird dem Nutzer die Test-TAN",
-        "PART_46": "geschickt. Diese TAN wird nun in der Json für den auszuführenden PUT Befehl angegeben. Als Antwort sollten Sie erneu"
+        "PART_45": "Da eine Sca-Methode zuvor festgelegt wurde,daher wurde die generierte TAN bereits an die angegebene Nutzer-Mail geschickt.",
+        "PART_46": "Diese TAN wird nun in der Json für den auszuführenden PUT Befehl angegeben. Als Antwort sollten Sie erneu"
       },
       "EMB_CANS_GET": {
         "PART_1": "12. Nutzen Sie den GET Endpunkt",
@@ -720,8 +720,8 @@
         "PART_25": "und",
         "PART_26": "ausgegeben.",
         "PART_27": "10. Führen Sie diesen PUT Endpunkt erneut durch, fügen Sie nun aber folgenden Json Code in das Anforderungsfeld:",
-        "PART_28": "Da der Nutzer nur eine Sca-Methode hat, wird ihm die Test-TAN",
-        "PART_29": "geschickt. Diese TAN wird nun in der Json für den auszuführenden PUT Befehl angegeben.",
+        "PART_28": "Da der Nutzer nur eine Sca-Methode hat, daher wurde die generierte TAN bereits an die angegebene Nutzer-Mail geschickt.",
+        "PART_29": "Diese TAN wird nun in der Json für den auszuführenden PUT Befehl angegeben.",
         "PART_30": "Als Antwort sollten Sie",
         "PART_31": "und",
         "SUBTITLE_3": "Einwilligung autorisieren für Nutzer mit mehreren SCA-Methoden",
@@ -740,8 +740,8 @@
         "PART_44": " geben Sie die ID, der von Ihnen ausgewählte Autorisierungsmethode, an. Als Antwort sollten Sie",
         "PART_45": "und",
         "PART_46": "11. Führen Sie diesen PUT Endpunkt erneut durch, fügen Sie nun aber folgenden Json Code in das Anforderungsfeld:",
-        "PART_47": "Da eine Sca-Methode festgelegt wurde, wird dem Nutzer die Test-TAN",
-        "PART_48": " geschickt. Diese TAN wird nun in der Json für den auszuführenden PUT Befehl angegeben.",
+        "PART_47": "Da eine Sca-Methode festgelegt wurde, daher wurde die generierte TAN bereits an die angegebene Nutzer-Mail geschickt.",
+        "PART_48": "Diese TAN wird nun in der Json für den auszuführenden PUT Befehl angegeben.",
         "PART_49": "Als Antwort sollten Sie",
         "PART_50": "und"
       },

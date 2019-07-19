@@ -394,9 +394,9 @@
       "LINK_3": "este enlace."
     },
     "TEST_VALUES": {
-      "TEXT_1": "For all the tests in Redirect and Embedded approaches it is required to use\n PIN for logging into the account and TAN number for SCA.",
-      "TEXT_2": "Test value for PIN for all automatically generated users:",
-      "TEXT_3": "Test value for TAN in all tests:"
+      "TEXT_1": "Para todas las pruebas en los enfoques  Redirecto e Integrado, se requiere usar  n PIN para iniciar sesión en la cuenta y el número TAN para SCA. Utilice los correos electrónicos correctos para sus usuarios por favor, ya que el generado número TAN se enviará al correo electrónico del usuario elegido.",
+      "TEXT_2": "Valor de prueba para PIN para todos los usuarios generados automáticamente:",
+      "TEXT_3": "Valor de prueba para TAN (válido solo si ejecuta Sandbox localmente con perfil 'dev'):"
     },
     "POSTMAN_TESTING": {
       "TEXT_1": "Postman es un entorno de prueba fácil, donde puede importar y ejecutar pruebas preparadas de manera simple.",
@@ -542,8 +542,8 @@
         "PART_25": "y",
         "PART_26": "en respuesta.",
         "PART_27": "10. Ejecute este punto final PUT nuevamente, pero esta vez actualice el cuerpo de la solicitud: rellénelo con el siguiente json:",
-        "PART_28": "El usuario solo tiene un método SCA, por lo que se envió la prueba TAN",
-        "PART_29": "al usuario, y ahora necesita ingresar estos datos y ejecutar el comando PUT. La respuesta debe ser",
+        "PART_28": "El usuario solo tiene un método SCA, por lo que el TAN generado",
+        "PART_29": "se envió al correo del usuario (la autorización móvil no es posible por ahora), y ahora necesita ingresar estos datos y ejecutar el comando PUT. La respuesta debe ser",
         "PART_30": "y",
         "SUBTITLE_3": "Autorización de pago para el usuario con múltiples métodos SCA.",
         "PART_31": "5. Continue la autorización de pago con la llamada al punto",
@@ -563,8 +563,8 @@
         "PART_45": "cualquier valor de authenticationMethodId de su elección. La respuesta debe ser",
         "PART_46": " y",
         "PART_47": "11. Ejecute este punto final PUT nuevamente, cuerpo de solicitud de actualización: rellénelo con el siguiente json:",
-        "PART_48": "Se eligió el método SCA, por lo que la prueba TAN",
-        "PART_49": " se envió al usuario, y ahora necesita ingresar estos datos y ejecutar el comando PUT.",
+        "PART_48": "Se eligió el método SCA,",
+        "PART_49": "por lo que el TAN generado se envió al correo del usuario (la autorización móvil no es posible por ahora), y ahora necesita ingresar estos datos y ejecutar el comando PUT.",
         "PART_50": "La respuesta debe ser",
         "PART_51": " y"
       },
@@ -646,8 +646,8 @@
         "PART_23": " la contraseña del usuario que eligió (puede ver los usuarios y su información en TPP-UI).",
         "PART_24": "11. Ejecutar punto final y obtene",
         "PART_25": "12. Ejecute este punto final PUT nuevamente, pero esta vez actualice el cuerpo de la solicitud: rellénelo con el siguiente json:",
-        "PART_26": "El usuario solo tiene un método SCA, por lo que se envió la prueba TAN",
-        "PART_27": "al usuario, y ahora necesita ingresar estos datos y ejecutar el comando PUT. La respuesta debe ser",
+        "PART_26": "El usuario solo tiene un método SCA, por lo que el TAN generado se envió al correo del usuario (la autorización móvil no es posible por ahora)",
+        "PART_27": "y ahora necesita ingresar estos datos y ejecutar el comando PUT. La respuesta debe ser",
         "SUBTITLE_3": "Autorización de cancelación de pago para usuario con múltiples métodos SCA.",
         "PART_28": "8. Continue con la autorización de cancelación de pago con la llamada al punto",
         "PART_29": ". Elija el mismo",
@@ -666,8 +666,8 @@
         "PART_42": "Coloque en el marcador de posición",
         "PART_43": " cualquier valor de authenticationMethodId de su elección. La respuesta debe ser",
         "PART_44": "13. Vuelva a ejecutar este punto final PUT, cuerpo de solicitud de actualización: rellénelo con el siguiente json:",
-        "PART_45": "El usuario solo tiene un método SCA, por lo que se envió la prueba TAN",
-        "PART_46": "al usuario, y ahora necesita ingresar estos datos y ejecutar el comando PUT. La respuesta debe ser"
+        "PART_45": "El usuario solo tiene un método SCA, por lo que el TAN generado se envió al correo del usuario (la autorización móvil no es posible por ahora)",
+        "PART_46": ", y ahora necesita ingresar estos datos y ejecutar el comando PUT. La respuesta debe ser"
       },
       "EMB_CANS_GET": {
         "PART_1": "12. Pruebe  GET endpoint",
@@ -720,8 +720,8 @@
         "PART_25": "y",
         "PART_26": "en respuesta.",
         "PART_27": "10. Ejecute este punto final PUT nuevamente, pero esta vez actualice el cuerpo de la solicitud: rellénelo con el siguiente json:",
-        "PART_28": "El usuario solo tiene un método SCA, por lo que se envió la prueba TAN",
-        "PART_29": "al usuario, y ahora necesita ingresar estos datos y ejecutar el comando PUT.",
+        "PART_28": "El usuario solo tiene un método SCA, por lo que el TAN generado se envió al correo del usuario (la autorización móvil no es posible por ahora)",
+        "PART_29": ", y ahora necesita ingresar estos datos y ejecutar el comando PUT.",
         "PART_30": "La respuesta debe ser",
         "PART_31": "y",
         "SUBTITLE_3": "Autorización de consentimiento para usuario con múltiples métodos SCA.",
@@ -740,8 +740,8 @@
         "PART_44": " cualquier valor de authenticationMethodId de su elección. La respuesta debe ser",
         "PART_45": "y",
         "PART_46": "11. Ejecute este punto final PUT nuevamente, cuerpo de solicitud de actualización: rellénelo con el siguiente json:",
-        "PART_47": "Se eligió el método SCA, por lo que la prueba TAN",
-        "PART_48": "se envió al usuario, y ahora necesita ingresar estos datos y ejecutar el comando PUT.",
+        "PART_47": "Se eligió el método SCA,por lo que el TAN generado se envió al correo del usuario (la autorización móvil no es posible por ahora) ",
+        "PART_48": ", y ahora necesita ingresar estos datos y ejecutar el comando PUT.",
         "PART_49": "La respuesta debe ser",
         "PART_50": "y"
       },
