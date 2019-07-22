@@ -20,8 +20,8 @@ import de.adorsys.ledgers.oba.rest.server.mapper.AisConsentMapper;
 import de.adorsys.ledgers.oba.rest.server.mapper.CreatePiisConsentRequestMapper;
 import de.adorsys.psd2.consent.api.CmsAspspConsentDataBase64;
 import de.adorsys.psd2.consent.api.ais.AisAccountAccess;
+import de.adorsys.psd2.consent.api.ais.CmsAisConsentResponse;
 import de.adorsys.psd2.consent.psu.api.ais.CmsAisConsentAccessRequest;
-import de.adorsys.psd2.consent.psu.api.ais.CmsAisConsentResponse;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import feign.FeignException;
 import io.swagger.annotations.Api;
@@ -39,7 +39,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
@@ -55,9 +54,6 @@ import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient.DEFAUL
 @Api(value = AISController.BASE_PATH, tags = "PSU AIS", description = "Provides access to online banking account functionality")
 @SuppressWarnings("PMD.TooManyMethods")
 public class AISController extends AbstractXISController implements AISApi {
-
-    @Autowired
-    private HttpServletRequest request;
     @Autowired
     private HttpServletResponse response;
     @Autowired
@@ -77,11 +73,6 @@ public class AISController extends AbstractXISController implements AISApi {
     @Autowired
     private AccountRestClient accountRestClient;
 
-    //TODO remove and refactor https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/issues/43
-    private ScaStatusTO scaStatus;
-    private String tppNokRedirectUri;
-    private String tppOkRedirectUri;
-
     @Override
     @ApiOperation(value = "Entry point for authenticating ais consent requests.")
     public ResponseEntity<AuthorizeResponse> aisAuth(String redirectId,
@@ -89,7 +80,7 @@ public class AISController extends AbstractXISController implements AISApi {
 
         log.debug("encryptedConsentId: {}", encryptedConsentId);
 
-        return auth(redirectId, ConsentType.AIS, encryptedConsentId, request, response);
+        return auth(redirectId, ConsentType.AIS, encryptedConsentId, response);
     }
 
     @Override
@@ -118,10 +109,6 @@ public class AISController extends AbstractXISController implements AISApi {
             CmsAisConsentResponse consent = workflow.getConsentResponse();
 
             log.debug("authorisationId: {}", consent.getAuthorisationId());
-
-            tppNokRedirectUri = consent.getTppNokRedirectUri();
-            tppOkRedirectUri = consent.getTppOkRedirectUri();
-            scaStatus = ScaStatusTO.RECEIVED;
 
         } catch (ConsentAuthorizeException e) {
             return e.getError();
@@ -236,8 +223,6 @@ public class AISController extends AbstractXISController implements AISApi {
             return e.getError();
         }
 
-        scaStatus = workflow.getAuthResponse().getScaStatus();
-
         switch (workflow.scaStatus()) {
             case EXEMPTED:
                 // Bad request
@@ -288,7 +273,6 @@ public class AISController extends AbstractXISController implements AISApi {
                 responseUtils.setCookies(response, workflow.getConsentReference(), "", null);
             }
 
-            scaStatus = workflow.getAuthResponse().getScaStatus();
             return ResponseEntity.ok(workflow.getAuthResponse());
         } catch (ConsentAuthorizeException e) {
             return e.getError();
@@ -312,7 +296,6 @@ public class AISController extends AbstractXISController implements AISApi {
 
             responseUtils.setCookies(response, workflow.getConsentReference(), workflow.bearerToken().getAccess_token(),
                 workflow.bearerToken().getAccessTokenObject());
-            scaStatus = workflow.getAuthResponse().getScaStatus();
 
             return ResponseEntity.ok(workflow.getAuthResponse());
         } catch (ConsentAuthorizeException e) {
@@ -378,7 +361,16 @@ public class AISController extends AbstractXISController implements AISApi {
 
     @Override
     public ResponseEntity<ConsentAuthorizeResponse> aisDone(String encryptedConsentId, String authorisationId,
-                                                            String consentAndAccessTokenCookieString, Boolean forgetConsent, Boolean backToTpp) {
+                                                            String consentAndAccessTokenCookieString, Boolean forgetConsent, Boolean backToTpp) throws ConsentAuthorizeException {
+        String psuId = AuthUtils.psuId(auth);
+        ConsentWorkflow workflow = identifyConsent(encryptedConsentId, authorisationId, true, consentAndAccessTokenCookieString, psuId, response, auth.getBearerToken());
+
+        ScaStatusTO scaStatus = workflow.getScaResponse().getScaStatus();
+        CmsAisConsentResponse consentResponse = workflow.getConsentResponse();
+
+        String tppOkRedirectUri = consentResponse.getTppOkRedirectUri();
+        String tppNokRedirectUri = consentResponse.getTppNokRedirectUri();
+
         String redirectURL = ScaStatusTO.FINALISED.equals(scaStatus)
                                  ? tppOkRedirectUri
                                  : tppNokRedirectUri;
@@ -520,7 +512,7 @@ public class AISController extends AbstractXISController implements AISApi {
         try {
             // Map the requested access and push it to the consent management system.
             AisAccountAccess accountAccess = consentMapper.accountAccess(aisConsent.getAccess(), listOfAccounts);
-            CmsAisConsentAccessRequest accountAccessRequest = new CmsAisConsentAccessRequest(accountAccess, aisConsent.getValidUntil(), aisConsent.getFrequencyPerDay());
+            CmsAisConsentAccessRequest accountAccessRequest = new CmsAisConsentAccessRequest(accountAccess, aisConsent.getValidUntil(), aisConsent.getFrequencyPerDay(), false, aisConsent.isRecurringIndicator());
             cmsPsuAisClient.putAccountAccessInConsent(workflow.consentId(), accountAccessRequest);
 
             // Prepare consent object for ledger

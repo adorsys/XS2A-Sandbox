@@ -1,5 +1,6 @@
 psuId: marion.mueller
 payment:
+  purposeCode: ACCT
   endToEndIdentification: 123456789
   debtorAccount:
     iban: DE69760700240340283600
@@ -19,4 +20,3 @@ payment:
     postalCode: 04210
     country: UA
   remittanceInformationUnstructured: remittance
-  

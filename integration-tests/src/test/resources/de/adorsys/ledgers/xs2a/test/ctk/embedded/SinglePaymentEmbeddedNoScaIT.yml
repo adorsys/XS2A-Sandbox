@@ -1,5 +1,6 @@
 psuId: marion.mueller
 payment:
+  purposeCode: ACCT
   endToEndIdentification: 123456789
   debtorAccount:
     iban: DE69760700240340283600

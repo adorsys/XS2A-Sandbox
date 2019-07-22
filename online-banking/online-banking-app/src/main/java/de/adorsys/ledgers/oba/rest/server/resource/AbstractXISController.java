@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
@@ -30,8 +29,6 @@ public abstract class AbstractXISController {
     @Autowired
     protected AuthRequestInterceptor authInterceptor;
 
-    @Autowired
-    protected HttpServletRequest request;
     @Autowired
     protected HttpServletResponse response;
     @Autowired
@@ -60,7 +57,6 @@ public abstract class AbstractXISController {
      * @param redirectId
      * @param consentType
      * @param encryptedConsentId
-     * @param request
      * @param response
      * @return
      */
@@ -68,7 +64,6 @@ public abstract class AbstractXISController {
         String redirectId,
         ConsentType consentType,
         String encryptedConsentId,
-        HttpServletRequest request,
         HttpServletResponse response) {
 
         // This auth response carries information we want to passe directly to the calling user agent.

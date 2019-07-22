@@ -17,8 +17,8 @@
 package org.adorsys.ledgers.consent.psu.rest.client;
 
 import de.adorsys.psd2.consent.api.ais.AisAccountConsent;
+import de.adorsys.psd2.consent.api.ais.CmsAisConsentResponse;
 import de.adorsys.psd2.consent.psu.api.ais.CmsAisConsentAccessRequest;
-import de.adorsys.psd2.consent.psu.api.ais.CmsAisConsentResponse;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import io.swagger.annotations.*;
 import org.adorsys.ledgers.consent.xs2a.rest.config.FeignConfig;

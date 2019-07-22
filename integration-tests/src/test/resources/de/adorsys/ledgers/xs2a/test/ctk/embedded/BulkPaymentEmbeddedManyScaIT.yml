@@ -1,5 +1,6 @@
 psuId: max.musterman
 payment:
+  purposeCode: ACCT
   endToEndIdentification: 456789321
   debtorAccount:
     iban: DE38760700240320465700

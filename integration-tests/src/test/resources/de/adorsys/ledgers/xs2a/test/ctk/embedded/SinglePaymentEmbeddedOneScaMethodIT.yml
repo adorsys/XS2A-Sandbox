@@ -1,5 +1,6 @@
 psuId: anton.brueckner
 payment:
+  purposeCode: ACCT
   endToEndIdentification: 456789321
   debtorAccount:
     iban: DE80760700240271232400

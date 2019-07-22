@@ -14,10 +14,9 @@ setting:
   multicurrencyAccountLevel: SUBACCOUNT
   availableBookingStatuses:
     - BOOKED
-    - PENDING
   supportedAccountReferenceFields:
-    - IBAN
     - MSISDN
+    - IBAN
   consentLifetime: 0
   transactionLifetime: 0
   allPsd2Support: true
@@ -25,7 +24,6 @@ setting:
   signingBasketSupported: false
   paymentCancellationAuthorizationMandated: true
   piisConsentSupported: true
-  deltaReportSupported: false
   redirectUrlExpirationTimeMs: 600000
   authorisationExpirationTimeMs: 86400000
   notConfirmedConsentExpirationPeriodMs: 86400000
@@ -44,3 +42,9 @@ setting:
   availableAccountsConsentSupported: true
   scaByOneTimeAvailableAccountsConsentRequired: true
   psuInInitialRequestMandated: false
+  scaRedirectFlow: REDIRECT
+  deltaListSupported: false
+  entryReferenceFromSupported: false
+  supportedTransactionApplicationTypes:
+    - JSON
+  startAuthorisationMode: auto

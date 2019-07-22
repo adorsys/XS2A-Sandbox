@@ -14,18 +14,19 @@ public class BulkPaymentEmbeddedManyScaIT extends AbstractPaymentEmbedded {
 
     	// Initiate Payment
         PaymentInitationRequestResponse201 initiatedPaymentResponse = paymentInitService.initiatePayment();
+        String paymentId = initiatedPaymentResponse.getPaymentId();
 
         // Login User
 		UpdatePsuAuthenticationResponse loginResponse = paymentInitService.login(initiatedPaymentResponse);
 		paymentInitService.validateResponseStatus(loginResponse, ScaStatus.PSUAUTHENTICATED);
-		paymentInitService.checkTxStatus(loginResponse, TransactionStatus.ACCP);
+		paymentInitService.checkTxStatus(paymentId, TransactionStatus.ACCP);
 
         UpdatePsuAuthenticationResponse choseScaMethodResponse = paymentInitService.choseScaMethod(loginResponse);
 		paymentInitService.validateResponseStatus(choseScaMethodResponse, ScaStatus.SCAMETHODSELECTED);
-		paymentInitService.checkTxStatus(choseScaMethodResponse, TransactionStatus.ACCP);
+		paymentInitService.checkTxStatus(paymentId, TransactionStatus.ACCP);
 
         UpdatePsuAuthenticationResponse psuAuthenticationResponse = paymentInitService.authCode();
 		paymentInitService.validateResponseStatus(psuAuthenticationResponse, ScaStatus.FINALISED);
-		paymentInitService.checkTxStatus(psuAuthenticationResponse, TransactionStatus.ACSP);
+		paymentInitService.checkTxStatus(paymentId, TransactionStatus.ACSP);
     }
 }
