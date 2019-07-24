@@ -1,5 +1,5 @@
 [[section-deployment-view]]
-
+:imagesdir: ../images
 
 == Deployment View
 
@@ -112,9 +112,17 @@ include::../../bank-profile/bank_profile_ledgers.yml[]
   ** PostgreSQL 9+
   ** Oracle 11g+
   ** MariaDB 10+
-- 2-4 GiB RAM per _sandbox_ deployment is a good starting point for prod *(monitor this!)*
 - _ssl-proxy_ needs 128 - 512 MiB RAM *(don't use in prod!)*
 - the DB schema needs enough disk space because consents are persisted here (grows over time) *(monitor this!)*
+
+==== Recommended Hardware Requirements
+
+- CPU 2Cores
+- Memory 4.3GB
+- Free disk space 10GB
+
+.cpu-memory-load
+image::cpu_memory_load.png[Cpu and memory load,100%, aligh="center"]
 
 ==== Logging
 
