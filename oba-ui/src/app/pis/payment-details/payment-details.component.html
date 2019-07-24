@@ -1,19 +1,64 @@
 <div class="card bg-light">
   <div *ngIf="authResponse" class="card-body">
-    <h4>Creditor account</h4>
-    <b><p>{{authResponse.singlePayment.creditorAccount.iban}}</p></b>
 
-    <hr>
+    <!--single payment-->
+    <div *ngIf="authResponse.singlePayment">
+      <h4>Creditor account</h4>
+      <b><p>{{authResponse.singlePayment.creditorAccount.iban}}</p></b>
 
-    <h4>Creditor name</h4>
-    <b><p>{{authResponse.singlePayment.creditorName}}</p></b>
+      <hr>
 
-    <hr>
+      <h4>Creditor name</h4>
+      <b><p>{{authResponse.singlePayment.creditorName}}</p></b>
 
-    <h4>Payment amount</h4>
-    <b><p>{{authResponse.singlePayment.instructedAmount.amount}} {{authResponse.singlePayment.instructedAmount.currency}}</p></b>
+      <hr>
 
-    <hr>
+      <h4>Payment amount</h4>
+      <b><p>{{authResponse.singlePayment.instructedAmount.amount}} {{authResponse.singlePayment.instructedAmount.currency}}</p></b>
+
+      <hr>
+    </div>
+
+    <!--periodic payment-->
+    <div *ngIf="authResponse.periodicPayment">
+      <h4>Creditor account</h4>
+      <b><p>{{authResponse.periodicPayment.creditorAccount.iban}}</p></b>
+
+      <hr>
+
+      <h4>Creditor name</h4>
+      <b><p>{{authResponse.periodicPayment.creditorName}}</p></b>
+
+      <hr>
+
+      <h4>Payment amount</h4>
+      <b><p>{{authResponse.periodicPayment.instructedAmount.amount}} {{authResponse.periodicPayment.instructedAmount.currency}}</p></b>
+
+      <hr>
+
+      <div *ngIf="authResponse.periodicPayment.startDate">
+        <h4>Payment start date</h4>
+        <b><p>{{authResponse.periodicPayment.startDate}}</p></b>
+
+        <hr>
+      </div>
+
+      <div *ngIf="authResponse.periodicPayment.frequency">
+        <h4>Payment frequency</h4>
+        <b><p>{{authResponse.periodicPayment.frequency}}</p></b>
+
+        <hr>
+      </div>
+
+      <div *ngIf="authResponse.periodicPayment.endDate">
+        <h4>Payment end date</h4>
+        <b><p>{{authResponse.periodicPayment.endDate}}</p></b>
+
+        <hr>
+      </div>
+
+
+    </div>
 
   </div>
 </div>
