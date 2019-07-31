@@ -45,6 +45,7 @@ variables:
   OPENSHIFT_NAMESPACE_DEV: "adorsys-dynamic-sandbox-dev"
   OPENSHIFT_NAMESPACE_INTEG: "adorsys-dynamic-sandbox-integ"
   OPENSHIFT_NAMESPACE_DEMO: "adorsys-dynamic-sandbox-demo"
+  OPENSHIFT_NAMESPACE_BANKING_GATEWAY_DEV: "banking-gateway-dev"
 
   ###########################
   # Build variables         #
@@ -368,6 +369,16 @@ deploy_openshift_demo:
   variables:
     DOCKER_TAG: latest # Dockerhub source tag
     OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_DEMO} # Openshift target namespace
+  <<: *deploy_openshift
+
+
+deploy_openshift_banking_gateway_dev:
+  stage: "Deploy"
+  only:
+    - master
+  variables:
+    DOCKER_TAG: latest # Dockerhub source tag
+    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_BANKING_GATEWAY_DEV} # Openshift target namespace
   <<: *deploy_openshift
 
 # tags
