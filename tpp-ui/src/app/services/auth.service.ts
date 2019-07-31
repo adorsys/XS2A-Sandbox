@@ -71,4 +71,12 @@ export class AuthService {
     register(tppInfo: TppInfo): Observable<any> {
         return this.http.post(this.url + '/register', tppInfo);
     }
+
+    requestCodeForResetPassword(credentials: any): Observable<any> {
+        return this.http.post(this.url + '/password', credentials);
+    }
+
+    changePassword(credentials: any): Observable<any> {
+        return this.http.put(this.url + '/password', credentials);
+    }
 }
