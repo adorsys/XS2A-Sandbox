@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(value = AISApi.BASE_PATH, tags = "PSU AIS", description = "Provides access to online banking payment functionality")
+@Api(value = AISApi.BASE_PATH, tags = "PSU AIS", description = "Provides access to online banking AIS functionality")
 public interface AISApi {
     String BASE_PATH = "/ais";
 

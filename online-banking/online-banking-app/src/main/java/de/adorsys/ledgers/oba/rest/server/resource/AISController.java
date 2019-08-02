@@ -7,7 +7,6 @@ import de.adorsys.ledgers.middleware.api.domain.um.AisAccountAccessTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisConsentTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.AccountRestClient;
-import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.middleware.client.rest.ConsentRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.ledgers.oba.rest.api.consentref.ConsentReference;
@@ -58,8 +57,6 @@ public class AISController extends AbstractXISController implements AISApi {
     private HttpServletResponse response;
     @Autowired
     private UserMgmtRestClient userMgmtRestClient;
-    @Autowired
-    private AuthRequestInterceptor authInterceptor;
     @Autowired
     private CmsPsuAisClient cmsPsuAisClient;
     @Autowired

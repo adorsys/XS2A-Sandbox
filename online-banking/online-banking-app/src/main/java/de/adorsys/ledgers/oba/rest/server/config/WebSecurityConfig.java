@@ -28,6 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String[] APP_INDEX_WHITELIST = {"/", "/index.css", "/img/*", "/favicon.ico"};
     private static final String[] APP_SCA_WHITELIST = {"/sca/login", "/pis/auth/**", "/pis/*/authorisation/*/login","/pis-cancellation/*/authorisation/*/login", "/ais/auth/**", "/ais/*/authorisation/*/login"};
     private static final String[] ACTUATOR_WHITELIST = {"/actuator/health"};
+    private static final String[] TEMP_WHITELIST = {"/consents/**", "/login/**"}; //TODO should be removed after decision on security
 
     private final TokenAuthenticationService tokenAuthenticationService;
 
@@ -46,6 +47,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests().antMatchers(SWAGGER_WHITELIST).permitAll()
             .and()
             .authorizeRequests().antMatchers(ACTUATOR_WHITELIST).permitAll()
+            .and()
+            .authorizeRequests().antMatchers(TEMP_WHITELIST).permitAll() //TODO should be removed after decision on security
             .and()
             .cors()
             .and()
