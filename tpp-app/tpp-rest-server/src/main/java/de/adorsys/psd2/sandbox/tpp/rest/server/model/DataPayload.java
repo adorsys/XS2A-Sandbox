@@ -2,18 +2,18 @@ package de.adorsys.psd2.sandbox.tpp.rest.server.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
+import de.adorsys.ledgers.middleware.api.domain.payment.SinglePaymentTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static de.adorsys.psd2.sandbox.tpp.rest.server.utils.IbanGenerator.generateIbanForNispAccount;
-import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @Data
 @NoArgsConstructor
@@ -24,7 +24,9 @@ public class DataPayload {
     private List<UserTO> users;
     private List<AccountDetailsTO> accounts;
     private List<AccountBalance> balancesList;
+    private List<SinglePaymentTO> payments;
 
+    @JsonIgnore
     private boolean generatePayments;
 
     @JsonIgnore
@@ -34,16 +36,29 @@ public class DataPayload {
     private Map<String, String> generatedIbans = new HashMap<>();
 
     @JsonIgnore
-    public boolean isNotValidPayload() {
-        return CollectionUtils.isEmpty(users)
-                   || CollectionUtils.isEmpty(balancesList)
-                   || CollectionUtils.isEmpty(accounts);
+    public boolean isValidPayload() {
+        fixNullValues();
+        return notContainsNullElements(users)
+                   && notContainsNullElements(accounts)
+                   && notContainsNullElements(balancesList)
+                   && notContainsNullElements(payments);
+    }
+
+    private void fixNullValues() {
+        this.users = emptyIfNull(users);
+        this.accounts = emptyIfNull(accounts);
+        this.balancesList = emptyIfNull(balancesList);
+        this.payments = emptyIfNull(payments);
+    }
+
+    private <T> boolean notContainsNullElements(List<T> list) {
+        return !list.contains(null);
     }
 
     public DataPayload updateIbanForBranch(String branch) {
-        emptyIfNull(accounts).forEach(a -> a.setIban(generateIban(a.getIban(), branch)));
-        emptyIfNull(balancesList).forEach(b -> b.setIban(generateIban(b.getIban(), branch)));
-        emptyIfNull(users).forEach(u -> updateUserIbans(u, branch));
+        accounts.forEach(a -> a.setIban(generateIban(a.getIban(), branch)));
+        balancesList.forEach(b -> b.setIban(generateIban(b.getIban(), branch)));
+        users.forEach(u -> updateUserIbans(u, branch));
 
         return this;
     }

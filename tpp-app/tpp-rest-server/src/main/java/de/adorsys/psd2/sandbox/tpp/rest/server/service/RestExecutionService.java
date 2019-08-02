@@ -23,6 +23,8 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static de.adorsys.ledgers.middleware.api.domain.payment.PaymentTypeTO.SINGLE;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -33,7 +35,7 @@ public class RestExecutionService {
     private final PaymentGenerationService paymentGenerationService;
 
     public void updateLedgers(DataPayload payload) {
-        if (payload.isNotValidPayload()) {
+        if (!payload.isValidPayload()) {
             throw new TppException("Payload data is invalid", 400);
         }
         UploadedData data = initialiseDataSets(payload);
@@ -46,6 +48,8 @@ public class RestExecutionService {
         if (data.isGeneratePayments()) {
             data.getUsers()
                 .forEach(u -> performPaymentsForUser(u, data));
+        } else {
+            data.getPayments().forEach(p -> performRestPaymentExecute(SINGLE, p));
         }
     }
 
@@ -63,20 +67,21 @@ public class RestExecutionService {
     }
 
     private void performRestPaymentExecute(Map.Entry<PaymentTypeTO, Object> entry) {
+        performRestPaymentExecute(entry.getKey(), entry.getValue());
+    }
+
+    private void performRestPaymentExecute(PaymentTypeTO paymentType, Object payment) {
         try {
-            paymentRestClient.initiatePayment(entry.getKey(), entry.getValue());
+            paymentRestClient.initiatePayment(paymentType, payment);
         } catch (FeignException e) {
-            log.error("{} failed with reason: {}, \npayment body: {}", entry.getKey(), e.getMessage(), entry.getValue().toString());
+            log.error("{} failed with reason: {}, \npayment body: {}", paymentType, e.getMessage(), payment.toString());
         }
     }
 
     private UploadedData initialiseDataSets(DataPayload payload) {
-        List<UserTO> users = Optional.ofNullable(payload.getUsers())
-                                 .orElse(Collections.emptyList());
         Map<String, AccountDetailsTO> accounts = getTargetData(payload.getAccounts(), AccountDetailsTO::getIban);
         Map<String, AccountBalance> balances = getTargetData(payload.getBalancesList(), AccountBalance::getIban);
-
-        return new UploadedData(users, accounts, balances, payload.isGeneratePayments(), payload.getBranch());
+        return new UploadedData(payload.getUsers(), accounts, balances, payload.getPayments(), payload.isGeneratePayments(), payload.getBranch());
     }
 
     private <T> Map<String, T> getTargetData(List<T> source, Function<T, String> function) {
