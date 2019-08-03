@@ -32,6 +32,13 @@
             <artifactId>ledgers-middleware-rest-client</artifactId>
         </dependency>
 
+        <!-- CMS stub mode -->
+        <dependency>
+            <groupId>de.adorsys.psd2.sandbox</groupId>
+            <artifactId>tpp-cms-stub</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- Spring dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -41,6 +41,12 @@
             <groupId>de.adorsys.ledgers</groupId>
             <artifactId>ledgers-middleware-service-api</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>de.adorsys.psd2.sandbox</groupId>
+            <artifactId>tpp-cms-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

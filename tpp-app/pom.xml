@@ -18,6 +18,7 @@
         <module>tpp-rest-api</module>
         <module>tpp-rest-client</module>
         <module>tpp-rest-server</module>
+        <module>tpp-cms</module>
     </modules>
 
 

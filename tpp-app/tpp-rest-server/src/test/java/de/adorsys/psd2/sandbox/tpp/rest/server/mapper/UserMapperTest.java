@@ -26,18 +26,18 @@ public class UserMapperTest {
     private final UserMapper userMapper = Mappers.getMapper(UserMapper.class);
 
     @Test
-    public void ttpInfoToUserTOTest() {
-        TppInfo tppInfo = new TppInfo();
-        tppInfo.setEmail("vne@adorsys.de");
-        tppInfo.setLogin("vne");
-        tppInfo.setPin("12345");
-        tppInfo.setId("12345678");
+    public void userToUserTOTest() {
+        User user = new User();
+        user.setEmail("vne@adorsys.de");
+        user.setLogin("vne");
+        user.setPin("12345");
+        user.setId("12345678");
 
-        UserTO user = userMapper.ttpInfoToUserTO(tppInfo);
+        UserTO userTO = userMapper.toUserTO(user);
 
-        Assert.assertEquals(user.getEmail(), tppInfo.getEmail());
-        Assert.assertEquals(user.getLogin(), tppInfo.getLogin());
-        Assert.assertEquals(user.getPin(), tppInfo.getPin());
+        Assert.assertEquals(userTO.getEmail(), user.getEmail());
+        Assert.assertEquals(userTO.getLogin(), user.getLogin());
+        Assert.assertEquals(userTO.getPin(), user.getPin());
     }
 
     @Test
