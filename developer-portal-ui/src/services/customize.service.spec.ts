@@ -1,19 +1,17 @@
-import {TestBed} from '@angular/core/testing';
-import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 
-import {CustomizeService} from './customize.service';
+import { CustomizeService, Theme } from './customize.service';
 
 describe('CustomizeService', () => {
   let service: CustomizeService;
   let httpTestingController: HttpTestingController;
-  const defTheme = {
+  const defTheme: Theme = {
     globalSettings: {
       logo: 'Logo_XS2ASandbox.png',
-      fontFamily: 'Arial, sans-serif',
-      headerBG: '#ffffff',
-      headerFontColor: '#000000',
-      footerBG: '#054f72',
-      footerFontColor: '#ffffff',
       facebook: 'https://www.facebook.com/adorsysGmbH/',
       linkedIn: 'https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/',
     },
@@ -46,7 +44,6 @@ describe('CustomizeService', () => {
   const defUserTheme = {
     globalSettings: {
       logo: '',
-      fontFamily: '',
     },
     contactInfo: {
       img: '',
@@ -71,12 +68,8 @@ describe('CustomizeService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-      ],
-      providers: [
-        CustomizeService,
-      ]
+      imports: [HttpClientTestingModule],
+      providers: [CustomizeService],
     });
     service = TestBed.get(CustomizeService);
     httpTestingController = TestBed.get(HttpTestingController);
@@ -91,21 +84,22 @@ describe('CustomizeService', () => {
   });
 
   it('should get JSON theme', async () => {
-    service.getJSON()
-      .then(res => {
-        if (!service.isCustom()) {
-          expect(res).toEqual(defTheme);
-        } else {
-          expect(service.validateTheme(res).length).toEqual(0);
-        }
-        if (JSON.stringify(res) !== JSON.stringify(defTheme)) {
-          expect(service.isCustom()).toBeFalsy();
-        } else {
-          expect(service.isCustom()).toBeTruthy();
-        }
-      });
+    service.getJSON().then(res => {
+      if (!service.isCustom()) {
+        expect(res).toEqual(defTheme);
+      } else {
+        expect(service.validateTheme(res).length).toEqual(0);
+      }
+      if (JSON.stringify(res) !== JSON.stringify(defTheme)) {
+        expect(service.isCustom()).toBeFalsy();
+      } else {
+        expect(service.isCustom()).toBeTruthy();
+      }
+    });
 
-    const req = httpTestingController.expectOne('../assets/UI/custom/UITheme.json');
+    const req = httpTestingController.expectOne(
+      '../assets/UI/custom/UITheme.json'
+    );
     expect(req.request.method).toEqual('GET');
   });
 
@@ -123,14 +117,15 @@ describe('CustomizeService', () => {
   });
 
   it('getDefaultTheme should return default theme, default theme should be valid', () => {
-    service.getDefaultTheme()
-      .then(res => {
-        expect(res).not.toBeUndefined();
-        expect(service.validateTheme(res).length).toEqual(0);
-        expect(res).toEqual(defTheme);
-      });
+    service.getDefaultTheme().then(res => {
+      expect(res).not.toBeUndefined();
+      expect(service.validateTheme(res).length).toEqual(0);
+      expect(res).toEqual(defTheme);
+    });
 
-    const req = httpTestingController.expectOne('../assets/UI/defaultTheme.json');
+    const req = httpTestingController.expectOne(
+      '../assets/UI/defaultTheme.json'
+    );
     expect(req.request.method).toEqual('GET');
   });
 
@@ -144,14 +139,35 @@ describe('CustomizeService', () => {
     expect(typeof service.getLogo()).toBe('string');
   });
 
-  it('should change font or left default', () => {
-    service.changeFontFamily('Ubuntu');
-    let tmp = document.getElementsByTagName('body')[0].getAttribute('style');
-    expect(tmp).toEqual('font-family: Ubuntu');
+  it('should change font', async done => {
+    service.setUserTheme({
+      ...defTheme,
+      globalSettings: {
+        ...defTheme.globalSettings,
+        cssVariables: {
+          fontFamily: 'Helvetica, Arial, sans-serif',
+        },
+      },
+    });
+    setTimeout(() => {
+      const tmp = getComputedStyle(document.body).getPropertyValue(
+        '--fontFamily'
+      );
+      expect(tmp).toEqual('Helvetica, Arial, sans-serif');
+      done();
+    }, 100);
+  });
 
-    service.changeFontFamily();
-    tmp = document.getElementsByTagName('body')[0].getAttribute('style');
-    expect(tmp).toEqual('font-family: ' + defTheme.globalSettings.fontFamily);
+  it('should left default', async done => {
+    document.documentElement.removeAttribute('style');
+    service.setUserTheme(defTheme);
+    setTimeout(() => {
+      const tmp = getComputedStyle(document.body).getPropertyValue(
+        '--fontFamily'
+      );
+      expect(tmp).toEqual(' Arial, sans-serif');
+      done();
+    }, 100);
   });
 
   it('should validate theme', () => {

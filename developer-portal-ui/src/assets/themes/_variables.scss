@@ -14,3 +14,47 @@ $COLOR_LIGHT_DARK: #333333;
 $COLOR_DARK_BLUE: #0f62a4;
 
 $dark-80: #2c2e2f;
+
+/*
+ * CSS Variables: Used for whitelabel customization
+ */
+:root {
+  /* Fonts */
+  --fontFamily: Arial, sans-serif;
+
+  /* Colors */
+  --colorPrimary: #054f72;
+  --colorSecondary: #eed52f;
+
+  /* Body */
+  --bodyBG: #fafafa;
+  --bodyFontColor: #fafafa; // not used
+
+  /* Main */
+  --mainBG: transparent;
+
+  /* Header */
+  --headerBG: #ffffff;
+  --headerFontColor: #000000;
+
+  /* Footer */
+  --footerBG: #054f72;
+  --footerFontColor: #ffffff;
+
+  /* Anchor */
+  --anchorFontColor: #0984bf;
+  --anchorFontColorHover: #054f72;
+
+  /* Hero */
+  --heroBG: #eeeeee;
+
+  /* Steps */
+  --stepBG: #cccccc;
+
+  /* ContactsCard */
+  --contactsCardBG: #eeeeee;
+
+  /* TestCases */
+  --testCasesLeftSectionBG: #ffffff;
+  --testCasesRightSectionBG: #eeeeee;
+}

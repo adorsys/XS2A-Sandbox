@@ -286,13 +286,32 @@
           "LI_1": "globalSettings - requeridos",
           "INNER_LIST_1": {
             "LI_1": "logo - requeridos, value: string, http url or file name with\n extension or ' '",
-            "LI_2": "fontFamily - optional, value: string, font-name or font-name,\n font-family",
-            "LI_3": "headerBG - optional, value: string, hex",
-            "LI_4": "headerFontColor - optional, value: string, hex",
-            "LI_5": "footerBG - optional, value: string, hex",
-            "LI_6": "footerFontColor - optional, value: string, hex",
-            "LI_7": "facebook - optional, value: string, http url",
-            "LI_8": "linkedIn - optional, value: string, http url"
+            "LI_2": "favicon - optional",
+            "LI_2_INNER_LIST_1": {
+              "LI_1": "type - required, value: string",
+              "LI_2": "href - required, value: string, http url"
+            },
+            "LI_3": "facebook - optional, value: string, http url",
+            "LI_4": "linkedIn - optional, value: string, http url",
+            "LI_5": "cssVariables - optional",
+            "LI_5_INNER_LIST_1": {
+              "LI_1": "colorPrimary - optional, value: string, hex",
+              "LI_2": "colorSecondary - optional, value: string, hex",
+              "LI_3": "fontFamily - optional, value: string, font-name or font-name,\n font-family",
+              "LI_4": "bodyBG - optional, value: string, hex",
+              "LI_5": "headerBG - optional, value: string, hex",
+              "LI_6": "headerFontColor - optional, value: string, hex",
+              "LI_7": "mainBG - optional, value: string, hex",
+              "LI_8": "footerBG - optional, value: string, hex",
+              "LI_9": "footerFontColor - optional, value: string, hex",
+              "LI_10": "anchorFontColor - optional, value: string, hex",
+              "LI_11": "anchorFontColorHover - optional, value: string, hex",
+              "LI_12": "heroBG - optional, value: string, hex",
+              "LI_13": "stepBG - optional, value: string, hex",
+              "LI_14": "contactsCardBG - optional, value: string, hex",
+              "LI_15": "testCasesLeftSectionBG - optional, value: string, hex",
+              "LI_16": "testCasesRightSectionBG - optional, value: string, hex"
+            }
           },
           "LI_2": "contactInfo - requeridos",
           "INNER_LIST_2": {

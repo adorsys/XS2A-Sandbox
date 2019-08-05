@@ -1,8 +1,10 @@
 <!-- Any questions section -->
 <div class="any-questions">
   <div class="divider"></div>
-  <h1 class="any-questions-title">{{'CONTACT.TITLE_1' | translate}}</h1>
-  <span class="any-questions-subtitle">{{'CONTACT.SUBTITLE' | translate}}</span>
+  <h1 class="any-questions-title">{{ 'CONTACT.TITLE_1' | translate }}</h1>
+  <span class="any-questions-subtitle">{{
+    'CONTACT.SUBTITLE' | translate
+  }}</span>
   <div class="person-card">
     <div class="person-card-image-wrapper">
       <img [src]="contactInfo?.img" alt="" />
@@ -22,7 +24,7 @@
 <!-- Contacts section -->
 <div class="contacts-wrapper">
   <div class="divider"></div>
-  <h1 class="contacts-title">{{'CONTACT.TITLE_2' | translate}}</h1>
+  <h1 class="contacts-title">{{ 'CONTACT.TITLE_2' | translate }}</h1>
 
   <div class="contacts-card">
     <div class="contacts-content" *ngFor="let office of officesInfo">
@@ -44,18 +46,27 @@
           </a>
         </div>
 
-        <div class="social-network" *ngIf="office?.linkedIn || office?.facebook">
-          <div *ngIf="office?.facebook">
-            <a [href]="office?.facebook" target="_blank">
-              <i class="fab fa-facebook-square"></i>
-            </a>
-          </div>
+        <div
+          class="social-network"
+          *ngIf="office?.linkedIn || office?.facebook"
+        >
+          <a
+            *ngIf="office?.facebook"
+            class="social-network-item"
+            [href]="office?.facebook"
+            target="_blank"
+          >
+            <i class="fab fa-facebook-square"></i>
+          </a>
 
-          <div *ngIf="office?.linkedIn">
-            <a [href]="office?.linkedIn" target="_blank">
-              <i class="fab fa-linkedin"></i>
-            </a>
-          </div>
+          <a
+            *ngIf="office?.linkedIn"
+            class="social-network-item"
+            [href]="office?.linkedIn"
+            target="_blank"
+          >
+            <i class="fab fa-linkedin"></i>
+          </a>
         </div>
       </div>
     </div>

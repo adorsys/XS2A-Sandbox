@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AccinfTransactionGetComponent } from './accinf-transaction-get.component';
-import {Component, Input, Pipe, PipeTransform} from '@angular/core';
-import {LineCommandComponent} from '../../../../../custom-elements/line-command/line-command.component';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { LineCommandComponent } from '../../../../../custom-elements/line-command/line-command.component';
 
 describe('AccinfTransactionGetComponent', () => {
   let component: AccinfTransactionGetComponent;
@@ -10,16 +10,17 @@ describe('AccinfTransactionGetComponent', () => {
 
   @Component({
     selector: 'app-play-wth-data',
-    template: ''
+    template: '',
   })
   class MockPlayWithDataComponent {
     @Input() headers: object;
     @Input() accountIdFlag: boolean;
     @Input() transactionIdFlag: boolean;
     @Input() variablePathEnd: string;
+    @Input() dateFromFlag: boolean;
   }
 
-  @Pipe({name: 'translate'})
+  @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -33,8 +34,8 @@ describe('AccinfTransactionGetComponent', () => {
         AccinfTransactionGetComponent,
         LineCommandComponent,
         TranslatePipe,
-        MockPlayWithDataComponent
-      ]
+        MockPlayWithDataComponent,
+      ],
     }).compileComponents();
   }));
 

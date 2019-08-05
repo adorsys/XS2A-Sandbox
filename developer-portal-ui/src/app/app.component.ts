@@ -68,13 +68,21 @@ export class AppComponent implements OnInit {
     let theme: Theme;
     this.customizeService.getJSON().then(data => {
       theme = data;
-      this.customizeService.changeFontFamily(theme.globalSettings.fontFamily);
       this.globalSettings = theme.globalSettings;
       if (theme.globalSettings.logo.indexOf('/') === -1) {
         theme.globalSettings.logo =
           '../assets/UI' +
           (this.customizeService.isCustom() ? '/custom/' : '/') +
           theme.globalSettings.logo;
+      }
+      if (
+        theme.globalSettings.favicon &&
+        theme.globalSettings.favicon.href.indexOf('/') === -1
+      ) {
+        theme.globalSettings.favicon.href =
+          '../assets/UI' +
+          (this.customizeService.isCustom() ? '/custom/' : '/') +
+          theme.globalSettings.favicon.href;
       }
       if (theme.contactInfo.img.indexOf('/') === -1) {
         theme.contactInfo.img =
