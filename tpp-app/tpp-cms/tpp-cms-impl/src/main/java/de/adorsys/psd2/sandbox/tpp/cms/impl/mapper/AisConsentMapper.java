@@ -10,6 +10,8 @@ import de.adorsys.psd2.xs2a.core.tpp.TppRedirectUri;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.Optional;
+
 @Mapper(componentModel = "spring")
 public interface AisConsentMapper {
     @Mapping(target = "psuData", source = "psuInfo")
@@ -18,20 +20,26 @@ public interface AisConsentMapper {
     AisAccountAccessInfo toAisAccountAccessInfo(AccountAccessInfo info);
 
     default AccountInfo toAccountInfo(UserAccountInfo userAccountInfo) {
-        return AccountInfo.builder()
-                   .resourceId(userAccountInfo.getResourceId())
-                   .aspspAccountId(userAccountInfo.getAspspAccountId())
-                   .accountIdentifier(userAccountInfo.getAccountIdentifier())
-                   .accountReferenceType(AccountReferenceType.valueOf(userAccountInfo.getAccountType().name()))
-                   .currency(userAccountInfo.getCurrency())
-                   .build();
+        return Optional.ofNullable(userAccountInfo)
+                   .map(i -> AccountInfo.builder()
+                                 .resourceId(i.getResourceId())
+                                 .aspspAccountId(i.getAspspAccountId())
+                                 .accountIdentifier(i.getAccountIdentifier())
+                                 .accountReferenceType(AccountReferenceType.valueOf(i.getAccountType().name()))
+                                 .currency(i.getCurrency())
+                                 .build())
+                   .orElseGet(() -> AccountInfo.builder().build());
     }
 
     default PsuIdData toPsuIdData(PsuInfo psuInfo) {
-        return new PsuIdData(psuInfo.getPsuId(), psuInfo.getPsuIdType(), psuInfo.getPsuCorporateId(), psuInfo.getPsuCorporateIdType());
+        return Optional.ofNullable(psuInfo)
+                   .map(p -> new PsuIdData(p.getPsuId(), p.getPsuIdType(), p.getPsuCorporateId(), p.getPsuCorporateIdType()))
+                   .orElseGet(() -> new PsuIdData(null, null, null, null));
     }
 
     default TppRedirectUri toTppRedirectUti(ThirdPartyRedirectUri redirectUri) {
-        return new TppRedirectUri(redirectUri.getUri(), redirectUri.getNokUri());
+        return Optional.ofNullable(redirectUri)
+                   .map(u -> new TppRedirectUri(u.getUri(), u.getNokUri()))
+                   .orElseGet(() -> new TppRedirectUri("", null));
     }
 }
