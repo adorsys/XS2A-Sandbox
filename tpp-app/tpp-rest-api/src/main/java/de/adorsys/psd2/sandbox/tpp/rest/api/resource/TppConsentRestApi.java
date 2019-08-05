@@ -15,5 +15,5 @@ public interface TppConsentRestApi {
 
     @PostMapping
     @ApiOperation(value = "Generate list of consents")
-    ResponseEntity<Void> generateConsents(@RequestBody List<AisConsent> consents);
+    ResponseEntity<List<String>> generateConsents(@RequestBody List<AisConsent> consents);
 }

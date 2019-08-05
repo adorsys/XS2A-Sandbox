@@ -17,8 +17,7 @@ public class TppConsentController implements TppConsentRestApi {
     private final TppConsentService tppConsentService;
 
     @Override
-    public ResponseEntity<Void> generateConsents(List<AisConsent> consents) {
-        tppConsentService.generateConsents(consents);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<List<String>> generateConsents(List<AisConsent> consents) {
+        return ResponseEntity.ok(tppConsentService.generateConsents(consents));
     }
 }

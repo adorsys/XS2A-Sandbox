@@ -14,7 +14,7 @@ import java.util.List;
 public class TppConsentService {
     private final ConsentService consentService;
 
-    public void generateConsents(List<AisConsent> consents) {
-        consentService.generateConsents(consents);
+    public List<String> generateConsents(List<AisConsent> consents) {
+        return consentService.generateConsents(consents);
     }
 }

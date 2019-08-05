@@ -17,4 +17,6 @@ public class ThirdPartyInfo {
     private String city;
     private String state;
     private String issuerCN;
+    private ThirdPartyRedirectUri tppRedirectUri;
+    private ThirdPartyRedirectUri cancelTppRedirectUri;
 }

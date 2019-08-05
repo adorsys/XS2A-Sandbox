@@ -11,4 +11,5 @@ public class AccountAccessInfo {
     private List<UserAccountInfo> transactions;
     private UserAccountAccessType availableAccounts;
     private UserAccountAccessType allPsd2;
+    private UserAccountAccessType availableAccountsWithBalances; //TODO SHALL BE DEPRECATED?
 }

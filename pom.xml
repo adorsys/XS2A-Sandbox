@@ -100,7 +100,7 @@
         <feign.version>10.2.3</feign.version>
         <jetbrains.annotations.version>15.0</jetbrains.annotations.version>
         <javatar-commons.version>LATEST</javatar-commons.version>
-        <org.mapstruct.version>1.2.0.Final</org.mapstruct.version>
+        <org.mapstruct.version>1.3.0.Final</org.mapstruct.version>
         <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
         <swagger-annotations.version>1.5.20</swagger-annotations.version>
         <google.guava.version>23.0</google.guava.version>
@@ -111,6 +111,8 @@
         <junit.version>4.12</junit.version>
         <mockito.version>1.10.19</mockito.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
+        <fasterxml.version>2.9.9</fasterxml.version>
+        <fasterxml-data-format.version>2.9.8</fasterxml-data-format.version>
         <!--Sonar -->
         <sonar.core.coveragePlugin>jacoco</sonar.core.coveragePlugin>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
@@ -234,6 +236,25 @@
                 <groupId>javax.validation</groupId>
                 <artifactId>validation-api</artifactId>
                 <version>${validation-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${fasterxml.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
+                <version>${fasterxml.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-yaml</artifactId>
+                <version>${fasterxml-data-format.version}</version>
             </dependency>
 
             <!-- Commons -->
