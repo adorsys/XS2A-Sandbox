@@ -1,14 +1,19 @@
 package de.adorsys.ledgers.oba.rest.server.config;
 
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
+import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
+import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
+import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
 import de.adorsys.ledgers.oba.rest.server.auth.JWTAuthenticationFilter;
 import de.adorsys.ledgers.oba.rest.server.auth.MiddlewareAuthentication;
 import de.adorsys.ledgers.oba.rest.server.auth.TokenAuthenticationService;
+import de.adorsys.ledgers.oba.rest.server.auth.oba.LoginAuthenticationFilter;
+import de.adorsys.ledgers.oba.rest.server.auth.oba.TokenAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -19,45 +24,64 @@ import org.springframework.web.context.annotation.RequestScope;
 import java.security.Principal;
 import java.util.Optional;
 
+import static de.adorsys.ledgers.oba.rest.server.auth.oba.PermittedResources.*;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private static final String[] SWAGGER_WHITELIST = {"/swagger-resources/**", "/swagger-resources", "/swagger-ui.html**", "/v2/api-docs",
-        "/webjars/**", "favicon.ico", "/error"};
-    private static final String[] APP_INDEX_WHITELIST = {"/", "/index.css", "/img/*", "/favicon.ico"};
-    private static final String[] APP_SCA_WHITELIST = {"/sca/login", "/pis/auth/**", "/pis/*/authorisation/*/login","/pis-cancellation/*/authorisation/*/login", "/ais/auth/**", "/ais/*/authorisation/*/login"};
-    private static final String[] ACTUATOR_WHITELIST = {"/actuator/health"};
-    private static final String[] TEMP_WHITELIST = {"/consents/**", "/login/**"}; //TODO should be removed after decision on security
+public class WebSecurityConfig {
 
-    private final TokenAuthenticationService tokenAuthenticationService;
+    @Order(1)
+    @Configuration
+    @RequiredArgsConstructor
+    public static class ObaSecurityConfig extends WebSecurityConfigurerAdapter {
+        private final UserMgmtStaffRestClient userMgmtStaffRestClient;
+        private final UserMgmtRestClient userMgmtRestClient;
+        private final AuthRequestInterceptor authInterceptor;
 
-    @Override
-    public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/error");
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http.antMatcher("/api/v1/**")
+                .authorizeRequests()
+                .antMatchers(APP_WHITELIST).permitAll()
+                .and()
+                .authorizeRequests().anyRequest()
+                .authenticated();
+
+            http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+            http.headers().frameOptions().disable();
+
+            http.addFilterBefore(new LoginAuthenticationFilter(userMgmtStaffRestClient), BasicAuthenticationFilter.class);
+            http.addFilterBefore(new TokenAuthenticationFilter(userMgmtRestClient, authInterceptor), BasicAuthenticationFilter.class);
+        }
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-            .authorizeRequests().antMatchers(APP_INDEX_WHITELIST).permitAll()
-            .and()
-            .authorizeRequests().antMatchers(APP_SCA_WHITELIST).permitAll()
-            .and()
-            .authorizeRequests().antMatchers(SWAGGER_WHITELIST).permitAll()
-            .and()
-            .authorizeRequests().antMatchers(ACTUATOR_WHITELIST).permitAll()
-            .and()
-            .authorizeRequests().antMatchers(TEMP_WHITELIST).permitAll() //TODO should be removed after decision on security
-            .and()
-            .cors()
-            .and()
-            .authorizeRequests().anyRequest().authenticated();
+    @Order(2)
+    @Configuration
+    @RequiredArgsConstructor
+    public static class ObaScaSecurityConfig extends WebSecurityConfigurerAdapter {
+        private final TokenAuthenticationService tokenAuthenticationService;
 
-        http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.headers().frameOptions().disable();
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http
+                .authorizeRequests().antMatchers(APP_INDEX_WHITELIST).permitAll()
+                .and()
+                .authorizeRequests().antMatchers(APP_SCA_WHITELIST).permitAll()
+                .and()
+                .authorizeRequests().antMatchers(SWAGGER_WHITELIST).permitAll()
+                .and()
+                .authorizeRequests().antMatchers(ACTUATOR_WHITELIST).permitAll()
+                .and()
+                .cors()
+                .and()
+                .authorizeRequests().anyRequest().authenticated();
 
-        http.addFilterBefore(new JWTAuthenticationFilter(tokenAuthenticationService), BasicAuthenticationFilter.class);
+            http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+            http.headers().frameOptions().disable();
+
+            http.addFilterBefore(new JWTAuthenticationFilter(tokenAuthenticationService), BasicAuthenticationFilter.class);
+        }
     }
 
     @Bean

@@ -1,4 +1,4 @@
-package de.adorsys.psd2.sandbox.tpp.rest.server.auth;
+package de.adorsys.ledgers.oba.rest.server.auth.oba;
 
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
@@ -10,15 +10,13 @@ import org.springframework.http.ResponseEntity;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-import static de.adorsys.psd2.sandbox.tpp.rest.server.auth.SecurityConstant.AUTHORIZATION_HEADER;
-import static de.adorsys.psd2.sandbox.tpp.rest.server.auth.SecurityConstant.BEARER_TOKEN_PREFIX;
+import static de.adorsys.ledgers.oba.rest.server.auth.oba.SecurityConstant.AUTHORIZATION_HEADER;
+import static de.adorsys.ledgers.oba.rest.server.auth.oba.SecurityConstant.BEARER_TOKEN_PREFIX;
 
 @RequiredArgsConstructor
 public class TokenAuthenticationFilter extends AbstractAuthFilter {
@@ -26,14 +24,11 @@ public class TokenAuthenticationFilter extends AbstractAuthFilter {
     private final AuthRequestInterceptor authInterceptor;
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest request = (HttpServletRequest) servletRequest;
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
-
+    public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String bearerToken = resolveBearerToken(request);
 
         if (StringUtils.isBlank(bearerToken)) {
-            chain.doFilter(request, response);
+            filterChain.doFilter(request, response);
             return;
         }
 
@@ -47,13 +42,12 @@ public class TokenAuthenticationFilter extends AbstractAuthFilter {
                                           .orElseThrow(() -> new RestException("Couldn't get bearer token"));
 
                 fillSecurityContext(token);
-
             } catch (FeignException | RestException e) {
                 handleAuthenticationFailure(response, e);
                 return;
             }
         }
-        chain.doFilter(request, response);
+        filterChain.doFilter(request, response);
     }
 
     private String resolveBearerToken(HttpServletRequest request) {
