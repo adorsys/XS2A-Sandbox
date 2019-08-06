@@ -46,6 +46,7 @@ variables:
   OPENSHIFT_NAMESPACE_INTEG: "adorsys-dynamic-sandbox-integ"
   OPENSHIFT_NAMESPACE_DEMO: "adorsys-dynamic-sandbox-demo"
   OPENSHIFT_NAMESPACE_BANKING_GATEWAY_DEV: "banking-gateway-dev"
+  OPENSHIFT_NAMESPACE_ASPSP_XS2A_DEV: "adorsys-psd2-develop"
 
   ###########################
   # Build variables         #
@@ -101,6 +102,15 @@ variables:
     - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:${DOCKER_TAG}"
     #- docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_POSTMAN_TESTS}:${DOCKER_TAG}"
     - docker logout
+
+#Copy Dockerhub TPP rest server image to Openshift (depending on ${DOCKER_TAG})
+.deploy_openshift_tpp_rest_server: &deploy_openshift_tpp_rest_server 
+  script:
+    - >-
+      skopeo copy
+      --dest-creds=openshift:${OPENSHIFT_TOKEN}
+      "docker://${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_REST_SERVER}:${DOCKER_TAG}"
+      "docker://${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_REST_SERVER}:latest"
 
 # Copy Dockerhub images to Openshift (depending on ${DOCKER_TAG})
 .deploy_openshift: &deploy_openshift
@@ -380,6 +390,15 @@ deploy_openshift_banking_gateway_dev:
     DOCKER_TAG: latest # Dockerhub source tag
     OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_BANKING_GATEWAY_DEV} # Openshift target namespace
   <<: *deploy_openshift
+
+deploy_openshift_aspsp_xs2a_dev:
+  stage: "Deploy"
+  only:
+    - master
+  variables:
+    DOCKER_TAG: latest # Dockerhub source tag
+    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_ASPSP_XS2A_DEV} # Openshift target namespace
+  <<: *deploy_openshift_tpp_rest_server
 
 # tags
 
