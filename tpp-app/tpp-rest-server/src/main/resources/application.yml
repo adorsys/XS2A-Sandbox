@@ -78,3 +78,11 @@ consent:
   cron:
     expression: 0 0 1 * * ?
 # --- end --- #
+
+# Iban generator properties
+iban:
+  generator:
+    countryCode: FR
+    bankCode:
+      nisp: 76070025
+      random: 76050102

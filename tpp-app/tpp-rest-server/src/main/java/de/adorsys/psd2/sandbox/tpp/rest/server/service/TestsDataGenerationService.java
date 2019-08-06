@@ -14,10 +14,12 @@ import java.util.Optional;
 public class TestsDataGenerationService {
     private static final String MSG_NO_BRANCH_SET = "This User does not belong to any Branch";
     private static final String CAN_NOT_LOAD_DEFAULT_DATA = "Can't load default data";
+    private static final String SEPARATOR = "_";
 
     private final ParseService parseService;
     private final RestExecutionService executionService;
     private final UserMgmtRestClient userMgmtRestClient;
+    private final IbanGenerationService ibanGenerationService;
 
     public byte[] generate(boolean generatePayments) {
         Optional<UserTO> user = Optional.ofNullable(userMgmtRestClient.getUser()
@@ -27,7 +29,7 @@ public class TestsDataGenerationService {
                             .orElseThrow(() -> new TppException(MSG_NO_BRANCH_SET, 400));
 
         DataPayload payload = parseService.getDefaultData()
-                                  .map(p -> p.updateIbanForBranch(branch))
+                                  .map(p -> updateIbanForBranch(p, branch))
                                   .orElseThrow(() -> new TppException(CAN_NOT_LOAD_DEFAULT_DATA, 400));
         payload.setBranch(branch);
         payload.setGeneratePayments(generatePayments);
@@ -35,4 +37,27 @@ public class TestsDataGenerationService {
         executionService.updateLedgers(payload);
         return parseService.generateFileByPayload(payload);
     }
+
+    private DataPayload updateIbanForBranch(DataPayload dataPayload, String branch) {
+        dataPayload.getAccounts().forEach(a -> a.setIban(ibanGenerationService.generateIbanForNisp(dataPayload, a.getIban(), branch)));
+        dataPayload.getBalancesList().forEach(b -> b.setIban(ibanGenerationService.generateIbanForNisp(dataPayload, b.getIban(), branch)));
+        dataPayload.getUsers().forEach(u -> updateUserIbans(dataPayload, u, branch));
+
+        return dataPayload;
+    }
+
+    private void updateUserIbans(DataPayload dataPayload, UserTO user, String branch) {
+        user.setId(buildValue(branch, user.getId()));
+        user.setEmail(buildValue(branch, user.getEmail()));
+        user.setLogin(buildValue(branch, user.getLogin()));
+        user.getScaUserData()
+            .forEach(d -> d.setMethodValue(buildValue(branch, d.getMethodValue())));
+        user.getAccountAccesses()
+            .forEach(a -> a.setIban(ibanGenerationService.generateIbanForNisp(dataPayload, a.getIban(), branch)));
+    }
+
+    private String buildValue(String branch, String suffix) {
+        return branch + SEPARATOR + suffix;
+    }
+
 }
