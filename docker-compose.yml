@@ -181,6 +181,16 @@ services:
     restart: on-failure
     environment:
       LEDGERS_URL: "http://ledgers:8088"
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=consent"
+      SPRING_DATASOURCE_USERNAME: "cms"
+      SPRING_DATASOURCE_PASSWORD: "cms"
+      SERVER_KEY: "tpp_rest_server_secret"
+      USED-NON-RECURRING-CONSENT-EXPIRATION.CRON.EXPRESSION: "0 0 * * * *"
+      NOT-CONFIRMED-CONSENT-EXPIRATION.CRON.EXPRESSION: "0 0 * * * *"
+      NOT-CONFIRMED-PAYMENT-EXPIRATION.CRON.EXPRESSION: "0 0 * * * *"
+      CONSENT.CRON.EXPRESSION: "0 0 * * * *"
+      STOPLIST.CRON.EXPRESSION: "0 0 * * * *"
+      ENCRYPTION.CRON.EXPRESSION: "0 0 * * * *"
     build:
       context: tpp-app/tpp-rest-server
       dockerfile: Dockerfile
@@ -190,6 +200,7 @@ services:
       - xs2a-net
     depends_on:
       - ledgers
+      - xs2a-consent-management-db
     volumes:
       - xs2a-tpp-rest-server-data:/var/lib/data
 

@@ -32,10 +32,10 @@
             <artifactId>ledgers-middleware-rest-client</artifactId>
         </dependency>
 
-        <!-- CMS stub mode -->
+        <!-- CMS embedded mode -->
         <dependency>
             <groupId>de.adorsys.psd2.sandbox</groupId>
-            <artifactId>tpp-cms-stub</artifactId>
+            <artifactId>tpp-cms-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
 
