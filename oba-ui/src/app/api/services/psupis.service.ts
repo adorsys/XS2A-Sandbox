@@ -21,7 +21,7 @@ class PSUPISService extends __BaseService {
   static readonly authrizedPaymentUsingPOSTPath = '/pis/{encryptedPaymentId}/authorisation/{authorisationId}/authCode';
   static readonly pisDoneUsingGET1Path = '/pis/{encryptedPaymentId}/authorisation/{authorisationId}/done';
   static readonly initiatePaymentUsingPOSTPath = '/pis/{encryptedPaymentId}/authorisation/{authorisationId}/initiate';
-  static readonly loginUsingPOST2Path = '/pis/{encryptedPaymentId}/authorisation/{authorisationId}/login';
+  static readonly loginUsingPOST3Path = '/pis/{encryptedPaymentId}/authorisation/{authorisationId}/login';
   static readonly selectMethodUsingPOST2Path = '/pis/{encryptedPaymentId}/authorisation/{authorisationId}/methods/{scaMethodId}';
   static readonly failPaymentAuthorisationUsingDELETEPath = '/pis/{encryptedPaymentId}/{authorisationId}';
 
@@ -253,7 +253,7 @@ class PSUPISService extends __BaseService {
   }
 
   /**
-   * @param params The `PSUPISService.LoginUsingPOST2Params` containing the following parameters:
+   * @param params The `PSUPISService.LoginUsingPOST3Params` containing the following parameters:
    *
    * - `pin`: pin
    *
@@ -267,7 +267,7 @@ class PSUPISService extends __BaseService {
    *
    * @return OK
    */
-  loginUsingPOST2Response(params: PSUPISService.LoginUsingPOST2Params): __Observable<__StrictHttpResponse<PaymentAuthorizeResponse>> {
+  loginUsingPOST3Response(params: PSUPISService.LoginUsingPOST3Params): __Observable<__StrictHttpResponse<PaymentAuthorizeResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -294,7 +294,7 @@ class PSUPISService extends __BaseService {
     );
   }
   /**
-   * @param params The `PSUPISService.LoginUsingPOST2Params` containing the following parameters:
+   * @param params The `PSUPISService.LoginUsingPOST3Params` containing the following parameters:
    *
    * - `pin`: pin
    *
@@ -308,8 +308,8 @@ class PSUPISService extends __BaseService {
    *
    * @return OK
    */
-  loginUsingPOST2(params: PSUPISService.LoginUsingPOST2Params): __Observable<PaymentAuthorizeResponse> {
-    return this.loginUsingPOST2Response(params).pipe(
+  loginUsingPOST3(params: PSUPISService.LoginUsingPOST3Params): __Observable<PaymentAuthorizeResponse> {
+    return this.loginUsingPOST3Response(params).pipe(
       __map(_r => _r.body as PaymentAuthorizeResponse)
     );
   }
@@ -523,9 +523,9 @@ module PSUPISService {
   }
 
   /**
-   * Parameters for loginUsingPOST2
+   * Parameters for loginUsingPOST3
    */
-  export interface LoginUsingPOST2Params {
+  export interface LoginUsingPOST3Params {
 
     /**
      * pin

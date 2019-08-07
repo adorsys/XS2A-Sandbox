@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@import "./assets/themes/bootstrap";
+@import "~bootstrap/scss/bootstrap";
 @import "./assets/themes/variables";
 @import "./assets/themes/mobile";
 @import "~material-icons/iconfont/material-icons.css";
@@ -26,6 +28,12 @@
 
   input[type='text'], input[type='password'] {
     height: 3.125rem;
+  }
+
+  .header {
+    &__title {
+      font-size: 2rem;
+    }
   }
 
   .card {

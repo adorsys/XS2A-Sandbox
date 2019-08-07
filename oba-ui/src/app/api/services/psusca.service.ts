@@ -16,7 +16,7 @@ import { AuthorizeResponse } from '../models/authorize-response';
   providedIn: 'root',
 })
 class PSUSCAService extends __BaseService {
-  static readonly loginUsingPOST3Path = '/sca/login';
+  static readonly loginUsingPOST4Path = '/sca/login';
   static readonly validateAuthCodeUsingPOSTPath = '/sca/{scaId}/authorisation/{authorisationId}/authCode';
   static readonly selectMethodUsingPOST3Path = '/sca/{scaId}/authorisation/{authorisationId}/methods/{methodId}';
 
@@ -28,7 +28,7 @@ class PSUSCAService extends __BaseService {
   }
 
   /**
-   * @param params The `PSUSCAService.LoginUsingPOST3Params` containing the following parameters:
+   * @param params The `PSUSCAService.LoginUsingPOST4Params` containing the following parameters:
    *
    * - `pin`: pin
    *
@@ -36,7 +36,7 @@ class PSUSCAService extends __BaseService {
    *
    * @return OK
    */
-  loginUsingPOST3Response(params: PSUSCAService.LoginUsingPOST3Params): __Observable<__StrictHttpResponse<AuthorizeResponse>> {
+  loginUsingPOST4Response(params: PSUSCAService.LoginUsingPOST4Params): __Observable<__StrictHttpResponse<AuthorizeResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -60,7 +60,7 @@ class PSUSCAService extends __BaseService {
     );
   }
   /**
-   * @param params The `PSUSCAService.LoginUsingPOST3Params` containing the following parameters:
+   * @param params The `PSUSCAService.LoginUsingPOST4Params` containing the following parameters:
    *
    * - `pin`: pin
    *
@@ -68,8 +68,8 @@ class PSUSCAService extends __BaseService {
    *
    * @return OK
    */
-  loginUsingPOST3(params: PSUSCAService.LoginUsingPOST3Params): __Observable<AuthorizeResponse> {
-    return this.loginUsingPOST3Response(params).pipe(
+  loginUsingPOST4(params: PSUSCAService.LoginUsingPOST4Params): __Observable<AuthorizeResponse> {
+    return this.loginUsingPOST4Response(params).pipe(
       __map(_r => _r.body as AuthorizeResponse)
     );
   }
@@ -192,9 +192,9 @@ class PSUSCAService extends __BaseService {
 module PSUSCAService {
 
   /**
-   * Parameters for loginUsingPOST3
+   * Parameters for loginUsingPOST4
    */
-  export interface LoginUsingPOST3Params {
+  export interface LoginUsingPOST4Params {
 
     /**
      * pin

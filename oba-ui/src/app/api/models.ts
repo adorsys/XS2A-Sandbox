@@ -1,8 +1,13 @@
+export { AccountAccessTO } from './models/account-access-to';
 export { AccountBalanceTO } from './models/account-balance-to';
 export { AccountDetailsTO } from './models/account-details-to';
+export { AccountReference } from './models/account-reference';
 export { AccountReferenceTO } from './models/account-reference-to';
 export { AddressTO } from './models/address-to';
+export { AisAccountAccess } from './models/ais-account-access';
 export { AisAccountAccessInfo } from './models/ais-account-access-info';
+export { AisAccountConsent } from './models/ais-account-consent';
+export { AisAccountConsentAuthorisation } from './models/ais-account-consent-authorisation';
 export { AisConsentRequest } from './models/ais-consent-request';
 export { AmountTO } from './models/amount-to';
 export { AuthorizeResponse } from './models/authorize-response';
@@ -13,8 +18,10 @@ export { PIISConsentCreateResponse } from './models/piisconsent-create-response'
 export { PaymentAuthorizeResponse } from './models/payment-authorize-response';
 export { PeriodicPaymentTO } from './models/periodic-payment-to';
 export { PiisConsentRequest } from './models/piis-consent-request';
+export { PsuIdData } from './models/psu-id-data';
 export { PsuMessage } from './models/psu-message';
 export { ScaUserDataTO } from './models/sca-user-data-to';
 export { SinglePaymentTO } from './models/single-payment-to';
 export { TppInfo } from './models/tpp-info';
 export { TppRedirectUri } from './models/tpp-redirect-uri';
+export { UserTO } from './models/user-to';

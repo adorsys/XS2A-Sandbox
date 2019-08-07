@@ -1,0 +1,31 @@
+@import "~src/assets/themes/variables";
+
+.table-clickable {
+  tr {
+    cursor: pointer;
+  }
+}
+
+tr {
+    &:hover {
+        background-color: #f3f3f3;
+        transition: .4s;
+    }
+
+    &:first-of-type {
+        th {
+            border-top: none;
+            padding-bottom: 1.5rem;
+        }
+    }
+
+    th{
+        color: #ABABAB;
+    }
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}

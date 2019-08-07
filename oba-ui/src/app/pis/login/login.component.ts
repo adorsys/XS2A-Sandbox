@@ -1,14 +1,14 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Subscription} from "rxjs";
-import {ActivatedRoute, Router} from "@angular/router";
-import {ShareDataService} from "../../common/services/share-data.service";
-import {RoutingPath} from "../../common/models/routing-path.model";
-import {PisService} from "../../common/services/pis.service";
-import {PSUPISService} from "../../api/services/psupis.service";
-import LoginUsingPOST2Params = PSUPISService.LoginUsingPOST2Params;
-import {InfoService} from "../../common/info/info.service";
-import {HttpErrorResponse} from "@angular/common/http";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Subscription} from 'rxjs';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ShareDataService} from '../../common/services/share-data.service';
+import {RoutingPath} from '../../common/models/routing-path.model';
+import {PisService} from '../../common/services/pis.service';
+import {PSUPISService} from '../../api/services/psupis.service';
+import LoginUsingPOST3Params = PSUPISService.LoginUsingPOST3Params;
+import {InfoService} from '../../common/info/info.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         ...this.loginForm.value,
         encryptedPaymentId: this.encryptedPaymentId,
         authorisationId: this.redirectId,
-      } as LoginUsingPOST2Params).subscribe(authorisationResponse => {
+      } as LoginUsingPOST3Params).subscribe(authorisationResponse => {
         console.log(authorisationResponse);
         this.shareService.changeData(authorisationResponse);
         this.router.navigate([`${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.CONFIRM_PAYMENT}`]);
