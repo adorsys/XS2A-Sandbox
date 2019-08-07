@@ -35,5 +35,5 @@ export interface UploadOptions {
     queueLimit?: number;
     allowedMimeType?: string[];
 
-    methodAfterSuccess(item?: FileItem, response?: string, status?: number, headers?: ParsedResponseHeaders): any;
+    methodAfterSuccess?(item?: FileItem, response?: string, status?: number, headers?: ParsedResponseHeaders): any;
 }

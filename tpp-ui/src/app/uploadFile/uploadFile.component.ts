@@ -1,6 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {FileItem} from 'ng2-file-upload';
 import {environment} from '../../environments/environment';
 import {UploadOptions} from '../services/upload.service';
 
@@ -12,19 +10,18 @@ import {UploadOptions} from '../services/upload.service';
 export class UploadFileComponent implements OnInit {
 
     private url = `${environment.tppBackend}`;
-    public options: UploadOptions;
-
-    constructor(private router: Router) {
-    }
+    public optionsData: UploadOptions;
+    public optionsConsents: UploadOptions;
 
     public ngOnInit(): void {
-        this.options = {
+        this.optionsData = {
             method: 'PUT',
-            url: this.url + '/data/upload',
+            url: this.url + '/data/upload'
+        };
 
-            methodAfterSuccess: (item: FileItem, response: string) => {
-                this.router.navigate(['/users/all']);
-            }
+        this.optionsConsents = {
+            method: 'PUT',
+            url: this.url + '/consent'
         };
     }
 }
