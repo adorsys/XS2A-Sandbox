@@ -1,14 +1,25 @@
 @import '~ngx-toastr/toastr.css';
 @import './assets/themes/variables';
 
-body {
-  padding: 7.5vw 7vw 0 7vw;
-  margin: 0;
-  background-color: #fafafa;
-}
-
 * {
   font-family: inherit;
+}
+
+body {
+  font-family: var(--fontFamily);
+  padding: 7.5vw 7vw 0 7vw;
+  margin: 0;
+  background-color: var(--bodyBG);
+}
+
+main {
+  background: var(--mainBG);
+  &:before,
+  &:after {
+    content: '';
+    display: table;
+    clear: both;
+  }
 }
 
 .bold-text {
@@ -25,6 +36,15 @@ body {
 
 .th {
   font-weight: 900;
+}
+
+a {
+  color: var(--anchorFontColor);
+}
+
+a:hover,
+a:focus {
+  color: var(--anchorFontColorHover);
 }
 
 .api-table {
@@ -56,7 +76,7 @@ body {
 
 .btn-primary {
   color: $COLOR_WHITE;
-  background: linear-gradient(129.54deg, #0db0e2 0%, #10317d 100%);
+  background: $primary-gradient;
   border-radius: 3px;
 
   &:hover {

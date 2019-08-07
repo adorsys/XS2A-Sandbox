@@ -1,8 +1,14 @@
 <div class="container-fluid">
+    <div class="card mb-4">
+        <div class="card-body--large">
+            <div class="header__title mb-4">Upload Users/Accounts/Balances/Payments</div>
+            <app-document-upload *ngIf="optionsData" [options]="optionsData"></app-document-upload>
+        </div>
+    </div>
     <div class="card">
         <div class="card-body--large">
-            <div class="header__title mb-4">File upload</div>
-            <app-document-upload *ngIf="options" [options]="options"></app-document-upload>
+            <div class="header__title mb-4">Upload Consents</div>
+            <app-document-upload *ngIf="optionsConsents" [options]="optionsConsents"></app-document-upload>
         </div>
     </div>
 </div>

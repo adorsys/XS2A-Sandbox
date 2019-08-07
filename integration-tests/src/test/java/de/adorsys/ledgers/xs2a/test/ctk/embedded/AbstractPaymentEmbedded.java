@@ -1,6 +1,8 @@
 package de.adorsys.ledgers.xs2a.test.ctk.embedded;
 
 import de.adorsys.ledgers.xs2a.client.PaymentApiClient;
+import de.adorsys.psd2.model.PaymentInitiationJson;
+import de.adorsys.psd2.model.PurposeCode;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

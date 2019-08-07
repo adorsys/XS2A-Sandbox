@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GettingStartedComponent } from './getting-started.component';
-import {Pipe, PipeTransform} from '@angular/core';
-import {CustomizeService} from '../../services/customize.service';
-import {CodeAreaComponent} from '../../custom-elements/code-area/code-area.component';
+import { Pipe, PipeTransform } from '@angular/core';
+import { CustomizeService } from '../../services/customize.service';
+import { CodeAreaComponent } from '../../custom-elements/code-area/code-area.component';
 
 describe('GettingStartedComponent', () => {
   let component: GettingStartedComponent;
@@ -13,12 +13,16 @@ describe('GettingStartedComponent', () => {
     getTheme: () => {
       return {
         globalSettings: {
-          logo: 'Logo_XS2ASandbox.png',
-          fontFamily: 'Arial, sans-serif',
-          headerBG: '#ffffff',
-          headerFontColor: '#000000',
-          footerBG: '#054f72',
-          footerFontColor: '#ffffff',
+          logo: '../assets/UI/Logo_XS2ASandbox.png',
+          cssVariables: {
+            colorPrimary: '#054f72',
+            colorSecondary: '#eed52f',
+            fontFamily: 'Arial, sans-serif',
+            headerBG: '#ffffff',
+            headerFontColor: '#000000',
+            footerBG: '#054f72',
+            footerFontColor: '#ffffff',
+          },
           facebook: 'https://www.facebook.com/adorsysGmbH/',
           linkedIn: 'https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/',
         },
@@ -51,7 +55,7 @@ describe('GettingStartedComponent', () => {
     },
   };
 
-  @Pipe({name: 'translate'})
+  @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -59,7 +63,7 @@ describe('GettingStartedComponent', () => {
     }
   }
 
-  @Pipe({name: 'prettyJson'})
+  @Pipe({ name: 'prettyJson' })
   class PrettyJsonPipe implements PipeTransform {
     transform(value) {
       return JSON.stringify(value, null, 4);
@@ -72,11 +76,11 @@ describe('GettingStartedComponent', () => {
         GettingStartedComponent,
         TranslatePipe,
         CodeAreaComponent,
-        PrettyJsonPipe
+        PrettyJsonPipe,
       ],
       providers: [
-        {provide: CustomizeService, useValue: CustomizeServiceStub}
-      ]
+        { provide: CustomizeService, useValue: CustomizeServiceStub },
+      ],
     }).compileComponents();
   }));
 
@@ -100,5 +104,4 @@ describe('GettingStartedComponent', () => {
     expect(component.defaultTheme).not.toBeUndefined();
     expect(component.settings).not.toBeUndefined();
   });
-
 });

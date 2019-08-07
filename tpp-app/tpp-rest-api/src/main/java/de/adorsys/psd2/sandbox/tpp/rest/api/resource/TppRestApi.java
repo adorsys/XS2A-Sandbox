@@ -1,6 +1,6 @@
 package de.adorsys.psd2.sandbox.tpp.rest.api.resource;
 
-import de.adorsys.psd2.sandbox.tpp.rest.api.domain.TppInfo;
+import de.adorsys.psd2.sandbox.tpp.rest.api.domain.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
@@ -18,5 +18,5 @@ public interface TppRestApi {
 
     @ApiOperation(value = "Register new TPP")
     @PostMapping("/register")
-    ResponseEntity<Void> register(@RequestBody TppInfo tppInfo);
+    ResponseEntity<Void> register(@RequestBody User user);
 }

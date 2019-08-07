@@ -31,7 +31,11 @@ export class CopyService {
     );
   }
 
-  fallbackCopyTextToClipboard(text: string, index: number, fieldsToCopy: string[]) {
+  fallbackCopyTextToClipboard(
+    text: string,
+    index: number,
+    fieldsToCopy: string[]
+  ) {
     const textArea = document.createElement('textarea');
     textArea.value = text;
     document.body.appendChild(textArea);
@@ -54,9 +58,24 @@ export class CopyService {
     document.body.removeChild(textArea);
   }
 
-  getCopyValue(i: number, fieldsToCopy: string[], response: any, paymentId: string) {
-    let r = pathOr('', ['body', fieldsToCopy[i]], response);
+  getCopyValue(
+    i: number,
+    fieldsToCopy: string[],
+    response: any,
+    paymentId: string
+  ) {
+    if (fieldsToCopy[i] === 'authorisationId') {
+      const hrefPath = pathOr(
+        null,
+        ['body', '_links', 'scaStatus', 'href'],
+        response
+      );
+      if (hrefPath) {
+        return hrefPath.split(['/authorisations/'])[1];
+      }
+    }
 
+    let r = pathOr('', ['body', fieldsToCopy[i]], response);
     if (r === '') {
       const h = pathOr(
         null,

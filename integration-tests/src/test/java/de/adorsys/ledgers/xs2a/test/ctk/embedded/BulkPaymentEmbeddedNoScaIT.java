@@ -13,10 +13,11 @@ public class BulkPaymentEmbeddedNoScaIT extends AbstractPaymentEmbedded {
     public void test_create_payment() {
     	// Initiate Payment
         PaymentInitationRequestResponse201 initiatedPaymentResponse = paymentInitService.initiatePayment();
+        String paymentId = initiatedPaymentResponse.getPaymentId();
 
         // Login User
 		UpdatePsuAuthenticationResponse loginResponse = paymentInitService.login(initiatedPaymentResponse);
 		paymentInitService.validateResponseStatus(loginResponse, ScaStatus.FINALISED);
-		paymentInitService.checkTxStatus(loginResponse, TransactionStatus.ACSP);
+		paymentInitService.checkTxStatus(paymentId, TransactionStatus.ACSP);
     }
 }

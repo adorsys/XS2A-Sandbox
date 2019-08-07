@@ -3,7 +3,7 @@
 .divider {
   height: 0.5vw;
   width: 6vw;
-  background-color: #eed52f;
+  background-color: var(--colorSecondary);
 }
 
 .any-questions {
@@ -11,13 +11,11 @@
   margin: 5vw auto 0 auto;
   .any-questions-title {
     margin: 2vw 0 1vw 0;
-    opacity: 0.9;
     font-weight: 600;
     font-size: 2.8vw;
-    color: #054f72;
+    color: var(--colorPrimary);
   }
   .any-questions-subtitle {
-    opacity: 0.9;
     font-size: 2.8vw;
     color: #868e96;
   }
@@ -27,6 +25,7 @@
     height: 15vw;
     box-shadow: 0 1px 18px -12px #524c52;
     margin: 4vw 0;
+    background: #fff;
     .person-card-image-wrapper {
       background-color: #eeeeee;
       height: 100%;
@@ -57,15 +56,13 @@
             font-size: 2vw;
             font-weight: 600;
             color: #212529;
-            opacity: 0.9;
           }
           font-size: 0.9vw;
-          color: #054f72;
+          color: var(--colorPrimary);
         }
       }
       .sub-personal-info {
         a {
-          color: #0984bf;
           font-size: 1vw;
         }
       }
@@ -79,10 +76,9 @@
   margin: 5vw auto 0 auto;
   .contacts-title {
     margin: 2vw 0 1vw 0;
-    opacity: 0.9;
     font-weight: 600;
     font-size: 2.8vw;
-    color: #054f72;
+    color: var(--colorPrimary);
   }
   .contacts-card {
     display: flex;
@@ -91,7 +87,7 @@
     box-shadow: 0 1px 18px -12px #524c52;
     margin: 3vw 0;
     padding: 2vw;
-    background-color: #eeeeee;
+    background-color: var(--contactsCardBG);
     .contacts-content {
       min-width: 18.5vw;
       padding: 5% 3%;
@@ -111,7 +107,6 @@
             font-size: 1.5vw;
             font-weight: 600;
             color: #212529;
-            opacity: 0.9;
             margin-bottom: 1.2vw;
           }
           &:last-of-type {
@@ -123,7 +118,6 @@
       }
       .sub-personal-info {
         a {
-          color: #0984bf;
           font-size: 1vw;
           margin-bottom: 1vw;
           i {
@@ -133,10 +127,12 @@
         .social-network {
           display: flex;
           flex-direction: row;
-          i {
-            color: #0984bf;
+          .social-network-item {
             font-size: 1.5vw;
             margin-right: 1vw;
+            i {
+              margin-right: 0;
+            }
           }
         }
       }

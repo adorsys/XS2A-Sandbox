@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.springframework.http.ResponseEntity;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -92,10 +93,7 @@ public class PaymentExecutionHelper {
                        psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation).getBody();
     }
 
-    public ResponseEntity<PaymentInitiationStatusResponse200Json> loadPaymentStatus(UpdatePsuAuthenticationResponse resp) {
-        String self = getLink(resp.getLinks(), "scaStatus");
-        String part = StringUtils.substringBeforeLast(self,"/authorisations");
-        String paymentId = StringUtils.substringAfterLast(part, "/");
+    public ResponseEntity<PaymentInitiationStatusResponse200Json> loadPaymentStatus(String paymentId) {
         UUID xRequestID = UUID.randomUUID();
         return paymentApi
                    ._getPaymentInitiationStatus(paymentService, paymentProduct, paymentId, xRequestID, digest, signature,
@@ -141,8 +139,8 @@ public class PaymentExecutionHelper {
     }
 
 
-    public void checkTxStatus(UpdatePsuAuthenticationResponse resp, TransactionStatus expectedStatus) {
-        ResponseEntity<PaymentInitiationStatusResponse200Json> loadPaymentStatusResponseWrapper = loadPaymentStatus(resp);
+    public void checkTxStatus(String paymentId, TransactionStatus expectedStatus) {
+        ResponseEntity<PaymentInitiationStatusResponse200Json> loadPaymentStatusResponseWrapper = loadPaymentStatus(paymentId);
         PaymentInitiationStatusResponse200Json loadPaymentStatusResponse = loadPaymentStatusResponseWrapper.getBody();
         Assert.assertNotNull(loadPaymentStatusResponse);
         TransactionStatus currentStatus = loadPaymentStatusResponse.getTransactionStatus();

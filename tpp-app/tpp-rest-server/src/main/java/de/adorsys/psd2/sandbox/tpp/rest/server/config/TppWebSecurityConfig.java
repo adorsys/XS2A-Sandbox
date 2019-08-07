@@ -41,6 +41,7 @@ public class TppWebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests().anyRequest().authenticated();
 
         http.headers().frameOptions().disable();
+        http.httpBasic().disable();
 
         http.addFilterBefore(new LoginAuthenticationFilter(userMgmtStaffRestClient), BasicAuthenticationFilter.class);
         http.addFilterBefore(new TokenAuthenticationFilter(ledgersUserMgmt, authInterceptor), BasicAuthenticationFilter.class);

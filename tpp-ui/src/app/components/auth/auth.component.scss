@@ -10,7 +10,8 @@ form {
     margin: 5vh auto 15vh auto;
 
     &-title {
-        margin: 1.5rem;
+        font-size: 1.8rem;
+        margin: 1.1rem;
     }
 
     &__headline {
@@ -20,7 +21,7 @@ form {
     }
 
     &__subtitle {
-        font-size: 1.3rem;
+        font-size: 1.1rem;
         color: $light-grey;
     }
 }
@@ -29,7 +30,7 @@ form {
     margin-bottom: 4rem;
 }
 
-.create-account a{
+.text-light-grey a{
     color: $light-grey;
 }
 

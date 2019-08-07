@@ -20,7 +20,7 @@
 label {
     color: $light-grey;
     font-size: 1.1rem;
-    font-family: 'Metropolis', sans-serif;
+    font-family: 'Verdana', sans-serif;
 }
 
 .header {
@@ -103,6 +103,18 @@ a {
     .nav-link {
         display: flex;
         justify-content: flex-start;
+    }
+}
+
+.box {
+    position: relative;
+    padding: $grid-gutter-width;
+    background: $light-grey-10;
+
+    &__close-icon {
+        position: absolute;
+        top: $grid-gutter-width / 2;
+        right: $grid-gutter-width / 2;
     }
 }
 

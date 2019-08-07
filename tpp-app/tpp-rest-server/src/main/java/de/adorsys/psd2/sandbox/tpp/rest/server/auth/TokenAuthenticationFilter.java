@@ -4,6 +4,7 @@ import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import feign.FeignException;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
 
@@ -19,14 +20,10 @@ import java.util.Optional;
 import static de.adorsys.psd2.sandbox.tpp.rest.server.auth.SecurityConstant.AUTHORIZATION_HEADER;
 import static de.adorsys.psd2.sandbox.tpp.rest.server.auth.SecurityConstant.BEARER_TOKEN_PREFIX;
 
+@RequiredArgsConstructor
 public class TokenAuthenticationFilter extends AbstractAuthFilter {
     private final UserMgmtRestClient ledgersUserMgmt;
     private final AuthRequestInterceptor authInterceptor;
-
-    public TokenAuthenticationFilter(UserMgmtRestClient ledgersUserMgmt, AuthRequestInterceptor authInterceptor) {
-        this.ledgersUserMgmt = ledgersUserMgmt;
-        this.authInterceptor = authInterceptor;
-    }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {

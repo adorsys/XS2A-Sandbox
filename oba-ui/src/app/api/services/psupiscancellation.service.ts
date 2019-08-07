@@ -18,7 +18,7 @@ import { PaymentAuthorizeResponse } from '../models/payment-authorize-response';
 class PSUPISCancellationService extends __BaseService {
   static readonly authorisePaymentUsingPOSTPath = '/pis-cancellation/{encryptedPaymentId}/authorisation/{authorisationId}/authCode';
   static readonly pisDoneUsingGETPath = '/pis-cancellation/{encryptedPaymentId}/authorisation/{authorisationId}/done';
-  static readonly loginUsingPOST1Path = '/pis-cancellation/{encryptedPaymentId}/authorisation/{authorisationId}/login';
+  static readonly loginUsingPOST2Path = '/pis-cancellation/{encryptedPaymentId}/authorisation/{authorisationId}/login';
   static readonly selectMethodUsingPOST1Path = '/pis-cancellation/{encryptedPaymentId}/authorisation/{authorisationId}/methods/{scaMethodId}';
 
   constructor(
@@ -150,7 +150,7 @@ class PSUPISCancellationService extends __BaseService {
   }
 
   /**
-   * @param params The `PSUPISCancellationService.LoginUsingPOST1Params` containing the following parameters:
+   * @param params The `PSUPISCancellationService.LoginUsingPOST2Params` containing the following parameters:
    *
    * - `pin`: pin
    *
@@ -164,7 +164,7 @@ class PSUPISCancellationService extends __BaseService {
    *
    * @return OK
    */
-  loginUsingPOST1Response(params: PSUPISCancellationService.LoginUsingPOST1Params): __Observable<__StrictHttpResponse<PaymentAuthorizeResponse>> {
+  loginUsingPOST2Response(params: PSUPISCancellationService.LoginUsingPOST2Params): __Observable<__StrictHttpResponse<PaymentAuthorizeResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -191,7 +191,7 @@ class PSUPISCancellationService extends __BaseService {
     );
   }
   /**
-   * @param params The `PSUPISCancellationService.LoginUsingPOST1Params` containing the following parameters:
+   * @param params The `PSUPISCancellationService.LoginUsingPOST2Params` containing the following parameters:
    *
    * - `pin`: pin
    *
@@ -205,8 +205,8 @@ class PSUPISCancellationService extends __BaseService {
    *
    * @return OK
    */
-  loginUsingPOST1(params: PSUPISCancellationService.LoginUsingPOST1Params): __Observable<PaymentAuthorizeResponse> {
-    return this.loginUsingPOST1Response(params).pipe(
+  loginUsingPOST2(params: PSUPISCancellationService.LoginUsingPOST2Params): __Observable<PaymentAuthorizeResponse> {
+    return this.loginUsingPOST2Response(params).pipe(
       __map(_r => _r.body as PaymentAuthorizeResponse)
     );
   }
@@ -329,9 +329,9 @@ module PSUPISCancellationService {
   }
 
   /**
-   * Parameters for loginUsingPOST1
+   * Parameters for loginUsingPOST2
    */
-  export interface LoginUsingPOST1Params {
+  export interface LoginUsingPOST2Params {
 
     /**
      * pin

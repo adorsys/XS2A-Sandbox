@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import cssVars from 'css-vars-ponyfill';
 
 @Injectable({
   providedIn: 'root',
@@ -11,11 +12,6 @@ export class CustomizeService {
   private DEFAULT_THEME: Theme = {
     globalSettings: {
       logo: 'Logo_XS2ASandbox.png',
-      fontFamily: 'Arial, sans-serif',
-      headerBG: '#ffffff',
-      headerFontColor: '#000000',
-      footerBG: '#054f72',
-      footerFontColor: '#ffffff',
       facebook: 'https://www.facebook.com/adorsysGmbH/',
       linkedIn: 'https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/',
     },
@@ -48,7 +44,6 @@ export class CustomizeService {
   private USER_THEME: Theme = {
     globalSettings: {
       logo: '',
-      fontFamily: '',
     },
     contactInfo: {
       img: '',
@@ -71,7 +66,9 @@ export class CustomizeService {
     ],
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.updateCSS();
+  }
 
   public getJSON(): Promise<Theme> {
     return this.http
@@ -125,7 +122,16 @@ export class CustomizeService {
 
   setUserTheme(theme: Theme) {
     this.USER_THEME = theme;
-    this.changeFontFamily(this.USER_THEME.globalSettings.fontFamily);
+    this.updateCSS(this.USER_THEME.globalSettings.cssVariables);
+    if (this.isCustom) {
+      this.removeExternalLinkElements();
+    }
+    if (this.USER_THEME.globalSettings.favicon) {
+      this.setFavicon(
+        this.USER_THEME.globalSettings.favicon.type,
+        this.USER_THEME.globalSettings.favicon.href
+      );
+    }
     this.NEW_THEME_WAS_SET = true;
     this.STATUS_WAS_CHANGED = !this.STATUS_WAS_CHANGED;
     this.IS_CUSTOM = true;
@@ -136,23 +142,6 @@ export class CustomizeService {
       return this.USER_THEME.globalSettings.logo;
     } else {
       return this.DEFAULT_THEME.globalSettings.logo;
-    }
-  }
-
-  changeFontFamily(value?: string) {
-    if (value) {
-      this.USER_THEME.globalSettings.fontFamily = value;
-      const body = document.getElementsByTagName('body');
-      body[0].setAttribute(
-        'style',
-        `font-family: ${this.USER_THEME.globalSettings.fontFamily}`
-      );
-    } else {
-      const body = document.getElementsByTagName('body');
-      body[0].setAttribute(
-        'style',
-        `font-family: ${this.DEFAULT_THEME.globalSettings.fontFamily}`
-      );
     }
   }
 
@@ -187,6 +176,53 @@ export class CustomizeService {
 
     return errors;
   }
+
+  private removeExternalLinkElements(): void {
+    const linkElements = document.querySelectorAll('link[rel ~= "icon" i]');
+    for (const linkElement of Array.from(linkElements)) {
+      linkElement.parentNode.removeChild(linkElement);
+    }
+  }
+
+  private addFavicon(type: string, href: string): void {
+    const linkElement = document.createElement('link');
+    linkElement.setAttribute('id', 'customize-service-injected-node');
+    linkElement.setAttribute('rel', 'icon');
+    linkElement.setAttribute('type', type);
+    linkElement.setAttribute('href', href);
+    document.head.appendChild(linkElement);
+  }
+
+  private removeFavicon(): void {
+    const linkElement = document.head.querySelector(
+      '#customize-service-injected-node'
+    );
+    if (linkElement) {
+      document.head.removeChild(linkElement);
+    }
+  }
+
+  private setFavicon(type: string, href: string): void {
+    this.removeFavicon();
+    this.addFavicon(type, href);
+  }
+
+  private updateCSS(variables: CSSVariables = {}) {
+    // Use css-vars-ponyfill to polyfill css-variables for legacy browser
+    cssVars({
+      include: 'style',
+      onlyLegacy: true,
+      watch: true,
+      variables,
+      onComplete(cssText, styleNode, cssVariables) {
+        console.log(cssText, styleNode, cssVariables);
+      },
+    });
+    // If you decide to drop ie11, edge < 14 support in future, use this as implementation to set variables
+    // Object.keys(variables).forEach(variableName => {
+    //   document.documentElement.style.setProperty('--' + variableName, variables[variableName]);
+    // });
+  }
 }
 
 export interface Theme {
@@ -197,13 +233,35 @@ export interface Theme {
 
 export interface GlobalSettings {
   logo: string;
-  fontFamily?: string;
-  headerBG?: string;
-  headerFontColor?: string;
-  footerBG?: string;
-  footerFontColor?: string;
+  favicon?: Favicon;
   facebook?: string;
   linkedIn?: string;
+  cssVariables?: CSSVariables;
+}
+
+export interface Favicon {
+  type: string;
+  href: string;
+}
+
+export interface CSSVariables {
+  [key: string]: string;
+  colorPrimary?: string;
+  colorSecondary?: string;
+  fontFamily?: string;
+  bodyBG?: string;
+  headerBG?: string;
+  headerFontColor?: string;
+  mainBG?: string;
+  footerBG?: string;
+  footerFontColor?: string;
+  anchorFontColor?: string;
+  anchorFontColorHover?: string;
+  heroBG?: string;
+  stepBG?: string;
+  contactsCardBG?: string;
+  testCasesLeftSectionBG?: string;
+  testCasesRightSectionBG?: string;
 }
 
 export interface ContactInfo {

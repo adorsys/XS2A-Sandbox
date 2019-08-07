@@ -1,0 +1,71 @@
+---
+- psuInfo:
+    psuId: "PSU-ID"
+    psuIdType: "PSU-ID-TYPE"
+    psuCorporateId: "PSU-CORPORATE-ID"
+    psuCorporateIdType: "PSU-CORPORATE-ID-TYPE"
+  tppInfo:
+    authorisationNumber: "AUTH NUMBER"
+    tppName: "TEST TPP"
+    tppRoles:
+      - "PISP"
+      - "AISP"
+      - "PIISP"
+      - "ASPSP"
+    authorityId: "1234567890"
+    authorityName: "AUTHORITY NAME"
+    country: "Germany"
+    organisation: "Some Organisation GmbH"
+    organisationUnit: "Some Organisation Unit"
+    city: "Nurnberg"
+    state: "Bavaria"
+    issuerCN: "Some issuer"
+    tppRedirectUri:
+      uri: "http://adorsys.de"
+      nokUri: "http://google.com"
+    cancelTppRedirectUri:
+      uri: "http://gmail.com"
+      nokUri: "http://unknown.com"
+  allowedFrequencyPerDay: 5
+  requestedFrequencyPerDay: 5
+  access:
+    accounts:
+      - resourceId: "RES1ACC"
+        aspspAccountId: "ZTD12345"
+        accountIdentifier: "DE12345"
+        currency: "EUR"
+        accountType: "IBAN"
+      - resourceId: "RES2ACC"
+        aspspAccountId: "ZTD54321"
+        accountIdentifier: "DE54321"
+        currency: "EUR"
+        accountType: "IBAN"
+    balances:
+      - resourceId: "RES1ACC"
+        aspspAccountId: "ZTD12345"
+        accountIdentifier: "DE12345"
+        currency: "EUR"
+        accountType: "IBAN"
+      - resourceId: "RES2ACC"
+        aspspAccountId: "ZTD54321"
+        accountIdentifier: "DE54321"
+        currency: "EUR"
+        accountType: "IBAN"
+    transactions:
+      - resourceId: "RES1ACC"
+        aspspAccountId: "ZTD12345"
+        accountIdentifier: "DE12345"
+        currency: "EUR"
+        accountType: "IBAN"
+      - resourceId: "RES2ACC"
+        aspspAccountId: "ZTD54321"
+        accountIdentifier: "DE54321"
+        currency: "EUR"
+        accountType: "IBAN"
+    availableAccounts: "ALL_ACCOUNTS"
+    allPsd2: "ALL_ACCOUNTS"
+    availableAccountsWithBalances: "ALL_ACCOUNTS"
+  validUntil: "2019-10-10"
+  recurringIndicator: true
+  tppRedirectPreferred: true
+  combinedServiceIndicator: true

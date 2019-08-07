@@ -6,22 +6,20 @@
   margin-top: 3vw;
   height: 0.5vw;
   width: 6vw;
-  background-color: #eed52f;
+  background-color: var(--colorSecondary);
 }
 
 .faq-title {
-  opacity: 0.9;
   font-weight: 600;
   font-size: 2.8vw;
-  color: #054f72;
+  color: var(--colorPrimary);
   text-align: center;
 }
 
 h1 {
-  opacity: 0.9;
   font-weight: 600;
   font-size: 2vw;
-  color: #054f72;
+  color: var(--colorPrimary);
 }
 
 h2 {
@@ -31,7 +29,6 @@ h2 {
 
 .default-text {
   color: #868e96;
-  opacity: 0.9;
   font-weight: 800;
   font-size: 1.4vw;
   line-height: 2.2vw;

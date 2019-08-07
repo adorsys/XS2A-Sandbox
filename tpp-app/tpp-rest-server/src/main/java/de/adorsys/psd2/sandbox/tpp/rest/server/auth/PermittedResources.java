@@ -21,7 +21,9 @@ public class PermittedResources {
 
     public static final String[] APP_WHITELIST = {
         "/tpp/login",
-        "/tpp/register"
+        "/tpp/register",
+        "/tpp/password",
+        "/tpp/consent"
     };
 
     private PermittedResources() {

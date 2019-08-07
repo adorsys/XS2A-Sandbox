@@ -3,14 +3,12 @@
 .documentation-header-section {
   padding: 0 5vw;
   .documentation-header-title {
-    opacity: 0.9;
     font-weight: 600;
     font-size: 2.8vw;
-    color: #054f72;
+    color: var(--colorPrimary);
   }
   .documentation-header-desc {
     color: #868e96;
-    opacity: 0.9;
     font-size: 1.4vw;
     line-height: 2.2vw;
     font-weight: 800;
@@ -23,7 +21,7 @@
   display: flex;
   padding: 2vw;
   .left-section {
-    background-color: #fff;
+    background-color: var(--testCasesLeftSectionBG);
     width: 25vw;
     .introduction {
       display: flex;
@@ -132,6 +130,6 @@
 
   .right-section {
     width: 100%;
-    background-color: #eeeeee;
+    background-color: var(--testCasesRightSectionBG);
   }
 }

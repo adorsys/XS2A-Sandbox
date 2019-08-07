@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AccinfTransactionsGetComponent } from './accinf-transactions-get.component';
-import {Component, Input, Pipe, PipeTransform} from '@angular/core';
-import {LineCommandComponent} from '../../../../../custom-elements/line-command/line-command.component';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { LineCommandComponent } from '../../../../../custom-elements/line-command/line-command.component';
 
 describe('AccinfTransactionsGetComponent', () => {
   let component: AccinfTransactionsGetComponent;
@@ -10,16 +10,17 @@ describe('AccinfTransactionsGetComponent', () => {
 
   @Component({
     selector: 'app-play-wth-data',
-    template: ''
+    template: '',
   })
   class MockPlayWithDataComponent {
     @Input() headers: object;
     @Input() accountIdFlag: boolean;
     @Input() bookingStatusFlag: boolean;
     @Input() variablePathEnd: string;
+    @Input() dateFromFlag: boolean;
   }
 
-  @Pipe({name: 'translate'})
+  @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -33,8 +34,8 @@ describe('AccinfTransactionsGetComponent', () => {
         AccinfTransactionsGetComponent,
         LineCommandComponent,
         TranslatePipe,
-        MockPlayWithDataComponent
-      ]
+        MockPlayWithDataComponent,
+      ],
     }).compileComponents();
   }));
 
@@ -53,6 +54,8 @@ describe('AccinfTransactionsGetComponent', () => {
       'X-Request-ID': '2f77a125-aa7a-45c0-b414-cea25a116035',
       'Consent-ID': 'CONSENT_ID',
       'PSU-IP-Address': '1.1.1.1',
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     };
     expect(typeof component.headers).toBe('object');
     for (const key in component.headers) {

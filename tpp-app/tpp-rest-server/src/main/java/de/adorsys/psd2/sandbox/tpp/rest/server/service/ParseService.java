@@ -1,5 +1,6 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.DataPayload;
@@ -23,9 +24,9 @@ public class ParseService {
 
     private final ResourceLoader resourceLoader;
 
-    public Optional<DataPayload> getDataFromFile(MultipartFile input) {
+    public <T> Optional<T> getDataFromFile(MultipartFile input, TypeReference<T> typeReference) {
         try {
-            return Optional.ofNullable(objectMapper.readValue(input.getInputStream(), DataPayload.class));
+            return Optional.ofNullable(objectMapper.readValue(input.getInputStream(), typeReference));
         } catch (IOException e) {
             log.error("Could not map file to Object. \n {}", e.getMessage());
             return Optional.empty();

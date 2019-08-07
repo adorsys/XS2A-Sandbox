@@ -1,8 +1,8 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {HomeComponent} from './home.component';
-import {Pipe, PipeTransform} from '@angular/core';
-import {CustomizeService} from '../../services/customize.service';
+import { HomeComponent } from './home.component';
+import { Pipe, PipeTransform } from '@angular/core';
+import { CustomizeService } from '../../services/customize.service';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -12,12 +12,16 @@ describe('HomeComponent', () => {
     getTheme: () => {
       return {
         globalSettings: {
-          logo: 'Logo_XS2ASandbox.png',
-          fontFamily: 'Arial, sans-serif',
-          headerBG: '#ffffff',
-          headerFontColor: '#000000',
-          footerBG: '#054f72',
-          footerFontColor: '#ffffff',
+          logo: '../assets/UI/Logo_XS2ASandbox.png',
+          cssVariables: {
+            colorPrimary: '#054f72',
+            colorSecondary: '#eed52f',
+            fontFamily: 'Arial, sans-serif',
+            headerBG: '#ffffff',
+            headerFontColor: '#000000',
+            footerBG: '#054f72',
+            footerFontColor: '#ffffff',
+          },
           facebook: 'https://www.facebook.com/adorsysGmbH/',
           linkedIn: 'https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/',
         },
@@ -50,7 +54,7 @@ describe('HomeComponent', () => {
     },
   };
 
-  @Pipe({name: 'translate'})
+  @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -60,13 +64,10 @@ describe('HomeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        HomeComponent,
-        TranslatePipe
-      ],
+      declarations: [HomeComponent, TranslatePipe],
       providers: [
-        {provide: CustomizeService, useValue: CustomizeServiceStub}
-      ]
+        { provide: CustomizeService, useValue: CustomizeServiceStub },
+      ],
     }).compileComponents();
   }));
 
@@ -88,7 +89,10 @@ describe('HomeComponent', () => {
   it('should set product history in ngOnInit', () => {
     component.ngOnInit();
 
-    expect(component.productHistory[component.productHistory.length - 1].date > component.today).toBeFalsy();
+    expect(
+      component.productHistory[component.productHistory.length - 1].date >
+        component.today
+    ).toBeFalsy();
     expect(component.productHistory[0].date > component.today).toBeFalsy();
   });
 });

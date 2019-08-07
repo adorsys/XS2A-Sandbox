@@ -87,7 +87,14 @@
         *ngIf="transactionIdFlag"
         [(ngModel)]="transactionId"
       />
-      <span class="top-line" *ngIf="bookingStatusFlag">?bookingStatus=</span>
+      <span class="top-line" *ngIf="dateFromFlag">?dateFrom=</span>
+      <input
+        type="text"
+        class="payment-id"
+        *ngIf="dateFromFlag"
+        [(ngModel)]="dateFrom"
+      />
+      <span class="top-line" *ngIf="bookingStatusFlag">&bookingStatus=</span>
       <select
         id="bookingStatus"
         *ngIf="bookingStatusFlag"
@@ -108,14 +115,15 @@
     <span *ngIf="consentIdFlag">{{ '/' + consentId }}</span>
     <span *ngIf="variablePathEnd">{{ variablePathEnd }}</span>
     <span *ngIf="transactionId">{{ '/' + transactionId }}</span>
-    <span *ngIf="bookingStatus">{{ '?bookingStatus=' + bookingStatus }}</span>
+    <span *ngIf="dateFrom">{{ '?dateFrom=' + dateFrom }}</span>
+    <span *ngIf="bookingStatus">{{ '&bookingStatus=' + bookingStatus }}</span>
     <span *ngIf="authorisationId">{{ '/' + authorisationId }}</span>
     <span *ngIf="cancellationId">{{ '/' + cancellationId }}</span>
   </div>
 
   <div class="play-with-data-table bg th">
-    <span>{{'TEST_CASES.COMPONENTS.TH.TH_1' | translate}}</span>
-    <span>{{'TEST_CASES.COMPONENTS.TH.TH_2' | translate}}</span>
+    <span>{{ 'TEST_CASES.COMPONENTS.TH.TH_1' | translate }}</span>
+    <span>{{ 'TEST_CASES.COMPONENTS.TH.TH_2' | translate }}</span>
   </div>
   <div
     class="play-with-data-table"
@@ -172,7 +180,10 @@
             />
           </td>
           <td>
-            <button class="copy-btn" (click)="copyService.copyThis(i, fieldsToCopy)">
+            <button
+              class="copy-btn"
+              (click)="copyService.copyThis(i, fieldsToCopy)"
+            >
               Copy
             </button>
           </td>
@@ -194,7 +205,12 @@
 
   <div class="btns">
     <button class="submit-btn" (click)="sendRequest()">Submit</button>
-    <a [href]="redirectUrl" target="_blank" class="redirect-btn" *ngIf="redirectUrl">
+    <a
+      [href]="redirectUrl"
+      target="_blank"
+      class="redirect-btn"
+      *ngIf="redirectUrl"
+    >
       Redirect Url
     </a>
   </div>

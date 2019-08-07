@@ -3,6 +3,7 @@ export  enum RoutingPath {
     PAYMENT_INITIATION = 'payment-initiation',
     PAYMENT_CANCELLATION = 'payment-cancellation',
     LOGIN = 'login',
+    CONSENTS = 'consents',
     RESULT = 'result',
     BANK_OFFERED = 'bank-offered',
     GRANT_CONSENT = 'grant-consent',

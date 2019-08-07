@@ -1,5 +1,6 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import de.adorsys.psd2.sandbox.tpp.rest.api.resource.TppDataUploaderRestApi;
 import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.DataPayload;
@@ -33,8 +34,8 @@ public class TppDataUploaderController implements TppDataUploaderRestApi {
     @Override
     public ResponseEntity<String> uploadData(MultipartFile file) {
         log.info("Update file received");
-        DataPayload parsed = parseService.getDataFromFile(file)
-                                 .orElseThrow(() -> new TppException("Could not parse data", 400));
+        DataPayload parsed = parseService.getDataFromFile(file, new TypeReference<DataPayload>() {
+        }).orElseThrow(() -> new TppException("Could not parse data", 400));
 
         restExecutionService.updateLedgers(parsed);
         return ResponseEntity.ok("Data successfully updated");

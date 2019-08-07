@@ -8,6 +8,8 @@
   align-items: center;
   z-index: 9999;
   top: 0;
+  color: var(--headerFontColor);
+  background-color: var(--headerBG);
   .nav {
     display: flex;
     flex-direction: row;
@@ -15,10 +17,15 @@
     align-items: center;
   }
   .header-item {
+    color: #000;
     opacity: 0.3;
     font-size: 1.2vw;
     margin-right: 2vw;
+    text-decoration: none;
     cursor: pointer;
+    &.active {
+      opacity: 1;
+    }
     &:last-of-type {
       margin-right: 0;
     }
@@ -40,7 +47,7 @@
       margin-left: 5px;
       color: #212529;
       opacity: 0.3;
-      transition: .3s;
+      transition: 0.3s;
       font-size: 12px;
     }
 
@@ -71,7 +78,7 @@
       right: -10px;
 
       background-color: white;
-      box-shadow: 0 1px 4px 0 rgba(98,98,98,0.5);
+      box-shadow: 0 1px 4px 0 rgba(98, 98, 98, 0.5);
 
       max-height: 200px;
 
@@ -90,7 +97,7 @@
     .collapse-menu {
       max-height: 0;
       &:after {
-        content: "";
+        content: '';
         position: absolute;
         width: 0;
         max-height: 0;
@@ -102,7 +109,7 @@
         border-color: transparent transparent #fff #fff;
         transform-origin: 0 0;
         transform: rotate(135deg);
-        box-shadow:-2px 2px 2px 0px rgba(98, 98, 98, 0.15);
+        box-shadow: -2px 2px 2px 0px rgba(98, 98, 98, 0.15);
       }
     }
 
@@ -111,7 +118,6 @@
       overflow: hidden;
       padding: 0;
     }
-
   }
 
   .header-icons {
@@ -150,6 +156,8 @@
 .footer-bar {
   height: 13vw;
   padding: 0 5vw;
+  color: var(--footerFontColor);
+  background-color: var(--footerBG);
   .footer-top-items {
     height: 7.5vw;
     display: flex;
@@ -161,6 +169,8 @@
       cursor: pointer;
     }
     .footer-item {
+      color: #fff;
+      text-decoration: none;
       opacity: 0.3;
       font-size: 1.1vw;
       margin-right: 4.5vw;
@@ -175,13 +185,14 @@
   }
   .social-media {
     float: right;
-    div {
-      display: unset;
-      i {
-        cursor: pointer;
-        font-size: 1vw;
-        margin-left: 1.5vw;
-      }
+    .social-media-item {
+      display: inline-block;
+      margin-left: 1.5vw;
+    }
+    .social-media-icon {
+      cursor: pointer;
+      font-size: 1vw;
+      color: var(--footerFontColor);
     }
   }
 }

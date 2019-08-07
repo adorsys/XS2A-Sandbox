@@ -1,10 +1,9 @@
 .embedded-wrapper {
   padding: 2vw;
   h1 {
-    opacity: 0.9;
     font-weight: 600;
     font-size: 2vw;
-    color: #054f72;
+    color: var(--colorPrimary);
   }
   li {
     line-height: 2vw;

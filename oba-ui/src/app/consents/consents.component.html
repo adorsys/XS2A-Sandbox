@@ -1,0 +1,55 @@
+<div class="container-fluid">
+  <div class="header__title">Consents</div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">ID</th>
+            <th scope="col">Accounts</th>
+            <th scope="col">Balances</th>
+            <th scope="col">Transactions</th>
+            <th scope="col">Status</th>
+            <th scope="col">frequencyPerDay</th>
+            <th scope="col">lastActionDate</th>
+            <th scope="col">validUntil</th>
+            <th scope="col">recurringIndicator</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let consent of consents; index as i">
+            <th scope="row">{{i + 1}}</th>
+            <td>{{consent.id}}</td>
+            <td>
+              <div *ngFor="let account of consent.access.accounts; index as i; last as isLast" [ngClass]="{'mb-2': !isLast}">
+                IBAN: {{account.iban}}<br/>
+                Currency: {{account.currency}}
+              </div>
+            </td>
+            <td>
+              <div *ngFor="let balance of consent.access.balances; index as i; last as isLast" [ngClass]="{'mb-2': !isLast}">
+                IBAN: {{balance.iban}}<br/>
+                Currency: {{balance.currency}}
+              </div>
+            </td>
+            <td>
+              <div *ngFor="let transaction of consent.access.transactions; index as i; last as isLast" [ngClass]="{'mb-2': !isLast}">
+                IBAN: {{transaction.iban}}<br/>
+                Currency: {{transaction.currency}}
+              </div>
+            </td>
+            <td>{{consent.consentStatus}}</td>
+            <td>{{consent.frequencyPerDay}}</td>
+            <td>{{consent.lastActionDate}}</td>
+            <td>{{consent.validUntil}}</td>
+            <td>{{consent.recurringIndicator}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

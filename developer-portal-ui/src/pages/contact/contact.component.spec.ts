@@ -1,8 +1,8 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {ContactComponent} from './contact.component';
-import {Pipe, PipeTransform} from '@angular/core';
-import {CustomizeService} from '../../services/customize.service';
+import { ContactComponent } from './contact.component';
+import { Pipe, PipeTransform } from '@angular/core';
+import { CustomizeService } from '../../services/customize.service';
 
 describe('ContactComponent', () => {
   let component: ContactComponent;
@@ -14,12 +14,16 @@ describe('ContactComponent', () => {
     getTheme: () => {
       return {
         globalSettings: {
-          logo: 'Logo_XS2ASandbox.png',
-          fontFamily: 'Arial, sans-serif',
-          headerBG: '#ffffff',
-          headerFontColor: '#000000',
-          footerBG: '#054f72',
-          footerFontColor: '#ffffff',
+          logo: '../assets/UI/Logo_XS2ASandbox.png',
+          cssVariables: {
+            colorPrimary: '#054f72',
+            colorSecondary: '#eed52f',
+            fontFamily: 'Arial, sans-serif',
+            headerBG: '#ffffff',
+            headerFontColor: '#000000',
+            footerBG: '#054f72',
+            footerFontColor: '#ffffff',
+          },
           facebook: 'https://www.facebook.com/adorsysGmbH/',
           linkedIn: 'https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/',
         },
@@ -52,7 +56,7 @@ describe('ContactComponent', () => {
     },
   };
 
-  @Pipe({name: 'translate'})
+  @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -62,14 +66,12 @@ describe('ContactComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ContactComponent,
-        TranslatePipe
-      ],
+      declarations: [ContactComponent, TranslatePipe],
       providers: [
-        {provide: CustomizeService, useValue: CustomizeServiceStub}
-      ]
-    }).compileComponents()
+        { provide: CustomizeService, useValue: CustomizeServiceStub },
+      ],
+    })
+      .compileComponents()
       .then(() => {
         customizeService = TestBed.get(CustomizeService);
       });

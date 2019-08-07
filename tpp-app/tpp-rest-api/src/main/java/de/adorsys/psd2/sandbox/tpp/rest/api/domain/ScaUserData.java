@@ -7,4 +7,6 @@ public class ScaUserData {
     private String id;
     private String methodValue;
     private ScaMethodType scaMethod;
+    private boolean usesStaticTan;
+    private String staticTan;
 }

@@ -9,29 +9,16 @@ export class EmbConsentCreatePostComponent implements OnInit {
   activeSegment = 'documentation';
   jsonData = {
     access: {
-      accounts: [
-        {
-          currency: 'EUR',
-          iban: 'YOUR_USER_IBAN',
-        },
-      ],
-      balances: [
-        {
-          currency: 'EUR',
-          iban: 'YOUR_USER_IBAN',
-        },
-      ],
-      transactions: [
-        {
-          currency: 'EUR',
-          iban: 'YOUR_USER_IBAN',
-        },
-      ],
+      accounts: [],
+      balances: [],
+      transactions: [],
+      availableAccounts: 'allAccounts',
+      allPsd2: 'allAccounts',
     },
     combinedServiceIndicator: false,
     frequencyPerDay: 50,
     recurringIndicator: true,
-    validUntil: '2019-10-10',
+    validUntil: '2020-12-3',
   };
   headers: object = {
     'X-Request-ID': '2f77a125-aa7a-45c0-b414-cea25a116035',

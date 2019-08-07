@@ -12,14 +12,15 @@ public class SinglePaymentEmbeddedOneScaMethodIT extends AbstractPaymentEmbedded
     public void test_create_payment() {
         // Initiate Payment
         PaymentInitationRequestResponse201 initiatedPaymentResponse = paymentInitService.initiatePayment();
+        String paymentId = initiatedPaymentResponse.getPaymentId();
 
         // Login User
         UpdatePsuAuthenticationResponse loginResponse = paymentInitService.login(initiatedPaymentResponse);
         paymentInitService.validateResponseStatus(loginResponse, ScaStatus.SCAMETHODSELECTED);
-        paymentInitService.checkTxStatus(loginResponse, TransactionStatus.ACCP);
+        paymentInitService.checkTxStatus(paymentId, TransactionStatus.ACCP);
 
         UpdatePsuAuthenticationResponse authCodeResponse = paymentInitService.authCode();
         paymentInitService.validateResponseStatus(authCodeResponse, ScaStatus.FINALISED);
-        paymentInitService.checkTxStatus(authCodeResponse, TransactionStatus.ACSP);
+        paymentInitService.checkTxStatus(paymentId, TransactionStatus.ACSP);
     }
 }

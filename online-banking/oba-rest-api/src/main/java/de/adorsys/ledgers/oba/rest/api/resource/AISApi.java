@@ -6,13 +6,14 @@ import de.adorsys.ledgers.oba.rest.api.domain.AuthorizeResponse;
 import de.adorsys.ledgers.oba.rest.api.domain.ConsentAuthorizeResponse;
 import de.adorsys.ledgers.oba.rest.api.domain.CreatePiisConsentRequestTO;
 import de.adorsys.ledgers.oba.rest.api.domain.PIISConsentCreateResponse;
+import de.adorsys.ledgers.oba.rest.api.exception.ConsentAuthorizeException;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(value = AISApi.BASE_PATH, tags = "PSU AIS", description = "Provides access to online banking payment functionality")
+@Api(value = AISApi.BASE_PATH, tags = "PSU AIS", description = "Provides access to online banking AIS functionality")
 public interface AISApi {
     String BASE_PATH = "/ais";
 
@@ -143,7 +144,7 @@ public interface AISApi {
         @PathVariable("authorisationId") String authorisationId,
         @RequestHeader(name = "Cookie", required = false) String consentAndaccessTokenCookieString,
         @RequestParam(name = "forgetConsent", required = false) Boolean forgetConsent,
-        @RequestParam(name = "backToTpp", required = false) Boolean backToTpp);
+        @RequestParam(name = "backToTpp", required = false) Boolean backToTpp) throws ConsentAuthorizeException;
 
     /**
      * Fails AIS Consent authorisation object by its ID.

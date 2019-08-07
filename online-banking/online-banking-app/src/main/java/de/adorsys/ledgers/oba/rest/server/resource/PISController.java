@@ -60,7 +60,7 @@ public class PISController extends AbstractXISController implements PISApi {
 
     @Override
     public ResponseEntity<AuthorizeResponse> pisAuth(String redirectId, String encryptedPaymentId) {
-        return auth(redirectId, ConsentType.PIS, encryptedPaymentId, request, response);
+        return auth(redirectId, ConsentType.PIS, encryptedPaymentId, response);
     }
 
     @SuppressWarnings("PMD.CyclomaticComplexity")

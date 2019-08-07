@@ -1,8 +1,8 @@
-.home-header {
-  background-color: #eeeeee;
+.hero {
+  background: var(--heroBG);
   padding: 128px 0 64px 64px;
 
-  .home-subheader {
+  .hero-subheader {
     margin-top: 38px;
   }
 
@@ -11,17 +11,16 @@
     margin: 0;
   }
 
-  .header-title {
-    color: #054f72;
+  .hero-title {
+    color: var(--colorPrimary);
     font-size: 64px;
     font-weight: 900;
   }
 
-  .header-subtitle {
+  .hero-subtitle {
     font-weight: 500;
     font-size: 51px;
     color: #484848;
-    opacity: 0.9;
   }
 }
 
@@ -39,16 +38,14 @@
   .what-sandbox-title {
     margin: 64px 0;
     text-align: center;
-    opacity: 0.9;
     font-weight: 600;
     font-size: 35px;
-    color: #054f72;
+    color: var(--colorPrimary);
   }
 
   .what-sandbox-desc {
     text-align: center;
     color: #868e96;
-    opacity: 0.9;
     font-weight: 800;
     font-size: 18px;
     line-height: 30px;
@@ -62,10 +59,9 @@
 
   .how-use-api-title {
     text-align: center;
-    opacity: 0.9;
     font-weight: 600;
     font-size: 35px;
-    color: #054f72;
+    color: var(--colorPrimary);
   }
 
   .steps-wrapper {
@@ -78,7 +74,7 @@
     .step {
       height: 166px;
       width: 294px;
-      background-color: #cccccc;
+      background-color: var(--stepBG);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -103,7 +99,7 @@
 .divider {
   height: 6px;
   width: 77px;
-  background-color: #eed52f;
+  background-color: var(--colorSecondary);
 }
 
 /*=== Open banking ===*/
@@ -114,20 +110,15 @@
 
   .open-banking-title {
     margin: 26px 0 13px 0;
-    opacity: 0.9;
     font-weight: 600;
     font-size: 36px;
-    color: #054f72;
+    color: var(--colorPrimary);
   }
 
   .open-banking-desc {
     font-size: 15px;
     line-height: 22px;
     color: #606060;
-
-    a {
-      color: #0299ff;
-    }
   }
 }
 
@@ -145,10 +136,9 @@
 
   h1 {
     margin-top: 0;
-    opacity: 0.9;
     font-weight: 600;
     font-size: 36px;
-    color: #054f72;
+    color: var(--colorPrimary);
   }
 
   .slide {
@@ -162,8 +152,7 @@
     p {
       margin-top: 0;
       margin-bottom: 13px;
-      color: #054f72;
-      opacity: 0.9;
+      color: var(--colorPrimary);
       font-size: 17px;
       font-weight: bold;
     }
@@ -233,14 +222,12 @@
 
     .title {
       margin: 26px 0 13px 0;
-      opacity: 0.9;
       font-weight: 600;
       font-size: 36px;
-      color: #054f72;
+      color: var(--colorPrimary);
     }
 
     .subtitle {
-      opacity: 0.9;
       font-size: 36px;
       color: #868e96;
     }
@@ -258,9 +245,9 @@
       width: 7vw;
       margin: 0 auto;
       z-index: 1;
-      border: 3px solid #054f72;
+      border: 3px solid var(--colorPrimary);
       border-radius: 19px;
-      background-color: #054f72;
+      background-color: var(--colorPrimary);
       font-size: 0.9vw;
       color: #fff;
       display: flex;
@@ -292,7 +279,7 @@
           position: relative;
 
           span {
-            color: #054f72;
+            color: var(--colorPrimary);
             font-size: 12px;
           }
 
@@ -405,14 +392,12 @@
 
   .any-questions-title {
     margin: 26px 0 13px 0;
-    opacity: 0.9;
     font-weight: 600;
     font-size: 36px;
-    color: #054f72;
+    color: var(--colorPrimary);
   }
 
   .any-questions-subtitle {
-    opacity: 0.9;
     font-size: 36px;
     color: #868e96;
   }
@@ -423,6 +408,7 @@
     height: 192px;
     box-shadow: 0 1px 18px -12px #524c52;
     margin: 40px 0;
+    background: #fff;
 
     .person-card-image-wrapper {
       background-color: #eeeeee;
@@ -458,17 +444,15 @@
             font-size: 26px;
             font-weight: 600;
             color: #212529;
-            opacity: 0.9;
           }
 
           font-size: 12px;
-          color: #054f72;
+          color: var(--colorPrimary);
         }
       }
 
       .sub-personal-info {
         a {
-          color: #0984bf;
           font-size: 13px;
         }
       }
@@ -476,41 +460,38 @@
   }
 }
 
-
-
-
 /*========== MEDIA QUERIES ============*/
 
 @media screen and (max-width: 1080px) {
-  .home-header {
+  .hero {
     padding: 64px 0 48px 48px;
 
-    .home-subheader {
+    .hero-subheader {
       margin-top: 18px;
     }
 
-    .header-title {
+    .hero-title {
       font-size: 48px;
     }
 
-    .header-subtitle {
+    .hero-subtitle {
       font-size: 30px;
     }
   }
 }
 @media screen and (max-width: 720px) {
-  .home-header {
+  .hero {
     padding: 40px 0 40px 30px;
 
-    .header-title {
+    .hero-title {
       font-size: 35px;
     }
 
-    .home-subheader {
+    .hero-subheader {
       margin-top: 15px;
     }
 
-    .header-subtitle {
+    .hero-subtitle {
       font-size: 18px;
     }
   }
@@ -520,7 +501,6 @@
 
 @media screen and (max-width: 1080px) {
   .what-sandbox-wrapper {
-
     .what-sandbox-title {
       margin: 40px 0;
     }
@@ -533,7 +513,6 @@
 }
 @media screen and (max-width: 720px) {
   .what-sandbox-wrapper {
-
     .what-sandbox-title {
       margin: 20px 0;
       font-size: 24px;
@@ -553,7 +532,6 @@
     margin: 70px 0;
 
     .steps-wrapper {
-
       .step {
         margin: 0 15px;
       }
@@ -569,7 +547,6 @@
     }
 
     .steps-wrapper {
-
       .step {
         height: 85px;
         margin-right: 10px;
@@ -600,7 +577,7 @@
     }
   }
 }
-@media screen and (max-width: 720px){
+@media screen and (max-width: 720px) {
   .open-banking {
     padding: 20px 35px;
 
@@ -693,7 +670,7 @@
     }
   }
 }
-@media screen and (max-width: 720px){
+@media screen and (max-width: 720px) {
   .product-history-wrapper {
     .product-history-header-wrapper {
       width: 100%;
@@ -719,7 +696,6 @@
           width: 100%;
 
           .info-wrapper {
-
             h1 {
               font-size: 12px;
             }
@@ -729,16 +705,13 @@
             }
 
             .circle-divider {
-
               .circle {
                 width: 2px;
                 height: 2px;
               }
-
             }
 
             .text-wrapper {
-
               p {
                 font-size: 8px;
                 line-height: 11px;
@@ -748,7 +721,6 @@
                 font-size: 10px;
               }
             }
-
           }
         }
       }
@@ -773,11 +745,10 @@
       width: 75%;
       align-self: center;
       margin: 36px 0;
-
     }
   }
 }
-@media screen and (max-width: 720px){
+@media screen and (max-width: 720px) {
   .any-questions {
     width: 100%;
     display: flex;
@@ -799,7 +770,6 @@
 
       .person-card-info {
         .main-personal-info {
-
           span {
             font-size: 8px;
           }
@@ -816,7 +786,5 @@
         }
       }
     }
-
   }
 }
-
