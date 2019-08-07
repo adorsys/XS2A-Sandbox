@@ -106,6 +106,18 @@ a {
     }
 }
 
+.box {
+    position: relative;
+    padding: $grid-gutter-width;
+    background: $light-grey-10;
+
+    &__close-icon {
+        position: absolute;
+        top: $grid-gutter-width / 2;
+        right: $grid-gutter-width / 2;
+    }
+}
+
 
 @media (max-width: 767px) {
     .bg-sm-light {

@@ -49,8 +49,10 @@ export class UserCreateComponent implements OnInit {
     initScaData() {
         return this.formBuilder.group({
             scaMethod: ['EMAIL', Validators.required],
-            methodValue: ['', Validators.required]
-        })
+            methodValue: ['', Validators.required],
+            staticTan: [''],
+            usesStaticTan: ['']
+        });
     }
 
     addScaDataItem() {
