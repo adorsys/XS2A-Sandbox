@@ -3,9 +3,8 @@ package de.adorsys.ledgers.oba.rest.server.auth.oba;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCALoginResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCAResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
-import de.adorsys.ledgers.middleware.api.domain.um.UserCredentialsTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserRoleTO;
-import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
+import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -22,7 +21,7 @@ import static de.adorsys.ledgers.oba.rest.server.auth.oba.SecurityConstant.*;
 
 @RequiredArgsConstructor
 public class LoginAuthenticationFilter extends AbstractAuthFilter {
-    private final UserMgmtStaffRestClient userMgmtStaffRestClient;
+    private final UserMgmtRestClient userMgmtRestClient;
 
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -36,7 +35,7 @@ public class LoginAuthenticationFilter extends AbstractAuthFilter {
 
         if (authenticationIsRequired()) {
             try {
-                ResponseEntity<SCALoginResponseTO> loginResponse = userMgmtStaffRestClient.login(new UserCredentialsTO(login, pin, UserRoleTO.STAFF));
+                ResponseEntity<SCALoginResponseTO> loginResponse = userMgmtRestClient.authorise(login, pin, UserRoleTO.CUSTOMER);
 
                 BearerTokenTO bearerTokenTO = Optional.ofNullable(loginResponse.getBody())
                                                   .map(SCAResponseTO::getBearerToken)

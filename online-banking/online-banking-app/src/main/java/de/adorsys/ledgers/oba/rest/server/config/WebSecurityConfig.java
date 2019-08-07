@@ -3,7 +3,6 @@ package de.adorsys.ledgers.oba.rest.server.config;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
-import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
 import de.adorsys.ledgers.oba.rest.server.auth.JWTAuthenticationFilter;
 import de.adorsys.ledgers.oba.rest.server.auth.MiddlewareAuthentication;
 import de.adorsys.ledgers.oba.rest.server.auth.TokenAuthenticationService;
@@ -35,7 +34,6 @@ public class WebSecurityConfig {
     @Configuration
     @RequiredArgsConstructor
     public static class ObaSecurityConfig extends WebSecurityConfigurerAdapter {
-        private final UserMgmtStaffRestClient userMgmtStaffRestClient;
         private final UserMgmtRestClient userMgmtRestClient;
         private final AuthRequestInterceptor authInterceptor;
 
@@ -51,7 +49,7 @@ public class WebSecurityConfig {
             http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
             http.headers().frameOptions().disable();
 
-            http.addFilterBefore(new LoginAuthenticationFilter(userMgmtStaffRestClient), BasicAuthenticationFilter.class);
+            http.addFilterBefore(new LoginAuthenticationFilter(userMgmtRestClient), BasicAuthenticationFilter.class);
             http.addFilterBefore(new TokenAuthenticationFilter(userMgmtRestClient, authInterceptor), BasicAuthenticationFilter.class);
         }
     }
