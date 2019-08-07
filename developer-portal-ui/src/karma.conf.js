@@ -27,7 +27,7 @@ module.exports = function(config) {
     autoWatch: true,
     browsers: ['Chrome'],
     customLaunchers: {
-      ChromeCI: {
+      ChromeCi: {
         base: 'ChromeHeadless',
       },
     },
