@@ -5,15 +5,23 @@ import {InfoService} from "../info/info.service";
 import {SpinnerVisibilityService} from "ng-http-loader";
 import {error} from "util";
 
+// Increasing integer for generating unique ids for document-upload components.
+let nextUniqueId = 0;
+
 @Component({
     selector: 'app-document-upload',
     templateUrl: './document-upload.component.html',
     styleUrls: ['./document-upload.component.scss']
 })
 export class DocumentUploadComponent implements OnInit {
+    private _uniqueId = `document-upload-${++nextUniqueId}`;
 
     // Object for uploading
     public uploader: FileUploader;
+
+    /** A unique id for the document-upload input. If none is supplied, it will be auto-generated. */
+    @Input()
+    id: string = this._uniqueId;
 
     // Options for uploading
     @Input() options: UploadOptions;
