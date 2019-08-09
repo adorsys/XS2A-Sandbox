@@ -4,4 +4,3 @@
  - Added get consents list endpoint to OnlineBanking application
  - Added global login endpoint to OnlineBanking
  - Added possibility to upload payments
-.
