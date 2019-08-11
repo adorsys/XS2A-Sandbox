@@ -14,8 +14,8 @@ export class GettingStartedComponent implements OnInit {
   settings: Settings;
 
   constructor(
-      private customizeService: CustomizeService,
-      private settingsService: SettingsService
+    private customizeService: CustomizeService,
+    private settingsService: SettingsService
   ) {}
 
   exportTheme(): boolean {
@@ -36,5 +36,9 @@ export class GettingStartedComponent implements OnInit {
     this.defaultTheme = this.customizeService.getTheme('default');
 
     this.settings = this.settingsService.settings;
+  }
+
+  getEnvLink(name): string {
+    return this.settingsService.getEnvLink(name);
   }
 }
