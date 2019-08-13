@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@Api(value = ObaAisApi.BASE_PATH, tags = "Online Banking AIS", description = "Provides list of valid consents of current user")
-public interface ObaAisApi {
+@Api(value = ObaConsentApi.BASE_PATH, tags = "Online Banking Consents")
+public interface ObaConsentApi {
     String BASE_PATH = "/api/v1/consents";
 
     /**

@@ -1,7 +1,7 @@
 package de.adorsys.ledgers.oba.rest.server.resource.oba;
 
-import de.adorsys.ledgers.oba.rest.api.resource.oba.ObaAisApi;
-import de.adorsys.ledgers.oba.rest.server.service.AisService;
+import de.adorsys.ledgers.oba.rest.api.resource.oba.ObaConsentApi;
+import de.adorsys.ledgers.oba.rest.server.service.ConsentService;
 import de.adorsys.psd2.consent.api.ais.AisAccountConsent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,15 +14,15 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping(ObaAisController.BASE_PATH)
+@RequestMapping(ObaConsentController.BASE_PATH)
 @RequiredArgsConstructor
-public class ObaAisController implements ObaAisApi {
-    private final AisService aisService;
+public class ObaConsentController implements ObaConsentApi {
+    private final ConsentService consentService;
 
     @Override
     @PreAuthorize("#userLogin == authentication.principal.login")
     public ResponseEntity<List<AisAccountConsent>> consents(String userLogin) {
-        return ResponseEntity.ok(aisService.getListOfConsents(userLogin));
+        return ResponseEntity.ok(consentService.getListOfConsents(userLogin));
     }
 
 }

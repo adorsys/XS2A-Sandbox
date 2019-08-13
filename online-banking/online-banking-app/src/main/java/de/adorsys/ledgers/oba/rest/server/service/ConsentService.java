@@ -17,7 +17,7 @@ import static de.adorsys.ledgers.oba.rest.api.domain.AisErrorCode.AIS_BAD_REQUES
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AisService {
+public class ConsentService {
     private final CmsPsuAisClient cmsPsuAisClient;
     private static final String RESPONSE_ERROR = "Error in response from CMS, please contact admin.";
     private static final String GET_CONSENTS_ERROR_MSG = "Failed to retrieve consents for user: %s, code: %s, message: %s";
