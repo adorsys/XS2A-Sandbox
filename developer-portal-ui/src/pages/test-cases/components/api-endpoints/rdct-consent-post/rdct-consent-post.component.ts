@@ -17,7 +17,7 @@ export class RdctConsentPOSTComponent implements OnInit {
     combinedServiceIndicator: false,
     frequencyPerDay: 50,
     recurringIndicator: true,
-    validUntil: '2020-12-3',
+    validUntil: '2020-12-31',
   };
   headers: object = {
     'X-Request-ID': '2f77a125-aa7a-45c0-b414-cea25a116035',
