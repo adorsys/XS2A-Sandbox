@@ -3,6 +3,7 @@ import {AccountService} from "../../services/account.service";
 
 import {Account} from "../../models/account.model"
 import {Subscription} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-account-list',
@@ -13,7 +14,8 @@ export class AccountListComponent implements OnInit, OnDestroy {
     accounts: Account[];
     subscription = new Subscription();
 
-    constructor(private accountService: AccountService) {
+    constructor(private accountService: AccountService,
+                public router: Router) {
     }
 
     ngOnInit() {
@@ -23,11 +25,21 @@ export class AccountListComponent implements OnInit, OnDestroy {
     getAccounts(): void {
         this.subscription.add(
             this.accountService.getAccounts()
-            .subscribe((accounts: Account[]) => {
-                this.accounts = accounts;
-            }));
+                .subscribe((accounts: Account[]) => {
+                    this.accounts = accounts;
+                }));
 
     }
+
+    goToDepositCash(account: Account) {
+        if (!this.isAccountEnabled(account)) return false;
+        this.router.navigate(['/accounts/' + account.id + '/deposit-cash']);
+    }
+
+    isAccountEnabled(account: Account): boolean {
+        return (account.accountStatus !== "DELETED");
+    }
+
 
     ngOnDestroy(): void {
         this.subscription.unsubscribe();

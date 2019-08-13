@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {map} from "rxjs/operators";
 import {AccountService} from "../../services/account.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Account} from "../../models/account.model";
+import {InfoService} from "../../commons/info/info.service";
 
 @Component({
     selector: 'app-account',
@@ -16,7 +17,9 @@ export class AccountComponent implements OnInit {
 
     constructor(
         private accountService: AccountService,
-        private activatedRoute: ActivatedRoute) {
+        private activatedRoute: ActivatedRoute,
+        private infoService: InfoService,
+        private router: Router) {
     }
 
     ngOnInit() {
@@ -30,6 +33,20 @@ export class AccountComponent implements OnInit {
                 this.accountID = accountID;
                 this.getAccount();
             });
+    }
+
+    public goToAccountDetail() {
+        if(this.isAccountDeleted) {
+            this.infoService.openFeedback('You can not Grant Accesses to a Deleted/Blocked account', {
+                severity: 'error'
+            });
+        } else {
+            this.router.navigate(['/accounts/' + this.account.id + '/access']);
+        }
+    }
+
+    get isAccountDeleted(): boolean {
+        return this.account.accountStatus === "DELETED" || this.account.accountStatus === "BLOCKED";
     }
 
     getAccount() {

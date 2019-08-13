@@ -7,20 +7,26 @@ import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {Account, AccountStatus, AccountType, UsageType} from "../../models/account.model";
 import {Observable} from "rxjs";
 import "rxjs-compat/add/observable/of";
+import {InfoService} from "../../commons/info/info.service";
+import {InfoModule} from "../../commons/info/info.module";
+import {IconModule} from "../../commons/icon/icon.module";
 
 describe('AccountComponent', () => {
     let component: AccountComponent;
     let fixture: ComponentFixture<AccountComponent>;
     let accountService: AccountService;
+    let infoService: InfoService;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
                 RouterTestingModule,
                 HttpClientTestingModule,
+                InfoModule,
+                IconModule
             ],
             declarations: [AccountComponent],
-            providers: [AccountService]
+            providers: [AccountService, InfoService]
         })
             .compileComponents();
     }));
@@ -29,6 +35,7 @@ describe('AccountComponent', () => {
         fixture = TestBed.createComponent(AccountComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
+        infoService = TestBed.get(InfoService);
         accountService = TestBed.get(AccountService);
     });
 
