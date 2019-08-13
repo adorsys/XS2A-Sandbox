@@ -25,4 +25,8 @@ public class ObaConsentController implements ObaConsentApi {
         return ResponseEntity.ok(consentService.getListOfConsents(userLogin));
     }
 
+    @Override
+    public ResponseEntity<Boolean> revokeConsent(String consentId) {
+        return ResponseEntity.ok(consentService.revokeConsent(consentId));
+    }
 }

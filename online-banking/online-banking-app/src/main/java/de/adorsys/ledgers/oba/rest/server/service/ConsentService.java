@@ -13,18 +13,20 @@ import java.util.List;
 import java.util.Optional;
 
 import static de.adorsys.ledgers.oba.rest.api.domain.AisErrorCode.AIS_BAD_REQUEST;
+import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient.DEFAULT_SERVICE_INSTANCE_ID;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class ConsentService {
-    private final CmsPsuAisClient cmsPsuAisClient;
     private static final String RESPONSE_ERROR = "Error in response from CMS, please contact admin.";
     private static final String GET_CONSENTS_ERROR_MSG = "Failed to retrieve consents for user: %s, code: %s, message: %s";
 
+    private final CmsPsuAisClient cmsPsuAisClient;
+
     public List<AisAccountConsent> getListOfConsents(String userLogin) {
         try {
-            return Optional.ofNullable(cmsPsuAisClient.getConsentsForPsu(userLogin, null, null, null, "UNDEFINED").getBody())
+            return Optional.ofNullable(cmsPsuAisClient.getConsentsForPsu(userLogin, null, null, null, DEFAULT_SERVICE_INSTANCE_ID).getBody())
                        .orElse(Collections.emptyList());
         } catch (FeignException e) {
             String msg = String.format(GET_CONSENTS_ERROR_MSG, userLogin, e.status(), e.getMessage());
@@ -33,5 +35,10 @@ public class ConsentService {
                       .devMessage(RESPONSE_ERROR)
                       .aisErrorCode(AIS_BAD_REQUEST).build();
         }
+    }
+
+    public boolean revokeConsent(String consentId) {
+        return Optional.ofNullable(cmsPsuAisClient.revokeConsent(consentId, null, null, null, null, DEFAULT_SERVICE_INSTANCE_ID).getBody())
+                   .orElse(false);
     }
 }

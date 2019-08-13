@@ -7,6 +7,7 @@ import io.swagger.annotations.Authorization;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
 
@@ -21,4 +22,11 @@ public interface ObaConsentApi {
     @GetMapping(path = "/{userLogin}")
     @ApiOperation(value = "Get List of valid AIS Consents", authorizations = @Authorization(value = "apiKey"))
     ResponseEntity<List<AisAccountConsent>> consents(@PathVariable("userLogin") String userLogin);
+
+    /**
+     * @param consentId identifier of consent
+     */
+    @PutMapping(path = "/{consentId}")
+    @ApiOperation(value = "Revoke consent by ID", authorizations = @Authorization(value = "apiKey"))
+    ResponseEntity<Boolean> revokeConsent(@PathVariable String consentId);
 }
