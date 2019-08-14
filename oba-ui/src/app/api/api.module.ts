@@ -4,7 +4,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationInterface } from './api-configuration';
 
 import { PSUAISService } from './services/psuais.service';
-import { OnlineBankingAISService } from './services/online-banking-ais.service';
+import { OnlineBankingAccountInformationService } from './services/online-banking-account-information.service';
+import { OnlineBankingConsentsService } from './services/online-banking-consents.service';
 import { OnlineBankingAuthorizationService } from './services/online-banking-authorization.service';
 import { PSUPISCancellationService } from './services/psupiscancellation.service';
 import { PSUPISService } from './services/psupis.service';
@@ -24,7 +25,8 @@ import { PSUSCAService } from './services/psusca.service';
   providers: [
     ApiConfiguration,
     PSUAISService,
-    OnlineBankingAISService,
+    OnlineBankingAccountInformationService,
+    OnlineBankingConsentsService,
     OnlineBankingAuthorizationService,
     PSUPISCancellationService,
     PSUPISService,

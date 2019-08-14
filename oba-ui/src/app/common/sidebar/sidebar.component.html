@@ -1,6 +1,14 @@
 <div>
     <ul class="nav flex-md-column">
         <li class="nav-item">
+            <a [routerLinkActive]="['active']" [routerLink]="['/accounts']" class="nav-link ">
+                <!-- <div class="icon__container">
+                    <app-icon svgIcon="euro" inline="true"></app-icon>
+                </div> -->
+                <span class="nav__title">Accounts</span>
+            </a>
+        </li>
+        <li class="nav-item">
             <a [routerLinkActive]="['active']" [routerLink]="['/consents']" class="nav-link ">
                 <!-- <div class="icon__container">
                     <app-icon svgIcon="euro" inline="true"></app-icon>

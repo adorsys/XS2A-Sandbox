@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/internal/Observable';
+import {Observable} from 'rxjs';
 import {AccountDetailsTO, AuthorizeResponse} from '../../api/models';
 
 import {ConsentAuthorizeResponse} from '../../api/models/consent-authorize-response';

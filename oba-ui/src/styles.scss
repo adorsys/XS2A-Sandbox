@@ -39,6 +39,10 @@
   .card {
     border: none;
 
+    &--large {
+      padding: 2rem 2rem;
+    }
+
     .card-img-top {
       width: 420px;
       margin: auto;

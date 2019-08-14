@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { OnlineBankingAISService } from '../api/services';
 import { AisAccountConsent } from '../api/models';
-import { AuthService } from '../common/services/auth.service';
+import { OnlineBankingService } from '../common/services/online-banking.service';
 
 @Component({
   selector: 'app-consents',
@@ -13,12 +12,11 @@ export class ConsentsComponent implements OnInit {
   consents: AisAccountConsent[] = [];
 
   constructor(
-    private onlineBankingAISService: OnlineBankingAISService,
-    private authService: AuthService) {}
+    private onlineBankingService: OnlineBankingService) {}
 
   ngOnInit() {
-    this.onlineBankingAISService.consentsUsingGETResponse(this.authService.getAuthorizedUser()).subscribe(consents => {
-      this.consents = consents.body;
+    this.onlineBankingService.getConsents().subscribe(consents => {
+      this.consents = consents;
     });
   }
 
