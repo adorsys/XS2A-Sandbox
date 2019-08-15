@@ -30,6 +30,13 @@ public interface ObaAisApi {
     ResponseEntity<List<AccountDetailsTO>> accounts(@PathVariable("userLogin") String userLogin);
 
     /**
+     * @param accountId selected account id
+     * @return account details for queried account
+     */
+    @GetMapping(path = "/account/{accountId}")
+    @ApiOperation(value = "Get account details by account id", authorizations = @Authorization(value = "apiKey"))
+    ResponseEntity<AccountDetailsTO> account(@PathVariable(name = "accountId") String accountId);
+    /**
      * @param accountId selected accounts id
      * @param dateFrom  date from which the user requests to see transactions
      * @param dateTo    date until which user requests to see transactions

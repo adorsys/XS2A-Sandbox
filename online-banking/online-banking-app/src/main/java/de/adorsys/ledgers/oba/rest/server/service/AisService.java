@@ -23,6 +23,7 @@ public class AisService {
     private static final String RESPONSE_ERROR = "Error in response from Ledgers, please contact admin.";
     private static final String GET_ACCOUNTS_ERROR_MSG = "Failed to retrieve accounts for user: %s, code: %s, message: %s";
     private static final String GET_TRANSACTIONS_ERROR_MSG = "Failed to retrieve transactions for account: %s, code: %s, message: %s";
+    private static final String GET_ACCOUNT_ERROR_MSG = "Failed to retrieve account by id: %s, code: %s, message: %s";
 
     private final AccountRestClient accountRestClient;
 
@@ -45,6 +46,18 @@ public class AisService {
                        .orElse(Collections.emptyList());
         } catch (FeignException e) {
             String msg = String.format(GET_TRANSACTIONS_ERROR_MSG, accountId, e.status(), e.getMessage());
+            log.error(msg);
+            throw AisException.builder()
+                      .devMessage(RESPONSE_ERROR)
+                      .aisErrorCode(AIS_BAD_REQUEST).build();
+        }
+    }
+
+    public AccountDetailsTO getAccount(String accountId) {
+        try {
+            return accountRestClient.getAccountDetailsById(accountId).getBody();
+        } catch (FeignException e) {
+            String msg = String.format(GET_ACCOUNT_ERROR_MSG, accountId, e.status(), e.getMessage());
             log.error(msg);
             throw AisException.builder()
                       .devMessage(RESPONSE_ERROR)

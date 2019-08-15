@@ -28,6 +28,11 @@ public class ObaAisController implements ObaAisApi {
     }
 
     @Override
+    public ResponseEntity<AccountDetailsTO> account(String accountId) {
+        return ResponseEntity.ok(aisService.getAccount(accountId));
+    }
+
+    @Override
     public ResponseEntity<List<TransactionTO>> transactions(String accountId, LocalDate dateFrom, LocalDate dateTo) {
         return ResponseEntity.ok(aisService.getTransactions(accountId, dateFrom, dateTo));
     }
