@@ -30,11 +30,8 @@ export class OnlineBankingService {
         return this.onlineBankingAccountInfoService.accountsUsingGET(login);
     }
 
-    public getAccount(accountID: string, userLogin?: string): Observable<AccountDetailsTO> {
-        const login = userLogin ? userLogin : this.authService.getAuthorizedUser();
-        return this.onlineBankingAccountInfoService.accountsUsingGET(login).pipe(
-            map(accounts => accounts.find(account => account.id === accountID))
-        );
+    public getAccount(accountID: string): Observable<AccountDetailsTO> {
+        return this.onlineBankingAccountInfoService.accountUsingGET(accountID);
     }
 
     public getTransactions(params: OnlineBankingAccountInformationService.TransactionsUsingGETParams): Observable<TransactionTO[]> {

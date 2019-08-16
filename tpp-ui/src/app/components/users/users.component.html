@@ -49,8 +49,10 @@
                         <td>
                             <ul>
                                 <li *ngFor="let scaItem of user?.scaUserData; index as i; last as isLast" [ngClass]="{'mb-2': !isLast}">
-                                    {{scaItem.methodValue}}<br />
-                                    Static TAN: {{scaItem.usesStaticTan || false}}
+                                    {{scaItem.methodValue}}
+                                    <div *ngIf="scaItem.usesStaticTan">
+                                        Static TAN: {{scaItem.staticTan}}
+                                    </div>
                                 </li>
                             </ul>
                         </td>

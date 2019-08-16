@@ -17,6 +17,7 @@ import { TransactionTO } from '../models/transaction-to';
   providedIn: 'root',
 })
 class OnlineBankingAccountInformationService extends __BaseService {
+  static readonly accountUsingGETPath = '/api/v1/ais/account/{accountId}';
   static readonly accountsUsingGETPath = '/api/v1/ais/accounts/{userLogin}';
   static readonly transactionsUsingGETPath = '/api/v1/ais/transactions/{accountId}';
 
@@ -25,6 +26,42 @@ class OnlineBankingAccountInformationService extends __BaseService {
     http: HttpClient
   ) {
     super(config, http);
+  }
+
+  /**
+   * @param accountId accountId
+   * @return OK
+   */
+  accountUsingGETResponse(accountId: string): __Observable<__StrictHttpResponse<AccountDetailsTO>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/v1/ais/account/${accountId}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<AccountDetailsTO>;
+      })
+    );
+  }
+  /**
+   * @param accountId accountId
+   * @return OK
+   */
+  accountUsingGET(accountId: string): __Observable<AccountDetailsTO> {
+    return this.accountUsingGETResponse(accountId).pipe(
+      __map(_r => _r.body as AccountDetailsTO)
+    );
   }
 
   /**
