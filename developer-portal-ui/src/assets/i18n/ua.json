@@ -334,14 +334,22 @@
           }
         },
         "LI_4": "Коли ви створюєте файл .json (наприклад, UITheme.json) і заповнюєте всі необхідні поля, помістіть цей файл з логотипом (наприклад, logo.png) та контактною особою (наприклад, contact.png) у папку",
-        "LI_5": "Кроки для розміщення файлів у цій папці:",
+        "LI_5": "Steps for putting files in this folder:",
         "LIST_2": {
-          "LI_1": "Перейдіть до локальної кореневої папки (де зберігаються файли налаштування):",
-          "LI_2": "Увійдіть до Openshift:",
-          "LI_3": "Перейдіть до проекту Openshift.",
-          "LI_4": "Ми оберемо середовище розробки для нашого прикладу.",
-          "LI_5": "Виберіть одне з наступного:",
-          "LI_6": "Скопіюйте файли налаштування до запущеного Developer Portal UI застосування:"
+          "LI_1": "Local environment customization",
+          "INNER_LIST_1": {
+            "LI_1": "Put your files in folder"
+          },
+          "LI_2": "Openshift environment customization",
+          "INNER_LIST_2": {
+            "LI_1": "Install the Openshift Command Line Tools:",
+            "LI_2": "Navigate to local source folder (where the customisation files are\n stored):",
+            "LI_3": "Login to Openshift:",
+            "LI_4": "Navigate to the Openshift project.",
+            "LI_5": "We select the development environment for our example.",
+            "LI_6": "Please choose one of the following:",
+            "LI_7": "Copy the customisation files to the running Developer Portal UI\n application pod:"
+          }
         },
         "LI_6": "Кастомізація завершена, вітаємо!"
       }

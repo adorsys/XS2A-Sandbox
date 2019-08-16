@@ -746,62 +746,109 @@
         <ul class="steps-list">
           <li>
             {{ 'GETTING_STARTED.HOW_TO_CST.TOP_LIST.LIST_2.LI_1' | translate }}
-          </li>
-          <span class="app-line-command-wrapper">
-            <span>cd ./local_src_folder/</span>
-          </span>
-          <li>
-            {{ 'GETTING_STARTED.HOW_TO_CST.TOP_LIST.LIST_2.LI_2' | translate }}
-          </li>
-          <span class="app-line-command-wrapper"> <span>oc login</span> </span>
-          <li>
-            {{ 'GETTING_STARTED.HOW_TO_CST.TOP_LIST.LIST_2.LI_3' | translate }}
-          </li>
-          <li>
-            {{ 'GETTING_STARTED.HOW_TO_CST.TOP_LIST.LIST_2.LI_4' | translate }}
-          </li>
-          <li>
-            {{ 'GETTING_STARTED.HOW_TO_CST.TOP_LIST.LIST_2.LI_5' | translate }}
             <ul>
-              <li>adorsys-dynamic-sandbox-dev</li>
-              <li>adorsys-dynamic-sandbox-integ</li>
-              <li>adorsys-dynamic-sandbox-demo</li>
+              <li>
+                {{
+                  'GETTING_STARTED.HOW_TO_CST.TOP_LIST.LIST_2.INNER_LIST_1.LI_1'
+                    | translate
+                }}
+                <span class="app-line-command-wrapper">
+                  <span>../assets/UI/custom/</span>
+                </span>
+              </li>
             </ul>
           </li>
-          <span class="app-line-command-wrapper">
-            <span> oc project adorsys-dynamic-sandbox-dev </span>
-          </span>
           <li>
-            {{ 'GETTING_STARTED.HOW_TO_CST.TOP_LIST.LIST_2.LI_6' | translate }}
+            {{ 'GETTING_STARTED.HOW_TO_CST.TOP_LIST.LIST_2.LI_2' | translate }}
             <ul>
               <li>
-                <span class="app-line-command-wrapper">
-                  <span
-                    >oc cp ./logo.png $(oc get pods |grep "developerportalui"
-                    |awk '{{
-                      '{print $1}'
-                    }}'):/usr/share/nginx/html/assets/UI/custom/</span
-                  >
-                </span>
+                {{
+                  'GETTING_STARTED.HOW_TO_CST.TOP_LIST.LIST_2.INNER_LIST_2.LI_1'
+                    | translate
+                }}
+                <a
+                  href="https://docs.okd.io/latest/cli_reference/get_started_cli.html"
+                >
+                  https://docs.okd.io/latest/cli_reference/get_started_cli.html
+                </a>
               </li>
               <li>
-                <span class="app-line-command-wrapper">
-                  <span
-                    >oc cp ./contact.png $(oc get pods |grep "developerportalui"
-                    |awk '{{
-                      '{print $1}'
-                    }}'):/usr/share/nginx/html/assets/UI/custom/</span
-                  >
-                </span>
+                {{
+                  'GETTING_STARTED.HOW_TO_CST.TOP_LIST.LIST_2.INNER_LIST_2.LI_2'
+                    | translate
+                }}
+              </li>
+
+              <span class="app-line-command-wrapper">
+                <span>cd ./local_src_folder/</span>
+              </span>
+              <li>
+                {{
+                  'GETTING_STARTED.HOW_TO_CST.TOP_LIST.LIST_2.INNER_LIST_2.LI_3'
+                    | translate
+                }}
+              </li>
+              <span class="app-line-command-wrapper">
+                <span>oc login</span>
+              </span>
+              <li>
+                {{
+                  'GETTING_STARTED.HOW_TO_CST.TOP_LIST.LIST_2.INNER_LIST_2.LI_4'
+                    | translate
+                }}
               </li>
               <li>
-                <span class="app-line-command-wrapper">
-                  <span
-                    >oc cp ./ $(oc get pods |grep "developerportalui" |awk '{{
-                      '{print $1}'
-                    }}'):/usr/share/nginx/html/assets/UI/custom/</span
-                  >
-                </span>
+                {{
+                  'GETTING_STARTED.HOW_TO_CST.TOP_LIST.LIST_2.INNER_LIST_2.LI_5'
+                    | translate
+                }}
+              </li>
+              <li>
+                {{
+                  'GETTING_STARTED.HOW_TO_CST.TOP_LIST.LIST_2.INNER_LIST_2.LI_6'
+                    | translate
+                }}
+              </li>
+              <span class="app-line-command-wrapper">
+                <span> oc project adorsys-dynamic-sandbox-dev </span>
+              </span>
+              <li>
+                {{
+                  'GETTING_STARTED.HOW_TO_CST.TOP_LIST.LIST_2.INNER_LIST_2.LI_7'
+                    | translate
+                }}
+                <ul>
+                  <li>
+                    <span class="app-line-command-wrapper">
+                      <span
+                        >oc cp ./logo.png $(oc get pods |grep
+                        "developerportalui" |awk '{{
+                          '{print $1}'
+                        }}'):/usr/share/nginx/html/assets/UI/custom/</span
+                      >
+                    </span>
+                  </li>
+                  <li>
+                    <span class="app-line-command-wrapper">
+                      <span
+                        >oc cp ./contact.png $(oc get pods |grep
+                        "developerportalui" |awk '{{
+                          '{print $1}'
+                        }}'):/usr/share/nginx/html/assets/UI/custom/</span
+                      >
+                    </span>
+                  </li>
+                  <li>
+                    <span class="app-line-command-wrapper">
+                      <span
+                        >oc cp ./ $(oc get pods |grep "developerportalui" |awk
+                        '{{
+                          '{print $1}'
+                        }}'):/usr/share/nginx/html/assets/UI/custom/</span
+                      >
+                    </span>
+                  </li>
+                </ul>
               </li>
             </ul>
           </li>
