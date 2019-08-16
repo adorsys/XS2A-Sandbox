@@ -115,7 +115,6 @@
         <fasterxml.version>2.9.9</fasterxml.version>
         <fasterxml-data-format.version>2.9.8</fasterxml-data-format.version>
         <opencsv.version>4.5</opencsv.version>
-        <commons-io.version>2.6</commons-io.version>
         <!--Sonar -->
         <sonar.core.coveragePlugin>jacoco</sonar.core.coveragePlugin>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
@@ -210,12 +209,6 @@
             </dependency>
 
             <!-- other dependencies -->
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>${commons-io.version}</version>
-            </dependency>
-
             <dependency>
                 <groupId>com.opencsv</groupId>
                 <artifactId>opencsv</artifactId>
