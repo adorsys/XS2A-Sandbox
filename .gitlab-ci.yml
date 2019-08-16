@@ -193,7 +193,7 @@ build devportal frontend:
     - scripts/.update-postman-test-files.sh
     - cd developer-portal-ui
     - npm install
-    - npm run build --prod
+    - npm run build:prod
   cache:
     key: "DEVPORTAL_${CI_COMMIT_REF_SLUG}"
     paths:
@@ -209,7 +209,7 @@ build oba frontend:
  script:
     - cd oba-ui
     - npm install
-    - npm run build --prod
+    - npm run build:prod
  cache:
     key: "OBA_UI_${CI_COMMIT_REF_SLUG}"
     paths:
@@ -225,7 +225,7 @@ build tpp frontend:
   script:
     - cd tpp-ui
     - npm install
-    - npm run build --prod
+    - npm run build:prod
   cache:
     key: "TPP_UI_${CI_COMMIT_REF_SLUG}"
     paths:

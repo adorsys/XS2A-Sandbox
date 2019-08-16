@@ -9,7 +9,7 @@ import {AccountDetailsComponent} from './account-details/account-details.compone
 import {SelectScaComponent} from './select-sca/select-sca.component';
 import {ResultPageComponent} from './result-page/result-page.component';
 import {TanConfirmationComponent} from './tan-confirmation/tan-confirmation.component';
-import {NotFoundComponent} from "../not-found/not-found.component";
+import { NotFoundModule } from '../not-found/not-found.module';
 
 @NgModule({
   declarations: [
@@ -18,14 +18,14 @@ import {NotFoundComponent} from "../not-found/not-found.component";
     AccountDetailsComponent,
     SelectScaComponent,
     ResultPageComponent,
-    TanConfirmationComponent,
-    NotFoundComponent
+    TanConfirmationComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    AisRoutingModule
+    AisRoutingModule,
+    NotFoundModule
   ]
 })
 export class AisModule { }
