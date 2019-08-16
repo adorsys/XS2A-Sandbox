@@ -3,6 +3,8 @@ package de.adorsys.psd2.sandbox.tpp.rest.server.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.CsvToBeanBuilder;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.DataPayload;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,14 +15,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class ParseService {
-    private static ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
     private static final String DEFAULT_TEMPLATE_YML = "classpath:NISP_Testing_Default_Template.yml";
+    private static final ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
 
     private final ResourceLoader resourceLoader;
 
@@ -58,6 +62,20 @@ public class ParseService {
         } catch (IOException e) {
             log.error("Could not write bytes");
             return new byte[]{};
+        }
+    }
+
+    public <T> List<T> convertFileToTargetObject(MultipartFile file, Class<T> target) {
+        try {
+            InputStreamReader streamReader = new InputStreamReader(file.getInputStream());
+            CsvToBean<T> csvToBean = new CsvToBeanBuilder<T>(streamReader)
+                                         .withType(target)
+                                         .withIgnoreLeadingWhiteSpace(true)
+                                         .build();
+            return csvToBean.parse();
+        } catch (IOException e) {
+            log.error("Can't convert file to target class: {}", target.getSimpleName(), e);
+            throw new IllegalArgumentException("Can't convert file to target class");
         }
     }
 }

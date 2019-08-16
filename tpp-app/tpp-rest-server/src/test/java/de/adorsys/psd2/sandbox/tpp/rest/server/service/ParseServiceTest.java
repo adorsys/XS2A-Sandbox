@@ -2,6 +2,7 @@ package de.adorsys.psd2.sandbox.tpp.rest.server.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import de.adorsys.psd2.sandbox.tpp.cms.api.domain.AisConsent;
+import de.adorsys.psd2.sandbox.tpp.rest.api.domain.UserTransaction;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.DataPayload;
 import org.junit.Test;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -22,8 +23,7 @@ public class ParseServiceTest {
 
     @Test
     public void getDataFromFile_Consents() throws IOException {
-        Resource resource = resourceLoader.getResource("consents_template.yml");
-        MultipartFile multipartFile = new MockMultipartFile("file", resource.getFile().getName(), "text/plain", resource.getInputStream());
+        MultipartFile multipartFile = resolveMultipartFile("consents_template.yml");
 
         Optional<List<AisConsent>> data = parseService.getDataFromFile(multipartFile, new TypeReference<List<AisConsent>>() {
         });
@@ -32,13 +32,39 @@ public class ParseServiceTest {
     }
 
     @Test
+    public void convertMultiPartToFile() throws IOException {
+        List<UserTransaction> transactions = parseService.convertFileToTargetObject(resolveMultipartFile("team_bank_transaction.csv"), UserTransaction.class);
+        assertThat(transactions).isNotEmpty();
+        assertThat(transactions.get(0)).isEqualToComparingFieldByField(buildSingleUserTransaction());
+    }
+
+    private UserTransaction buildSingleUserTransaction() {
+        UserTransaction transaction = new UserTransaction();
+        transaction.setId("50405667");
+        transaction.setPostingDate("30.01.2017");
+        transaction.setValueDate("30.01.2017");
+        transaction.setText("Lohn/Gehalt");
+        transaction.setUsage("Gehalt Teambank");
+        transaction.setPayer("Teambank Ag");
+        transaction.setAccountNumber("7807800780");
+        transaction.setBlzCode("VOHADE2HXXX");
+        transaction.setAmount("2116.17");
+        transaction.setCurrency("EUR");
+        return transaction;
+    }
+
+    @Test
     public void getDataFromFile_DataPayload() throws IOException {
-        Resource resource = resourceLoader.getResource("data_payload_template.yml");
-        MultipartFile multipartFile = new MockMultipartFile("file", resource.getFile().getName(), "text/plain", resource.getInputStream());
+        MultipartFile multipartFile = resolveMultipartFile("data_payload_template.yml");
 
         Optional<DataPayload> data = parseService.getDataFromFile(multipartFile, new TypeReference<DataPayload>() {
         });
         validateDataPayload(data);
+    }
+
+    private MultipartFile resolveMultipartFile(String fileName) throws IOException {
+        Resource resource = resourceLoader.getResource(fileName);
+        return new MockMultipartFile("file", resource.getFile().getName(), "text/plain", resource.getInputStream());
     }
 
     private void validateDataPayload(Optional<DataPayload> data) {

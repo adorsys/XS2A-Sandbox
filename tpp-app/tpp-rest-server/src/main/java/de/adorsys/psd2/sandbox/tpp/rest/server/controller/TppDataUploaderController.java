@@ -4,15 +4,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import de.adorsys.psd2.sandbox.tpp.rest.api.resource.TppDataUploaderRestApi;
 import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.DataPayload;
-import de.adorsys.psd2.sandbox.tpp.rest.server.service.IbanGenerationService;
-import de.adorsys.psd2.sandbox.tpp.rest.server.service.ParseService;
-import de.adorsys.psd2.sandbox.tpp.rest.server.service.RestExecutionService;
-import de.adorsys.psd2.sandbox.tpp.rest.server.service.TestsDataGenerationService;
+import de.adorsys.psd2.sandbox.tpp.rest.server.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +28,7 @@ public class TppDataUploaderController implements TppDataUploaderRestApi {
     private final ParseService parseService;
     private final TestsDataGenerationService generationService;
     private final IbanGenerationService ibanGenerationService;
+    private final TransactionService transactionService;
 
     @Override
     public ResponseEntity<String> uploadData(MultipartFile file) {
@@ -61,6 +60,11 @@ public class TppDataUploaderController implements TppDataUploaderRestApi {
         return ResponseEntity.ok(ibanGenerationService.generateRandomIban());
     }
 
+    @Override
+    public ResponseEntity<Void> uploadTransactions(MultipartFile multipart) {
+        transactionService.uploadUserTransaction(multipart);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     private HttpHeaders getExportFileHttpHeaders() {
         HttpHeaders headers = new HttpHeaders();

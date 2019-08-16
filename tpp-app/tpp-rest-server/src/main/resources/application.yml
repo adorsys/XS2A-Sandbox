@@ -16,10 +16,13 @@ server:
   port: 8093
 
 spring:
-  servlet.multipart.enabled: true
-  servlet.multipart.file-size-threshold: 2KB
-  servlet.multipart.max-file-size: 2MB
-  servlet.multipart.max-request-size: 2MB
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 2MB
+      max-request-size: 2MB
+
   jackson:
     serialization:
       write_dates_as_timestamps: false
