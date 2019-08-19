@@ -106,14 +106,14 @@ services:
     networks:
       - xs2a-net
     environment:
-      - XS2A_URL=http://xs2a-connector-examples:8089
-      - LEDGERS_URL=http://ledgers:8088
-      - CMS_URL=http://xs2a-consent-management:8080
-      - ONLINE_BANKING_SCA_LOGINPAGE=http://localhost:4400/
-      - ONLINE_BANKING_SCA_UIREDIRECT=true
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=consent
-      - SPRING_DATASOURCE_USERNAME=cms
-      - SPRING_DATASOURCE_PASSWORD=cms
+      XS2A_URL: "http://xs2a-connector-examples:8089"
+      LEDGERS_URL: "http://ledgers:8088"
+      CMS_URL: "http://xs2a-consent-management:8080"
+      ONLINE_BANKING_SCA_LOGINPAGE: "http://localhost:4400/"
+      ONLINE_BANKING_SCA_UIREDIRECT: "true"
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=consent"
+      SPRING_DATASOURCE_USERNAME: "cms"
+      SPRING_DATASOURCE_PASSWORD: "cms"
 
   # Ledgers
   ledgers:
