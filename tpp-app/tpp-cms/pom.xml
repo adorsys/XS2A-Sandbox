@@ -33,7 +33,6 @@
     <modules>
         <module>tpp-cms-api</module>
         <module>tpp-cms-impl</module>
-        <module>tpp-cms-stub</module>
     </modules>
 
     <dependencyManagement>

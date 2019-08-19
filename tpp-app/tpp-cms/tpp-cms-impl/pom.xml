@@ -34,32 +34,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>de.adorsys.psd2</groupId>
-            <artifactId>consent-management-lib</artifactId>
-            <version>${xs2a.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>de.adorsys.psd2</groupId>
-            <artifactId>aspsp-profile-lib</artifactId>
-            <version>${xs2a.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>de.adorsys.psd2</groupId>
-            <artifactId>event-service-xs2a-impl</artifactId>
-            <version>${xs2a.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>de.adorsys.psd2</groupId>
-            <artifactId>event-service-persist-db-impl</artifactId>
-            <version>${xs2a.version}</version>
+            <groupId>de.adorsys.psd2.sandbox</groupId>
+            <artifactId>xs2a-cms-starter</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
@@ -85,11 +62,13 @@
             <artifactId>assertj-core</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.skyscreamer</groupId>
             <artifactId>jsonassert</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-yaml</artifactId>

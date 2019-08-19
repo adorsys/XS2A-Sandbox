@@ -34,6 +34,7 @@
         <module>psd2-api-gateway</module>
         <module>certificate-generator</module>
         <module>tpp-app</module>
+        <module>xs2a-cms-starter</module>
     </modules>
 
     <url>https://github.com/adorsys/psd2-dynamic-sandbox</url>

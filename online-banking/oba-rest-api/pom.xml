@@ -22,6 +22,7 @@
 			<artifactId>ledgers-middleware-rest-api</artifactId>
 			<version>${ledgers.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>de.adorsys.psd2</groupId>
 			<artifactId>consent-psu-api</artifactId>

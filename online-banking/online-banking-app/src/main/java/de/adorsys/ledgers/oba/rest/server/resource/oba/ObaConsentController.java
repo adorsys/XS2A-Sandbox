@@ -1,8 +1,8 @@
 package de.adorsys.ledgers.oba.rest.server.resource.oba;
 
 import de.adorsys.ledgers.oba.rest.api.resource.oba.ObaConsentApi;
+import de.adorsys.ledgers.oba.rest.api.domain.ObaAisConsent;
 import de.adorsys.ledgers.oba.rest.server.service.ConsentService;
-import de.adorsys.psd2.consent.api.ais.AisAccountConsent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public class ObaConsentController implements ObaConsentApi {
 
     @Override
     @PreAuthorize("#userLogin == authentication.principal.login")
-    public ResponseEntity<List<AisAccountConsent>> consents(String userLogin) {
+    public ResponseEntity<List<ObaAisConsent>> consents(String userLogin) {
         return ResponseEntity.ok(consentService.getListOfConsents(userLogin));
     }
 

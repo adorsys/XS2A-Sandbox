@@ -1,6 +1,6 @@
 package de.adorsys.ledgers.oba.rest.api.resource.oba;
 
-import de.adorsys.psd2.consent.api.ais.AisAccountConsent;
+import de.adorsys.ledgers.oba.rest.api.domain.ObaAisConsent;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
@@ -21,7 +21,7 @@ public interface ObaConsentApi {
      */
     @GetMapping(path = "/{userLogin}")
     @ApiOperation(value = "Get List of valid AIS Consents", authorizations = @Authorization(value = "apiKey"))
-    ResponseEntity<List<AisAccountConsent>> consents(@PathVariable("userLogin") String userLogin);
+    ResponseEntity<List<ObaAisConsent>> consents(@PathVariable("userLogin") String userLogin);
 
     /**
      * @param consentId identifier of consent

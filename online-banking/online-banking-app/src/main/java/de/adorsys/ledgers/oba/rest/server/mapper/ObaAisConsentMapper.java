@@ -19,7 +19,7 @@ import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
 
 @Component
-public class AisConsentMapper {
+public class ObaAisConsentMapper {
 
 	public AisConsentTO toTo(AisAccountConsent consent) {
 		AisConsentTO a = new AisConsentTO();
@@ -32,33 +32,33 @@ public class AisConsentMapper {
 		a.setRecurringIndicator(consent.isRecurringIndicator());
 		return a;
 	}
-	
+
 	public AisAccountAccess accountAccess(AisAccountAccessInfoTO access, List<AccountDetailsTO> accountDetails) {
 		// TODO missing relationship to currency here.
 		List<AccountReference> accounts = mapToAccountReference(access.getAccounts(), accountDetails);
 		List<AccountReference> balances = mapToAccountReference(access.getBalances(), accountDetails);
 		List<AccountReference> transactions = mapToAccountReference(access.getTransactions(), accountDetails);
-		String availableAccounts = access.getAvailableAccounts()!=null 
+		String availableAccounts = access.getAvailableAccounts()!=null
 				? access.getAvailableAccounts().name() : null;
-		String allPsd2 = access.getAllPsd2()!=null 
+		String allPsd2 = access.getAllPsd2()!=null
 				? access.getAllPsd2().name() : null;
         return new AisAccountAccess(accounts, balances, transactions, availableAccounts, allPsd2, null);
 	}
-	
+
 	private List<AccountReference> mapToAccountReference(List<String> ibans, List<AccountDetailsTO> accountDetails){
 		return ibans==null
 				? null
 						: ibans.stream().map(iban -> toAccountReference(iban, accountDetails))
 						.collect(Collectors.toList());
-			
+
 	}
-	
+
 	private AccountReference toAccountReference(String iban, List<AccountDetailsTO> accountDetails) {
 		return accountDetails.stream().filter(a -> a.getIban().equals(iban)).findFirst()
 			.map(this::accountDetail2Reference).orElse(null);
-		
+
 	}
-	
+
 	private AccountReference accountDetail2Reference(AccountDetailsTO ad) {
 		AccountReference a = new AccountReference();
 		a.setAspspAccountId(ad.getId());

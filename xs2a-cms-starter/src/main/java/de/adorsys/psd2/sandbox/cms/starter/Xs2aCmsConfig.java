@@ -1,4 +1,4 @@
-package de.adorsys.psd2.sandbox.tpp.cms.impl.config;
+package de.adorsys.psd2.sandbox.cms.starter;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
@@ -16,9 +16,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
     "de.adorsys.psd2.event.persist"
 })
 @ComponentScan(basePackages = {
-    "de.adorsys.psd2.consent",
     "de.adorsys.psd2.aspsp",
     "de.adorsys.psd2.event",
+    "de.adorsys.psd2.consent",
+    "de.adorsys.psd2.sandbox.cms.starter",
     "de.adorsys.psd2.sandbox.tpp.cms"
 })
 @EnableTransactionManagement

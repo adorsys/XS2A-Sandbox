@@ -41,7 +41,7 @@ license.url: https://github.com/adorsys/xs2a/blob/master/LICENSE.md
 
 skip.ssl.certificate.verification: true
 
-# For now this must be the same as the property configured in 
+# For now this must be the same as the property configured in
 # user-service.jwt.hs256.secret from /ledgers-app/src/main/resources/application.yml
 online-banking.sca:
   jwt.hs256.secret: 6VFX8YFQG5DLFKZIMNLGH9P406XR1SY4
@@ -57,6 +57,9 @@ logging.level.org.adorsys.ledgers.consent: DEBUG
 logging.level.de.adorsys.ledgers.xs2a.api: DEBUG
 logging.level.de.adorsys.ledgers.rest: DEBUG
 logging.level.de.adorsys.psd2.consent: DEBUG
+logging.level.org.hibernate: INFO
+logging.level.com.netflix.config: INFO
+logging.level.com.zaxxer.hikari: INFO
 
 # Cors configuration
 management:

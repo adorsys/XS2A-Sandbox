@@ -15,7 +15,7 @@ import de.adorsys.ledgers.oba.rest.api.consentref.InvalidConsentException;
 import de.adorsys.ledgers.oba.rest.api.domain.*;
 import de.adorsys.ledgers.oba.rest.api.exception.ConsentAuthorizeException;
 import de.adorsys.ledgers.oba.rest.api.resource.AISApi;
-import de.adorsys.ledgers.oba.rest.server.mapper.AisConsentMapper;
+import de.adorsys.ledgers.oba.rest.server.mapper.ObaAisConsentMapper;
 import de.adorsys.ledgers.oba.rest.server.mapper.CreatePiisConsentRequestMapper;
 import de.adorsys.psd2.consent.api.CmsAspspConsentDataBase64;
 import de.adorsys.psd2.consent.api.ais.AisAccountAccess;
@@ -60,7 +60,7 @@ public class AISController extends AbstractXISController implements AISApi {
     @Autowired
     private CmsPsuAisClient cmsPsuAisClient;
     @Autowired
-    private AisConsentMapper consentMapper;
+    private ObaAisConsentMapper consentMapper;
     @Autowired
     private ConsentRestClient consentRestClient;
     @Autowired
