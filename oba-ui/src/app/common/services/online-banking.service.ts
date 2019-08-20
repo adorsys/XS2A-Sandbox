@@ -40,9 +40,12 @@ export class OnlineBankingService {
     /***
      * Online banking consents
      * */
-  public getConsents(userLogin?: string): Observable<ObaAisConsent[]> {
+    public getConsents(userLogin?: string): Observable<ObaAisConsent[]> {
         const login = userLogin ? userLogin : this.authService.getAuthorizedUser();
         return this.onlineBankingConsentService.consentsUsingGET(login);
     }
 
+    public revokeConsent(consentId: string): Observable<boolean> {
+        return this.onlineBankingConsentService.revokeConsentUsingPUT(consentId);
+    }
 }
