@@ -77,6 +77,12 @@
             <organization>adorsys GmbH &amp; Co KG</organization>
             <organizationUrl>https://adorsys.de/</organizationUrl>
         </developer>
+        <developer>
+            <name>Olha Zakharchuk</name>
+            <email>oza@adorsys.com.ua</email>
+            <organization>adorsys GmbH &amp; Co KG</organization>
+            <organizationUrl>https://adorsys.de/</organizationUrl>
+        </developer>
     </developers>
 
     <properties>
