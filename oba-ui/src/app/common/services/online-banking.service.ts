@@ -5,9 +5,8 @@ import {OnlineBankingConsentsService} from "../../api/services/online-banking-co
 import {Observable} from "rxjs";
 import {AccountDetailsTO} from "../../api/models/account-details-to";
 import {TransactionTO} from "../../api/models/transaction-to";
-import {AisAccountConsent} from "../../api/models/ais-account-consent";
 import {AuthService} from "./auth.service";
-import {map} from "rxjs/operators";
+import {ObaAisConsent} from '../../api/models/oba-ais-consent';
 
 
 @Injectable({
@@ -41,7 +40,7 @@ export class OnlineBankingService {
     /***
      * Online banking consents
      * */
-    public getConsents(userLogin?: string): Observable<AisAccountConsent[]> {
+  public getConsents(userLogin?: string): Observable<ObaAisConsent[]> {
         const login = userLogin ? userLogin : this.authService.getAuthorizedUser();
         return this.onlineBankingConsentService.consentsUsingGET(login);
     }

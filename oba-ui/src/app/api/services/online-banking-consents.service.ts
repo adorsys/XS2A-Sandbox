@@ -7,7 +7,7 @@ import { StrictHttpResponse as __StrictHttpResponse } from '../strict-http-respo
 import { Observable as __Observable } from 'rxjs';
 import { map as __map, filter as __filter } from 'rxjs/operators';
 
-import { AisAccountConsent } from '../models/ais-account-consent';
+import { ObaAisConsent } from '../models/oba-ais-consent';
 
 /**
  * Oba Consent Controller
@@ -66,7 +66,7 @@ class OnlineBankingConsentsService extends __BaseService {
    * @param userLogin userLogin
    * @return OK
    */
-  consentsUsingGETResponse(userLogin: string): __Observable<__StrictHttpResponse<Array<AisAccountConsent>>> {
+  consentsUsingGETResponse(userLogin: string): __Observable<__StrictHttpResponse<Array<ObaAisConsent>>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -84,7 +84,7 @@ class OnlineBankingConsentsService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<Array<AisAccountConsent>>;
+        return _r as __StrictHttpResponse<Array<ObaAisConsent>>;
       })
     );
   }
@@ -92,9 +92,9 @@ class OnlineBankingConsentsService extends __BaseService {
    * @param userLogin userLogin
    * @return OK
    */
-  consentsUsingGET(userLogin: string): __Observable<Array<AisAccountConsent>> {
+  consentsUsingGET(userLogin: string): __Observable<Array<ObaAisConsent>> {
     return this.consentsUsingGETResponse(userLogin).pipe(
-      __map(_r => _r.body as Array<AisAccountConsent>)
+      __map(_r => _r.body as Array<ObaAisConsent>)
     );
   }
 }
