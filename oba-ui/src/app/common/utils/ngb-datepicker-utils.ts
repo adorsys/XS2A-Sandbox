@@ -28,11 +28,7 @@ export function stringToNgbDate(value: string, format: string = 'yyyy-MM-dd') {
   if (!isValid(dateObject)) {
     return null;
   }
-  console.log({
-    year: dateObject.getFullYear(),
-    month: dateObject.getMonth() + 1,
-    day: dateObject.getDate()
-  });
+
   return {
     year: dateObject.getFullYear(),
     month: dateObject.getMonth() + 1,
@@ -50,6 +46,5 @@ export function ngbDateToString(date: NgbDateStruct, format: string = 'yyyy-MM-d
     return '';
   }
 
-  console.log(dateFormat(dateObject, format));
   return dateFormat(dateObject, format);
 }
