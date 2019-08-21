@@ -30,17 +30,17 @@
     <div class="card-body">
       <div class="header__title">Transactions</div>
 
-      <div class="row">
+      <div class="row" [formGroup]="filtersGroup">
         <div class="col">
           <div class="form-group">
             <label for="dateFrom">Date from</label>
-            <input id="dateFrom" class="form-control" [value]="transactionsParams.dateFrom" />
+            <input id="dateFrom" class="form-control" formControlName="dateFrom" />
           </div>
         </div>
         <div class="col">
           <div class="form-group">
             <label for="dateTo">Date to</label>
-            <input id="dateTo" class="form-control" [value]="transactionsParams.dateTo" />
+            <input id="dateTo" class="form-control" formControlName="dateTo" />
           </div>
         </div>
         <div class="col-2">
