@@ -5,6 +5,7 @@ import {RouterTestingModule} from "@angular/router/testing";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {AuthService} from "../../common/services/auth.service";
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 
 describe('AccountDetailsComponent', () => {
     let component: AccountDetailsComponent;
@@ -14,7 +15,7 @@ describe('AccountDetailsComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [AccountDetailsComponent],
-            imports: [RouterTestingModule, HttpClientTestingModule, ReactiveFormsModule],
+            imports: [RouterTestingModule, HttpClientTestingModule, ReactiveFormsModule, NgbDatepickerModule],
             providers: [TestBed.overrideProvider(AuthService, {useValue: authServiceSpy})]
         })
             .compileComponents();

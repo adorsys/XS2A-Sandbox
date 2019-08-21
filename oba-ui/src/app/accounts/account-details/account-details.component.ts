@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { AccountDetailsTO, TransactionTO } from '../../api/models';
 import { OnlineBankingAccountInformationService } from '../../api/services/online-banking-account-information.service';
 import { OnlineBankingService } from '../../common/services/online-banking.service';
+import { ngbDateToString, stringToNgbDate } from '../../common/utils/ngb-datepicker-utils';
 
 @Component({
     selector: 'app-account-details',
@@ -26,8 +27,8 @@ export class AccountDetailsComponent implements OnInit {
 
     ngOnInit() {
         this.filtersGroup = this.fb.group({
-          dateFrom: '2019-01-30',
-          dateTo: '2019-12-30'
+          dateFrom: stringToNgbDate('2019-01-30'),
+          dateTo: stringToNgbDate('2019-12-30')
         });
 
         this.activatedRoute.params.pipe(
@@ -48,8 +49,8 @@ export class AccountDetailsComponent implements OnInit {
     getTransactions() {
         const params = {
           accountId: this.accountID,
-          dateFrom: this.filtersGroup.get('dateFrom').value,
-          dateTo: this.filtersGroup.get('dateTo').value
+          dateFrom: ngbDateToString(this.filtersGroup.get('dateFrom').value),
+          dateTo: ngbDateToString(this.filtersGroup.get('dateTo').value)
         } as OnlineBankingAccountInformationService.TransactionsUsingGETParams;
         this.onlineBankingService.getTransactions(params)
             .subscribe((transactions: TransactionTO[]) => this.transactions = transactions);
