@@ -1,50 +1,72 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.mapper;
 
 import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
+import de.adorsys.ledgers.middleware.api.domain.account.AccountStatusTO;
+import de.adorsys.ledgers.middleware.api.domain.account.AccountTypeTO;
+import de.adorsys.ledgers.middleware.api.domain.account.UsageTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccountAccessTO;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.*;
-import org.junit.Assert;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
 
+import java.util.ArrayList;
 import java.util.Currency;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class AccountMapperTest {
+    private static final String IBAN = "DE1234567890";
+    private static final AccessTypeTO ACCESS_TYPE = AccessTypeTO.OWNER;
+    private static final int SCA_WEIGHT = 20;
+    private static final Currency CURRENCY = Currency.getInstance("EUR");
+
     private final AccountMapper accountMapper = Mappers.getMapper(AccountMapper.class);
 
     @Test
     public void toAccountDetailsTOTest() {
-        DepositAccount depositAccount = new DepositAccount();
-        depositAccount.setAccountStatus(AccountStatus.ENABLED);
-        depositAccount.setAccountType(AccountType.CASH);
-        depositAccount.setCurrency(Currency.getInstance("EUR"));
-        depositAccount.setIban("DE1234567890");
-        depositAccount.setUsageType(AccountUsage.PRIV);
+        DepositAccount input = getTppUiDepositAccount();
+        AccountDetailsTO expectedResult = getAccountDetailsTO();
 
-        AccountDetailsTO accountDetails = accountMapper.toAccountDetailsTO(depositAccount);
-
-        Assert.assertEquals(accountDetails.getAccountStatus().toString(), depositAccount.getAccountStatus().toString());
-        Assert.assertEquals(accountDetails.getAccountType().toString(), depositAccount.getAccountType().toString());
-        Assert.assertEquals(accountDetails.getCurrency(), depositAccount.getCurrency());
-        Assert.assertEquals(accountDetails.getIban(), depositAccount.getIban());
-        Assert.assertEquals(accountDetails.getUsageType().toString(), depositAccount.getUsageType().toString());
-
+        AccountDetailsTO result = accountMapper.toAccountDetailsTO(input);
+        assertThat(result).isEqualToComparingFieldByFieldRecursively(expectedResult);
     }
 
     @Test
     public void toAccountAccessTOTest() {
+        AccountAccess input = getTppUiAccountAccess();
+        AccountAccessTO expectedResult = getAccountAccessTO();
+
+        AccountAccessTO result = accountMapper.toAccountAccessTO(input);
+        assertThat(result).isEqualToComparingFieldByFieldRecursively(expectedResult);
+    }
+
+    private AccountDetailsTO getAccountDetailsTO() {
+        return new AccountDetailsTO(null, IBAN, null, null, null, null, CURRENCY, null, null, AccountTypeTO.CASH, AccountStatusTO.ENABLED, null, null, UsageTypeTO.PRIV, null, null);
+    }
+
+    private DepositAccount getTppUiDepositAccount() {
+        DepositAccount depositAccount = new DepositAccount();
+        depositAccount.setId("XYZ");
+        depositAccount.setAccountStatus(AccountStatus.ENABLED);
+        depositAccount.setAccountType(AccountType.CASH);
+        depositAccount.setCurrency(CURRENCY);
+        depositAccount.setIban(IBAN);
+        depositAccount.setUsageType(AccountUsage.PRIV);
+        return depositAccount;
+    }
+
+    private AccountAccessTO getAccountAccessTO() {
+        return new AccountAccessTO(null, IBAN, ACCESS_TYPE, SCA_WEIGHT);
+    }
+
+    private AccountAccess getTppUiAccountAccess() {
         AccountAccess accountAccess = new AccountAccess();
-        accountAccess.setAccessType(AccessTypeTO.OWNER);
-        accountAccess.setIban("DE1234567890");
-        accountAccess.setScaWeight(20);
-
-        AccountAccessTO accountAccessTO = accountMapper.toAccountAccessTO(accountAccess);
-
-        Assert.assertEquals(accountAccessTO.getIban(), accountAccess.getIban());
-        Assert.assertEquals(accountAccessTO.getAccessType().toString(), accountAccess.getAccessType().toString());
-        Assert.assertEquals(accountAccessTO.getScaWeight(), accountAccess.getScaWeight());
-
+        accountAccess.setId("XyZ");
+        accountAccess.setAccessType(ACCESS_TYPE);
+        accountAccess.setIban(IBAN);
+        accountAccess.setScaWeight(SCA_WEIGHT);
+        return accountAccess;
     }
 
 }

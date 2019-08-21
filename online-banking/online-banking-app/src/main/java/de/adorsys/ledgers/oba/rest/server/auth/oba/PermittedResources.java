@@ -29,7 +29,8 @@ public class PermittedResources {
     };
 
     public static final String[] APP_WHITELIST = {
-        "/api/v1/login"
+        "/api/v1/login",
+        "/api/v1/password"
     };
 
     public static final String[] ACTUATOR_WHITELIST = {

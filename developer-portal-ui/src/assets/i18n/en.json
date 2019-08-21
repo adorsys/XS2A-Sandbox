@@ -336,12 +336,20 @@
         "LI_4": "When you create .json (e.g. UITheme.json) file and fill all required\n fields, put this file with logo (e.g. logo.png) and contact person (e.g.\n contact.png) images in folder",
         "LI_5": "Steps for putting files in this folder:",
         "LIST_2": {
-          "LI_1": "Navigate to local source folder (where the customisation files are\n stored):",
-          "LI_2": "Login to Openshift:",
-          "LI_3": "Navigate to the Openshift project.",
-          "LI_4": "We select the development environment for our example.",
-          "LI_5": "Please choose one of the following:",
-          "LI_6": "Copy the customisation files to the running Developer Portal UI\n application pod:"
+          "LI_1": "Local environment customization",
+          "INNER_LIST_1": {
+            "LI_1": "Put your files in folder"
+          },
+          "LI_2": "Openshift environment customization",
+          "INNER_LIST_2": {
+            "LI_1": "Install the Openshift Command Line Tools:",
+            "LI_2": "Navigate to local source folder (where the customisation files are\n stored):",
+            "LI_3": "Login to Openshift:",
+            "LI_4": "Navigate to the Openshift project.",
+            "LI_5": "We select the development environment for our example.",
+            "LI_6": "Please choose one of the following:",
+            "LI_7": "Copy the customisation files to the running Developer Portal UI\n application pod:"
+          }
         },
         "LI_6": "Customization completed, congratulations!"
       }

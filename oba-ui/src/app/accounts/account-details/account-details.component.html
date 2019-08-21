@@ -1,0 +1,83 @@
+<div class="container-fluid">
+  <div class="card card--large mb-4">
+    <div class="card-body--large">
+      <div class="header__title">Account details</div>
+
+      <div class="row">
+        <div class="col-12 col-md-3 ">IBAN</div>
+        <div class="col-12 col-md-9 text-muted">{{account?.iban}}</div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-3 ">Status</div>
+        <div class="col-12 col-md-9 text-muted">{{account?.accountStatus}}</div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-3 ">Type</div>
+        <div class="col-12 col-md-9 text-muted">{{account?.accountType}}</div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-3 ">Currency</div>
+        <div class="col-12 col-md-9 text-muted">{{account?.currency}}</div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-3 ">Balance</div>
+        <div class="col-12 col-md-9 text-muted">{{account?.balances[0].amount.amount}}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card--large">
+    <div class="card-body">
+      <div class="header__title">Transactions</div>
+
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="dateFrom">Date from</label>
+            <input id="dateFrom" class="form-control" [value]="transactionsParams.dateFrom" />
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="dateTo">Date to</label>
+            <input id="dateTo" class="form-control" [value]="transactionsParams.dateTo" />
+          </div>
+        </div>
+        <div class="col-2">
+          <label>&nbsp;</label>
+          <button class="btn btn-primary btn-block" (click)="getTransactions()">Refresh</button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Booking date</th>
+            <th scope="col">Debtor Account</th>
+            <th scope="col">Debtor Name</th>
+            <th scope="col">purpose Code</th>
+            <th scope="col">Entry Reference</th>
+            <th scope="col">Value Date</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let transaction of transactions; index as i">
+            <th scope="row">{{i + 1}}</th>
+            <td>{{transaction.amount?.amount}} {{transaction.amount?.currency}}</td>
+            <td>{{transaction.bookingDate}}</td>
+            <td>{{transaction.debtorAccount}}</td>
+            <td>{{transaction.debtorName}}</td>
+            <td>{{transaction.purposeCode}}</td>
+            <td>{{transaction.entryReference}}</td>
+            <td>{{transaction.valueDate}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>

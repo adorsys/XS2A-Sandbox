@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { Settings } from '../models/settings.model';
 import { EnvLink } from '../models/envLinks.model';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -66,6 +67,18 @@ export class SettingsService {
 
   constructor() {
     this.settings = new Settings();
+  }
+
+  public getEnvLink(name: string): string {
+    let link = '';
+    this.settings.envLinks.forEach(envLink => {
+      if (name === envLink.name) {
+        link = environment.production
+          ? envLink.productionEnvironmentLink
+          : envLink.localEnvironmentLink;
+      }
+    });
+    return link;
   }
 
   public fallbackToDefault(): void {

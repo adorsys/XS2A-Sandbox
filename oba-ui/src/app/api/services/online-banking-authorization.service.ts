@@ -7,6 +7,9 @@ import { StrictHttpResponse as __StrictHttpResponse } from '../strict-http-respo
 import { Observable as __Observable } from 'rxjs';
 import { map as __map, filter as __filter } from 'rxjs/operators';
 
+import { SendCode } from '../models/send-code';
+import { ResetPassword } from '../models/reset-password';
+import { UpdatePassword } from '../models/update-password';
 
 /**
  * Provides access to online banking
@@ -16,6 +19,8 @@ import { map as __map, filter as __filter } from 'rxjs/operators';
 })
 class OnlineBankingAuthorizationService extends __BaseService {
   static readonly loginUsingPOST1Path = '/api/v1/login';
+  static readonly sendCodeUsingPOSTPath = '/api/v1/password';
+  static readonly updatePasswordUsingPUTPath = '/api/v1/password';
 
   constructor(
     config: __Configuration,
@@ -64,6 +69,78 @@ class OnlineBankingAuthorizationService extends __BaseService {
   loginUsingPOST1(params: OnlineBankingAuthorizationService.LoginUsingPOST1Params): __Observable<null> {
     return this.loginUsingPOST1Response(params).pipe(
       __map(_r => _r.body as null)
+    );
+  }
+
+  /**
+   * @param resetPassword resetPassword
+   * @return OK
+   */
+  sendCodeUsingPOSTResponse(resetPassword: ResetPassword): __Observable<__StrictHttpResponse<SendCode>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    __body = resetPassword;
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/api/v1/password`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<SendCode>;
+      })
+    );
+  }
+  /**
+   * @param resetPassword resetPassword
+   * @return OK
+   */
+  sendCodeUsingPOST(resetPassword: ResetPassword): __Observable<SendCode> {
+    return this.sendCodeUsingPOSTResponse(resetPassword).pipe(
+      __map(_r => _r.body as SendCode)
+    );
+  }
+
+  /**
+   * @param resetPassword resetPassword
+   * @return OK
+   */
+  updatePasswordUsingPUTResponse(resetPassword: ResetPassword): __Observable<__StrictHttpResponse<UpdatePassword>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    __body = resetPassword;
+    let req = new HttpRequest<any>(
+      'PUT',
+      this.rootUrl + `/api/v1/password`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<UpdatePassword>;
+      })
+    );
+  }
+  /**
+   * @param resetPassword resetPassword
+   * @return OK
+   */
+  updatePasswordUsingPUT(resetPassword: ResetPassword): __Observable<UpdatePassword> {
+    return this.updatePasswordUsingPUTResponse(resetPassword).pipe(
+      __map(_r => _r.body as UpdatePassword)
     );
   }
 }

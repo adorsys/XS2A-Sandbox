@@ -54,6 +54,10 @@ include::src/05_building_block_view.adoc[]
 include::src/06_deployment_view.adoc[]
 
 <<<<
+// 6_1. Deploy on Linux
+include::src/06_1_deploy_on_linux_platform.adoc[]
+
+<<<<
 // 7. Concepts
 include::src/07_concepts.adoc[]
 

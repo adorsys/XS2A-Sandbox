@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json --port 4206",
     "build": "ng build",
+    "build:prod": "ng build --prod",
     "test": "ng test",
     "test-headless": "ng test --browsers ChromeHeadless",
     "test-single-headless": "ng test --browsers ChromeHeadless --watch=false",

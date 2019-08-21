@@ -145,52 +145,56 @@
     ></textarea>
   </div>
 
-  <div *ngIf="response.status || response.statusText" class="response-status">
-    <span class="status-style">Status</span>
-    <div class="response-status-wrapper">
-      <span>{{ response.status }}</span>
-      <span>{{ getStatusText(response.status) }}</span>
+  <ng-container *ngIf="response">
+    <div *ngIf="response.status || response.statusText" class="response-status">
+      <span class="status-style">Status</span>
+      <div class="response-status-wrapper">
+        <span>{{ response.status }}</span>
+        <span>{{ getStatusText(response.status) }}</span>
+      </div>
     </div>
-  </div>
 
-  <div *ngIf="response.body" class="response-body">
-    <span>Response body</span>
-    <p class="response-body-text">{{ response.body | json }}</p>
-  </div>
+    <div *ngIf="response.body" class="response-body">
+      <span>Response body</span>
+      <p class="response-body-text">{{ response.body | json }}</p>
+    </div>
 
-  <div *ngIf="fieldsToCopy.length && response.body">
-    <table>
-      <tr
-        class="copy-field-wrapper"
-        *ngFor="let field of fieldsToCopy; let i = index"
-      >
-        <div
-          *ngIf="copyService.getCopyValue(i, fieldsToCopy, response, paymentId)"
+    <div *ngIf="fieldsToCopy.length && response.body">
+      <table>
+        <tr
+          class="copy-field-wrapper"
+          *ngFor="let field of fieldsToCopy; let i = index"
         >
-          <td class="copy-label">
-            <label [for]="'input-' + i">{{ field }}</label>
-          </td>
-          <td class="copy-field">
-            <input
-              type="text"
-              [value]="
-                copyService.getCopyValue(i, fieldsToCopy, response, paymentId)
-              "
-              [id]="'input-' + i"
-            />
-          </td>
-          <td>
-            <button
-              class="copy-btn"
-              (click)="copyService.copyThis(i, fieldsToCopy)"
-            >
-              Copy
-            </button>
-          </td>
-        </div>
-      </tr>
-    </table>
-  </div>
+          <div
+            *ngIf="
+              copyService.getCopyValue(i, fieldsToCopy, response, paymentId)
+            "
+          >
+            <td class="copy-label">
+              <label [for]="'input-' + i">{{ field }}</label>
+            </td>
+            <td class="copy-field">
+              <input
+                type="text"
+                [value]="
+                  copyService.getCopyValue(i, fieldsToCopy, response, paymentId)
+                "
+                [id]="'input-' + i"
+              />
+            </td>
+            <td>
+              <button
+                class="copy-btn"
+                (click)="copyService.copyThis(i, fieldsToCopy)"
+              >
+                Copy
+              </button>
+            </td>
+          </div>
+        </tr>
+      </table>
+    </div>
+  </ng-container>
 
   <ngx-loading
     [show]="dataService.getIsLoading()"

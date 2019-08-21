@@ -336,12 +336,20 @@
         "LI_4": "Wenn Sie die .json Datei erstellt haben (bsp.: UITheme.json) und alle Felder ausgefüllt bzw. angepasst haben, fügen Sie das Logo (bsp.: logo.png) und Kontaktperson (bsp.: contact.png) in den dafür vorgesehenen Bilderordner",
         "LI_5": "Einfügen der Dateien in diesen Ordner:",
         "LIST_2": {
-          "LI_1": "Navigieren Sie zu dem lokalen Ursprungsordner (in dem die personalisierten Dateien gespeichert sind):",
-          "LI_2": "Einloggen bei Openshift:",
-          "LI_3": "Navigieren Sie zu dem Openshift Projekt.",
-          "LI_4": "Als Beispiel haben wir die Entwicklungsumgebung ausgewählt.",
-          "LI_5": "Bitte wählen Sie eine der folgenden aus:",
-          "LI_6": "Kopieren Sie die Anpassungsdateien in den laufenden Developer Portal UI Application Pod:"
+          "LI_1": "Local environment Anpassung",
+          "INNER_LIST_1": {
+            "LI_1": "Einfügen der Dateien in diesen Ordner:"
+          },
+          "LI_2": "Openshift environment Anpassung",
+          "INNER_LIST_2": {
+            "LI_1": "Installieren Sie die Openshift Command Line Tools:",
+            "LI_2": "Navigieren Sie zu dem lokalen Ursprungsordner (in dem die personalisierten Dateien gespeichert sind):",
+            "LI_3": "Einloggen bei Openshift:",
+            "LI_4": "Navigieren Sie zu dem Openshift Projekt.",
+            "LI_5": "Als Beispiel haben wir die Entwicklungsumgebung ausgewählt.",
+            "LI_6": "Bitte wählen Sie eine der folgenden aus:",
+            "LI_7": "Kopieren Sie die Anpassungsdateien in den laufenden Developer Portal UI Application Pod:"
+          }
         },
         "LI_6": "Herzlichen Glückwunsch, Sie haben Ihre Anpassung abgeschlossen!"
       }

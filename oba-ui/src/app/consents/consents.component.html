@@ -17,6 +17,7 @@
             <th scope="col">lastActionDate</th>
             <th scope="col">validUntil</th>
             <th scope="col">recurringIndicator</th>
+            <th scope="col">Actions</th>
           </tr>
           </thead>
           <tbody>
@@ -46,6 +47,9 @@
             <td>{{consent.lastActionDate}}</td>
             <td>{{consent.validUntil}}</td>
             <td>{{consent.recurringIndicator}}</td>
+            <td>
+              <button class="btn btn-primary" [disabled]="!isConsentEnabled(consent)" (click)="revokeConsent(consent)">Revoke</button>
+            </td>
           </tr>
           </tbody>
         </table>

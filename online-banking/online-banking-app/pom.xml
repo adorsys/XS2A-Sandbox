@@ -5,7 +5,7 @@
     <parent>
         <groupId>de.adorsys.psd2.sandbox</groupId>
         <artifactId>online-banking</artifactId>
-        <version>1.4</version>
+        <version>1.5</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -39,6 +39,12 @@
         <dependency>
             <groupId>de.adorsys.psd2.sandbox</groupId>
             <artifactId>consent-psu-rest-client</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.adorsys.psd2.sandbox</groupId>
+            <artifactId>xs2a-cms-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
 

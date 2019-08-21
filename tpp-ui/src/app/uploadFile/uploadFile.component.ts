@@ -9,9 +9,10 @@ import {UploadOptions} from '../services/upload.service';
 })
 export class UploadFileComponent implements OnInit {
 
-    private url = `${environment.tppBackend}`;
     public optionsData: UploadOptions;
     public optionsConsents: UploadOptions;
+    public optionsTransactions: UploadOptions;
+    private url = `${environment.tppBackend}`;
 
     public ngOnInit(): void {
         this.optionsData = {
@@ -22,6 +23,11 @@ export class UploadFileComponent implements OnInit {
         this.optionsConsents = {
             method: 'PUT',
             url: this.url + '/consent'
+        };
+
+        this.optionsTransactions = {
+            method: 'PUT',
+            url: this.url + 'data/upload/transactions'
         };
     }
 }

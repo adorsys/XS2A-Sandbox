@@ -7,6 +7,7 @@
         "swagger-gen": "npm run load-api && ng-swagger-gen -i ./src/app/api/swagger/oba.json -o ./src/app/api",
         "start": "rm -rf ./src/app/api && npm run swagger-gen && ng serve --port=4400 --proxy-config=proxy.conf.json",
         "build": "ng build",
+        "build:prod": "ng build --prod",
         "test": "rm -rf ./src/app/api && npm run swagger-gen && ng test",
         "test-ci": "ng test --browsers ChromeHeadless --watch=false --environment=prod",
         "lint": "ng lint",

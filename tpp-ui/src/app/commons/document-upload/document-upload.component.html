@@ -1,7 +1,7 @@
 <div *ngIf="uploader.queue.length === 0">
     <label (fileOver)="fileOverBase($event)" [uploader]="uploader"
            class="drop-zone d-flex justify-content-center"
-           for="fileInput"
+           [for]="id"
            ng2FileDrop>
             <span class="drop-text">
                 <span class="icon">
@@ -10,7 +10,7 @@
                 <span class="d-block">Drop file or click here</span>
             </span>
     </label>
-    <input [accept]="acceptedMimes" [uploader]="uploader" id="fileInput" ng2FileSelect type="file"/>
+    <input class="fileInput" [accept]="acceptedMimes" [uploader]="uploader" [id]="id" ng2FileSelect type="file"/>
 </div>
 
 <div class="col-12">

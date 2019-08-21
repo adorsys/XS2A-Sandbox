@@ -1,10 +1,389 @@
 {
 	"info": {
-		"_postman_id": "bf7ba562-f1a0-41ad-80ff-00611264dce6",
+		"_postman_id": "e95c8f12-c1f8-49c9-851f-3b66929ea006",
 		"name": "xs2a-connector-tests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "Update Balances",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4af61bea-5297-41d6-8fca-912cb17c9dbd",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"const jsonData = pm.response.json();",
+									"pm.environment.set(\"token\", jsonData.bearerToken.access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{protocol}}://{{url_ledgers}}/users/login?login=admin&pin=admin123&role=SYSTEM",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{url_ledgers}}"
+							],
+							"path": [
+								"users",
+								"login"
+							],
+							"query": [
+								{
+									"key": "login",
+									"value": "admin"
+								},
+								{
+									"key": "pin",
+									"value": "admin123"
+								},
+								{
+									"key": "role",
+									"value": "SYSTEM"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAccountOne",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "25ea9e21-fe91-47ac-b7d5-e65a6ee25ad8",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"const jsonData = pm.response.json();",
+									"pm.environment.set(\"account_id\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{protocol}}://{{url_ledgers}}/accounts/query?iban=DE69760700240340283600",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{url_ledgers}}"
+							],
+							"path": [
+								"accounts",
+								"query"
+							],
+							"query": [
+								{
+									"key": "iban",
+									"value": "DE69760700240340283600"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DepositOne",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "398434b0-0300-433b-96bf-d9bc521a087d",
+								"exec": [
+									"pm.test(\"Status code is 202\", function () {",
+									"    pm.response.to.have.status(202);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": 100000,\n  \"currency\": \"EUR\"\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://{{url_ledgers}}/accounts/{{account_id}}/cash",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{url_ledgers}}"
+							],
+							"path": [
+								"accounts",
+								"{{account_id}}",
+								"cash"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAccountTwo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "25ea9e21-fe91-47ac-b7d5-e65a6ee25ad8",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"const jsonData = pm.response.json();",
+									"pm.environment.set(\"account_id\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{protocol}}://{{url_ledgers}}/accounts/query?iban=DE80760700240271232400",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{url_ledgers}}"
+							],
+							"path": [
+								"accounts",
+								"query"
+							],
+							"query": [
+								{
+									"key": "iban",
+									"value": "DE80760700240271232400"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DepositTwo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "398434b0-0300-433b-96bf-d9bc521a087d",
+								"exec": [
+									"pm.test(\"Status code is 202\", function () {",
+									"    pm.response.to.have.status(202);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": 100000,\n  \"currency\": \"EUR\"\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://{{url_ledgers}}/accounts/{{account_id}}/cash",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{url_ledgers}}"
+							],
+							"path": [
+								"accounts",
+								"{{account_id}}",
+								"cash"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAccountThree",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "25ea9e21-fe91-47ac-b7d5-e65a6ee25ad8",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"const jsonData = pm.response.json();",
+									"pm.environment.set(\"account_id\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{protocol}}://{{url_ledgers}}/accounts/query?iban=DE38760700240320465700",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{url_ledgers}}"
+							],
+							"path": [
+								"accounts",
+								"query"
+							],
+							"query": [
+								{
+									"key": "iban",
+									"value": "DE38760700240320465700"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DepositThree",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "398434b0-0300-433b-96bf-d9bc521a087d",
+								"exec": [
+									"pm.test(\"Status code is 202\", function () {",
+									"    pm.response.to.have.status(202);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": 100000,\n  \"currency\": \"EUR\"\n}"
+						},
+						"url": {
+							"raw": "{{protocol}}://{{url_ledgers}}/accounts/{{account_id}}/cash",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{url_ledgers}}"
+							],
+							"path": [
+								"accounts",
+								"{{account_id}}",
+								"cash"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
 		{
 			"name": "1 Consent",
 			"item": [
@@ -1075,12 +1454,11 @@
 									}
 								],
 								"url": {
-									"raw": "http://localhost:8089/v1/accounts/aaaaaaaaaa/transactions/?bookingStatus=both",
-									"protocol": "http",
+									"raw": "{{protocol}}://{{url_xs2a}}/v1/accounts/aaaaaaaaaa/transactions/?bookingStatus=both",
+									"protocol": "{{protocol}}",
 									"host": [
-										"localhost"
+										"{{url_xs2a}}"
 									],
-									"port": "8089",
 									"path": [
 										"v1",
 										"accounts",

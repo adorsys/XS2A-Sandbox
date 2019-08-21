@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.authService.login({...this.loginForm.value} as LoginUsingPOST1Params)
         .subscribe(success => {
           if (success) {
-            this.router.navigate([`${RoutingPath.CONSENTS}`]);
+            this.router.navigate([`${RoutingPath.ACCOUNTS}`]);
           } else {
             this.infoService.openFeedback('Invalid credentials', {
               severity: 'error'

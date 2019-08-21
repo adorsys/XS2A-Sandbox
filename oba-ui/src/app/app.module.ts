@@ -20,6 +20,8 @@ import {AuthGuard} from './common/guards/auth.guard';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {NavbarComponent} from './common/navbar/navbar.component';
 import {SidebarComponent} from './common/sidebar/sidebar.component';
+import { AccountsComponent } from './accounts/accounts.component';
+import { AccountDetailsComponent } from './accounts/account-details/account-details.component';
 
 export function app_Init(settingsHttpService: SettingsHttpService) {
   return () => settingsHttpService.initializeApp();
@@ -33,7 +35,9 @@ export function app_Init(settingsHttpService: SettingsHttpService) {
     NavbarComponent,
     SidebarComponent,
     ConsentsComponent,
-    InternalServerErrorComponent
+    InternalServerErrorComponent,
+    AccountsComponent,
+    AccountDetailsComponent
   ],
   imports: [
     BrowserModule,

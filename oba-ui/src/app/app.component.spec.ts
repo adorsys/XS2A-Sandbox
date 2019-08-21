@@ -3,7 +3,6 @@ import {By} from '@angular/platform-browser';
 import {RouterOutlet} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 
-import {AccountDetailsComponent} from './account-details/account-details.component';
 import {AppComponent} from './app.component';
 import {URL_PARAMS_PROVIDER} from './common/constants/constants';
 import {ApiConfiguration} from "./api/api-configuration";
@@ -15,8 +14,7 @@ describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AppComponent,
-        AccountDetailsComponent
+        AppComponent
       ],
       imports: [
         RouterTestingModule,

@@ -9,7 +9,7 @@ import {SelectScaComponent} from './select-sca/select-sca.component';
 import {PaymentDetailsComponent} from './payment-details/payment-details.component';
 import {ConfirmPaymentComponent} from './confirm-payment/confirm-payment.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {NotFoundComponent} from "../not-found/not-found.component";
+import { NotFoundModule } from '../not-found/not-found.module';
 
 @NgModule({
   declarations: [
@@ -18,14 +18,14 @@ import {NotFoundComponent} from "../not-found/not-found.component";
     ResultPageComponent,
     SelectScaComponent,
     PaymentDetailsComponent,
-    ConfirmPaymentComponent,
-    NotFoundComponent
+    ConfirmPaymentComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    PisRoutingModule
+    PisRoutingModule,
+    NotFoundModule
   ]
 })
 export class PisModule {
