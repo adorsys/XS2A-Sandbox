@@ -80,7 +80,7 @@
             <th scope="row">{{i + 1}}</th>
             <td>{{transaction.amount?.amount}} {{transaction.amount?.currency}}</td>
             <td>{{transaction.bookingDate}}</td>
-            <td>{{transaction.debtorAccount}}</td>
+            <td>{{transaction.debtorAccount?.iban}}</td>
             <td>{{transaction.debtorName}}</td>
             <td>{{transaction.purposeCode}}</td>
             <td>{{transaction.entryReference}}</td>
