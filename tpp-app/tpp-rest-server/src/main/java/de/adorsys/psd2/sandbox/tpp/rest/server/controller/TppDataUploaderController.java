@@ -61,9 +61,9 @@ public class TppDataUploaderController implements TppDataUploaderRestApi {
     }
 
     @Override
-    public ResponseEntity<Map<String, String>> uploadTransactions(MultipartFile multipart) {
+    public ResponseEntity<Map<String, String>> uploadTransactions(MultipartFile file) {
         log.info("uploading transactions");
-        Map<String, String> response = transactionService.uploadUserTransaction(multipart);
+        Map<String, String> response = transactionService.uploadUserTransaction(file);
         log.info("upload response contains {} errors", response.size());
         return ResponseEntity.ok(response);
     }
