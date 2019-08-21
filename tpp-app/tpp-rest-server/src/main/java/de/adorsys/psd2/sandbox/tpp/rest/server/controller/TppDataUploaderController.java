@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -61,9 +61,11 @@ public class TppDataUploaderController implements TppDataUploaderRestApi {
     }
 
     @Override
-    public ResponseEntity<Void> uploadTransactions(MultipartFile multipart) {
-        transactionService.uploadUserTransaction(multipart);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Map<String, String>> uploadTransactions(MultipartFile multipart) {
+        log.info("uploading transactions");
+        Map<String, String> response = transactionService.uploadUserTransaction(multipart);
+        log.info("upload response contains {} errors", response.size());
+        return ResponseEntity.ok(response);
     }
 
     private HttpHeaders getExportFileHttpHeaders() {

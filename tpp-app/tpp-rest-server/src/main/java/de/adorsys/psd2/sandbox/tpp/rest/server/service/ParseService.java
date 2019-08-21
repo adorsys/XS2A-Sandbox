@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.DataPayload;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -66,6 +67,9 @@ public class ParseService {
     }
 
     public <T> List<T> convertFileToTargetObject(MultipartFile file, Class<T> target) {
+        if (file == null) {
+            throw new TppException("No file uploaded!", 400);
+        }
         try {
             InputStreamReader streamReader = new InputStreamReader(file.getInputStream());
             CsvToBean<T> csvToBean = new CsvToBeanBuilder<T>(streamReader)
@@ -75,7 +79,7 @@ public class ParseService {
             return csvToBean.parse();
         } catch (IOException e) {
             log.error("Can't convert file to target class: {}", target.getSimpleName(), e);
-            throw new IllegalArgumentException("Can't convert file to target class");
+            throw new TppException("Can't convert file to target class", 400);
         }
     }
 }
