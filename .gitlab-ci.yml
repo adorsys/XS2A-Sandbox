@@ -27,7 +27,6 @@ variables:
   DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI: "xs2a-online-banking-ui"
   DOCKER_IMAGE_NAME_XS2A_TPP_UI: "xs2a-bank-tpp-ui"
   DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI: "xs2a-bank-devportal"
-  DOCKER_IMAGE_NAME_XS2A_POSTMAN_TESTS: "xs2a-postman-tests"
   DOCKER_IMAGE_NAME_XS2A_TPP_REST_SERVER: "xs2a-tpp-rest-server"
 
   ###########################
@@ -45,10 +44,12 @@ variables:
   OPENSHIFT_NAMESPACE_DEV: "adorsys-dynamic-sandbox-dev"
   OPENSHIFT_NAMESPACE_INTEG: "adorsys-dynamic-sandbox-integ"
   OPENSHIFT_NAMESPACE_DEMO: "adorsys-dynamic-sandbox-demo"
+
   OPENSHIFT_NAMESPACE_BANKING_GATEWAY_DEV: "banking-gateway-dev"
+  OPENSHIFT_NAMESPACE_BANKING_GATEWAY_INTEG: "banking-gateway-integ"
+  HARBOR_NAMESPACE_BANKING_GATEWAY: "teambank-banking-gateway"
+
   OPENSHIFT_NAMESPACE_ASPSP_XS2A_DEV: "adorsys-psd2-develop"
-  HARBOR_REGISTRY: "harbor.adorsys.de"
-  HARBOR_NAMESPACE_BANKING_GATEWAY_DEV: "teambank-banking-gateway"
 
   ###########################
   # Build variables         #
@@ -78,31 +79,28 @@ variables:
 .build_docker_images: &build_docker_images
   script:
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${DOCKER_TAG}" online-banking/online-banking-app
-    - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}:${DOCKER_TAG}" certificate-generator
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:${DOCKER_TAG}" oba-ui
-    - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${DOCKER_TAG}" tpp-ui
+    - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}:${DOCKER_TAG}" certificate-generator
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_REST_SERVER}:${DOCKER_TAG}" tpp-app/tpp-rest-server
+    - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${DOCKER_TAG}" tpp-ui
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:${DOCKER_TAG}" developer-portal-ui
-    #- docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_POSTMAN_TESTS}:${DOCKER_TAG}" postman-scripts
 
 .push_dockerhub_images: &push_dockerhub_images
   script:
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${DOCKER_TAG}" online-banking/online-banking-app
-    - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}:${DOCKER_TAG}" certificate-generator
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:${DOCKER_TAG}" oba-ui
-    - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${DOCKER_TAG}" tpp-ui
+    - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}:${DOCKER_TAG}" certificate-generator
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_REST_SERVER}:${DOCKER_TAG}" tpp-app/tpp-rest-server
+    - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${DOCKER_TAG}" tpp-ui
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:${DOCKER_TAG}" developer-portal-ui
-    - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_POSTMAN_TESTS}:${DOCKER_TAG}" postman-scripts
 
     - docker login -u $DOCKER_HUB_LOGIN -p $DOCKER_HUB_PASS
     - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${DOCKER_TAG}"
-    - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}:${DOCKER_TAG}"
     - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:${DOCKER_TAG}"
-    - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${DOCKER_TAG}"
+    - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}:${DOCKER_TAG}"
     - docker push  "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_REST_SERVER}:${DOCKER_TAG}"
+    - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${DOCKER_TAG}"
     - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:${DOCKER_TAG}"
-    #- docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_POSTMAN_TESTS}:${DOCKER_TAG}"
     - docker logout
 
 #Copy Dockerhub TPP rest server image to Openshift (depending on ${DOCKER_TAG})
@@ -125,18 +123,13 @@ variables:
     - >-
       skopeo copy
       --dest-creds=openshift:${OPENSHIFT_TOKEN}
-      "docker://${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}:${DOCKER_TAG}"
-      "docker://${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}:latest"
-    - >-
-      skopeo copy
-      --dest-creds=openshift:${OPENSHIFT_TOKEN}
       "docker://${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:${DOCKER_TAG}"
       "docker://${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:latest"
     - >-
       skopeo copy
       --dest-creds=openshift:${OPENSHIFT_TOKEN}
-      "docker://${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${DOCKER_TAG}"
-      "docker://${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:latest"
+      "docker://${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}:${DOCKER_TAG}"
+      "docker://${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}:latest"
     - >-
       skopeo copy
       --dest-creds=openshift:${OPENSHIFT_TOKEN}
@@ -145,39 +138,46 @@ variables:
     - >-
       skopeo copy
       --dest-creds=openshift:${OPENSHIFT_TOKEN}
+      "docker://${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${DOCKER_TAG}"
+      "docker://${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:latest"
+    - >-
+      skopeo copy
+      --dest-creds=openshift:${OPENSHIFT_TOKEN}
       "docker://${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:${DOCKER_TAG}"
       "docker://${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:latest"
-#    - >-
-#      skopeo copy
-#      --dest-creds=openshift:${OPENSHIFT_TOKEN}
-#      "docker://${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_POSTMAN_TESTS}:${DOCKER_TAG}"
-#      "docker://${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_POSTMAN_TESTS}:latest"
 
 # Copy Dockerhub images to harbor (Only for banking-gateway)
 .deploy_harbor_banking_gateway: &deploy_harbor_banking_gateway
   script:
     - docker login ${HARBOR_REGISTRY} -u ${HARBOR_USER} -p ${HARBOR_TOKEN}
+
     - TAG=$(date +%Y%m%d%H%M)
+
     - echo "Deploy ${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}"
     - docker pull "${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${DOCKER_TAG}"
     - docker tag "${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${DOCKER_TAG}"  "${HARBOR_REGISTRY}/${HARBOR_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${TAG}" 
     - docker push "${HARBOR_REGISTRY}/${HARBOR_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${TAG}"
-    - echo "Deploy ${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}"
-    - docker pull "${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}:${DOCKER_TAG}"
-    - docker tag "${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}:${DOCKER_TAG}"  "${HARBOR_REGISTRY}/${HARBOR_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}:${TAG}"
-    - docker push "${HARBOR_REGISTRY}/${HARBOR_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}:${TAG}"
+
     - echo "Deploy ${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}"
     - docker pull "${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:${DOCKER_TAG}"
     - docker tag "${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:${DOCKER_TAG}"  "${HARBOR_REGISTRY}/${HARBOR_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:${TAG}"
     - docker push "${HARBOR_REGISTRY}/${HARBOR_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:${TAG}"
-    - echo "Deploy {DOCKER_IMAGE_NAME_XS2A_TPP_UI}"
-    - docker pull "${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${DOCKER_TAG}"
-    - docker tag "${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${DOCKER_TAG}"  "${HARBOR_REGISTRY}/${HARBOR_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${TAG}"
-    - docker push "${HARBOR_REGISTRY}/${HARBOR_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${TAG}"
+
+    - echo "Deploy ${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}"
+    - docker pull "${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}:${DOCKER_TAG}"
+    - docker tag "${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}:${DOCKER_TAG}"  "${HARBOR_REGISTRY}/${HARBOR_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}:${TAG}"
+    - docker push "${HARBOR_REGISTRY}/${HARBOR_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_CERTIFICATE_GENERATOR}:${TAG}"
+
     - echo "Deploy ${DOCKER_IMAGE_NAME_XS2A_TPP_REST_SERVER}"
     - docker pull "${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_REST_SERVER}:${DOCKER_TAG}"
     - docker tag "${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_REST_SERVER}:${DOCKER_TAG}"  "${HARBOR_REGISTRY}/${HARBOR_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_REST_SERVER}:${TAG}"
     - docker push "${HARBOR_REGISTRY}/${HARBOR_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_REST_SERVER}:${TAG}"
+
+    - echo "Deploy {DOCKER_IMAGE_NAME_XS2A_TPP_UI}"
+    - docker pull "${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${DOCKER_TAG}"
+    - docker tag "${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${DOCKER_TAG}"  "${HARBOR_REGISTRY}/${HARBOR_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${TAG}"
+    - docker push "${HARBOR_REGISTRY}/${HARBOR_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${TAG}"
+
     - echo "Deploy ${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}"
     - docker pull "${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:${DOCKER_TAG}"
     - docker tag "${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:${DOCKER_TAG}"  "${HARBOR_REGISTRY}/${HARBOR_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:${TAG}"
@@ -186,23 +186,6 @@ variables:
 # ------------------------------------------------------------------
 # jobs
 # ------------------------------------------------------------------
-
-build devportal frontend:
-  stage: "Compile"
-  script:
-    - scripts/.update-postman-test-files.sh
-    - cd developer-portal-ui
-    - npm install
-    - npm run build:prod
-  cache:
-    key: "DEVPORTAL_${CI_COMMIT_REF_SLUG}"
-    paths:
-      - developer-portal-ui/node_modules
-  artifacts:
-    paths:
-      - "developer-portal-ui/dist"
-    name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}"
-    expire_in: "1 day"
 
 build oba frontend:
  stage: "Compile"
@@ -236,11 +219,22 @@ build tpp frontend:
     name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}"
     expire_in: "1 day"
 
-build_package_java11:
-  <<: *build_java
-  variables:
-    BUILD_JAVA_VERSION: system@1.11
-    JAVA_TOOL_OPTIONS: "-Djavax.net.ssl.trustStorePassword=changeit -XX:MaxRAM=3G"
+build devportal frontend:
+  stage: "Compile"
+  script:
+    - scripts/.update-postman-test-files.sh
+    - cd developer-portal-ui
+    - npm install
+    - npm run build:prod
+  cache:
+    key: "DEVPORTAL_${CI_COMMIT_REF_SLUG}"
+    paths:
+      - developer-portal-ui/node_modules
+  artifacts:
+    paths:
+      - "developer-portal-ui/dist"
+    name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}"
+    expire_in: "1 day"
 
 build_package_java8:
   <<: *build_java
@@ -253,6 +247,12 @@ build_package_java8:
       - "tpp-app/tpp-rest-server/target/tpp-rest-server.jar"
     name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}"
     expire_in: "1 day"
+
+build_package_java11:
+  <<: *build_java
+  variables:
+    BUILD_JAVA_VERSION: system@1.11
+    JAVA_TOOL_OPTIONS: "-Djavax.net.ssl.trustStorePassword=changeit -XX:MaxRAM=3G"
 
 pmd_report:
   stage: "Compile"
@@ -383,6 +383,17 @@ deploy_openshift_develop:
     OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_DEV} # Openshift target namespace
   <<: *deploy_openshift
 
+deploy_openshift_banking_gateway_dev:
+  stage: "Deploy"
+  cache: {}
+  dependencies: []
+  only:
+    - develop
+  variables:
+    DOCKER_TAG: develop # Dockerhub source tag
+    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_BANKING_GATEWAY_DEV} # Openshift target namespace
+  <<: *deploy_openshift
+
 # nightly
 
 build_dockerhub_image_nightly:
@@ -421,8 +432,7 @@ deploy_openshift_demo:
     OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_DEMO} # Openshift target namespace
   <<: *deploy_openshift
 
-
-deploy_openshift_banking_gateway_dev:
+deploy_openshift_banking_gateway_integ:
   stage: "Deploy"
   cache: {}
   dependencies: []
@@ -431,22 +441,8 @@ deploy_openshift_banking_gateway_dev:
   variables:
     GIT_STRATEGY: none
     DOCKER_TAG: latest # Dockerhub source tag
-    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_BANKING_GATEWAY_DEV} # Openshift target namespace
+    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_BANKING_GATEWAY_INTEG} # Openshift target namespace
   <<: *deploy_openshift
-
-deploy_to_harbor_banking_gateway:
-  stage: "Deploy"
-  cache: {}
-  dependencies: []
-  only:
-    - master
-  variables:
-    GIT_STRATEGY: none
-    DOCKER_TAG: latest # Dockerhub source tag
-    HARBOR_USER: ${HARBOR_BANKING_GATEWAY_USER}
-    HARBOR_TOKEN: ${HARBOR_BANKING_GATEWAY_TOKEN}
-    HARBOR_NAMESPACE: ${HARBOR_NAMESPACE_BANKING_GATEWAY_DEV} # Openshift target namespace
-  <<: *deploy_harbor_banking_gateway
 
 deploy_openshift_aspsp_xs2a_dev:
   stage: "Deploy"
@@ -459,6 +455,20 @@ deploy_openshift_aspsp_xs2a_dev:
     DOCKER_TAG: latest # Dockerhub source tag
     OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_ASPSP_XS2A_DEV} # Openshift target namespace
   <<: *deploy_openshift_tpp_rest_server
+
+deploy_harbor_banking_gateway:
+  stage: "Deploy"
+  cache: {}
+  dependencies: []
+  only:
+    - master
+  variables:
+    GIT_STRATEGY: none
+    DOCKER_TAG: latest # Dockerhub source tag
+    HARBOR_USER: ${HARBOR_BANKING_GATEWAY_USER}
+    HARBOR_TOKEN: ${HARBOR_BANKING_GATEWAY_TOKEN}
+    HARBOR_NAMESPACE: ${HARBOR_NAMESPACE_BANKING_GATEWAY} # Openshift target namespace
+  <<: *deploy_harbor_banking_gateway
 
 # tags
 
