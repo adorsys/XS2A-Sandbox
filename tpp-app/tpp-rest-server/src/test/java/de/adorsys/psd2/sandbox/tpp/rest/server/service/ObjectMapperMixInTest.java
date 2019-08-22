@@ -17,7 +17,7 @@ public class ObjectMapperMixInTest {
 
     @Test
     public void scaUserDataMixIn() throws JsonProcessingException, JSONException {
-        String expected = "{\"id\":\"id\",\"login\":\"login\",\"email\":\"email\",\"pin\":\"pin\",\"scaUserData\":[{\"id\":\"id\",\"scaMethod\":\"EMAIL\",\"methodValue\":\"methodValue\",\"user\":null,\"usesStaticTan\":true,\"staticTan\":\"STATIC TAN\"}],\"accountAccesses\":[],\"userRoles\":[],\"branch\":\"branch\"}";
+        String expected = "{\"id\":\"id\",\"login\":\"login\",\"email\":\"email\",\"pin\":\"pin\",\"scaUserData\":[{\"id\":\"id\",\"scaMethod\":\"EMAIL\",\"methodValue\":\"methodValue\",\"user\":null,\"usesStaticTan\":true,\"staticTan\":\"STATIC TAN\", \"decoupled\":false}],\"accountAccesses\":[],\"userRoles\":[],\"branch\":\"branch\"}";
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.addMixIn(ScaUserDataTO.class, ScaUserDataMixedIn.class);
 
@@ -31,6 +31,6 @@ public class ObjectMapperMixInTest {
     }
 
     private List<ScaUserDataTO> getScaUserData() {
-        return Collections.singletonList(new ScaUserDataTO("id", ScaMethodTypeTO.EMAIL, "methodValue", null, true, "STATIC TAN"));
+        return Collections.singletonList(new ScaUserDataTO("id", ScaMethodTypeTO.EMAIL, "methodValue", null, true, "STATIC TAN", false));
     }
 }

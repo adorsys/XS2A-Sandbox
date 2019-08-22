@@ -49,7 +49,7 @@ public class UserMapperTest {
     }
 
     private UserTO createUserTO() {
-        ScaUserDataTO scaUserDataTO = new ScaUserDataTO(SCA_ID, ScaMethodTypeTO.EMAIL, EMAIL, null, true, STATIC_TAN);
+        ScaUserDataTO scaUserDataTO = new ScaUserDataTO(SCA_ID, ScaMethodTypeTO.EMAIL, EMAIL, null, true, STATIC_TAN, false);
         return new UserTO(USER_ID, USER_LOGIN, EMAIL, PIN, singletonList(scaUserDataTO), emptyList(), singletonList(UserRoleTO.CUSTOMER), null);
     }
 
