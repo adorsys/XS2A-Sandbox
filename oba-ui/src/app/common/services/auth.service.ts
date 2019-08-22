@@ -7,6 +7,9 @@ import {Router} from '@angular/router';
 import {AutoLogoutService} from './auto-logout.service';
 import {OnlineBankingAuthorizationService} from '../../api/services';
 import LoginUsingPOST1Params = OnlineBankingAuthorizationService.LoginUsingPOST1Params;
+import {UpdatePassword} from "../../api/models/update-password";
+import {ResetPassword} from "../../api/models/reset-password";
+import {SendCode} from "../../api/models/send-code";
 
 @Injectable({
     providedIn: 'root'
@@ -62,5 +65,13 @@ export class AuthService {
 
     getAuthorizationToken(): string {
       return localStorage.getItem(this.authTokenStorageKey);
+    }
+
+    resetPassword(resetPassword: ResetPassword): Observable<UpdatePassword> {
+        return this.onlineBankingAuthorizationService.updatePasswordUsingPUT(resetPassword);
+    }
+
+    requestCodeToResetPassword(resetPassword: ResetPassword): Observable<SendCode> {
+        return this.onlineBankingAuthorizationService.sendCodeUsingPOST(resetPassword);
     }
 }

@@ -24,6 +24,8 @@ import { AccountsComponent } from './accounts/accounts.component';
 import { AccountDetailsComponent } from './accounts/account-details/account-details.component';
 import { ClipboardModule } from 'ngx-clipboard';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ConfirmPasswordComponent } from './confirm-password/confirm-password.component';
 
 export function app_Init(settingsHttpService: SettingsHttpService) {
   return () => settingsHttpService.initializeApp();
@@ -39,7 +41,9 @@ export function app_Init(settingsHttpService: SettingsHttpService) {
     ConsentsComponent,
     InternalServerErrorComponent,
     AccountsComponent,
-    AccountDetailsComponent
+    AccountDetailsComponent,
+    ResetPasswordComponent,
+    ConfirmPasswordComponent
   ],
   imports: [
     BrowserModule,
