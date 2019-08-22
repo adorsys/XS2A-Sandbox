@@ -13,4 +13,5 @@ public abstract class ScaUserDataMixedIn {
     private UserTO userTO;
     private boolean usesStaticTan;
     private String staticTan;
+    private boolean decoupled;
 }

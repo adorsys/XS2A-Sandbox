@@ -1,3 +1,4 @@
+import {ObaAisConsent} from './../api/models/oba-ais-consent';
 import {Component, OnInit} from '@angular/core';
 import {AisAccountConsent} from '../api/models';
 import {OnlineBankingService} from '../common/services/online-banking.service';
@@ -11,7 +12,7 @@ import {map} from 'rxjs/operators';
 })
 export class ConsentsComponent implements OnInit {
 
-    consents: AisAccountConsent[] = [];
+    consents: ObaAisConsent[] = [];
 
     constructor(
         private onlineBankingService: OnlineBankingService,
@@ -23,24 +24,28 @@ export class ConsentsComponent implements OnInit {
     }
 
     getConsents() {
-        this.onlineBankingService.getConsents().pipe(
-            map(consents => consents.map(consent => consent.aisAccountConsent))
-        ).subscribe(consents => {
+        this.onlineBankingService.getConsents().subscribe(consents => {
             this.consents = consents;
         });
     }
 
-    isConsentEnabled(consent: AisAccountConsent) {
-        return consent.consentStatus === 'VALID' || consent.consentStatus === 'RECEIVED';
+    isConsentEnabled(consent: ObaAisConsent) {
+        return consent.aisAccountConsent.consentStatus === 'VALID' || consent.aisAccountConsent.consentStatus === 'RECEIVED';
     }
 
-    revokeConsent(consent: AisAccountConsent) {
-        if(!this.isConsentEnabled(consent)) return false;
-        this.onlineBankingService.revokeConsent(consent.id).subscribe(isSuccess => {
-            if(isSuccess) {
+    copiedConsentSuccessful() {
+      this.infoService.openFeedback('copied encrypted consent to clipboard', { severity: 'info' });
+    }
+
+    revokeConsent(consent: ObaAisConsent) {
+        if (!this.isConsentEnabled(consent)) {
+          return false;
+        }
+        this.onlineBankingService.revokeConsent(consent.aisAccountConsent.id).subscribe(isSuccess => {
+            if (isSuccess) {
                 this.getConsents();
             } else {
-                this.infoService.openFeedback('could not revoke the consent', { severity: 'error' })
+                this.infoService.openFeedback('could not revoke the consent', { severity: 'error' });
             }
         });
     }

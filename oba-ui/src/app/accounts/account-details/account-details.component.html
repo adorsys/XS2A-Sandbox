@@ -30,17 +30,29 @@
     <div class="card-body">
       <div class="header__title">Transactions</div>
 
-      <div class="row">
+      <div class="row" [formGroup]="filtersGroup">
         <div class="col">
           <div class="form-group">
             <label for="dateFrom">Date from</label>
-            <input id="dateFrom" class="form-control" [value]="transactionsParams.dateFrom" />
+            <input type="text"
+                   id="dateFrom"
+                   class="form-control"
+                   formControlName="dateFrom"
+                   ngbDatepicker
+                   #dateFrom="ngbDatepicker"
+                   (click)="dateFrom.toggle()"/>
           </div>
         </div>
         <div class="col">
           <div class="form-group">
             <label for="dateTo">Date to</label>
-            <input id="dateTo" class="form-control" [value]="transactionsParams.dateTo" />
+            <input type="text"
+                   id="dateTo"
+                   class="form-control"
+                   formControlName="dateTo"
+                   ngbDatepicker
+                   #dateTo="ngbDatepicker"
+                   (click)="dateTo.toggle()" />
           </div>
         </div>
         <div class="col-2">
@@ -68,7 +80,7 @@
             <th scope="row">{{i + 1}}</th>
             <td>{{transaction.amount?.amount}} {{transaction.amount?.currency}}</td>
             <td>{{transaction.bookingDate}}</td>
-            <td>{{transaction.debtorAccount}}</td>
+            <td>{{transaction.debtorAccount?.iban}}</td>
             <td>{{transaction.debtorName}}</td>
             <td>{{transaction.purposeCode}}</td>
             <td>{{transaction.entryReference}}</td>

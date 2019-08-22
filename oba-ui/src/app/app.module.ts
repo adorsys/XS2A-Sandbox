@@ -22,6 +22,8 @@ import {NavbarComponent} from './common/navbar/navbar.component';
 import {SidebarComponent} from './common/sidebar/sidebar.component';
 import { AccountsComponent } from './accounts/accounts.component';
 import { AccountDetailsComponent } from './accounts/account-details/account-details.component';
+import { ClipboardModule } from 'ngx-clipboard';
+import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 
 export function app_Init(settingsHttpService: SettingsHttpService) {
   return () => settingsHttpService.initializeApp();
@@ -48,7 +50,9 @@ export function app_Init(settingsHttpService: SettingsHttpService) {
     FormsModule,
     HttpClientModule,
     ApiModule.forRoot({rootUrl: '/oba-proxy'}),
-    NgHttpLoaderModule.forRoot()
+    NgHttpLoaderModule.forRoot(),
+    ClipboardModule,
+    NgbDatepickerModule
   ],
   providers: [
     AisService,

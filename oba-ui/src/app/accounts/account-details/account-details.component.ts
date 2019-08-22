@@ -1,9 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {OnlineBankingService} from "../../common/services/online-banking.service";
-import {AccountDetailsTO, TransactionTO} from "../../api/models";
-import {OnlineBankingAccountInformationService} from "../../api/services/online-banking-account-information.service";
-import {map} from "rxjs/operators";
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { map } from 'rxjs/operators';
+
+import { AccountDetailsTO, TransactionTO } from '../../api/models';
+import { OnlineBankingAccountInformationService } from '../../api/services/online-banking-account-information.service';
+import { OnlineBankingService } from '../../common/services/online-banking.service';
+import { ngbDateToString, stringToNgbDate } from '../../common/utils/ngb-datepicker-utils';
 
 @Component({
     selector: 'app-account-details',
@@ -11,27 +14,27 @@ import {map} from "rxjs/operators";
     styleUrls: ['./account-details.component.scss']
 })
 export class AccountDetailsComponent implements OnInit {
-
     account: AccountDetailsTO;
     accountID: string;
     transactions: TransactionTO[];
-    transactionsParams: OnlineBankingAccountInformationService.TransactionsUsingGETParams = {
-        accountId: '',
-        dateFrom: '2019-01-30',
-        dateTo: '2019-12-30'
-    };
+    filtersGroup: FormGroup;
 
     constructor(private router: Router,
                 private activatedRoute: ActivatedRoute,
+                private fb: FormBuilder,
                 private onlineBankingService: OnlineBankingService) {
     }
 
     ngOnInit() {
+        this.filtersGroup = this.fb.group({
+          dateFrom: stringToNgbDate('2019-01-30'),
+          dateTo: stringToNgbDate('2019-12-30')
+        });
+
         this.activatedRoute.params.pipe(
             map(resp => resp.id)
         ).subscribe((accountID: string) => {
                 this.accountID = accountID;
-                this.transactionsParams.accountId = accountID;
                 this.getAccountDetail();
                 this.getTransactions();
             }
@@ -44,8 +47,13 @@ export class AccountDetailsComponent implements OnInit {
     }
 
     getTransactions() {
-        this.onlineBankingService.getTransactions(this.transactionsParams)
-            .subscribe((transactions: TransactionTO[]) => this.transactions = transactions)
+        const params = {
+          accountId: this.accountID,
+          dateFrom: ngbDateToString(this.filtersGroup.get('dateFrom').value),
+          dateTo: ngbDateToString(this.filtersGroup.get('dateTo').value)
+        } as OnlineBankingAccountInformationService.TransactionsUsingGETParams;
+        this.onlineBankingService.getTransactions(params)
+            .subscribe((transactions: TransactionTO[]) => this.transactions = transactions);
     }
 
 }

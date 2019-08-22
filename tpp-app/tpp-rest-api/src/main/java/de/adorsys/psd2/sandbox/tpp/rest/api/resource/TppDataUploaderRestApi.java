@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Map;
+
 @Api(tags = "TPP data uploader")
 public interface TppDataUploaderRestApi {
     String BASE_PATH = TppRestApi.BASE_PATH + "/data";
@@ -29,5 +31,5 @@ public interface TppDataUploaderRestApi {
 
     @ApiOperation(value = "Upload CSV file with transactions list", authorizations = @Authorization(value = "apiKey"))
     @PutMapping("/upload/transactions")
-    ResponseEntity<Void> uploadTransactions(@RequestBody MultipartFile file);
+    ResponseEntity<Map<String, String>> uploadTransactions(@RequestBody MultipartFile file);
 }

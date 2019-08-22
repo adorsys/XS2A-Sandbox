@@ -27,7 +27,7 @@ export class UploadFileComponent implements OnInit {
 
         this.optionsTransactions = {
             method: 'PUT',
-            url: this.url + 'data/upload/transactions'
+            url: this.url + '/data/upload/transactions'
         };
     }
 }

@@ -1,4 +1,5 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ClipboardModule} from 'ngx-clipboard';
 
 import {ConsentsComponent} from './consents.component';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -13,7 +14,7 @@ describe('ConsentsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, RouterTestingModule, InfoModule],
+      imports: [ReactiveFormsModule, RouterTestingModule, InfoModule, ClipboardModule],
       declarations: [ConsentsComponent],
       providers: [TestBed.overrideProvider(AuthService, {useValue: authServiceSpy})],
     })

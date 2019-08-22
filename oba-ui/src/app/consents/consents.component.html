@@ -23,32 +23,33 @@
           <tbody>
           <tr *ngFor="let consent of consents; index as i">
             <th scope="row">{{i + 1}}</th>
-            <td>{{consent.id}}</td>
+            <td>{{consent.aisAccountConsent.id}}</td>
             <td>
-              <div *ngFor="let account of consent.access.accounts; index as i; last as isLast" [ngClass]="{'mb-2': !isLast}">
+              <div *ngFor="let account of consent.aisAccountConsent.access.accounts; index as i; last as isLast" [ngClass]="{'mb-2': !isLast}">
                 IBAN: {{account.iban}}<br/>
                 Currency: {{account.currency}}
               </div>
             </td>
             <td>
-              <div *ngFor="let balance of consent.access.balances; index as i; last as isLast" [ngClass]="{'mb-2': !isLast}">
+              <div *ngFor="let balance of consent.aisAccountConsent.access.balances; index as i; last as isLast" [ngClass]="{'mb-2': !isLast}">
                 IBAN: {{balance.iban}}<br/>
                 Currency: {{balance.currency}}
               </div>
             </td>
             <td>
-              <div *ngFor="let transaction of consent.access.transactions; index as i; last as isLast" [ngClass]="{'mb-2': !isLast}">
+              <div *ngFor="let transaction of consent.aisAccountConsent.access.transactions; index as i; last as isLast" [ngClass]="{'mb-2': !isLast}">
                 IBAN: {{transaction.iban}}<br/>
                 Currency: {{transaction.currency}}
               </div>
             </td>
-            <td>{{consent.consentStatus}}</td>
-            <td>{{consent.frequencyPerDay}}</td>
-            <td>{{consent.lastActionDate}}</td>
-            <td>{{consent.validUntil}}</td>
-            <td>{{consent.recurringIndicator}}</td>
+            <td>{{consent.aisAccountConsent.consentStatus}}</td>
+            <td>{{consent.aisAccountConsent.frequencyPerDay}}</td>
+            <td>{{consent.aisAccountConsent.lastActionDate}}</td>
+            <td>{{consent.aisAccountConsent.validUntil}}</td>
+            <td>{{consent.aisAccountConsent.recurringIndicator}}</td>
             <td>
-              <button class="btn btn-primary" [disabled]="!isConsentEnabled(consent)" (click)="revokeConsent(consent)">Revoke</button>
+              <button class="btn btn-primary mr-2" [disabled]="!isConsentEnabled(consent)" (click)="revokeConsent(consent)">Revoke</button>
+              <button class="btn btn-primary" ngxClipboard [cbContent]="consent.encryptedConsent" (cbOnSuccess)="copiedConsentSuccessful($event)">Copy to clipboard</button>
             </td>
           </tr>
           </tbody>
