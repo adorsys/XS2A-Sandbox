@@ -9,4 +9,5 @@ public class ScaUserData {
     private ScaMethodType scaMethod;
     private boolean usesStaticTan;
     private String staticTan;
+    private boolean decoupled;
 }
