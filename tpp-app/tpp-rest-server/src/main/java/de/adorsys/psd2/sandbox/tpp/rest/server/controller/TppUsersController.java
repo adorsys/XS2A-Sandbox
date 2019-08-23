@@ -2,17 +2,23 @@ package de.adorsys.psd2.sandbox.tpp.rest.server.controller;
 
 import de.adorsys.ledgers.middleware.api.domain.um.UserRoleTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
+import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.User;
 import de.adorsys.psd2.sandbox.tpp.rest.api.resource.TppUsersRestApi;
+import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
 import de.adorsys.psd2.sandbox.tpp.rest.server.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,6 +26,7 @@ import java.util.List;
 public class TppUsersController implements TppUsersRestApi {
     private final UserMapper userMapper;
     private final UserMgmtStaffRestClient userMgmtStaffRestClient;
+    private final UserMgmtRestClient userMgmtRestClient;
 
     @Override
     public ResponseEntity<UserTO> createUser(User user) {
@@ -29,5 +36,19 @@ public class TppUsersController implements TppUsersRestApi {
     @Override
     public ResponseEntity<List<UserTO>> getAllUsers() {
         return userMgmtStaffRestClient.getBranchUsersByRoles(Arrays.asList(UserRoleTO.CUSTOMER));
+    }
+
+    // TODO resolve 'branch' on Ledgers side
+    @Override
+    public ResponseEntity<Void> updateUser(User user) {
+        if (StringUtils.isBlank(user.getId())) {
+            throw new TppException("User id is not present in body!", 400);
+        }
+        String branch = Optional.ofNullable(userMgmtRestClient.getUser().getBody())
+                            .map(UserTO::getBranch)
+                            .orElseThrow(() -> new TppException("No tpp code present!", 400));
+        UserTO userTO = userMapper.toUserTO(user);
+        userMgmtStaffRestClient.modifyUser(branch, userTO);
+        return new ResponseEntity<>(OK);
     }
 }
