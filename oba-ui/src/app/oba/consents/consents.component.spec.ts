@@ -1,11 +1,11 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {ClipboardModule} from 'ngx-clipboard';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ClipboardModule } from 'ngx-clipboard';
 
-import {ConsentsComponent} from './consents.component';
-import {ReactiveFormsModule} from '@angular/forms';
-import {RouterTestingModule} from '@angular/router/testing';
-import {InfoModule} from '../common/info/info.module';
-import {AuthService} from '../common/services/auth.service';
+import { InfoModule } from '../../common/info/info.module';
+import { AuthService } from '../../common/services/auth.service';
+import { ConsentsComponent } from './consents.component';
 
 describe('ConsentsComponent', () => {
   let component: ConsentsComponent;

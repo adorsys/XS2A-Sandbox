@@ -1,13 +1,14 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {LoginComponent} from './login/login.component';
-import {ConsentsComponent} from './consents/consents.component';
-import {DashboardComponent} from './dashboard/dashboard.component';
-import {AuthGuard} from './common/guards/auth.guard';
-import {AccountsComponent} from "./accounts/accounts.component";
-import {AccountDetailsComponent} from "./accounts/account-details/account-details.component";
-import {ResetPasswordComponent} from "./reset-password/reset-password.component";
-import {ConfirmPasswordComponent} from "./confirm-password/confirm-password.component";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+
+import { AuthGuard } from './common/guards/auth.guard';
+import { AccountDetailsComponent } from './oba/accounts/account-details/account-details.component';
+import { AccountsComponent } from './oba/accounts/accounts.component';
+import { ConfirmPasswordComponent } from './oba/confirm-password/confirm-password.component';
+import { ConsentsComponent } from './oba/consents/consents.component';
+import { DashboardComponent } from './oba/dashboard/dashboard.component';
+import { LoginComponent } from './oba/login/login.component';
+import { ResetPasswordComponent } from './oba/reset-password/reset-password.component';
 
 export const routes: Routes = [
     {
@@ -43,15 +44,15 @@ export const routes: Routes = [
     },
     {
         path: 'account-information',
-        loadChildren: './ais/ais.module#AisModule'
+        loadChildren: () => import('./ais/ais.module').then(m => m.AisModule)
     },
     {
         path: 'payment-initiation',
-        loadChildren: './pis/pis.module#PisModule'
+        loadChildren: () => import('./pis/pis.module').then(m => m.PisModule)
     },
     {
         path: 'payment-cancellation',
-        loadChildren: './payment-cancellation/payment-cancellation.module#PaymentCancellationModule'
+        loadChildren: () => import('./payment-cancellation/payment-cancellation.module').then(m => m.PaymentCancellationModule)
     },
     {
         path: '**',

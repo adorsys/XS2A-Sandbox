@@ -1,12 +1,12 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 
-import {CashDepositComponent} from './cash-deposit.component';
-import {ReactiveFormsModule} from "@angular/forms";
-import {RouterTestingModule} from "@angular/router/testing";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {AccountService} from "../../services/account.service";
-import {Observable} from "rxjs";
-import {Router} from "@angular/router";
+import { AccountService } from '../../services/account.service';
+import { CashDepositComponent } from './cash-deposit.component';
 
 describe('CashDepositComponent', () => {
     let component: CashDepositComponent;
@@ -51,7 +51,7 @@ describe('CashDepositComponent', () => {
 
         // cashDepositForm submit
         const sampleResponse = {value: 'sample response'};
-        let depositCashSpy = spyOn(accountService, 'depositCash').and.callFake(() => Observable.of(sampleResponse));
+        let depositCashSpy = spyOn(accountService, 'depositCash').and.callFake(() => of(sampleResponse));
         let navigateSpy = spyOn(router, 'navigate');
         component.onSubmit();
         expect(component.submitted).toBeTruthy();

@@ -1,13 +1,13 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {RouterTestingModule} from "@angular/router/testing";
-import {FilterPipeModule} from "ngx-filter-pipe";
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { FilterPipeModule } from 'ngx-filter-pipe';
+import { of } from 'rxjs';
 
-import {UsersComponent} from './users.component';
-import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {UserService} from "../../services/user.service";
-import {User} from "../../models/user.model";
-import {Observable} from "rxjs";
+import { User } from '../../models/user.model';
+import { UserService } from '../../services/user.service';
+import { UsersComponent } from './users.component';
 
 
 describe('UsersComponent', () => {
@@ -54,7 +54,7 @@ describe('UsersComponent', () => {
             }
         ];
 
-        let getUsersSpy = spyOn(usersService, 'listUsers').and.returnValue(Observable.of(mockUsers));
+        let getUsersSpy = spyOn(usersService, 'listUsers').and.returnValue(of(mockUsers));
 
         component.ngOnInit();
 

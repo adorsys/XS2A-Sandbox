@@ -1,16 +1,15 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 
-import {AccountListComponent} from './account-list.component';
-import {RouterTestingModule} from "@angular/router/testing";
-import {AccountService} from "../../services/account.service";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {Account, AccountStatus, AccountType, UsageType} from "../../models/account.model";
-import {Observable} from "rxjs";
-import "rxjs-compat/add/observable/from";
-import {InfoService} from "../../commons/info/info.service";
-import {Router} from "@angular/router";
-import {InfoModule} from "../../commons/info/info.module";
-import {IconModule} from "../../commons/icon/icon.module";
+import { IconModule } from '../../commons/icon/icon.module';
+import { InfoModule } from '../../commons/info/info.module';
+import { InfoService } from '../../commons/info/info.service';
+import { Account, AccountStatus, AccountType, UsageType } from '../../models/account.model';
+import { AccountService } from '../../services/account.service';
+import { AccountListComponent } from './account-list.component';
 
 describe('AccountListComponent', () => {
     let component: AccountListComponent;
@@ -69,7 +68,7 @@ describe('AccountListComponent', () => {
                 balances: []
             } as Account
         ];
-        let getAccountsSpy = spyOn(accountService, 'getAccounts').and.returnValue(Observable.of(mockAccounts));
+        let getAccountsSpy = spyOn(accountService, 'getAccounts').and.returnValue(of(mockAccounts));
 
         component.ngOnInit();
 

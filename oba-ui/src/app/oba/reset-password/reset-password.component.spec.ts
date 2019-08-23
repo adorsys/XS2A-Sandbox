@@ -1,13 +1,13 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 
+import { AuthService } from '../../common/services/auth.service';
 import { ResetPasswordComponent } from './reset-password.component';
-import {AuthService} from "../common/services/auth.service";
-import {DebugElement} from "@angular/core";
-import {ReactiveFormsModule} from "@angular/forms";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {RouterTestingModule} from "@angular/router/testing";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {By} from "@angular/platform-browser";
 
 describe('ResetPasswordComponent', () => {
   let component: ResetPasswordComponent;

@@ -1,15 +1,15 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 
-import {AccountDetailComponent} from './account-detail.component';
-import {RouterTestingModule} from "@angular/router/testing";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {AccountService} from "../../services/account.service";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {Observable} from "rxjs";
-import {Account, AccountStatus, AccountType, UsageType} from "../../models/account.model";
-import {AccountComponent} from "../account/account.component";
-import {InfoService} from "../../commons/info/info.service";
-import {InfoModule} from "../../commons/info/info.module";
+import { InfoModule } from '../../commons/info/info.module';
+import { InfoService } from '../../commons/info/info.service';
+import { Account, AccountStatus, AccountType, UsageType } from '../../models/account.model';
+import { AccountService } from '../../services/account.service';
+import { AccountComponent } from '../account/account.component';
+import { AccountDetailComponent } from './account-detail.component';
 
 describe('AccountDetailComponent', () => {
     let component: AccountDetailComponent;
@@ -71,7 +71,7 @@ describe('AccountDetailComponent', () => {
         expect(component.accountForm.valid).toBeTruthy();
 
         // mock http call
-        let  createAccountSpy = spyOn(accountService, 'createAccount').and.returnValue(Observable.of(mockAccount));
+        let  createAccountSpy = spyOn(accountService, 'createAccount').and.returnValue(of(mockAccount));
         component.onSubmit();
 
         expect(component.submitted).toBeTruthy();

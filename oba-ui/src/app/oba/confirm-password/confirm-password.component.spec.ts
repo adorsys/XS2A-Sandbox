@@ -1,13 +1,13 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 
-import {ConfirmPasswordComponent} from './confirm-password.component';
-import {DebugElement} from "@angular/core";
-import {ReactiveFormsModule} from "@angular/forms";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {RouterTestingModule} from "@angular/router/testing";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {By} from "@angular/platform-browser";
-import {AuthService} from "../common/services/auth.service";
+import { AuthService } from '../../common/services/auth.service';
+import { ConfirmPasswordComponent } from './confirm-password.component';
 
 describe('ConfirmPasswordComponent', () => {
     let component: ConfirmPasswordComponent;
