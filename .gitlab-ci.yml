@@ -104,7 +104,7 @@ variables:
     - docker logout
 
 #Copy Dockerhub TPP rest server image to Openshift (depending on ${DOCKER_TAG})
-.deploy_openshift_tpp_rest_server: &deploy_openshift_tpp_rest_server 
+.deploy_openshift_tpp_rest_server: &deploy_openshift_tpp_rest_server
   script:
     - >-
       skopeo copy
@@ -155,7 +155,7 @@ variables:
 
     - echo "Deploy ${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}"
     - docker pull "${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${DOCKER_TAG}"
-    - docker tag "${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${DOCKER_TAG}"  "${HARBOR_REGISTRY}/${HARBOR_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${TAG}" 
+    - docker tag "${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${DOCKER_TAG}"  "${HARBOR_REGISTRY}/${HARBOR_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${TAG}"
     - docker push "${HARBOR_REGISTRY}/${HARBOR_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${TAG}"
 
     - echo "Deploy ${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}"
@@ -191,7 +191,7 @@ build oba frontend:
  stage: "Compile"
  script:
     - cd oba-ui
-    - npm install
+    - npm ci
     - npm run build:prod
  cache:
     key: "OBA_UI_${CI_COMMIT_REF_SLUG}"
@@ -207,7 +207,7 @@ build tpp frontend:
   stage: "Compile"
   script:
     - cd tpp-ui
-    - npm install
+    - npm ci
     - npm run build:prod
   cache:
     key: "TPP_UI_${CI_COMMIT_REF_SLUG}"
@@ -224,7 +224,7 @@ build devportal frontend:
   script:
     - scripts/.update-postman-test-files.sh
     - cd developer-portal-ui
-    - npm install
+    - npm ci
     - npm run build:prod
   cache:
     key: "DEVPORTAL_${CI_COMMIT_REF_SLUG}"
