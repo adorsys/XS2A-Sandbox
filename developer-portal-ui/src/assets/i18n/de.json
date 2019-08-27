@@ -338,7 +338,7 @@
         "LIST_2": {
           "LI_1": "Local environment Anpassung",
           "INNER_LIST_1": {
-            "LI_1": "Einfügen der Dateien in diesen Ordner:"
+            "LI_1": "Bevor Sie alle Services der XS2A Sandbox lokal starten, fügen Sie Ihre Dateien in den Ordner "
           },
           "LI_2": "Openshift environment Anpassung",
           "INNER_LIST_2": {

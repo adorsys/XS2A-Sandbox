@@ -338,7 +338,7 @@
         "LIST_2": {
           "LI_1": "Local environment customization",
           "INNER_LIST_1": {
-            "LI_1": "Put your files in folder"
+            "LI_1": "Before running all services of the XS2A Sandbox local, put your files in folder"
           },
           "LI_2": "Openshift environment customization",
           "INNER_LIST_2": {
