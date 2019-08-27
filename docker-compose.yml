@@ -62,7 +62,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=consent
       - SPRING_DATASOURCE_USERNAME=cms
       - SPRING_DATASOURCE_PASSWORD=cms
-      - SERVER_KEY=ledgers_conenctor_secret
+      - SERVER_KEY=secret123
       - SPRING_LIQUIBASE_ENABLED=true
       - USED-NON-RECURRING-CONSENT-EXPIRATION.CRON.EXPRESSION=0 0 * * * *
     depends_on:
@@ -114,6 +114,7 @@ services:
       SPRING_DATASOURCE_URL: "jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=consent"
       SPRING_DATASOURCE_USERNAME: "cms"
       SPRING_DATASOURCE_PASSWORD: "cms"
+      SERVER_KEY: "secret123"
 
   # Ledgers
   ledgers:
