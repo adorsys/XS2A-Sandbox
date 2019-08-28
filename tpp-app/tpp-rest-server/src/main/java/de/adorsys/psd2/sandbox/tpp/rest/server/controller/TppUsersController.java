@@ -1,6 +1,5 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.controller;
 
-import de.adorsys.ledgers.middleware.api.domain.um.UserRoleTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
@@ -14,10 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static de.adorsys.ledgers.middleware.api.domain.um.UserRoleTO.CUSTOMER;
+import static java.util.Collections.singletonList;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
@@ -35,7 +35,7 @@ public class TppUsersController implements TppUsersRestApi {
 
     @Override
     public ResponseEntity<List<UserTO>> getAllUsers() {
-        return userMgmtStaffRestClient.getBranchUsersByRoles(Arrays.asList(UserRoleTO.CUSTOMER));
+        return userMgmtStaffRestClient.getBranchUsersByRoles(singletonList(CUSTOMER));
     }
 
     // TODO resolve 'branch' on Ledgers side
@@ -48,7 +48,13 @@ public class TppUsersController implements TppUsersRestApi {
                             .map(UserTO::getBranch)
                             .orElseThrow(() -> new TppException("No tpp code present!", 400));
         UserTO userTO = userMapper.toUserTO(user);
+        userTO.setBranch(branch);
         userMgmtStaffRestClient.modifyUser(branch, userTO);
         return new ResponseEntity<>(OK);
+    }
+
+    @Override
+    public ResponseEntity<UserTO> getUser(String userId) {
+        return userMgmtRestClient.getUserById(userId);
     }
 }
