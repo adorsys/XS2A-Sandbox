@@ -9,6 +9,7 @@ import { InfoService } from '../../commons/info/info.service';
 import { Account, AccountStatus, AccountType, UsageType } from '../../models/account.model';
 import { AccountService } from '../../services/account.service';
 import { AccountComponent } from './account.component';
+import { ConvertBalancePipe } from '../../pipes/convertBalance.pipe';
 
 describe('AccountComponent', () => {
     let component: AccountComponent;
@@ -24,7 +25,7 @@ describe('AccountComponent', () => {
                 InfoModule,
                 IconModule
             ],
-            declarations: [AccountComponent],
+            declarations: [AccountComponent, ConvertBalancePipe],
             providers: [AccountService, InfoService]
         })
             .compileComponents();

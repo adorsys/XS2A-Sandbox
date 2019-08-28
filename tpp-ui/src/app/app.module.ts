@@ -36,6 +36,7 @@ import {AutoLogoutService} from "./services/auto-logout.service";
 import { AccountAccessManagementComponent } from './components/account-access-management/account-access-management.component';
 import { ResetPasswordComponent } from './components/auth/reset-password/reset-password.component';
 import { ConfirmNewPasswordComponent } from './components/auth/confirm-new-password/confirm-new-password.component';
+import { ConvertBalancePipe } from './pipes/convertBalance.pipe';
 import { UserUpdateComponent } from './components/users/user-update/user-update.component';
 
 @NgModule({
@@ -62,7 +63,8 @@ import { UserUpdateComponent } from './components/users/user-update/user-update.
         ResetPasswordComponent,
         ConfirmNewPasswordComponent,
         UserUpdateComponent,
-        CertificateComponent
+        CertificateComponent,
+        ConvertBalancePipe
     ],
     imports: [
         BrowserModule,

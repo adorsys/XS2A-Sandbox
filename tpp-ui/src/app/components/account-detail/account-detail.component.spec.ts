@@ -10,6 +10,7 @@ import { Account, AccountStatus, AccountType, UsageType } from '../../models/acc
 import { AccountService } from '../../services/account.service';
 import { AccountComponent } from '../account/account.component';
 import { AccountDetailComponent } from './account-detail.component';
+import { ConvertBalancePipe } from 'src/app/pipes/convertBalance.pipe';
 
 describe('AccountDetailComponent', () => {
     let component: AccountDetailComponent;
@@ -25,7 +26,7 @@ describe('AccountDetailComponent', () => {
                 InfoModule,
                 FormsModule,
             ],
-            declarations: [ AccountDetailComponent, AccountComponent ],
+            declarations: [ AccountDetailComponent, AccountComponent, ConvertBalancePipe ],
             providers: [AccountService, InfoService]
         })
             .compileComponents();
