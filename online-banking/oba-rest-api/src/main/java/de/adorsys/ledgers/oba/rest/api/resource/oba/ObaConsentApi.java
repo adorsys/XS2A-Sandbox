@@ -29,4 +29,17 @@ public interface ObaConsentApi {
     @PutMapping(path = "/{consentId}")
     @ApiOperation(value = "Revoke consent by ID", authorizations = @Authorization(value = "apiKey"))
     ResponseEntity<Boolean> revokeConsent(@PathVariable String consentId);
+
+    /**
+     * @param consentId       decrypted consent id
+     * @param authorizationId authorization id
+     * @param tan             TAN for single operation
+     * @return 200 OK if operation was successful, or an error with msg on the failure reason
+     */
+    @GetMapping(path = "/confirm/{userLogin}/{consentId}/{authorizationId}/{tan}")
+    @ApiOperation(value = "Confirm AIS Consent for Decoupled Approach")
+    ResponseEntity<Void> confirm(@PathVariable("userLogin") String userLogin,
+                                 @PathVariable("consentId") String consentId,
+                                 @PathVariable("authorizationId") String authorizationId,
+                                 @PathVariable("tan") String tan);
 }

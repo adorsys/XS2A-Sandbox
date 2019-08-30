@@ -15,12 +15,13 @@ import de.adorsys.ledgers.oba.rest.api.consentref.InvalidConsentException;
 import de.adorsys.ledgers.oba.rest.api.domain.*;
 import de.adorsys.ledgers.oba.rest.api.exception.ConsentAuthorizeException;
 import de.adorsys.ledgers.oba.rest.api.resource.AISApi;
-import de.adorsys.ledgers.oba.rest.server.mapper.ObaAisConsentMapper;
 import de.adorsys.ledgers.oba.rest.server.mapper.CreatePiisConsentRequestMapper;
+import de.adorsys.ledgers.oba.rest.server.mapper.ObaAisConsentMapper;
 import de.adorsys.psd2.consent.api.CmsAspspConsentDataBase64;
 import de.adorsys.psd2.consent.api.ais.AisAccountAccess;
 import de.adorsys.psd2.consent.api.ais.CmsAisConsentResponse;
 import de.adorsys.psd2.consent.psu.api.ais.CmsAisConsentAccessRequest;
+import de.adorsys.psd2.xs2a.core.profile.AccountReference;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import feign.FeignException;
 import io.swagger.annotations.Api;
@@ -315,7 +316,9 @@ public class AISController extends AbstractXISController implements AISApi {
             AisConsentTO pisConsent = new AisConsentTO();
             AisAccountAccessInfoTO access = new AisAccountAccessInfoTO();
             // Only consent we take.
-            access.setBalances(piisConsentRequest.getAccounts().stream().map(a -> a.getIban()).collect(Collectors.toList()));
+            access.setBalances(piisConsentRequest.getAccounts().stream()
+                                   .map(AccountReference::getIban)
+                                   .collect(Collectors.toList()));
             pisConsent.setAccess(access);
             pisConsent.setFrequencyPerDay(piisConsentRequest.getAllowedFrequencyPerDay());
             pisConsent.setId(cmsCcnsent.getConsentId());
@@ -480,8 +483,7 @@ public class AISController extends AbstractXISController implements AISApi {
         workflow.setAuthCodeMessage(consentResponse.getPsuMessage());
     }
 
-    private void scaStatus(ConsentWorkflow workflow, String psuId, HttpServletResponse response)
-        throws ConsentAuthorizeException {
+    private void scaStatus(ConsentWorkflow workflow, String psuId, HttpServletResponse response) throws ConsentAuthorizeException {
         String status = workflow.getAuthResponse().getScaStatus().name();
         ResponseEntity<Boolean> resp = cmsPsuAisClient.updateAuthorisationStatus(workflow.consentId(), status,
             workflow.authId(), psuId, null, null, null, DEFAULT_SERVICE_INSTANCE_ID);

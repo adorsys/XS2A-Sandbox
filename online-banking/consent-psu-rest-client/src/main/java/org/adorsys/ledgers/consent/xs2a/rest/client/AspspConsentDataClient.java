@@ -45,8 +45,8 @@ public interface AspspConsentDataClient {
         @ApiParam(
             name = "consent-id",
             value = "The account consent identification assigned to the created account consent / payment identification assigned to the created payment.",
-            example = "CxymMkwtykFtTeQuH1jrcoOyzcqCcwNCt5193Gfn33mqqcAy_xw2KPwMd5y6Xxe1EwE0BTNRHeyM0FI90wh0hA==_=_bS6p6XvTWI")
-        @PathVariable("consent-id") String encryptedConsentId);
+            example = "6cb3773c-2888-40cc-86fa-10589de6d77f")
+        @PathVariable("consent-id") String consentId);
 
     @PutMapping("/{consent-id}")
     @ApiOperation(value = "Update aspsp consent data identified by given consent id / payment id.")

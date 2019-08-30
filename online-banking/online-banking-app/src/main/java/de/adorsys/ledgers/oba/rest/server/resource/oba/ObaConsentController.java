@@ -1,7 +1,7 @@
 package de.adorsys.ledgers.oba.rest.server.resource.oba;
 
-import de.adorsys.ledgers.oba.rest.api.resource.oba.ObaConsentApi;
 import de.adorsys.ledgers.oba.rest.api.domain.ObaAisConsent;
+import de.adorsys.ledgers.oba.rest.api.resource.oba.ObaConsentApi;
 import de.adorsys.ledgers.oba.rest.server.service.ConsentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.ACCEPTED;
 
 @Slf4j
 @RestController
@@ -28,5 +30,11 @@ public class ObaConsentController implements ObaConsentApi {
     @Override
     public ResponseEntity<Boolean> revokeConsent(String consentId) {
         return ResponseEntity.ok(consentService.revokeConsent(consentId));
+    }
+
+    @Override
+    public ResponseEntity<Void> confirm(String userLogin, String consentId, String authorizationId, String tan) {
+        consentService.confirmAisConsentDecoupled(userLogin, consentId, authorizationId, tan);
+        return new ResponseEntity<>(ACCEPTED);
     }
 }

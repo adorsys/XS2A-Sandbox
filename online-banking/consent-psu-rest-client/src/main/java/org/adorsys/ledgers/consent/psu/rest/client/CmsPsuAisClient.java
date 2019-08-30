@@ -47,24 +47,6 @@ public interface CmsPsuAisClient {
         @RequestHeader(value = "instance-id", required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId,
         @RequestBody PsuIdData psuIdData);
 
-    @GetMapping(path = "/{consent-id}")
-    @ApiOperation(value = "Returns AIS Consent object by its ID.")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK", response = AisAccountConsent.class),
-        @ApiResponse(code = 404, message = "Not Found")})
-    ResponseEntity<AisAccountConsent> getConsent(
-        @ApiParam(name = "consent-id", value = "The account consent identification assigned to the created account consent.", example = "bf489af6-a2cb-4b75-b71d-d66d58b934d7")
-        @PathVariable("consent-id") String consentId,
-        @ApiParam(value = "Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP's documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session. ")
-        @RequestHeader(value = "psu-id", required = false) String psuId,
-        @ApiParam(value = "Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility. ")
-        @RequestHeader(value = "psu-id-type", required = false) String psuIdType,
-        @ApiParam(value = "Might be mandated in the ASPSP's documentation. Only used in a corporate context. ")
-        @RequestHeader(value = "psu-corporate-id", required = false) String psuCorporateId,
-        @ApiParam(value = "Might be mandated in the ASPSP's documentation. Only used in a corporate context. ")
-        @RequestHeader(value = "psu-corporate-id-type", required = false) String psuCorporateIdType,
-        @RequestHeader(value = "instance-id", required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId);
-
     @PutMapping(path = "/{consent-id}/authorisation/{authorisation-id}/status/{status}")
     @ApiOperation(value = "Updates a Status of AIS Consent Authorisation by its ID and PSU ID")
     @ApiResponses(value = {
@@ -180,10 +162,10 @@ public interface CmsPsuAisClient {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK", response = AisAccountConsent.class),
         @ApiResponse(code = 404, message = "Not Found")})
-    ResponseEntity<AisAccountConsent> getConsentByConsentId(
+    ResponseEntity<AisAccountConsent> getConsent(
         @ApiParam(name = "consent-id", value = "The account consent identification assigned to the created account consent.", example = "bf489af6-a2cb-4b75-b71d-d66d58b934d7")
         @PathVariable("consent-id") String consentId,
-        @ApiParam(value = "Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP's documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceding AIS service in the same session. ")
+        @ApiParam(value = "Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP's documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session. ")
         @RequestHeader(value = "psu-id", required = false) String psuId,
         @ApiParam(value = "Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility. ")
         @RequestHeader(value = "psu-id-type", required = false) String psuIdType,
