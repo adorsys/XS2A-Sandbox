@@ -147,7 +147,7 @@
   }
 }
 
-/deep/ .collapse-content {
+::ng-deep .collapse-content {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease-out;

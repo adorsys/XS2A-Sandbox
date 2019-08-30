@@ -1,9 +1,8 @@
-import {ObaAisConsent} from './../api/models/oba-ais-consent';
-import {Component, OnInit} from '@angular/core';
-import {AisAccountConsent} from '../api/models';
-import {OnlineBankingService} from '../common/services/online-banking.service';
-import {InfoService} from "../common/info/info.service";
-import {map} from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+
+import { ObaAisConsent } from '../../api/models/oba-ais-consent';
+import { InfoService } from '../../common/info/info.service';
+import { OnlineBankingService } from '../../common/services/online-banking.service';
 
 @Component({
     selector: 'app-consents',

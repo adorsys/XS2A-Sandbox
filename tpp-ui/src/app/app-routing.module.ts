@@ -17,6 +17,7 @@ import {TestDataGenerationComponent} from './components/testDataGeneration/test-
 import {AccountAccessManagementComponent} from "./components/account-access-management/account-access-management.component";
 import {ResetPasswordComponent} from "./components/auth/reset-password/reset-password.component";
 import {ConfirmNewPasswordComponent} from "./components/auth/confirm-new-password/confirm-new-password.component";
+import {UserUpdateComponent} from "./components/users/user-update/user-update.component";
 
 const routes: Routes = [
     {
@@ -45,7 +46,6 @@ const routes: Routes = [
                 path: 'accounts/:id/deposit-cash',
                 component: CashDepositComponent
             },
-
             {
                 path: 'users/all',
                 component: UsersComponent
@@ -57,6 +57,10 @@ const routes: Routes = [
             {
                 path: 'users/:id',
                 component: UserDetailsComponent
+            },
+            {
+                path: 'users/:id/update-user-details',
+                component: UserUpdateComponent
             },
             {
                 path: 'users/:id/create-deposit-account',

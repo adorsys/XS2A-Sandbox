@@ -334,21 +334,21 @@
           }
         },
         "LI_4": "Cuando cree el archivo .json (por ejemplo, UITheme.json) y complete todos los campos requeridos, coloque este archivo con el logotipo (por ejemplo, logo.png) y la persona de contacto (por ejemplo, contact.png) en la carpeta",
-        "LI_5": "Steps for putting files in this folder:",
+        "LI_5": "Pasos para poner archivos en esta carpeta:",
         "LIST_2": {
-          "LI_1": "Local environment customization",
+          "LI_1": "Personalización del entorno local",
           "INNER_LIST_1": {
-            "LI_1": "Put your files in folder"
+            "LI_1": "Antes de ejecutar todos los servicios de XS2A Sandbox local, coloque sus archivos en la carpeta"
           },
-          "LI_2": "Openshift environment customization",
+          "LI_2": "Personalización del entorno Openshift",
           "INNER_LIST_2": {
-            "LI_1": "Install the Openshift Command Line Tools:",
-            "LI_2": "Navigate to local source folder (where the customisation files are\n stored):",
-            "LI_3": "Login to Openshift:",
-            "LI_4": "Navigate to the Openshift project.",
-            "LI_5": "We select the development environment for our example.",
-            "LI_6": "Please choose one of the following:",
-            "LI_7": "Copy the customisation files to the running Developer Portal UI\n application pod:"
+            "LI_1": "Instalar Openshift Command Line Tools:",
+            "LI_2": "Navegue a la carpeta de origen local (donde se almacenan los archivos de personalización):",
+            "LI_3": "Inicia sesión en Openshift:",
+            "LI_4": "Navegar al proyecto Openshift.",
+            "LI_5": "Seleccionamos el entorno de desarrollo para nuestro ejemplo.",
+            "LI_6": "Elija uno de los siguientes:",
+            "LI_7": "Copie los archivos de personalización en el pod de aplicación de la interfaz de usuario del Portal de desarrollador en ejecución:"
           }
         },
         "LI_6": "Personalización esta completada, felicitaciones!"

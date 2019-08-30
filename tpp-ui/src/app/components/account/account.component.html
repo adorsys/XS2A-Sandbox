@@ -21,7 +21,7 @@
       </div>
       <div class="row">
         <div class="col-12 col-md-3 ">Balance</div>
-        <div class="col-12 col-md-9 text-muted">{{account?.balances[0].amount.amount}}</div>
+        <div class="col-12 col-md-9 text-muted">{{account?.balances[0].amount.amount | convertBalance}}</div>
       </div>
       <div class="">
         <button class="btn btn-primary" (click)="goToAccountDetail()">Access management</button>

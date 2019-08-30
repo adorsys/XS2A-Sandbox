@@ -1,16 +1,16 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {FormArray, ReactiveFormsModule, Validators} from "@angular/forms";
-import {RouterTestingModule} from "@angular/router/testing";
-import {UserCreateComponent} from './user-create.component';
-import {IconModule} from "../../../commons/icon/icon.module";
-import {DebugElement} from "@angular/core";
-import {UserService} from "../../../services/user.service";
-import {Observable} from "rxjs";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {Router} from "@angular/router";
-import {InfoService} from "../../../commons/info/info.service";
-import {InfoModule} from "../../../commons/info/info.module";
-import {isBoolean} from "util";
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormArray, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+
+import { IconModule } from '../../../commons/icon/icon.module';
+import { InfoModule } from '../../../commons/info/info.module';
+import { InfoService } from '../../../commons/info/info.service';
+import { UserService } from '../../../services/user.service';
+import { UserCreateComponent } from './user-create.component';
+import { of } from 'rxjs';
 
 describe('UserCreateComponent', () => {
     let component: UserCreateComponent;
@@ -183,7 +183,7 @@ describe('UserCreateComponent', () => {
 
         // create spies and fake call function
         const sampleResponse = {value: 'sample response'};
-        let createUserSpy = spyOn(userService, 'createUser').and.callFake(() => Observable.of(sampleResponse));
+        let createUserSpy = spyOn(userService, 'createUser').and.callFake(() => of(sampleResponse));
         let navigateSpy = spyOn(router, 'navigateByUrl');
         component.onSubmit();
         expect(component.submitted).toBeTruthy();

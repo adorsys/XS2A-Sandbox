@@ -25,4 +25,8 @@ export class UserService {
     return this.http.post(this.url + '/users', user);
   }
 
+  updateUserDetails(user: User): Observable<any> {
+      return this.http.put(this.url + '/users', user);
+  }
+
 }

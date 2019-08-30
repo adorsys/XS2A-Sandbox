@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 
-import { AccountDetailsTO, TransactionTO } from '../../api/models';
-import { OnlineBankingAccountInformationService } from '../../api/services/online-banking-account-information.service';
-import { OnlineBankingService } from '../../common/services/online-banking.service';
-import { ngbDateToString, stringToNgbDate } from '../../common/utils/ngb-datepicker-utils';
+import { AccountDetailsTO, TransactionTO } from '../../../api/models';
+import { OnlineBankingAccountInformationService } from '../../../api/services/online-banking-account-information.service';
+import { OnlineBankingService } from '../../../common/services/online-banking.service';
+import { ngbDateToString, stringToNgbDate } from '../../../common/utils/ngb-datepicker-utils';
 
 @Component({
     selector: 'app-account-details',

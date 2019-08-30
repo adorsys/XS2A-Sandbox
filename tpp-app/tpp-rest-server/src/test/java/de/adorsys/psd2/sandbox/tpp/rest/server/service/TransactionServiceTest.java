@@ -43,12 +43,12 @@ public class TransactionServiceTest {
 
     @Test
     public void uploadUserTransaction() throws IOException {
-        UserTransaction tr = parseService1.convertFileToTargetObject(resolveMultipartFile("team_bank_transaction.csv"), UserTransaction.class).get(0);
+        UserTransaction tr = parseService1.convertFileToTargetObject(resolveMultipartFile("transactions_template.csv"), UserTransaction.class).get(0);
         when(parseService.convertFileToTargetObject(any(), any())).thenReturn(Collections.singletonList(tr));
         when(transactionDataConverter.toLedgersMockTransactions((anyList()))).thenReturn(converter.toLedgersMockTransactions(Collections.singletonList(tr)));
         when(transactionsStaffRestClient.transactions(anyList())).thenReturn(ResponseEntity.ok(new HashMap<String, String>()));
 
-        Map<String, String> result = transactionService.uploadUserTransaction(resolveMultipartFile("team_bank_transaction.csv"));
+        Map<String, String> result = transactionService.uploadUserTransaction(resolveMultipartFile("transactions_template.csv"));
         assertThat(result).isEmpty();
         assertThat(result).isEqualTo(new HashMap<String, String>());
     }

@@ -1,11 +1,11 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-
-import {AccountDetailsComponent} from './account-details.component';
-import {RouterTestingModule} from "@angular/router/testing";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {AuthService} from "../../common/services/auth.service";
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+
+import { AuthService } from '../../../common/services/auth.service';
+import { AccountDetailsComponent } from './account-details.component';
 
 describe('AccountDetailsComponent', () => {
     let component: AccountDetailsComponent;

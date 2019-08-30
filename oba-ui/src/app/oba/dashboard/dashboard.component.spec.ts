@@ -1,13 +1,13 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {RouterTestingModule} from '@angular/router/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 
-import {DashboardComponent} from './dashboard.component';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {ReactiveFormsModule} from '@angular/forms';
-import { AuthService } from '../common/services/auth.service';
+import { NavbarComponent } from '../../common/navbar/navbar.component';
+import { AuthService } from '../../common/services/auth.service';
+import { SidebarComponent } from '../../common/sidebar/sidebar.component';
 import { LoginComponent } from '../login/login.component';
-import { NavbarComponent } from '../common/navbar/navbar.component';
-import { SidebarComponent } from '../common/sidebar/sidebar.component';
+import { DashboardComponent } from './dashboard.component';
 
 describe('DashboardComponent', () => {
     let component: DashboardComponent;

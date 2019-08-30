@@ -1,13 +1,14 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Subscription} from 'rxjs';
-import {Router} from '@angular/router';
-import {RoutingPath} from '../common/models/routing-path.model';
-import {OnlineBankingAuthorizationService} from '../api/services/online-banking-authorization.service';
-import LoginUsingPOST1Params = OnlineBankingAuthorizationService.LoginUsingPOST1Params;
-import {AuthService} from '../common/services/auth.service';
-import {InfoService} from '../common/info/info.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
+import { OnlineBankingAuthorizationService } from '../../api/services/online-banking-authorization.service';
+import { InfoService } from '../../common/info/info.service';
+import { RoutingPath } from '../../common/models/routing-path.model';
+import { AuthService } from '../../common/services/auth.service';
+
+import LoginUsingPOST1Params = OnlineBankingAuthorizationService.LoginUsingPOST1Params;
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

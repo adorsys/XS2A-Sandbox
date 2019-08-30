@@ -6,9 +6,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,4 +25,16 @@ public interface TppUsersRestApi {
         authorizations = @Authorization(value = "apiKey"))
     @GetMapping
     ResponseEntity<List<UserTO>> getAllUsers();
+
+    @ApiOperation(value = "Update user for a given TPP",
+        notes = "Endpoint to update a user for a given TPP",
+        authorizations = @Authorization(value = "apiKey"))
+    @PutMapping
+    ResponseEntity<Void> updateUser(@RequestBody User user);
+
+    @ApiOperation(value = "Retrieves user by id",
+            notes = "Endpoint to get user by id",
+            authorizations = @Authorization(value = "apiKey"))
+    @GetMapping("/{userId}")
+    ResponseEntity<UserTO> getUser(@PathVariable String userId);
 }

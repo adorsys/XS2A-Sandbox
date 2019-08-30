@@ -1,7 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subscription} from "rxjs";
-import {OnlineBankingService} from "../common/services/online-banking.service";
-import {AccountDetailsTO} from "../api/models/account-details-to";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+
+import { AccountDetailsTO } from '../../api/models/account-details-to';
+import { OnlineBankingService } from '../../common/services/online-banking.service';
 
 @Component({
     selector: 'app-accounts',

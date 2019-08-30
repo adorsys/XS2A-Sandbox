@@ -13,7 +13,7 @@ services:
 
   # Xs2a connector example
   xs2a-connector-examples:
-    image: adorsys/xs2a-connector-examples:3.9.1
+    image: adorsys/xs2a-connector-examples:3.9.3
     container_name: xs2a-connector-examples
     restart: on-failure
     ports:
@@ -62,7 +62,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=consent
       - SPRING_DATASOURCE_USERNAME=cms
       - SPRING_DATASOURCE_PASSWORD=cms
-      - SERVER_KEY=ledgers_conenctor_secret
+      - SERVER_KEY=secret123
       - SPRING_LIQUIBASE_ENABLED=true
       - USED-NON-RECURRING-CONSENT-EXPIRATION.CRON.EXPRESSION=0 0 * * * *
     depends_on:
@@ -114,10 +114,11 @@ services:
       SPRING_DATASOURCE_URL: "jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=consent"
       SPRING_DATASOURCE_USERNAME: "cms"
       SPRING_DATASOURCE_PASSWORD: "cms"
+      SERVER_KEY: "secret123"
 
   # Ledgers
   ledgers:
-    image: adorsys/ledgers:1.1
+    image: adorsys/ledgers:1.4
     container_name: ledgers
     restart: on-failure
     networks:

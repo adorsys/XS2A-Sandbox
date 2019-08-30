@@ -1,15 +1,15 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 
-import {AccountComponent} from './account.component';
-import {RouterTestingModule} from "@angular/router/testing";
-import {AccountService} from "../../services/account.service";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {Account, AccountStatus, AccountType, UsageType} from "../../models/account.model";
-import {Observable} from "rxjs";
-import "rxjs-compat/add/observable/of";
-import {InfoService} from "../../commons/info/info.service";
-import {InfoModule} from "../../commons/info/info.module";
-import {IconModule} from "../../commons/icon/icon.module";
+import { IconModule } from '../../commons/icon/icon.module';
+import { InfoModule } from '../../commons/info/info.module';
+import { InfoService } from '../../commons/info/info.service';
+import { Account, AccountStatus, AccountType, UsageType } from '../../models/account.model';
+import { AccountService } from '../../services/account.service';
+import { AccountComponent } from './account.component';
+import { ConvertBalancePipe } from '../../pipes/convertBalance.pipe';
 
 describe('AccountComponent', () => {
     let component: AccountComponent;
@@ -25,7 +25,7 @@ describe('AccountComponent', () => {
                 InfoModule,
                 IconModule
             ],
-            declarations: [AccountComponent],
+            declarations: [AccountComponent, ConvertBalancePipe],
             providers: [AccountService, InfoService]
         })
             .compileComponents();
@@ -72,7 +72,7 @@ describe('AccountComponent', () => {
             balances: []
         } as Account;
 
-        spyOn(accountService, 'getAccount').and.returnValue(Observable.of(mockAccount));
+        spyOn(accountService, 'getAccount').and.returnValue(of(mockAccount));
         component.getAccount();
         expect(component.account).not.toBeUndefined();
     })

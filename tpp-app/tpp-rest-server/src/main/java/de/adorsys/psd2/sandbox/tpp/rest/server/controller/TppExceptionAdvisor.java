@@ -1,7 +1,7 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import de.adorsys.psd2.sandbox.tpp.rest.server.exception.ErrorResponse;
 import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
 import feign.FeignException;
@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.HandlerMethod;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.Map;
 
+import static java.util.Optional.ofNullable;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @Slf4j
@@ -54,11 +54,12 @@ public class TppExceptionAdvisor {
     }
 
     private String resolveErrorMessage(FeignException ex) {
-        ObjectReader reader = objectMapper.readerFor(Map.class);
-        String jsonContent = new String(ex.content(), Charset.defaultCharset());
         try {
-            Map<String, String> map = reader.readValue(jsonContent);
-            return map.getOrDefault(DEV_MESSAGE, ex.getMessage());
+            return ex.content() != null
+                       ? ofNullable(objectMapper.readTree(ex.content()).get(DEV_MESSAGE))
+                             .map(JsonNode::asText)
+                             .orElseGet(ex::getMessage)
+                       : ex.getMessage();
         } catch (IOException e) {
             log.warn("Couldn't read json content");
         }

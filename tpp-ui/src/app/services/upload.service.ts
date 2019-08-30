@@ -3,8 +3,7 @@ import {Injectable} from '@angular/core';
 import {FileUploader} from 'ng2-file-upload';
 import {FileItem} from 'ng2-file-upload/file-upload/file-item.class';
 import {ParsedResponseHeaders} from 'ng2-file-upload/file-upload/file-uploader.class';
-import 'rxjs/add/operator/map';
-import {AuthService} from './auth.service'
+import {AuthService} from './auth.service';
 
 @Injectable({
     providedIn: 'root'

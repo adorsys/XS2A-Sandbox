@@ -1,17 +1,17 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {ReactiveFormsModule} from "@angular/forms";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {RouterTestingModule} from "@angular/router/testing";
-import {Router} from "@angular/router";
-import {DebugElement} from "@angular/core";
-import {By} from "@angular/platform-browser";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {Observable} from "rxjs";
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 
-import {InfoModule} from "../../../commons/info/info.module";
-import {RegisterComponent} from './register.component';
-import {CertificateComponent} from "../certificate/certificate.component";
-import {AuthService} from "../../../services/auth.service";
+import { InfoModule } from '../../../commons/info/info.module';
+import { AuthService } from '../../../services/auth.service';
+import { CertificateComponent } from '../certificate/certificate.component';
+import { RegisterComponent } from './register.component';
 
 describe('RegisterComponent', () => {
     let component: RegisterComponent;
@@ -129,7 +129,7 @@ describe('RegisterComponent', () => {
         expect(component.userForm.valid).toBeTruthy();
 
         // submit form
-        let registerSpy = spyOn(authService, 'register').and.callFake(() => Observable.of({value: "sample response"}));
+        let registerSpy = spyOn(authService, 'register').and.callFake(() => of({value: "sample response"}));
         let navigateSpy = spyOn(router, 'navigate').and.callFake(() => Promise.resolve([]));
         component.onSubmit();
         expect(registerSpy).toHaveBeenCalled();

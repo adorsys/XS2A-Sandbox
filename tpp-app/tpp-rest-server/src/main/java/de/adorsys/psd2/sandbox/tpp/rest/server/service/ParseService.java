@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 
@@ -71,7 +72,7 @@ public class ParseService {
             throw new TppException("No file uploaded!", 400);
         }
         try {
-            InputStreamReader streamReader = new InputStreamReader(file.getInputStream());
+            InputStreamReader streamReader = new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8);
             CsvToBean<T> csvToBean = new CsvToBeanBuilder<T>(streamReader)
                                          .withType(target)
                                          .withIgnoreLeadingWhiteSpace(true)
