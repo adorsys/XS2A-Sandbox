@@ -33,7 +33,7 @@ public class ParseServiceTest {
 
     @Test
     public void convertMultiPartToFile() throws IOException {
-        List<UserTransaction> transactions = parseService.convertFileToTargetObject(resolveMultipartFile("team_bank_transaction.csv"), UserTransaction.class);
+        List<UserTransaction> transactions = parseService.convertFileToTargetObject(resolveMultipartFile("transactions_template.csv"), UserTransaction.class);
         assertThat(transactions).isNotEmpty();
         assertThat(transactions.get(0)).isEqualToComparingFieldByField(buildSingleUserTransaction());
     }

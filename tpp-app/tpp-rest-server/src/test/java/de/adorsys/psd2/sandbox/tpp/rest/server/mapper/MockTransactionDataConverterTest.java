@@ -33,7 +33,7 @@ public class MockTransactionDataConverterTest {
 
     @Test
     public void toLedgersMockTransactionTest() throws IOException {
-        List<UserTransaction> input = parseService.convertFileToTargetObject(resolveMultipartFile("team_bank_transaction.csv"), UserTransaction.class);
+        List<UserTransaction> input = parseService.convertFileToTargetObject(resolveMultipartFile("transactions_template.csv"), UserTransaction.class);
         MockBookingDetails expected = getExpectedMockTransaction();
         MockBookingDetails result = converter.toLedgersMockTransaction(input.get(0));
         assertThat(result).isEqualToComparingFieldByFieldRecursively(expected);
@@ -49,7 +49,7 @@ public class MockTransactionDataConverterTest {
     }
 
     private List<UserTransaction> getListWith2EqualTransactions() throws IOException {
-        List<UserTransaction> transactionList = parseService.convertFileToTargetObject(resolveMultipartFile("team_bank_transaction.csv"), UserTransaction.class);
+        List<UserTransaction> transactionList = parseService.convertFileToTargetObject(resolveMultipartFile("transactions_template.csv"), UserTransaction.class);
         transactionList.add(transactionList.get(0));
         return transactionList;
     }
