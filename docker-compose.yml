@@ -13,7 +13,7 @@ services:
 
   # Xs2a connector example
   xs2a-connector-examples:
-    image: adorsys/xs2a-connector-examples:3.9.2
+    image: adorsys/xs2a-connector-examples:3.9.3
     container_name: xs2a-connector-examples
     restart: on-failure
     ports:
@@ -118,7 +118,7 @@ services:
 
   # Ledgers
   ledgers:
-    image: adorsys/ledgers:1.3
+    image: adorsys/ledgers:1.4
     container_name: ledgers
     restart: on-failure
     networks:
