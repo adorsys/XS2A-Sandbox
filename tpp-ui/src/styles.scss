@@ -32,7 +32,8 @@ label {
 .btn {
     color: $btn-text-color;
     margin-bottom: 1.1rem;
-    width: 200px;
+    min-width: 200px;
+    width: auto;
 
     &:hover {
         transition: 0.5s;
