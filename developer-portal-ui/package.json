@@ -79,7 +79,7 @@
   },
   "lint-staged": {
     "*.ts": [
-      "tslint --fix -p tslint.json"
+      "tslint --fix -p src/tsconfig.app.json"
     ],
     "*.{js,ts,json,css,scss,md,html}": [
       "prettier --write",
