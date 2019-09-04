@@ -1,7 +1,8 @@
-import {ErrorHandler, Injectable, Injector, NgZone} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
-import {InfoService} from "../info/info.service";
-import {HttpErrorResponse} from "@angular/common/http";
+import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorHandler, Injectable, Injector, NgZone } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { InfoService } from '../info/info.service';
 
 @Injectable()
 export class ObaErrorsHandler implements ErrorHandler {
@@ -23,12 +24,14 @@ export class ObaErrorsHandler implements ErrorHandler {
     return this.injector.get(ActivatedRoute);
   }
 
-  public handleError(error: HttpErrorResponse) {
-    console.error("OBA error handler: ", error);
+  public handleError(errorObj: HttpErrorResponse) {
+    console.error('OBA error handler: ', errorObj);
 
-    let httpErrorCode = error.status;
+    const httpErrorCode = errorObj.status;
 
     this.zone.run( () => {
+      const error = errorObj.error;
+      const errorMessage = error ? error.message : error.statusText;
 
       // default error handling
       switch (httpErrorCode) {
@@ -46,8 +49,9 @@ export class ObaErrorsHandler implements ErrorHandler {
         }
         default: {
           // if required could be redirected to internal server error page
-          this.infoService.openFeedback('Consent data is not valid. Please try again', {
-            severity: 'error'
+          this.infoService.openFeedback(errorMessage, {
+            severity: 'error',
+            duration: 3000
           });
           break;
         }

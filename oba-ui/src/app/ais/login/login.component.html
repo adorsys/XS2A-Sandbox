@@ -19,8 +19,8 @@
               <h2 class="card-title text-center font-weight-bold">adorsys Online banking</h2>
               <div class="font-weight-light my-4 text-muted">Please log in with your bank account username.</div>
 
-              <div *ngIf="invalidCredentials" class="alert alert-danger">
-                Invalid credentials
+              <div *ngIf="errorMessage" class="alert alert-danger">
+                {{ errorMessage }}
               </div>
 
               <div class="form-group">

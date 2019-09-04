@@ -1,13 +1,15 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {AisService} from "../../common/services/ais.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {Subscription} from "rxjs";
-import {ShareDataService} from "../../common/services/share-data.service";
-import {RoutingPath} from "../../common/models/routing-path.model";
-import {PSUAISService} from "../../api/services/psuais.service";
-import {InfoService} from "../../common/info/info.service";
-import {HttpErrorResponse} from "@angular/common/http";
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+
+import { PSUAISService } from '../../api/services/psuais.service';
+import { InfoService } from '../../common/info/info.service';
+import { RoutingPath } from '../../common/models/routing-path.model';
+import { AisService } from '../../common/services/ais.service';
+import { ShareDataService } from '../../common/services/share-data.service';
+
 import LoginUsingPOSTParams = PSUAISService.LoginUsingPOSTParams;
 
 @Component({
@@ -16,15 +18,14 @@ import LoginUsingPOSTParams = PSUAISService.LoginUsingPOSTParams;
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-
   loginForm: FormGroup;
+  errorMessage: string;
   invalidCredentials: boolean;
 
   private encryptedConsentId: string;
   private redirectId: string;
 
   private subscriptions: Subscription[] = [];
-
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
@@ -50,15 +51,19 @@ export class LoginComponent implements OnInit, OnDestroy {
         console.log(authorisationResponse);
         this.shareService.changeData(authorisationResponse);
         this.router.navigate([`${RoutingPath.ACCOUNT_INFORMATION}/${RoutingPath.GRANT_CONSENT}`]);
-      }, (error1: HttpErrorResponse) => {
+      }, (error: HttpErrorResponse) => {
         // if encryptedConsentId or redirectId is missing
         if (this.encryptedConsentId === undefined || this.redirectId === undefined) {
           this.infoService.openFeedback('Consent data is missing. Please create consent prior to login', {
             severity: 'error'
           });
         } else {
-          // else throw error
-          throw new HttpErrorResponse(error1);
+          if (error.status === 401) {
+            this.errorMessage = 'Invalid credentials';
+          } else {
+            this.errorMessage = error.error ? error.error.message : error.message;
+          }
+          throw new HttpErrorResponse(error);
         }
       })
     );
@@ -70,8 +75,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private getAisAuthCode(): void {
     this.activatedRoute.queryParams.subscribe(params => {
-      this.encryptedConsentId = params['encryptedConsentId'];
-      this.redirectId = params['redirectId'];
+      this.encryptedConsentId = params.encryptedConsentId;
+      this.redirectId = params.redirectId;
 
       this.subscriptions.push(
         this.aisService.aisAuthCode({encryptedConsentId: this.encryptedConsentId, redirectId: this.redirectId})

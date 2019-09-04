@@ -1,15 +1,17 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {catchError, map} from 'rxjs/operators';
-import {Observable, of} from 'rxjs';
-import {JwtHelperService} from '@auth0/angular-jwt';
-import {Router} from '@angular/router';
-import {AutoLogoutService} from './auto-logout.service';
-import {OnlineBankingAuthorizationService} from '../../api/services';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+
+import { ResetPassword } from '../../api/models/reset-password';
+import { SendCode } from '../../api/models/send-code';
+import { UpdatePassword } from '../../api/models/update-password';
+import { OnlineBankingAuthorizationService } from '../../api/services';
+import { AutoLogoutService } from './auto-logout.service';
+
 import LoginUsingPOST1Params = OnlineBankingAuthorizationService.LoginUsingPOST1Params;
-import {UpdatePassword} from "../../api/models/update-password";
-import {ResetPassword} from "../../api/models/reset-password";
-import {SendCode} from "../../api/models/send-code";
 
 @Injectable({
     providedIn: 'root'
@@ -34,17 +36,16 @@ export class AuthService {
     login(credentials: any): Observable<boolean> {
       return this.authorize(credentials).pipe(
         map(jwt => {
-          if (jwt != undefined) {
-            // this.autoLogoutService.initializeTokenMonitoring();
+          if (jwt !== undefined) {
+            this.autoLogoutService.initializeTokenMonitoring();
             localStorage.setItem(this.authTokenStorageKey, jwt);
             return true;
           }
-
           return false;
         }),
-        catchError((error) => {
-          console.log(error);
-          return of(false);
+        catchError(error => {
+          // Handle error here
+          return throwError(error);
         })
       );
     }
