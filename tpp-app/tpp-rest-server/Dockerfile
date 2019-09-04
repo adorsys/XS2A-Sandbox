@@ -2,8 +2,8 @@ FROM adorsys/java:8
 LABEL maintainer="https://github.com/adorsys/xs2a-sandbox"
 
 ENV SERVER_PORT 8093
-ENV JAVA_OPTS -Xmx1024m
-ENV JAVA_TOOL_OPTIONS -Xmx1024m -Xdebug -Xrunjdwp:server=y,transport=dt_socket,suspend=n
+ENV JAVA_OPTS -Xmx1024m -agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n
+ENV JAVA_TOOL_OPTIONS -Xmx1024m
 
 WORKDIR /opt/tpp-app
 
