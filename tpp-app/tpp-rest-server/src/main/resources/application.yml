@@ -22,10 +22,12 @@ spring:
       file-size-threshold: 2KB
       max-file-size: 2MB
       max-request-size: 2MB
-
   jackson:
     serialization:
       write_dates_as_timestamps: false
+  devtools:
+    remote:
+      secret: fractal
 
 ledgers.url: http://localhost:8088
 

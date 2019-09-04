@@ -56,6 +56,11 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+        </dependency>
+
         <!-- Springfox and swagger UI -->
         <dependency>
             <groupId>io.swagger</groupId>
@@ -128,6 +133,7 @@
                 <version>${spring-boot-dependencies.version}</version>
                 <configuration>
                     <includeSystemScope>true</includeSystemScope>
+                    <excludeDevtools>false</excludeDevtools>
                 </configuration>
                 <executions>
                     <execution>
