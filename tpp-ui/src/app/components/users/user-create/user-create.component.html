@@ -124,31 +124,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-4 my-auto">
+                                <div class="col-12 col-md-4 margin-top">
+                                    <label class="control-label">Method Value</label>
                                     <div [formGroupName]="i">
-                                        <div class="d-flex">
-                                            <div class="form-check mr-4">
-                                                <input class="form-check-input"
-                                                       formControlName="scaMethod"
-                                                       id="scaUserDataEmail{{i}}"
-                                                       type="radio"
-                                                       value="EMAIL">
-                                                <label class="form-check-label" for="scaUserDataEmail{{i}}">
-                                                    Email
-                                                </label>
-                                            </div>
-
-                                            <div class="form-check mr-4">
-                                                <input class="form-check-input"
-                                                       formControlName="scaMethod"
-                                                       id="scaUserDataPhone{{i}}"
-                                                       type="radio"
-                                                       value="MOBILE">
-                                                <label class="form-check-label" for="scaUserDataPhone{{i}}">
-                                                    Mobile
-                                                </label>
-                                            </div>
-                                        </div>
+                                        <select formControlName="scaMethod"class="form-control">
+                                            <option value=""></option>
+                                            <option *ngFor="let t of methods">{{t}}</option>
+                                        </select>
+                                    </div>
+                                    <div *ngIf="submitted && scaDataItem.controls['scaMethod'].errors" class="invalid-feedback">
+                                        <div *ngIf="scaDataItem.controls['scaMethod'].errors">Method Value is required</div>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-8">

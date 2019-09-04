@@ -11,6 +11,7 @@ import {InfoService} from "../../../commons/info/info.service";
 import {User} from "../../../models/user.model";
 import {RouterTestingModule} from "@angular/router/testing";
 import {IconModule} from "../../../commons/icon/icon.module";
+import {ScaMethods} from "../../../models/scaMethods";
 
 describe('UserUpdateComponent', () => {
   let component: UserUpdateComponent;
@@ -138,7 +139,7 @@ describe('UserUpdateComponent', () => {
     it('validate iniScaData method', () => {
         const formGroup = component.initScaData();
         const data = {
-            scaMethod: 'EMAIL',
+            scaMethod: ScaMethods.EMAIL,
             methodValue: '',
             staticTan: '',
             usesStaticTan: ''
