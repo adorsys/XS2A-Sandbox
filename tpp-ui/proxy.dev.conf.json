@@ -1,0 +1,31 @@
+{
+  "/ledgers/*": {
+    "target": "https://dev-dynamicsandbox-ledgers.cloud.adorsys.de",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/ledgers": ""
+    }
+  },
+
+  "/certgen/*": {
+    "target": "https://dev-dynamicsandbox-certificategenerator.cloud.adorsys.de",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/certgen": ""
+    }
+  },
+
+  "/tpp/*": {
+    "target": "https://dev-dynamicsandbox-tppui.cloud.adorsys.de",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/tpp": "/tpp"
+    }
+  }
+}

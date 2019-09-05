@@ -6,7 +6,7 @@
     "load-api": "bash load-api.sh",
     "swagger-gen": "npm run load-api && ng-swagger-gen -i ./src/app/api/swagger/oba.json -o ./src/app/api",
     "start": "rm -rf ./src/app/api && npm run swagger-gen && ng serve --port=4400 --proxy-config=proxy.conf.json",
-    "start:dev": "ng serve --port=4400 --proxy-config=proxy.dev.conf.json",
+    "start:proxy:dev": "ng serve --port=4400 --proxy-config=proxy.dev.conf.json",
     "build": "ng build",
     "build:prod": "ng build --prod",
     "test": "rm -rf ./src/app/api && npm run swagger-gen && ng test",
