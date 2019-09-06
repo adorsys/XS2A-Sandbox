@@ -5,6 +5,7 @@ import de.adorsys.ledgers.middleware.api.domain.payment.AmountTO;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.AccountAccess;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.DepositAccount;
 import io.swagger.annotations.*;
+import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -68,4 +69,8 @@ public interface TppAccountsRestApi {
     })
     @PostMapping(value = "/{accountId}/deposit-cash")
     ResponseEntity<Void> depositCash(@PathVariable("accountId") String accountId, @RequestBody AmountTO amount);
+
+    @GetMapping("/example")
+    @ApiOperation(value = "Download account template", authorizations = @Authorization(value = "apiKey"))
+    ResponseEntity<Resource> downloadAccountTemplate();
 }

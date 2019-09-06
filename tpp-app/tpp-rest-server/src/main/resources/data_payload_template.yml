@@ -1,0 +1,55 @@
+---
+users:
+  - id: "001"
+    login: "test"
+    email: "test@mail.de"
+    pin: "12345"
+    scaUserData:
+      - scaMethod: "EMAIL"
+        methodValue: "test@mail.de"
+        usesStaticTan: true #Field can be removed if not required
+        staticTan: "QWERTY" #Field can be removed if not required
+    accountAccesses:
+      - iban: "FR7630002005500000000000130"
+        accessType: "OWNER"
+        scaWeight: 0
+    userRoles:
+      - "CUSTOMER"
+accounts:
+  - iban: "FR7630002005500000000000130"
+    currency: "EUR"
+    name: "test1"
+    product: "Cash24"
+    accountType: "CASH"
+    accountStatus: "ENABLED"
+    usageType: "PRIV"
+    details: "Some details"
+balancesList:
+  - iban: "FR7630002005500000000000130"
+    currency: "EUR"
+    amount: 100000.00
+payments:
+  - paymentId: "PAYMENT-ID" #Id to be set in Ledgers DB, leave empty if not required
+    endToEndIdentification: "IDENTIFIER BY TPP"
+    debtorAccount:
+      iban: "FR7630002005500000000000130"
+      currency: "EUR"
+    instructedAmount:
+      currency: "EUR"
+      amount: 999.99
+    creditorAccount:
+      iban: "FR7630002005500000000000130"
+      currency: "EUR"
+    creditorAgent: "AGENT NAME"
+    creditorName: "CREDITORS NAME"
+    creditorAddress:
+      street: "Buhaker str"
+      buildingNumber: "123"
+      city: "Nurnberg"
+      postalCode: "04310"
+      country: "Germany"
+    remittanceInformationUnstructured: "Some payment info"
+    paymentStatus: "RCVD" #Should be RCVD for payment starting
+    paymentProduct: "INSTANT_SEPA" #if changed to another product will not be executed straight away
+    requestedExecutionDate: "2019-10-10" #optional field can be omitted in case of instant payment is ignored
+    requestedExecutionTime: "10:10:10" #optional field can be omitted in case of instant payment is ignored

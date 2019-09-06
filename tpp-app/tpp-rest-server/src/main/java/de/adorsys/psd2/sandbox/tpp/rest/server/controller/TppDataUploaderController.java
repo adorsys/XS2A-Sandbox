@@ -1,6 +1,7 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import de.adorsys.psd2.sandbox.tpp.rest.api.domain.DownloadResource;
 import de.adorsys.psd2.sandbox.tpp.rest.api.resource.TppDataUploaderRestApi;
 import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.DataPayload;
@@ -24,11 +25,14 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping(TppDataUploaderRestApi.BASE_PATH)
 public class TppDataUploaderController implements TppDataUploaderRestApi {
+    private static final String TRANSACTION_TEMPLATE = "classpath:transactions_template.csv";
+
     private final RestExecutionService restExecutionService;
     private final ParseService parseService;
     private final TestsDataGenerationService generationService;
     private final IbanGenerationService ibanGenerationService;
     private final TransactionService transactionService;
+    private final DownloadResourceService downloadResourceService;
 
     @Override
     public ResponseEntity<String> uploadData(MultipartFile file) {
@@ -66,6 +70,15 @@ public class TppDataUploaderController implements TppDataUploaderRestApi {
         Map<String, String> response = transactionService.uploadUserTransaction(file);
         log.info("upload response contains {} errors", response.size());
         return ResponseEntity.ok(response);
+    }
+
+    @Override
+    public ResponseEntity<Resource> downloadTransactionTemplate() {
+        DownloadResource resource = downloadResourceService.getResourceByTemplate(TRANSACTION_TEMPLATE);
+        return ResponseEntity.ok()
+                   .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                   .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + resource.getFileName())
+                   .body(resource.getResource());
     }
 
     private HttpHeaders getExportFileHttpHeaders() {

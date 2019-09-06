@@ -32,4 +32,8 @@ public interface TppDataUploaderRestApi {
     @ApiOperation(value = "Upload CSV file with transactions list", authorizations = @Authorization(value = "apiKey"))
     @PutMapping("/upload/transactions")
     ResponseEntity<Map<String, String>> uploadTransactions(@RequestBody MultipartFile file);
+
+    @GetMapping("/example")
+    @ApiOperation(value = "Download transaction template", authorizations = @Authorization(value = "apiKey"))
+    ResponseEntity<Resource> downloadTransactionTemplate();
 }

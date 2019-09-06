@@ -20,7 +20,7 @@ public interface TppConsentRestApi {
     @ApiOperation(value = "Generate list of consents")
     ResponseEntity<List<String>> generateConsents(@RequestBody MultipartFile file);
 
-    @GetMapping("/template")
+    @GetMapping("/example")
     @ApiOperation(value = "Download consent template", authorizations = @Authorization(value = "apiKey"))
     ResponseEntity<Resource> downloadConsentTemplate();
 }

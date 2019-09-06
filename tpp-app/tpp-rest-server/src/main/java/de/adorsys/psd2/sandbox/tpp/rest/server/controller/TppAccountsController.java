@@ -6,9 +6,14 @@ import de.adorsys.ledgers.middleware.client.rest.AccountMgmtStaffRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.AccountAccess;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.DepositAccount;
+import de.adorsys.psd2.sandbox.tpp.rest.api.domain.DownloadResource;
 import de.adorsys.psd2.sandbox.tpp.rest.api.resource.TppAccountsRestApi;
 import de.adorsys.psd2.sandbox.tpp.rest.server.mapper.AccountMapper;
+import de.adorsys.psd2.sandbox.tpp.rest.server.service.DownloadResourceService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,9 +24,12 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(TppAccountsRestApi.BASE_PATH)
 public class TppAccountsController implements TppAccountsRestApi {
+    private static final String ACCOUNT_TEMPLATE = "classpath:data_payload_template.yml";
+
     private final AccountMapper accountMapper;
     private final AccountMgmtStaffRestClient accountMgmtStaffRestClient;
     private final UserMgmtStaffRestClient userMgmtStaffRestClient;
+    private final DownloadResourceService downloadResourceService;
 
     @Override
     public ResponseEntity<Void> createAccount(String userId, DepositAccount account) {
@@ -46,5 +54,14 @@ public class TppAccountsController implements TppAccountsRestApi {
     @Override
     public ResponseEntity<Void> depositCash(String accountId, AmountTO amount) {
         return accountMgmtStaffRestClient.depositCash(accountId, amount);
+    }
+
+    @Override
+    public ResponseEntity<Resource> downloadAccountTemplate() {
+        DownloadResource resource = downloadResourceService.getResourceByTemplate(ACCOUNT_TEMPLATE);
+        return ResponseEntity.ok()
+                   .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                   .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + resource.getFileName())
+                   .body(resource.getResource());
     }
 }
