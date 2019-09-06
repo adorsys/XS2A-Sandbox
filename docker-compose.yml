@@ -193,6 +193,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8093:8093"
+      - "5005:5005"
     networks:
       - xs2a-net
     depends_on:
