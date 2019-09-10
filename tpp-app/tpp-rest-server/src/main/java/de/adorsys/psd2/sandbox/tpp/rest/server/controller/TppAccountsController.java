@@ -6,7 +6,6 @@ import de.adorsys.ledgers.middleware.client.rest.AccountMgmtStaffRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.AccountAccess;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.DepositAccount;
-import de.adorsys.psd2.sandbox.tpp.rest.api.domain.DownloadResource;
 import de.adorsys.psd2.sandbox.tpp.rest.api.resource.TppAccountsRestApi;
 import de.adorsys.psd2.sandbox.tpp.rest.server.mapper.AccountMapper;
 import de.adorsys.psd2.sandbox.tpp.rest.server.service.DownloadResourceService;
@@ -24,7 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(TppAccountsRestApi.BASE_PATH)
 public class TppAccountsController implements TppAccountsRestApi {
-    private static final String ACCOUNT_TEMPLATE = "classpath:data_payload_template.yml";
+    private static final String FILE_NAME = "data_payload_template.yml";
 
     private final AccountMapper accountMapper;
     private final AccountMgmtStaffRestClient accountMgmtStaffRestClient;
@@ -58,10 +57,9 @@ public class TppAccountsController implements TppAccountsRestApi {
 
     @Override
     public ResponseEntity<Resource> downloadAccountTemplate() {
-        DownloadResource resource = downloadResourceService.getResourceByTemplate(ACCOUNT_TEMPLATE);
         return ResponseEntity.ok()
                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                   .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + resource.getFileName())
-                   .body(resource.getResource());
+                   .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + FILE_NAME)
+                   .body(downloadResourceService.getResourceByTemplate(FILE_NAME));
     }
 }

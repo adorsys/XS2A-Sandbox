@@ -2,7 +2,6 @@ package de.adorsys.psd2.sandbox.tpp.rest.server.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import de.adorsys.psd2.sandbox.tpp.cms.api.domain.AisConsent;
-import de.adorsys.psd2.sandbox.tpp.rest.api.domain.DownloadResource;
 import de.adorsys.psd2.sandbox.tpp.rest.api.resource.TppConsentRestApi;
 import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
 import de.adorsys.psd2.sandbox.tpp.rest.server.service.DownloadResourceService;
@@ -25,7 +24,7 @@ import java.util.List;
 @RequestMapping(TppConsentRestApi.BASE_PATH)
 @RequiredArgsConstructor
 public class TppConsentController implements TppConsentRestApi {
-    private static final String CONSENT_TEMPLATE = "classpath:consents_template.yml";
+    private static final String FILE_NAME = "consents_template.yml";
 
     private final TppConsentService tppConsentService;
     private final DownloadResourceService downloadResourceService;
@@ -41,10 +40,9 @@ public class TppConsentController implements TppConsentRestApi {
 
     @Override
     public ResponseEntity<Resource> downloadConsentTemplate() {
-        DownloadResource resource = downloadResourceService.getResourceByTemplate(CONSENT_TEMPLATE);
         return ResponseEntity.ok()
                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                   .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + resource.getFileName())
-                   .body(resource.getResource());
+                   .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + FILE_NAME)
+                   .body(downloadResourceService.getResourceByTemplate(FILE_NAME));
     }
 }
