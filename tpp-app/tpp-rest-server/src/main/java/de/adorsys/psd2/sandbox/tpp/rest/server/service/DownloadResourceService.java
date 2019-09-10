@@ -22,7 +22,7 @@ public class DownloadResourceService {
             Resource resource = resourceLoader.getResource(template);
             return new DownloadResource(resource, resource.getFile().getName());
         } catch (IOException e) {
-            log.error(CAN_NOT_READ_FILE);
+            log.error(CAN_NOT_READ_FILE+ "msg: {}, stack: {}",e.getMessage(),e.getStackTrace());
         }
         throw new TppException(CAN_NOT_READ_FILE, 400);
     }
