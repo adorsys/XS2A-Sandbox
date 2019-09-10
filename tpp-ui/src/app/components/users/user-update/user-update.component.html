@@ -110,30 +110,30 @@
                             <div class="row">
                                 <div class="col-12 col-md-8">
                                     <div [formGroupName]="i" class="form-group">
-                                        <label class="control-label" for="scaData{{i}}">SCA</label>
-                                        <input [ngClass]="{ 'is-invalid': (scaDataItem.controls['methodValue'].touched || submitted) && scaDataItem.controls['scaMethod'].errors }"
+                                        <label class="control-label" for="scaData{{i}}">Method Value</label>
+                                        <input [ngClass]="{ 'is-invalid': (scaDataItem.controls['methodValue'].touched || submitted) && scaDataItem.controls['methodValue'].errors }"
                                                aria-describedby="scaDataHelp"
                                                class="form-control"
                                                formControlName="methodValue"
                                                id="scaData{{i}}"
-                                               placeholder="Please input SCA method for user"
+                                               placeholder="Please input SCA method value"
                                                type="text">
-                                        <div *ngIf="(scaDataItem.controls['methodValue'].touched || submitted) && scaDataItem.controls['scaMethod'].errors"
+                                        <div *ngIf="scaDataItem.get('methodValue')?.errors?.required"
                                              class="invalid-feedback">
-                                            Authentication Email or Phone number is required
+                                            The value of the method is required
+                                        </div>
+                                        <div *ngIf="scaDataItem.get('methodValue')?.hasError('pattern')"
+                                             class="invalid-feedback">
+                                            The method value has an incorrect format
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-4 margin-top">
-                                    <label class="control-label">Method Value</label>
+                                    <label class="control-label">SCA Method</label>
                                     <div [formGroupName]="i">
                                     <select formControlName="scaMethod" class="form-control">
-                                        <option value=""></option>
-                                        <option *ngFor="let t of methods">{{t}}</option>
+                                        <option *ngFor="let method of methods">{{method}}</option>
                                     </select>
-                                    </div>
-                                    <div *ngIf="submitted && scaDataItem.controls['scaMethod'].errors" class="invalid-feedback">
-                                        <div *ngIf="scaDataItem.controls['scaMethod'].errors">Method Value is required</div>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-8">
