@@ -4,7 +4,6 @@ import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.*;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
-import de.adorsys.ledgers.middleware.api.domain.um.ScaUserDataTO;
 import de.adorsys.ledgers.middleware.client.rest.PaymentRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.ledgers.oba.rest.api.consentref.ConsentReference;
@@ -96,13 +95,6 @@ public class PISController extends AbstractXISController implements PISApi {
             try {
                 updateAuthorisationStatus(workflow, psuId, response);
                 initiatePayment(workflow, response);
-
-                // Select sca if no alternative.
-                if (workflow.singleScaMethod()) {
-                    ScaUserDataTO scaUserDataTO = workflow.scaMethods().iterator().next();
-                    selectMethod(scaUserDataTO.getId(), workflow);
-                }
-
                 updateScaStatusPaymentStatusConsentData(psuId, workflow);
             } catch (PaymentAuthorizeException e) {
                 return e.getError();
