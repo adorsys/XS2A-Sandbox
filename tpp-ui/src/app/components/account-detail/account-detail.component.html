@@ -54,18 +54,12 @@
                    type="text">
 
             <div class="input-group-append">
-              <button class="btn btn-outline-secondary bg-light text-black-50 mb-0" (click) = "generateIban()">Generate IBAN</button>
+              <button class="btn btn-outline-secondary bg-light text-black-50 mb-0" type="button" (click) = "generateIban()">Generate IBAN</button>
             </div>
-
             <div class="invalid-feedback">
               <div *ngIf="iban.errors?.required">
-                Required
+                IBAN Required
               </div>
-            </div>
-          </div>
-          <div class="invalid-feedback">
-            <div *ngIf="iban.errors?.required">
-              IBAN Required
             </div>
           </div>
         </div>
