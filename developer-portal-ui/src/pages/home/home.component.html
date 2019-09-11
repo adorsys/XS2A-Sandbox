@@ -16,7 +16,7 @@
 </div>
 
 <!-- What is XS2ASandbox -->
-<div class="what-sandbox-wrapper">
+<div class="what-sandbox-wrapper container">
   <h1 class="what-sandbox-title">{{ 'HOME.WHAT_IS.TITLE' | translate }}</h1>
   <p class="what-sandbox-desc">
     {{ 'HOME.WHAT_IS.CONTENT.THE' | translate }}
@@ -123,8 +123,8 @@
               class="circle-divider"
               [ngStyle]="
                 text['orderNumber'] % 2 !== 0
-                  ? { 'flex-direction': 'row-reverse', right: '-8.5vw' }
-                  : { left: '-8.4vw' }
+                  ? { 'flex-direction': 'row-reverse', right: '-4px' }
+                  : { left: '-4px' }
               "
             >
               <div class="circle"></div>
@@ -135,9 +135,7 @@
             class="vertical-divider"
             [style.display]="i === productHistory.length - 1 ? 'none' : null"
             [ngStyle]="
-              text['orderNumber'] % 2 !== 0
-                ? { right: '42.9vw' }
-                : { left: '43vw' }
+              text['orderNumber'] % 2 !== 0 ? { right: '-1px' } : { left: '0' }
             "
           ></div>
         </div>

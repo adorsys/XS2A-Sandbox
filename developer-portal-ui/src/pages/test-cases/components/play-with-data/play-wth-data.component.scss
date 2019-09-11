@@ -1,10 +1,7 @@
 .play-with-data-wrapper {
+  font-size: 0.8rem;
   padding: 2vw;
   position: relative;
-
-  .top-line {
-    font-size: 1vw;
-  }
 
   .request-method {
     display: flex;
@@ -12,7 +9,7 @@
     margin-bottom: 2vw;
   }
   select {
-    font-size: 1vw;
+    font-size: 1em;
     border: none;
     background: #f7f7f7;
     box-shadow: none;
@@ -22,14 +19,13 @@
     outline: unset !important;
   }
   .payment-id {
+    font-size: 1em;
     margin-top: -0.15vw;
     width: 8vw;
-    height: 0.75vw;
     padding: 0.3vw 0.6vw 0.35vw 0.6vw;
 
-    font-size: 1vw;
     border: none;
-    border-radius: 0.25vw;
+    border-radius: 0.25em;
     background: #f7f7f7;
     color: #3b4151;
   }
@@ -40,7 +36,6 @@
   .full-path {
     margin-bottom: 2vw;
     span {
-      font-size: 1vw;
       padding-top: 0.5vw;
       padding-bottom: 0.5vw;
       color: #3b4151 !important;
@@ -65,23 +60,20 @@
     margin-right: 0.5vw;
     border-radius: 3px;
     span {
-      font-size: 1vw;
       color: #fff;
     }
   }
   .play-with-data-table {
     display: flex;
     align-items: center;
-    padding-left: 1vw;
-    height: 3vw;
+    padding: 0.8em 1em;
     span {
       width: 40%;
-      font-size: 1vw;
     }
     input {
       outline: none;
       width: 15vw;
-      font-size: 1vw;
+      font-size: 1em;
       padding: 0.2vw 0.5vw;
     }
   }
@@ -89,12 +81,12 @@
     span {
       margin: 2vw 0;
       display: block;
-      font-size: 2vw;
+      font-size: 1.5rem;
     }
     textarea {
       display: block;
       width: 46.58vw !important;
-      font-size: 1vw;
+      font-size: 1em;
       resize: vertical;
       padding: 1vw;
     }
@@ -103,13 +95,12 @@
     .status-style {
       margin: 2vw 0;
       display: block;
-      font-size: 2vw;
+      font-size: 1.5rem;
     }
     .response-status-wrapper {
       background-color: #f3f3f3;
       padding: 0.5vw 0 0.5vw 1vw;
       span {
-        font-size: 1vw;
         &:first-of-type {
           margin-right: 2vw;
           font-weight: 800;
@@ -124,15 +115,15 @@
     span {
       margin: 2vw 0;
       display: block;
-      font-size: 2vw;
+      font-size: 1.5rem;
     }
     .response-body-text {
       padding: 0.7vw;
-      font-size: 0.7vw;
-      color: black;
+      font-size: 0.75rem;
+      color: #3b4151;
       background-color: #eeeeee;
       white-space: pre-wrap;
-      line-height: 1.3vw !important;
+      line-height: 1.3em !important;
     }
   }
 
@@ -148,7 +139,6 @@
           width: 7vw;
           label {
             display: block;
-            font-size: 1vw;
           }
         }
         .copy-field {
@@ -158,7 +148,7 @@
             display: block;
             height: 2vw;
             padding-left: 0.5vw;
-            font-size: 1vw;
+            font-size: 1em;
           }
         }
         .copy-btn {
@@ -167,7 +157,7 @@
           color: #fff;
           width: 10vw;
           height: 2.5vw;
-          font-size: 1vw;
+          font-size: 0.8rem;
           outline: none;
           cursor: pointer;
         }
@@ -185,7 +175,7 @@
       color: #fff;
       width: 10vw;
       height: 2.5vw;
-      font-size: 1vw;
+      font-size: 0.8rem;
       margin-top: 2.5vw;
       outline: none;
       cursor: pointer;
@@ -199,7 +189,7 @@
       background-color: #054f72;
       color: #fff;
       width: 9.8vw;
-      font-size: 1vw;
+      font-size: 0.8rem;
       margin-top: 2.5vw;
       outline: none;
       cursor: pointer;

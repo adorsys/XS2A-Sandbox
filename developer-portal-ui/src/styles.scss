@@ -2,14 +2,40 @@
 @import './assets/themes/variables';
 
 * {
-  font-family: inherit;
+  box-sizing: border-box;
+  padding: 0;
+  //   margin: 0;
+}
+
+:after,
+:before {
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 16px;
+
+  @media screen and (min-width: 720px) {
+    font-size: 18px;
+  }
+  @media screen and (min-width: 1080px) {
+    font-size: 20px;
+  }
 }
 
 body {
   font-family: var(--fontFamily);
   padding: 7.5vw 7vw 0 7vw;
   margin: 0;
+  color: var(--bodyFontColor);
   background-color: var(--bodyBG);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @media screen and (max-width: 1080px) {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 main {
@@ -38,6 +64,21 @@ main {
   font-weight: 900;
 }
 
+dl,
+ol,
+p,
+ul {
+  line-height: 1.5;
+}
+
+p {
+  margin: 1em 0;
+
+  a {
+    font-size: 0.75em;
+  }
+}
+
 a {
   color: var(--anchorFontColor);
 }
@@ -45,6 +86,12 @@ a {
 a:hover,
 a:focus {
   color: var(--anchorFontColorHover);
+}
+
+.divider {
+  height: 6px;
+  width: 77px;
+  background-color: var(--colorSecondary);
 }
 
 .api-table {
@@ -55,7 +102,7 @@ a:focus {
 
   span {
     width: 40%;
-    font-size: 1vw;
+    font-size: 0.8rem;
   }
 }
 
@@ -64,8 +111,19 @@ a:focus {
   color: #ffffff;
   background-color: #272822;
   white-space: pre-wrap;
-  font-size: 1vw;
-  line-height: 1.3vw !important;
+  font-size: 0.8rem;
+  line-height: 1.3em !important;
+  margin: 0;
+}
+
+.container {
+  padding: 0 25px;
+  margin: 0 auto;
+  max-width: 1080px;
+
+  &--fullsize {
+    max-width: none;
+  }
 }
 
 .btn {
@@ -114,7 +172,7 @@ a:focus {
       cursor: pointer;
 
       span {
-        font-size: 1vw;
+        font-size: 0.8rem;
       }
     }
 
@@ -138,6 +196,7 @@ a:focus {
   }
 
   .endpoint-main-content {
+    color: #484848;
     background-color: #fff;
     border: 1px solid #979797;
 
@@ -149,12 +208,12 @@ a:focus {
       padding: 2vw;
 
       p {
-        font-size: 1vw;
-        line-height: 2vw;
+        font-size: 0.8rem;
+        line-height: 2;
       }
 
       span {
-        font-size: 1vw;
+        font-size: 0.8rem;
       }
     }
   }

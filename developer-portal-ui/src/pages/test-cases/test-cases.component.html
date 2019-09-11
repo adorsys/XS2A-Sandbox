@@ -1,80 +1,128 @@
-<div class="documentation-header-section">
-  <h1 class="documentation-header-title">{{'TEST_CASES.TITLE' | translate}}</h1>
+<div class="documentation-header-section container">
+  <h1 class="documentation-header-title">
+    {{ 'TEST_CASES.TITLE' | translate }}
+  </h1>
   <div class="documentation-header-desc">
-    <p> {{'TEST_CASES.TEXT_1' | translate}} </p>
+    <p>{{ 'TEST_CASES.TEXT_1' | translate }}</p>
     <p>
-      <a routerLink="/test-cases/postman-testing">{{'TEST_CASES.LINK' | translate}}</a>
-      {{'TEST_CASES.TEXT_2' | translate}}
+      <a routerLink="/test-cases/postman-testing">{{
+        'TEST_CASES.LINK' | translate
+      }}</a>
+      {{ 'TEST_CASES.TEXT_2' | translate }}
     </p>
-    <p> {{'TEST_CASES.TEXT_3' | translate}} </p>
+    <p>{{ 'TEST_CASES.TEXT_3' | translate }}</p>
   </div>
 </div>
 
 <div class="test-cases-main">
   <div class="left-section">
     <div class="introduction">
-      <p>{{'TEST_CASES.INTRODUCTION.TITLE' | translate}}</p>
-      <span routerLink="/test-cases/redirect">{{'TEST_CASES.INTRODUCTION.REDIRECT' | translate}}</span>
-      <span routerLink="/test-cases/embedded">{{'TEST_CASES.INTRODUCTION.EMBEDDED' | translate}}</span>
-      <span routerLink="/test-cases/testing-flows">{{'TEST_CASES.INTRODUCTION.TESTING' | translate}}</span>
+      <p>{{ 'TEST_CASES.INTRODUCTION.TITLE' | translate }}</p>
+      <span routerLink="/test-cases/redirect">{{
+        'TEST_CASES.INTRODUCTION.REDIRECT' | translate
+      }}</span>
+      <span routerLink="/test-cases/embedded">{{
+        'TEST_CASES.INTRODUCTION.EMBEDDED' | translate
+      }}</span>
+      <span routerLink="/test-cases/testing-flows">{{
+        'TEST_CASES.INTRODUCTION.TESTING' | translate
+      }}</span>
     </div>
     <div class="xs-bank">
       <p>XS2ASandbox</p>
       <ul>
         <li>
-          <span>{{'TEST_CASES.INTRODUCTION.MENU.LI_1' | translate}}</span>
+          <span>{{ 'TEST_CASES.INTRODUCTION.MENU.LI_1' | translate }}</span>
           <ul>
             <li>
               <span class="clickable-item" routerLink="/test-cases/test-values">
-                {{'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LI_0' | translate}}
+                {{ 'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LI_0' | translate }}
               </span>
             </li>
             <li>
               <span class="clickable-item" (click)="collapseThis('redirect')">
                 <span *ngIf="!redirectFlag">+ </span>
                 <span *ngIf="redirectFlag" class="minus">- </span>
-                {{'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LI_1' | translate}}
+                {{ 'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LI_1' | translate }}
               </span>
               <ul class="collapse-content" id="redirect-content">
                 <li>
-                  <span>{{'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_1.LI_1' | translate}}</span>
+                  <span>{{
+                    'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_1.LI_1'
+                      | translate
+                  }}</span>
                   <ul>
-                    <li class="clickable-item post" routerLink="/test-cases/redirect-payment-initiation-post"
-                        [ngStyle]="dataService.getRouterUrl().includes('redirect-payment-initiation-post')
+                    <li
+                      class="clickable-item post"
+                      routerLink="/test-cases/redirect-payment-initiation-post"
+                      [ngStyle]="
+                        dataService
+                          .getRouterUrl()
+                          .includes('redirect-payment-initiation-post')
                           ? { 'font-weight': 'bold' }
                           : null
-                      ">
-                      POST endpoint {{ '/v1/{payment-service}/{payment-product}' }}
+                      "
+                    >
+                      POST endpoint
+                      {{ '/v1/{payment-service}/{payment-product}' }}
                     </li>
                   </ul>
                 </li>
                 <li>
-                  <span>{{'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_1.LI_2' | translate}}</span>
+                  <span>{{
+                    'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_1.LI_2'
+                      | translate
+                  }}</span>
                   <ul>
-                    <li class="clickable-item post" routerLink="/test-cases/redirect-cancellation-post"
-                        [ngStyle]="dataService.getRouterUrl().includes('redirect-cancellation-post')
+                    <li
+                      class="clickable-item post"
+                      routerLink="/test-cases/redirect-cancellation-post"
+                      [ngStyle]="
+                        dataService
+                          .getRouterUrl()
+                          .includes('redirect-cancellation-post')
                           ? { 'font-weight': 'bold' }
                           : null
-                      ">
-                      POST endpoint {{ '/v1/{payment-service}/{payment-product}' }}
+                      "
+                    >
+                      POST endpoint
+                      {{ '/v1/{payment-service}/{payment-product}' }}
                     </li>
-                    <li class="clickable-item delete" routerLink="/test-cases/redirect-cancellation-delete"
-                        [ngStyle]="dataService.getRouterUrl().includes('redirect-cancellation-delete')
+                    <li
+                      class="clickable-item delete"
+                      routerLink="/test-cases/redirect-cancellation-delete"
+                      [ngStyle]="
+                        dataService
+                          .getRouterUrl()
+                          .includes('redirect-cancellation-delete')
                           ? { 'font-weight': 'bold' }
                           : null
-                      ">
-                      DELETE endpoint {{ '/v1/{payment-service}/{payment-product}/{paymentId}' }}
+                      "
+                    >
+                      DELETE endpoint
+                      {{
+                        '/v1/{payment-service}/{payment-product}/{paymentId}'
+                      }}
                     </li>
                   </ul>
                 </li>
                 <li>
-                  <span>{{'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_1.LI_3' | translate}}</span>
+                  <span>{{
+                    'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_1.LI_3'
+                      | translate
+                  }}</span>
                   <ul>
-                    <li class="clickable-item post" routerLink="/test-cases/redirect-consent-post"
-                        [ngStyle]="dataService.getRouterUrl().includes('redirect-consent-post')
+                    <li
+                      class="clickable-item post"
+                      routerLink="/test-cases/redirect-consent-post"
+                      [ngStyle]="
+                        dataService
+                          .getRouterUrl()
+                          .includes('redirect-consent-post')
                           ? { 'font-weight': 'bold' }
                           : null
-                      ">
+                      "
+                    >
                       POST endpoint /v1/consents
                     </li>
                   </ul>
@@ -85,115 +133,227 @@
               <span class="clickable-item" (click)="collapseThis('embedded')">
                 <span *ngIf="!embeddedFlag">+ </span>
                 <span *ngIf="embeddedFlag" class="minus">- </span>
-                {{'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LI_2' | translate}}
+                {{ 'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LI_2' | translate }}
               </span>
               <ul class="collapse-content" id="embedded-content">
                 <li>
-                  <span> {{'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_1.LI_1' | translate}} </span>
+                  <span>
+                    {{
+                      'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_1.LI_1'
+                        | translate
+                    }}
+                  </span>
                   <ul>
-                    <li class="clickable-item post" routerLink="/test-cases/embedded-payment-initiation-create-post"
-                        [ngStyle]="dataService.getRouterUrl().includes('embedded-payment-initiation-create-post')
+                    <li
+                      class="clickable-item post"
+                      routerLink="/test-cases/embedded-payment-initiation-create-post"
+                      [ngStyle]="
+                        dataService
+                          .getRouterUrl()
+                          .includes('embedded-payment-initiation-create-post')
                           ? { 'font-weight': 'bold' }
                           : null
-                      ">
-                      POST endpoint {{ '/v1/{payment-service}/{payment-product}' }}
+                      "
+                    >
+                      POST endpoint
+                      {{ '/v1/{payment-service}/{payment-product}' }}
                     </li>
-                    <li class="clickable-item post" routerLink="/test-cases/embedded-payment-initiation-auth-post"
-                        [ngStyle]="dataService.getRouterUrl().includes('embedded-payment-initiation-auth-post')
+                    <li
+                      class="clickable-item post"
+                      routerLink="/test-cases/embedded-payment-initiation-auth-post"
+                      [ngStyle]="
+                        dataService
+                          .getRouterUrl()
+                          .includes('embedded-payment-initiation-auth-post')
                           ? { 'font-weight': 'bold' }
                           : null
-                      ">
-                      POST endpoint {{'/v1/{payment-service}/{payment-product}/{paymentId}/authorisations'}}
+                      "
+                    >
+                      POST endpoint
+                      {{
+                        '/v1/{payment-service}/{payment-product}/{paymentId}/authorisations'
+                      }}
                     </li>
-                    <li class="clickable-item put" routerLink="/test-cases/embedded-payment-initiation-put"
-                        [ngStyle]="dataService.getRouterUrl().includes('embedded-payment-initiation-put')
+                    <li
+                      class="clickable-item put"
+                      routerLink="/test-cases/embedded-payment-initiation-put"
+                      [ngStyle]="
+                        dataService
+                          .getRouterUrl()
+                          .includes('embedded-payment-initiation-put')
                           ? { 'font-weight': 'bold' }
                           : null
-                      ">
-                      PUT
-                      endpoint {{'/v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}'}}
+                      "
+                    >
+                      PUT endpoint
+                      {{
+                        '/v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}'
+                      }}
                     </li>
-                    <li class="clickable-item get" routerLink="/test-cases/embedded-payment-initiation-get"
-                        [ngStyle]="dataService.getRouterUrl().includes('embedded-payment-initiation-get')
+                    <li
+                      class="clickable-item get"
+                      routerLink="/test-cases/embedded-payment-initiation-get"
+                      [ngStyle]="
+                        dataService
+                          .getRouterUrl()
+                          .includes('embedded-payment-initiation-get')
                           ? { 'font-weight': 'bold' }
                           : null
-                      ">
-                      GET endpoint {{'/v1/{payment-service}/{payment-product}/{paymentId}'}}
+                      "
+                    >
+                      GET endpoint
+                      {{
+                        '/v1/{payment-service}/{payment-product}/{paymentId}'
+                      }}
                     </li>
                   </ul>
                 </li>
                 <li>
-                  <span>{{'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_1.LI_2' | translate}}</span>
+                  <span>{{
+                    'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_1.LI_2'
+                      | translate
+                  }}</span>
                   <ul>
-                    <li class="clickable-item post" routerLink="/test-cases/embedded-payment-cancellation-post-1"
-                        [ngStyle]="dataService.getRouterUrl().includes('embedded-payment-cancellation-post-1')
+                    <li
+                      class="clickable-item post"
+                      routerLink="/test-cases/embedded-payment-cancellation-post-1"
+                      [ngStyle]="
+                        dataService
+                          .getRouterUrl()
+                          .includes('embedded-payment-cancellation-post-1')
                           ? { 'font-weight': 'bold' }
                           : null
-                      ">
-                      POST endpoint {{ '/v1/{payment-service}/{payment-product}' }}
+                      "
+                    >
+                      POST endpoint
+                      {{ '/v1/{payment-service}/{payment-product}' }}
                     </li>
-                    <li class="clickable-item delete" routerLink="/test-cases/embedded-payment-cancellation-delete"
-                        [ngStyle]="dataService.getRouterUrl().includes('embedded-payment-cancellation-delete')
+                    <li
+                      class="clickable-item delete"
+                      routerLink="/test-cases/embedded-payment-cancellation-delete"
+                      [ngStyle]="
+                        dataService
+                          .getRouterUrl()
+                          .includes('embedded-payment-cancellation-delete')
                           ? { 'font-weight': 'bold' }
                           : null
-                      ">
-                      DELETE endpoint {{'/v1/{payment-service}/{payment-product}/{paymentId}'}}
+                      "
+                    >
+                      DELETE endpoint
+                      {{
+                        '/v1/{payment-service}/{payment-product}/{paymentId}'
+                      }}
                     </li>
-                    <li class="clickable-item post" routerLink="/test-cases/embedded-payment-cancellation-post-2"
-                        [ngStyle]="dataService.getRouterUrl().includes('embedded-payment-cancellation-post-2')
+                    <li
+                      class="clickable-item post"
+                      routerLink="/test-cases/embedded-payment-cancellation-post-2"
+                      [ngStyle]="
+                        dataService
+                          .getRouterUrl()
+                          .includes('embedded-payment-cancellation-post-2')
                           ? { 'font-weight': 'bold' }
                           : null
-                      ">
-                      POST
-                      endpoint {{'/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations'}}
+                      "
+                    >
+                      POST endpoint
+                      {{
+                        '/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations'
+                      }}
                     </li>
-                    <li class="clickable-item put" routerLink="/test-cases/embedded-payment-cancellation-put"
-                        [ngStyle]="dataService.getRouterUrl().includes('embedded-payment-cancellation-put')
+                    <li
+                      class="clickable-item put"
+                      routerLink="/test-cases/embedded-payment-cancellation-put"
+                      [ngStyle]="
+                        dataService
+                          .getRouterUrl()
+                          .includes('embedded-payment-cancellation-put')
                           ? { 'font-weight': 'bold' }
                           : null
-                      ">
-                      PUT
-                      endpoint {{'/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{cancellationId}'}}
+                      "
+                    >
+                      PUT endpoint
+                      {{
+                        '/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{cancellationId}'
+                      }}
                     </li>
-                    <li class="clickable-item get" routerLink="/test-cases/embedded-payment-cancellation-get"
-                        [ngStyle]="dataService.getRouterUrl().includes('embedded-payment-cancellation-get')
+                    <li
+                      class="clickable-item get"
+                      routerLink="/test-cases/embedded-payment-cancellation-get"
+                      [ngStyle]="
+                        dataService
+                          .getRouterUrl()
+                          .includes('embedded-payment-cancellation-get')
                           ? { 'font-weight': 'bold' }
                           : null
-                      ">
-                      GET
-                      endpoint {{'/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{cancellationId}'}}
+                      "
+                    >
+                      GET endpoint
+                      {{
+                        '/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{cancellationId}'
+                      }}
                     </li>
                   </ul>
                 </li>
                 <li>
-                  <span>{{'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_1.LI_3' | translate}}</span>
+                  <span>{{
+                    'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_1.LI_3'
+                      | translate
+                  }}</span>
                   <ul>
-                    <li class="clickable-item post" routerLink="/test-cases/embedded-consent-create-post"
-                        [ngStyle]="dataService.getRouterUrl().includes('embedded-consent-create-post')
+                    <li
+                      class="clickable-item post"
+                      routerLink="/test-cases/embedded-consent-create-post"
+                      [ngStyle]="
+                        dataService
+                          .getRouterUrl()
+                          .includes('embedded-consent-create-post')
                           ? { 'font-weight': 'bold' }
                           : null
-                      ">
+                      "
+                    >
                       POST endpoint /v1/consents
                     </li>
-                    <li class="clickable-item post" routerLink="/test-cases/embedded-consent-auth-post"
-                        [ngStyle]="dataService.getRouterUrl().includes('embedded-consent-auth-post')
+                    <li
+                      class="clickable-item post"
+                      routerLink="/test-cases/embedded-consent-auth-post"
+                      [ngStyle]="
+                        dataService
+                          .getRouterUrl()
+                          .includes('embedded-consent-auth-post')
                           ? { 'font-weight': 'bold' }
                           : null
-                      ">
-                      POST endpoint {{ '/v1/consents/{consentId}/authorisations' }}
+                      "
+                    >
+                      POST endpoint
+                      {{ '/v1/consents/{consentId}/authorisations' }}
                     </li>
-                    <li class="clickable-item put" routerLink="/test-cases/embedded-consent-put"
-                        [ngStyle]="dataService.getRouterUrl().includes('embedded-consent-put')
+                    <li
+                      class="clickable-item put"
+                      routerLink="/test-cases/embedded-consent-put"
+                      [ngStyle]="
+                        dataService
+                          .getRouterUrl()
+                          .includes('embedded-consent-put')
                           ? { 'font-weight': 'bold' }
                           : null
-                      ">
-                      PUT endpoint {{ '/v1/consents/{consentId}/authorisations/{authorisationId}' }}
+                      "
+                    >
+                      PUT endpoint
+                      {{
+                        '/v1/consents/{consentId}/authorisations/{authorisationId}'
+                      }}
                     </li>
-                    <li class="clickable-item get" routerLink="/test-cases/embedded-consent-get"
-                        [ngStyle]="dataService.getRouterUrl().includes('embedded-consent-get')
+                    <li
+                      class="clickable-item get"
+                      routerLink="/test-cases/embedded-consent-get"
+                      [ngStyle]="
+                        dataService
+                          .getRouterUrl()
+                          .includes('embedded-consent-get')
                           ? { 'font-weight': 'bold' }
                           : null
-                      ">
+                      "
+                    >
                       GET endpoint {{ '/v1/consents/{consentId}' }}
                     </li>
                   </ul>
@@ -204,70 +364,119 @@
               <span class="clickable-item" (click)="collapseThis('account')">
                 <span *ngIf="!accountFlag">+ </span>
                 <span *ngIf="accountFlag" class="minus">- </span>
-                {{'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LI_3' | translate}}
+                {{ 'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LI_3' | translate }}
               </span>
               <ul class="collapse-content" id="account-content">
                 <li>
-                  <span>{{'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_2.LI_1' | translate}}</span>
+                  <span>{{
+                    'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_2.LI_1'
+                      | translate
+                  }}</span>
                   <ul>
-                    <li class="clickable-item get" routerLink="/test-cases/account-information-accounts-get"
-                        [ngStyle]="dataService.getRouterUrl().includes('account-information-accounts-get')
+                    <li
+                      class="clickable-item get"
+                      routerLink="/test-cases/account-information-accounts-get"
+                      [ngStyle]="
+                        dataService
+                          .getRouterUrl()
+                          .includes('account-information-accounts-get')
                           ? { 'font-weight': 'bold' }
                           : null
-                      ">
+                      "
+                    >
                       GET endpoint {{ '/v1/accounts' }}
                     </li>
                   </ul>
                 </li>
 
                 <li>
-                  <span>{{'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_2.LI_2' | translate}}</span>
+                  <span>{{
+                    'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_2.LI_2'
+                      | translate
+                  }}</span>
                   <ul>
-                    <li class="clickable-item get" routerLink="/test-cases/account-information-account-get"
-                        [ngStyle]="dataService.getRouterUrl().includes('account-information-account-get')
+                    <li
+                      class="clickable-item get"
+                      routerLink="/test-cases/account-information-account-get"
+                      [ngStyle]="
+                        dataService
+                          .getRouterUrl()
+                          .includes('account-information-account-get')
                           ? { 'font-weight': 'bold' }
                           : null
-                      ">
+                      "
+                    >
                       GET endpoint {{ '/v1/accounts/{account-id}' }}
                     </li>
                   </ul>
                 </li>
 
                 <li>
-                  <span>{{'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_2.LI_3' | translate}}</span>
+                  <span>{{
+                    'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_2.LI_3'
+                      | translate
+                  }}</span>
                   <ul>
-                    <li class="clickable-item get" routerLink="/test-cases/account-information-balance-get"
-                        [ngStyle]="dataService.getRouterUrl().includes('account-information-balance-get')
+                    <li
+                      class="clickable-item get"
+                      routerLink="/test-cases/account-information-balance-get"
+                      [ngStyle]="
+                        dataService
+                          .getRouterUrl()
+                          .includes('account-information-balance-get')
                           ? { 'font-weight': 'bold' }
                           : null
-                      ">
+                      "
+                    >
                       GET endpoint {{ '/v1/accounts/{account-id}/balances' }}
                     </li>
                   </ul>
                 </li>
 
                 <li>
-                  <span>{{'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_2.LI_4' | translate}}</span>
+                  <span>{{
+                    'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_2.LI_4'
+                      | translate
+                  }}</span>
                   <ul>
-                    <li class="clickable-item get" routerLink="/test-cases/account-information-transactions-get"
-                        [ngStyle]="dataService.getRouterUrl().includes('account-information-transactions-get')
+                    <li
+                      class="clickable-item get"
+                      routerLink="/test-cases/account-information-transactions-get"
+                      [ngStyle]="
+                        dataService
+                          .getRouterUrl()
+                          .includes('account-information-transactions-get')
                           ? { 'font-weight': 'bold' }
                           : null
-                      ">
-                      GET endpoint {{ '/v1/accounts/{account-id}/transactions' }}
+                      "
+                    >
+                      GET endpoint
+                      {{ '/v1/accounts/{account-id}/transactions' }}
                     </li>
                   </ul>
                 </li>
 
                 <li>
-                  <span>{{'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_2.LI_5' | translate}}</span>
+                  <span>{{
+                    'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_2.LI_5'
+                      | translate
+                  }}</span>
                   <ul>
-                    <li class="clickable-item get" routerLink="/test-cases/account-information-transaction-get"
-                        [ngStyle]="dataService.getRouterUrl().includes('account-information-transaction-get')
+                    <li
+                      class="clickable-item get"
+                      routerLink="/test-cases/account-information-transaction-get"
+                      [ngStyle]="
+                        dataService
+                          .getRouterUrl()
+                          .includes('account-information-transaction-get')
                           ? { 'font-weight': 'bold' }
                           : null
-                      ">
-                      GET endpoint {{'/v1/accounts/{account-id}/transactions/{transactionId}'}}
+                      "
+                    >
+                      GET endpoint
+                      {{
+                        '/v1/accounts/{account-id}/transactions/{transactionId}'
+                      }}
                     </li>
                   </ul>
                 </li>
@@ -277,7 +486,7 @@
         </li>
         <li>
           <span class="clickable-item" routerLink="/test-cases/postman-testing">
-            {{'TEST_CASES.INTRODUCTION.MENU.LI_2' | translate}}
+            {{ 'TEST_CASES.INTRODUCTION.MENU.LI_2' | translate }}
           </span>
         </li>
       </ul>

@@ -1,4 +1,4 @@
-<div class="getting-started-container">
+<div class="getting-started-container container">
   <section>
     <div class="divider"></div>
     <h1 class="title">
@@ -224,13 +224,21 @@
       }}</span>
 
       <span>
-        <a target="_blank" href="{{link.localEnvironmentLink}}">
+        <a
+          class="links-to-environments-link"
+          target="_blank"
+          href="{{link.localEnvironmentLink}}"
+        >
           {{ link.localEnvironmentLink }}
         </a>
       </span>
 
       <span>
-        <a target="_blank" href="{{link.productionEnvironmentLink}}">
+        <a
+          class="links-to-environments-link"
+          target="_blank"
+          href="{{link.productionEnvironmentLink}}"
+        >
           {{ link.productionEnvironmentLink }}
         </a>
       </span>
@@ -261,7 +269,11 @@
       <div class="links-to-environments">
         <span>Java 8</span>
         <span>
-          <a target="_blank" href="https://openjdk.java.net/install/">
+          <a
+            class="links-to-environments-link"
+            target="_blank"
+            href="https://openjdk.java.net/install/"
+          >
             https://openjdk.java.net/install/
           </a>
         </span>
@@ -270,7 +282,11 @@
       <div class="links-to-environments bg">
         <span>Node.js 11.x</span>
         <span>
-          <a target="_blank" href="https://nodejs.org/en/download">
+          <a
+            class="links-to-environments-link"
+            target="_blank"
+            href="https://nodejs.org/en/download"
+          >
             https://nodejs.org/en/download
           </a>
         </span>
@@ -279,7 +295,11 @@
       <div class="links-to-environments">
         <span>Angular CLI 7.x</span>
         <span>
-          <a target="_blank" href="https://angular.io/guide/quickstart">
+          <a
+            class="links-to-environments-link"
+            target="_blank"
+            href="https://angular.io/guide/quickstart"
+          >
             https://angular.io/guide/quickstart
           </a>
         </span>
@@ -288,7 +308,11 @@
       <div class="links-to-environments bg">
         <span>Asciidoctor 2.0</span>
         <span>
-          <a target="_blank" href="https://asciidoctor.org">
+          <a
+            class="links-to-environments-link"
+            target="_blank"
+            href="https://asciidoctor.org"
+          >
             https://asciidoctor.org
           </a>
         </span>
@@ -297,7 +321,11 @@
       <div class="links-to-environments">
         <span>jq 1.6</span>
         <span>
-          <a target="_blank" href="https://stedolan.github.io/jq/download">
+          <a
+            class="links-to-environments-link"
+            target="_blank"
+            href="https://stedolan.github.io/jq/download"
+          >
             https://stedolan.github.io/jq/download
           </a>
         </span>
@@ -306,7 +334,11 @@
       <div class="links-to-environments bg">
         <span>Docker 1.17</span>
         <span>
-          <a target="_blank" href="https://www.docker.com/get-started">
+          <a
+            class="links-to-environments-link"
+            target="_blank"
+            href="https://www.docker.com/get-started"
+          >
             https://www.docker.com/get-started
           </a>
         </span>
@@ -315,7 +347,11 @@
       <div class="links-to-environments">
         <span>Docker Compose 1.24</span>
         <span>
-          <a target="_blank" href="https://docs.docker.com/compose/install">
+          <a
+            class="links-to-environments-link"
+            target="_blank"
+            href="https://docs.docker.com/compose/install"
+          >
             https://docs.docker.com/compose/install
           </a>
         </span>
@@ -324,7 +360,11 @@
       <div class="links-to-environments bg">
         <span>Maven 3.5</span>
         <span>
-          <a target="_blank" href="https://www.docker.com/get-started">
+          <a
+            class="links-to-environments-link"
+            target="_blank"
+            href="https://www.docker.com/get-started"
+          >
             https://maven.apache.org/download.cgi
           </a>
         </span>
@@ -333,7 +373,11 @@
       <div class="links-to-environments">
         <span>PlantUML 1.2019.3</span>
         <span>
-          <a target="_blank" href="http://plantuml.com/en/starting">
+          <a
+            class="links-to-environments-link"
+            target="_blank"
+            href="http://plantuml.com/en/starting"
+          >
             http://plantuml.com/en/starting
           </a>
         </span>
@@ -343,7 +387,7 @@
     <p>{{ 'GETTING_STARTED.HOW_TO_DOWN.CONTENT.PART_3' | translate }}</p>
     <p>{{ 'GETTING_STARTED.HOW_TO_DOWN.CONTENT.PART_4' | translate }}</p>
     <span class="app-line-command-wrapper">
-      <span>docker-compose rm -s -f -v</span> <br />
+      <span>docker-compose rm -s -f -v</span>
     </span>
 
     <h2>{{ 'GETTING_STARTED.HOW_TO_DOWN.SUBTITLE_2' | translate }}</h2>
@@ -422,7 +466,7 @@
     <p>{{ 'GETTING_STARTED.TROUBLES.PART_4' | translate }}</p>
 
     <span class="app-line-command-wrapper">
-      <span>docker-compose rm -s -f -v</span> <br />
+      <span>docker-compose rm -s -f -v</span>
     </span>
 
     <p>{{ 'GETTING_STARTED.TROUBLES.PART_5' | translate }}</p>
@@ -455,7 +499,7 @@
     <p>{{ 'GETTING_STARTED.TROUBLES.PART_7' | translate }}</p>
 
     <p>{{ 'GETTING_STARTED.TROUBLES.PART_8' | translate }}</p>
-    <span class="app-line-command-wrapper"> <span>node -v</span> <br /> </span>
+    <span class="app-line-command-wrapper"> <span>node -v</span> </span>
 
     <p>{{ 'GETTING_STARTED.TROUBLES.PART_9' | translate }}</p>
   </section>
