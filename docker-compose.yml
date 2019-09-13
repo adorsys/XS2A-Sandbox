@@ -13,7 +13,7 @@ services:
 
   # Xs2a connector example
   xs2a-connector-examples:
-    image: adorsys/xs2a-connector-examples:3.9.3
+    image: adorsys/xs2a-connector-examples:5.0
     container_name: xs2a-connector-examples
     restart: on-failure
     ports:
@@ -34,7 +34,7 @@ services:
 
   # Xs2a aspsp profile
   xs2a-aspsp-profile:
-    image: adorsys/xs2a-aspsp-profile:3.9
+    image: adorsys/xs2a-aspsp-profile:5.0
     container_name: xs2a-aspsp-profile
     restart: on-failure
     environment:
@@ -50,7 +50,7 @@ services:
 
   # Consent management
   xs2a-consent-management:
-    image: adorsys/xs2a-consent-management:3.9
+    image: adorsys/xs2a-consent-management:5.0
     container_name: xs2a-consent-management
     restart: on-failure
     ports:
@@ -111,6 +111,7 @@ services:
       CMS_URL: "http://xs2a-consent-management:8080"
       ONLINE_BANKING_SCA_LOGINPAGE: "http://localhost:4400/"
       ONLINE_BANKING_SCA_UIREDIRECT: "true"
+      ONLINE-BANKING_URL: "http://xs2a-online-banking:8090/api/v1/consents/confirm/{userLogin}/{consentId}/{authorizationId}/{tan}"
       SPRING_DATASOURCE_URL: "jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=consent"
       SPRING_DATASOURCE_USERNAME: "cms"
       SPRING_DATASOURCE_PASSWORD: "cms"
@@ -118,7 +119,7 @@ services:
 
   # Ledgers
   ledgers:
-    image: adorsys/ledgers:1.4
+    image: adorsys/ledgers:1.5
     container_name: ledgers
     restart: on-failure
     networks:
