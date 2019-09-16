@@ -12,7 +12,7 @@
                 </ng-template>
             </div>
         </div>
-        <form [formGroup]="userForm" autocomplete="off">
+        <form novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()" autocomplete="off">
             <div class="card-body pb-0">
                 <h5>User Information</h5>
             </div>
@@ -118,9 +118,13 @@
                                                id="scaData"
                                                placeholder="Please input SCA method for user"
                                                type="text">
-                                        <div *ngIf="(scaDataItem.controls['methodValue'].touched || submitted) && scaDataItem.controls['methodValue'].hasError('required')"
+                                        <div *ngIf="scaDataItem.get('methodValue')?.errors?.required"
                                              class="invalid-feedback">
-                                            Authentication Email or Phone number is required
+                                            The value of the method is required
+                                        </div>
+                                        <div *ngIf="scaDataItem.get('methodValue')?.hasError('pattern')"
+                                             class="invalid-feedback">
+                                            The method value has an incorrect format
                                         </div>
                                     </div>
                                 </div>
@@ -173,7 +177,7 @@
                 </div>
 
                 <div class="card-body text-right">
-                    <button (click)="onSubmit()"
+                    <button [disabled]="userForm.invalid"
                             class="btn btn-primary"
                             type="submit">Submit
                     </button>

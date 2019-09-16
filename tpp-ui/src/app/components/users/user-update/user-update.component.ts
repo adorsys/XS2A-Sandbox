@@ -87,11 +87,10 @@ export class UserUpdateComponent implements OnInit {
             usesStaticTan: ['']
         });
 
-
         scaData.get('scaMethod').valueChanges.subscribe(value => {
-            if(value === ScaMethods.EMAIL){
+            if (value === ScaMethods.EMAIL){
                 scaData.get('methodValue').setValidators(emailValidators);
-            } else if(value === ScaMethods.MOBILE){
+            } else if (value === ScaMethods.MOBILE){
                 scaData.get('methodValue').setValidators([Validators.required, Validators.pattern(new RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/))]);
             } else {
                 scaData.get('methodValue').setValidators([Validators.required]);

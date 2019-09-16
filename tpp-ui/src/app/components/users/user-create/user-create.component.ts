@@ -50,12 +50,25 @@ export class UserCreateComponent implements OnInit {
     }
 
     initScaData() {
-        return this.formBuilder.group({
-            scaMethod: ['EMAIL', Validators.required],
-            methodValue: ['', Validators.required],
+        const emailValidators = [Validators.required, Validators.pattern(new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))];
+
+        const scaData = this.formBuilder.group({
+            scaMethod: [ScaMethods.EMAIL, Validators.required],
+            methodValue: ['', emailValidators],
             staticTan: [''],
             usesStaticTan: ['']
         });
+
+        scaData.get('scaMethod').valueChanges.subscribe(value => {
+            if (value === ScaMethods.EMAIL) {
+                scaData.get('methodValue').setValidators(emailValidators);
+            } else if (value === ScaMethods.MOBILE) {
+                scaData.get('methodValue').setValidators([Validators.required, Validators.pattern(new RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/))]);
+            } else {
+                scaData.get('methodValue').setValidators([Validators.required]);
+            }
+        });
+        return scaData;
     }
 
     addScaDataItem() {
