@@ -55,7 +55,7 @@ management:
 # Iban generator properties
 iban:
   generator:
-    countryCode: FR
+    countryCode: DE
     bankCode:
       nisp: 76070025
       random: 76050102

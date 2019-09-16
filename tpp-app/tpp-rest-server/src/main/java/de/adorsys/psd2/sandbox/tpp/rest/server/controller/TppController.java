@@ -1,5 +1,7 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.controller;
 
+import de.adorsys.ledgers.middleware.client.rest.ResetDataRestClient;
+import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.User;
 import de.adorsys.psd2.sandbox.tpp.rest.api.resource.TppRestApi;
@@ -17,6 +19,8 @@ import static org.springframework.http.HttpStatus.CREATED;
 public class TppController implements TppRestApi {
     private final UserMapper userMapper;
     private final UserMgmtStaffRestClient userMgmtStaffRestClient;
+    private final UserMgmtRestClient userMgmtRestClient;
+    private final ResetDataRestClient resetDataRestClient;
 
     @Override
     public void login(String login, String pin) {
@@ -26,5 +30,16 @@ public class TppController implements TppRestApi {
     public ResponseEntity<Void> register(User user) {
         userMgmtStaffRestClient.register(user.getId(), userMapper.toUserTO(user));
         return ResponseEntity.status(CREATED).build();
+    }
+
+    @Override
+    public ResponseEntity<Void> remove() {
+        String branchId = userMgmtRestClient.getUser().getBody().getBranch();
+        return resetDataRestClient.branch(branchId);
+    }
+
+    @Override
+    public ResponseEntity<Void> transactions(String iban) {
+        return resetDataRestClient.account(iban);
     }
 }
