@@ -20,7 +20,7 @@ public interface TppRestApi {
     ResponseEntity<Void> register(@RequestBody User user);
 
     @ApiOperation(value = "Remove Tpp", authorizations = @Authorization(value = "apiKey"))
-    @DeleteMapping
+    @DeleteMapping("/self")
     ResponseEntity<Void> remove();
 
     @ApiOperation(value = "Remove transactions for account in Tpp", authorizations = @Authorization(value = "apiKey"))
