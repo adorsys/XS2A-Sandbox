@@ -1,9 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {map} from "rxjs/operators";
-import {AccountService} from "../../services/account.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {Account} from "../../models/account.model";
-import {InfoService} from "../../commons/info/info.service";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { map } from 'rxjs/operators';
+
+import { InfoService } from '../../commons/info/info.service';
+import { Account } from '../../models/account.model';
+import { AccountService } from '../../services/account.service';
+import { TppService } from '../../services/tpp.service';
 
 @Component({
     selector: 'app-account',
@@ -17,9 +20,11 @@ export class AccountComponent implements OnInit {
 
     constructor(
         private accountService: AccountService,
+        private tppService: TppService,
         private activatedRoute: ActivatedRoute,
         private infoService: InfoService,
-        private router: Router) {
+        private router: Router,
+        private modalService: NgbModal) {
     }
 
     ngOnInit() {
@@ -36,7 +41,7 @@ export class AccountComponent implements OnInit {
     }
 
     public goToAccountDetail() {
-        if(this.isAccountDeleted) {
+        if (this.isAccountDeleted) {
             this.infoService.openFeedback('You can not Grant Accesses to a Deleted/Blocked account', {
                 severity: 'error'
             });
@@ -45,14 +50,26 @@ export class AccountComponent implements OnInit {
         }
     }
 
+    deleteAccount() {
+        this.tppService.deleteAccount(this.account.iban).subscribe(() => {
+            this.router.navigate(['/accounts']);
+        });
+    }
+
+    openDeleteConfirmation(content) {
+        this.modalService.open(content).result.then(() => {
+            this.deleteAccount();
+        }, () => {});
+    }
+
     get isAccountDeleted(): boolean {
-        return this.account.accountStatus === "DELETED" || this.account.accountStatus === "BLOCKED";
+        return this.account.accountStatus === 'DELETED' || this.account.accountStatus === 'BLOCKED';
     }
 
     getAccount() {
         this.accountService.getAccount(this.accountID)
             .subscribe((account: Account) => {
                 this.account = account;
-            })
+            });
     }
 }

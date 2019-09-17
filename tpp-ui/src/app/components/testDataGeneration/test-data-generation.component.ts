@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {FormGroup} from "@angular/forms";
-import {Router} from "@angular/router";
-import {TestDataGenerationService} from "../../services/test.data.generation.service"
-import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
-import {InfoService} from "../../commons/info/info.service";
+import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+
+import { InfoService } from '../../commons/info/info.service';
+import { TestDataGenerationService } from '../../services/test.data.generation.service';
 
 @Component({
     selector: 'test-data-generation',

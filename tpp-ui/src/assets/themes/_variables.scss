@@ -1,4 +1,12 @@
+// Overwrite bootstrap variables
+@import "./bootstrap-overrides";
+
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
 $primary-gradient: linear-gradient(129.54deg, #0DB0E2 0%, #10317D 100%);
+$danger-gradient: linear-gradient(129.54deg, lighten($danger, 7%) 0%, $danger 100%);
 $light-grey: #A0A0A0;
 $light-grey-10: #F8F8F8;
 $btn-text-color: #F6F6F6;

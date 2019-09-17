@@ -1,8 +1,9 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {environment} from "../../environments/environment";
-import {Amount} from "../models/amount.model";
-import {GrantAccountAccess} from "../models/grant-account-access.model";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
+import { environment } from '../../environments/environment';
+import { Amount } from '../models/amount.model';
+import { GrantAccountAccess } from '../models/grant-account-access.model';
 
 @Injectable({
     providedIn: 'root'
@@ -11,8 +12,7 @@ export class AccountService {
 
     private url = `${environment.tppBackend}`;
 
-    constructor(private http: HttpClient) {
-    }
+    constructor(private http: HttpClient) {}
 
     getAccounts() {
         return this.http.get(this.url + '/accounts');
@@ -23,7 +23,6 @@ export class AccountService {
     }
 
     createAccount(userId: string, account: Account) {
-        console.log(userId);
         return this.http.post(this.url + '/accounts', account, {
             params: {userId: userId}
         });

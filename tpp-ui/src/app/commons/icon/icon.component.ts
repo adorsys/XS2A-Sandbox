@@ -39,11 +39,11 @@ export class IconComponent implements OnChanges {
     private _iconRegistry: IconRegistry,
     private _sanitizer: DomSanitizer
   ) {
-    const icons = ['user', 'account', 'upload', 'euro', 'add', 'generate_test_data'];
+    const icons = ['user', 'account', 'upload', 'euro', 'add', 'generate_test_data', 'settings'];
     icons.forEach(val => {
       _iconRegistry.addSvgIcon(
           val,
-          _sanitizer.bypassSecurityTrustResourceUrl('assets/icons/'+val+'.svg')
+          _sanitizer.bypassSecurityTrustResourceUrl('assets/icons/' + val + '.svg')
       );
     });
   }

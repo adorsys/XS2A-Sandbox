@@ -1,10 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
-//@import "~bootstrap/dist/css/bootstrap.css";
-@import "./assets/themes/bootstrap";
+
+// Base Variables
+@import "./assets/themes/variables";
+
 @import "~bootstrap/scss/bootstrap";
 @import "~font-awesome/css/font-awesome.css";
 @import "~material-icons/iconfont/material-icons.css";
-@import "./assets/themes/variables";
 @import "./assets/themes/fonts";
 
 * {
@@ -30,14 +31,7 @@ label {
 }
 
 .btn {
-    color: $btn-text-color;
-    margin-bottom: 1.1rem;
-    min-width: 200px;
-    width: auto;
-
-    &:hover {
-        transition: 0.5s;
-    }
+    white-space: nowrap;
 
     &:focus {
         outline: none;
@@ -49,6 +43,11 @@ label {
 
     &-primary {
         background: $primary-gradient;
+        border: none;
+    }
+
+    &-danger {
+        background: $danger-gradient;
         border: none;
     }
 }
@@ -94,6 +93,10 @@ a {
             height: 28px;
         }
     }
+}
+
+.modal-footer > * {
+    margin-bottom: 0;
 }
 
 .nav-item {

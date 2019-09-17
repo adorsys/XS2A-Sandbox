@@ -23,10 +23,25 @@
         <div class="col-12 col-md-3 ">Balance</div>
         <div class="col-12 col-md-9 text-muted">{{account?.balances[0].amount.amount | convertBalance}}</div>
       </div>
-      <div class="">
-        <button class="btn btn-primary" (click)="goToAccountDetail()">Access management</button>
-      </div>
+      <button class="btn btn-primary" (click)="goToAccountDetail()">Access management</button>
+      <button class="btn btn-outline-danger ml-3" (click)="openDeleteConfirmation(deleteConfirmationModal)">Delete</button>
     </div>
   </div>
 
 </div>
+
+<ng-template #deleteConfirmationModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Account deletion</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      Are you sure you want to delete "{{account?.iban}}"?
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
+    <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Delete</button>
+  </div>
+</ng-template>
