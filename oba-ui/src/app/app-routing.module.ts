@@ -29,6 +29,11 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         children: [
             {
+                path: '',
+                pathMatch: 'full',
+                redirectTo: 'accounts'
+            },
+            {
                 path: 'consents',
                 component: ConsentsComponent
             },
