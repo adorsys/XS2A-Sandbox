@@ -4,7 +4,7 @@ export interface AisAccountAccess {
   accounts?: Array<AccountReference>;
   allPsd2?: string;
   availableAccounts?: string;
-  availableAccountsWithBalances?: string;
+  availableAccountsWithBalance?: string;
   balances?: Array<AccountReference>;
   transactions?: Array<AccountReference>;
 }

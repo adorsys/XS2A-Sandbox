@@ -10,6 +10,7 @@ export { AisAccountConsent } from './models/ais-account-consent';
 export { AisAccountConsentAuthorisation } from './models/ais-account-consent-authorisation';
 export { AisConsentRequest } from './models/ais-consent-request';
 export { AmountTO } from './models/amount-to';
+export { AuthorisationTemplate } from './models/authorisation-template';
 export { AuthorizeResponse } from './models/authorize-response';
 export { BulkPaymentTO } from './models/bulk-payment-to';
 export { ConsentAuthorizeResponse } from './models/consent-authorize-response';

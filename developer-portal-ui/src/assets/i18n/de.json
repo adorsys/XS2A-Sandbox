@@ -133,7 +133,7 @@
     "ARCHITECTURE": {
       "TITLE": "XS2ASandbox Architektur und Module",
       "CONTENT": "Die XS2ASandbox setzt sich aus ihren Komponenten wie in Abbildung 1.1 zusammen.",
-      "CAPTION": "Abbildung 1.2: Komponenten der XS2ASandbox"
+      "CAPTION": "Abbildung 1.1: Komponenten der XS2ASandbox"
     },
     "INTERFACE": {
       "TITLE": "XS2A-Schnittstelle",
