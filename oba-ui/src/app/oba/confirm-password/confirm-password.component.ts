@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../common/services/auth.service';
+import { CustomizeService } from '../../common/services/customize.service';
 
 @Component({
   selector: 'app-confirm-password',
@@ -16,9 +17,10 @@ export class ConfirmPasswordComponent implements OnInit {
     public errorMessage: string;
 
     constructor(
-        private authService: AuthService,
-        private formBuilder: FormBuilder,
-        private router: Router) {
+      public customizeService: CustomizeService,
+      private authService: AuthService,
+      private formBuilder: FormBuilder,
+      private router: Router) {
     }
 
     ngOnInit() {

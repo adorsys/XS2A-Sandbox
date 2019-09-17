@@ -6,6 +6,7 @@ import { Subscription, throwError } from 'rxjs';
 import { OnlineBankingAuthorizationService } from '../../api/services/online-banking-authorization.service';
 import { RoutingPath } from '../../common/models/routing-path.model';
 import { AuthService } from '../../common/services/auth.service';
+import { CustomizeService } from '../../common/services/customize.service';
 
 import LoginUsingPOST1Params = OnlineBankingAuthorizationService.LoginUsingPOST1Params;
 
@@ -21,6 +22,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
 
   constructor(
+    public customizeService: CustomizeService,
     private formBuilder: FormBuilder,
     private router: Router,
     private authService: AuthService

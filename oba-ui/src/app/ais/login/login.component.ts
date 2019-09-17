@@ -8,10 +8,10 @@ import { PSUAISService } from '../../api/services/psuais.service';
 import { InfoService } from '../../common/info/info.service';
 import { RoutingPath } from '../../common/models/routing-path.model';
 import { AisService } from '../../common/services/ais.service';
+import { CustomizeService } from '../../common/services/customize.service';
 import { ShareDataService } from '../../common/services/share-data.service';
 
 import LoginUsingPOSTParams = PSUAISService.LoginUsingPOSTParams;
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -27,7 +27,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(public customizeService: CustomizeService,
+              private formBuilder: FormBuilder,
               private router: Router,
               private infoService: InfoService,
               private activatedRoute: ActivatedRoute,

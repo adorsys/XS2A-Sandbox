@@ -7,11 +7,13 @@ import { Subscription } from 'rxjs';
 import { PSUPISCancellationService } from '../../api/services/psupiscancellation.service';
 import { InfoService } from '../../common/info/info.service';
 import { RoutingPath } from '../../common/models/routing-path.model';
+import { CustomizeService } from '../../common/services/customize.service';
 import { PisCancellationService } from '../../common/services/pis-cancellation.service';
 import { PisService } from '../../common/services/pis.service';
 import { ShareDataService } from '../../common/services/share-data.service';
 
 import LoginUsingPOST2Params = PSUPISCancellationService.LoginUsingPOST2Params;
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -28,7 +30,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
 
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(public customizeService: CustomizeService,
+              private formBuilder: FormBuilder,
               private infoService: InfoService,
               private router: Router,
               private activatedRoute: ActivatedRoute,

@@ -1,15 +1,14 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subscription} from "rxjs";
-import {ConsentAuthorizeResponse} from "../../api/models/consent-authorize-response";
-import {ScaUserDataTO} from "../../api/models/sca-user-data-to";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
-import {AisService} from "../../common/services/ais.service";
-import {PisService} from "../../common/services/pis.service";
-import {PisCancellationService} from "../../common/services/pis-cancellation.service";
-import {ShareDataService} from "../../common/services/share-data.service";
-import {RoutingPath} from "../../common/models/routing-path.model";
-import {ObaUtils} from "../../common/utils/oba-utils";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+
+import { ConsentAuthorizeResponse } from '../../api/models/consent-authorize-response';
+import { ScaUserDataTO } from '../../api/models/sca-user-data-to';
+import { RoutingPath } from '../../common/models/routing-path.model';
+import { AisService } from '../../common/services/ais.service';
+import { CustomizeService } from '../../common/services/customize.service';
+import { ShareDataService } from '../../common/services/share-data.service';
 
 @Component({
   selector: 'app-select-sca',
@@ -25,6 +24,7 @@ export class SelectScaComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
 
   constructor(
+    public customizeService: CustomizeService,
     private formBuilder: FormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute,

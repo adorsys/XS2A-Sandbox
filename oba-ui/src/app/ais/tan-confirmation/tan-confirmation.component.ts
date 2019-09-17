@@ -1,16 +1,16 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ConsentAuthorizeResponse} from "../../api/models/consent-authorize-response";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Subscription} from "rxjs";
-import {ActivatedRoute, Router} from "@angular/router";
-import {AisService} from "../../common/services/ais.service";
-import {PisService} from "../../common/services/pis.service";
-import {PisCancellationService} from "../../common/services/pis-cancellation.service";
-import {ShareDataService} from "../../common/services/share-data.service";
-import {RoutingPath} from "../../common/models/routing-path.model";
-import {PSUAISService} from "../../api/services/psuais.service";
-import AuthrizedConsentUsingPOSTParams = PSUAISService.AuthrizedConsentUsingPOSTParams;
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
+import { ConsentAuthorizeResponse } from '../../api/models/consent-authorize-response';
+import { PSUAISService } from '../../api/services/psuais.service';
+import { RoutingPath } from '../../common/models/routing-path.model';
+import { AisService } from '../../common/services/ais.service';
+import { CustomizeService } from '../../common/services/customize.service';
+import { ShareDataService } from '../../common/services/share-data.service';
+
+import AuthrizedConsentUsingPOSTParams = PSUAISService.AuthrizedConsentUsingPOSTParams;
 @Component({
   selector: 'app-tan-confirmation',
   templateUrl: './tan-confirmation.component.html',
@@ -25,11 +25,11 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
   private operation: string;
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(public customizeService: CustomizeService,
+              private formBuilder: FormBuilder,
               private router: Router,
               private route: ActivatedRoute,
               private aisService: AisService,
-              private pisCancellationService: PisCancellationService,
               private shareService: ShareDataService) {
   }
 
