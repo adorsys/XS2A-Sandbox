@@ -1,13 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-
-import {combineLatest} from "rxjs";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import JSZip from 'jszip';
+import { combineLatest } from 'rxjs';
 
-import {AuthService} from "../../../services/auth.service";
-import {CertGenerationService} from "../../../services/cert-generation.service";
-import {InfoService} from "../../../commons/info/info.service";
+import { InfoService } from '../../../commons/info/info.service';
+import { AuthService } from '../../../services/auth.service';
+import { CertGenerationService } from '../../../services/cert-generation.service';
+import { CustomizeService } from '../../../services/customize.service';
 
 @Component({
     selector: 'app-register',
@@ -28,7 +28,8 @@ export class RegisterComponent implements OnInit {
                 private certGenerationService: CertGenerationService,
                 private infoService: InfoService,
                 private router: Router,
-                private formBuilder: FormBuilder) {
+                private formBuilder: FormBuilder,
+                public customizeService: CustomizeService) {
     }
 
     ngOnInit() {

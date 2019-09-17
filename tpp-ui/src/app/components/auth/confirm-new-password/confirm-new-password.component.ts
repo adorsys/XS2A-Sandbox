@@ -1,7 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {AuthService} from "../../../services/auth.service";
-import {Router} from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import { AuthService } from '../../../services/auth.service';
+import { CustomizeService } from '../../../services/customize.service';
 
 @Component({
     selector: 'app-confirm-new-password',
@@ -17,7 +19,8 @@ export class ConfirmNewPasswordComponent implements OnInit {
     constructor(
         private authService: AuthService,
         private formBuilder: FormBuilder,
-        private router: Router) {
+        private router: Router,
+        public customizeService: CustomizeService) {
     }
 
     ngOnInit() {

@@ -1,6 +1,6 @@
 @import "~src/assets/themes/variables";
 
 .router {
-  background-color: $light-grey-10;
+  background-color: var(--mainBG);
   height: 100%;
 }

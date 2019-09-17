@@ -13,6 +13,11 @@
     padding: 0;
 }
 
+body {
+    color: var(--bodyFontColor);
+    background: var(--bodyBG);
+}
+
 .logo {
     width: 200px;
     height: auto;
@@ -30,6 +35,12 @@ label {
     }
 }
 
+.navbar-brand {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}
+
 .btn {
     white-space: nowrap;
 
@@ -42,27 +53,32 @@ label {
     }
 
     &-primary {
-        background: $primary-gradient;
+        background: var(--gradientPrimary);
         border: none;
     }
 
     &-danger {
-        background: $danger-gradient;
+        background: var(--dangerPrimary);
         border: none;
     }
 }
 
 a {
     font-size: 1.1rem;
-    color: $dark-80;
+    transition: all 0.2s ease-in;
+    color: var(--anchorFontColor);
 
-    &.active {
-        color: $primary;
+    &.active, &:hover {
+        color: var(--anchorFontColorHover);
     }
 
-    &:hover {
-        transition: 0.5s;
+    &.text-primary:hover, &.text-primary:focus {
+        color: var(--anchorFontColorHover) !important;
     }
+}
+
+.text-primary {
+    color: var(--colorPrimary) !important;
 }
 
 .card {

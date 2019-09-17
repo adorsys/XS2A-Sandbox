@@ -1,18 +1,17 @@
-import {Component, DoCheck, OnInit} from '@angular/core';
-import {AuthService} from "../../services/auth.service";
+import { Component, DoCheck } from '@angular/core';
+
+import { AuthService } from '../../services/auth.service';
+import { CustomizeService } from '../../services/customize.service';
 
 @Component({
     selector: 'app-navbar',
     templateUrl: './navbar.component.html',
     styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit, DoCheck {
+export class NavbarComponent implements DoCheck {
 
-    constructor(private authService: AuthService) {
-    }
-
-    ngOnInit() {
-    }
+    constructor(private authService: AuthService,
+                public customizeService: CustomizeService) {}
 
     ngDoCheck(): void {
         if (!this.authService.isLoggedIn()) {

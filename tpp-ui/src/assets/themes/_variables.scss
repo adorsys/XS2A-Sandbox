@@ -12,3 +12,30 @@ $light-grey-10: #F8F8F8;
 $btn-text-color: #F6F6F6;
 
 $dark-80: #2C2E2F;
+
+
+/*
+ * CSS Variables: Used for whitelabel customization
+ */
+:root {
+  /* Fonts */
+  --fontFamily: #{$font-family-base};
+
+  /* Colors */
+  --colorPrimary: #{$primary};
+
+  /* Gradients */
+  --gradientPrimary: #{$primary-gradient};
+  --gradientDanger: #{$danger-gradient};
+
+  /* Body */
+  --bodyBG: #fff;
+  --bodyFontColor: #212529;
+
+  /* Main */
+  --mainBG: #{$light-grey-10};
+
+  /* Anchor */
+  --anchorFontColor: #{$link-color};
+  --anchorFontColorHover: #{$link-hover-color};
+}
