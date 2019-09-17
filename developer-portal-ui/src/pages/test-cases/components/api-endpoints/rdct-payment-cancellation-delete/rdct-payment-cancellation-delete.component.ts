@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-rdct-consent-delete',
-  templateUrl: './rdct-payment-cancellation-delete.component.html'
+  templateUrl: './rdct-payment-cancellation-delete.component.html',
 })
 export class RdctPaymentCancellationDeleteComponent implements OnInit {
   activeSegment = 'documentation';
@@ -24,10 +24,10 @@ export class RdctPaymentCancellationDeleteComponent implements OnInit {
     creditorName: 'WBG',
     creditorAddress: {
       buildingNumber: '56',
-      city: 'Nürnberg',
+      townName: 'Nürnberg',
       country: 'DE',
-      postalCode: '90543',
-      street: 'WBG Straße',
+      postCode: '90543',
+      streetName: 'WBG Straße',
     },
     remittanceInformationUnstructured: 'Ref. Number WBG-1222',
   };
@@ -37,10 +37,10 @@ export class RdctPaymentCancellationDeleteComponent implements OnInit {
       iban: 'DE15500105172295759744',
     },
     creditorAddress: {
-      street: 'Breite Gasse',
+      streetName: 'Breite Gasse',
       buildingNumber: '34',
-      city: 'Nürnberg',
-      postalCode: '90457',
+      townName: 'Nürnberg',
+      postCode: '90457',
       country: 'DE',
     },
     creditorAgent: 'BCENEVOD',
@@ -83,10 +83,10 @@ export class RdctPaymentCancellationDeleteComponent implements OnInit {
         creditorName: 'WBG',
         creditorAddress: {
           buildingNumber: '56',
-          city: 'Nürnberg',
+          townName: 'Nürnberg',
           country: 'DE',
-          postalCode: '90543',
-          street: 'WBG Straße',
+          postCode: '90543',
+          streetName: 'WBG Straße',
         },
         remittanceInformationUnstructured: 'Ref. Number WBG-1234',
       },
@@ -104,10 +104,10 @@ export class RdctPaymentCancellationDeleteComponent implements OnInit {
         creditorName: 'Grünstrom',
         creditorAddress: {
           buildingNumber: '74',
-          city: 'Dresden',
+          townName: 'Dresden',
           country: 'DE',
-          postalCode: '01067',
-          street: 'Kaisergasse',
+          postCode: '01067',
+          streetName: 'Kaisergasse',
         },
         remittanceInformationUnstructured: 'Ref. Number GRUENSTROM-2444',
       },
