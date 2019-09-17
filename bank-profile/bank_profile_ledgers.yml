@@ -3,11 +3,11 @@ setting:
   ais:
     consentTypes:
       bankOfferedConsentSupported: FALSE
-      globalConsentSupported: FALSE
+      globalConsentSupported: TRUE
       availableAccountsConsentSupported: TRUE
       accountAccessFrequencyPerDay: 4
       notConfirmedConsentExpirationTimeMs: 86400000
-      maxConsentValidityDays: 0
+      maxConsentValidityDays: 90
     redirectLinkToOnlineBanking:
       aisRedirectUrlToAspsp: http://localhost:4400/account-information/login?encryptedConsentId={encrypted-consent-id}&redirectId={redirect-id}
     transactionParameters:
