@@ -196,7 +196,27 @@
     },
     "UI": {
       "TITLE": "TPP Benutzerschnittstelle",
-      "CONTENT": "TPP-Entwicklern können sich im System registrieren, Zertifikate erhalten und Testdaten für Ihre TPP-Anwendung herunterladen. Diese Testdaten werden anhand des generierten Zertifikats und angegebenen Daten in der TPP Benutzerschnittstelle erstellt."
+      "CONTENT": {
+        "PART_0": "TPP - Entwickler können sich im System registrieren und somit ein Zertifikat erhalten\n. Mit diesem Zertifikat und den vorgegeben Daten in der TPP Benutzeroberfläche können Sie Test - Daten für ihre TPP - Anwendung herunterladen ",
+        "SUBTITLE_1": "Wie legt man ein Benutzerkonto für den TPP an:",
+        "PART_1": "1. Öffnen Sie die Login - Seite in der TPP Benutzeroberfläche.",
+        "PART_2": "2. Wählen Sie unten die Option “Registrieren” aus.",
+        "PART_3": "3. Geben Sie die notwendigen Informationen ein: TPP Autorisierungsnummer, Email, Login und Passwort.",
+        "PART_4": "4. Bei Bedarf können Sie ein QWAC Testzertifikat zum Testen der XS2A Schnittstelle generieren.",
+        "SUBTITLE_2": "Wie werden Benutzer angelegt:",
+        "PART_5": "Benutzer können manuell angelegt werden oder über das Hochladen einer .yaml Datei.",
+        "PART_6": "Einen Benutzer manuell erstellen:",
+        "PART_7": "1. Gehen Sie zu “Meine Benutzerliste” und klicken Sie auf “Neuen Benutzer anlegen”.",
+        "PART_8": "2. Geben Sie Email, Login und Pin für den neuen Benutzer ein.",
+        "PART_9": "3. Wählen Sie eine Authentifizierungsmethode aus (derzeit ist nur Email gültig) und geben Sie eine gültige Email ein. Wenn Sie die Option \"Statische TAN in SandboxModus verwenden\" wählen, werden statische Test TANs verwendet. Das bedeutet Ihre Test TAN muss eingeben werden. Sie können mehrere SCA Methoden pro Benutzer hinzufügen",
+        "PART_10": "Benutzerkonten manuell erstellen: ",
+        "PART_11": "1 Wählen Sie einen Benutzer in der Benutzerliste aus und klicken Sie auf \"Konto erstellen\"",
+        "PART_12": "2. Wählen Sie Kontoart, Verwendung und Kontostatus aus. IBAN kann automatisch generiert werden. Bitte beachten Sie, dass nur valide IBANs von der XS2A Schnittstelle akzeptiert werden.",
+        "PART_13": "3. Nach dem das Konto erstellt wurde, können Sie die Funktion \"Bargeld einzahlen\" verwenden, um zu Testzwecken einen beliebigen Betrag zu den Salden hinzuzufügen. Alle erstellten Konten sind im Reiter \"Benutzerkonten\" verfügbar",
+        "PART_14": "Um Benutzer und Konten automatisch zu erstellen, können Sie Testdaten mit dem Reiter \"Testdaten generieren\" generieren, damit werden NISP konforme Testdaten generiert. Wenn Sie Ihre eigene .yaml Testdatei hochladen möchten, verwenden Sie den Reiter \"Dateien hochladen\".",
+        "SUBTITLE_3": "Wie werden Test - Zahlungen, -Zustimmungen und -Transaktionen erstellt:",
+        "PART_15": "Um Test - Zahlungen zu erstellen, müssen Sie Test - Zahlungsdaten im Reiter \"Testdaten generieren\" generieren, wobei die Option \"Zahlungsdaten generieren\" als wahr markiert werden muss. Darüber hinaus ist das Hochladen einer benutzerdefinierten .yaml Datei mit Zahlungen im Reiter \"Dateien hochladen\" möglich. Zustimmungen und Transaktionen können nur mit dem Hochladen einer korrekten .yaml Datei erstellt werden."
+      }
     },
     "OBA": {
       "TITLE": "Online Banking",

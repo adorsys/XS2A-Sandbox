@@ -196,7 +196,27 @@
     },
     "UI": {
       "TITLE": "TPP User Interface",
-      "CONTENT": "TPP developers can register themselves into the system, obtain certificate\n and download test data for their TPP application using generated\n certificate and prepared data in TPP UI."
+      "CONTENT": {
+        "PART_0": "TPP developers can register themselves into the system, obtain certificate\n and download test data for their TPP application using generated\n certificate and prepared data in TPP UI.",
+        "SUBTITLE_1": "How to create an account for TPP:",
+        "PART_1": "1. Open TPP UI login page.",
+        "PART_2": "2. Choose option “Register” below.",
+        "PART_3": "3. Provide all needed information: TPP authorization number, email, login and password.",
+        "PART_4": "4. You can generate test QWAC certificate for using it with XS2A Interface if needed.",
+        "SUBTITLE_2": "How to create users:",
+        "PART_5": "Users could be created manually or via uploading .yaml file.",
+        "PART_6": "To create user with manually:",
+        "PART_7": "1. Go to “My users list” and click on “Create new user”.",
+        "PART_8": "2. Enter email, login and pin for a new user.",
+        "PART_9": "3. Choose authentication method (only email is valid for now) and enter a valid email. If you choose option \"Use Static TAN in SandboxMode\", mock static TAN would be used for testing. Then you have to enter your mock TAN also. You can add multiple SCA methods to every users",
+        "PART_10": "To create accounts manually: ",
+        "PART_11": "1 Choose a user in your list of users and click \"Create deposit account\"",
+        "PART_12": "2. Select account type, usage and account status. IBAN could be generated automatically. Please, note, that only valid ibans are accepted by XS2A Interface.",
+        "PART_13": "3. After account is created, you can use function \"Deposit cash\" to add any amount to the balances for testing purposes. All the created accounts are available in \"Users accounts\" tab",
+        "PART_14": "To create users and accounts automatically, generate test data with the tab \"Generate Test Data\", and NISP compliant test data would be generated. If you want to upload your owm .yaml testing file, use tab \"Upload files\".",
+        "SUBTITLE_3": "How to create test payments, consents and transactions:",
+        "PART_15": "To create test payments, you have to generate test payment data on tab \"Generate Test Data\", checking option \"Generate Payment Data\" as true. Also, the upload of a custom .yaml file with payments is possible in tab \"Upload files\". Consents and transactions could be created only with upload of the proper .yaml file."
+      }
     },
     "OBA": {
       "TITLE": "Online banking",

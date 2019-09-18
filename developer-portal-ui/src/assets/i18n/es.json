@@ -196,7 +196,27 @@
     },
     "UI": {
       "TITLE": "Interfaz de usuario TPP",
-      "CONTENT": "Los desarrolladores de TPP pueden registrarse en el sistema, obtener certificados y descargar datos de prueba para su aplicación TPP utilizando el certificado generado y los datos preparados en la interfaz de usuario de TPP."
+      "CONTENT": {
+        "PART_0": "Los desarrolladores de TPP pueden registrarse en el sistema, obtener un certificado descargar datos de prueba para su aplicación TPP utilizando el certificado \n generado y los datos preparados en la interfaz de usuario de TPP.",
+        "SUBTITLE_1": "Cómo crear una cuenta para TPP:",
+        "PART_1": "1. Abra la página de inicio de sesión de TPP UI",
+        "PART_2": "2. Elija la opción \"Registrarse \" a continuación.",
+        "PART_3": "3. Proporcione toda la información necesaria: número de autorización TPP, correo electrónico, nombre de usuario y contraseña.",
+        "PART_4": "4. Puede generar un certificado QWAC de prueba para usarlo con la interfaz XS2A si es necesario",
+        "SUBTITLE_2": "Cómo crear usuarios:",
+        "PART_5": "Los usuarios pueden crearse manualmente o cargando el archivo .yaml",
+        "PART_6": "Para crear un usuario manualmente:",
+        "PART_7": "1. Vaya a \"Mi lista de usuarios\" y haga clic en \"Crear nuevo usuario \".",
+        "PART_8": "2. Ingrese correo electrónico, inicio de sesión y pin para un nuevo usuario",
+        "PART_9": "3. Elija el método de autenticación (solo el correo electrónico es válido por ahora) e ingrese un correo electrónico válido. Si elige la opción \" Usar TAN estático en SandboxMode \", se usará un TAN estático falso para las pruebas. Entonces usted tiene para ingresar su TAN simulado también. Puede agregar múltiples métodos SCA a cada usuario ",
+        "PART_10": "Para crear cuentas manualmente:",
+        "PART_11": "1 Elija un usuario en su lista de usuarios y haga clic en  \"Crear cuenta de depósito\".",
+        "PART_12": "2. Seleccione el tipo de cuenta, el uso y el estado de la cuenta. IBAN podría generarse automáticamente. Tenga en cuenta que la interfaz XS2A solo acepta ibans válidos",
+        "PART_13": "3. Una vez creada la cuenta, puede usar la función \"Depositar efectivo \" para agregar cualquier cantidad a los saldos con fines de prueba. Todas las cuentas creadas están disponibles en la pestaña \"Cuentas de usuarios\".",
+        "PART_14": "Para crear usuarios y cuentas automáticamente, genere datos de prueba con la pestaña \"Generar datos de prueba\", y se generarían datos de prueba compatibles con NISP. Si desea cargar su propio archivo de prueba .yaml, use la pestaña \"Subir archivos\" .",
+        "SUBTITLE_3": "Cómo crear pagos de prueba, consentimientos y transacciones:",
+        "PART_15": "Para crear pagos de prueba, debe generar datos de pago de prueba en la pestaña \"Generar datos de prueba\", marcando la opción \"Generar datos de pago\" como verdadero. Además, la carga de un archivo .yaml personalizado con los pagos son posibles en la pestaña \"Subir archivos\". Los consentimientos y las transacciones solo pueden crearse con la carga del archivo .yaml adecuado. "
+      }
     },
     "OBA": {
       "TITLE": "Online Banking",
