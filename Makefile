@@ -5,6 +5,30 @@ ARC42_SRC = $(shell find arc42/src)
 PLANTUML_SRC = $(shell find arc42/diagrams -type f -name '*.puml')
 DEPENDENCIES = jq npm plantuml asciidoctor docker-compose mvn docker
 
+## Install section ##
+install:   ##Install developer tools
+
+ifeq ($(shell uname),Darwin)
+	make install-for-MacOS
+else ifeq ($(shell uname),Linux)
+	make install-for-Linux
+else
+	@echo "Doesn't support your OS"
+endif
+
+# Install developer tools for Linux
+install-for-Linux:
+	sudo apt-get install jq
+	sudo apt-get install plantuml
+	sudo apt-get install -y asciidoctor
+
+# Install developer tools for MacOS
+install-for-MacOS:
+	curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install | ruby
+	brew install jq
+	brew install plantuml
+	brew install asciidoctor
+
 all: build-java-services build-ui-services build-arc-42 ## Build all services
 
 ## Run section ##
