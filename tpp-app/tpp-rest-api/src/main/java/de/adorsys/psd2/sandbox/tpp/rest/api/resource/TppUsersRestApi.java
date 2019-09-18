@@ -33,8 +33,12 @@ public interface TppUsersRestApi {
     ResponseEntity<Void> updateUser(@RequestBody User user);
 
     @ApiOperation(value = "Retrieves user by id",
-            notes = "Endpoint to get user by id",
-            authorizations = @Authorization(value = "apiKey"))
+        notes = "Endpoint to get user by id",
+        authorizations = @Authorization(value = "apiKey"))
     @GetMapping("/{userId}")
     ResponseEntity<UserTO> getUser(@PathVariable String userId);
+
+    @ApiOperation(value = "Get current user", authorizations = @Authorization(value = "apiKey"))
+    @GetMapping("/me")
+    ResponseEntity<UserTO> getSelf();
 }
