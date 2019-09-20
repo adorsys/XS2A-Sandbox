@@ -7,10 +7,13 @@ import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
@@ -39,6 +42,24 @@ public class DataPayload {
                    && notContainsNullElements(accounts)
                    && notContainsNullElements(balancesList)
                    && notContainsNullElements(payments);
+    }
+
+    @JsonIgnore
+    public Map<String, AccountDetailsTO> getAccountByIban() {
+        return getTargetData(accounts, AccountDetailsTO::getIban);
+    }
+
+    @JsonIgnore
+    public Map<String, AccountBalance> getBalancesByIban() {
+        return getTargetData(balancesList, AccountBalance::getIban);
+    }
+
+    private <T> Map<String, T> getTargetData(List<T> source, Function<T, String> function) {
+        if (CollectionUtils.isEmpty(source)) {
+            return new HashMap<>();
+        }
+        return source.stream()
+                   .collect(Collectors.toMap(function, Function.identity()));
     }
 
     private void fixNullValues() {

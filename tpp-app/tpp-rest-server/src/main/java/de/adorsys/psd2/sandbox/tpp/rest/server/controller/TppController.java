@@ -1,6 +1,6 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.controller;
 
-import de.adorsys.ledgers.middleware.client.rest.ResetDataRestClient;
+import de.adorsys.ledgers.middleware.client.rest.DataRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.User;
@@ -20,7 +20,7 @@ public class TppController implements TppRestApi {
     private final UserMapper userMapper;
     private final UserMgmtStaffRestClient userMgmtStaffRestClient;
     private final UserMgmtRestClient userMgmtRestClient;
-    private final ResetDataRestClient resetDataRestClient;
+    private final DataRestClient dataRestClient;
 
     @Override
     public void login(String login, String pin) {
@@ -35,11 +35,11 @@ public class TppController implements TppRestApi {
     @Override
     public ResponseEntity<Void> remove() {
         String branchId = userMgmtRestClient.getUser().getBody().getBranch();
-        return resetDataRestClient.branch(branchId);
+        return dataRestClient.branch(branchId);
     }
 
     @Override
     public ResponseEntity<Void> transactions(String iban) {
-        return resetDataRestClient.account(iban);
+        return dataRestClient.account(iban);
     }
 }
