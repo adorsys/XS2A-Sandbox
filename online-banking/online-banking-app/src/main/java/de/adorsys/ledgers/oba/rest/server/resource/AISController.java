@@ -389,7 +389,7 @@ public class AISController extends AbstractXISController implements AISApi {
             return ResponseEntity.badRequest().build();
         }
 
-        if (failAuthorisation(workflow.encryptedConsentId(), psuId, authorisationId)) {
+        if (failAuthorisation(workflow.consentId(), psuId, authorisationId)) {
             return ResponseEntity.ok(buildResponseForSuccessfulConsentRevoke());
         }
 
@@ -404,8 +404,8 @@ public class AISController extends AbstractXISController implements AISApi {
         return workflow;
     }
 
-    private boolean failAuthorisation(String encryptedConsentId, String psuId, String authorisationId) {
-        ResponseEntity<Boolean> updateAuthorisationStatusResponse = cmsPsuAisClient.updateAuthorisationStatus(encryptedConsentId,
+    private boolean failAuthorisation(String consentId, String psuId, String authorisationId) {
+        ResponseEntity<Boolean> updateAuthorisationStatusResponse = cmsPsuAisClient.updateAuthorisationStatus(consentId,
             "FAILED", authorisationId, psuId, null, null, null,
             DEFAULT_SERVICE_INSTANCE_ID);
 
