@@ -1,8 +1,10 @@
 package de.adorsys.psd2.sandbox.tpp.rest.api.resource;
 
 import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
+import de.adorsys.ledgers.middleware.api.domain.account.AccountReportTO;
 import de.adorsys.ledgers.middleware.api.domain.payment.AmountTO;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.AccountAccess;
+import de.adorsys.psd2.sandbox.tpp.rest.api.domain.AccountReport;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.DepositAccount;
 import io.swagger.annotations.*;
 import org.springframework.core.io.Resource;
@@ -55,6 +57,20 @@ public interface TppAccountsRestApi {
     })
     @GetMapping(value = "/{accountId}")
     ResponseEntity<AccountDetailsTO> getSingleAccount(@PathVariable("accountId") String accountId);
+
+    /**
+     * Returns an account report by its ID if it belong to the same branch as STAFF user.
+     *
+     * @return single account report by its ID if it belong to the same branch as STAFF user.
+     */
+    @ApiOperation(value = "Get an account report by its ID",
+        notes = "Returns the account report by its ID if it belongs to the TPP",
+        authorizations = @Authorization(value = "apiKey"))
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, response = AccountReportTO.class, message = "Account report by its ID if it is accessible by the TPP")
+    })
+    @GetMapping(value = "/report/{accountId}")
+    ResponseEntity<AccountReport> accountReport(@PathVariable("accountId") String accountId);
 
     /**
      * Returns a single account by its ID if it belong to the same branch as STAFF user.
