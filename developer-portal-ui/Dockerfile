@@ -1,13 +1,14 @@
 # Stage SERVE
-FROM nginx:1.15.5
+FROM nginx:1.17.3
 LABEL maintainer="https://github.com/adorsys/xs2a"
 
 ENV NGINX_ACCESS_LOG_DEBUG combined
 ENV NGINX_ERROR_LOG_DEBUG error
 
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf.template
+COPY ./templates/nginx.template.conf /etc/nginx/conf.d/default.conf.template
 COPY entry.sh /opt/entry.sh
 ADD dist/developer-portal /usr/share/nginx/html
+COPY ./templates/envLinks.template.json /usr/share/nginx/html/assets/UI
 
 RUN chgrp -R root /var/cache/nginx && \
     find /var/cache/nginx -type d -exec chmod 775 {} \; && \
