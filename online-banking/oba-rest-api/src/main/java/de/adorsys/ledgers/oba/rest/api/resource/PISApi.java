@@ -2,6 +2,7 @@ package de.adorsys.ledgers.oba.rest.api.resource;
 
 import de.adorsys.ledgers.oba.rest.api.domain.AuthorizeResponse;
 import de.adorsys.ledgers.oba.rest.api.domain.PaymentAuthorizeResponse;
+import de.adorsys.ledgers.oba.rest.api.exception.PaymentAuthorizeException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
@@ -14,9 +15,9 @@ public interface PISApi {
 
 	/**
 	 * STEP-P0: payment Entry Point
-	 * 
+	 *
 	 * Receptions a payment authorization link. Generate an eca-id associated with the login process.
-	 * 
+	 *
 	 * @param redirectId  the redirect is
 	 * @param encryptedPaymentId the enc payment idf
 	 * @return AuthorizeResponse
@@ -26,13 +27,13 @@ public interface PISApi {
 	ResponseEntity<AuthorizeResponse> pisAuth(
 			@RequestParam(name = "redirectId") String redirectId,
 			@RequestParam(name = "encryptedPaymentId") String encryptedPaymentId);
-	
+
 	/**
 	 * Identifies the user by login an pin. Return sca methods information
-	 * 
+	 *
 	 * @param encryptedPaymentId the encryptedPaymentId
 	 * @param authorisationId the auth id
-	 * @param login the login 
+	 * @param login the login
 	 * @param pin the password
 	 * @param consentCookieString the cosent cookie
 	 * @return PaymentAuthorizeResponse
@@ -43,9 +44,9 @@ public interface PISApi {
 			@PathVariable("encryptedPaymentId") String encryptedPaymentId,
 			@PathVariable("authorisationId") String authorisationId,
 			@RequestParam("login") String login,
-			@RequestParam("pin") String pin, 
-			@RequestHeader(name="Cookie", required=false) String consentCookieString);
-	
+			@RequestParam("pin") String pin,
+			@RequestHeader(name="Cookie", required=false) String consentCookieString) throws PaymentAuthorizeException;
+
 	/**
 	 * Calls the consent validation page.
 	 * @param encryptedPaymentId the sca id
@@ -54,7 +55,7 @@ public interface PISApi {
 	 * @return PaymentAuthorizeResponse
 	 */
 	@PostMapping(path="/{encryptedPaymentId}/authorisation/{authorisationId}/initiate")
-	@ApiOperation(value = "Calls the consent validation page.", 
+	@ApiOperation(value = "Calls the consent validation page.",
 		authorizations = @Authorization(value = "apiKey"))
 	ResponseEntity<PaymentAuthorizeResponse> initiatePayment(
 			@PathVariable("encryptedPaymentId") String encryptedPaymentId,
@@ -63,7 +64,7 @@ public interface PISApi {
 
 	/**
 	 * Selects the SCA Method for use.
-	 * 
+	 *
 	 * @param encryptedPaymentId the sca id
 	 * @param authorisationId the auth id
 	 * @param scaMethodId sca
@@ -80,7 +81,7 @@ public interface PISApi {
 
 	/**
 	 * Provides a TAN for the validation of an authorization
-	 * 
+	 *
 	 * @param encryptedPaymentId the sca id
 	 * @param authorisationId the auth id
 	 * @param consentAndaccessTokenCookieString the cosent cookie
@@ -128,6 +129,6 @@ public interface PISApi {
         @PathVariable("authorisationId") String authorisationId,
         @RequestHeader(name = "Cookie", required = false) String consentAndAccessTokenCookieString,
         @RequestParam(name = "forgetConsent", required = false) Boolean forgetConsent,
-        @RequestParam(name = "backToTpp", required = false) Boolean backToTpp);
+        @RequestParam(name = "backToTpp", required = false) Boolean backToTpp) throws PaymentAuthorizeException;
 
 }

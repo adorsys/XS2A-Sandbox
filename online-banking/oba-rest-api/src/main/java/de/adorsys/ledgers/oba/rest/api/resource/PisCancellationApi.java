@@ -1,6 +1,7 @@
 package de.adorsys.ledgers.oba.rest.api.resource;
 
 import de.adorsys.ledgers.oba.rest.api.domain.PaymentAuthorizeResponse;
+import de.adorsys.ledgers.oba.rest.api.exception.PaymentAuthorizeException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
@@ -29,7 +30,7 @@ public interface PisCancellationApi {
         @PathVariable("authorisationId") String authorisationId,
         @RequestParam("login") String login,
         @RequestParam("pin") String pin,
-        @RequestHeader(name = "Cookie", required = false) String consentCookieString);
+        @RequestHeader(name = "Cookie", required = false) String consentCookieString) throws PaymentAuthorizeException;
 
 	/**
 	 * Selects the SCA Method for use.
@@ -84,6 +85,6 @@ public interface PisCancellationApi {
         @PathVariable("authorisationId") String authorisationId,
         @RequestHeader(name = "Cookie", required = false) String consentAndAccessTokenCookieString,
         @RequestParam(name = "forgetConsent", required = false) Boolean forgetConsent,
-        @RequestParam(name = "backToTpp", required = false) Boolean backToTpp);
+        @RequestParam(name = "backToTpp", required = false) Boolean backToTpp) throws PaymentAuthorizeException;
 
 }

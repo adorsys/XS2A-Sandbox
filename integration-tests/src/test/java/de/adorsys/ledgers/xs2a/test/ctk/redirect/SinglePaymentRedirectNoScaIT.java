@@ -2,6 +2,7 @@ package de.adorsys.ledgers.xs2a.test.ctk.redirect;
 
 import java.net.MalformedURLException;
 
+import de.adorsys.ledgers.oba.rest.api.exception.PaymentAuthorizeException;
 import org.junit.Test;
 import org.springframework.http.ResponseEntity;
 
@@ -14,7 +15,7 @@ import de.adorsys.psd2.model.TransactionStatus;
 public class SinglePaymentRedirectNoScaIT extends AbstractSinglePaymentRedirect {
 
 	@Test
-	public void test_create_payment() throws MalformedURLException {
+	public void test_create_payment() throws MalformedURLException, PaymentAuthorizeException {
 		// Initiate Payment
 		PaymentInitationRequestResponse201 initiatedPayment = paymentInitService.initiatePayment();
 
