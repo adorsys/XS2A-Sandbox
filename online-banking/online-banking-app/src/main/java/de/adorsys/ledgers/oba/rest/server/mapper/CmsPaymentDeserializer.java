@@ -5,9 +5,9 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import de.adorsys.ledgers.oba.rest.server.domain.ObaCmsBulkPayment;
 import de.adorsys.ledgers.oba.rest.server.domain.ObaCmsPeriodicPayment;
 import de.adorsys.ledgers.oba.rest.server.domain.ObaCmsSinglePayment;
-import de.adorsys.psd2.consent.api.pis.CmsBulkPayment;
 import de.adorsys.psd2.consent.api.pis.CmsPayment;
 import de.adorsys.psd2.xs2a.core.profile.PaymentType;
 
@@ -23,8 +23,7 @@ public class CmsPaymentDeserializer extends StdDeserializer<CmsPayment> {
     }
 
     @Override
-    public CmsPayment deserialize(JsonParser p, DeserializationContext ctxt)
-        throws IOException {
+    public CmsPayment deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
         JsonNode node = p.getCodec().readTree(p);
         String paymentTypeValue = node.get("paymentType").asText();
         PaymentType paymentType = PaymentType.getByValue(paymentTypeValue).orElseThrow(
@@ -33,13 +32,11 @@ public class CmsPaymentDeserializer extends StdDeserializer<CmsPayment> {
             case SINGLE:
                 return mapper.convertValue(node, ObaCmsSinglePayment.class);
             case BULK:
-                return mapper.convertValue(node, CmsBulkPayment.class);
+                return mapper.convertValue(node, ObaCmsBulkPayment.class);
             case PERIODIC:
                 return mapper.convertValue(node, ObaCmsPeriodicPayment.class);
             default:
                 throw new IllegalStateException(String.format("Unknown payment type %s", paymentType.name()));
         }
-
     }
-
 }

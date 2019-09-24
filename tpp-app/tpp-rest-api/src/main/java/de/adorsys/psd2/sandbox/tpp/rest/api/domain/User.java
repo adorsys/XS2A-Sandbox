@@ -11,7 +11,7 @@ public class User {
     private String email;
     private String login;
     private String pin;
-    private List<ScaUserData> scaUserData;
-    private List<UserRole> userRoles;
-    private List<AccountAccess> accountAccesses = new ArrayList();
+    private List<ScaUserData> scaUserData = new ArrayList<>();
+    private List<UserRole> userRoles = new ArrayList<>();
+    private List<AccountAccess> accountAccesses = new ArrayList<>();
 }
