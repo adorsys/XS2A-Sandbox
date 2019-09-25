@@ -16,60 +16,19 @@
 
 package org.adorsys.ledgers.consent.aspsp.rest.client;
 
-import java.time.LocalDate;
-import java.util.List;
-
 import de.adorsys.psd2.xs2a.core.profile.AccountReference;
-import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
-@ApiModel(description = "Piis consent request", value = "PiisConsentRequest")
+import java.time.LocalDate;
+
+@Data
 public class CreatePiisConsentRequest {
-    @ApiModelProperty(value = "Tpp for which the consent will be created. If the property is omitted, the consent will be created for all TPPs")
-    private TppInfo tppInfo;
-
-    @ApiModelProperty(value = "Accounts for which the consent is created")
-    private List<AccountReference> accounts;
-
-    @ApiModelProperty(value = "Consent`s expiration date. The content is the local ASPSP date in ISODate Format", example = "2020-10-10")
+    private String tppAuthorisationNumber;
+    private AccountReference account;
     private LocalDate validUntil;
-
-    @ApiModelProperty(value = "Maximum frequency for an access per day. For a once-off access, this attribute is set to 1", required = true, example = "4")
-    private int allowedFrequencyPerDay;
-
-	public TppInfo getTppInfo() {
-		return tppInfo;
-	}
-
-	public void setTppInfo(TppInfo tppInfo) {
-		this.tppInfo = tppInfo;
-	}
-
-	public List<AccountReference> getAccounts() {
-		return accounts;
-	}
-
-	public void setAccounts(List<AccountReference> accounts) {
-		this.accounts = accounts;
-	}
-
-	public LocalDate getValidUntil() {
-		return validUntil;
-	}
-
-	public void setValidUntil(LocalDate validUntil) {
-		this.validUntil = validUntil;
-	}
-
-	public int getAllowedFrequencyPerDay() {
-		return allowedFrequencyPerDay;
-	}
-
-	public void setAllowedFrequencyPerDay(int allowedFrequencyPerDay) {
-		this.allowedFrequencyPerDay = allowedFrequencyPerDay;
-	}
-    
-    
+    private String cardNumber;
+    private LocalDate cardExpiryDate;
+    private String cardInformation;
+    private String registrationInformation;
 }
 

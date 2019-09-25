@@ -16,58 +16,35 @@
 
 package de.adorsys.ledgers.oba.rest.api.domain;
 
-import java.time.LocalDate;
-import java.util.List;
-
-import de.adorsys.ledgers.middleware.api.domain.account.AccountReferenceTO;
-import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
+import de.adorsys.psd2.xs2a.core.profile.AccountReference;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
+import java.time.LocalDate;
+
+@Data
 @ApiModel(description = "Piis consent request", value = "PiisConsentRequest")
 public class CreatePiisConsentRequestTO {
-    @ApiModelProperty(value = "Tpp for which the consent will be created. If the property is omitted, the consent will be created for all TPPs")
-    private TppInfo tppInfo;
+    @ApiModelProperty(value = "Tpp attribute that fully described Tpp for which the consent will be created. If the property is omitted, the consent will be created for all TPPs")
+    private String tppAuthorisationNumber;
 
-    @ApiModelProperty(value = "Accounts for which the consent is created")
-    private List<AccountReferenceTO> accounts;
+    @ApiModelProperty(value = "Account, where the confirmation of funds service is aimed to be submitted to.")
+    private AccountReference account;
 
     @ApiModelProperty(value = "Consent`s expiration date. The content is the local ASPSP date in ISODate Format", example = "2020-10-10")
     private LocalDate validUntil;
 
-    @ApiModelProperty(value = "Maximum frequency for an access per day. For a once-off access, this attribute is set to 1", required = true, example = "4")
-    private int allowedFrequencyPerDay;
+    @ApiModelProperty(value = "Card Number of the card issued by the PIISP. Should be delivered if available.", example = "1234567891234")
+    private String cardNumber;
 
-	public TppInfo getTppInfo() {
-		return tppInfo;
-	}
+    @ApiModelProperty(value = "Expiry date of the card issued by the PIISP", example = "2020-12-31")
+    private LocalDate cardExpiryDate;
 
-	public void setTppInfo(TppInfo tppInfo) {
-		this.tppInfo = tppInfo;
-	}
+    @ApiModelProperty(value = "Additional explanation for the card product.", example = "MyMerchant Loyalty Card")
+    private String cardInformation;
 
-	public List<AccountReferenceTO> getAccounts() {
-		return accounts;
-	}
-
-	public void setAccounts(List<AccountReferenceTO> accounts) {
-		this.accounts = accounts;
-	}
-
-	public LocalDate getValidUntil() {
-		return validUntil;
-	}
-
-	public void setValidUntil(LocalDate validUntil) {
-		this.validUntil = validUntil;
-	}
-
-	public int getAllowedFrequencyPerDay() {
-		return allowedFrequencyPerDay;
-	}
-
-	public void setAllowedFrequencyPerDay(int allowedFrequencyPerDay) {
-		this.allowedFrequencyPerDay = allowedFrequencyPerDay;
-	}
+    @ApiModelProperty(value = "Additional information about the registration process for the PSU, e.g. a reference to the TPP / PSU contract.", example = "Your contract Number 1234 with MyMerchant is completed with the registration with your bank.")
+    private String registrationInformation;
 }
 

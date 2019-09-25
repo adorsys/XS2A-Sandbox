@@ -21,7 +21,6 @@ import de.adorsys.psd2.consent.api.CmsAspspConsentDataBase64;
 import de.adorsys.psd2.consent.api.ais.AisAccountAccess;
 import de.adorsys.psd2.consent.api.ais.CmsAisConsentResponse;
 import de.adorsys.psd2.consent.psu.api.ais.CmsAisConsentAccessRequest;
-import de.adorsys.psd2.xs2a.core.profile.AccountReference;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import feign.FeignException;
 import io.swagger.annotations.Api;
@@ -310,26 +309,20 @@ public class AISController extends AbstractXISController implements AISApi {
             authInterceptor.setAccessToken(auth.getBearerToken().getAccess_token());
 
             CreatePiisConsentRequest piisConsentRequest = createPiisConsentRequestMapper.fromCreatePiisConsentRequest(piisConsentRequestTO);
-            CreatePiisConsentResponse cmsCcnsent = cmsAspspPiisClient.createConsent(piisConsentRequest, psuId, null, null, null).getBody();
+            CreatePiisConsentResponse cmsConsent = cmsAspspPiisClient.createConsent(piisConsentRequest, psuId, null, null, null).getBody();
 
             // Attention intentional manual mapping. We fill up only the balances.
             AisConsentTO pisConsent = new AisConsentTO();
-            AisAccountAccessInfoTO access = new AisAccountAccessInfoTO();
-            // Only consent we take.
-            access.setBalances(piisConsentRequest.getAccounts().stream()
-                                   .map(AccountReference::getIban)
-                                   .collect(Collectors.toList()));
-            pisConsent.setAccess(access);
-            pisConsent.setFrequencyPerDay(piisConsentRequest.getAllowedFrequencyPerDay());
-            pisConsent.setId(cmsCcnsent.getConsentId());
+            pisConsent.setAccess(buildAccountAccess(piisConsentRequest.getAccount().getIban()));
+            pisConsent.setId(cmsConsent.getConsentId());
             // Intentionally set to true
             pisConsent.setRecurringIndicator(true);
-            pisConsent.setTppId(piisConsentRequest.getTppInfo().getAuthorisationNumber());
+            pisConsent.setTppId(piisConsentRequest.getTppAuthorisationNumber());
             pisConsent.setUserId(psuId);
             pisConsent.setValidUntil(piisConsentRequest.getValidUntil());
 
             SCAConsentResponseTO scaConsentResponse = consentRestClient.grantPIISConsent(pisConsent).getBody();
-            ResponseEntity<?> updateAspspPiisConsentDataResponse = updateAspspPiisConsentData(cmsCcnsent.getConsentId(), scaConsentResponse);
+            ResponseEntity<?> updateAspspPiisConsentDataResponse = updateAspspPiisConsentData(cmsConsent.getConsentId(), scaConsentResponse);
             if (!HttpStatus.OK.equals(updateAspspPiisConsentDataResponse.getStatusCode())) {
                 return responseUtils.error(new PIISConsentCreateResponse(), updateAspspPiisConsentDataResponse.getStatusCode(),
                     "Could not update aspsp consent data", response);
@@ -394,6 +387,12 @@ public class AISController extends AbstractXISController implements AISApi {
         }
 
         return ResponseEntity.badRequest().build();
+    }
+
+    private AisAccountAccessInfoTO buildAccountAccess(String iban) {
+        AisAccountAccessInfoTO access = new AisAccountAccessInfoTO();
+        access.setAccounts(Collections.singletonList(iban));
+        return access;
     }
 
     private ConsentWorkflow getConsentWorkflow(String encryptedConsentId, String authorisationId, String cookieString, String psuId) throws ConsentAuthorizeException {

@@ -32,44 +32,44 @@ public class SCAController implements SCAApi {
 
 	@Autowired
 	private UserMgmtRestClient ledgersUserMgmt;
-	
+
 	@Autowired
 	private ResponseUtils responseUtils;
-	
+
 	@Autowired
 	private AuthRequestInterceptor authInterceptor;
-	
+
 	@Autowired
 	private HttpServletResponse response;
 	@Autowired
 	private MiddlewareAuthentication auth;
-	
+
 
 	/**
 	 * STEP-P1, STEP-A1: Validates the login and password of a user. This request is associated with
-	 * an scaId that is directly bound to the consentId/paymentId used in the xs2a 
+	 * an scaId that is directly bound to the consentId/paymentId used in the xs2a
 	 * redirect request. BTW the scaId can be the initiating consent id itself or
 	 * a random id mapping to the consentId (resp. paymentId)
-	 * 
+	 *
 	 * Implementation first validates existence of the consent. If the consent does
 	 * not exist or has the wrong status, the request is rejected.
-	 * 
+	 *
 	 * Call the backend middleware to obtain a login token. This is a token only
 	 * valid for the sca process.
-	 * 
+	 *
 	 * Store the login token in a cookie.
-	 * 
+	 *
 	 * If the user has no sca method, then return the consent access token.
-	 * 
+	 *
 	 * If the user has only one sca method, sent authentication code to the user and
 	 * return the sac method id in the AuthorizeResponse
-	 * 
+	 *
 	 * If the user has more than one sca methods, returns the list of sca methods in
 	 * the AuthorizeResponse and wait for sca method selection.
-	 * 
+	 *
 	 * Method expects
-	 * 
-	 * 
+	 *
+	 *
 	 * @param login the customer banking login
 	 * @param pin the customer banking pin
 	 * @return the auth response
@@ -79,7 +79,7 @@ public class SCAController implements SCAApi {
 	public ResponseEntity<AuthorizeResponse> login(String login, String pin) {
 		// Authorize
 		SCALoginResponseTO loginResponse = ledgersUserMgmt.authorise(login, pin, UserRoleTO.CUSTOMER).getBody();
-		
+
 		// build response
 		AuthorizeResponse authResponse = new AuthorizeResponse();
 		ScaStatusTO scaStatus = prepareAuthResponse(authResponse, loginResponse);
@@ -116,7 +116,7 @@ public class SCAController implements SCAApi {
 		// Process response.
 		ScaStatusTO scaStatus = loginResponse.getScaStatus();
 		authResponse.setScaStatus(scaStatus);
-		authResponse.setAuthorisationId(loginResponse.getAuthorisationId());
+		authResponse.setAuthorisationId(loginResponse.getBearerToken().getAccessTokenObject().getAuthorisationId());
 		authResponse.setEncryptedConsentId(loginResponse.getScaId());
 		PsuMessage psuMessage = new PsuMessage().category(PsuMessageCategory.INFO).text(loginResponse.getPsuMessage());
 		authResponse.setPsuMessages(Arrays.asList(psuMessage));
@@ -125,7 +125,7 @@ public class SCAController implements SCAApi {
 
 	/**
 	 * Select a method for sending the authentication code.
-	 * 
+	 *
 	 * @param scaId the id of the login process
 	 * @param methodId the auth method id
 	 * @param authorisationId the auth id.
@@ -139,7 +139,7 @@ public class SCAController implements SCAApi {
 		AuthorizeResponse authResponse = new AuthorizeResponse();
 		authResponse.setEncryptedConsentId(scaId);
 		authResponse.setAuthorisationId(authorisationId);
-		
+
 		try {
 			authInterceptor.setAccessToken(auth.getBearerToken().getAccess_token());
 			SCALoginResponseTO loginResponse = ledgersUserMgmt.selectMethod(scaId, authorisationId, methodId).getBody();
@@ -159,10 +159,10 @@ public class SCAController implements SCAApi {
 		AuthorizeResponse authResponse = new AuthorizeResponse();
 		authResponse.setEncryptedConsentId(scaId);
 		authResponse.setAuthorisationId(authorisationId);
-		
+
 		try {
 			authInterceptor.setAccessToken(auth.getBearerToken().getAccess_token());
-			
+
 			SCALoginResponseTO loginResponse = ledgersUserMgmt.authorizeLogin(scaId, authorisationId, authCode).getBody();
 			prepareAuthResponse(authResponse, loginResponse);
 			BearerTokenTO bearerToken = loginResponse.getBearerToken();

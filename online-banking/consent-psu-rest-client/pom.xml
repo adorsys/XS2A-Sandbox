@@ -21,6 +21,11 @@
 			<artifactId>consent-psu-api</artifactId>
 			<version>${xs2a.version}</version>
 		</dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
 		<!-- spring dependencies -->
 
 		<dependency>

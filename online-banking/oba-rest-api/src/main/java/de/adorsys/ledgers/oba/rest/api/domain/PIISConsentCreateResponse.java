@@ -4,7 +4,7 @@ import de.adorsys.ledgers.middleware.api.domain.um.AisConsentTO;
 
 public class PIISConsentCreateResponse extends OnlineBankingResponse  {
 	private AisConsentTO consent;
-	
+
 	public PIISConsentCreateResponse() {
 	}
 

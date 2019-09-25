@@ -39,7 +39,7 @@ setting:
       pisPaymentCancellationRedirectUrlToAspsp: http://localhost:4400/payment-cancellation/login?paymentId={encrypted-payment-id}&redirectId={redirect-id}
       paymentCancellationRedirectUrlExpirationTimeMs: 600000
   piis:
-    piisConsentSupported: FALSE
+    piisConsentSupported: TRUE
   common:
     scaApproachesSupported:
       - EMBEDDED

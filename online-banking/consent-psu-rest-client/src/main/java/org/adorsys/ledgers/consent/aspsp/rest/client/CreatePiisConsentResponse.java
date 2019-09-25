@@ -16,15 +16,9 @@
 
 package org.adorsys.ledgers.consent.aspsp.rest.client;
 
+import lombok.Data;
+
+@Data
 public class CreatePiisConsentResponse {
     private String consentId;
-
-	public String getConsentId() {
-		return consentId;
-	}
-
-	public void setConsentId(String consentId) {
-		this.consentId = consentId;
-	}
-    
 }
