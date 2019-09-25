@@ -4,6 +4,8 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Amount } from '../models/amount.model';
 import { GrantAccountAccess } from '../models/grant-account-access.model';
+import {AccountReport} from "../models/account-report";
+import {Observable} from "rxjs/internal/Observable";
 
 @Injectable({
     providedIn: 'root'
@@ -20,6 +22,10 @@ export class AccountService {
 
     getAccount(id: String) {
         return this.http.get(this.url + '/accounts/' + id);
+    }
+
+    getAccountReport(id: String): Observable<AccountReport> {
+        return this.http.get<AccountReport>(this.url + '/accounts/report/' + id);
     }
 
     createAccount(userId: string, account: Account) {

@@ -7,6 +7,8 @@ import { InfoService } from '../../commons/info/info.service';
 import { Account } from '../../models/account.model';
 import { AccountService } from '../../services/account.service';
 import { TppService } from '../../services/tpp.service';
+import {AccountReport} from "../../models/account-report";
+import {UserAccess} from "../../models/user-access";
 
 @Component({
     selector: 'app-account',
@@ -15,8 +17,9 @@ import { TppService } from '../../services/tpp.service';
 })
 export class AccountComponent implements OnInit {
 
-    account: Account;
+    accountReport: AccountReport;
     accountID: string;
+
 
     constructor(
         private accountService: AccountService,
@@ -36,7 +39,7 @@ export class AccountComponent implements OnInit {
             )
             .subscribe((accountID: string) => {
                 this.accountID = accountID;
-                this.getAccount();
+                this.getAccountReport();
             });
     }
 
@@ -68,10 +71,19 @@ export class AccountComponent implements OnInit {
         return this.account.accountStatus === 'DELETED' || this.account.accountStatus === 'BLOCKED';
     }
 
-    getAccount() {
-        this.accountService.getAccount(this.accountID)
-            .subscribe((account: Account) => {
-                this.account = account;
-            });
+    get account(): Account {
+        return this.accountReport ? this.accountReport.details : null;
+    }
+
+    get accesses(): UserAccess[] {
+        return this.accountReport ? this.accountReport.accesses : null;
+    }
+
+    getAccountReport() {
+        this.accountService.getAccountReport(this.accountID).
+        subscribe((report: AccountReport) => {
+                this.accountReport = report;
+            }
+        )
     }
 }

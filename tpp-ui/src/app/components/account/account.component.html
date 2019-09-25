@@ -1,47 +1,61 @@
 <div class="container-fluid">
-  <div class="card">
-    <div class="card-body--large">
-      <div class="header__title">Account details</div>
-
-      <div class="row">
-        <div class="col-12 col-md-3 ">IBAN</div>
-        <div class="col-12 col-md-9 text-muted">{{account?.iban}}</div>
-      </div>
-      <div class="row">
-        <div class="col-12 col-md-3 ">Status</div>
-        <div class="col-12 col-md-9 text-muted">{{account?.accountStatus}}</div>
-      </div>
-      <div class="row">
-        <div class="col-12 col-md-3 ">Type</div>
-        <div class="col-12 col-md-9 text-muted">{{account?.accountType}}</div>
-      </div>
-      <div class="row">
-        <div class="col-12 col-md-3 ">Currency</div>
-        <div class="col-12 col-md-9 text-muted">{{account?.currency}}</div>
-      </div>
-      <div class="row">
-        <div class="col-12 col-md-3 ">Balance</div>
-        <div class="col-12 col-md-9 text-muted">{{account?.balances[0].amount.amount | convertBalance}}</div>
-      </div>
-      <button class="btn btn-primary" (click)="goToAccountDetail()">Access management</button>
-      <button class="btn btn-outline-danger ml-3" (click)="openDeleteConfirmation(deleteConfirmationModal)">Delete transactions</button>
+    <div class="card">
+        <div class="card-body--large">
+            <div class="header__title">Account details</div>
+            <div class="row">
+                <div class="col-12 col-md-3 ">Account Holders</div>
+                <div class="col-12 col-md-9 text-muted">
+                    <div *ngFor="let access of accesses; last as isLast">
+                        {{access.userLogin}},
+                        <ng-container *ngIf="!isLast"></ng-container>
+                        weight {{access.scaWeight}},
+                        <ng-container *ngIf="!isLast"></ng-container>
+                        accessType {{access.accessType}}
+                        <ng-container *ngIf="!isLast"></ng-container>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-3 ">IBAN</div>
+                <div class="col-12 col-md-9 text-muted">{{account?.iban}}</div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-3 ">Status</div>
+                <div class="col-12 col-md-9 text-muted">{{account?.accountStatus}}</div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-3 ">Type</div>
+                <div class="col-12 col-md-9 text-muted">{{account?.accountType}}</div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-3 ">Currency</div>
+                <div class="col-12 col-md-9 text-muted">{{account?.currency}}</div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-3 ">Balance</div>
+                <div class="col-12 col-md-9 text-muted">{{account?.balances[0].amount.amount | convertBalance}}</div>
+            </div>
+            <button class="btn btn-primary" (click)="goToAccountDetail()">Access management</button>
+            <button class="btn btn-outline-danger ml-3" (click)="openDeleteConfirmation(deleteConfirmationModal)">
+                Delete
+            </button>
+        </div>
     </div>
-  </div>
 
 </div>
 
 <ng-template #deleteConfirmationModal let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Transactions deletion</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-      Are you sure you want to delete all transactions of "{{account?.iban}}"?
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
-    <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Delete transactions</button>
-  </div>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Account deletion</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        Are you sure you want to delete "{{account?.iban}}"?
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Delete</button>
+    </div>
 </ng-template>
