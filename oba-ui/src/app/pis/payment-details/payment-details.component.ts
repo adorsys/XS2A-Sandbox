@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Subscription} from "rxjs";
-import {ShareDataService} from "../../common/services/share-data.service";
-import {PaymentAuthorizeResponse} from "../../api/models";
+import { Subscription } from 'rxjs';
+
+import { PaymentAuthorizeResponse } from '../../api/models';
+import { ShareDataService } from '../../common/services/share-data.service';
 
 @Component({
   selector: 'app-payment-details',

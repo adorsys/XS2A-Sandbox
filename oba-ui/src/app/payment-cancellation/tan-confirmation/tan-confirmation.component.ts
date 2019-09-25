@@ -1,13 +1,14 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {PaymentAuthorizeResponse} from "../../api/models/payment-authorize-response";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Subscription} from "rxjs";
-import {ActivatedRoute, Router} from "@angular/router";
-import {PisService} from "../../common/services/pis.service";
-import {ShareDataService} from "../../common/services/share-data.service";
-import {RoutingPath} from "../../common/models/routing-path.model";
-import {PisCancellationService} from "../../common/services/pis-cancellation.service";
-import {PSUPISCancellationService} from "../../api/services/psupiscancellation.service";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+
+import { PaymentAuthorizeResponse } from '../../api/models/payment-authorize-response';
+import { PSUPISCancellationService } from '../../api/services/psupiscancellation.service';
+import { RoutingPath } from '../../common/models/routing-path.model';
+import { PisCancellationService } from '../../common/services/pis-cancellation.service';
+import { ShareDataService } from '../../common/services/share-data.service';
+
 import AuthorisePaymentUsingPOSTParams = PSUPISCancellationService.AuthorisePaymentUsingPOSTParams;
 
 @Component({
