@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class ApiConfiguration {
-  rootUrl: string = '//dev-dynamicsandbox-onlinebanking.cloud.adorsys.de';
+  rootUrl: string = '//localhost:8090';
 }
 
 export interface ApiConfigurationInterface {
