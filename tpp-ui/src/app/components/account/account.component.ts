@@ -50,15 +50,17 @@ export class AccountComponent implements OnInit {
         }
     }
 
-    deleteAccount() {
-        this.tppService.deleteAccount(this.account.iban).subscribe(() => {
-            this.router.navigate(['/accounts']);
+    deleteAccountTransations() {
+        this.tppService.deleteAccountTransations(this.account.iban).subscribe(() => {
+            this.infoService.openFeedback(`Transactions of ${this.account.iban} successfully deleted`, {
+                severity: 'info'
+            });
         });
     }
 
     openDeleteConfirmation(content) {
         this.modalService.open(content).result.then(() => {
-            this.deleteAccount();
+            this.deleteAccountTransations();
         }, () => {});
     }
 
