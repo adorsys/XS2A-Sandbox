@@ -14,8 +14,7 @@ import RevokeConsentUsingDELETEParams = PSUAISService.RevokeConsentUsingDELETEPa
 })
 export class AisService {
 
-    constructor(private aisService: PSUAISService) {
-    }
+    constructor(private aisService: PSUAISService) {}
 
     public aisAuthCode(params: AisAuthGetGETParams): Observable<AuthorizeResponse> {
       return this.aisService.aisAuthUsingGET(params);

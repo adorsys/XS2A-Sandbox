@@ -11,8 +11,7 @@ import AuthorisePaymentUsingPOSTParams = PSUPISCancellationService.AuthorisePaym
 })
 export class PisCancellationService {
 
-  constructor(private pisCancellationService: PSUPISCancellationService) {
-  }
+  constructor(private pisCancellationService: PSUPISCancellationService) {}
 
   public pisCancellationLogin(params: LoginUsingPOST2Params): Observable<PaymentAuthorizeResponse> {
     return this.pisCancellationService.loginUsingPOST2(params);
@@ -24,5 +23,9 @@ export class PisCancellationService {
 
   public authorizePayment(params: AuthorisePaymentUsingPOSTParams): Observable<PaymentAuthorizeResponse> {
     return this.pisCancellationService.authorisePaymentUsingPOST(params);
+  }
+
+  public pisCancellationDone(params: PSUPISCancellationService.PisDoneUsingGETParams): Observable<PaymentAuthorizeResponse> {
+    return this.pisCancellationService.pisDoneUsingGET(params);
   }
 }

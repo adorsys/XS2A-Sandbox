@@ -1,9 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {PaymentAuthorizeResponse} from "../../api/models/payment-authorize-response";
-import {ActivatedRoute, Router} from "@angular/router";
-import {AisService} from "../../common/services/ais.service";
-import {ShareDataService} from "../../common/services/share-data.service";
-import {SettingsService} from "../../common/services/settings.service";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { PaymentAuthorizeResponse } from '../../api/models/payment-authorize-response';
+import { PisService } from '../../common/services/pis.service';
+import { SettingsService } from '../../common/services/settings.service';
+import { ShareDataService } from '../../common/services/share-data.service';
 
 @Component({
   selector: 'app-result-page',
@@ -19,7 +20,7 @@ export class ResultPageComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
               private route: ActivatedRoute,
-              private aisService: AisService,
+              private pisService: PisService,
               private settingService: SettingsService,
               private shareService: ShareDataService) {
   }
@@ -31,8 +32,8 @@ export class ResultPageComponent implements OnInit, OnDestroy {
     // get query params and build link
     this.route.queryParams.subscribe(params => {
       // TODO: use routerlink to build a link https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/issues/8
-      this.ref = '/oba-proxy/pis-cancellation/' + params['encryptedConsentId'] +
-        '/authorisation/' + params['authorisationId'] +
+      this.ref = '/oba-proxy/pis-cancellation/' + params.encryptedConsentId +
+        '/authorisation/' + params.authorisationId +
         '/done?backToTpp=true&forgetConsent=true';
     });
 
@@ -48,11 +49,20 @@ export class ResultPageComponent implements OnInit, OnDestroy {
   }
 
   public backToTpp(): void {
-
+    this.paymentCancellationDone();
   }
 
   public forgetConsent(): void {
+    this.paymentCancellationDone();
+  }
 
+  private paymentCancellationDone(): void {
+    this.pisService.pisDone({
+      encryptedPaymentId: this.authResponse.encryptedConsentId,
+      authorisationId: this.authResponse.authorisationId,
+      forgetConsent: 'true',
+      backToTpp: 'true'
+    }).subscribe(res => console.log(res));
   }
 
   ngOnDestroy(): void {

@@ -1,20 +1,19 @@
 import {Injectable} from '@angular/core';
-import {PSUPISCancellationService, PSUPISService} from '../../api/services';
+import {PSUPISService} from '../../api/services';
 import {Observable} from 'rxjs';
 import {AuthorizeResponse} from '../../api/models/authorize-response';
 import {PaymentAuthorizeResponse} from '../../api/models';
 import PisAuthUsingGETParams = PSUPISService.PisAuthUsingGETParams;
 import LoginUsingPOST3Params = PSUPISService.LoginUsingPOST3Params;
 import SelectMethodUsingPOST2Params = PSUPISService.SelectMethodUsingPOST2Params;
-import AuthorisePaymentUsingPOSTParams = PSUPISCancellationService.AuthorisePaymentUsingPOSTParams;
+import AuthorisePaymentUsingPOSTParams = PSUPISService.AuthrizedPaymentUsingPOSTParams;
 
 @Injectable({
   providedIn: 'root'
 })
 export class PisService {
 
-  constructor(private pisService: PSUPISService) {
-  }
+  constructor(private pisService: PSUPISService) {}
 
   public pisAuthCode(params: PisAuthUsingGETParams): Observable<AuthorizeResponse> {
     return this.pisService.pisAuthUsingGET(params);
@@ -30,5 +29,9 @@ export class PisService {
 
   public authorizePayment(params: AuthorisePaymentUsingPOSTParams): Observable<PaymentAuthorizeResponse> {
     return this.pisService.authrizedPaymentUsingPOST(params);
+  }
+
+  public pisDone(params: PSUPISService.PisDoneUsingGET1Params): Observable<PaymentAuthorizeResponse> {
+    return this.pisService.pisDoneUsingGET1(params);
   }
 }
