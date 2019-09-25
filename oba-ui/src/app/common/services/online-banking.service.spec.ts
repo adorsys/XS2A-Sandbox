@@ -1,6 +1,7 @@
-import {TestBed} from "@angular/core/testing";
-import {OnlineBankingService} from "./online-banking.service";
-import {RouterTestingModule} from "@angular/router/testing";
+import { TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+
+import { OnlineBankingService } from './online-banking.service';
 
 describe('OnlineBankingService', () => {
     beforeEach(() => TestBed.configureTestingModule({

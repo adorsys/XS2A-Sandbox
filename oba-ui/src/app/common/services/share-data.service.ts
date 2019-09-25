@@ -1,6 +1,7 @@
-import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
-import {ConsentAuthorizeResponse, PaymentAuthorizeResponse} from '../../api/models';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+
+import { ConsentAuthorizeResponse, PaymentAuthorizeResponse } from '../../api/models';
 
 @Injectable({
   providedIn: 'root'

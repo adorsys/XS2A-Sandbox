@@ -1,8 +1,10 @@
-import {Injectable} from '@angular/core';
-import {PSUPISService} from '../../api/services';
-import {Observable} from 'rxjs';
-import {AuthorizeResponse} from '../../api/models/authorize-response';
-import {PaymentAuthorizeResponse} from '../../api/models';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { PaymentAuthorizeResponse } from '../../api/models';
+import { AuthorizeResponse } from '../../api/models/authorize-response';
+import { PSUPISService } from '../../api/services';
+
 import PisAuthUsingGETParams = PSUPISService.PisAuthUsingGETParams;
 import LoginUsingPOST3Params = PSUPISService.LoginUsingPOST3Params;
 import SelectMethodUsingPOST2Params = PSUPISService.SelectMethodUsingPOST2Params;

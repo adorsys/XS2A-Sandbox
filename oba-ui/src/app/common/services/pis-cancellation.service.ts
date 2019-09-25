@@ -1,7 +1,9 @@
-import {Injectable} from '@angular/core';
-import {PSUPISCancellationService} from '../../api/services';
-import {Observable} from 'rxjs';
-import {PaymentAuthorizeResponse} from '../../api/models/payment-authorize-response';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { PaymentAuthorizeResponse } from '../../api/models/payment-authorize-response';
+import { PSUPISCancellationService } from '../../api/services';
+
 import LoginUsingPOST2Params = PSUPISCancellationService.LoginUsingPOST2Params;
 import SelectMethodUsingPOST1Params = PSUPISCancellationService.SelectMethodUsingPOST1Params;
 import AuthorisePaymentUsingPOSTParams = PSUPISCancellationService.AuthorisePaymentUsingPOSTParams;

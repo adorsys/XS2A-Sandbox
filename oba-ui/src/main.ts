@@ -2,8 +2,8 @@ import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './app/app.module';
+import { URL_PARAMS_PROVIDER } from './app/common/constants/constants';
 import { environment } from './environments/environment';
-import {URL_PARAMS_PROVIDER} from "./app/common/constants/constants";
 
 if (environment.production) {
     enableProdMode();
