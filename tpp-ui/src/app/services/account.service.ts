@@ -5,7 +5,8 @@ import { environment } from '../../environments/environment';
 import { Amount } from '../models/amount.model';
 import { GrantAccountAccess } from '../models/grant-account-access.model';
 import {AccountReport} from "../models/account-report";
-import {Observable} from "rxjs/internal/Observable";
+import {Observable} from "rxjs";
+
 
 @Injectable({
     providedIn: 'root'

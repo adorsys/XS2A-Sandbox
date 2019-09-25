@@ -20,7 +20,6 @@ export class AccountComponent implements OnInit {
     accountReport: AccountReport;
     accountID: string;
 
-
     constructor(
         private accountService: AccountService,
         private tppService: TppService,
