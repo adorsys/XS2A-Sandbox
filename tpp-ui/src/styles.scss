@@ -139,6 +139,10 @@ a {
     }
 }
 
+.no-underline {
+  text-decoration: none !important;
+}
+
 
 @media (max-width: 767px) {
     .bg-sm-light {
