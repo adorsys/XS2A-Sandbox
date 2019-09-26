@@ -15,6 +15,7 @@ RUN chgrp -R root /var/cache/nginx && \
     find /var/cache/nginx -type f -exec chmod 664 {} \; && \
     chmod 775 /var/run && \
     chmod 775 /opt/entry.sh && \
+    chmod 777 /usr/share/nginx/html/assets/UI/envLinks.json && \
     chmod -R 777 /etc/nginx/conf.d
 
 EXPOSE 4206

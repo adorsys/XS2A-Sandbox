@@ -537,7 +537,7 @@
     <ol>
       <li>
         {{ 'GETTING_STARTED.HOW_TO_REG.LIST.LI_1' | translate }}
-        <a target="_blank" href="http://localhost:4205">{{
+        <a target="_blank" [href]="getEnvLink('TPP_UI')">{{
           'GETTING_STARTED.HOW_TO_REG.LIST.LINK' | translate
         }}</a
         >.

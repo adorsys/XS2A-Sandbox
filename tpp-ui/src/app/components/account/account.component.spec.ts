@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import { IconModule } from '../../commons/icon/icon.module';
 import { InfoModule } from '../../commons/info/info.module';
 import { InfoService } from '../../commons/info/info.service';
-import { Account, AccountStatus, AccountType, UsageType } from '../../models/account.model';
+import { AccountStatus, AccountType, UsageType } from '../../models/account.model';
 import { AccountService } from '../../services/account.service';
 import { AccountComponent } from './account.component';
 import { ConvertBalancePipe } from '../../pipes/convertBalance.pipe';
@@ -44,38 +44,42 @@ describe('AccountComponent', () => {
     });
 
 
-    it('should call getAccount on ngOnInit', () => {
-        let getAccountSpy = spyOn(accountService, 'getAccount').and.callThrough();
+    it('should call getAccountReport on ngOnInit', () => {
+        let getAccountSpy = spyOn(accountService, 'getAccountReport').and.callThrough();
 
         component.ngOnInit();
 
         expect(getAccountSpy).toHaveBeenCalled();
     });
 
-    it('should assign account after server call', () => {
-        let mockAccount: Account = {
-            id: 'XXXXXX',
-            iban: 'DE35653635635663',
-            bban: 'BBBAN',
-            pan: 'pan',
-            maskedPan: 'maskedPan',
-            currency: 'EUR',
-            msisdn: 'MSISDN',
-            name: 'Pupkin',
-            product: 'Deposit',
-            accountType: AccountType.CASH,
-            accountStatus: AccountStatus.ENABLED,
-            bic: 'BIChgdgd',
-            usageType: UsageType.PRIV,
-            details: '',
-            linkedAccounts: '',
-            balances: []
-        } as Account;
+    it('should assign account-report after server call', () => {
+        let accountReport = {
+            details: {
+                id: 'XXXXXX',
+                iban: 'DE35653635635663',
+                bban: 'BBBAN',
+                pan: 'pan',
+                maskedPan: 'maskedPan',
+                currency: 'EUR',
+                msisdn: 'MSISDN',
+                name: 'Pupkin',
+                product: 'Deposit',
+                accountType: AccountType.CASH,
+                accountStatus: AccountStatus.ENABLED,
+                bic: 'BIChgdgd',
+                usageType: UsageType.PRIV,
+                details: '',
+                linkedAccounts: '',
+                balances: []
+            },
+            accesses: [{
+                userLogin: 'xxxxx',
+                scaWeight: 4,
+            }]
+        };
 
-        spyOn(accountService, 'getAccount').and.returnValue(of(mockAccount));
-        component.getAccount();
-        expect(component.account).not.toBeUndefined();
-    })
-
-
+        spyOn(accountService, 'getAccountReport').and.returnValue(of(accountReport));
+        component.getAccountReport();
+        expect(component.getAccountReport).not.toBeUndefined();
+    });
 });
