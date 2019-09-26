@@ -5,8 +5,8 @@ import { map } from 'rxjs/operators';
 
 import { InfoService } from '../../commons/info/info.service';
 import { Account } from '../../models/account.model';
-import { AccountReport } from "../../models/account-report";
-import { UserAccess } from "../../models/user-access";
+import { AccountReport } from '../../models/account-report';
+import { UserAccess } from '../../models/user-access';
 import { AccountService } from '../../services/account.service';
 import { TppService } from '../../services/tpp.service';
 
