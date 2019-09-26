@@ -8,12 +8,29 @@
     </a>
       <ul class="nav ml-auto">
           <li class="nav-item">
-              <a (click)="onLogout()" [routerLinkActive]="['active']" class="btn nav-link px-0 mb-0">
-                  <div class="mr-2">
+            <span class="form-inline">
+              <a class="dropdown-toggle mr-3 no-underline" (click)="handleDropdownMenu()"
+                *ngIf="tppUser?.login">{{ tppUser.login }}</a>
+              <div class="dropdown-menu dropdown-menu-right" [ngClass]="{show: openDropdownMenu}">
+                <li class="divider"></li>
+                <li>
+                  <a routerLink="/tpp-user-detail" (click)="handleDropdownMenu()" class="btn nav-link ">
+                    <div class="mr-2">
+                      <img src="./assets/icons/user.svg">
+                    </div>
+                    <span class="nav__title"> Profile</span>
+                  </a>
+                </li>
+                <li>
+                  <a (click)="onLogout()" [routerLinkActive]="['active']" class="btn nav-link ">
+                    <div class="mr-2">
                       <img src="./assets/icons/sign_out.svg">
-                  </div>
-                  <span class="nav__title">Sign out</span>
-              </a>
+                    </div>
+                    <span class="nav__title"> Sign out</span>
+                  </a>
+                </li>
+              </div>
+            </span>
           </li>
       </ul>
 </nav>

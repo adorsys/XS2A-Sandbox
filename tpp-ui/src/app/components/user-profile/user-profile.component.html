@@ -1,0 +1,30 @@
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body--large" >
+            <div class="header__title">Tpp User Details</div>
+            <div class="row">
+                <div class="col-4 col-md-3">Login</div>
+                <div class="col-8 col-md-9 text-muted">{{tppUser?.login}}</div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-3">Tpp ID</div>
+                <div class="col-12 col-md-9 text-muted">{{tppUser?.id}}</div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-md-3 ">Email</div>
+                <div class="col-12 col-md-9 text-muted">{{tppUser?.email}}</div>
+            </div>
+            <div class="row">
+                <button class="btn btn-primary mr-4 ml-3"
+                        routerLink="/update-tpp-user-details"
+                        type="button">Edit
+                </button>
+                <button class="btn btn-outline-dark"
+                        routerLink="/accounts"
+                        type="button">cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
