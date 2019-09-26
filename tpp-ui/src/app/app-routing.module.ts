@@ -86,19 +86,11 @@ const routes: Routes = [
                 component: TestDataGenerationComponent
             },
             {
-<<<<<<< HEAD
                 path: 'profile',
                 component: UserProfileComponent
             },
             {
                 path: 'profile/edit',
-=======
-                path: 'tpp-user-detail',
-                component: UserProfileComponent
-            },
-            {
-                path: 'update-tpp-user-details',
->>>>>>> 83e69b41f212df8e77cbc9dc862ae2ce2bf66fc0
                 component: UserProfileUpdateComponent
             },
             {
