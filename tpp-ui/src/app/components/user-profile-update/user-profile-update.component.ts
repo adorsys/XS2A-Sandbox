@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { TppUserService } from 'src/app/services/tpp.user.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from '../../models/user.model';
 
@@ -12,8 +12,8 @@ import { User } from '../../models/user.model';
 })
 export class UserProfileUpdateComponent implements OnInit {
     private user: User;
-    private userForm: FormGroup;
-    private submitted: boolean;
+    public userForm: FormGroup;
+    public submitted: boolean;
 
     constructor(private authService: AuthService,
         private userInfoService: TppUserService,
