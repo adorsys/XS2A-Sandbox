@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from "rxjs";
 
 import { environment } from '../../environments/environment';
-import { AccountReport } from "../models/account-report";
+import { AccountReport } from '../models/account-report';
 import { Amount } from '../models/amount.model';
 import { GrantAccountAccess } from '../models/grant-account-access.model';
 
@@ -21,11 +21,11 @@ export class AccountService {
         return this.http.get(this.url + '/accounts');
     }
 
-    getAccount(id: String) {
+    getAccount(id: string) {
         return this.http.get(this.url + '/accounts/' + id);
     }
 
-    getAccountReport(id: String): Observable<AccountReport> {
+    getAccountReport(id: string): Observable<AccountReport> {
         return this.http.get<AccountReport>(this.url + '/accounts/report/' + id);
     }
 
