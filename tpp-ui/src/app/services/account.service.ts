@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from "rxjs";
 
 import { environment } from '../../environments/environment';
+import { AccountReport } from "../models/account-report";
 import { Amount } from '../models/amount.model';
 import { GrantAccountAccess } from '../models/grant-account-access.model';
-import {AccountReport} from "../models/account-report";
-import {Observable} from "rxjs";
 
 
 @Injectable({
