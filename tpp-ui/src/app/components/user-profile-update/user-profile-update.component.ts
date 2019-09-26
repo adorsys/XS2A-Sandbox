@@ -62,7 +62,12 @@ export class UserProfileUpdateComponent implements OnInit {
             pin: this.userForm.get('password').value.trim() ? this.userForm.get('password').value : this.user.pin
         };
         this.userInfoService.updateUserInfo(updatedUser).subscribe(
+<<<<<<< HEAD
           () => this.router.navigate(["/profile"])
+=======
+          () => this.router.navigateByUrl('/navbar', { skipLocationChange: true }).then(() =>
+            this.router.navigate(["/tpp-user-detail"]))
+>>>>>>> 83e69b41f212df8e77cbc9dc862ae2ce2bf66fc0
         );
     }
 }
