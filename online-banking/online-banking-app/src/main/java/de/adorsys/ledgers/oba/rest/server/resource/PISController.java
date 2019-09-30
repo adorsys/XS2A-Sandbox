@@ -40,7 +40,6 @@ public class PISController extends AbstractXISController implements PISApi {
         return auth(redirectId, ConsentType.PIS, encryptedPaymentId, response);
     }
 
-    @SuppressWarnings("PMD.CyclomaticComplexity")
     @Override
     @ApiOperation(value = "Identifies the user by login an pin. Return sca methods information")
     public ResponseEntity<PaymentAuthorizeResponse> login(
@@ -57,13 +56,8 @@ public class PISController extends AbstractXISController implements PISApi {
 
         if (success) {
             String psuId = AuthUtils.psuId(workflow.bearerToken());
-            try {
-                paymentService.updateAuthorisationStatus(workflow, psuId, response);
-                initiatePayment(workflow, response);
-                paymentService.updateScaStatusPaymentStatusConsentData(psuId, workflow, response);
-            } catch (PaymentAuthorizeException e) {
-                return e.getError();
-            }
+            initiatePayment(workflow, response);
+            paymentService.updateScaStatusPaymentStatusConsentData(psuId, workflow, response);
             return paymentService.resolvePaymentWorkflow(workflow, response);
         } else {
             // failed Message. No repeat. Delete cookies.
@@ -83,7 +77,6 @@ public class PISController extends AbstractXISController implements PISApi {
 
             // Update status
             workflow.getScaResponse().setScaStatus(ScaStatusTO.PSUAUTHENTICATED);
-            paymentService.updateAuthorisationStatus(workflow, psuId, response);
 
             initiatePayment(workflow, response);
             paymentService.updateScaStatusPaymentStatusConsentData(psuId, workflow, response);
@@ -137,7 +130,6 @@ public class PISController extends AbstractXISController implements PISApi {
             authInterceptor.setAccessToken(workflow.bearerToken().getAccess_token());
 
             workflow.getScaResponse().setScaStatus(ScaStatusTO.FAILED);
-            paymentService.updateAuthorisationStatus(workflow, psuId, response);
             paymentService.updateAspspConsentData(workflow, response);
 
             responseUtils.removeCookies(response);

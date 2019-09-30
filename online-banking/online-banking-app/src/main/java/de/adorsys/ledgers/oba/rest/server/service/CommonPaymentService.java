@@ -19,7 +19,10 @@ import de.adorsys.ledgers.oba.rest.server.mapper.PaymentConverter;
 import de.adorsys.ledgers.oba.rest.server.resource.AuthUtils;
 import de.adorsys.ledgers.oba.rest.server.resource.ResponseUtils;
 import de.adorsys.psd2.consent.api.CmsAspspConsentDataBase64;
+import de.adorsys.psd2.consent.api.pis.CmsBulkPayment;
+import de.adorsys.psd2.consent.api.pis.CmsPayment;
 import de.adorsys.psd2.consent.api.pis.CmsPaymentResponse;
+import de.adorsys.psd2.consent.api.pis.CmsSinglePayment;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuPisClient;
@@ -31,6 +34,10 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.EnumSet;
+
+import static de.adorsys.psd2.xs2a.core.profile.PaymentType.PERIODIC;
+import static de.adorsys.psd2.xs2a.core.profile.PaymentType.SINGLE;
 
 @Slf4j
 @Service
@@ -51,7 +58,6 @@ public class CommonPaymentService {
         ResponseEntity<SCALoginResponseTO> authoriseForConsent =
             userMgmtRestClient.authoriseForConsent(login, pin, paymentWorkflow.paymentId(), paymentWorkflow.authId(), operationType);
         processSCAResponse(paymentWorkflow, authoriseForConsent.getBody());
-
         return AuthUtils.success(authoriseForConsent);
     }
 
@@ -59,7 +65,7 @@ public class CommonPaymentService {
         String psuId = AuthUtils.psuId(auth);
         try {
             PaymentWorkflow workflow = identifyPayment(encryptedPaymentId, authorisationId, true, consentAndAccessTokenCookieString, psuId, response, auth.getBearerToken());
-            selectMethod(scaMethodId, workflow, isCancellationOperation);
+            selectMethodAndUpdateWorkflow(scaMethodId, workflow, isCancellationOperation);
 
             updateScaStatusPaymentStatusConsentData(psuId, workflow, response);
 
@@ -104,6 +110,7 @@ public class CommonPaymentService {
         workflow.setAuthResponse(new PaymentAuthorizeResponse(workflow.paymentType(), convertedPaymentTO));
         workflow.getAuthResponse().setAuthorisationId(cmsPaymentResponse.getAuthorisationId());
         workflow.getAuthResponse().setEncryptedConsentId(encryptedPaymentId);
+        workflow.setPaymentStatus(resolvePaymentStatus(cmsPaymentResponse.getPayment()));
         if (bearerToken != null) {
             SCAPaymentResponseTO scaPaymentResponseTO = new SCAPaymentResponseTO();
             scaPaymentResponseTO.setBearerToken(bearerToken);
@@ -112,7 +119,17 @@ public class CommonPaymentService {
         return workflow;
     }
 
-    public SCAPaymentResponseTO selectMethod(String scaMethodId, final PaymentWorkflow workflow, boolean isCancellationOperation) {
+    private String resolvePaymentStatus(CmsPayment payment) {
+        if (EnumSet.of(SINGLE, PERIODIC).contains(payment.getPaymentType())) {
+            CmsSinglePayment singlePayment = (CmsSinglePayment) payment;
+            return singlePayment.getPaymentStatus().name();
+        } else {
+            CmsBulkPayment bulkPayment = (CmsBulkPayment) payment;
+            return bulkPayment.getPayments().get(0).getPaymentStatus().name();
+        }
+    }
+
+    public void selectMethodAndUpdateWorkflow(String scaMethodId, final PaymentWorkflow workflow, boolean isCancellationOperation) {
         try {
             authInterceptor.setAccessToken(workflow.bearerToken().getAccess_token());
 
@@ -120,24 +137,18 @@ public class CommonPaymentService {
                                                          ? paymentRestClient.selecCancelPaymentSCAtMethod(workflow.paymentId(), workflow.authId(), scaMethodId).getBody()
                                                          : paymentRestClient.selectMethod(workflow.paymentId(), workflow.authId(), scaMethodId).getBody();
             processPaymentResponse(workflow, paymentResponseTO);
-            return paymentResponseTO;
         } finally {
             authInterceptor.setAccessToken(null);
         }
     }
 
-    public void updateScaStatusPaymentStatusConsentData(String psuId, PaymentWorkflow workflow, HttpServletResponse response)
-        throws PaymentAuthorizeException {
-        // UPDATE CMS
-        SCAResponseTO scaResponse = workflow.getScaResponse();
-        if (scaResponse != null && scaResponse.getScaStatus() != ScaStatusTO.EXEMPTED) {
-            updateAuthorisationStatus(workflow, psuId, response);
-        }
+    public void updateScaStatusPaymentStatusConsentData(String psuId, PaymentWorkflow workflow, HttpServletResponse response) throws PaymentAuthorizeException {
+        updateAuthorisationStatus(workflow, psuId, response);
         updatePaymentStatus(response, workflow);
         updateAspspConsentData(workflow, response);
     }
 
-    public void updateAuthorisationStatus(PaymentWorkflow workflow, String psuId, HttpServletResponse response) throws PaymentAuthorizeException {
+    private void updateAuthorisationStatus(PaymentWorkflow workflow, String psuId, HttpServletResponse response) throws PaymentAuthorizeException {
         String paymentId = workflow.getPaymentResponse().getPayment().getPaymentId();
         String authorisationId = workflow.getPaymentResponse().getAuthorisationId();
         String status = workflow.getAuthResponse().getScaStatus().name();
