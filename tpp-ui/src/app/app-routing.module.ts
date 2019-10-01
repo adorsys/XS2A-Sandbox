@@ -22,6 +22,9 @@ import { UserUpdateComponent } from './components/users/user-update/user-update.
 import { UsersComponent } from './components/users/users.component';
 import { AuthGuard } from './guards/auth.guard';
 import { UploadFileComponent } from './uploadFile/uploadFile.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { UserProfileUpdateComponent } from './components/user-profile-update/user-profile-update.component';
+import { NavbarComponent } from './commons/navbar/navbar.component';
 
 const routes: Routes = [
     {
@@ -83,6 +86,14 @@ const routes: Routes = [
                 component: TestDataGenerationComponent
             },
             {
+                path: 'profile',
+                component: UserProfileComponent
+            },
+            {
+                path: 'profile/edit',
+                component: UserProfileUpdateComponent
+            },
+            {
                 path: 'settings',
                 component: SettingsComponent
             }
@@ -111,6 +122,10 @@ const routes: Routes = [
     {
         path: '**',
         component: NotFoundComponent
+    },
+    {
+      path: 'navbar',
+      component: NavbarComponent
     }
 ];
 

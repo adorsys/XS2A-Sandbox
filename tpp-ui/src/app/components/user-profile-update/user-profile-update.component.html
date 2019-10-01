@@ -1,0 +1,61 @@
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body--large">
+            <div class="header__title">Update TPP User Details</div>
+            <form novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()" autocomplete="off">
+                <div class="row">
+                    <label class="control-label col-12 col-md-3" for="username">Login</label>
+                    <div class="col-12 col-md-10">
+                        <input [ngClass]="{ 'is-invalid': (formControl['username'].touched || submitted) && formControl['username'].errors }"
+                        autocomplete="off"
+                        class="form-control"
+                        id="username"
+                        placeholder="Enter login"
+                        type="text"
+                        formControlName="username">
+                        <div *ngIf="(formControl['username'].touched || submitted) && formControl['username'].hasError('required')"
+                            class="invalid-feedback">
+                            Username is required
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-12 col-md-6" for="email">Email</label>
+                    <div class="col-12 col-md-10">
+                        <input [ngClass]="{ 'is-invalid': (formControl['email'].touched || submitted) && formControl['email'].errors }"
+                        autocomplete="off"
+                        class="form-control"
+                        id="email"
+                        placeholder="Enter Email"
+                        type="email"
+                        formControlName="email">
+                        <div *ngIf="(formControl['email'].touched || submitted) && formControl['email'].hasError('required')"
+                            class="invalid-feedback">
+                            Email is required
+                        </div>
+                        <div *ngIf="(formControl['email'].touched || submitted) && formControl['email'].hasError('email')"
+                            class="invalid-feedback">
+                            Email is invalid
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-12 col-md-3" for="password">New Pin</label>
+                    <div class="col-12 col-md-10">
+                        <input [ngClass]="{ 'is-invalid': (formControl['password'].touched || submitted) && formControl['password'].errors }"
+                            autocomplete="off" class="form-control" id="password" placeholder="Enter new Password" type="password"
+                            formControlName="password">
+                        <div *ngIf="(formControl['password'].touched || submitted) && formControl['password'].hasError('minlength')"
+                            class="invalid-feedback">
+                            Pin must contain at least 5 characters
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <button class="btn btn-primary mr-4 ml-3" type="submit">Submit</button>
+                    <button class="btn btn-outline-dark mr-4 ml-3" routerLink="/profile" type="button">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

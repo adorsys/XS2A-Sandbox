@@ -139,6 +139,14 @@ a {
     }
 }
 
+.no-underline {
+  text-decoration: none !important;
+}
+
+.clickable {
+  cursor: pointer !important;
+}
+
 
 @media (max-width: 767px) {
     .bg-sm-light {
