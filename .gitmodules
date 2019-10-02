@@ -4,5 +4,5 @@
 	branch = master
 [submodule "postman"]
 	path = postman
-	url = https://git.adorsys.de/adorsys/xs2a/xs2a-postman-tests.git 
+	url = ../xs2a-postman-tests
 
