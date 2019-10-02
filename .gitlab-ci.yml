@@ -318,7 +318,6 @@ postman_tests:
     entrypoint: [""]
   only:
     - schedules
-    - KOA_restore_Tarkan_changes
   script:
     - npm config set unsafe-perm true
     - npm install -g newman-reporter-html
