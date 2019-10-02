@@ -2,3 +2,7 @@
 	path = scripts/release-scripts
 	url = git@github.com:borisskert/release-scripts.git
 	branch = master
+[submodule "postman"]
+	path = postman
+	url = ../xs2a-postman-tests
+
