@@ -25,20 +25,20 @@
       <b><p>{{authResponse.bulkPayment.debtorAccount.iban}}</p></b>
       <hr>
       <div *ngFor="let payment of authResponse.bulkPayment.payments; last as isLast">
-          <h4>Creditor account</h4>
-          <b><p>{{payment.creditorAccount.iban}}</p></b>
+        <h4>Creditor account</h4>
+        <b><p>{{payment.creditorAccount.iban}}</p></b>
 
-          <hr>
+        <hr>
 
-          <h4>Creditor name</h4>
-          <b><p>{{payment.creditorName}}</p></b>
+        <h4>Creditor name</h4>
+        <b><p>{{payment.creditorName}}</p></b>
 
-          <hr>
+        <hr>
 
-          <h4>Payment amount</h4>
-          <b><p>{{payment.instructedAmount.amount}} {{payment.instructedAmount.currency}}</p></b>
+        <h4>Payment amount</h4>
+        <b><p>{{payment.instructedAmount.amount}} {{payment.instructedAmount.currency}}</p></b>
 
-          <hr>
+        <hr>
       </div>
     </div>
 
@@ -79,6 +79,9 @@
 
         <hr>
       </div>
+
+
     </div>
+
   </div>
 </div>
