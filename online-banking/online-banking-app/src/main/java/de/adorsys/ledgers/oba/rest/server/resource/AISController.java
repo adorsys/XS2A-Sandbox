@@ -41,10 +41,12 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.*;
 import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient.DEFAULT_SERVICE_INSTANCE_ID;
 
 @Slf4j
@@ -72,8 +74,7 @@ public class AISController extends AbstractXISController implements AISApi {
 
     @Override
     @ApiOperation(value = "Entry point for authenticating ais consent requests.")
-    public ResponseEntity<AuthorizeResponse> aisAuth(String redirectId,
-                                                     String encryptedConsentId) {
+    public ResponseEntity<AuthorizeResponse> aisAuth(String redirectId, String encryptedConsentId) {
 
         log.debug("encryptedConsentId: {}", encryptedConsentId);
 
@@ -87,8 +88,7 @@ public class AISController extends AbstractXISController implements AISApi {
 
     @Override
     @SuppressWarnings({"PMD.CyclomaticComplexity", "PMD.NPathComplexity", "PMD.ExcessiveMethodLength"})
-    public ResponseEntity<ConsentAuthorizeResponse> login(String encryptedConsentId, String authorisationId,
-                                                          String login, String pin, String consentCookieString) {
+    public ResponseEntity<ConsentAuthorizeResponse> login(String encryptedConsentId, String authorisationId, String login, String pin, String consentCookieString) {
 
         // Verify request parameter against cookie. encryptedConsentId and authorisationId must
         // match value stored in the cookie.
@@ -97,16 +97,7 @@ public class AISController extends AbstractXISController implements AISApi {
 
         ConsentWorkflow workflow;
         try {
-            workflow = identifyConsent(encryptedConsentId, authorisationId, false, consentCookieString, login, response,
-                null);
-
-            log.debug("Login: {}", login);
-
-
-            CmsAisConsentResponse consent = workflow.getConsentResponse();
-
-            log.debug("authorisationId: {}", consent.getAuthorisationId());
-
+            workflow = identifyConsent(encryptedConsentId, authorisationId, false, consentCookieString, login, response, null);
         } catch (ConsentAuthorizeException e) {
             return e.getError();
         }
@@ -114,30 +105,27 @@ public class AISController extends AbstractXISController implements AISApi {
         ResponseEntity<SCALoginResponseTO> authoriseForConsent;
         try {
             // Start the authorization process for the consentId/authorizationId.
-            authoriseForConsent = userMgmtRestClient.authoriseForConsent(login, pin,
-                workflow.consentId(), workflow.authId(), OpTypeTO.CONSENT);
+            authoriseForConsent = userMgmtRestClient.authoriseForConsent(login, pin, workflow.consentId(), workflow.authId(), OpTypeTO.CONSENT);
         } catch (FeignException e) {
             if (e.status() == 404 || e.status() == 401) {
                 // TODO QUESTION: What do we do when we receive a wrong user?
                 // Suggestion, set the content reference cookie so use can proceed with
                 // a second login.
-                responseUtils.setCookies(response, workflow.getConsentReference(),
-                    null, null);
+                log.debug("{} Error", e.status());
+                responseUtils.setCookies(response, workflow.getConsentReference(), null, null);
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(workflow.getAuthResponse());
             } else if (e.status() == 403) {
                 // TODO QUESTION: What do we do when the user password is false?
                 // My current response: I think we have to set PSU SCA status to PSUIDENTIFIED.
                 try {
-                    workflow.getAuthResponse().setScaStatus(ScaStatusTO.PSUIDENTIFIED);
-
-                    log.debug("403 Error: {}", ScaStatusTO.PSUIDENTIFIED);
+                    workflow.getAuthResponse().setScaStatus(PSUIDENTIFIED);
+                    log.debug("403 Error: {}", PSUIDENTIFIED);
 
                     // Store the id of the psu
                     updatePSUIdentification(workflow, login);
                     // Store the SCA Status
                     scaStatus(workflow, login, response);
-                    responseUtils.setCookies(response, workflow.getConsentReference(),
-                        null, null);
+                    responseUtils.setCookies(response, workflow.getConsentReference(), null, null);
                     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(workflow.getAuthResponse());
                 } catch (ConsentAuthorizeException e1) {
                     return e1.getError();
@@ -150,7 +138,6 @@ public class AISController extends AbstractXISController implements AISApi {
         boolean success = AuthUtils.success(authoriseForConsent);
 
         if (success) {
-
             String psuId = AuthUtils.psuId(workflow.bearerToken());
             try {
                 updatePSUIdentification(workflow, psuId);
@@ -159,40 +146,32 @@ public class AISController extends AbstractXISController implements AISApi {
                 return e.getError();
             }
 
-            switch (workflow.scaStatus()) {
-                case EXEMPTED:
-                    // Bad request
-                    // failed Message. No repeat. Delete cookies.
-                    responseUtils.removeCookies(response);
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-                case PSUIDENTIFIED:
-                case FINALISED:
-                case PSUAUTHENTICATED:
-                case SCAMETHODSELECTED:
-                    List<AccountDetailsTO> listOfAccounts = listOfAccounts(workflow);
-                    workflow.getAuthResponse().setAccounts(listOfAccounts);
+            ScaStatusTO scaStatusTO = workflow.scaStatus();
+            if (scaStatusTO == EXEMPTED) {// Bad request
+                // failed Message. No repeat. Delete cookies.
+                responseUtils.removeCookies(response);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            } else if (EnumSet.of(PSUIDENTIFIED, FINALISED, PSUAUTHENTICATED, SCAMETHODSELECTED).contains(scaStatusTO)) {
+                List<AccountDetailsTO> listOfAccounts = listOfAccounts(workflow);
+                workflow.getAuthResponse().setAccounts(listOfAccounts);
 
-                    // update consent accounts, transactions and balances if global consent flag is set
-                    AisAccountAccess consentAccountAccess = workflow.getConsentResponse().getAccountConsent().getAccess();
-                    if (isConsentGlobal(consentAccountAccess)) {
-                        AisAccountAccessInfoTO authAccountAccess = workflow.getAuthResponse().getConsent().getAccess();
+                // update consent accounts, transactions and balances if global consent flag is set
+                AisAccountAccess consentAccountAccess = workflow.getConsentResponse().getAccountConsent().getAccess();
+                if (isConsentGlobal(consentAccountAccess)) {
+                    AisAccountAccessInfoTO authAccountAccess = workflow.getAuthResponse().getConsent().getAccess();
 
-                        List<String> ibans = extractUserIbans(listOfAccounts);
-                        authAccountAccess.setAccounts(ibans);
-                        authAccountAccess.setTransactions(ibans);
-                        authAccountAccess.setBalances(ibans);
-                    }
+                    List<String> ibans = extractUserIbans(listOfAccounts);
+                    authAccountAccess.setAccounts(ibans);
+                    authAccountAccess.setTransactions(ibans);
+                    authAccountAccess.setBalances(ibans);
+                }
 
-                    responseUtils.setCookies(response, workflow.getConsentReference(),
-                        workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
-                    return ResponseEntity.ok(workflow.getAuthResponse());
-                case STARTED:
-                case FAILED:
-                default:
-                    // failed Message. No repeat. Delete cookies.
-                    responseUtils.removeCookies(response);
-                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-            }
+                responseUtils.setCookies(response, workflow.getConsentReference(),
+                    workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
+                return ResponseEntity.ok(workflow.getAuthResponse());
+            }// failed Message. No repeat. Delete cookies.
+            responseUtils.removeCookies(response);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         } else {
             // failed Message. No repeat. Keep Cookies so we can repeat login.
             // responseUtils.removeCookies(response);
@@ -201,11 +180,7 @@ public class AISController extends AbstractXISController implements AISApi {
     }
 
     @Override
-    public ResponseEntity<ConsentAuthorizeResponse> startConsentAuth(
-        String encryptedConsentId,
-        String authorisationId,
-        String consentAndaccessTokenCookieString,
-        AisConsentTO aisConsent) {
+    public ResponseEntity<ConsentAuthorizeResponse> startConsentAuth(String encryptedConsentId, String authorisationId, String consentAndaccessTokenCookieString, AisConsentTO aisConsent) {
         String psuId = AuthUtils.psuId(auth);
 
         ConsentWorkflow workflow;
@@ -220,35 +195,23 @@ public class AISController extends AbstractXISController implements AISApi {
             return e.getError();
         }
 
-        switch (workflow.scaStatus()) {
-            case EXEMPTED:
-                // Bad request
-                // failed Message. No repeat. Delete cookies.
-                responseUtils.removeCookies(response);
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-            case PSUIDENTIFIED:
-            case FINALISED:
-            case PSUAUTHENTICATED:
-            case SCAMETHODSELECTED:
-                workflow.getAuthResponse().setAccounts(listOfAccounts);
-                responseUtils.setCookies(response, workflow.getConsentReference(),
-                    workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
-                return ResponseEntity.ok(workflow.getAuthResponse());
-            case STARTED:
-            case FAILED:
-            default:
-                // failed Message. No repeat. Delete cookies.
-                responseUtils.removeCookies(response);
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+        ScaStatusTO scaStatusTO = workflow.scaStatus();
+        if (scaStatusTO == EXEMPTED) {// Bad request
+            // failed Message. No repeat. Delete cookies.
+            responseUtils.removeCookies(response);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        } else if (EnumSet.of(PSUIDENTIFIED, FINALISED, PSUAUTHENTICATED, SCAMETHODSELECTED).contains(scaStatusTO)) {
+            workflow.getAuthResponse().setAccounts(listOfAccounts);
+            responseUtils.setCookies(response, workflow.getConsentReference(), workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
+            return ResponseEntity.ok(workflow.getAuthResponse());
+        }// failed Message. No repeat. Delete cookies.
+        responseUtils.removeCookies(response);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
     }
 
     @Override
-    public ResponseEntity<ConsentAuthorizeResponse> authrizedConsent(
-        String encryptedConsentId,
-        String authorisationId,
-        String consentAndaccessTokenCookieString, String authCode) {
+    public ResponseEntity<ConsentAuthorizeResponse> authrizedConsent(String encryptedConsentId, String authorisationId, String consentAndaccessTokenCookieString, String authCode) {
 
         String psuId = AuthUtils.psuId(auth);
         try {
@@ -279,9 +242,7 @@ public class AISController extends AbstractXISController implements AISApi {
     }
 
     @Override
-    public ResponseEntity<ConsentAuthorizeResponse> selectMethod(
-        String encryptedConsentId, String authorisationId,
-        String scaMethodId, String consentAndaccessTokenCookieString) {
+    public ResponseEntity<ConsentAuthorizeResponse> selectMethod(String encryptedConsentId, String authorisationId, String scaMethodId, String consentAndaccessTokenCookieString) {
 
         String psuId = AuthUtils.psuId(auth);
         try {
@@ -312,14 +273,7 @@ public class AISController extends AbstractXISController implements AISApi {
             CreatePiisConsentResponse cmsConsent = cmsAspspPiisClient.createConsent(piisConsentRequest, psuId, null, null, null).getBody();
 
             // Attention intentional manual mapping. We fill up only the balances.
-            AisConsentTO pisConsent = new AisConsentTO();
-            pisConsent.setAccess(buildAccountAccess(piisConsentRequest.getAccount().getIban()));
-            pisConsent.setId(cmsConsent.getConsentId());
-            // Intentionally set to true
-            pisConsent.setRecurringIndicator(true);
-            pisConsent.setTppId(piisConsentRequest.getTppAuthorisationNumber());
-            pisConsent.setUserId(psuId);
-            pisConsent.setValidUntil(piisConsentRequest.getValidUntil());
+            AisConsentTO pisConsent = new AisConsentTO(cmsConsent.getConsentId(), psuId, piisConsentRequest.getTppAuthorisationNumber(), 100, buildAccountAccess(piisConsentRequest.getAccount().getIban()), piisConsentRequest.getValidUntil(), true);
 
             SCAConsentResponseTO scaConsentResponse = consentRestClient.grantPIISConsent(pisConsent).getBody();
             ResponseEntity<?> updateAspspPiisConsentDataResponse = updateAspspPiisConsentData(cmsConsent.getConsentId(), scaConsentResponse);
@@ -353,8 +307,7 @@ public class AISController extends AbstractXISController implements AISApi {
     }
 
     @Override
-    public ResponseEntity<ConsentAuthorizeResponse> aisDone(String encryptedConsentId, String authorisationId,
-                                                            String consentAndAccessTokenCookieString, Boolean forgetConsent, Boolean backToTpp) throws ConsentAuthorizeException {
+    public ResponseEntity<ConsentAuthorizeResponse> aisDone(String encryptedConsentId, String authorisationId, String consentAndAccessTokenCookieString, Boolean forgetConsent, Boolean backToTpp) throws ConsentAuthorizeException {
         String psuId = AuthUtils.psuId(auth);
         ConsentWorkflow workflow = identifyConsent(encryptedConsentId, authorisationId, true, consentAndAccessTokenCookieString, psuId, response, auth.getBearerToken());
 
@@ -364,7 +317,7 @@ public class AISController extends AbstractXISController implements AISApi {
         String tppOkRedirectUri = consentResponse.getTppOkRedirectUri();
         String tppNokRedirectUri = consentResponse.getTppNokRedirectUri();
 
-        String redirectURL = ScaStatusTO.FINALISED.equals(scaStatus)
+        String redirectURL = FINALISED.equals(scaStatus)
                                  ? tppOkRedirectUri
                                  : tppNokRedirectUri;
 
@@ -413,7 +366,7 @@ public class AISController extends AbstractXISController implements AISApi {
 
     private ConsentAuthorizeResponse buildResponseForSuccessfulConsentRevoke() {
         ConsentAuthorizeResponse consentAuthorisationResponse = new ConsentAuthorizeResponse();
-        consentAuthorisationResponse.setScaStatus(ScaStatusTO.EXEMPTED);
+        consentAuthorisationResponse.setScaStatus(EXEMPTED);
         consentAuthorisationResponse.setAccounts(Collections.emptyList());
 
         AisConsentTO consent = new AisConsentTO();

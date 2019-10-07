@@ -20,7 +20,7 @@ public abstract class AbstractConsentEmbedded {
 	private AccountApiClient accountApi;
 
 	protected ConsentHelper consentHelper;
-	
+
 	@Before
 	public void beforeClass() {
 		consentHelper = new ConsentHelper(accountApi, consentApi, getPsuId(), getIban());

@@ -36,6 +36,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.EnumSet;
 
+import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.*;
 import static de.adorsys.psd2.xs2a.core.profile.PaymentType.PERIODIC;
 import static de.adorsys.psd2.xs2a.core.profile.PaymentType.SINGLE;
 
@@ -77,21 +78,13 @@ public class CommonPaymentService {
     }
 
     public ResponseEntity<PaymentAuthorizeResponse> resolvePaymentWorkflow(PaymentWorkflow workflow, HttpServletResponse response) {
-        switch (workflow.scaStatus()) {
-            case PSUIDENTIFIED:
-            case FINALISED:
-            case EXEMPTED:
-            case PSUAUTHENTICATED:
-            case SCAMETHODSELECTED:
-                responseUtils.setCookies(response, workflow.getConsentReference(), workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
-                return ResponseEntity.ok(workflow.getAuthResponse());
-            case STARTED:
-            case FAILED:
-            default:
-                // failed Message. No repeat. Delete cookies.
-                responseUtils.removeCookies(response);
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+        ScaStatusTO scaStatusTO = workflow.scaStatus();
+        if (EnumSet.of(PSUIDENTIFIED, FINALISED, EXEMPTED, PSUAUTHENTICATED, SCAMETHODSELECTED).contains(scaStatusTO)) {
+            responseUtils.setCookies(response, workflow.getConsentReference(), workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
+            return ResponseEntity.ok(workflow.getAuthResponse());
+        }// failed Message. No repeat. Delete cookies.
+        responseUtils.removeCookies(response);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
     public PaymentWorkflow identifyPayment(String encryptedPaymentId, String authorizationId, boolean strict, String consentCookieString, String psuId, HttpServletResponse response, BearerTokenTO bearerToken) throws PaymentAuthorizeException {
@@ -252,7 +245,7 @@ public class CommonPaymentService {
         String tppOkRedirectUri = consentResponse.getTppOkRedirectUri();
         String tppNokRedirectUri = consentResponse.getTppNokRedirectUri();
 
-        String redirectURL = ScaStatusTO.FINALISED.equals(scaStatus)
+        String redirectURL = FINALISED.equals(scaStatus)
                                  ? tppOkRedirectUri
                                  : tppNokRedirectUri;
 

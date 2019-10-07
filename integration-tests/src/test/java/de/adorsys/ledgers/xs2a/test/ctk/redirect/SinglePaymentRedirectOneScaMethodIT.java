@@ -21,9 +21,13 @@ public class SinglePaymentRedirectOneScaMethodIT extends AbstractSinglePaymentRe
 		String paymentId = initiatedPayment.getPaymentId();
 
 		// Login User
-		ResponseEntity<PaymentAuthorizeResponse> loginResponseWrapper = paymentInitService.login(initiatedPayment);
-		paymentInitService.validateResponseStatus(loginResponseWrapper.getBody(), ScaStatusTO.SCAMETHODSELECTED, TransactionStatusTO.ACCP);
-		paymentInitService.checkTxStatus(paymentId, TransactionStatus.ACCP);
+        ResponseEntity<PaymentAuthorizeResponse> loginResponseWrapper = paymentInitService.login(initiatedPayment);
+        paymentInitService.validateResponseStatus(loginResponseWrapper.getBody(), ScaStatusTO.PSUIDENTIFIED, TransactionStatusTO.ACCP);
+        paymentInitService.checkTxStatus(paymentId, TransactionStatus.ACCP);
+
+        ResponseEntity<PaymentAuthorizeResponse> choseScaMethodResponseWrapper = paymentInitService.choseScaMethod(loginResponseWrapper);
+        paymentInitService.validateResponseStatus(choseScaMethodResponseWrapper.getBody(), ScaStatusTO.SCAMETHODSELECTED, TransactionStatusTO.ACCP);
+        paymentInitService.checkTxStatus(paymentId, TransactionStatus.ACCP);
 
 		ResponseEntity<PaymentAuthorizeResponse> authCodeResponseWrapper = paymentInitService.authCode(loginResponseWrapper);
 		paymentInitService.validateResponseStatus(authCodeResponseWrapper.getBody(), ScaStatusTO.FINALISED, TransactionStatusTO.ACSP);

@@ -14,10 +14,10 @@ payment:
   creditorAgent: DEUTDEDB760
   creditorName: Marion Mueller
   creditorAddress:
-    street: SomeStreet
-    buildingNumber: 777 
-    city: Kiev
-    postalCode: 04210
+    streetName: SomeStreet
+    buildingNumber: 777
+    townName: Kiev
+    postCode: 04210
     country: UA
   remittanceInformationUnstructured: remittance
 

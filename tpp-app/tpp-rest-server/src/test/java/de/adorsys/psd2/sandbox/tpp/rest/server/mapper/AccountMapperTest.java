@@ -21,6 +21,7 @@ import java.util.Currency;
 import static de.adorsys.ledgers.middleware.api.domain.account.AccountStatusTO.ENABLED;
 import static de.adorsys.ledgers.middleware.api.domain.account.AccountTypeTO.CASH;
 import static de.adorsys.ledgers.middleware.api.domain.account.BalanceTypeTO.INTERIM_AVAILABLE;
+import static de.adorsys.psd2.sandbox.tpp.rest.api.domain.AccessType.OWNER;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class AccountMapperTest {
@@ -51,7 +52,7 @@ public class AccountMapperTest {
 
     @Test
     public void toAccountReport() {
-        AccountReport expected = new AccountReport(getDetails(), Arrays.asList(new UserAccess("LOGIN1", SCA_WEIGHT), new UserAccess("LOGIN2", SCA_WEIGHT)));
+        AccountReport expected = new AccountReport(getDetails(), Arrays.asList(new UserAccess("LOGIN1", SCA_WEIGHT, OWNER), new UserAccess("LOGIN2", SCA_WEIGHT, OWNER)));
         AccountReport result = accountMapper.toAccountReport(getReportTO());
         assertThat(result).isEqualToComparingFieldByFieldRecursively(expected);
     }
