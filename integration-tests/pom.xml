@@ -24,6 +24,12 @@
 	</properties>
 
 	<dependencies>
+        <!-- CMS embedded mode -->
+        <dependency>
+            <groupId>de.adorsys.psd2.sandbox</groupId>
+            <artifactId>tpp-cms-impl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
 		<!-- Spring -->
 		<dependency>
@@ -206,7 +212,7 @@
 							<workingDir>${project.build.directory}/online-banking</workingDir>
 							<waitForInterrupt>${waitAtOBA}</waitForInterrupt>
 							<healthcheckUrl>http://localhost:8090/actuator/health</healthcheckUrl>
-							<!-- java -jar target/online-banking/online-banking-app.jar - -spring.profiles.active=mockspi 
+							<!-- java -jar target/online-banking/online-banking-app.jar - -spring.profiles.active=mockspi
 								- -security.basic.enabled=false -->
 							<arguments>
 								<argument>java</argument>
@@ -259,7 +265,7 @@
 							<workingDir>${project.build.directory}/ledgers</workingDir>
 							<waitForInterrupt>${waitAtLedgers}</waitForInterrupt>
 							<healthcheckUrl>http://localhost:8088/actuator/health</healthcheckUrl>
-							<!-- java -jar target/ledgers/ledgers-app.jar - -spring.profiles.active=h2 
+							<!-- java -jar target/ledgers/ledgers-app.jar - -spring.profiles.active=h2
 								- -ledgers.mockbank.data.load=true -->
 							<waitAfterLaunch>10</waitAfterLaunch>
 							<arguments>
@@ -313,7 +319,7 @@
 							<workingDir>${project.build.directory}/consents</workingDir>
 							<waitForInterrupt>${waitAtCMS}</waitForInterrupt>
 							<healthcheckUrl>http://localhost:38080/health</healthcheckUrl>
-							<!-- java -jar target/consents/consent-management-server.jar - -spring.profiles.active=h2 
+							<!-- java -jar target/consents/consent-management-server.jar - -spring.profiles.active=h2
 								- -security.basic.enabled=false - -spring.config.location=target/test-classes/consent-management-application.yml -->
 							<arguments>
 								<argument>java</argument>
@@ -341,7 +347,7 @@
 							<workingDir>${project.build.directory}/gateway</workingDir>
 							<waitForInterrupt>${waitAtGateway}</waitForInterrupt>
 							<healthcheckUrl>http://localhost:8089/health</healthcheckUrl>
-							<!-- java -jar target/gateway/gateway-app.jar - -spring.profiles.active=mockspi 
+							<!-- java -jar target/gateway/gateway-app.jar - -spring.profiles.active=mockspi
 								- -security.basic.enabled=false -->
 							<arguments>
 								<argument>java</argument>

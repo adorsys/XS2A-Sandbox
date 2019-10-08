@@ -168,7 +168,7 @@ services:
     restart: on-failure
     environment:
       - TPP_REST_SERVER_URL=http://xs2a-tpp-rest-server:8093
-      - CERT_GEN_URL=http://certificate-generator:8092
+      - CERT_GEN_URL=
     build:
       context: tpp-ui
       dockerfile: Dockerfile
@@ -177,7 +177,6 @@ services:
     networks:
       - xs2a-net
     depends_on:
-      - certificate-generator
       - xs2a-tpp-rest-server
 
   # TPP-REST-SERVER
@@ -226,19 +225,7 @@ services:
       - ENVLINK_TPP_UI=https://blub-dynamicsandbox-tppui.cloud.adorsys.de/login
       - ENVLINK_ONLINE_BANKING_UI=https://dev-dynamicsandbox-onlinebankingui.cloud.adorsys.de/account-information/login
       - ENVLINK_ONLINE_BANKING_BACKEND=https://dev-dynamicsandbox-onlinebanking.cloud.adorsys.de/swagger-ui.html
-      - ENVLINK_CERTIFICATE_GENERATOR=https://dev-dynamicsandbox-certificategenerator.cloud.adorsys.de/swagger-ui.html
-
-  # Certificate generator
-  certificate-generator:
-    image: adorsys/xs2a-certificate-generator
-    restart: on-failure
-    build:
-      context: certificate-generator
-      dockerfile: Dockerfile
-    ports:
-      - "8092:8092"
-    networks:
-      - xs2a-net
+      - ENVLINK_CERTIFICATE_GENERATOR=
 
   # Fake SMTP
   fakesmtp:

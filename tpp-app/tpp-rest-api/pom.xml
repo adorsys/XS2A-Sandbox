@@ -20,6 +20,12 @@
     <dependencies>
         <!-- Lombok -->
         <dependency>
+            <groupId>de.adorsys.ledgers</groupId>
+            <artifactId>ledgers-middleware-rest-api</artifactId>
+            <version>${ledgers.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
