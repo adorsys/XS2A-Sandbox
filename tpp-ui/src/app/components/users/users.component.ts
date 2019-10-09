@@ -1,27 +1,38 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../services/user.service";
-import {User} from "../../models/user.model";
 
 @Component({
-    selector: 'app-users',
-    templateUrl: './users.component.html',
-    styleUrls: ['./users.component.scss']
+  selector: 'app-users',
+  templateUrl: './users.component.html',
+  styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
+  users: Array<any>;
+  userFilter: any = {login: ''};
+  config: {itemsPerPage, currentPage, totalItems, maxSize} = {
+    itemsPerPage: 10,
+    currentPage: 1,
+    totalItems: 0,
+    maxSize: 7
+  };
 
-    users: User[];
-    userFilter: any = {login: ''};
+  constructor(private userService: UserService) {
+    this.users = new Array<any>();
+  }
 
-    constructor(private userService: UserService) {
-    }
+  ngOnInit() {
+    this.listUsers(this.config.currentPage, this.config.itemsPerPage);
+  }
 
-    ngOnInit() {
-        this.listUsers();
-    }
+  listUsers(page: number, size: number) {
+    this.userService.listUsers(page - 1, size).subscribe((response: any) => {
+      console.log('users', response);
+      this.users = response.users;
+      this.config.totalItems = response.totalElements;
+    });
+  }
 
-    listUsers() {
-        this.userService.listUsers().subscribe((users: User[]) => {
-            this.users = users;
-        })
-    }
+  pageChange(pageNumber: number) {
+    this.listUsers(pageNumber, this.config.itemsPerPage);
+  }
 }

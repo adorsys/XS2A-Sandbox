@@ -35,7 +35,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let user of users | filterBy: userFilter; index as i" routerLink="/users/{{user.id}}">
+                    <tr *ngFor="let user of users index as i" routerLink="/users/{{user.id}}">
                         <th scope="row">{{i + 1}}</th>
                         <td>{{user.login}}</td>
                         <td>{{user.email}}</td>
@@ -63,7 +63,11 @@
                     </tr>
                     </tbody>
                 </table>
-            </div>
+                <div *ngIf="config && users.length > 0">
+                    <ngb-pagination [collectionSize]="config.totalItems" [page]="config.currentPage" [boundaryLinks]="true" [pageSize]="config.itemsPerPage"
+                                    [maxSize]="config.maxSize" (pageChange)="pageChange($event)" ></ngb-pagination>
+                </div>
+           </div>
         </div>
     </div>
 </div>

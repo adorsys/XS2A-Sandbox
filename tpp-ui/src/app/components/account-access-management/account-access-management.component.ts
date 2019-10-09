@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Account} from "../../models/account.model";
 import {User} from "../../models/user.model";
 import {UserService} from "../../services/user.service";
@@ -13,7 +13,7 @@ import {InfoService} from "../../commons/info/info.service";
     templateUrl: './account-access-management.component.html',
     styleUrls: ['./account-access-management.component.scss']
 })
-export class AccountAccessManagementComponent implements OnInit {
+export class AccountAccessManagementComponent implements OnInit, OnDestroy {
 
     users: User[];
     account: Account;
@@ -35,7 +35,7 @@ export class AccountAccessManagementComponent implements OnInit {
         this.route.params.subscribe(params => {
             this.accountService.getAccount(params.id).subscribe((account: Account) => {
                 this.account = account;
-            })
+            });
         });
     }
 
@@ -54,9 +54,9 @@ export class AccountAccessManagementComponent implements OnInit {
     }
 
     listUsers() {
-        this.userService.listUsers().subscribe((users: User[]) => {
-            this.users = users;
-        })
+        this.userService.listUsers().subscribe((resp: any) => {
+            this.users = resp.users;
+        });
     }
 
     onSubmit() {
