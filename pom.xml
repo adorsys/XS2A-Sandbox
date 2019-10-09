@@ -112,7 +112,7 @@
         <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
         <swagger-annotations.version>1.5.20</swagger-annotations.version>
         <google.guava.version>23.0</google.guava.version>
-        <nimbus-jose-jwt.version>6.1.1</nimbus-jose-jwt.version>
+        <nimbus-jose-jwt.version>7.9</nimbus-jose-jwt.version>
         <lombok.version>1.18.4</lombok.version>
         <bcpkix-jdk15on.version>1.60</bcpkix-jdk15on.version>
         <commons-io.version>2.6</commons-io.version>

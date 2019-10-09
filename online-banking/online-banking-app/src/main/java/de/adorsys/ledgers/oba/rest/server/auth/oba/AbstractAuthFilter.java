@@ -5,6 +5,7 @@ import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.oba.rest.server.auth.MiddlewareAuthentication;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,22 +22,34 @@ import java.util.Map;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @Slf4j
-abstract class AbstractAuthFilter extends OncePerRequestFilter {
+public abstract class AbstractAuthFilter extends OncePerRequestFilter {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    protected void handleAuthenticationFailure(HttpServletResponse response, String message) throws IOException {
+        doAuthenticationFailure(response, message);
+    }
+
     protected void handleAuthenticationFailure(HttpServletResponse response, Exception e) throws IOException {
-        log.error(e.getMessage());
+        doAuthenticationFailure(response, e.getMessage());
+    }
+
+    private void doAuthenticationFailure(HttpServletResponse response, String message) throws IOException {
+        log.error(message);
 
         Map<String, String> data = new ErrorResponse()
-                                       .buildContent(UNAUTHORIZED.value(), e.getMessage());
+                                       .buildContent(UNAUTHORIZED.value(), message);
 
         response.setStatus(UNAUTHORIZED.value());
-        response.getOutputStream()
-            .println(objectMapper.writeValueAsString(data));
+        response.setHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE);
+        response.getOutputStream().println(objectMapper.writeValueAsString(data));
     }
 
     protected String obtainFromHeader(HttpServletRequest request, String headerKey) {
         return request.getHeader(headerKey);
+    }
+
+    protected String obtainFromRequest(HttpServletRequest request, String param) {
+        return request.getParameter(param);
     }
 
     protected boolean authenticationIsRequired() {

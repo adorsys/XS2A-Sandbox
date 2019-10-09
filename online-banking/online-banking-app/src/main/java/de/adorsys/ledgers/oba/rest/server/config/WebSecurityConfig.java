@@ -54,7 +54,7 @@ public class WebSecurityConfig {
         }
     }
 
-    @Order(2)
+    @Order(4)
     @Configuration
     @RequiredArgsConstructor
     public static class ObaScaSecurityConfig extends WebSecurityConfigurerAdapter {
