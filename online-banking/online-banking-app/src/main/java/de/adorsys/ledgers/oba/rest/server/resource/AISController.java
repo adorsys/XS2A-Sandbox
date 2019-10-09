@@ -13,8 +13,10 @@ import de.adorsys.ledgers.oba.rest.api.consentref.ConsentReference;
 import de.adorsys.ledgers.oba.rest.api.consentref.ConsentType;
 import de.adorsys.ledgers.oba.rest.api.consentref.InvalidConsentException;
 import de.adorsys.ledgers.oba.rest.api.domain.*;
+import de.adorsys.ledgers.oba.rest.api.exception.AuthorizationException;
 import de.adorsys.ledgers.oba.rest.api.exception.ConsentAuthorizeException;
 import de.adorsys.ledgers.oba.rest.api.resource.AISApi;
+import de.adorsys.ledgers.oba.rest.server.auth.TokenAuthenticationService;
 import de.adorsys.ledgers.oba.rest.server.mapper.CreatePiisConsentRequestMapper;
 import de.adorsys.ledgers.oba.rest.server.mapper.ObaAisConsentMapper;
 import de.adorsys.psd2.consent.api.CmsAspspConsentDataBase64;
@@ -47,6 +49,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.*;
+import static de.adorsys.ledgers.oba.rest.api.exception.AuthErrorCode.LOGIN_FAILED;
 import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient.DEFAULT_SERVICE_INSTANCE_ID;
 
 @Slf4j
@@ -71,6 +74,8 @@ public class AISController extends AbstractXISController implements AISApi {
     private CreatePiisConsentRequestMapper createPiisConsentRequestMapper;
     @Autowired
     private AccountRestClient accountRestClient;
+    @Autowired
+    private TokenAuthenticationService tokenAuthenticationService;
 
     @Override
     @ApiOperation(value = "Entry point for authenticating ais consent requests.")
@@ -102,40 +107,21 @@ public class AISController extends AbstractXISController implements AISApi {
             return e.getError();
         }
 
-        ResponseEntity<SCALoginResponseTO> authoriseForConsent;
-        try {
-            // Start the authorization process for the consentId/authorizationId.
-            authoriseForConsent = userMgmtRestClient.authoriseForConsent(login, pin, workflow.consentId(), workflow.authId(), OpTypeTO.CONSENT);
-        } catch (FeignException e) {
-            if (e.status() == 404 || e.status() == 401) {
-                // TODO QUESTION: What do we do when we receive a wrong user?
-                // Suggestion, set the content reference cookie so use can proceed with
-                // a second login.
-                log.debug("{} Error", e.status());
-                responseUtils.setCookies(response, workflow.getConsentReference(), null, null);
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(workflow.getAuthResponse());
-            } else if (e.status() == 403) {
-                // TODO QUESTION: What do we do when the user password is false?
-                // My current response: I think we have to set PSU SCA status to PSUIDENTIFIED.
-                try {
-                    workflow.getAuthResponse().setScaStatus(PSUIDENTIFIED);
-                    log.debug("403 Error: {}", PSUIDENTIFIED);
-
-                    // Store the id of the psu
-                    updatePSUIdentification(workflow, login);
-                    // Store the SCA Status
-                    scaStatus(workflow, login, response);
-                    responseUtils.setCookies(response, workflow.getConsentReference(), null, null);
-                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(workflow.getAuthResponse());
-                } catch (ConsentAuthorizeException e1) {
-                    return e1.getError();
-                }
+        boolean success;
+        String token = tokenAuthenticationService.readAccessTokenCookie(request);
+        if (StringUtils.isNotBlank(token) && userMgmtRestClient.validate(token).getStatusCodeValue() == 200) {
+            success = true;
+        } else {
+            if (StringUtils.isBlank(login) || StringUtils.isBlank(pin)) {
+                throw AuthorizationException.builder()
+                          .errorCode(LOGIN_FAILED)
+                          .devMessage("Login or pin is missing.")
+                          .build();
             }
-            throw e;
+            ResponseEntity<SCALoginResponseTO> authoriseForConsent = userMgmtRestClient.authoriseForConsent(login, pin, workflow.consentId(), workflow.authId(), OpTypeTO.CONSENT);
+            storeSCAResponseIntoWorkflow(workflow, authoriseForConsent.getBody());
+            success = AuthUtils.success(authoriseForConsent);
         }
-
-        storeSCAResponseIntoWorkflow(workflow, authoriseForConsent.getBody());
-        boolean success = AuthUtils.success(authoriseForConsent);
 
         if (success) {
             String psuId = AuthUtils.psuId(workflow.bearerToken());
@@ -166,15 +152,13 @@ public class AISController extends AbstractXISController implements AISApi {
                     authAccountAccess.setBalances(ibans);
                 }
 
-                responseUtils.setCookies(response, workflow.getConsentReference(),
-                    workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
+                responseUtils.setCookies(response, workflow.getConsentReference(), workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
                 return ResponseEntity.ok(workflow.getAuthResponse());
             }// failed Message. No repeat. Delete cookies.
             responseUtils.removeCookies(response);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         } else {
             // failed Message. No repeat. Keep Cookies so we can repeat login.
-            // responseUtils.removeCookies(response);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }

@@ -48,8 +48,8 @@ public interface AISApi {
     ResponseEntity<ConsentAuthorizeResponse> login(
         @PathVariable("encryptedConsentId") String encryptedConsentId,
         @PathVariable("authorisationId") String authorisationId,
-        @RequestParam("login") String login,
-        @RequestParam("pin") String pin,
+        @RequestParam(value = "login", required = false) String login,
+        @RequestParam(value = "pin", required = false) String pin,
         @RequestHeader(name = "Cookie", required = false) String consentCookieString);
 
     /**

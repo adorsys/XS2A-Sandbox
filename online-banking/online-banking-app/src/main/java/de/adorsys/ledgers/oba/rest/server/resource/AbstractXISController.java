@@ -8,14 +8,20 @@ import de.adorsys.ledgers.oba.rest.api.consentref.ConsentType;
 import de.adorsys.ledgers.oba.rest.api.consentref.InvalidConsentException;
 import de.adorsys.ledgers.oba.rest.api.domain.AuthorizeResponse;
 import de.adorsys.ledgers.oba.rest.server.auth.MiddlewareAuthentication;
+import de.adorsys.ledgers.oba.rest.server.auth.oba.SecurityConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
+
+import static de.adorsys.ledgers.oba.rest.server.auth.oba.SecurityConstant.BEARER_TOKEN_PREFIX;
 
 @Slf4j
 public abstract class AbstractXISController {
@@ -29,6 +35,8 @@ public abstract class AbstractXISController {
     @Autowired
     protected AuthRequestInterceptor authInterceptor;
 
+    @Autowired
+    protected HttpServletRequest request;
     @Autowired
     protected HttpServletResponse response;
     @Autowired
@@ -60,11 +68,7 @@ public abstract class AbstractXISController {
      * @param response
      * @return
      */
-    protected ResponseEntity<AuthorizeResponse> auth(
-        String redirectId,
-        ConsentType consentType,
-        String encryptedConsentId,
-        HttpServletResponse response) {
+    protected ResponseEntity<AuthorizeResponse> auth(String redirectId, ConsentType consentType, String encryptedConsentId, HttpServletResponse response) {
 
         // This auth response carries information we want to passe directly to the calling user agent.
         // In this case:
@@ -79,8 +83,15 @@ public abstract class AbstractXISController {
             ConsentReference consentReference = referencePolicy.fromURL(redirectId, consentType, encryptedConsentId);
             authResponse.setEncryptedConsentId(encryptedConsentId);
             authResponse.setAuthorisationId(redirectId);
+            String token = Optional.ofNullable(request.getHeader(SecurityConstant.AUTHORIZATION_HEADER))
+                               .filter(t -> StringUtils.startsWithIgnoreCase(t, BEARER_TOKEN_PREFIX))
+                               .map(t -> StringUtils.substringAfter(t, BEARER_TOKEN_PREFIX))
+                               .orElse(null);
             // 2. Set cookies
-            responseUtils.setCookies(response, consentReference, null, null);
+            responseUtils.setCookies(response, consentReference, token, null);
+            if (StringUtils.isNotBlank(token)) {
+                response.addHeader(SecurityConstant.AUTHORIZATION_HEADER, token);
+            }
         } catch (InvalidConsentException e) {
             log.info(e.getMessage());
             responseUtils.removeCookies(response);
@@ -95,7 +106,6 @@ public abstract class AbstractXISController {
 
         // This header tels is we shall send back a 302 or a 200 back to the user agent.
         // Header shall be set by the user agent.
-//		String noRedirect = request.getHeader("X-NO-REDIRECT");
         response.addHeader("Location", uriString);
         return ResponseEntity.ok(authResponse);
     }
