@@ -1,87 +1,74 @@
 <div class="card bg-light">
   <div *ngIf="authResponse" class="card-body">
-
     <!--single payment-->
     <div *ngIf="authResponse.singlePayment">
-      <h4>Creditor account</h4>
+      <h4><b>Creditor account</b></h4>
       <b><p>{{authResponse.singlePayment.creditorAccount.iban}}</p></b>
-
       <hr>
 
       <h4>Creditor name</h4>
       <b><p>{{authResponse.singlePayment.creditorName}}</p></b>
-
       <hr>
 
       <h4>Payment amount</h4>
-      <b><p>{{authResponse.singlePayment.instructedAmount.amount}} {{authResponse.singlePayment.instructedAmount.currency}}</p></b>
-
+      <b><p>{{authResponse.singlePayment.instructedAmount.amount}}
+      {{authResponse.singlePayment.instructedAmount.currency}}</p></b>
       <hr>
     </div>
-
     <!--bulk payment-->
-    <div *ngIf="authResponse.bulkPayment">
-      <h4>Debtor account</h4>
-      <b><p>{{authResponse.bulkPayment.debtorAccount.iban}}</p></b>
-      <hr>
-      <div *ngFor="let payment of authResponse.bulkPayment.payments; last as isLast">
-        <h4>Creditor account</h4>
-        <b><p>{{payment.creditorAccount.iban}}</p></b>
+      <div *ngIf="authResponse.bulkPayment">
+        <div id="fixed">
+          <h2><b>Debtor account</b></h2>
+          <b><p>{{authResponse.bulkPayment.debtorAccount.iban}}</p></b>
+          <hr>
+        </div>
+        <div *ngFor="let payment of authResponse.bulkPayment.payments; index as i">
+          <h4><b>{{ i+1 }}- Creditor account</b></h4>
+          <b><p>{{payment.creditorAccount.iban}}</p></b>
+          <hr>
 
+          <h4>Creditor name</h4>
+          <b><p>{{payment.creditorName}}</p></b>
+          <hr>
+
+          <h4>Payment amount</h4>
+          <b><p>{{payment.instructedAmount.amount}} {{payment.instructedAmount.currency}}</p></b>
+          <hr>
+        </div>
+      </div>
+
+    <!--periodic payment-->
+      <div *ngIf="authResponse.periodicPayment">
+        <h4><b>Creditor account</b></h4>
+        <b><p>{{authResponse.periodicPayment.creditorAccount.iban}}</p></b>
         <hr>
 
         <h4>Creditor name</h4>
-        <b><p>{{payment.creditorName}}</p></b>
-
+        <b><p>{{authResponse.periodicPayment.creditorName}}</p></b>
         <hr>
 
         <h4>Payment amount</h4>
-        <b><p>{{payment.instructedAmount.amount}} {{payment.instructedAmount.currency}}</p></b>
-
+        <b><p>{{authResponse.periodicPayment.instructedAmount.amount}}
+        {{authResponse.periodicPayment.instructedAmount.currency}}</p></b>
         <hr>
-      </div>
-    </div>
-
-    <!--periodic payment-->
-    <div *ngIf="authResponse.periodicPayment">
-      <h4>Creditor account</h4>
-      <b><p>{{authResponse.periodicPayment.creditorAccount.iban}}</p></b>
-
-      <hr>
-
-      <h4>Creditor name</h4>
-      <b><p>{{authResponse.periodicPayment.creditorName}}</p></b>
-
-      <hr>
-
-      <h4>Payment amount</h4>
-      <b><p>{{authResponse.periodicPayment.instructedAmount.amount}} {{authResponse.periodicPayment.instructedAmount.currency}}</p></b>
-
-      <hr>
 
       <div *ngIf="authResponse.periodicPayment.startDate">
         <h4>Payment start date</h4>
         <b><p>{{authResponse.periodicPayment.startDate}}</p></b>
-
         <hr>
       </div>
 
       <div *ngIf="authResponse.periodicPayment.frequency">
         <h4>Payment frequency</h4>
-        <b><p>{{authResponse.periodicPayment.frequency}}</p></b>
-
-        <hr>
+          <b><p>{{authResponse.periodicPayment.frequency}}</p></b>
+          <hr>
       </div>
 
       <div *ngIf="authResponse.periodicPayment.endDate">
         <h4>Payment end date</h4>
         <b><p>{{authResponse.periodicPayment.endDate}}</p></b>
-
         <hr>
       </div>
-
-
+      </div>
     </div>
-
-  </div>
 </div>

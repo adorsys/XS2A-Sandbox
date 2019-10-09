@@ -128,3 +128,24 @@ a {
   }
 }
 
+#fixed {
+  position: sticky;
+  top: 0;
+  background-color: #f8f9fa;
+}
+
+.confirm-payment-cancellation-block {
+  position: fixed;
+
+  @media (max-width: 767px) {
+    position: relative;
+  }
+}
+
+.confirm-payment-block {
+  position: fixed;
+
+  @media (max-width: 767px) {
+    position: relative;
+  }
+}
