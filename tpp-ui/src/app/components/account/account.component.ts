@@ -54,6 +54,7 @@ export class AccountComponent implements OnInit {
 
     deleteAccountTransations() {
         this.tppService.deleteAccountTransations(this.account.iban).subscribe(() => {
+            this.getAccountReport();
             this.infoService.openFeedback(`Transactions of ${this.account.iban} successfully deleted`, {
                 severity: 'info'
             });
@@ -83,6 +84,6 @@ export class AccountComponent implements OnInit {
         subscribe((report: AccountReport) => {
                 this.accountReport = report;
             }
-        )
+        );
     }
 }
