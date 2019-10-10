@@ -29,11 +29,12 @@ install-for-MacOS:
 	brew install plantuml
 	brew install asciidoctor
 
-all: build-java-services build-ui-services build-arc-42 ## Build all services
+all: build-java-services build-ui-services build-arc-42 ## Build all services and run everything with docker-compose
+	docker-compose --build
 
 ## Run section ##
-run: all ## Run everything with docker-compose after building
-	docker-compose up --build
+run:  ## Run everything with docker-compose
+	docker-compose pull && docker-compose up
 
 start: ## Start everything with docker-compose without building
 	docker-compose up
