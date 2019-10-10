@@ -7,6 +7,7 @@ import { PSUAISService } from './services/psuais.service';
 import { OnlineBankingAccountInformationService } from './services/online-banking-account-information.service';
 import { OnlineBankingConsentsService } from './services/online-banking-consents.service';
 import { OnlineBankingAuthorizationService } from './services/online-banking-authorization.service';
+import { OnlineBankingOauthAuthorizationService } from './services/online-banking-oauth-authorization.service';
 import { PSUPISCancellationService } from './services/psupiscancellation.service';
 import { PSUPISService } from './services/psupis.service';
 import { PSUSCAService } from './services/psusca.service';
@@ -28,6 +29,7 @@ import { PSUSCAService } from './services/psusca.service';
     OnlineBankingAccountInformationService,
     OnlineBankingConsentsService,
     OnlineBankingAuthorizationService,
+    OnlineBankingOauthAuthorizationService,
     PSUPISCancellationService,
     PSUPISService,
     PSUSCAService

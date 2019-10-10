@@ -48,6 +48,10 @@ export const routes: Routes = [
         ]
     },
     {
+        path: 'auth',
+        loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
+    },
+    {
         path: 'account-information',
         loadChildren: () => import('./ais/ais.module').then(m => m.AisModule)
     },

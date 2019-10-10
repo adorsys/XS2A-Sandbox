@@ -1,6 +1,5 @@
 /* tslint:disable */
-import { AccountReferenceTO } from './account-reference-to';
-import { TppInfo } from './tpp-info';
+import { AccountReference } from './account-reference';
 
 /**
  * Piis consent request
@@ -8,19 +7,34 @@ import { TppInfo } from './tpp-info';
 export interface PiisConsentRequest {
 
   /**
-   * Accounts for which the consent is created
+   * Account, where the confirmation of funds service is aimed to be submitted to.
    */
-  accounts?: Array<AccountReferenceTO>;
+  account?: AccountReference;
 
   /**
-   * Maximum frequency for an access per day. For a once-off access, this attribute is set to 1
+   * Expiry date of the card issued by the PIISP
    */
-  allowedFrequencyPerDay: number;
+  cardExpiryDate?: string;
 
   /**
-   * Tpp for which the consent will be created. If the property is omitted, the consent will be created for all TPPs
+   * Additional explanation for the card product.
    */
-  tppInfo?: TppInfo;
+  cardInformation?: string;
+
+  /**
+   * Card Number of the card issued by the PIISP. Should be delivered if available.
+   */
+  cardNumber?: string;
+
+  /**
+   * Additional information about the registration process for the PSU, e.g. a reference to the TPP / PSU contract.
+   */
+  registrationInformation?: string;
+
+  /**
+   * Tpp attribute that fully described Tpp for which the consent will be created. If the property is omitted, the consent will be created for all TPPs
+   */
+  tppAuthorisationNumber?: string;
 
   /**
    * Consent`s expiration date. The content is the local ASPSP date in ISODate Format
