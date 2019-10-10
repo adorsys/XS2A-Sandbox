@@ -30,7 +30,7 @@ install-for-MacOS:
 	brew install asciidoctor
 
 all: build-java-services build-ui-services build-arc-42 ## Build all services and run everything with docker-compose
-	docker-compose --build
+	docker-compose up --build
 
 ## Run section ##
 run:  ## Run everything with docker-compose
