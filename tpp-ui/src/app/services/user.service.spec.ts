@@ -1,11 +1,11 @@
-import {inject, TestBed} from '@angular/core/testing';
-import {HttpClientModule} from '@angular/common/http';
-import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { inject, TestBed } from '@angular/core/testing';
 
-import {UserService} from './user.service';
-import {environment} from "../../environments/environment";
+import { environment } from '../../environments/environment';
+import { UserService } from './user.service';
 
-xdescribe('UserService', () => {
+describe('UserService', () => {
     let httpTestingController: HttpTestingController;
     let userService: UserService;
 
@@ -32,7 +32,7 @@ xdescribe('UserService', () => {
         expect(service).toBeTruthy();
     }));
 
-    it('should return expected list of users (HttpClient called once)', () => {
+    xit('should return expected list of users (HttpClient called once)', () => {
         const mockUsers = [
             {
                 accountAccesses: [

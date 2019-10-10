@@ -2,16 +2,16 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { FilterPipeModule } from 'ngx-filter-pipe';
 import { of } from 'rxjs';
 
 import { User } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
 import { UsersComponent } from './users.component';
-import {NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
 
 
-xdescribe('UsersComponent', () => {
+describe('UsersComponent', () => {
     let component: UsersComponent;
     let fixture: ComponentFixture<UsersComponent>;
     let usersService: UserService;
