@@ -63,7 +63,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <div *ngIf="config && users.length > 0">
+                <div *ngIf="config && users && users.length > 0">
                     <ngb-pagination [collectionSize]="config.totalItems" [page]="config.currentPage" [boundaryLinks]="true" [pageSize]="config.itemsPerPage"
                                     [maxSize]="config.maxSize" (pageChange)="pageChange($event)" ></ngb-pagination>
                 </div>
