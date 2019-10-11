@@ -119,7 +119,7 @@
         <junit.version>4.12</junit.version>
         <mockito.version>1.10.19</mockito.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
-        <fasterxml.version>2.9.9</fasterxml.version>
+        <fasterxml.version>2.9.10</fasterxml.version>
         <fasterxml-data-format.version>2.9.8</fasterxml-data-format.version>
         <opencsv.version>4.5</opencsv.version>
         <!--Sonar -->
