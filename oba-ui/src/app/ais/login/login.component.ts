@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
+import { OnlineBankingOauthAuthorizationService } from '../../api/services';
 import { PSUAISService } from '../../api/services/psuais.service';
 import { InfoService } from '../../common/info/info.service';
 import { RoutingPath } from '../../common/models/routing-path.model';
@@ -12,6 +13,8 @@ import { CustomizeService } from '../../common/services/customize.service';
 import { ShareDataService } from '../../common/services/share-data.service';
 
 import LoginUsingPOSTParams = PSUAISService.LoginUsingPOSTParams;
+import AisAuthUsingGETParams = PSUAISService.AisAuthUsingGETParams;
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -33,6 +36,7 @@ export class LoginComponent implements OnInit, OnDestroy {
               private infoService: InfoService,
               private activatedRoute: ActivatedRoute,
               private shareService: ShareDataService,
+              private onlineBankingOauthAuthorizationService: OnlineBankingOauthAuthorizationService,
               private aisService: AisService) {
   }
 
@@ -43,13 +47,21 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public onSubmit(): void {
+    this.aisAuthorise({
+      pin: this.loginForm.get('pin').value,
+      login: this.loginForm.get('login').value,
+      encryptedConsentId: this.encryptedConsentId,
+      authorisationId: this.redirectId,
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  private aisAuthorise(params: LoginUsingPOSTParams) {
     this.subscriptions.push(
-      this.aisService.aisAuthorise({
-        ...this.loginForm.value,
-        encryptedConsentId: this.encryptedConsentId,
-        authorisationId: this.redirectId,
-      } as LoginUsingPOSTParams).subscribe(authorisationResponse => {
-        console.log(authorisationResponse);
+      this.aisService.aisAuthorise(params).subscribe(authorisationResponse => {
         this.shareService.changeData(authorisationResponse);
         this.router.navigate([`${RoutingPath.ACCOUNT_INFORMATION}/${RoutingPath.GRANT_CONSENT}`]);
       }, (error: HttpErrorResponse) => {
@@ -70,19 +82,26 @@ export class LoginComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
-  }
-
   private getAisAuthCode(): void {
     this.activatedRoute.queryParams.subscribe(params => {
       this.encryptedConsentId = params.encryptedConsentId;
       this.redirectId = params.redirectId;
+      const aisAuthCodeParams: AisAuthUsingGETParams  = {
+        encryptedConsentId: this.encryptedConsentId,
+        redirectId: this.redirectId,
+        ...params.token && { Authorization: 'Bearer ' + params.token },
+      };
 
       this.subscriptions.push(
-        this.aisService.aisAuthCode({encryptedConsentId: this.encryptedConsentId, redirectId: this.redirectId})
+        this.aisService.aisAuthCode(aisAuthCodeParams)
           .subscribe(authCodeResponse => {
-              this.shareService.changeData(authCodeResponse);
+              this.shareService.changeData(authCodeResponse.body);
+              if (authCodeResponse.headers.get('Authorization')) {
+                this.aisAuthorise({
+                  encryptedConsentId: this.encryptedConsentId,
+                  authorisationId: this.redirectId
+                });
+              }
             },
             (error) => {
               console.log(error);

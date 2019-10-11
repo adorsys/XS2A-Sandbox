@@ -1,3 +1,4 @@
+import { HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -8,7 +9,6 @@ import { PSUAISService } from '../../api/services';
 import LoginUsingPOSTParams = PSUAISService.LoginUsingPOSTParams;
 import AisAuthGetGETParams = PSUAISService.AisAuthUsingGETParams;
 import RevokeConsentUsingDELETEParams = PSUAISService.RevokeConsentUsingDELETEParams;
-
 @Injectable({
     providedIn: 'root'
 })
@@ -16,8 +16,8 @@ export class AisService {
 
     constructor(private aisService: PSUAISService) {}
 
-    public aisAuthCode(params: AisAuthGetGETParams): Observable<AuthorizeResponse> {
-      return this.aisService.aisAuthUsingGET(params);
+    public aisAuthCode(params: AisAuthGetGETParams): Observable<HttpResponse<AuthorizeResponse>> {
+      return this.aisService.aisAuthUsingGETResponse(params);
     }
 
     public aisAuthorise(params: LoginUsingPOSTParams): Observable<ConsentAuthorizeResponse> {
