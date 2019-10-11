@@ -8,6 +8,7 @@ import de.adorsys.ledgers.oba.rest.api.domain.CreatePiisConsentRequestTO;
 import de.adorsys.ledgers.oba.rest.api.domain.PIISConsentCreateResponse;
 import de.adorsys.ledgers.oba.rest.api.exception.ConsentAuthorizeException;
 import io.swagger.annotations.*;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,8 @@ public interface AISApi {
     @ApiOperation(value = "Entry point for authenticating ais consent requests.")
     ResponseEntity<AuthorizeResponse> aisAuth(
         @RequestParam(name = "redirectId") String redirectId,
-        @RequestParam(name = "encryptedConsentId") String encryptedConsentId);
+        @RequestParam(name = "encryptedConsentId") String encryptedConsentId,
+        @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String token);
 
     /**
      * Identifies the user by login an pin.

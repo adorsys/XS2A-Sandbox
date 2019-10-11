@@ -8,12 +8,12 @@ import de.adorsys.ledgers.oba.rest.api.consentref.ConsentType;
 import de.adorsys.ledgers.oba.rest.api.consentref.InvalidConsentException;
 import de.adorsys.ledgers.oba.rest.api.domain.AuthorizeResponse;
 import de.adorsys.ledgers.oba.rest.server.auth.MiddlewareAuthentication;
-import de.adorsys.ledgers.oba.rest.server.auth.oba.SecurityConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -83,14 +83,14 @@ public abstract class AbstractXISController {
             ConsentReference consentReference = referencePolicy.fromURL(redirectId, consentType, encryptedConsentId);
             authResponse.setEncryptedConsentId(encryptedConsentId);
             authResponse.setAuthorisationId(redirectId);
-            String token = Optional.ofNullable(request.getHeader(SecurityConstant.AUTHORIZATION_HEADER))
+            String token = Optional.ofNullable(request.getHeader(HttpHeaders.AUTHORIZATION))
                                .filter(t -> StringUtils.startsWithIgnoreCase(t, BEARER_TOKEN_PREFIX))
                                .map(t -> StringUtils.substringAfter(t, BEARER_TOKEN_PREFIX))
                                .orElse(null);
             // 2. Set cookies
             responseUtils.setCookies(response, consentReference, token, null);
             if (StringUtils.isNotBlank(token)) {
-                response.addHeader(SecurityConstant.AUTHORIZATION_HEADER, token);
+                response.addHeader(HttpHeaders.AUTHORIZATION, token);
             }
         } catch (InvalidConsentException e) {
             log.info(e.getMessage());

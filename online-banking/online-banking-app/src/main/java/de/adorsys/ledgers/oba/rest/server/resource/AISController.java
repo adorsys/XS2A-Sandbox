@@ -79,7 +79,7 @@ public class AISController extends AbstractXISController implements AISApi {
 
     @Override
     @ApiOperation(value = "Entry point for authenticating ais consent requests.")
-    public ResponseEntity<AuthorizeResponse> aisAuth(String redirectId, String encryptedConsentId) {
+    public ResponseEntity<AuthorizeResponse> aisAuth(String redirectId, String encryptedConsentId, String token) {
 
         log.debug("encryptedConsentId: {}", encryptedConsentId);
 
