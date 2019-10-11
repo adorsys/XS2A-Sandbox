@@ -7,7 +7,7 @@
                 <div class="col-12 col-md-9 text-muted">
                     <div *ngFor="let access of accesses; last as isLast">
                         {{access.userLogin}},
-                        weight {{access.scaWeight}} %,
+                        <span *ngIf="access.scaWeight">weight {{access.scaWeight}} %,</span>
                         Role: {{access.accessType}}
                     </div>
                 </div>
