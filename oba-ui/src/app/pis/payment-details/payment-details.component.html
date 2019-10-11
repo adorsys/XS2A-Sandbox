@@ -21,6 +21,9 @@
           <h2><b>Debtor account</b></h2>
           <b><p>{{authResponse.bulkPayment.debtorAccount.iban}}</p></b>
           <hr>
+          <h5>Total amount</h5>
+          <b><p>{{totalAmount}} {{authResponse.bulkPayment.payments[0].instructedAmount.currency}}</p></b>
+          <hr>
         </div>
         <div *ngFor="let payment of authResponse.bulkPayment.payments; index as i">
           <h4><b>{{ i+1 }}- Creditor account</b></h4>
