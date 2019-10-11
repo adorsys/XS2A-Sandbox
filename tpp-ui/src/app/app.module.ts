@@ -1,5 +1,5 @@
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { ErrorHandler, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -43,7 +43,12 @@ import { AuthInterceptor } from './interceptors/auth-interceptor';
 import { GlobalErrorsHandler } from './interceptors/global-errors-handler';
 import { ConvertBalancePipe } from './pipes/convertBalance.pipe';
 import { AutoLogoutService } from './services/auto-logout.service';
+import { SettingsHttpService } from './services/settings-http.service';
 import { UploadFileComponent } from './uploadFile/uploadFile.component';
+
+export function app_Init(settingsHttpService: SettingsHttpService) {
+  return () => settingsHttpService.initializeApp();
+}
 
 @NgModule({
   declarations: [
@@ -95,6 +100,7 @@ import { UploadFileComponent } from './uploadFile/uploadFile.component';
   providers: [
     AutoLogoutService,
     AuthGuard,
+    { provide: APP_INITIALIZER, useFactory: app_Init, deps: [SettingsHttpService], multi: true },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

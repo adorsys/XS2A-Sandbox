@@ -8,6 +8,7 @@ import { InfoService } from '../../../commons/info/info.service';
 import { AuthService } from '../../../services/auth.service';
 import { CertGenerationService } from '../../../services/cert-generation.service';
 import { CustomizeService } from '../../../services/customize.service';
+import { SettingsService } from '../../../services/settings.service';
 
 @Component({
     selector: 'app-register',
@@ -29,6 +30,7 @@ export class RegisterComponent implements OnInit {
                 private infoService: InfoService,
                 private router: Router,
                 private formBuilder: FormBuilder,
+                private settingsService: SettingsService,
                 public customizeService: CustomizeService) {
     }
 
@@ -38,6 +40,10 @@ export class RegisterComponent implements OnInit {
 
     getCertificateValue(event) {
         this.certificateValue = event;
+    }
+
+    get isCertificateGeneratorEnabled() {
+      return this.settingsService.settings.certGenEnabled;
     }
 
     public onSubmit(): void {

@@ -93,17 +93,19 @@
                   </div>
               </div>
 
-              <div class="form-check">
-                  <input (change)="generateCertificate = !generateCertificate"
-                         [checked]="generateCertificate"
-                         class="form-check-input"
-                         id="generateCertificate"
-                         type="checkbox">
-                  <label class="form-check-label" for="generateCertificate">Generate Certificate</label>
-              </div>
+              <div *ngIf="isCertificateGeneratorEnabled">
+                  <div class="form-check">
+                      <input (change)="generateCertificate = !generateCertificate"
+                            [checked]="generateCertificate"
+                            class="form-check-input"
+                            id="generateCertificate"
+                            type="checkbox">
+                      <label class="form-check-label" for="generateCertificate">Generate Certificate</label>
+                  </div>
 
-              <div *ngIf="generateCertificate" class="">
-                  <app-certificate (certificateValue)="getCertificateValue($event)"></app-certificate>
+                  <div *ngIf="generateCertificate" class="">
+                      <app-certificate (certificateValue)="getCertificateValue($event)"></app-certificate>
+                  </div>
               </div>
           </div>
 

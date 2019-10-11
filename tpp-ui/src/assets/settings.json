@@ -1,0 +1,4 @@
+{
+  "certGenUrl": "http://localhost:8092",
+  "certGenEnabled": "true"
+}
