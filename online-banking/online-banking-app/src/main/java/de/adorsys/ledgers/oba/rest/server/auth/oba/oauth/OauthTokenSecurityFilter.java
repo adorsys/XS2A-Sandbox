@@ -9,6 +9,7 @@ import de.adorsys.ledgers.oba.rest.server.auth.oba.RestException;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
@@ -40,7 +41,7 @@ public class OauthTokenSecurityFilter extends AbstractAuthFilter {
                                               .orElseThrow(() -> new RestException("Couldn't get bearer token"));
 
             response.setStatus(HttpServletResponse.SC_OK);
-            response.setHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE);
+            response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
             response.getWriter().print(mapper.writeValueAsString(bearerTokenTO));
         } catch (FeignException | RestException e) {
             handleAuthenticationFailure(response, "Couldn't get bearer token");

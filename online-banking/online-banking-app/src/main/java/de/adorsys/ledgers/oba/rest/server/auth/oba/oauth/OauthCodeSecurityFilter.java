@@ -7,6 +7,7 @@ import de.adorsys.ledgers.oba.rest.server.auth.oba.AbstractAuthFilter;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
@@ -36,7 +37,7 @@ public class OauthCodeSecurityFilter extends AbstractAuthFilter {
             ResponseEntity<OauthCodeResponseTO> oauthCodeResponse = oauthRestClient.oauthCode(login, pin, redirectUrl);
 
             response.setStatus(HttpServletResponse.SC_OK);
-            response.setHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE);
+            response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
             response.getWriter().print(mapper.writeValueAsString(oauthCodeResponse.getBody()));
         } catch (FeignException e) {
             handleAuthenticationFailure(response, "Couldn't get oauth code");

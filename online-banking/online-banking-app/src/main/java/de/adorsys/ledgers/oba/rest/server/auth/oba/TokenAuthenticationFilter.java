@@ -6,6 +6,7 @@ import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 
 import javax.servlet.FilterChain;
@@ -15,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-import static de.adorsys.ledgers.oba.rest.server.auth.oba.SecurityConstant.AUTHORIZATION_HEADER;
 import static de.adorsys.ledgers.oba.rest.server.auth.oba.SecurityConstant.BEARER_TOKEN_PREFIX;
 
 @RequiredArgsConstructor
@@ -51,7 +51,7 @@ public class TokenAuthenticationFilter extends AbstractAuthFilter {
     }
 
     private String resolveBearerToken(HttpServletRequest request) {
-        return Optional.ofNullable(obtainFromHeader(request, AUTHORIZATION_HEADER))
+        return Optional.ofNullable(obtainFromHeader(request, HttpHeaders.AUTHORIZATION))
                    .filter(StringUtils::isNotBlank)
                    .filter(t -> StringUtils.startsWithIgnoreCase(t, BEARER_TOKEN_PREFIX))
                    .map(t -> StringUtils.substringAfter(t, BEARER_TOKEN_PREFIX))

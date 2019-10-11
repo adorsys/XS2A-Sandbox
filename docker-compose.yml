@@ -13,7 +13,7 @@ services:
 
   # Xs2a connector example
   xs2a-connector-examples:
-    image: adorsys/xs2a-connector-examples:5.0
+    image: adorsys/xs2a-connector-examples:5.1.2
     container_name: xs2a-connector-examples
     restart: on-failure
     ports:
@@ -34,7 +34,7 @@ services:
 
   # Xs2a aspsp profile
   xs2a-aspsp-profile:
-    image: adorsys/xs2a-aspsp-profile:5.0.1
+    image: adorsys/xs2a-aspsp-profile:5.1
     container_name: xs2a-aspsp-profile
     restart: on-failure
     environment:
@@ -50,7 +50,7 @@ services:
 
   # Consent management
   xs2a-consent-management:
-    image: adorsys/xs2a-consent-management:5.0.1
+    image: adorsys/xs2a-consent-management:5.1
     container_name: xs2a-consent-management
     restart: on-failure
     ports:

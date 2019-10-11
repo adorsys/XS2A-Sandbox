@@ -5,6 +5,7 @@ import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.oba.rest.server.auth.MiddlewareAuthentication;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -40,7 +41,7 @@ public abstract class AbstractAuthFilter extends OncePerRequestFilter {
                                        .buildContent(UNAUTHORIZED.value(), message);
 
         response.setStatus(UNAUTHORIZED.value());
-        response.setHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE);
+        response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         response.getOutputStream().println(objectMapper.writeValueAsString(data));
     }
 
