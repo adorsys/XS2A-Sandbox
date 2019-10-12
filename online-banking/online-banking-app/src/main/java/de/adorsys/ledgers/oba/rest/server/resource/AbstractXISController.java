@@ -1,7 +1,10 @@
 package de.adorsys.ledgers.oba.rest.server.resource;
 
+import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
+import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.api.service.TokenStorageService;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
+import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.ledgers.oba.rest.api.consentref.ConsentReference;
 import de.adorsys.ledgers.oba.rest.api.consentref.ConsentReferencePolicy;
 import de.adorsys.ledgers.oba.rest.api.consentref.ConsentType;
@@ -41,6 +44,8 @@ public abstract class AbstractXISController {
     protected HttpServletResponse response;
     @Autowired
     protected MiddlewareAuthentication auth;
+    @Autowired
+    protected UserMgmtRestClient userMgmtRestClient;
 
     @Value("${online-banking.sca.loginpage:http://localhost:4400/}")
     private String loginPage;
@@ -88,7 +93,10 @@ public abstract class AbstractXISController {
                                .map(t -> StringUtils.substringAfter(t, BEARER_TOKEN_PREFIX))
                                .orElse(null);
             // 2. Set cookies
-            responseUtils.setCookies(response, consentReference, token, null);
+            AccessTokenTO tokenTO = Optional.ofNullable(token).map(t -> userMgmtRestClient.validate(t).getBody())
+                                        .map(BearerTokenTO::getAccessTokenObject)
+                                        .orElse(null);
+            responseUtils.setCookies(response, consentReference, token, tokenTO);
             if (StringUtils.isNotBlank(token)) {
                 response.addHeader(HttpHeaders.AUTHORIZATION, token);
             }
