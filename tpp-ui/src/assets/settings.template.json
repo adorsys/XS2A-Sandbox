@@ -1,4 +1,3 @@
 {
-  "certGenUrl": "${CERT_GEN_URL}",
-  "certGenEnabled": "TRUE"
+  "certGenEnabled": "${CERT_GEN_ENABLED}"
 }

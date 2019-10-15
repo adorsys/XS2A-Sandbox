@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+import { coerceBooleanProperty } from '../commons/utils/utils';
 import { Settings } from '../models/settings.model';
 import { SettingsService } from './settings.service';
 
@@ -18,10 +19,10 @@ export class SettingsHttpService {
           .toPromise()
           .then((response: Settings) => {
               this.settingsService.settings = response;
-              this.settingsService.settings.certGenEnabled = !!response.certGenUrl.trim();
+              this.settingsService.settings.certGenEnabled = coerceBooleanProperty(response.certGenEnabled);
               resolve();
             }
-          )
+          );
       }
     );
   }
