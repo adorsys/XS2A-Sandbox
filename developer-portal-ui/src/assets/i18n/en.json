@@ -47,7 +47,7 @@
       "TITLE": "PSD2 and Open Banking",
       "THE": "The",
       "LINK": "Payment Service Directive 2 (PSD2)",
-      "CONTENT": "instructs banks (Account Servicing Payment Service Providers or ASPSPs) to\n provide a fully productive Access-to-Account (XS2A) interface to Third Party\n Providers (TPPs) until September 2019. XS2A itself consists of banking\n services to initiate payments (PIS), request account data (AIS) and get the\n confirmation of the availability of funds (PIIS). In order to guarantee the\n compliance of this deadline due to adaptations and bugs, PSD2 claims the\n banks to provide a functional dynamic sandbox offering the XS2A services in\n a non-productive environment until June 2019."
+      "CONTENT": "instructs banks (Account Servicing Payment Service Providers or ASPSPs) to\n provide a fully productive Access-to-Account (XS2A) interface to Third Party\n Providers (TPPs) until March 2020. XS2A itself consists of banking\n services to initiate payments (PIS), request account data (AIS) and get the\n confirmation of the availability of funds (PIIS). In order to guarantee the\n compliance of this deadline due to adaptations and bugs, PSD2 claims the\n banks to provide a functional dynamic sandbox offering the XS2A services in\n a non-productive environment until June 2019."
     },
     "FEATURES": {
       "TITLE": "XS2ASandbox Features",
@@ -123,7 +123,7 @@
       "CONTENT": {
         "THE_1": "The",
         "LINK": "Payment Service Directive 2 (PSD2)",
-        "PART_1": "instructs banks (Account Servicing Payment Service Providers or ASPSPs) to\n provide a fully productive Access-to-Account (XS2A) interface to Third\n Party Providers (TPPs) until September 2019. XS2A itself consists of\n banking services to initiate payments (PIS), request account data (AIS)\n and get the confirmation of the availability of funds (PIIS). In order to\n guarantee the compliance of this deadline due to adaptions and bugs, PSD2\n claims the banks to provide a functional dynamic sandbox offering the XS2A\n services in a non-productive environment until June 2019.",
+        "PART_1": "instructs banks (Account Servicing Payment Service Providers or ASPSPs) to\n provide a fully productive Access-to-Account (XS2A) interface to Third\n Party Providers (TPPs) until March 2020. XS2A itself consists of\n banking services to initiate payments (PIS), request account data (AIS)\n and get the confirmation of the availability of funds (PIIS). In order to\n guarantee the compliance of this deadline due to adaptions and bugs, PSD2\n claims the banks to provide a functional dynamic sandbox offering the XS2A\n services in a non-productive environment until June 2019.",
         "THE_2": "The",
         "XS2A": "XS2ASandbox",
         "PART_2": "is a dynamic sandbox environment\n that fully meets the PSD2 requirements for providing APIs for Third-Party\n Providers (TPP). Based on the Berlin Group’s NextGen PSD2 specification\n for access to accounts (XS2A),",
