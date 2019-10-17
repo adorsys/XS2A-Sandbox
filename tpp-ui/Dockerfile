@@ -5,7 +5,11 @@ LABEL maintainer="https://github.com/adorsys/xs2a"
 ENV NGINX_ACCESS_LOG_DEBUG combined
 ENV NGINX_ERROR_LOG_DEBUG error
 
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf.template
+RUN \
+  apt-get update && \
+  apt-get install -y ruby
+
+COPY ./nginx.conf.erb /etc/nginx/conf.d/default.conf.erb
 COPY entry.sh /opt/entry.sh
 ADD dist/tpp-ui /usr/share/nginx/html
 
