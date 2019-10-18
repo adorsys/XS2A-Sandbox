@@ -1,5 +1,4 @@
-[[section-deployment-view]]
-:imagesdir: ../images
+[[section-oauth2-presteps]]
 
 == Test oAuth 2.0 Pre-Steps
 
