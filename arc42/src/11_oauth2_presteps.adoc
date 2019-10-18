@@ -1,0 +1,71 @@
+[[section-deployment-view]]
+:imagesdir: ../images
+
+== Test oAuth 2.0 Pre-Steps
+
+[role="arc42help"]
+****
+.Contents
+A short step by step instruction how to test oAuth 2.0 pre-steps in the Dynamic Sandbox with Postman.
+****
+
+=== oAuth 2.0 Flow
+
+.oauth2_pre-authentication
+image::oauth2_pre-authentication.png[Flow of oAuth2 with pre-Authentication, 100%, align="center"]
+
+=== Step by Step
+These steps are for the developer environment and not the DEMO.
+
+[start=1]
+. Click on https://dev-dynamicsandbox-tppui.cloud.adorsys.de/login and create new TPP account. For our example we named the TPP _tppoauth_.
+
+. Login with the new TPP _tppoauth_ and click on "My user list".
+
+. Create a new user with a static TAN. In our example the user is named _oauth_ and we set 123456 as static TAN.
+
+. Create a new deposit account with a generated IBAN for the user _oauth_.
+
+. Open following link in your browser: https://dev-dynamicsandbox-onlinebankingui.cloud.adorsys.de/auth/authorize?redirect_uri=https:%2F%2Fgoogle.com
+(with this step you receive the auth code)
+
+. Login/Authorize there as user _oauth_.
+
+. Grab the code from the end of the redirected URL. In our example the URL is https://www.google.com/?code=uiQETnDxIySz0J69SlFW4waJ and the resulting code `uiQETnDxIySz0J69SlFW4waJ`.
+
+. Open postman, import following data “pre step oauth.postman_collection.json” and “Xs2a DEV ENV.postman_environment.json”. Then, switch environment to `Xs2a DEV ENV`.
+
+. Click on Manage environments and select `Xs2a DEV ENV`. Then, set `psuidOauth` as your user and update your environment. In our example, it is `psuidOauth = oauth`.
+
+. Click on POST request “Exchange oauth code” in your collection, put the code you grabbed in Step 7 into header “code” param and press on SEND button.
+
+. Copy and save the access token from the respond.
+
+. Click on second POST request “Creates AIS consent” and there on the Send button.
+
+. Grab the URL from the scaRedirect url response and add the following parameter to this url: `&token=<access token from the previous response>`. The enlarged URL looks like this:
+`https://dev-dynamicsandbox-onlinebankingui.cloud.adorsys.de/account-information/login?encryptedConsentId=ADp5DYDtjeE7PQ2BkZChxgdLMEG9OOnRK_k6a46EEUeJX3lyyWG5oIJeOJ6aT1cBtoRzM71tKox1lQSm6c1vFMz9MpaJIQIH3NJX8IHgetw=_=_psGLvQpt9Q&redirectId=95d740dd-e249-407d-bd65-edfc234c1282&token=eyJraWQiOiJ2Y0xxNzRzX1QwQWxsbUU4OGh6enBVIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiJvVXV2THhzMFNaTWo4emJSRmdUZE1RIiwidG9rZW5fdXNhZ2UiOiJMT0dJTiIsInJvbGUiOiJDVVNUT01FUiIsInNjYV9pZCI6IjA5V1lOb2g3UmZJdE1YMzZzU05JcXMiLCJhdXRob3Jpc2F0aW9uX2lkIjoiMDlXWU5vaDdSZkl0TVgzNnNTTklxcyIsImV4cCI6MTU3MTI5Njk4MCwibG9naW4iOiJvYXV0aCIsImlhdCI6MTU3MTI5NjY4MCwianRpIjoic3hwNEhpZXlUWUVoMVl1aDVhRkdIdyJ9.GucqJdgv5EHspAJavqvILJA1OqQvU4PK5ScUJCPDw-g`
+
+. Open this enlarged URL in the web browser. Pay attention, that the confirmation page appears. There is no need to login a second time.
+
+. Press the Next and afterwards the Send button and confirm the consent with the user’s static TAN.
+
+. Open the OBA UI https://dev-dynamicsandbox-onlinebankingui.cloud.adorsys.de and login as user _oauth_.
+
+. By clicking on "Consents" and the new created consent can be seen in the list.
+
+
+=== Unsuccessful path
+
+[start=12]
+. Click on POST request “Create AIS consent” in Postman and switch off “Authorization” param from the header.
+
+. Press on SEND button and receive following error as response:
+[source,ruby]
+----
+{
+    "category": "ERROR",
+    "code": "TOKEN_INVALID",
+    "text": "The OAuth2 token is associated to the TPP but is not valid for the addressed service/resource"
+}
+----
