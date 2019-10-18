@@ -11,7 +11,7 @@ A short step by step instruction how to test oAuth 2.0 pre-steps in the Dynamic 
 
 === oAuth 2.0 Flow
 
-.Flow of oAuth2 with pre-Authentication
+.oauth2_pre-authentication
 image::oauth2_pre-authentication.png[Flow of oAuth2 with pre-Authentication, 100%, align="center"]
 
 '''
