@@ -3,7 +3,7 @@
 
 === Introduction
 
-The https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32015L2366&from=EN[Payment Service Directive 2 (PSD2)] instructs banks to provide a fully productive Access-to-Account (XS2A) interface to Third Party Provider (TPPs) until September 2019. XS2A itself consists of banking services to initiate payments (PIS), request account data (AIS) and get the confirmation of the availability of funds (PIIS). In order to guarantee the compliance of this deadline due to adaptions and bugs, PSD2 claims the banks to provide a functional sandbox offering the XS2A services in a non-productive environment until March 2019.
+The https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32015L2366&from=EN[Payment Service Directive 2 (PSD2)] instructs banks to provide a fully productive Access-to-Account (XS2A) interface to Third Party Provider (TPPs) until March 2020. XS2A itself consists of banking services to initiate payments (PIS), request account data (AIS) and get the confirmation of the availability of funds (PIIS). In order to guarantee the compliance of this deadline due to adaptions and bugs, PSD2 claims the banks to provide a functional sandbox offering the XS2A services in a non-productive environment until March 2019.
 
 
 ==== Details about PSD2
