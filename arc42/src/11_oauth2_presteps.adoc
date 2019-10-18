@@ -33,7 +33,7 @@ These steps are for the developer environment and not the DEMO.
 
 . Grab the code from the end of the redirected URL. In our example the URL is https://www.google.com/?code=uiQETnDxIySz0J69SlFW4waJ and the resulting code `uiQETnDxIySz0J69SlFW4waJ`.
 
-. Open postman, import following data “pre step oauth.postman_collection.json” and “Xs2a DEV ENV.postman_environment.json”. Then, switch environment to `Xs2a DEV ENV`.
+. Open postman, import following data  link:postman_collection_oauth2_prestep.json[oAuth Collection] and link:postman_environment_dev.json[environment] from our postman-scripts. Then, switch environment to `Xs2a DEV ENV`.
 
 . Click on Manage environments and select `Xs2a DEV ENV`. Then, set `psuidOauth` as your user and update your environment. In our example, it is `psuidOauth = oauth`.
 
@@ -44,8 +44,12 @@ These steps are for the developer environment and not the DEMO.
 . Click on second POST request “Creates AIS consent” and there on the Send button.
 
 . Grab the URL from the scaRedirect url response and add the following parameter to this url: `&token=<access token from the previous response>`. The enlarged URL looks like this:
-`https://dev-dynamicsandbox-onlinebankingui.cloud.adorsys.de/account-information/login?encryptedConsentId=ADp5DYDtjeE7PQ2BkZChxgdLMEG9OOnRK_k6a46EEUeJX3lyyWG5oIJeOJ6aT1cBtoRzM71tKox1lQSm6c1vFMz9MpaJIQIH3NJX8IHgetw=_=_psGLvQpt9Q&redirectId=95d740dd-e249-407d-bd65-edfc234c1282&token=eyJraWQiOiJ2Y0xxNzRzX1QwQWxsbUU4OGh6enBVIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiJvVXV2THhzMFNaTWo4emJSRmdUZE1RIiwidG9rZW5fdXNhZ2UiOiJMT0dJTiIsInJvbGUiOiJDVVNUT01FUiIsInNjYV9pZCI6IjA5V1lOb2g3UmZJdE1YMzZzU05JcXMiLCJhdXRob3Jpc2F0aW9uX2lkIjoiMDlXWU5vaDdSZkl0TVgzNnNTTklxcyIsImV4cCI6MTU3MTI5Njk4MCwibG9naW4iOiJvYXV0aCIsImlhdCI6MTU3MTI5NjY4MCwianRpIjoic3hwNEhpZXlUWUVoMVl1aDVhRkdIdyJ9.GucqJdgv5EHspAJavqvILJA1OqQvU4PK5ScUJCPDw-g`
 
+----
+https://dev-dynamicsandbox-onlinebankingui.cloud.adorsys.de/account-information/login?encryptedConsentId=ADp5DYDtjeE7PQ2BkZChxgdLMEG9OOnRK_k6a46EEUeJX3lyyWG5oIJeOJ6aT1cBtoRzM71tKox1lQSm6c1vFMz9MpaJIQIH3NJX8IHgetw=_=_psGLvQpt9Q&redirectId=95d740dd-e249-407d-bd65-edfc234c1282&token=eyJraWQiOiJ2Y0xxNzRzX1QwQWxsbUU4OGh6enBVIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiJvVXV2THhzMFNaTWo4emJSRmdUZE1RIiwidG9rZW5fdXNhZ2UiOiJMT0dJTiIsInJvbGUiOiJDVVNUT01FUiIsInNjYV9pZCI6IjA5V1lOb2g3UmZJdE1YMzZzU05JcXMiLCJhdXRob3Jpc2F0aW9uX2lkIjoiMDlXWU5vaDdSZkl0TVgzNnNTTklxcyIsImV4cCI6MTU3MTI5Njk4MCwibG9naW4iOiJvYXV0aCIsImlhdCI6MTU3MTI5NjY4MCwianRpIjoic3hwNEhpZXlUWUVoMVl1aDVhRkdIdyJ9.GucqJdgv5EHspAJavqvILJA1OqQvU4PK5ScUJCPDw-g
+----
+
+[start=14]
 . Open this enlarged URL in the web browser. Pay attention, that the confirmation page appears. There is no need to login a second time.
 
 . Press the Next and afterwards the Send button and confirm the consent with the user’s static TAN.
