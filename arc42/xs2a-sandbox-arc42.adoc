@@ -73,6 +73,10 @@ include::src/09_glossary.adoc[]
 // 10. Meta
 include::src/10_meta.adoc[]
 
+<<<<
+// 11. oAuth 2.0 pre-steps
+include::src/11_oauth2_presteps.adoc[]
+
 ***
 
 include::src/about-arc42.adoc[]
