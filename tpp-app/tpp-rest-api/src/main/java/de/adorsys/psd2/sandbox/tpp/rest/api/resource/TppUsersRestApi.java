@@ -23,7 +23,7 @@ public interface TppUsersRestApi {
         notes = "Endpoint to lists users for a given TPP",
         authorizations = @Authorization(value = "apiKey"))
     @GetMapping
-    ResponseEntity<CustomPageImpl<UserTO>> getAllUsers(@RequestParam String queryParam, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "25") int size);
+    ResponseEntity<CustomPageImpl<UserTO>> getAllUsers(@RequestParam(required = false, defaultValue = "") String queryParam, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "25") int size);
 
     @ApiOperation(value = "Update user for a given TPP",
         notes = "Endpoint to update a user for a given TPP",
