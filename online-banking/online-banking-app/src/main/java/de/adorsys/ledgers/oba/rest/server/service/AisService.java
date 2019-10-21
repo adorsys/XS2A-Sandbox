@@ -4,6 +4,7 @@ import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
 import de.adorsys.ledgers.middleware.api.domain.account.TransactionTO;
 import de.adorsys.ledgers.middleware.client.rest.AccountRestClient;
 import de.adorsys.ledgers.oba.rest.api.exception.AisException;
+import de.adorsys.ledgers.util.domain.CustomPageImpl;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +45,18 @@ public class AisService {
         try {
             return Optional.ofNullable(accountRestClient.getTransactionByDates(accountId, dateFrom, dateTo).getBody())
                        .orElse(Collections.emptyList());
+        } catch (FeignException e) {
+            String msg = String.format(GET_TRANSACTIONS_ERROR_MSG, accountId, e.status(), e.getMessage());
+            log.error(msg);
+            throw AisException.builder()
+                      .devMessage(RESPONSE_ERROR)
+                      .aisErrorCode(AIS_BAD_REQUEST).build();
+        }
+    }
+
+    public CustomPageImpl<TransactionTO> getTransactions(String accountId, LocalDate dateFrom, LocalDate dateTo, int page, int size) {
+        try {
+            return accountRestClient.getTransactionByDatesPaged(accountId, dateFrom, dateTo, page, size).getBody();
         } catch (FeignException e) {
             String msg = String.format(GET_TRANSACTIONS_ERROR_MSG, accountId, e.status(), e.getMessage());
             log.error(msg);

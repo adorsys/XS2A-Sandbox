@@ -540,7 +540,6 @@ public class AISController extends AbstractXISController implements AISApi {
         String redirectId = consentReference.getRedirectId();
         // 4. After user login:
         ResponseEntity<CmsAisConsentResponse> responseEntity = cmsPsuAisClient.getConsentByRedirectId(psuId, psuIdType, psuCorporateId, psuCorporateIdType, redirectId, DEFAULT_SERVICE_INSTANCE_ID);
-
         HttpStatus statusCode = responseEntity.getStatusCode();
 
         if (HttpStatus.OK.equals(statusCode)) {

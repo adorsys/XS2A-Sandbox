@@ -2,6 +2,7 @@ package de.adorsys.ledgers.oba.rest.api.resource.oba;
 
 import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
 import de.adorsys.ledgers.middleware.api.domain.account.TransactionTO;
+import de.adorsys.ledgers.util.domain.CustomPageImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
@@ -36,15 +37,32 @@ public interface ObaAisApi {
     @GetMapping(path = "/account/{accountId}")
     @ApiOperation(value = "Get account details by account id", authorizations = @Authorization(value = "apiKey"))
     ResponseEntity<AccountDetailsTO> account(@PathVariable(name = "accountId") String accountId);
+
+    /**
+     * @param accountId selected accounts id
+     * @param dateFrom  date from which the user requests to see transactions
+     * @param dateTo    date until which user requests to see transactions
+     * @return List of transactions for account
+     *
+     * @deprecated Shall be deprecated upon next release
+     */
+    @Deprecated
+    @GetMapping(path = "/transactions/{accountId}")
+    @ApiOperation(value = "Get List of transactions for queried account per dates selected", authorizations = @Authorization(value = "apiKey"))
+    ResponseEntity<List<TransactionTO>> transactions(@PathVariable(name = "accountId") String accountId,
+                                                     @RequestParam(name = DATE_FROM_QUERY_PARAM, required = false) @DateTimeFormat(pattern = LOCAL_DATE_YYYY_MM_DD_FORMAT) LocalDate dateFrom,
+                                                     @RequestParam(name = DATE_TO_QUERY_PARAM, required = false) @DateTimeFormat(pattern = LOCAL_DATE_YYYY_MM_DD_FORMAT) LocalDate dateTo);
+
     /**
      * @param accountId selected accounts id
      * @param dateFrom  date from which the user requests to see transactions
      * @param dateTo    date until which user requests to see transactions
      * @return List of transactions for account
      */
-    @GetMapping(path = "/transactions/{accountId}")
-    @ApiOperation(value = "Get List of transactions for queried account per dates selected", authorizations = @Authorization(value = "apiKey"))
-    ResponseEntity<List<TransactionTO>> transactions(@PathVariable(name = "accountId") String accountId,
-                                                     @RequestParam(name = DATE_FROM_QUERY_PARAM, required = false) @DateTimeFormat(pattern = LOCAL_DATE_YYYY_MM_DD_FORMAT) LocalDate dateFrom,
-                                                     @RequestParam(name = DATE_TO_QUERY_PARAM, required = false) @DateTimeFormat(pattern = LOCAL_DATE_YYYY_MM_DD_FORMAT) LocalDate dateTo);
+    @GetMapping(path = "/v1/transactions/{accountId}")
+    @ApiOperation(value = "Get List of transactions for queried account per dates selected, paged view", authorizations = @Authorization(value = "apiKey"))
+    ResponseEntity<CustomPageImpl<TransactionTO>> transactions(@PathVariable(name = "accountId") String accountId,
+                                                               @RequestParam(name = DATE_FROM_QUERY_PARAM, required = false) @DateTimeFormat(pattern = LOCAL_DATE_YYYY_MM_DD_FORMAT) LocalDate dateFrom,
+                                                               @RequestParam(name = DATE_TO_QUERY_PARAM, required = false) @DateTimeFormat(pattern = LOCAL_DATE_YYYY_MM_DD_FORMAT) LocalDate dateTo,
+                                                               @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "25") int size);
 }

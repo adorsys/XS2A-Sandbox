@@ -3,7 +3,7 @@ package de.adorsys.psd2.sandbox.tpp.rest.server.controller;
 import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
-import de.adorsys.ledgers.middleware.rest.utils.CustomPageImpl;
+import de.adorsys.ledgers.util.domain.CustomPageImpl;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.User;
 import de.adorsys.psd2.sandbox.tpp.rest.api.resource.TppUsersRestApi;
 import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
@@ -34,8 +34,8 @@ public class TppUsersController implements TppUsersRestApi {
     }
 
     @Override
-    public ResponseEntity<CustomPageImpl<UserTO>> getAllUsers(int page, int size) {
-        return ResponseEntity.ok(userMgmtStaffRestClient.getBranchUsersByRoles(singletonList(CUSTOMER), page, size).getBody());
+    public ResponseEntity<CustomPageImpl<UserTO>> getAllUsers(String queryParam, int page, int size) {
+        return ResponseEntity.ok(userMgmtStaffRestClient.getBranchUsersByRoles(singletonList(CUSTOMER), queryParam, page, size).getBody());
     }
 
     // TODO resolve 'branch' on Ledgers side
