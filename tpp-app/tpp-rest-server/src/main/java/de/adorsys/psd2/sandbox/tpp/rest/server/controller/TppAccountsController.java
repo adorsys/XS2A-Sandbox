@@ -4,6 +4,7 @@ import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
 import de.adorsys.ledgers.middleware.api.domain.payment.AmountTO;
 import de.adorsys.ledgers.middleware.client.rest.AccountMgmtStaffRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
+import de.adorsys.ledgers.util.domain.CustomPageImpl;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.AccountAccess;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.AccountReport;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.DepositAccount;
@@ -44,6 +45,11 @@ public class TppAccountsController implements TppAccountsRestApi {
     @Override
     public ResponseEntity<List<AccountDetailsTO>> getAllAccounts() {
         return accountMgmtStaffRestClient.getListOfAccounts();
+    }
+
+    @Override
+    public ResponseEntity<CustomPageImpl<AccountDetailsTO>> getAllAccounts(int page, int size) {
+        return accountMgmtStaffRestClient.getListOfAccountsPaged(page, size);
     }
 
     @Override

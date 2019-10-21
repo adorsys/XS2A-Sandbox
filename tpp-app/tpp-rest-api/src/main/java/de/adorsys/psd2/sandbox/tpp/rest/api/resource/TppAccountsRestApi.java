@@ -3,6 +3,7 @@ package de.adorsys.psd2.sandbox.tpp.rest.api.resource;
 import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
 import de.adorsys.ledgers.middleware.api.domain.account.AccountReportTO;
 import de.adorsys.ledgers.middleware.api.domain.payment.AmountTO;
+import de.adorsys.ledgers.util.domain.CustomPageImpl;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.AccountAccess;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.AccountReport;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.DepositAccount;
@@ -43,6 +44,20 @@ public interface TppAccountsRestApi {
     })
     @GetMapping
     ResponseEntity<List<AccountDetailsTO>> getAllAccounts();
+
+    /**
+     * Returns the list of accounts that belong to the same branch as STAFF user, paged view.
+     *
+     * @return list of accounts that belongs to the same branch as staff user.
+     */
+    @ApiOperation(value = "Get list of Accessible Accounts, paged view",
+        notes = "Returns the list of all accounts connected to the given TPP",
+        authorizations = @Authorization(value = "apiKey"))
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, response = AccountDetailsTO[].class, message = "List of accounts accessible to the TPP.")
+    })
+    @GetMapping("/page")
+    ResponseEntity<CustomPageImpl<AccountDetailsTO>> getAllAccounts(@RequestParam(required = false, defaultValue = "0") int page, @RequestParam(required = false, defaultValue = "25") int size);
 
     /**
      * Returns a single account by its ID if it belong to the same branch as STAFF user.

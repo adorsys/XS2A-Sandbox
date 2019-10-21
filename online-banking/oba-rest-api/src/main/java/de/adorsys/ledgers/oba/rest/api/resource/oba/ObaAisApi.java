@@ -43,10 +43,7 @@ public interface ObaAisApi {
      * @param dateFrom  date from which the user requests to see transactions
      * @param dateTo    date until which user requests to see transactions
      * @return List of transactions for account
-     *
-     * @deprecated Shall be deprecated upon next release
      */
-    @Deprecated
     @GetMapping(path = "/transactions/{accountId}")
     @ApiOperation(value = "Get List of transactions for queried account per dates selected", authorizations = @Authorization(value = "apiKey"))
     ResponseEntity<List<TransactionTO>> transactions(@PathVariable(name = "accountId") String accountId,
@@ -59,10 +56,10 @@ public interface ObaAisApi {
      * @param dateTo    date until which user requests to see transactions
      * @return List of transactions for account
      */
-    @GetMapping(path = "/v1/transactions/{accountId}")
+    @GetMapping(path = "/transactions/{accountId}/page")
     @ApiOperation(value = "Get List of transactions for queried account per dates selected, paged view", authorizations = @Authorization(value = "apiKey"))
     ResponseEntity<CustomPageImpl<TransactionTO>> transactions(@PathVariable(name = "accountId") String accountId,
                                                                @RequestParam(name = DATE_FROM_QUERY_PARAM, required = false) @DateTimeFormat(pattern = LOCAL_DATE_YYYY_MM_DD_FORMAT) LocalDate dateFrom,
                                                                @RequestParam(name = DATE_TO_QUERY_PARAM, required = false) @DateTimeFormat(pattern = LOCAL_DATE_YYYY_MM_DD_FORMAT) LocalDate dateTo,
-                                                               @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "25") int size);
+                                                               @RequestParam(required = false, defaultValue = "0") int page, @RequestParam(required = false, defaultValue = "25") int size);
 }

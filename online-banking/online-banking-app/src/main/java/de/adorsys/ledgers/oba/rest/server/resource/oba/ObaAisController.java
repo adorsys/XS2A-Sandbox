@@ -40,6 +40,6 @@ public class ObaAisController implements ObaAisApi {
 
     @Override
     public ResponseEntity<CustomPageImpl<TransactionTO>> transactions(String accountId, LocalDate dateFrom, LocalDate dateTo, int page, int size) {
-        return ResponseEntity.ok(aisService.getTransactions(accountId,dateFrom,dateTo, page, size));
+        return ResponseEntity.ok(aisService.getTransactions(accountId, dateFrom, dateTo, page, size));
     }
 }
