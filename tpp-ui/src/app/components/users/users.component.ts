@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { debounceTime } from 'rxjs/operators';
 
 import { User } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
@@ -10,7 +12,7 @@ import { UserService } from '../../services/user.service';
 })
 export class UsersComponent implements OnInit {
   users: User[];
-  userFilter: any = {login: ''};
+  searchForm: FormGroup;
   config: {itemsPerPage, currentPage, totalItems, maxSize} = {
     itemsPerPage: 10,
     currentPage: 1,
@@ -18,16 +20,23 @@ export class UsersComponent implements OnInit {
     maxSize: 7
   };
 
-  constructor(private userService: UserService) {
+  constructor(
+    private userService: UserService,
+    private formBuilder: FormBuilder) {
     this.users = [];
   }
 
   ngOnInit() {
+    this.searchForm = this.formBuilder.group({
+      query: ['', Validators.required]
+    });
     this.listUsers(this.config.currentPage, this.config.itemsPerPage);
+
+    this.onQueryUsers();
   }
 
-  listUsers(page: number, size: number) {
-    this.userService.listUsers(page - 1, size).subscribe(response => {
+  listUsers(page: number, size: number, queryParam: string = '') {
+    this.userService.listUsers(page - 1, size, queryParam).subscribe(response => {
       this.users = response.users;
       this.config.totalItems = response.totalElements;
     });
@@ -36,5 +45,11 @@ export class UsersComponent implements OnInit {
   pageChange(pageNumber: number) {
     this.config.currentPage = pageNumber;
     this.listUsers(pageNumber, this.config.itemsPerPage);
+  }
+
+  onQueryUsers() {
+    this.searchForm.valueChanges.pipe(debounceTime(750)).subscribe(form => {
+      this.listUsers(this.config.currentPage, this.config.itemsPerPage, form.query);
+    });
   }
 }
