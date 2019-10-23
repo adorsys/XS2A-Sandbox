@@ -3,8 +3,8 @@ import { AmountTO } from './amount-to';
 import { AccountReferenceTO } from './account-reference-to';
 import { ExchangeRateTO } from './exchange-rate-to';
 export interface TransactionTO {
+  entryReference?: string;
   amount?: AmountTO;
-  bankTransactionCode?: string;
   bookingDate?: string;
   checkId?: string;
   creditorAccount?: AccountReferenceTO;
@@ -13,7 +13,7 @@ export interface TransactionTO {
   debtorAccount?: AccountReferenceTO;
   debtorName?: string;
   endToEndId?: string;
-  entryReference?: string;
+  bankTransactionCode?: string;
   exchangeRate?: Array<ExchangeRateTO>;
   mandateId?: string;
   proprietaryBankTransactionCode?: string;

@@ -14,6 +14,7 @@ export { AuthorisationTemplate } from './models/authorisation-template';
 export { AuthorizeResponse } from './models/authorize-response';
 export { BulkPaymentTO } from './models/bulk-payment-to';
 export { ConsentAuthorizeResponse } from './models/consent-authorize-response';
+export { CustomPageImplTransactionTO } from './models/custom-page-impl-transaction-to';
 export { ExchangeRateTO } from './models/exchange-rate-to';
 export { LocalTime } from './models/local-time';
 export { ObaAisConsent } from './models/oba-ais-consent';
