@@ -44,12 +44,12 @@ export class UsersComponent implements OnInit {
 
   pageChange(pageNumber: number) {
     this.config.currentPage = pageNumber;
-    this.listUsers(pageNumber, this.config.itemsPerPage);
+    this.listUsers(pageNumber, this.config.itemsPerPage, this.searchForm.get('query').value);
   }
 
   onQueryUsers() {
     this.searchForm.valueChanges.pipe(debounceTime(750)).subscribe(form => {
-      this.listUsers(this.config.currentPage, this.config.itemsPerPage, form.query);
+      this.listUsers(1, this.config.itemsPerPage, form.query);
     });
   }
 }
