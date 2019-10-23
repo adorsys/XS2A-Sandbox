@@ -42,7 +42,7 @@ export class AccountDetailsComponent implements OnInit {
         ).subscribe((accountID: string) => {
                 this.accountID = accountID;
                 this.getAccountDetail();
-                this.getTransactions(this.config.currentPage, this.config.itemsPerPage);
+                this.refreshTransactions();
             }
         )
     }
@@ -50,6 +50,10 @@ export class AccountDetailsComponent implements OnInit {
     getAccountDetail() {
         this.onlineBankingService.getAccount(this.accountID)
             .subscribe((account: AccountDetailsTO) => this.account = account);
+    }
+
+    refreshTransactions() {
+        this.getTransactions(this.config.currentPage, this.config.itemsPerPage);
     }
 
     getTransactions(page: number, size: number) {

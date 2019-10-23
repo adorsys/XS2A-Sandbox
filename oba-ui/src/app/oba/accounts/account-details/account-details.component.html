@@ -57,7 +57,7 @@
         </div>
         <div class="col-2">
           <label>&nbsp;</label>
-          <button class="btn btn-primary btn-block" (click)="getTransactions(page, size)">Refresh</button>
+          <button class="btn btn-primary btn-block" (click)="refreshTransactions()">Refresh</button>
         </div>
       </div>
 
@@ -78,7 +78,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let transaction of transactions; index as i" routerLink="/transactions/{{transaction.id}}">
+          <tr *ngFor="let transaction of transactions; index as i">
               <th scope="row">{{((config.currentPage - 1) * config.itemsPerPage) + i + 1}}</th>
             <td>{{transaction.debtorAccount?.iban}}</td>
             <td>{{transaction.bookingDate}}</td>
