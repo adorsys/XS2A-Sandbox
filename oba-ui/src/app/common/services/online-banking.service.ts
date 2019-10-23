@@ -8,6 +8,7 @@ import { OnlineBankingAccountInformationService } from '../../api/services/onlin
 import { OnlineBankingAuthorizationService } from '../../api/services/online-banking-authorization.service';
 import { OnlineBankingConsentsService } from '../../api/services/online-banking-consents.service';
 import { AuthService } from './auth.service';
+import {CustomPageImplTransactionTO} from "../../api/models/custom-page-impl-transaction-to";
 
 @Injectable({
     providedIn: 'root'
@@ -33,7 +34,7 @@ export class OnlineBankingService {
         return this.onlineBankingAccountInfoService.accountUsingGET(accountID);
     }
 
-    public getTransactions(params: OnlineBankingAccountInformationService.TransactionsUsingGETParams): Observable<TransactionTO[]> {
+    public getTransactions(params: OnlineBankingAccountInformationService.TransactionsUsingGETParams): Observable<CustomPageImplTransactionTO> {
         return this.onlineBankingAccountInfoService.transactionsUsingGET(params);
     }
 

@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbDatepickerModule, NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { AuthService } from '../../../common/services/auth.service';
 import { AccountDetailsComponent } from './account-details.component';
@@ -15,7 +15,7 @@ describe('AccountDetailsComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [AccountDetailsComponent],
-            imports: [RouterTestingModule, HttpClientTestingModule, ReactiveFormsModule, NgbDatepickerModule],
+            imports: [RouterTestingModule, HttpClientTestingModule, ReactiveFormsModule, NgbDatepickerModule, NgbPaginationModule],
             providers: [TestBed.overrideProvider(AuthService, {useValue: authServiceSpy})]
         })
             .compileComponents();

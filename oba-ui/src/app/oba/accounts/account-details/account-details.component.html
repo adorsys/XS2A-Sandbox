@@ -78,8 +78,8 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let transaction of transactions; index as i">
-            <th scope="row">{{i + 1}}</th>
+          <tr *ngFor="let transaction of transactions; index as i" routerLink="/transactions/{{transaction.id}}">
+              <th scope="row">{{((config.currentPage - 1) * config.itemsPerPage) + i + 1}}</th>
             <td>{{transaction.debtorAccount?.iban}}</td>
             <td>{{transaction.bookingDate}}</td>
             <td>{{transaction.amount?.amount}} {{transaction.amount?.currency}}</td>
@@ -92,6 +92,10 @@
           </tr>
           </tbody>
         </table>
+        <div *ngIf="config && transactions && transactions.length > 0">
+          <ngb-pagination [collectionSize]="config.totalItems" [page]="config.currentPage" [boundaryLinks]="true" [pageSize]="config.itemsPerPage"
+                          [maxSize]="config.maxSize" (pageChange)="pageChange($event)" ></ngb-pagination>
+          </div>
       </div>
     </div>
   </div>

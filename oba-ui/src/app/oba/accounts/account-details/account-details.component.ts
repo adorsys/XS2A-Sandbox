@@ -18,6 +18,12 @@ export class AccountDetailsComponent implements OnInit {
     accountID: string;
     transactions: TransactionTO[];
     filtersGroup: FormGroup;
+    config: {itemsPerPage: number, currentPage: number, totalItems: number, maxSize: number} = {
+        itemsPerPage: 10,
+        currentPage: 1,
+        totalItems: 0,
+        maxSize: 7
+    };
 
     constructor(private router: Router,
                 private activatedRoute: ActivatedRoute,
@@ -36,7 +42,7 @@ export class AccountDetailsComponent implements OnInit {
         ).subscribe((accountID: string) => {
                 this.accountID = accountID;
                 this.getAccountDetail();
-                this.getTransactions();
+                this.getTransactions(this.config.currentPage, this.config.itemsPerPage);
             }
         )
     }
@@ -46,14 +52,23 @@ export class AccountDetailsComponent implements OnInit {
             .subscribe((account: AccountDetailsTO) => this.account = account);
     }
 
-    getTransactions() {
+    getTransactions(page: number, size: number) {
         const params = {
           accountId: this.accountID,
           dateFrom: ngbDateToString(this.filtersGroup.get('dateFrom').value),
-          dateTo: ngbDateToString(this.filtersGroup.get('dateTo').value)
+          dateTo: ngbDateToString(this.filtersGroup.get('dateTo').value),
+          page: page - 1,
+          size: size
         } as OnlineBankingAccountInformationService.TransactionsUsingGETParams;
         this.onlineBankingService.getTransactions(params)
-            .subscribe((transactions: TransactionTO[]) => this.transactions = transactions);
+            .subscribe(response => {
+                this.transactions = response.content;
+                this.config.totalItems = response.totalElements;
+            });
     }
 
+    pageChange(pageNumber: number) {
+        this.config.currentPage = pageNumber;
+        this.getTransactions(pageNumber, this.config.itemsPerPage);
+    }
 }

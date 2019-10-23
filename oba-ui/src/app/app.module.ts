@@ -17,6 +17,7 @@ import { SettingsHttpService } from './common/services/settings-http.service';
 import { ShareDataService } from './common/services/share-data.service';
 import { InternalServerErrorComponent } from './internal-server-error/internal-server-error.component';
 import { ObaModule } from './oba/oba.module';
+import { NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
 
 export function app_Init(settingsHttpService: SettingsHttpService) {
   return () => settingsHttpService.initializeApp();
@@ -29,6 +30,7 @@ export function app_Init(settingsHttpService: SettingsHttpService) {
   ],
   imports: [
     BrowserModule,
+    NgbPaginationModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     InfoModule,
