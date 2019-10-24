@@ -10,6 +10,7 @@ import { InfoService } from '../../commons/info/info.service';
 import { Account, AccountStatus, AccountType, UsageType } from '../../models/account.model';
 import { AccountService } from '../../services/account.service';
 import { AccountListComponent } from './account-list.component';
+import { NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
 
 describe('AccountListComponent', () => {
     let component: AccountListComponent;
@@ -26,7 +27,8 @@ describe('AccountListComponent', () => {
                 InfoModule,
                 RouterTestingModule.withRoutes([]),
                 HttpClientTestingModule,
-                IconModule
+                IconModule,
+                NgbPaginationModule
             ],
             declarations: [AccountListComponent],
             providers: [AccountService, InfoService]
@@ -68,7 +70,7 @@ describe('AccountListComponent', () => {
                 balances: []
             } as Account
         ];
-        let getAccountsSpy = spyOn(accountService, 'getAccounts').and.returnValue(of(mockAccounts));
+        let getAccountsSpy = spyOn(accountService, 'getAccounts').and.returnValue(of({accounts: mockAccounts, totalElements: mockAccounts.length }));
 
         component.ngOnInit();
 

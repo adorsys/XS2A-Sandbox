@@ -13,22 +13,26 @@ import {Router} from "@angular/router";
 export class AccountListComponent implements OnInit, OnDestroy {
     accounts: Account[];
     subscription = new Subscription();
-
+    config: {itemsPerPage, currentPage, totalItems, maxSize} = {
+        itemsPerPage: 10,
+        currentPage: 1,
+        totalItems: 0,
+        maxSize: 7
+    };
     constructor(private accountService: AccountService,
                 public router: Router) {
     }
 
     ngOnInit() {
-        this.getAccounts();
+        this.getAccounts(this.config.currentPage, this.config.itemsPerPage);
     }
 
-    getAccounts(): void {
-        this.subscription.add(
-            this.accountService.getAccounts()
-                .subscribe((accounts: Account[]) => {
-                    this.accounts = accounts;
-                }));
-
+    getAccounts(page: number, size: number): void {
+       this.subscription.add(
+       this.accountService.getAccounts(page -1, size).subscribe(response => {
+           this.accounts = response.accounts;
+           this.config.totalItems = response.totalElements;
+       }));
     }
 
     goToDepositCash(account: Account) {
@@ -45,4 +49,8 @@ export class AccountListComponent implements OnInit, OnDestroy {
         this.subscription.unsubscribe();
     }
 
+    pageChange(pageNumber: number) {
+        this.config.currentPage = pageNumber;
+        this.getAccounts(pageNumber, this.config.itemsPerPage);
+    }
 }

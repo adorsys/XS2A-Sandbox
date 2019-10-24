@@ -18,7 +18,7 @@
           </thead>
           <tbody>
           <tr *ngFor="let account of accounts; index as i" [routerLink]="['/accounts/' + account.id]">
-            <th scope="row">{{i + 1}}</th>
+            <th scope="row">{{((config.currentPage - 1) * config.itemsPerPage) + i + 1}}</th>
             <td>{{account.iban}}</td>
             <td>{{account.currency}}</td>
             <td>{{account.accountType}}</td>
@@ -30,6 +30,10 @@
           </tr>
           </tbody>
         </table>
+        <div *ngIf="config && accounts && accounts.length > 0">
+          <ngb-pagination [collectionSize]="config.totalItems" [page]="config.currentPage" [boundaryLinks]="true" [pageSize]="config.itemsPerPage"
+                          [maxSize]="config.maxSize" (pageChange)="pageChange($event)" ></ngb-pagination>
+        </div>
       </div>
     </div>
   </div>
