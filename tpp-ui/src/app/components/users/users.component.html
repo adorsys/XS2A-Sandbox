@@ -1,19 +1,19 @@
-<div class="container-fluid">
+<div class="container-fluid" [formGroup]="searchForm">
     <div class="row header">
         <div class="col-12 col-md-4 header__title">List of users</div>
         <div class="col-12 col-md-8 right">
             <div class="row">
                 <div class="col-12 col-md-8 p-md-0">
                     <div class="form-group has-search">
-                        <span class="form-control-feedback">
-                            <img src="./assets/icons/search.svg">
-                        </span>
-                      <form [formGroup]="searchForm">
+                      <span class="form-control-feedback">
+                          <img src="./assets/icons/search.svg">
+                      </span>
+                      <div>
                         <input class="form-control w-100"
                                placeholder="Search by login"
                                formControlName="query"
                                type="text">
-                      </form>
+                      </div>
                     </div>
                 </div>
                 <div class="col-12 col-md-4">
@@ -28,6 +28,19 @@
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
+                <div *ngIf="config && users && users.length > 0; let i=index"  class="d-flex justify-content-between p-2">
+                    <ngb-pagination [collectionSize]="config.totalItems" [(page)]="config.currentPage" [boundaryLinks]="true" [pageSize]="config.itemsPerPage"
+                                    [maxSize]="config.maxSize" [rotate]="true" (pageChange)="pageChange($event)"></ngb-pagination>
+
+                    <select class="custom-select" style="width:auto" formControlName="itemsPerPage">
+                        <option [ngValue]="10">10</option>
+                        <option [ngValue]="20">20</option>
+                        <option [ngValue]="40">40</option>
+                        <option [ngValue]="50">50</option>
+                        <option [ngValue]="60">60</option>
+                        <option [ngValue]="100">100</option>
+                    </select>
+                </div>
                 <table class="table ">
                     <thead>
                     <tr>
@@ -68,9 +81,18 @@
                     </tr>
                     </tbody>
                 </table>
-                <div *ngIf="config && users && users.length > 0">
-                    <ngb-pagination [collectionSize]="config.totalItems" [page]="config.currentPage" [boundaryLinks]="true" [pageSize]="config.itemsPerPage"
-                                    [maxSize]="config.maxSize" (pageChange)="pageChange($event)" ></ngb-pagination>
+                <div *ngIf="config && users && users.length > 0" class="d-flex justify-content-between p-2">
+                    <ngb-pagination [collectionSize]="config.totalItems" [(page)]="config.currentPage" [pageSize]="config.itemsPerPage"
+                                    [maxSize]="config.maxSize" [rotate]="true"  (pageChange)="pageChange($event)"></ngb-pagination>
+
+                    <select class="custom-select" id="value" style="width:auto" formControlName="itemsPerPage">
+                        <option [ngValue]="10">10</option>
+                        <option [ngValue]="20">20</option>
+                        <option [ngValue]="40">40</option>
+                        <option [ngValue]="50">50</option>
+                        <option [ngValue]="60">60</option>
+                        <option [ngValue]="100">100</option>
+                    </select>
                 </div>
            </div>
         </div>

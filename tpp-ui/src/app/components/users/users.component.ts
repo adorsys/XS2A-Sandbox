@@ -17,7 +17,7 @@ export class UsersComponent implements OnInit {
     itemsPerPage: 10,
     currentPage: 1,
     totalItems: 0,
-    maxSize: 7
+    maxSize: 7,
   };
 
   constructor(
@@ -28,7 +28,8 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() {
     this.searchForm = this.formBuilder.group({
-      query: ['', Validators.required]
+      query: ['', Validators.required],
+      itemsPerPage: [this.config.itemsPerPage, Validators.required]
     });
     this.listUsers(this.config.currentPage, this.config.itemsPerPage);
 
@@ -49,7 +50,12 @@ export class UsersComponent implements OnInit {
 
   onQueryUsers() {
     this.searchForm.valueChanges.pipe(debounceTime(750)).subscribe(form => {
+      this.config.itemsPerPage = form.itemsPerPage;
       this.listUsers(1, this.config.itemsPerPage, form.query);
     });
+  }
+
+  public changePageSize(num: number): void {
+    this.config.itemsPerPage = this.config.itemsPerPage + num;
   }
 }
