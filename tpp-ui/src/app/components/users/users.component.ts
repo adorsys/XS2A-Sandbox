@@ -11,7 +11,7 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
-  users: User[];
+  users: User[] = [];
   searchForm: FormGroup;
   config: {itemsPerPage, currentPage, totalItems, maxSize} = {
     itemsPerPage: 10,
@@ -22,9 +22,7 @@ export class UsersComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private formBuilder: FormBuilder) {
-    this.users = [];
-  }
+    private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.searchForm = this.formBuilder.group({

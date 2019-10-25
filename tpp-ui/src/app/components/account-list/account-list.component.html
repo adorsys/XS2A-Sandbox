@@ -1,41 +1,71 @@
-<div class="container-fluid">
-  <div class="header__title">Accounts</div>
+<div class="container-fluid" [formGroup]="searchForm">
+    <div class="header__title">Accounts</div>
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <div *ngIf="config && accounts && accounts.length > 0; let i=index"
+                     class="d-flex align-items-center p-2">
+                    <ngb-pagination [collectionSize]="config.totalItems" [(page)]="config.currentPage"
+                                    [boundaryLinks]="true" [pageSize]="config.itemsPerPage"
+                                    [maxSize]="config.maxSize" [rotate]="true"
+                                    (pageChange)="pageChange($event)"></ngb-pagination>
 
-  <div class="card">
-    <div class="card-body">
-      <div class="table-responsive">
-        <table class="table">
-          <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">IBAN</th>
-            <th scope="col">Currency</th>
-            <th scope="col">Account Type</th>
-            <th scope="col">Usage Type</th>
-            <th scope="col">Account Status</th>
-            <th scope="col">Actions</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let account of accounts; index as i" [routerLink]="['/accounts/' + account.id]">
-            <th scope="row">{{((config.currentPage - 1) * config.itemsPerPage) + i + 1}}</th>
-            <td>{{account.iban}}</td>
-            <td>{{account.currency}}</td>
-            <td>{{account.accountType}}</td>
-            <td>{{account.usageType}}</td>
-            <td>{{account.accountStatus}}</td>
-            <td>
-              <button class="btn btn-primary" [disabled]="!isAccountEnabled(account)" (click)="goToDepositCash(account)">deposit cash</button>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-        <div *ngIf="config && accounts && accounts.length > 0">
-          <ngb-pagination [collectionSize]="config.totalItems" [page]="config.currentPage" [boundaryLinks]="true" [pageSize]="config.itemsPerPage"
-                          [maxSize]="config.maxSize" (pageChange)="pageChange($event)" ></ngb-pagination>
+                    <select class="custom-select custom-select-sm ml-4 mb-3" style="width:auto"
+                            formControlName="itemsPerPage">
+                        <option [value]="10">10</option>
+                        <option [value]="20">20</option>
+                        <option [value]="40">40</option>
+                        <option [value]="50">50</option>
+                        <option [value]="60">60</option>
+                        <option [value]="100">100</option>
+                    </select>
+                </div>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">IBAN</th>
+                        <th scope="col">Currency</th>
+                        <th scope="col">Account Type</th>
+                        <th scope="col">Usage Type</th>
+                        <th scope="col">Account Status</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let account of accounts; index as i" [routerLink]="['/accounts/' + account.id]">
+                        <th scope="row">{{((config.currentPage - 1) * config.itemsPerPage) + i + 1}}</th>
+                        <td>{{account.iban}}</td>
+                        <td>{{account.currency}}</td>
+                        <td>{{account.accountType}}</td>
+                        <td>{{account.usageType}}</td>
+                        <td>{{account.accountStatus}}</td>
+                        <td>
+                            <button class="btn btn-primary" [disabled]="!isAccountEnabled(account)"
+                                    (click)="goToDepositCash(account)">deposit cash
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="config && accounts && accounts.length > 0; let i=index"
+                     class="d-flex align-items-center p-2">
+                    <ngb-pagination [collectionSize]="config.totalItems" [(page)]="config.currentPage"
+                                    [boundaryLinks]="true" [pageSize]="config.itemsPerPage"
+                                    [maxSize]="config.maxSize" [rotate]="true"
+                                    (pageChange)="pageChange($event)"></ngb-pagination>
+
+                    <select class="custom-select custom-select-sm ml-4 mb-3" style="width:auto"
+                            formControlName="itemsPerPage">
+                        <option [value]="10">10</option>
+                        <option [value]="20">20</option>
+                        <option [value]="40">40</option>
+                        <option [value]="50">50</option>
+                        <option [value]="60">60</option>
+                        <option [value]="100">100</option>
+                    </select>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-
 </div>
