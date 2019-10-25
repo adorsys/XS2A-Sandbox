@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map } from 'rxjs/operators';
+import {debounceTime, map, tap} from 'rxjs/operators';
 
 import { AccountDetailsTO, TransactionTO } from '../../../api/models';
 import { OnlineBankingAccountInformationService } from '../../../api/services/online-banking-account-information.service';
@@ -18,6 +18,7 @@ export class AccountDetailsComponent implements OnInit {
     accountID: string;
     transactions: TransactionTO[];
     filtersGroup: FormGroup;
+    itemPerPageControl: FormGroup;
     config: {itemsPerPage: number, currentPage: number, totalItems: number, maxSize: number} = {
         itemsPerPage: 10,
         currentPage: 1,
@@ -37,6 +38,11 @@ export class AccountDetailsComponent implements OnInit {
           dateTo: stringToNgbDate('2019-12-30')
         });
 
+        this.itemPerPageControl = this.fb.group({
+            query: ['', Validators.required],
+            itemsPerPage: [this.config.itemsPerPage, Validators.required]
+        });
+
         this.activatedRoute.params.pipe(
             map(resp => resp.id)
         ).subscribe((accountID: string) => {
@@ -44,7 +50,8 @@ export class AccountDetailsComponent implements OnInit {
                 this.getAccountDetail();
                 this.refreshTransactions();
             }
-        )
+        );
+        this.onQueryTransactions();
     }
 
     getAccountDetail() {
@@ -53,16 +60,17 @@ export class AccountDetailsComponent implements OnInit {
     }
 
     refreshTransactions() {
-        this.getTransactions(this.config.currentPage, this.config.itemsPerPage);
+        this.getTransactions(this.config.currentPage, this.config.itemsPerPage, this.itemPerPageControl.get('query').value);
     }
 
-    getTransactions(page: number, size: number) {
+    getTransactions(page: number, size: number, queryParams: string = '') {
         const params = {
           accountId: this.accountID,
           dateFrom: ngbDateToString(this.filtersGroup.get('dateFrom').value),
           dateTo: ngbDateToString(this.filtersGroup.get('dateTo').value),
           page: page - 1,
-          size: size
+          size: size,
+          query: queryParams
         } as OnlineBankingAccountInformationService.TransactionsUsingGETParams;
         this.onlineBankingService.getTransactions(params)
             .subscribe(response => {
@@ -73,6 +81,22 @@ export class AccountDetailsComponent implements OnInit {
 
     pageChange(pageNumber: number) {
         this.config.currentPage = pageNumber;
-        this.getTransactions(pageNumber, this.config.itemsPerPage);
+        this.getTransactions(pageNumber, this.config.itemsPerPage, this.itemPerPageControl.get('query').value);
+    }
+
+    onQueryTransactions() {
+        this.itemPerPageControl.valueChanges.pipe(
+            tap(val => {
+                this.itemPerPageControl.patchValue(val, { emitEvent: false });
+            }),
+            debounceTime(750)
+        ).subscribe(form => {
+            this.config.itemsPerPage = form.itemsPerPage;
+            this.getTransactions(1, this.config.itemsPerPage, form.query);
+        });
+    }
+
+    public changePageSize(num: number): void {
+        this.config.itemsPerPage = this.config.itemsPerPage + num;
     }
 }

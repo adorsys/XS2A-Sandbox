@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" [formGroup]="itemPerPageControl">
   <div class="card card--large mb-4">
     <div class="card-body--large">
       <div class="header__title">Account details</div>
@@ -26,7 +26,7 @@
     </div>
   </div>
 
-  <div class="card card--large">
+  <div class="card card--large" >
     <div class="card-body">
       <div class="header__title">Transactions</div>
 
@@ -61,7 +61,19 @@
         </div>
       </div>
 
-      <div class="table-responsive">
+      <div class="table-responsive" >
+        <div *ngIf="config && transactions && transactions.length > 0; let i=index" class="d-flex align-items-center p-2">
+          <ngb-pagination [collectionSize]="config.totalItems" [(page)]="config.currentPage" [boundaryLinks]="true" [pageSize]="config.itemsPerPage"
+                          [maxSize]="config.maxSize" [rotate]="true" (pageChange)="pageChange($event)"></ngb-pagination>
+          <select class="custom-select custom-select-sm ml-4 mb-3" style="width:auto" formGroupName="itemsPerPage">
+            <option [value]="10">10</option>
+            <option [value]="20">20</option>
+            <option [value]="40">40</option>
+            <option [value]="50">50</option>
+            <option [value]="60">60</option>
+            <option [value]="100">100</option>
+          </select>
+        </div>
         <table class="table">
           <thead>
           <tr>
@@ -92,10 +104,19 @@
           </tr>
           </tbody>
         </table>
-        <div *ngIf="config && transactions && transactions.length > 0">
-          <ngb-pagination [collectionSize]="config.totalItems" [page]="config.currentPage" [boundaryLinks]="true" [pageSize]="config.itemsPerPage"
-                          [maxSize]="config.maxSize" (pageChange)="pageChange($event)" ></ngb-pagination>
-          </div>
+        <div *ngIf="config && transactions && transactions.length > 0; " class="d-flex align-items-center p-2">
+          <ngb-pagination [collectionSize]="config.totalItems" [(page)]="config.currentPage" [boundaryLinks]="true" [pageSize]="config.itemsPerPage"
+                          [maxSize]="config.maxSize" [rotate]="true" (pageChange)="pageChange($event)"></ngb-pagination>
+
+          <select class="custom-select custom-select-sm ml-4 mb-3" id="value" style="width:auto" formGroupName="itemsPerPage">
+            <option [value]="10">10</option>
+            <option [value]="20">20</option>
+            <option [value]="40">40</option>
+            <option [value]="50">50</option>
+            <option [value]="60">60</option>
+            <option [value]="100">100</option>
+          </select>
+        </div>
       </div>
     </div>
   </div>
