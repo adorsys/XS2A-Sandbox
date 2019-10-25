@@ -18,7 +18,7 @@ export class AccountDetailsComponent implements OnInit {
     accountID: string;
     transactions: TransactionTO[];
     filtersGroup: FormGroup;
-    itemPerPageControl: FormGroup;
+    formModel: FormGroup;
     config: {itemsPerPage: number, currentPage: number, totalItems: number, maxSize: number} = {
         itemsPerPage: 10,
         currentPage: 1,
@@ -38,8 +38,7 @@ export class AccountDetailsComponent implements OnInit {
           dateTo: stringToNgbDate('2019-12-30')
         });
 
-        this.itemPerPageControl = this.fb.group({
-            query: ['', Validators.required],
+        this.formModel = this.fb.group({
             itemsPerPage: [this.config.itemsPerPage, Validators.required]
         });
 
@@ -60,17 +59,16 @@ export class AccountDetailsComponent implements OnInit {
     }
 
     refreshTransactions() {
-        this.getTransactions(this.config.currentPage, this.config.itemsPerPage, this.itemPerPageControl.get('query').value);
+        this.getTransactions(this.config.currentPage, this.config.itemsPerPage);
     }
 
-    getTransactions(page: number, size: number, queryParams: string = '') {
+    getTransactions(page: number, size: number) {
         const params = {
           accountId: this.accountID,
           dateFrom: ngbDateToString(this.filtersGroup.get('dateFrom').value),
           dateTo: ngbDateToString(this.filtersGroup.get('dateTo').value),
           page: page - 1,
-          size: size,
-          query: queryParams
+          size: size
         } as OnlineBankingAccountInformationService.TransactionsUsingGETParams;
         this.onlineBankingService.getTransactions(params)
             .subscribe(response => {
@@ -81,22 +79,18 @@ export class AccountDetailsComponent implements OnInit {
 
     pageChange(pageNumber: number) {
         this.config.currentPage = pageNumber;
-        this.getTransactions(pageNumber, this.config.itemsPerPage, this.itemPerPageControl.get('query').value);
+        this.getTransactions(pageNumber, this.config.itemsPerPage);
     }
 
     onQueryTransactions() {
-        this.itemPerPageControl.valueChanges.pipe(
+        this.formModel.valueChanges.pipe(
             tap(val => {
-                this.itemPerPageControl.patchValue(val, { emitEvent: false });
+                this.formModel.patchValue(val, { emitEvent: false });
             }),
             debounceTime(750)
         ).subscribe(form => {
             this.config.itemsPerPage = form.itemsPerPage;
-            this.getTransactions(1, this.config.itemsPerPage, form.query);
+            this.getTransactions(1, this.config.itemsPerPage);
         });
-    }
-
-    public changePageSize(num: number): void {
-        this.config.itemsPerPage = this.config.itemsPerPage + num;
     }
 }

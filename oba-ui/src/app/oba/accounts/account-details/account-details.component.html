@@ -1,4 +1,4 @@
-<div class="container-fluid" [formGroup]="itemPerPageControl">
+<div class="container-fluid" [formGroup]="formModel">
   <div class="card card--large mb-4">
     <div class="card-body--large">
       <div class="header__title">Account details</div>
@@ -65,7 +65,7 @@
         <div *ngIf="config && transactions && transactions.length > 0; let i=index" class="d-flex align-items-center p-2">
           <ngb-pagination [collectionSize]="config.totalItems" [(page)]="config.currentPage" [boundaryLinks]="true" [pageSize]="config.itemsPerPage"
                           [maxSize]="config.maxSize" [rotate]="true" (pageChange)="pageChange($event)"></ngb-pagination>
-          <select class="custom-select custom-select-sm ml-4 mb-3" style="width:auto" formGroupName="itemsPerPage">
+          <select class="custom-select custom-select-sm ml-4 mb-3" style="width:auto" formControlName="itemsPerPage">
             <option [value]="10">10</option>
             <option [value]="20">20</option>
             <option [value]="40">40</option>
@@ -104,11 +104,11 @@
           </tr>
           </tbody>
         </table>
-        <div *ngIf="config && transactions && transactions.length > 0; " class="d-flex align-items-center p-2">
+        <div *ngIf="config && transactions && transactions.length > 0; let i=index " class="d-flex align-items-center p-2">
           <ngb-pagination [collectionSize]="config.totalItems" [(page)]="config.currentPage" [boundaryLinks]="true" [pageSize]="config.itemsPerPage"
                           [maxSize]="config.maxSize" [rotate]="true" (pageChange)="pageChange($event)"></ngb-pagination>
 
-          <select class="custom-select custom-select-sm ml-4 mb-3" id="value" style="width:auto" formGroupName="itemsPerPage">
+          <select class="custom-select custom-select-sm ml-4 mb-3" id="value" style="width:auto" formControlName="itemsPerPage">
             <option [value]="10">10</option>
             <option [value]="20">20</option>
             <option [value]="40">40</option>
