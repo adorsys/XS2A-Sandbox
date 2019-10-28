@@ -14,7 +14,7 @@ import javax.annotation.PostConstruct;
 
 @Configuration
 @RequiredArgsConstructor
-public class ObjectMapperConfig {
+public class ObaObjectMapperConfig {
 
     private final ObjectMapper objectMapper;
 

@@ -1,5 +1,6 @@
 package de.adorsys.psd2.sandbox.tpp.cms.impl.service;
 
+import de.adorsys.psd2.consent.api.ais.CreateAisConsentResponse;
 import de.adorsys.psd2.consent.service.AisConsentServiceInternal;
 import de.adorsys.psd2.sandbox.tpp.cms.api.domain.AisConsent;
 import de.adorsys.psd2.sandbox.tpp.cms.api.service.ConsentService;
@@ -26,6 +27,7 @@ public class ConsentServiceImpl implements ConsentService {
                                       .map(aisConsentMapper::toCmsAisConsentRequest)
                                       .map(aisConsentServiceInternal::createConsent)
                                       .map(Optional::get)
+                                      .map(CreateAisConsentResponse::getConsentId)
                                       .collect(Collectors.toList());
         updateConsentsStatus(consentIds);
         return consentIds;

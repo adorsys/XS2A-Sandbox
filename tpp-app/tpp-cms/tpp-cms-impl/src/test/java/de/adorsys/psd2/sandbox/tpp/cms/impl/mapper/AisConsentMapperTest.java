@@ -204,7 +204,7 @@ public class AisConsentMapperTest {
         info.setOrganisationUnit(ORGANISATION_UNIT);
         info.setCity(CITY);
         info.setState(STATE);
-        info.setTppRedirectUri(TPP_REDIRECT_URI);
+        //info.setTppRedirectUri(TPP_REDIRECT_URI);
         info.setCancelTppRedirectUri(TPP_CANCEL_URI);
         info.setIssuerCN(ISSUER_CN);
 

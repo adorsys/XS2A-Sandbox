@@ -31,13 +31,18 @@
             <version>${project.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>de.adorsys.psd2</groupId>
+            <artifactId>xs2a-object-mapper</artifactId>
+            <version>${xs2a.version}</version>
+        </dependency>
+
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
 			<version>2.0.2.RELEASE</version>
 		</dependency>
-
 
 		<!-- Test dependencies -->
 		<dependency>

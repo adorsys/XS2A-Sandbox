@@ -27,7 +27,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @EnableFeignClients(basePackageClasses = {AccountRestClient.class, CmsPsuPisClient.class, AspspConsentDataClient.class, CmsAspspPiisClient.class})
 @SpringBootApplication
-@ComponentScan(basePackages = "de.adorsys.ledgers.oba")
+@ComponentScan(basePackages = {"de.adorsys.ledgers.oba", "de.adorsys.psd2.mapper"})
 public class LedgersXs2aObaApplication {
     public static void main(String[] args) {
         new SpringApplicationBuilder(LedgersXs2aObaApplication.class).run(args);
