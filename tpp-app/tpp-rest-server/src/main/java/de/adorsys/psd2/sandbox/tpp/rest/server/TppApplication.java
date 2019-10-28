@@ -8,7 +8,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @EnableFeignClients(basePackageClasses = {UserMgmtStaffRestClient.class, UserMgmtRestClient.class}, defaultConfiguration = TppUiBeFeignConfiguration.class)
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "de.adorsys.psd2.mapper")
 public class TppApplication {
     public static void main(String[] args) {
         new SpringApplicationBuilder(TppApplication.class).run(args);
