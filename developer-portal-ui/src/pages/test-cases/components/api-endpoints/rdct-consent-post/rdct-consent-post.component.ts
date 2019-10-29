@@ -9,7 +9,7 @@ import { AspspService } from 'src/services/aspsp.service';
 })
 export class RdctConsentPOSTComponent implements OnInit {
   activeSegment = 'documentation';
-  consentTypes: object;
+  consentTypes: string[] = ['dedicatedAccountsConsent'];
   jsonData = {
     access: {
       accounts: [],
@@ -55,12 +55,19 @@ export class RdctConsentPOSTComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getConsentTypes();
+    this.setConsentTypes();
   }
 
-  getConsentTypes(): object {
-    return this.aspsp.getAspspProfile().subscribe(object => {
-      return object.ais.consentTypes;
+  setConsentTypes() {
+    this.aspsp.getAspspProfile().subscribe(object => {
+      const allConsentTypes = object.ais.consentTypes;
+
+      if (allConsentTypes.bankOfferedConsentSupported)
+        this.consentTypes.push('bankOfferedConsent');
+      if (allConsentTypes.globalConsentSupported)
+        this.consentTypes.push('globalConsent');
+      if (allConsentTypes.availableAccountsConsentSupported)
+        this.consentTypes.push('availableAccountsConsent');
     });
   }
 }
