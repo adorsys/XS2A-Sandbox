@@ -104,12 +104,15 @@ export class RdctConsentPOSTComponent implements OnInit {
     this.aspsp.getAspspProfile().subscribe(object => {
       const allConsentTypes = object.ais.consentTypes;
 
-      if (allConsentTypes.bankOfferedConsentSupported)
+      if (allConsentTypes.bankOfferedConsentSupported) {
         this.consentTypes.push('bankOfferedConsent');
-      if (allConsentTypes.globalConsentSupported)
+      }
+      if (allConsentTypes.globalConsentSupported) {
         this.consentTypes.push('globalConsent');
-      if (allConsentTypes.availableAccountsConsentSupported)
+      }
+      if (allConsentTypes.availableAccountsConsentSupported) {
         this.consentTypes.push('availableAccountsConsent');
+      }
     });
   }
 }
