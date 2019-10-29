@@ -23,6 +23,7 @@ import de.adorsys.psd2.consent.api.pis.CmsBulkPayment;
 import de.adorsys.psd2.consent.api.pis.CmsPayment;
 import de.adorsys.psd2.consent.api.pis.CmsPaymentResponse;
 import de.adorsys.psd2.consent.api.pis.CmsSinglePayment;
+import de.adorsys.psd2.xs2a.core.sca.AuthenticationDataHolder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuPisClient;
@@ -146,7 +147,7 @@ public class CommonPaymentService {
         String authorisationId = workflow.getPaymentResponse().getAuthorisationId();
         String status = workflow.getAuthResponse().getScaStatus().name();
         ResponseEntity<Void> resp = cmsPsuPisClient.updateAuthorisationStatus(psuId, null, null, null,
-            paymentId, authorisationId, status, CmsPsuPisClient.DEFAULT_SERVICE_INSTANCE_ID);
+            paymentId, authorisationId, status, CmsPsuPisClient.DEFAULT_SERVICE_INSTANCE_ID, new AuthenticationDataHolder(null, null));
         if (resp.getStatusCode() != HttpStatus.OK) {
             throw new PaymentAuthorizeException(responseUtils.couldNotProcessRequest(authResp(), "Error updating authorisation status. See error code.", resp.getStatusCode(), response));
         }

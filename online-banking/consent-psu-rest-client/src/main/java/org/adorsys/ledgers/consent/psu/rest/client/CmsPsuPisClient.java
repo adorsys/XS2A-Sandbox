@@ -16,26 +16,18 @@
 
 package org.adorsys.ledgers.consent.psu.rest.client;
 
+import de.adorsys.psd2.consent.api.pis.CmsPayment;
+import de.adorsys.psd2.consent.api.pis.CmsPaymentResponse;
 import de.adorsys.psd2.consent.api.pis.CreatePisCommonPaymentResponse;
+import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
+import de.adorsys.psd2.xs2a.core.sca.AuthenticationDataHolder;
+import io.swagger.annotations.*;
 import org.adorsys.ledgers.consent.xs2a.rest.config.FeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.*;
 
-import de.adorsys.psd2.consent.api.pis.CmsPayment;
-import de.adorsys.psd2.consent.api.pis.CmsPaymentResponse;
-import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-
-@FeignClient(value = "cmsPsuPis", url = "${cms.url}", path="/psu-api/v1/payment", primary=false, configuration=FeignConfig.class)
+@FeignClient(value = "cmsPsuPis", url = "${cms.url}", path = "/psu-api/v1/payment", primary = false, configuration = FeignConfig.class)
 @Api(value = "psu-api/v1/payment", tags = "PSU PIS, Consents", description = "Controller for cms-psu-api providing access for PIS consents")
 public interface CmsPsuPisClient {
     String DEFAULT_SERVICE_INSTANCE_ID = "UNDEFINED";
@@ -110,9 +102,10 @@ public interface CmsPsuPisClient {
     @ApiOperation(value = "")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK"),
-        @ApiResponse(code = 400, message = "Bad request")})
-    ResponseEntity<Void> updateAuthorisationStatus(
-        @ApiParam(value = "Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP's documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session. ")
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 408, message = "Request Timeout", response = CmsPaymentResponse.class)})
+    ResponseEntity updateAuthorisationStatus(
+        @ApiParam(value = "Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP's documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceding AIS service in the same session. ")
         @RequestHeader(value = "psu-id", required = false) String psuId,
         @ApiParam(value = "Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility. ")
         @RequestHeader(value = "psu-id-type", required = false) String psuIdType,
@@ -126,7 +119,8 @@ public interface CmsPsuPisClient {
         @PathVariable("authorisation-id") String authorisationId,
         @ApiParam(value = "The following code values are permitted 'received', 'psuIdentified', 'psuAuthenticated', 'scaMethodSelected', 'started', 'finalised', 'failed', 'exempted'. These values might be extended by ASPSP by more values.", allowableValues = "RECEIVED, PSUIDENTIFIED, PSUAUTHENTICATED, SCAMETHODSELECTED,  STARTED,  FINALISED, FAILED, EXEMPTED")
         @PathVariable("status") String status,
-        @RequestHeader(value = "instance-id", required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId);
+        @RequestHeader(value = "instance-id", required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId,
+        @RequestBody(required = false) AuthenticationDataHolder authenticationDataHolder);
 
     @PutMapping(path = "/{payment-id}/status/{status}")
     @ApiOperation(value = "")

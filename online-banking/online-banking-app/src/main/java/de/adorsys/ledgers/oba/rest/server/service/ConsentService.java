@@ -12,9 +12,10 @@ import de.adorsys.ledgers.oba.rest.api.domain.ObaAisConsent;
 import de.adorsys.ledgers.oba.rest.api.exception.AisException;
 import de.adorsys.psd2.consent.api.AspspDataService;
 import de.adorsys.psd2.consent.api.CmsAspspConsentDataBase64;
-import de.adorsys.psd2.consent.api.ais.AisAccountConsent;
+import de.adorsys.psd2.consent.api.ais.CmsAisAccountConsent;
 import de.adorsys.psd2.consent.service.security.SecurityDataService;
 import de.adorsys.psd2.xs2a.core.consent.AspspConsentData;
+import de.adorsys.psd2.xs2a.core.sca.AuthenticationDataHolder;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,8 +55,8 @@ public class ConsentService {
 
     public List<ObaAisConsent> getListOfConsents(String userLogin) {
         try {
-            List<AisAccountConsent> aisAccountConsents = Optional.ofNullable(cmsPsuAisClient.getConsentsForPsu(userLogin, null, null, null, DEFAULT_SERVICE_INSTANCE_ID).getBody())
-                                                             .orElse(Collections.emptyList());
+            List<CmsAisAccountConsent> aisAccountConsents = Optional.ofNullable(cmsPsuAisClient.getConsentsForPsu(userLogin, null, null, null, DEFAULT_SERVICE_INSTANCE_ID).getBody())
+                                                                .orElse(Collections.emptyList());
             return toObaAisConsent(aisAccountConsents);
         } catch (FeignException e) {
             String msg = format(GET_CONSENTS_ERROR_MSG, userLogin, e.status(), e.getMessage());
@@ -84,7 +85,7 @@ public class ConsentService {
 
     private void updateCmsAuthorization(String userLogin, String authorizationId, String consentId) {
         try {
-            cmsPsuAisClient.updateAuthorisationStatus(consentId, "FINALISED", authorizationId, userLogin, null, null, null, DEFAULT_SERVICE_INSTANCE_ID);
+            cmsPsuAisClient.updateAuthorisationStatus(consentId, "FINALISED", authorizationId, userLogin, null, null, null, DEFAULT_SERVICE_INSTANCE_ID, new AuthenticationDataHolder(null, null));
         } catch (FeignException e) {
             String msg = format(UPDATE_FAILED_MSG, "authorization", e.getMessage());
             log.error(msg);
@@ -190,7 +191,7 @@ public class ConsentService {
         authInterceptor.setAccessToken(token);
     }
 
-    private List<ObaAisConsent> toObaAisConsent(List<AisAccountConsent> aisAccountConsents) {
+    private List<ObaAisConsent> toObaAisConsent(List<CmsAisAccountConsent> aisAccountConsents) {
         return aisAccountConsents.stream()
                    .map(a -> new ObaAisConsent(securityDataService.encryptId(a.getId()).orElse(""), a))
                    .collect(Collectors.toList());
