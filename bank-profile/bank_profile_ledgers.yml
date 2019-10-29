@@ -2,7 +2,7 @@
 setting:
   ais:
     consentTypes:
-      bankOfferedConsentSupported: FALSE
+      bankOfferedConsentSupported: TRUE
       globalConsentSupported: TRUE
       availableAccountsConsentSupported: TRUE
       accountAccessFrequencyPerDay: 4
@@ -14,12 +14,14 @@ setting:
       availableBookingStatuses:
         - BOOKED
       transactionsWithoutBalancesSupported: TRUE
-      supportedTransactionApplicationType: JSON
+      supportedTransactionApplicationTypes:
+        - application/json
     deltaReportSettings:
       entryReferenceFromSupported: FALSE
       deltaListSupported: FALSE
     scaRequirementsForOneTimeConsents:
       scaByOneTimeAvailableAccountsConsentRequired: TRUE
+      scaByOneTimeGlobalConsentRequired: TRUE
   pis:
     supportedPaymentTypeAndProductMatrix:
       SINGLE:
@@ -38,13 +40,16 @@ setting:
       pisRedirectUrlToAspsp: http://localhost:4400/payment-initiation/login?paymentId={encrypted-payment-id}&redirectId={redirect-id}
       pisPaymentCancellationRedirectUrlToAspsp: http://localhost:4400/payment-cancellation/login?paymentId={encrypted-payment-id}&redirectId={redirect-id}
       paymentCancellationRedirectUrlExpirationTimeMs: 600000
+    countryValidationSupported: DE
   piis:
     piisConsentSupported: TRUE
   common:
     scaApproachesSupported:
       - EMBEDDED
       - REDIRECT
-    scaRedirectFlow: REDIRECT
+      - DECOUPLED
+    scaRedirectFlow: OAUTH
+    oauthConfigurationUrl: http://localhost:8090/idp/?encryptedConsentId={encrypted-consent-id}&redirectId={redirect-id}
     startAuthorisationMode: auto
     tppSignatureRequired: FALSE
     psuInInitialRequestMandated: FALSE
@@ -53,7 +58,6 @@ setting:
     forceXs2aBaseLinksUrl: FALSE
     xs2aBaseLinksUrl: http://myhost.com/
     supportedAccountReferenceFields:
-      - MSISDN
       - IBAN
     multicurrencyAccountLevelSupported: SUBACCOUNT
     aisPisSessionsSupported: FALSE
