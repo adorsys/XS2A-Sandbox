@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { SettingsService } from 'src/services/settings.service';
+import { RestService } from 'src/services/rest.service';
+import { AspspService } from 'src/services/aspsp.service';
 
 @Component({
   selector: 'app-rdct-consent-post',
@@ -6,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RdctConsentPOSTComponent implements OnInit {
   activeSegment = 'documentation';
+  consentTypes: object;
   jsonData = {
     access: {
       accounts: [],
@@ -42,7 +46,7 @@ export class RdctConsentPOSTComponent implements OnInit {
     combinedServiceIndicator: false,
   };
 
-  constructor() {}
+  constructor(private aspsp: AspspService) {}
 
   changeSegment(segment) {
     if (segment === 'documentation' || segment === 'play-data') {
@@ -50,5 +54,13 @@ export class RdctConsentPOSTComponent implements OnInit {
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getConsentTypes();
+  }
+
+  getConsentTypes(): object {
+    return this.aspsp.getAspspProfile().subscribe(object => {
+      return object.ais.consentTypes;
+    });
+  }
 }
