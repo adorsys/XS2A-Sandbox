@@ -4,6 +4,7 @@ import { RdctConsentPOSTComponent } from './rdct-consent-post.component';
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { LineCommandComponent } from '../../../../../custom-elements/line-command/line-command.component';
 import { CodeAreaComponent } from '../../../../../custom-elements/code-area/code-area.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('RdctConsentPOSTComponent', () => {
   let component: RdctConsentPOSTComponent;
@@ -45,6 +46,7 @@ describe('RdctConsentPOSTComponent', () => {
         LineCommandComponent,
         CodeAreaComponent,
       ],
+      imports: [HttpClientTestingModule],
     }).compileComponents();
   }));
 
