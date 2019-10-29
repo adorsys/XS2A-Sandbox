@@ -110,5 +110,6 @@ export class RdctConsentPOSTComponent implements OnInit {
         this.consentTypes.push('globalConsent');
       if (allConsentTypes.availableAccountsConsentSupported)
         this.consentTypes.push('availableAccountsConsent');
+    });
   }
 }
