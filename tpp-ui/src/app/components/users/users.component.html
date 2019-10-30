@@ -68,6 +68,9 @@
                             <ul>
                                 <li *ngFor="let scaItem of user?.scaUserData; index as i; last as isLast" [ngClass]="{'mb-2': !isLast}">
                                     {{scaItem.methodValue}}
+                                    <div *ngIf="scaItem.scaMethod">
+                                        Sca Method: {{scaItem.scaMethod}}
+                                    </div>
                                     <div *ngIf="scaItem.usesStaticTan">
                                         Static TAN: {{scaItem.staticTan}}
                                     </div>
