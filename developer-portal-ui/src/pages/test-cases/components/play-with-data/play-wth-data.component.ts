@@ -27,6 +27,9 @@ export class PlayWthDataComponent implements OnInit {
   @Input() variablePathEnd: string;
   @Input() fieldsToCopy: string[];
   @Input() dateFromFlag: boolean;
+  @Input() consentTypeFlag: boolean;
+  @Input() consentTypes: string[];
+  @Input() consentBodies: JSON[];
 
   response: HttpResponse<any>;
   finalUrl: string;
@@ -149,6 +152,10 @@ export class PlayWthDataComponent implements OnInit {
   // Fixing the loss of input focus
   trackByFn(index: any, item: any) {
     return index;
+  }
+
+  handleConsentSelected(consent: string) {
+    this.body = this.consentBodies[consent];
   }
 
   ngOnInit() {

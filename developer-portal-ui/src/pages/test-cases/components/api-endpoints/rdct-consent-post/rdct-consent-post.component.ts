@@ -8,6 +8,50 @@ import { AspspService } from 'src/services/aspsp.service';
 export class RdctConsentPOSTComponent implements OnInit {
   activeSegment = 'documentation';
   consentTypes: string[] = ['dedicatedAccountsConsent'];
+  consentBodies = {
+    dedicatedAccountsConsent: {
+      access: {
+        accounts: [{ iban: 'DE88900000010000007500', currency: 'EUR' }],
+        balances: [{ iban: 'DE88900000010000007500', currency: 'EUR' }],
+        transactions: [{ iban: 'DE88900000010000007500', currency: 'EUR' }],
+      },
+      recurringIndicator: true,
+      validUntil: '2020-03-03',
+      frequencyPerDay: 4,
+      combinedServiceIndicator: false,
+    },
+    bankOfferedConsent: {
+      access: { accounts: [], balances: [], transactions: [] },
+      recurringIndicator: true,
+      validUntil: '2020-03-03',
+      frequencyPerDay: 4,
+      combinedServiceIndicator: false,
+    },
+    globalConsent: {
+      access: {
+        accounts: [],
+        balances: [],
+        transactions: [],
+        allPsd2: 'allAccounts',
+      },
+      recurringIndicator: true,
+      validUntil: '2020-03-03',
+      frequencyPerDay: 4,
+      combinedServiceIndicator: false,
+    },
+    availableAccountsConsent: {
+      access: {
+        accounts: [],
+        balances: [],
+        transactions: [],
+        availableAccounts: 'allAccounts',
+      },
+      recurringIndicator: false,
+      validUntil: '2020-03-03',
+      frequencyPerDay: '1',
+      combinedServiceIndicator: false,
+    },
+  };
   jsonData = {
     access: {
       accounts: [],
@@ -60,15 +104,12 @@ export class RdctConsentPOSTComponent implements OnInit {
     this.aspsp.getAspspProfile().subscribe(object => {
       const allConsentTypes = object.ais.consentTypes;
 
-      if (allConsentTypes.bankOfferedConsentSupported) {
+      if (allConsentTypes.bankOfferedConsentSupported)
         this.consentTypes.push('bankOfferedConsent');
-      }
-      if (allConsentTypes.globalConsentSupported) {
+      if (allConsentTypes.globalConsentSupported)
         this.consentTypes.push('globalConsent');
-      }
-      if (allConsentTypes.availableAccountsConsentSupported) {
+      if (allConsentTypes.availableAccountsConsentSupported)
         this.consentTypes.push('availableAccountsConsent');
-      }
     });
   }
 }

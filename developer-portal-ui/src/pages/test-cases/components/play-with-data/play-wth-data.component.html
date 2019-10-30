@@ -134,6 +134,18 @@
     <input [(ngModel)]="headers[item.key]" type="text" />
   </div>
 
+  <div *ngFor="let consent of consentTypes; let i = index" class="form-check">
+    <input
+      class="form-check-input"
+      type="radio"
+      name="consentType"
+      [id]="consent"
+      [checked]="i == 0"
+      (change)="handleConsentSelected(consent)"
+    />
+    <label class="form-check-label ml-4" [for]="consent"> {{ consent }} </label>
+  </div>
+
   <div class="send-body" *ngIf="body">
     <span>Body</span>
     <textarea
