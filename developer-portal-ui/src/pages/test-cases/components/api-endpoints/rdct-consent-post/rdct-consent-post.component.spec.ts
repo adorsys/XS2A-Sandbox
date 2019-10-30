@@ -5,6 +5,7 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { LineCommandComponent } from '../../../../../custom-elements/line-command/line-command.component';
 import { CodeAreaComponent } from '../../../../../custom-elements/code-area/code-area.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { PlayWthDataComponent } from '../../play-with-data/play-wth-data.component';
 
 describe('RdctConsentPOSTComponent', () => {
   let component: RdctConsentPOSTComponent;
