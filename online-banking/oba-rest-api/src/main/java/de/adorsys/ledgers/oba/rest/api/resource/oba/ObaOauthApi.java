@@ -2,6 +2,7 @@ package de.adorsys.ledgers.oba.rest.api.resource.oba;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,4 +18,13 @@ public interface ObaOauthApi {
     @PostMapping("/token")
     @ApiOperation(value = "Oauth token")
     void oauthToken(@RequestHeader(value = "code") String code);
+
+    @GetMapping("/authorization-server")
+    @ApiOperation(value = "Server info")
+    void oauthServerInfo(
+        @RequestParam(required = false) String redirectId,
+        @RequestParam(required = false) String paymentId,
+        @RequestParam(required = false) String consentId,
+        @RequestParam(required = false) String cancellationId
+    );
 }

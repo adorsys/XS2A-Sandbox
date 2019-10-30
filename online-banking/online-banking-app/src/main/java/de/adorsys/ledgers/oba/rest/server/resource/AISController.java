@@ -8,6 +8,7 @@ import de.adorsys.ledgers.middleware.api.domain.um.AisConsentTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.AccountRestClient;
 import de.adorsys.ledgers.middleware.client.rest.ConsentRestClient;
+import de.adorsys.ledgers.middleware.client.rest.OauthRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.ledgers.oba.rest.api.consentref.ConsentReference;
 import de.adorsys.ledgers.oba.rest.api.consentref.ConsentType;
@@ -23,6 +24,7 @@ import de.adorsys.psd2.consent.api.CmsAspspConsentDataBase64;
 import de.adorsys.psd2.consent.api.ais.AisAccountAccess;
 import de.adorsys.psd2.consent.api.ais.CmsAisConsentResponse;
 import de.adorsys.psd2.consent.psu.api.ais.CmsAisConsentAccessRequest;
+import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.sca.AuthenticationDataHolder;
 import feign.FeignException;
@@ -51,6 +53,7 @@ import java.util.stream.Collectors;
 
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.*;
 import static de.adorsys.ledgers.oba.rest.api.exception.AuthErrorCode.LOGIN_FAILED;
+import static de.adorsys.psd2.xs2a.core.consent.ConsentStatus.VALID;
 import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient.DEFAULT_SERVICE_INSTANCE_ID;
 
 @Slf4j
@@ -77,6 +80,8 @@ public class AISController extends AbstractXISController implements AISApi {
     private AccountRestClient accountRestClient;
     @Autowired
     private TokenAuthenticationService tokenAuthenticationService;
+    @Autowired
+    private OauthRestClient oauthRestClient;
 
     @Override
     @ApiOperation(value = "Entry point for authenticating ais consent requests.")
@@ -93,8 +98,6 @@ public class AISController extends AbstractXISController implements AISApi {
     @Override
     @SuppressWarnings({"PMD.CyclomaticComplexity", "PMD.NPathComplexity", "PMD.ExcessiveMethodLength"})
     public ResponseEntity<ConsentAuthorizeResponse> login(String encryptedConsentId, String authorisationId, String login, String pin, String consentCookieString) {
-        log.error("Login -> authId: {}", authorisationId);
-
         // Verify request parameter against cookie. encryptedConsentId and authorisationId must
         // match value stored in the cookie.
         // The load initiated consent from consent database, and store it in the response.
@@ -156,7 +159,6 @@ public class AISController extends AbstractXISController implements AISApi {
     @Override
     public ResponseEntity<ConsentAuthorizeResponse> startConsentAuth(String encryptedConsentId, String authorisationId, String consentAndaccessTokenCookieString, AisConsentTO aisConsent) {
         String psuId = AuthUtils.psuId(auth);
-        log.error("Start -> authId: {}", authorisationId);
         ConsentWorkflow workflow;
         List<AccountDetailsTO> listOfAccounts;
         try {
@@ -185,7 +187,6 @@ public class AISController extends AbstractXISController implements AISApi {
 
     @Override
     public ResponseEntity<ConsentAuthorizeResponse> authrizedConsent(String encryptedConsentId, String authorisationId, String consentAndaccessTokenCookieString, String authCode) {
-        log.error("Authorized -> authId: {}", authorisationId);
         String psuId = AuthUtils.psuId(auth);
         try {
             ConsentWorkflow workflow = identifyConsent(encryptedConsentId, authorisationId, true, consentAndaccessTokenCookieString, response, auth.getBearerToken());
@@ -216,7 +217,6 @@ public class AISController extends AbstractXISController implements AISApi {
 
     @Override
     public ResponseEntity<ConsentAuthorizeResponse> selectMethod(String encryptedConsentId, String authorisationId, String scaMethodId, String consentAndaccessTokenCookieString) {
-        log.error("Select -> authId: {}", authorisationId);
         String psuId = AuthUtils.psuId(auth);
         try {
             ConsentWorkflow workflow = identifyConsent(encryptedConsentId, authorisationId, true, consentAndaccessTokenCookieString, response, auth.getBearerToken());
@@ -279,17 +279,18 @@ public class AISController extends AbstractXISController implements AISApi {
     }
 
     @Override
-    public ResponseEntity<ConsentAuthorizeResponse> aisDone(String encryptedConsentId, String authorisationId, String consentAndAccessTokenCookieString, Boolean forgetConsent, Boolean backToTpp) throws ConsentAuthorizeException {
-        log.error("Done -> authId: {}", authorisationId);
+    public ResponseEntity<ConsentAuthorizeResponse> aisDone(String encryptedConsentId, String authorisationId, String consentAndAccessTokenCookieString, Boolean forgetConsent, Boolean backToTpp, boolean isOauth2Integrated) throws ConsentAuthorizeException {
         ConsentWorkflow workflow = identifyConsent(encryptedConsentId, authorisationId, true, consentAndAccessTokenCookieString, response, auth.getBearerToken());
 
-        ScaStatusTO scaStatus = workflow.getScaResponse().getScaStatus();
+        ConsentStatus consentStatus = workflow.getConsentResponse().getAccountConsent().getConsentStatus();
         CmsAisConsentResponse consentResponse = workflow.getConsentResponse();
-
-        String tppOkRedirectUri = consentResponse.getTppOkRedirectUri();
+        authInterceptor.setAccessToken(workflow.getScaResponse().getBearerToken().getAccess_token());
+        String tppOkRedirectUri = isOauth2Integrated
+                                      ? oauthRestClient.oauthCode(consentResponse.getTppOkRedirectUri()).getBody().getRedirectUri()
+                                      : consentResponse.getTppOkRedirectUri();
         String tppNokRedirectUri = consentResponse.getTppNokRedirectUri();
 
-        String redirectURL = FINALISED.equals(scaStatus)
+        String redirectURL = VALID.equals(consentStatus)
                                  ? tppOkRedirectUri
                                  : tppNokRedirectUri;
 

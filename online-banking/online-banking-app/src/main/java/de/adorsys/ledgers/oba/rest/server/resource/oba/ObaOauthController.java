@@ -13,8 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class ObaOauthController implements ObaOauthApi {
 
     @Override
-    public void oauthCode(String login, String pin, String redirectUi) {}
+    public void oauthCode(String login, String pin, String redirectUi) {
+    }
 
     @Override
-    public void oauthToken(String code) {}
+    public void oauthToken(String code) {
+    }
+
+    @Override
+    public void oauthServerInfo(String redirectId, String paymentId, String consentId, String cancellationId) {
+    }
 }

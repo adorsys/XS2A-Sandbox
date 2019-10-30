@@ -33,6 +33,8 @@ spring:
 ledgers.url: http://localhost:8088
 xs2a.url: http://localhost:8089
 cms.url: http://localhost:38080
+oba.url: http://localhost:4400
+self.url: http://localhost:8090
 
 #LOGGER
 # logging.level.org.springframework.web: DEBUG

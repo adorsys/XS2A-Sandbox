@@ -146,7 +146,8 @@ public interface AISApi {
         @PathVariable("authorisationId") String authorisationId,
         @RequestHeader(name = "Cookie", required = false) String consentAndaccessTokenCookieString,
         @RequestParam(name = "forgetConsent", required = false) Boolean forgetConsent,
-        @RequestParam(name = "backToTpp", required = false) Boolean backToTpp) throws ConsentAuthorizeException;
+        @RequestParam(name = "backToTpp", required = false) Boolean backToTpp,
+        @RequestParam(name = "oauth2", required = false, defaultValue = "false") boolean isOauth2Integrated) throws ConsentAuthorizeException;
 
     /**
      * Fails AIS Consent authorisation object by its ID.

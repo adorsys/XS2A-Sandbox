@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -24,13 +25,13 @@ public class OauthCodeSecurityFilter extends AbstractAuthFilter {
     private final OauthRestClient oauthRestClient;
 
     @Override
-    public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException {
+    public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         String login = obtainFromHeader(request, USER_LOGIN);
         String pin = obtainFromHeader(request, USER_PIN);
         String redirectUrl = obtainFromRequest(request, REDIRECT_URI);
 
         if (StringUtils.isBlank(login) || StringUtils.isBlank(pin) || StringUtils.isBlank(redirectUrl)) {
-            handleAuthenticationFailure(response, "Invalid credentials");
+            filterChain.doFilter(request, response);
             return;
         }
         try {
