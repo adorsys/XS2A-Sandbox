@@ -32,10 +32,11 @@ export class ResultPageComponent implements OnInit, OnDestroy {
     // get query params and build link
     this.route.queryParams.subscribe(params => {
       // TODO: use routerlink to build a link https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/issues/8
-      this.ref = '/oba-proxy/pis-cancellation/' + params.encryptedConsentId +
-        '/authorisation/' + params.authorisationId +
-        '/done?backToTpp=true&forgetConsent=true';
+      this.ref = `/oba-proxy/pis-cancellation/${params.encryptedConsentId}/authorisation/${params.authorisationId}` +
+        `/done?backToTpp=true&forgetConsent=true&oauth2=${params.oauth2}`;
     });
+
+
 
     // get consent data from shared service
     this.shareService.currentData.subscribe(data => {

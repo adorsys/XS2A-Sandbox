@@ -83,6 +83,9 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.encryptedPaymentId = params.paymentId;
       this.redirectId = params.redirectId;
 
+      // set oauth2 param in shared service
+      params.oauth2 ? this.shareService.setOauthParam(true) : this.shareService.setOauthParam(false);
+
       this.subscriptions.push(
         this.pisService.pisAuthCode({encryptedPaymentId: this.encryptedPaymentId, redirectId: this.redirectId})
           .subscribe(authCodeResponse => {

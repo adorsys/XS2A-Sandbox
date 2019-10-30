@@ -11,6 +11,10 @@ export class ShareDataService {
   private data = new BehaviorSubject<ConsentAuthorizeResponse | PaymentAuthorizeResponse>(null);
   currentData = this.data.asObservable();
 
+  // oauth2 param
+  private oauth = new BehaviorSubject<boolean> (null);
+  oauthParam = this.oauth.asObservable();
+
   // operation type
   private operationType = new BehaviorSubject<string>(null);
   currentOperation = this.operationType.asObservable();
@@ -32,6 +36,10 @@ export class ShareDataService {
 
   changeData(data: ConsentAuthorizeResponse) {
     this.data.next(data);
+  }
+
+  setOauthParam(oauthParam: boolean) {
+    this.oauth.next(oauthParam);
   }
 
   setOperationType(operation: string) {
