@@ -3,6 +3,7 @@ package de.adorsys.psd2.sandbox.tpp.rest.server.controller;
 import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
 import de.adorsys.ledgers.middleware.api.domain.payment.AmountTO;
 import de.adorsys.ledgers.middleware.client.rest.AccountMgmtStaffRestClient;
+import de.adorsys.ledgers.middleware.client.rest.AccountRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
 import de.adorsys.ledgers.util.domain.CustomPageImpl;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.AccountAccess;
@@ -31,6 +32,7 @@ public class TppAccountsController implements TppAccountsRestApi {
     private final AccountMgmtStaffRestClient accountMgmtStaffRestClient;
     private final UserMgmtStaffRestClient userMgmtStaffRestClient;
     private final DownloadResourceService downloadResourceService;
+    private final AccountRestClient accountRestClient;
 
     @Override
     public ResponseEntity<Void> createAccount(String userId, DepositAccount account) {
@@ -50,6 +52,11 @@ public class TppAccountsController implements TppAccountsRestApi {
     @Override
     public ResponseEntity<CustomPageImpl<AccountDetailsTO>> getAllAccounts(int page, int size) {
         return accountMgmtStaffRestClient.getListOfAccountsPaged(page, size);
+    }
+
+    @Override
+    public ResponseEntity<AccountDetailsTO> getAccountDetailsByIban(String iban) {
+        return accountRestClient.getAccountDetailsByIban(iban);
     }
 
     @Override

@@ -60,6 +60,16 @@ public interface TppAccountsRestApi {
     ResponseEntity<CustomPageImpl<AccountDetailsTO>> getAllAccounts(@RequestParam(required = false, defaultValue = "0") int page, @RequestParam(required = false, defaultValue = "25") int size);
 
     /**
+     * @param iban : the iban
+     * @return : account details
+     */
+    @GetMapping(path = "/details")
+    @ApiOperation(value = "Load Account Details By IBAN", authorizations = @Authorization(value = "apiKey"), notes = "Returns account details information given the account IBAN")
+    ResponseEntity<AccountDetailsTO> getAccountDetailsByIban(
+        @ApiParam(value = "The IBAN of the requested account: e.g.: DE69760700240340283600")
+        @RequestParam String iban);
+
+    /**
      * Returns a single account by its ID if it belong to the same branch as STAFF user.
      *
      * @return single account by its ID if it belong to the same branch as STAFF user.
