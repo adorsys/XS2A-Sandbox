@@ -8,12 +8,6 @@ import {
 describe('AspspService', () => {
   let httpTestingController: HttpTestingController;
 
-  beforeEach(() =>
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-    })
-  );
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
