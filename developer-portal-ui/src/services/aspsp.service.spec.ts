@@ -1,17 +1,25 @@
-import { TestBed } from '@angular/core/testing';
-
+import { TestBed, inject } from '@angular/core/testing';
 import { AspspService } from './aspsp.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 
 describe('AspspService', () => {
-  beforeEach(() =>
+  let httpTestingController: HttpTestingController;
+
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-    })
-  );
-
-  it('should be created', () => {
-    const service: AspspService = TestBed.get(AspspService);
-    expect(service).toBeTruthy();
+    });
+    httpTestingController = TestBed.get(HttpTestingController);
   });
+
+  afterEach(() => {
+    httpTestingController.verify();
+  });
+
+  it('should be created', inject([AspspService], (service: AspspService) => {
+    expect(service).toBeTruthy();
+  }));
 });
