@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RdctPaymentCancellationDeleteComponent } from './rdct-payment-cancellation-delete.component';
-import {Component, Input, Pipe, PipeTransform} from '@angular/core';
-import {LineCommandComponent} from '../../../../../custom-elements/line-command/line-command.component';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { LineCommandComponent } from '../../../../../custom-elements/line-command/line-command.component';
 
 describe('RdctPaymentCancellationDeleteComponent', () => {
   let component: RdctPaymentCancellationDeleteComponent;
@@ -10,7 +10,7 @@ describe('RdctPaymentCancellationDeleteComponent', () => {
 
   @Component({
     selector: 'app-play-wth-data',
-    template: ''
+    template: '',
   })
   class MockPlayWithDataComponent {
     @Input() headers: object;
@@ -19,7 +19,7 @@ describe('RdctPaymentCancellationDeleteComponent', () => {
     @Input() paymentIdFlag: boolean;
   }
 
-  @Pipe({name: 'translate'})
+  @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -33,7 +33,7 @@ describe('RdctPaymentCancellationDeleteComponent', () => {
         RdctPaymentCancellationDeleteComponent,
         MockPlayWithDataComponent,
         TranslatePipe,
-        LineCommandComponent
+        LineCommandComponent,
       ],
     }).compileComponents();
   }));
@@ -54,6 +54,7 @@ describe('RdctPaymentCancellationDeleteComponent', () => {
       'TPP-Explicit-Authorisation-Preferred': 'true',
       'PSU-ID': 'YOUR_USER_LOGIN',
       'PSU-IP-Address': '1.1.1.1',
+      'TPP-REDIRECT-URI': 'https://adorsys.de/en/psd2-tpp/',
       'TPP-Redirect-Preferred': 'true',
     };
     expect(typeof component.headers).toBe('object');

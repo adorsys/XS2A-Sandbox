@@ -1,0 +1,11 @@
+{
+  "/xs2a-proxy/*": {
+    "target": "https://dev-dynamicsandbox-xs2a.cloud.adorsys.de",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/xs2a-proxy": ""
+    }
+  }
+}
