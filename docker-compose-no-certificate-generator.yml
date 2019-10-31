@@ -13,7 +13,7 @@ services:
 
   # Xs2a connector example
   xs2a-connector-examples:
-    image: adorsys/xs2a-connector-examples:5.3
+    image: adorsys/xs2a-connector-examples:5.3.1
     container_name: xs2a-connector-examples
     restart: on-failure
     ports:

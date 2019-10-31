@@ -13,7 +13,7 @@ services:
 
   # Xs2a connector example
   xs2a-connector-examples:
-    image: adorsys/xs2a-connector-examples:5.3
+    image: adorsys/xs2a-connector-examples:5.3.1
     container_name: xs2a-connector-examples
     restart: on-failure
     ports:
@@ -109,6 +109,8 @@ services:
       XS2A_URL: "http://xs2a-connector-examples:8089"
       LEDGERS_URL: "http://ledgers:8088"
       CMS_URL: "http://xs2a-consent-management:8080"
+      OBA_URL: "http://localhost:4400"
+      SELF_URL: "http://localhost:8090"
       ONLINE_BANKING_SCA_LOGINPAGE: "http://localhost:4400/"
       ONLINE_BANKING_SCA_UIREDIRECT: "true"
       ONLINE-BANKING_URL: "http://xs2a-online-banking:8090/api/v1/consents/confirm/{userLogin}/{consentId}/{authorizationId}/{tan}"

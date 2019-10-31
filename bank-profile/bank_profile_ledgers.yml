@@ -8,6 +8,7 @@ setting:
       accountAccessFrequencyPerDay: 4
       notConfirmedConsentExpirationTimeMs: 86400000
       maxConsentValidityDays: 90
+      accountOwnerInformationSupported: false
     redirectLinkToOnlineBanking:
       aisRedirectUrlToAspsp: http://localhost:4400/account-information/login?encryptedConsentId={encrypted-consent-id}&redirectId={redirect-id}
     transactionParameters:
@@ -48,8 +49,9 @@ setting:
       - EMBEDDED
       - REDIRECT
       - DECOUPLED
-    scaRedirectFlow: OAUTH
-    oauthConfigurationUrl: http://localhost:8090/idp/?encryptedConsentId={encrypted-consent-id}&redirectId={redirect-id}
+      - OAUTH
+    scaRedirectFlow: REDIRECT
+    oauthConfigurationUrl: http://localhost:8090/oauth/authorization-server
     startAuthorisationMode: auto
     tppSignatureRequired: FALSE
     psuInInitialRequestMandated: FALSE
