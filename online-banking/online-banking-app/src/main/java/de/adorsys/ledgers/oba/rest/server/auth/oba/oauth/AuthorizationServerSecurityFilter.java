@@ -7,7 +7,6 @@ import de.adorsys.ledgers.oba.rest.server.auth.oba.AbstractAuthFilter;
 import de.adorsys.ledgers.oba.rest.server.service.OauthServerLinkResolver;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
@@ -20,11 +19,8 @@ import java.io.IOException;
 public class AuthorizationServerSecurityFilter extends AbstractAuthFilter {
     private final ObjectMapper mapper;
     private final OauthRestClient oauthRestClient;
-
-    @Value("${oba.url:http://localhost:4400}")
-    private String obaFeBaseUri;
-    @Value("${self.url:http://localhost:8090}")
-    private String obaBeBaseUri;
+    private final String obaFeBaseUri;
+    private final String obaBeBaseUri;
 
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException {

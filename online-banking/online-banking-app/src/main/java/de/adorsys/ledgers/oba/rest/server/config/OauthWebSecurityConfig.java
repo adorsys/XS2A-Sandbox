@@ -6,6 +6,7 @@ import de.adorsys.ledgers.oba.rest.server.auth.oba.oauth.AuthorizationServerSecu
 import de.adorsys.ledgers.oba.rest.server.auth.oba.oauth.OauthCodeSecurityFilter;
 import de.adorsys.ledgers.oba.rest.server.auth.oba.oauth.OauthTokenSecurityFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,6 +29,11 @@ public class OauthWebSecurityConfig {
         private final OauthRestClient oauthRestClient;
         private final ObjectMapper mapper;
 
+        @Value("${oba.url:http://localhost:4400}")
+        private String obaFeBaseUri;
+        @Value("${self.url:http://localhost:8090}")
+        private String obaBeBaseUri;
+
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.antMatcher("/oauth/**")
@@ -42,7 +48,7 @@ public class OauthWebSecurityConfig {
 
             http.addFilterBefore(new OauthCodeSecurityFilter(mapper, oauthRestClient), BasicAuthenticationFilter.class);
             http.addFilterBefore(new OauthTokenSecurityFilter(mapper, oauthRestClient), BasicAuthenticationFilter.class);
-            http.addFilterBefore(new AuthorizationServerSecurityFilter(mapper, oauthRestClient), BasicAuthenticationFilter.class);
+            http.addFilterBefore(new AuthorizationServerSecurityFilter(mapper, oauthRestClient, obaFeBaseUri, obaBeBaseUri), BasicAuthenticationFilter.class);
         }
     }
 }

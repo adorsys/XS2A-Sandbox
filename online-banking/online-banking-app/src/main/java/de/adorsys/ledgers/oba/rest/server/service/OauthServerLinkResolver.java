@@ -15,10 +15,7 @@ public class OauthServerLinkResolver {
     private Map<String, String> pathPart = new HashMap<>();
     private String redirectId;
     private String requestParameter;
-
-    //@Value("${oba.url:http://localhost:4400}")
     private String obaFeBaseUri;
-    //@Value("${self.url:http://localhost:8090}")
     private String obaBeBaseUri;
 
     public OauthServerLinkResolver(OauthServerInfoTO info, String paymentId, String consentId, String cancellationId, String redirectId, String obaBeBaseUri, String obaFeBaseUri) {
