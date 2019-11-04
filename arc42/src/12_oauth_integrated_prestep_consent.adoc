@@ -1,0 +1,63 @@
+== Create OAuth Integrated and Pre-Step Consent
+
+[role="arc42help"]
+****
+.Contents
+A short step by step instruction how to create an OAuth integrated and pre-step consent approach in our Dynamic Sandbox with Postman.
+****
+
+NOTE: Please, note, that all steps are for the developer environment and not the DEMO.
+
+NOTE: If you have already registered a TPP and created a PSU user with deposit accounts, you can skip steps 1-3.
+
+=== OAuth Integrated Consent
+
+[start=1]
+. Click on: https://dev-dynamicsandbox-tppui.cloud.adorsys.de/login and register a new TPP account.
+. Login with the new registered TPP, click on _My user list_ and create a new user. In our example it is _aguex8_, with the pin _aguex8_ and the static TAN _123456_.
+. Create for this user at least one deposit account with a generated IBAN.
+. Now open Postman and import the collection "postman_collection_oauth_pre-step_integrated.json" and the environment "Xs2a DEV ENV.postman_environment.json" from our postman-scripts. Then, switch environment to `Xs2a DEV ENV`.
+. Open the POST request "intitiate consent" of the imported collection.
+. Change in Headers the key `PSU-ID` to your user login, in our example it is _aguex8_, and set the value of key `X-OAUTH-PREFERRED` to "integrated".
+. Press Send and you will receive the `consentId` and multiple links (_scaOAuth_, _self_, _status_, _scaStatus_).
+. Press on the first link _scaOAuth_ to open new Postman tab, press Send again.
+. Now you will receive two links, the `authorization_endpoint` and the `token_endpoint`, copy the first link and open it in a web browser.
+. Login with your `psd-ui`, press Next, select a sca method, enter the static TAN and press Next again. Finally, click on "Go Back to TPP page".
+. "Go Back to TPP page" leads you to a Google link with your code. Grab the code from the end of the redirected url. In our example the url is https://www.google.com/?code=n4Pwq3neZx5FkSF8EzioCL75 and the resulting code `n4Pwq3neZx5FkSF8EzioCL75`.
+. Go back to Postman and open the second link as new Postman tab by clicking on it. Add to Headers the key "code" with code of the previous step as value and press Send.
+. Finally, you receive your access token, which enables you in Postman to do AIS requests like GET "Read Account List" in OAuth integrated flow. Select as Authorization with the dropdown list to "Bearer Token, paste the copied access token in the "Token" field and use as `Consent-ID` the one you received in step 7.
+
+=== OAuth Pre-Step Consent
+[start=1]
+
+. Click on: https://dev-dynamicsandbox-tppui.cloud.adorsys.de/login and register a new TPP account.
+. Login with the new registered TPP, click on _My user list_ and create a new user. In our example it is _aguex8_, with the pin _aguex8_ and the static TAN _123456_.
+. Create for this user at least one account with a generated IBAN.
+. Now open Postman and import the collection "postman_collection_oauth_pre-step_integrated.json" and the environment "Xs2a DEV ENV.postman_environment.json" from our postman-scripts. Then, switch environment to `Xs2a DEV ENV`.
+. Open the POST request "intitiate consent" of you imported collection.
+. Change in Headers the key `PSU-ID` to your user login, in our example it is _aguex8_, and set the value of key `X-OAUTH-PREFERRED` to "pre-step".
+. Press Send and you will receive an error message with a link.
+
+[source,ruby]
+----
+{
+"tppMessages": [
+    {
+        "category": "ERROR",
+        "code": "UNAUTHORIZED",
+        "text": "Please retrieve token first from https://dev-dynamicsandbox-onlinebanking.cloud.adorsys.de/oauth/authorization-server"
+    }
+  ]
+}
+
+----
+
+[start=8]
+. Click on the link to open a new Postman tab and press Send.
+. Now you receive two links, the `authorization_endpoint` and the `token_endpoint`, enlarge the first link with "https:%2F%2Fgoogle.com" at the end and open it in a web browser.
+. Login with `psd-ui`, this will lead you to a Google link with your code. Grab the code from the end of the redirected url. In our example the url is https://www.google.com/?code=n4Pwq3neZx5FkSF8EzioCL75 and the resulting code `n4Pwq3neZx5FkSF8EzioCL75`.
+. Go back to Postman and open the second link in a new Postman tab by clicking on it. Add to Headers the key "code" with the received code of the previous step as value and press Send. Finally, you receive your access token.
+. Go back to very first tab POST request "intitiate consent", change the Authorization with the dropdown list to "
+Bearer Token" and paste the copied access token in the "Token" field. Press Send.
+. You will receive the `consentId` and multiple links (_scaRedirect_, _self_, _status_, _scaStatus_), open the _scaRedirect_ link in a web browser. Now, you should be able to confirm the consent without logging in.
+

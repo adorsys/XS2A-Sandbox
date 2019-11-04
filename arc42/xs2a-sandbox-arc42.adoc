@@ -77,6 +77,10 @@ include::src/10_meta.adoc[]
 // 11. oAuth 2.0 pre-steps
 include::src/11_oauth2_presteps.adoc[]
 
+<<<<
+// 12. oAuth integrated and pre-step consent
+include::src/12_oauth_integrated_prestep_consent.adoc[]
+
 ***
 
 include::src/about-arc42.adoc[]

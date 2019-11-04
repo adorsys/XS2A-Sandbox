@@ -39,11 +39,11 @@ These steps are for the developer environment and not the DEMO.
 
 . Click on Manage environments and select `Xs2a DEV ENV`. Then, set `psuidOauth` as your user and update your environment. In our example, it is `psuidOauth = oauth`.
 
-. Click on POST request “Exchange oauth code” in your collection, put the code you grabbed in Step 7 into header “code” param and press on SEND button.
+. Click on POST request “Exchange oauth code” in your collection, add in Headers the new key "code", put the code you grabbed in Step 7 as value and press on Send button.
 
 . Copy and save the access token from the respond.
 
-. Click on second POST request “Creates AIS consent” and there on the Send button.
+. Click on second POST request "Creates AIS consent" and there on the Send button.
 
 . Grab the URL from the scaRedirect url response and add the following parameter to this url: `&token=<access token from the previous response>`. The enlarged URL looks like this:
 
@@ -64,7 +64,7 @@ These steps are for the developer environment and not the DEMO.
 === Unsuccessful path
 
 [start=12]
-. Click on POST request “Create AIS consent” in Postman and switch off “Authorization” param from the header.
+. Click on POST request "Create AIS consent" in Postman and switch off the Headers key "Authorization" by deselecting it.
 
 . Press on SEND button and receive following error as response:
 
