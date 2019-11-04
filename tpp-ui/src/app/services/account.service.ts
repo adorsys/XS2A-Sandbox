@@ -1,7 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
+import {map, filter, tap} from "rxjs/operators";
 import {environment} from '../../environments/environment';
 import {AccountReport} from '../models/account-report';
 import {Amount} from '../models/amount.model';
@@ -31,6 +31,10 @@ export class AccountService {
 
   getAccount(id: string) {
     return this.http.get(this.url + '/accounts/' + id);
+  }
+
+  getAllAccounts(){
+    return this.http.get<Account[]>(this.url + '/accounts/');
   }
 
   getAccountReport(id: string): Observable<AccountReport> {
