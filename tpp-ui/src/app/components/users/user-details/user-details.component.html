@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="col-12 col-md-3 ">Accounts</div>
                 <div class=" col-12 col-md-9 text-muted">
-                    <div *ngFor="let accountAccess of user?.accountAccesses">
+                    <div *ngFor="let accountAccess of user?.accountAccesses" class="iban" (click)="handleClickOnIBAN($event);">
                         {{accountAccess.iban}}
                     </div>
                 </div>
