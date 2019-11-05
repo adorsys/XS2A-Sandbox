@@ -11,6 +11,6 @@ export class AspspService {
   constructor(private http: HttpClient) {}
 
   getAspspProfile(): Observable<any> {
-    return this.http.get(this.aspspProfileUri + 'api/v1/aspsp-profile');
+    return this.http.get(this.aspspProfileUri + '/api/v1/aspsp-profile');
   }
 }

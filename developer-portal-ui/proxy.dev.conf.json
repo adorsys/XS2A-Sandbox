@@ -7,5 +7,14 @@
     "pathRewrite": {
       "^/xs2a-proxy": ""
     }
+  },
+  "/aspsp-proxy/*": {
+    "target": "https://dev-dynamicsandbox-aspspprofile.cloud.adorsys.de",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/aspsp-proxy": ""
+    }
   }
 }

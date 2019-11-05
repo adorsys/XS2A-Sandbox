@@ -78,18 +78,19 @@
     }
   }
   .send-body {
-    span {
-      margin: 2vw 0;
-      display: block;
-      font-size: 1.5rem;
-    }
     textarea {
       display: block;
       width: 46.58vw !important;
       font-size: 1em;
       resize: vertical;
       padding: 1vw;
+      margin-top: 1em;
     }
+  }
+  .send-body-title {
+    margin: 2vw 0;
+    display: block;
+    font-size: 1.5rem;
   }
   .response-status {
     .status-style {

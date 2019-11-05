@@ -1,5 +1,51 @@
 import { Component, OnInit } from '@angular/core';
 import { AspspService } from 'src/services/aspsp.service';
+import { ConsentTypes } from '../../../../../models/consentTypes.model';
+
+const consentBodies = {
+  dedicatedAccountsConsent: {
+    access: {
+      accounts: [{ iban: 'DE88900000010000007500', currency: 'EUR' }],
+      balances: [{ iban: 'DE88900000010000007500', currency: 'EUR' }],
+      transactions: [{ iban: 'DE88900000010000007500', currency: 'EUR' }],
+    },
+    recurringIndicator: true,
+    validUntil: '2020-03-03',
+    frequencyPerDay: 4,
+    combinedServiceIndicator: false,
+  },
+  bankOfferedConsent: {
+    access: { accounts: [], balances: [], transactions: [] },
+    recurringIndicator: true,
+    validUntil: '2020-03-03',
+    frequencyPerDay: 4,
+    combinedServiceIndicator: false,
+  },
+  globalConsent: {
+    access: {
+      accounts: [],
+      balances: [],
+      transactions: [],
+      allPsd2: 'allAccounts',
+    },
+    recurringIndicator: true,
+    validUntil: '2020-03-03',
+    frequencyPerDay: 4,
+    combinedServiceIndicator: false,
+  },
+  availableAccountsConsent: {
+    access: {
+      accounts: [],
+      balances: [],
+      transactions: [],
+      availableAccounts: 'allAccounts',
+    },
+    recurringIndicator: false,
+    validUntil: '2020-03-03',
+    frequencyPerDay: '1',
+    combinedServiceIndicator: false,
+  },
+};
 
 @Component({
   selector: 'app-rdct-consent-post',
@@ -7,50 +53,8 @@ import { AspspService } from 'src/services/aspsp.service';
 })
 export class RdctConsentPOSTComponent implements OnInit {
   activeSegment = 'documentation';
-  consentTypes: string[] = ['dedicatedAccountsConsent'];
-  consentBodies = {
-    dedicatedAccountsConsent: {
-      access: {
-        accounts: [{ iban: 'DE88900000010000007500', currency: 'EUR' }],
-        balances: [{ iban: 'DE88900000010000007500', currency: 'EUR' }],
-        transactions: [{ iban: 'DE88900000010000007500', currency: 'EUR' }],
-      },
-      recurringIndicator: true,
-      validUntil: '2020-03-03',
-      frequencyPerDay: 4,
-      combinedServiceIndicator: false,
-    },
-    bankOfferedConsent: {
-      access: { accounts: [], balances: [], transactions: [] },
-      recurringIndicator: true,
-      validUntil: '2020-03-03',
-      frequencyPerDay: 4,
-      combinedServiceIndicator: false,
-    },
-    globalConsent: {
-      access: {
-        accounts: [],
-        balances: [],
-        transactions: [],
-        allPsd2: 'allAccounts',
-      },
-      recurringIndicator: true,
-      validUntil: '2020-03-03',
-      frequencyPerDay: 4,
-      combinedServiceIndicator: false,
-    },
-    availableAccountsConsent: {
-      access: {
-        accounts: [],
-        balances: [],
-        transactions: [],
-        availableAccounts: 'allAccounts',
-      },
-      recurringIndicator: false,
-      validUntil: '2020-03-03',
-      frequencyPerDay: '1',
-      combinedServiceIndicator: false,
-    },
+  consentTypes: ConsentTypes = {
+    dedicatedAccountsConsent: consentBodies.dedicatedAccountsConsent,
   };
   jsonData = {
     access: {
@@ -74,19 +78,7 @@ export class RdctConsentPOSTComponent implements OnInit {
     'TPP-Redirect-URI': 'https://adorsys.de/en/psd2-tpp/',
     'TPP-Nok-Redirect-URI': 'https://www.google.com',
   };
-  body: object = {
-    access: {
-      accounts: [],
-      balances: [],
-      transactions: [],
-      availableAccounts: 'allAccounts',
-      allPsd2: 'allAccounts',
-    },
-    recurringIndicator: true,
-    validUntil: '2020-12-31',
-    frequencyPerDay: 4,
-    combinedServiceIndicator: false,
-  };
+  body: object = { ...consentBodies.dedicatedAccountsConsent };
 
   constructor(private aspsp: AspspService) {}
 
@@ -104,12 +96,16 @@ export class RdctConsentPOSTComponent implements OnInit {
     this.aspsp.getAspspProfile().subscribe(object => {
       const allConsentTypes = object.ais.consentTypes;
 
-      if (allConsentTypes.bankOfferedConsentSupported)
-        this.consentTypes.push('bankOfferedConsent');
-      if (allConsentTypes.globalConsentSupported)
-        this.consentTypes.push('globalConsent');
-      if (allConsentTypes.availableAccountsConsentSupported)
-        this.consentTypes.push('availableAccountsConsent');
+      if (allConsentTypes.bankOfferedConsentSupported) {
+        this.consentTypes.bankOfferedConsent = consentBodies.bankOfferedConsent;
+      }
+      if (allConsentTypes.globalConsentSupported) {
+        this.consentTypes.globalConsent = consentBodies.globalConsent;
+      }
+      if (allConsentTypes.availableAccountsConsentSupported) {
+        this.consentTypes.availableAccountsConsent =
+          consentBodies.availableAccountsConsent;
+      }
     });
   }
 }

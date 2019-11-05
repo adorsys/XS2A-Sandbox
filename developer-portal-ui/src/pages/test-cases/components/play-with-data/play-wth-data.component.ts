@@ -4,6 +4,7 @@ import { RestService } from '../../../../services/rest.service';
 import { DataService } from '../../../../services/data.service';
 import { getStatusText } from 'http-status-codes';
 import { CopyService } from '../../../../services/copy.service';
+import { ConsentTypes } from '../../../../models/consentTypes.model';
 
 @Component({
   selector: 'app-play-wth-data',
@@ -28,8 +29,7 @@ export class PlayWthDataComponent implements OnInit {
   @Input() fieldsToCopy: string[];
   @Input() dateFromFlag: boolean;
   @Input() consentTypeFlag: boolean;
-  @Input() consentTypes: string[];
-  @Input() consentBodies: JSON[];
+  @Input() consentTypes: ConsentTypes;
 
   response: HttpResponse<any>;
   finalUrl: string;
@@ -57,6 +57,7 @@ export class PlayWthDataComponent implements OnInit {
     'pain.001-cross-border-credit-transfers',
   ];
   bookingStatusSelect = ['booked', 'pending', 'both'];
+  selectedConsentType: string = 'dedicatedAccountsConsent';
 
   constructor(
     public restService: RestService,
@@ -154,8 +155,8 @@ export class PlayWthDataComponent implements OnInit {
     return index;
   }
 
-  handleConsentSelected(consent: string) {
-    this.body = this.consentBodies[consent];
+  handleConsentSelected(consentType: string) {
+    this.body = this.consentTypes[consentType];
   }
 
   ngOnInit() {

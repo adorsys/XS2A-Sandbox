@@ -134,20 +134,24 @@
     <input [(ngModel)]="headers[item.key]" type="text" />
   </div>
 
-  <div *ngFor="let consent of consentTypes; let i = index" class="form-check">
-    <input
-      class="form-check-input"
-      type="radio"
-      name="consentType"
-      [id]="consent"
-      [checked]="i == 0"
-      (change)="handleConsentSelected(consent)"
-    />
-    <label class="form-check-label ml-4" [for]="consent"> {{ consent }} </label>
-  </div>
-
   <div class="send-body" *ngIf="body">
-    <span>Body</span>
+    <span class="send-body-title">Body</span>
+
+    <div class="play-with-data-table bg">
+      <span>Select consent type</span>
+      <select
+        id="consentTypeSelector"
+        [(ngModel)]="selectedConsentType"
+        (ngModelChange)="handleConsentSelected($event)"
+      >
+        <option
+          *ngFor="let consent of (consentTypes | keyvalue); let i = index"
+          [value]="consent.key"
+          >{{ consent.key }}
+        </option>
+      </select>
+    </div>
+
     <textarea
       name=""
       id="textArea"
