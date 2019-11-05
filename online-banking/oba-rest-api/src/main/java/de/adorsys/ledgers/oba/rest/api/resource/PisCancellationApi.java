@@ -10,57 +10,57 @@ import org.springframework.web.bind.annotation.*;
 
 @Api(value = PisCancellationApi.BASE_PATH, tags = "PSU PIS", description = "Provides access to online banking payment functionality")
 public interface PisCancellationApi {
-	String BASE_PATH = "/pis-cancellation";
+    String BASE_PATH = "/pis-cancellation";
 
 
-	/**
-	 * Identifies the user by login an pin. Return sca methods information
-	 *
-	 * @param encryptedPaymentId the encryptedPaymentId
-	 * @param authorisationId the auth id
-	 * @param login the login
-	 * @param pin the password
-	 * @param consentCookieString the cosent cookie
-	 * @return PaymentAuthorizeResponse
-	 */
-	@PostMapping(path="/{encryptedPaymentId}/authorisation/{authorisationId}/login")
-	@ApiOperation(value = "Identifies the user by login an pin. Return sca methods information")
-	ResponseEntity<PaymentAuthorizeResponse> login(
+    /**
+     * Identifies the user by login an pin. Return sca methods information
+     *
+     * @param encryptedPaymentId  the encryptedPaymentId
+     * @param authorisationId     the auth id
+     * @param login               the login
+     * @param pin                 the password
+     * @param consentCookieString the consent cookie
+     * @return PaymentAuthorizeResponse
+     */
+    @PostMapping(path = "/{encryptedPaymentId}/authorisation/{authorisationId}/login")
+    @ApiOperation(value = "Identifies the user by login an pin. Return sca methods information")
+    ResponseEntity<PaymentAuthorizeResponse> login(
         @PathVariable("encryptedPaymentId") String encryptedPaymentId,
         @PathVariable("authorisationId") String authorisationId,
-        @RequestParam("login") String login,
-        @RequestParam("pin") String pin,
+        @RequestParam(value = "login", required = false) String login,
+        @RequestParam(value = "pin", required = false) String pin,
         @RequestHeader(name = "Cookie", required = false) String consentCookieString) throws PaymentAuthorizeException;
 
-	/**
-	 * Selects the SCA Method for use.
-	 *
-	 * @param encryptedPaymentId the sca id
-	 * @param authorisationId the auth id
-	 * @param scaMethodId sca
-	 * @param consentAndaccessTokenCookieString the cosent cookie
-	 * @return PaymentAuthorizeResponse
-	 */
-	@PostMapping("/{encryptedPaymentId}/authorisation/{authorisationId}/methods/{scaMethodId}")
-	@ApiOperation(value = "Selects the SCA Method for use.", authorizations = @Authorization(value = "apiKey"))
-	ResponseEntity<PaymentAuthorizeResponse> selectMethod(
+    /**
+     * Selects the SCA Method for use.
+     *
+     * @param encryptedPaymentId                the sca id
+     * @param authorisationId                   the auth id
+     * @param scaMethodId                       sca
+     * @param consentAndaccessTokenCookieString the consent cookie
+     * @return PaymentAuthorizeResponse
+     */
+    @PostMapping("/{encryptedPaymentId}/authorisation/{authorisationId}/methods/{scaMethodId}")
+    @ApiOperation(value = "Selects the SCA Method for use.", authorizations = @Authorization(value = "apiKey"))
+    ResponseEntity<PaymentAuthorizeResponse> selectMethod(
         @PathVariable("encryptedPaymentId") String encryptedPaymentId,
         @PathVariable("authorisationId") String authorisationId,
         @PathVariable("scaMethodId") String scaMethodId,
         @RequestHeader(name = "Cookie", required = false) String consentAndaccessTokenCookieString);
 
-	/**
-	 * Provides a TAN for the validation of an authorization
-	 *
-	 * @param encryptedPaymentId the sca id
-	 * @param authorisationId the auth id
-	 * @param consentAndaccessTokenCookieString the cosent cookie
-	 * @param authCode the auth code
-	 * @return PaymentAuthorizeResponse
-	 */
-	@PostMapping(path="/{encryptedPaymentId}/authorisation/{authorisationId}/authCode", params= {"authCode"})
-	@ApiOperation(value = "Provides a TAN for the validation of an authorization", authorizations = @Authorization(value = "apiKey"))
-	ResponseEntity<PaymentAuthorizeResponse> authorisePayment(
+    /**
+     * Provides a TAN for the validation of an authorization
+     *
+     * @param encryptedPaymentId                the sca id
+     * @param authorisationId                   the auth id
+     * @param consentAndaccessTokenCookieString the cosent cookie
+     * @param authCode                          the auth code
+     * @return PaymentAuthorizeResponse
+     */
+    @PostMapping(path = "/{encryptedPaymentId}/authorisation/{authorisationId}/authCode", params = {"authCode"})
+    @ApiOperation(value = "Provides a TAN for the validation of an authorization", authorizations = @Authorization(value = "apiKey"))
+    ResponseEntity<PaymentAuthorizeResponse> authorisePayment(
         @PathVariable("encryptedPaymentId") String encryptedPaymentId,
         @PathVariable("authorisationId") String authorisationId,
         @RequestHeader(name = "Cookie", required = false) String consentAndaccessTokenCookieString,
@@ -73,7 +73,7 @@ public interface PisCancellationApi {
      * In any case, the session of the user will be closed and cookies will be deleted.
      *
      * @param encryptedPaymentId ID of Payment
-     * @param authorisationId ID of related Payment Authorisation
+     * @param authorisationId    ID of related Payment Authorisation
      * @return redirect location header with TPP url
      */
     @GetMapping(path = "/{encryptedPaymentId}/authorisation/{authorisationId}/done", params = {"forgetConsent", "backToTpp"})
@@ -85,6 +85,7 @@ public interface PisCancellationApi {
         @PathVariable("authorisationId") String authorisationId,
         @RequestHeader(name = "Cookie", required = false) String consentAndAccessTokenCookieString,
         @RequestParam(name = "forgetConsent", required = false) Boolean forgetConsent,
-        @RequestParam(name = "backToTpp", required = false) Boolean backToTpp) throws PaymentAuthorizeException;
+        @RequestParam(name = "backToTpp", required = false) Boolean backToTpp,
+        @RequestParam(name = "oauth2", required = false, defaultValue = "false") boolean isOauth2Integrated) throws PaymentAuthorizeException;
 
 }

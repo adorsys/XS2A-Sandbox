@@ -42,7 +42,6 @@ public class PaymentExecutionHelper {
 
     public PaymentExecutionHelper(PaymentApiClient paymentApi, PaymentCase paymentCase, String paymentService,
                                   String paymentProduct) {
-        super();
         this.paymentApi = paymentApi;
         this.paymentCase = paymentCase;
         this.paymentService = paymentService;

@@ -1,12 +1,14 @@
 package de.adorsys.ledgers.oba.rest.server.service;
 
 import de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO;
-import de.adorsys.ledgers.middleware.api.domain.sca.*;
+import de.adorsys.ledgers.middleware.api.domain.sca.SCAPaymentResponseTO;
+import de.adorsys.ledgers.middleware.api.domain.sca.SCAResponseTO;
+import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.api.service.TokenStorageService;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
+import de.adorsys.ledgers.middleware.client.rest.OauthRestClient;
 import de.adorsys.ledgers.middleware.client.rest.PaymentRestClient;
-import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.ledgers.oba.rest.api.consentref.ConsentReference;
 import de.adorsys.ledgers.oba.rest.api.consentref.ConsentReferencePolicy;
 import de.adorsys.ledgers.oba.rest.api.consentref.InvalidConsentException;
@@ -54,14 +56,7 @@ public class CommonPaymentService {
     private final TokenStorageService tokenStorageService;
     private final PaymentConverter paymentConverter;
     private final MiddlewareAuthentication auth;
-    private final UserMgmtRestClient userMgmtRestClient;
-
-    public boolean loginForPaymentOperation(String login, String pin, PaymentWorkflow paymentWorkflow, OpTypeTO operationType) {
-        ResponseEntity<SCALoginResponseTO> authoriseForConsent =
-            userMgmtRestClient.authoriseForConsent(login, pin, paymentWorkflow.paymentId(), paymentWorkflow.authId(), operationType);
-        processSCAResponse(paymentWorkflow, authoriseForConsent.getBody());
-        return AuthUtils.success(authoriseForConsent);
-    }
+    private final OauthRestClient oauthRestClient;
 
     public ResponseEntity<PaymentAuthorizeResponse> selectScaForPayment(String encryptedPaymentId, String authorisationId, String scaMethodId, String consentAndAccessTokenCookieString, HttpServletResponse response, boolean isCancellationOperation) {
         String psuId = AuthUtils.psuId(auth);
@@ -146,7 +141,7 @@ public class CommonPaymentService {
         String paymentId = workflow.getPaymentResponse().getPayment().getPaymentId();
         String authorisationId = workflow.getPaymentResponse().getAuthorisationId();
         String status = workflow.getAuthResponse().getScaStatus().name();
-        ResponseEntity<Void> resp = cmsPsuPisClient.updateAuthorisationStatus(psuId, null, null, null,
+        ResponseEntity resp = cmsPsuPisClient.updateAuthorisationStatus(psuId, null, null, null,
             paymentId, authorisationId, status, CmsPsuPisClient.DEFAULT_SERVICE_INSTANCE_ID, new AuthenticationDataHolder(null, null));
         if (resp.getStatusCode() != HttpStatus.OK) {
             throw new PaymentAuthorizeException(responseUtils.couldNotProcessRequest(authResp(), "Error updating authorisation status. See error code.", resp.getStatusCode(), response));
@@ -157,40 +152,36 @@ public class CommonPaymentService {
         return new PaymentAuthorizeResponse();
     }
 
-    @SuppressWarnings("PMD.CyclomaticComplexity")
-    private CmsPaymentResponse loadPaymentByRedirectId(String psuId,
-                                                       ConsentReference consentReference, HttpServletResponse response) throws PaymentAuthorizeException {
+    private CmsPaymentResponse loadPaymentByRedirectId(String psuId, ConsentReference consentReference, HttpServletResponse response) throws PaymentAuthorizeException {
         String psuIdType = null;
         String psuCorporateId = null;
         String psuCorporateIdType = null;
         String redirectId = consentReference.getRedirectId();
         // 4. After user login:
-        ResponseEntity<CmsPaymentResponse> responseEntity = cmsPsuPisClient.getPaymentByRedirectId(
+        ResponseEntity<CmsPaymentResponse> cmsResponse = cmsPsuPisClient.getPaymentByRedirectId(
             psuId, psuIdType, psuCorporateId, psuCorporateIdType, redirectId, CmsPsuPisClient.DEFAULT_SERVICE_INSTANCE_ID);
-        HttpStatus statusCode = responseEntity.getStatusCode();
+
+        return resolveResponse(response, cmsResponse);
+    }
+
+    private CmsPaymentResponse resolveResponse(HttpServletResponse response, ResponseEntity<CmsPaymentResponse> cmsResponse) throws PaymentAuthorizeException {
+        HttpStatus statusCode = cmsResponse.getStatusCode();
         if (HttpStatus.OK.equals(statusCode)) {
-            return responseEntity.getBody();
-        }
-
-        if (HttpStatus.NOT_FOUND.equals(statusCode)) {
-            // ---> if(NotFound)
+            return cmsResponse.getBody();
+        } else if (HttpStatus.NOT_FOUND.equals(statusCode)) {
             throw new PaymentAuthorizeException(responseUtils.requestWithRedNotFound(authResp(), response));
-        }
-
-        if (HttpStatus.REQUEST_TIMEOUT.equals(statusCode)) {
-            // ---> if(Expired, TPP-Redirect-URL)
-            // 3.a0) LogOut User
-            // 3.a1) Send back to TPP
-            CmsPaymentResponse payment = responseEntity.getBody();
+        } else if (HttpStatus.REQUEST_TIMEOUT.equals(statusCode)) {
+            /* ---> if(Expired, TPP-Redirect-URL)
+             3.a0) LogOut User
+             3.a1) Send back to TPP*/
+            CmsPaymentResponse payment = cmsResponse.getBody();
             String location = StringUtils.isNotBlank(payment.getTppNokRedirectUri())
                                   ? payment.getTppNokRedirectUri()
                                   : payment.getTppOkRedirectUri();
             throw new PaymentAuthorizeException(responseUtils.redirect(location, response));
-        } else if (responseEntity.getStatusCode() != HttpStatus.OK) {
-            throw new PaymentAuthorizeException(responseUtils.couldNotProcessRequest(authResp(), responseEntity.getStatusCode(), response));
+        } else {
+            throw new PaymentAuthorizeException(responseUtils.couldNotProcessRequest(authResp(), statusCode, response));
         }
-
-        throw new PaymentAuthorizeException(responseUtils.couldNotProcessRequest(authResp(), statusCode, response));
     }
 
     public void processPaymentResponse(PaymentWorkflow paymentWorkflow, SCAPaymentResponseTO paymentResponse) {
@@ -236,14 +227,18 @@ public class CommonPaymentService {
         }
     }
 
-    public ResponseEntity<PaymentAuthorizeResponse> resolveRedirectUrl(String encryptedPaymentId, String authorisationId, String consentAndAccessTokenCookieString, HttpServletResponse response) throws PaymentAuthorizeException {
+    public ResponseEntity<PaymentAuthorizeResponse> resolveRedirectUrl(String encryptedPaymentId, String authorisationId, String consentAndAccessTokenCookieString, HttpServletResponse response, boolean isOauth2Integrated) throws PaymentAuthorizeException {
         String psuId = AuthUtils.psuId(auth);
         PaymentWorkflow workflow = identifyPayment(encryptedPaymentId, authorisationId, true, consentAndAccessTokenCookieString, psuId, response, auth.getBearerToken());
 
         ScaStatusTO scaStatus = workflow.getScaResponse().getScaStatus();
         CmsPaymentResponse consentResponse = workflow.getPaymentResponse();
 
-        String tppOkRedirectUri = consentResponse.getTppOkRedirectUri();
+        authInterceptor.setAccessToken(workflow.getScaResponse().getBearerToken().getAccess_token());
+        String tppOkRedirectUri = isOauth2Integrated
+                                      ? oauthRestClient.oauthCode(consentResponse.getTppOkRedirectUri()).getBody().getRedirectUri()
+                                      : consentResponse.getTppOkRedirectUri();
+
         String tppNokRedirectUri = consentResponse.getTppNokRedirectUri();
 
         String redirectURL = FINALISED.equals(scaStatus)

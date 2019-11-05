@@ -162,6 +162,5 @@ public interface AISApi {
     ResponseEntity<ConsentAuthorizeResponse> revokeConsent(@PathVariable("encryptedConsentId") String encryptedConsentId,
                                                            @PathVariable("authorisationId") String authorisationId,
                                                            @RequestHeader(name = "Cookie", required = false) String cookieString);
-
 }
 

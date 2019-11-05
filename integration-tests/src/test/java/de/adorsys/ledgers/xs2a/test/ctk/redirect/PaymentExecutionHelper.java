@@ -8,7 +8,9 @@ import de.adorsys.ledgers.oba.rest.api.domain.PaymentAuthorizeResponse;
 import de.adorsys.ledgers.oba.rest.api.exception.PaymentAuthorizeException;
 import de.adorsys.ledgers.oba.rest.client.ObaPisApiClient;
 import de.adorsys.ledgers.xs2a.client.PaymentApiClient;
-import de.adorsys.psd2.model.*;
+import de.adorsys.psd2.model.PaymentInitationRequestResponse201;
+import de.adorsys.psd2.model.PaymentInitiationStatusResponse200Json;
+import de.adorsys.psd2.model.TransactionStatus;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.springframework.http.ResponseEntity;
@@ -109,7 +111,7 @@ public class PaymentExecutionHelper {
 
         Assert.assertEquals(encryptedPaymentId, encryptedPaymentIdFromOnlineBanking);
 
-        ResponseEntity<AuthorizeResponse> pisAuth = pisApiClient.pisAuth(redirectId, encryptedPaymentId);
+        ResponseEntity<AuthorizeResponse> pisAuth = pisApiClient.pisAuth(redirectId, encryptedPaymentId, null);
         URI location = pisAuth.getHeaders().getLocation();
         String authorisationId = QuerryParser.param(location.toString(), "authorisationId");
         List<String> cookieStrings = pisAuth.getHeaders().get("Set-Cookie");

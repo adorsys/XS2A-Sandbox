@@ -2,7 +2,9 @@ package de.adorsys.ledgers.oba.rest.server.resource;
 
 import de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
+import de.adorsys.ledgers.middleware.api.domain.sca.SCALoginResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCAPaymentResponseTO;
+import de.adorsys.ledgers.middleware.api.domain.sca.SCAResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.um.ScaUserDataTO;
 import de.adorsys.ledgers.middleware.client.rest.PaymentRestClient;
 import de.adorsys.ledgers.oba.rest.api.domain.PaymentAuthorizeResponse;
@@ -49,9 +51,10 @@ public class PisCancellationController extends AbstractXISController implements 
                       .build();
         }
         // Authorize
-        boolean success = paymentService.loginForPaymentOperation(login, pin, cancellationWorkflow, OpTypeTO.CANCEL_PAYMENT);
+        ResponseEntity<SCALoginResponseTO> loginResult = performLoginForConsent(login, pin, cancellationWorkflow.paymentId(), cancellationWorkflow.authId(), OpTypeTO.CANCEL_PAYMENT);
+        processSCAResponse(cancellationWorkflow, loginResult.getBody());
 
-        if (!success) {
+        if (AuthUtils.success(loginResult)) {
             responseUtils.removeCookies(response);
             return ResponseEntity.status(UNAUTHORIZED).build();
         }
@@ -65,6 +68,14 @@ public class PisCancellationController extends AbstractXISController implements 
         return paymentService.resolvePaymentWorkflow(cancellationWorkflow, response);
     }
 
+    private void processSCAResponse(PaymentWorkflow workflow, SCAResponseTO paymentResponse) {
+        workflow.setScaResponse(paymentResponse);
+        workflow.getAuthResponse().setAuthorisationId(paymentResponse.getAuthorisationId());
+        workflow.getAuthResponse().setScaStatus(paymentResponse.getScaStatus());
+        workflow.getAuthResponse().setScaMethods(paymentResponse.getScaMethods());
+        workflow.setAuthCodeMessage(paymentResponse.getPsuMessage());
+    }
+
     @Override
     public ResponseEntity<PaymentAuthorizeResponse> selectMethod(String encryptedPaymentId, String authorisationId,
                                                                  String scaMethodId, String consentAndAccessTokenCookieString) {
@@ -75,9 +86,9 @@ public class PisCancellationController extends AbstractXISController implements 
     public ResponseEntity<PaymentAuthorizeResponse> authorisePayment(String encryptedPaymentId, String authorisationId,
                                                                      String consentAndAccessTokenCookieString, String authCode) {
 
-        String psuId = AuthUtils.psuId(auth);
+        String psuId = AuthUtils.psuId(middlewareAuth);
         try {
-            PaymentWorkflow cancellationWorkflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, true, consentAndAccessTokenCookieString, psuId, response, auth.getBearerToken());
+            PaymentWorkflow cancellationWorkflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, true, consentAndAccessTokenCookieString, psuId, response, middlewareAuth.getBearerToken());
 
             authInterceptor.setAccessToken(cancellationWorkflow.bearerToken().getAccess_token());
 
@@ -98,9 +109,9 @@ public class PisCancellationController extends AbstractXISController implements 
 
     @Override
     public ResponseEntity<PaymentAuthorizeResponse> pisDone(String encryptedPaymentId, String authorisationId,
-                                                            String consentAndAccessTokenCookieString, Boolean forgetConsent, Boolean backToTpp) throws PaymentAuthorizeException {
+                                                            String consentAndAccessTokenCookieString, Boolean forgetConsent, Boolean backToTpp, boolean isOauth2Integrated) throws PaymentAuthorizeException {
 
-        return paymentService.resolveRedirectUrl(encryptedPaymentId, authorisationId, consentAndAccessTokenCookieString, response);
+        return paymentService.resolveRedirectUrl(encryptedPaymentId, authorisationId, consentAndAccessTokenCookieString, response, isOauth2Integrated);
     }
 
     private void initiateCancelPayment(final PaymentWorkflow paymentWorkflow) {

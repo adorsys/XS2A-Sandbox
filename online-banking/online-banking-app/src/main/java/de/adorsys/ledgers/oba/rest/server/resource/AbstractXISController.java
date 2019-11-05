@@ -1,5 +1,7 @@
 package de.adorsys.ledgers.oba.rest.server.resource;
 
+import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
+import de.adorsys.ledgers.middleware.api.domain.sca.SCALoginResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.api.service.TokenStorageService;
@@ -10,7 +12,9 @@ import de.adorsys.ledgers.oba.rest.api.consentref.ConsentReferencePolicy;
 import de.adorsys.ledgers.oba.rest.api.consentref.ConsentType;
 import de.adorsys.ledgers.oba.rest.api.consentref.InvalidConsentException;
 import de.adorsys.ledgers.oba.rest.api.domain.AuthorizeResponse;
+import de.adorsys.ledgers.oba.rest.api.exception.AuthorizationException;
 import de.adorsys.ledgers.oba.rest.server.auth.MiddlewareAuthentication;
+import de.adorsys.ledgers.oba.rest.server.auth.TokenAuthenticationService;
 import lombok.extern.slf4j.Slf4j;
 import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
+import static de.adorsys.ledgers.oba.rest.api.exception.AuthErrorCode.LOGIN_FAILED;
 import static de.adorsys.ledgers.oba.rest.server.auth.oba.SecurityConstant.BEARER_TOKEN_PREFIX;
 
 @Slf4j
@@ -31,10 +36,10 @@ public abstract class AbstractXISController {
 
     @Autowired
     protected AspspConsentDataClient aspspConsentDataClient;
-
     @Autowired
     protected TokenStorageService tokenStorageService;
-
+    @Autowired
+    protected TokenAuthenticationService tokenAuthenticationService;
     @Autowired
     protected AuthRequestInterceptor authInterceptor;
 
@@ -43,7 +48,7 @@ public abstract class AbstractXISController {
     @Autowired
     protected HttpServletResponse response;
     @Autowired
-    protected MiddlewareAuthentication auth;
+    protected MiddlewareAuthentication middlewareAuth;
     @Autowired
     protected UserMgmtRestClient userMgmtRestClient;
 
@@ -67,11 +72,11 @@ public abstract class AbstractXISController {
      * A 302 redirect will be performed to that URL by default. But if the target user agent does not
      * which for a redirect, it can set the NO_REDIRECT_HEADER_PARAM to true/on.
      *
-     * @param redirectId
-     * @param consentType
-     * @param encryptedConsentId
-     * @param response
-     * @return
+     * @param redirectId         redirectId
+     * @param consentType        consentType
+     * @param encryptedConsentId encryptedConsentId
+     * @param response           Servlet Response
+     * @return AuthorizeResponse
      */
     protected ResponseEntity<AuthorizeResponse> auth(String redirectId, ConsentType consentType, String encryptedConsentId, HttpServletResponse response) {
 
@@ -116,5 +121,23 @@ public abstract class AbstractXISController {
         // Header shall be set by the user agent.
         response.addHeader("Location", uriString);
         return ResponseEntity.ok(authResponse);
+    }
+    //TODO consider refactoring
+    protected ResponseEntity<SCALoginResponseTO> performLoginForConsent(String login, String pin, String operationId, String authId, OpTypeTO operationType) {
+        String token = tokenAuthenticationService.readAccessTokenCookie(request);
+        return performLoginForConsent(login, pin, token, operationId, authId, operationType);
+    }
+
+    private ResponseEntity<SCALoginResponseTO> performLoginForConsent(String login, String pin, String token, String operationId, String authId, OpTypeTO operationType) {
+        if (StringUtils.isNotBlank(token)) {
+            authInterceptor.setAccessToken(token);
+            return userMgmtRestClient.authoriseForConsent(operationId, authId, operationType);
+        } else if (StringUtils.isNotBlank(login) || StringUtils.isNotBlank(pin)) {
+            return userMgmtRestClient.authoriseForConsent(login, pin, operationId, authId, operationType);
+        }
+        throw AuthorizationException.builder()
+                  .errorCode(LOGIN_FAILED)
+                  .devMessage("Login or pin is missing.")
+                  .build();
     }
 }
