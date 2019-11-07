@@ -244,6 +244,8 @@ class PSUAISService extends __BaseService {
    *
    * - `authorisationId`: authorisationId
    *
+   * - `oauth2`: oauth2
+   *
    * - `Cookie`: Cookie
    *
    * @return OK
@@ -256,6 +258,7 @@ class PSUAISService extends __BaseService {
 
     if (params.backToTpp != null) __params = __params.set('backToTpp', params.backToTpp.toString());
 
+    if (params.oauth2 != null) __params = __params.set('oauth2', params.oauth2.toString());
     if (params.Cookie != null) __headers = __headers.set('Cookie', params.Cookie.toString());
     let req = new HttpRequest<any>(
       'GET',
@@ -285,6 +288,8 @@ class PSUAISService extends __BaseService {
    * - `backToTpp`: backToTpp
    *
    * - `authorisationId`: authorisationId
+   *
+   * - `oauth2`: oauth2
    *
    * - `Cookie`: Cookie
    *
@@ -616,6 +621,11 @@ module PSUAISService {
      * authorisationId
      */
     authorisationId: string;
+
+    /**
+     * oauth2
+     */
+    oauth2?: boolean;
 
     /**
      * Cookie
