@@ -15,9 +15,9 @@
                 <div class="col-12 col-md-3 ">Accounts</div>
                 <div class=" col-12 col-md-9 text-muted">
                     <div *ngFor="let accountAccess of user?.accountAccesses">
-                        <span class="iban" (click)="handleClickOnIBAN($event);">
+                        <a [routerLink]="" class="iban" (click)="handleClickOnIBAN($event);">
                             {{accountAccess.iban}}
-                        </span>
+                        </a>
                     </div>
                 </div>
             </div>
