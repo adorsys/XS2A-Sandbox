@@ -34,17 +34,7 @@ export class AccountService {
   }
 
   getAccountByIban(iban: string){
-
-    function findAccountByIban(accounts: Account[]){
-      for(let i = 0; i < accounts.length; i++){
-        if(accounts[i].iban === iban) return accounts[i];
-      }
-    }
-
-
-    return this.http.get<Account[]>(this.url + '/accounts/').pipe(
-      map((accounts) => findAccountByIban(accounts))
-    );
+    return this.http.get<Account>(this.url + '/accounts/details?iban=' + iban);
   }
 
   getAccountReport(id: string): Observable<AccountReport> {
