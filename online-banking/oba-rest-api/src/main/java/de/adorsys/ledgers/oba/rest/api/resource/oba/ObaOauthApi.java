@@ -17,7 +17,7 @@ public interface ObaOauthApi {
 
     @PostMapping("/token")
     @ApiOperation(value = "Oauth token")
-    void oauthToken(@RequestHeader(value = "code") String code);
+    void oauthToken(@RequestParam(value = "code") String code);
 
     @GetMapping("/authorization-server")
     @ApiOperation(value = "Server info")
