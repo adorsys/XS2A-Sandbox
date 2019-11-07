@@ -3,4 +3,5 @@ export class ConsentTypes {
   bankOfferedConsent?: any;
   globalConsent?: any;
   availableAccountsConsent?: any;
+  availableAccountsConsentWithBalance?: any;
 }

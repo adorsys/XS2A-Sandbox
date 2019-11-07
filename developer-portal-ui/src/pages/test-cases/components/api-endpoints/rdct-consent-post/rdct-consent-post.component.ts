@@ -45,6 +45,18 @@ const consentBodies = {
     frequencyPerDay: '1',
     combinedServiceIndicator: false,
   },
+  availableAccountsConsentWithBalance: {
+    access: {
+      accounts: [],
+      balances: [],
+      transactions: [],
+      availableAccountsWithBalance: 'allAccounts',
+    },
+    recurringIndicator: false,
+    validUntil: '2020-03-03',
+    frequencyPerDay: '1',
+    combinedServiceIndicator: false,
+  },
 };
 
 @Component({
@@ -105,6 +117,8 @@ export class RdctConsentPOSTComponent implements OnInit {
       if (allConsentTypes.availableAccountsConsentSupported) {
         this.consentTypes.availableAccountsConsent =
           consentBodies.availableAccountsConsent;
+        this.consentTypes.availableAccountsConsentWithBalance =
+          consentBodies.availableAccountsConsentWithBalance;
       }
     });
   }
