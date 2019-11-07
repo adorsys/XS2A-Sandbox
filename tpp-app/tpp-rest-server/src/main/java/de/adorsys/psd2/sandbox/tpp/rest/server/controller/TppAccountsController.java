@@ -50,8 +50,8 @@ public class TppAccountsController implements TppAccountsRestApi {
     }
 
     @Override
-    public ResponseEntity<CustomPageImpl<AccountDetailsTO>> getAllAccounts(int page, int size) {
-        return accountMgmtStaffRestClient.getListOfAccountsPaged(page, size);
+    public ResponseEntity<CustomPageImpl<AccountDetailsTO>> getAllAccounts(String queryParam, int page, int size) {
+        return accountMgmtStaffRestClient.getListOfAccountsPaged(queryParam, page, size);
     }
 
     @Override

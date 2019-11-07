@@ -57,7 +57,10 @@ public interface TppAccountsRestApi {
         @ApiResponse(code = 200, response = AccountDetailsTO[].class, message = "List of accounts accessible to the TPP.")
     })
     @GetMapping("/page")
-    ResponseEntity<CustomPageImpl<AccountDetailsTO>> getAllAccounts(@RequestParam(required = false, defaultValue = "0") int page, @RequestParam(required = false, defaultValue = "25") int size);
+    ResponseEntity<CustomPageImpl<AccountDetailsTO>> getAllAccounts(
+        @RequestParam(required = false, defaultValue = "") String queryParam,
+        @RequestParam(required = false, defaultValue = "0") int page,
+        @RequestParam(required = false, defaultValue = "25") int size);
 
     /**
      * @param iban : the iban
