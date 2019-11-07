@@ -137,7 +137,7 @@
   <div class="send-body" *ngIf="body">
     <span class="send-body-title">Body</span>
 
-    <div class="play-with-data-table bg">
+    <div class="play-with-data-table bg" *ngIf="consentTypeFlag">
       <span>Select consent type</span>
       <select
         id="consentTypeSelector"
