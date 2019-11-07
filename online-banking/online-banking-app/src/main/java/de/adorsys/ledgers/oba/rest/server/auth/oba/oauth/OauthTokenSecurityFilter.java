@@ -29,7 +29,7 @@ public class OauthTokenSecurityFilter extends AbstractAuthFilter {
 
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String oauthCode = obtainFromHeader(request, OAUTH_CODE);
+        String oauthCode = obtainFromRequest(request, OAUTH_CODE);
 
         if (StringUtils.isBlank(oauthCode)) {
             filterChain.doFilter(request, response);
