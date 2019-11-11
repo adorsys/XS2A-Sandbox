@@ -52,9 +52,10 @@ public class PisCancellationController extends AbstractXISController implements 
         }
         // Authorize
         ResponseEntity<SCALoginResponseTO> loginResult = performLoginForConsent(login, pin, cancellationWorkflow.paymentId(), cancellationWorkflow.authId(), OpTypeTO.CANCEL_PAYMENT);
+        AuthUtils.checkIfUserInitiatedOperation(loginResult, cancellationWorkflow.getPaymentResponse().getPayment().getPsuIdDatas());
         processSCAResponse(cancellationWorkflow, loginResult.getBody());
 
-        if (AuthUtils.success(loginResult)) {
+        if (!AuthUtils.success(loginResult)) {
             responseUtils.removeCookies(response);
             return ResponseEntity.status(UNAUTHORIZED).build();
         }

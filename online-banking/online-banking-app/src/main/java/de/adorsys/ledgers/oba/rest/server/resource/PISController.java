@@ -51,18 +51,18 @@ public class PISController extends AbstractXISController implements PISApi {
 
         // Authorize
         ResponseEntity<SCALoginResponseTO> loginResult = performLoginForConsent(login, pin, workflow.paymentId(), workflow.authId(), OpTypeTO.PAYMENT);
+        AuthUtils.checkIfUserInitiatedOperation(loginResult, workflow.getPaymentResponse().getPayment().getPsuIdDatas());
         processSCAResponse(workflow, loginResult.getBody());
 
-        if (AuthUtils.success(loginResult)) {
-            String psuId = AuthUtils.psuId(workflow.bearerToken());
-            initiatePayment(workflow, response);
-            paymentService.updateScaStatusPaymentStatusConsentData(psuId, workflow, response);
-            return paymentService.resolvePaymentWorkflow(workflow, response);
-        } else {
+        if (!AuthUtils.success(loginResult)) {
             // failed Message. No repeat. Delete cookies.
             responseUtils.removeCookies(response);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+        String psuId = AuthUtils.psuId(workflow.bearerToken());
+        initiatePayment(workflow, response);
+        paymentService.updateScaStatusPaymentStatusConsentData(psuId, workflow, response);
+        return paymentService.resolvePaymentWorkflow(workflow, response);
     }
 
     private void processSCAResponse(PaymentWorkflow workflow, SCAResponseTO paymentResponse) {

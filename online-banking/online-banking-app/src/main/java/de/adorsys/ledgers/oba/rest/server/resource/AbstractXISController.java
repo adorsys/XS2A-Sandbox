@@ -122,6 +122,7 @@ public abstract class AbstractXISController {
         response.addHeader("Location", uriString);
         return ResponseEntity.ok(authResponse);
     }
+
     //TODO consider refactoring
     protected ResponseEntity<SCALoginResponseTO> performLoginForConsent(String login, String pin, String operationId, String authId, OpTypeTO operationType) {
         String token = tokenAuthenticationService.readAccessTokenCookie(request);

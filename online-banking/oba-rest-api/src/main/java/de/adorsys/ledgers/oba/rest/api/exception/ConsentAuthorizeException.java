@@ -3,7 +3,7 @@ package de.adorsys.ledgers.oba.rest.api.exception;
 import org.springframework.http.ResponseEntity;
 
 import de.adorsys.ledgers.oba.rest.api.domain.ConsentAuthorizeResponse;
-
+//TODO refactor THIS
 public class ConsentAuthorizeException extends Exception {
 	private static final long serialVersionUID = 7876974990567439886L;
 	private final ResponseEntity<ConsentAuthorizeResponse> error;
