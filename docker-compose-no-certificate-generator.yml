@@ -218,6 +218,7 @@ services:
       - xs2a-connector-examples
     environment:
       - XS2A_URL=http://xs2a-connector-examples:8089
+      - ASPSP_URL=http://xs2a-aspsp-profile:8080
       - ENVLINK_DEVELOPER_PORTAL=https://dev-dynamicsandbox-developerportalui.cloud.adorsys.de/
       - ENVLINK_XS2A_INTERFACE_SWAGGER=https://dev-dynamicsandbox-xs2a.cloud.adorsys.de/
       - ENVLINK_CONSENT_MANAGEMENT_SYSTEM=https://dev-dynamicsandbox-cms.cloud.adorsys.de
