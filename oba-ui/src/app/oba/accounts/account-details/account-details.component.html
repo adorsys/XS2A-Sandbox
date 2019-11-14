@@ -78,11 +78,12 @@
           <thead>
           <tr>
             <th scope="col">#</th>
+            <th scope="col">Debtor Name</th>
             <th scope="col">Debtor Account</th>
             <th scope="col">Booking date</th>
             <th scope="col">Amount</th>
-            <th scope="col">Debtor Name</th>
             <th scope="col">Value Date</th>
+            <th scope="col">Creditor Name</th>
             <th scope="col">Creditor Account</th>
             <th scope="col">Remittance</th>
             <th scope="col">transactionId</th>
@@ -92,11 +93,12 @@
           <tbody>
           <tr *ngFor="let transaction of transactions; index as i">
               <th scope="row">{{((config.currentPage - 1) * config.itemsPerPage) + i + 1}}</th>
+            <td>{{transaction?.debtorName}}</td>
             <td>{{transaction.debtorAccount?.iban}}</td>
             <td>{{transaction.bookingDate}}</td>
             <td>{{transaction.amount?.amount}} {{transaction.amount?.currency}}</td>
-            <td>{{transaction?.debtorName}}</td>
             <td>{{transaction.valueDate}}</td>
+            <td>{{transaction?.creditorName}}</td>
             <td>{{transaction.creditorAccount?.iban}}</td>
             <td>{{transaction.remittanceInformationUnstructured}}</td>
             <td>{{transaction.transactionId}}</td>
