@@ -24,8 +24,14 @@ NOTE: If you have already registered a TPP and created a PSU user with deposit a
 . Now you will receive two links, the `authorization_endpoint` and the `token_endpoint`, copy the first link and open it in a web browser.
 . Login with your `psd-ui`, press Next, select a sca method, enter the static TAN and press Next again. Finally, click on "Go Back to TPP page".
 . "Go Back to TPP page" leads you to a Google link with your code. Grab the code from the end of the redirected url. In our example the url is https://www.google.com/?code=n4Pwq3neZx5FkSF8EzioCL75 and the resulting code `n4Pwq3neZx5FkSF8EzioCL75`.
-. Go back to Postman and open the second link as new Postman tab by clicking on it. Add to Headers the key "code" with code of the previous step as value and press Send.
+. Go back to Postman and open the second link as new Postman tab by clicking on it. Add to Params the key "code" with code of the previous step as value and press Send.
+
+NOTE: Check that there is no key "code" in Headers at step 12.
+
+[start=13]
 . Finally, you receive your access token, which enables you in Postman to do AIS requests like GET "Read Account List" in OAuth integrated flow. Select as Authorization with the dropdown list to "Bearer Token, paste the copied access token in the "Token" field and use as `Consent-ID` the one you received in step 7.
+
+
 
 === OAuth Pre-Step Consent
 [start=1]
@@ -56,7 +62,11 @@ NOTE: If you have already registered a TPP and created a PSU user with deposit a
 . Click on the link to open a new Postman tab and press Send.
 . Now you receive two links, the `authorization_endpoint` and the `token_endpoint`, enlarge the first link with "https:%2F%2Fgoogle.com" at the end and open it in a web browser.
 . Login with `psd-ui`, this will lead you to a Google link with your code. Grab the code from the end of the redirected url. In our example the url is https://www.google.com/?code=n4Pwq3neZx5FkSF8EzioCL75 and the resulting code `n4Pwq3neZx5FkSF8EzioCL75`.
-. Go back to Postman and open the second link in a new Postman tab by clicking on it. Add to Headers the key "code" with the received code of the previous step as value and press Send. Finally, you receive your access token.
+. Go back to Postman and open the second link in a new Postman tab by clicking on it. Add to Params the key "code" with the received code of the previous step as value and press Send. Finally, you receive your access token.
+
+NOTE: Check that there is no key "code" in Headers at step 11.
+
+[start=12]
 . Go back to very first tab POST request "intitiate consent", change the Authorization with the dropdown list to "
 Bearer Token" and paste the copied access token in the "Token" field. Press Send.
 . You will receive the `consentId` and multiple links (_scaRedirect_, _self_, _status_, _scaStatus_), open the _scaRedirect_ link in a web browser. Now, you should be able to confirm the consent without logging in.
