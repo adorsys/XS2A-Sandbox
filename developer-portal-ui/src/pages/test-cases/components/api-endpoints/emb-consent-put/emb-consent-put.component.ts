@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-emb-consent-put',
-  templateUrl: './emb-consent-put.component.html'
+  templateUrl: './emb-consent-put.component.html',
 })
 export class EmbConsentPutComponent implements OnInit {
   activeSegment = 'documentation';
@@ -22,6 +22,11 @@ export class EmbConsentPutComponent implements OnInit {
     'TPP-Explicit-Authorisation-Preferred': 'true',
     'PSU-ID': 'YOUR_USER_LOGIN',
     'PSU-IP-Address': '1.1.1.1',
+  };
+  body: object = {
+    psuData: {
+      password: '{{psu_id_password}}',
+    },
   };
 
   constructor() {}
