@@ -15,6 +15,7 @@ describe('EmbConsentPutComponent', () => {
   })
   class MockPlayWithDataComponent {
     @Input() headers: object;
+    @Input() body: object;
     @Input() consentIdFlag: boolean;
     @Input() variablePathEnd: string;
     @Input() authorisationIdFlag: boolean;

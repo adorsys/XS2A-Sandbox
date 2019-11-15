@@ -15,6 +15,7 @@ describe('EmbPaymentCancellPutComponent', () => {
   })
   class MockPlayWithDataComponent {
     @Input() headers: object;
+    @Input() body: object;
     @Input() paymentServiceFlag: boolean;
     @Input() paymentProductFlag: boolean;
     @Input() paymentIdFlag: boolean;
