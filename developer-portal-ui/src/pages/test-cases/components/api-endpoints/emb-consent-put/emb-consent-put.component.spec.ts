@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import {Component, Input, Pipe, PipeTransform} from '@angular/core';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 
 import { EmbConsentPutComponent } from './emb-consent-put.component';
-import {LineCommandComponent} from '../../../../../custom-elements/line-command/line-command.component';
-import {CodeAreaComponent} from '../../../../../custom-elements/code-area/code-area.component';
+import { LineCommandComponent } from '../../../../../custom-elements/line-command/line-command.component';
+import { CodeAreaComponent } from '../../../../../custom-elements/code-area/code-area.component';
 
 describe('EmbConsentPutComponent', () => {
   let component: EmbConsentPutComponent;
@@ -11,7 +11,7 @@ describe('EmbConsentPutComponent', () => {
 
   @Component({
     selector: 'app-play-wth-data',
-    template: ''
+    template: '',
   })
   class MockPlayWithDataComponent {
     @Input() headers: object;
@@ -20,7 +20,7 @@ describe('EmbConsentPutComponent', () => {
     @Input() authorisationIdFlag: boolean;
   }
 
-  @Pipe({name: 'translate'})
+  @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -28,7 +28,7 @@ describe('EmbConsentPutComponent', () => {
     }
   }
 
-  @Pipe({name: 'prettyJson'})
+  @Pipe({ name: 'prettyJson' })
   class PrettyJsonPipe implements PipeTransform {
     transform(value) {
       return JSON.stringify(value, null, 4);
@@ -43,7 +43,7 @@ describe('EmbConsentPutComponent', () => {
         PrettyJsonPipe,
         LineCommandComponent,
         MockPlayWithDataComponent,
-        CodeAreaComponent
+        CodeAreaComponent,
       ],
     }).compileComponents();
   }));
@@ -85,5 +85,9 @@ describe('EmbConsentPutComponent', () => {
 
     component.changeSegment('wrong-segment');
     expect(component.activeSegment).not.toBe('wrong-segment');
+  });
+
+  it('should be body', () => {
+    expect(component.body).not.toBeUndefined();
   });
 });
