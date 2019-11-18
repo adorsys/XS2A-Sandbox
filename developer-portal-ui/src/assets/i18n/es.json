@@ -263,11 +263,20 @@
       "SUBSECTION_2": {
         "TITLE": "Construye y ejecuta XS2ASandbox",
         "PART_1": "Después de descargar el proyecto vaya al directorio del proyecto:",
-        "PART_2": "Construye todos los servicios con el comando:",
-        "PART_3": "Después de crear los servicios, puede ejecutar XS2ASandbox de dos maneras, con un simple comando acoplable:",
-        "PART_4": "O con los comandos de Makefile:",
-        "PART_5": "1. Construir y ejecutar servicios",
-        "PART_6": "2. Ejecutar servicios sin construir"
+        "PART_2": "Después de eso, puede construir y ejecutar XS2ASandbox de dos maneras: con un comando docker o con comandos Makefile.",
+        "PART_3": "Si quieres, usa una primera manera:",
+        "PART_4": "1. Construye todos los servicios con el comando:",
+        "PART_5": "2. Después de edificio servicios, puede ejecutar XS2ASandbox con un simple comando docker:",
+        "PART_6": "En Makefile puede usar uno de los tres comandos:",
+        "PART_7": "• Ejecute servicios desde Docker Hub sin construir:",
+        "PART_8": "• Construir y ejecutar servicios:",
+        "PART_9": "• Ejecutar servicios sin construir:",
+        "PART_10": "Una vez que hayas construido el proyecto puedes ejecutarlo sin construir la próxima vez - comando",
+        "PART_11": "o",
+        "PART_12": "desde Makefile.",
+        "PART_13": "Recuerde que después de actualizar el proyecto debe reconstruirlo - comando",
+        "PART_14": "o",
+        "PART_15": "desde Makefile."
       }
     },
     "TROUBLES": {
