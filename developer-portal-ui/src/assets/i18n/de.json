@@ -263,11 +263,20 @@
       "SUBSECTION_2": {
         "TITLE": "Starten der XS2ASandbox",
         "PART_1": "Nach dem erfolgreichen Herunterladen des Projektes gehen Sie in das Projektverzeichnis:",
-        "PART_2": "Bauen Sie alle Dienste mit folgendem Befehl:",
-        "PART_3": "Nachdem alle Dienste erfolgreich gebaut wurden, können Sie mit folgenden Docker Befehl XS2ASandbox starten:",
-        "PART_4": "Alternativ können Sie auch die Makefile Befehle verwenden:",
-        "PART_5": "1. Bauen und starten der Dienste",
-        "PART_6": "2. Starten der Dienste ohne Bauen"
+        "PART_2": "Danach können Sie XS2ASandbox auf zwei Arten bauen und ausführen - mit einem Docker-Befehl oder mit Makefile-Befehlen.",
+        "PART_3": "Falls Sie es wollen benutze einen ersten Weg:",
+        "PART_4": "1. Bauen Sie alle Dienste mit folgendem Befehl:",
+        "PART_5": "2. Nach dem Gebäude der Dienste können Sie XS2ASandbox mit einem einfachen Docker-Befehl ausführen:",
+        "PART_6": "In Makefile können Sie einen von drei Befehlen verwenden:",
+        "PART_7": ". Führen Sie Dienste ohne Build über Docker Hub aus:",
+        "PART_8": ". Bauen und starten der Dienste:",
+        "PART_9": ". Starten der Dienste ohne Bauen:",
+        "PART_10": "Sobald Sie das Projekt gebaut haben, können Sie es ausführen, ohne es das nächste Mal zu bauen - Befehl ",
+        "PART_11": "oder",
+        "PART_12": "aus Makefile",
+        "PART_13": "Denken Sie daran, dass Sie das Projekt nach dem Aktualisieren neu erstellen sollten - Befehl ",
+        "PART_14": "oder",
+        "PART_15": "aus Makefile"
       }
     },
     "TROUBLES": {
