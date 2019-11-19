@@ -42,7 +42,7 @@ public class WebSecurityConfig {
             http.antMatcher("/api/v1/**")
                 .authorizeRequests()
                 .antMatchers(APP_WHITELIST).permitAll()
-                .and()
+                    .and()
                 .authorizeRequests().anyRequest()
                 .authenticated();
 
@@ -54,7 +54,7 @@ public class WebSecurityConfig {
         }
     }
 
-    @Order(3)
+    @Order(2)
     @Configuration
     @RequiredArgsConstructor
     public static class ObaScaSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -66,6 +66,8 @@ public class WebSecurityConfig {
                 .authorizeRequests().antMatchers(APP_INDEX_WHITELIST).permitAll()
                 .and()
                 .authorizeRequests().antMatchers(APP_SCA_WHITELIST).permitAll()
+                .and()
+                .authorizeRequests().antMatchers(APP_WHITELIST).permitAll()
                 .and()
                 .authorizeRequests().antMatchers(SWAGGER_WHITELIST).permitAll()
                 .and()

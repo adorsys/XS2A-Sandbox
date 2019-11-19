@@ -29,6 +29,8 @@ spring:
   jackson:
     serialization:
       write_dates_as_timestamps: false
+  jpa:
+    open-in-view: false
 
 ledgers.url: http://localhost:8088
 xs2a.url: http://localhost:8089
