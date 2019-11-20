@@ -34,7 +34,7 @@ public class PermittedResources {
         "/api/v1/consents/confirm/*/*/*/*",
         "/oauth/authorise",
         "/oauth/token",
-        "/oauth/authorization-server"
+        "/oauth/authorization-server/**"
     };
 
     public static final String[] ACTUATOR_WHITELIST = {
