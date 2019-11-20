@@ -32,8 +32,8 @@ public class PermittedResources {
         "/api/v1/login",
         "/api/v1/password",
         "/api/v1/consents/confirm/*/*/*/*",
-        "/oauth/authorise",
-        "/oauth/token",
+        "/oauth/authorise/**",
+        "/oauth/token/**",
         "/oauth/authorization-server/**"
     };
 
