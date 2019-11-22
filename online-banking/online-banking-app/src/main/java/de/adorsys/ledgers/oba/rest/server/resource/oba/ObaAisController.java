@@ -4,6 +4,7 @@ import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
 import de.adorsys.ledgers.middleware.api.domain.account.TransactionTO;
 import de.adorsys.ledgers.oba.rest.api.resource.oba.ObaAisApi;
 import de.adorsys.ledgers.oba.rest.server.service.AisService;
+import de.adorsys.ledgers.util.domain.CustomPageImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -35,5 +36,10 @@ public class ObaAisController implements ObaAisApi {
     @Override
     public ResponseEntity<List<TransactionTO>> transactions(String accountId, LocalDate dateFrom, LocalDate dateTo) {
         return ResponseEntity.ok(aisService.getTransactions(accountId, dateFrom, dateTo));
+    }
+
+    @Override
+    public ResponseEntity<CustomPageImpl<TransactionTO>> transactions(String accountId, LocalDate dateFrom, LocalDate dateTo, int page, int size) {
+        return ResponseEntity.ok(aisService.getTransactions(accountId, dateFrom, dateTo, page, size));
     }
 }

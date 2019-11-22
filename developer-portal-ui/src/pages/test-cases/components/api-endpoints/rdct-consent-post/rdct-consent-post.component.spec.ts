@@ -4,6 +4,8 @@ import { RdctConsentPOSTComponent } from './rdct-consent-post.component';
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { LineCommandComponent } from '../../../../../custom-elements/line-command/line-command.component';
 import { CodeAreaComponent } from '../../../../../custom-elements/code-area/code-area.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { PlayWthDataComponent } from '../../play-with-data/play-wth-data.component';
 
 describe('RdctConsentPOSTComponent', () => {
   let component: RdctConsentPOSTComponent;
@@ -18,6 +20,8 @@ describe('RdctConsentPOSTComponent', () => {
     @Input() body: object;
     @Input() fieldsToCopy: string[];
     @Input() dateFromFlag: boolean;
+    @Input() consentTypes: string[];
+    @Input() consentBodies: JSON[];
   }
 
   @Pipe({ name: 'translate' })
@@ -45,6 +49,7 @@ describe('RdctConsentPOSTComponent', () => {
         LineCommandComponent,
         CodeAreaComponent,
       ],
+      imports: [HttpClientTestingModule],
     }).compileComponents();
   }));
 

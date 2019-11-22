@@ -1,4 +1,8 @@
 [submodule "scripts/release/release-scripts"]
 	path = scripts/release-scripts
-	url = git@github.com:borisskert/release-scripts.git
+	url = https://github.com/borisskert/release-scripts.git
 	branch = master
+[submodule "postman"]
+	path = postman
+	url = ../xs2a-postman-tests
+

@@ -2,7 +2,10 @@
     <div class="container-fluid">
         <nav class="navbar navbar-light text-primary py-3">
             <a class="navbar-brand" href="#">
-                <img src="./assets/images/Logo_XS2ASandbox.png" class="logo" alt="XS2ASandbox TPP dashboard">
+                <img
+                    class="logo"
+                    [src]="customizeService.getLogo()"
+                />
             </a>
         </nav>
     </div>
@@ -12,7 +15,7 @@
     <div class="card">
         <div class="card-body">
             <div class="card__headline text-center">
-                <h2 class="card-title font-weight-bold">adorsys TPP UI</h2>
+                <h2 class="card-title font-weight-bold"><span *ngIf="!customizeService.isCustom()">adorsys </span>TPP UI</h2>
                 <div class="my-4 card__subtitle">
                     Please log in with your bank account username
                 </div>
@@ -53,7 +56,7 @@
                </div>
 
            </div>
-            <button class="btn btn-primary btn-block" type="submit">Login</button>
+            <button class="btn btn-primary btn-block mb-3" type="submit">Login</button>
             <div class="text-center text-light-grey">
                 <a routerLink="/register">Create new account</a>
             </div>

@@ -1,4 +1,63 @@
 import { Component, OnInit } from '@angular/core';
+import { AspspService } from 'src/services/aspsp.service';
+import { ConsentTypes } from '../../../../../models/consentTypes.model';
+
+const consentBodies = {
+  dedicatedAccountsConsent: {
+    access: {
+      accounts: [{ iban: 'DE88900000010000007500', currency: 'EUR' }],
+      balances: [{ iban: 'DE88900000010000007500', currency: 'EUR' }],
+      transactions: [{ iban: 'DE88900000010000007500', currency: 'EUR' }],
+    },
+    recurringIndicator: true,
+    validUntil: '2020-03-03',
+    frequencyPerDay: 4,
+    combinedServiceIndicator: false,
+  },
+  bankOfferedConsent: {
+    access: { accounts: [], balances: [], transactions: [] },
+    recurringIndicator: true,
+    validUntil: '2020-03-03',
+    frequencyPerDay: 4,
+    combinedServiceIndicator: false,
+  },
+  globalConsent: {
+    access: {
+      accounts: [],
+      balances: [],
+      transactions: [],
+      allPsd2: 'allAccounts',
+    },
+    recurringIndicator: true,
+    validUntil: '2020-03-03',
+    frequencyPerDay: 4,
+    combinedServiceIndicator: false,
+  },
+  availableAccountsConsent: {
+    access: {
+      accounts: [],
+      balances: [],
+      transactions: [],
+      availableAccounts: 'allAccounts',
+    },
+    recurringIndicator: false,
+    validUntil: '2020-03-03',
+    frequencyPerDay: '1',
+    combinedServiceIndicator: false,
+  },
+  availableAccountsConsentWithBalance: {
+    access: {
+      accounts: [],
+      balances: [],
+      transactions: [],
+      availableAccountsWithBalance: 'allAccounts',
+    },
+    recurringIndicator: false,
+    validUntil: '2020-03-03',
+    frequencyPerDay: '1',
+    combinedServiceIndicator: false,
+  },
+};
 
 @Component({
   selector: 'app-rdct-consent-post',
@@ -6,6 +65,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RdctConsentPOSTComponent implements OnInit {
   activeSegment = 'documentation';
+  consentTypes: ConsentTypes = {
+    dedicatedAccountsConsent: consentBodies.dedicatedAccountsConsent,
+  };
   jsonData = {
     access: {
       accounts: [],
@@ -28,21 +90,9 @@ export class RdctConsentPOSTComponent implements OnInit {
     'TPP-Redirect-URI': 'https://adorsys.de/en/psd2-tpp/',
     'TPP-Nok-Redirect-URI': 'https://www.google.com',
   };
-  body: object = {
-    access: {
-      accounts: [],
-      balances: [],
-      transactions: [],
-      availableAccounts: 'allAccounts',
-      allPsd2: 'allAccounts',
-    },
-    recurringIndicator: true,
-    validUntil: '2020-12-31',
-    frequencyPerDay: 4,
-    combinedServiceIndicator: false,
-  };
+  body: object = { ...consentBodies.dedicatedAccountsConsent };
 
-  constructor() {}
+  constructor(private aspsp: AspspService) {}
 
   changeSegment(segment) {
     if (segment === 'documentation' || segment === 'play-data') {
@@ -50,5 +100,26 @@ export class RdctConsentPOSTComponent implements OnInit {
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.setConsentTypes();
+  }
+
+  setConsentTypes() {
+    this.aspsp.getAspspProfile().subscribe(object => {
+      const allConsentTypes = object.ais.consentTypes;
+
+      if (allConsentTypes.bankOfferedConsentSupported) {
+        this.consentTypes.bankOfferedConsent = consentBodies.bankOfferedConsent;
+      }
+      if (allConsentTypes.globalConsentSupported) {
+        this.consentTypes.globalConsent = consentBodies.globalConsent;
+      }
+      if (allConsentTypes.availableAccountsConsentSupported) {
+        this.consentTypes.availableAccountsConsent =
+          consentBodies.availableAccountsConsent;
+        this.consentTypes.availableAccountsConsentWithBalance =
+          consentBodies.availableAccountsConsentWithBalance;
+      }
+    });
+  }
 }

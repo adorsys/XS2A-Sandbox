@@ -1,5 +1,5 @@
-FROM nginx:1.15.5
-MAINTAINER https://github.com/adorsys/xs2a
+FROM nginx:1.17.3
+LABEL maintainer="https://github.com/adorsys/xs2a"
 
 ENV NGINX_ACCESS_LOG_DEBUG combined
 ENV NGINX_ERROR_LOG_DEBUG error

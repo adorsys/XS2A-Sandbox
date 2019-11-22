@@ -1,47 +1,45 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-body--large">
-            <div class="header__title mb-2">User details</div>
+            <div class="header__title">User details</div>
 
             <div class="row">
-                <th class="col-12 col-md-3 mb-3">Login</th>
-                <ul>
-                    <li class="col-12 col-md-9 text-muted">{{user.login}}</li>
-                </ul>
+                <div class="col-12 col-md-3">Login</div>
+                <div class="col-12 col-md-9 text-muted">{{user.login}}</div>
             </div>
             <div class="row">
-                <th class="col-12 col-md-3 mb-3">Email</th>
-                <ul>
-                    <li class="col-12 col-md-9 text-muted">{{user.email}}</li>
-                </ul>
+                <div class="col-12 col-md-3 ">Email</div>
+                <div class="col-12 col-md-9 text-muted">{{user.email}}</div>
             </div>
             <div class="row">
-                <th class="col-12 col-md-3 mb-3 ">Accounts</th>
-                <ul>
-                    <li *ngFor="let accountAccess of user?.accountAccesses" class="nav-item text-muted">
-                        {{accountAccess.iban}}
-                    </li>
-                </ul>
+                <div class="col-12 col-md-3 ">Accounts</div>
+                <div class=" col-12 col-md-9 text-muted">
+                    <div *ngFor="let accountAccess of user?.accountAccesses">
+                        <a href="javascript:void(0);" class="iban" (click)="handleClickOnIBAN($event);">
+                            {{accountAccess.iban}}
+                        </a>
+                    </div>
+                </div>
             </div>
             <div class="row">
-                <th class="col-12 col-md-3 mb-3">Authentication</th>
-                <ul>
-                    <li *ngFor="let scaItem of user?.scaUserData; index as i; last as isLast"
-                        [ngClass]="{'mb-2': !isLast}" class="text-muted">
+                <div class="col-12 col-md-3 ">Authentication</div>
+                <div class="col-12 col-md-9  text-muted">
+                    <div *ngFor="let scaItem of user?.scaUserData; index as i; last as isLast"
+                         [ngClass]="{'mb-2': !isLast}">
                         {{scaItem.methodValue}}
+                        <div *ngIf="scaItem.scaMethod">
+                            Sca Method: {{scaItem.scaMethod}}
+                        </div>
                         <div *ngIf="scaItem.usesStaticTan">
                             Static TAN: {{scaItem.staticTan}}
                         </div>
-                    </li>
-                </ul>
+                    </div>
+                </div>
             </div>
-            <div class="card-body text-right">
                 <button routerLink="/users/{{user.id}}/update-user-details"
                         class="btn btn-primary"
                         type="submit">Edit
                 </button>
-            </div>
         </div>
     </div>
-
 </div>

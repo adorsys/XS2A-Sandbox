@@ -110,45 +110,30 @@
                             <div class="row">
                                 <div class="col-12 col-md-8">
                                     <div [formGroupName]="i" class="form-group">
-                                        <label class="control-label" for="scaData{{i}}">SCA</label>
+                                        <label class="control-label" for="scaData{{i}}">Method Value</label>
                                         <input [ngClass]="{ 'is-invalid': (scaDataItem.controls['methodValue'].touched || submitted) && scaDataItem.controls['methodValue'].errors }"
                                                aria-describedby="scaDataHelp"
                                                class="form-control"
                                                formControlName="methodValue"
                                                id="scaData{{i}}"
-                                               placeholder="Please input SCA method for user"
+                                               placeholder="Please input SCA method value"
                                                type="text">
-                                        <div *ngIf="(scaDataItem.controls['methodValue'].touched || submitted) && scaDataItem.controls['methodValue'].hasError('required')"
+                                        <div *ngIf="scaDataItem.get('methodValue')?.errors?.required"
                                              class="invalid-feedback">
-                                            Authentication Email or Phone number is required
+                                            The value of the method is required
+                                        </div>
+                                        <div *ngIf="scaDataItem.get('methodValue')?.hasError('pattern')"
+                                             class="invalid-feedback">
+                                            The method value has an incorrect format
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-4 my-auto">
+                                <div class="col-12 col-md-4 margin-top">
+                                    <label class="control-label">SCA Method</label>
                                     <div [formGroupName]="i">
-                                        <div class="d-flex">
-                                            <div class="form-check mr-4">
-                                                <input class="form-check-input"
-                                                       formControlName="scaMethod"
-                                                       id="scaUserDataEmail{{i}}"
-                                                       type="radio"
-                                                       value="EMAIL">
-                                                <label class="form-check-label" for="scaUserDataEmail{{i}}">
-                                                    Email
-                                                </label>
-                                            </div>
-
-                                            <div class="form-check mr-4">
-                                                <input class="form-check-input"
-                                                       formControlName="scaMethod"
-                                                       id="scaUserDataPhone{{i}}"
-                                                       type="radio"
-                                                       value="MOBILE">
-                                                <label class="form-check-label" for="scaUserDataPhone{{i}}">
-                                                    Mobile
-                                                </label>
-                                            </div>
-                                        </div>
+                                    <select formControlName="scaMethod" class="form-control">
+                                        <option *ngFor="let method of methods">{{method}}</option>
+                                    </select>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-8">

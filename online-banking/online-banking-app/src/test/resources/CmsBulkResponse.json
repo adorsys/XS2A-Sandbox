@@ -1,0 +1,127 @@
+{
+  "payment":{
+    "paymentId":"KFv0mqGbQUUo0xtEcKSV9E",
+    "paymentProduct":"sepa-credit-transfers",
+    "psuIdDatas":[
+
+    ],
+    "batchBookingPreferred":false,
+    "debtorAccount":{
+      "iban":"DE84900000010000000200",
+      "currency":"EUR"
+    },
+    "payments":[
+      {
+        "paymentId":"5106a2df-f1d0-4e25-be4c-332d9498244d",
+        "paymentProduct":"sepa-credit-transfers",
+        "psuIdDatas":[
+          {
+            "psuId":"qqqqq"
+          }
+        ],
+        "tppInfo":{
+          "authorisationNumber":"PSDDE-FAKENCA-87B2AC",
+          "tppName":"",
+          "tppRoles":[
+            "AISP",
+            "PISP",
+            "PIISP"
+          ],
+          "authorityId":"DE-FAKENCA",
+          "authorityName":"Trust Service Provider AG",
+          "country":"Germany",
+          "organisation":"Fictional Corporation AG",
+          "organisationUnit":"Information Technology",
+          "city":"Nuremberg",
+          "state":"Bayern"
+        },
+        "creationTimestamp":"2019-09-23T14:20:23.048+03:00",
+        "statusChangeTimestamp":"2019-09-23T14:20:23.048+03:00",
+        "endToEndIdentification":"WBG-123456789",
+        "debtorAccount":{
+          "iban":"DE84900000010000000200",
+          "currency":"EUR"
+        },
+        "instructedAmount":{
+          "currency":"EUR",
+          "amount":520.00
+        },
+        "creditorAccount":{
+          "iban":"DE15500105172295759744",
+          "currency":"EUR"
+        },
+        "creditorAgent":"AAAADEBBXXX",
+        "creditorName":"WBG",
+        "creditorAddress":{
+          "street":"WBG Straße",
+          "buildingNumber":"56",
+          "city":"Nürnberg",
+          "postalCode":"90543",
+          "country":"DE"
+        },
+        "remittanceInformationUnstructured":"Ref. Number WBG-1234",
+        "paymentStatus":"RCVD",
+        "requestedExecutionDate":"2019-12-12",
+        "purposeCode":"",
+        "paymentType":"payments"
+      },
+      {
+        "paymentId":"4997ac92-efdb-4878-91ca-49f09e0e0093",
+        "paymentProduct":"sepa-credit-transfers",
+        "psuIdDatas":[
+          {
+            "psuId":"qqqqq"
+          }
+        ],
+        "tppInfo":{
+          "authorisationNumber":"PSDDE-FAKENCA-87B2AC",
+          "tppName":"",
+          "tppRoles":[
+            "AISP",
+            "PISP",
+            "PIISP"
+          ],
+          "authorityId":"DE-FAKENCA",
+          "authorityName":"Trust Service Provider AG",
+          "country":"Germany",
+          "organisation":"Fictional Corporation AG",
+          "organisationUnit":"Information Technology",
+          "city":"Nuremberg",
+          "state":"Bayern"
+        },
+        "creationTimestamp":"2019-09-23T14:20:23.048+03:00",
+        "statusChangeTimestamp":"2019-09-23T14:20:23.048+03:00",
+        "endToEndIdentification":"RI-234567890",
+        "debtorAccount":{
+          "iban":"DE84900000010000000200",
+          "currency":"EUR"
+        },
+        "instructedAmount":{
+          "currency":"EUR",
+          "amount":71.07
+        },
+        "creditorAccount":{
+          "iban":"DE03500105172351985719",
+          "currency":"EUR"
+        },
+        "creditorAgent":"AAAADEBBXXX",
+        "creditorName":"Grünstrom",
+        "creditorAddress":{
+          "street":"Kaisergasse",
+          "buildingNumber":"74",
+          "city":"Dresden",
+          "postalCode":"01067",
+          "country":"DE"
+        },
+        "remittanceInformationUnstructured":"Ref. Number GRUENSTROM-2444",
+        "paymentStatus":"RCVD",
+        "requestedExecutionDate":"2019-12-12",
+        "purposeCode":"",
+        "paymentType":"payments"
+      }
+    ],
+    "paymentType":"bulk-payments"
+  },
+  "authorisationId":"da6d82fe-92fd-4145-9b0f-a9fee8aa4471",
+  "tppOkRedirectUri":"localhost:4400"
+}

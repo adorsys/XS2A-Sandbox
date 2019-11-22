@@ -4,6 +4,7 @@ import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {User} from "../../../models/user.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {map} from "rxjs/operators";
+import {ScaMethods} from "../../../models/scaMethods";
 
 @Component({
     selector: 'app-user-update',
@@ -13,6 +14,8 @@ import {map} from "rxjs/operators";
 export class UserUpdateComponent implements OnInit {
     user : User;
     updateUserForm: FormGroup;
+    methods: string[];
+
     userId: string;
     public submitted: boolean;
     public errorMessage: string;
@@ -34,6 +37,7 @@ export class UserUpdateComponent implements OnInit {
             )
             .subscribe((id: string) => {
                 this.userId = id;
+                this.getMethodsValues();
                 this.getUserDetails();
             });
     }
@@ -46,10 +50,6 @@ export class UserUpdateComponent implements OnInit {
             email: ['', [Validators.required, Validators.email]],
             login: ['', Validators.required],
             pin: ['', [Validators.required, Validators.minLength(5)]],
-        });
-
-        this.updateUserForm.valueChanges.subscribe(val => {
-            this.submitted = false;
         });
     }
 
@@ -74,16 +74,29 @@ export class UserUpdateComponent implements OnInit {
 
         this.userService.updateUserDetails(updatedUser)
             .subscribe(() => this.router.navigate(['/users/all'])
-        )
+        );
     }
 
     initScaData() {
-        return this.formBuilder.group({
-            scaMethod: ['EMAIL', Validators.required],
-            methodValue: ['', Validators.required],
+        const emailValidators = [Validators.required, Validators.pattern(new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))];
+
+        const scaData = this.formBuilder.group({
+            scaMethod: [ScaMethods.EMAIL, Validators.required],
+            methodValue: ['', emailValidators],
             staticTan: [''],
             usesStaticTan: ['']
         });
+
+        scaData.get('scaMethod').valueChanges.subscribe(value => {
+            if (value === ScaMethods.EMAIL){
+                scaData.get('methodValue').setValidators(emailValidators);
+            } else if (value === ScaMethods.MOBILE){
+                scaData.get('methodValue').setValidators([Validators.required, Validators.pattern(new RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/))]);
+            } else {
+                scaData.get('methodValue').setValidators([Validators.required]);
+            }
+        });
+        return scaData;
     }
 
     getUserDetails() {
@@ -92,9 +105,8 @@ export class UserUpdateComponent implements OnInit {
             this.updateUserForm.patchValue({
                 email: this.user.email,
                 pin: this.user.pin,
-                login: this.user.login
+                login: this.user.login,
             });
-
             const scaUserData = <FormArray>this.updateUserForm.get('scaUserData');
             this.user.scaUserData.forEach((value, i) => {
                 if (scaUserData.length < i + 1) {
@@ -113,6 +125,10 @@ export class UserUpdateComponent implements OnInit {
     removeScaDataItem(i: number) {
         const control = <FormArray>this.updateUserForm.controls['scaUserData'];
         control.removeAt(i);
+    }
+
+     getMethodsValues() {
+         this.methods = Object.keys(ScaMethods);
     }
 
 }

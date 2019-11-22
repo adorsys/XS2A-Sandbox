@@ -1,5 +1,5 @@
-import {ScaUserData} from "./sca-user-data.model";
-import {AccountAccess} from "./account-access.model";
+import { AccountAccess } from './account-access.model';
+import { ScaUserData } from './sca-user-data.model';
 
 export class User {
   id: string;

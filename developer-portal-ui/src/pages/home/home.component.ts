@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+
 import {
   ContactInfo,
   CustomizeService,
@@ -98,7 +98,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       date: 1559336400000,
       isToday: false,
       orderNumber: 4,
-    }
+    },
   ];
 
   constructor(private customizeService: CustomizeService) {

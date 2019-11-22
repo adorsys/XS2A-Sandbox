@@ -1,12 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ConsentAuthorizeResponse} from "../../api/models/consent-authorize-response";
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {Subscription} from "rxjs";
-import {ActivatedRoute, Router} from "@angular/router";
-import {AisService} from "../../common/services/ais.service";
-import {ShareDataService} from "../../common/services/share-data.service";
-import {AccountDetailsTO} from "../../api/models/account-details-to";
-import {RoutingPath} from "../../common/models/routing-path.model";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+
+import { AccountDetailsTO } from '../../api/models/account-details-to';
+import { ConsentAuthorizeResponse } from '../../api/models/consent-authorize-response';
+import { RoutingPath } from '../../common/models/routing-path.model';
+import { ShareDataService } from '../../common/services/share-data.service';
 
 @Component({
   selector: 'app-confirm-payment',
@@ -24,7 +23,6 @@ export class ConfirmPaymentComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private aisService: AisService,
     private shareService: ShareDataService) {}
 
   get accounts(): Array<AccountDetailsTO> {

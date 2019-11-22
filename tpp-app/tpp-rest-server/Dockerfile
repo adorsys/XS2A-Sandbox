@@ -1,6 +1,5 @@
 FROM adorsys/java:8
-
-MAINTAINER https://github.com/adorsys/xs2a-sandbox
+LABEL maintainer="https://github.com/adorsys/xs2a-sandbox"
 
 ENV SERVER_PORT 8093
 ENV JAVA_OPTS -Xmx1024m

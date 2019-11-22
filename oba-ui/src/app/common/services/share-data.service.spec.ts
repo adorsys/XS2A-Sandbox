@@ -1,6 +1,6 @@
-import {TestBed} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {ShareDataService} from './share-data.service';
+import { ShareDataService } from './share-data.service';
 
 describe('ShareDataService', () => {
     beforeEach(() => TestBed.configureTestingModule({}));

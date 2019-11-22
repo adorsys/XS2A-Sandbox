@@ -1,16 +1,17 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {AisService} from "../../common/services/ais.service";
-import {ShareDataService} from "../../common/services/share-data.service";
-import {PaymentAuthorizeResponse} from "../../api/models";
-import {SettingsService} from "../../common/services/settings.service";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { PaymentAuthorizeResponse } from '../../api/models';
+import { SettingsService } from '../../common/services/settings.service';
+import { ShareDataService } from '../../common/services/share-data.service';
+import { PisCancellationService } from './../../common/services/pis-cancellation.service';
 
 @Component({
   selector: 'app-result-page',
   templateUrl: './result-page.component.html',
   styleUrls: ['./result-page.component.scss']
 })
-export class ResultPageComponent implements OnInit {
+export class ResultPageComponent implements OnInit, OnDestroy {
 
   public authResponse: PaymentAuthorizeResponse;
   public scaStatus: string;
@@ -19,7 +20,7 @@ export class ResultPageComponent implements OnInit {
 
   constructor(private router: Router,
               private route: ActivatedRoute,
-              private aisService: AisService,
+              private pisCancellationService: PisCancellationService,
               private settingService: SettingsService,
               private shareService: ShareDataService) {
   }
@@ -31,9 +32,8 @@ export class ResultPageComponent implements OnInit {
     // get query params and build link
     this.route.queryParams.subscribe(params => {
       // TODO: use routerlink to build a link https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/issues/8
-      this.ref = '/oba-proxy/pis/' + params['encryptedConsentId'] +
-        '/authorisation/' + params['authorisationId'] +
-        '/done?backToTpp=true&forgetConsent=true';
+      this.ref = `/oba-proxy/pis/${params.encryptedConsentId}/authorisation/${params.authorisationId}` +
+        `/done?backToTpp=true&forgetConsent=true&oauth2=${params.oauth2}`;
     });
 
     // get consent data from shared service
@@ -48,11 +48,20 @@ export class ResultPageComponent implements OnInit {
   }
 
   public backToTpp(): void {
-
+    this.pisDone();
   }
 
   public forgetConsent(): void {
+    this.pisDone();
+  }
 
+  private pisDone(): void {
+    this.pisCancellationService.pisCancellationDone({
+      encryptedPaymentId: this.authResponse.encryptedConsentId,
+      authorisationId: this.authResponse.authorisationId,
+      forgetConsent: 'true',
+      backToTpp: 'true'
+    }).subscribe(res => console.log(res));
   }
 
   ngOnDestroy(): void {

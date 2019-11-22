@@ -58,11 +58,6 @@ export interface TppInfo {
   tppName: string;
 
   /**
-   * TPP redirect URIs
-   */
-  tppRedirectUri?: TppRedirectUri;
-
-  /**
    * Tpp role
    */
   tppRoles: Array<'PISP' | 'AISP' | 'PIISP' | 'ASPSP'>;

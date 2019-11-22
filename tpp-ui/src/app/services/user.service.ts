@@ -1,8 +1,11 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {environment} from "../../environments/environment";
-import {HttpClient} from "@angular/common/http";
-import {User} from "../models/user.model";
-import {Observable} from "rxjs";
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+import { environment } from '../../environments/environment';
+import { PaginationResponse } from '../models/pagination-reponse';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +16,15 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  listUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.url + '/users');
+  listUsers(page: number = 0, size: number = 25, queryParam: string = ''): Observable<{users: User[], totalElements: number}> {
+    return this.http.get<PaginationResponse<User[]>>( `${this.url}/users?page=${page}&size=${size}&queryParam=${queryParam}`).pipe(
+        map((resp) => {
+          return {
+            users: resp.content,
+            totalElements: resp.totalElements
+          };
+        })
+    );
   }
 
   getUser(userId: string): Observable<User> {

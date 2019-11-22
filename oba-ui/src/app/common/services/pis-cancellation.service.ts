@@ -1,7 +1,9 @@
-import {Injectable} from '@angular/core';
-import {PSUPISCancellationService} from '../../api/services';
-import {Observable} from 'rxjs';
-import {PaymentAuthorizeResponse} from '../../api/models/payment-authorize-response';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { PaymentAuthorizeResponse } from '../../api/models/payment-authorize-response';
+import { PSUPISCancellationService } from '../../api/services';
+
 import LoginUsingPOST2Params = PSUPISCancellationService.LoginUsingPOST2Params;
 import SelectMethodUsingPOST1Params = PSUPISCancellationService.SelectMethodUsingPOST1Params;
 import AuthorisePaymentUsingPOSTParams = PSUPISCancellationService.AuthorisePaymentUsingPOSTParams;
@@ -11,8 +13,7 @@ import AuthorisePaymentUsingPOSTParams = PSUPISCancellationService.AuthorisePaym
 })
 export class PisCancellationService {
 
-  constructor(private pisCancellationService: PSUPISCancellationService) {
-  }
+  constructor(private pisCancellationService: PSUPISCancellationService) {}
 
   public pisCancellationLogin(params: LoginUsingPOST2Params): Observable<PaymentAuthorizeResponse> {
     return this.pisCancellationService.loginUsingPOST2(params);
@@ -24,5 +25,9 @@ export class PisCancellationService {
 
   public authorizePayment(params: AuthorisePaymentUsingPOSTParams): Observable<PaymentAuthorizeResponse> {
     return this.pisCancellationService.authorisePaymentUsingPOST(params);
+  }
+
+  public pisCancellationDone(params: PSUPISCancellationService.PisDoneUsingGETParams): Observable<PaymentAuthorizeResponse> {
+    return this.pisCancellationService.pisDoneUsingGET(params);
   }
 }

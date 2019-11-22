@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { FilterPipeModule } from 'ngx-filter-pipe';
 import { of } from 'rxjs';
 
@@ -23,6 +24,7 @@ describe('UsersComponent', () => {
                 FilterPipeModule,
                 RouterTestingModule,
                 HttpClientTestingModule,
+                NgbPaginationModule
             ],
             declarations: [UsersComponent],
             providers: [UserService]
@@ -42,7 +44,7 @@ describe('UsersComponent', () => {
     });
 
     it('should load users on NgOnInit', () => {
-        let mockUsers: User[] = [
+        const mockUsers: User[] = [
             {
                 id: 'USERID',
                 email: 'user@gmail.com',
@@ -54,7 +56,7 @@ describe('UsersComponent', () => {
             }
         ];
 
-        let getUsersSpy = spyOn(usersService, 'listUsers').and.returnValue(of(mockUsers));
+        const getUsersSpy = spyOn(usersService, 'listUsers').and.returnValue(of({users: mockUsers, totalElements: mockUsers.length}));
 
         component.ngOnInit();
 

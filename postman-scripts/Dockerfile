@@ -1,5 +1,5 @@
 FROM postman/newman_alpine33
-MAINTAINER https://github.com/adorsys/xs2a
+LABEL maintainer="https://github.com/adorsys/xs2a"
 
 RUN apk add --update nodejs
 

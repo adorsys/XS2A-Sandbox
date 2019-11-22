@@ -31,7 +31,7 @@ public class DefaultConsentReferencePolicy implements ConsentReferencePolicy {
     private String hmacSecret;
 
     @Override
-    public ConsentReference fromURL(String redirectId, ConsentType consentType, String encryptedConsentId) throws InvalidConsentException {
+    public ConsentReference fromURL(String redirectId, ConsentType consentType, String encryptedConsentId) {
         ConsentReference cr = new ConsentReference();
         cr.setRedirectId(redirectId);
         cr.setConsentType(consentType);
@@ -136,7 +136,7 @@ public class DefaultConsentReferencePolicy implements ConsentReferencePolicy {
         return cr;
     }
 
-    private InvalidConsentException invalidConsent(String message) throws InvalidConsentException {
+    private InvalidConsentException invalidConsent(String message) {
         log.warn(message);
         return new InvalidConsentException(message);
     }

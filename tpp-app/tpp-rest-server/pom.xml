@@ -5,7 +5,7 @@
     <parent>
         <artifactId>tpp-app</artifactId>
         <groupId>de.adorsys.psd2.sandbox</groupId>
-        <version>1.7</version>
+        <version>1.8</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -54,6 +54,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
         </dependency>
 
         <!-- Springfox and swagger UI -->
@@ -128,6 +133,7 @@
                 <version>${spring-boot-dependencies.version}</version>
                 <configuration>
                     <includeSystemScope>true</includeSystemScope>
+                    <excludeDevtools>false</excludeDevtools>
                 </configuration>
                 <executions>
                     <execution>

@@ -14,9 +14,9 @@ payment:
   creditorAgent: DEUTDEDB760
   creditorName: Max Musterman
   creditorAddress:
-    street: SomeStreet
+    streetName: SomeStreet
     buildingNumber: 666
-    city: Kiev
-    postalCode: 04210
+    townName: Kiev
+    postCode: 04210
     country: UA
   remittanceInformationUnstructured: remittance

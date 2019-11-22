@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import {RoutingPath} from "../common/models/routing-path.model";
-import {LoginComponent} from "./login/login.component";
-import {SelectScaComponent} from "./select-sca/select-sca.component";
-import {TanConfirmationComponent} from "./tan-confirmation/tan-confirmation.component";
-import {ResultPageComponent} from "./result-page/result-page.component";
-import {ConfirmPaymentComponent} from "./confirm-payment/confirm-payment.component";
-import {NotFoundComponent} from "../not-found/not-found.component";
+import { RouterModule, Routes } from '@angular/router';
+
+import { RoutingPath } from '../common/models/routing-path.model';
+import { NotFoundComponent } from '../not-found/not-found.component';
+import { ConfirmPaymentComponent } from './confirm-payment/confirm-payment.component';
+import { LoginComponent } from './login/login.component';
+import { ResultPageComponent } from './result-page/result-page.component';
+import { SelectScaComponent } from './select-sca/select-sca.component';
+import { TanConfirmationComponent } from './tan-confirmation/tan-confirmation.component';
 
 const routes: Routes = [
   {

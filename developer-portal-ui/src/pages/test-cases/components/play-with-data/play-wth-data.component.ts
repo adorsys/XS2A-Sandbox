@@ -4,6 +4,7 @@ import { RestService } from '../../../../services/rest.service';
 import { DataService } from '../../../../services/data.service';
 import { getStatusText } from 'http-status-codes';
 import { CopyService } from '../../../../services/copy.service';
+import { ConsentTypes } from '../../../../models/consentTypes.model';
 
 @Component({
   selector: 'app-play-wth-data',
@@ -27,6 +28,8 @@ export class PlayWthDataComponent implements OnInit {
   @Input() variablePathEnd: string;
   @Input() fieldsToCopy: string[];
   @Input() dateFromFlag: boolean;
+  @Input() consentTypeFlag: boolean;
+  @Input() consentTypes: ConsentTypes;
 
   response: HttpResponse<any>;
   finalUrl: string;
@@ -54,6 +57,7 @@ export class PlayWthDataComponent implements OnInit {
     'pain.001-cross-border-credit-transfers',
   ];
   bookingStatusSelect = ['booked', 'pending', 'both'];
+  selectedConsentType: string = 'dedicatedAccountsConsent';
 
   constructor(
     public restService: RestService,
@@ -114,7 +118,7 @@ export class PlayWthDataComponent implements OnInit {
               this.response.body.hasOwnProperty('_links') &&
               this.response.body._links.hasOwnProperty('scaRedirect')
             ) {
-              this.redirectUrl += this.response.body._links.scaRedirect.href;
+              this.redirectUrl = this.response.body._links.scaRedirect.href;
             }
             this.dataService.setIsLoading(false);
             this.dataService.showToast('Request sent', 'Success!', 'success');
@@ -149,6 +153,10 @@ export class PlayWthDataComponent implements OnInit {
   // Fixing the loss of input focus
   trackByFn(index: any, item: any) {
     return index;
+  }
+
+  handleConsentSelected(consentType: string) {
+    this.body = this.consentTypes[consentType];
   }
 
   ngOnInit() {

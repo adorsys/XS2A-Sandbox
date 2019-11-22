@@ -1,3 +1,10 @@
+// Overwrite bootstrap variables
+@import "./bootstrap-overrides";
+
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
 $COLOR_LIGHT_GREEN: #96D550;
 $COLOR_DARK_GREEN: #78AA40;
 $COLOR_WHITE: #FFFFFF;
@@ -8,3 +15,32 @@ $COLOR_DARK_CYAN: #00A992;
 $COLOR_BLACK: #000000;
 $COLOR_LIGHT_DARK: #333333;
 $COLOR_DARK_BLUE: #0F62A4;
+
+$primary-gradient: linear-gradient(129.54deg, #0DB0E2 0%, #10317D 100%);
+$danger-gradient: linear-gradient(129.54deg, lighten($danger, 7%) 0%, $danger 100%);
+
+/*
+ * CSS Variables: Used for whitelabel customization
+ */
+:root {
+  /* Fonts */
+  --fontFamily: #{$font-family-base};
+
+  /* Colors */
+  --colorPrimary: #{$primary};
+
+  /* Gradients */
+  --gradientPrimary: #{$primary-gradient};
+  --gradientDanger: #{$danger-gradient};
+
+  /* Body */
+  --bodyBG: #fff;
+  --bodyFontColor: #212529;
+
+  /* Main */
+  --mainBG: #{$COLOR_LIGHT_GREY-10};
+
+  /* Anchor */
+  --anchorFontColor: #{$link-color};
+  --anchorFontColorHover: #{$link-hover-color};
+}

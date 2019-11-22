@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {ConsentAuthorizeResponse} from "../../api/models/consent-authorize-response";
-import {Subscription} from "rxjs";
-import {ActivatedRoute, Router} from "@angular/router";
-import {ShareDataService} from "../../common/services/share-data.service";
-import {AccountDetailsTO} from "../../api/models/account-details-to";
-import {RoutingPath} from "../../common/models/routing-path.model";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+
+import { AccountDetailsTO } from '../../api/models/account-details-to';
+import { ConsentAuthorizeResponse } from '../../api/models/consent-authorize-response';
+import { RoutingPath } from '../../common/models/routing-path.model';
+import { ShareDataService } from '../../common/services/share-data.service';
 
 @Component({
   selector: 'app-confirm-cancellation',

@@ -1,12 +1,13 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {RoutingPath} from "../common/models/routing-path.model";
-import {LoginComponent} from "./login/login.component";
-import {ConfirmCancellationComponent} from "./confirm-cancellation/confirm-cancellation.component";
-import {SelectScaComponent} from "./select-sca/select-sca.component";
-import {TanConfirmationComponent} from "./tan-confirmation/tan-confirmation.component";
-import {ResultPageComponent} from "./result-page/result-page.component";
-import {NotFoundComponent} from "../not-found/not-found.component";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+
+import { RoutingPath } from '../common/models/routing-path.model';
+import { NotFoundComponent } from '../not-found/not-found.component';
+import { ConfirmCancellationComponent } from './confirm-cancellation/confirm-cancellation.component';
+import { LoginComponent } from './login/login.component';
+import { ResultPageComponent } from './result-page/result-page.component';
+import { SelectScaComponent } from './select-sca/select-sca.component';
+import { TanConfirmationComponent } from './tan-confirmation/tan-confirmation.component';
 
 const routes: Routes = [
   {

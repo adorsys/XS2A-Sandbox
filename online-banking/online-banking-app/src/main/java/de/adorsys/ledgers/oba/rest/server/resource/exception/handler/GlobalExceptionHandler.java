@@ -3,8 +3,10 @@ package de.adorsys.ledgers.oba.rest.server.resource.exception.handler;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.ledgers.oba.rest.api.exception.AisException;
+import de.adorsys.ledgers.oba.rest.api.exception.AuthorizationException;
 import de.adorsys.ledgers.oba.rest.server.auth.oba.ErrorResponse;
 import de.adorsys.ledgers.oba.rest.server.resource.exception.resolver.AisExceptionStatusResolver;
+import de.adorsys.ledgers.oba.rest.server.resource.exception.resolver.AuthorizationExceptionStatusResolver;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +32,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AisException.class)
     public ResponseEntity<Map> handleAisException(AisException e) {
         HttpStatus status = AisExceptionStatusResolver.resolveHttpStatusByCode(e.getAisErrorCode());
+        Map message = buildContentMap(status.value(), e.getDevMessage());
+        return ResponseEntity.status(status).body(message);
+    }
+
+    @ExceptionHandler(AuthorizationException.class)
+    public ResponseEntity<Map> handleAuthException(AuthorizationException e) {
+        HttpStatus status = AuthorizationExceptionStatusResolver.resolveHttpStatusByCode(e.getErrorCode());
         Map message = buildContentMap(status.value(), e.getDevMessage());
         return ResponseEntity.status(status).body(message);
     }

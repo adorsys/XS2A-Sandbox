@@ -1,13 +1,14 @@
-import {Injectable} from "@angular/core";
-import {OnlineBankingAccountInformationService} from "../../api/services/online-banking-account-information.service";
-import {OnlineBankingAuthorizationService} from "../../api/services/online-banking-authorization.service";
-import {OnlineBankingConsentsService} from "../../api/services/online-banking-consents.service";
-import {Observable} from "rxjs";
-import {AccountDetailsTO} from "../../api/models/account-details-to";
-import {TransactionTO} from "../../api/models/transaction-to";
-import {AuthService} from "./auth.service";
-import {ObaAisConsent} from '../../api/models/oba-ais-consent';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
+import { AccountDetailsTO } from '../../api/models/account-details-to';
+import { ObaAisConsent } from '../../api/models/oba-ais-consent';
+import { TransactionTO } from '../../api/models/transaction-to';
+import { OnlineBankingAccountInformationService } from '../../api/services/online-banking-account-information.service';
+import { OnlineBankingAuthorizationService } from '../../api/services/online-banking-authorization.service';
+import { OnlineBankingConsentsService } from '../../api/services/online-banking-consents.service';
+import { AuthService } from './auth.service';
+import {CustomPageImplTransactionTO} from "../../api/models/custom-page-impl-transaction-to";
 
 @Injectable({
     providedIn: 'root'
@@ -33,7 +34,7 @@ export class OnlineBankingService {
         return this.onlineBankingAccountInfoService.accountUsingGET(accountID);
     }
 
-    public getTransactions(params: OnlineBankingAccountInformationService.TransactionsUsingGETParams): Observable<TransactionTO[]> {
+    public getTransactions(params: OnlineBankingAccountInformationService.TransactionsUsingGETParams): Observable<CustomPageImplTransactionTO> {
         return this.onlineBankingAccountInfoService.transactionsUsingGET(params);
     }
 

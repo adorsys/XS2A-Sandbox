@@ -121,7 +121,7 @@ public class AisConsentMapperTest {
         access.setTransactions(getAccounts());
         access.setAllPsd2(UserAccountAccessType.ALL_ACCOUNTS);
         access.setAvailableAccounts(UserAccountAccessType.ALL_ACCOUNTS);
-        access.setAvailableAccountsWithBalances(UserAccountAccessType.ALL_ACCOUNTS);
+        access.setAvailableAccountsWithBalance(UserAccountAccessType.ALL_ACCOUNTS);
         return access;
     }
 
@@ -167,7 +167,7 @@ public class AisConsentMapperTest {
         access.setTransactions(getAccountList());
         access.setAvailableAccounts(AccountAccessType.ALL_ACCOUNTS);
         access.setAllPsd2(AccountAccessType.ALL_ACCOUNTS);
-        access.setAvailableAccountsWithBalances(AccountAccessType.ALL_ACCOUNTS);
+        access.setAvailableAccountsWithBalance(AccountAccessType.ALL_ACCOUNTS);
 
         return access;
     }
@@ -204,7 +204,7 @@ public class AisConsentMapperTest {
         info.setOrganisationUnit(ORGANISATION_UNIT);
         info.setCity(CITY);
         info.setState(STATE);
-        info.setTppRedirectUri(TPP_REDIRECT_URI);
+        //info.setTppRedirectUri(TPP_REDIRECT_URI);
         info.setCancelTppRedirectUri(TPP_CANCEL_URI);
         info.setIssuerCN(ISSUER_CN);
 

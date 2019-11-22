@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json --port 4206",
+    "start:proxy:dev": "ng serve --port=4206 --proxy-config=proxy.dev.conf.json",
     "build": "ng build",
     "build:prod": "ng build --prod",
     "test": "ng test",
@@ -28,7 +29,7 @@
     "@angular/platform-browser": "~8.2.3",
     "@angular/platform-browser-dynamic": "~8.2.3",
     "@angular/router": "~8.2.3",
-    "@ng-bootstrap/ng-bootstrap": "^5.1.0",
+    "@ng-bootstrap/ng-bootstrap": "^5.1.1",
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
     "bootstrap-scss": "~4.2.0",
@@ -37,8 +38,8 @@
     "file-saver": "^2.0.2",
     "http-status-codes": "^1.3.2",
     "jszip": "^3.2.0",
-    "ngx-markdown": "^8.1.0",
     "ngx-loading": "^3.0.1",
+    "ngx-markdown": "^8.1.0",
     "ngx-toastr": "^10.0.2",
     "ramda": "^0.26.1",
     "rxjs": "~6.5.2",
@@ -79,7 +80,7 @@
   },
   "lint-staged": {
     "*.ts": [
-      "tslint --fix -p tslint.json"
+      "tslint --fix -p tsconfig.json"
     ],
     "*.{js,ts,json,css,scss,md,html}": [
       "prettier --write",

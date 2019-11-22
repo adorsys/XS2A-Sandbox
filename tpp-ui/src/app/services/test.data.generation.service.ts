@@ -4,13 +4,18 @@ import {HttpClient} from "@angular/common/http";
 
 @Injectable({providedIn: 'root'})
 export class TestDataGenerationService {
-    private url = `${environment.tppBackend}/data/generate`;
+    private baseUrl = `${environment.tppBackend}`;
 
     constructor(private http: HttpClient) {
     }
 
-    public generateTestData(generatePaymentsFlag: boolean) {
-        return this.http.get(this.url, {
+    public generateTestData(generatePaymentsFlag: boolean, url?: string) {
+        if (url) {
+            return this.http.get(this.baseUrl + url, {
+                responseType: 'text'
+            });
+        }
+        return this.http.get(this.baseUrl + '/data/generate/', {
             params: {
                 generatePayments: generatePaymentsFlag === undefined? 'false' : String(generatePaymentsFlag)
             },
@@ -19,6 +24,6 @@ export class TestDataGenerationService {
     }
 
     public generateIban() {
-        return this.http.get(this.url + '/iban', {responseType: "text"});
+        return this.http.get(this.baseUrl + '/data/generate/iban', {responseType: "text"});
     }
 }

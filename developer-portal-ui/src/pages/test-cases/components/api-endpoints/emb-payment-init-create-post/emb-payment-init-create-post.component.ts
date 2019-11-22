@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-emb-payment-init-create-post',
-  templateUrl: './emb-payment-init-create-post.component.html'
+  templateUrl: './emb-payment-init-create-post.component.html',
 })
 export class EmbPaymentInitCreatePostComponent implements OnInit {
   activeSegment = 'documentation';
@@ -24,10 +24,10 @@ export class EmbPaymentInitCreatePostComponent implements OnInit {
     creditorName: 'WBG',
     creditorAddress: {
       buildingNumber: '56',
-      city: 'Nürnberg',
+      townName: 'Nürnberg',
       country: 'DE',
-      postalCode: '90543',
-      street: 'WBG Straße',
+      postCode: '90543',
+      streetName: 'WBG Straße',
     },
     remittanceInformationUnstructured: 'Ref. Number WBG-1222',
   };
@@ -37,10 +37,10 @@ export class EmbPaymentInitCreatePostComponent implements OnInit {
       iban: 'DE15500105172295759744',
     },
     creditorAddress: {
-      street: 'Breite Gasse',
+      streetName: 'Breite Gasse',
       buildingNumber: '34',
-      city: 'Nürnberg',
-      postalCode: '90457',
+      townName: 'Nürnberg',
+      postCode: '90457',
       country: 'DE',
     },
     creditorAgent: 'BCENEVOD',
@@ -83,10 +83,10 @@ export class EmbPaymentInitCreatePostComponent implements OnInit {
         creditorName: 'WBG',
         creditorAddress: {
           buildingNumber: '56',
-          city: 'Nürnberg',
+          townName: 'Nürnberg',
           country: 'DE',
-          postalCode: '90543',
-          street: 'WBG Straße',
+          postCode: '90543',
+          streetName: 'WBG Straße',
         },
         remittanceInformationUnstructured: 'Ref. Number WBG-1234',
       },
@@ -104,10 +104,10 @@ export class EmbPaymentInitCreatePostComponent implements OnInit {
         creditorName: 'Grünstrom',
         creditorAddress: {
           buildingNumber: '74',
-          city: 'Dresden',
+          townName: 'Dresden',
           country: 'DE',
-          postalCode: '01067',
-          street: 'Kaisergasse',
+          postCode: '01067',
+          streetName: 'Kaisergasse',
         },
         remittanceInformationUnstructured: 'Ref. Number GRUENSTROM-2444',
       },
@@ -122,6 +122,7 @@ export class EmbPaymentInitCreatePostComponent implements OnInit {
   headers: object = {
     'X-Request-ID': '2f77a125-aa7a-45c0-b414-cea25a116035',
     'TPP-Explicit-Authorisation-Preferred': 'true',
+    'TPP-Redirect-Preferred': 'false',
     'PSU-ID': 'YOUR_USER_LOGIN',
     'PSU-IP-Address': '1.1.1.1',
   };
@@ -143,10 +144,10 @@ export class EmbPaymentInitCreatePostComponent implements OnInit {
     creditorName: 'WBG',
     creditorAddress: {
       buildingNumber: '56',
-      city: 'Nürnberg',
+      townName: 'Nürnberg',
       country: 'DE',
-      postalCode: '90543',
-      street: 'WBG Straße',
+      postCode: '90543',
+      streetName: 'WBG Straße',
     },
     remittanceInformationUnstructured: 'Ref. Number WBG-1222',
   };

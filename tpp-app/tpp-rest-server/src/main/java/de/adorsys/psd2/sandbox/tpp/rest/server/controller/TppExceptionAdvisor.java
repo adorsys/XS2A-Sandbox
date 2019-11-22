@@ -30,7 +30,7 @@ public class TppExceptionAdvisor {
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<Map> handleException(Exception ex, HandlerMethod handlerMethod) {
         log.warn("Exception handled in service: {}, message: {}",
-                 handlerMethod.getMethod().getDeclaringClass().getSimpleName(), ex.getMessage());
+            handlerMethod.getMethod().getDeclaringClass().getSimpleName(), ex.getMessage());
 
         return new ResponseEntity<>(buildContentMap(500, ex.getMessage()), INTERNAL_SERVER_ERROR);
     }
@@ -38,7 +38,7 @@ public class TppExceptionAdvisor {
     @ExceptionHandler(TppException.class)
     public ResponseEntity<Map> handleTppException(TppException ex, HandlerMethod handlerMethod) {
         log.warn("TppException handled in service: {}, message: {}",
-                 handlerMethod.getMethod().getDeclaringClass().getSimpleName(), ex.getMessage());
+            handlerMethod.getMethod().getDeclaringClass().getSimpleName(), ex.getMessage());
 
         Map<String, String> body = buildContentMap(ex.getCode(), ex.getMessage());
         return new ResponseEntity<>(body, HttpStatus.valueOf(ex.getCode()));
@@ -47,7 +47,7 @@ public class TppExceptionAdvisor {
     @ExceptionHandler(FeignException.class)
     public ResponseEntity<Map> handleFeignException(FeignException ex, HandlerMethod handlerMethod) {
         log.warn("FeignException handled in service: {}, message: {}",
-                 handlerMethod.getMethod().getDeclaringClass().getSimpleName(), ex.getMessage());
+            handlerMethod.getMethod().getDeclaringClass().getSimpleName(), ex.getMessage());
 
         Map<String, String> body = buildContentMap(ex.status(), resolveErrorMessage(ex));
         return new ResponseEntity<>(body, HttpStatus.valueOf(ex.status()));
@@ -55,11 +55,15 @@ public class TppExceptionAdvisor {
 
     private String resolveErrorMessage(FeignException ex) {
         try {
-            return ex.content() != null
-                       ? ofNullable(objectMapper.readTree(ex.content()).get(DEV_MESSAGE))
-                             .map(JsonNode::asText)
-                             .orElseGet(ex::getMessage)
-                       : ex.getMessage();
+            if (ex.content() == null) {
+                return ex.getMessage();
+            }
+            JsonNode tree = objectMapper.readTree(ex.content());
+            return ofNullable(tree.get(DEV_MESSAGE))
+                       .map(JsonNode::asText)
+                       .orElseGet(() -> ofNullable(tree.get("message"))
+                                            .map(JsonNode::asText)
+                                            .orElse(ex.getMessage()));
         } catch (IOException e) {
             log.warn("Couldn't read json content");
         }

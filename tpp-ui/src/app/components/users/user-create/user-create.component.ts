@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {UserService} from "../../../services/user.service";
 import {User} from "../../../models/user.model";
 import {InfoService} from "../../../commons/info/info.service";
+import {ScaMethods} from "../../../models/scaMethods";
 
 @Component({
     selector: 'app-user-create',
@@ -14,6 +15,7 @@ export class UserCreateComponent implements OnInit {
 
     id: string;
     user: User;
+    methods: string[];
 
     userForm: FormGroup;
     submitted: boolean;
@@ -31,6 +33,7 @@ export class UserCreateComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.getMethodsValues();
         this.setupUserFormControl();
     }
 
@@ -47,12 +50,25 @@ export class UserCreateComponent implements OnInit {
     }
 
     initScaData() {
-        return this.formBuilder.group({
-            scaMethod: ['EMAIL', Validators.required],
-            methodValue: ['', Validators.required],
+        const emailValidators = [Validators.required, Validators.pattern(new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))];
+
+        const scaData = this.formBuilder.group({
+            scaMethod: [ScaMethods.EMAIL, Validators.required],
+            methodValue: ['', emailValidators],
             staticTan: [''],
             usesStaticTan: ['']
         });
+
+        scaData.get('scaMethod').valueChanges.subscribe(value => {
+            if (value === ScaMethods.EMAIL) {
+                scaData.get('methodValue').setValidators(emailValidators);
+            } else if (value === ScaMethods.MOBILE) {
+                scaData.get('methodValue').setValidators([Validators.required, Validators.pattern(new RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/))]);
+            } else {
+                scaData.get('methodValue').setValidators([Validators.required]);
+            }
+        });
+        return scaData;
     }
 
     addScaDataItem() {
@@ -78,8 +94,11 @@ export class UserCreateComponent implements OnInit {
             }, () => {
                 this.infoService.openFeedback("Provided Login or Email are already taken", {
                     severity: 'error'
-                })
+                });
             });
     }
 
+    getMethodsValues() {
+        this.methods = Object.keys(ScaMethods);
+    }
 }

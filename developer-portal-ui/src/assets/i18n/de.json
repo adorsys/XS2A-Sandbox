@@ -47,7 +47,7 @@
       "TITLE": "PSD2 und Open Banking",
       "THE": "Die",
       "LINK": "Payment Service Directive 2 (PSD2)",
-      "CONTENT": "schreibt Banken (ASPSPs = Account Servicing Payment Service Providers) vor bis September 2019 eine standardisierte und voll leistungsfähige Account-Schnittstelle für Drittanbieter (TPPs = Third Payment Providers) bereitzustellen. Diese wird Access-to-Account oder kurz \"XS2A\" genannt. XS2A setzt sich aus folgenden Banking-Funktionalitäten zusammen: Zahlungsinitiierung (PIS = Payment Initiation Service), Kontodatenabfrage (AIS = Account Information Service) und Abfrage von verfügbarem Kapital (PIIS = confirmation of the availability of funds). Um die Einhaltung der Frist zu gewährleisten und sowohl Fehlerbehebungen als auch Anpassungen berücksichtigen zu können, verpflichtet PSD2 die Banken eine Testversion der Schnittstelle bereits im Juni 2019 zur Verfügung zu stellen."
+      "CONTENT": "schreibt Banken (ASPSPs = Account Servicing Payment Service Providers) vor bis März 2020 eine standardisierte und voll leistungsfähige Account-Schnittstelle für Drittanbieter (TPPs = Third Payment Providers) bereitzustellen. Diese wird Access-to-Account oder kurz \"XS2A\" genannt. XS2A setzt sich aus folgenden Banking-Funktionalitäten zusammen: Zahlungsinitiierung (PIS = Payment Initiation Service), Kontodatenabfrage (AIS = Account Information Service) und Abfrage von verfügbarem Kapital (PIIS = confirmation of the availability of funds). Um die Einhaltung der Frist zu gewährleisten und sowohl Fehlerbehebungen als auch Anpassungen berücksichtigen zu können, verpflichtet PSD2 die Banken eine Testversion der Schnittstelle bereits im Juni 2019 zur Verfügung zu stellen."
     },
     "FEATURES": {
       "TITLE": "XS2ASandbox Features",
@@ -123,7 +123,7 @@
       "CONTENT": {
         "THE_1": "Die",
         "LINK": "Payment Service Directive 2 (PSD2)",
-        "PART_1": "schreibt Banken (ASPSPs = Account Servicing Payment Service Providers) vor bis September 2019 eine standardisierte und voll leistungsfähige Account-Schnittstelle für Drittanbieter (TPPs = Third Payment Providers) bereitzustellen. Diese wird Access-to-Account oder kurz \"XS2A\" genannt. XS2A setzt sich aus folgenden Banking-Funktionalitäten zusammen: Zahlungsinitiierung (PIS = Payment Initiation Service), Kontodatenabfrage (AIS = Account Information Service) und Abfrage von verfügbarem Kapital (PIIS = confirmation of the availability of funds). Um die Einhaltung der Frist zu gewährleisten und sowohl Fehlerbehebungen als auch Anpassungen berücksichtigen zu können, verpflichtet PSD2 die Banken eine Testversion der Schnittstelle bereits im Juni 2019 zur Verfügung zu stellen.",
+        "PART_1": "schreibt Banken (ASPSPs = Account Servicing Payment Service Providers) vor bis März 2020 eine standardisierte und voll leistungsfähige Account-Schnittstelle für Drittanbieter (TPPs = Third Payment Providers) bereitzustellen. Diese wird Access-to-Account oder kurz \"XS2A\" genannt. XS2A setzt sich aus folgenden Banking-Funktionalitäten zusammen: Zahlungsinitiierung (PIS = Payment Initiation Service), Kontodatenabfrage (AIS = Account Information Service) und Abfrage von verfügbarem Kapital (PIIS = confirmation of the availability of funds). Um die Einhaltung der Frist zu gewährleisten und sowohl Fehlerbehebungen als auch Anpassungen berücksichtigen zu können, verpflichtet PSD2 die Banken eine Testversion der Schnittstelle bereits im Juni 2019 zur Verfügung zu stellen.",
         "THE_2": "Unsere",
         "XS2A": "XS2ASandbox",
         "PART_2": "ist eine dynamische Sandboxumgebung, die vollständig die PSD2-Anforderungen bezüglich API-Bereitstellung für Drittanbieter (TPPs = Third Payment Providers) erfüllt. Zusätzlich erfüllt sie auch alle regulatorischen Anforderungen der NextGen PSD2-Spezifikation der Berlin Group bezüglich Account Schnittstellen (XS2A = Access-to-Account) und ist NISP konform.",
@@ -133,7 +133,7 @@
     "ARCHITECTURE": {
       "TITLE": "XS2ASandbox Architektur und Module",
       "CONTENT": "Die XS2ASandbox setzt sich aus ihren Komponenten wie in Abbildung 1.1 zusammen.",
-      "CAPTION": "Abbildung 1.2: Komponenten der XS2ASandbox"
+      "CAPTION": "Abbildung 1.1: Komponenten der XS2ASandbox"
     },
     "INTERFACE": {
       "TITLE": "XS2A-Schnittstelle",
@@ -196,7 +196,27 @@
     },
     "UI": {
       "TITLE": "TPP Benutzerschnittstelle",
-      "CONTENT": "TPP-Entwicklern können sich im System registrieren, Zertifikate erhalten und Testdaten für Ihre TPP-Anwendung herunterladen. Diese Testdaten werden anhand des generierten Zertifikats und angegebenen Daten in der TPP Benutzerschnittstelle erstellt."
+      "CONTENT": {
+        "PART_0": "TPP - Entwickler können sich im System registrieren und somit ein Zertifikat erhalten\n. Mit diesem Zertifikat und den vorgegeben Daten in der TPP Benutzeroberfläche können Sie Test - Daten für ihre TPP - Anwendung herunterladen ",
+        "SUBTITLE_1": "Wie legt man ein Benutzerkonto für den TPP an:",
+        "PART_1": "1. Öffnen Sie die Login - Seite in der TPP Benutzeroberfläche.",
+        "PART_2": "2. Wählen Sie unten die Option “Registrieren” aus.",
+        "PART_3": "3. Geben Sie die notwendigen Informationen ein: TPP Autorisierungsnummer, Email, Login und Passwort.",
+        "PART_4": "4. Bei Bedarf können Sie ein QWAC Testzertifikat zum Testen der XS2A Schnittstelle generieren.",
+        "SUBTITLE_2": "Wie werden Benutzer angelegt:",
+        "PART_5": "Benutzer können manuell angelegt werden oder über das Hochladen einer .yaml Datei.",
+        "PART_6": "Einen Benutzer manuell erstellen:",
+        "PART_7": "1. Gehen Sie zu “Meine Benutzerliste” und klicken Sie auf “Neuen Benutzer anlegen”.",
+        "PART_8": "2. Geben Sie Email, Login und Pin für den neuen Benutzer ein.",
+        "PART_9": "3. Wählen Sie eine Authentifizierungsmethode aus (derzeit ist nur Email gültig) und geben Sie eine gültige Email ein. Wenn Sie die Option \"Statische TAN in SandboxModus verwenden\" wählen, werden statische Test TANs verwendet. Das bedeutet Ihre Test TAN muss eingeben werden. Sie können mehrere SCA Methoden pro Benutzer hinzufügen",
+        "PART_10": "Benutzerkonten manuell erstellen: ",
+        "PART_11": "1 Wählen Sie einen Benutzer in der Benutzerliste aus und klicken Sie auf \"Konto erstellen\"",
+        "PART_12": "2. Wählen Sie Kontoart, Verwendung und Kontostatus aus. IBAN kann automatisch generiert werden. Bitte beachten Sie, dass nur valide IBANs von der XS2A Schnittstelle akzeptiert werden.",
+        "PART_13": "3. Nach dem das Konto erstellt wurde, können Sie die Funktion \"Bargeld einzahlen\" verwenden, um zu Testzwecken einen beliebigen Betrag zu den Salden hinzuzufügen. Alle erstellten Konten sind im Reiter \"Benutzerkonten\" verfügbar",
+        "PART_14": "Um Benutzer und Konten automatisch zu erstellen, können Sie Testdaten mit dem Reiter \"Testdaten generieren\" generieren, damit werden NISP konforme Testdaten generiert. Wenn Sie Ihre eigene .yaml Testdatei hochladen möchten, verwenden Sie den Reiter \"Dateien hochladen\".",
+        "SUBTITLE_3": "Wie werden Test - Zahlungen, -Zustimmungen und -Transaktionen erstellt:",
+        "PART_15": "Um Test - Zahlungen zu erstellen, müssen Sie Test - Zahlungsdaten im Reiter \"Testdaten generieren\" generieren, wobei die Option \"Zahlungsdaten generieren\" als wahr markiert werden muss. Darüber hinaus ist das Hochladen einer benutzerdefinierten .yaml Datei mit Zahlungen im Reiter \"Dateien hochladen\" möglich. Zustimmungen und Transaktionen können nur mit dem Hochladen einer korrekten .yaml Datei erstellt werden."
+      }
     },
     "OBA": {
       "TITLE": "Online Banking",
@@ -243,11 +263,20 @@
       "SUBSECTION_2": {
         "TITLE": "Starten der XS2ASandbox",
         "PART_1": "Nach dem erfolgreichen Herunterladen des Projektes gehen Sie in das Projektverzeichnis:",
-        "PART_2": "Bauen Sie alle Dienste mit folgendem Befehl:",
-        "PART_3": "Nachdem alle Dienste erfolgreich gebaut wurden, können Sie mit folgenden Docker Befehl XS2ASandbox starten:",
-        "PART_4": "Alternativ können Sie auch die Makefile Befehle verwenden:",
-        "PART_5": "1. Bauen und starten der Dienste",
-        "PART_6": "2. Starten der Dienste ohne Bauen"
+        "PART_2": "Danach können Sie XS2ASandbox auf zwei Arten bauen und ausführen - mit einem Docker-Befehl oder mit Makefile-Befehlen.",
+        "PART_3": "Falls Sie es wollen benutze einen ersten Weg:",
+        "PART_4": "1. Bauen Sie alle Dienste mit folgendem Befehl:",
+        "PART_5": "2. Nach dem Gebäude der Dienste können Sie XS2ASandbox mit einem einfachen Docker-Befehl ausführen:",
+        "PART_6": "In Makefile können Sie einen von drei Befehlen verwenden:",
+        "PART_7": "• Führen Sie Dienste ohne Build über Docker Hub aus:",
+        "PART_8": "• Bauen und starten der Dienste:",
+        "PART_9": "• Starten der Dienste ohne Bauen:",
+        "PART_10": "Sobald Sie das Projekt gebaut haben, können Sie es ausführen, ohne es das nächste Mal zu bauen - Befehl ",
+        "PART_11": "oder",
+        "PART_12": "aus Makefile",
+        "PART_13": "Denken Sie daran, dass Sie das Projekt nach dem Aktualisieren neu erstellen sollten - Befehl ",
+        "PART_14": "oder",
+        "PART_15": "aus Makefile"
       }
     },
     "TROUBLES": {

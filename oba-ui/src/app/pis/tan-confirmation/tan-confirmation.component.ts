@@ -1,12 +1,14 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Subscription} from "rxjs";
-import {ActivatedRoute, Router} from "@angular/router";
-import {PisService} from "../../common/services/pis.service";
-import {ShareDataService} from "../../common/services/share-data.service";
-import {RoutingPath} from "../../common/models/routing-path.model";
-import {PaymentAuthorizeResponse} from "../../api/models";
-import {PSUPISCancellationService} from "../../api/services/psupiscancellation.service";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+
+import { PaymentAuthorizeResponse } from '../../api/models';
+import { PSUPISCancellationService } from '../../api/services/psupiscancellation.service';
+import { RoutingPath } from '../../common/models/routing-path.model';
+import { PisService } from '../../common/services/pis.service';
+import { ShareDataService } from '../../common/services/share-data.service';
+
 import AuthorisePaymentUsingPOSTParams = PSUPISCancellationService.AuthorisePaymentUsingPOSTParams;
 
 @Component({
@@ -22,6 +24,7 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
   private operation: string;
+  private oauth2Param: boolean;
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
@@ -47,6 +50,11 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
         this.shareService.currentData.subscribe(authResponse => this.authResponse = authResponse);
       }
     });
+
+    // fetch oauth param value
+    this.shareService.oauthParam.subscribe((oauth2: boolean) => {
+      this.oauth2Param = oauth2;
+    });
   }
 
   ngOnDestroy() {
@@ -71,6 +79,7 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
           queryParams: {
             encryptedConsentId: this.authResponse.encryptedConsentId,
             authorisationId: this.authResponse.authorisationId,
+            oauth2: this.oauth2Param
           }
         }).then(() => {
           this.authResponse = authResponse;
@@ -84,6 +93,7 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
             queryParams: {
               encryptedConsentId: this.authResponse.encryptedConsentId,
               authorisationId: this.authResponse.authorisationId,
+              oauth2: this.oauth2Param
             }
           }).then(() => {
             throw error;

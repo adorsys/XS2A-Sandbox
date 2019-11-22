@@ -9,6 +9,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
 
+import java.util.Collections;
+
 import static de.adorsys.ledgers.middleware.api.domain.um.AccessTypeTO.OWNER;
 import static de.adorsys.ledgers.middleware.api.domain.um.UserRoleTO.CUSTOMER;
 import static java.util.Collections.singletonList;
@@ -27,7 +29,7 @@ public class UserMapperTest {
     private final UserMapper userMapper = Mappers.getMapper(UserMapper.class);
 
     @Test
-    public void userToUserTOTest() {
+    public void toUserTO() {
         User user = new User();
         user.setEmail("vne@adorsys.de");
         user.setLogin("vne");
@@ -42,19 +44,27 @@ public class UserMapperTest {
     }
 
     @Test
-    public void toUserTO() {
-        User input = createUser();
-        UserTO expected = createUserTO();
+    public void toUserTO_null_collection_should_become_empty() {
+        User input = createUser(true);
+        UserTO expected = createUserTO(true);
         UserTO result = userMapper.toUserTO(input);
         assertThat(result).isEqualToComparingFieldByFieldRecursively(expected);
     }
 
-    private UserTO createUserTO() {
-        ScaUserDataTO scaUserDataTO = new ScaUserDataTO(SCA_ID, ScaMethodTypeTO.EMAIL, EMAIL, null, true, STATIC_TAN, false);
-        return new UserTO(USER_ID, USER_LOGIN, EMAIL, PIN, singletonList(scaUserDataTO), singletonList(new AccountAccessTO(ACC_ID, IBAN, OWNER, 50)), singletonList(CUSTOMER), null);
+    @Test
+    public void toUserTO_all_filled() {
+        User input = createUser(false);
+        UserTO expected = createUserTO(false);
+        UserTO result = userMapper.toUserTO(input);
+        assertThat(result).isEqualToComparingFieldByFieldRecursively(expected);
     }
 
-    private User createUser() {
+    private UserTO createUserTO(boolean emptySca) {
+        ScaUserDataTO scaUserDataTO = new ScaUserDataTO(SCA_ID, ScaMethodTypeTO.EMAIL, EMAIL, null, true, STATIC_TAN, false);
+        return new UserTO(USER_ID, USER_LOGIN, EMAIL, PIN, emptySca ? Collections.emptyList() : singletonList(scaUserDataTO), singletonList(new AccountAccessTO(ACC_ID, IBAN, OWNER, 50)), singletonList(CUSTOMER), null);
+    }
+
+    private User createUser(boolean emptySca) {
         User user = new User();
         user.setId(USER_ID);
         user.setEmail(EMAIL);
@@ -68,7 +78,9 @@ public class UserMapperTest {
         scaEmail.setScaMethod(ScaMethodType.EMAIL);
         scaEmail.setStaticTan(STATIC_TAN);
         scaEmail.setUsesStaticTan(true);
-        user.setScaUserData(singletonList(scaEmail));
+        user.setScaUserData(emptySca
+                                ? null
+                                : singletonList(scaEmail));
 
         //Set AccountAccess
         user.setAccountAccesses(singletonList(getAccountAccess()));

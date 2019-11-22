@@ -8,6 +8,7 @@ import de.adorsys.ledgers.oba.rest.api.domain.CreatePiisConsentRequestTO;
 import de.adorsys.ledgers.oba.rest.api.domain.PIISConsentCreateResponse;
 import de.adorsys.ledgers.oba.rest.api.exception.ConsentAuthorizeException;
 import io.swagger.annotations.*;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,8 @@ public interface AISApi {
     @ApiOperation(value = "Entry point for authenticating ais consent requests.")
     ResponseEntity<AuthorizeResponse> aisAuth(
         @RequestParam(name = "redirectId") String redirectId,
-        @RequestParam(name = "encryptedConsentId") String encryptedConsentId);
+        @RequestParam(name = "encryptedConsentId") String encryptedConsentId,
+        @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String token);
 
     /**
      * Identifies the user by login an pin.
@@ -48,8 +50,8 @@ public interface AISApi {
     ResponseEntity<ConsentAuthorizeResponse> login(
         @PathVariable("encryptedConsentId") String encryptedConsentId,
         @PathVariable("authorisationId") String authorisationId,
-        @RequestParam("login") String login,
-        @RequestParam("pin") String pin,
+        @RequestParam(value = "login", required = false) String login,
+        @RequestParam(value = "pin", required = false) String pin,
         @RequestHeader(name = "Cookie", required = false) String consentCookieString);
 
     /**
@@ -144,7 +146,8 @@ public interface AISApi {
         @PathVariable("authorisationId") String authorisationId,
         @RequestHeader(name = "Cookie", required = false) String consentAndaccessTokenCookieString,
         @RequestParam(name = "forgetConsent", required = false) Boolean forgetConsent,
-        @RequestParam(name = "backToTpp", required = false) Boolean backToTpp) throws ConsentAuthorizeException;
+        @RequestParam(name = "backToTpp", required = false) Boolean backToTpp,
+        @RequestParam(name = "oauth2", required = false, defaultValue = "false") boolean isOauth2Integrated) throws ConsentAuthorizeException;
 
     /**
      * Fails AIS Consent authorisation object by its ID.
@@ -159,6 +162,5 @@ public interface AISApi {
     ResponseEntity<ConsentAuthorizeResponse> revokeConsent(@PathVariable("encryptedConsentId") String encryptedConsentId,
                                                            @PathVariable("authorisationId") String authorisationId,
                                                            @RequestHeader(name = "Cookie", required = false) String cookieString);
-
 }
 

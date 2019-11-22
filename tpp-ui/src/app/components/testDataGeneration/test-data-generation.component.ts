@@ -1,8 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {FormGroup} from "@angular/forms";
-import {TestDataGenerationService} from "../../services/test.data.generation.service"
-import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
-import {InfoService} from "../../commons/info/info.service";
+import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+
+import { InfoService } from '../../commons/info/info.service';
+import { TestDataGenerationService } from '../../services/test.data.generation.service';
 
 @Component({
     selector: 'test-data-generation',
@@ -18,6 +20,7 @@ export class TestDataGenerationComponent implements OnInit {
 
     constructor(private generationService: TestDataGenerationService,
                 private infoService: InfoService,
+                private router: Router,
                 private sanitizer: DomSanitizer) {
         this.generationService = generationService;
     }
@@ -38,7 +41,7 @@ export class TestDataGenerationComponent implements OnInit {
                         document.body.appendChild(link);
                         link.click();
                     }, 3000);
-
+                this.router.navigate(['/accounts']);
                 });
     }
 }

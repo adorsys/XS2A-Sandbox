@@ -115,7 +115,7 @@ public class ConsentHelper {
 
         Assert.assertEquals(encryptedConsentId, encryptedConsentIdFromOnlineBanking);
 
-        ResponseEntity<AuthorizeResponse> aisAuth = obaAisApiClient.aisAuth(redirectId, encryptedConsentId);
+        ResponseEntity<AuthorizeResponse> aisAuth = obaAisApiClient.aisAuth(redirectId, encryptedConsentId, null);
         URI location = aisAuth.getHeaders().getLocation();
         String authorisationId = QuerryParser.param(location.toString(), "authorisationId");
         List<String> cookieStrings = aisAuth.getHeaders().get("Set-Cookie");

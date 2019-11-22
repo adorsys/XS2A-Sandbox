@@ -1,9 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import {map} from "rxjs/operators";
-import {AccountService} from "../../services/account.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {Account} from "../../models/account.model";
-import {InfoService} from "../../commons/info/info.service";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { map } from 'rxjs/operators';
+
+import { InfoService } from '../../commons/info/info.service';
+import { Account } from '../../models/account.model';
+import { AccountReport } from '../../models/account-report';
+import { UserAccess } from '../../models/user-access';
+import { AccountService } from '../../services/account.service';
+import { TppService } from '../../services/tpp.service';
 
 @Component({
     selector: 'app-account',
@@ -12,14 +17,16 @@ import {InfoService} from "../../commons/info/info.service";
 })
 export class AccountComponent implements OnInit {
 
-    account: Account;
+    accountReport: AccountReport;
     accountID: string;
 
     constructor(
         private accountService: AccountService,
+        private tppService: TppService,
         private activatedRoute: ActivatedRoute,
         private infoService: InfoService,
-        private router: Router) {
+        private router: Router,
+        private modalService: NgbModal) {
     }
 
     ngOnInit() {
@@ -31,12 +38,12 @@ export class AccountComponent implements OnInit {
             )
             .subscribe((accountID: string) => {
                 this.accountID = accountID;
-                this.getAccount();
+                this.getAccountReport();
             });
     }
 
     public goToAccountDetail() {
-        if(this.isAccountDeleted) {
+        if (this.isAccountDeleted) {
             this.infoService.openFeedback('You can not Grant Accesses to a Deleted/Blocked account', {
                 severity: 'error'
             });
@@ -45,14 +52,38 @@ export class AccountComponent implements OnInit {
         }
     }
 
-    get isAccountDeleted(): boolean {
-        return this.account.accountStatus === "DELETED" || this.account.accountStatus === "BLOCKED";
+    deleteAccountTransations() {
+        this.tppService.deleteAccountTransations(this.account.iban).subscribe(() => {
+            this.getAccountReport();
+            this.infoService.openFeedback(`Transactions of ${this.account.iban} successfully deleted`, {
+                severity: 'info'
+            });
+        });
     }
 
-    getAccount() {
-        this.accountService.getAccount(this.accountID)
-            .subscribe((account: Account) => {
-                this.account = account;
-            })
+    openDeleteConfirmation(content) {
+        this.modalService.open(content).result.then(() => {
+            this.deleteAccountTransations();
+        }, () => {});
+    }
+
+    get isAccountDeleted(): boolean {
+        return this.account.accountStatus === 'DELETED' || this.account.accountStatus === 'BLOCKED';
+    }
+
+    get account(): Account {
+        return this.accountReport ? this.accountReport.details : null;
+    }
+
+    get accesses(): UserAccess[] {
+        return this.accountReport ? this.accountReport.accesses : null;
+    }
+
+    getAccountReport() {
+        this.accountService.getAccountReport(this.accountID).
+        subscribe((report: AccountReport) => {
+                this.accountReport = report;
+            }
+        );
     }
 }

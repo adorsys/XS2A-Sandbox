@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-emb-payment-cancell-put',
-  templateUrl: './emb-payment-cancell-put.component.html'
+  templateUrl: './emb-payment-cancell-put.component.html',
 })
 export class EmbPaymentCancellPutComponent implements OnInit {
   activeSegment = 'documentation';
@@ -24,6 +24,11 @@ export class EmbPaymentCancellPutComponent implements OnInit {
     'PSU-IP-Address': '1.1.1.1',
   };
 
+  body: object = {
+    psuData: {
+      password: '{{psu_id_password}}',
+    },
+  };
   constructor() {}
 
   changeSegment(segment) {

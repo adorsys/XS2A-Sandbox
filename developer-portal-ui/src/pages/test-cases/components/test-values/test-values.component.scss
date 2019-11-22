@@ -3,17 +3,15 @@
 }
 .test-values-wrapper p {
   color: #46494c;
-  font-size: 1.2vw;
-  line-height: 2vw;
-  font-weight: 800;
+  font-weight: 600;
 }
 .test-values-wrapper button {
   height: 3vw;
   color: #fff;
   outline: none;
   width: 10vw;
-  font-size: 1vw;
-  background-color: #1575a2;
+  font-size: 0.8rem;
+  background-color: var(--colorPrimary);
   cursor: pointer;
   border-radius: 5px;
 }

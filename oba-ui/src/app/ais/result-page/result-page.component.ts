@@ -1,9 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ConsentAuthorizeResponse} from "../../api/models/consent-authorize-response";
-import {ActivatedRoute, Router} from "@angular/router";
-import {AisService} from "../../common/services/ais.service";
-import {ShareDataService} from "../../common/services/share-data.service";
-import {SettingsService} from "../../common/services/settings.service";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { ConsentAuthorizeResponse } from '../../api/models/consent-authorize-response';
+import { AisService } from '../../common/services/ais.service';
+import { SettingsService } from '../../common/services/settings.service';
+import { ShareDataService } from '../../common/services/share-data.service';
 
 @Component({
   selector: 'app-result-page',
@@ -31,9 +32,8 @@ export class ResultPageComponent implements OnInit, OnDestroy {
     // get query params and build link
     this.route.queryParams.subscribe(params => {
       // TODO: use routerlink to build a link https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/issues/8
-      this.ref = '/oba-proxy/ais/' + params['encryptedConsentId'] +
-        '/authorisation/' + params['authorisationId'] +
-        '/done?backToTpp=true&forgetConsent=true';
+      this.ref = `/oba-proxy/ais/${params.encryptedConsentId}/authorisation/${params.authorisationId}` +
+        `/done?backToTpp=true&forgetConsent=true&oauth2=${params.oauth2}`;
     });
 
     // get consent data from shared service

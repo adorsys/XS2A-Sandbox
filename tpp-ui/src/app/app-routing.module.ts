@@ -1,23 +1,29 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {AccountDetailComponent} from './components/account-detail/account-detail.component';
-import {AccountListComponent} from './components/account-list/account-list.component';
-import {AccountComponent} from './components/account/account.component';
-import {LoginComponent} from './components/auth/login/login.component';
-import {RegisterComponent} from './components/auth/register/register.component';
-import {CashDepositComponent} from './components/cash-deposit/cash-deposit.component';
-import {DashboardComponent} from './components/dashboard/dashboard.component';
-import {NotFoundComponent} from './components/not-found/not-found.component';
-import {UserCreateComponent} from './components/users/user-create/user-create.component';
-import {UserDetailsComponent} from './components/users/user-details/user-details.component';
-import {UsersComponent} from './components/users/users.component';
-import {AuthGuard} from './guards/auth.guard';
-import {UploadFileComponent} from './uploadFile/uploadFile.component';
-import {TestDataGenerationComponent} from './components/testDataGeneration/test-data-generation.component'
-import {AccountAccessManagementComponent} from "./components/account-access-management/account-access-management.component";
-import {ResetPasswordComponent} from "./components/auth/reset-password/reset-password.component";
-import {ConfirmNewPasswordComponent} from "./components/auth/confirm-new-password/confirm-new-password.component";
-import {UserUpdateComponent} from "./components/users/user-update/user-update.component";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+
+import {
+  AccountAccessManagementComponent,
+} from './components/account-access-management/account-access-management.component';
+import { AccountDetailComponent } from './components/account-detail/account-detail.component';
+import { AccountListComponent } from './components/account-list/account-list.component';
+import { AccountComponent } from './components/account/account.component';
+import { ConfirmNewPasswordComponent } from './components/auth/confirm-new-password/confirm-new-password.component';
+import { LoginComponent } from './components/auth/login/login.component';
+import { RegisterComponent } from './components/auth/register/register.component';
+import { ResetPasswordComponent } from './components/auth/reset-password/reset-password.component';
+import { CashDepositComponent } from './components/cash-deposit/cash-deposit.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { TestDataGenerationComponent } from './components/testDataGeneration/test-data-generation.component';
+import { UserProfileUpdateComponent } from './components/user-profile-update/user-profile-update.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { UserCreateComponent } from './components/users/user-create/user-create.component';
+import { UserDetailsComponent } from './components/users/user-details/user-details.component';
+import { UserUpdateComponent } from './components/users/user-update/user-update.component';
+import { UsersComponent } from './components/users/users.component';
+import { AuthGuard } from './guards/auth.guard';
+import { UploadFileComponent } from './uploadFile/uploadFile.component';
 
 const routes: Routes = [
     {
@@ -75,8 +81,20 @@ const routes: Routes = [
                 component: UploadFileComponent
             },
             {
-                path: "generate-test-data",
+                path: 'generate-test-data',
                 component: TestDataGenerationComponent
+            },
+            {
+                path: 'profile',
+                component: UserProfileComponent
+            },
+            {
+                path: 'profile/edit',
+                component: UserProfileUpdateComponent
+            },
+            {
+                path: 'settings',
+                component: SettingsComponent
             }
         ]
     },

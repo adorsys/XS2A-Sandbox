@@ -1,15 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
-//@import "~bootstrap/dist/css/bootstrap.css";
-@import "./assets/themes/bootstrap";
+
+// Base Variables
+@import "./assets/themes/variables";
+
 @import "~bootstrap/scss/bootstrap";
 @import "~font-awesome/css/font-awesome.css";
 @import "~material-icons/iconfont/material-icons.css";
-@import "./assets/themes/variables";
 @import "./assets/themes/fonts";
 
 * {
     margin: 0;
     padding: 0;
+}
+
+body {
+    font-family: var(--fontFamily);
+    color: var(--bodyFontColor);
+    background: var(--bodyBG);
 }
 
 .logo {
@@ -29,14 +36,14 @@ label {
     }
 }
 
-.btn {
-    color: $btn-text-color;
-    margin-bottom: 1.1rem;
-    width: 200px;
+.navbar-brand {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}
 
-    &:hover {
-        transition: 0.5s;
-    }
+.btn {
+    white-space: nowrap;
 
     &:focus {
         outline: none;
@@ -47,22 +54,32 @@ label {
     }
 
     &-primary {
-        background: $primary-gradient;
+        background: var(--gradientPrimary);
+        border: none;
+    }
+
+    &-danger {
+        background: var(--gradientDanger);
         border: none;
     }
 }
 
 a {
     font-size: 1.1rem;
-    color: $dark-80;
+    transition: all 0.2s ease-in;
+    color: var(--anchorFontColor);
 
-    &.active {
-        color: $primary;
+    &.active, &:hover {
+        color: var(--anchorFontColorHover);
     }
 
-    &:hover {
-        transition: 0.5s;
+    &.text-primary:hover, &.text-primary:focus {
+        color: var(--anchorFontColorHover) !important;
     }
+}
+
+.text-primary {
+    color: var(--colorPrimary) !important;
 }
 
 .card {
@@ -95,6 +112,10 @@ a {
     }
 }
 
+.modal-footer > * {
+    margin-bottom: 0;
+}
+
 .nav-item {
     &:not(:last-of-type) {
         margin-bottom: 10px;
@@ -116,6 +137,14 @@ a {
         top: $grid-gutter-width / 2;
         right: $grid-gutter-width / 2;
     }
+}
+
+.no-underline {
+  text-decoration: none !important;
+}
+
+.clickable {
+  cursor: pointer !important;
 }
 
 

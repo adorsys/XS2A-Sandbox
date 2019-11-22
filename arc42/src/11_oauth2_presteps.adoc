@@ -1,0 +1,77 @@
+[[section-oauth2-presteps]]
+:imagesdir: ../images
+
+== Test oAuth 2.0 Pre-Steps
+
+[role="arc42help"]
+****
+.Contents
+A short step by step instruction how to test oAuth 2.0 pre-steps in the Dynamic Sandbox with Postman.
+****
+
+=== oAuth 2.0 Flow
+
+.oauth2_pre-authentication
+image::oauth2_pre-authentication.png[Flow of oAuth2 with pre-Authentication, 100%, align="center"]
+
+'''
+
+=== Step by Step
+These steps are for the developer environment and not the DEMO.
+
+[start=1]
+. Click on https://dev-dynamicsandbox-tppui.cloud.adorsys.de/login and create new TPP account. For our example we named the TPP _tppoauth_.
+
+. Login with the new TPP _tppoauth_ and click on "My user list".
+
+. Create a new user with a static TAN. In our example the user is named _oauth_ and we set 123456 as static TAN.
+
+. Create a new deposit account with a generated IBAN for the user _oauth_.
+
+. Open following link in your browser: https://dev-dynamicsandbox-onlinebankingui.cloud.adorsys.de/auth/authorize?redirect_uri=https:%2F%2Fgoogle.com
+(with this step you receive the auth code)
+
+. Login/Authorize there as user _oauth_.
+
+. Grab the code from the end of the redirected URL. In our example the URL is https://www.google.com/?code=uiQETnDxIySz0J69SlFW4waJ and the resulting code `uiQETnDxIySz0J69SlFW4waJ`.
+
+. Open postman, import following data  "postman_collection_oauth2_prestep.json" and "postman_environment_dev.json" from our postman-scripts. Then, switch environment to `Xs2a DEV ENV`.
+
+. Click on Manage environments and select `Xs2a DEV ENV`. Then, set `psuidOauth` as your user and update your environment. In our example, it is `psuidOauth = oauth`.
+
+. Click on POST request “Exchange oauth code” in your collection, add in Params the new key "code", put the code you grabbed in Step 7 as value and press on Send button.
+
+NOTE: Check that there is no key "code" in Headers at step 10.
+
+[start=11]
+
+. Copy and save the access token from the respond.
+
+. Click on second POST request "Creates AIS consent". Change here the Authorization to the type "Bearer Token" and paste in the Token field the received access token of step 11. Afterwards, change in Headers the value of `X-OAUTH-PREFERRED` to "pre-step" and of `PSU-ID` to your user name - in our example to _oauth_.
+
+. Now press the Send button.
+
+. Grab the URL from the scaRedirect url response and open it in the web browser. Pay attention, that the confirmation page appears. There is no need to login a second time.
+
+. Press the Next and afterwards the Send button and confirm the consent with the user’s static TAN.
+
+. Open the OBA UI https://dev-dynamicsandbox-onlinebankingui.cloud.adorsys.de and login as user _oauth_.
+
+. By clicking on "Consents" and the new created consent can be seen in the list.
+
+
+=== Unsuccessful path
+
+[start=12]
+. Click on POST request "Create AIS consent" in Postman and switch off the Headers key "Authorization" by deselecting it. Also change in Headers the value of `X-OAUTH-PREFERRED` to "pre-step" and of `PSU-ID` to your user name - in our example to _oauth_.
+
+. Press on SEND button and receive following error as response:
+
+[source,ruby]
+----
+{
+    "category": "ERROR",
+    "code": "TOKEN_INVALID",
+    "text": "The OAuth2 token is associated to the TPP but is not valid for the addressed service/resource"
+}
+----

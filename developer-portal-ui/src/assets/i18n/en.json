@@ -47,7 +47,7 @@
       "TITLE": "PSD2 and Open Banking",
       "THE": "The",
       "LINK": "Payment Service Directive 2 (PSD2)",
-      "CONTENT": "instructs banks (Account Servicing Payment Service Providers or ASPSPs) to\n provide a fully productive Access-to-Account (XS2A) interface to Third Party\n Providers (TPPs) until September 2019. XS2A itself consists of banking\n services to initiate payments (PIS), request account data (AIS) and get the\n confirmation of the availability of funds (PIIS). In order to guarantee the\n compliance of this deadline due to adaptations and bugs, PSD2 claims the\n banks to provide a functional dynamic sandbox offering the XS2A services in\n a non-productive environment until June 2019."
+      "CONTENT": "instructs banks (Account Servicing Payment Service Providers or ASPSPs) to\n provide a fully productive Access-to-Account (XS2A) interface to Third Party\n Providers (TPPs) until March 2020. XS2A itself consists of banking\n services to initiate payments (PIS), request account data (AIS) and get the\n confirmation of the availability of funds (PIIS). In order to guarantee the\n compliance of this deadline due to adaptations and bugs, PSD2 claims the\n banks to provide a functional dynamic sandbox offering the XS2A services in\n a non-productive environment until June 2019."
     },
     "FEATURES": {
       "TITLE": "XS2ASandbox Features",
@@ -123,7 +123,7 @@
       "CONTENT": {
         "THE_1": "The",
         "LINK": "Payment Service Directive 2 (PSD2)",
-        "PART_1": "instructs banks (Account Servicing Payment Service Providers or ASPSPs) to\n provide a fully productive Access-to-Account (XS2A) interface to Third\n Party Providers (TPPs) until September 2019. XS2A itself consists of\n banking services to initiate payments (PIS), request account data (AIS)\n and get the confirmation of the availability of funds (PIIS). In order to\n guarantee the compliance of this deadline due to adaptions and bugs, PSD2\n claims the banks to provide a functional dynamic sandbox offering the XS2A\n services in a non-productive environment until June 2019.",
+        "PART_1": "instructs banks (Account Servicing Payment Service Providers or ASPSPs) to\n provide a fully productive Access-to-Account (XS2A) interface to Third\n Party Providers (TPPs) until March 2020. XS2A itself consists of\n banking services to initiate payments (PIS), request account data (AIS)\n and get the confirmation of the availability of funds (PIIS). In order to\n guarantee the compliance of this deadline due to adaptions and bugs, PSD2\n claims the banks to provide a functional dynamic sandbox offering the XS2A\n services in a non-productive environment until June 2019.",
         "THE_2": "The",
         "XS2A": "XS2ASandbox",
         "PART_2": "is a dynamic sandbox environment\n that fully meets the PSD2 requirements for providing APIs for Third-Party\n Providers (TPP). Based on the Berlin Group’s NextGen PSD2 specification\n for access to accounts (XS2A),",
@@ -196,7 +196,27 @@
     },
     "UI": {
       "TITLE": "TPP User Interface",
-      "CONTENT": "TPP developers can register themselves into the system, obtain certificate\n and download test data for their TPP application using generated\n certificate and prepared data in TPP UI."
+      "CONTENT": {
+        "PART_0": "TPP developers can register themselves into the system, obtain certificate\n and download test data for their TPP application using generated\n certificate and prepared data in TPP UI.",
+        "SUBTITLE_1": "How to create an account for TPP:",
+        "PART_1": "1. Open TPP UI login page.",
+        "PART_2": "2. Choose option “Register” below.",
+        "PART_3": "3. Provide all needed information: TPP authorization number, email, login and password.",
+        "PART_4": "4. You can generate test QWAC certificate for using it with XS2A Interface if needed.",
+        "SUBTITLE_2": "How to create users:",
+        "PART_5": "Users could be created manually or via uploading .yaml file.",
+        "PART_6": "To create user with manually:",
+        "PART_7": "1. Go to “My users list” and click on “Create new user”.",
+        "PART_8": "2. Enter email, login and pin for a new user.",
+        "PART_9": "3. Choose authentication method (only email is valid for now) and enter a valid email. If you choose option \"Use Static TAN in SandboxMode\", mock static TAN would be used for testing. Then you have to enter your mock TAN also. You can add multiple SCA methods to every users",
+        "PART_10": "To create accounts manually: ",
+        "PART_11": "1 Choose a user in your list of users and click \"Create deposit account\"",
+        "PART_12": "2. Select account type, usage and account status. IBAN could be generated automatically. Please, note, that only valid ibans are accepted by XS2A Interface.",
+        "PART_13": "3. After account is created, you can use function \"Deposit cash\" to add any amount to the balances for testing purposes. All the created accounts are available in \"Users accounts\" tab",
+        "PART_14": "To create users and accounts automatically, generate test data with the tab \"Generate Test Data\", and NISP compliant test data would be generated. If you want to upload your owm .yaml testing file, use tab \"Upload files\".",
+        "SUBTITLE_3": "How to create test payments, consents and transactions:",
+        "PART_15": "To create test payments, you have to generate test payment data on tab \"Generate Test Data\", checking option \"Generate Payment Data\" as true. Also, the upload of a custom .yaml file with payments is possible in tab \"Upload files\". Consents and transactions could be created only with upload of the proper .yaml file."
+      }
     },
     "OBA": {
       "TITLE": "Online banking",
@@ -243,11 +263,20 @@
       "SUBSECTION_2": {
         "TITLE": "Build and run XS2ASandbox",
         "PART_1": "After downloading the project go to the project directory:",
-        "PART_2": "Build all the services with the command:",
-        "PART_3": "After building services you can run XS2ASandbox in two ways - with a\n simple docker command:",
-        "PART_4": "Or with Makefile commands:",
-        "PART_5": "1. Build and run services",
-        "PART_6": "2. Run services without build"
+        "PART_2": "After that you can build and run XS2ASandbox in two ways - with a docker command or with Makefile commands.",
+        "PART_3": "If you want use a first way:",
+        "PART_4": "1. Build all the services with the command:",
+        "PART_5": "2. After building services you can run XS2ASandbox with a\n simple docker command:",
+        "PART_6": "In Makefile you can use one of three commands:",
+        "PART_7": "• Run services from Docker Hub without build:",
+        "PART_8": "• Build and run services:",
+        "PART_9": "• Run services without build:",
+        "PART_10": "Once you have built the project you can run it without build next time - command",
+        "PART_11": "or",
+        "PART_12": "from Makefile.",
+        "PART_13": "Remember that after you update the project you should rebuild it - command",
+        "PART_14": "or",
+        "PART_15": "from Makefile."
       }
     },
     "TROUBLES": {

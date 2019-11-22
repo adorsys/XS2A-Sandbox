@@ -83,6 +83,8 @@ class PSUAISService extends __BaseService {
    *
    * - `encryptedConsentId`: encryptedConsentId
    *
+   * - `Authorization`: Authorization
+   *
    * @return OK
    */
   aisAuthUsingGETResponse(params: PSUAISService.AisAuthUsingGETParams): __Observable<__StrictHttpResponse<AuthorizeResponse>> {
@@ -91,6 +93,7 @@ class PSUAISService extends __BaseService {
     let __body: any = null;
     if (params.redirectId != null) __params = __params.set('redirectId', params.redirectId.toString());
     if (params.encryptedConsentId != null) __params = __params.set('encryptedConsentId', params.encryptedConsentId.toString());
+    if (params.Authorization != null) __headers = __headers.set('Authorization', params.Authorization.toString());
     let req = new HttpRequest<any>(
       'GET',
       this.rootUrl + `/ais/auth`,
@@ -114,6 +117,8 @@ class PSUAISService extends __BaseService {
    * - `redirectId`: redirectId
    *
    * - `encryptedConsentId`: encryptedConsentId
+   *
+   * - `Authorization`: Authorization
    *
    * @return OK
    */
@@ -239,6 +244,8 @@ class PSUAISService extends __BaseService {
    *
    * - `authorisationId`: authorisationId
    *
+   * - `oauth2`: oauth2
+   *
    * - `Cookie`: Cookie
    *
    * @return OK
@@ -251,6 +258,7 @@ class PSUAISService extends __BaseService {
 
     if (params.backToTpp != null) __params = __params.set('backToTpp', params.backToTpp.toString());
 
+    if (params.oauth2 != null) __params = __params.set('oauth2', params.oauth2.toString());
     if (params.Cookie != null) __headers = __headers.set('Cookie', params.Cookie.toString());
     let req = new HttpRequest<any>(
       'GET',
@@ -281,6 +289,8 @@ class PSUAISService extends __BaseService {
    *
    * - `authorisationId`: authorisationId
    *
+   * - `oauth2`: oauth2
+   *
    * - `Cookie`: Cookie
    *
    * @return OK
@@ -294,13 +304,13 @@ class PSUAISService extends __BaseService {
   /**
    * @param params The `PSUAISService.LoginUsingPOSTParams` containing the following parameters:
    *
-   * - `pin`: pin
-   *
-   * - `login`: login
-   *
    * - `encryptedConsentId`: encryptedConsentId
    *
    * - `authorisationId`: authorisationId
+   *
+   * - `pin`: pin
+   *
+   * - `login`: login
    *
    * - `Cookie`: Cookie
    *
@@ -310,10 +320,10 @@ class PSUAISService extends __BaseService {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
+
+
     if (params.pin != null) __params = __params.set('pin', params.pin.toString());
     if (params.login != null) __params = __params.set('login', params.login.toString());
-
-
     if (params.Cookie != null) __headers = __headers.set('Cookie', params.Cookie.toString());
     let req = new HttpRequest<any>(
       'POST',
@@ -335,13 +345,13 @@ class PSUAISService extends __BaseService {
   /**
    * @param params The `PSUAISService.LoginUsingPOSTParams` containing the following parameters:
    *
-   * - `pin`: pin
-   *
-   * - `login`: login
-   *
    * - `encryptedConsentId`: encryptedConsentId
    *
    * - `authorisationId`: authorisationId
+   *
+   * - `pin`: pin
+   *
+   * - `login`: login
    *
    * - `Cookie`: Cookie
    *
@@ -538,6 +548,11 @@ module PSUAISService {
      * encryptedConsentId
      */
     encryptedConsentId: string;
+
+    /**
+     * Authorization
+     */
+    Authorization?: string;
   }
 
   /**
@@ -608,6 +623,11 @@ module PSUAISService {
     authorisationId: string;
 
     /**
+     * oauth2
+     */
+    oauth2?: boolean;
+
+    /**
      * Cookie
      */
     Cookie?: string;
@@ -619,16 +639,6 @@ module PSUAISService {
   export interface LoginUsingPOSTParams {
 
     /**
-     * pin
-     */
-    pin: string;
-
-    /**
-     * login
-     */
-    login: string;
-
-    /**
      * encryptedConsentId
      */
     encryptedConsentId: string;
@@ -637,6 +647,16 @@ module PSUAISService {
      * authorisationId
      */
     authorisationId: string;
+
+    /**
+     * pin
+     */
+    pin?: string;
+
+    /**
+     * login
+     */
+    login?: string;
 
     /**
      * Cookie

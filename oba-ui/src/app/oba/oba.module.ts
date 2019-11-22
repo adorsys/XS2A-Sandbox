@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbDatepickerModule, NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
 import { ClipboardModule } from 'ngx-clipboard';
 
 import { NavbarComponent } from '../common/navbar/navbar.component';
@@ -34,6 +34,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     RouterModule,
     ClipboardModule,
     NgbDatepickerModule,
+    NgbPaginationModule,
     NotFoundModule
   ]
 })

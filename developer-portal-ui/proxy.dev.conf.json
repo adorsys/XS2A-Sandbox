@@ -1,0 +1,20 @@
+{
+  "/xs2a-proxy/*": {
+    "target": "https://dev-dynamicsandbox-xs2a.cloud.adorsys.de",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/xs2a-proxy": ""
+    }
+  },
+  "/aspsp-proxy/*": {
+    "target": "https://dev-dynamicsandbox-aspspprofile.cloud.adorsys.de",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/aspsp-proxy": ""
+    }
+  }
+}

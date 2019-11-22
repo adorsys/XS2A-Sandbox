@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" [formGroup]="formModel">
   <div class="card card--large mb-4">
     <div class="card-body--large">
       <div class="header__title">Account details</div>
@@ -26,7 +26,7 @@
     </div>
   </div>
 
-  <div class="card card--large">
+  <div class="card card--large" >
     <div class="card-body">
       <div class="header__title">Transactions</div>
 
@@ -57,20 +57,33 @@
         </div>
         <div class="col-2">
           <label>&nbsp;</label>
-          <button class="btn btn-primary btn-block" (click)="getTransactions()">Refresh</button>
+          <button class="btn btn-primary btn-block" (click)="refreshTransactions()">Refresh</button>
         </div>
       </div>
 
-      <div class="table-responsive">
+      <div class="table-responsive" >
+        <div *ngIf="config && transactions && transactions.length > 0; let i=index" class="d-flex align-items-center p-2">
+          <ngb-pagination [collectionSize]="config.totalItems" [(page)]="config.currentPage" [boundaryLinks]="true" [pageSize]="config.itemsPerPage"
+                          [maxSize]="config.maxSize" [rotate]="true" (pageChange)="pageChange($event)"></ngb-pagination>
+          <select class="custom-select custom-select-sm ml-4 mb-3" style="width:auto" formControlName="itemsPerPage">
+            <option [value]="10">10</option>
+            <option [value]="20">20</option>
+            <option [value]="40">40</option>
+            <option [value]="50">50</option>
+            <option [value]="60">60</option>
+            <option [value]="100">100</option>
+          </select>
+        </div>
         <table class="table">
           <thead>
           <tr>
             <th scope="col">#</th>
+            <th scope="col">Debtor Name</th>
             <th scope="col">Debtor Account</th>
             <th scope="col">Booking date</th>
             <th scope="col">Amount</th>
-            <th scope="col">Debtor Name</th>
             <th scope="col">Value Date</th>
+            <th scope="col">Creditor Name</th>
             <th scope="col">Creditor Account</th>
             <th scope="col">Remittance</th>
             <th scope="col">transactionId</th>
@@ -79,12 +92,13 @@
           </thead>
           <tbody>
           <tr *ngFor="let transaction of transactions; index as i">
-            <th scope="row">{{i + 1}}</th>
+              <th scope="row">{{((config.currentPage - 1) * config.itemsPerPage) + i + 1}}</th>
+            <td>{{transaction?.debtorName}}</td>
             <td>{{transaction.debtorAccount?.iban}}</td>
             <td>{{transaction.bookingDate}}</td>
             <td>{{transaction.amount?.amount}} {{transaction.amount?.currency}}</td>
-            <td>{{transaction?.debtorName}}</td>
             <td>{{transaction.valueDate}}</td>
+            <td>{{transaction?.creditorName}}</td>
             <td>{{transaction.creditorAccount?.iban}}</td>
             <td>{{transaction.remittanceInformationUnstructured}}</td>
             <td>{{transaction.transactionId}}</td>
@@ -92,6 +106,19 @@
           </tr>
           </tbody>
         </table>
+        <div *ngIf="config && transactions && transactions.length > 0; let i=index " class="d-flex align-items-center p-2">
+          <ngb-pagination [collectionSize]="config.totalItems" [(page)]="config.currentPage" [boundaryLinks]="true" [pageSize]="config.itemsPerPage"
+                          [maxSize]="config.maxSize" [rotate]="true" (pageChange)="pageChange($event)"></ngb-pagination>
+
+          <select class="custom-select custom-select-sm ml-4 mb-3" id="value" style="width:auto" formControlName="itemsPerPage">
+            <option [value]="10">10</option>
+            <option [value]="20">20</option>
+            <option [value]="40">40</option>
+            <option [value]="50">50</option>
+            <option [value]="60">60</option>
+            <option [value]="100">100</option>
+          </select>
+        </div>
       </div>
     </div>
   </div>

@@ -1,14 +1,17 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Subscription} from 'rxjs';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ShareDataService} from '../../common/services/share-data.service';
-import {RoutingPath} from '../../common/models/routing-path.model';
-import {PisService} from '../../common/services/pis.service';
-import {PSUPISService} from '../../api/services/psupis.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+
+import { PSUPISService } from '../../api/services/psupis.service';
+import { InfoService } from '../../common/info/info.service';
+import { RoutingPath } from '../../common/models/routing-path.model';
+import { CustomizeService } from '../../common/services/customize.service';
+import { PisService } from '../../common/services/pis.service';
+import { ShareDataService } from '../../common/services/share-data.service';
+
 import LoginUsingPOST3Params = PSUPISService.LoginUsingPOST3Params;
-import {InfoService} from '../../common/info/info.service';
-import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -16,8 +19,8 @@ import {HttpErrorResponse} from '@angular/common/http';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-
   loginForm: FormGroup;
+  errorMessage: string;
   invalidCredentials: boolean;
 
   private encryptedPaymentId: string;
@@ -26,7 +29,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
 
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(public customizeService: CustomizeService,
+              private formBuilder: FormBuilder,
               private infoService: InfoService,
               private router: Router,
               private activatedRoute: ActivatedRoute,
@@ -50,15 +54,19 @@ export class LoginComponent implements OnInit, OnDestroy {
         console.log(authorisationResponse);
         this.shareService.changeData(authorisationResponse);
         this.router.navigate([`${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.CONFIRM_PAYMENT}`]);
-      }, (error1: HttpErrorResponse) => {
+      }, (error: HttpErrorResponse) => {
         // if paymentId or redirectId is missing
         if (this.encryptedPaymentId === undefined || this.redirectId === undefined) {
           this.infoService.openFeedback('Payment data is missing. Please initiate payment prior to login', {
             severity: 'error'
           });
         } else {
-          // else throw error
-          throw new HttpErrorResponse(error1);
+          if (error.status === 401) {
+            this.errorMessage = 'Invalid credentials';
+          } else {
+            this.errorMessage = error.error ? error.error.message : error.message;
+          }
+          throw new HttpErrorResponse(error);
         }
       })
     );
@@ -70,9 +78,12 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private getPisAuthCode(): void {
     this.activatedRoute.queryParams.subscribe(params => {
-      this.encryptedPaymentId = params['paymentId'];
-      this.redirectId = params['redirectId'];
+      this.encryptedPaymentId = params.paymentId;
+      this.redirectId = params.redirectId;
 
+      // set oauth2 param in shared service
+      params.oauth2 ? this.shareService.setOauthParam(true) : this.shareService.setOauthParam(false);
+      
       this.subscriptions.push(
         this.pisService.pisAuthCode({encryptedPaymentId: this.encryptedPaymentId, redirectId: this.redirectId})
           .subscribe(authCodeResponse => {

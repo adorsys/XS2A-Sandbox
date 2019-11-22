@@ -1,6 +1,6 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.mapper;
 
-import de.adorsys.ledgers.deposit.api.domain.MockBookingDetails;
+import de.adorsys.ledgers.middleware.api.domain.account.MockBookingDetails;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.UserTransaction;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

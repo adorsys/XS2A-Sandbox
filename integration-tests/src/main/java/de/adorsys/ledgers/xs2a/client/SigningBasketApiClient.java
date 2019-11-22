@@ -24,6 +24,7 @@ package de.adorsys.ledgers.xs2a.client;
 import de.adorsys.ledgers.xs2a.client.util.RemoteURLs;
 import de.adorsys.psd2.model.*;
 import io.swagger.annotations.*;
+import io.swagger.annotations.Authorization;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

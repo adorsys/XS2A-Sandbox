@@ -97,6 +97,8 @@ class PSUPISCancellationService extends __BaseService {
    *
    * - `authorisationId`: authorisationId
    *
+   * - `oauth2`: oauth2
+   *
    * - `Cookie`: Cookie
    *
    * @return OK
@@ -109,6 +111,7 @@ class PSUPISCancellationService extends __BaseService {
 
     if (params.backToTpp != null) __params = __params.set('backToTpp', params.backToTpp.toString());
 
+    if (params.oauth2 != null) __params = __params.set('oauth2', params.oauth2.toString());
     if (params.Cookie != null) __headers = __headers.set('Cookie', params.Cookie.toString());
     let req = new HttpRequest<any>(
       'GET',
@@ -139,6 +142,8 @@ class PSUPISCancellationService extends __BaseService {
    *
    * - `authorisationId`: authorisationId
    *
+   * - `oauth2`: oauth2
+   *
    * - `Cookie`: Cookie
    *
    * @return OK
@@ -152,13 +157,13 @@ class PSUPISCancellationService extends __BaseService {
   /**
    * @param params The `PSUPISCancellationService.LoginUsingPOST2Params` containing the following parameters:
    *
-   * - `pin`: pin
-   *
-   * - `login`: login
-   *
    * - `encryptedPaymentId`: encryptedPaymentId
    *
    * - `authorisationId`: authorisationId
+   *
+   * - `pin`: pin
+   *
+   * - `login`: login
    *
    * - `Cookie`: Cookie
    *
@@ -168,10 +173,10 @@ class PSUPISCancellationService extends __BaseService {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
+
+
     if (params.pin != null) __params = __params.set('pin', params.pin.toString());
     if (params.login != null) __params = __params.set('login', params.login.toString());
-
-
     if (params.Cookie != null) __headers = __headers.set('Cookie', params.Cookie.toString());
     let req = new HttpRequest<any>(
       'POST',
@@ -193,13 +198,13 @@ class PSUPISCancellationService extends __BaseService {
   /**
    * @param params The `PSUPISCancellationService.LoginUsingPOST2Params` containing the following parameters:
    *
-   * - `pin`: pin
-   *
-   * - `login`: login
-   *
    * - `encryptedPaymentId`: encryptedPaymentId
    *
    * - `authorisationId`: authorisationId
+   *
+   * - `pin`: pin
+   *
+   * - `login`: login
    *
    * - `Cookie`: Cookie
    *
@@ -323,6 +328,11 @@ module PSUPISCancellationService {
     authorisationId: string;
 
     /**
+     * oauth2
+     */
+    oauth2?: boolean;
+
+    /**
      * Cookie
      */
     Cookie?: string;
@@ -334,16 +344,6 @@ module PSUPISCancellationService {
   export interface LoginUsingPOST2Params {
 
     /**
-     * pin
-     */
-    pin: string;
-
-    /**
-     * login
-     */
-    login: string;
-
-    /**
      * encryptedPaymentId
      */
     encryptedPaymentId: string;
@@ -352,6 +352,16 @@ module PSUPISCancellationService {
      * authorisationId
      */
     authorisationId: string;
+
+    /**
+     * pin
+     */
+    pin?: string;
+
+    /**
+     * login
+     */
+    login?: string;
 
     /**
      * Cookie

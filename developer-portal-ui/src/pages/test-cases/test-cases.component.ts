@@ -23,7 +23,11 @@ export class TestCasesComponent implements OnInit {
   }
 
   collapseThis(collapseId: string): void {
-    if (collapseId === 'redirect' || collapseId === 'embedded' || collapseId === 'account') {
+    if (
+      collapseId === 'redirect' ||
+      collapseId === 'embedded' ||
+      collapseId === 'account'
+    ) {
       const collapsibleItemContent = document.getElementById(
         `${collapseId}-content`
       );
@@ -43,7 +47,7 @@ export class TestCasesComponent implements OnInit {
       if (collapsibleItemContent.style.maxHeight) {
         collapsibleItemContent.style.maxHeight = '';
       } else {
-        collapsibleItemContent.style.maxHeight = '50vw';
+        collapsibleItemContent.style.maxHeight = 'none';
       }
     }
   }

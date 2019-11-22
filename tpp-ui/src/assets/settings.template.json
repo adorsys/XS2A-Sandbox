@@ -1,0 +1,3 @@
+{
+  "certGenEnabled": "${CERT_GEN_ENABLED}"
+}

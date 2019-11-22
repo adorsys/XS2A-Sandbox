@@ -3,6 +3,7 @@ package de.adorsys.psd2.sandbox.tpp.rest.server.controller;
 import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
+import de.adorsys.ledgers.util.domain.CustomPageImpl;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.User;
 import de.adorsys.psd2.sandbox.tpp.rest.api.resource.TppUsersRestApi;
 import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
@@ -13,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Optional;
 
 import static de.adorsys.ledgers.middleware.api.domain.um.UserRoleTO.CUSTOMER;
@@ -34,8 +34,10 @@ public class TppUsersController implements TppUsersRestApi {
     }
 
     @Override
-    public ResponseEntity<List<UserTO>> getAllUsers() {
-        return userMgmtStaffRestClient.getBranchUsersByRoles(singletonList(CUSTOMER));
+    public ResponseEntity<CustomPageImpl<UserTO>> getAllUsers(String queryParam, int page, int size) {
+        CustomPageImpl<UserTO> userPage = Optional.ofNullable(userMgmtStaffRestClient.getBranchUsersByRoles(singletonList(CUSTOMER), queryParam, page, size).getBody())
+                                              .orElse(new CustomPageImpl<>());
+        return ResponseEntity.ok(userPage);
     }
 
     // TODO resolve 'branch' on Ledgers side
@@ -56,5 +58,10 @@ public class TppUsersController implements TppUsersRestApi {
     @Override
     public ResponseEntity<UserTO> getUser(String userId) {
         return userMgmtRestClient.getUserById(userId);
+    }
+
+    @Override
+    public ResponseEntity<UserTO> getSelf() {
+        return userMgmtRestClient.getUser();
     }
 }

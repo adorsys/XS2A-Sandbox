@@ -3,7 +3,6 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AccountStatus, AccountType, UsageType} from "../../models/account.model";
 import {AccountService} from "../../services/account.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {map} from "rxjs/operators";
 import {TestDataGenerationService} from "../../services/test.data.generation.service";
 import {InfoService} from "../../commons/info/info.service";
 

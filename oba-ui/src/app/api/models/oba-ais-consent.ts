@@ -1,6 +1,6 @@
 /* tslint:disable */
-import { AisAccountConsent } from './ais-account-consent';
+import { CmsAisAccountConsent } from './cms-ais-account-consent';
 export interface ObaAisConsent {
-  aisAccountConsent?: AisAccountConsent;
+  aisAccountConsent?: CmsAisAccountConsent;
   encryptedConsent?: string;
 }

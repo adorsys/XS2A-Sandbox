@@ -39,6 +39,8 @@ class PSUPISService extends __BaseService {
    *
    * - `encryptedPaymentId`: encryptedPaymentId
    *
+   * - `Authorization`: Authorization
+   *
    * @return OK
    */
   pisAuthUsingGETResponse(params: PSUPISService.PisAuthUsingGETParams): __Observable<__StrictHttpResponse<AuthorizeResponse>> {
@@ -47,6 +49,7 @@ class PSUPISService extends __BaseService {
     let __body: any = null;
     if (params.redirectId != null) __params = __params.set('redirectId', params.redirectId.toString());
     if (params.encryptedPaymentId != null) __params = __params.set('encryptedPaymentId', params.encryptedPaymentId.toString());
+    if (params.Authorization != null) __headers = __headers.set('Authorization', params.Authorization.toString());
     let req = new HttpRequest<any>(
       'GET',
       this.rootUrl + `/pis/auth`,
@@ -70,6 +73,8 @@ class PSUPISService extends __BaseService {
    * - `redirectId`: redirectId
    *
    * - `encryptedPaymentId`: encryptedPaymentId
+   *
+   * - `Authorization`: Authorization
    *
    * @return OK
    */
@@ -148,6 +153,8 @@ class PSUPISService extends __BaseService {
    *
    * - `authorisationId`: authorisationId
    *
+   * - `oauth2`: oauth2
+   *
    * - `Cookie`: Cookie
    *
    * @return OK
@@ -160,6 +167,7 @@ class PSUPISService extends __BaseService {
 
     if (params.backToTpp != null) __params = __params.set('backToTpp', params.backToTpp.toString());
 
+    if (params.oauth2 != null) __params = __params.set('oauth2', params.oauth2.toString());
     if (params.Cookie != null) __headers = __headers.set('Cookie', params.Cookie.toString());
     let req = new HttpRequest<any>(
       'GET',
@@ -189,6 +197,8 @@ class PSUPISService extends __BaseService {
    * - `backToTpp`: backToTpp
    *
    * - `authorisationId`: authorisationId
+   *
+   * - `oauth2`: oauth2
    *
    * - `Cookie`: Cookie
    *
@@ -255,13 +265,13 @@ class PSUPISService extends __BaseService {
   /**
    * @param params The `PSUPISService.LoginUsingPOST3Params` containing the following parameters:
    *
-   * - `pin`: pin
-   *
-   * - `login`: login
-   *
    * - `encryptedPaymentId`: encryptedPaymentId
    *
    * - `authorisationId`: authorisationId
+   *
+   * - `pin`: pin
+   *
+   * - `login`: login
    *
    * - `Cookie`: Cookie
    *
@@ -271,10 +281,10 @@ class PSUPISService extends __BaseService {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
+
+
     if (params.pin != null) __params = __params.set('pin', params.pin.toString());
     if (params.login != null) __params = __params.set('login', params.login.toString());
-
-
     if (params.Cookie != null) __headers = __headers.set('Cookie', params.Cookie.toString());
     let req = new HttpRequest<any>(
       'POST',
@@ -296,13 +306,13 @@ class PSUPISService extends __BaseService {
   /**
    * @param params The `PSUPISService.LoginUsingPOST3Params` containing the following parameters:
    *
-   * - `pin`: pin
-   *
-   * - `login`: login
-   *
    * - `encryptedPaymentId`: encryptedPaymentId
    *
    * - `authorisationId`: authorisationId
+   *
+   * - `pin`: pin
+   *
+   * - `login`: login
    *
    * - `Cookie`: Cookie
    *
@@ -442,6 +452,11 @@ module PSUPISService {
      * encryptedPaymentId
      */
     encryptedPaymentId: string;
+
+    /**
+     * Authorization
+     */
+    Authorization?: string;
   }
 
   /**
@@ -496,6 +511,11 @@ module PSUPISService {
     authorisationId: string;
 
     /**
+     * oauth2
+     */
+    oauth2?: boolean;
+
+    /**
      * Cookie
      */
     Cookie?: string;
@@ -528,16 +548,6 @@ module PSUPISService {
   export interface LoginUsingPOST3Params {
 
     /**
-     * pin
-     */
-    pin: string;
-
-    /**
-     * login
-     */
-    login: string;
-
-    /**
      * encryptedPaymentId
      */
     encryptedPaymentId: string;
@@ -546,6 +556,16 @@ module PSUPISService {
      * authorisationId
      */
     authorisationId: string;
+
+    /**
+     * pin
+     */
+    pin?: string;
+
+    /**
+     * login
+     */
+    login?: string;
 
     /**
      * Cookie

@@ -1,6 +1,7 @@
-import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
-import {ConsentAuthorizeResponse, PaymentAuthorizeResponse} from '../../api/models';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+
+import { ConsentAuthorizeResponse, PaymentAuthorizeResponse } from '../../api/models';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,10 @@ export class ShareDataService {
   // response data
   private data = new BehaviorSubject<ConsentAuthorizeResponse | PaymentAuthorizeResponse>(null);
   currentData = this.data.asObservable();
+
+  // oauth2 param
+  private oauth = new BehaviorSubject<boolean> (null);
+  oauthParam = this.oauth.asObservable();
 
   // operation type
   private operationType = new BehaviorSubject<string>(null);
@@ -31,6 +36,10 @@ export class ShareDataService {
 
   changeData(data: ConsentAuthorizeResponse) {
     this.data.next(data);
+  }
+
+  setOauthParam(oauthParam: boolean) {
+    this.oauth.next(oauthParam);
   }
 
   setOperationType(operation: string) {

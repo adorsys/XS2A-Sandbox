@@ -60,7 +60,7 @@ public class TokenAuthenticationService {
         return new MiddlewareAuthentication(token.getSub(), bearerToken, authorities);
     }
 
-    private String readAccessTokenCookie(HttpServletRequest request) {
+    public String readAccessTokenCookie(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         if (cookies == null) {
             return null;

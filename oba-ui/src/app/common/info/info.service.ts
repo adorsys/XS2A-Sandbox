@@ -16,7 +16,7 @@ export class InfoService {
   private readonly DEFAULT_OPTIONS: InfoOptions = {
     severity: 'info',
     closable: true,
-    duration: 2000
+    duration: 3000
   };
 
   constructor(private overlay: Overlay) {

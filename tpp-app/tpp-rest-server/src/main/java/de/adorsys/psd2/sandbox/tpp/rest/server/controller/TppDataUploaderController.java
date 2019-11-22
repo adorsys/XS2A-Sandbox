@@ -24,11 +24,14 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping(TppDataUploaderRestApi.BASE_PATH)
 public class TppDataUploaderController implements TppDataUploaderRestApi {
+    private static final String FILE_NAME = "transactions_template.csv";
+
     private final RestExecutionService restExecutionService;
     private final ParseService parseService;
     private final TestsDataGenerationService generationService;
     private final IbanGenerationService ibanGenerationService;
     private final TransactionService transactionService;
+    private final DownloadResourceService downloadResourceService;
 
     @Override
     public ResponseEntity<String> uploadData(MultipartFile file) {
@@ -66,6 +69,14 @@ public class TppDataUploaderController implements TppDataUploaderRestApi {
         Map<String, String> response = transactionService.uploadUserTransaction(file);
         log.info("upload response contains {} errors", response.size());
         return ResponseEntity.ok(response);
+    }
+
+    @Override
+    public ResponseEntity<Resource> downloadTransactionTemplate() {
+        return ResponseEntity.ok()
+                   .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                   .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + FILE_NAME)
+                   .body(downloadResourceService.getResourceByTemplate(FILE_NAME));
     }
 
     private HttpHeaders getExportFileHttpHeaders() {

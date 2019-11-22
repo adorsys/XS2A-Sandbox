@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EmbPaymentCancellPutComponent } from './emb-payment-cancell-put.component';
-import {Component, Input, Pipe, PipeTransform} from '@angular/core';
-import {LineCommandComponent} from '../../../../../custom-elements/line-command/line-command.component';
-import {CodeAreaComponent} from '../../../../../custom-elements/code-area/code-area.component';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { LineCommandComponent } from '../../../../../custom-elements/line-command/line-command.component';
+import { CodeAreaComponent } from '../../../../../custom-elements/code-area/code-area.component';
 
 describe('EmbPaymentCancellPutComponent', () => {
   let component: EmbPaymentCancellPutComponent;
@@ -11,10 +11,11 @@ describe('EmbPaymentCancellPutComponent', () => {
 
   @Component({
     selector: 'app-play-wth-data',
-    template: ''
+    template: '',
   })
   class MockPlayWithDataComponent {
     @Input() headers: object;
+    @Input() body: object;
     @Input() paymentServiceFlag: boolean;
     @Input() paymentProductFlag: boolean;
     @Input() paymentIdFlag: boolean;
@@ -22,7 +23,7 @@ describe('EmbPaymentCancellPutComponent', () => {
     @Input() cancellationIdFlag: boolean;
   }
 
-  @Pipe({name: 'translate'})
+  @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -30,7 +31,7 @@ describe('EmbPaymentCancellPutComponent', () => {
     }
   }
 
-  @Pipe({name: 'prettyJson'})
+  @Pipe({ name: 'prettyJson' })
   class PrettyJsonPipe implements PipeTransform {
     transform(value) {
       return JSON.stringify(value, null, 4);
@@ -45,7 +46,7 @@ describe('EmbPaymentCancellPutComponent', () => {
         PrettyJsonPipe,
         LineCommandComponent,
         MockPlayWithDataComponent,
-        CodeAreaComponent
+        CodeAreaComponent,
       ],
     }).compileComponents();
   }));
@@ -87,5 +88,9 @@ describe('EmbPaymentCancellPutComponent', () => {
 
     component.changeSegment('wrong-segment');
     expect(component.activeSegment).not.toBe('wrong-segment');
+  });
+
+  it('should be body', () => {
+    expect(component.body).not.toBeUndefined();
   });
 });

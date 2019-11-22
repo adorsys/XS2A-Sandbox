@@ -4,7 +4,7 @@ Implementation of the dynamic sandbox based on the adorsys ledgers core banking 
 
 ## Running the XS2ASandbox
 
-0.For build and run XS2ASandbox requires GNU Make to be installed on your local machine. Please, make sure it is installed.
+For build and run XS2ASandbox requires GNU Make to be installed on your local machine. Please, make sure it is installed.
 
 1.Download the project and go to the project directory:
 
@@ -43,11 +43,46 @@ version conflicts.
 **Note 2**: check amount of memory given to **Docker** (Open Docker Desktop -> Preferences -> Advanced -> Memory).
 For a fast and painless start of all the services it should be not less than 5 GB.
 
-3.Build and run the project with Makefile:
-  
+3.Build and run the project:
+
+You can build and run XS2ASandbox in two ways - with a docker command or with Makefile commands.
+
+If you want use a first way:
+
+Build all the services with command:
+
 ```sh 
+> make
+```
+
+After building services you can run XS2ASandbox with a simple docker command:
+
+```sh 
+> docker-compose up
+```
+
+In Makefile you can use one of three commands:
+* Run services from Docker Hub without build:
+
+```sh
 > make run
 ```
+
+* Build and run services:
+
+```sh
+> make all
+```
+
+* Run services without build:
+
+```sh
+> make start
+```
+
+Once you have built the project you can run it without build next time - command **docker-compose up** or **make start** from Makefile.
+
+Remember that after you update the project you should rebuild it - command **make** or **make all** from Makefile.
 
 4.Open [Developer Portal](http://localhost:4206) and follow the manual to start working with XS2ASandbox.
 

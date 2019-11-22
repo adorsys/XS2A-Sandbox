@@ -23,7 +23,7 @@ public abstract class AbstractPiis {
 	private ObaScaApiClient obaScaApiClient;
 
 	protected PiisHelper cifHelper;
-	
+
 	@Before
 	public void beforeClass() {
 		cifHelper = new PiisHelper(getPsuId(), getIban(), obaAisApiClient, fundsConfirmationApiClient, obaScaApiClient);

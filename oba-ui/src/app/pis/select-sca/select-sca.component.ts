@@ -1,19 +1,20 @@
-import {Component, OnInit} from '@angular/core';
-import {ScaUserDataTO} from "../../api/models/sca-user-data-to";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Subscription} from "rxjs";
-import {ActivatedRoute, Router} from "@angular/router";
-import {PisService} from "../../common/services/pis.service";
-import {ShareDataService} from "../../common/services/share-data.service";
-import {RoutingPath} from "../../common/models/routing-path.model";
-import {PaymentAuthorizeResponse} from "../../api/models";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+
+import { PaymentAuthorizeResponse } from '../../api/models';
+import { ScaUserDataTO } from '../../api/models/sca-user-data-to';
+import { RoutingPath } from '../../common/models/routing-path.model';
+import { PisService } from '../../common/services/pis.service';
+import { ShareDataService } from '../../common/services/share-data.service';
 
 @Component({
   selector: 'app-select-sca',
   templateUrl: './select-sca.component.html',
   styleUrls: ['./select-sca.component.scss']
 })
-export class SelectScaComponent implements OnInit {
+export class SelectScaComponent implements OnInit, OnDestroy {
 
   public authResponse: PaymentAuthorizeResponse;
   public selectedScaMethod: ScaUserDataTO;
@@ -32,7 +33,7 @@ export class SelectScaComponent implements OnInit {
     });
   }
 
-  get scaMehods(): ScaUserDataTO[] {
+  get scaMethods(): ScaUserDataTO[] {
     return this.authResponse ? this.authResponse.scaMethods : [];
   }
 
@@ -40,15 +41,22 @@ export class SelectScaComponent implements OnInit {
     // fetch data that we save before after login
     this.shareService.currentData.subscribe(data => {
       if (data) {
-        // TODO extract the Accounts, Balances and Transactions from data.value https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/issues/9
+        // TODO extract the Accounts, Balances and Transactions from data.value
+        // https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/issues/9
         console.log('response object: ', data);
         this.shareService.currentData.subscribe(authResponse => {
           this.authResponse = authResponse;
           if (this.authResponse.scaMethods && this.authResponse.scaMethods.length === 1) {
             this.selectedScaMethod = this.authResponse.scaMethods[0];
+            this.scaForm.get('scaMethod').setValue(this.selectedScaMethod.id, {emitEvent: false});
           }
         });
       }
+    });
+
+    this.scaForm.get('scaMethod').valueChanges.subscribe(id => {
+        const selectedScaMethod = this.scaMethods.find(scaMethod => scaMethod.id === id);
+        this.handleMethodSelectedEvent(selectedScaMethod);
     });
   }
 
@@ -82,12 +90,18 @@ export class SelectScaComponent implements OnInit {
   }
 
   handleMethodSelectedEvent(scaMethod: ScaUserDataTO): void {
-    console.log('No sca method selected.');
+    if (!scaMethod) {
+      console.log('No sca method selected.');
+    }
     this.selectedScaMethod = scaMethod;
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  public isScaSelected() {
+    return !this.selectedScaMethod;
   }
 
 }
