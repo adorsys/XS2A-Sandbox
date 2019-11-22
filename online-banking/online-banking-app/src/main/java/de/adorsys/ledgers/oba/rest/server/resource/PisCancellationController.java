@@ -5,7 +5,6 @@ import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCALoginResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCAPaymentResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCAResponseTO;
-import de.adorsys.ledgers.middleware.api.domain.um.ScaUserDataTO;
 import de.adorsys.ledgers.middleware.client.rest.PaymentRestClient;
 import de.adorsys.ledgers.oba.rest.api.domain.PaymentAuthorizeResponse;
 import de.adorsys.ledgers.oba.rest.api.domain.PaymentWorkflow;
@@ -60,10 +59,6 @@ public class PisCancellationController extends AbstractXISController implements 
             return ResponseEntity.status(UNAUTHORIZED).build();
         }
         initiateCancelPayment(cancellationWorkflow);
-        if (cancellationWorkflow.singleScaMethod()) {
-            ScaUserDataTO scaUserDataTO = cancellationWorkflow.scaMethods().iterator().next();
-            paymentService.selectMethodAndUpdateWorkflow(scaUserDataTO.getId(), cancellationWorkflow, true);
-        }
         String psuId = AuthUtils.psuId(cancellationWorkflow.bearerToken());
         paymentService.updateScaStatusPaymentStatusConsentData(psuId, cancellationWorkflow, response);
         return paymentService.resolvePaymentWorkflow(cancellationWorkflow, response);
