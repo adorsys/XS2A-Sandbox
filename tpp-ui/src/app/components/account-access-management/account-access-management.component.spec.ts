@@ -7,6 +7,7 @@ import {AccountService} from "../../services/account.service";
 import {RouterTestingModule} from "@angular/router/testing";
 import {InfoModule} from "../../commons/info/info.module";
 import {InfoService} from "../../commons/info/info.service";
+import {NgbTypeaheadModule} from "@ng-bootstrap/ng-bootstrap";
 
 describe('AccountAccessManagementComponent', () => {
     let component: AccountAccessManagementComponent;
@@ -18,6 +19,7 @@ describe('AccountAccessManagementComponent', () => {
                 ReactiveFormsModule,
                 HttpClientTestingModule,
                 RouterTestingModule,
+                NgbTypeaheadModule,
                 InfoModule,
                 FormsModule,
             ],
