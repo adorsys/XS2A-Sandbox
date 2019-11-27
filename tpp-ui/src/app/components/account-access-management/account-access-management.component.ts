@@ -1,12 +1,14 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Account} from "../../models/account.model";
 import {User} from "../../models/user.model";
 import {UserService} from "../../services/user.service";
-import {Subscription} from "rxjs";
+import {merge, Observable, Subject, Subscription,} from "rxjs";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AccountService} from "../../services/account.service";
 import {InfoService} from "../../commons/info/info.service";
+import {debounceTime, distinctUntilChanged, filter, map} from "rxjs/operators";
+import {NgbTypeahead} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
     selector: 'app-account-access-management',
@@ -76,6 +78,36 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
 
         });
     }
+
+    @ViewChild('instance', {static: true}) instance: NgbTypeahead;
+    focus$ = new Subject<User[]>();
+    click$ = new Subject<User[]>();
+
+    search: (obs: Observable<string>) => Observable<User[]> = (text$: Observable<string>) => {
+        const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+        const clicksWithClosedPopup$ = this.click$.pipe(filter(() => !this.instance.isPopupOpen()));
+        const inputFocus$ = this.focus$;
+        return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$)
+            .pipe(
+                map((searchText: string) => (searchText === '' ? this.users : this.users.filter(user => user.login.toLowerCase()
+                    .indexOf(searchText.toLowerCase()) > -1)).slice(0, 10))
+            );
+    };
+
+    public inputFormatterValue = (user: User) => {
+        if (user) {
+            return user.login;
+        }
+        return user;
+    };
+
+    public resultFormatterValue = (user: User) => {
+        if (user) {
+            this.accountAccessForm.get('id').setValue(user.id);
+            return user.login;
+        }
+        return user;
+    };
 
     ngOnDestroy(): void {
         this.subscription.unsubscribe();

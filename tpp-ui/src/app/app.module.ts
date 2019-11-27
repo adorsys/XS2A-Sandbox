@@ -3,7 +3,7 @@ import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgbModalModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbModalModule, NgbPaginationModule, NgbTypeaheadModule} from '@ng-bootstrap/ng-bootstrap';
 import { NgHttpLoaderModule } from 'ng-http-loader';
 import { FileUploadModule } from 'ng2-file-upload';
 import { FilterPipeModule } from 'ngx-filter-pipe';
@@ -88,6 +88,7 @@ export function app_Init(settingsHttpService: SettingsHttpService) {
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    NgbTypeaheadModule,
     IconModule,
     InfoModule,
     BrowserAnimationsModule,
