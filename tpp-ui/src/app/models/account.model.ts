@@ -12,7 +12,7 @@ export class Account {
   /** Mobile Subscriber Integrated Services Digital Number */
   msisdn: string;
   /** ISO 4217 currency code */
-  currency: string;
+  currency: Currency;
   name: string;
   product: string;
   accountType: AccountType;
@@ -56,6 +56,13 @@ export enum AccountStatus {
 export enum UsageType {
   PRIV = "PRIV",
   ORGA = "ORGA",
+}
+
+export enum Currency {
+  EUR = "EUR",
+  USD = "USD",
+  CHF = "CHF",
+  GBP = "GBP"
 }
 
 class AccountBalance {

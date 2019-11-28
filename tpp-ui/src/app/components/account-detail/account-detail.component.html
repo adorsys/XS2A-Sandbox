@@ -33,13 +33,14 @@
         </div>
         <div class="form-group required">
           <label class="control-label" for="currency">Currency code</label>
-          <input [ngClass]="{'is-invalid': currency.invalid && (currency.dirty || currency.touched || submitted)}"
-                 class="form-control"
-                 formControlName="currency"
-                 id="currency"
-                 type="text">
-          <div class="invalid-feedback">
-            <div *ngIf="currency.errors?.required">
+          <select [ngClass]="{'is-invalid': currency.invalid && (currency.dirty || currency.touched || submitted)}"
+                  class="form-control"
+                  formControlName="currency"
+                  id="currency">
+            <option *ngFor="let currency of currencies" [value]="currency">{{currency}}</option>
+          </select>
+          <div *ngIf="currency.errors?.required" class="invalid-feedback">
+            <div>
               Required
             </div>
           </div>
