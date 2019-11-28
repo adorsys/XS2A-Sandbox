@@ -4,7 +4,6 @@ import de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCALoginResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCAPaymentResponseTO;
-import de.adorsys.ledgers.middleware.api.domain.sca.SCAResponseTO;
 import de.adorsys.ledgers.middleware.client.rest.PaymentRestClient;
 import de.adorsys.ledgers.oba.rest.api.domain.PaymentAuthorizeResponse;
 import de.adorsys.ledgers.oba.rest.api.domain.PaymentWorkflow;
@@ -52,7 +51,7 @@ public class PisCancellationController extends AbstractXISController implements 
         // Authorize
         ResponseEntity<SCALoginResponseTO> loginResult = performLoginForConsent(login, pin, cancellationWorkflow.paymentId(), cancellationWorkflow.authId(), OpTypeTO.CANCEL_PAYMENT);
         AuthUtils.checkIfUserInitiatedOperation(loginResult, cancellationWorkflow.getPaymentResponse().getPayment().getPsuIdDatas());
-        processSCAResponse(cancellationWorkflow, loginResult.getBody());
+        cancellationWorkflow.processSCAResponse(loginResult.getBody());
 
         if (!AuthUtils.success(loginResult)) {
             responseUtils.removeCookies(response);
@@ -62,14 +61,6 @@ public class PisCancellationController extends AbstractXISController implements 
         String psuId = AuthUtils.psuId(cancellationWorkflow.bearerToken());
         paymentService.updateScaStatusPaymentStatusConsentData(psuId, cancellationWorkflow, response);
         return paymentService.resolvePaymentWorkflow(cancellationWorkflow, response);
-    }
-
-    private void processSCAResponse(PaymentWorkflow workflow, SCAResponseTO paymentResponse) {
-        workflow.setScaResponse(paymentResponse);
-        workflow.getAuthResponse().setAuthorisationId(paymentResponse.getAuthorisationId());
-        workflow.getAuthResponse().setScaStatus(paymentResponse.getScaStatus());
-        workflow.getAuthResponse().setScaMethods(paymentResponse.getScaMethods());
-        workflow.setAuthCodeMessage(paymentResponse.getPsuMessage());
     }
 
     @Override

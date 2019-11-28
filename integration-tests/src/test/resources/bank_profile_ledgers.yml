@@ -8,18 +8,21 @@ setting:
       accountAccessFrequencyPerDay: 4
       notConfirmedConsentExpirationTimeMs: 86400000
       maxConsentValidityDays: 0
+      accountOwnerInformationSupported: false
     redirectLinkToOnlineBanking:
       aisRedirectUrlToAspsp: http://localhost:4400/account-information/login?encryptedConsentId={encrypted-consent-id}&redirectId={redirect-id}
     transactionParameters:
       availableBookingStatuses:
         - BOOKED
       transactionsWithoutBalancesSupported: FALSE
-      supportedTransactionApplicationType: JSON
+      supportedTransactionApplicationTypes:
+        - application/json
     deltaReportSettings:
       entryReferenceFromSupported: FALSE
       deltaListSupported: FALSE
     scaRequirementsForOneTimeConsents:
       scaByOneTimeAvailableAccountsConsentRequired: TRUE
+      scaByOneTimeGlobalConsentRequired: TRUE
   pis:
     supportedPaymentTypeAndProductMatrix:
       SINGLE:
@@ -38,6 +41,7 @@ setting:
       pisRedirectUrlToAspsp: http://localhost:4400/payment-initiation/login?paymentId={encrypted-payment-id}&redirectId={redirect-id}
       pisPaymentCancellationRedirectUrlToAspsp: http://localhost:4400/payment-cancellation/login?paymentId={encrypted-payment-id}&redirectId={redirect-id}
       paymentCancellationRedirectUrlExpirationTimeMs: 600000
+    countryValidationSupported: DE
   piis:
     piisConsentSupported: TRUE
   common:
@@ -45,7 +49,9 @@ setting:
       - EMBEDDED
       - REDIRECT
       - DECOUPLED
+      - OAUTH
     scaRedirectFlow: REDIRECT
+    oauthConfigurationUrl: http://localhost:8090/oauth/authorization-server
     startAuthorisationMode: auto
     tppSignatureRequired: FALSE
     psuInInitialRequestMandated: FALSE

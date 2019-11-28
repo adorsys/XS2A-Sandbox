@@ -1,6 +1,9 @@
 package de.adorsys.ledgers.oba.rest.server.resource;
 
-import de.adorsys.ledgers.middleware.api.domain.sca.*;
+import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
+import de.adorsys.ledgers.middleware.api.domain.sca.SCALoginResponseTO;
+import de.adorsys.ledgers.middleware.api.domain.sca.SCAPaymentResponseTO;
+import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.client.rest.PaymentRestClient;
 import de.adorsys.ledgers.oba.rest.api.consentref.ConsentType;
 import de.adorsys.ledgers.oba.rest.api.domain.AuthorizeResponse;
@@ -52,7 +55,7 @@ public class PISController extends AbstractXISController implements PISApi {
         // Authorize
         ResponseEntity<SCALoginResponseTO> loginResult = performLoginForConsent(login, pin, workflow.paymentId(), workflow.authId(), OpTypeTO.PAYMENT);
         AuthUtils.checkIfUserInitiatedOperation(loginResult, workflow.getPaymentResponse().getPayment().getPsuIdDatas());
-        processSCAResponse(workflow, loginResult.getBody());
+        workflow.processSCAResponse(loginResult.getBody());
 
         if (!AuthUtils.success(loginResult)) {
             // failed Message. No repeat. Delete cookies.
@@ -63,14 +66,6 @@ public class PISController extends AbstractXISController implements PISApi {
         initiatePayment(workflow, response);
         paymentService.updateScaStatusPaymentStatusConsentData(psuId, workflow, response);
         return paymentService.resolvePaymentWorkflow(workflow, response);
-    }
-
-    private void processSCAResponse(PaymentWorkflow workflow, SCAResponseTO paymentResponse) {
-        workflow.setScaResponse(paymentResponse);
-        workflow.getAuthResponse().setAuthorisationId(paymentResponse.getAuthorisationId());
-        workflow.getAuthResponse().setScaStatus(paymentResponse.getScaStatus());
-        workflow.getAuthResponse().setScaMethods(paymentResponse.getScaMethods());
-        workflow.setAuthCodeMessage(paymentResponse.getPsuMessage());
     }
 
     @Override

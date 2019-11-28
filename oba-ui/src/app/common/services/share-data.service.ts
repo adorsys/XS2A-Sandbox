@@ -38,6 +38,10 @@ export class ShareDataService {
     this.data.next(data);
   }
 
+  changePaymentData(data: PaymentAuthorizeResponse) {
+    this.data.next(data);
+  }
+
   setOauthParam(oauthParam: boolean) {
     this.oauth.next(oauthParam);
   }

@@ -45,6 +45,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.*;
+import static de.adorsys.psd2.xs2a.core.consent.ConsentStatus.PARTIALLY_AUTHORISED;
 import static de.adorsys.psd2.xs2a.core.consent.ConsentStatus.VALID;
 import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient.DEFAULT_SERVICE_INSTANCE_ID;
 
@@ -233,7 +234,7 @@ public class AISController extends AbstractXISController implements AISApi {
                                       : consentResponse.getTppOkRedirectUri();
         String tppNokRedirectUri = consentResponse.getTppNokRedirectUri();
 
-        String redirectURL = VALID.equals(consentStatus)
+        String redirectURL = EnumSet.of(VALID, PARTIALLY_AUTHORISED).contains(consentStatus)
                                  ? tppOkRedirectUri
                                  : tppNokRedirectUri;
 

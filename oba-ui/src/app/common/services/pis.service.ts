@@ -9,6 +9,7 @@ import PisAuthUsingGETParams = PSUPISService.PisAuthUsingGETParams;
 import LoginUsingPOST3Params = PSUPISService.LoginUsingPOST3Params;
 import SelectMethodUsingPOST2Params = PSUPISService.SelectMethodUsingPOST2Params;
 import AuthorisePaymentUsingPOSTParams = PSUPISService.AuthrizedPaymentUsingPOSTParams;
+import {HttpResponse} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,8 @@ export class PisService {
 
   constructor(private pisService: PSUPISService) {}
 
-  public pisAuthCode(params: PisAuthUsingGETParams): Observable<AuthorizeResponse> {
-    return this.pisService.pisAuthUsingGET(params);
+  public pisAuthCode(params: PisAuthUsingGETParams): Observable<HttpResponse<AuthorizeResponse>> {
+    return this.pisService.pisAuthUsingGETResponse(params);
   }
 
   public pisLogin(params: LoginUsingPOST3Params): Observable<PaymentAuthorizeResponse> {
