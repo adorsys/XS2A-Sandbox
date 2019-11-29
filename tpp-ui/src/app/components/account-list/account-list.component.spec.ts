@@ -11,8 +11,9 @@ import {Account, AccountStatus, AccountType, Currency, UsageType} from '../../mo
 import {AccountService} from '../../services/account.service';
 import {AccountListComponent} from './account-list.component';
 import {NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {FilterPipeModule} from "ngx-filter-pipe";
+import {PaginationContainerComponent} from "../../commons/pagination-container/pagination-container.component";
 
 describe('AccountListComponent', () => {
   let component: AccountListComponent;
@@ -31,9 +32,10 @@ describe('AccountListComponent', () => {
         RouterTestingModule,
         FilterPipeModule,
         IconModule,
-        NgbPaginationModule
+        NgbPaginationModule,
+        FormsModule
       ],
-      declarations: [AccountListComponent],
+      declarations: [AccountListComponent, PaginationContainerComponent],
       providers: [AccountService, InfoService]
     })
         .compileComponents();
