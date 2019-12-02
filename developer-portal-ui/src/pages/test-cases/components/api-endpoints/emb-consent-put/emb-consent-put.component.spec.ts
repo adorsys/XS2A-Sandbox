@@ -4,10 +4,21 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { EmbConsentPutComponent } from './emb-consent-put.component';
 import { LineCommandComponent } from '../../../../../custom-elements/line-command/line-command.component';
 import { CodeAreaComponent } from '../../../../../custom-elements/code-area/code-area.component';
+import { JsonService } from '../../../../../services/json.service';
+import { of } from 'rxjs';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  TranslateLoader,
+  TranslateModule,
+  TranslateService,
+} from '@ngx-translate/core';
+import { HttpLoaderFactory } from '../../../../../services/language.service';
 
 describe('EmbConsentPutComponent', () => {
   let component: EmbConsentPutComponent;
   let fixture: ComponentFixture<EmbConsentPutComponent>;
+  let jsonService: JsonService;
 
   @Component({
     selector: 'app-play-wth-data',
@@ -46,10 +57,23 @@ describe('EmbConsentPutComponent', () => {
         MockPlayWithDataComponent,
         CodeAreaComponent,
       ],
+      imports: [
+        HttpClientTestingModule,
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useFactory: HttpLoaderFactory,
+            deps: [HttpClient],
+          },
+        }),
+      ],
+      providers: [TranslateService],
     }).compileComponents();
   }));
 
   beforeEach(() => {
+    jsonService = TestBed.get(JsonService);
+    spyOn(jsonService, 'getJsonData').and.returnValue(of('body'));
     fixture = TestBed.createComponent(EmbConsentPutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

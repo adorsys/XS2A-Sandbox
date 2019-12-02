@@ -1,17 +1,28 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RdctPaymentInitiationPostComponent } from './rdct-payment-initiation-post.component';
-import {Component, Input, Pipe, PipeTransform} from '@angular/core';
-import {LineCommandComponent} from '../../../../../custom-elements/line-command/line-command.component';
-import {CodeAreaComponent} from '../../../../../custom-elements/code-area/code-area.component';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { LineCommandComponent } from '../../../../../custom-elements/line-command/line-command.component';
+import { CodeAreaComponent } from '../../../../../custom-elements/code-area/code-area.component';
+import { JsonService } from '../../../../../services/json.service';
+import { of } from 'rxjs';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  TranslateLoader,
+  TranslateModule,
+  TranslateService,
+} from '@ngx-translate/core';
+import { HttpLoaderFactory } from '../../../../../services/language.service';
+import { HttpClient } from '@angular/common/http';
 
 describe('RdctPaymentInitiationPostComponent', () => {
   let component: RdctPaymentInitiationPostComponent;
   let fixture: ComponentFixture<RdctPaymentInitiationPostComponent>;
+  let jsonService: JsonService;
 
   @Component({
     selector: 'app-play-wth-data',
-    template: ''
+    template: '',
   })
   class MockPlayWithDataComponent {
     @Input() headers: object;
@@ -22,7 +33,7 @@ describe('RdctPaymentInitiationPostComponent', () => {
     @Input() fieldsToCopy: string[];
   }
 
-  @Pipe({name: 'translate'})
+  @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -30,7 +41,7 @@ describe('RdctPaymentInitiationPostComponent', () => {
     }
   }
 
-  @Pipe({name: 'prettyJson'})
+  @Pipe({ name: 'prettyJson' })
   class PrettyJsonPipe implements PipeTransform {
     transform(value) {
       return JSON.stringify(value, null, 4);
@@ -45,12 +56,25 @@ describe('RdctPaymentInitiationPostComponent', () => {
         LineCommandComponent,
         CodeAreaComponent,
         TranslatePipe,
-        PrettyJsonPipe
+        PrettyJsonPipe,
       ],
+      imports: [
+        HttpClientTestingModule,
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useFactory: HttpLoaderFactory,
+            deps: [HttpClient],
+          },
+        }),
+      ],
+      providers: [TranslateService],
     }).compileComponents();
   }));
 
   beforeEach(() => {
+    jsonService = TestBed.get(JsonService);
+    spyOn(jsonService, 'getJsonData').and.returnValue(of('body'));
     fixture = TestBed.createComponent(RdctPaymentInitiationPostComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -94,5 +118,5 @@ describe('RdctPaymentInitiationPostComponent', () => {
 
   it('should be body', () => {
     expect(component.body).not.toBeUndefined();
-  })
+  });
 });

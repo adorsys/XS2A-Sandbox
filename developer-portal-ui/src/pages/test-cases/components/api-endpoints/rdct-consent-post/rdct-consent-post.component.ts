@@ -1,62 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { AspspService } from 'src/services/aspsp.service';
 import { ConsentTypes } from '../../../../../models/consentTypes.model';
+import { JsonService } from '../../../../../services/json.service';
 
 const consentBodies = {
-  dedicatedAccountsConsent: {
-    access: {
-      accounts: [{ iban: 'DE88900000010000007500', currency: 'EUR' }],
-      balances: [{ iban: 'DE88900000010000007500', currency: 'EUR' }],
-      transactions: [{ iban: 'DE88900000010000007500', currency: 'EUR' }],
-    },
-    recurringIndicator: true,
-    validUntil: '2020-03-03',
-    frequencyPerDay: 4,
-    combinedServiceIndicator: false,
-  },
-  bankOfferedConsent: {
-    access: { accounts: [], balances: [], transactions: [] },
-    recurringIndicator: true,
-    validUntil: '2020-03-03',
-    frequencyPerDay: 4,
-    combinedServiceIndicator: false,
-  },
-  globalConsent: {
-    access: {
-      accounts: [],
-      balances: [],
-      transactions: [],
-      allPsd2: 'allAccounts',
-    },
-    recurringIndicator: true,
-    validUntil: '2020-03-03',
-    frequencyPerDay: 4,
-    combinedServiceIndicator: false,
-  },
-  availableAccountsConsent: {
-    access: {
-      accounts: [],
-      balances: [],
-      transactions: [],
-      availableAccounts: 'allAccounts',
-    },
-    recurringIndicator: false,
-    validUntil: '2020-03-03',
-    frequencyPerDay: '1',
-    combinedServiceIndicator: false,
-  },
-  availableAccountsConsentWithBalance: {
-    access: {
-      accounts: [],
-      balances: [],
-      transactions: [],
-      availableAccountsWithBalance: 'allAccounts',
-    },
-    recurringIndicator: false,
-    validUntil: '2020-03-03',
-    frequencyPerDay: '1',
-    combinedServiceIndicator: false,
-  },
+  dedicatedAccountsConsent: {},
+  bankOfferedConsent: {},
+  globalConsent: {},
+  availableAccountsConsent: {},
+  availableAccountsConsentWithBalance: {},
 };
 
 @Component({
@@ -68,19 +20,7 @@ export class RdctConsentPOSTComponent implements OnInit {
   consentTypes: ConsentTypes = {
     dedicatedAccountsConsent: consentBodies.dedicatedAccountsConsent,
   };
-  jsonData = {
-    access: {
-      accounts: [],
-      balances: [],
-      transactions: [],
-      availableAccounts: 'allAccounts',
-      allPsd2: 'allAccounts',
-    },
-    combinedServiceIndicator: false,
-    frequencyPerDay: 50,
-    recurringIndicator: true,
-    validUntil: '2020-12-31',
-  };
+  jsonData: object;
   headers: object = {
     'X-Request-ID': '2f77a125-aa7a-45c0-b414-cea25a116035',
     'TPP-Explicit-Authorisation-Preferred': 'true',
@@ -92,7 +32,41 @@ export class RdctConsentPOSTComponent implements OnInit {
   };
   body: object = { ...consentBodies.dedicatedAccountsConsent };
 
-  constructor(private aspsp: AspspService) {}
+  constructor(private aspsp: AspspService, private jsonService: JsonService) {
+    jsonService
+      .getJsonData(jsonService.jsonLinks.dedicatedAccountsConsent)
+      .subscribe(
+        data => (consentBodies.dedicatedAccountsConsent = data),
+        error => console.log(error)
+      );
+    jsonService
+      .getJsonData(jsonService.jsonLinks.bankOfferedConsent)
+      .subscribe(
+        data => (consentBodies.bankOfferedConsent = data),
+        error => console.log(error)
+      );
+    jsonService
+      .getJsonData(jsonService.jsonLinks.globalConsent)
+      .subscribe(
+        data => (consentBodies.globalConsent = data),
+        error => console.log(error)
+      );
+    jsonService
+      .getJsonData(jsonService.jsonLinks.availableAccountsConsent)
+      .subscribe(
+        data => (consentBodies.availableAccountsConsent = data),
+        error => console.log(error)
+      );
+    jsonService
+      .getJsonData(jsonService.jsonLinks.availableAccountsConsentWithBalance)
+      .subscribe(
+        data => (consentBodies.availableAccountsConsentWithBalance = data),
+        error => console.log(error)
+      );
+    jsonService
+      .getJsonData(jsonService.jsonLinks.consent)
+      .subscribe(data => (this.jsonData = data), error => console.log(error));
+  }
 
   changeSegment(segment) {
     if (segment === 'documentation' || segment === 'play-data') {

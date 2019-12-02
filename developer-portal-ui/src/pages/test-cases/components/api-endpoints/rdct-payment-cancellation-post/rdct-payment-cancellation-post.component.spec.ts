@@ -1,17 +1,28 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RdctPaymentCancellationPostComponent } from './rdct-payment-cancellation-post.component';
-import {Component, Input, Pipe, PipeTransform} from '@angular/core';
-import {LineCommandComponent} from '../../../../../custom-elements/line-command/line-command.component';
-import {CodeAreaComponent} from '../../../../../custom-elements/code-area/code-area.component';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { LineCommandComponent } from '../../../../../custom-elements/line-command/line-command.component';
+import { CodeAreaComponent } from '../../../../../custom-elements/code-area/code-area.component';
+import { JsonService } from '../../../../../services/json.service';
+import { of } from 'rxjs';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  TranslateLoader,
+  TranslateModule,
+  TranslateService,
+} from '@ngx-translate/core';
+import { HttpLoaderFactory } from '../../../../../services/language.service';
+import { HttpClient } from '@angular/common/http';
 
 describe('RdctPaymentCancellationPostComponent', () => {
   let component: RdctPaymentCancellationPostComponent;
   let fixture: ComponentFixture<RdctPaymentCancellationPostComponent>;
+  let jsonService: JsonService;
 
   @Component({
     selector: 'app-play-wth-data',
-    template: ''
+    template: '',
   })
   class MockPlayWithDataComponent {
     @Input() headers: object;
@@ -21,7 +32,7 @@ describe('RdctPaymentCancellationPostComponent', () => {
     @Input() fieldsToCopy: string[];
   }
 
-  @Pipe({name: 'translate'})
+  @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -29,7 +40,7 @@ describe('RdctPaymentCancellationPostComponent', () => {
     }
   }
 
-  @Pipe({name: 'prettyJson'})
+  @Pipe({ name: 'prettyJson' })
   class PrettyJsonPipe implements PipeTransform {
     transform(value) {
       return JSON.stringify(value, null, 4);
@@ -44,12 +55,25 @@ describe('RdctPaymentCancellationPostComponent', () => {
         TranslatePipe,
         PrettyJsonPipe,
         LineCommandComponent,
-        CodeAreaComponent
+        CodeAreaComponent,
       ],
+      imports: [
+        HttpClientTestingModule,
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useFactory: HttpLoaderFactory,
+            deps: [HttpClient],
+          },
+        }),
+      ],
+      providers: [TranslateService],
     }).compileComponents();
   }));
 
   beforeEach(() => {
+    jsonService = TestBed.get(JsonService);
+    spyOn(jsonService, 'getJsonData').and.returnValue(of('body'));
     fixture = TestBed.createComponent(RdctPaymentCancellationPostComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
