@@ -16,6 +16,7 @@ export class SettingsComponent {
 
     deleteTpp() {
         this.tppService.deleteTpp().subscribe(() => {
+            localStorage.removeItem('access_token');
             this.router.navigate(['/login']);
         });
     }
