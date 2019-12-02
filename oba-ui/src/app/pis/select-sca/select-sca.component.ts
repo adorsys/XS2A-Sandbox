@@ -46,8 +46,9 @@ export class SelectScaComponent implements OnInit, OnDestroy {
         console.log('response object: ', data);
         this.shareService.currentData.subscribe(authResponse => {
           this.authResponse = authResponse;
-          if (this.authResponse.scaMethods && this.authResponse.scaMethods.length === 1) {
+          if (this.authResponse.scaMethods && this.authResponse.scaMethods) {
             this.selectedScaMethod = this.authResponse.scaMethods[0];
+            console.log("luuuuul",this.selectedScaMethod);
             this.scaForm.get('scaMethod').setValue(this.selectedScaMethod.id, {emitEvent: false});
           }
         });
