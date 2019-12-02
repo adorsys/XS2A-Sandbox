@@ -17,7 +17,7 @@ import { LanguageService } from '../services/language.service';
 export class AppComponent implements OnInit {
   globalSettings: GlobalSettings;
   lang = 'en';
-  langs: string[] = ['en', 'ua', 'es', 'de'];
+  langs: string[];
   langIcons: object = {
     en: '../assets/icons/united-kingdom.png',
     de: '../assets/icons/germany.png',
@@ -34,6 +34,9 @@ export class AppComponent implements OnInit {
     private translateService: TranslateService,
     private languageService: LanguageService
   ) {
+    this.customizeService
+      .getJSON()
+      .then(data => (this.langs = data.supportedLanguages));
     this.languageService.initializeTranslation();
     this.setLangCollapsed(true);
   }

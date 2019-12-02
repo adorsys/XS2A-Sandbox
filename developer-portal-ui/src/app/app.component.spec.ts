@@ -19,6 +19,7 @@ import { DataService } from '../services/data.service';
 import { CustomizeService } from '../services/customize.service';
 import { Pipe, PipeTransform } from '@angular/core';
 import { Router } from '@angular/router';
+import { of } from 'rxjs';
 
 const TRANSLATIONS_EN = require('../assets/i18n/en.json');
 const TRANSLATIONS_DE = require('../assets/i18n/de.json');
@@ -97,6 +98,7 @@ describe('AppComponent', () => {
     initializeTranslation: () => {},
     setLang: (lang: string) => (LanguageServiceStub.language = lang),
     getLang: () => LanguageServiceStub.language,
+    getLanguages: () => of(['en', 'de', 'es', 'ua']),
   };
 
   @Pipe({ name: 'translate' })

@@ -40,6 +40,8 @@ export class CustomizeService {
         linkedIn: 'https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/',
       },
     ],
+    supportedLanguages: ['en', 'de', 'es', 'ua'],
+    supportedApproaches: ['redirect', 'embedded'],
   };
   private USER_THEME: Theme = {
     globalSettings: {
@@ -64,7 +66,11 @@ export class CustomizeService {
         addressSecondLine: '',
       },
     ],
+    supportedLanguages: [],
+    supportedApproaches: [],
   };
+
+  private defaultThemeUrl: string = 'assets/UI/defaultTheme.json';
 
   constructor(private http: HttpClient) {
     this.updateCSS();
@@ -113,7 +119,7 @@ export class CustomizeService {
 
   getDefaultTheme(): Promise<Theme> {
     return this.http
-      .get('../assets/UI/defaultTheme.json')
+      .get(this.defaultThemeUrl)
       .toPromise()
       .then(data => {
         return data as Theme;
@@ -151,13 +157,15 @@ export class CustomizeService {
       ['logo'],
       ['img', 'name', 'position'],
       ['city', 'company', 'addressFirstLine', 'addressSecondLine'],
+      [],
+      [],
     ];
     const errors: string[] = [];
 
     for (let i = 0; i < general.length; i++) {
       if (!theme.hasOwnProperty(general[i])) {
         errors.push(`Missing field ${general[i]}!`);
-      } else if (i !== 2) {
+      } else if (i < 2) {
         for (const property of additional[i]) {
           if (!theme[general[i]].hasOwnProperty(property)) {
             errors.push(`Field ${general[i]} missing property ${property}!`);
@@ -229,6 +237,8 @@ export interface Theme {
   globalSettings: GlobalSettings;
   contactInfo: ContactInfo;
   officesInfo: OfficeInfo[];
+  supportedLanguages: string[];
+  supportedApproaches: string[];
 }
 
 export interface GlobalSettings {
@@ -246,6 +256,7 @@ export interface Favicon {
 
 export interface CSSVariables {
   [key: string]: string;
+
   colorPrimary?: string;
   colorSecondary?: string;
   fontFamily?: string;

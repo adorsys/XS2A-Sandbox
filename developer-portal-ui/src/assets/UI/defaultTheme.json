@@ -28,5 +28,7 @@
       "facebook": "https://www.facebook.com/adorsysGmbH/",
       "linkedIn": "https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/"
     }
-  ]
+  ],
+  "supportedLanguages": ["en", "de", "es", "ua"],
+  "supportedApproaches": ["redirect", "embedded"]
 }

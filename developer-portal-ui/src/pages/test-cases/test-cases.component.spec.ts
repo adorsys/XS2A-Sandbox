@@ -1,9 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TestCasesComponent } from './test-cases.component';
-import {Pipe, PipeTransform} from '@angular/core';
-import {RouterTestingModule} from '@angular/router/testing';
-import {DataService} from '../../services/data.service';
+import { Pipe, PipeTransform } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { DataService } from '../../services/data.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('TestCasesComponent', () => {
   let component: TestCasesComponent;
@@ -11,10 +12,10 @@ describe('TestCasesComponent', () => {
 
   const DataServiceStub = {
     setRouterUrl: (val: string) => {},
-    getRouterUrl: () => ''
+    getRouterUrl: () => '',
   };
 
-  @Pipe({name: 'translate'})
+  @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -24,16 +25,9 @@ describe('TestCasesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TestCasesComponent,
-        TranslatePipe
-      ],
-      imports: [
-        RouterTestingModule,
-      ],
-      providers: [
-        { provide: DataService, useValue: DataServiceStub },
-      ]
+      declarations: [TestCasesComponent, TranslatePipe],
+      imports: [RouterTestingModule, HttpClientTestingModule],
+      providers: [{ provide: DataService, useValue: DataServiceStub }],
     }).compileComponents();
   }));
 
@@ -50,20 +44,32 @@ describe('TestCasesComponent', () => {
   it('should collapse', () => {
     let colHigh = document.getElementById('redirect-content').style.maxHeight;
     component.collapseThis('redirect');
-    expect(document.getElementById('redirect-content').style.maxHeight).not.toBe(colHigh);
+    expect(
+      document.getElementById('redirect-content').style.maxHeight
+    ).not.toBe(colHigh);
     component.collapseThis('redirect');
-    expect(document.getElementById('redirect-content').style.maxHeight).toBe(colHigh);
+    expect(document.getElementById('redirect-content').style.maxHeight).toBe(
+      colHigh
+    );
 
     colHigh = document.getElementById('embedded-content').style.maxHeight;
     component.collapseThis('embedded');
-    expect(document.getElementById('embedded-content').style.maxHeight).not.toBe(colHigh);
+    expect(
+      document.getElementById('embedded-content').style.maxHeight
+    ).not.toBe(colHigh);
     component.collapseThis('embedded');
-    expect(document.getElementById('embedded-content').style.maxHeight).toBe(colHigh);
+    expect(document.getElementById('embedded-content').style.maxHeight).toBe(
+      colHigh
+    );
 
     colHigh = document.getElementById('account-content').style.maxHeight;
     component.collapseThis('account');
-    expect(document.getElementById('account-content').style.maxHeight).not.toBe(colHigh);
+    expect(document.getElementById('account-content').style.maxHeight).not.toBe(
+      colHigh
+    );
     component.collapseThis('account');
-    expect(document.getElementById('account-content').style.maxHeight).toBe(colHigh);
+    expect(document.getElementById('account-content').style.maxHeight).toBe(
+      colHigh
+    );
   });
 });

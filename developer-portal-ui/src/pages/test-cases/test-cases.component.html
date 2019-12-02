@@ -18,10 +18,10 @@
   <div class="left-section">
     <div class="introduction">
       <p>{{ 'TEST_CASES.INTRODUCTION.TITLE' | translate }}</p>
-      <span routerLink="/test-cases/redirect">{{
+      <span routerLink="/test-cases/redirect" *ngIf="redirectSupported">{{
         'TEST_CASES.INTRODUCTION.REDIRECT' | translate
       }}</span>
-      <span routerLink="/test-cases/embedded">{{
+      <span routerLink="/test-cases/embedded" *ngIf="embeddedSupported">{{
         'TEST_CASES.INTRODUCTION.EMBEDDED' | translate
       }}</span>
       <span routerLink="/test-cases/testing-flows">{{
@@ -39,7 +39,7 @@
                 {{ 'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LI_0' | translate }}
               </span>
             </li>
-            <li>
+            <li *ngIf="redirectSupported">
               <span class="clickable-item" (click)="collapseThis('redirect')">
                 <span *ngIf="!redirectFlag">+ </span>
                 <span *ngIf="redirectFlag" class="minus">- </span>
@@ -129,7 +129,7 @@
                 </li>
               </ul>
             </li>
-            <li>
+            <li *ngIf="embeddedSupported">
               <span class="clickable-item" (click)="collapseThis('embedded')">
                 <span *ngIf="!embeddedFlag">+ </span>
                 <span *ngIf="embeddedFlag" class="minus">- </span>

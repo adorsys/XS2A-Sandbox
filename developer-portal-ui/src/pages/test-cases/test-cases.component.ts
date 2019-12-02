@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
+import { CustomizeService } from '../../services/customize.service';
 
 @Component({
   selector: 'app-test-cases',
@@ -11,12 +12,20 @@ export class TestCasesComponent implements OnInit {
   redirectFlag = false;
   embeddedFlag = false;
   accountFlag = false;
+  redirectSupported = true;
+  embeddedSupported = true;
 
   constructor(
     private router: Router,
     public dataService: DataService,
-    private actRoute: ActivatedRoute
-  ) {}
+    private actRoute: ActivatedRoute,
+    private customizeService: CustomizeService
+  ) {
+    this.customizeService.getJSON().then(data => {
+      this.redirectSupported = data.supportedApproaches.includes('redirect');
+      this.embeddedSupported = data.supportedApproaches.includes('embedded');
+    });
+  }
 
   onActivate(ev) {
     this.dataService.setRouterUrl(this.actRoute['_routerState'].snapshot.url);
@@ -57,7 +66,7 @@ export class TestCasesComponent implements OnInit {
       this.collapseThis('account');
     } else if (this.dataService.getRouterUrl().includes('embedded')) {
       this.collapseThis('embedded');
-    } else {
+    } else if (this.dataService.getRouterUrl().includes('redirect')) {
       this.collapseThis('redirect');
     }
   }

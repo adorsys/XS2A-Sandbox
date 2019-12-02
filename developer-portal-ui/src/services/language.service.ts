@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import {HttpClient} from '@angular/common/http';
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { HttpClient } from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +12,6 @@ export class LanguageService {
   constructor(private translateService: TranslateService) {}
 
   initializeTranslation() {
-    this.translateService.addLangs(['en', 'ua', 'es', 'de']);
     this.translateService.setDefaultLang(this.lang);
     this.translateService.use(this.lang);
   }

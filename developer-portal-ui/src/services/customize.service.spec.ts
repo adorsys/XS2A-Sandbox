@@ -40,6 +40,8 @@ describe('CustomizeService', () => {
         linkedIn: 'https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/',
       },
     ],
+    supportedLanguages: ['en', 'de', 'es', 'ua'],
+    supportedApproaches: ['redirect', 'embedded'],
   };
   const defUserTheme = {
     globalSettings: {
@@ -64,6 +66,8 @@ describe('CustomizeService', () => {
         addressSecondLine: '',
       },
     ],
+    supportedLanguages: [],
+    supportedApproaches: [],
   };
 
   beforeEach(() => {
@@ -123,9 +127,7 @@ describe('CustomizeService', () => {
       expect(res).toEqual(defTheme);
     });
 
-    const req = httpTestingController.expectOne(
-      '../assets/UI/defaultTheme.json'
-    );
+    const req = httpTestingController.expectOne('assets/UI/defaultTheme.json');
     expect(req.request.method).toEqual('GET');
   });
 
