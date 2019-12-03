@@ -14,6 +14,8 @@ import {
 import { HttpLoaderFactory } from '../../../../../services/language.service';
 import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
+import { DataService } from '../../../../../services/data.service';
+import { ToastrService } from 'ngx-toastr';
 
 describe('EmbPaymentCancellPostComponent', () => {
   let component: EmbPaymentCancellPostComponent;
@@ -47,6 +49,8 @@ describe('EmbPaymentCancellPostComponent', () => {
     }
   }
 
+  const ToastrServiceStub = {};
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -56,6 +60,11 @@ describe('EmbPaymentCancellPostComponent', () => {
         MockPlayWithDataComponent,
         LineCommandComponent,
         CodeAreaComponent,
+        CodeAreaComponent,
+      ],
+      providers: [
+        DataService,
+        { provide: ToastrService, useValue: ToastrServiceStub },
       ],
       imports: [
         HttpClientTestingModule,
@@ -67,7 +76,6 @@ describe('EmbPaymentCancellPostComponent', () => {
           },
         }),
       ],
-      providers: [TranslateService],
     }).compileComponents();
   }));
 

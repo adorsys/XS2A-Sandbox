@@ -6,6 +6,8 @@ import { LineCommandComponent } from '../../../../../custom-elements/line-comman
 import { CodeAreaComponent } from '../../../../../custom-elements/code-area/code-area.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { PlayWthDataComponent } from '../../play-with-data/play-wth-data.component';
+import { DataService } from '../../../../../services/data.service';
+import { ToastrService } from 'ngx-toastr';
 
 describe('RdctConsentPOSTComponent', () => {
   let component: RdctConsentPOSTComponent;
@@ -39,6 +41,8 @@ describe('RdctConsentPOSTComponent', () => {
     }
   }
 
+  const ToastrServiceStub = {};
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -50,6 +54,10 @@ describe('RdctConsentPOSTComponent', () => {
         CodeAreaComponent,
       ],
       imports: [HttpClientTestingModule],
+      providers: [
+        DataService,
+        { provide: ToastrService, useValue: ToastrServiceStub },
+      ],
     }).compileComponents();
   }));
 

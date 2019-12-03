@@ -14,6 +14,8 @@ import {
   TranslateService,
 } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../../../../../services/language.service';
+import { DataService } from '../../../../../services/data.service';
+import { ToastrService } from 'ngx-toastr';
 
 describe('EmbConsentPutComponent', () => {
   let component: EmbConsentPutComponent;
@@ -47,6 +49,8 @@ describe('EmbConsentPutComponent', () => {
     }
   }
 
+  const ToastrServiceStub = {};
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -67,7 +71,10 @@ describe('EmbConsentPutComponent', () => {
           },
         }),
       ],
-      providers: [TranslateService],
+      providers: [
+        DataService,
+        { provide: ToastrService, useValue: ToastrServiceStub },
+      ],
     }).compileComponents();
   }));
 

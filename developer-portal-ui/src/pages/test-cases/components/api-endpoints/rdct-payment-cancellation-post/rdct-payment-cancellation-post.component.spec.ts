@@ -14,6 +14,8 @@ import {
 } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../../../../../services/language.service';
 import { HttpClient } from '@angular/common/http';
+import { DataService } from '../../../../../services/data.service';
+import { ToastrService } from 'ngx-toastr';
 
 describe('RdctPaymentCancellationPostComponent', () => {
   let component: RdctPaymentCancellationPostComponent;
@@ -47,6 +49,8 @@ describe('RdctPaymentCancellationPostComponent', () => {
     }
   }
 
+  const ToastrServiceStub = {};
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -56,6 +60,12 @@ describe('RdctPaymentCancellationPostComponent', () => {
         PrettyJsonPipe,
         LineCommandComponent,
         CodeAreaComponent,
+        CodeAreaComponent,
+      ],
+      providers: [
+        TranslateService,
+        DataService,
+        { provide: ToastrService, useValue: ToastrServiceStub },
       ],
       imports: [
         HttpClientTestingModule,
@@ -67,7 +77,6 @@ describe('RdctPaymentCancellationPostComponent', () => {
           },
         }),
       ],
-      providers: [TranslateService],
     }).compileComponents();
   }));
 

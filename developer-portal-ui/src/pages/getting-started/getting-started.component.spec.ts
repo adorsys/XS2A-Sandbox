@@ -4,6 +4,8 @@ import { GettingStartedComponent } from './getting-started.component';
 import { Pipe, PipeTransform } from '@angular/core';
 import { CustomizeService } from '../../services/customize.service';
 import { CodeAreaComponent } from '../../custom-elements/code-area/code-area.component';
+import { DataService } from '../../services/data.service';
+import { ToastrService } from 'ngx-toastr';
 
 describe('GettingStartedComponent', () => {
   let component: GettingStartedComponent;
@@ -70,6 +72,8 @@ describe('GettingStartedComponent', () => {
     }
   }
 
+  const ToastrServiceStub = {};
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -80,6 +84,8 @@ describe('GettingStartedComponent', () => {
       ],
       providers: [
         { provide: CustomizeService, useValue: CustomizeServiceStub },
+        DataService,
+        { provide: ToastrService, useValue: ToastrServiceStub },
       ],
     }).compileComponents();
   }));

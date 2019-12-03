@@ -14,6 +14,8 @@ import { HttpLoaderFactory } from '../../../../../services/language.service';
 import { HttpClient } from '@angular/common/http';
 import { JsonService } from '../../../../../services/json.service';
 import { of } from 'rxjs';
+import { DataService } from '../../../../../services/data.service';
+import { ToastrService } from 'ngx-toastr';
 
 describe('EmbPaymentInitCreatePostComponent', () => {
   let component: EmbPaymentInitCreatePostComponent;
@@ -47,6 +49,8 @@ describe('EmbPaymentInitCreatePostComponent', () => {
     }
   }
 
+  const ToastrServiceStub = {};
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -56,6 +60,12 @@ describe('EmbPaymentInitCreatePostComponent', () => {
         MockPlayWithDataComponent,
         LineCommandComponent,
         CodeAreaComponent,
+        CodeAreaComponent,
+      ],
+      providers: [
+        TranslateService,
+        DataService,
+        { provide: ToastrService, useValue: ToastrServiceStub },
       ],
       imports: [
         HttpClientTestingModule,
@@ -67,7 +77,6 @@ describe('EmbPaymentInitCreatePostComponent', () => {
           },
         }),
       ],
-      providers: [TranslateService],
     }).compileComponents();
   }));
 

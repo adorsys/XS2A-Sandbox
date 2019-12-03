@@ -14,6 +14,8 @@ import {
 } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../../../../../services/language.service';
 import { HttpClient } from '@angular/common/http';
+import { DataService } from '../../../../../services/data.service';
+import { ToastrService } from 'ngx-toastr';
 
 describe('EmbPaymentInitPutComponent', () => {
   let component: EmbPaymentInitPutComponent;
@@ -49,6 +51,8 @@ describe('EmbPaymentInitPutComponent', () => {
     }
   }
 
+  const ToastrServiceStub = {};
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -69,7 +73,11 @@ describe('EmbPaymentInitPutComponent', () => {
           },
         }),
       ],
-      providers: [TranslateService],
+      providers: [
+        TranslateService,
+        DataService,
+        { provide: ToastrService, useValue: ToastrServiceStub },
+      ],
     }).compileComponents();
   }));
 

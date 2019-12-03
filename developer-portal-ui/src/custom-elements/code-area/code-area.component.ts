@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-code-area',
@@ -9,6 +10,8 @@ export class CodeAreaComponent {
   @Input() json: object;
   @Input() id: string;
   shown = false;
+
+  constructor(private dataService: DataService) {}
 
   collapseThis(collapseId: string) {
     const collapsibleItemContent = document.getElementById(collapseId);
@@ -25,8 +28,8 @@ export class CodeAreaComponent {
   }
 
   copyText(json: object) {
-    let textToCopy = JSON.stringify(json);
-    let selBox = document.createElement('textarea');
+    const textToCopy = JSON.stringify(json);
+    const selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';
     selBox.style.left = '0';
     selBox.style.top = '0';
@@ -37,6 +40,10 @@ export class CodeAreaComponent {
     selBox.select();
     document.execCommand('copy');
     document.body.removeChild(selBox);
-    alert('Body copied to clipboard!');
+    this.dataService.showToast(
+      'Json body is copied to clipboard.',
+      'Copied successfully!',
+      'success'
+    );
   }
 }

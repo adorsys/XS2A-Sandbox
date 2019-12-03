@@ -14,6 +14,8 @@ import { CodeAreaComponent } from '../../../../../custom-elements/code-area/code
 import { HttpLoaderFactory } from '../../../../../services/language.service';
 import { JsonService } from '../../../../../services/json.service';
 import { of } from 'rxjs';
+import { DataService } from '../../../../../services/data.service';
+import { ToastrService } from 'ngx-toastr';
 
 describe('EmbConsentCreatePostComponent', () => {
   let component: EmbConsentCreatePostComponent;
@@ -45,6 +47,8 @@ describe('EmbConsentCreatePostComponent', () => {
     }
   }
 
+  const ToastrServiceStub = {};
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -65,7 +69,11 @@ describe('EmbConsentCreatePostComponent', () => {
           },
         }),
       ],
-      providers: [TranslateService],
+      providers: [
+        TranslateService,
+        DataService,
+        { provide: ToastrService, useValue: ToastrServiceStub },
+      ],
     }).compileComponents();
   }));
 
