@@ -26,6 +26,8 @@ export class AppComponent implements OnInit {
   };
   private langCollapsed: boolean;
 
+  public showNavDropDown: boolean = false;
+
   constructor(
     private router: Router,
     private actRoute: ActivatedRoute,
@@ -65,6 +67,10 @@ export class AppComponent implements OnInit {
 
   getLangCollapsed() {
     return this.langCollapsed;
+  }
+
+  toggleDropdown(e) {
+    this.showNavDropDown = !this.showNavDropDown;
   }
 
   ngOnInit() {

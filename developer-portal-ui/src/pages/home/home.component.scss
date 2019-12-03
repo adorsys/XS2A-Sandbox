@@ -396,7 +396,7 @@
   .person-card {
     display: flex;
     justify-content: space-between;
-    height: 192px;
+    height: 15vw;
     box-shadow: 0 1px 18px -12px #524c52;
     margin: 40px 0;
     background: #fff;
@@ -407,6 +407,7 @@
       height: 100%;
       display: flex;
       justify-content: center;
+      align-items: center;
       overflow: hidden;
 
       img {
@@ -416,7 +417,7 @@
 
     .person-card-info {
       color: #212529;
-      width: 50%;
+      min-width: 50%;
       padding: 5% 3%;
       display: flex;
       justify-content: space-between;
@@ -427,7 +428,7 @@
         flex-direction: column;
 
         span {
-          margin-bottom: 9px;
+          margin-bottom: 0.7vw;
         }
       }
 
@@ -529,14 +530,22 @@
     }
 
     .steps-wrapper {
+      flex-direction: column;
       .step {
         height: 85px;
-        margin-right: 10px;
-        margin-left: 10px;
+        margin: 0 10px 0 10px;
+        padding: 0 0.5em 0 0.5em;
 
         span {
-          font-size: 13px;
+          font-size: 0.9rem;
         }
+      }
+
+      .arrow-right {
+        border-top: 19px solid #1d5f7f;
+        border-right: 19px solid transparent;
+        border-left: 19px solid transparent;
+        margin: 1em auto 0 auto;
       }
     }
   }

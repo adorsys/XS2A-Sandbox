@@ -1,72 +1,122 @@
-<div class="nav-bar">
-  <img
-    class="logo"
-    [src]="customizeService.getLogo()"
-    (click)="goToPage('home')"
-  />
-  <div class="nav">
-    <div>
-      <a
-        class="header-item"
-        routerLink="/getting-started"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: false }"
-      >
-        {{ 'HEADER.GETTING_STARTED' | translate }}
-      </a>
-      <a
-        class="header-item"
-        routerLink="/test-cases/testing-flows"
-        routerLinkActive="active"
-        [ngClass]="{
-          active: dataService.getRouterUrl().includes('test-cases')
-        }"
-        [routerLinkActiveOptions]="{ exact: false }"
-      >
-        {{ 'HEADER.TEST_CASES' | translate }}
-      </a>
-      <a
-        class="header-item"
-        routerLink="/faq"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: false }"
-      >
-        {{ 'HEADER.FAQ' | translate }}
-      </a>
-      <a
-        class="header-item"
-        routerLink="/contact"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: false }"
-      >
-        {{ 'HEADER.CONTACT' | translate }}
-      </a>
-    </div>
-    <div class="langs-wrapper">
-      <div class="lang" (click)="collapseThis()">
-        <img class="lang-img" [src]="langIcons[lang]" [alt]="lang" />
-        <span class="lang-span">{{ lang }}</span>
-      </div>
-
-      <div
-        id="langs"
-        [ngClass]="
-          getLangCollapsed() ? 'collapse-menu--collapsed' : 'collapse-menu'
-        "
-      >
-        <div
-          class="lang-wrapper"
-          *ngFor="let lng of langs"
-          (click)="changeLang(lng)"
-          [hidden]="lng === lang"
+<div class="nav-bar" [ngClass]="{ activeDropdown: showNavDropDown }">
+  <div class="nav-bar-content">
+    <img
+      class="logo"
+      [src]="customizeService.getLogo()"
+      (click)="goToPage('home')"
+    />
+    <div class="nav">
+      <div class="nav-content">
+        <a
+          class="header-item"
+          routerLink="/getting-started"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: false }"
         >
-          <div>
-            <img class="lang-img" [src]="langIcons[lng]" [alt]="lng" />
-            <span class="lang-span">{{ lng }}</span>
+          {{ 'HEADER.GETTING_STARTED' | translate }}
+        </a>
+        <a
+          class="header-item"
+          routerLink="/test-cases/redirect"
+          routerLinkActive="active"
+          [ngClass]="{
+            active: dataService.getRouterUrl().includes('test-cases')
+          }"
+          [routerLinkActiveOptions]="{ exact: false }"
+        >
+          {{ 'HEADER.TEST_CASES' | translate }}
+        </a>
+        <a
+          class="header-item"
+          routerLink="/faq"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: false }"
+        >
+          {{ 'HEADER.FAQ' | translate }}
+        </a>
+        <a
+          class="header-item"
+          routerLink="/contact"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: false }"
+        >
+          {{ 'HEADER.CONTACT' | translate }}
+        </a>
+        <a
+          href="javascript:void(0);"
+          #dropDownIcon
+          class="icon-dropdown"
+          (click)="toggleDropdown($event)"
+          >&#9776;</a
+        >
+      </div>
+      <div class="langs-wrapper">
+        <div class="lang" (click)="collapseThis()">
+          <img class="lang-img" [src]="langIcons[lang]" [alt]="lang" />
+          <span class="lang-span">{{ lang }}</span>
+        </div>
+
+        <div
+          id="langs"
+          [ngClass]="
+            getLangCollapsed() ? 'collapse-menu--collapsed' : 'collapse-menu'
+          "
+        >
+          <div
+            class="lang-wrapper"
+            *ngFor="let lng of langs"
+            (click)="changeLang(lng)"
+            [hidden]="lng === lang"
+          >
+            <div>
+              <img class="lang-img" [src]="langIcons[lng]" [alt]="lng" />
+              <span class="lang-span">{{ lng }}</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
+  <div
+    *ngIf="showNavDropDown"
+    class="nav-content-responsive"
+    (click)="toggleDropdown($event)"
+  >
+    <a
+      class="header-item"
+      routerLink="/getting-started"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: false }"
+    >
+      {{ 'HEADER.GETTING_STARTED' | translate }}
+    </a>
+    <a
+      class="header-item"
+      routerLink="/test-cases/redirect"
+      routerLinkActive="active"
+      [ngClass]="{
+        active: dataService.getRouterUrl().includes('test-cases')
+      }"
+      [routerLinkActiveOptions]="{ exact: false }"
+    >
+      {{ 'HEADER.TEST_CASES' | translate }}
+    </a>
+    <a
+      class="header-item"
+      routerLink="/faq"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: false }"
+    >
+      {{ 'HEADER.FAQ' | translate }}
+    </a>
+    <a
+      class="header-item"
+      routerLink="/contact"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: false }"
+    >
+      {{ 'HEADER.CONTACT' | translate }}
+    </a>
   </div>
 </div>
 
@@ -83,7 +133,7 @@
       <a class="footer-item" routerLink="/getting-started">{{
         'FOOTER.GETTING_STARTED' | translate
       }}</a>
-      <a class="footer-item" routerLink="/test-cases/testing-flows">{{
+      <a class="footer-item" routerLink="/test-cases/redirect">{{
         'FOOTER.TEST_CASES' | translate
       }}</a>
       <a class="footer-item" routerLink="/faq">{{
