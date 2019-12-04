@@ -1,5 +1,6 @@
 package de.adorsys.psd2.sandbox.tpp.cms.impl.service;
 
+import de.adorsys.psd2.consent.api.CmsResponse;
 import de.adorsys.psd2.consent.api.ais.CreateAisConsentResponse;
 import de.adorsys.psd2.consent.service.AisConsentServiceInternal;
 import de.adorsys.psd2.sandbox.tpp.cms.api.domain.AisConsent;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,7 +26,7 @@ public class ConsentServiceImpl implements ConsentService {
         List<String> consentIds = consents.stream()
                                       .map(aisConsentMapper::toCmsAisConsentRequest)
                                       .map(aisConsentServiceInternal::createConsent)
-                                      .map(Optional::get)
+                                      .map(CmsResponse::getPayload)
                                       .map(CreateAisConsentResponse::getConsentId)
                                       .collect(Collectors.toList());
         updateConsentsStatus(consentIds);
