@@ -555,7 +555,15 @@
       <li>{{ 'GETTING_STARTED.HOW_TO_REG.LIST.LI_3' | translate }}</li>
       <li>{{ 'GETTING_STARTED.HOW_TO_REG.LIST.LI_4' | translate }}</li>
       <p>{{ 'GETTING_STARTED.HOW_TO_REG.LIST.TEXT_1' | translate }}</p>
-      <img src="../../assets/images/Flow.png" />
+      <ngx-image-zoom
+        [thumbImage]="thumbImage"
+        [fullImage]="fullImage"
+        [zoomMode]="mode"
+        [enableScrollZoom]="true"
+        [enableLens]="true"
+        [lensWidth]="500"
+        [lensHeight]="300"
+      ></ngx-image-zoom>
       <p>{{ 'GETTING_STARTED.HOW_TO_REG.LIST.TEXT_2' | translate }}</p>
     </ol>
   </section>

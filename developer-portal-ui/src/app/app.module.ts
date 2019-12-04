@@ -23,6 +23,7 @@ import { AccinfTransactionGetComponent } from '../pages/test-cases/components/ap
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../services/language.service';
 import { SettingsLoadService } from '../services/settings-load.service';
+import { NgxImageZoomModule } from 'ngx-image-zoom';
 
 export function app_Init(settingsLoadService: SettingsLoadService) {
   return () => settingsLoadService.initializeApp();
@@ -60,6 +61,7 @@ export function app_Init(settingsLoadService: SettingsLoadService) {
     }),
     ReactiveFormsModule,
     FormsModule,
+    NgxImageZoomModule.forRoot(),
   ],
   exports: [],
   providers: [

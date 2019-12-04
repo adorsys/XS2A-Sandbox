@@ -1,13 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RedirectComponent } from './redirect.component';
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
+import { NgxImageZoomModule } from 'ngx-image-zoom';
 
 describe('RedirectComponent', () => {
   let component: RedirectComponent;
   let fixture: ComponentFixture<RedirectComponent>;
 
-  @Pipe({name: 'translate'})
+  @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -17,10 +18,8 @@ describe('RedirectComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        RedirectComponent,
-        TranslatePipe
-      ],
+      declarations: [RedirectComponent, TranslatePipe],
+      imports: [NgxImageZoomModule.forRoot()],
     }).compileComponents();
   }));
 

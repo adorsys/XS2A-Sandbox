@@ -30,6 +30,7 @@ import { ngxLoadingAnimationTypes, NgxLoadingModule } from 'ngx-loading';
 import { CodeAreaComponent } from '../../custom-elements/code-area/code-area.component';
 import { PrettyJsonPipe } from '../../pipes/pretty-json.pipe';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgxImageZoomModule } from 'ngx-image-zoom';
 
 @NgModule({
   declarations: [
@@ -68,11 +69,8 @@ import { TranslateModule } from '@ngx-translate/core';
       animationType: ngxLoadingAnimationTypes.wanderingCubes,
     }),
     TranslateModule,
+    NgxImageZoomModule,
   ],
-  exports: [
-    LineCommandComponent,
-    PlayWthDataComponent,
-    CodeAreaComponent
-  ]
+  exports: [LineCommandComponent, PlayWthDataComponent, CodeAreaComponent],
 })
 export class TestCasesModule {}

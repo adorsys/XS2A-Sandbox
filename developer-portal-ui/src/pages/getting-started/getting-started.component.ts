@@ -12,6 +12,9 @@ import { Settings } from '../../models/settings.model';
 export class GettingStartedComponent implements OnInit {
   defaultTheme: Theme;
   settings: Settings;
+  thumbImage = '../../assets/images/Flow_thumb.png';
+  fullImage = '../../assets/images/Flow.png';
+  mode = 'hover-freeze';
 
   constructor(
     private customizeService: CustomizeService,
