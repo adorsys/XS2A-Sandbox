@@ -152,36 +152,7 @@
         "PART_1": "Besides the actual interface, PSD2 instructs ASPSPs to offer a technical\n documentation free of charge containing amongst others, information about\n supported payment products and payment services. This information is\n stored in ",
         "ASPSP": "ASPSP-profile",
         "PART_2": "(bank profile), a\n service based on yaml file where a bank can provide available payment\n products, payment services, supported SCA approaches and other\n bank-specific settings."
-      },
-      "SUBTITLE_1": "Active XS2A Configuration (Bank Profile)",
-      "LIST": {
-        "LI_1": "Supported SCA-Approach: Redirect, Embedded",
-        "LI_2": "Available payment types and payment products for each type:",
-        "UL_1": {
-          "LI_1": "Single (sepa-credit-transfers)",
-          "LI_2": "Future-Dated (sepa-credit-transfers)",
-          "LI_3": "Bulk (sepa-credit-transfers)",
-          "LI_4": "Periodic (sepa-credit-transfers)"
-        },
-        "LI_3": "Confirmation of Funds: supported",
-        "LI_4": "Redirect URLs to Online Banking:",
-        "UL_2": {
-          "LI_1": "Redirect URL for Payment confirmation: **\n http://localhost:4400/payment-initiation/login?paymentId=encrypted-payment-id&redirectId=redirect-id\n **",
-          "LI_2": "Redirect URL for Payment cancellation: **\n http://localhost:4400/payment-cancellation/login?paymentId=encrypted-payment-id&redirectId=redirect-id\n **",
-          "LI_3": "Redirect URL for Account Consent confirmation: **\n http://localhost:4400/account-information/login?encryptedConsentId=encrypted-consent-id&redirectId=redirect-id\n **"
-        },
-        "LI_5": "Supported types of Consents:",
-        "UL_3": {
-          "LI_1": "Dedicated: Yes",
-          "LI_2": "Bank-Offered: Yes",
-          "LI_3": "Global: Yes",
-          "LI_4": "Available Accounts: Yes"
-        },
-        "DISABLED": "Currently disabled features:",
-        "LI_6": "Signing Basket",
-        "LI_7": "Delta-Reports"
-      },
-      "SUBTITLE_2": "Corresponding ASPSP-Profile settings in .yaml file:"
+      }
     },
     "CERTIFICATE": {
       "TITLE": "TPP Certificate Service",

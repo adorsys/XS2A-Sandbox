@@ -11,7 +11,7 @@ export class RdctPaymentCancellationDeleteComponent implements OnInit {
     'TPP-Explicit-Authorisation-Preferred': 'true',
     'PSU-ID': 'YOUR_USER_LOGIN',
     'PSU-IP-Address': '1.1.1.1',
-    'TPP-REDIRECT-URI': 'https://adorsys.de/en/psd2-tpp/',
+    'TPP-REDIRECT-URI': 'https://adorsys-platform.de/solutions/xs2a-sandbox/',
     'TPP-Redirect-Preferred': 'true',
   };
 

@@ -152,36 +152,7 @@
         "PART_1": "Además de la interfaz real, PSD2 instruye a los ASPSP para que ofrezcan una documentación técnica gratuita que contenga, entre otros, información sobre productos de pago admitidos y servicios de pago. Esta información se almacena en",
         "ASPSP": "ASPSP-profile",
         "PART_2": " (perfil de banco), un servicio basado en el archivo yaml donde un banco puede proporcionar productos de pago, servicios de pago, enfoques SCA compatibles y otras configuraciones específicas del banco."
-      },
-      "SUBTITLE_1": "Configuración activa de XS2A (perfil del banco)",
-      "LIST": {
-        "LI_1": "Enfoque SCA soportado: Redirect y Embeded",
-        "LI_2": "Tipos de pago disponibles y productos de pago para cada tipo:",
-        "UL_1": {
-          "LI_1": "Soltero (sepa-credit-transfers)",
-          "LI_2": "Fechado en el futuro (sepa-credit-transfers)",
-          "LI_3": "Masivo (sepa-credit-transfers)",
-          "LI_4": "Periódico (sepa-credit-transfers)"
-        },
-        "LI_3": "Confirmación de Fondos: apoyado",
-        "LI_4": "Redireccionar URLs a la Banca en Línea",
-        "UL_2": {
-          "LI_1": "Redirect URL for Payment confirmation: **\n http://localhost:4400/payment-initiation/login?paymentId=encrypted-payment-id&redirectId=redirect-id\n **",
-          "LI_2": "Redirect URL for Payment cancellation: **\n http://localhost:4400/payment-cancellation/login?paymentId=encrypted-payment-id&redirectId=redirect-id\n **",
-          "LI_3": "Redirect URL for Account Consent confirmation: **\n http://localhost:4400/account-information/login?encryptedConsentId=encrypted-consent-id&redirectId=redirect-id\n **"
-        },
-        "LI_5": "Tipos de Consentimientos soportados:",
-        "UL_3": {
-          "LI_1": "Dedicado: si",
-          "LI_2": "Ofrecido por el Banco: si",
-          "LI_3": "Global: si",
-          "LI_4": "Cuentas disponibles: si"
-        },
-        "DISABLED": "Características actualmente deshabilitadas:",
-        "LI_6": "Cesta de firma",
-        "LI_7": "Informes delta"
-      },
-      "SUBTITLE_2": "Configuración de perfil ASPSP correspondiente en el archivo .yaml:"
+      }
     },
     "CERTIFICATE": {
       "TITLE": "Servicio de Certificación TPP",

@@ -152,36 +152,7 @@
         "PART_1": "Крім фактичного інтерфейсу, PSD2 інструктує ASPSPs надавати безкоштовну технічну документацію,\nщо містить, серед іншого, інформацію про підтримувані платіжні продукти та платіжні послуги.\nЦя інформація зберігається в ",
         "ASPSP": "ASPSP-профілі",
         "PART_2": "(банківський профіль),\nствореного на основі yaml-файлу, де банк може надавати доступні продукти оплати (payment products),\nплатіжні послуги (payment services), підтримувані підходи авторизації користувачів (SCA) та інші специфічні для банку параметри."
-      },
-      "SUBTITLE_1": "Конфігурація активного ASPSP-профілю",
-      "LIST": {
-        "LI_1": "Підтримуваний підхід SCA: Redirect, Embedded",
-        "LI_2": "Доступні види платежів і продукти оплати для кожного типу:",
-        "UL_1": {
-          "LI_1": "Single (sepa-credit-transfers)",
-          "LI_2": "Future-Dated (sepa-credit-transfers)",
-          "LI_3": "Bulk (sepa-credit-transfers)",
-          "LI_4": "Periodic (sepa-credit-transfers)"
-        },
-        "LI_3": "Підтвердження коштів: так",
-        "LI_4": "URL до Онлайн-банкінгу:",
-        "UL_2": {
-          "LI_1": "URL для підтвердження платежу: **\n http://localhost:4400/payment-initiation/login?paymentId=encrypted-payment-id&redirectId=redirect-id\n **",
-          "LI_2": "URL для скасування платежу: **\n http://localhost:4400/payment-cancellation/login?paymentId=encrypted-payment-id&redirectId=redirect-id\n **",
-          "LI_3": "URL для згоди на використання даних облікового запису: **\n http://localhost:4400/account-information/login?encryptedConsentId=encrypted-consent-id&redirectId=redirect-id\n **"
-        },
-        "LI_5": "Підтримувані типи згоди на використання даних облікового запису:",
-        "UL_3": {
-          "LI_1": "Dedicated: так",
-          "LI_2": "Bank-Offered: так",
-          "LI_3": "Global: так",
-          "LI_4": "Available Accounts: так"
-        },
-        "DISABLED": "Функції, які наразі не додані:",
-        "LI_6": "Signing Basket",
-        "LI_7": "Дельта-звіти"
-      },
-      "SUBTITLE_2": "Відповідні налаштування ASPSP-профілю у файлі .yaml:"
+      }
     },
     "CERTIFICATE": {
       "TITLE": "Сервіс сертифікації TPP",
