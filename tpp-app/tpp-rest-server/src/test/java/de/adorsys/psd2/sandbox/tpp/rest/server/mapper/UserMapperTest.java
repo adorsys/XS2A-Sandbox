@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.mapstruct.factory.Mappers;
 
 import java.util.Collections;
+import java.util.Currency;
 
 import static de.adorsys.ledgers.middleware.api.domain.um.AccessTypeTO.OWNER;
 import static de.adorsys.ledgers.middleware.api.domain.um.UserRoleTO.CUSTOMER;
@@ -23,9 +24,10 @@ public class UserMapperTest {
     private static final String PIN = "PIN";
     private static final String SCA_ID = "SCA-ID";
     private static final String STATIC_TAN = "12345";
-    private static final String BRANCH_ID = "MY-TEST-BRANCH";
     private static final String ACC_ID = "ZXCVASDF";
     private static final String IBAN = "DE1234567890";
+    private static final Currency CURRENCY = Currency.getInstance("EUR");
+
     private final UserMapper userMapper = Mappers.getMapper(UserMapper.class);
 
     @Test
@@ -61,7 +63,7 @@ public class UserMapperTest {
 
     private UserTO createUserTO(boolean emptySca) {
         ScaUserDataTO scaUserDataTO = new ScaUserDataTO(SCA_ID, ScaMethodTypeTO.EMAIL, EMAIL, null, true, STATIC_TAN, false);
-        return new UserTO(USER_ID, USER_LOGIN, EMAIL, PIN, emptySca ? Collections.emptyList() : singletonList(scaUserDataTO), singletonList(new AccountAccessTO(ACC_ID, IBAN, OWNER, 50)), singletonList(CUSTOMER), null);
+        return new UserTO(USER_ID, USER_LOGIN, EMAIL, PIN, emptySca ? Collections.emptyList() : singletonList(scaUserDataTO), singletonList(new AccountAccessTO(ACC_ID, IBAN, CURRENCY, OWNER, 50)), singletonList(CUSTOMER), null);
     }
 
     private User createUser(boolean emptySca) {
@@ -94,6 +96,7 @@ public class UserMapperTest {
         AccountAccess access = new AccountAccess();
         access.setId(ACC_ID);
         access.setIban(IBAN);
+        access.setCurrency(CURRENCY);
         access.setScaWeight(50);
         access.setAccessType(OWNER);
         return access;
