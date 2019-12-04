@@ -1,0 +1,12 @@
+{
+  "access": {
+    "accounts": [],
+    "balances": [],
+    "transactions": [],
+    "allPsd2": "allAccounts"
+  },
+  "recurringIndicator": true,
+  "validUntil": "2020-03-03",
+  "frequencyPerDay": 4,
+  "combinedServiceIndicator": false
+}

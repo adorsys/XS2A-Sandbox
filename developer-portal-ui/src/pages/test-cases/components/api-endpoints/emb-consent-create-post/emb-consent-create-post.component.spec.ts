@@ -30,6 +30,8 @@ describe('EmbConsentCreatePostComponent', () => {
     @Input() headers: object;
     @Input() body: object;
     @Input() fieldsToCopy: string[];
+    @Input() consentTypes: string[];
+    @Input() consentBodies: JSON[];
   }
 
   @Pipe({ name: 'translate' })
