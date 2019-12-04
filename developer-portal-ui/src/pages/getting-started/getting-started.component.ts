@@ -34,7 +34,6 @@ export class GettingStartedComponent implements OnInit {
 
   ngOnInit() {
     this.defaultTheme = this.customizeService.getTheme('default');
-
     this.settings = this.settingsService.settings;
   }
 

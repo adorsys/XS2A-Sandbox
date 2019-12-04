@@ -1,6 +1,85 @@
 <div class="getting-started-container container">
   <section>
     <div class="divider"></div>
+    <div id="tpc_container">
+      <h1 class="title">Table of contents</h1>
+      <ol>
+        <li>
+          <a [routerLink]="['/getting-started']" fragment="introduction">
+            {{ 'GETTING_STARTED.INTRODUCTION.TITLE' | translate }}
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/getting-started']" fragment="architecture">
+            {{ 'GETTING_STARTED.ARCHITECTURE.TITLE' | translate }}
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/getting-started']" fragment="interface">
+            {{ 'GETTING_STARTED.INTERFACE.TITLE' | translate }}
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/getting-started']" fragment="profile">
+            {{ 'GETTING_STARTED.PROFILE.TITLE' | translate }}
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/getting-started']" fragment="certificate">
+            {{ 'GETTING_STARTED.CERTIFICATE.TITLE' | translate }}
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/getting-started']" fragment="tppui">
+            {{ 'GETTING_STARTED.UI.TITLE' | translate }}
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/getting-started']" fragment="tppui">
+            {{ 'GETTING_STARTED.UI.TITLE' | translate }}
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/getting-started']" fragment="oba">
+            {{ 'GETTING_STARTED.OBA.TITLE' | translate }}
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/getting-started']" fragment="links">
+            {{ 'GETTING_STARTED.LINKS_TO.TITLE' | translate }}
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/getting-started']" fragment="download">
+            {{ 'GETTING_STARTED.HOW_TO_DOWN.TITLE' | translate }}
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/getting-started']" fragment="troubleshooting">
+            {{ 'GETTING_STARTED.TROUBLES.TITLE' | translate }}
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/getting-started']" fragment="tppregister">
+            {{ 'GETTING_STARTED.HOW_TO_REG.TITLE' | translate }}
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/getting-started']" fragment="customization">
+            {{ 'GETTING_STARTED.HOW_TO_CST.TITLE' | translate }}
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/getting-started']" fragment="next">
+            {{ 'GETTING_STARTED.WHAT_NEXT.TITLE' | translate }}
+          </a>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="introduction">
+    <div class="divider"></div>
     <h1 class="title">
       {{ 'GETTING_STARTED.INTRODUCTION.TITLE' | translate }}
     </h1>
@@ -26,7 +105,7 @@
     <p>{{ 'GETTING_STARTED.INTRODUCTION.CONTENT.PART_3' | translate }}</p>
   </section>
 
-  <section>
+  <section id="architecture">
     <div class="divider"></div>
     <h1>{{ 'GETTING_STARTED.ARCHITECTURE.TITLE' | translate }}</h1>
     <p>{{ 'GETTING_STARTED.ARCHITECTURE.CONTENT' | translate }}</p>
@@ -34,7 +113,7 @@
     <p>{{ 'GETTING_STARTED.ARCHITECTURE.CAPTION' | translate }}</p>
   </section>
 
-  <section>
+  <section id="interface">
     <div class="divider"></div>
     <h1>{{ 'GETTING_STARTED.INTERFACE.TITLE' | translate }}</h1>
     <p>
@@ -60,7 +139,7 @@
     </p>
   </section>
 
-  <section>
+  <section id="profile">
     <div class="divider"></div>
     <h1>{{ 'GETTING_STARTED.PROFILE.TITLE' | translate }}</h1>
     <p>
@@ -166,7 +245,7 @@
     </div>
   </section>
 
-  <section>
+  <section id="certificate">
     <div class="divider"></div>
     <h1>{{ 'GETTING_STARTED.CERTIFICATE.TITLE' | translate }}</h1>
     <p>
@@ -193,7 +272,7 @@
     <p>{{ 'GETTING_STARTED.CERTIFICATE.CONTENT.PART_5' | translate }}</p>
   </section>
 
-  <section>
+  <section id="tppui">
     <div class="divider"></div>
     <h1>{{ 'GETTING_STARTED.UI.TITLE' | translate }}</h1>
     <p>{{ 'GETTING_STARTED.UI.CONTENT.PART_0' | translate }}</p>
@@ -225,13 +304,13 @@
     <p>{{ 'GETTING_STARTED.UI.CONTENT.PART_15' | translate }}</p>
   </section>
 
-  <section>
+  <section id="oba">
     <div class="divider"></div>
     <h1>{{ 'GETTING_STARTED.OBA.TITLE' | translate }}</h1>
     <p>{{ 'GETTING_STARTED.OBA.CONTENT' | translate }}</p>
   </section>
 
-  <section>
+  <section id="links">
     <div class="divider"></div>
     <h1>{{ 'GETTING_STARTED.LINKS_TO.TITLE' | translate }}</h1>
     <div class="links-to-environments bg th">
@@ -271,7 +350,7 @@
     </div>
   </section>
 
-  <section>
+  <section id="download">
     <div class="divider"></div>
     <h1>{{ 'GETTING_STARTED.HOW_TO_DOWN.TITLE' | translate }}</h1>
     <h2>{{ 'GETTING_STARTED.HOW_TO_DOWN.SUBTITLE_1' | translate }}</h2>
@@ -480,7 +559,7 @@
     </ul>
   </section>
 
-  <section>
+  <section id="troubleshooting">
     <div class="divider"></div>
     <h1>{{ 'GETTING_STARTED.TROUBLES.TITLE' | translate }}</h1>
 
@@ -554,7 +633,7 @@
     <p>{{ 'GETTING_STARTED.TROUBLES.PART_9' | translate }}</p>
   </section>
 
-  <section>
+  <section id="tppregister">
     <div class="divider"></div>
 
     <h1>{{ 'GETTING_STARTED.HOW_TO_REG.TITLE' | translate }}</h1>
@@ -575,7 +654,7 @@
     </ol>
   </section>
 
-  <section class="customization">
+  <section class="customization" id="customization">
     <div class="divider"></div>
     <h1>{{ 'GETTING_STARTED.HOW_TO_CST.TITLE' | translate }}</h1>
     <ol>
@@ -827,12 +906,30 @@
               </li>
             </ul>
           </li>
+          <li>
+            {{ 'GETTING_STARTED.HOW_TO_CST.TOP_LIST.LIST_1.LI_4' | translate }}
+          </li>
+          <li>
+            {{ 'GETTING_STARTED.HOW_TO_CST.TOP_LIST.LIST_1.LI_5' | translate }}
+          </li>
         </ul>
       </li>
       <li>
         {{ 'GETTING_STARTED.HOW_TO_CST.TOP_LIST.LI_4' | translate }}
         <span class="app-line-command-wrapper">
           <span>./developer-portal-ui/src/assets/UI/custom/</span>
+        </span>
+      </li>
+      <li>
+        {{ 'GETTING_STARTED.HOW_TO_CST.TOP_LIST.JSONS_1' | translate }}
+        <span class="app-line-command-wrapper">
+          <span>./developer-portal-ui/src/assets/UI/custom/</span>
+        </span>
+      </li>
+      <li>
+        {{ 'GETTING_STARTED.HOW_TO_CST.TOP_LIST.JSONS_2' | translate }}
+        <span class="app-line-command-wrapper">
+          <span>./developer-portal-ui/src/assets/UI/jsons/</span>
         </span>
       </li>
       <li>
@@ -952,7 +1049,7 @@
     </ol>
   </section>
 
-  <section>
+  <section id="next">
     <div class="divider"></div>
     <h1>{{ 'GETTING_STARTED.WHAT_NEXT.TITLE' | translate }}</h1>
     <p>

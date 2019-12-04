@@ -360,9 +360,13 @@
             "LI_6": "email - optional, value: string",
             "LI_7": "facebook - optional, value: string, http url",
             "LI_8": "linkedIn - optional, value: string, http url"
-          }
+          },
+          "LI_4": "supportedLanguages - required. Array of supported languages. Default configuration is [\"en\", \"de\", \"es\", \"ua\"]",
+          "LI_5": "supportedApproaches - required. Array of supported SCA approaches. Default configuration is [\"redirect\", \"embedded\"]"
         },
-        "LI_4": "When you create .json (e.g. UITheme.json) file and fill all required\n fields, put this file with logo (e.g. logo.png) and contact person (e.g.\n contact.png) images in folder",
+        "LI_4": "When you create .json (e.g. UITheme.json) file and fill all required\n fields, put this file with logo (e.g. logo.png) and contact person (e.g.\n contact.png) images in folder ",
+        "JSONS_1": "If you want to customize jsons, which are present as examples in Test Cases sections of Developer portal, just create a folder \"jsons\" in ",
+        "JSONS_2": "Put all jsons you want to customize in this folder. Keep the exact names of the files as in examples. The examples and default jsons with proper names could be found in folder ",
         "LI_5": "Steps for putting files in this folder:",
         "LIST_2": {
           "LI_1": "Local environment customization",

@@ -6,6 +6,7 @@ import { CustomizeService } from '../../services/customize.service';
 import { CodeAreaComponent } from '../../custom-elements/code-area/code-area.component';
 import { DataService } from '../../services/data.service';
 import { ToastrService } from 'ngx-toastr';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('GettingStartedComponent', () => {
   let component: GettingStartedComponent;
@@ -76,6 +77,7 @@ describe('GettingStartedComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
       declarations: [
         GettingStartedComponent,
         TranslatePipe,
