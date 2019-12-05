@@ -49,23 +49,8 @@ describe('AuthorizeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should check that the functions are defined', () => {
-    expect(component).toBeTruthy();
-    expect(component.onSubmit).not.toBeNull();
-  });
-
   it('should have Customise Service', () => {
     expect(component.customizeService).toBeTruthy();
-  });
-
-  it('should call oAuthService on submit', () => {
-    expect(oAuthService).toBeTruthy();
-    spyOn(oAuthService, 'authorize').and.returnValue(of(correctOauthParams));
-    let registerSpy = spyOn(router, 'navigate').and.callFake(() => of());
-
-    component.onSubmit();
-    expect(oAuthService.authorize).toHaveBeenCalledTimes(1);
-    expect(registerSpy).toHaveBeenCalledTimes(1);
   });
 
 });
