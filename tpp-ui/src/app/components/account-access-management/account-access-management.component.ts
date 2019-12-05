@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {Account} from "../../models/account.model";
 import {User} from "../../models/user.model";
 import {UserService} from "../../services/user.service";
@@ -13,7 +13,8 @@ import {NgbTypeahead} from "@ng-bootstrap/ng-bootstrap";
 @Component({
     selector: 'app-account-access-management',
     templateUrl: './account-access-management.component.html',
-    styleUrls: ['./account-access-management.component.scss']
+    styleUrls: ['./account-access-management.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class AccountAccessManagementComponent implements OnInit, OnDestroy {
 
@@ -56,7 +57,8 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
     }
 
     listUsers() {
-        this.userService.listUsers().subscribe((resp: any) => {
+        const MAX_VALUE = 2147483647; //for getting all the available user
+        this.userService.listUsers( 0 , MAX_VALUE).subscribe((resp: any) => {
             this.users = resp.users;
         });
     }
@@ -90,7 +92,7 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
         return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$)
             .pipe(
                 map((searchText: string) => (searchText === '' ? this.users : this.users.filter(user => user.login.toLowerCase()
-                    .indexOf(searchText.toLowerCase()) > -1)).slice(0, 10))
+                    .indexOf(searchText.toLowerCase()) > -1)))
             );
     };
 
