@@ -1,8 +1,10 @@
 package de.adorsys.psd2.sandbox.tpp.rest.api.resource;
 
+import de.adorsys.psd2.sandbox.tpp.rest.api.domain.BankCodeStructure;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
+import org.iban4j.CountryCode;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 @Api(tags = "TPP data uploader")
@@ -28,6 +31,14 @@ public interface TppDataUploaderRestApi {
     @ApiOperation(value = "Generate random IBAN", authorizations = @Authorization(value = "apiKey"))
     @GetMapping("/generate/iban")
     ResponseEntity<String> generateIban();
+
+    @ApiOperation(value = "Get country codes ", authorizations = @Authorization(value = "apiKey"))
+    @GetMapping("/country/codes")
+    ResponseEntity<List<CountryCode>> getCountryCodes();
+
+    @ApiOperation(value = "Get country code character type and country code length", authorizations = @Authorization(value = "apiKey"))
+    @GetMapping("/country/codes/structure")
+    ResponseEntity<BankCodeStructure> getBankCodeStructure(@RequestParam String countryCode);
 
     @ApiOperation(value = "Upload CSV file with transactions list", authorizations = @Authorization(value = "apiKey"))
     @PutMapping("/upload/transactions")

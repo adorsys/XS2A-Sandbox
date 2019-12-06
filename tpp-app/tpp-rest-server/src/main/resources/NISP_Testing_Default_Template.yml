@@ -432,12 +432,16 @@ users:
             methodValue: defaultPsu.private@mail.de
       accountAccesses:
           - iban: 01
+            currency: EUR
             accessType: OWNER
           - iban: 02
+            currency: EUR
             accessType: OWNER
           - iban: 03
+            currency: EUR
             accessType: OWNER
           - iban: 04
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -450,6 +454,7 @@ users:
             methodValue: defaultCreditor.psu@mail.de
       accountAccesses:
           - iban: 05
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -462,6 +467,7 @@ users:
             methodValue: recirectSca.1a@mail.de
       accountAccesses:
           - iban: 06
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -474,10 +480,13 @@ users:
             methodValue: recirectSca.1b@mail.de
       accountAccesses:
           - iban: 07
+            currency: EUR
             accessType: OWNER
           - iban: 08
+            currency: EUR
             accessType: OWNER
           - iban: 09
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -490,6 +499,7 @@ users:
             methodValue: recirectSca.1c@mail.de
       accountAccesses:
           - iban: 10
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -502,6 +512,7 @@ users:
             methodValue: decoupledSca.1a@mail.de
       accountAccesses:
           - iban: 11
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -514,8 +525,10 @@ users:
             methodValue: decoupledSca.1b@mail.de
       accountAccesses:
           - iban: 12
+            currency: EUR
             accessType: OWNER
           - iban: 13
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -528,6 +541,7 @@ users:
             methodValue: decoupledSca.1c@mail.de
       accountAccesses:
           - iban: 14
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -540,6 +554,7 @@ users:
             methodValue: decoupledSca.2@mail.de
       accountAccesses:
           - iban: 15
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -552,6 +567,7 @@ users:
             methodValue: embeddedSca.1@mail.de
       accountAccesses:
           - iban: 16
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -564,6 +580,7 @@ users:
             methodValue: embeddedSca.1b@mail.de
       accountAccesses:
           - iban: 17
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -576,8 +593,10 @@ users:
             methodValue: embeddedSca.1c@mail.de
       accountAccesses:
           - iban: 18
+            currency: EUR
             accessType: OWNER
           - iban: 19
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -590,6 +609,7 @@ users:
             methodValue: embeddedSca.1d@mail.de
       accountAccesses:
           - iban: 20
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -602,6 +622,7 @@ users:
             methodValue: embeddedSca.1e@mail.de
       accountAccesses:
           - iban: 21
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -614,6 +635,7 @@ users:
             methodValue: embeddedSca.2@mail.de
       accountAccesses:
           - iban: 22
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -626,6 +648,7 @@ users:
             methodValue: mixedSca.1@mail.de
       accountAccesses:
           - iban: 23
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -638,6 +661,7 @@ users:
             methodValue: mixedSca.2@mail.de
       accountAccesses:
           - iban: 24
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -650,6 +674,7 @@ users:
             methodValue: mixedSca.3@mail.de
       accountAccesses:
           - iban: 25
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -662,6 +687,7 @@ users:
             methodValue: mixedSca.4@mail.de
       accountAccesses:
           - iban: 26
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -674,6 +700,7 @@ users:
             methodValue: supportPaymentProduct.1@mail.de
       accountAccesses:
           - iban: 27
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -686,6 +713,7 @@ users:
             methodValue: psu.blockedPrivate@mail.de
       accountAccesses:
           - iban: 28
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -698,6 +726,7 @@ users:
             methodValue: defaultPSU.corporate@mail.de
       accountAccesses:
           - iban: 29
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -710,6 +739,7 @@ users:
             methodValue: psuBlocked.corporate@mail.de
       accountAccesses:
           - iban: 30
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -722,6 +752,7 @@ users:
             methodValue: transactionFee.1@mail.de
       accountAccesses:
           - iban: 31
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -734,6 +765,7 @@ users:
             methodValue: transactionFee.2@mail.de
       accountAccesses:
           - iban: 32
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -746,12 +778,16 @@ users:
             methodValue: confFunds.1a@mail.de
       accountAccesses:
           - iban: 33
+            currency: EUR
             accessType: OWNER
           - iban: 34
+            currency: EUR
             accessType: OWNER
           - iban: 35
+            currency: EUR
             accessType: OWNER
           - iban: 36
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -764,12 +800,16 @@ users:
             methodValue: confFunds.1b@mail.de
       accountAccesses:
           - iban: 37
+            currency: EUR
             accessType: OWNER
           - iban: 38
+            currency: EUR
             accessType: OWNER
           - iban: 39
+            currency: EUR
             accessType: OWNER
           - iban: 40
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -782,12 +822,16 @@ users:
             methodValue: confFunds.2@mail.de
       accountAccesses:
           - iban: 41
+            currency: EUR
             accessType: OWNER
           - iban: 42
+            currency: EUR
             accessType: OWNER
           - iban: 43
+            currency: EUR
             accessType: OWNER
           - iban: 44
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -800,6 +844,7 @@ users:
             methodValue: psuPrivate.2@mail.de
       accountAccesses:
           - iban: 45
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -812,6 +857,7 @@ users:
             methodValue: ais.multCurr@mail.de
       accountAccesses:
           - iban: 46
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -824,6 +870,7 @@ users:
             methodValue: psuAisCamt.52@mail.de
       accountAccesses:
           - iban: 47
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -836,6 +883,7 @@ users:
             methodValue: psuAisCamt.53@mail.de
       accountAccesses:
           - iban: 48
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -848,6 +896,7 @@ users:
             methodValue: psuAisCamt.54@mail.de
       accountAccesses:
           - iban: 49
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -860,6 +909,7 @@ users:
             methodValue: psuAis.Mt940@mail.de
       accountAccesses:
           - iban: 50
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER
@@ -872,6 +922,7 @@ users:
             methodValue: psuAis.Mt942@mail.de
       accountAccesses:
           - iban: 51
+            currency: EUR
             accessType: OWNER
       userRoles:
           - CUSTOMER

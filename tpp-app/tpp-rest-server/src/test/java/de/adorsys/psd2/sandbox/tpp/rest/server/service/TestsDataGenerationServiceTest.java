@@ -6,82 +6,83 @@ import de.adorsys.ledgers.middleware.api.domain.um.AccessTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccountAccessTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
-import de.adorsys.psd2.sandbox.tpp.rest.server.config.IbanGenerationConfigProperties;
-import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
+import de.adorsys.psd2.sandbox.tpp.rest.api.domain.BankCodeStructure;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.AccountBalance;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.DataPayload;
-import de.adorsys.psd2.sandbox.tpp.rest.server.utils.IbanGenerator;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Before;
+import org.apache.commons.validator.routines.IBANValidator;
+import org.iban4j.CountryCode;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.ResponseEntity;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TestsDataGenerationServiceTest {
-    private static final String TPP_ID = "11111111";
-    private static final String IBAN_PRIMARY = "DE04760501011111111100";
-    private static final String IBAN_LAST = "DE47760501011111111199";
-    private static final String COUNTRY_CODE = "DE";
-    private static final String BANK_CODE = "76050101";
+    private static final String TPP_ID = "DE_12345678";
+    private static final String USER_IBAN = "DE89000000115555555555";
+    private static final String USER_ID = "QWERTY";
+    static final char word = 'A';
+    private static final Currency CURRENCY = Currency.getInstance("EUR");
 
     @InjectMocks
     private IbanGenerationService generationService;
     @Mock
     private UserMgmtRestClient userMgmtRestClient;
-    @Mock
-    private IbanGenerationConfigProperties ibanGenerationConfigProperties;
-
-    @Before
-    public void initMocks() {
-        MockitoAnnotations.initMocks(this);
-        ibanGenerationConfigProperties = new IbanGenerationConfigProperties();
-        ibanGenerationConfigProperties.getBankCode().setNisp(BANK_CODE);
-        ibanGenerationConfigProperties.getBankCode().setRandom(BANK_CODE);
-        ibanGenerationConfigProperties.setCountryCode(COUNTRY_CODE);
-        generationService = new IbanGenerationService(ibanGenerationConfigProperties, userMgmtRestClient);
-    }
 
     @Test
-    public void generateRandomIban_empty_access() {
-        when(userMgmtRestClient.getUser()).thenReturn(getUser(Collections.emptyList()));
-
-        String iban = generationService.generateRandomIban();
-        assertTrue(StringUtils.isNotEmpty(iban));
-        assertTrue(StringUtils.equals(iban, IBAN_PRIMARY));
+    public void generateIban() {
+        when(userMgmtRestClient.getUser()).thenReturn(ResponseEntity.ok(new UserTO(null, null, null, null, null, Collections.EMPTY_LIST, null, TPP_ID)));
+        String iban = generationService.generateNextIban();
+        boolean isIbanValid = IBANValidator.getInstance().isValid(iban);
+        assertTrue(isIbanValid);
     }
 
-    @Test
-    public void generateRandomIban_last_iban_available() {
-        when(userMgmtRestClient.getUser()).thenReturn(getUser(getAccountAccess(false)));
-        String iban = generationService.generateRandomIban();
-        assertTrue(StringUtils.isNotEmpty(iban));
-        assertTrue(StringUtils.equals(iban, IBAN_LAST));
-    }
-
-    @Test(expected = TppException.class)
-    public void generateRandomIban_no_ibans_left() {
-        when(userMgmtRestClient.getUser()).thenReturn(getUser(getAccountAccess(true)));
-        generationService.generateRandomIban();
-    }
+    //TODO write correct test for countries with different character type
+//    @Test
+//    public void validateIbansForDifferentCountries_CharacterTypeN() {
+//        List<CountryCode> countryCodes = generationService.getSupportedCountryCodes().stream()
+//                                             .map(c -> generationService.getBankCodeStructure(c))
+//                                             .filter(BankCodeStructure::isCharacterType)
+//                                             .map(BankCodeStructure::getCountryCode).collect(Collectors.toList());
+//
+//        boolean result = countryCodes.stream()
+//                             .map(code -> String.format(code + "_" + "%0" + generationService.getBankCodeStructure(code).getLength() + "d", 01))
+//                             .map(i -> when(userMgmtRestClient.getUser())
+//                                           .thenReturn(ResponseEntity.ok(new UserTO(null, null, null, null, null, Collections.EMPTY_LIST, null, i))))
+//                             .map(i -> generationService.generateNextIban())
+//                             .allMatch(i -> IBANValidator.getInstance().isValid(i));
+//
+//        assertTrue(result);
+//    }
+//
+//    @Test
+//    public void validateIbansForDifferentCountries_CharacterTypeCAndA() {
+//        boolean result = generationService.getSupportedCountryCodes().stream()
+//                         .map(c -> generationService.getBankCodeStructure(c))
+//                         .filter(BankCodeStructure::isNotCharacterType)
+//                         .map(b -> String.format(b.getCountryCode() + "_" + StringUtils.repeat(word, b.getLength())))
+//                         .map(i -> when(userMgmtRestClient.getUser())
+//                                       .thenReturn(ResponseEntity.ok(new UserTO(null, null, null, null, null, Collections.EMPTY_LIST, null, i))))
+//                         .map(h -> generationService.generateNextIban())
+//                         .allMatch(i -> IBANValidator.getInstance().isValid(i));
+//
+//        assertTrue(result);
+//    }
 
     @Test
     public void generateNispIban() {
-        String s = generationService.generateIbanForNisp(getPayload(), "00", TPP_ID);
-        assertTrue(StringUtils.isNotBlank(s) && s.equals(IBAN_PRIMARY));
+        when(userMgmtRestClient.getUser()).thenReturn(ResponseEntity.ok(new UserTO(null, null, null, null, null, getAccountAccess(), null, TPP_ID)));
+        String s = generationService.generateIbanForNisp(getPayload(), "00");
+        assertTrue(StringUtils.isNotBlank(s));
     }
 
     private DataPayload getPayload() {
@@ -92,28 +93,13 @@ public class TestsDataGenerationServiceTest {
         return new DataPayload(users, accounts, balances, payments, false, TPP_ID, new HashMap<>());
     }
 
-    private List<AccountAccessTO> getAccountAccess(boolean isCompleted) {
-        List<AccountAccessTO> access = IntStream.range(0, 100)
-                                           .mapToObj(i -> IbanGenerator.generateIban(COUNTRY_CODE, TPP_ID, BANK_CODE, String.format("%02d", i)))
-                                           .map(this::buildOwnerAccess)
-                                           .collect(Collectors.toList());
-        if (!isCompleted) {
-            access.remove(access.size() - 1);
-        }
-        return access;
-    }
-
-    private AccountAccessTO buildOwnerAccess(String iban) {
-        AccountAccessTO access = new AccountAccessTO();
-        access.setAccessType(AccessTypeTO.OWNER);
-        access.setIban(iban);
-        return access;
-    }
-
-    private ResponseEntity<UserTO> getUser(List<AccountAccessTO> access) {
-        UserTO user = new UserTO("test", "test@test.com", "test");
-        user.setBranch(TPP_ID);
-        user.setAccountAccesses(access);
-        return ResponseEntity.ok(user);
+    private List<AccountAccessTO> getAccountAccess() {
+        AccountAccessTO accountAccess = new AccountAccessTO();
+        accountAccess.setCurrency(CURRENCY);
+        accountAccess.setAccessType(AccessTypeTO.OWNER);
+        accountAccess.setScaWeight(50);
+        accountAccess.setIban(USER_IBAN);
+        accountAccess.setId(USER_ID);
+        return Collections.singletonList(accountAccess);
     }
 }

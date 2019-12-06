@@ -39,8 +39,8 @@ public class TestsDataGenerationService {
     }
 
     private DataPayload updateIbanForBranch(DataPayload dataPayload, String branch) {
-        dataPayload.getAccounts().forEach(a -> a.setIban(ibanGenerationService.generateIbanForNisp(dataPayload, a.getIban(), branch)));
-        dataPayload.getBalancesList().forEach(b -> b.setIban(ibanGenerationService.generateIbanForNisp(dataPayload, b.getIban(), branch)));
+        dataPayload.getAccounts().forEach(a -> a.setIban(ibanGenerationService.generateIbanForNisp(dataPayload, a.getIban())));
+        dataPayload.getBalancesList().forEach(b -> b.setIban(ibanGenerationService.generateIbanForNisp(dataPayload, b.getIban())));
         dataPayload.getUsers().forEach(u -> updateUserIbans(dataPayload, u, branch));
 
         return dataPayload;
@@ -53,7 +53,7 @@ public class TestsDataGenerationService {
         user.getScaUserData()
             .forEach(d -> d.setMethodValue(buildValue(branch, d.getMethodValue())));
         user.getAccountAccesses()
-            .forEach(a -> a.setIban(ibanGenerationService.generateIbanForNisp(dataPayload, a.getIban(), branch)));
+            .forEach(a -> a.setIban(ibanGenerationService.generateIbanForNisp(dataPayload, a.getIban())));
     }
 
     private String buildValue(String branch, String suffix) {
