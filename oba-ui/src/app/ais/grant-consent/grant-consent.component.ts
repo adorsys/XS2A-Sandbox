@@ -22,6 +22,7 @@ export class GrantConsentComponent implements OnInit, OnDestroy {
   public authorisationId: string;
   public bankOfferedForm: FormGroup;
   public bankOffered: boolean;
+  private oauth2Param: boolean;
 
   private subscriptions: Subscription[] = [];
 
@@ -56,14 +57,19 @@ export class GrantConsentComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.shareService.currentData.subscribe(data => {
+    this.subscriptions.push(
+        this.shareService.currentData.subscribe(data => {
       if (data) {
         this.shareService.currentData.subscribe(authResponse => {
           this.authResponse = authResponse;
           this.bankOffered = this.isBankOfferedConsent();
         });
       }
-    });
+    }));
+
+    this.subscriptions.push(this.shareService.oauthParam.subscribe((oauth2: boolean) => {
+          this.oauth2Param = oauth2;
+      }));
   }
 
   public onSubmit() {
@@ -100,6 +106,18 @@ export class GrantConsentComponent implements OnInit, OnDestroy {
           this.authResponse = authResponse;
           this.shareService.changeData(this.authResponse);
         });
+      })
+    );
+  }
+
+  public backToTpp() {
+    this.subscriptions.push(
+      this.aisService.revokeConsent({
+          encryptedConsentId: this.authResponse.encryptedConsentId,
+          authorisationId: this.authResponse.authorisationId
+      }).subscribe(authResponse => {
+          window.location.href = `/oba-proxy/ais/${this.authResponse.encryptedConsentId}/authorisation/${this.authResponse.authorisationId}` +
+              `/done?backToTpp=true&forgetConsent=true&oauth2=${this.oauth2Param}`;
       })
     );
   }
