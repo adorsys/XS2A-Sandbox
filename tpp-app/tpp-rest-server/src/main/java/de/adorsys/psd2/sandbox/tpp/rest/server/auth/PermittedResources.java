@@ -23,7 +23,8 @@ public class PermittedResources {
         "/tpp/login",
         "/tpp/register",
         "/tpp/password",
-        "/tpp/consent"
+        "/tpp/consent",
+        "/tpp/country/**"
     };
 
     private PermittedResources() {
