@@ -64,3 +64,4 @@ setting:
     multicurrencyAccountLevelSupported: SUBACCOUNT
     aisPisSessionsSupported: FALSE
     signingBasketSupported: FALSE
+    checkTppRolesFromCertificateSupported: FALSE
