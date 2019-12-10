@@ -14,7 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Currency;
 import java.util.List;
+import java.util.Set;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
@@ -30,6 +32,11 @@ public class TppController implements TppRestApi {
 
     @Override
     public void login(String login, String pin) {
+    }
+
+    @Override
+    public ResponseEntity<Set<Currency>> getCurrencies() {
+        return dataRestClient.currencies();
     }
 
     @Override

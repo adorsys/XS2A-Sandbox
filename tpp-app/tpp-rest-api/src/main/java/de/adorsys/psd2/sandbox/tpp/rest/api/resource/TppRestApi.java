@@ -9,7 +9,9 @@ import org.iban4j.CountryCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Currency;
 import java.util.List;
+import java.util.Set;
 
 @Api(tags = "TPP main API")
 public interface TppRestApi {
@@ -18,6 +20,10 @@ public interface TppRestApi {
     @ApiOperation(value = "Login for TPP")
     @PostMapping(value = "/login")
     void login(@RequestHeader(value = "login") String login, @RequestHeader(value = "pin") String pin);
+
+    @ApiOperation(value = "Get supported currencies list", authorizations = @Authorization(value = "apiKey"))
+    @GetMapping("/currencies")
+    ResponseEntity<Set<Currency>> getCurrencies();
 
     @ApiOperation(value = "Get country codes")
     @GetMapping("/country/codes")
