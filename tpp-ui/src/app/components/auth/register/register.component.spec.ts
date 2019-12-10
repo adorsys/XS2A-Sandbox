@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
@@ -12,6 +12,7 @@ import { InfoModule } from '../../../commons/info/info.module';
 import { AuthService } from '../../../services/auth.service';
 import { CertificateComponent } from '../certificate/certificate.component';
 import { RegisterComponent } from './register.component';
+import { TppIdStructure, TppIdType} from "../../../models/tpp-id-structure.model";
 
 describe('RegisterComponent', () => {
     let component: RegisterComponent;
@@ -29,7 +30,7 @@ describe('RegisterComponent', () => {
                 HttpClientTestingModule,
                 RouterTestingModule,
                 BrowserAnimationsModule,
-                InfoModule,
+                InfoModule, FormsModule
             ],
             providers: [AuthService],
             declarations: [RegisterComponent, CertificateComponent]
@@ -45,7 +46,16 @@ describe('RegisterComponent', () => {
         de = registerFixture.debugElement.query(By.css('form'));
         el = de.nativeElement;
         registerFixture.detectChanges();
+
+        component.selectedCountry = "DE";
+        component.userForm.enable();
+        component.tppIdStructure = testTppStructure;
     });
+
+    const testTppStructure: TppIdStructure = {
+      "length": 8,
+      "type": TppIdType.n
+    };
 
     it('should create', () => {
         expect(component).toBeTruthy();
@@ -56,18 +66,13 @@ describe('RegisterComponent', () => {
     });
 
     it('TPP ID field validity', () => {
-        let errors = {};
-        const tppId = component.userForm.controls['id'];
-        expect(tppId.valid).toBeFalsy();
-
-        // branch field is required
-        errors = tppId.errors || {};
-        expect(errors['required']).toBeTruthy();
+        component.changeIdValidators();
+        const tppId = component.userForm.get('id');
 
         // set branch to something correct
-        tppId.setValue('foo');
-        errors = tppId.errors || {};
-        expect(errors['required']).toBeFalsy();
+        tppId.setValue('12345678');
+        expect(tppId.valid).toBeTruthy();
+        expect(tppId.errors).toBeNull();
     });
 
     it('login field validity', () => {
