@@ -7,7 +7,7 @@ import {of} from 'rxjs';
 import {IconModule} from '../../commons/icon/icon.module';
 import {InfoModule} from '../../commons/info/info.module';
 import {InfoService} from '../../commons/info/info.service';
-import {Account, AccountStatus, AccountType, Currency, UsageType} from '../../models/account.model';
+import {Account, AccountStatus, AccountType, UsageType} from '../../models/account.model';
 import {AccountService} from '../../services/account.service';
 import {AccountListComponent} from './account-list.component';
 import {NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
@@ -62,7 +62,7 @@ describe('AccountListComponent', () => {
         bban: 'BBBAN',
         pan: 'pan',
         maskedPan: 'maskedPan',
-        currency: Currency.EUR,
+        currency: 'EUR',
         msisdn: 'MSISDN',
         name: 'Pupkin',
         product: 'Deposit',

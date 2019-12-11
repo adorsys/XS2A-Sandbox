@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {AccountStatus, AccountType, Currency, UsageType} from "../../models/account.model";
+import {AccountStatus, AccountType, UsageType} from "../../models/account.model";
 import {AccountService} from "../../services/account.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {TestDataGenerationService} from "../../services/test.data.generation.service";
@@ -15,7 +15,7 @@ export class AccountDetailComponent implements OnInit {
   accountForm = new FormGroup({
     'accountType': new FormControl('CASH', Validators.required),
     'usageType': new FormControl(UsageType.PRIV, Validators.required),
-    'currency': new FormControl(Currency.EUR, Validators.required),
+    'currency': new FormControl('EUR', Validators.required),
     'iban': new FormControl(null, Validators.required),
     'accountStatus': new FormControl(AccountStatus.ENABLED, Validators.required),
   });
@@ -24,7 +24,7 @@ export class AccountDetailComponent implements OnInit {
   accountTypes = Object.keys(AccountType);
   accountStatuses = Object.keys(AccountStatus);
   usageTypes = Object.keys(UsageType);
-  currencies = Object.keys(Currency);
+  currencies;
   submitted = false;
   errorMessage = null;
 
@@ -37,7 +37,16 @@ export class AccountDetailComponent implements OnInit {
       this.userID = this.activatedRoute.snapshot.params['id'];
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.initializeCurrenciesList();
+  }
+
+  initializeCurrenciesList() {
+    return this.accountService.getCurrencies().subscribe(
+      data => this.currencies = data,
+      error => console.log(error)
+    )
+  }
 
   get accountType() {
     return this.accountForm.get('accountType');

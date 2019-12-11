@@ -37,6 +37,7 @@
                         <th scope="col">Login</th>
                         <th scope="col">Email</th>
                         <th scope="col">Accounts</th>
+                        <th scope="col">Currencies</th>
                         <th scope="col">Authentication methods</th>
                         <th scope="col">Actions</th>
                     </tr>
@@ -52,6 +53,13 @@
                                     {{accountAccess.iban}}
                                 </li>
                             </ul>
+                        </td>
+                        <td>
+                          <ul>
+                            <li *ngFor="let accountAccess of user?.accountAccesses" class="nav-item">
+                              {{accountAccess.currency}}
+                            </li>
+                          </ul>
                         </td>
                         <td>
                             <ul>

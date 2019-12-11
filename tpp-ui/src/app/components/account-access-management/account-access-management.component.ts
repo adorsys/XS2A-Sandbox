@@ -50,6 +50,7 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
     setupAccountAccessFormControl(): void {
         this.accountAccessForm = this.formBuilder.group({
             iban: [''],
+            currency: [''],
             id: ['', Validators.required],
             scaWeight: [0, [Validators.required, Validators.min(0), Validators.max(100)]],
             accessType: ['READ', [Validators.required]]
@@ -70,6 +71,7 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
         }
 
         this.accountAccessForm.get('iban').setValue(this.account.iban);
+        this.accountAccessForm.get('currency').setValue(this.account.currency);
         this.accountService.updateAccountAccessForUser(this.accountAccessForm.getRawValue()).subscribe(response => {
             this.infoService
                 .openFeedback("Access to account " + this.account.iban + " successfully granted", {duration: 3000});

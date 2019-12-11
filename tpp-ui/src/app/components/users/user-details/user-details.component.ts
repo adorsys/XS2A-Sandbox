@@ -34,7 +34,6 @@ export class UserDetailsComponent implements OnInit {
   }
 
   handleClickOnIBAN(event) {
-    var id = '';
     let iban = event.target.innerHTML.trim();
     this.accService.getAccountByIban(iban).subscribe(
       (account) => this.router.navigate(['/accounts/',account.id])

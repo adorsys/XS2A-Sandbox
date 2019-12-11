@@ -3,4 +3,5 @@ export class AccountAccess {
   accessType: string;
   iban: string;
   scaWeight: number;
+  currency: string;
 }
