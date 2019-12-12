@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
+import { CustomizeService } from './customize.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class JsonService {
-  customJsonSource: string = '../assets/UI/custom/jsons/';
-  defaultJsonSource: string = '../assets/UI/jsons/';
+  customJsonSource = '../assets/UI/custom/jsons/';
+  defaultJsonSource = '../assets/UI/jsons/';
 
   jsonLinks = {
     singlePayment: 'singlePayment.json',
@@ -28,15 +29,39 @@ export class JsonService {
     authenticationMethodId: 'authenticationMethodId.json',
   };
 
-  constructor(private http: HttpClient) {}
+  private currency = 'EUR';
 
-  public getJsonData(url: string): Observable<any> {
+  constructor(
+    private http: HttpClient,
+    private customizeService: CustomizeService
+  ) {
+    this.customizeService.getJSON().then(data => {
+      if (data.currency && data.currency.length !== 0) {
+        this.currency = data.currency;
+      }
+    });
+  }
+
+  public getRawJsonData(url: string): Observable<any> {
     return this.http.get(this.customJsonSource + url).pipe(
       map(response => {
         return response;
       }),
       catchError(error => {
         return this.http.get(this.defaultJsonSource + url);
+      })
+    );
+  }
+
+  public getPreparedJsonData(url: string) {
+    return this.getRawJsonData(url).pipe(
+      map(data => {
+        // replaces all the values of "currency" key word in formatted jsons
+        const regex = /(?<="currency"\s*:\s*"\s*)(.+)(?=")/g;
+
+        return JSON.parse(
+          JSON.stringify(data, null, '\t').replace(regex, this.currency)
+        );
       })
     );
   }

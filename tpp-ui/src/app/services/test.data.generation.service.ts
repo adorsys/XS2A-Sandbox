@@ -9,17 +9,18 @@ export class TestDataGenerationService {
     constructor(private http: HttpClient) {
     }
 
-    public generateTestData(generatePaymentsFlag: boolean, url?: string) {
-        if (url) {
-            return this.http.get(this.baseUrl + url, {
-                responseType: 'text'
-            });
-        }
-        return this.http.get(this.baseUrl + '/data/generate/', {
+    public generateTestData(currency: string, generatePaymentsFlag: boolean) {
+        return this.http.get(this.baseUrl + '/data/generate/' + currency, {
             params: {
                 generatePayments: generatePaymentsFlag === undefined? 'false' : String(generatePaymentsFlag)
             },
             responseType: 'text'
+        });
+    }
+
+    public generateExampleTestData(url: string) {
+        return this.http.get(this.baseUrl + url, {
+          responseType: 'text'
         });
     }
 

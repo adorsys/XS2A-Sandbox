@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.iban4j.CountryCode;
 import org.iban4j.Iban;
 import org.iban4j.bban.BbanStructure;
+import org.iban4j.bban.BbanStructureEntry;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -49,7 +50,9 @@ public class IbanGenerationService {
     private String generateIban(CountryCode countryCode, String bankCode, long accountNr) {
         int accountNumberLength = BbanStructure.forCountry(countryCode).getEntries().stream()
                                       .filter(e -> e.getEntryType().equals(account_number))
-                                      .findFirst().get().getLength();
+                                      .findFirst()
+                                      .map(BbanStructureEntry::getLength)
+                                      .orElse(0);
         String formatParam = "%0" + accountNumberLength + "d";
         String accountNumber = String.format(formatParam, accountNr);
         return new Iban.Builder()

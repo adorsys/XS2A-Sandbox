@@ -42,6 +42,7 @@ describe('CustomizeService', () => {
     ],
     supportedLanguages: ['en', 'de', 'es', 'ua'],
     supportedApproaches: ['redirect', 'embedded'],
+    currency: 'EUR',
   };
   const defUserTheme = {
     globalSettings: {
@@ -68,6 +69,7 @@ describe('CustomizeService', () => {
     ],
     supportedLanguages: [],
     supportedApproaches: [],
+    currency: '',
   };
 
   beforeEach(() => {
@@ -111,7 +113,7 @@ describe('CustomizeService', () => {
     expect(typeof service.isCustom()).toBe('boolean');
   });
 
-  it('getThem should return default or user theme, user theme should be valid', () => {
+  it('getTheme should return default or user theme, user theme should be valid', () => {
     if (!service.isCustom()) {
       expect(service.getTheme()).toEqual(defUserTheme);
     } else {

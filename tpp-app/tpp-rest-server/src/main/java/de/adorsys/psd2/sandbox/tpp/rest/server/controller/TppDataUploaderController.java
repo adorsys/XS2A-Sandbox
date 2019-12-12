@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
+import java.util.Currency;
 import java.util.Map;
 
 @Slf4j
@@ -44,10 +45,10 @@ public class TppDataUploaderController implements TppDataUploaderRestApi {
     }
 
     @Override
-    public ResponseEntity<Resource> generateData(boolean generatePayments) {
+    public ResponseEntity<Resource> generateData(boolean generatePayments, String currency) {
         log.info("Request to create test data received");
 
-        byte[] bytes = generationService.generate(generatePayments);
+        byte[] bytes = generationService.generate(generatePayments, Currency.getInstance(currency));
 
         InputStreamResource resource = new InputStreamResource(new ByteArrayInputStream(bytes));
         HttpHeaders headers = getExportFileHttpHeaders();

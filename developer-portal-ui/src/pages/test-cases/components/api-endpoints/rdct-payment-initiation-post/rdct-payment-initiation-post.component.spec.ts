@@ -83,7 +83,7 @@ describe('RdctPaymentInitiationPostComponent', () => {
 
   beforeEach(() => {
     jsonService = TestBed.get(JsonService);
-    spyOn(jsonService, 'getJsonData').and.returnValue(of('body'));
+    spyOn(jsonService, 'getPreparedJsonData').and.returnValue(of('body'));
     fixture = TestBed.createComponent(RdctPaymentInitiationPostComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

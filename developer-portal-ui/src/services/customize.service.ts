@@ -42,6 +42,7 @@ export class CustomizeService {
     ],
     supportedLanguages: ['en', 'de', 'es', 'ua'],
     supportedApproaches: ['redirect', 'embedded'],
+    currency: 'EUR',
   };
   private USER_THEME: Theme = {
     globalSettings: {
@@ -68,9 +69,10 @@ export class CustomizeService {
     ],
     supportedLanguages: [],
     supportedApproaches: [],
+    currency: '',
   };
 
-  private defaultThemeUrl: string = 'assets/UI/defaultTheme.json';
+  private defaultThemeUrl = 'assets/UI/defaultTheme.json';
 
   constructor(private http: HttpClient) {
     this.updateCSS();
@@ -239,6 +241,7 @@ export interface Theme {
   officesInfo: OfficeInfo[];
   supportedLanguages: string[];
   supportedApproaches: string[];
+  currency: string;
 }
 
 export interface GlobalSettings {
