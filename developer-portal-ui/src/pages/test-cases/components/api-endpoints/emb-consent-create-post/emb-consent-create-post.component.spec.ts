@@ -81,7 +81,7 @@ describe('EmbConsentCreatePostComponent', () => {
 
   beforeEach(() => {
     jsonService = TestBed.get(JsonService);
-    spyOn(jsonService, 'getJsonData').and.returnValue(of('body'));
+    spyOn(jsonService, 'getPreparedJsonData').and.returnValue(of('body'));
     fixture = TestBed.createComponent(EmbConsentCreatePostComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

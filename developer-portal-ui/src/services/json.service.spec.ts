@@ -25,5 +25,6 @@ describe('JsonService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+    httpTestingController.expectOne('../assets/UI/custom/UITheme.json');
   });
 });

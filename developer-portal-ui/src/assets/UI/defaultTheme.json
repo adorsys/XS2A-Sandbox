@@ -30,5 +30,6 @@
     }
   ],
   "supportedLanguages": ["en", "de", "es", "ua"],
-  "supportedApproaches": ["redirect", "embedded"]
+  "supportedApproaches": ["redirect", "embedded"],
+  "currency": "EUR"
 }

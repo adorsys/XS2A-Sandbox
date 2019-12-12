@@ -20,16 +20,16 @@ export class EmbPaymentCancellPutComponent implements OnInit {
 
   constructor(private jsonService: JsonService) {
     jsonService
-      .getJsonData(jsonService.jsonLinks.psuData)
+      .getPreparedJsonData(jsonService.jsonLinks.psuData)
       .subscribe(data => (this.jsonData1 = data), error => console.log(error));
     jsonService
-      .getJsonData(jsonService.jsonLinks.psuData)
+      .getPreparedJsonData(jsonService.jsonLinks.psuData)
       .subscribe(data => (this.body = data), error => console.log(error));
     jsonService
-      .getJsonData(jsonService.jsonLinks.scaAuthenticationData)
+      .getPreparedJsonData(jsonService.jsonLinks.scaAuthenticationData)
       .subscribe(data => (this.jsonData2 = data), error => console.log(error));
     jsonService
-      .getJsonData(jsonService.jsonLinks.authenticationMethodId)
+      .getPreparedJsonData(jsonService.jsonLinks.authenticationMethodId)
       .subscribe(data => (this.jsonData3 = data), error => console.log(error));
   }
 

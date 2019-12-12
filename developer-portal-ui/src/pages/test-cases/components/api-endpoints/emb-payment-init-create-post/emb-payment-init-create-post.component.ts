@@ -29,19 +29,19 @@ export class EmbPaymentInitCreatePostComponent implements OnInit {
 
   constructor(private jsonService: JsonService) {
     jsonService
-      .getJsonData(jsonService.jsonLinks.singlePayment)
+      .getPreparedJsonData(jsonService.jsonLinks.singlePayment)
       .subscribe(data => (this.jsonData1 = data), error => console.log(error));
     jsonService
-      .getJsonData(jsonService.jsonLinks.periodicPayment)
+      .getPreparedJsonData(jsonService.jsonLinks.periodicPayment)
       .subscribe(data => (this.jsonData2 = data), error => console.log(error));
     jsonService
-      .getJsonData(jsonService.jsonLinks.bulkPayment)
+      .getPreparedJsonData(jsonService.jsonLinks.bulkPayment)
       .subscribe(data => (this.jsonData3 = data), error => console.log(error));
     jsonService
-      .getJsonData(jsonService.jsonLinks.singlePaymentPlayWithData)
+      .getPreparedJsonData(jsonService.jsonLinks.singlePaymentPlayWithData)
       .subscribe(data => (this.body = data), error => console.log(error));
     jsonService
-      .getJsonData(jsonService.jsonLinks.debtorAccount)
+      .getPreparedJsonData(jsonService.jsonLinks.debtorAccount)
       .subscribe(data => (this.jsonData4 = data), error => console.log(error));
   }
 

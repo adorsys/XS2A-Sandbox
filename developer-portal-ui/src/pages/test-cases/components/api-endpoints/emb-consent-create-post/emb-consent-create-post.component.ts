@@ -37,34 +37,36 @@ export class EmbConsentCreatePostComponent implements OnInit {
     private aspsp: AspspService
   ) {
     jsonService
-      .getJsonData(jsonService.jsonLinks.consent)
+      .getPreparedJsonData(jsonService.jsonLinks.consent)
       .subscribe(data => (this.jsonData = data), error => console.log(error));
     jsonService
-      .getJsonData(jsonService.jsonLinks.dedicatedAccountsConsent)
+      .getPreparedJsonData(jsonService.jsonLinks.dedicatedAccountsConsent)
       .subscribe(
         data => (consentBodies.dedicatedAccountsConsent = data),
         error => console.log(error)
       );
     jsonService
-      .getJsonData(jsonService.jsonLinks.bankOfferedConsent)
+      .getPreparedJsonData(jsonService.jsonLinks.bankOfferedConsent)
       .subscribe(
         data => (consentBodies.bankOfferedConsent = data),
         error => console.log(error)
       );
     jsonService
-      .getJsonData(jsonService.jsonLinks.globalConsent)
+      .getPreparedJsonData(jsonService.jsonLinks.globalConsent)
       .subscribe(
         data => (consentBodies.globalConsent = data),
         error => console.log(error)
       );
     jsonService
-      .getJsonData(jsonService.jsonLinks.availableAccountsConsent)
+      .getPreparedJsonData(jsonService.jsonLinks.availableAccountsConsent)
       .subscribe(
         data => (consentBodies.availableAccountsConsent = data),
         error => console.log(error)
       );
     jsonService
-      .getJsonData(jsonService.jsonLinks.availableAccountsConsentWithBalance)
+      .getPreparedJsonData(
+        jsonService.jsonLinks.availableAccountsConsentWithBalance
+      )
       .subscribe(
         data => (consentBodies.availableAccountsConsentWithBalance = data),
         error => console.log(error)

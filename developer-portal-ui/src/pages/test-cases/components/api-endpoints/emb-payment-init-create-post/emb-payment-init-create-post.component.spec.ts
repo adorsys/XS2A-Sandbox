@@ -82,7 +82,7 @@ describe('EmbPaymentInitCreatePostComponent', () => {
 
   beforeEach(() => {
     jsonService = TestBed.get(JsonService);
-    spyOn(jsonService, 'getJsonData').and.returnValue(of('body'));
+    spyOn(jsonService, 'getPreparedJsonData').and.returnValue(of('body'));
     fixture = TestBed.createComponent(EmbPaymentInitCreatePostComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
