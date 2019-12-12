@@ -50,7 +50,8 @@ variables:
   OPENSHIFT_NAMESPACE_BANKING_GATEWAY_INTEG: "banking-gateway-integ"
 
   OPENSHIFT_NAMESPACE_ASPSP_XS2A_DEV: "adorsys-psd2-develop"
-
+# Deploy images to openshift dxc-sandbox-dev
+  OPENSHIFT_NAMESPACE_DXC_SANDBOX_DEV: "dxc-sandbox-dev"
   ###########################
   # Build variables         #
   ###########################
@@ -346,7 +347,7 @@ deploy_openshift_develop:
     DOCKER_TAG: develop # Dockerhub source tag
     OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_DEV} # Openshift target namespace
   <<: *deploy_openshift
-
+# Deploy images to banking_gateway_dev namespace
 deploy_openshift_banking_gateway_dev:
   stage: "Deploy"
   cache: {}
@@ -356,6 +357,17 @@ deploy_openshift_banking_gateway_dev:
   variables:
     DOCKER_TAG: develop # Dockerhub source tag
     OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_BANKING_GATEWAY_DEV} # Openshift target namespace
+  <<: *deploy_openshift
+# Deploy images to banking_gateway_dev namespace
+deploy_openshift_dxc_sandbox_dev:
+  stage: "Deploy"
+  cache: {}
+  dependencies: []
+  only:
+    - develop
+  variables:
+    DOCKER_TAG: develop # Dockerhub source tag
+    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_DXC_SANDBOX_DEV} # Openshift target namespace
   <<: *deploy_openshift
 
 # nightly
