@@ -5,10 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
@@ -22,8 +19,8 @@ public interface TppDataUploaderRestApi {
     ResponseEntity<String> uploadData(@RequestBody MultipartFile file);
 
     @ApiOperation(value = "Generate test data and upload it to Ledgers", authorizations = @Authorization(value = "apiKey"))
-    @GetMapping(value = "/generate")
-    ResponseEntity<Resource> generateData(@RequestParam boolean generatePayments);
+    @GetMapping(value = "/generate/{currency}")
+    ResponseEntity<Resource> generateData(@RequestParam boolean generatePayments, @PathVariable("currency") String currency);
 
     @ApiOperation(value = "Generate random IBAN", authorizations = @Authorization(value = "apiKey"))
     @GetMapping("/generate/iban")

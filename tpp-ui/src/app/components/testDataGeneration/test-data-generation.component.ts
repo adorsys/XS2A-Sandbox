@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 
 import { InfoService } from '../../commons/info/info.service';
 import { TestDataGenerationService } from '../../services/test.data.generation.service';
+import {CurrencyService} from "../../services/currency.service";
 
 @Component({
     selector: 'test-data-generation',
@@ -14,22 +15,25 @@ import { TestDataGenerationService } from '../../services/test.data.generation.s
 export class TestDataGenerationComponent implements OnInit {
     submitted: boolean;
     generatePaymentsFlag: boolean;
-    private form = new FormGroup({});
-    private fileUrl: SafeResourceUrl;
     private message = 'Test data has been successfully generated. The automatic download of the test yml file will start within some seconds.';
+
+    selectedCurrency;
+    currencyList: Array<string> = [];
 
     constructor(private generationService: TestDataGenerationService,
                 private infoService: InfoService,
                 private router: Router,
-                private sanitizer: DomSanitizer) {
+                private sanitizer: DomSanitizer,
+                private currencyService: CurrencyService) {
         this.generationService = generationService;
     }
 
     ngOnInit(): void {
+      this.currencyList = this.currencyService.currencyList;
     }
 
     generate() {
-        return this.generationService.generateTestData(this.generatePaymentsFlag)
+        return this.generationService.generateTestData(this.selectedCurrency, this.generatePaymentsFlag)
             .subscribe(data => {
                     this.infoService.openFeedback(this.message);
 

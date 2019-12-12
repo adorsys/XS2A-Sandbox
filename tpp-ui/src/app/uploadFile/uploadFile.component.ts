@@ -47,7 +47,7 @@ export class UploadFileComponent implements OnInit {
   }
 
   generateFileExample(uploadDataConfig) {
-    return this.generationService.generateTestData(false, uploadDataConfig.exampleFileUrl)
+    return this.generationService.generateExampleTestData(uploadDataConfig.exampleFileUrl)
       .subscribe(data => {
         this.infoService.openFeedback(this.message);
         const blob = new Blob([data], {type: 'plain/text'});
