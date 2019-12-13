@@ -2,13 +2,13 @@ package de.adorsys.ledgers.xs2a.test.ctk.redirect;
 
 import java.net.MalformedURLException;
 
-import de.adorsys.ledgers.oba.rest.api.exception.PaymentAuthorizeException;
+import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
+import de.adorsys.ledgers.oba.rest.api.resource.exception.PaymentAuthorizeException;
 import org.junit.Test;
 import org.springframework.http.ResponseEntity;
 
 import de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
-import de.adorsys.ledgers.oba.rest.api.domain.PaymentAuthorizeResponse;
 import de.adorsys.psd2.model.PaymentInitationRequestResponse201;
 import de.adorsys.psd2.model.TransactionStatus;
 

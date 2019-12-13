@@ -1,7 +1,7 @@
 package de.adorsys.ledgers.xs2a.test.ctk.redirect;
 
-import de.adorsys.ledgers.oba.rest.api.domain.AuthorizeResponse;
-import de.adorsys.ledgers.oba.rest.api.domain.PIISConsentCreateResponse;
+import de.adorsys.ledgers.oba.service.api.domain.AuthorizeResponse;
+import de.adorsys.ledgers.oba.service.api.domain.PIISConsentCreateResponse;
 import de.adorsys.psd2.model.InlineResponse2003;
 import org.junit.Assert;
 import org.junit.Test;

@@ -6,7 +6,8 @@ import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.ScaMethodTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.um.ScaUserDataTO;
-import de.adorsys.ledgers.oba.rest.api.domain.AuthorizeResponse;
+import de.adorsys.ledgers.oba.service.api.domain.AuthorizeResponse;
+import de.adorsys.ledgers.oba.service.impl.mapper.LedgersResponseMapper;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
 

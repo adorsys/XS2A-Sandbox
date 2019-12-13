@@ -1,11 +1,11 @@
 package de.adorsys.ledgers.xs2a.test.ctk.redirect;
 
 import de.adorsys.ledgers.middleware.api.domain.um.ScaUserDataTO;
-import de.adorsys.ledgers.oba.rest.api.domain.AuthorizeResponse;
-import de.adorsys.ledgers.oba.rest.api.domain.CreatePiisConsentRequestTO;
-import de.adorsys.ledgers.oba.rest.api.domain.PIISConsentCreateResponse;
 import de.adorsys.ledgers.oba.rest.client.ObaAisApiClient;
 import de.adorsys.ledgers.oba.rest.client.ObaScaApiClient;
+import de.adorsys.ledgers.oba.service.api.domain.AuthorizeResponse;
+import de.adorsys.ledgers.oba.service.api.domain.CreatePiisConsentRequestTO;
+import de.adorsys.ledgers.oba.service.api.domain.PIISConsentCreateResponse;
 import de.adorsys.ledgers.xs2a.client.FundsConfirmationApiClient;
 import de.adorsys.psd2.model.Amount;
 import de.adorsys.psd2.model.ConfirmationOfFunds;

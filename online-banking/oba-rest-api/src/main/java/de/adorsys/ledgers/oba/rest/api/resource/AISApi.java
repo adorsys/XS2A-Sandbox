@@ -2,11 +2,11 @@ package de.adorsys.ledgers.oba.rest.api.resource;
 
 import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisConsentTO;
-import de.adorsys.ledgers.oba.rest.api.domain.AuthorizeResponse;
-import de.adorsys.ledgers.oba.rest.api.domain.ConsentAuthorizeResponse;
-import de.adorsys.ledgers.oba.rest.api.domain.CreatePiisConsentRequestTO;
-import de.adorsys.ledgers.oba.rest.api.domain.PIISConsentCreateResponse;
-import de.adorsys.ledgers.oba.rest.api.exception.ConsentAuthorizeException;
+import de.adorsys.ledgers.oba.rest.api.resource.exception.ConsentAuthorizeException;
+import de.adorsys.ledgers.oba.service.api.domain.AuthorizeResponse;
+import de.adorsys.ledgers.oba.service.api.domain.ConsentAuthorizeResponse;
+import de.adorsys.ledgers.oba.service.api.domain.CreatePiisConsentRequestTO;
+import de.adorsys.ledgers.oba.service.api.domain.PIISConsentCreateResponse;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;

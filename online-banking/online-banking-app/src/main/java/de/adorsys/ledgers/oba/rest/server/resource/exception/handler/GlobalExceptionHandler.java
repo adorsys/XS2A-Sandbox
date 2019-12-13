@@ -2,8 +2,11 @@ package de.adorsys.ledgers.oba.rest.server.resource.exception.handler;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.adorsys.ledgers.oba.rest.api.exception.AisException;
-import de.adorsys.ledgers.oba.rest.api.exception.AuthorizationException;
+import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
+import de.adorsys.ledgers.oba.service.api.domain.PsuMessage;
+import de.adorsys.ledgers.oba.rest.api.resource.exception.PaymentAuthorizeException;
+import de.adorsys.ledgers.oba.service.api.domain.exception.AisException;
+import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
 import de.adorsys.ledgers.oba.rest.server.auth.oba.ErrorResponse;
 import de.adorsys.ledgers.oba.rest.server.resource.exception.resolver.AisExceptionStatusResolver;
 import de.adorsys.ledgers.oba.rest.server.resource.exception.resolver.AuthorizationExceptionStatusResolver;
@@ -36,6 +39,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(message);
     }
 
+    @ExceptionHandler(PaymentAuthorizeException.class)
+    public ResponseEntity<Map> handlePaymentAuthorizeException(PaymentAuthorizeException e) {
+        PaymentAuthorizeResponse body = e.getError().getBody();
+        PsuMessage psuMessage = body.getPsuMessages().get(0);
+        Map content = buildContentMap(psuMessage.getCode(), psuMessage.getText());
+        return new ResponseEntity<>(content, HttpStatus.valueOf(psuMessage.getCode()));
+    }
+
     @ExceptionHandler(AuthorizationException.class)
     public ResponseEntity<Map> handleAuthException(AuthorizationException e) {
         HttpStatus status = AuthorizationExceptionStatusResolver.resolveHttpStatusByCode(e.getErrorCode());
@@ -50,6 +61,10 @@ public class GlobalExceptionHandler {
 
         Map<String, String> body = buildContentMap(ex.status(), resolveErrorMessage(ex));
         return new ResponseEntity<>(body, HttpStatus.valueOf(ex.status()));
+    }
+
+    private Map<String, String> buildContentMap(String code, String message) {
+        return buildContentMap(Integer.parseInt(code), message);
     }
 
     private Map<String, String> buildContentMap(int code, String message) {

@@ -18,11 +18,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
-import de.adorsys.ledgers.oba.rest.api.consentref.ConsentReference;
-import de.adorsys.ledgers.oba.rest.api.domain.OnlineBankingResponse;
-import de.adorsys.ledgers.oba.rest.api.domain.PsuMessage;
-import de.adorsys.ledgers.oba.rest.api.domain.PsuMessageCategory;
-import de.adorsys.ledgers.oba.rest.api.domain.ValidationCode;
+import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
+import de.adorsys.ledgers.oba.service.api.domain.OnlineBankingResponse;
+import de.adorsys.ledgers.oba.service.api.domain.PsuMessage;
+import de.adorsys.ledgers.oba.service.api.domain.PsuMessageCategory;
+import de.adorsys.ledgers.oba.service.api.domain.ValidationCode;
 import de.adorsys.ledgers.oba.rest.server.auth.MiddlewareAuthentication;
 
 @Service

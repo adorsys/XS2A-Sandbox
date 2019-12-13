@@ -4,7 +4,9 @@ import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
 import de.adorsys.ledgers.middleware.api.domain.account.TransactionTO;
 import de.adorsys.ledgers.middleware.api.domain.account.UsageTypeTO;
 import de.adorsys.ledgers.middleware.client.rest.AccountRestClient;
-import de.adorsys.ledgers.oba.rest.api.exception.AisException;
+import de.adorsys.ledgers.oba.service.api.domain.exception.AisException;
+import de.adorsys.ledgers.oba.service.api.service.AisService;
+import de.adorsys.ledgers.oba.service.impl.service.AisServiceImpl;
 import feign.FeignException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +32,7 @@ public class AisServiceTest {
     private static final Currency CURRENCY = Currency.getInstance("EUR");
     private final String IBAN = "DE1263";
     @InjectMocks
-    private AisService aisService;
+    private AisServiceImpl aisService;
 
     @Mock
     private AccountRestClient accountRestClient;

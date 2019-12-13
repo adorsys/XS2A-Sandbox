@@ -51,6 +51,10 @@ variables:
 
   OPENSHIFT_NAMESPACE_ASPSP_XS2A_DEV: "adorsys-psd2-develop"
 
+  OPENSHIFT_NAMESPACE_DXC_SANDBOX_DEV: "dxc-sandbox-dev"
+
+  OPENSHIFT_NAMESPACE_OPEN_BANKING_GATEWAY_DEV: "open-banking-gateway-dev"
+
   ###########################
   # Build variables         #
   ###########################
@@ -328,6 +332,7 @@ postman_tests:
     paths:
       - "postman/postman-tests-report.html"
     expire_in: "10 day"
+
 # develop
 
 build_dockerhub_image_develop:
@@ -356,6 +361,17 @@ deploy_openshift_banking_gateway_dev:
   variables:
     DOCKER_TAG: develop # Dockerhub source tag
     OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_BANKING_GATEWAY_DEV} # Openshift target namespace
+  <<: *deploy_openshift
+
+deploy_openshift_dxc_sandbox_dev:
+  stage: "Deploy"
+  cache: {}
+  dependencies: []
+  only:
+    - develop
+  variables:
+    DOCKER_TAG: develop # Dockerhub source tag
+    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_DXC_SANDBOX_DEV} # Openshift target namespace
   <<: *deploy_openshift
 
 # nightly
@@ -419,6 +435,18 @@ deploy_openshift_aspsp_xs2a_dev:
     DOCKER_TAG: latest # Dockerhub source tag
     OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_ASPSP_XS2A_DEV} # Openshift target namespace
   <<: *deploy_openshift_tpp_rest_server
+
+deploy_openshift_open_banking_gateway_dev:
+  stage: "Deploy"
+  cache: {}
+  dependencies: []
+  only:
+    - master
+  variables:
+    GIT_STRATEGY: none
+    DOCKER_TAG: latest # Dockerhub source tag
+    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_OPEN_BANKING_GATEWAY_DEV} # Openshift target namespace
+  <<: *deploy_openshift
 
 # tags
 

@@ -28,6 +28,8 @@
         <module>oba-rest-client</module>
         <module>online-banking-app</module>
         <module>consent-psu-rest-client</module>
+        <module>oba-service-api</module>
+        <module>oba-service-impl</module>
     </modules>
 
     <properties>

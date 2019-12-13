@@ -3,7 +3,7 @@ package de.adorsys.ledgers.oba.rest.server.resource.oba;
 import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
 import de.adorsys.ledgers.middleware.api.domain.account.TransactionTO;
 import de.adorsys.ledgers.oba.rest.api.resource.oba.ObaAisApi;
-import de.adorsys.ledgers.oba.rest.server.service.AisService;
+import de.adorsys.ledgers.oba.service.api.service.AisService;
 import de.adorsys.ledgers.util.domain.CustomPageImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

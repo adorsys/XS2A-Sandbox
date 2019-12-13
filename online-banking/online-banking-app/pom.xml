@@ -114,9 +114,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-jdk8</artifactId>
-            <version>${org.mapstruct.version}</version>
+            <groupId>de.adorsys.psd2.sandbox</groupId>
+            <artifactId>oba-service-impl</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

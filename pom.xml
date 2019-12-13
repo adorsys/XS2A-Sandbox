@@ -353,7 +353,7 @@
                     <failOnViolation>true</failOnViolation>
                     <printFailingErrors>true</printFailingErrors>
                     <excludeRoots>
-                        <excludeRoot>../online-banking-app/target/generated-sources/annotations/</excludeRoot>
+                        <excludeRoot>../oba-service-impl/target/generated-sources/annotations/</excludeRoot>
                         <excludeRoot>../tpp-rest-server/target/generated-sources/annotations/</excludeRoot>
                     </excludeRoots>
                 </configuration>
