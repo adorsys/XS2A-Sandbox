@@ -2,7 +2,7 @@ package de.adorsys.ledgers.oba.rest.server.resource;
 
 import de.adorsys.ledgers.middleware.api.domain.sca.SCALoginResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
-import de.adorsys.ledgers.oba.rest.api.exception.AuthorizationException;
+import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
 import de.adorsys.ledgers.oba.rest.server.auth.MiddlewareAuthentication;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import org.apache.commons.collections4.CollectionUtils;
@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-import static de.adorsys.ledgers.oba.rest.api.exception.AuthErrorCode.LOGIN_FAILED;
+import static de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode.LOGIN_FAILED;
 
 public class AuthUtils {
 

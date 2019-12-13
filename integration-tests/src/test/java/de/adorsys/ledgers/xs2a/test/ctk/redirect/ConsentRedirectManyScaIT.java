@@ -3,12 +3,12 @@ package de.adorsys.ledgers.xs2a.test.ctk.redirect;
 import java.util.List;
 import java.util.Map;
 
+import de.adorsys.ledgers.oba.service.api.domain.ConsentAuthorizeResponse;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.http.ResponseEntity;
 
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
-import de.adorsys.ledgers.oba.rest.api.domain.ConsentAuthorizeResponse;
 import de.adorsys.psd2.model.ConsentStatus;
 import de.adorsys.psd2.model.ConsentsResponse201;
 import de.adorsys.psd2.model.ScaStatus;
@@ -26,11 +26,11 @@ public class ConsentRedirectManyScaIT extends AbstractConsentRedirect {
 
 	@Test
 	public void test_initiate_consent() {
-		
+
 		// ============= INITIATE CONSENT =======================//
 		ResponseEntity<ConsentsResponse201> createConsentResp = consentHelper.createDedicatedConsent();
 		consentHelper.checkConsentStatus(createConsentResp, ConsentStatus.RECEIVED);
-		
+
 		// ============= IDENTIFY PSU =======================//
 		ResponseEntity<ConsentAuthorizeResponse> loginResponseWrapper = consentHelper.login(createConsentResp);
 		consentHelper.validateResponseStatus(loginResponseWrapper, ScaStatusTO.PSUIDENTIFIED);
@@ -38,19 +38,19 @@ public class ConsentRedirectManyScaIT extends AbstractConsentRedirect {
 		String authorisationId = loginResponseWrapper.getBody().getAuthorisationId();
 		consentHelper.checkConsentStatus(encryptedConsentId, ConsentStatus.RECEIVED);
 		consentHelper.checkConsentScaStatusFromXS2A(encryptedConsentId, authorisationId, ScaStatus.PSUIDENTIFIED);
-		
+
 		// ============= STATRT SCA =======================//
 		ResponseEntity<ConsentAuthorizeResponse> startConsentAuthWrapper = consentHelper.startSCA(loginResponseWrapper, getIban(), true, true, true);
 		consentHelper.validateResponseStatus(startConsentAuthWrapper, ScaStatusTO.PSUAUTHENTICATED);
 		consentHelper.checkConsentStatus(encryptedConsentId, ConsentStatus.RECEIVED);
 		consentHelper.checkConsentScaStatusFromXS2A(encryptedConsentId, authorisationId, ScaStatus.PSUAUTHENTICATED);
-		
+
 		// ============= SELECT SCA =======================//
 		ResponseEntity<ConsentAuthorizeResponse> choseScaMethodResponseWrapper = consentHelper.choseScaMethod(loginResponseWrapper);
 		consentHelper.validateResponseStatus(choseScaMethodResponseWrapper, ScaStatusTO.SCAMETHODSELECTED);
 		consentHelper.checkConsentStatus(encryptedConsentId, ConsentStatus.RECEIVED);
 		consentHelper.checkConsentScaStatusFromXS2A(encryptedConsentId, authorisationId, ScaStatus.SCAMETHODSELECTED);
-		
+
 		// ============= AUTHORIZE CONSENT =======================//
 		ResponseEntity<ConsentAuthorizeResponse> authCodeResponseWrapper = consentHelper.authCode(choseScaMethodResponseWrapper);
 		consentHelper.validateResponseStatus(authCodeResponseWrapper, ScaStatusTO.FINALISED);
