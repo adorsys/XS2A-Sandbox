@@ -51,7 +51,6 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
     private final PaymentConverter paymentConverter;
     private final OauthRestClient oauthRestClient;
 
-    // перенести куку вверх
     @Override
     public PaymentWorkflow selectScaForPayment(String encryptedPaymentId, String authorisationId, String scaMethodId, String consentAndAccessTokenCookieString, boolean isCancellationOperation, String psuId, BearerTokenTO tokenTO) {
         PaymentWorkflow workflow = identifyPayment(encryptedPaymentId, authorisationId, true, consentAndAccessTokenCookieString, psuId, tokenTO);
