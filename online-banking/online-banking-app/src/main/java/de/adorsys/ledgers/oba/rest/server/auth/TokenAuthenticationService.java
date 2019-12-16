@@ -31,7 +31,6 @@ public class TokenAuthenticationService {
     public Authentication getAuthentication(HttpServletRequest request) {
         String accessToken = readAccessTokenCookie(request);
         if (StringUtils.isBlank(accessToken)) {
-            debug(String.format("Missing cookie with name %s.", "ACCESS_TOKEN"));
             return null;
         }
         BearerTokenTO bearerToken = null;
