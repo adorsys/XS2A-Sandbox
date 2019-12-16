@@ -20,6 +20,7 @@ stages:
 # ------------------------------------------------------------------
 
 variables:
+  SONAR_HOST: "https://psd2-quality.cloud.adorsys.de"
 
   GIT_SUBMODULE_STRATEGY: normal
   # Online banking
@@ -335,6 +336,17 @@ postman_tests:
 
 # develop
 
+Sonarcube Tests:
+  stage: "Test"
+  only:
+    - develop
+  script:
+    - jabba use system@1.8
+    - cat /sys/fs/cgroup/memory/memory.limit_in_bytes
+    - java -XX:+PrintFlagsFinal -version | grep -Ei "maxheapsize|maxram"
+    - mvn -ntp --fail-at-end clean install
+    - mvn sonar:sonar -Dsonar.host.url=${SONAR_HOST} -Dsonar.login=${SONAR_TOKEN}
+
 build_dockerhub_image_develop:
   stage: "Package"
   only:
@@ -456,8 +468,9 @@ build_dockerhub_images_from_tag:
     - tags
   variables:
     DOCKER_TAG: ${CI_COMMIT_TAG}
-  <<: *push_dockerhub_images 
+  <<: *push_dockerhub_images
 
+# TODO move to travis ci
 release_maven_central:
   stage: "release"
   cache:

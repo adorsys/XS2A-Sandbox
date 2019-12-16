@@ -1,5 +1,4 @@
 # XS2ASandbox
-[![Build Status](https://travis-ci.com/adorsys/xs2a.svg?branch=develop)](https://travis-ci.com/adorsys/XS2A-Sandbox)
 
 Implementation of the dynamic sandbox based on the adorsys ledgers core banking system and XS2A services.
 
