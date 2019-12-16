@@ -471,15 +471,15 @@ build_dockerhub_images_from_tag:
   <<: *push_dockerhub_images
 
 # TODO move to travis ci
-release_maven_central:
-  stage: "release"
-  cache:
-    key: "Java_${CI_COMMIT_REF_SLUG}"
-    paths:
-      - /builds/adorsys/xs2a/psd2-dynamic-sandbox/.m2/repository
-  only:
-    - tags
-  script:
-    - echo $SONATYPE_GPG_SECRET_KEY | base64 --decode | $SONATYPE_GPG_EXECUTABLE --import
-    - echo $SONATYPE_GPG_OWNERTRUST | base64 --decode | $SONATYPE_GPG_EXECUTABLE --import-ownertrust
-    - mvn --settings scripts/mvn-release-settings.xml -Prelease -DskipTests -B -U deploy
+#release_maven_central:
+#  stage: "release"
+#  cache:
+#    key: "Java_${CI_COMMIT_REF_SLUG}"
+#    paths:
+#      - /builds/adorsys/xs2a/psd2-dynamic-sandbox/.m2/repository
+#  only:
+#    - tags
+#  script:
+#    - echo $SONATYPE_GPG_SECRET_KEY | base64 --decode | $SONATYPE_GPG_EXECUTABLE --import
+#    - echo $SONATYPE_GPG_OWNERTRUST | base64 --decode | $SONATYPE_GPG_EXECUTABLE --import-ownertrust
+#    - mvn --settings scripts/mvn-release-settings.xml -Prelease -DskipTests -B -U deploy
