@@ -45,11 +45,8 @@ export class AuthorizeComponent implements OnInit {
       .pipe(
         map(response => response.redirectUri)
       )
-      .subscribe(url => {
-        this.router.navigate(['/externalRedirect', { externalUrl: url }], {
-          skipLocationChange: true,
-        });
-      });
+      //TODO fix this line and add removed tests https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/issues/475
+      .subscribe(url => window.location.href = url);
   }
 
   private initAuthorizeForm(): void {
