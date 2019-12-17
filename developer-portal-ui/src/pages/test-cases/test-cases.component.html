@@ -41,8 +41,8 @@
             </li>
             <li *ngIf="redirectSupported">
               <span class="clickable-item" (click)="collapseThis('redirect')">
-                <span *ngIf="!redirectFlag">+ </span>
-                <span *ngIf="redirectFlag" class="minus">- </span>
+                <span *ngIf="redirectFlag">+ </span>
+                <span *ngIf="!redirectFlag" class="minus">- </span>
                 {{ 'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LI_1' | translate }}
               </span>
               <ul class="collapse-content" id="redirect-content">

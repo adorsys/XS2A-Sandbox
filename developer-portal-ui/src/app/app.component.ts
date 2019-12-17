@@ -24,9 +24,8 @@ export class AppComponent implements OnInit {
     es: '../assets/icons/spain.png',
     ua: '../assets/icons/ukraine.png',
   };
-  private langCollapsed: boolean;
-
-  public showNavDropDown: boolean = false;
+  private langCollapsed = false;
+  public showNavDropDown = false;
 
   constructor(
     private router: Router,
@@ -62,7 +61,9 @@ export class AppComponent implements OnInit {
   }
 
   collapseThis() {
-    this.setLangCollapsed(!this.getLangCollapsed());
+    if (this.langs && this.langs.length > 1) {
+      this.setLangCollapsed(!this.getLangCollapsed());
+    }
   }
 
   getLangCollapsed() {

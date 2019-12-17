@@ -98,13 +98,44 @@ export class CustomizeService {
           theme = this.getDefaultTheme();
           this.IS_CUSTOM = false;
         }
-        return theme as Theme;
+        return this.normalizeLanguages(theme as Theme);
       })
       .catch(e => {
         console.log(e);
         this.IS_CUSTOM = false;
-        return this.getDefaultTheme();
+        return this.getDefaultTheme().then(data =>
+          this.normalizeLanguages(data as Theme)
+        );
       });
+  }
+
+  private async normalizeLanguages(theme): Promise<Theme> {
+    let correctLanguages = [];
+
+    if (theme.supportedLanguages) {
+      for (const lang of theme.supportedLanguages) {
+        const correctLang = await this.getCorrectLanguage(lang);
+        if (correctLang.length > 0) {
+          correctLanguages.push(correctLang);
+        }
+      }
+
+      if (correctLanguages.length == 0) {
+        correctLanguages = ['en'];
+      }
+
+      theme.supportedLanguages = correctLanguages;
+    }
+
+    return theme;
+  }
+
+  private getCorrectLanguage(lang: string) {
+    return this.http
+      .get('../assets/i18n/' + lang + '.json')
+      .toPromise()
+      .then(data => lang)
+      .catch(e => '');
   }
 
   isCustom() {

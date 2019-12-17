@@ -28,7 +28,7 @@ export class CodeAreaComponent {
   }
 
   copyText(json: object) {
-    const textToCopy = JSON.stringify(json);
+    const textToCopy = JSON.stringify(json, null, 4);
     const selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';
     selBox.style.left = '0';

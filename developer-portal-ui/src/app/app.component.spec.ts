@@ -151,11 +151,11 @@ describe('AppComponent', () => {
     expect(comp).toBeTruthy();
   }));
 
-  it('should change lang and should collapse', () => {
+  it('should change lang', () => {
+    comp.langs = ['en'];
     expect(comp.getLangCollapsed()).toBeTruthy();
     comp.changeLang('ua');
     expect(comp.lang).toEqual('ua');
-    expect(comp.getLangCollapsed()).toBeFalsy();
   });
 
   it('should collapse', () => {
