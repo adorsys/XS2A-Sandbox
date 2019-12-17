@@ -5,7 +5,7 @@
     <parent>
         <artifactId>tpp-app</artifactId>
         <groupId>de.adorsys.psd2.sandbox</groupId>
-        <version>1.8</version>
+        <version>1.9</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -93,6 +93,11 @@
             <artifactId>mapstruct-jdk8</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.iban4j</groupId>
+            <artifactId>iban4j</artifactId>
+        </dependency>
+
         <!-- Test dependencies -->
         <dependency>
             <groupId>junit</groupId>
@@ -122,6 +127,13 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

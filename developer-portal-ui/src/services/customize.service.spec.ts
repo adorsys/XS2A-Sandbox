@@ -40,6 +40,9 @@ describe('CustomizeService', () => {
         linkedIn: 'https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/',
       },
     ],
+    supportedLanguages: ['en', 'de', 'es', 'ua'],
+    supportedApproaches: ['redirect', 'embedded'],
+    currency: 'EUR',
   };
   const defUserTheme = {
     globalSettings: {
@@ -64,6 +67,9 @@ describe('CustomizeService', () => {
         addressSecondLine: '',
       },
     ],
+    supportedLanguages: [],
+    supportedApproaches: [],
+    currency: '',
   };
 
   beforeEach(() => {
@@ -107,7 +113,7 @@ describe('CustomizeService', () => {
     expect(typeof service.isCustom()).toBe('boolean');
   });
 
-  it('getThem should return default or user theme, user theme should be valid', () => {
+  it('getTheme should return default or user theme, user theme should be valid', () => {
     if (!service.isCustom()) {
       expect(service.getTheme()).toEqual(defUserTheme);
     } else {
@@ -123,9 +129,7 @@ describe('CustomizeService', () => {
       expect(res).toEqual(defTheme);
     });
 
-    const req = httpTestingController.expectOne(
-      '../assets/UI/defaultTheme.json'
-    );
+    const req = httpTestingController.expectOne('assets/UI/defaultTheme.json');
     expect(req.request.method).toEqual('GET');
   });
 

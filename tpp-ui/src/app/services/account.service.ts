@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 import {map, filter, tap} from "rxjs/operators";
 import {environment} from '../../environments/environment';
 import {AccountReport} from '../models/account-report';
@@ -53,5 +53,9 @@ export class AccountService {
 
   updateAccountAccessForUser(accountAccess: GrantAccountAccess) {
     return this.http.put(this.url + '/accounts/access', accountAccess);
+  }
+
+  getCurrencies() {
+    return this.http.get(this.url + '/currencies');
   }
 }

@@ -6,7 +6,7 @@ import de.adorsys.ledgers.middleware.api.domain.oauth.OauthServerInfoTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.OauthRestClient;
 import de.adorsys.ledgers.oba.rest.api.resource.oba.ObaOauthApi;
-import de.adorsys.ledgers.oba.rest.server.service.OauthServerLinkResolver;
+import de.adorsys.ledgers.oba.service.impl.service.OauthServerLinkResolver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

@@ -31,10 +31,6 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
-            if (log.isDebugEnabled()) {
-                log.debug("Authentication is null. Try to get authentication from request...");
-            }
-
             authentication = tokenAuthenticationService.getAuthentication(request);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }

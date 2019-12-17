@@ -1,8 +1,8 @@
 package de.adorsys.ledgers.oba.rest.server.resource.oba;
 
-import de.adorsys.ledgers.oba.rest.api.domain.ObaAisConsent;
+import de.adorsys.ledgers.oba.service.api.domain.ObaAisConsent;
 import de.adorsys.ledgers.oba.rest.api.resource.oba.ObaConsentApi;
-import de.adorsys.ledgers.oba.rest.server.service.ConsentService;
+import de.adorsys.ledgers.oba.service.api.service.ConsentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

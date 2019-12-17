@@ -3,12 +3,12 @@ package de.adorsys.ledgers.xs2a.test.ctk.redirect;
 import java.util.List;
 import java.util.Map;
 
+import de.adorsys.ledgers.oba.service.api.domain.ConsentAuthorizeResponse;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.http.ResponseEntity;
 
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
-import de.adorsys.ledgers.oba.rest.api.domain.ConsentAuthorizeResponse;
 import de.adorsys.psd2.model.ConsentStatus;
 import de.adorsys.psd2.model.ConsentsResponse201;
 import de.adorsys.psd2.model.TransactionDetails;
@@ -24,26 +24,26 @@ public class ConsentRedirectOneScaIT extends AbstractConsentRedirect {
 	}
 	@Test
 	public void test_initiate_dedicated_consent() {
-		
+
 		// ============= INITIATE CONSENT =======================//
 		ResponseEntity<ConsentsResponse201> createConsentResp = consentHelper.createDedicatedConsent();
 		consentHelper.checkConsentStatus(createConsentResp, ConsentStatus.RECEIVED);
-		
+
 		// ============= IDENTIFY PSU =======================//
 		ResponseEntity<ConsentAuthorizeResponse> loginResponseWrapper = consentHelper.login(createConsentResp);
 		consentHelper.validateResponseStatus(loginResponseWrapper, ScaStatusTO.PSUIDENTIFIED);
 		consentHelper.checkConsentStatus(loginResponseWrapper.getBody().getEncryptedConsentId(), ConsentStatus.RECEIVED);
-		
+
 		// ============= STATRT SCA =======================//
 		ResponseEntity<ConsentAuthorizeResponse> startConsentAuthWrapper = consentHelper.startSCA(loginResponseWrapper, getIban(), true, true, true);
 		consentHelper.validateResponseStatus(startConsentAuthWrapper, ScaStatusTO.PSUAUTHENTICATED);
 		consentHelper.checkConsentStatus(startConsentAuthWrapper.getBody().getEncryptedConsentId(), ConsentStatus.RECEIVED);
-		
+
 		// ============= SELECT SCA =======================//
 		ResponseEntity<ConsentAuthorizeResponse> choseScaMethodResponseWrapper = consentHelper.choseScaMethod(startConsentAuthWrapper);
 		consentHelper.validateResponseStatus(choseScaMethodResponseWrapper, ScaStatusTO.SCAMETHODSELECTED);
 		consentHelper.checkConsentStatus(choseScaMethodResponseWrapper.getBody().getEncryptedConsentId(), ConsentStatus.RECEIVED);
-		
+
 		// ============= AUTHORIZE CONSENT =======================//
 		ResponseEntity<ConsentAuthorizeResponse> authCodeResponseWrapper = consentHelper.authCode(choseScaMethodResponseWrapper);
 		consentHelper.validateResponseStatus(authCodeResponseWrapper, ScaStatusTO.FINALISED);
@@ -56,26 +56,26 @@ public class ConsentRedirectOneScaIT extends AbstractConsentRedirect {
 
 	@Test
 	public void test_initiate_allPsd2_consent() {
-		
+
 		// ============= INITIATE CONSENT =======================//
 		ResponseEntity<ConsentsResponse201> createConsentResp = consentHelper.createAllPsd2Consent();
 		consentHelper.checkConsentStatus(createConsentResp, ConsentStatus.RECEIVED);
-		
+
 		// ============= IDENTIFY PSU =======================//
 		ResponseEntity<ConsentAuthorizeResponse> loginResponseWrapper = consentHelper.login(createConsentResp);
 		consentHelper.validateResponseStatus(loginResponseWrapper, ScaStatusTO.PSUIDENTIFIED);
 		consentHelper.checkConsentStatus(loginResponseWrapper.getBody().getEncryptedConsentId(), ConsentStatus.RECEIVED);
-		
+
 		// ============= STATRT SCA =======================//
 		ResponseEntity<ConsentAuthorizeResponse> startConsentAuthWrapper = consentHelper.startSCA(loginResponseWrapper, getIban(), true, true, true);
 		consentHelper.validateResponseStatus(startConsentAuthWrapper, ScaStatusTO.PSUAUTHENTICATED);
 		consentHelper.checkConsentStatus(startConsentAuthWrapper.getBody().getEncryptedConsentId(), ConsentStatus.RECEIVED);
-				
+
 		// ============= SELECT SCA =======================//
 		ResponseEntity<ConsentAuthorizeResponse> choseScaMethodResponseWrapper = consentHelper.choseScaMethod(startConsentAuthWrapper);
 		consentHelper.validateResponseStatus(choseScaMethodResponseWrapper, ScaStatusTO.SCAMETHODSELECTED);
 		consentHelper.checkConsentStatus(choseScaMethodResponseWrapper.getBody().getEncryptedConsentId(), ConsentStatus.RECEIVED);
-				
+
 		// ============= AUTHORIZE CONSENT =======================//
 		ResponseEntity<ConsentAuthorizeResponse> authCodeResponseWrapper = consentHelper.authCode(loginResponseWrapper);
 		consentHelper.validateResponseStatus(authCodeResponseWrapper, ScaStatusTO.FINALISED);

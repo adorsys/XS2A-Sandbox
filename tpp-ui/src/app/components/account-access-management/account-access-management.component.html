@@ -9,17 +9,21 @@
                 </div>
 
                 <div class="form-group required">
-                    <label class="control-label" for="id">User login</label>
-                    <select [ngClass]="{'is-invalid': accountAccessForm.get('id')?.errors && (accountAccessForm.get('id').dirty
-           || accountAccessForm.get('id').touched || submitted)}" class="form-control" formControlName="id"
-                            id="id">
-                        <option *ngFor="let user of users" [value]="user.id">{{user?.login}}</option>
-                    </select>
-                    <div class="invalid-feedback">
-                        <div *ngIf="accountAccessForm.get('id')?.errors?.required">
-                            Login name is Required
-                        </div>
-                    </div>
+                    <label for="id">User login</label>
+                    <input [ngClass]="{'is-invalid': accountAccessForm.get('id')?.errors && (accountAccessForm.get('id').dirty
+                            || accountAccessForm.get('id').touched || submitted)}"
+                           class="form-control"
+                           id="id"
+                           #instance="ngbTypeahead"
+                           (focus)="focus$.next($event.target.value)"
+                           (click)="click$.next($event.target.value)"
+                           [inputFormatter]="inputFormatterValue"
+                           [resultFormatter]="resultFormatterValue"
+                           [ngbTypeahead]="search"/>
+                            <div *ngIf="accountAccessForm.get('id')?.errors?.required"
+                                 class="invalid-feedback">
+                                Login name is Required
+                            </div>
                 </div>
 
                 <div class="form-group">

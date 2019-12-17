@@ -1,12 +1,12 @@
 package de.adorsys.ledgers.oba.rest.api.resource;
 
+import de.adorsys.ledgers.oba.service.api.domain.AuthorizeResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import de.adorsys.ledgers.oba.rest.api.domain.AuthorizeResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
@@ -17,29 +17,29 @@ public interface SCAApi {
 
 	/**
 	 * STEP-P1, STEP-A1: Validates the login and password of a user. This request is associated with
-	 * an scaId that is directly bound to the consentId/paymentId used in the xs2a 
+	 * an scaId that is directly bound to the consentId/paymentId used in the xs2a
 	 * redirect request. BTW the scaId can be the initiating consent id itself or
 	 * a random id mapping to the consentId (resp. paymentId)
-	 * 
+	 *
 	 * Implementation first validates existence of the consent. If the consent does
 	 * not exist or has the wrong status, the request is rejected.
-	 * 
+	 *
 	 * Call the backend middleware to obtain a login token. This is a token only
 	 * valid for the sca process.
-	 * 
+	 *
 	 * Store the login token in a cookie.
-	 * 
+	 *
 	 * If the user has no sca method, then return the consent access token.
-	 * 
+	 *
 	 * If the user has only one sca method, sent authentication code to the user and
 	 * return the sac method id in the AuthorizeResponse
-	 * 
+	 *
 	 * If the user has more than one sca methods, returns the list of sca methods in
 	 * the AuthorizeResponse and wait for sca method selection.
-	 * 
+	 *
 	 * Method expects
-	 * 
-	 * 
+	 *
+	 *
 	 * @param login the customer banking login
 	 * @param pin the customer banking pin
 	 * @return the auth response
@@ -52,7 +52,7 @@ public interface SCAApi {
 
 	/**
 	 * Select a method for sending the authentication code.
-	 * 
+	 *
 	 * @param scaId the id of the login process
 	 * @param methodId the auth method id
 	 * @param authorisationId the auth id.

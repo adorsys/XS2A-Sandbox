@@ -1,0 +1,10 @@
+<div *ngIf="paginationConfig?.totalItems" class="d-flex align-items-center p-2">
+    <ngb-pagination (pageChange)="pageChange($event)" [(page)]="paginationConfig.currentPageNumber"
+                    [collectionSize]="paginationConfig.totalItems"
+                    [pageSize]="paginationConfig.itemsPerPage"></ngb-pagination>
+
+    <select (change)="pageSizeChange($event.target.value)"
+            class="custom-select custom-select-sm ml-4 mb-3 w-auto" [(ngModel)]="paginationConfig.itemsPerPage">
+        <option  *ngFor="let number of [10, 20, 40, 60, 100]; let i = index;" [value]="number">{{number}}</option>
+    </select>
+</div>

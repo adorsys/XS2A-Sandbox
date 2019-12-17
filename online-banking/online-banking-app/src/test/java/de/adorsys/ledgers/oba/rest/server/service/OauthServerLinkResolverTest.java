@@ -1,9 +1,8 @@
 package de.adorsys.ledgers.oba.rest.server.service;
 
 import de.adorsys.ledgers.middleware.api.domain.oauth.OauthServerInfoTO;
+import de.adorsys.ledgers.oba.service.impl.service.OauthServerLinkResolver;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

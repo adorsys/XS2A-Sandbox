@@ -4,10 +4,23 @@ import { EmbPaymentCancellPutComponent } from './emb-payment-cancell-put.compone
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { LineCommandComponent } from '../../../../../custom-elements/line-command/line-command.component';
 import { CodeAreaComponent } from '../../../../../custom-elements/code-area/code-area.component';
+import { JsonService } from '../../../../../services/json.service';
+import { of } from 'rxjs';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  TranslateLoader,
+  TranslateModule,
+  TranslateService,
+} from '@ngx-translate/core';
+import { HttpLoaderFactory } from '../../../../../services/language.service';
+import { HttpClient } from '@angular/common/http';
+import { DataService } from '../../../../../services/data.service';
+import { ToastrService } from 'ngx-toastr';
 
 describe('EmbPaymentCancellPutComponent', () => {
   let component: EmbPaymentCancellPutComponent;
   let fixture: ComponentFixture<EmbPaymentCancellPutComponent>;
+  let jsonService: JsonService;
 
   @Component({
     selector: 'app-play-wth-data',
@@ -38,6 +51,8 @@ describe('EmbPaymentCancellPutComponent', () => {
     }
   }
 
+  const ToastrServiceStub = {};
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -48,10 +63,27 @@ describe('EmbPaymentCancellPutComponent', () => {
         MockPlayWithDataComponent,
         CodeAreaComponent,
       ],
+      imports: [
+        HttpClientTestingModule,
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useFactory: HttpLoaderFactory,
+            deps: [HttpClient],
+          },
+        }),
+      ],
+      providers: [
+        TranslateService,
+        DataService,
+        { provide: ToastrService, useValue: ToastrServiceStub },
+      ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
+    jsonService = TestBed.get(JsonService);
+    spyOn(jsonService, 'getPreparedJsonData').and.returnValue(of('body'));
     fixture = TestBed.createComponent(EmbPaymentCancellPutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

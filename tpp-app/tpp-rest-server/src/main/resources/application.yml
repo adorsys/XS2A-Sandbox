@@ -53,11 +53,3 @@ management:
         allowed-headers: '*'
         allowed-methods: GET,POST,PUT,DELETE,OPTIONS,PATCH
         max-age: 3600
-
-# Iban generator properties
-iban:
-  generator:
-    countryCode: DE
-    bankCode:
-      nisp: 76070025
-      random: 76050102

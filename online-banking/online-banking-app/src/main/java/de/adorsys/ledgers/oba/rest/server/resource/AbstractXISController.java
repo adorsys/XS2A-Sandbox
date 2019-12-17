@@ -2,33 +2,35 @@ package de.adorsys.ledgers.oba.rest.server.resource;
 
 import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCALoginResponseTO;
+import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.api.service.TokenStorageService;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
-import de.adorsys.ledgers.oba.rest.api.consentref.ConsentReference;
-import de.adorsys.ledgers.oba.rest.api.consentref.ConsentReferencePolicy;
-import de.adorsys.ledgers.oba.rest.api.consentref.ConsentType;
-import de.adorsys.ledgers.oba.rest.api.consentref.InvalidConsentException;
-import de.adorsys.ledgers.oba.rest.api.domain.AuthorizeResponse;
-import de.adorsys.ledgers.oba.rest.api.exception.AuthorizationException;
+import de.adorsys.ledgers.oba.service.api.domain.*;
+import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
 import de.adorsys.ledgers.oba.rest.server.auth.MiddlewareAuthentication;
 import de.adorsys.ledgers.oba.rest.server.auth.TokenAuthenticationService;
+import de.adorsys.ledgers.oba.service.api.domain.exception.InvalidConsentException;
+import de.adorsys.ledgers.oba.service.api.service.ConsentReferencePolicy;
 import lombok.extern.slf4j.Slf4j;
 import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.EnumSet;
 import java.util.Optional;
 
-import static de.adorsys.ledgers.oba.rest.api.exception.AuthErrorCode.LOGIN_FAILED;
+import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.*;
+import static de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode.LOGIN_FAILED;
 import static de.adorsys.ledgers.oba.rest.server.auth.oba.SecurityConstant.BEARER_TOKEN_PREFIX;
 
 @Slf4j
@@ -140,5 +142,15 @@ public abstract class AbstractXISController {
                   .errorCode(LOGIN_FAILED)
                   .devMessage("Login or pin is missing.")
                   .build();
+    }
+
+    protected ResponseEntity<PaymentAuthorizeResponse> resolvePaymentWorkflow(PaymentWorkflow workflow, HttpServletResponse response) {
+        ScaStatusTO scaStatusTO = workflow.scaStatus();
+        if (EnumSet.of(PSUIDENTIFIED, FINALISED, EXEMPTED, PSUAUTHENTICATED, SCAMETHODSELECTED).contains(scaStatusTO)) {
+            responseUtils.setCookies(response, workflow.getConsentReference(), workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
+            return ResponseEntity.ok(workflow.getAuthResponse());
+        }// failed Message. No repeat. Delete cookies.
+        responseUtils.removeCookies(response);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 }

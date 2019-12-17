@@ -80,7 +80,7 @@ describe('AuthService', () => {
             pin: '123456'
         };
 
-        authService.register(credentialsMock as TppInfo).subscribe(response => {
+        authService.register(credentialsMock as TppInfo, "DE").subscribe(response => {
             expect(response.email).toBe('test@test.de')
         });
 

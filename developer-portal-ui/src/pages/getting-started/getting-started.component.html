@@ -1,6 +1,85 @@
 <div class="getting-started-container container">
   <section>
     <div class="divider"></div>
+    <div id="tpc_container">
+      <h1 class="title">Table of contents</h1>
+      <ol>
+        <li>
+          <a [routerLink]="['/getting-started']" fragment="introduction">
+            {{ 'GETTING_STARTED.INTRODUCTION.TITLE' | translate }}
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/getting-started']" fragment="architecture">
+            {{ 'GETTING_STARTED.ARCHITECTURE.TITLE' | translate }}
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/getting-started']" fragment="interface">
+            {{ 'GETTING_STARTED.INTERFACE.TITLE' | translate }}
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/getting-started']" fragment="profile">
+            {{ 'GETTING_STARTED.PROFILE.TITLE' | translate }}
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/getting-started']" fragment="certificate">
+            {{ 'GETTING_STARTED.CERTIFICATE.TITLE' | translate }}
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/getting-started']" fragment="tppui">
+            {{ 'GETTING_STARTED.UI.TITLE' | translate }}
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/getting-started']" fragment="tppui">
+            {{ 'GETTING_STARTED.UI.TITLE' | translate }}
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/getting-started']" fragment="oba">
+            {{ 'GETTING_STARTED.OBA.TITLE' | translate }}
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/getting-started']" fragment="links">
+            {{ 'GETTING_STARTED.LINKS_TO.TITLE' | translate }}
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/getting-started']" fragment="download">
+            {{ 'GETTING_STARTED.HOW_TO_DOWN.TITLE' | translate }}
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/getting-started']" fragment="troubleshooting">
+            {{ 'GETTING_STARTED.TROUBLES.TITLE' | translate }}
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/getting-started']" fragment="tppregister">
+            {{ 'GETTING_STARTED.HOW_TO_REG.TITLE' | translate }}
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/getting-started']" fragment="customization">
+            {{ 'GETTING_STARTED.HOW_TO_CST.TITLE' | translate }}
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/getting-started']" fragment="next">
+            {{ 'GETTING_STARTED.WHAT_NEXT.TITLE' | translate }}
+          </a>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="introduction">
+    <div class="divider"></div>
     <h1 class="title">
       {{ 'GETTING_STARTED.INTRODUCTION.TITLE' | translate }}
     </h1>
@@ -26,7 +105,7 @@
     <p>{{ 'GETTING_STARTED.INTRODUCTION.CONTENT.PART_3' | translate }}</p>
   </section>
 
-  <section>
+  <section id="architecture">
     <div class="divider"></div>
     <h1>{{ 'GETTING_STARTED.ARCHITECTURE.TITLE' | translate }}</h1>
     <p>{{ 'GETTING_STARTED.ARCHITECTURE.CONTENT' | translate }}</p>
@@ -34,7 +113,7 @@
     <p>{{ 'GETTING_STARTED.ARCHITECTURE.CAPTION' | translate }}</p>
   </section>
 
-  <section>
+  <section id="interface">
     <div class="divider"></div>
     <h1>{{ 'GETTING_STARTED.INTERFACE.TITLE' | translate }}</h1>
     <p>
@@ -60,7 +139,7 @@
     </p>
   </section>
 
-  <section>
+  <section id="profile">
     <div class="divider"></div>
     <h1>{{ 'GETTING_STARTED.PROFILE.TITLE' | translate }}</h1>
     <p>
@@ -70,103 +149,9 @@
       }}</span>
       {{ 'GETTING_STARTED.PROFILE.CONTENT.PART_2' | translate }}
     </p>
-    <div class="divider"></div>
-    <h2>{{ 'GETTING_STARTED.PROFILE.SUBTITLE_1' | translate }}</h2>
-    <ul>
-      <li>{{ 'GETTING_STARTED.PROFILE.LIST.LI_1' | translate }}</li>
-      <li>
-        {{ 'GETTING_STARTED.PROFILE.LIST.LI_2' | translate }}
-        <ul>
-          <li>{{ 'GETTING_STARTED.PROFILE.LIST.UL_1.LI_1' | translate }}</li>
-          <li>{{ 'GETTING_STARTED.PROFILE.LIST.UL_1.LI_2' | translate }}</li>
-          <li>{{ 'GETTING_STARTED.PROFILE.LIST.UL_1.LI_3' | translate }}</li>
-          <li>{{ 'GETTING_STARTED.PROFILE.LIST.UL_1.LI_4' | translate }}</li>
-        </ul>
-      </li>
-      <li>{{ 'GETTING_STARTED.PROFILE.LIST.LI_3' | translate }}</li>
-      <li>
-        {{ 'GETTING_STARTED.PROFILE.LIST.LI_4' | translate }}
-        <ul>
-          <li>{{ 'GETTING_STARTED.PROFILE.LIST.UL_2.LI_1' | translate }}</li>
-          <li>{{ 'GETTING_STARTED.PROFILE.LIST.UL_2.LI_2' | translate }}</li>
-          <li>{{ 'GETTING_STARTED.PROFILE.LIST.UL_2.LI_3' | translate }}</li>
-        </ul>
-      </li>
-      <li>
-        {{ 'GETTING_STARTED.PROFILE.LIST.LI_5' | translate }}
-        <ul>
-          <li>{{ 'GETTING_STARTED.PROFILE.LIST.UL_3.LI_1' | translate }}</li>
-          <li>{{ 'GETTING_STARTED.PROFILE.LIST.UL_3.LI_2' | translate }}</li>
-          <li>{{ 'GETTING_STARTED.PROFILE.LIST.UL_3.LI_3' | translate }}</li>
-          <li>{{ 'GETTING_STARTED.PROFILE.LIST.UL_3.LI_4' | translate }}</li>
-        </ul>
-      </li>
-    </ul>
-
-    <span class="currently-disabled-features">{{
-      'GETTING_STARTED.PROFILE.LIST.DISABLED' | translate
-    }}</span>
-
-    <ul>
-      <li>{{ 'GETTING_STARTED.PROFILE.LIST.LI_6' | translate }}</li>
-      <li>{{ 'GETTING_STARTED.PROFILE.LIST.LI_7' | translate }}</li>
-    </ul>
-
-    <div class="divider"></div>
-    <h2>{{ 'GETTING_STARTED.PROFILE.SUBTITLE_2' | translate }}</h2>
-
-    <div class="yaml">
-      {{
-        'setting: \n' +
-          'frequencyPerDay: 5 \n' +
-          'combinedServiceIndicator: false \n' +
-          'scaApproaches: \n' +
-          '- REDIRECT \n' +
-          '- EMBEDDED \n' +
-          'tppSignatureRequired: false \n' +
-          'bankOfferedConsentSupport: true \n' +
-          'pisRedirectUrlToAspsp: http://localhost:4400/payment-initiation/' +
-          'login?paymentId={encrypted-payment-id}&redirectId={redirect-id} \n' +
-          'pisPaymentCancellationRedirectUrlToAspsp: http://localhost:4400/' +
-          'payment-cancellation/login?paymentId={encrypted-payment-id}&redirectId={redirect-id} \n' +
-          'aisRedirectUrlToAspsp: http://localhost:4400/account-information/' +
-          'login?encryptedConsentId={encrypted-consent-id}&redirectId={redirect-id} \n' +
-          'multicurrencyAccountLevel: SUBACCOUNT \n' +
-          'availableBookingStatuses: \n' +
-          '- BOOKED \n' +
-          '- PENDING \n' +
-          'supportedAccountReferenceFields: \n ' +
-          '- MSISDN \n' +
-          'consentLifetime: 0 \n' +
-          'transactionLifetime: 0 \n' +
-          'allPsd2Support: true \n' +
-          'transactionsWithoutBalancesSupported: true \n' +
-          'signingBasketSupported: false \n' +
-          'paymentCancellationAuthorizationMandated: true \n' +
-          'piisConsentSupported: true \n' +
-          'deltaReportSupported: false \n' +
-          'redirectUrlExpirationTimeMs: 600000 \n' +
-          'notConfirmedConsentExpirationPeriodMs: 86400000 \n' +
-          'notConfirmedPaymentExpirationPeriodMs: 86400000 \n' +
-          'supportedPaymentTypeAndProductMatrix: \n' +
-          'SINGLE: \n' +
-          '- sepa-credit-transfers \n' +
-          '- instant-sepa-credit-transfers \n' +
-          'PERIODIC: \n' +
-          '- sepa-credit-transfers \n' +
-          '- instant-sepa-credit-transfers \n' +
-          'BULK: \n ' +
-          '- sepa-credit-transfers \n' +
-          '- instant-sepa-credit-transfers \n' +
-          'paymentCancellationRedirectUrlExpirationTimeMs: 600000 \n' +
-          'availableAccountsConsentSupported: true \n' +
-          'scaByOneTimeAvailableAccountsConsentRequired: true \n' +
-          'psuInInitialRequestMandated: false \n'
-      }}
-    </div>
   </section>
 
-  <section>
+  <section id="certificate">
     <div class="divider"></div>
     <h1>{{ 'GETTING_STARTED.CERTIFICATE.TITLE' | translate }}</h1>
     <p>
@@ -193,7 +178,7 @@
     <p>{{ 'GETTING_STARTED.CERTIFICATE.CONTENT.PART_5' | translate }}</p>
   </section>
 
-  <section>
+  <section id="tppui">
     <div class="divider"></div>
     <h1>{{ 'GETTING_STARTED.UI.TITLE' | translate }}</h1>
     <p>{{ 'GETTING_STARTED.UI.CONTENT.PART_0' | translate }}</p>
@@ -225,13 +210,13 @@
     <p>{{ 'GETTING_STARTED.UI.CONTENT.PART_15' | translate }}</p>
   </section>
 
-  <section>
+  <section id="oba">
     <div class="divider"></div>
     <h1>{{ 'GETTING_STARTED.OBA.TITLE' | translate }}</h1>
     <p>{{ 'GETTING_STARTED.OBA.CONTENT' | translate }}</p>
   </section>
 
-  <section>
+  <section id="links">
     <div class="divider"></div>
     <h1>{{ 'GETTING_STARTED.LINKS_TO.TITLE' | translate }}</h1>
     <div class="links-to-environments bg th">
@@ -271,7 +256,7 @@
     </div>
   </section>
 
-  <section>
+  <section id="download">
     <div class="divider"></div>
     <h1>{{ 'GETTING_STARTED.HOW_TO_DOWN.TITLE' | translate }}</h1>
     <h2>{{ 'GETTING_STARTED.HOW_TO_DOWN.SUBTITLE_1' | translate }}</h2>
@@ -480,7 +465,7 @@
     </ul>
   </section>
 
-  <section>
+  <section id="troubleshooting">
     <div class="divider"></div>
     <h1>{{ 'GETTING_STARTED.TROUBLES.TITLE' | translate }}</h1>
 
@@ -554,7 +539,7 @@
     <p>{{ 'GETTING_STARTED.TROUBLES.PART_9' | translate }}</p>
   </section>
 
-  <section>
+  <section id="tppregister">
     <div class="divider"></div>
 
     <h1>{{ 'GETTING_STARTED.HOW_TO_REG.TITLE' | translate }}</h1>
@@ -570,12 +555,20 @@
       <li>{{ 'GETTING_STARTED.HOW_TO_REG.LIST.LI_3' | translate }}</li>
       <li>{{ 'GETTING_STARTED.HOW_TO_REG.LIST.LI_4' | translate }}</li>
       <p>{{ 'GETTING_STARTED.HOW_TO_REG.LIST.TEXT_1' | translate }}</p>
-      <img src="../../assets/images/Flow.png" />
+      <ngx-image-zoom
+        [thumbImage]="thumbImage"
+        [fullImage]="fullImage"
+        [zoomMode]="mode"
+        [enableScrollZoom]="true"
+        [enableLens]="true"
+        [lensWidth]="500"
+        [lensHeight]="300"
+      ></ngx-image-zoom>
       <p>{{ 'GETTING_STARTED.HOW_TO_REG.LIST.TEXT_2' | translate }}</p>
     </ol>
   </section>
 
-  <section class="customization">
+  <section class="customization" id="customization">
     <div class="divider"></div>
     <h1>{{ 'GETTING_STARTED.HOW_TO_CST.TITLE' | translate }}</h1>
     <ol>
@@ -827,12 +820,33 @@
               </li>
             </ul>
           </li>
+          <li>
+            {{ 'GETTING_STARTED.HOW_TO_CST.TOP_LIST.LIST_1.LI_4' | translate }}
+          </li>
+          <li>
+            {{ 'GETTING_STARTED.HOW_TO_CST.TOP_LIST.LIST_1.LI_5' | translate }}
+          </li>
+          <li>
+            {{ 'GETTING_STARTED.HOW_TO_CST.TOP_LIST.LIST_1.LI_6' | translate }}
+          </li>
         </ul>
       </li>
       <li>
         {{ 'GETTING_STARTED.HOW_TO_CST.TOP_LIST.LI_4' | translate }}
         <span class="app-line-command-wrapper">
           <span>./developer-portal-ui/src/assets/UI/custom/</span>
+        </span>
+      </li>
+      <li>
+        {{ 'GETTING_STARTED.HOW_TO_CST.TOP_LIST.JSONS_1' | translate }}
+        <span class="app-line-command-wrapper">
+          <span>./developer-portal-ui/src/assets/UI/custom/</span>
+        </span>
+      </li>
+      <li>
+        {{ 'GETTING_STARTED.HOW_TO_CST.TOP_LIST.JSONS_2' | translate }}
+        <span class="app-line-command-wrapper">
+          <span>./developer-portal-ui/src/assets/UI/jsons/</span>
         </span>
       </li>
       <li>
@@ -952,7 +966,7 @@
     </ol>
   </section>
 
-  <section>
+  <section id="next">
     <div class="divider"></div>
     <h1>{{ 'GETTING_STARTED.WHAT_NEXT.TITLE' | translate }}</h1>
     <p>

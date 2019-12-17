@@ -1,0 +1,30 @@
+{
+  "creditorAccount": {
+    "currency": "EUR",
+    "iban": "DE15500105172295759744"
+  },
+  "creditorAddress": {
+    "streetName": "Breite Gasse",
+    "buildingNumber": "34",
+    "townName": "Nürnberg",
+    "postCode": "90457",
+    "country": "DE"
+  },
+  "creditorAgent": "BCENEVOD",
+  "creditorName": "Vodafone",
+  "dayOfExecution": "14",
+  "debtorAccount": {
+    "currency": "EUR",
+    "iban": "YOUR_USER_IBAN"
+  },
+  "endDate": "2019-10-14",
+  "endToEndIdentification": "VOD-123456789",
+  "executionRule": "following",
+  "frequency": "Monthly",
+  "instructedAmount": {
+    "amount": 44.99,
+    "currency": "EUR"
+  },
+  "remittanceInformationUnstructured": "Ref. Number Vodafone-1222",
+  "startDate": "2019-05-26"
+}

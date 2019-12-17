@@ -1,9 +1,13 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {HttpLoaderFactory, LanguageService} from './language.service';
-import {TranslateLoader, TranslateModule, TranslateService} from '@ngx-translate/core';
-import {HttpClient} from '@angular/common/http';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
+import { HttpLoaderFactory, LanguageService } from './language.service';
+import {
+  TranslateLoader,
+  TranslateModule,
+  TranslateService,
+} from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('LanguageService', () => {
   let translate: TranslateService;
@@ -17,14 +21,11 @@ describe('LanguageService', () => {
           loader: {
             provide: TranslateLoader,
             useFactory: HttpLoaderFactory,
-            deps: [HttpClient]
-          }
-        })
+            deps: [HttpClient],
+          },
+        }),
       ],
-      providers: [
-        LanguageService,
-        TranslateService
-      ]
+      providers: [LanguageService, TranslateService],
     });
     service = TestBed.get(LanguageService);
     translate = TestBed.get(TranslateService);
@@ -34,14 +35,10 @@ describe('LanguageService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('default translation should be \'en\', and there should be 3 another langs', () => {
+  it("default translation should be 'en'", () => {
     service.initializeTranslation();
     expect(translate.getDefaultLang()).toEqual('en');
     expect(translate.currentLang).toEqual('en');
-    expect(translate.getLangs()).toContain('en');
-    expect(translate.getLangs()).toContain('de');
-    expect(translate.getLangs()).toContain('es');
-    expect(translate.getLangs()).toContain('ua');
   });
 
   it('should change lang', () => {

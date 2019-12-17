@@ -4,6 +4,7 @@ import { debounceTime, tap } from 'rxjs/operators';
 
 import { User } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
+import {PageConfig, PaginationConfigModel} from "../../models/pagination-config.model";
 
 @Component({
   selector: 'app-users',
@@ -13,11 +14,11 @@ import { UserService } from '../../services/user.service';
 export class UsersComponent implements OnInit {
   users: User[] = [];
   searchForm: FormGroup;
-  config: {itemsPerPage, currentPage, totalItems, maxSize} = {
+
+  config: PaginationConfigModel = {
     itemsPerPage: 10,
-    currentPage: 1,
+    currentPageNumber: 1,
     totalItems: 0,
-    maxSize: 7,
   };
 
   constructor(
@@ -29,7 +30,7 @@ export class UsersComponent implements OnInit {
       query: ['', Validators.required],
       itemsPerPage: [this.config.itemsPerPage, Validators.required]
     });
-    this.listUsers(this.config.currentPage, this.config.itemsPerPage);
+    this.listUsers(this.config.currentPageNumber, this.config.itemsPerPage);
 
     this.onQueryUsers();
   }
@@ -41,9 +42,8 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  pageChange(pageNumber: number) {
-    this.config.currentPage = pageNumber;
-    this.listUsers(pageNumber, this.config.itemsPerPage, this.searchForm.get('query').value);
+  pageChange(pageConfig: PageConfig) {
+    this.listUsers(pageConfig.pageNumber, pageConfig.pageSize, this.searchForm.get('query').value);
   }
 
   onQueryUsers() {

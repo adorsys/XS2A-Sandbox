@@ -152,36 +152,7 @@
         "PART_1": "Neben der Schnittstelle ist es für Banken ebenfalls vorgeschrieben eine kostenfreie technische Dokumentation zur Verfügung zu stellen, die über unterstützte Produkte und Zahlungsdienstleistungen informiert. Die Daten werden in ",
         "ASPSP": "ASPSP-bzw",
         "PART_2": "bank-Profilen gespeichert, einem Service, der es Banken ermöglicht durch eine .yaml-Datei verfügbare Zahlungsprodukte, Zahlungsdienste, unterstützte SCA-Ansätze und weitere bankspezifische Einstellungen bereitzustellen."
-      },
-      "SUBTITLE_1": "Aktive XS2A Konfiguration (Bank-Profil)",
-      "LIST": {
-        "LI_1": "Unterstützter SCA-Ansatz: Redirect, Embedded",
-        "LI_2": "Verfügbare Zahlungsarten und -produkte:",
-        "UL_1": {
-          "LI_1": "Einfach (sepa-credit-transfers)",
-          "LI_2": "Terminiert (sepa-credit-transfers)",
-          "LI_3": "Bündelung (sepa-credit-transfers)",
-          "LI_4": "Periodisch (sepa-credit-transfers)"
-        },
-        "LI_3": "Abfrage von verfügbarem Kapital: Unterstützt",
-        "LI_4": "Online Banking redirect-URLs für:",
-        "UL_2": {
-          "LI_1": "Redirect URL for Zahlungsinitiierung: **\n http://localhost:4400/payment-initiation/login?paymentId=encrypted-payment-id&redirectId=redirect-id\n **",
-          "LI_2": "Redirect URL for Zahlungsstornierung: **\n http://localhost:4400/payment-cancellation/login?paymentId=encrypted-payment-id&redirectId=redirect-id\n **",
-          "LI_3": "Redirect URL for Einwilligungsbestätigung: **\n http://localhost:4400/account-information/login?encryptedConsentId=encrypted-consent-id&redirectId=redirect-id\n **"
-        },
-        "LI_5": " Unterstützte Einwilligungen:",
-        "UL_3": {
-          "LI_1": "Zugewiesen: Ja",
-          "LI_2": "Bankberechtigt: Ja",
-          "LI_3": "Global: Ja",
-          "LI_4": "Verfügbare Konten: Ja"
-        },
-        "DISABLED": "Aktuell deaktivierte Features:",
-        "LI_6": "Signing Basket",
-        "LI_7": "Delta-Reports"
-      },
-      "SUBTITLE_2": "Beispiel für die entsprechenden ASPSP-Profileinstellungen in der .yaml-Datei:"
+      }
     },
     "CERTIFICATE": {
       "TITLE": "TPP Zertifikat-Service",
@@ -360,9 +331,14 @@
             "LI_6": "email - optional, Wert: string",
             "LI_7": "facebook - optional, Wert: string, http url",
             "LI_8": "linkedIn - optional, Wert: string, http url"
-          }
+          },
+          "LI_4": "supportedLanguages – benötigt. Dieser Array speichert die unterstützten Sprachen, unsere Standardeinstellung ist [\"en\", \"de\", \"es\", \"ua\"]",
+          "LI_5": "supportedApproaches - benötigt. Dieser Array beinhaltet die unterstützten SCA Ansätze, unsere Standardeinstellung ist [\"redirect\", \"embedded\"]",
+          "LI_6": "currency - benötigt. Unsere Standardeinstellung ist \"EUR\""
         },
         "LI_4": "Wenn Sie die .json Datei erstellt haben (bsp.: UITheme.json) und alle Felder ausgefüllt bzw. angepasst haben, fügen Sie das Logo (bsp.: logo.png) und Kontaktperson (bsp.: contact.png) in den dafür vorgesehenen Bilderordner",
+        "JSONS_1": "Wenn Sie eine JSON unserer Testfälle im Developer Portal anpassen möchten, erstellen Sie einen neuen Ordner \"jsons\" in",
+        "JSONS_2": "Fügen Sie in diesen Ordner alle JSON Dateien ein, die Sie anpassen möchten. Übernehmen Sie dieselben Namen der Beispieldateien für Ihre Anpassung. Die Beispiele und Standard-JSONs mit ihren Eigennamen sind im folgenden Ordner gespeichert",
         "LI_5": "Einfügen der Dateien in diesen Ordner:",
         "LIST_2": {
           "LI_1": "Local environment Anpassung",

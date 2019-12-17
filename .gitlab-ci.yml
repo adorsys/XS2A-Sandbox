@@ -20,6 +20,7 @@ stages:
 # ------------------------------------------------------------------
 
 variables:
+  SONAR_HOST: "https://psd2-quality.cloud.adorsys.de"
 
   GIT_SUBMODULE_STRATEGY: normal
   # Online banking
@@ -50,6 +51,10 @@ variables:
   OPENSHIFT_NAMESPACE_BANKING_GATEWAY_INTEG: "banking-gateway-integ"
 
   OPENSHIFT_NAMESPACE_ASPSP_XS2A_DEV: "adorsys-psd2-develop"
+
+  OPENSHIFT_NAMESPACE_DXC_SANDBOX_DEV: "dxc-sandbox-dev"
+
+  OPENSHIFT_NAMESPACE_OPEN_BANKING_GATEWAY_DEV: "open-banking-gateway-dev"
 
   ###########################
   # Build variables         #
@@ -328,7 +333,19 @@ postman_tests:
     paths:
       - "postman/postman-tests-report.html"
     expire_in: "10 day"
+
 # develop
+
+Sonarcube Tests:
+  stage: "Test"
+  only:
+    - develop
+  script:
+    - jabba use system@1.8
+    - cat /sys/fs/cgroup/memory/memory.limit_in_bytes
+    - java -XX:+PrintFlagsFinal -version | grep -Ei "maxheapsize|maxram"
+    - mvn -ntp --fail-at-end clean install
+    - mvn sonar:sonar -Dsonar.host.url=${SONAR_HOST} -Dsonar.login=${SONAR_TOKEN}
 
 build_dockerhub_image_develop:
   stage: "Package"
@@ -356,6 +373,17 @@ deploy_openshift_banking_gateway_dev:
   variables:
     DOCKER_TAG: develop # Dockerhub source tag
     OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_BANKING_GATEWAY_DEV} # Openshift target namespace
+  <<: *deploy_openshift
+
+deploy_openshift_dxc_sandbox_dev:
+  stage: "Deploy"
+  cache: {}
+  dependencies: []
+  only:
+    - develop
+  variables:
+    DOCKER_TAG: develop # Dockerhub source tag
+    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_DXC_SANDBOX_DEV} # Openshift target namespace
   <<: *deploy_openshift
 
 # nightly
@@ -420,6 +448,18 @@ deploy_openshift_aspsp_xs2a_dev:
     OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_ASPSP_XS2A_DEV} # Openshift target namespace
   <<: *deploy_openshift_tpp_rest_server
 
+deploy_openshift_open_banking_gateway_dev:
+  stage: "Deploy"
+  cache: {}
+  dependencies: []
+  only:
+    - master
+  variables:
+    GIT_STRATEGY: none
+    DOCKER_TAG: latest # Dockerhub source tag
+    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_OPEN_BANKING_GATEWAY_DEV} # Openshift target namespace
+  <<: *deploy_openshift
+
 # tags
 
 build_dockerhub_images_from_tag:
@@ -428,17 +468,4 @@ build_dockerhub_images_from_tag:
     - tags
   variables:
     DOCKER_TAG: ${CI_COMMIT_TAG}
-  <<: *push_dockerhub_images 
-
-release_maven_central:
-  stage: "release"
-  cache:
-    key: "Java_${CI_COMMIT_REF_SLUG}"
-    paths:
-      - /builds/adorsys/xs2a/psd2-dynamic-sandbox/.m2/repository
-  only:
-    - tags
-  script:
-    - echo $SONATYPE_GPG_SECRET_KEY | base64 --decode | $SONATYPE_GPG_EXECUTABLE --import
-    - echo $SONATYPE_GPG_OWNERTRUST | base64 --decode | $SONATYPE_GPG_EXECUTABLE --import-ownertrust
-    - mvn --settings scripts/mvn-release-settings.xml -Prelease -DskipTests -B -U deploy
+  <<: *push_dockerhub_images

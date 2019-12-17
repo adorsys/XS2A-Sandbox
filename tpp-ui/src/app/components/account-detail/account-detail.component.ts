@@ -15,7 +15,7 @@ export class AccountDetailComponent implements OnInit {
   accountForm = new FormGroup({
     'accountType': new FormControl('CASH', Validators.required),
     'usageType': new FormControl(UsageType.PRIV, Validators.required),
-    'currency': new FormControl({value: 'EUR', disabled: true}, Validators.required),
+    'currency': new FormControl('EUR', Validators.required),
     'iban': new FormControl(null, Validators.required),
     'accountStatus': new FormControl(AccountStatus.ENABLED, Validators.required),
   });
@@ -24,7 +24,7 @@ export class AccountDetailComponent implements OnInit {
   accountTypes = Object.keys(AccountType);
   accountStatuses = Object.keys(AccountStatus);
   usageTypes = Object.keys(UsageType);
-
+  currencies;
   submitted = false;
   errorMessage = null;
 
@@ -37,7 +37,16 @@ export class AccountDetailComponent implements OnInit {
       this.userID = this.activatedRoute.snapshot.params['id'];
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.initializeCurrenciesList();
+  }
+
+  initializeCurrenciesList() {
+    return this.accountService.getCurrencies().subscribe(
+      data => this.currencies = data,
+      error => console.log(error)
+    )
+  }
 
   get accountType() {
     return this.accountForm.get('accountType');

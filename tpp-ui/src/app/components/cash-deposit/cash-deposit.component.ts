@@ -24,11 +24,12 @@ export class CashDepositComponent implements OnInit {
 
     ngOnInit() {
         this.accountId = this.activatedRoute.snapshot.paramMap.get('id');
-
         this.cashDepositForm = this.formBuilder.group({
-            currency: [{value: 'EUR', disabled: true}, Validators.required],
-            amount: ['', [Validators.required, Validators.min(0)]],
+          currency: [{value: '', disabled: true}, Validators.required],
+          amount: ['', [Validators.required, Validators.min(0)]]
         });
+        this.accountService.getAccount(this.accountId).subscribe(
+          data => this.cashDepositForm.get('currency').setValue(data['currency']));
     }
 
     onSubmit() {

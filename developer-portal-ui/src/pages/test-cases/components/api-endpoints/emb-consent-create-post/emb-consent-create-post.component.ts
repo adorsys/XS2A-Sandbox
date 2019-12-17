@@ -1,5 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { LanguageService } from '../../../../../services/language.service';
+import { JsonService } from '../../../../../services/json.service';
+import { ConsentTypes } from '../../../../../models/consentTypes.model';
+import { AspspService } from '../../../../../services/aspsp.service';
+
+const consentBodies = {
+  dedicatedAccountsConsent: {},
+  bankOfferedConsent: {},
+  globalConsent: {},
+  availableAccountsConsent: {},
+  availableAccountsConsentWithBalance: {},
+};
 
 @Component({
   selector: 'app-emb-consent-create-post',
@@ -7,19 +18,7 @@ import { LanguageService } from '../../../../../services/language.service';
 })
 export class EmbConsentCreatePostComponent implements OnInit {
   activeSegment = 'documentation';
-  jsonData = {
-    access: {
-      accounts: [],
-      balances: [],
-      transactions: [],
-      availableAccounts: 'allAccounts',
-      allPsd2: 'allAccounts',
-    },
-    combinedServiceIndicator: false,
-    frequencyPerDay: 50,
-    recurringIndicator: true,
-    validUntil: '2020-12-3',
-  };
+  jsonData: object;
   headers: object = {
     'X-Request-ID': '2f77a125-aa7a-45c0-b414-cea25a116035',
     'TPP-Explicit-Authorisation-Preferred': 'true',
@@ -27,21 +26,52 @@ export class EmbConsentCreatePostComponent implements OnInit {
     'PSU-ID': 'YOUR_USER_LOGIN',
     'PSU-IP-Address': '1.1.1.1',
   };
-  body: object = {
-    access: {
-      accounts: [],
-      balances: [],
-      transactions: [],
-      availableAccounts: 'allAccounts',
-      allPsd2: 'allAccounts',
-    },
-    recurringIndicator: true,
-    validUntil: '2020-12-31',
-    frequencyPerDay: 4,
-    combinedServiceIndicator: false,
+  body: object = { ...consentBodies.dedicatedAccountsConsent };
+  consentTypes: ConsentTypes = {
+    dedicatedAccountsConsent: consentBodies.dedicatedAccountsConsent,
   };
 
-  constructor(public languageService: LanguageService) {}
+  constructor(
+    public languageService: LanguageService,
+    private jsonService: JsonService,
+    private aspsp: AspspService
+  ) {
+    jsonService
+      .getPreparedJsonData(jsonService.jsonLinks.consent)
+      .subscribe(data => (this.jsonData = data), error => console.log(error));
+    jsonService
+      .getPreparedJsonData(jsonService.jsonLinks.dedicatedAccountsConsent)
+      .subscribe(
+        data => (consentBodies.dedicatedAccountsConsent = data),
+        error => console.log(error)
+      );
+    jsonService
+      .getPreparedJsonData(jsonService.jsonLinks.bankOfferedConsent)
+      .subscribe(
+        data => (consentBodies.bankOfferedConsent = data),
+        error => console.log(error)
+      );
+    jsonService
+      .getPreparedJsonData(jsonService.jsonLinks.globalConsent)
+      .subscribe(
+        data => (consentBodies.globalConsent = data),
+        error => console.log(error)
+      );
+    jsonService
+      .getPreparedJsonData(jsonService.jsonLinks.availableAccountsConsent)
+      .subscribe(
+        data => (consentBodies.availableAccountsConsent = data),
+        error => console.log(error)
+      );
+    jsonService
+      .getPreparedJsonData(
+        jsonService.jsonLinks.availableAccountsConsentWithBalance
+      )
+      .subscribe(
+        data => (consentBodies.availableAccountsConsentWithBalance = data),
+        error => console.log(error)
+      );
+  }
 
   changeSegment(segment) {
     if (segment === 'documentation' || segment === 'play-data') {
@@ -49,5 +79,26 @@ export class EmbConsentCreatePostComponent implements OnInit {
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.setConsentTypes();
+  }
+
+  setConsentTypes() {
+    this.aspsp.getAspspProfile().subscribe(object => {
+      const allConsentTypes = object.ais.consentTypes;
+
+      if (allConsentTypes.bankOfferedConsentSupported) {
+        this.consentTypes.bankOfferedConsent = consentBodies.bankOfferedConsent;
+      }
+      if (allConsentTypes.globalConsentSupported) {
+        this.consentTypes.globalConsent = consentBodies.globalConsent;
+      }
+      if (allConsentTypes.availableAccountsConsentSupported) {
+        this.consentTypes.availableAccountsConsent =
+          consentBodies.availableAccountsConsent;
+        this.consentTypes.availableAccountsConsentWithBalance =
+          consentBodies.availableAccountsConsentWithBalance;
+      }
+    });
+  }
 }

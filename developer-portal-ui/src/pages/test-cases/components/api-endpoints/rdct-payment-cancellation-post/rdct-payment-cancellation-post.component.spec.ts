@@ -1,17 +1,30 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RdctPaymentCancellationPostComponent } from './rdct-payment-cancellation-post.component';
-import {Component, Input, Pipe, PipeTransform} from '@angular/core';
-import {LineCommandComponent} from '../../../../../custom-elements/line-command/line-command.component';
-import {CodeAreaComponent} from '../../../../../custom-elements/code-area/code-area.component';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { LineCommandComponent } from '../../../../../custom-elements/line-command/line-command.component';
+import { CodeAreaComponent } from '../../../../../custom-elements/code-area/code-area.component';
+import { JsonService } from '../../../../../services/json.service';
+import { of } from 'rxjs';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  TranslateLoader,
+  TranslateModule,
+  TranslateService,
+} from '@ngx-translate/core';
+import { HttpLoaderFactory } from '../../../../../services/language.service';
+import { HttpClient } from '@angular/common/http';
+import { DataService } from '../../../../../services/data.service';
+import { ToastrService } from 'ngx-toastr';
 
 describe('RdctPaymentCancellationPostComponent', () => {
   let component: RdctPaymentCancellationPostComponent;
   let fixture: ComponentFixture<RdctPaymentCancellationPostComponent>;
+  let jsonService: JsonService;
 
   @Component({
     selector: 'app-play-wth-data',
-    template: ''
+    template: '',
   })
   class MockPlayWithDataComponent {
     @Input() headers: object;
@@ -21,7 +34,7 @@ describe('RdctPaymentCancellationPostComponent', () => {
     @Input() fieldsToCopy: string[];
   }
 
-  @Pipe({name: 'translate'})
+  @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -29,12 +42,14 @@ describe('RdctPaymentCancellationPostComponent', () => {
     }
   }
 
-  @Pipe({name: 'prettyJson'})
+  @Pipe({ name: 'prettyJson' })
   class PrettyJsonPipe implements PipeTransform {
     transform(value) {
       return JSON.stringify(value, null, 4);
     }
   }
+
+  const ToastrServiceStub = {};
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -44,12 +59,30 @@ describe('RdctPaymentCancellationPostComponent', () => {
         TranslatePipe,
         PrettyJsonPipe,
         LineCommandComponent,
-        CodeAreaComponent
+        CodeAreaComponent,
+        CodeAreaComponent,
+      ],
+      providers: [
+        TranslateService,
+        DataService,
+        { provide: ToastrService, useValue: ToastrServiceStub },
+      ],
+      imports: [
+        HttpClientTestingModule,
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useFactory: HttpLoaderFactory,
+            deps: [HttpClient],
+          },
+        }),
       ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
+    jsonService = TestBed.get(JsonService);
+    spyOn(jsonService, 'getPreparedJsonData').and.returnValue(of('body'));
     fixture = TestBed.createComponent(RdctPaymentCancellationPostComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -66,7 +99,7 @@ describe('RdctPaymentCancellationPostComponent', () => {
       'PSU-ID': 'YOUR_USER_LOGIN',
       'PSU-IP-Address': '1.1.1.1',
       'TPP-Redirect-Preferred': 'true',
-      'TPP-Redirect-URI': 'https://adorsys.de/en/psd2-tpp/',
+      'TPP-Redirect-URI': 'https://adorsys-platform.de/solutions/xs2a-sandbox/',
       'TPP-Nok-Redirect-URI': 'https://www.google.com',
     };
     expect(typeof component.headers).toBe('object');

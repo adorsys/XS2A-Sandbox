@@ -40,6 +40,9 @@ export class CustomizeService {
         linkedIn: 'https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/',
       },
     ],
+    supportedLanguages: ['en', 'de', 'es', 'ua'],
+    supportedApproaches: ['redirect', 'embedded'],
+    currency: 'EUR',
   };
   private USER_THEME: Theme = {
     globalSettings: {
@@ -64,7 +67,12 @@ export class CustomizeService {
         addressSecondLine: '',
       },
     ],
+    supportedLanguages: [],
+    supportedApproaches: [],
+    currency: '',
   };
+
+  private defaultThemeUrl = 'assets/UI/defaultTheme.json';
 
   constructor(private http: HttpClient) {
     this.updateCSS();
@@ -90,13 +98,44 @@ export class CustomizeService {
           theme = this.getDefaultTheme();
           this.IS_CUSTOM = false;
         }
-        return theme as Theme;
+        return this.normalizeLanguages(theme as Theme);
       })
       .catch(e => {
         console.log(e);
         this.IS_CUSTOM = false;
-        return this.getDefaultTheme();
+        return this.getDefaultTheme().then(data =>
+          this.normalizeLanguages(data as Theme)
+        );
       });
+  }
+
+  private async normalizeLanguages(theme): Promise<Theme> {
+    let correctLanguages = [];
+
+    if (theme.supportedLanguages) {
+      for (const lang of theme.supportedLanguages) {
+        const correctLang = await this.getCorrectLanguage(lang);
+        if (correctLang.length > 0) {
+          correctLanguages.push(correctLang);
+        }
+      }
+
+      if (correctLanguages.length == 0) {
+        correctLanguages = ['en'];
+      }
+
+      theme.supportedLanguages = correctLanguages;
+    }
+
+    return theme;
+  }
+
+  private getCorrectLanguage(lang: string) {
+    return this.http
+      .get('../assets/i18n/' + lang + '.json')
+      .toPromise()
+      .then(data => lang)
+      .catch(e => '');
   }
 
   isCustom() {
@@ -113,7 +152,7 @@ export class CustomizeService {
 
   getDefaultTheme(): Promise<Theme> {
     return this.http
-      .get('../assets/UI/defaultTheme.json')
+      .get(this.defaultThemeUrl)
       .toPromise()
       .then(data => {
         return data as Theme;
@@ -151,13 +190,15 @@ export class CustomizeService {
       ['logo'],
       ['img', 'name', 'position'],
       ['city', 'company', 'addressFirstLine', 'addressSecondLine'],
+      [],
+      [],
     ];
     const errors: string[] = [];
 
     for (let i = 0; i < general.length; i++) {
       if (!theme.hasOwnProperty(general[i])) {
         errors.push(`Missing field ${general[i]}!`);
-      } else if (i !== 2) {
+      } else if (i < 2) {
         for (const property of additional[i]) {
           if (!theme[general[i]].hasOwnProperty(property)) {
             errors.push(`Field ${general[i]} missing property ${property}!`);
@@ -229,6 +270,9 @@ export interface Theme {
   globalSettings: GlobalSettings;
   contactInfo: ContactInfo;
   officesInfo: OfficeInfo[];
+  supportedLanguages: string[];
+  supportedApproaches: string[];
+  currency: string;
 }
 
 export interface GlobalSettings {
@@ -246,6 +290,7 @@ export interface Favicon {
 
 export interface CSSVariables {
   [key: string]: string;
+
   colorPrimary?: string;
   colorSecondary?: string;
   fontFamily?: string;

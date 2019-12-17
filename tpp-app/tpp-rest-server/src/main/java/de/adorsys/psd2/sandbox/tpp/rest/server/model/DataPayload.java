@@ -9,9 +9,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 
+import java.util.Currency;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -25,6 +27,7 @@ public class DataPayload {
     private List<AccountDetailsTO> accounts;
     private List<AccountBalance> balancesList;
     private List<SinglePaymentTO> payments;
+    private static final String SEPARATOR = "_";
 
     @JsonIgnore
     private boolean generatePayments;
@@ -54,6 +57,35 @@ public class DataPayload {
         return getTargetData(balancesList, AccountBalance::getIban);
     }
 
+    @JsonIgnore
+    public DataPayload updatePayload(BiFunction<DataPayload, String, String> ibanGenerator, String branch, Currency currency, boolean generatePayments) {
+        this.branch = branch;
+        this.generatePayments = generatePayments;
+        this.accounts.forEach(a -> {
+            a.setIban(ibanGenerator.apply(this, a.getIban()));
+            a.setCurrency(currency);
+        });
+        this.balancesList.forEach(b -> {
+            b.setIban(ibanGenerator.apply(this, b.getIban()));
+            b.setCurrency(currency);
+        });
+
+        this.users.forEach(u -> updateUserAndAccesses(ibanGenerator, u, branch, currency));
+        return this;
+    }
+
+    private void updateUserAndAccesses(BiFunction<DataPayload, String, String> function, UserTO user, String branch, Currency currency) {
+        user.setId(buildValue(branch, user.getId()));
+        user.setEmail(buildValue(branch, user.getEmail()));
+        user.setLogin(buildValue(branch, user.getLogin()));
+        user.getScaUserData().forEach(d -> d.setMethodValue(buildValue(branch, d.getMethodValue())));
+        user.getAccountAccesses()
+            .forEach(a -> {
+                a.setIban(function.apply(this, a.getIban()));
+                a.setCurrency(currency);
+            });
+    }
+
     private <T> Map<String, T> getTargetData(List<T> source, Function<T, String> function) {
         if (CollectionUtils.isEmpty(source)) {
             return new HashMap<>();
@@ -71,5 +103,9 @@ public class DataPayload {
 
     private <T> boolean notContainsNullElements(List<T> list) {
         return !list.contains(null);
+    }
+
+    private String buildValue(String branch, String suffix) {
+        return branch + SEPARATOR + suffix;
     }
 }

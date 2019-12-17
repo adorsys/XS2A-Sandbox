@@ -6,7 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./embedded.component.scss'],
 })
 export class EmbeddedComponent implements OnInit {
-  constructor() {}
+  thumbImage = '../../../../assets/images/embedded_pis_initiation_thumb.svg';
+  fullImage = '../../../../assets/images/embedded_pis_initiation.svg';
+  mode = 'hover-freeze';
 
+  constructor() {}
   ngOnInit() {}
 }

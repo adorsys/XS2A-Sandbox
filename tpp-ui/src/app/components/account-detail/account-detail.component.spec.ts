@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 
 import { InfoModule } from '../../commons/info/info.module';
 import { InfoService } from '../../commons/info/info.service';
-import { Account, AccountStatus, AccountType, UsageType } from '../../models/account.model';
+import {Account, AccountStatus, AccountType, UsageType} from '../../models/account.model';
 import { AccountService } from '../../services/account.service';
 import { AccountComponent } from '../account/account.component';
 import { AccountDetailComponent } from './account-detail.component';
@@ -57,9 +57,9 @@ describe('AccountDetailComponent', () => {
             accountType: AccountType.CASH,
             accountStatus: AccountStatus.ENABLED,
             bic: 'BIChgdgd',
+            linkedAccounts: '',
             usageType: UsageType.PRIV,
             details: '',
-            linkedAccounts: '',
             balances: []
         } as Account;
 

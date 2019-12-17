@@ -6,6 +6,8 @@ import { LineCommandComponent } from '../../../../../custom-elements/line-comman
 import { CodeAreaComponent } from '../../../../../custom-elements/code-area/code-area.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { PlayWthDataComponent } from '../../play-with-data/play-wth-data.component';
+import { DataService } from '../../../../../services/data.service';
+import { ToastrService } from 'ngx-toastr';
 
 describe('RdctConsentPOSTComponent', () => {
   let component: RdctConsentPOSTComponent;
@@ -39,6 +41,8 @@ describe('RdctConsentPOSTComponent', () => {
     }
   }
 
+  const ToastrServiceStub = {};
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -50,6 +54,10 @@ describe('RdctConsentPOSTComponent', () => {
         CodeAreaComponent,
       ],
       imports: [HttpClientTestingModule],
+      providers: [
+        DataService,
+        { provide: ToastrService, useValue: ToastrServiceStub },
+      ],
     }).compileComponents();
   }));
 
@@ -70,7 +78,7 @@ describe('RdctConsentPOSTComponent', () => {
       'PSU-ID': 'YOUR_USER_LOGIN',
       'PSU-IP-Address': '1.1.1.1',
       'TPP-Redirect-Preferred': 'true',
-      'TPP-Redirect-URI': 'https://adorsys.de/en/psd2-tpp/',
+      'TPP-Redirect-URI': 'https://adorsys-platform.de/solutions/xs2a-sandbox/',
       'TPP-Nok-Redirect-URI': 'https://www.google.com',
     };
     expect(typeof component.headers).toBe('object');

@@ -6,6 +6,8 @@ import de.adorsys.ledgers.middleware.api.domain.payment.AmountTO;
 import de.adorsys.ledgers.middleware.api.domain.payment.PaymentProductTO;
 import de.adorsys.ledgers.middleware.api.domain.payment.SinglePaymentTO;
 import de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO;
+import de.adorsys.ledgers.oba.service.impl.mapper.SinglePaymentMapper;
+import de.adorsys.ledgers.oba.service.impl.mapper.TimeMapper;
 import de.adorsys.psd2.consent.api.CmsAddress;
 import de.adorsys.psd2.consent.api.ais.CmsAccountReference;
 import de.adorsys.psd2.consent.api.pis.CmsAmount;
@@ -57,7 +59,7 @@ public class SinglePaymentMapperTest {
     private SinglePaymentMapper mapper = Mappers.getMapper(SinglePaymentMapper.class);
 
     @Mock
-    private TimeMapperImpl timeMapper;
+    private TimeMapper timeMapper;
 
     @Test
     public void mapToPayment() {

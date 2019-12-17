@@ -9,6 +9,7 @@ import { of } from 'rxjs';
 import { User } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
 import { UsersComponent } from './users.component';
+import {PaginationContainerComponent} from "../../commons/pagination-container/pagination-container.component";
 
 
 describe('UsersComponent', () => {
@@ -24,9 +25,10 @@ describe('UsersComponent', () => {
                 FilterPipeModule,
                 RouterTestingModule,
                 HttpClientTestingModule,
-                NgbPaginationModule
+                NgbPaginationModule,
+                NgbPaginationModule,
             ],
-            declarations: [UsersComponent],
+            declarations: [UsersComponent, PaginationContainerComponent],
             providers: [UserService]
         })
             .compileComponents();

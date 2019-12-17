@@ -1,7 +1,7 @@
 package de.adorsys.ledgers.oba.rest.api.resource;
 
-import de.adorsys.ledgers.oba.rest.api.domain.PaymentAuthorizeResponse;
-import de.adorsys.ledgers.oba.rest.api.exception.PaymentAuthorizeException;
+import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
+import de.adorsys.ledgers.oba.rest.api.resource.exception.PaymentAuthorizeException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;

@@ -1,0 +1,12 @@
+{
+  "access": {
+    "accounts": [],
+    "balances": [],
+    "transactions": [],
+    "availableAccounts": "allAccounts"
+  },
+  "recurringIndicator": false,
+  "validUntil": "2020-03-03",
+  "frequencyPerDay": 1,
+  "combinedServiceIndicator": false
+}

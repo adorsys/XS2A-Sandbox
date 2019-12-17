@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 
-import { PaymentAuthorizeResponse } from '../../api/models';
-import { SettingsService } from '../../common/services/settings.service';
-import { ShareDataService } from '../../common/services/share-data.service';
-import { PisCancellationService } from './../../common/services/pis-cancellation.service';
+import {PaymentAuthorizeResponse} from '../../api/models/payment-authorize-response';
+import {SettingsService} from '../../common/services/settings.service';
+import {ShareDataService} from '../../common/services/share-data.service';
+import {PisService} from '../../common/services/pis.service';
 
 @Component({
   selector: 'app-result-page',
@@ -20,8 +20,8 @@ export class ResultPageComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
               private route: ActivatedRoute,
-              private pisCancellationService: PisCancellationService,
               private settingService: SettingsService,
+              private pisService: PisService,
               private shareService: ShareDataService) {
   }
 
@@ -56,7 +56,8 @@ export class ResultPageComponent implements OnInit, OnDestroy {
   }
 
   private pisDone(): void {
-    this.pisCancellationService.pisCancellationDone({
+    console.log('done');
+    this.pisService.pisDone({
       encryptedPaymentId: this.authResponse.encryptedConsentId,
       authorisationId: this.authResponse.authorisationId,
       forgetConsent: 'true',

@@ -1,13 +1,13 @@
 package de.adorsys.ledgers.oba.rest.server.resource.exception.resolver;
 
-import de.adorsys.ledgers.oba.rest.api.domain.AisErrorCode;
+import de.adorsys.ledgers.oba.service.api.domain.exception.AisErrorCode;
 import org.springframework.http.HttpStatus;
 
 import java.util.EnumMap;
 import java.util.Map;
 
-import static de.adorsys.ledgers.oba.rest.api.domain.AisErrorCode.AIS_BAD_REQUEST;
-import static de.adorsys.ledgers.oba.rest.api.domain.AisErrorCode.CONNECTION_ERROR;
+import static de.adorsys.ledgers.oba.service.api.domain.exception.AisErrorCode.AIS_BAD_REQUEST;
+import static de.adorsys.ledgers.oba.service.api.domain.exception.AisErrorCode.CONNECTION_ERROR;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 

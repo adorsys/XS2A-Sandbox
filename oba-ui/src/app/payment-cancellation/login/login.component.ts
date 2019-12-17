@@ -89,13 +89,13 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.subscriptions.push(
         this.pisService.pisAuthCode({encryptedPaymentId: this.encryptedPaymentId, redirectId: this.redirectId})
           .subscribe(authCodeResponse => {
-              this.shareService.changeData(authCodeResponse);
+              this.shareService.changeData(authCodeResponse.body);
             },
             (error) => {
               console.log(error);
             })
       );
-    })
+    });
   }
 
   private initLoginForm(): void {

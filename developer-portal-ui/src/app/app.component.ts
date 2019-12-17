@@ -17,14 +17,15 @@ import { LanguageService } from '../services/language.service';
 export class AppComponent implements OnInit {
   globalSettings: GlobalSettings;
   lang = 'en';
-  langs: string[] = ['en', 'ua', 'es', 'de'];
+  langs: string[];
   langIcons: object = {
     en: '../assets/icons/united-kingdom.png',
     de: '../assets/icons/germany.png',
     es: '../assets/icons/spain.png',
     ua: '../assets/icons/ukraine.png',
   };
-  private langCollapsed: boolean;
+  private langCollapsed = false;
+  public showNavDropDown = false;
 
   constructor(
     private router: Router,
@@ -34,6 +35,9 @@ export class AppComponent implements OnInit {
     private translateService: TranslateService,
     private languageService: LanguageService
   ) {
+    this.customizeService
+      .getJSON()
+      .then(data => (this.langs = data.supportedLanguages));
     this.languageService.initializeTranslation();
     this.setLangCollapsed(true);
   }
@@ -57,11 +61,17 @@ export class AppComponent implements OnInit {
   }
 
   collapseThis() {
-    this.setLangCollapsed(!this.getLangCollapsed());
+    if (this.langs && this.langs.length > 1) {
+      this.setLangCollapsed(!this.getLangCollapsed());
+    }
   }
 
   getLangCollapsed() {
     return this.langCollapsed;
+  }
+
+  toggleDropdown(e) {
+    this.showNavDropDown = !this.showNavDropDown;
   }
 
   ngOnInit() {

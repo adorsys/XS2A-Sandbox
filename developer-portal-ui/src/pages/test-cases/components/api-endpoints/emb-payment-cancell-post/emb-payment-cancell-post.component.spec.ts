@@ -1,17 +1,30 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EmbPaymentCancellPostComponent } from './emb-payment-cancell-post.component';
-import {Component, Input, Pipe, PipeTransform} from '@angular/core';
-import {LineCommandComponent} from '../../../../../custom-elements/line-command/line-command.component';
-import {CodeAreaComponent} from "../../../../../custom-elements/code-area/code-area.component";
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { LineCommandComponent } from '../../../../../custom-elements/line-command/line-command.component';
+import { CodeAreaComponent } from '../../../../../custom-elements/code-area/code-area.component';
+import { JsonService } from '../../../../../services/json.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  TranslateLoader,
+  TranslateModule,
+  TranslateService,
+} from '@ngx-translate/core';
+import { HttpLoaderFactory } from '../../../../../services/language.service';
+import { HttpClient } from '@angular/common/http';
+import { of } from 'rxjs';
+import { DataService } from '../../../../../services/data.service';
+import { ToastrService } from 'ngx-toastr';
 
 describe('EmbPaymentCancellPostComponent', () => {
   let component: EmbPaymentCancellPostComponent;
   let fixture: ComponentFixture<EmbPaymentCancellPostComponent>;
+  let jsonService: JsonService;
 
   @Component({
     selector: 'app-play-wth-data',
-    template: ''
+    template: '',
   })
   class MockPlayWithDataComponent {
     @Input() headers: object;
@@ -21,7 +34,7 @@ describe('EmbPaymentCancellPostComponent', () => {
     @Input() fieldsToCopy: string[];
   }
 
-  @Pipe({name: 'translate'})
+  @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -29,12 +42,14 @@ describe('EmbPaymentCancellPostComponent', () => {
     }
   }
 
-  @Pipe({name: 'prettyJson'})
+  @Pipe({ name: 'prettyJson' })
   class PrettyJsonPipe implements PipeTransform {
     transform(value) {
       return JSON.stringify(value, null, 4);
     }
   }
+
+  const ToastrServiceStub = {};
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -44,12 +59,29 @@ describe('EmbPaymentCancellPostComponent', () => {
         PrettyJsonPipe,
         MockPlayWithDataComponent,
         LineCommandComponent,
-        CodeAreaComponent
+        CodeAreaComponent,
+        CodeAreaComponent,
+      ],
+      providers: [
+        DataService,
+        { provide: ToastrService, useValue: ToastrServiceStub },
+      ],
+      imports: [
+        HttpClientTestingModule,
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useFactory: HttpLoaderFactory,
+            deps: [HttpClient],
+          },
+        }),
       ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
+    jsonService = TestBed.get(JsonService);
+    spyOn(jsonService, 'getPreparedJsonData').and.returnValue(of('body'));
     fixture = TestBed.createComponent(EmbPaymentCancellPostComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

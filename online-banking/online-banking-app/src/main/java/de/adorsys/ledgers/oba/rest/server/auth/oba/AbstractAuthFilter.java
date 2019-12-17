@@ -26,10 +26,6 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 public abstract class AbstractAuthFilter extends OncePerRequestFilter {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    protected void handleAuthenticationFailure(HttpServletResponse response, String message) throws IOException {
-        doAuthenticationFailure(response, message);
-    }
-
     protected void handleAuthenticationFailure(HttpServletResponse response, Exception e) throws IOException {
         doAuthenticationFailure(response, e.getMessage());
     }
@@ -47,10 +43,6 @@ public abstract class AbstractAuthFilter extends OncePerRequestFilter {
 
     protected String obtainFromHeader(HttpServletRequest request, String headerKey) {
         return request.getHeader(headerKey);
-    }
-
-    protected String obtainFromRequest(HttpServletRequest request, String param) {
-        return request.getParameter(param);
     }
 
     protected boolean authenticationIsRequired() {

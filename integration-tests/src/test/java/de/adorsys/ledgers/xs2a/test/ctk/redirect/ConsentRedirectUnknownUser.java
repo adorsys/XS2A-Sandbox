@@ -1,6 +1,6 @@
 package de.adorsys.ledgers.xs2a.test.ctk.redirect;
 
-import de.adorsys.ledgers.oba.rest.api.domain.ConsentAuthorizeResponse;
+import de.adorsys.ledgers.oba.service.api.domain.ConsentAuthorizeResponse;
 import de.adorsys.ledgers.xs2a.test.ctk.StarterApplication;
 import de.adorsys.psd2.model.ConsentStatus;
 import de.adorsys.psd2.model.ConsentsResponse201;

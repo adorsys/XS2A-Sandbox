@@ -1,62 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { AspspService } from 'src/services/aspsp.service';
 import { ConsentTypes } from '../../../../../models/consentTypes.model';
+import { JsonService } from '../../../../../services/json.service';
 
 const consentBodies = {
-  dedicatedAccountsConsent: {
-    access: {
-      accounts: [{ iban: 'DE88900000010000007500', currency: 'EUR' }],
-      balances: [{ iban: 'DE88900000010000007500', currency: 'EUR' }],
-      transactions: [{ iban: 'DE88900000010000007500', currency: 'EUR' }],
-    },
-    recurringIndicator: true,
-    validUntil: '2020-03-03',
-    frequencyPerDay: 4,
-    combinedServiceIndicator: false,
-  },
-  bankOfferedConsent: {
-    access: { accounts: [], balances: [], transactions: [] },
-    recurringIndicator: true,
-    validUntil: '2020-03-03',
-    frequencyPerDay: 4,
-    combinedServiceIndicator: false,
-  },
-  globalConsent: {
-    access: {
-      accounts: [],
-      balances: [],
-      transactions: [],
-      allPsd2: 'allAccounts',
-    },
-    recurringIndicator: true,
-    validUntil: '2020-03-03',
-    frequencyPerDay: 4,
-    combinedServiceIndicator: false,
-  },
-  availableAccountsConsent: {
-    access: {
-      accounts: [],
-      balances: [],
-      transactions: [],
-      availableAccounts: 'allAccounts',
-    },
-    recurringIndicator: false,
-    validUntil: '2020-03-03',
-    frequencyPerDay: '1',
-    combinedServiceIndicator: false,
-  },
-  availableAccountsConsentWithBalance: {
-    access: {
-      accounts: [],
-      balances: [],
-      transactions: [],
-      availableAccountsWithBalance: 'allAccounts',
-    },
-    recurringIndicator: false,
-    validUntil: '2020-03-03',
-    frequencyPerDay: '1',
-    combinedServiceIndicator: false,
-  },
+  dedicatedAccountsConsent: {},
+  bankOfferedConsent: {},
+  globalConsent: {},
+  availableAccountsConsent: {},
+  availableAccountsConsentWithBalance: {},
 };
 
 @Component({
@@ -68,31 +20,55 @@ export class RdctConsentPOSTComponent implements OnInit {
   consentTypes: ConsentTypes = {
     dedicatedAccountsConsent: consentBodies.dedicatedAccountsConsent,
   };
-  jsonData = {
-    access: {
-      accounts: [],
-      balances: [],
-      transactions: [],
-      availableAccounts: 'allAccounts',
-      allPsd2: 'allAccounts',
-    },
-    combinedServiceIndicator: false,
-    frequencyPerDay: 50,
-    recurringIndicator: true,
-    validUntil: '2020-12-31',
-  };
+  jsonData: object;
   headers: object = {
     'X-Request-ID': '2f77a125-aa7a-45c0-b414-cea25a116035',
     'TPP-Explicit-Authorisation-Preferred': 'true',
     'PSU-ID': 'YOUR_USER_LOGIN',
     'PSU-IP-Address': '1.1.1.1',
     'TPP-Redirect-Preferred': 'true',
-    'TPP-Redirect-URI': 'https://adorsys.de/en/psd2-tpp/',
+    'TPP-Redirect-URI': 'https://adorsys-platform.de/solutions/xs2a-sandbox/',
     'TPP-Nok-Redirect-URI': 'https://www.google.com',
   };
   body: object = { ...consentBodies.dedicatedAccountsConsent };
 
-  constructor(private aspsp: AspspService) {}
+  constructor(private aspsp: AspspService, private jsonService: JsonService) {
+    jsonService
+      .getPreparedJsonData(jsonService.jsonLinks.dedicatedAccountsConsent)
+      .subscribe(
+        data => (consentBodies.dedicatedAccountsConsent = data),
+        error => console.log(error)
+      );
+    jsonService
+      .getPreparedJsonData(jsonService.jsonLinks.bankOfferedConsent)
+      .subscribe(
+        data => (consentBodies.bankOfferedConsent = data),
+        error => console.log(error)
+      );
+    jsonService
+      .getPreparedJsonData(jsonService.jsonLinks.globalConsent)
+      .subscribe(
+        data => (consentBodies.globalConsent = data),
+        error => console.log(error)
+      );
+    jsonService
+      .getPreparedJsonData(jsonService.jsonLinks.availableAccountsConsent)
+      .subscribe(
+        data => (consentBodies.availableAccountsConsent = data),
+        error => console.log(error)
+      );
+    jsonService
+      .getPreparedJsonData(
+        jsonService.jsonLinks.availableAccountsConsentWithBalance
+      )
+      .subscribe(
+        data => (consentBodies.availableAccountsConsentWithBalance = data),
+        error => console.log(error)
+      );
+    jsonService
+      .getPreparedJsonData(jsonService.jsonLinks.consent)
+      .subscribe(data => (this.jsonData = data), error => console.log(error));
+  }
 
   changeSegment(segment) {
     if (segment === 'documentation' || segment === 'play-data') {

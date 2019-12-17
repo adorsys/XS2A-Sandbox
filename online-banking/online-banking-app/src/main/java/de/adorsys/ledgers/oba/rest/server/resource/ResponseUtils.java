@@ -18,11 +18,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
-import de.adorsys.ledgers.oba.rest.api.consentref.ConsentReference;
-import de.adorsys.ledgers.oba.rest.api.domain.OnlineBankingResponse;
-import de.adorsys.ledgers.oba.rest.api.domain.PsuMessage;
-import de.adorsys.ledgers.oba.rest.api.domain.PsuMessageCategory;
-import de.adorsys.ledgers.oba.rest.api.domain.ValidationCode;
+import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
+import de.adorsys.ledgers.oba.service.api.domain.OnlineBankingResponse;
+import de.adorsys.ledgers.oba.service.api.domain.PsuMessage;
+import de.adorsys.ledgers.oba.service.api.domain.PsuMessageCategory;
+import de.adorsys.ledgers.oba.service.api.domain.ValidationCode;
 import de.adorsys.ledgers.oba.rest.server.auth.MiddlewareAuthentication;
 
 @Service
@@ -40,13 +40,13 @@ public class ResponseUtils {
 
 	/*
 	 * Set both access token cookie and consent cookie.
-	 * 
+	 *
 	 * @param response
-	 * 
+	 *
 	 * @param consentReference
-	 * 
+	 *
 	 * @param accessTokenString
-	 * 
+	 *
 	 * @param accessTokenTO
 	 */
 	public void setCookies(HttpServletResponse response, ConsentReference consentReference, String accessTokenString,
@@ -105,7 +105,7 @@ public class ResponseUtils {
 		return error(authResp, HttpStatus.NOT_FOUND, REQUEST_WITH_REDIRECT_NOT_FOUND, httpResp);
 	}
 
-	public <T extends OnlineBankingResponse> ResponseEntity<T> couldNotProcessRequest(T authResp, 
+	public <T extends OnlineBankingResponse> ResponseEntity<T> couldNotProcessRequest(T authResp,
 			HttpStatus status, HttpServletResponse httpResp) {
 		return couldNotProcessRequest(authResp, "Could not process request. See status code.", status, httpResp);
 	}
@@ -114,7 +114,7 @@ public class ResponseUtils {
 			HttpStatus status, HttpServletResponse httpResp) {
 		return error(authResp, status, message, httpResp);
 	}
-	
+
 	public String authHeader(MiddlewareAuthentication auth) {
 		return TOKEN_PREFIX + auth.getBearerToken().getAccess_token();
 	}
@@ -131,7 +131,7 @@ public class ResponseUtils {
 		headers.add(LOCATION_HEADER_NAME, locationURI);
 		return new ResponseEntity<T>(headers, HttpStatus.FOUND);
 	}
-	
+
 	public <T extends OnlineBankingResponse> ResponseEntity<T> backToSender(T authResp, String tppNokRedirectUri, String tppOkRedirectUri,
 			HttpServletResponse httpResp, HttpStatus originalStatus, ValidationCode validationCode) {
 		String locationUri = StringUtils.isNotBlank(tppNokRedirectUri)
@@ -157,7 +157,7 @@ public class ResponseUtils {
 	public <T extends OnlineBankingResponse> ResponseEntity<T> badRequest(T authResp, String message, HttpServletResponse httpResp) {
 		return error(authResp, HttpStatus.BAD_REQUEST, message, httpResp);
 	}
-	
+
 	public String consentCookie(String cookieString) {
 		return cookie(cookieString, CONSENT_COOKIE_NAME);
 	}
@@ -171,9 +171,9 @@ public class ResponseUtils {
 		if(cookieString==null) {
 			return null;
 		}
-		
+
 		String cookieParamName=name+"=";
-		
+
 		// Fix Java: rfc2965 want cookie to be separated by comma.
 		// SOmehow i am receiving some semicolon separated cookies.
 		// Quick Fix: First strip the preceeding cookies if not the first.
@@ -182,7 +182,7 @@ public class ResponseUtils {
 			cookieString = cookieString.substring(indexOfIgnoreCase);
 		}
 		// The proce
-		List<HttpCookie> cookies = HttpCookie.parse(cookieString);		
+		List<HttpCookie> cookies = HttpCookie.parse(cookieString);
 		for (HttpCookie httpCookie : cookies) {
 			if(StringUtils.equalsIgnoreCase(httpCookie.getName(), name)){
 				return httpCookie.getValue();

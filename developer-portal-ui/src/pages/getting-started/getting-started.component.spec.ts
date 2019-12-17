@@ -4,6 +4,10 @@ import { GettingStartedComponent } from './getting-started.component';
 import { Pipe, PipeTransform } from '@angular/core';
 import { CustomizeService } from '../../services/customize.service';
 import { CodeAreaComponent } from '../../custom-elements/code-area/code-area.component';
+import { DataService } from '../../services/data.service';
+import { ToastrService } from 'ngx-toastr';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NgxImageZoomModule } from 'ngx-image-zoom';
 
 describe('GettingStartedComponent', () => {
   let component: GettingStartedComponent;
@@ -70,8 +74,14 @@ describe('GettingStartedComponent', () => {
     }
   }
 
+  const ToastrServiceStub = {};
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        NgxImageZoomModule.forRoot(),
+        RouterTestingModule
+      ],
       declarations: [
         GettingStartedComponent,
         TranslatePipe,
@@ -80,6 +90,8 @@ describe('GettingStartedComponent', () => {
       ],
       providers: [
         { provide: CustomizeService, useValue: CustomizeServiceStub },
+        DataService,
+        { provide: ToastrService, useValue: ToastrServiceStub },
       ],
     }).compileComponents();
   }));
