@@ -1,5 +1,7 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.controller;
 
+import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
+import de.adorsys.ledgers.middleware.api.domain.um.UserTypeTO;
 import de.adorsys.ledgers.middleware.client.rest.DataRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
@@ -50,9 +52,12 @@ public class TppController implements TppRestApi {
 
     }
 
+    // TODO add functionality to make account real
     @Override
     public ResponseEntity<Void> register(User user) {
-        userMgmtStaffRestClient.register(user.getId(), userMapper.toUserTO(user));
+        UserTO userTO = userMapper.toUserTO(user);
+        userTO.setUserType(UserTypeTO.FAKE);
+        userMgmtStaffRestClient.register(user.getId(), userTO);
         return ResponseEntity.status(CREATED).build();
     }
 
