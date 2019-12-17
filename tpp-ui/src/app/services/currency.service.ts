@@ -7,22 +7,9 @@ import {HttpClient} from "@angular/common/http";
 })
 export class CurrencyService {
 
-  private currencies;
   public url = `${environment.tppBackend}`;
 
   constructor(private http: HttpClient) {
-    this.initializeCurrenciesList();
-  }
-
-  initializeCurrenciesList() {
-    return this.getSupportedCurrencies().subscribe(
-      data => this.currencies = data,
-      error => console.log(error)
-    )
-  }
-
-  get currencyList() {
-    return this.currencies;
   }
 
   getSupportedCurrencies() {

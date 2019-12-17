@@ -25,6 +25,5 @@ describe('CurrencyService', () => {
   it('should be created', () => {
     const service: CurrencyService = TestBed.get(CurrencyService);
     expect(service).toBeTruthy();
-    httpTestingController.expectOne(url + '/currencies');
   });
 });
