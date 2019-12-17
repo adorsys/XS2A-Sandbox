@@ -332,8 +332,9 @@
             "LI_7": "facebook - optional, value: string, http url",
             "LI_8": "linkedIn - optional, value: string, http url"
           },
-          "LI_4": "Idiomas admitidos: obligatorio. Matriz de idiomas admitidos. La configuración predeterminada es [\"en\", \"de\", \"es\", \"ua\"]",
-          "LI_5": "Enfoques adoptados: obligatorio.  Matriz de enfoques SCA compatibles. La configuración predeterminada es [\"redirect\", \"embedded\"]"
+          "LI_4": "supportedLanguages - obligatorio. Matriz de idiomas admitidos. La configuración predeterminada es [\"en\", \"de\", \"es\", \"ua\"]",
+          "LI_5": "supportedApproaches -  obligatorio.  Matriz de enfoques SCA compatibles. La configuración predeterminada es [\"redirect\", \"embedded\"]",
+          "LI_6": "currency - obligatorio. La configuración predeterminada es \"EUR\""
         },
         "LI_4": "Cuando cree el archivo .json (por ejemplo, UITheme.json) y complete todos los campos requeridos, coloque este archivo con el logotipo (por ejemplo, logo.png) y la persona de contacto (por ejemplo, contact.png) en la carpeta",
         "JSONS_1": "Si desea personalizar jsons, que están presentes como ejemplos en las secciones de Casos de prueba del portal para desarrolladores, simplemente cree una carpeta \"jsons\" en",
