@@ -5,10 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.PsuMessage;
 import de.adorsys.ledgers.oba.rest.api.resource.exception.PaymentAuthorizeException;
-import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
+import de.adorsys.ledgers.oba.service.api.domain.exception.AisException;
 import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
 import de.adorsys.ledgers.oba.rest.server.auth.oba.ErrorResponse;
-import de.adorsys.ledgers.oba.rest.server.resource.exception.resolver.ObaExceptionStatusResolver;
+import de.adorsys.ledgers.oba.rest.server.resource.exception.resolver.AisExceptionStatusResolver;
 import de.adorsys.ledgers.oba.rest.server.resource.exception.resolver.AuthorizationExceptionStatusResolver;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
@@ -32,9 +32,9 @@ public class GlobalExceptionHandler {
 
     private final ObjectMapper objectMapper;
 
-    @ExceptionHandler(ObaException.class)
-    public ResponseEntity<Map> handleAisException(ObaException e) {
-        HttpStatus status = ObaExceptionStatusResolver.resolveHttpStatusByCode(e.getObaErrorCode());
+    @ExceptionHandler(AisException.class)
+    public ResponseEntity<Map> handleAisException(AisException e) {
+        HttpStatus status = AisExceptionStatusResolver.resolveHttpStatusByCode(e.getAisErrorCode());
         Map message = buildContentMap(status.value(), e.getDevMessage());
         return ResponseEntity.status(status).body(message);
     }

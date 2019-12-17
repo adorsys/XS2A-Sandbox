@@ -1,8 +1,7 @@
 package de.adorsys.ledgers.oba.service.api.domain.exception;
 
-public enum ObaErrorCode {
+public enum AisErrorCode {
     CONNECTION_ERROR,
     AIS_BAD_REQUEST,
-    PIS_BAD_REQUEST,
     NOT_FOUND
 }
