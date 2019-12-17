@@ -52,7 +52,7 @@ public class TppController implements TppRestApi {
 
     }
 
-    // TODO add functionality to make account real
+    // TODO add functionality to make TPP real
     @Override
     public ResponseEntity<Void> register(User user) {
         UserTO userTO = userMapper.toUserTO(user);
