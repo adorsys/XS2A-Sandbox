@@ -11,7 +11,7 @@ import de.adorsys.ledgers.middleware.client.rest.PaymentRestClient;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentWorkflow;
-import de.adorsys.ledgers.oba.service.api.domain.exception.AisException;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
 import de.adorsys.ledgers.oba.service.api.service.CommonPaymentService;
 import de.adorsys.ledgers.oba.service.api.service.ConsentReferencePolicy;
@@ -35,7 +35,7 @@ import java.io.IOException;
 import java.util.EnumSet;
 
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.*;
-import static de.adorsys.ledgers.oba.service.api.domain.exception.AisErrorCode.NOT_FOUND;
+import static de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode.NOT_FOUND;
 import static de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode.CONSENT_DATA_UPDATE_FAILED;
 
 @Slf4j
@@ -138,8 +138,8 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
         try {
             return valueOf(cmsPsuPisClient.getAuthorisationByAuthorisationId(authorizationId, CmsPsuPisClient.DEFAULT_SERVICE_INSTANCE_ID).getBody().getScaStatus().name());
         } catch (FeignException e) {
-            throw AisException.builder()
-                      .aisErrorCode(NOT_FOUND)
+            throw ObaException.builder()
+                      .obaErrorCode(NOT_FOUND)
                       .devMessage("Authorization for payment not found!")
                       .build();
         }

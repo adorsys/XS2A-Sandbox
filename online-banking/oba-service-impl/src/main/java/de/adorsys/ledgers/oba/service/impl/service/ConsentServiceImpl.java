@@ -8,8 +8,8 @@ import de.adorsys.ledgers.middleware.api.domain.sca.SCAResponseTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.middleware.client.rest.ConsentRestClient;
 import de.adorsys.ledgers.oba.service.api.domain.ObaAisConsent;
-import de.adorsys.ledgers.oba.service.api.domain.exception.AisErrorCode;
-import de.adorsys.ledgers.oba.service.api.domain.exception.AisException;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.api.service.ConsentService;
 import de.adorsys.psd2.consent.api.AspspDataService;
 import de.adorsys.psd2.consent.api.CmsAspspConsentDataBase64;
@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static de.adorsys.ledgers.oba.service.api.domain.exception.AisErrorCode.*;
+import static de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode.*;
 import static java.lang.String.format;
 import static java.util.Base64.getEncoder;
 
@@ -63,9 +63,9 @@ public class ConsentServiceImpl implements ConsentService {
         } catch (FeignException e) {
             String msg = format(GET_CONSENTS_ERROR_MSG, userLogin, e.status(), e.getMessage());
             log.error(msg);
-            throw AisException.builder()
+            throw ObaException.builder()
                       .devMessage(RESPONSE_ERROR)
-                      .aisErrorCode(AIS_BAD_REQUEST).build();
+                      .obaErrorCode(AIS_BAD_REQUEST).build();
         }
     }
 
@@ -93,9 +93,9 @@ public class ConsentServiceImpl implements ConsentService {
         } catch (FeignException e) {
             String msg = format(UPDATE_FAILED_MSG, "authorization", e.getMessage());
             log.error(msg);
-            throw AisException.builder()
+            throw ObaException.builder()
                       .devMessage(msg)
-                      .aisErrorCode(AIS_BAD_REQUEST)
+                      .obaErrorCode(AIS_BAD_REQUEST)
                       .build();
         }
     }
@@ -107,9 +107,9 @@ public class ConsentServiceImpl implements ConsentService {
         } catch (FeignException e) {
             String msg = format(UPDATE_FAILED_MSG, "aspsp consent data", e.getMessage());
             log.error(msg);
-            throw AisException.builder()
+            throw ObaException.builder()
                       .devMessage(msg)
-                      .aisErrorCode(AIS_BAD_REQUEST)
+                      .obaErrorCode(AIS_BAD_REQUEST)
                       .build();
         }
     }
@@ -122,21 +122,21 @@ public class ConsentServiceImpl implements ConsentService {
                              ? format(CONSENT_COULD_NOT_BE_FOUND, consentId)
                              : format(FAILED_TO_CONFIRM_THE_CONSENT_MSG, consentId, e.getMessage());
             log.error(msg);
-            AisErrorCode errorCode = e.status() == 404
+            ObaErrorCode errorCode = e.status() == 404
                                          ? NOT_FOUND
                                          : CONNECTION_ERROR;
-            throw AisException.builder()
+            throw ObaException.builder()
                       .devMessage(msg)
-                      .aisErrorCode(errorCode)
+                      .obaErrorCode(errorCode)
                       .build();
         }
     }
 
     private String getDecryptedConsentId(String encryptedConsentId) {
         return securityDataService.decryptId(encryptedConsentId)
-                   .orElseThrow(() -> AisException.builder()
+                   .orElseThrow(() -> ObaException.builder()
                                           .devMessage("Error decrypting consent id")
-                                          .aisErrorCode(AIS_BAD_REQUEST)
+                                          .obaErrorCode(AIS_BAD_REQUEST)
                                           .build());
     }
 
@@ -144,9 +144,9 @@ public class ConsentServiceImpl implements ConsentService {
         try {
             return getEncoder().encodeToString(objectMapper.writeValueAsBytes(ledgerValidateTanConsentResponse));
         } catch (JsonProcessingException e) {
-            throw AisException.builder()
+            throw ObaException.builder()
                       .devMessage("Could not encode ledgers consent confirmation response.")
-                      .aisErrorCode(AIS_BAD_REQUEST)
+                      .obaErrorCode(AIS_BAD_REQUEST)
                       .build();
         }
     }
@@ -155,9 +155,9 @@ public class ConsentServiceImpl implements ConsentService {
         try {
             return consentRestClient.authorizeConsent(consentId, authorizationId, tan).getBody();
         } catch (FeignException e) {
-            throw AisException.builder()
+            throw ObaException.builder()
                       .devMessage(getDevMessageFromFeignException(e))
-                      .aisErrorCode(AIS_BAD_REQUEST)
+                      .obaErrorCode(AIS_BAD_REQUEST)
                       .build();
         }
     }
@@ -175,21 +175,21 @@ public class ConsentServiceImpl implements ConsentService {
         try {
             byte[] decodedData = aspspDataService.readAspspConsentData(encryptedConsentId)
                                      .map(AspspConsentData::getAspspConsentData)
-                                     .orElseThrow(() -> AisException.builder()
+                                     .orElseThrow(() -> ObaException.builder()
                                                             .devMessage(COULD_NOT_RETRIEVE_ASPSP_CONSENT_DATA)
-                                                            .aisErrorCode(AIS_BAD_REQUEST)
+                                                            .obaErrorCode(AIS_BAD_REQUEST)
                                                             .build());
             token = Optional.ofNullable(objectMapper.readTree(decodedData).get("bearerToken"))
                         .map(t -> t.get("access_token"))
                         .map(JsonNode::asText)
-                        .orElseThrow(() -> AisException.builder()
+                        .orElseThrow(() -> ObaException.builder()
                                                .devMessage("No AccessToken present in ASPSP consent data")
-                                               .aisErrorCode(AIS_BAD_REQUEST)
+                                               .obaErrorCode(AIS_BAD_REQUEST)
                                                .build());
         } catch (IOException e) {
-            throw AisException.builder()
+            throw ObaException.builder()
                       .devMessage("Could not parse ASPSP consent data")
-                      .aisErrorCode(AIS_BAD_REQUEST)
+                      .obaErrorCode(AIS_BAD_REQUEST)
                       .build();
         }
         authInterceptor.setAccessToken(token);
