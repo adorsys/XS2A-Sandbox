@@ -171,7 +171,7 @@ services:
     environment:
       - TPP_REST_SERVER_URL=http://xs2a-tpp-rest-server:8093
       - CERT_GEN_URL=http://certificate-generator:8092
-      - CERT_GEN_ENABLED=false
+      - CERT_GEN_ENABLED=true
     build:
       context: tpp-ui
       dockerfile: Dockerfile
