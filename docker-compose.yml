@@ -130,7 +130,7 @@ services:
       - "8088:8088"
       - "8188:8001"
     environment:
-      - SPRING_PROFILES_ACTIVE=postgres,develop
+      - SPRING_PROFILES_ACTIVE=postgres,sandbox
       - SPRING_JPA_SHOW_SQL=false
       - DB_HOST=xs2a-consent-management-db
       - DB_URL=jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=ledgers
