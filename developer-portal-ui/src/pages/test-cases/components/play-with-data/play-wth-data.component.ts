@@ -5,6 +5,7 @@ import { DataService } from '../../../../services/data.service';
 import { getStatusText } from 'http-status-codes';
 import { CopyService } from '../../../../services/copy.service';
 import { ConsentTypes } from '../../../../models/consentTypes.model';
+import { LocalStorageService } from '../../../../services/local-storage.service';
 
 @Component({
   selector: 'app-play-wth-data',
@@ -35,12 +36,12 @@ export class PlayWthDataComponent implements OnInit {
   finalUrl: string;
   paymentService = '';
   paymentProduct = '';
-  paymentId = '';
-  cancellationId = '';
-  consentId = '';
-  authorisationId = '';
-  accountId = '';
-  transactionId = '';
+  @Input() paymentId;
+  @Input() cancellationId = '';
+  @Input() consentId = '';
+  @Input() authorisationId = '';
+  @Input() accountId = '';
+  @Input() transactionId = '';
   bookingStatus = '';
   redirectUrl = '';
   dateFrom = '';
@@ -57,12 +58,13 @@ export class PlayWthDataComponent implements OnInit {
     'pain.001-cross-border-credit-transfers',
   ];
   bookingStatusSelect = ['booked', 'pending', 'both'];
-  selectedConsentType: string = 'dedicatedAccountsConsent';
+  selectedConsentType = 'dedicatedAccountsConsent';
 
   constructor(
     public restService: RestService,
     public dataService: DataService,
-    public copyService: CopyService
+    public copyService: CopyService,
+    public localStorageService: LocalStorageService
   ) {}
 
   /**
@@ -90,12 +92,10 @@ export class PlayWthDataComponent implements OnInit {
       this.finalUrl += this.cancellationId ? '/' + this.cancellationId : '';
     } else if (this.consentIdFlag) {
       this.finalUrl += '/' + this.consentId;
-
       this.finalUrl += this.variablePathEnd ? this.variablePathEnd : '';
       this.finalUrl += this.authorisationId ? '/' + this.authorisationId : '';
     } else if (this.accountIdFlag) {
       this.finalUrl += '/' + this.accountId;
-
       this.finalUrl += this.variablePathEnd ? this.variablePathEnd : '';
       this.finalUrl += this.dateFrom ? '?dateFrom=' + this.dateFrom : '';
       this.finalUrl += this.bookingStatus
@@ -104,7 +104,7 @@ export class PlayWthDataComponent implements OnInit {
       this.finalUrl += this.transactionId ? '/' + this.transactionId : '';
     }
 
-    console.log(this.variablePathEnd);
+    console.log('variable', this.variablePathEnd);
     console.log('path: ', this.finalUrl);
     const respBodyEl: any = document.getElementById('textArea');
     if (!respBodyEl || this.isValidJSONString(respBodyEl.value)) {
@@ -119,6 +119,33 @@ export class PlayWthDataComponent implements OnInit {
               this.response.body._links.hasOwnProperty('scaRedirect')
             ) {
               this.redirectUrl = this.response.body._links.scaRedirect.href;
+            } else if (this.response.body.hasOwnProperty('paymentId')) {
+              this.paymentId = this.response.body.paymentId;
+              this.localStorageService.set(
+                'paymentId',
+                this.response.body.paymentId
+              );
+            } else if (this.response.body.hasOwnProperty('authorisationId')) {
+              this.authorisationId = this.response.body.authorisationId;
+              this.localStorageService.set(
+                'authorisationId',
+                this.authorisationId
+              );
+            } else if (this.response.body.hasOwnProperty('consentId')) {
+              this.consentId = this.response.body.consentId;
+              this.localStorageService.set('consentId', this.consentId);
+            } else if (this.response.body.hasOwnProperty('cancellationId')) {
+              this.cancellationId = this.response.body.cancellationId;
+              this.localStorageService.set(
+                'cancellationId',
+                this.cancellationId
+              );
+            } else if (this.response.body.hasOwnProperty('accountId')) {
+              this.accountId = this.response.body.accountId;
+              this.localStorageService.set('accountId', this.accountId);
+            } else if (this.response.body.hasOwnProperty('transactionId')) {
+              this.transactionId = this.response.body.transactionId;
+              this.localStorageService.set('transactionId', this.transactionId);
             }
             this.dataService.setIsLoading(false);
             this.dataService.showToast('Request sent', 'Success!', 'success');
@@ -164,12 +191,12 @@ export class PlayWthDataComponent implements OnInit {
     this.paymentProduct = this.paymentProductFlag
       ? '/sepa-credit-transfers'
       : '';
-    this.paymentId = this.paymentIdFlag ? 'paymentId' : '';
-    this.cancellationId = this.cancellationIdFlag ? 'cancellationId' : '';
-    this.consentId = this.consentIdFlag ? 'consentId' : '';
-    this.authorisationId = this.authorisationIdFlag ? 'authorisationId' : '';
-    this.accountId = this.accountIdFlag ? 'accountId' : '';
-    this.transactionId = this.transactionIdFlag ? 'transactionId' : '';
+    this.paymentId = this.paymentIdFlag ? this.paymentId : '';
+    this.cancellationId = this.cancellationIdFlag ? this.cancellationId : '';
+    this.consentId = this.consentIdFlag ? this.consentId : '';
+    this.authorisationId = this.authorisationIdFlag ? this.authorisationId : '';
+    this.accountId = this.accountIdFlag ? this.accountId : '';
+    this.transactionId = this.transactionIdFlag ? this.transactionId : '';
     this.bookingStatus = this.bookingStatusFlag ? 'booked' : '';
     this.dateFrom = this.dateFromFlag ? '2010-10-10' : '';
     this.fieldsToCopy = this.fieldsToCopy ? this.fieldsToCopy : [];
