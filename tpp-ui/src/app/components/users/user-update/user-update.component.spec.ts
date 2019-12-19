@@ -141,8 +141,7 @@ describe('UserUpdateComponent', () => {
         const data = {
             scaMethod: ScaMethods.EMAIL,
             methodValue: '',
-            staticTan: '',
-            usesStaticTan: ''
+            usesStaticTan: false
         };
         expect(formGroup.value).toEqual(data);
     });

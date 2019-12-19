@@ -161,8 +161,7 @@ describe('UserCreateComponent', () => {
         const data = {
             scaMethod: 'EMAIL',
             methodValue: '',
-            staticTan: '',
-            usesStaticTan: ''
+            usesStaticTan: false
         };
         expect(formGroup.value).toEqual(data);
     });
