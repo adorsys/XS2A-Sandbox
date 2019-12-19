@@ -30,6 +30,7 @@
         <module>consent-psu-rest-client</module>
         <module>oba-service-api</module>
         <module>oba-service-impl</module>
+        <module>oba-rest-server</module>
     </modules>
 
     <properties>

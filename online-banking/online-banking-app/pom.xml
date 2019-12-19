@@ -18,27 +18,16 @@
 
     <dependencies>
         <!-- project dependencies -->
-        <dependency>
-            <groupId>de.adorsys.ledgers</groupId>
-            <artifactId>ledgers-utils</artifactId>
-            <version>${ledgers.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>de.adorsys.ledgers</groupId>
-            <artifactId>ledgers-middleware-rest-client</artifactId>
-            <version>${ledgers.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>de.adorsys.psd2.sandbox</groupId>
-            <artifactId>oba-rest-api</artifactId>
+            <artifactId>oba-rest-server</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>de.adorsys.psd2.sandbox</groupId>
-            <artifactId>consent-psu-rest-client</artifactId>
+            <artifactId>oba-service-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -113,11 +102,6 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>de.adorsys.psd2.sandbox</groupId>
-            <artifactId>oba-service-impl</artifactId>
-            <version>${project.version}</version>
-        </dependency>
     </dependencies>
 
     <build>
@@ -134,7 +118,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.1.1.RELEASE</version>
                 <configuration>
-                    <mainClass>de.adorsys.ledgers.oba.rest.server.LedgersXs2aObaApplication</mainClass>
+                    <mainClass>de.adorsys.ledgers.oba.app.LedgersXs2aObaApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>
