@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EmbPaymentInitAuthPostComponent } from './emb-payment-init-auth-post.component';
-import {Component, Input, Pipe, PipeTransform} from '@angular/core';
-import {LineCommandComponent} from '../../../../../custom-elements/line-command/line-command.component';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { LineCommandComponent } from '../../../../../custom-elements/line-command/line-command.component';
 
 describe('EmbPaymentInitAuthPostComponent', () => {
   let component: EmbPaymentInitAuthPostComponent;
@@ -10,7 +10,7 @@ describe('EmbPaymentInitAuthPostComponent', () => {
 
   @Component({
     selector: 'app-play-wth-data',
-    template: ''
+    template: '',
   })
   class MockPlayWithDataComponent {
     @Input() headers: object;
@@ -19,9 +19,10 @@ describe('EmbPaymentInitAuthPostComponent', () => {
     @Input() paymentIdFlag: boolean;
     @Input() variablePathEnd: string;
     @Input() fieldsToCopy: string[];
+    @Input() paymentId: string;
   }
 
-  @Pipe({name: 'translate'})
+  @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -35,7 +36,7 @@ describe('EmbPaymentInitAuthPostComponent', () => {
         EmbPaymentInitAuthPostComponent,
         TranslatePipe,
         MockPlayWithDataComponent,
-        LineCommandComponent
+        LineCommandComponent,
       ],
     }).compileComponents();
   }));

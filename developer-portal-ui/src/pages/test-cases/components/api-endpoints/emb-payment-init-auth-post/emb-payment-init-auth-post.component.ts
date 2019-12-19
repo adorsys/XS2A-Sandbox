@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { LocalStorageService } from '../../../../../services/local-storage.service';
 
 @Component({
   selector: 'app-emb-payment-init-auth-post',
-  templateUrl: './emb-payment-init-auth-post.component.html'
+  templateUrl: './emb-payment-init-auth-post.component.html',
 })
 export class EmbPaymentInitAuthPostComponent implements OnInit {
   activeSegment = 'documentation';
@@ -13,7 +14,11 @@ export class EmbPaymentInitAuthPostComponent implements OnInit {
     'PSU-IP-Address': '1.1.1.1',
   };
 
-  constructor() {}
+  paymentId: string;
+
+  constructor(public localStorageService: LocalStorageService) {
+    this.paymentId = this.localStorageService.get('paymentId');
+  }
 
   changeSegment(segment) {
     if (segment === 'documentation' || segment === 'play-data') {
