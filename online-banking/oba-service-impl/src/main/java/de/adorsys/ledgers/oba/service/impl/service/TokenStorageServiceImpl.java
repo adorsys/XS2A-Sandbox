@@ -8,17 +8,16 @@ import de.adorsys.ledgers.middleware.api.domain.sca.SCALoginResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCAPaymentResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCAResponseTO;
 import de.adorsys.ledgers.middleware.api.service.TokenStorageService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.Base64;
-import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class TokenStorageServiceImpl implements TokenStorageService {
-    @Autowired
-    private ObjectMapper mapper;
+    private final ObjectMapper mapper;
 
     @Override
     public SCAResponseTO fromBytes(byte[] tokenBytes) throws IOException {
@@ -36,6 +35,11 @@ public class TokenStorageServiceImpl implements TokenStorageService {
     @Override
     public <T extends SCAResponseTO> T fromBytes(byte[] tokenBytes, Class<T> klass) throws IOException {
         return read(tokenBytes, klass);
+    }
+
+    @Override
+    public String toBase64String(SCAResponseTO response) throws IOException {
+        return Base64.getEncoder().encodeToString(toBytes(response));
     }
 
     private SCAResponseTO read(byte[] tokenBytes) throws IOException {
@@ -68,13 +72,10 @@ public class TokenStorageServiceImpl implements TokenStorageService {
         return jsonNode;
     }
 
-    public String objectType(JsonNode jsonNode) {
-        return Optional.ofNullable(jsonNode.get("objectType")).orElse(null).asText();
+    private String objectType(JsonNode jsonNode) {
+        JsonNode objectType = jsonNode.get("objectType");
+        return objectType != null
+                   ? objectType.asText()
+                   : null;
     }
-
-    @Override
-    public String toBase64String(SCAResponseTO response) throws IOException {
-        return Base64.getEncoder().encodeToString(toBytes(response));
-    }
-
 }
