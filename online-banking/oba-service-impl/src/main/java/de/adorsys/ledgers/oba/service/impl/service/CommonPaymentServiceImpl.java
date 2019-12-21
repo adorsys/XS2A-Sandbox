@@ -1,5 +1,7 @@
 package de.adorsys.ledgers.oba.service.impl.service;
 
+import de.adorsys.ledgers.middleware.api.domain.payment.BulkPaymentTO;
+import de.adorsys.ledgers.middleware.api.domain.payment.SinglePaymentTO;
 import de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCAPaymentResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
@@ -15,13 +17,9 @@ import de.adorsys.ledgers.oba.service.api.domain.exception.AisException;
 import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
 import de.adorsys.ledgers.oba.service.api.service.CommonPaymentService;
 import de.adorsys.ledgers.oba.service.api.service.ConsentReferencePolicy;
-import de.adorsys.ledgers.oba.service.impl.mapper.PaymentConverter;
+import de.adorsys.ledgers.oba.service.api.service.PaymentConverter;
 import de.adorsys.psd2.consent.api.CmsAspspConsentDataBase64;
-import de.adorsys.psd2.consent.api.pis.CmsBulkPayment;
-import de.adorsys.psd2.consent.api.pis.CmsPayment;
 import de.adorsys.psd2.consent.api.pis.CmsPaymentResponse;
-import de.adorsys.psd2.consent.api.pis.CmsSinglePayment;
-import de.adorsys.psd2.xs2a.core.profile.PaymentType;
 import de.adorsys.psd2.xs2a.core.sca.AuthenticationDataHolder;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
@@ -32,9 +30,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.EnumSet;
 
-import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.*;
+import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.FINALISED;
+import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.valueOf;
 import static de.adorsys.ledgers.oba.service.api.domain.exception.AisErrorCode.NOT_FOUND;
 import static de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode.CONSENT_DATA_UPDATE_FAILED;
 
@@ -69,7 +67,7 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
         workflow.setAuthResponse(new PaymentAuthorizeResponse(workflow.paymentType(), convertedPaymentTO));
         workflow.getAuthResponse().setAuthorisationId(cmsPaymentResponse.getAuthorisationId());
         workflow.getAuthResponse().setEncryptedConsentId(encryptedPaymentId);
-        workflow.setPaymentStatus(resolvePaymentStatus(cmsPaymentResponse.getPayment()));
+        workflow.setPaymentStatus(resolvePaymentStatus(convertedPaymentTO));
         if (bearerToken != null) {
             SCAPaymentResponseTO scaPaymentResponseTO = new SCAPaymentResponseTO();
             scaPaymentResponseTO.setBearerToken(bearerToken);
@@ -174,12 +172,12 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
         updateAspspConsentData(workflow);
     }
 
-    private String resolvePaymentStatus(CmsPayment payment) {
-        if (EnumSet.of(PaymentType.SINGLE, PaymentType.PERIODIC).contains(payment.getPaymentType())) {
-            CmsSinglePayment singlePayment = (CmsSinglePayment) payment;
+    private String resolvePaymentStatus(Object paymentTO) {
+        if (paymentTO instanceof SinglePaymentTO) {
+            SinglePaymentTO singlePayment = (SinglePaymentTO) paymentTO;
             return singlePayment.getPaymentStatus().name();
         } else {
-            CmsBulkPayment bulkPayment = (CmsBulkPayment) payment;
+            BulkPaymentTO bulkPayment = (BulkPaymentTO) paymentTO;
             return bulkPayment.getPayments().get(0).getPaymentStatus().name();
         }
     }
