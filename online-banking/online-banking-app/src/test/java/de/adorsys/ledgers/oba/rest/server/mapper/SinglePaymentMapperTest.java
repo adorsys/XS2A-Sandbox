@@ -122,7 +122,7 @@ public class SinglePaymentMapperTest {
     }
 
     private AddressTO getAddressTO() {
-        return new AddressTO(STREET, BLD_NR, CITY, POSTAL_CODE, COUNTRY);
+        return new AddressTO(STREET, BLD_NR, CITY, POSTAL_CODE, COUNTRY, null, null);
     }
 
     private AccountReferenceTO getReferenceTO() {
