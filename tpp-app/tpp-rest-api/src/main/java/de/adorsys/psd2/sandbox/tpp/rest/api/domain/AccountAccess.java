@@ -12,4 +12,5 @@ public class AccountAccess {
     private Currency currency;
     private AccessTypeTO accessType;
     private int scaWeight;
+    private String accountId;
 }

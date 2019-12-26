@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -23,6 +24,7 @@ import java.util.Date;
 import static de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode.ACCESS_FORBIDDEN;
 
 @Slf4j
+@Component
 public class DefaultConsentReferencePolicy implements ConsentReferencePolicy {
     private static final String CONSENT_TYPE_JWT_CLAIM_NAME = "consent-type";
     private static final String REDIRECT_ID_JWT_CLAIM_NAME = "redirect-id";

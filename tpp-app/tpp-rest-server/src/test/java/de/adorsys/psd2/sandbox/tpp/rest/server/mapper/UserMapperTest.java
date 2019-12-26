@@ -22,6 +22,7 @@ public class UserMapperTest {
     private static final String SCA_ID = "SCA-ID";
     private static final String STATIC_TAN = "12345";
     private static final String ACC_ID = "ZXCVASDF";
+    private static final String DEPOSIT_ACC_ID = "123ACHkr4J";
     private static final String IBAN = "DE1234567890";
     private static final Currency CURRENCY = Currency.getInstance("EUR");
     private static final UserTypeTO USER_TYPE_TO = UserTypeTO.FAKE;
@@ -32,8 +33,8 @@ public class UserMapperTest {
     @Test
     public void toUserTO() {
         User user = new User();
-        user.setEmail("vne@adorsys.de");
-        user.setLogin("vne");
+        user.setEmail("test@mail.de");
+        user.setLogin("test");
         user.setPin("12345");
         user.setId("12345678");
 
@@ -62,7 +63,7 @@ public class UserMapperTest {
 
     private UserTO createUserTO(boolean emptySca) {
         ScaUserDataTO scaUserDataTO = new ScaUserDataTO(SCA_ID, ScaMethodTypeTO.EMAIL, EMAIL, null, true, STATIC_TAN, false);
-        return new UserTO(USER_ID, USER_LOGIN, EMAIL, PIN, emptySca ? Collections.emptyList() : singletonList(scaUserDataTO), singletonList(new AccountAccessTO(ACC_ID, IBAN, CURRENCY, OWNER, 50)), singletonList(CUSTOMER), null, USER_TYPE_TO);
+        return new UserTO(USER_ID, USER_LOGIN, EMAIL, PIN, emptySca ? Collections.emptyList() : singletonList(scaUserDataTO), singletonList(new AccountAccessTO(ACC_ID, IBAN, CURRENCY, OWNER, 50, DEPOSIT_ACC_ID)), singletonList(CUSTOMER), null, USER_TYPE_TO);
     }
 
     private User createUser(boolean emptySca) {
@@ -99,6 +100,7 @@ public class UserMapperTest {
         access.setCurrency(CURRENCY);
         access.setScaWeight(50);
         access.setAccessType(OWNER);
+        access.setAccountId(DEPOSIT_ACC_ID);
         return access;
     }
 }

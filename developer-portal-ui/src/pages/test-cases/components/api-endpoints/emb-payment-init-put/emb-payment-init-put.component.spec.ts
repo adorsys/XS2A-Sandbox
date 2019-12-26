@@ -34,6 +34,8 @@ describe('EmbPaymentInitPutComponent', () => {
     @Input() paymentIdFlag: boolean;
     @Input() variablePathEnd: string;
     @Input() authorisationIdFlag: boolean;
+    @Input() paymentId: string;
+    @Input() authorisationId: string;
   }
 
   @Pipe({ name: 'translate' })

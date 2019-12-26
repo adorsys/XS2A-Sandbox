@@ -121,7 +121,7 @@ services:
 
   # Ledgers
   ledgers:
-    image: adorsys/ledgers:2.3
+    image: adorsys/ledgers:2.4
     container_name: ledgers
     restart: on-failure
     networks:
@@ -130,7 +130,7 @@ services:
       - "8088:8088"
       - "8188:8001"
     environment:
-      - SPRING_PROFILES_ACTIVE=postgres,develop
+      - SPRING_PROFILES_ACTIVE=postgres,sandbox
       - SPRING_JPA_SHOW_SQL=false
       - DB_HOST=xs2a-consent-management-db
       - DB_URL=jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=ledgers
@@ -171,7 +171,7 @@ services:
     environment:
       - TPP_REST_SERVER_URL=http://xs2a-tpp-rest-server:8093
       - CERT_GEN_URL=http://certificate-generator:8092
-      - CERT_GEN_ENABLED=false
+      - CERT_GEN_ENABLED=true
     build:
       context: tpp-ui
       dockerfile: Dockerfile

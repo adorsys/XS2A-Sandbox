@@ -15,7 +15,7 @@
 
   <!--&lt;!&ndash; Second 1/4 &ndash;&gt;-->
   <div class="col-md-8 bg-white h-md-100">
-    <div *ngIf="accounts.length > 0" class="d-md-flex align-items-center h-100 p-4 justify-content-center">
+    <div *ngIf="accounts.length > 0 else sorry" class="d-md-flex align-items-center h-100 p-4 justify-content-center">
       <form [formGroup]="bankOfferedForm" (ngSubmit)="bankOfferedForm.valid && onSubmit()">
         <div class="card">
           <div class="card-body">
@@ -104,6 +104,23 @@
 
       </form>
     </div>
+
+    <ng-template #sorry>
+      <div class="d-md-flex align-items-center h-100 p-4 justify-content-center">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title font-weight-bold">Sorry</h2>
+            <div class="font-weight-light my-4 text-muted">There is no bank accounts for this current user!</div>
+            <div class="card-footer no-bg-color">
+              <button type="button" class="btn btn-primary col-12" (click)="backToTpp()">
+                <span class="mx-auto text-light">Back to TPP page</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </ng-template>
   </div>
 
 </div>

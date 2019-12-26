@@ -65,7 +65,7 @@
     }
   }
   .header-item {
-    color: #000;
+    color: var(--headerFontColor);
     opacity: 0.3;
     margin-right: 1.5em;
     text-decoration: none;
@@ -222,7 +222,7 @@
     cursor: pointer;
   }
   .footer-item {
-    color: #fff;
+    color: var(--footerFontColor);
     text-decoration: none;
     opacity: 0.3;
     margin-right: 2.5em;

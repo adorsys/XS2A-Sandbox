@@ -101,7 +101,7 @@
                         <div *ngFor="let scaDataItem of formControl['scaUserData']['controls']; let i=index"
                              class="box mb-4">
                             <button (click)="removeScaDataItem(i)"
-                                    *ngIf="userForm.controls['scaUserData'].controls.length > 0"
+                                    *ngIf="i > 0"
                                     aria-label="Close"
                                     class="close box__close-icon"
                                     type="button">

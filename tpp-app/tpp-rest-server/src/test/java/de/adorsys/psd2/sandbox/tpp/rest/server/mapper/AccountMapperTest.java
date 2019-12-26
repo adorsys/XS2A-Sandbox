@@ -64,7 +64,7 @@ public class AccountMapperTest {
     private UserTO getUser(String login) {
         UserTO user = new UserTO();
         user.setLogin(login);
-        user.setAccountAccesses(Collections.singletonList(new AccountAccessTO("id", IBAN, CURRENCY, ACCESS_TYPE, SCA_WEIGHT)));
+        user.setAccountAccesses(Collections.singletonList(new AccountAccessTO("id", IBAN, CURRENCY, ACCESS_TYPE, SCA_WEIGHT, "accountId")));
         return user;
     }
 
@@ -95,7 +95,7 @@ public class AccountMapperTest {
     }
 
     private AccountAccessTO getAccountAccessTO() {
-        return new AccountAccessTO(null, IBAN, CURRENCY, ACCESS_TYPE, SCA_WEIGHT);
+        return new AccountAccessTO(null, IBAN, CURRENCY, ACCESS_TYPE, SCA_WEIGHT, null);
     }
 
     private AccountAccess getTppUiAccountAccess() {

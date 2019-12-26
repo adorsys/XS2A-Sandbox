@@ -73,14 +73,36 @@ export class CustomizeService {
   };
 
   private defaultThemeUrl = 'assets/UI/defaultTheme.json';
+  private customThemeUrl = '../assets/UI/custom/UITheme.json';
 
   constructor(private http: HttpClient) {
     this.updateCSS();
   }
 
+  public getCurrency() {
+    return this.http
+      .get(this.customThemeUrl)
+      .toPromise()
+      .then(data => {
+        let theme = data;
+        this.IS_CUSTOM = true;
+        try {
+          JSON.parse(JSON.stringify(theme));
+        } catch (e) {
+          theme = this.getDefaultTheme();
+          this.IS_CUSTOM = false;
+        }
+        return theme['currency'];
+      })
+      .catch(e => {
+        this.IS_CUSTOM = false;
+        return this.getDefaultTheme().then(data => data.currency);
+      });
+  }
+
   public getJSON(): Promise<Theme> {
     return this.http
-      .get('../assets/UI/custom/UITheme.json')
+      .get(this.customThemeUrl)
       .toPromise()
       .then(data => {
         let theme = data;

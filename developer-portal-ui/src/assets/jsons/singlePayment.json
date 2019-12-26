@@ -2,7 +2,7 @@
   "endToEndIdentification": "D1",
   "debtorAccount": {
     "currency": "EUR",
-    "iban": "DE80760700240271232400"
+    "iban": "YOUR_USER_IBAN"
   },
   "instructedAmount": {
     "currency": "EUR",

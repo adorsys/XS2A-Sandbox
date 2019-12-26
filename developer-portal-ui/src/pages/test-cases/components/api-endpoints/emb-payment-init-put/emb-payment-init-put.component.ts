@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { JsonService } from '../../../../../services/json.service';
+import { LocalStorageService } from '../../../../../services/local-storage.service';
 
 @Component({
   selector: 'app-emb-payment-init-put',
@@ -18,8 +19,13 @@ export class EmbPaymentInitPutComponent implements OnInit {
     'PSU-IP-Address': '1.1.1.1',
   };
   body: object;
+  paymentId: string;
+  authorisationId: string;
 
-  constructor(private jsonService: JsonService) {
+  constructor(
+    private jsonService: JsonService,
+    public localStorageService: LocalStorageService
+  ) {
     jsonService
       .getPreparedJsonData(jsonService.jsonLinks.psuData)
       .subscribe(data => (this.jsonData1 = data), error => console.log(error));
@@ -32,6 +38,9 @@ export class EmbPaymentInitPutComponent implements OnInit {
     jsonService
       .getPreparedJsonData(jsonService.jsonLinks.authenticationMethodId)
       .subscribe(data => (this.jsonData3 = data), error => console.log(error));
+
+    this.paymentId = localStorageService.get('paymentId');
+    this.authorisationId = localStorageService.get('authorisationId');
   }
 
   changeSegment(segment) {

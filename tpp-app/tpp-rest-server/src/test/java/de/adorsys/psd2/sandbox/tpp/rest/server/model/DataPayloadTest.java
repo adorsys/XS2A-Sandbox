@@ -80,7 +80,7 @@ public class DataPayloadTest {
     }
 
     private UserTO getBranch() {
-        return new UserTO(null, null, null, null, null, Collections.singletonList(new AccountAccessTO(null, "DE17123456780000000001", USD, AccessTypeTO.OWNER, 100)), null, "DE_12345678", USER_TYPE);
+        return new UserTO(null, null, null, null, null, Collections.singletonList(new AccountAccessTO(null, "DE17123456780000000001", USD, AccessTypeTO.OWNER, 100, null)), null, "DE_12345678", USER_TYPE);
     }
 
     private DataPayload getData(boolean emptyUsers, boolean nullAccounts, boolean nullElementInBalances) {
@@ -99,7 +99,7 @@ public class DataPayloadTest {
 
     private UserTO getUser() {
         UserTO user = new UserTO("login", "email", "pin", USER_TYPE);
-        user.setAccountAccesses(Collections.singletonList(new AccountAccessTO(null, "02", USD, null, 100)));
+        user.setAccountAccesses(Collections.singletonList(new AccountAccessTO(null, "02", USD, null, 100, null)));
         return user;
     }
 
