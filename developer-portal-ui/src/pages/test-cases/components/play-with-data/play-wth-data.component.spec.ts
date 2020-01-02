@@ -8,6 +8,8 @@ import { FormsModule } from '@angular/forms';
 import { RestService } from '../../../../services/rest.service';
 import { CopyService } from '../../../../services/copy.service';
 import { LocalStorageService } from '../../../../services/local-storage.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { JsonService } from '../../../../services/json.service';
 
 describe('PlayWthDataComponent', () => {
   let component: PlayWthDataComponent;
@@ -20,6 +22,12 @@ describe('PlayWthDataComponent', () => {
 
   const RestServiceStub = {
     sendRequest: () => {},
+  };
+
+  const JsonServiceStub = {
+    getPreparedJsonData: (val: string) => {
+      return '{body: body}';
+    },
   };
 
   const CopyServiceStub = {
@@ -40,12 +48,13 @@ describe('PlayWthDataComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [PlayWthDataComponent, TranslatePipe],
-      imports: [FormsModule, NgxLoadingModule],
+      imports: [FormsModule, NgxLoadingModule, HttpClientTestingModule],
       providers: [
         { provide: DataService, useValue: DataServiceStub },
         { provide: RestService, useValue: RestServiceStub },
         { provide: CopyService, useValue: CopyServiceStub },
         { provide: LocalStorageService, useValue: LocalStorageServiceStub },
+        { provide: JsonService, useValue: JsonServiceStub },
       ],
     }).compileComponents();
   }));

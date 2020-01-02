@@ -6,6 +6,7 @@ import { getStatusText } from 'http-status-codes';
 import { CopyService } from '../../../../services/copy.service';
 import { ConsentTypes } from '../../../../models/consentTypes.model';
 import { LocalStorageService } from '../../../../services/local-storage.service';
+import { JsonService } from '../../../../services/json.service';
 
 @Component({
   selector: 'app-play-wth-data',
@@ -64,7 +65,8 @@ export class PlayWthDataComponent implements OnInit {
     public restService: RestService,
     public dataService: DataService,
     public copyService: CopyService,
-    public localStorageService: LocalStorageService
+    public localStorageService: LocalStorageService,
+    public jsonService: JsonService
   ) {}
 
   /**
@@ -200,5 +202,22 @@ export class PlayWthDataComponent implements OnInit {
     this.bookingStatus = this.bookingStatusFlag ? 'booked' : '';
     this.dateFrom = this.dateFromFlag ? '2010-10-10' : '';
     this.fieldsToCopy = this.fieldsToCopy ? this.fieldsToCopy : [];
+  }
+
+  handlePaymentTypeChanged(
+    paymentType: string,
+    paymentProductChanged: boolean
+  ) {
+    const paymentService = paymentProductChanged
+      ? this.paymentService
+      : paymentType;
+
+    const paymentProduct = paymentProductChanged
+      ? paymentType
+      : this.paymentProduct;
+
+    this.jsonService
+      .getPreparedJsonData(paymentService + '/' + paymentProduct + '.json')
+      .subscribe(data => (this.body = data));
   }
 }
