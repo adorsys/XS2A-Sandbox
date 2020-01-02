@@ -43,6 +43,12 @@
 
         <dependency>
             <groupId>de.adorsys.psd2</groupId>
+            <artifactId>cms-payment-common-impl</artifactId>
+            <version>${xs2a.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.adorsys.psd2</groupId>
             <artifactId>aspsp-profile-lib</artifactId>
             <version>${xs2a.version}</version>
         </dependency>
