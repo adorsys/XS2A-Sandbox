@@ -212,6 +212,6 @@ public class AisConsentMapperTest {
     }
 
     private PsuIdData getPsuData() {
-        return new PsuIdData(PSU_ID, PSU_ID_TYPE, CORPORATE_ID, CORPORATE_ID_TYPE);
+        return new PsuIdData(PSU_ID, PSU_ID_TYPE, CORPORATE_ID, CORPORATE_ID_TYPE, null);
     }
 }
