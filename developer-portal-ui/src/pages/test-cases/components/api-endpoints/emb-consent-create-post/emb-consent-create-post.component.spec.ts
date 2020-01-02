@@ -16,6 +16,7 @@ import { JsonService } from '../../../../../services/json.service';
 import { of } from 'rxjs';
 import { DataService } from '../../../../../services/data.service';
 import { ToastrService } from 'ngx-toastr';
+import { NgHttpLoaderModule } from 'ng-http-loader';
 
 describe('EmbConsentCreatePostComponent', () => {
   let component: EmbConsentCreatePostComponent;
@@ -70,6 +71,7 @@ describe('EmbConsentCreatePostComponent', () => {
             deps: [HttpClient],
           },
         }),
+        NgHttpLoaderModule.forRoot(),
       ],
       providers: [
         TranslateService,

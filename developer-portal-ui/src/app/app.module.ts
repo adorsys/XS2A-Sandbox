@@ -24,6 +24,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../services/language.service';
 import { SettingsLoadService } from '../services/settings-load.service';
 import { NgxImageZoomModule } from 'ngx-image-zoom';
+import { NgHttpLoaderModule } from 'ng-http-loader';
 
 export function app_Init(settingsLoadService: SettingsLoadService) {
   return () => settingsLoadService.initializeApp();
@@ -59,6 +60,7 @@ export function app_Init(settingsLoadService: SettingsLoadService) {
         deps: [HttpClient],
       },
     }),
+    NgHttpLoaderModule.forRoot(),
     ReactiveFormsModule,
     FormsModule,
     NgxImageZoomModule.forRoot(),
