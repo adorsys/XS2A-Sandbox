@@ -4,8 +4,7 @@ import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
 import de.adorsys.ledgers.middleware.api.domain.account.TransactionTO;
 import de.adorsys.ledgers.middleware.api.domain.account.UsageTypeTO;
 import de.adorsys.ledgers.middleware.client.rest.AccountRestClient;
-import de.adorsys.ledgers.oba.service.api.domain.exception.AisException;
-import de.adorsys.ledgers.oba.service.api.service.AisService;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.impl.service.AisServiceImpl;
 import feign.FeignException;
 import org.junit.Test;
@@ -44,7 +43,7 @@ public class AisServiceTest {
         assertThat(result).isEqualTo(getAccountList().getBody());
     }
 
-    @Test(expected = AisException.class)
+    @Test(expected = ObaException.class)
     public void getAccounts_bad_request() {
         when(accountRestClient.getListOfAccounts()).thenThrow(FeignException.class);
         aisService.getAccounts("userLogin");
@@ -57,7 +56,7 @@ public class AisServiceTest {
         assertThat(result).isEqualTo(getTransactionList().getBody());
     }
 
-    @Test(expected = AisException.class)
+    @Test(expected = ObaException.class)
     public void getTransactionByDates_bad_request() {
         when(accountRestClient.getTransactionByDates(any(), any(), any())).thenThrow(FeignException.class);
         aisService.getTransactions("Account id", LocalDate.of(2019, 1, 1), LocalDate.of(2020, 1, 1));

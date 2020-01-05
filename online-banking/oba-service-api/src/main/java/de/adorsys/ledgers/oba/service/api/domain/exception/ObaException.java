@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Builder
 @Data
-public class AisException extends RuntimeException {
+public class ObaException extends RuntimeException {
     private String devMessage;
-    private AisErrorCode aisErrorCode;
+    private ObaErrorCode obaErrorCode;
 }

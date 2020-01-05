@@ -16,6 +16,7 @@
 
 package de.adorsys.ledgers.test.oba.rest;
 
+import de.adorsys.ledgers.middleware.client.EnableLedgersMiddlewareRestClient;
 import de.adorsys.ledgers.middleware.client.rest.AccountRestClient;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuPisClient;
 import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
@@ -26,6 +27,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @EnableFeignClients(basePackageClasses = {AccountRestClient.class, CmsPsuPisClient.class, AspspConsentDataClient.class})
 @SpringBootApplication
+@EnableLedgersMiddlewareRestClient
 @ComponentScan(basePackages = {"de.adorsys.ledgers.oba", "de.adorsys.psd2.mapper"})
 public class LedgersXs2aObaApp {
     public static void main(String[] args) {

@@ -205,7 +205,7 @@ public class PaymentExecutionHelper {
         ScaStatusTO scaStatus = authResponse.getScaStatus();
         Assert.assertNotNull(scaStatus);
         Assert.assertEquals(expectedScaStatus, scaStatus);
-        Assert.assertEquals(expectedPaymentStatus, authResponse.getSinglePayment().getPaymentStatus());
+        Assert.assertEquals(expectedPaymentStatus, authResponse.getPayment().getTransactionStatus());
     }
 
 }

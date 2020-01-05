@@ -56,7 +56,7 @@ public class PaymentExecutionHelper {
         String tpPRedirectPreferred = "false";
         String tpPRedirectURI = null;
         String tpPNokRedirectURI = null;
-        Boolean tpPExplicitAuthorisationPreferred = true;
+        boolean tpPExplicitAuthorisationPreferred = true;
         ResponseEntity<PaymentInitationRequestResponse201> respWrapper = paymentApi._initiatePayment(payment, xRequestID, psUIPAddress,
             paymentService, paymentProduct, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType,
             psUCorporateID, psUCorporateIDType, consentID, tpPRedirectPreferred, tpPRedirectURI, tpPNokRedirectURI,
