@@ -20,6 +20,7 @@ import { CustomizeService } from '../services/customize.service';
 import { Pipe, PipeTransform } from '@angular/core';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
+import { NgHttpLoaderModule } from 'ng-http-loader';
 
 const TRANSLATIONS_EN = require('../assets/i18n/en.json');
 const TRANSLATIONS_DE = require('../assets/i18n/de.json');
@@ -122,6 +123,7 @@ describe('AppComponent', () => {
             deps: [HttpClient],
           },
         }),
+        NgHttpLoaderModule.forRoot(),
       ],
       providers: [
         TranslateService,

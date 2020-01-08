@@ -33,8 +33,8 @@ public interface AisConsentMapper {
 
     default PsuIdData toPsuIdData(PsuInfo psuInfo) {
         return Optional.ofNullable(psuInfo)
-                   .map(p -> new PsuIdData(p.getPsuId(), p.getPsuIdType(), p.getPsuCorporateId(), p.getPsuCorporateIdType()))
-                   .orElseGet(() -> new PsuIdData(null, null, null, null));
+                   .map(p -> new PsuIdData(p.getPsuId(), p.getPsuIdType(), p.getPsuCorporateId(), p.getPsuCorporateIdType(), null))
+                   .orElseGet(PsuIdData::new);
     }
 
     default TppRedirectUri toTppRedirectUti(ThirdPartyRedirectUri redirectUri) {

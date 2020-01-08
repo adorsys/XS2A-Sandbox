@@ -1,40 +1,45 @@
 package de.adorsys.ledgers.oba.service.impl.service;
 
-import de.adorsys.ledgers.middleware.api.domain.payment.BulkPaymentTO;
-import de.adorsys.ledgers.middleware.api.domain.payment.SinglePaymentTO;
+import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTO;
 import de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCAPaymentResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.api.service.TokenStorageService;
+import de.adorsys.ledgers.middleware.client.mappers.PaymentMapperTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.middleware.client.rest.OauthRestClient;
 import de.adorsys.ledgers.middleware.client.rest.PaymentRestClient;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentWorkflow;
-import de.adorsys.ledgers.oba.service.api.domain.exception.AisException;
 import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.api.service.CommonPaymentService;
 import de.adorsys.ledgers.oba.service.api.service.ConsentReferencePolicy;
-import de.adorsys.ledgers.oba.service.api.service.PaymentConverter;
 import de.adorsys.psd2.consent.api.CmsAspspConsentDataBase64;
+import de.adorsys.psd2.consent.api.pis.CmsCommonPayment;
 import de.adorsys.psd2.consent.api.pis.CmsPaymentResponse;
+import de.adorsys.psd2.consent.psu.api.CmsPsuAuthorisation;
+import de.adorsys.psd2.consent.psu.api.CmsPsuPisService;
+import de.adorsys.psd2.xs2a.core.exception.AuthorisationIsExpiredException;
+import de.adorsys.psd2.xs2a.core.exception.RedirectUrlIsExpiredException;
+import de.adorsys.psd2.xs2a.core.pis.TransactionStatus;
+import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.sca.AuthenticationDataHolder;
-import feign.FeignException;
+import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuPisClient;
 import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.FINALISED;
-import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.valueOf;
-import static de.adorsys.ledgers.oba.service.api.domain.exception.AisErrorCode.NOT_FOUND;
 import static de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode.CONSENT_DATA_UPDATE_FAILED;
+import static de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode.*;
+import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuPisClient.DEFAULT_SERVICE_INSTANCE_ID;
 
 @Slf4j
 @Service
@@ -42,11 +47,11 @@ import static de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode.
 public class CommonPaymentServiceImpl implements CommonPaymentService {
     private final ConsentReferencePolicy referencePolicy;
     private final AuthRequestInterceptor authInterceptor;
-    private final CmsPsuPisClient cmsPsuPisClient;
+    private final CmsPsuPisService cmsPsuPisService;
     private final PaymentRestClient paymentRestClient;
     private final AspspConsentDataClient aspspConsentDataClient;
     private final TokenStorageService tokenStorageService;
-    private final PaymentConverter paymentConverter;
+    private final PaymentMapperTO paymentMapper;
     private final OauthRestClient oauthRestClient;
 
     @Override
@@ -60,14 +65,14 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
     @Override
     public PaymentWorkflow identifyPayment(String encryptedPaymentId, String authorizationId, boolean strict, String consentCookieString, String psuId, BearerTokenTO bearerToken) {
         ConsentReference consentReference = referencePolicy.fromRequest(encryptedPaymentId, authorizationId, consentCookieString, strict);
-        CmsPaymentResponse cmsPaymentResponse = loadPaymentByRedirectId(psuId, consentReference);
-
+        CmsPaymentResponse cmsPaymentResponse = loadPaymentByRedirectId(consentReference);
         PaymentWorkflow workflow = new PaymentWorkflow(cmsPaymentResponse, consentReference);
-        Object convertedPaymentTO = paymentConverter.convertPayment(workflow.paymentType(), cmsPaymentResponse);
-        workflow.setAuthResponse(new PaymentAuthorizeResponse(workflow.paymentType(), convertedPaymentTO));
+        PaymentTO payment = getPaymentTO(workflow);
+
+        workflow.setAuthResponse(new PaymentAuthorizeResponse(payment));
         workflow.getAuthResponse().setAuthorisationId(cmsPaymentResponse.getAuthorisationId());
         workflow.getAuthResponse().setEncryptedConsentId(encryptedPaymentId);
-        workflow.setPaymentStatus(resolvePaymentStatus(convertedPaymentTO));
+        workflow.setPaymentStatus(Optional.ofNullable(payment.getTransactionStatus()).map(Enum::name).orElse("RCVD"));
         if (bearerToken != null) {
             SCAPaymentResponseTO scaPaymentResponseTO = new SCAPaymentResponseTO();
             scaPaymentResponseTO.setBearerToken(bearerToken);
@@ -111,12 +116,9 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
 
     @Override
     public PaymentWorkflow initiatePayment(PaymentWorkflow paymentWorkflow, String psuId) {
-        CmsPaymentResponse paymentResponse = paymentWorkflow.getPaymentResponse();
-        Object payment = paymentConverter.convertPayment(paymentWorkflow.paymentType(), paymentResponse);
-
         authInterceptor.setAccessToken(paymentWorkflow.bearerToken().getAccess_token());
 
-        SCAPaymentResponseTO paymentResponseTO = paymentRestClient.initiatePayment(paymentWorkflow.paymentType(), payment).getBody();
+        SCAPaymentResponseTO paymentResponseTO = paymentRestClient.initiatePayment(paymentWorkflow.paymentType(), paymentWorkflow.getAuthResponse().getPayment()).getBody();
 
         paymentWorkflow.processSCAResponse(paymentResponseTO);
         paymentWorkflow.setPaymentStatus(paymentResponseTO.getTransactionStatus().name());
@@ -172,16 +174,6 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
         updateAspspConsentData(workflow);
     }
 
-    private String resolvePaymentStatus(Object paymentTO) {
-        if (paymentTO instanceof SinglePaymentTO) {
-            SinglePaymentTO singlePayment = (SinglePaymentTO) paymentTO;
-            return singlePayment.getPaymentStatus().name();
-        } else {
-            BulkPaymentTO bulkPayment = (BulkPaymentTO) paymentTO;
-            return bulkPayment.getPayments().get(0).getPaymentStatus().name();
-        }
-    }
-
     private void selectMethodAndUpdateWorkflow(String scaMethodId, final PaymentWorkflow workflow, boolean isCancellationOperation) {
         try {
             authInterceptor.setAccessToken(workflow.bearerToken().getAccess_token());
@@ -200,35 +192,61 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
         String paymentId = workflow.getPaymentResponse().getPayment().getPaymentId();
         String authorisationId = workflow.getPaymentResponse().getAuthorisationId();
         String status = workflow.getAuthResponse().getScaStatus().name();
-        cmsPsuPisClient.updateAuthorisationStatus(psuId, null, null, null,
-            paymentId, authorisationId, status, CmsPsuPisClient.DEFAULT_SERVICE_INSTANCE_ID, new AuthenticationDataHolder(null, null));
-    }
-
-    private CmsPaymentResponse loadPaymentByRedirectId(String psuId, ConsentReference consentReference) {
-        String psuIdType = null;
-        String psuCorporateId = null;
-        String psuCorporateIdType = null;
-        String redirectId = consentReference.getRedirectId();
-        // 4. After user login:
-        ResponseEntity<CmsPaymentResponse> cmsResponse = cmsPsuPisClient.getPaymentByRedirectId(
-            psuId, psuIdType, psuCorporateId, psuCorporateIdType, redirectId, CmsPsuPisClient.DEFAULT_SERVICE_INSTANCE_ID);
-
-        return cmsResponse.getBody();
-    }
-
-    private ScaStatusTO loadAuthorization(String authorizationId) {
         try {
-            return valueOf(cmsPsuPisClient.getAuthorisationByAuthorisationId(authorizationId, CmsPsuPisClient.DEFAULT_SERVICE_INSTANCE_ID).getBody().getScaStatus().name());
-        } catch (FeignException e) {
-            throw AisException.builder()
-                      .aisErrorCode(NOT_FOUND)
-                      .devMessage("Authorization for payment not found!")
+            cmsPsuPisService.updateAuthorisationStatus(new PsuIdData(psuId, null, null, null, null),
+                paymentId, authorisationId, ScaStatus.valueOf(status), DEFAULT_SERVICE_INSTANCE_ID, new AuthenticationDataHolder(null, null));
+        } catch (AuthorisationIsExpiredException e) {
+            log.error("Authorization for your payment has expired!");
+            throw ObaException.builder()
+                      .obaErrorCode(AUTH_EXPIRED)
+                      .devMessage(e.getMessage())
                       .build();
         }
     }
 
+    private CmsPaymentResponse loadPaymentByRedirectId(ConsentReference consentReference) {
+        String redirectId = consentReference.getRedirectId();
+        try {
+            return cmsPsuPisService.checkRedirectAndGetPayment(redirectId, DEFAULT_SERVICE_INSTANCE_ID)
+                       .orElseThrow(() -> new RedirectUrlIsExpiredException(null));
+        } catch (RedirectUrlIsExpiredException e) {
+            throw ObaException.builder()
+                      .obaErrorCode(NOT_FOUND)
+                      .devMessage(String.format("Could not retrieve payment %s from CMS", redirectId))
+                      .build();
+        }
+    }
+
+    private ScaStatusTO loadAuthorization(String authorizationId) {
+        return cmsPsuPisService.getAuthorisationByAuthorisationId(authorizationId, DEFAULT_SERVICE_INSTANCE_ID)
+                   .map(CmsPsuAuthorisation::getScaStatus)
+                   .map(Enum::name)
+                   .map(ScaStatusTO::valueOf)
+                   .orElseThrow(() -> ObaException.builder()
+                                          .obaErrorCode(NOT_FOUND)
+                                          .devMessage("Authorization for payment not found!")
+                                          .build());
+
+    }
+
     private void updatePaymentStatus(PaymentWorkflow paymentWorkflow) {
-        cmsPsuPisClient.updatePaymentStatus(paymentWorkflow.getPaymentResponse().getPayment().getPaymentId(), paymentWorkflow.getPaymentStatus(), CmsPsuPisClient.DEFAULT_SERVICE_INSTANCE_ID);
-        paymentWorkflow.getAuthResponse().updatePaymentStatus(TransactionStatusTO.valueOf(paymentWorkflow.getPaymentStatus()));
+        cmsPsuPisService.updatePaymentStatus(paymentWorkflow.getPaymentResponse().getPayment().getPaymentId(), TransactionStatus.valueOf(paymentWorkflow.getPaymentStatus()), DEFAULT_SERVICE_INSTANCE_ID);
+        paymentWorkflow.getAuthResponse().getPayment().setTransactionStatus(TransactionStatusTO.valueOf(paymentWorkflow.getPaymentStatus()));
+    }
+
+    private PaymentTO getPaymentTO(PaymentWorkflow workflow) {
+        try {
+            CmsCommonPayment payment = (CmsCommonPayment) workflow.getPaymentResponse().getPayment();
+            String paymentString = paymentMapper.getMapper().readTree(payment.getPaymentData()).toPrettyString();
+            PaymentTO abstractPayment = paymentMapper.toAbstractPayment(paymentString, workflow.paymentType().name(), payment.getPaymentProduct());
+            abstractPayment.setPaymentId(workflow.paymentId());
+            return abstractPayment;
+        } catch (IOException e) {
+            log.error("CMS Payment Conversion Error! {}", e.getMessage());
+            throw ObaException.builder()
+                      .obaErrorCode(CONVERSION_EXCEPTION)
+                      .devMessage("Could not process payment due to mapping error")
+                      .build();
+        }
     }
 }

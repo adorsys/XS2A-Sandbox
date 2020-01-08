@@ -2,14 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AspspService } from 'src/services/aspsp.service';
 import { ConsentTypes } from '../../../../../models/consentTypes.model';
 import { JsonService } from '../../../../../services/json.service';
-
-const consentBodies = {
-  dedicatedAccountsConsent: {},
-  bankOfferedConsent: {},
-  globalConsent: {},
-  availableAccountsConsent: {},
-  availableAccountsConsentWithBalance: {},
-};
+import { SpinnerVisibilityService } from 'ng-http-loader';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-rdct-consent-post',
@@ -17,9 +11,7 @@ const consentBodies = {
 })
 export class RdctConsentPOSTComponent implements OnInit {
   activeSegment = 'documentation';
-  consentTypes: ConsentTypes = {
-    dedicatedAccountsConsent: consentBodies.dedicatedAccountsConsent,
-  };
+  consentTypes: ConsentTypes;
   jsonData: object;
   headers: object = {
     'X-Request-ID': '2f77a125-aa7a-45c0-b414-cea25a116035',
@@ -30,44 +22,14 @@ export class RdctConsentPOSTComponent implements OnInit {
     'TPP-Redirect-URI': 'https://adorsys-platform.de/solutions/xs2a-sandbox/',
     'TPP-Nok-Redirect-URI': 'https://www.google.com',
   };
-  body: object = { ...consentBodies.dedicatedAccountsConsent };
+  body;
 
-  constructor(private aspsp: AspspService, private jsonService: JsonService) {
-    jsonService
-      .getPreparedJsonData(jsonService.jsonLinks.dedicatedAccountsConsent)
-      .subscribe(
-        data => (consentBodies.dedicatedAccountsConsent = data),
-        error => console.log(error)
-      );
-    jsonService
-      .getPreparedJsonData(jsonService.jsonLinks.bankOfferedConsent)
-      .subscribe(
-        data => (consentBodies.bankOfferedConsent = data),
-        error => console.log(error)
-      );
-    jsonService
-      .getPreparedJsonData(jsonService.jsonLinks.globalConsent)
-      .subscribe(
-        data => (consentBodies.globalConsent = data),
-        error => console.log(error)
-      );
-    jsonService
-      .getPreparedJsonData(jsonService.jsonLinks.availableAccountsConsent)
-      .subscribe(
-        data => (consentBodies.availableAccountsConsent = data),
-        error => console.log(error)
-      );
-    jsonService
-      .getPreparedJsonData(
-        jsonService.jsonLinks.availableAccountsConsentWithBalance
-      )
-      .subscribe(
-        data => (consentBodies.availableAccountsConsentWithBalance = data),
-        error => console.log(error)
-      );
-    jsonService
-      .getPreparedJsonData(jsonService.jsonLinks.consent)
-      .subscribe(data => (this.jsonData = data), error => console.log(error));
+  constructor(
+    private aspsp: AspspService,
+    private jsonService: JsonService,
+    private spinner: SpinnerVisibilityService
+  ) {
+    this.fetchJsonData();
   }
 
   changeSegment(segment) {
@@ -76,25 +38,55 @@ export class RdctConsentPOSTComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
-    this.setConsentTypes();
+  ngOnInit() {}
+
+  fetchJsonData() {
+    this.spinner.show();
+
+    const results = combineLatest(
+      this.jsonService.getPreparedJsonData(
+        this.jsonService.jsonLinks.dedicatedAccountsConsent
+      ),
+      this.jsonService.getPreparedJsonData(
+        this.jsonService.jsonLinks.bankOfferedConsent
+      ),
+      this.jsonService.getPreparedJsonData(
+        this.jsonService.jsonLinks.globalConsent
+      ),
+      this.jsonService.getPreparedJsonData(
+        this.jsonService.jsonLinks.availableAccountsConsent
+      ),
+      this.jsonService.getPreparedJsonData(
+        this.jsonService.jsonLinks.availableAccountsConsentWithBalance
+      ),
+      this.jsonService.getPreparedJsonData(this.jsonService.jsonLinks.consent)
+    );
+
+    results.subscribe(results => {
+      this.body = results[0];
+      this.jsonData = results[5];
+      this.setConsentTypes(results);
+      this.spinner.hide();
+    });
   }
 
-  setConsentTypes() {
+  setConsentTypes(results: any[]) {
+    this.consentTypes = {
+      dedicatedAccountsConsent: results[0],
+    };
+
     this.aspsp.getAspspProfile().subscribe(object => {
       const allConsentTypes = object.ais.consentTypes;
 
       if (allConsentTypes.bankOfferedConsentSupported) {
-        this.consentTypes.bankOfferedConsent = consentBodies.bankOfferedConsent;
+        this.consentTypes.bankOfferedConsent = results[1];
       }
       if (allConsentTypes.globalConsentSupported) {
-        this.consentTypes.globalConsent = consentBodies.globalConsent;
+        this.consentTypes.globalConsent = results[2];
       }
       if (allConsentTypes.availableAccountsConsentSupported) {
-        this.consentTypes.availableAccountsConsent =
-          consentBodies.availableAccountsConsent;
-        this.consentTypes.availableAccountsConsentWithBalance =
-          consentBodies.availableAccountsConsentWithBalance;
+        this.consentTypes.availableAccountsConsent = results[3];
+        this.consentTypes.availableAccountsConsentWithBalance = results[4];
       }
     });
   }

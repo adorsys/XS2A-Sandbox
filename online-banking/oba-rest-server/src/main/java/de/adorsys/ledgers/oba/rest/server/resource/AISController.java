@@ -291,8 +291,8 @@ public class AISController extends AbstractXISController implements AISApi {
     }
 
 
-    private void updatePSUIdentification(ConsentWorkflow workflow, String psuId) throws ConsentAuthorizeException {
-        PsuIdData psuIdData = new PsuIdData(psuId, null, null, null);
+    private void updatePSUIdentification(ConsentWorkflow workflow, String psuId) {
+        PsuIdData psuIdData = new PsuIdData(psuId, null, null, null, null);
         ResponseEntity resp = cmsPsuAisClient.updatePsuDataInConsent(workflow.consentId(), workflow.authId(),
             DEFAULT_SERVICE_INSTANCE_ID, psuIdData);
         if (!HttpStatus.OK.equals(resp.getStatusCode())) {

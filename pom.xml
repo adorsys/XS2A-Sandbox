@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.adorsys.psd2.sandbox</groupId>
     <artifactId>psd2-dynamic-sandbox</artifactId>
-    <version>2.0</version>
+    <version>2.1</version>
     <packaging>pom</packaging>
 
     <name>PSD2 Dynamic Sandbox</name>
@@ -97,9 +97,9 @@
         <java.version>1.8</java.version>
         <pmd.plugin.version>3.10.0</pmd.plugin.version>
         <!-- xs2a version -->
-        <xs2a.version>5.5</xs2a.version>
-        <connector.version>5.5</connector.version>
-        <ledgers.version>2.4</ledgers.version>
+        <xs2a.version>5.8-RC2</xs2a.version>
+        <connector.version>5.8-RC2</connector.version>
+        <ledgers.version>2.5</ledgers.version>
         <psd2.certificate.generator.version>1.5.0</psd2.certificate.generator.version>
         <!-- other properties -->
         <spring-boot-dependencies.version>2.1.1.RELEASE</spring-boot-dependencies.version>

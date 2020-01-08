@@ -8,6 +8,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { PlayWthDataComponent } from '../../play-with-data/play-wth-data.component';
 import { DataService } from '../../../../../services/data.service';
 import { ToastrService } from 'ngx-toastr';
+import { NgHttpLoaderModule, SpinnerVisibilityService } from 'ng-http-loader';
 
 describe('RdctConsentPOSTComponent', () => {
   let component: RdctConsentPOSTComponent;
@@ -53,10 +54,11 @@ describe('RdctConsentPOSTComponent', () => {
         LineCommandComponent,
         CodeAreaComponent,
       ],
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, NgHttpLoaderModule.forRoot()],
       providers: [
         DataService,
         { provide: ToastrService, useValue: ToastrServiceStub },
+        SpinnerVisibilityService,
       ],
     }).compileComponents();
   }));
@@ -101,9 +103,5 @@ describe('RdctConsentPOSTComponent', () => {
 
     component.changeSegment('wrong-segment');
     expect(component.activeSegment).not.toBe('wrong-segment');
-  });
-
-  it('should be body', () => {
-    expect(component.body).not.toBeUndefined();
   });
 });

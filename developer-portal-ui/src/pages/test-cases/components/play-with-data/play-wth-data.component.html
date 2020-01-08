@@ -22,6 +22,7 @@
         id="paymentService"
         *ngIf="paymentServiceFlag"
         [(ngModel)]="paymentService"
+        (ngModelChange)="handlePaymentTypeChanged($event, false)"
       >
         <option [value]="ps" *ngFor="let ps of paymentServiceSelect">
           {{ ps }}
@@ -40,6 +41,7 @@
         id="paymentProduct"
         *ngIf="paymentProductFlag"
         [(ngModel)]="paymentProduct"
+        (ngModelChange)="handlePaymentTypeChanged($event, true)"
       >
         <option [value]="'/' + pp" *ngFor="let pp of paymentProductSelect">
           {{ pp }}

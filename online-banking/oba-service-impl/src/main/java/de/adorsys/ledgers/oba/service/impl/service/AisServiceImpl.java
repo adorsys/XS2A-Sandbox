@@ -3,8 +3,8 @@ package de.adorsys.ledgers.oba.service.impl.service;
 import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
 import de.adorsys.ledgers.middleware.api.domain.account.TransactionTO;
 import de.adorsys.ledgers.middleware.client.rest.AccountRestClient;
-import de.adorsys.ledgers.oba.service.api.domain.exception.AisErrorCode;
-import de.adorsys.ledgers.oba.service.api.domain.exception.AisException;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.api.service.AisService;
 import de.adorsys.ledgers.util.domain.CustomPageImpl;
 import feign.FeignException;
@@ -36,9 +36,9 @@ public class AisServiceImpl implements AisService {
         } catch (FeignException e) {
             String msg = String.format(GET_ACCOUNTS_ERROR_MSG, userLogin, e.status(), e.getMessage());
             log.error(msg);
-            throw AisException.builder()
+            throw ObaException.builder()
                       .devMessage(RESPONSE_ERROR)
-                      .aisErrorCode(AisErrorCode.AIS_BAD_REQUEST).build();
+                      .obaErrorCode(ObaErrorCode.AIS_BAD_REQUEST).build();
         }
     }
 
@@ -50,9 +50,9 @@ public class AisServiceImpl implements AisService {
         } catch (FeignException e) {
             String msg = String.format(GET_TRANSACTIONS_ERROR_MSG, accountId, e.status(), e.getMessage());
             log.error(msg);
-            throw AisException.builder()
+            throw ObaException.builder()
                       .devMessage(RESPONSE_ERROR)
-                      .aisErrorCode(AisErrorCode.AIS_BAD_REQUEST).build();
+                      .obaErrorCode(ObaErrorCode.AIS_BAD_REQUEST).build();
         }
     }
 
@@ -63,9 +63,9 @@ public class AisServiceImpl implements AisService {
         } catch (FeignException e) {
             String msg = String.format(GET_TRANSACTIONS_ERROR_MSG, accountId, e.status(), e.getMessage());
             log.error(msg);
-            throw AisException.builder()
+            throw ObaException.builder()
                       .devMessage(RESPONSE_ERROR)
-                      .aisErrorCode(AisErrorCode.AIS_BAD_REQUEST).build();
+                      .obaErrorCode(ObaErrorCode.AIS_BAD_REQUEST).build();
         }
     }
 
@@ -76,9 +76,9 @@ public class AisServiceImpl implements AisService {
         } catch (FeignException e) {
             String msg = String.format(GET_ACCOUNT_ERROR_MSG, accountId, e.status(), e.getMessage());
             log.error(msg);
-            throw AisException.builder()
+            throw ObaException.builder()
                       .devMessage(RESPONSE_ERROR)
-                      .aisErrorCode(AisErrorCode.AIS_BAD_REQUEST).build();
+                      .obaErrorCode(ObaErrorCode.AIS_BAD_REQUEST).build();
         }
     }
 }

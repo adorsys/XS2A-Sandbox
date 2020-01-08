@@ -12,9 +12,9 @@ export class JsonService {
   defaultJsonSource = '../assets/UI/jsons/';
 
   jsonLinks = {
-    singlePayment: 'singlePayment.json',
-    periodicPayment: 'periodicPayment.json',
-    bulkPayment: 'bulkPayment.json',
+    singlePayment: 'payments/sepa-credit-transfers.json',
+    periodicPayment: 'periodic-payments/sepa-credit-transfers.json',
+    bulkPayment: 'bulk-payments/sepa-credit-transfers.json',
     debtorAccount: 'debtorAccount.json',
     singlePaymentPlayWithData: 'playWithDataSinglePayment.json',
     dedicatedAccountsConsent: 'dedicatedAccountsConsent.json',

@@ -3,14 +3,8 @@ import { LanguageService } from '../../../../../services/language.service';
 import { JsonService } from '../../../../../services/json.service';
 import { ConsentTypes } from '../../../../../models/consentTypes.model';
 import { AspspService } from '../../../../../services/aspsp.service';
-
-const consentBodies = {
-  dedicatedAccountsConsent: {},
-  bankOfferedConsent: {},
-  globalConsent: {},
-  availableAccountsConsent: {},
-  availableAccountsConsentWithBalance: {},
-};
+import { combineLatest } from 'rxjs';
+import { SpinnerVisibilityService } from 'ng-http-loader';
 
 @Component({
   selector: 'app-emb-consent-create-post',
@@ -26,51 +20,16 @@ export class EmbConsentCreatePostComponent implements OnInit {
     'PSU-ID': 'YOUR_USER_LOGIN',
     'PSU-IP-Address': '1.1.1.1',
   };
-  body: object = { ...consentBodies.dedicatedAccountsConsent };
-  consentTypes: ConsentTypes = {
-    dedicatedAccountsConsent: consentBodies.dedicatedAccountsConsent,
-  };
+  body: object;
+  consentTypes: ConsentTypes;
 
   constructor(
     public languageService: LanguageService,
     private jsonService: JsonService,
-    private aspsp: AspspService
+    private aspsp: AspspService,
+    private spinner: SpinnerVisibilityService
   ) {
-    jsonService
-      .getPreparedJsonData(jsonService.jsonLinks.consent)
-      .subscribe(data => (this.jsonData = data), error => console.log(error));
-    jsonService
-      .getPreparedJsonData(jsonService.jsonLinks.dedicatedAccountsConsent)
-      .subscribe(
-        data => (consentBodies.dedicatedAccountsConsent = data),
-        error => console.log(error)
-      );
-    jsonService
-      .getPreparedJsonData(jsonService.jsonLinks.bankOfferedConsent)
-      .subscribe(
-        data => (consentBodies.bankOfferedConsent = data),
-        error => console.log(error)
-      );
-    jsonService
-      .getPreparedJsonData(jsonService.jsonLinks.globalConsent)
-      .subscribe(
-        data => (consentBodies.globalConsent = data),
-        error => console.log(error)
-      );
-    jsonService
-      .getPreparedJsonData(jsonService.jsonLinks.availableAccountsConsent)
-      .subscribe(
-        data => (consentBodies.availableAccountsConsent = data),
-        error => console.log(error)
-      );
-    jsonService
-      .getPreparedJsonData(
-        jsonService.jsonLinks.availableAccountsConsentWithBalance
-      )
-      .subscribe(
-        data => (consentBodies.availableAccountsConsentWithBalance = data),
-        error => console.log(error)
-      );
+    this.fetchJsonData();
   }
 
   changeSegment(segment) {
@@ -79,25 +38,55 @@ export class EmbConsentCreatePostComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
-    this.setConsentTypes();
+  ngOnInit() {}
+
+  fetchJsonData() {
+    this.spinner.show();
+
+    const results = combineLatest(
+      this.jsonService.getPreparedJsonData(
+        this.jsonService.jsonLinks.dedicatedAccountsConsent
+      ),
+      this.jsonService.getPreparedJsonData(
+        this.jsonService.jsonLinks.bankOfferedConsent
+      ),
+      this.jsonService.getPreparedJsonData(
+        this.jsonService.jsonLinks.globalConsent
+      ),
+      this.jsonService.getPreparedJsonData(
+        this.jsonService.jsonLinks.availableAccountsConsent
+      ),
+      this.jsonService.getPreparedJsonData(
+        this.jsonService.jsonLinks.availableAccountsConsentWithBalance
+      ),
+      this.jsonService.getPreparedJsonData(this.jsonService.jsonLinks.consent)
+    );
+
+    results.subscribe(results => {
+      this.body = results[0];
+      this.jsonData = results[5];
+      this.setConsentTypes(results);
+      this.spinner.hide();
+    });
   }
 
-  setConsentTypes() {
+  setConsentTypes(results: any[]) {
+    this.consentTypes = {
+      dedicatedAccountsConsent: results[0],
+    };
+
     this.aspsp.getAspspProfile().subscribe(object => {
       const allConsentTypes = object.ais.consentTypes;
 
       if (allConsentTypes.bankOfferedConsentSupported) {
-        this.consentTypes.bankOfferedConsent = consentBodies.bankOfferedConsent;
+        this.consentTypes.bankOfferedConsent = results[1];
       }
       if (allConsentTypes.globalConsentSupported) {
-        this.consentTypes.globalConsent = consentBodies.globalConsent;
+        this.consentTypes.globalConsent = results[2];
       }
       if (allConsentTypes.availableAccountsConsentSupported) {
-        this.consentTypes.availableAccountsConsent =
-          consentBodies.availableAccountsConsent;
-        this.consentTypes.availableAccountsConsentWithBalance =
-          consentBodies.availableAccountsConsentWithBalance;
+        this.consentTypes.availableAccountsConsent = results[3];
+        this.consentTypes.availableAccountsConsentWithBalance = results[4];
       }
     });
   }

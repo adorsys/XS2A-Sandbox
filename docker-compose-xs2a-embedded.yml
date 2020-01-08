@@ -12,7 +12,7 @@ volumes:
 services:
   # Xs2a connector embedded xs2a-connector,cms,aspsp-profile
   xs2a-connector-embedded:
-    image: adorsys/xs2a-connector-embedded:5.5
+    image: adorsys/xs2a-connector-embedded:5.8-RC2
     container_name: xs2a-connector-embedded
     restart: on-failure
     ports:
@@ -27,7 +27,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=cms
       - SERVER_KEY=secret123
       - SPRING_LIQUIBASE_ENABLED=true
-      - USED-NON-RECURRING-CONSENT-EXPIRATION.CRON.EXPRESSION=0 0 * * * * 
+      - USED-NON-RECURRING-CONSENT-EXPIRATION.CRON.EXPRESSION=0 0 * * * *
     volumes:
       - ./bank-profile/bank_profile_ledgers.yml:/opt/profile/bank_profile_ledgers.yml
     networks:
