@@ -28,12 +28,18 @@ setting:
       SINGLE:
         - sepa-credit-transfers
         - instant-sepa-credit-transfers
+        - target-2-payments
+        - cross-border-credit-transfers
       PERIODIC:
         - sepa-credit-transfers
         - instant-sepa-credit-transfers
+        - target-2-payments
+        - cross-border-credit-transfers
       BULK:
         - sepa-credit-transfers
         - instant-sepa-credit-transfers
+        - target-2-payments
+        - cross-border-credit-transfers
     maxTransactionValidityDays: 0
     notConfirmedPaymentExpirationTimeMs: 86400000
     paymentCancellationAuthorisationMandated: FALSE
@@ -42,6 +48,8 @@ setting:
       pisPaymentCancellationRedirectUrlToAspsp: http://localhost:4400/payment-cancellation/login?paymentId={encrypted-payment-id}&redirectId={redirect-id}
       paymentCancellationRedirectUrlExpirationTimeMs: 600000
     countryValidationSupported: DE
+    supportedTransactionStatusFormats:
+      - application/json
   piis:
     piisConsentSupported: TRUE
   common:
@@ -65,3 +73,7 @@ setting:
     aisPisSessionsSupported: FALSE
     signingBasketSupported: FALSE
     checkTppRolesFromCertificateSupported: FALSE
+    aspspNotificationsSupported:
+      - NONE
+    authorisationConfirmationRequestMandated: FALSE
+    authorisationConfirmationCheckByXs2a: FALSE
