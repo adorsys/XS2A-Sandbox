@@ -1,5 +1,6 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server;
 
+import de.adorsys.ledgers.middleware.client.EnableLedgersMiddlewareRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
 import de.adorsys.psd2.sandbox.tpp.rest.server.config.TppUiBeFeignConfiguration;
@@ -7,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
+@EnableLedgersMiddlewareRestClient
 @EnableFeignClients(basePackageClasses = {UserMgmtStaffRestClient.class, UserMgmtRestClient.class}, defaultConfiguration = TppUiBeFeignConfiguration.class)
 @SpringBootApplication(scanBasePackages = {"de.adorsys.psd2.mapper", "de.adorsys.psd2.sandbox.tpp.rest.server"})
 public class TppApplication {
