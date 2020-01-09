@@ -142,7 +142,7 @@ export class CustomizeService {
         }
       }
 
-      if (correctLanguages.length == 0) {
+      if (correctLanguages.length === 0) {
         correctLanguages = ['en'];
       }
 
@@ -241,7 +241,7 @@ export class CustomizeService {
   }
 
   private removeExternalLinkElements(): void {
-    const linkElements = document.querySelectorAll('link[rel ~= "icon" i]');
+    const linkElements = document.querySelectorAll('link[rel ~= "icon"]');
     for (const linkElement of Array.from(linkElements)) {
       linkElement.parentNode.removeChild(linkElement);
     }
