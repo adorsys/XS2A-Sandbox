@@ -34,6 +34,7 @@ import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.FINALISED;
@@ -235,18 +236,10 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
     }
 
     private PaymentTO getPaymentTO(PaymentWorkflow workflow) {
-        try {
-            CmsCommonPayment payment = (CmsCommonPayment) workflow.getPaymentResponse().getPayment();
-            String paymentString = paymentMapper.getMapper().readTree(payment.getPaymentData()).toPrettyString();
-            PaymentTO abstractPayment = paymentMapper.toAbstractPayment(paymentString, workflow.paymentType().name(), payment.getPaymentProduct());
-            abstractPayment.setPaymentId(workflow.paymentId());
-            return abstractPayment;
-        } catch (IOException e) {
-            log.error("CMS Payment Conversion Error! {}", e.getMessage());
-            throw ObaException.builder()
-                      .obaErrorCode(CONVERSION_EXCEPTION)
-                      .devMessage("Could not process payment due to mapping error")
-                      .build();
-        }
+        CmsCommonPayment payment = (CmsCommonPayment) workflow.getPaymentResponse().getPayment();
+        String paymentString = new String(payment.getPaymentData(), StandardCharsets.UTF_8);
+        PaymentTO abstractPayment = paymentMapper.toAbstractPayment(paymentString, workflow.paymentType().name(), payment.getPaymentProduct());
+        abstractPayment.setPaymentId(workflow.paymentId());
+        return abstractPayment;
     }
 }

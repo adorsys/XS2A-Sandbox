@@ -364,16 +364,16 @@ deploy_openshift_develop:
     OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_DEV} # Openshift target namespace
   <<: *deploy_openshift
 
-deploy_openshift_banking_gateway_dev:
-  stage: "Deploy"
-  cache: {}
-  dependencies: []
-  only:
-    - develop
-  variables:
-    DOCKER_TAG: develop # Dockerhub source tag
-    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_BANKING_GATEWAY_DEV} # Openshift target namespace
-  <<: *deploy_openshift
+#deploy_openshift_banking_gateway_dev:
+#  stage: "Deploy"
+#  cache: {}
+#  dependencies: []
+#  only:
+#    - develop
+#  variables:
+#    DOCKER_TAG: develop # Dockerhub source tag
+#    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_BANKING_GATEWAY_DEV} # Openshift target namespace
+#  <<: *deploy_openshift
 
 deploy_openshift_dxc_sandbox_dev:
   stage: "Deploy"
@@ -424,17 +424,17 @@ deploy_openshift_demo:
     OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_DEMO} # Openshift target namespace
   <<: *deploy_openshift
 
-deploy_openshift_banking_gateway_integ:
-  stage: "Deploy"
-  cache: {}
-  dependencies: []
-  only:
-    - master
-  variables:
-    GIT_STRATEGY: none
-    DOCKER_TAG: latest # Dockerhub source tag
-    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_BANKING_GATEWAY_INTEG} # Openshift target namespace
-  <<: *deploy_openshift
+#deploy_openshift_banking_gateway_integ:
+#  stage: "Deploy"
+#  cache: {}
+#  dependencies: []
+#  only:
+#    - master
+#  variables:
+#    GIT_STRATEGY: none
+#    DOCKER_TAG: latest # Dockerhub source tag
+#    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_BANKING_GATEWAY_INTEG} # Openshift target namespace
+#  <<: *deploy_openshift
 
 deploy_openshift_aspsp_xs2a_dev:
   stage: "Deploy"
