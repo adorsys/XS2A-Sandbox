@@ -23,7 +23,7 @@ import org.springframework.web.context.annotation.RequestScope;
 import java.security.Principal;
 import java.util.Optional;
 
-import static de.adorsys.ledgers.oba.rest.server.auth.oba.PermittedResources.*;
+import static de.adorsys.ledgers.oba.rest.server.config.security.PermittedResources.*;
 
 @Configuration
 @EnableWebSecurity

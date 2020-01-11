@@ -1,8 +1,8 @@
-package de.adorsys.ledgers.oba.rest.server.auth.oba;
+package de.adorsys.ledgers.oba.rest.server.config.security;
 
-public interface PermittedResources {
+public class PermittedResources {
 
-    String[] SWAGGER_WHITELIST = {
+    protected static final String[] SWAGGER_WHITELIST = {
         "/swagger-resources/**",
         "/swagger-resources",
         "/swagger-ui.html**",
@@ -12,14 +12,14 @@ public interface PermittedResources {
         "/error"
     };
 
-    String[] APP_INDEX_WHITELIST = {
+    protected static final String[] APP_INDEX_WHITELIST = {
         "/",
         "/index.css",
         "/img/*",
         "/favicon.ico"
     };
 
-    String[] APP_SCA_WHITELIST = {
+    protected static final String[] APP_SCA_WHITELIST = {
         "/sca/login",
         "/pis/auth/**",
         "/pis/*/authorisation/*/login",
@@ -28,7 +28,7 @@ public interface PermittedResources {
         "/ais/*/authorisation/*/login"
     };
 
-    String[] APP_WHITELIST = {
+    protected static final String[] APP_WHITELIST = {
         "/api/v1/login",
         "/api/v1/password",
         "/api/v1/consents/confirm/*/*/*/*",
@@ -37,7 +37,9 @@ public interface PermittedResources {
         "/oauth/authorization-server/**"
     };
 
-    String[] ACTUATOR_WHITELIST = {
+    protected static final String[] ACTUATOR_WHITELIST = {
         "/actuator/health"
     };
+
+    private PermittedResources() {}
 }
