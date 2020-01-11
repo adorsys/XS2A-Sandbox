@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-@Api(value = ObaAuthorizationApi.BASE_PATH, tags = "Online Banking Authorization", description = "Provides access to online banking")
+@Api(value = ObaAuthorizationApi.BASE_PATH, tags = "Online Banking Authorization. Provides access to online banking")
 public interface ObaAuthorizationApi {
     String BASE_PATH = "/api/v1";
 

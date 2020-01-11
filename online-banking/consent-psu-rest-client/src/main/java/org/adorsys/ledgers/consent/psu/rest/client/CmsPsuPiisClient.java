@@ -34,7 +34,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @FeignClient(value = "cmsPsuPiis", url = "${cms.url}", path="/psu-api/v1/piis/consents", primary=false, configuration=FeignConfig.class)
-@Api(value = "psu-api/v1/piis/consents", tags = "PSU PIIS, Consents", description = "Provides access to consent management system for PSU PIIS")
+@Api(value = "psu-api/v1/piis/consents", tags = "PSU PIIS, Consents. Provides access to consent management system for PSU PIIS")
 public interface CmsPsuPiisClient {
     String DEFAULT_SERVICE_INSTANCE_ID = "UNDEFINED";
 

@@ -12,11 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static de.adorsys.ledgers.oba.rest.api.resource.oba.ObaConsentApi.BASE_PATH;
 import static org.springframework.http.HttpStatus.ACCEPTED;
 
 @Slf4j
 @RestController
-@RequestMapping(ObaConsentController.BASE_PATH)
+@RequestMapping(BASE_PATH)
 @RequiredArgsConstructor
 public class ObaConsentController implements ObaConsentApi {
     private final ConsentService consentService;

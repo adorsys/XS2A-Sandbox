@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDate;
 import java.util.List;
 
+import static de.adorsys.ledgers.oba.rest.api.resource.oba.ObaAisApi.BASE_PATH;
+
 @Slf4j
 @RestController
-@RequestMapping(ObaAisController.BASE_PATH)
+@RequestMapping(BASE_PATH)
 @RequiredArgsConstructor
 public class ObaAisController implements ObaAisApi {
     private final AisService aisService;

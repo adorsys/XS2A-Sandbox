@@ -34,10 +34,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.*;
 import static de.adorsys.psd2.xs2a.core.consent.ConsentStatus.PARTIALLY_AUTHORISED;
@@ -45,9 +42,9 @@ import static de.adorsys.psd2.xs2a.core.consent.ConsentStatus.VALID;
 import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient.DEFAULT_SERVICE_INSTANCE_ID;
 
 @Slf4j
-@RestController(AISController.BASE_PATH)
-@RequestMapping(AISController.BASE_PATH)
-@Api(value = AISController.BASE_PATH, tags = "PSU AIS", description = "Provides access to online banking account functionality")
+@RestController
+@RequestMapping(AISApi.BASE_PATH)
+@Api(value = AISApi.BASE_PATH, tags = "PSU AIS. Provides access to online banking account functionality")
 @SuppressWarnings("PMD.TooManyMethods")
 @RequiredArgsConstructor
 public class AISController extends AbstractXISController implements AISApi {
@@ -206,7 +203,7 @@ public class AISController extends AbstractXISController implements AISApi {
     }
 
     @Override
-    public ResponseEntity<ConsentAuthorizeResponse> aisDone(String encryptedConsentId, String authorisationId, String consentAndAccessTokenCookieString, Boolean forgetConsent, Boolean backToTpp, boolean isOauth2Integrated) throws ConsentAuthorizeException {
+    public ResponseEntity<ConsentAuthorizeResponse> aisDone(String encryptedConsentId, String authorisationId, String consentAndAccessTokenCookieString, Boolean forgetConsent, Boolean backToTpp, boolean isOauth2Integrated) {
         String consentCookie = responseUtils.consentCookie(consentAndAccessTokenCookieString);
         ConsentWorkflow workflow = redirectConsentService.identifyConsent(encryptedConsentId, authorisationId, true, consentCookie, middlewareAuth.getBearerToken());
 

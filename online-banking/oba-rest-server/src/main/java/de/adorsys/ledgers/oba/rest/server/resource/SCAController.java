@@ -21,13 +21,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
+import java.util.Objects;
 
-@RestController(SCAController.BASE_PATH)
-@RequestMapping(SCAController.BASE_PATH)
-@Api(value = SCAController.BASE_PATH, tags = "PSU SCA", description = "Provides access to one time password for strong customer authentication.")
+import static de.adorsys.ledgers.oba.rest.api.resource.SCAApi.BASE_PATH;
+
+@RestController
+@RequestMapping(BASE_PATH)
+@Api(value = BASE_PATH, tags = "PSU SCA. Provides access to one time password for strong customer authentication.")
 @RequiredArgsConstructor
 public class SCAController implements SCAApi {
-    static final String BASE_PATH = "/sca";
     private final UserMgmtRestClient ledgersUserMgmt;
     private final ResponseUtils responseUtils;
     private final AuthRequestInterceptor authInterceptor;
@@ -71,7 +73,7 @@ public class SCAController implements SCAApi {
 
         // build response
         AuthorizeResponse authResponse = new AuthorizeResponse();
-        ScaStatusTO scaStatus = prepareAuthResponse(authResponse, loginResponse);
+        ScaStatusTO scaStatus = prepareAuthResponse(authResponse, Objects.requireNonNull(loginResponse));
         BearerTokenTO bearerToken = loginResponse.getBearerToken();
         switch (scaStatus) {
             case PSUIDENTIFIED:
@@ -132,7 +134,7 @@ public class SCAController implements SCAApi {
         try {
             authInterceptor.setAccessToken(auth.getBearerToken().getAccess_token());
             SCALoginResponseTO loginResponse = ledgersUserMgmt.selectMethod(scaId, authorisationId, methodId).getBody();
-            prepareAuthResponse(authResponse, loginResponse);
+            prepareAuthResponse(authResponse, Objects.requireNonNull(loginResponse));
             BearerTokenTO bearerToken = loginResponse.getBearerToken();
             responseUtils.setCookies(response, null, bearerToken.getAccess_token(), bearerToken.getAccessTokenObject());
             return ResponseEntity.ok(authResponse);
@@ -153,7 +155,7 @@ public class SCAController implements SCAApi {
             authInterceptor.setAccessToken(auth.getBearerToken().getAccess_token());
 
             SCALoginResponseTO authorizeResponse = ledgersUserMgmt.authorizeLogin(scaId, authorisationId, authCode).getBody();
-            prepareAuthResponse(authResponse, authorizeResponse);
+            prepareAuthResponse(authResponse, Objects.requireNonNull(authorizeResponse));
             BearerTokenTO bearerToken = authorizeResponse.getBearerToken();
             responseUtils.setCookies(response, null, bearerToken.getAccess_token(), bearerToken.getAccessTokenObject());
             return ResponseEntity.ok(authResponse);

@@ -1,14 +1,13 @@
 package de.adorsys.ledgers.oba.rest.api.resource;
 
 import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
-import de.adorsys.ledgers.oba.rest.api.resource.exception.PaymentAuthorizeException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Api(value = PisCancellationApi.BASE_PATH, tags = "PSU PIS", description = "Provides access to online banking payment functionality")
+@Api(value = PisCancellationApi.BASE_PATH, tags = "PSU PIS. Provides access to online banking payment functionality")
 public interface PisCancellationApi {
     String BASE_PATH = "/pis-cancellation";
 
@@ -30,7 +29,7 @@ public interface PisCancellationApi {
         @PathVariable("authorisationId") String authorisationId,
         @RequestParam(value = "login", required = false) String login,
         @RequestParam(value = "pin", required = false) String pin,
-        @RequestHeader(name = "Cookie", required = false) String consentCookieString) throws PaymentAuthorizeException;
+        @RequestHeader(name = "Cookie", required = false) String consentCookieString);
 
     /**
      * Selects the SCA Method for use.
@@ -86,6 +85,6 @@ public interface PisCancellationApi {
         @RequestHeader(name = "Cookie", required = false) String consentAndAccessTokenCookieString,
         @RequestParam(name = "forgetConsent", required = false) Boolean forgetConsent,
         @RequestParam(name = "backToTpp", required = false) Boolean backToTpp,
-        @RequestParam(name = "oauth2", required = false, defaultValue = "false") boolean isOauth2Integrated) throws PaymentAuthorizeException;
+        @RequestParam(name = "oauth2", required = false, defaultValue = "false") boolean isOauth2Integrated);
 
 }

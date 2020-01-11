@@ -1,8 +1,8 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.auth;
 
-public class PermittedResources {
+public interface PermittedResources {
 
-    public static final String[] SWAGGER_WHITELIST = {
+    String[] SWAGGER_WHITELIST = {
         "/swagger-resources/**",
         "/swagger-resources",
         "/swagger-ui.html**",
@@ -12,21 +12,18 @@ public class PermittedResources {
         "/error"
     };
 
-    public static final String[] INDEX_WHITELIST = {
+    String[] INDEX_WHITELIST = {
         "/",
         "/index.css",
         "/img/*",
         "/favicon.ico"
     };
 
-    public static final String[] APP_WHITELIST = {
+    String[] APP_WHITELIST = {
         "/tpp/login",
         "/tpp/register",
         "/tpp/password",
         "/tpp/consent",
         "/tpp/country/**"
     };
-
-    private PermittedResources() {
-    }
 }
