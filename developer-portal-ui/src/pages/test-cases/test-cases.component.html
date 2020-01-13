@@ -66,28 +66,6 @@
                       POST endpoint
                       {{ '/v1/{payment-service}/{payment-product}' }}
                     </li>
-                  </ul>
-                </li>
-                <li>
-                  <span>{{
-                    'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_1.LI_2'
-                      | translate
-                  }}</span>
-                  <ul>
-                    <li
-                      class="clickable-item post"
-                      routerLink="/test-cases/redirect-cancellation-post"
-                      [ngStyle]="
-                        dataService
-                          .getRouterUrl()
-                          .includes('redirect-cancellation-post')
-                          ? { 'font-weight': 'bold' }
-                          : null
-                      "
-                    >
-                      POST endpoint
-                      {{ '/v1/{payment-service}/{payment-product}' }}
-                    </li>
                     <li
                       class="clickable-item delete"
                       routerLink="/test-cases/redirect-cancellation-delete"
