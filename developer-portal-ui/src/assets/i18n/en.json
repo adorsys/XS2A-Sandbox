@@ -161,7 +161,7 @@
         "PART_2": "certificate at an appropriate Trust Service Provider (TSP). Issuing a real\n certificate just for testing purposes would be too much effort, which is\n why the ",
         "XS2A": "XS2ASandbox",
         "PART_3": "is additionally simulating a\n fictional TSP issuing Qualified Website Authentication Certificates\n (QWAC). A QWAC is part of eIDAS and might be better known",
-        "PART_4": "certificate. For PSD2-purposes the certificate gets extended by the\n QcStatement containing appropriate values such as the role(s) of the PSP\n (see",
+        "PART_4": "certificate. For PSD2-purposes the certificate gets extended by the\n QcStatement containing appropriate values such as the role(s) of the Payment Service Provider (PSP)\n (see",
         "PART_5": "After embedding the QWAC in the actual XS2A request, the role and the\n signature get validated at a central reverse proxy before it gets finally\n passed to the interface where the banking logic happens."
       }
     },
@@ -176,14 +176,14 @@
         "PART_4": "4. You can generate test QWAC certificate for using it with XS2A Interface if needed.",
         "SUBTITLE_2": "How to create users:",
         "PART_5": "Users could be created manually or via uploading .yaml file.",
-        "PART_6": "To create user with manually:",
+        "PART_6": "To create user manually:",
         "PART_7": "1. Go to “My users list” and click on “Create new user”.",
         "PART_8": "2. Enter email, login and pin for a new user.",
-        "PART_9": "3. Choose authentication method (only email is valid for now) and enter a valid email. If you choose option \"Use Static TAN in SandboxMode\", mock static TAN would be used for testing. Then you have to enter your mock TAN also. You can add multiple SCA methods to every users",
+        "PART_9": "3. Choose authentication method (only email is valid for now) and enter a valid email. If you choose option \"Use Static TAN in SandboxMode\", mock static TAN would be used for testing. Then you have to enter your mock TAN also. You can add multiple SCA methods to every user.",
         "PART_10": "To create accounts manually: ",
-        "PART_11": "1 Choose a user in your list of users and click \"Create deposit account\"",
+        "PART_11": "1. Choose a user in your list of users and click \"Create deposit account\".",
         "PART_12": "2. Select account type, usage and account status. IBAN could be generated automatically. Please, note, that only valid ibans are accepted by XS2A Interface.",
-        "PART_13": "3. After account is created, you can use function \"Deposit cash\" to add any amount to the balances for testing purposes. All the created accounts are available in \"Users accounts\" tab",
+        "PART_13": "3. After account is created, you can use function \"Deposit cash\" to add any amount to the balances for testing purposes. All the created accounts are available in \"Users accounts\" tab.",
         "PART_14": "To create users and accounts automatically, generate test data with the tab \"Generate Test Data\", and NISP compliant test data would be generated. If you want to upload your owm .yaml testing file, use tab \"Upload files\".",
         "SUBTITLE_3": "How to create test payments, consents and transactions:",
         "PART_15": "To create test payments, you have to generate test payment data on tab \"Generate Test Data\", checking option \"Generate Payment Data\" as true. Also, the upload of a custom .yaml file with payments is possible in tab \"Upload files\". Consents and transactions could be created only with upload of the proper .yaml file."
