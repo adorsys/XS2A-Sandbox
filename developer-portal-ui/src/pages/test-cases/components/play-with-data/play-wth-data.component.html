@@ -172,6 +172,11 @@
       </div>
     </div>
 
+    <div *ngIf="response['error']" class="response-body">
+      <span class="status-style">Error details</span>
+      <p class="response-body-text">{{ response['error'] | json }}</p>
+    </div>
+
     <div *ngIf="response.body" class="response-body">
       <span>Response body</span>
       <p class="response-body-text">{{ response.body | json }}</p>
