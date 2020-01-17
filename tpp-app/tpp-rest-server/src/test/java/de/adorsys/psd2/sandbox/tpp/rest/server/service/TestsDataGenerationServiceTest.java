@@ -5,7 +5,6 @@ import de.adorsys.ledgers.middleware.api.domain.payment.SinglePaymentTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccountAccessTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
-import de.adorsys.ledgers.middleware.api.domain.um.UserTypeTO;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.BankCodeStructure;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.AccountBalance;
@@ -33,7 +32,6 @@ public class TestsDataGenerationServiceTest {
     private static final String USER_ID = "QWERTY";
     static final char word = 'A';
     private static final Currency CURRENCY = Currency.getInstance("EUR");
-    private static final UserTypeTO USER_TYPE = UserTypeTO.FAKE;
 
     @InjectMocks
     private IbanGenerationService generationService;
@@ -42,7 +40,7 @@ public class TestsDataGenerationServiceTest {
 
     @Test
     public void generateIban() {
-        when(userMgmtRestClient.getUser()).thenReturn(ResponseEntity.ok(new UserTO(null, null, null, null, null, Collections.EMPTY_LIST, null, TPP_ID, USER_TYPE)));
+        when(userMgmtRestClient.getUser()).thenReturn(ResponseEntity.ok(new UserTO(null, null, null, null, null, Collections.EMPTY_LIST, null, TPP_ID)));
         String iban = generationService.generateNextIban();
         boolean isIbanValid = IBANValidator.getInstance().isValid(iban);
         assertTrue(isIbanValid);
@@ -82,13 +80,13 @@ public class TestsDataGenerationServiceTest {
 
     @Test
     public void generateNispIban() {
-        when(userMgmtRestClient.getUser()).thenReturn(ResponseEntity.ok(new UserTO(null, null, null, null, null, getAccountAccess(), null, TPP_ID, USER_TYPE)));
+        when(userMgmtRestClient.getUser()).thenReturn(ResponseEntity.ok(new UserTO(null, null, null, null, null, getAccountAccess(), null, TPP_ID)));
         String s = generationService.generateIbanForNisp(getPayload(), "00");
         assertTrue(StringUtils.isNotBlank(s));
     }
 
     private DataPayload getPayload() {
-        List<UserTO> users = Collections.singletonList(new UserTO("login", "email", "pin", USER_TYPE));
+        List<UserTO> users = Collections.singletonList(new UserTO("login", "email", "pin"));
         List<AccountDetailsTO> accounts = Collections.singletonList(new AccountDetailsTO());
         List<AccountBalance> balances = Collections.singletonList(new AccountBalance());
         List<SinglePaymentTO> payments = Collections.singletonList(new SinglePaymentTO());

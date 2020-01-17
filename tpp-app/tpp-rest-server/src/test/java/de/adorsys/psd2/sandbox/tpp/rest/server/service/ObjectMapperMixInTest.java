@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.ledgers.middleware.api.domain.um.ScaMethodTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.um.ScaUserDataTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
-import de.adorsys.ledgers.middleware.api.domain.um.UserTypeTO;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.ScaUserDataMixedIn;
 import org.json.JSONException;
 import org.junit.Test;
@@ -18,7 +17,7 @@ public class ObjectMapperMixInTest {
 
     @Test
     public void scaUserDataMixIn() throws JsonProcessingException, JSONException {
-        String expected = "{\"id\":\"id\",\"login\":\"login\",\"email\":\"email\",\"pin\":\"pin\",\"scaUserData\":[{\"id\":\"id\",\"scaMethod\":\"EMAIL\",\"methodValue\":\"methodValue\",\"user\":null,\"usesStaticTan\":true,\"staticTan\":\"STATIC TAN\", \"decoupled\":false}],\"accountAccesses\":[],\"userRoles\":[],\"branch\":\"branch\",\"userType\":\"FAKE\"}";
+        String expected = "{\"id\":\"id\",\"login\":\"login\",\"email\":\"email\",\"pin\":\"pin\",\"scaUserData\":[{\"id\":\"id\",\"scaMethod\":\"EMAIL\",\"methodValue\":\"methodValue\",\"user\":null,\"usesStaticTan\":true,\"staticTan\":\"STATIC TAN\", \"decoupled\":false, \"valid\":false}],\"accountAccesses\":[],\"userRoles\":[],\"branch\":\"branch\"}";
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.addMixIn(ScaUserDataTO.class, ScaUserDataMixedIn.class);
 
@@ -28,10 +27,10 @@ public class ObjectMapperMixInTest {
     }
 
     private UserTO getUser() {
-        return new UserTO("id", "login", "email", "pin", getScaUserData(), Collections.emptyList(), Collections.emptyList(), "branch", UserTypeTO.FAKE);
+        return new UserTO("id", "login", "email", "pin", getScaUserData(), Collections.emptyList(), Collections.emptyList(), "branch");
     }
 
     private List<ScaUserDataTO> getScaUserData() {
-        return Collections.singletonList(new ScaUserDataTO("id", ScaMethodTypeTO.EMAIL, "methodValue", null, true, "STATIC TAN", false));
+        return Collections.singletonList(new ScaUserDataTO("id", ScaMethodTypeTO.EMAIL, "methodValue", null, true, "STATIC TAN", false, false));
     }
 }

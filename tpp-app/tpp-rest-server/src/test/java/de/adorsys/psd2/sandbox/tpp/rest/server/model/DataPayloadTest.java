@@ -5,7 +5,6 @@ import de.adorsys.ledgers.middleware.api.domain.payment.SinglePaymentTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccountAccessTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
-import de.adorsys.ledgers.middleware.api.domain.um.UserTypeTO;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.psd2.sandbox.tpp.rest.server.service.IbanGenerationService;
 import org.junit.Test;
@@ -28,7 +27,6 @@ import static org.mockito.Mockito.when;
 public class DataPayloadTest {
     public static final Currency USD = Currency.getInstance("USD");
     public static final Currency EUR = Currency.getInstance("EUR");
-    public static final UserTypeTO USER_TYPE = UserTypeTO.FAKE;
     @InjectMocks
     private IbanGenerationService service;
     @Mock
@@ -80,7 +78,7 @@ public class DataPayloadTest {
     }
 
     private UserTO getBranch() {
-        return new UserTO(null, null, null, null, null, Collections.singletonList(new AccountAccessTO(null, "DE17123456780000000001", USD, AccessTypeTO.OWNER, 100, null)), null, "DE_12345678", USER_TYPE);
+        return new UserTO(null, null, null, null, null, Collections.singletonList(new AccountAccessTO(null, "DE17123456780000000001", USD, AccessTypeTO.OWNER, 100, null)), null, "DE_12345678");
     }
 
     private DataPayload getData(boolean emptyUsers, boolean nullAccounts, boolean nullElementInBalances) {
@@ -98,7 +96,7 @@ public class DataPayloadTest {
     }
 
     private UserTO getUser() {
-        UserTO user = new UserTO("login", "email", "pin", USER_TYPE);
+        UserTO user = new UserTO("login", "email", "pin");
         user.setAccountAccesses(Collections.singletonList(new AccountAccessTO(null, "02", USD, null, 100, null)));
         return user;
     }

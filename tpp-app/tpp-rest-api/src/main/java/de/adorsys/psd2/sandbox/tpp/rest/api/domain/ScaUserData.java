@@ -10,4 +10,5 @@ public class ScaUserData {
     private boolean usesStaticTan;
     private String staticTan;
     private boolean decoupled;
+    private boolean isValid;
 }
