@@ -445,7 +445,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 002
       login: Default-Creditor-PSU
       email: defaultCreditor.psu@mail.de
@@ -459,7 +458,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 003
       login: RedirectSca-1a
       email: recirectSca.1a@mail.de
@@ -473,7 +471,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 004
       login: RedirectSca-1b
       email: recirectSca.1b@mail.de
@@ -493,7 +490,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 005
       login: RedirectSca-1c
       email: recirectSca.1c@mail.de
@@ -507,7 +503,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 006
       login: DecoupledSca-1a
       email: decoupledSca.1a@mail.de
@@ -521,7 +516,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 007
       login: DecoupledSca-1b
       email: decoupledSca.1b@mail.de
@@ -538,7 +532,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 008
       login: DecoupledSca-1c
       email: decoupledSca.1c@mail.de
@@ -552,7 +545,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 009
       login: DecoupledSca-2
       email: decoupledSca.2@mail.de
@@ -566,7 +558,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 010
       login: EmbeddedSca-1a
       email: embeddedSca.1@mail.de
@@ -580,7 +571,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 011
       login: EmbeddedSca-1b
       email: embeddedSca.1b@mail.de
@@ -594,7 +584,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 012
       login: EmbeddedSca-1c
       email: embeddedSca.1c@mail.de
@@ -611,7 +600,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 013
       login: EmbeddedSca-1d
       email: embeddedSca.1d@mail.de
@@ -625,7 +613,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 014
       login: EmbeddedSca-1e
       email: embeddedSca.1e@mail.de
@@ -639,7 +626,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 015
       login: EmbeddedSca-2
       email: embeddedSca.2@mail.de
@@ -653,7 +639,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 016
       login: MixedSca-1
       email: mixedSca.1@mail.de
@@ -667,7 +652,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 017
       login: MixedSca-2
       email: mixedSca.2@mail.de
@@ -681,7 +665,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 018
       login: MixedSca-3
       email: mixedSca.3@mail.de
@@ -695,7 +678,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 019
       login: MixedSca-4
       email: mixedSca.4@mail.de
@@ -709,7 +691,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 020
       login: SupportPaymentProduct-1
       email: supportPaymentProduct.1@mail.de
@@ -723,7 +704,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 021
       login: PsuBlockedPrivate
       email: psu.blockedPrivate@mail.de
@@ -737,7 +717,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 022
       login: Default-PSU-Corporate
       email: defaultPSU.corporate@mail.de
@@ -751,7 +730,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 023
       login: PsuBlockedCorporate
       email: psuBlocked.corporate@mail.de
@@ -765,7 +743,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 024
       login: TransactionFee-1
       email: transactionFee.1@mail.de
@@ -779,7 +756,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 025
       login: TransactionFee-2
       email: transactionFee.2@mail.de
@@ -793,7 +769,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 026
       login: ConfFunds-1a
       email: confFunds.1a@mail.de
@@ -816,7 +791,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 027
       login: ConfFunds-1b
       email: confFunds.1b@mail.de
@@ -839,7 +813,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 028
       login: ConfFunds-2
       email: confFunds.2@mail.de
@@ -862,7 +835,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 029
       login: PSU-Private2
       email: psuPrivate.2@mail.de
@@ -876,7 +848,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 030
       login: AIS-MultCurr
       email: ais.multCurr@mail.de
@@ -890,7 +861,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 031
       login: PsuAisCamt.52
       email: psuAisCamt.52@mail.de
@@ -904,7 +874,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 032
       login: PsuAisCamt.53
       email: psuAisCamt.53@mail.de
@@ -918,7 +887,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 033
       login: PsuAisCamt.54
       email: psuAisCamt.54@mail.de
@@ -932,7 +900,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 034
       login: PsuAis.Mt940
       email: psuAis.Mt940@mail.de
@@ -946,7 +913,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
     - id: 035
       login: PsuAis.Mt942
       email: psuAis.Mt942@mail.de
@@ -960,7 +926,6 @@ users:
             accessType: OWNER
       userRoles:
           - CUSTOMER
-      userType: FAKE
 
 ###############################################
 #

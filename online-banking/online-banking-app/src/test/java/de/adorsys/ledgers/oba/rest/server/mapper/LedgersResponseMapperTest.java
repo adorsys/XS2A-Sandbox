@@ -63,6 +63,6 @@ public class LedgersResponseMapperTest {
     }
 
     private ScaUserDataTO getScaUserData(String id) {
-        return new ScaUserDataTO(id, ScaMethodTypeTO.EMAIL, id + "@" + id + ".test", null, false, null, false);
+        return new ScaUserDataTO(id, ScaMethodTypeTO.EMAIL, id + "@" + id + ".test", null, false, null, false, false);
     }
 }

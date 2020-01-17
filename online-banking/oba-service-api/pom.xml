@@ -30,5 +30,16 @@
             <version>${xs2a.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>de.adorsys.ledgers</groupId>
+            <artifactId>ledgers-utils</artifactId>
+            <version>${ledgers.version}</version>
+        </dependency>
+
     </dependencies>
 </project>

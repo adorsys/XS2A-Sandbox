@@ -3,7 +3,6 @@ package de.adorsys.psd2.sandbox.tpp.rest.server.model;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccountAccessTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
-import de.adorsys.ledgers.middleware.api.domain.um.UserTypeTO;
 import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,17 +20,16 @@ public class TppDataTest {
     private static final String USER_IBAN = "DE89000000115555555555";
     private static final String USER_ID = "QWERTY";
     private static final Currency CURRENCY = Currency.getInstance("EUR");
-    private static final UserTypeTO USER_TYPE = UserTypeTO.FAKE;
 
     @Test
     public void tppConstructorTest_success() {
-        TppData result = new TppData(new UserTO(null, null, null, null, null, getAccountAccess(), null, TPP_ID, USER_TYPE));
+        TppData result = new TppData(new UserTO(null, null, null, null, null, getAccountAccess(), null, TPP_ID));
         assertThat(result).isNotNull();
     }
 
     @Test(expected = TppException.class)
     public void tppConstructorTest_empty_access() {
-        new TppData(new UserTO(null, null, null, null, null, null, null, null, null));
+        new TppData(new UserTO(null, null, null, null, null, null, null, null));
     }
 
     private List<AccountAccessTO> getAccountAccess() {

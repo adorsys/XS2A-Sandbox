@@ -99,7 +99,7 @@
         <!-- xs2a version -->
         <xs2a.version>5.8-RC2</xs2a.version>
         <connector.version>5.8-RC2</connector.version>
-        <ledgers.version>2.5.2</ledgers.version>
+        <ledgers.version>2.6</ledgers.version>
         <psd2.certificate.generator.version>1.5.0</psd2.certificate.generator.version>
         <!-- other properties -->
         <spring-boot-dependencies.version>2.1.1.RELEASE</spring-boot-dependencies.version>
@@ -138,14 +138,7 @@
     </properties>
 
     <repositories>
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>http://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
+
         <repository>
             <id>snapshots-repo</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
@@ -156,6 +149,7 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+
     </repositories>
 
     <dependencyManagement>

@@ -15,7 +15,6 @@ users:
         scaWeight: 0
     userRoles:
       - "CUSTOMER"
-    userType: "FAKE"
 accounts:
   - iban: "DE12345"
     currency: "EUR"
