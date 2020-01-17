@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @FeignClient(value = "cmsPsuAis", url = "${cms.url}", path = "/psu-api/v1/ais/consent", primary = false, configuration = FeignConfig.class)
-@Api(value = "psu-api/v1/ais/consent", tags = {"PSU AIS Consents"})
+@Api(value = "psu-api/v1/ais/consent", tags = "PSU AIS Consents")
 public interface CmsPsuAisClient {
     String DEFAULT_SERVICE_INSTANCE_ID = "UNDEFINED";
 
@@ -81,10 +81,10 @@ public interface CmsPsuAisClient {
     ResponseEntity<Boolean> confirmConsent(
         @ApiParam(name = CmsConstant.PATH.CONSENT_ID, value = "The account consent identification assigned to the created account consent.", example = "bf489af6-a2cb-4b75-b71d-d66d58b934d7")
         @PathVariable(CmsConstant.PATH.CONSENT_ID) String consentId,
-        @Deprecated @RequestHeader(value = CmsConstant.HEADERS.PSU_ID, required = false) String psuId,
-        @Deprecated @RequestHeader(value = CmsConstant.HEADERS.PSU_ID_TYPE, required = false) String psuIdType,
-        @Deprecated @RequestHeader(value = CmsConstant.HEADERS.PSU_CORPORATE_ID, required = false) String psuCorporateId,
-        @Deprecated @RequestHeader(value = CmsConstant.HEADERS.PSU_CORPORATE_ID_TYPE, required = false) String psuCorporateIdType,
+        @RequestHeader(value = CmsConstant.HEADERS.PSU_ID, required = false) String psuId,
+        @RequestHeader(value = CmsConstant.HEADERS.PSU_ID_TYPE, required = false) String psuIdType,
+        @RequestHeader(value = CmsConstant.HEADERS.PSU_CORPORATE_ID, required = false) String psuCorporateId,
+        @RequestHeader(value = CmsConstant.HEADERS.PSU_CORPORATE_ID_TYPE, required = false) String psuCorporateIdType,
         @RequestHeader(value = CmsConstant.HEADERS.INSTANCE_ID, required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId);
 
     @PutMapping(path = "/{consent-id}/reject-consent")
@@ -95,10 +95,10 @@ public interface CmsPsuAisClient {
     ResponseEntity<Boolean> rejectConsent(
         @ApiParam(name = CmsConstant.PATH.CONSENT_ID, value = "The account consent identification assigned to the created account consent.", example = "bf489af6-a2cb-4b75-b71d-d66d58b934d7")
         @PathVariable(CmsConstant.PATH.CONSENT_ID) String consentId,
-        @Deprecated @RequestHeader(value = CmsConstant.HEADERS.PSU_ID, required = false) String psuId,
-        @Deprecated @RequestHeader(value = CmsConstant.HEADERS.PSU_ID_TYPE, required = false) String psuIdType,
-        @Deprecated @RequestHeader(value = CmsConstant.HEADERS.PSU_CORPORATE_ID, required = false) String psuCorporateId,
-        @Deprecated @RequestHeader(value = CmsConstant.HEADERS.PSU_CORPORATE_ID_TYPE, required = false) String psuCorporateIdType,
+        @RequestHeader(value = CmsConstant.HEADERS.PSU_ID, required = false) String psuId,
+        @RequestHeader(value = CmsConstant.HEADERS.PSU_ID_TYPE, required = false) String psuIdType,
+        @RequestHeader(value = CmsConstant.HEADERS.PSU_CORPORATE_ID, required = false) String psuCorporateId,
+        @RequestHeader(value = CmsConstant.HEADERS.PSU_CORPORATE_ID_TYPE, required = false) String psuCorporateIdType,
         @RequestHeader(value = CmsConstant.HEADERS.INSTANCE_ID, required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId);
 
     @GetMapping(path = "/consents")
@@ -121,10 +121,10 @@ public interface CmsPsuAisClient {
     ResponseEntity<Boolean> revokeConsent(
         @ApiParam(name = CmsConstant.PATH.CONSENT_ID, value = "The account consent identification assigned to the created account consent.", example = "bf489af6-a2cb-4b75-b71d-d66d58b934d7")
         @PathVariable(CmsConstant.PATH.CONSENT_ID) String consentId,
-        @Deprecated @RequestHeader(value = CmsConstant.HEADERS.PSU_ID, required = false) String psuId,
-        @Deprecated @RequestHeader(value = CmsConstant.HEADERS.PSU_ID_TYPE, required = false) String psuIdType,
-        @Deprecated @RequestHeader(value = CmsConstant.HEADERS.PSU_CORPORATE_ID, required = false) String psuCorporateId,
-        @Deprecated @RequestHeader(value = CmsConstant.HEADERS.PSU_CORPORATE_ID_TYPE, required = false) String psuCorporateIdType,
+        @RequestHeader(value = CmsConstant.HEADERS.PSU_ID, required = false) String psuId,
+        @RequestHeader(value = CmsConstant.HEADERS.PSU_ID_TYPE, required = false) String psuIdType,
+        @RequestHeader(value = CmsConstant.HEADERS.PSU_CORPORATE_ID, required = false) String psuCorporateId,
+        @RequestHeader(value = CmsConstant.HEADERS.PSU_CORPORATE_ID_TYPE, required = false) String psuCorporateIdType,
         @RequestHeader(value = CmsConstant.HEADERS.INSTANCE_ID, required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId);
 
     @PutMapping(path = "/{consent-id}/authorise-partially-consent")
@@ -135,13 +135,9 @@ public interface CmsPsuAisClient {
     ResponseEntity<Boolean> authorisePartiallyConsent(
         @ApiParam(name = CmsConstant.PATH.CONSENT_ID, value = "The account consent identification assigned to the created account consent.", example = "bf489af6-a2cb-4b75-b71d-d66d58b934d7")
         @PathVariable(CmsConstant.PATH.CONSENT_ID) String consentId,
-        @Deprecated
         @RequestHeader(value = CmsConstant.HEADERS.PSU_ID, required = false) String psuId,
-        @Deprecated
         @RequestHeader(value = CmsConstant.HEADERS.PSU_ID_TYPE, required = false) String psuIdType,
-        @Deprecated
         @RequestHeader(value = CmsConstant.HEADERS.PSU_CORPORATE_ID, required = false) String psuCorporateId,
-        @Deprecated
         @RequestHeader(value = CmsConstant.HEADERS.PSU_CORPORATE_ID_TYPE, required = false) String psuCorporateIdType,
         @RequestHeader(value = CmsConstant.HEADERS.INSTANCE_ID, required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId);
 

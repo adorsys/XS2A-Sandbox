@@ -29,7 +29,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @FeignClient(value = "cmsPsuPis", url = "${cms.url}", path = "/psu-api/v1/payment", primary = false, configuration = FeignConfig.class)
-@Api(value = "psu-api/v1/payment", tags = "PSU PIS, Consents", description = "Controller for cms-psu-api providing access for PIS consents")
+@Api(value = "psu-api/v1/payment", tags = "PSU PIS, Consents. Controller for cms-psu-api providing access for PIS consents")
 public interface CmsPsuPisClient {
     String DEFAULT_SERVICE_INSTANCE_ID = "UNDEFINED";
 

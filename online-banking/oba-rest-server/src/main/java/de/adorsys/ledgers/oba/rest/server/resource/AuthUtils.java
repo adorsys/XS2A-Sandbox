@@ -9,10 +9,13 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.Objects;
 
 import static de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode.LOGIN_FAILED;
 
 public class AuthUtils {
+
+    private AuthUtils() {}
 
     public static boolean success(ResponseEntity<SCALoginResponseTO> authoriseForConsent) {
         // Success if there is a bearer token.
@@ -32,7 +35,8 @@ public class AuthUtils {
 
     public static void checkIfUserInitiatedOperation(ResponseEntity<SCALoginResponseTO> loginResult, List<PsuIdData> psuIdData) {
         if (CollectionUtils.isNotEmpty(psuIdData)) {
-            AuthUtils.checkUserInitiatedProcedure(psuIdData.get(0).getPsuId(), loginResult.getBody().getBearerToken());
+            SCALoginResponseTO body = Objects.requireNonNull(loginResult.getBody());
+            AuthUtils.checkUserInitiatedProcedure(psuIdData.get(0).getPsuId(), body.getBearerToken());
         }
     }
 

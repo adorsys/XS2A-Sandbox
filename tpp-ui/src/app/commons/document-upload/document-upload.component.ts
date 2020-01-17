@@ -57,7 +57,11 @@ export class DocumentUploadComponent implements OnInit {
             if (this.options.methodAfterSuccess && typeof this.options.methodAfterSuccess === 'function') {
                 this.options.methodAfterSuccess(item, response);
             }
-            this.infoService.openFeedback("File successfully uploaded");
+            if (status != 200 && status != 201) {
+              this.infoService.openFeedback("File was not uploaded. Check your file, please!");
+            } else {
+              this.infoService.openFeedback("File successfully uploaded");
+            }
         };
 
         this.uploader.onWhenAddingFileFailed = (item, filter, options) => {

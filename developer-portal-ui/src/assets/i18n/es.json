@@ -387,7 +387,7 @@
           "LI_0": "Predefined test values for all tests (TAN and PIN):",
           "LI_1": "Redirect:",
           "LIST_1": {
-            "LI_1": "Flujo de iniciación de pago",
+            "LI_1": "Flujo de pago",
             "LI_2": "Flujo de cancelación de pago",
             "LI_3": "Flujo de Iniciación del Consentimiento"
           },

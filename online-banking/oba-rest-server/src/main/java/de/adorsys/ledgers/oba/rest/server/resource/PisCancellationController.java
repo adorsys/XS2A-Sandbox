@@ -17,12 +17,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Objects;
+
+import static de.adorsys.ledgers.oba.rest.api.resource.PisCancellationApi.BASE_PATH;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @RequiredArgsConstructor
-@RestController(PisCancellationController.BASE_PATH)
-@RequestMapping(PisCancellationController.BASE_PATH)
-@Api(value = PisCancellationController.BASE_PATH, tags = "PSU PIS Cancellation", description = "Provides access to online banking payment functionality")
+@RestController
+@RequestMapping(BASE_PATH)
+@Api(value = BASE_PATH, tags = "PSU PIS Cancellation. Provides access to online banking payment functionality")
 public class PisCancellationController extends AbstractXISController implements PisCancellationApi {
     private final CommonPaymentService paymentService;
 
@@ -33,7 +36,7 @@ public class PisCancellationController extends AbstractXISController implements 
         String authorisationId,
         String login,
         String pin,
-        String consentCookieString) throws PaymentAuthorizeException {
+        String consentCookieString) {
 
         String consentCookie = responseUtils.consentCookie(consentCookieString);
         PaymentWorkflow cancellationWorkflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, false, consentCookie, login, null);
@@ -46,7 +49,7 @@ public class PisCancellationController extends AbstractXISController implements 
         // Authorize
         ResponseEntity<SCALoginResponseTO> loginResult = performLoginForConsent(login, pin, cancellationWorkflow.paymentId(), cancellationWorkflow.authId(), OpTypeTO.CANCEL_PAYMENT);
         AuthUtils.checkIfUserInitiatedOperation(loginResult, cancellationWorkflow.getPaymentResponse().getPayment().getPsuIdDatas());
-        cancellationWorkflow.processSCAResponse(loginResult.getBody());
+        cancellationWorkflow.processSCAResponse(Objects.requireNonNull(loginResult.getBody()));
 
         if (!AuthUtils.success(loginResult)) {
             responseUtils.removeCookies(response);

@@ -2,7 +2,6 @@ package de.adorsys.ledgers.oba.rest.api.resource;
 
 import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisConsentTO;
-import de.adorsys.ledgers.oba.rest.api.resource.exception.ConsentAuthorizeException;
 import de.adorsys.ledgers.oba.service.api.domain.AuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.CreatePiisConsentRequestTO;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(value = AISApi.BASE_PATH, tags = "PSU AIS", description = "Provides access to online banking AIS functionality")
+@Api(value = AISApi.BASE_PATH, tags = "PSU AIS. Provides access to online banking AIS functionality")
 public interface AISApi {
     String BASE_PATH = "/ais";
 
@@ -147,7 +146,7 @@ public interface AISApi {
         @RequestHeader(name = "Cookie", required = false) String consentAndaccessTokenCookieString,
         @RequestParam(name = "forgetConsent", required = false) Boolean forgetConsent,
         @RequestParam(name = "backToTpp", required = false) Boolean backToTpp,
-        @RequestParam(name = "oauth2", required = false, defaultValue = "false") boolean isOauth2Integrated) throws ConsentAuthorizeException;
+        @RequestParam(name = "oauth2", required = false, defaultValue = "false") boolean isOauth2Integrated);
 
     /**
      * Fails AIS Consent authorisation object by its ID.

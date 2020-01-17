@@ -13,9 +13,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import static de.adorsys.psd2.sandbox.tpp.rest.server.auth.PermittedResources.APP_WHITELIST;
-import static de.adorsys.psd2.sandbox.tpp.rest.server.auth.PermittedResources.INDEX_WHITELIST;
-import static de.adorsys.psd2.sandbox.tpp.rest.server.auth.PermittedResources.SWAGGER_WHITELIST;
+import static de.adorsys.psd2.sandbox.tpp.rest.server.config.PermittedResources.APP_WHITELIST;
+import static de.adorsys.psd2.sandbox.tpp.rest.server.config.PermittedResources.INDEX_WHITELIST;
+import static de.adorsys.psd2.sandbox.tpp.rest.server.config.PermittedResources.SWAGGER_WHITELIST;
 
 @Configuration
 @EnableWebSecurity

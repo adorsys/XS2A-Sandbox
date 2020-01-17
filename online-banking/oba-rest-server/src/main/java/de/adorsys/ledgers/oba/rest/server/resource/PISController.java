@@ -18,9 +18,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController(PISController.BASE_PATH)
-@RequestMapping(PISController.BASE_PATH)
-@Api(value = PISController.BASE_PATH, tags = "PSU PIS", description = "Provides access to online banking payment functionality")
+import java.util.Objects;
+
+import static de.adorsys.ledgers.oba.rest.api.resource.PISApi.BASE_PATH;
+
+@RestController
+@RequestMapping(BASE_PATH)
+@Api(value = BASE_PATH, tags = "PSU PIS. Provides access to online banking payment functionality")
 @RequiredArgsConstructor
 public class PISController extends AbstractXISController implements PISApi {
     private final CommonPaymentService paymentService;
@@ -32,14 +36,14 @@ public class PISController extends AbstractXISController implements PISApi {
 
     @Override
     @ApiOperation(value = "Identifies the user by login an pin. Return sca methods information")
-    public ResponseEntity<PaymentAuthorizeResponse> login(String encryptedPaymentId, String authorisationId, String login, String pin, String consentCookieString) throws PaymentAuthorizeException {
+    public ResponseEntity<PaymentAuthorizeResponse> login(String encryptedPaymentId, String authorisationId, String login, String pin, String consentCookieString) {
         String consentCookie = responseUtils.consentCookie(consentCookieString);
         PaymentWorkflow workflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, false, consentCookie, login, null);
 
         // Authorize
         ResponseEntity<SCALoginResponseTO> loginResult = performLoginForConsent(login, pin, workflow.paymentId(), workflow.authId(), OpTypeTO.PAYMENT);
         AuthUtils.checkIfUserInitiatedOperation(loginResult, workflow.getPaymentResponse().getPayment().getPsuIdDatas());
-        workflow.processSCAResponse(loginResult.getBody());
+        workflow.processSCAResponse(Objects.requireNonNull(loginResult.getBody()));
 
         if (!AuthUtils.success(loginResult)) {
             // failed Message. No repeat. Delete cookies.
@@ -133,7 +137,7 @@ public class PISController extends AbstractXISController implements PISApi {
 
     @Override
     public ResponseEntity<PaymentAuthorizeResponse> pisDone(String encryptedPaymentId, String authorisationId,
-                                                            String consentAndAccessTokenCookieString, Boolean forgetConsent, Boolean backToTpp, boolean isOauth2Integrated) throws PaymentAuthorizeException {
+                                                            String consentAndAccessTokenCookieString, Boolean forgetConsent, Boolean backToTpp, boolean isOauth2Integrated) {
         String psuId = AuthUtils.psuId(middlewareAuth);
         String consentCookie = responseUtils.consentCookie(consentAndAccessTokenCookieString);
         String redirectUrl = paymentService.resolveRedirectUrl(encryptedPaymentId, authorisationId, consentCookie, isOauth2Integrated, psuId, middlewareAuth.getBearerToken());

@@ -11,7 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 
-@Api(value = SCAApi.BASE_PATH, tags = "PSU SCA", description = "Provides access to one time password for strong customer authentication.")
+@Api(value = SCAApi.BASE_PATH, tags = "PSU SCA. Provides access to one time password for strong customer authentication.")
 public interface SCAApi {
 	String BASE_PATH = "/sca";
 

@@ -1,6 +1,5 @@
 package de.adorsys.ledgers.oba.rest.api.resource;
 
-import de.adorsys.ledgers.oba.rest.api.resource.exception.PaymentAuthorizeException;
 import de.adorsys.ledgers.oba.service.api.domain.AuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
 import io.swagger.annotations.Api;
@@ -10,7 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Api(value = PISApi.BASE_PATH, tags = "PSU PIS", description = "Provides access to online banking payment functionality")
+@Api(value = PISApi.BASE_PATH, tags = "PSU PIS. Provides access to online banking payment functionality")
 public interface PISApi {
     String BASE_PATH = "/pis";
 
@@ -47,7 +46,7 @@ public interface PISApi {
         @PathVariable("authorisationId") String authorisationId,
         @RequestParam(value = "login", required = false) String login,
         @RequestParam(value = "pin", required = false) String pin,
-        @RequestHeader(name = "Cookie", required = false) String consentCookieString) throws PaymentAuthorizeException;
+        @RequestHeader(name = "Cookie", required = false) String consentCookieString);
 
     /**
      * Calls the consent validation page.
@@ -133,5 +132,5 @@ public interface PISApi {
         @RequestHeader(name = "Cookie", required = false) String consentAndAccessTokenCookieString,
         @RequestParam(name = "forgetConsent", required = false) Boolean forgetConsent,
         @RequestParam(name = "backToTpp", required = false) Boolean backToTpp,
-        @RequestParam(name = "oauth2", required = false, defaultValue = "false") boolean isOauth2Integrated) throws PaymentAuthorizeException;
+        @RequestParam(name = "oauth2", required = false, defaultValue = "false") boolean isOauth2Integrated);
 }

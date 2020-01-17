@@ -22,7 +22,7 @@ public class BankCodeStructure {
                         .stream()
                         .filter(e -> e.getEntryType() == bank_code)
                         .findFirst()
-                        .map(BbanStructureEntry::getCharacterType).get();
+                        .map(BbanStructureEntry::getCharacterType).orElseThrow(() -> new IllegalArgumentException("Can't define character type"));
     }
 
     @JsonIgnore
