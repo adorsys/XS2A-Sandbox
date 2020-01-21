@@ -2,6 +2,7 @@ package de.adorsys.ledgers.oba.rest.api.resource.oba;
 
 import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
 import de.adorsys.ledgers.middleware.api.domain.account.TransactionTO;
+import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTO;
 import de.adorsys.ledgers.util.domain.CustomPageImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -62,4 +63,11 @@ public interface ObaAisApi {
                                                                @RequestParam(name = DATE_FROM_QUERY_PARAM, required = false) @DateTimeFormat(pattern = LOCAL_DATE_YYYY_MM_DD_FORMAT) LocalDate dateFrom,
                                                                @RequestParam(name = DATE_TO_QUERY_PARAM, required = false) @DateTimeFormat(pattern = LOCAL_DATE_YYYY_MM_DD_FORMAT) LocalDate dateTo,
                                                                @RequestParam(required = false, defaultValue = "0") int page, @RequestParam(required = false, defaultValue = "25") int size);
+
+    /**
+     * @return List of pending periodic payments
+     */
+    @GetMapping(path = "/payments")
+    @ApiOperation(value = "Load Pending Periodic Payments", authorizations = @Authorization(value = "apiKey"))
+    ResponseEntity<List<PaymentTO>> getPendingPeriodicPayments();
 }
