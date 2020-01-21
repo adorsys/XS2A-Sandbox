@@ -1,14 +1,12 @@
 package de.adorsys.ledgers.oba.service.impl.mapper;
 
-import de.adorsys.ledgers.middleware.api.domain.payment.BulkPaymentTO;
-import de.adorsys.ledgers.middleware.api.domain.payment.PaymentProductTO;
-import de.adorsys.ledgers.middleware.api.domain.payment.PeriodicPaymentTO;
-import de.adorsys.ledgers.middleware.api.domain.payment.SinglePaymentTO;
+import de.adorsys.ledgers.middleware.api.domain.payment.*;
 import de.adorsys.psd2.consent.api.pis.CmsBulkPayment;
 import de.adorsys.psd2.consent.api.pis.CmsPeriodicPayment;
 import de.adorsys.psd2.consent.api.pis.CmsSinglePayment;
 import de.adorsys.psd2.xs2a.core.pis.PisDayOfExecution;
 import de.adorsys.psd2.xs2a.core.pis.PisExecutionRule;
+import de.adorsys.psd2.xs2a.core.pis.TransactionStatus;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -44,4 +42,6 @@ public interface PaymentMapper {
     default PaymentProductTO mapToPaymentProduct(String paymentProduct) {
         return PaymentProductTO.getByValue(paymentProduct).orElseThrow(() -> new IllegalStateException(String.format("Missing payment product with value %s", paymentProduct)));
     }
+
+    TransactionStatusTO toTransactionStatusTO (TransactionStatus status);
 }
