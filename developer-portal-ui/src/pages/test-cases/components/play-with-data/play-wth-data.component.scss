@@ -79,7 +79,7 @@
   .send-body {
     textarea {
       display: block;
-      width: 46.58vw !important;
+      width: 100% !important;
       font-size: 1em;
       resize: vertical;
       padding: 1vw;
@@ -105,6 +105,22 @@
           margin-right: 2vw;
           font-weight: 800;
         }
+      }
+    }
+    .clear-button {
+      color: red;
+      border: 2px solid red;
+      min-height: 1.5rem;
+      padding: 5px 25px 5px 25px;
+      font-size: 1rem;
+      float: right;
+      cursor: pointer;
+      &:hover {
+        background-color: #d1d1d1;
+        -webkit-transition: background-color 1s ease-out;
+        -moz-transition: background-color 1s ease-out;
+        -o-transition: background-color 1s ease-out;
+        transition: background-color 1s ease-out;
       }
     }
   }
