@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EmbPaymentCancellGetComponent } from './emb-payment-cancell-get.component';
-import {Component, Input, Pipe, PipeTransform} from '@angular/core';
-import {LineCommandComponent} from '../../../../../custom-elements/line-command/line-command.component';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { LineCommandComponent } from '../../../../../custom-elements/line-command/line-command.component';
 
 describe('EmbPaymentCancellGetComponent', () => {
   let component: EmbPaymentCancellGetComponent;
@@ -10,7 +10,7 @@ describe('EmbPaymentCancellGetComponent', () => {
 
   @Component({
     selector: 'app-play-wth-data',
-    template: ''
+    template: '',
   })
   class MockPlayWithDataComponent {
     @Input() headers: object;
@@ -21,7 +21,7 @@ describe('EmbPaymentCancellGetComponent', () => {
     @Input() cancellationIdFlag: boolean;
   }
 
-  @Pipe({name: 'translate'})
+  @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -35,7 +35,7 @@ describe('EmbPaymentCancellGetComponent', () => {
         EmbPaymentCancellGetComponent,
         TranslatePipe,
         MockPlayWithDataComponent,
-        LineCommandComponent
+        LineCommandComponent,
       ],
     }).compileComponents();
   }));
@@ -53,7 +53,7 @@ describe('EmbPaymentCancellGetComponent', () => {
   it('should be right headers', () => {
     const headers: object = {
       'X-Request-ID': '2f77a125-aa7a-45c0-b414-cea25a116035',
-      'TPP-Explicit-Authorisation-Preferred': 'true',
+      'TPP-Explicit-Authorisation-Preferred': 'false',
       'PSU-ID': 'YOUR_USER_LOGIN',
       'PSU-IP-Address': '1.1.1.1',
     };
@@ -79,4 +79,3 @@ describe('EmbPaymentCancellGetComponent', () => {
     expect(component.activeSegment).not.toBe('wrong-segment');
   });
 });
-

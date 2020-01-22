@@ -16,6 +16,7 @@ export class RestService {
     body?
   ): Observable<any> {
     const headers = this.buildHeadersForRequest(headerParams, xml);
+    delete headerParams['Content-Type'];
 
     switch (method) {
       case 'POST':

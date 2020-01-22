@@ -51,7 +51,7 @@ describe('RdctPaymentCancellationDeleteComponent', () => {
   it('should be right headers', () => {
     const headers: object = {
       'X-Request-ID': '2f77a125-aa7a-45c0-b414-cea25a116035',
-      'TPP-Explicit-Authorisation-Preferred': 'true',
+      'TPP-Explicit-Authorisation-Preferred': 'false',
       'PSU-ID': 'YOUR_USER_LOGIN',
       'PSU-IP-Address': '1.1.1.1',
       'TPP-REDIRECT-URI': 'https://adorsys-platform.de/solutions/xs2a-sandbox/',

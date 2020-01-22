@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EmbPaymentInitGetComponent } from './emb-payment-init-get.component';
-import {Component, Input, Pipe, PipeTransform} from '@angular/core';
-import {LineCommandComponent} from '../../../../../custom-elements/line-command/line-command.component';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { LineCommandComponent } from '../../../../../custom-elements/line-command/line-command.component';
 
 describe('EmbPaymentInitGetComponent', () => {
   let component: EmbPaymentInitGetComponent;
@@ -10,7 +10,7 @@ describe('EmbPaymentInitGetComponent', () => {
 
   @Component({
     selector: 'app-play-wth-data',
-    template: ''
+    template: '',
   })
   class MockPlayWithDataComponent {
     @Input() headers: object;
@@ -19,7 +19,7 @@ describe('EmbPaymentInitGetComponent', () => {
     @Input() paymentIdFlag: boolean;
   }
 
-  @Pipe({name: 'translate'})
+  @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -51,7 +51,7 @@ describe('EmbPaymentInitGetComponent', () => {
   it('should be right headers', () => {
     const headers: object = {
       'X-Request-ID': '2f77a125-aa7a-45c0-b414-cea25a116035',
-      'TPP-Explicit-Authorisation-Preferred': 'true',
+      'TPP-Explicit-Authorisation-Preferred': 'false',
       'PSU-ID': 'YOUR_USER_LOGIN',
       'PSU-IP-Address': '1.1.1.1',
     };

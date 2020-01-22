@@ -1,12 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-
-import { EmbConsentGetComponent } from './emb-consent-get.component';
 import { LineCommandComponent } from '../../../../../custom-elements/line-command/line-command.component';
+import { RdctPaymentStatusGetComponent } from './rdct-payment-status-get.component';
 
-describe('EmbConsentGetComponent', () => {
-  let component: EmbConsentGetComponent;
-  let fixture: ComponentFixture<EmbConsentGetComponent>;
+describe('RdctPaymentStatusGetComponent', () => {
+  let component: RdctPaymentStatusGetComponent;
+  let fixture: ComponentFixture<RdctPaymentStatusGetComponent>;
 
   @Component({
     selector: 'app-play-wth-data',
@@ -14,7 +14,10 @@ describe('EmbConsentGetComponent', () => {
   })
   class MockPlayWithDataComponent {
     @Input() headers: object;
-    @Input() consentIdFlag: boolean;
+    @Input() paymentServiceFlag: boolean;
+    @Input() paymentProductFlag: boolean;
+    @Input() paymentIdFlag: boolean;
+    @Input() variablePathEnd: '/status';
   }
 
   @Pipe({ name: 'translate' })
@@ -28,16 +31,16 @@ describe('EmbConsentGetComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        EmbConsentGetComponent,
+        RdctPaymentStatusGetComponent,
+        MockPlayWithDataComponent,
         TranslatePipe,
         LineCommandComponent,
-        MockPlayWithDataComponent,
       ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EmbConsentGetComponent);
+    fixture = TestBed.createComponent(RdctPaymentStatusGetComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -49,8 +52,6 @@ describe('EmbConsentGetComponent', () => {
   it('should be right headers', () => {
     const headers: object = {
       'X-Request-ID': '2f77a125-aa7a-45c0-b414-cea25a116035',
-      'TPP-Explicit-Authorisation-Preferred': 'false',
-      'PSU-ID': 'YOUR_USER_LOGIN',
       'PSU-IP-Address': '1.1.1.1',
     };
     expect(typeof component.headers).toBe('object');
