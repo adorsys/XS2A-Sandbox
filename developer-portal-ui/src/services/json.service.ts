@@ -75,7 +75,13 @@ export class JsonService {
       .get(this.customExamplesSource + path, { responseType: 'text' })
       .pipe(
         map(response => {
-          return response;
+          if (response.includes('<!DOCTYPE html>')) {
+            throw new Error(
+              'Source is not found, default html returned instead!'
+            );
+          } else {
+            return response;
+          }
         }),
         catchError(() => {
           return this.http.get(this.defaultExamplesSource + path, {
