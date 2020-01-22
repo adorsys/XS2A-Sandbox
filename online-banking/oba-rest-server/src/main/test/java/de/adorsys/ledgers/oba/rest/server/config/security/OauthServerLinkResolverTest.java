@@ -1,7 +1,6 @@
-package de.adorsys.ledgers.oba.rest.server.service;
+package de.adorsys.ledgers.oba.rest.server.config.security;
 
 import de.adorsys.ledgers.middleware.api.domain.oauth.OauthServerInfoTO;
-import de.adorsys.ledgers.oba.rest.server.config.security.OauthServerLinkResolver;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

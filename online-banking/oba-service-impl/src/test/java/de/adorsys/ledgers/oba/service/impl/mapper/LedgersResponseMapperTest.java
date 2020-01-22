@@ -1,4 +1,4 @@
-package de.adorsys.ledgers.oba.rest.server.mapper;
+package de.adorsys.ledgers.oba.service.impl.mapper;
 
 import de.adorsys.ledgers.middleware.api.domain.sca.ChallengeDataTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCALoginResponseTO;

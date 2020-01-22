@@ -1,11 +1,10 @@
-package de.adorsys.ledgers.oba.rest.server.service;
+package de.adorsys.ledgers.oba.service.impl.service;
 
 import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
 import de.adorsys.ledgers.middleware.api.domain.account.TransactionTO;
 import de.adorsys.ledgers.middleware.api.domain.account.UsageTypeTO;
 import de.adorsys.ledgers.middleware.client.rest.AccountRestClient;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
-import de.adorsys.ledgers.oba.service.impl.service.AisServiceImpl;
 import feign.FeignException;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,4 +1,4 @@
-package de.adorsys.ledgers.oba.rest.server.mapper;
+package de.adorsys.ledgers.oba.rest.server.config.mapper;
 
 import de.adorsys.ledgers.middleware.api.domain.account.AccountReferenceTO;
 import de.adorsys.ledgers.middleware.api.domain.general.AddressTO;
