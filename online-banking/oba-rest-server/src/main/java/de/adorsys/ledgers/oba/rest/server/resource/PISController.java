@@ -3,8 +3,10 @@ package de.adorsys.ledgers.oba.rest.server.resource;
 import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCALoginResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
+import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.oba.rest.api.resource.PISApi;
 import de.adorsys.ledgers.oba.rest.api.resource.exception.PaymentAuthorizeException;
+import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
 import de.adorsys.ledgers.oba.service.api.domain.AuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentType;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
@@ -18,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Objects;
 
 import static de.adorsys.ledgers.oba.rest.api.resource.PISApi.BASE_PATH;
@@ -26,12 +29,17 @@ import static de.adorsys.ledgers.oba.rest.api.resource.PISApi.BASE_PATH;
 @RequestMapping(BASE_PATH)
 @Api(value = BASE_PATH, tags = "PSU PIS. Provides access to online banking payment functionality")
 @RequiredArgsConstructor
-public class PISController extends AbstractXISController implements PISApi {
+public class PISController implements PISApi {
     private final CommonPaymentService paymentService;
+    private final XISControllerService xisService;
+    private final HttpServletResponse response;
+    private final ResponseUtils responseUtils;
+    private final ObaMiddlewareAuthentication middlewareAuth;
+    private final AuthRequestInterceptor authInterceptor;
 
     @Override
     public ResponseEntity<AuthorizeResponse> pisAuth(String redirectId, String encryptedPaymentId, String token) {
-        return auth(redirectId, ConsentType.PIS, encryptedPaymentId, response);
+        return xisService.auth(redirectId, ConsentType.PIS, encryptedPaymentId, response);
     }
 
     @Override
@@ -41,7 +49,7 @@ public class PISController extends AbstractXISController implements PISApi {
         PaymentWorkflow workflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, false, consentCookie, login, null);
 
         // Authorize
-        ResponseEntity<SCALoginResponseTO> loginResult = performLoginForConsent(login, pin, workflow.paymentId(), workflow.authId(), OpTypeTO.PAYMENT);
+        ResponseEntity<SCALoginResponseTO> loginResult = xisService.performLoginForConsent(login, pin, workflow.paymentId(), workflow.authId(), OpTypeTO.PAYMENT);
         AuthUtils.checkIfUserInitiatedOperation(loginResult, workflow.getPaymentResponse().getPayment().getPsuIdDatas());
         workflow.processSCAResponse(Objects.requireNonNull(loginResult.getBody()));
 
@@ -52,7 +60,7 @@ public class PISController extends AbstractXISController implements PISApi {
         }
         String psuId = AuthUtils.psuId(workflow.bearerToken());
         PaymentWorkflow initiatePaymentWorkflow = paymentService.initiatePayment(workflow, psuId);
-        return resolvePaymentWorkflow(initiatePaymentWorkflow);
+        return xisService.resolvePaymentWorkflow(initiatePaymentWorkflow);
     }
 
     @Override
@@ -142,10 +150,5 @@ public class PISController extends AbstractXISController implements PISApi {
         String consentCookie = responseUtils.consentCookie(consentAndAccessTokenCookieString);
         String redirectUrl = paymentService.resolveRedirectUrl(encryptedPaymentId, authorisationId, consentCookie, isOauth2Integrated, psuId, middlewareAuth.getBearerToken());
         return responseUtils.redirect(redirectUrl, response);
-    }
-
-    @Override
-    public String getBasePath() {
-        return BASE_PATH;
     }
 }

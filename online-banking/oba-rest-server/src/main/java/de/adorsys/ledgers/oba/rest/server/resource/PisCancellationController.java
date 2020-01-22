@@ -3,8 +3,10 @@ package de.adorsys.ledgers.oba.rest.server.resource;
 import de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCALoginResponseTO;
+import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.oba.rest.api.resource.PisCancellationApi;
 import de.adorsys.ledgers.oba.rest.api.resource.exception.PaymentAuthorizeException;
+import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentWorkflow;
 import de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode;
@@ -17,17 +19,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Objects;
 
 import static de.adorsys.ledgers.oba.rest.api.resource.PisCancellationApi.BASE_PATH;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
-@RequiredArgsConstructor
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(BASE_PATH)
 @Api(value = BASE_PATH, tags = "PSU PIS Cancellation. Provides access to online banking payment functionality")
-public class PisCancellationController extends AbstractXISController implements PisCancellationApi {
+public class PisCancellationController implements PisCancellationApi {
     private final CommonPaymentService paymentService;
+    private final XISControllerService xisService;
+    private final HttpServletResponse response;
+    private final ResponseUtils responseUtils;
+    private final ObaMiddlewareAuthentication middlewareAuth;
+    private final AuthRequestInterceptor authInterceptor;
 
     @Override
     @ApiOperation(value = "Identifies the user by login an pin. Return sca methods information")
@@ -47,7 +55,7 @@ public class PisCancellationController extends AbstractXISController implements 
                       .build();
         }
         // Authorize
-        ResponseEntity<SCALoginResponseTO> loginResult = performLoginForConsent(login, pin, cancellationWorkflow.paymentId(), cancellationWorkflow.authId(), OpTypeTO.CANCEL_PAYMENT);
+        ResponseEntity<SCALoginResponseTO> loginResult = xisService.performLoginForConsent(login, pin, cancellationWorkflow.paymentId(), cancellationWorkflow.authId(), OpTypeTO.CANCEL_PAYMENT);
         AuthUtils.checkIfUserInitiatedOperation(loginResult, cancellationWorkflow.getPaymentResponse().getPayment().getPsuIdDatas());
         cancellationWorkflow.processSCAResponse(Objects.requireNonNull(loginResult.getBody()));
 
@@ -57,7 +65,7 @@ public class PisCancellationController extends AbstractXISController implements 
         }
         String psuId = AuthUtils.psuId(cancellationWorkflow.bearerToken());
         PaymentWorkflow initiateCancelPaymentWorkflow = paymentService.initiateCancelPayment(cancellationWorkflow, psuId);
-        return resolvePaymentWorkflow(initiateCancelPaymentWorkflow);
+        return xisService.resolvePaymentWorkflow(initiateCancelPaymentWorkflow);
     }
 
     @Override
@@ -102,9 +110,5 @@ public class PisCancellationController extends AbstractXISController implements 
         String redirectUrl = paymentService.resolveRedirectUrl(encryptedPaymentId, authorisationId, consentCookie, isOauth2Integrated, psuId, middlewareAuth.getBearerToken());
         return responseUtils.redirect(redirectUrl, response);
     }
-
-    @Override
-    public String getBasePath() {
-        return BASE_PATH;
-    }
 }
+

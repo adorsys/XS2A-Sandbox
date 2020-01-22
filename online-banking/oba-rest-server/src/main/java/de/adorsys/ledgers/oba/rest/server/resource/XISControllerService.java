@@ -14,14 +14,15 @@ import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationExceptio
 import de.adorsys.ledgers.oba.service.api.domain.exception.InvalidConsentException;
 import de.adorsys.ledgers.oba.service.api.service.ConsentReferencePolicy;
 import de.adorsys.ledgers.oba.service.api.service.TokenAuthenticationService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.WebUtils;
 
@@ -36,37 +37,28 @@ import static de.adorsys.ledgers.oba.rest.server.auth.oba.SecurityConstant.BEARE
 import static de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode.LOGIN_FAILED;
 
 @Slf4j
-public abstract class AbstractXISController {
+@Service
+@RequiredArgsConstructor
+public class XISControllerService {
     private static final String ACCESS_TOKEN_COOKIE = "ACCESS_TOKEN";
 
-    @Autowired
-    protected AspspConsentDataClient aspspConsentDataClient;
-    @Autowired
-    protected TokenStorageService tokenStorageService;
-    @Autowired
-    protected TokenAuthenticationService tokenAuthenticationService;
-    @Autowired
-    protected AuthRequestInterceptor authInterceptor;
-
-    @Autowired
-    protected HttpServletRequest request;
-    @Autowired
-    protected HttpServletResponse response;
-    @Autowired
-    protected ObaMiddlewareAuthentication middlewareAuth;
-    @Autowired
-    protected UserMgmtRestClient userMgmtRestClient;
+    private final AspspConsentDataClient aspspConsentDataClient;
+    private final TokenStorageService tokenStorageService;
+    private final TokenAuthenticationService tokenAuthenticationService;
+    private final AuthRequestInterceptor authInterceptor;
+    private final HttpServletRequest request;
+    private final HttpServletResponse response;
+    private final ObaMiddlewareAuthentication middlewareAuth;
+    private final UserMgmtRestClient userMgmtRestClient;
+    private final ConsentReferencePolicy referencePolicy;
+    private final ResponseUtils responseUtils;
 
     @Value("${online-banking.sca.loginpage:http://localhost:4400/}")
     private String loginPage;
 
-    @Autowired
-    protected ConsentReferencePolicy referencePolicy;
-
-    @Autowired
-    protected ResponseUtils responseUtils;
-
-    public abstract String getBasePath();
+    public String getBasePath() {
+        return null; //TODO mocked something
+    }
 
     /**
      * The purpose of this protocol step is to parse the redirect link and start
@@ -83,7 +75,7 @@ public abstract class AbstractXISController {
      * @param response           Servlet Response
      * @return AuthorizeResponse
      */
-    protected ResponseEntity<AuthorizeResponse> auth(String redirectId, ConsentType consentType, String encryptedConsentId, HttpServletResponse response) {
+    public ResponseEntity<AuthorizeResponse> auth(String redirectId, ConsentType consentType, String encryptedConsentId, HttpServletResponse response) {
 
         // This auth response carries information we want to passe directly to the calling user agent.
         // In this case:
@@ -129,7 +121,7 @@ public abstract class AbstractXISController {
     }
 
     //TODO consider refactoring
-    protected ResponseEntity<SCALoginResponseTO> performLoginForConsent(String login, String pin, String operationId, String authId, OpTypeTO operationType) {
+    public ResponseEntity<SCALoginResponseTO> performLoginForConsent(String login, String pin, String operationId, String authId, OpTypeTO operationType) {
         Cookie cookie = WebUtils.getCookie(request, ACCESS_TOKEN_COOKIE);
         String token = cookie != null
                            ? cookie.getValue()
@@ -150,7 +142,7 @@ public abstract class AbstractXISController {
                   .build();
     }
 
-    protected ResponseEntity<PaymentAuthorizeResponse> resolvePaymentWorkflow(PaymentWorkflow workflow) {
+    public ResponseEntity<PaymentAuthorizeResponse> resolvePaymentWorkflow(PaymentWorkflow workflow) {
         ScaStatusTO scaStatusTO = workflow.scaStatus();
         if (EnumSet.of(PSUIDENTIFIED, FINALISED, EXEMPTED, PSUAUTHENTICATED, SCAMETHODSELECTED).contains(scaStatusTO)) {
             responseUtils.setCookies(response, workflow.getConsentReference(), workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());

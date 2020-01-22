@@ -9,14 +9,17 @@ import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisAccountAccessInfoTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisConsentTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
+import de.adorsys.ledgers.middleware.api.service.TokenStorageService;
 import de.adorsys.ledgers.middleware.client.rest.AccountRestClient;
+import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.middleware.client.rest.ConsentRestClient;
 import de.adorsys.ledgers.middleware.client.rest.OauthRestClient;
-import de.adorsys.ledgers.oba.rest.api.resource.exception.ConsentAuthorizeException;
 import de.adorsys.ledgers.oba.rest.api.resource.AISApi;
+import de.adorsys.ledgers.oba.rest.api.resource.exception.ConsentAuthorizeException;
+import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
+import de.adorsys.ledgers.oba.service.api.domain.*;
 import de.adorsys.ledgers.oba.service.api.service.ConsentService;
 import de.adorsys.ledgers.oba.service.api.service.RedirectConsentService;
-import de.adorsys.ledgers.oba.service.api.domain.*;
 import de.adorsys.psd2.consent.api.CmsAspspConsentDataBase64;
 import de.adorsys.psd2.consent.api.ais.CmsAisConsentResponse;
 import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
@@ -27,14 +30,19 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient;
+import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Optional;
 
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.*;
 import static de.adorsys.psd2.xs2a.core.consent.ConsentStatus.PARTIALLY_AUTHORISED;
@@ -47,23 +55,25 @@ import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient.DEFAUL
 @Api(value = AISApi.BASE_PATH, tags = "PSU AIS. Provides access to online banking account functionality")
 @SuppressWarnings("PMD.TooManyMethods")
 @RequiredArgsConstructor
-public class AISController extends AbstractXISController implements AISApi {
+public class AISController implements AISApi {
     private final CmsPsuAisClient cmsPsuAisClient;
     private final ConsentRestClient consentRestClient;
     private final AccountRestClient accountRestClient;
     private final OauthRestClient oauthRestClient;
     private final RedirectConsentService redirectConsentService;
     private final ConsentService consentService;
+    private final XISControllerService xisService;
+    private final HttpServletResponse response;
+    private final ResponseUtils responseUtils;
+    private final ObaMiddlewareAuthentication middlewareAuth;
+    private final AuthRequestInterceptor authInterceptor;
+    private final AspspConsentDataClient aspspConsentDataClient;
+    private final TokenStorageService tokenStorageService;
 
     @Override
     @ApiOperation(value = "Entry point for authenticating ais consent requests.")
     public ResponseEntity<AuthorizeResponse> aisAuth(String redirectId, String encryptedConsentId, String token) {
-        return auth(redirectId, ConsentType.AIS, encryptedConsentId, response);
-    }
-
-    @Override
-    public String getBasePath() {
-        return BASE_PATH;
+        return xisService.auth(redirectId, ConsentType.AIS, encryptedConsentId, response);
     }
 
     @Override
@@ -81,7 +91,7 @@ public class AISController extends AbstractXISController implements AISApi {
             return e.getError();
         }
 
-        ResponseEntity<SCALoginResponseTO> loginResult = performLoginForConsent(login, pin, workflow.consentId(), workflow.authId(), OpTypeTO.CONSENT);
+        ResponseEntity<SCALoginResponseTO> loginResult = xisService.performLoginForConsent(login, pin, workflow.consentId(), workflow.authId(), OpTypeTO.CONSENT);
         AuthUtils.checkIfUserInitiatedOperation(loginResult, workflow.getConsentResponse().getAccountConsent().getPsuIdDataList());
         workflow.storeSCAResponse(loginResult.getBody());
 
@@ -184,7 +194,7 @@ public class AISController extends AbstractXISController implements AISApi {
             return ResponseEntity.ok(new PIISConsentCreateResponse(consent));
         } catch (IOException e) {
             return responseUtils.error(new PIISConsentCreateResponse(), HttpStatus.INTERNAL_SERVER_ERROR,
-                                       e.getMessage(), response);
+                e.getMessage(), response);
         } finally {
             authInterceptor.setAccessToken(null);
         }
