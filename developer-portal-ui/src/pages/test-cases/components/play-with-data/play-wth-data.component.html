@@ -156,9 +156,18 @@
 
     <textarea
       name=""
+      id="textAreaXml"
+      cols="30"
+      rows="10"
+      *ngIf="body && xml"
+      [value]="body"
+    ></textarea>
+    <textarea
+      name=""
       id="textArea"
       cols="30"
       rows="10"
+      *ngIf="body && !xml"
       [value]="body | json"
     ></textarea>
   </div>

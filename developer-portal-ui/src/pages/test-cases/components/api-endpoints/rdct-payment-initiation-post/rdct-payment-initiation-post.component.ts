@@ -20,7 +20,7 @@ export class RdctPaymentInitiationPostComponent implements OnInit {
     'TPP-Redirect-URI': 'https://adorsys-platform.de/solutions/xs2a-sandbox/',
     'TPP-Nok-Redirect-URI': 'https://www.google.com',
   };
-  body: object;
+  body;
 
   constructor(private jsonService: JsonService) {
     jsonService

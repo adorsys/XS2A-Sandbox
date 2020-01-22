@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-emb-payment-cancell-delete',
-  templateUrl: './emb-payment-cancell-delete.component.html'
+  templateUrl: './emb-payment-cancell-delete.component.html',
 })
 export class EmbPaymentCancellDeleteComponent implements OnInit {
   activeSegment = 'documentation';

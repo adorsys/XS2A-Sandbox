@@ -8,25 +8,24 @@ import { CustomizeService } from './customize.service';
   providedIn: 'root',
 })
 export class JsonService {
-  customJsonSource = '../assets/UI/custom/jsons/';
-  defaultJsonSource = '../assets/UI/jsons/';
+  customExamplesSource = '../assets/UI/custom/examples/';
+  defaultExamplesSource = '../assets/UI/examples/';
 
   jsonLinks = {
-    singlePayment: 'payments/sepa-credit-transfers.json',
-    periodicPayment: 'periodic-payments/sepa-credit-transfers.json',
-    bulkPayment: 'bulk-payments/sepa-credit-transfers.json',
-    debtorAccount: 'debtorAccount.json',
-    singlePaymentPlayWithData: 'playWithDataSinglePayment.json',
-    dedicatedAccountsConsent: 'dedicatedAccountsConsent.json',
-    bankOfferedConsent: 'bankOfferedConsent.json',
-    globalConsent: 'globalConsent.json',
-    availableAccountsConsent: 'availableAccountsConsent.json',
-    availableAccountsConsentWithBalance:
-      'availableAccountsConsentWithBalance.json',
-    consent: 'consent.json',
-    psuData: 'psuData.json',
-    scaAuthenticationData: 'scaAuthenticationData.json',
-    authenticationMethodId: 'authenticationMethodId.json',
+    singlePayment: 'payments/sepa-credit-transfers',
+    periodicPayment: 'periodic-payments/sepa-credit-transfers',
+    bulkPayment: 'bulk-payments/sepa-credit-transfers',
+    debtorAccount: 'debtorAccount',
+    singlePaymentPlayWithData: 'playWithDataSinglePayment',
+    dedicatedAccountsConsent: 'dedicatedAccountsConsent',
+    bankOfferedConsent: 'bankOfferedConsent',
+    globalConsent: 'globalConsent',
+    availableAccountsConsent: 'availableAccountsConsent',
+    availableAccountsConsentWithBalance: 'availableAccountsConsentWithBalance',
+    consent: 'consent',
+    psuData: 'psuData',
+    scaAuthenticationData: 'scaAuthenticationData',
+    authenticationMethodId: 'authenticationMethodId',
   };
 
   private currency = 'EUR';
@@ -43,12 +42,13 @@ export class JsonService {
   }
 
   public getRawJsonData(url: string): Observable<any> {
-    return this.http.get(this.customJsonSource + url).pipe(
+    const path = 'jsons/' + url + '.json';
+    return this.http.get(this.customExamplesSource + path).pipe(
       map(response => {
         return response;
       }),
-      catchError(error => {
-        return this.http.get(this.defaultJsonSource + url);
+      catchError(() => {
+        return this.http.get(this.defaultExamplesSource + path);
       })
     );
   }
@@ -65,6 +65,33 @@ export class JsonService {
             'currency": "' + this.currency + '"'
           )
         );
+      })
+    );
+  }
+
+  public getRawXmlData(url: string) {
+    const path = 'xmls/' + url + '.xml';
+    return this.http
+      .get(this.customExamplesSource + path, { responseType: 'text' })
+      .pipe(
+        map(response => {
+          return response;
+        }),
+        catchError(() => {
+          return this.http.get(this.defaultExamplesSource + path, {
+            responseType: 'text',
+          });
+        })
+      );
+  }
+
+  public getPreparedXmlData(url: string) {
+    return this.getRawXmlData(url).pipe(
+      map(data => {
+        // replaces all the values of currency in formatted jsons
+        const regex = /(Ccy="\s*)(.+)(")/g;
+
+        return data.replace(regex, 'Ccy="' + this.currency + '"');
       })
     );
   }

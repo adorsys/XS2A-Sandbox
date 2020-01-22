@@ -18,7 +18,7 @@ export class EmbPaymentInitPutComponent implements OnInit {
     'PSU-ID': 'YOUR_USER_LOGIN',
     'PSU-IP-Address': '1.1.1.1',
   };
-  body: object;
+  body;
   paymentId: string;
   authorisationId: string;
 

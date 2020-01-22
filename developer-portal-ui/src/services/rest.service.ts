@@ -8,31 +8,43 @@ export class RestService {
 
   constructor(private http: HttpClient) {}
 
-  public sendRequest(method, url, headerParams, body?): Observable<any> {
-    console.log(this.serverUrl + url);
+  public sendRequest(
+    method,
+    url,
+    headerParams,
+    xml: boolean,
+    body?
+  ): Observable<any> {
+    const headers = this.buildHeadersForRequest(headerParams, xml);
+
     switch (method) {
       case 'POST':
         return this.http.post(this.serverUrl + '/' + url, body, {
           observe: 'response',
-          headers: new HttpHeaders(headerParams),
+          headers,
         });
       case 'GET':
         return this.http.get(this.serverUrl + '/' + url, {
           observe: 'response',
-          headers: new HttpHeaders(headerParams),
+          headers,
         });
       case 'PUT':
         return this.http.put(this.serverUrl + '/' + url, body, {
           observe: 'response',
-          headers: new HttpHeaders(headerParams),
+          headers,
         });
       case 'DELETE':
         return this.http.delete(this.serverUrl + '/' + url, {
           observe: 'response',
-          headers: new HttpHeaders(headerParams),
+          headers,
         });
       default:
         break;
     }
+  }
+
+  private buildHeadersForRequest(headerParams: any, xml: boolean) {
+    headerParams['Content-Type'] = xml ? 'application/xml' : 'application/json';
+    return new HttpHeaders(headerParams);
   }
 }

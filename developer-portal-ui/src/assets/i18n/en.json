@@ -337,8 +337,9 @@
           "LI_6": "currency - required. Main currency of developer portal examples. When you input a currency, all the jsons currencies are changed to the desired currency. Default configuration is \"EUR\""
         },
         "LI_4": "When you create .json (e.g. UITheme.json) file and fill all required\n fields, put this file with logo (e.g. logo.png) and contact person (e.g.\n contact.png) images in folder ",
-        "JSONS_1": "If you want to customize jsons, which are present as examples in Test Cases sections of Developer portal, just create a folder \"jsons\" in ",
-        "JSONS_2": "Put all jsons you want to customize in this folder. Keep the exact names of the files as in examples. The examples and default jsons with proper names could be found in folder ",
+        "JSONS_1": "If you want to customize jsons/xmls, which are present as examples in Test Cases sections of Developer portal, just create a folder \"jsons\" for .jsons file and \"xmls\" for .xml files in ",
+        "JSONS_2": "Put all jsons/xmls you want to customize in these folders. Keep the exact names of the files and folder structure as in examples. The examples and default jsons with proper names could be found in folder ",
+        "XMLS": "The examples and default xmls with proper names could be found in folder ",
         "LI_5": "Steps for putting files in this folder:",
         "LIST_2": {
           "LI_1": "Local environment customization",

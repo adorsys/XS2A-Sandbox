@@ -45,7 +45,8 @@
     "ramda": "^0.26.1",
     "rxjs": "~6.5.2",
     "zone.js": "~0.9.1",
-    "ng-http-loader": "latest"
+    "ng-http-loader": "latest",
+    "vkbeautify": "latest"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.803.21",

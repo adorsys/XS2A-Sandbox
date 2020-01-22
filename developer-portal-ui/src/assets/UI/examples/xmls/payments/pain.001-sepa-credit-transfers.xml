@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="http://www.six-interbank-clearing.com/de/pain.001.001.03.ch.02.xsd"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.six-interbank-clearing.com/de/pain.001.001.03.ch.02.xsd  pain.001.001.03.ch.02.xsd">
+  <CstmrCdtTrfInitn>
+    <GrpHdr>
+      <MsgId>MSG-01</MsgId>
+      <CreDtTm>2020-01-15T07:30:00</CreDtTm>
+      <NbOfTxs>3</NbOfTxs>
+      <CtrlSum>15850.00</CtrlSum>
+      <InitgPty>
+        <Nm>MUSTER AG</Nm>
+      </InitgPty>
+    </GrpHdr>
+    <PmtInf>
+      <PmtInfId>PMTINF-01</PmtInfId>
+      <PmtMtd>TRF</PmtMtd>
+      <BtchBookg>true</BtchBookg>
+      <ReqdExctnDt>2020-01-10</ReqdExctnDt>
+      <Dbtr>
+        <Nm>MUSTER AG</Nm>
+        <PstlAdr>
+          <Ctry>CH</Ctry>
+          <AdrLine>SELDWYLA</AdrLine>
+        </PstlAdr>
+      </Dbtr>
+      <DbtrAcct>
+        <Id>
+          <IBAN>DE80760700240271232400</IBAN>
+        </Id>
+      </DbtrAcct>
+      <DbtrAgt>
+        <FinInstnId>
+          <BIC>RAIFCH22</BIC>
+        </FinInstnId>
+      </DbtrAgt>
+      <CdtTrfTxInf>
+        <PmtId>
+          <InstrId>INSTRID-01-01</InstrId>
+          <EndToEndId>ENDTOENDID-001</EndToEndId>
+        </PmtId>
+        <PmtTpInf>
+          <LclInstrm>
+            <Prtry>CH01</Prtry>
+          </LclInstrm>
+        </PmtTpInf>
+        <Amt>
+          <InstdAmt Ccy="CHF">1.00</InstdAmt>
+        </Amt>
+        <CdtrAcct>
+          <Id>
+            <Othr>
+              <Id>01-39139-1</Id>
+            </Othr>
+          </Id>
+        </CdtrAcct>
+        <RmtInf>
+          <Strd>
+            <CdtrRefInf>
+              <Ref>210000000003139471430009017</Ref>
+            </CdtrRefInf>
+          </Strd>
+        </RmtInf>
+      </CdtTrfTxInf>
+    </PmtInf>
+  </CstmrCdtTrfInitn>
+</Document>

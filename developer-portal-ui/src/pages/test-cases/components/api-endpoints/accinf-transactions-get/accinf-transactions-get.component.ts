@@ -11,7 +11,6 @@ export class AccinfTransactionsGetComponent {
     'Consent-ID': 'CONSENT_ID',
     'PSU-IP-Address': '1.1.1.1',
     Accept: 'application/json',
-    'Content-Type': 'application/json',
   };
 
   changeSegment(segment) {

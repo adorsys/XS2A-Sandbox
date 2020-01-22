@@ -7,6 +7,7 @@ import { CopyService } from '../../../../services/copy.service';
 import { ConsentTypes } from '../../../../models/consentTypes.model';
 import { LocalStorageService } from '../../../../services/local-storage.service';
 import { JsonService } from '../../../../services/json.service';
+import * as vkbeautify from 'vkbeautify';
 
 @Component({
   selector: 'app-play-wth-data',
@@ -16,7 +17,7 @@ import { JsonService } from '../../../../services/json.service';
 export class PlayWthDataComponent implements OnInit {
   @Input() method: string;
   @Input() headers: object;
-  @Input() body: object;
+  @Input() body;
   @Input() url: string;
   @Input() accountIdFlag: boolean;
   @Input() bookingStatusFlag: boolean;
@@ -46,6 +47,7 @@ export class PlayWthDataComponent implements OnInit {
   bookingStatus = '';
   redirectUrl = '';
   dateFrom = '';
+  xml = false;
 
   paymentServiceSelect = ['payments', 'bulk-payments', 'periodic-payments'];
   paymentProductSelect = [
@@ -106,77 +108,66 @@ export class PlayWthDataComponent implements OnInit {
       this.finalUrl += this.transactionId ? '/' + this.transactionId : '';
     }
 
-    console.log('variable', this.variablePathEnd);
-    console.log('path: ', this.finalUrl);
-    const respBodyEl: any = document.getElementById('textArea');
-    if (!respBodyEl || this.isValidJSONString(respBodyEl.value)) {
-      const bodyValue = respBodyEl ? JSON.parse(respBodyEl.value) : {};
-      this.restService
-        .sendRequest(this.method, this.finalUrl, this.headers, bodyValue)
-        .subscribe(
-          resp => {
-            this.response = Object.assign(resp);
-            if (
-              this.response.body.hasOwnProperty('_links') &&
-              this.response.body._links.hasOwnProperty('scaRedirect')
-            ) {
-              this.redirectUrl = this.response.body._links.scaRedirect.href;
-            } else if (this.response.body.hasOwnProperty('paymentId')) {
-              this.paymentId = this.response.body.paymentId;
-              this.localStorageService.set(
-                'paymentId',
-                this.response.body.paymentId
-              );
-            } else if (this.response.body.hasOwnProperty('authorisationId')) {
-              this.authorisationId = this.response.body.authorisationId;
-              this.localStorageService.set(
-                'authorisationId',
-                this.authorisationId
-              );
-            } else if (this.response.body.hasOwnProperty('consentId')) {
-              this.consentId = this.response.body.consentId;
-              this.localStorageService.set('consentId', this.consentId);
-            } else if (this.response.body.hasOwnProperty('cancellationId')) {
-              this.cancellationId = this.response.body.cancellationId;
-              this.localStorageService.set(
-                'cancellationId',
-                this.cancellationId
-              );
-            } else if (this.response.body.hasOwnProperty('accountId')) {
-              this.accountId = this.response.body.accountId;
-              this.localStorageService.set('accountId', this.accountId);
-            } else if (this.response.body.hasOwnProperty('transactionId')) {
-              this.transactionId = this.response.body.transactionId;
-              this.localStorageService.set('transactionId', this.transactionId);
-            }
-            this.dataService.setIsLoading(false);
-            this.dataService.showToast('Request sent', 'Success!', 'success');
-          },
-          err => {
-            this.dataService.setIsLoading(false);
-            this.dataService.showToast(
-              'Something went wrong!',
-              'Error!',
-              'error'
-            );
-            this.response = Object.assign(err);
-            console.log('err', JSON.stringify(err));
-          }
-        );
-    } else {
-      this.dataService.setIsLoading(false);
-      this.dataService.showToast('Body in not valid!', 'Error!', 'error');
-    }
-  }
+    const respBodyEl: any = this.xml
+      ? document.getElementById('textAreaXml')
+      : document.getElementById('textArea');
+    const requestBody = respBodyEl ? respBodyEl.value.toString() : {};
 
-  // Check if text in body in JSON format
-  isValidJSONString(str) {
-    try {
-      JSON.parse(str);
-    } catch (e) {
-      return false;
-    }
-    return true;
+    this.restService
+      .sendRequest(
+        this.method,
+        this.finalUrl,
+        this.headers,
+        this.xml,
+        requestBody
+      )
+      .subscribe(
+        resp => {
+          this.response = Object.assign(resp);
+          if (
+            this.response.body.hasOwnProperty('_links') &&
+            this.response.body._links.hasOwnProperty('scaRedirect')
+          ) {
+            this.redirectUrl = this.response.body._links.scaRedirect.href;
+          } else if (this.response.body.hasOwnProperty('paymentId')) {
+            this.paymentId = this.response.body.paymentId;
+            this.localStorageService.set(
+              'paymentId',
+              this.response.body.paymentId
+            );
+          } else if (this.response.body.hasOwnProperty('authorisationId')) {
+            this.authorisationId = this.response.body.authorisationId;
+            this.localStorageService.set(
+              'authorisationId',
+              this.authorisationId
+            );
+          } else if (this.response.body.hasOwnProperty('consentId')) {
+            this.consentId = this.response.body.consentId;
+            this.localStorageService.set('consentId', this.consentId);
+          } else if (this.response.body.hasOwnProperty('cancellationId')) {
+            this.cancellationId = this.response.body.cancellationId;
+            this.localStorageService.set('cancellationId', this.cancellationId);
+          } else if (this.response.body.hasOwnProperty('accountId')) {
+            this.accountId = this.response.body.accountId;
+            this.localStorageService.set('accountId', this.accountId);
+          } else if (this.response.body.hasOwnProperty('transactionId')) {
+            this.transactionId = this.response.body.transactionId;
+            this.localStorageService.set('transactionId', this.transactionId);
+          }
+          this.dataService.setIsLoading(false);
+          this.dataService.showToast('Request sent', 'Success!', 'success');
+        },
+        err => {
+          this.dataService.setIsLoading(false);
+          this.dataService.showToast(
+            'Something went wrong!',
+            'Error!',
+            'error'
+          );
+          this.response = Object.assign(err);
+          console.log('err', JSON.stringify(err));
+        }
+      );
   }
 
   // Fixing the loss of input focus
@@ -208,16 +199,29 @@ export class PlayWthDataComponent implements OnInit {
     paymentType: string,
     paymentProductChanged: boolean
   ) {
-    const paymentService = paymentProductChanged
-      ? this.paymentService
-      : paymentType;
+    if (this.body) {
+      const paymentService = paymentProductChanged
+        ? this.paymentService
+        : paymentType;
+      const paymentProduct = paymentProductChanged
+        ? paymentType
+        : this.paymentProduct;
 
-    const paymentProduct = paymentProductChanged
-      ? paymentType
-      : this.paymentProduct;
-
-    this.jsonService
-      .getPreparedJsonData(paymentService + '/' + paymentProduct + '.json')
-      .subscribe(data => (this.body = data));
+      if (paymentProduct.includes('pain')) {
+        this.jsonService
+          .getPreparedXmlData(paymentService + paymentProduct)
+          .subscribe(data => {
+            this.xml = true;
+            this.body = vkbeautify.xml(data);
+          });
+      } else {
+        this.jsonService
+          .getPreparedJsonData(paymentService + paymentProduct)
+          .subscribe(data => {
+            this.xml = false;
+            this.body = data;
+          });
+      }
+    }
   }
 }
