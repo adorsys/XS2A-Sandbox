@@ -19,7 +19,9 @@ public class AuthUtils {
 
     public static boolean success(ResponseEntity<SCALoginResponseTO> authoriseForConsent) {
         // Success if there is a bearer token.
-        return authoriseForConsent != null && authoriseForConsent.getBody() != null && authoriseForConsent.getBody().getBearerToken() != null;
+        return authoriseForConsent != null
+                   && authoriseForConsent.getBody() != null
+                   && authoriseForConsent.getBody().getBearerToken() != null;
     }
 
     public static String psuId(ObaMiddlewareAuthentication auth) {
