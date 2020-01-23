@@ -36,6 +36,9 @@
             <button class="btn btn-outline-danger ml-3" (click)="openDeleteConfirmation(deleteConfirmationModal)">
                 Delete transactions
             </button>
+            <button class="btn btn-primary ml-3" [disabled]="isAccountDeleted" (click)="goToDepositCash()">
+                Deposit cash
+            </button>
         </div>
     </div>
 </div>
