@@ -226,9 +226,6 @@ export class PlayWthDataComponent implements OnInit {
   }
 
   onClear() {
-    const bodyEl: any = this.xml
-      ? document.getElementById('textAreaXml')
-      : document.getElementById('textArea');
-    bodyEl.value = '';
+    this.response = undefined;
   }
 }
