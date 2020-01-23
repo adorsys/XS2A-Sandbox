@@ -5,18 +5,14 @@ import de.adorsys.ledgers.middleware.api.domain.sca.SCALoginResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
-import de.adorsys.ledgers.middleware.api.service.TokenStorageService;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
-import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
 import de.adorsys.ledgers.oba.service.api.domain.*;
 import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
 import de.adorsys.ledgers.oba.service.api.domain.exception.InvalidConsentException;
 import de.adorsys.ledgers.oba.service.api.service.ConsentReferencePolicy;
-import de.adorsys.ledgers.oba.service.api.service.TokenAuthenticationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -42,23 +38,15 @@ import static de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode.
 public class XISControllerService {
     private static final String ACCESS_TOKEN_COOKIE = "ACCESS_TOKEN";
 
-    private final AspspConsentDataClient aspspConsentDataClient;
-    private final TokenStorageService tokenStorageService;
-    private final TokenAuthenticationService tokenAuthenticationService;
     private final AuthRequestInterceptor authInterceptor;
     private final HttpServletRequest request;
     private final HttpServletResponse response;
-    private final ObaMiddlewareAuthentication middlewareAuth;
     private final UserMgmtRestClient userMgmtRestClient;
     private final ConsentReferencePolicy referencePolicy;
     private final ResponseUtils responseUtils;
 
     @Value("${online-banking.sca.loginpage:http://localhost:4400/}")
     private String loginPage;
-
-    public String getBasePath() {
-        return null; //TODO mocked something
-    }
 
     /**
      * The purpose of this protocol step is to parse the redirect link and start
@@ -120,7 +108,6 @@ public class XISControllerService {
         return ResponseEntity.ok(authResponse);
     }
 
-    //TODO consider refactoring
     public ResponseEntity<SCALoginResponseTO> performLoginForConsent(String login, String pin, String operationId, String authId, OpTypeTO operationType) {
         Cookie cookie = WebUtils.getCookie(request, ACCESS_TOKEN_COOKIE);
         String token = cookie != null
