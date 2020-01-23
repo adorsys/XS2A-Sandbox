@@ -147,7 +147,7 @@ public class AISController implements AISApi {
             String tokenString = token.map(BearerTokenTO::getAccess_token).orElseGet(() -> "");
             AccessTokenTO tokenTO = token.map(BearerTokenTO::getAccessTokenObject).orElse(null);
             responseUtils.setCookies(response, workflow.getConsentReference(), tokenString, tokenTO);
-
+            log.info("Confirmation code: {}", workflow.getAuthResponse().getAuthConfirmationCode());
             return ResponseEntity.ok(workflow.getAuthResponse());
         } catch (ConsentAuthorizeException e) {
             return e.getError();

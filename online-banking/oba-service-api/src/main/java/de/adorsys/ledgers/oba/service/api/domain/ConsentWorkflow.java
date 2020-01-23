@@ -54,6 +54,7 @@ public class ConsentWorkflow {
                 authResponse.setAuthorisationId(r.getAuthorisationId());
                 authResponse.setScaStatus(r.getScaStatus());
                 authResponse.setScaMethods(r.getScaMethods());
+                authResponse.setAuthConfirmationCode(r.getAuthConfirmationCode());
                 authCodeMessage = r.getPsuMessage();
             });
     }
