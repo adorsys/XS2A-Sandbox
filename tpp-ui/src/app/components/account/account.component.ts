@@ -83,13 +83,6 @@ export class AccountComponent implements OnInit {
     );
   }
 
-  /*public isAccountDeleted(): boolean {
-      if (this.account) {
-        return  this.account.accountStatus === 'DELETED' || this.account.accountStatus === 'BLOCKED';
-      }
-      return false;
-    }*/
-
   get isAccountDeleted(): boolean {
     if (this.account) {
       return (
