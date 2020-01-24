@@ -156,15 +156,25 @@
 
     <textarea
       name=""
+      id="textAreaXml"
+      cols="30"
+      rows="10"
+      *ngIf="body && xml"
+      [value]="body"
+    ></textarea>
+    <textarea
+      name=""
       id="textArea"
       cols="30"
       rows="10"
+      *ngIf="body && !xml"
       [value]="body | json"
     ></textarea>
   </div>
 
   <ng-container *ngIf="response">
     <div *ngIf="response.status || response.statusText" class="response-status">
+      <button class="clear-button" (click)="onClear()">Clear</button>
       <span class="status-style">Status</span>
       <div class="response-status-wrapper">
         <span>{{ response.status }}</span>

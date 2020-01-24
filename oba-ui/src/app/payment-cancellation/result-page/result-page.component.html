@@ -15,6 +15,13 @@
                   </p>
                 </div>
 
+                <div *ngSwitchCase="'unconfirmed'">
+                  <h3 class="card-title font-weight-bold">Success</h3>
+                  <p class="card-text text-muted">
+                    <small>Your payment has was cancelled</small>
+                  </p>
+                </div>
+
                 <div *ngSwitchDefault>
                   <h3 class="card-title font-weight-bold">Sorry</h3>
                   <p class="card-text text-muted">

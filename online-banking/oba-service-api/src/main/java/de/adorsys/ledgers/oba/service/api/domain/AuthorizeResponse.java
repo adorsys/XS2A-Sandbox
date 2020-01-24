@@ -4,7 +4,11 @@ import java.util.List;
 
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.um.ScaUserDataTO;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = false)
+@Data
 public class AuthorizeResponse extends OnlineBankingResponse  {
 	/*
 	 * The id of the business process, login, payment, consent.
@@ -23,36 +27,8 @@ public class AuthorizeResponse extends OnlineBankingResponse  {
 	 */
 	private ScaStatusTO scaStatus;
 
-	public String getEncryptedConsentId() {
-		return encryptedConsentId;
-	}
-
-	public void setEncryptedConsentId(String encryptedConsentId) {
-		this.encryptedConsentId = encryptedConsentId;
-	}
-
-	public List<ScaUserDataTO> getScaMethods() {
-		return scaMethods;
-	}
-
-	public void setScaMethods(List<ScaUserDataTO> scaMethods) {
-		this.scaMethods = scaMethods;
-	}
-
-	public ScaStatusTO getScaStatus() {
-		return scaStatus;
-	}
-
-	public void setScaStatus(ScaStatusTO scaStatus) {
-		this.scaStatus = scaStatus;
-	}
-
-	public String getAuthorisationId() {
-		return authorisationId;
-	}
-
-	public void setAuthorisationId(String authorisationId) {
-		this.authorisationId = authorisationId;
-	}
-
+    /*
+     * Auth confirmation code in case of SCA is UNCONFIRMED
+     */
+	private String authConfirmationCode;
 }

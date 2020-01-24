@@ -2,6 +2,8 @@ package de.adorsys.ledgers.oba.rest.server.resource.oba;
 
 import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
 import de.adorsys.ledgers.middleware.api.domain.account.TransactionTO;
+import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTO;
+import de.adorsys.ledgers.middleware.client.rest.PaymentRestClient;
 import de.adorsys.ledgers.oba.rest.api.resource.oba.ObaAisApi;
 import de.adorsys.ledgers.oba.service.api.service.AisService;
 import de.adorsys.ledgers.util.domain.CustomPageImpl;
@@ -23,6 +25,7 @@ import static de.adorsys.ledgers.oba.rest.api.resource.oba.ObaAisApi.BASE_PATH;
 @RequiredArgsConstructor
 public class ObaAisController implements ObaAisApi {
     private final AisService aisService;
+    private final PaymentRestClient paymentRestClient;
 
     @Override
     @PreAuthorize("#userLogin == authentication.principal.login")
@@ -43,5 +46,10 @@ public class ObaAisController implements ObaAisApi {
     @Override
     public ResponseEntity<CustomPageImpl<TransactionTO>> transactions(String accountId, LocalDate dateFrom, LocalDate dateTo, int page, int size) {
         return ResponseEntity.ok(aisService.getTransactions(accountId, dateFrom, dateTo, page, size));
+    }
+
+    @Override
+    public ResponseEntity<List<PaymentTO>> getPendingPeriodicPayments() {
+        return paymentRestClient.getPendingPeriodicPayments();
     }
 }

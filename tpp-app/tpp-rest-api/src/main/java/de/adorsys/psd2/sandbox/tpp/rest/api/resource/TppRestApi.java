@@ -42,6 +42,6 @@ public interface TppRestApi {
     ResponseEntity<Void> remove();
 
     @ApiOperation(value = "Remove transactions for account in Tpp", authorizations = @Authorization(value = "apiKey"))
-    @DeleteMapping("/account/{iban}")
-    ResponseEntity<Void> transactions(@PathVariable String iban);
+    @DeleteMapping("/account/{accountId}")
+    ResponseEntity<Void> transactions(@PathVariable String accountId);
 }

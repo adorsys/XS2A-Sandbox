@@ -337,8 +337,9 @@
           "LI_6": "currency - obligatorio. La configuración predeterminada es \"EUR\""
         },
         "LI_4": "Cuando cree el archivo .json (por ejemplo, UITheme.json) y complete todos los campos requeridos, coloque este archivo con el logotipo (por ejemplo, logo.png) y la persona de contacto (por ejemplo, contact.png) en la carpeta",
-        "JSONS_1": "Si desea personalizar jsons, que están presentes como ejemplos en las secciones de Casos de prueba del portal para desarrolladores, simplemente cree una carpeta \"jsons\" en",
+        "JSONS_1": "Si desea personalizar jsons/xmls, que están presentes como ejemplos en las secciones de Casos de prueba del portal para desarrolladores, simplemente cree una carpeta \"jsons\"/\"xmls\" en",
         "JSONS_2": "Ponga todos los jsons que desee personalizar en esta carpeta. Mantenga los nombres exactos de los archivos como en los ejemplos. Los ejemplos y los jsons predeterminados con los nombres adecuados se pueden encontrar en la carpeta",
+        "XMLS": "Los ejemplos y los xmls predeterminados con los nombres adecuados se pueden encontrar en la carpeta",
         "LI_5": "Pasos para poner archivos en esta carpeta:",
         "LIST_2": {
           "LI_1": "Personalización del entorno local",

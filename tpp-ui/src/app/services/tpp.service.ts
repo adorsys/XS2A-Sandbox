@@ -16,7 +16,7 @@ export class TppService {
         return this.http.delete(this.url + '/self');
     }
 
-    deleteAccountTransations(iban: String) {
-        return this.http.delete(this.url + '/account/' + iban);
+    deleteAccountTransations(accountId: String) {
+        return this.http.delete(this.url + '/account/' + accountId);
     }
 }

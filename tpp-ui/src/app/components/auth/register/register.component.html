@@ -32,7 +32,8 @@
                 name="country"
                 class="form-control"
                 id="country">
-          <option *ngFor="let country of countries"
+            <option [ngValue]=""></option>
+            <option *ngFor="let country of countries"
                   [ngValue]="country">{{country}}
           </option>
         </select>

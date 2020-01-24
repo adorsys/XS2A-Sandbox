@@ -128,7 +128,7 @@ public class RedirectConsentServiceImpl implements RedirectConsentService {
     private void updateCmsAuthorizationScaStatus(ConsentWorkflow workflow, String psuId) {
         String status = workflow.getAuthResponse().getScaStatus().name();
         cmsPsuAisClient.updateAuthorisationStatus(workflow.consentId(), status,
-                                                  workflow.authId(), psuId, null, null, null, DEFAULT_SERVICE_INSTANCE_ID, new AuthenticationDataHolder(null, null));
+                                                  workflow.authId(), psuId, null, null, null, DEFAULT_SERVICE_INSTANCE_ID, new AuthenticationDataHolder(null, workflow.getScaResponse().getAuthConfirmationCode()));
     }
 
     private void updateAspspConsentData(ConsentWorkflow workflow) {

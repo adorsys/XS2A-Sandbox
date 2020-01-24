@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import {Component, Input, Pipe, PipeTransform} from '@angular/core';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 
 import { EmbConsentAuthPostComponent } from './emb-consent-auth-post.component';
-import {LineCommandComponent} from '../../../../../custom-elements/line-command/line-command.component';
+import { LineCommandComponent } from '../../../../../custom-elements/line-command/line-command.component';
 
 describe('EmbConsentAuthPostComponent', () => {
   let component: EmbConsentAuthPostComponent;
@@ -10,7 +10,7 @@ describe('EmbConsentAuthPostComponent', () => {
 
   @Component({
     selector: 'app-play-wth-data',
-    template: ''
+    template: '',
   })
   class MockPlayWithDataComponent {
     @Input() headers: object;
@@ -19,7 +19,7 @@ describe('EmbConsentAuthPostComponent', () => {
     @Input() fieldsToCopy: string[];
   }
 
-  @Pipe({name: 'translate'})
+  @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -33,7 +33,7 @@ describe('EmbConsentAuthPostComponent', () => {
         EmbConsentAuthPostComponent,
         TranslatePipe,
         LineCommandComponent,
-        MockPlayWithDataComponent
+        MockPlayWithDataComponent,
       ],
     }).compileComponents();
   }));
@@ -51,7 +51,7 @@ describe('EmbConsentAuthPostComponent', () => {
   it('should be right headers', () => {
     const headers: object = {
       'X-Request-ID': '2f77a125-aa7a-45c0-b414-cea25a116035',
-      'TPP-Explicit-Authorisation-Preferred': 'true',
+      'TPP-Explicit-Authorisation-Preferred': 'false',
       'PSU-ID': 'YOUR_USER_LOGIN',
       'PSU-IP-Address': '1.1.1.1',
     };

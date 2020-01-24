@@ -121,7 +121,7 @@ services:
 
   # Ledgers
   ledgers:
-    image: adorsys/ledgers:2.6
+    image: adorsys/ledgers:2.7.1
     container_name: ledgers
     restart: on-failure
     networks:
@@ -139,6 +139,7 @@ services:
       - DB_PASSWORD=cms
       - LIQUIBASE_ENABLED=true
       - SCA_MULTILEVEL_ENABLED=false
+      - AUTHORISATION_CONFIRMATION_ENABLED=false
       - SPRING_MAIL_HOST=fakesmtp
       - SPRING_MAIL_PORT=25
     volumes:

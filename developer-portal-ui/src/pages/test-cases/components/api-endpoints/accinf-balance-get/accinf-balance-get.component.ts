@@ -2,10 +2,9 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-accinf-balance-get',
-  templateUrl: './accinf-balance-get.component.html'
+  templateUrl: './accinf-balance-get.component.html',
 })
 export class AccinfBalanceGetComponent {
-
   activeSegment = 'documentation';
   headers: object = {
     'X-Request-ID': '2f77a125-aa7a-45c0-b414-cea25a116035',

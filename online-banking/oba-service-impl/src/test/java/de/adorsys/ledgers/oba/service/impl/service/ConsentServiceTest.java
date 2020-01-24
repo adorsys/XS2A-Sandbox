@@ -1,7 +1,6 @@
-package de.adorsys.ledgers.oba.rest.server.service;
+package de.adorsys.ledgers.oba.service.impl.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.adorsys.ledgers.oba.service.impl.service.ConsentServiceImpl;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient;
 import org.junit.Test;
 import org.junit.runner.RunWith;

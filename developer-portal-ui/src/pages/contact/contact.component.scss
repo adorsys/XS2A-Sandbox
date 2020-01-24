@@ -85,7 +85,7 @@
     padding: 2vw;
     background-color: var(--contactsCardBG);
     .contacts-content {
-      min-width: 18.5vw;
+      width: 45%;
       padding: 5% 3%;
       display: flex;
       flex-direction: column;
@@ -153,6 +153,17 @@
     }
     .contacts-card {
       flex-direction: column;
+      .contacts-content {
+        text-align: center;
+        width: 100%;
+        .social-network {
+          margin: 0 auto;
+          width: fit-content;
+          a:last-of-type {
+            margin-right: 0;
+          }
+        }
+      }
     }
     .contacts-content + .contacts-content {
       margin-top: 2vw;

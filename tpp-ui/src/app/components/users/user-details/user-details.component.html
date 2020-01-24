@@ -22,11 +22,12 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-12 col-md-3 ">Authentication</div>
-                <div class="col-12 col-md-9  text-muted">
-                    <div *ngFor="let scaItem of user?.scaUserData; index as i; last as isLast"
-                         [ngClass]="{'mb-2': !isLast}">
+          <div class="row">
+            <div class="col-12 col-md-12">Authentication: </div>
+          </div>
+          <div class="row" *ngFor="let scaItem of user?.scaUserData; index as i; last as isLast"
+                 [ngClass]="{'mb-2': !isLast}">
+            <div class="col-12 col-md-9 text-muted">
                         {{scaItem.methodValue}}
                         <div *ngIf="scaItem.scaMethod">
                             Sca Method: {{scaItem.scaMethod}}
@@ -34,8 +35,11 @@
                         <div *ngIf="scaItem.usesStaticTan">
                             Static TAN: {{scaItem.staticTan}}
                         </div>
-                    </div>
                 </div>
+              <button *ngIf="scaItem.scaMethod == 'EMAIL' && scaItem.methodValue" (click)="confirmEmail(scaItem.methodValue)"
+                      class="col-12 col-md-3 btn btn btn-outline-secondary">
+                Confirm email
+              </button>
             </div>
                 <button routerLink="/users/{{user.id}}/update-user-details"
                         class="btn btn-primary"

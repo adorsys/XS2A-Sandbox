@@ -29,6 +29,7 @@ import { AccinfAccountGetComponent } from './components/api-endpoints/accinf-acc
 import { AccinfBalanceGetComponent } from './components/api-endpoints/accinf-balance-get/accinf-balance-get.component';
 import { AccinfTransactionsGetComponent } from './components/api-endpoints/accinf-transactions-get/accinf-transactions-get.component';
 import { AccinfTransactionGetComponent } from './components/api-endpoints/accinf-transaction-get/accinf-transaction-get.component';
+import { RdctPaymentStatusGetComponent } from './components/api-endpoints/rdct-payment-status-get/rdct-payment-status-get.component';
 
 const routes: Routes = [
   {
@@ -74,6 +75,10 @@ const routes: Routes = [
       {
         path: 'redirect-payment-initiation-post',
         component: RdctPaymentInitiationPostComponent,
+      },
+      {
+        path: 'redirect-payment-status-get',
+        component: RdctPaymentStatusGetComponent,
       },
       {
         path: 'embedded-consent-create-post',

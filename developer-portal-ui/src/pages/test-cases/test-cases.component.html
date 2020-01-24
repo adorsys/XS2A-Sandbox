@@ -82,6 +82,22 @@
                         '/v1/{payment-service}/{payment-product}/{paymentId}'
                       }}
                     </li>
+                    <li
+                      class="clickable-item get"
+                      routerLink="/test-cases/redirect-payment-status-get"
+                      [ngStyle]="
+                        dataService
+                          .getRouterUrl()
+                          .includes('redirect-payment-status-get')
+                          ? { 'font-weight': 'bold' }
+                          : null
+                      "
+                    >
+                      GET endpoint
+                      {{
+                        '/v1/{payment-service}/{payment-product}/{paymentId}/status'
+                      }}
+                    </li>
                   </ul>
                 </li>
                 <li>
@@ -184,6 +200,22 @@
                         '/v1/{payment-service}/{payment-product}/{paymentId}'
                       }}
                     </li>
+                    <li
+                      class="clickable-item get"
+                      routerLink="/test-cases/redirect-payment-status-get"
+                      [ngStyle]="
+                        dataService
+                          .getRouterUrl()
+                          .includes('redirect-payment-status-get')
+                          ? { 'font-weight': 'bold' }
+                          : null
+                      "
+                    >
+                      GET endpoint
+                      {{
+                        '/v1/{payment-service}/{payment-product}/{paymentId}/status'
+                      }}
+                    </li>
                   </ul>
                 </li>
                 <li>
@@ -268,6 +300,22 @@
                       GET endpoint
                       {{
                         '/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{cancellationId}'
+                      }}
+                    </li>
+                    <li
+                      class="clickable-item get"
+                      routerLink="/test-cases/redirect-payment-status-get"
+                      [ngStyle]="
+                        dataService
+                          .getRouterUrl()
+                          .includes('redirect-payment-status-get')
+                          ? { 'font-weight': 'bold' }
+                          : null
+                      "
+                    >
+                      GET endpoint
+                      {{
+                        '/v1/{payment-service}/{payment-product}/{paymentId}/status'
                       }}
                     </li>
                   </ul>
