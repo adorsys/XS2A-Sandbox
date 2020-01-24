@@ -123,6 +123,7 @@ export class PlayWthDataComponent implements OnInit {
       )
       .subscribe(
         resp => {
+          delete this.headers['Content-Type'];
           this.response = Object.assign(resp);
           if (
             this.response.body.hasOwnProperty('_links') &&
