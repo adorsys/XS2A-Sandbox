@@ -65,7 +65,7 @@ public class TppController implements TppRestApi {
     }
 
     @Override
-    public ResponseEntity<Void> transactions(String iban) {
-        return dataRestClient.account(iban);
+    public ResponseEntity<Void> transactions(String accountId) {
+        return dataRestClient.account(accountId);
     }
 }
