@@ -8,9 +8,10 @@ export interface PaymentAuthorizeResponse {
   encryptedConsentId?: string;
   psuMessages?: Array<PsuMessage>;
   scaMethods?: Array<ScaUserDataTO>;
-  scaStatus?: 'received' | 'psuIdentified' | 'psuAuthenticated' | 'scaMethodSelected' | 'started' | 'finalised' | 'failed' | 'exempted';
+  scaStatus?: 'received' | 'psuIdentified' | 'psuAuthenticated' | 'scaMethodSelected' | 'started' | 'finalised' | 'failed' | 'exempted' | 'unconfirmed';
   payment?: PaymentTO;
   requestedExecutionDate?: string
+  authConfirmationCode?: string
 }
 
 export interface PaymentTO {

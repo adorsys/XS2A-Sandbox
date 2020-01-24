@@ -42,6 +42,9 @@ export class ResultPageComponent implements OnInit, OnDestroy {
         this.shareService.currentData.subscribe(authResponse => {
           this.authResponse = authResponse;
           this.scaStatus = this.authResponse.scaStatus;
+          if (this.scaStatus == 'unconfirmed') {
+            this.ref = this.ref + `&authConfirmationCode=${authResponse.authConfirmationCode}`
+          }
         });
       }
     });

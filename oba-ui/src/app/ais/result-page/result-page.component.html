@@ -15,6 +15,13 @@
                   </p>
                 </div>
 
+                <div *ngSwitchCase="'unconfirmed'">
+                  <h3 class="card-title font-weight-bold">Success</h3>
+                  <p class="card-text text-muted">
+                    <small>The consent to access your account has been successfully provided</small>
+                  </p>
+                </div>
+
                 <div *ngSwitchCase="'exempted'">
                   <h3 class="card-title font-weight-bold">Revoked</h3>
                   <p class="card-text text-muted">
