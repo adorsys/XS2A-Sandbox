@@ -159,6 +159,7 @@ export class PlayWthDataComponent implements OnInit {
           this.dataService.showToast('Request sent', 'Success!', 'success');
         },
         err => {
+          delete this.headers['Content-Type'];
           this.dataService.setIsLoading(false);
           this.dataService.showToast(
             'Something went wrong!',
@@ -228,5 +229,6 @@ export class PlayWthDataComponent implements OnInit {
 
   onClear() {
     this.response = undefined;
+    this.redirectUrl = undefined;
   }
 }

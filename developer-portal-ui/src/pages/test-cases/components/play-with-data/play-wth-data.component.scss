@@ -108,13 +108,14 @@
       }
     }
     .clear-button {
-      color: red;
-      border: 2px solid red;
       min-height: 1.5rem;
       padding: 5px 25px 5px 25px;
-      font-size: 1rem;
       float: right;
       cursor: pointer;
+      background-color: #054f72;
+      color: #fff;
+      font-size: 0.8rem;
+      outline: none;
       &:hover {
         background-color: #d1d1d1;
         -webkit-transition: background-color 1s ease-out;
