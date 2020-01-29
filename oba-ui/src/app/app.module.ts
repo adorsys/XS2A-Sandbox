@@ -19,42 +19,42 @@ import { InternalServerErrorComponent } from './internal-server-error/internal-s
 import { ObaModule } from './oba/oba.module';
 
 export function app_Init(settingsHttpService: SettingsHttpService) {
-  return () => settingsHttpService.initializeApp();
+    return () => settingsHttpService.initializeApp();
 }
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    InternalServerErrorComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    InfoModule,
-    ReactiveFormsModule,
-    FormsModule,
-    HttpClientModule,
-    ApiModule.forRoot({rootUrl: '/oba-proxy'}),
-    NgHttpLoaderModule.forRoot(),
-    ObaModule
-  ],
-  providers: [
-    AisService,
-    ShareDataService,
-    AuthGuard,
-    { provide: APP_INITIALIZER, useFactory: app_Init, deps: [SettingsHttpService], multi: true },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true
-    },
-    {
-      provide: ErrorHandler,
-      useClass: ObaErrorsHandler
-    }
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        InternalServerErrorComponent
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        InfoModule,
+        ReactiveFormsModule,
+        FormsModule,
+        HttpClientModule,
+        ApiModule.forRoot({rootUrl: '/oba-proxy'}),
+        NgHttpLoaderModule.forRoot(),
+        ObaModule
+    ],
+    providers: [
+        AisService,
+        ShareDataService,
+        AuthGuard,
+        { provide: APP_INITIALIZER, useFactory: app_Init, deps: [SettingsHttpService], multi: true },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true
+        },
+        {
+            provide: ErrorHandler,
+            useClass: ObaErrorsHandler
+        }
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }

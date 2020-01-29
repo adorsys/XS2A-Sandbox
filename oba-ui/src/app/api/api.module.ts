@@ -3,14 +3,15 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationInterface } from './api-configuration';
 
-import { PSUAISService } from './services/psuais.service';
+import { PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService } from './services/psuaisprovides-access-to-online-banking-account-functionality.service';
 import { OnlineBankingAccountInformationService } from './services/online-banking-account-information.service';
 import { OnlineBankingConsentsService } from './services/online-banking-consents.service';
-import { OnlineBankingAuthorizationService } from './services/online-banking-authorization.service';
+import { OnlineBankingAuthorizationProvidesAccessToOnlineBankingService } from './services/online-banking-authorization-provides-access-to-online-banking.service';
+import { OnlineBankingPISCancellationService } from './services/online-banking-piscancellation.service';
 import { OnlineBankingOauthAuthorizationService } from './services/online-banking-oauth-authorization.service';
-import { PSUPISCancellationService } from './services/psupiscancellation.service';
-import { PSUPISService } from './services/psupis.service';
-import { PSUSCAService } from './services/psusca.service';
+import { PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService } from './services/psupiscancellation-provides-access-to-online-banking-payment-functionality.service';
+import { PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService } from './services/psupisprovides-access-to-online-banking-payment-functionality.service';
+import { PSUSCAProvidesAccessToOneTimePasswordForStrongCustomerAuthenticationService } from './services/psuscaprovides-access-to-one-time-password-for-strong-customer-authentication.service';
 
 /**
  * Provider for all Api services, plus ApiConfiguration
@@ -25,14 +26,15 @@ import { PSUSCAService } from './services/psusca.service';
   declarations: [],
   providers: [
     ApiConfiguration,
-    PSUAISService,
+    PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService,
     OnlineBankingAccountInformationService,
     OnlineBankingConsentsService,
-    OnlineBankingAuthorizationService,
+    OnlineBankingAuthorizationProvidesAccessToOnlineBankingService,
+    OnlineBankingPISCancellationService,
     OnlineBankingOauthAuthorizationService,
-    PSUPISCancellationService,
-    PSUPISService,
-    PSUSCAService
+    PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService,
+    PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService,
+    PSUSCAProvidesAccessToOneTimePasswordForStrongCustomerAuthenticationService
   ],
 })
 export class ApiModule {

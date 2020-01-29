@@ -2,9 +2,10 @@
 import { AmountTO } from './amount-to';
 import { AccountReferenceTO } from './account-reference-to';
 import { ExchangeRateTO } from './exchange-rate-to';
+import { RemittanceInformationStructuredTO } from './remittance-information-structured-to';
 export interface TransactionTO {
+  entryReference?: string;
   amount?: AmountTO;
-  bankTransactionCode?: string;
   bookingDate?: string;
   checkId?: string;
   creditorAccount?: AccountReferenceTO;
@@ -13,12 +14,12 @@ export interface TransactionTO {
   debtorAccount?: AccountReferenceTO;
   debtorName?: string;
   endToEndId?: string;
-  entryReference?: string;
+  bankTransactionCode?: string;
   exchangeRate?: Array<ExchangeRateTO>;
   mandateId?: string;
   proprietaryBankTransactionCode?: string;
   purposeCode?: string;
-  remittanceInformationStructured?: string;
+  remittanceInformationStructured?: RemittanceInformationStructuredTO;
   remittanceInformationUnstructured?: string;
   transactionId?: string;
   ultimateCreditor?: string;

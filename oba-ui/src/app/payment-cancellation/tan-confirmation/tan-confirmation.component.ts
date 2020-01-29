@@ -4,12 +4,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { PaymentAuthorizeResponse } from '../../api/models/payment-authorize-response';
-import { PSUPISCancellationService } from '../../api/services/psupiscancellation.service';
 import { RoutingPath } from '../../common/models/routing-path.model';
 import { PisCancellationService } from '../../common/services/pis-cancellation.service';
 import { ShareDataService } from '../../common/services/share-data.service';
 
-import AuthorisePaymentUsingPOSTParams = PSUPISCancellationService.AuthorisePaymentUsingPOSTParams;
+import AuthorisePaymentUsingPOSTParams = PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService.AuthorisePaymentUsingPOSTParams;
+import {PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService} from "../../api/services/psupiscancellation-provides-access-to-online-banking-payment-functionality.service";
 
 @Component({
   selector: 'app-tan-confirmation',

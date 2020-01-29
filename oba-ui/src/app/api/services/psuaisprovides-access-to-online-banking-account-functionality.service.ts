@@ -15,12 +15,12 @@ import { ConsentAuthorizeResponse } from '../models/consent-authorize-response';
 import { AisConsentRequest } from '../models/ais-consent-request';
 
 /**
- * Provides access to online banking account functionality
+ * AIS Controller
  */
 @Injectable({
   providedIn: 'root',
 })
-class PSUAISService extends __BaseService {
+class PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService extends __BaseService {
   static readonly getListOfAccountsUsingGETPath = '/ais/accounts';
   static readonly aisAuthUsingGETPath = '/ais/auth';
   static readonly grantPiisConsentUsingPOSTPath = '/ais/piis';
@@ -77,7 +77,7 @@ class PSUAISService extends __BaseService {
   }
 
   /**
-   * @param params The `PSUAISService.AisAuthUsingGETParams` containing the following parameters:
+   * @param params The `PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.AisAuthUsingGETParams` containing the following parameters:
    *
    * - `redirectId`: redirectId
    *
@@ -87,7 +87,7 @@ class PSUAISService extends __BaseService {
    *
    * @return OK
    */
-  aisAuthUsingGETResponse(params: PSUAISService.AisAuthUsingGETParams): __Observable<__StrictHttpResponse<AuthorizeResponse>> {
+  aisAuthUsingGETResponse(params: PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.AisAuthUsingGETParams): __Observable<__StrictHttpResponse<AuthorizeResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -112,7 +112,7 @@ class PSUAISService extends __BaseService {
     );
   }
   /**
-   * @param params The `PSUAISService.AisAuthUsingGETParams` containing the following parameters:
+   * @param params The `PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.AisAuthUsingGETParams` containing the following parameters:
    *
    * - `redirectId`: redirectId
    *
@@ -122,14 +122,14 @@ class PSUAISService extends __BaseService {
    *
    * @return OK
    */
-  aisAuthUsingGET(params: PSUAISService.AisAuthUsingGETParams): __Observable<AuthorizeResponse> {
+  aisAuthUsingGET(params: PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.AisAuthUsingGETParams): __Observable<AuthorizeResponse> {
     return this.aisAuthUsingGETResponse(params).pipe(
       __map(_r => _r.body as AuthorizeResponse)
     );
   }
 
   /**
-   * @param params The `PSUAISService.GrantPiisConsentUsingPOSTParams` containing the following parameters:
+   * @param params The `PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.GrantPiisConsentUsingPOSTParams` containing the following parameters:
    *
    * - `piisConsentRequestTO`: piisConsentRequestTO
    *
@@ -137,7 +137,7 @@ class PSUAISService extends __BaseService {
    *
    * @return OK
    */
-  grantPiisConsentUsingPOSTResponse(params: PSUAISService.GrantPiisConsentUsingPOSTParams): __Observable<__StrictHttpResponse<PIISConsentCreateResponse>> {
+  grantPiisConsentUsingPOSTResponse(params: PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.GrantPiisConsentUsingPOSTParams): __Observable<__StrictHttpResponse<PIISConsentCreateResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -161,7 +161,7 @@ class PSUAISService extends __BaseService {
     );
   }
   /**
-   * @param params The `PSUAISService.GrantPiisConsentUsingPOSTParams` containing the following parameters:
+   * @param params The `PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.GrantPiisConsentUsingPOSTParams` containing the following parameters:
    *
    * - `piisConsentRequestTO`: piisConsentRequestTO
    *
@@ -169,14 +169,14 @@ class PSUAISService extends __BaseService {
    *
    * @return OK
    */
-  grantPiisConsentUsingPOST(params: PSUAISService.GrantPiisConsentUsingPOSTParams): __Observable<PIISConsentCreateResponse> {
+  grantPiisConsentUsingPOST(params: PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.GrantPiisConsentUsingPOSTParams): __Observable<PIISConsentCreateResponse> {
     return this.grantPiisConsentUsingPOSTResponse(params).pipe(
       __map(_r => _r.body as PIISConsentCreateResponse)
     );
   }
 
   /**
-   * @param params The `PSUAISService.AuthrizedConsentUsingPOSTParams` containing the following parameters:
+   * @param params The `PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.AuthrizedConsentUsingPOSTParams` containing the following parameters:
    *
    * - `encryptedConsentId`: encryptedConsentId
    *
@@ -188,7 +188,7 @@ class PSUAISService extends __BaseService {
    *
    * @return OK
    */
-  authrizedConsentUsingPOSTResponse(params: PSUAISService.AuthrizedConsentUsingPOSTParams): __Observable<__StrictHttpResponse<ConsentAuthorizeResponse>> {
+  authrizedConsentUsingPOSTResponse(params: PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.AuthrizedConsentUsingPOSTParams): __Observable<__StrictHttpResponse<ConsentAuthorizeResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -214,7 +214,7 @@ class PSUAISService extends __BaseService {
     );
   }
   /**
-   * @param params The `PSUAISService.AuthrizedConsentUsingPOSTParams` containing the following parameters:
+   * @param params The `PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.AuthrizedConsentUsingPOSTParams` containing the following parameters:
    *
    * - `encryptedConsentId`: encryptedConsentId
    *
@@ -226,7 +226,7 @@ class PSUAISService extends __BaseService {
    *
    * @return OK
    */
-  authrizedConsentUsingPOST(params: PSUAISService.AuthrizedConsentUsingPOSTParams): __Observable<ConsentAuthorizeResponse> {
+  authrizedConsentUsingPOST(params: PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.AuthrizedConsentUsingPOSTParams): __Observable<ConsentAuthorizeResponse> {
     return this.authrizedConsentUsingPOSTResponse(params).pipe(
       __map(_r => _r.body as ConsentAuthorizeResponse)
     );
@@ -234,7 +234,7 @@ class PSUAISService extends __BaseService {
 
   /**
    * This call provides the server with the opportunity to close this session and redirect the PSU to the TPP or close the application window.
-   * @param params The `PSUAISService.AisDoneUsingGETParams` containing the following parameters:
+   * @param params The `PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.AisDoneUsingGETParams` containing the following parameters:
    *
    * - `forgetConsent`: forgetConsent
    *
@@ -250,7 +250,7 @@ class PSUAISService extends __BaseService {
    *
    * @return OK
    */
-  aisDoneUsingGETResponse(params: PSUAISService.AisDoneUsingGETParams): __Observable<__StrictHttpResponse<ConsentAuthorizeResponse>> {
+  aisDoneUsingGETResponse(params: PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.AisDoneUsingGETParams): __Observable<__StrictHttpResponse<ConsentAuthorizeResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -279,7 +279,7 @@ class PSUAISService extends __BaseService {
   }
   /**
    * This call provides the server with the opportunity to close this session and redirect the PSU to the TPP or close the application window.
-   * @param params The `PSUAISService.AisDoneUsingGETParams` containing the following parameters:
+   * @param params The `PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.AisDoneUsingGETParams` containing the following parameters:
    *
    * - `forgetConsent`: forgetConsent
    *
@@ -295,14 +295,14 @@ class PSUAISService extends __BaseService {
    *
    * @return OK
    */
-  aisDoneUsingGET(params: PSUAISService.AisDoneUsingGETParams): __Observable<ConsentAuthorizeResponse> {
+  aisDoneUsingGET(params: PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.AisDoneUsingGETParams): __Observable<ConsentAuthorizeResponse> {
     return this.aisDoneUsingGETResponse(params).pipe(
       __map(_r => _r.body as ConsentAuthorizeResponse)
     );
   }
 
   /**
-   * @param params The `PSUAISService.LoginUsingPOSTParams` containing the following parameters:
+   * @param params The `PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.LoginUsingPOSTParams` containing the following parameters:
    *
    * - `encryptedConsentId`: encryptedConsentId
    *
@@ -316,7 +316,7 @@ class PSUAISService extends __BaseService {
    *
    * @return OK
    */
-  loginUsingPOSTResponse(params: PSUAISService.LoginUsingPOSTParams): __Observable<__StrictHttpResponse<ConsentAuthorizeResponse>> {
+  loginUsingPOSTResponse(params: PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.LoginUsingPOSTParams): __Observable<__StrictHttpResponse<ConsentAuthorizeResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -343,7 +343,7 @@ class PSUAISService extends __BaseService {
     );
   }
   /**
-   * @param params The `PSUAISService.LoginUsingPOSTParams` containing the following parameters:
+   * @param params The `PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.LoginUsingPOSTParams` containing the following parameters:
    *
    * - `encryptedConsentId`: encryptedConsentId
    *
@@ -357,14 +357,14 @@ class PSUAISService extends __BaseService {
    *
    * @return OK
    */
-  loginUsingPOST(params: PSUAISService.LoginUsingPOSTParams): __Observable<ConsentAuthorizeResponse> {
+  loginUsingPOST(params: PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.LoginUsingPOSTParams): __Observable<ConsentAuthorizeResponse> {
     return this.loginUsingPOSTResponse(params).pipe(
       __map(_r => _r.body as ConsentAuthorizeResponse)
     );
   }
 
   /**
-   * @param params The `PSUAISService.SelectMethodUsingPOSTParams` containing the following parameters:
+   * @param params The `PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.SelectMethodUsingPOSTParams` containing the following parameters:
    *
    * - `scaMethodId`: scaMethodId
    *
@@ -376,7 +376,7 @@ class PSUAISService extends __BaseService {
    *
    * @return OK
    */
-  selectMethodUsingPOSTResponse(params: PSUAISService.SelectMethodUsingPOSTParams): __Observable<__StrictHttpResponse<ConsentAuthorizeResponse>> {
+  selectMethodUsingPOSTResponse(params: PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.SelectMethodUsingPOSTParams): __Observable<__StrictHttpResponse<ConsentAuthorizeResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -402,7 +402,7 @@ class PSUAISService extends __BaseService {
     );
   }
   /**
-   * @param params The `PSUAISService.SelectMethodUsingPOSTParams` containing the following parameters:
+   * @param params The `PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.SelectMethodUsingPOSTParams` containing the following parameters:
    *
    * - `scaMethodId`: scaMethodId
    *
@@ -414,14 +414,14 @@ class PSUAISService extends __BaseService {
    *
    * @return OK
    */
-  selectMethodUsingPOST(params: PSUAISService.SelectMethodUsingPOSTParams): __Observable<ConsentAuthorizeResponse> {
+  selectMethodUsingPOST(params: PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.SelectMethodUsingPOSTParams): __Observable<ConsentAuthorizeResponse> {
     return this.selectMethodUsingPOSTResponse(params).pipe(
       __map(_r => _r.body as ConsentAuthorizeResponse)
     );
   }
 
   /**
-   * @param params The `PSUAISService.StartConsentAuthUsingPOSTParams` containing the following parameters:
+   * @param params The `PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.StartConsentAuthUsingPOSTParams` containing the following parameters:
    *
    * - `encryptedConsentId`: encryptedConsentId
    *
@@ -433,7 +433,7 @@ class PSUAISService extends __BaseService {
    *
    * @return OK
    */
-  startConsentAuthUsingPOSTResponse(params: PSUAISService.StartConsentAuthUsingPOSTParams): __Observable<__StrictHttpResponse<ConsentAuthorizeResponse>> {
+  startConsentAuthUsingPOSTResponse(params: PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.StartConsentAuthUsingPOSTParams): __Observable<__StrictHttpResponse<ConsentAuthorizeResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -459,7 +459,7 @@ class PSUAISService extends __BaseService {
     );
   }
   /**
-   * @param params The `PSUAISService.StartConsentAuthUsingPOSTParams` containing the following parameters:
+   * @param params The `PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.StartConsentAuthUsingPOSTParams` containing the following parameters:
    *
    * - `encryptedConsentId`: encryptedConsentId
    *
@@ -471,7 +471,7 @@ class PSUAISService extends __BaseService {
    *
    * @return OK
    */
-  startConsentAuthUsingPOST(params: PSUAISService.StartConsentAuthUsingPOSTParams): __Observable<ConsentAuthorizeResponse> {
+  startConsentAuthUsingPOST(params: PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.StartConsentAuthUsingPOSTParams): __Observable<ConsentAuthorizeResponse> {
     return this.startConsentAuthUsingPOSTResponse(params).pipe(
       __map(_r => _r.body as ConsentAuthorizeResponse)
     );
@@ -479,7 +479,7 @@ class PSUAISService extends __BaseService {
 
   /**
    * This call provides the server with the opportunity to close this session and revoke consent.
-   * @param params The `PSUAISService.RevokeConsentUsingDELETEParams` containing the following parameters:
+   * @param params The `PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.RevokeConsentUsingDELETEParams` containing the following parameters:
    *
    * - `encryptedConsentId`: encryptedConsentId
    *
@@ -489,7 +489,7 @@ class PSUAISService extends __BaseService {
    *
    * @return OK
    */
-  revokeConsentUsingDELETEResponse(params: PSUAISService.RevokeConsentUsingDELETEParams): __Observable<__StrictHttpResponse<ConsentAuthorizeResponse>> {
+  revokeConsentUsingDELETEResponse(params: PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.RevokeConsentUsingDELETEParams): __Observable<__StrictHttpResponse<ConsentAuthorizeResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -515,7 +515,7 @@ class PSUAISService extends __BaseService {
   }
   /**
    * This call provides the server with the opportunity to close this session and revoke consent.
-   * @param params The `PSUAISService.RevokeConsentUsingDELETEParams` containing the following parameters:
+   * @param params The `PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.RevokeConsentUsingDELETEParams` containing the following parameters:
    *
    * - `encryptedConsentId`: encryptedConsentId
    *
@@ -525,14 +525,14 @@ class PSUAISService extends __BaseService {
    *
    * @return OK
    */
-  revokeConsentUsingDELETE(params: PSUAISService.RevokeConsentUsingDELETEParams): __Observable<ConsentAuthorizeResponse> {
+  revokeConsentUsingDELETE(params: PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.RevokeConsentUsingDELETEParams): __Observable<ConsentAuthorizeResponse> {
     return this.revokeConsentUsingDELETEResponse(params).pipe(
       __map(_r => _r.body as ConsentAuthorizeResponse)
     );
   }
 }
 
-module PSUAISService {
+module PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService {
 
   /**
    * Parameters for aisAuthUsingGET
@@ -738,4 +738,4 @@ module PSUAISService {
   }
 }
 
-export { PSUAISService }
+export { PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService }

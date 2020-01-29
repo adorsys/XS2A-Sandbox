@@ -10,12 +10,12 @@ import { map as __map, filter as __filter } from 'rxjs/operators';
 import { AuthorizeResponse } from '../models/authorize-response';
 
 /**
- * Provides access to one time password for strong customer authentication.
+ * SCA Controller
  */
 @Injectable({
   providedIn: 'root',
 })
-class PSUSCAService extends __BaseService {
+class PSUSCAProvidesAccessToOneTimePasswordForStrongCustomerAuthenticationService extends __BaseService {
   static readonly loginUsingPOST4Path = '/sca/login';
   static readonly validateAuthCodeUsingPOSTPath = '/sca/{scaId}/authorisation/{authorisationId}/authCode';
   static readonly selectMethodUsingPOST3Path = '/sca/{scaId}/authorisation/{authorisationId}/methods/{methodId}';
@@ -28,7 +28,7 @@ class PSUSCAService extends __BaseService {
   }
 
   /**
-   * @param params The `PSUSCAService.LoginUsingPOST4Params` containing the following parameters:
+   * @param params The `PSUSCAProvidesAccessToOneTimePasswordForStrongCustomerAuthenticationService.LoginUsingPOST4Params` containing the following parameters:
    *
    * - `pin`: pin
    *
@@ -36,7 +36,7 @@ class PSUSCAService extends __BaseService {
    *
    * @return OK
    */
-  loginUsingPOST4Response(params: PSUSCAService.LoginUsingPOST4Params): __Observable<__StrictHttpResponse<AuthorizeResponse>> {
+  loginUsingPOST4Response(params: PSUSCAProvidesAccessToOneTimePasswordForStrongCustomerAuthenticationService.LoginUsingPOST4Params): __Observable<__StrictHttpResponse<AuthorizeResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -60,7 +60,7 @@ class PSUSCAService extends __BaseService {
     );
   }
   /**
-   * @param params The `PSUSCAService.LoginUsingPOST4Params` containing the following parameters:
+   * @param params The `PSUSCAProvidesAccessToOneTimePasswordForStrongCustomerAuthenticationService.LoginUsingPOST4Params` containing the following parameters:
    *
    * - `pin`: pin
    *
@@ -68,14 +68,14 @@ class PSUSCAService extends __BaseService {
    *
    * @return OK
    */
-  loginUsingPOST4(params: PSUSCAService.LoginUsingPOST4Params): __Observable<AuthorizeResponse> {
+  loginUsingPOST4(params: PSUSCAProvidesAccessToOneTimePasswordForStrongCustomerAuthenticationService.LoginUsingPOST4Params): __Observable<AuthorizeResponse> {
     return this.loginUsingPOST4Response(params).pipe(
       __map(_r => _r.body as AuthorizeResponse)
     );
   }
 
   /**
-   * @param params The `PSUSCAService.ValidateAuthCodeUsingPOSTParams` containing the following parameters:
+   * @param params The `PSUSCAProvidesAccessToOneTimePasswordForStrongCustomerAuthenticationService.ValidateAuthCodeUsingPOSTParams` containing the following parameters:
    *
    * - `scaId`: scaId
    *
@@ -87,7 +87,7 @@ class PSUSCAService extends __BaseService {
    *
    * @return OK
    */
-  validateAuthCodeUsingPOSTResponse(params: PSUSCAService.ValidateAuthCodeUsingPOSTParams): __Observable<__StrictHttpResponse<AuthorizeResponse>> {
+  validateAuthCodeUsingPOSTResponse(params: PSUSCAProvidesAccessToOneTimePasswordForStrongCustomerAuthenticationService.ValidateAuthCodeUsingPOSTParams): __Observable<__StrictHttpResponse<AuthorizeResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -113,7 +113,7 @@ class PSUSCAService extends __BaseService {
     );
   }
   /**
-   * @param params The `PSUSCAService.ValidateAuthCodeUsingPOSTParams` containing the following parameters:
+   * @param params The `PSUSCAProvidesAccessToOneTimePasswordForStrongCustomerAuthenticationService.ValidateAuthCodeUsingPOSTParams` containing the following parameters:
    *
    * - `scaId`: scaId
    *
@@ -125,14 +125,14 @@ class PSUSCAService extends __BaseService {
    *
    * @return OK
    */
-  validateAuthCodeUsingPOST(params: PSUSCAService.ValidateAuthCodeUsingPOSTParams): __Observable<AuthorizeResponse> {
+  validateAuthCodeUsingPOST(params: PSUSCAProvidesAccessToOneTimePasswordForStrongCustomerAuthenticationService.ValidateAuthCodeUsingPOSTParams): __Observable<AuthorizeResponse> {
     return this.validateAuthCodeUsingPOSTResponse(params).pipe(
       __map(_r => _r.body as AuthorizeResponse)
     );
   }
 
   /**
-   * @param params The `PSUSCAService.SelectMethodUsingPOST3Params` containing the following parameters:
+   * @param params The `PSUSCAProvidesAccessToOneTimePasswordForStrongCustomerAuthenticationService.SelectMethodUsingPOST3Params` containing the following parameters:
    *
    * - `scaId`: scaId
    *
@@ -144,7 +144,7 @@ class PSUSCAService extends __BaseService {
    *
    * @return OK
    */
-  selectMethodUsingPOST3Response(params: PSUSCAService.SelectMethodUsingPOST3Params): __Observable<__StrictHttpResponse<AuthorizeResponse>> {
+  selectMethodUsingPOST3Response(params: PSUSCAProvidesAccessToOneTimePasswordForStrongCustomerAuthenticationService.SelectMethodUsingPOST3Params): __Observable<__StrictHttpResponse<AuthorizeResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -170,7 +170,7 @@ class PSUSCAService extends __BaseService {
     );
   }
   /**
-   * @param params The `PSUSCAService.SelectMethodUsingPOST3Params` containing the following parameters:
+   * @param params The `PSUSCAProvidesAccessToOneTimePasswordForStrongCustomerAuthenticationService.SelectMethodUsingPOST3Params` containing the following parameters:
    *
    * - `scaId`: scaId
    *
@@ -182,14 +182,14 @@ class PSUSCAService extends __BaseService {
    *
    * @return OK
    */
-  selectMethodUsingPOST3(params: PSUSCAService.SelectMethodUsingPOST3Params): __Observable<AuthorizeResponse> {
+  selectMethodUsingPOST3(params: PSUSCAProvidesAccessToOneTimePasswordForStrongCustomerAuthenticationService.SelectMethodUsingPOST3Params): __Observable<AuthorizeResponse> {
     return this.selectMethodUsingPOST3Response(params).pipe(
       __map(_r => _r.body as AuthorizeResponse)
     );
   }
 }
 
-module PSUSCAService {
+module PSUSCAProvidesAccessToOneTimePasswordForStrongCustomerAuthenticationService {
 
   /**
    * Parameters for loginUsingPOST4
@@ -260,4 +260,4 @@ module PSUSCAService {
   }
 }
 
-export { PSUSCAService }
+export { PSUSCAProvidesAccessToOneTimePasswordForStrongCustomerAuthenticationService }

@@ -5,6 +5,7 @@ import { PsuMessage } from './psu-message';
 import { ScaUserDataTO } from './sca-user-data-to';
 export interface ConsentAuthorizeResponse {
   accounts?: Array<AccountDetailsTO>;
+  authConfirmationCode?: string;
   authMessageTemplate?: string;
   authorisationId?: string;
   consent?: AisConsentRequest;
@@ -12,5 +13,4 @@ export interface ConsentAuthorizeResponse {
   psuMessages?: Array<PsuMessage>;
   scaMethods?: Array<ScaUserDataTO>;
   scaStatus?: 'received' | 'psuIdentified' | 'psuAuthenticated' | 'scaMethodSelected' | 'started' | 'finalised' | 'failed' | 'exempted' | 'unconfirmed';
-  authConfirmationCode?: string
 }

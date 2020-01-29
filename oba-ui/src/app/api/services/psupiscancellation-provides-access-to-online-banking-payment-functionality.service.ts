@@ -10,12 +10,12 @@ import { map as __map, filter as __filter } from 'rxjs/operators';
 import { PaymentAuthorizeResponse } from '../models/payment-authorize-response';
 
 /**
- * Provides access to online banking payment functionality
+ * Pis Cancellation Controller
  */
 @Injectable({
   providedIn: 'root',
 })
-class PSUPISCancellationService extends __BaseService {
+class PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService extends __BaseService {
   static readonly authorisePaymentUsingPOSTPath = '/pis-cancellation/{encryptedPaymentId}/authorisation/{authorisationId}/authCode';
   static readonly pisDoneUsingGETPath = '/pis-cancellation/{encryptedPaymentId}/authorisation/{authorisationId}/done';
   static readonly loginUsingPOST2Path = '/pis-cancellation/{encryptedPaymentId}/authorisation/{authorisationId}/login';
@@ -29,7 +29,7 @@ class PSUPISCancellationService extends __BaseService {
   }
 
   /**
-   * @param params The `PSUPISCancellationService.AuthorisePaymentUsingPOSTParams` containing the following parameters:
+   * @param params The `PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService.AuthorisePaymentUsingPOSTParams` containing the following parameters:
    *
    * - `encryptedPaymentId`: encryptedPaymentId
    *
@@ -41,7 +41,7 @@ class PSUPISCancellationService extends __BaseService {
    *
    * @return OK
    */
-  authorisePaymentUsingPOSTResponse(params: PSUPISCancellationService.AuthorisePaymentUsingPOSTParams): __Observable<__StrictHttpResponse<PaymentAuthorizeResponse>> {
+  authorisePaymentUsingPOSTResponse(params: PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService.AuthorisePaymentUsingPOSTParams): __Observable<__StrictHttpResponse<PaymentAuthorizeResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -67,7 +67,7 @@ class PSUPISCancellationService extends __BaseService {
     );
   }
   /**
-   * @param params The `PSUPISCancellationService.AuthorisePaymentUsingPOSTParams` containing the following parameters:
+   * @param params The `PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService.AuthorisePaymentUsingPOSTParams` containing the following parameters:
    *
    * - `encryptedPaymentId`: encryptedPaymentId
    *
@@ -79,7 +79,7 @@ class PSUPISCancellationService extends __BaseService {
    *
    * @return OK
    */
-  authorisePaymentUsingPOST(params: PSUPISCancellationService.AuthorisePaymentUsingPOSTParams): __Observable<PaymentAuthorizeResponse> {
+  authorisePaymentUsingPOST(params: PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService.AuthorisePaymentUsingPOSTParams): __Observable<PaymentAuthorizeResponse> {
     return this.authorisePaymentUsingPOSTResponse(params).pipe(
       __map(_r => _r.body as PaymentAuthorizeResponse)
     );
@@ -87,7 +87,7 @@ class PSUPISCancellationService extends __BaseService {
 
   /**
    * This call provides the server with the opportunity to close this session and redirect the PSU to the TPP or close the application window.
-   * @param params The `PSUPISCancellationService.PisDoneUsingGETParams` containing the following parameters:
+   * @param params The `PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService.PisDoneUsingGETParams` containing the following parameters:
    *
    * - `forgetConsent`: forgetConsent
    *
@@ -103,7 +103,7 @@ class PSUPISCancellationService extends __BaseService {
    *
    * @return OK
    */
-  pisDoneUsingGETResponse(params: PSUPISCancellationService.PisDoneUsingGETParams): __Observable<__StrictHttpResponse<PaymentAuthorizeResponse>> {
+  pisDoneUsingGETResponse(params: PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService.PisDoneUsingGETParams): __Observable<__StrictHttpResponse<PaymentAuthorizeResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -132,7 +132,7 @@ class PSUPISCancellationService extends __BaseService {
   }
   /**
    * This call provides the server with the opportunity to close this session and redirect the PSU to the TPP or close the application window.
-   * @param params The `PSUPISCancellationService.PisDoneUsingGETParams` containing the following parameters:
+   * @param params The `PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService.PisDoneUsingGETParams` containing the following parameters:
    *
    * - `forgetConsent`: forgetConsent
    *
@@ -148,14 +148,14 @@ class PSUPISCancellationService extends __BaseService {
    *
    * @return OK
    */
-  pisDoneUsingGET(params: PSUPISCancellationService.PisDoneUsingGETParams): __Observable<PaymentAuthorizeResponse> {
+  pisDoneUsingGET(params: PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService.PisDoneUsingGETParams): __Observable<PaymentAuthorizeResponse> {
     return this.pisDoneUsingGETResponse(params).pipe(
       __map(_r => _r.body as PaymentAuthorizeResponse)
     );
   }
 
   /**
-   * @param params The `PSUPISCancellationService.LoginUsingPOST2Params` containing the following parameters:
+   * @param params The `PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService.LoginUsingPOST2Params` containing the following parameters:
    *
    * - `encryptedPaymentId`: encryptedPaymentId
    *
@@ -169,7 +169,7 @@ class PSUPISCancellationService extends __BaseService {
    *
    * @return OK
    */
-  loginUsingPOST2Response(params: PSUPISCancellationService.LoginUsingPOST2Params): __Observable<__StrictHttpResponse<PaymentAuthorizeResponse>> {
+  loginUsingPOST2Response(params: PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService.LoginUsingPOST2Params): __Observable<__StrictHttpResponse<PaymentAuthorizeResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -196,7 +196,7 @@ class PSUPISCancellationService extends __BaseService {
     );
   }
   /**
-   * @param params The `PSUPISCancellationService.LoginUsingPOST2Params` containing the following parameters:
+   * @param params The `PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService.LoginUsingPOST2Params` containing the following parameters:
    *
    * - `encryptedPaymentId`: encryptedPaymentId
    *
@@ -210,14 +210,14 @@ class PSUPISCancellationService extends __BaseService {
    *
    * @return OK
    */
-  loginUsingPOST2(params: PSUPISCancellationService.LoginUsingPOST2Params): __Observable<PaymentAuthorizeResponse> {
+  loginUsingPOST2(params: PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService.LoginUsingPOST2Params): __Observable<PaymentAuthorizeResponse> {
     return this.loginUsingPOST2Response(params).pipe(
       __map(_r => _r.body as PaymentAuthorizeResponse)
     );
   }
 
   /**
-   * @param params The `PSUPISCancellationService.SelectMethodUsingPOST1Params` containing the following parameters:
+   * @param params The `PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService.SelectMethodUsingPOST1Params` containing the following parameters:
    *
    * - `scaMethodId`: scaMethodId
    *
@@ -229,7 +229,7 @@ class PSUPISCancellationService extends __BaseService {
    *
    * @return OK
    */
-  selectMethodUsingPOST1Response(params: PSUPISCancellationService.SelectMethodUsingPOST1Params): __Observable<__StrictHttpResponse<PaymentAuthorizeResponse>> {
+  selectMethodUsingPOST1Response(params: PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService.SelectMethodUsingPOST1Params): __Observable<__StrictHttpResponse<PaymentAuthorizeResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -255,7 +255,7 @@ class PSUPISCancellationService extends __BaseService {
     );
   }
   /**
-   * @param params The `PSUPISCancellationService.SelectMethodUsingPOST1Params` containing the following parameters:
+   * @param params The `PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService.SelectMethodUsingPOST1Params` containing the following parameters:
    *
    * - `scaMethodId`: scaMethodId
    *
@@ -267,14 +267,14 @@ class PSUPISCancellationService extends __BaseService {
    *
    * @return OK
    */
-  selectMethodUsingPOST1(params: PSUPISCancellationService.SelectMethodUsingPOST1Params): __Observable<PaymentAuthorizeResponse> {
+  selectMethodUsingPOST1(params: PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService.SelectMethodUsingPOST1Params): __Observable<PaymentAuthorizeResponse> {
     return this.selectMethodUsingPOST1Response(params).pipe(
       __map(_r => _r.body as PaymentAuthorizeResponse)
     );
   }
 }
 
-module PSUPISCancellationService {
+module PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService {
 
   /**
    * Parameters for authorisePaymentUsingPOST
@@ -396,4 +396,4 @@ module PSUPISCancellationService {
   }
 }
 
-export { PSUPISCancellationService }
+export { PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService }

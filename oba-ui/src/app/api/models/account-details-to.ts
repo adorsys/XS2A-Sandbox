@@ -1,15 +1,15 @@
 /* tslint:disable */
 import { AccountBalanceTO } from './account-balance-to';
 export interface AccountDetailsTO {
+  id?: string;
   accountStatus?: 'ENABLED' | 'DELETED' | 'BLOCKED';
-  accountType?: 'CACC' | 'CASH' | 'CHAR' | 'CISH' | 'COMM' | 'CPAC' | 'LLSV' | 'LOAN' | 'MGLD' | 'MOMA' | 'NREX' | 'ODFT' | 'ONDP' | 'OTHR' | 'SACC' | 'SLRY' | 'SVGS' | 'TAXE' | 'TRAN' | 'TRAS';
   balances?: Array<AccountBalanceTO>;
   bban?: string;
   bic?: string;
   currency?: string;
   details?: string;
   iban?: string;
-  id?: string;
+  accountType?: 'CACC' | 'CASH' | 'CHAR' | 'CISH' | 'COMM' | 'CPAC' | 'LLSV' | 'LOAN' | 'MGLD' | 'MOMA' | 'NREX' | 'ODFT' | 'ONDP' | 'OTHR' | 'SACC' | 'SLRY' | 'SVGS' | 'TAXE' | 'TRAN' | 'TRAS';
   linkedAccounts?: string;
   maskedPan?: string;
   msisdn?: string;

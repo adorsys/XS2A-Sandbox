@@ -12,12 +12,12 @@ import { ResetPassword } from '../models/reset-password';
 import { UpdatePassword } from '../models/update-password';
 
 /**
- * Provides access to online banking
+ * Oba Authorization Api Controller
  */
 @Injectable({
   providedIn: 'root',
 })
-class OnlineBankingAuthorizationService extends __BaseService {
+class OnlineBankingAuthorizationProvidesAccessToOnlineBankingService extends __BaseService {
   static readonly loginUsingPOST1Path = '/api/v1/login';
   static readonly sendCodeUsingPOSTPath = '/api/v1/password';
   static readonly updatePasswordUsingPUTPath = '/api/v1/password';
@@ -30,13 +30,13 @@ class OnlineBankingAuthorizationService extends __BaseService {
   }
 
   /**
-   * @param params The `OnlineBankingAuthorizationService.LoginUsingPOST1Params` containing the following parameters:
+   * @param params The `OnlineBankingAuthorizationProvidesAccessToOnlineBankingService.LoginUsingPOST1Params` containing the following parameters:
    *
    * - `pin`: pin
    *
    * - `login`: login
    */
-  loginUsingPOST1Response(params: OnlineBankingAuthorizationService.LoginUsingPOST1Params): __Observable<__StrictHttpResponse<null>> {
+  loginUsingPOST1Response(params: OnlineBankingAuthorizationProvidesAccessToOnlineBankingService.LoginUsingPOST1Params): __Observable<__StrictHttpResponse<null>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -60,13 +60,13 @@ class OnlineBankingAuthorizationService extends __BaseService {
     );
   }
   /**
-   * @param params The `OnlineBankingAuthorizationService.LoginUsingPOST1Params` containing the following parameters:
+   * @param params The `OnlineBankingAuthorizationProvidesAccessToOnlineBankingService.LoginUsingPOST1Params` containing the following parameters:
    *
    * - `pin`: pin
    *
    * - `login`: login
    */
-  loginUsingPOST1(params: OnlineBankingAuthorizationService.LoginUsingPOST1Params): __Observable<null> {
+  loginUsingPOST1(params: OnlineBankingAuthorizationProvidesAccessToOnlineBankingService.LoginUsingPOST1Params): __Observable<null> {
     return this.loginUsingPOST1Response(params).pipe(
       __map(_r => _r.body as null)
     );
@@ -145,7 +145,7 @@ class OnlineBankingAuthorizationService extends __BaseService {
   }
 }
 
-module OnlineBankingAuthorizationService {
+module OnlineBankingAuthorizationProvidesAccessToOnlineBankingService {
 
   /**
    * Parameters for loginUsingPOST1
@@ -164,4 +164,4 @@ module OnlineBankingAuthorizationService {
   }
 }
 
-export { OnlineBankingAuthorizationService }
+export { OnlineBankingAuthorizationProvidesAccessToOnlineBankingService }
