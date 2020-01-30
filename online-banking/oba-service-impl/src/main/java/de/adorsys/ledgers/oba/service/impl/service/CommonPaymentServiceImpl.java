@@ -32,13 +32,14 @@ import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.EnumSet;
 import java.util.Optional;
 
-import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.FINALISED;
 import static de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode.CONSENT_DATA_UPDATE_FAILED;
 import static de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode.*;
 import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuPisClient.DEFAULT_SERVICE_INSTANCE_ID;
@@ -99,7 +100,7 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
     }
 
     @Override
-    public String resolveRedirectUrl(String encryptedPaymentId, String authorisationId, String consentAndAccessTokenCookieString, boolean isOauth2Integrated, String psuId, BearerTokenTO tokenTO) {
+    public String resolveRedirectUrl(String encryptedPaymentId, String authorisationId, String consentAndAccessTokenCookieString, boolean isOauth2Integrated, String psuId, BearerTokenTO tokenTO, String authConfirmationCode) {
         PaymentWorkflow workflow = identifyPayment(encryptedPaymentId, authorisationId, true, consentAndAccessTokenCookieString, psuId, tokenTO);
 
         CmsPaymentResponse consentResponse = workflow.getPaymentResponse();
@@ -107,14 +108,20 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
         authInterceptor.setAccessToken(workflow.getScaResponse().getBearerToken().getAccess_token());
         String tppOkRedirectUri = isOauth2Integrated
                                       ? oauthRestClient.oauthCode(consentResponse.getTppOkRedirectUri()).getBody().getRedirectUri()
-                                      : consentResponse.getTppOkRedirectUri();
+                                      : buildTppOkRedirectUri(consentResponse.getTppOkRedirectUri(), authConfirmationCode);
 
         String tppNokRedirectUri = consentResponse.getTppNokRedirectUri();
         ScaStatusTO scaStatus = loadAuthorization(workflow.authId());
 
-        return FINALISED.equals(scaStatus)
+        return EnumSet.of(ScaStatusTO.FINALISED, ScaStatusTO.UNCONFIRMED).contains(scaStatus)
                    ? tppOkRedirectUri
                    : tppNokRedirectUri;
+    }
+
+    private String buildTppOkRedirectUri(String tppOkRedirectUri, String authConfirmationCode) {
+        String authCodeParam = StringUtils.isNotBlank(authConfirmationCode)
+                                   ? "?authConfirmationCode=" + authConfirmationCode : "";
+        return tppOkRedirectUri + authCodeParam;
     }
 
     @Override

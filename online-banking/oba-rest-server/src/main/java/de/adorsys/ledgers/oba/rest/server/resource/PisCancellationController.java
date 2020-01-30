@@ -15,6 +15,7 @@ import de.adorsys.ledgers.oba.service.api.service.CommonPaymentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +26,7 @@ import java.util.Objects;
 import static de.adorsys.ledgers.oba.rest.api.resource.PisCancellationApi.BASE_PATH;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(BASE_PATH)
@@ -94,6 +96,7 @@ public class PisCancellationController implements PisCancellationApi {
             PaymentWorkflow authorizeCancelPaymentWorkflow = paymentService.authorizeCancelPayment(identifyPaymentWorkflow, psuId, authCode);
 
             responseUtils.setCookies(response, authorizeCancelPaymentWorkflow.getConsentReference(), authorizeCancelPaymentWorkflow.bearerToken().getAccess_token(), authorizeCancelPaymentWorkflow.bearerToken().getAccessTokenObject());
+            log.info("Confirmation code: {}", authorizeCancelPaymentWorkflow.getAuthResponse().getAuthConfirmationCode());
             return ResponseEntity.ok(authorizeCancelPaymentWorkflow.getAuthResponse());
         } catch (PaymentAuthorizeException e) {
             return e.getError();
@@ -104,10 +107,10 @@ public class PisCancellationController implements PisCancellationApi {
 
     @Override
     public ResponseEntity<PaymentAuthorizeResponse> pisDone(String encryptedPaymentId, String authorisationId,
-                                                            String consentAndAccessTokenCookieString, Boolean forgetConsent, Boolean backToTpp, boolean isOauth2Integrated) {
+                                                            String consentAndAccessTokenCookieString, boolean isOauth2Integrated, String authConfirmationCode) {
         String psuId = AuthUtils.psuId(middlewareAuth);
         String consentCookie = responseUtils.consentCookie(consentAndAccessTokenCookieString);
-        String redirectUrl = paymentService.resolveRedirectUrl(encryptedPaymentId, authorisationId, consentCookie, isOauth2Integrated, psuId, middlewareAuth.getBearerToken());
+        String redirectUrl = paymentService.resolveRedirectUrl(encryptedPaymentId, authorisationId, consentCookie, isOauth2Integrated, psuId, middlewareAuth.getBearerToken(), authConfirmationCode);
         return responseUtils.redirect(redirectUrl, response);
     }
 }

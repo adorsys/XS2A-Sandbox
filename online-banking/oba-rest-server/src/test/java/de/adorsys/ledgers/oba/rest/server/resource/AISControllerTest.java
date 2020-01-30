@@ -177,7 +177,7 @@ public class AISControllerTest {
         when(redirectConsentService.identifyConsent(anyString(), anyString(), anyBoolean(), anyString(), any())).thenReturn(getConsentWorkflow(FINALISED));
         when(responseUtils.redirect(anyString(), any())).thenReturn(ResponseEntity.ok(getConsentAuthorizeResponse(true, true, false, FINALISED)));
 
-        ResponseEntity<ConsentAuthorizeResponse> result = controller.aisDone(ENCRYPTED_ID, AUTH_ID, COOKIE, false, true, false);
+        ResponseEntity<ConsentAuthorizeResponse> result = controller.aisDone(ENCRYPTED_ID, AUTH_ID, COOKIE, false, "code");
         assertThat(result).isEqualToComparingFieldByFieldRecursively(ResponseEntity.ok(getConsentAuthorizeResponse(true, true, false, FINALISED)));
     }
 

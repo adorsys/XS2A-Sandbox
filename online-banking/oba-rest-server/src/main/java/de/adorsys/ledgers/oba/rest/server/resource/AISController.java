@@ -31,6 +31,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient;
 import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,8 +46,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.*;
-import static de.adorsys.psd2.xs2a.core.consent.ConsentStatus.PARTIALLY_AUTHORISED;
-import static de.adorsys.psd2.xs2a.core.consent.ConsentStatus.VALID;
+import static de.adorsys.psd2.xs2a.core.consent.ConsentStatus.*;
+import static de.adorsys.psd2.xs2a.core.consent.ConsentStatus.RECEIVED; //NOPMD
 import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient.DEFAULT_SERVICE_INSTANCE_ID;
 
 @Slf4j
@@ -139,7 +140,9 @@ public class AISController implements AISApi {
             SCAConsentResponseTO scaConsentResponse = consentRestClient.authorizeConsent(workflow.consentId(), authorisationId, authCode).getBody();
             workflow.storeSCAResponse(scaConsentResponse);
 
-            cmsPsuAisClient.confirmConsent(workflow.consentId(), psuId, null, null, null, DEFAULT_SERVICE_INSTANCE_ID);
+            if (scaConsentResponse != null && FINALISED == scaConsentResponse.getScaStatus()) {
+                cmsPsuAisClient.confirmConsent(workflow.consentId(), psuId, null, null, null, DEFAULT_SERVICE_INSTANCE_ID);
+            }
             redirectConsentService.updateScaStatusConsentStatusConsentData(psuId, workflow);
 
             // if consent is partially authorized the access token is null
@@ -213,8 +216,8 @@ public class AISController implements AISApi {
     }
 
     @Override
-    public ResponseEntity<ConsentAuthorizeResponse> aisDone(String encryptedConsentId, String authorisationId, String consentAndAccessTokenCookieString, Boolean forgetConsent, Boolean backToTpp, boolean isOauth2Integrated) {
-        String consentCookie = responseUtils.consentCookie(consentAndAccessTokenCookieString);
+    public ResponseEntity<ConsentAuthorizeResponse> aisDone(String encryptedConsentId, String authorisationId, String cookie, boolean isOauth2Integrated, String authConfirmationCode) {
+        String consentCookie = responseUtils.consentCookie(cookie);
         ConsentWorkflow workflow = redirectConsentService.identifyConsent(encryptedConsentId, authorisationId, true, consentCookie, middlewareAuth.getBearerToken());
 
         ConsentStatus consentStatus = workflow.getConsentResponse().getAccountConsent().getConsentStatus();
@@ -222,14 +225,20 @@ public class AISController implements AISApi {
         authInterceptor.setAccessToken(workflow.getScaResponse().getBearerToken().getAccess_token());
         String tppOkRedirectUri = isOauth2Integrated
                                       ? oauthRestClient.oauthCode(consentResponse.getTppOkRedirectUri()).getBody().getRedirectUri()
-                                      : consentResponse.getTppOkRedirectUri();
+                                      : buildTppOkRedirectUri(consentResponse.getTppOkRedirectUri(), authConfirmationCode);
         String tppNokRedirectUri = consentResponse.getTppNokRedirectUri();
 
-        String redirectURL = EnumSet.of(VALID, PARTIALLY_AUTHORISED).contains(consentStatus)
+        String redirectURL = EnumSet.of(VALID, RECEIVED, PARTIALLY_AUTHORISED).contains(consentStatus)
                                  ? tppOkRedirectUri
                                  : tppNokRedirectUri;
 
         return responseUtils.redirect(redirectURL, response);
+    }
+
+    private String buildTppOkRedirectUri(String tppOkRedirectUri, String authConfirmationCode) {
+        String authCodeParam = StringUtils.isNotBlank(authConfirmationCode)
+                                   ? "?authConfirmationCode=" + authConfirmationCode : "";
+        return tppOkRedirectUri + authCodeParam;
     }
 
     @Override
