@@ -53,20 +53,36 @@ export class JsonService {
     );
   }
 
-  public getPreparedJsonData(url: string) {
+  public getPreparedJsonData(url: string, sepa?: boolean) {
     return this.getRawJsonData(url).pipe(
       map(data => {
-        // replaces all the values of "currency" key word in formatted jsons
-        const regex = /(currency"\s*:\s*"\s*)(.+)(")/g;
-
-        return JSON.parse(
-          JSON.stringify(data, null, '\t').replace(
-            regex,
-            'currency": "' + this.currency + '"'
-          )
+        let json = this.updateCurrencyForJsonData(
+          JSON.stringify(data, null, '\t'),
+          sepa
         );
+        json = this.updateRequestedExecutionDateForJsonData(json);
+
+        return JSON.parse(json);
       })
     );
+  }
+
+  private updateCurrencyForJsonData(data, sepa?: boolean) {
+    // replaces all the values of "currency" key word in formatted jsons
+    const regex = /(currency"\s*:\s*"\s*)(.+)(")/g;
+    // currency is EUR in sepa-credit-tranfers payments due to the requirements for such payments
+    const currency = sepa ? 'EUR' : this.currency;
+
+    return data.replace(regex, 'currency": "' + currency + '"');
+  }
+
+  private updateRequestedExecutionDateForJsonData(data: string) {
+    const today = new Date().toISOString().slice(0, 10);
+
+    // replaces all the values of "requestedExecutionDate" key word in formatted jsons
+    const regex = /(requestedExecutionDate"\s*:\s*"\s*)(.+)(")/g;
+
+    return data.replace(regex, 'requestedExecutionDate": "' + today + '"');
   }
 
   public getRawXmlData(url: string) {
@@ -77,16 +93,31 @@ export class JsonService {
         map(response => {
           if (response.includes('<!DOCTYPE html>')) {
             throw new Error(
-              'Source is not found, default html returned instead!'
+              'Custom source is not found and default html returned instead!'
             );
           } else {
             return response;
           }
         }),
         catchError(() => {
-          return this.http.get(this.defaultExamplesSource + path, {
-            responseType: 'text',
-          });
+          return this.http
+            .get(this.defaultExamplesSource + path, {
+              responseType: 'text',
+            })
+            .pipe(
+              map(response => {
+                if (response.includes('<!DOCTYPE html>')) {
+                  throw new Error(
+                    'Default source is not found and default html returned instead!'
+                  );
+                } else {
+                  return response;
+                }
+              }),
+              catchError(() => {
+                return '';
+              })
+            );
         })
       );
   }
@@ -94,11 +125,22 @@ export class JsonService {
   public getPreparedXmlData(url: string) {
     return this.getRawXmlData(url).pipe(
       map(data => {
-        // replaces all the values of currency in formatted jsons
+        // replaces all the values of currency in xmls
         const regex = /(Ccy="\s*)(.+)(")/g;
 
-        return data.replace(regex, 'Ccy="' + this.currency + '"');
+        return this.updateRequestExecutionDateForXml(
+          data.replace(regex, 'Ccy="' + this.currency + '"')
+        );
       })
     );
+  }
+
+  private updateRequestExecutionDateForXml(data) {
+    const today = new Date().toISOString().slice(0, 10);
+
+    // replaces all the values of "ReqdExctnDt" key word in xmls
+    const regex = /(ReqdExctnDt>\s*)(.+)(<\/)/g;
+
+    return data.replace(regex, 'ReqdExctnDt>' + today + '</');
   }
 }

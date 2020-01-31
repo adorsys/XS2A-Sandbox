@@ -251,12 +251,17 @@ export class PlayWthDataComponent implements OnInit {
         this.jsonService
           .getPreparedXmlData(this.paymentService + this.paymentProduct)
           .subscribe(data => {
-            this.xml = true;
-            this.body = vkbeautify.xml(data);
+            if (data && data !== '') {
+              this.xml = true;
+              this.body = vkbeautify.xml(data);
+            }
           });
       } else {
         this.jsonService
-          .getPreparedJsonData(this.paymentService + this.paymentProduct)
+          .getPreparedJsonData(
+            this.paymentService + this.paymentProduct,
+            this.paymentProduct == '/sepa-credit-transfers'
+          )
           .subscribe(data => {
             this.xml = false;
             this.body = data;
