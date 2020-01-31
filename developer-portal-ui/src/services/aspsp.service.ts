@@ -6,11 +6,15 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AspspService {
-  aspspProfileUri = '/aspsp-proxy';
+  aspspProfileUri = '/aspsp-proxy/api/v1/aspsp-profile';
 
   constructor(private http: HttpClient) {}
 
   getAspspProfile(): Observable<any> {
-    return this.http.get(this.aspspProfileUri + '/api/v1/aspsp-profile');
+    return this.http.get(this.aspspProfileUri);
+  }
+
+  getScaApproaches(): Observable<any> {
+    return this.http.get(this.aspspProfileUri + '/sca-approaches');
   }
 }
