@@ -47,7 +47,7 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
         this.shareService.currentData.subscribe(data => {
             if (data) {
                 console.log('response object: ', data);
-                this.shareService.currentData.subscribe(authResponse => this.authResponse == authResponse);
+                this.shareService.currentData.subscribe(authResponse => this.authResponse = authResponse);
             }
         });
 

@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         authorisationId: this.redirectId,
       } as LoginUsingPOST2Params).subscribe(authorisationResponse => {
         console.log(authorisationResponse);
-        this.shareService.changeData(authorisationResponse);
+        this.shareService.changePaymentData(authorisationResponse);
         this.router.navigate([`${RoutingPath.PAYMENT_CANCELLATION}/${RoutingPath.CONFIRM_CANCELLATION}`]);
       }, (error: HttpErrorResponse) => {
         // if paymentId or redirectId is missing

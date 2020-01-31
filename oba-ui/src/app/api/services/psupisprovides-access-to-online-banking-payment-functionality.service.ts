@@ -145,15 +145,13 @@ class PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService extends __B
    * This call provides the server with the opportunity to close this session and redirect the PSU to the TPP or close the application window.
    * @param params The `PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService.PisDoneUsingGET1Params` containing the following parameters:
    *
-   * - `forgetConsent`: forgetConsent
-   *
    * - `encryptedPaymentId`: encryptedPaymentId
-   *
-   * - `backToTpp`: backToTpp
    *
    * - `authorisationId`: authorisationId
    *
    * - `oauth2`: oauth2
+   *
+   * - `authConfirmationCode`: authConfirmationCode
    *
    * - `Cookie`: Cookie
    *
@@ -163,11 +161,10 @@ class PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService extends __B
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    if (params.forgetConsent != null) __params = __params.set('forgetConsent', params.forgetConsent.toString());
 
-    if (params.backToTpp != null) __params = __params.set('backToTpp', params.backToTpp.toString());
 
     if (params.oauth2 != null) __params = __params.set('oauth2', params.oauth2.toString());
+    if (params.authConfirmationCode != null) __params = __params.set('authConfirmationCode', params.authConfirmationCode.toString());
     if (params.Cookie != null) __headers = __headers.set('Cookie', params.Cookie.toString());
     let req = new HttpRequest<any>(
       'GET',
@@ -190,15 +187,13 @@ class PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService extends __B
    * This call provides the server with the opportunity to close this session and redirect the PSU to the TPP or close the application window.
    * @param params The `PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService.PisDoneUsingGET1Params` containing the following parameters:
    *
-   * - `forgetConsent`: forgetConsent
-   *
    * - `encryptedPaymentId`: encryptedPaymentId
-   *
-   * - `backToTpp`: backToTpp
    *
    * - `authorisationId`: authorisationId
    *
    * - `oauth2`: oauth2
+   *
+   * - `authConfirmationCode`: authConfirmationCode
    *
    * - `Cookie`: Cookie
    *
@@ -491,19 +486,9 @@ module PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService {
   export interface PisDoneUsingGET1Params {
 
     /**
-     * forgetConsent
-     */
-    forgetConsent: string;
-
-    /**
      * encryptedPaymentId
      */
     encryptedPaymentId: string;
-
-    /**
-     * backToTpp
-     */
-    backToTpp: string;
 
     /**
      * authorisationId
@@ -514,6 +499,11 @@ module PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService {
      * oauth2
      */
     oauth2?: boolean;
+
+    /**
+     * authConfirmationCode
+     */
+    authConfirmationCode?: string;
 
     /**
      * Cookie

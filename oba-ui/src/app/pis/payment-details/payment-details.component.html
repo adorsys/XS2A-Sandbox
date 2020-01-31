@@ -10,7 +10,7 @@
         <hr>
       </div>
       <div *ngFor="let payment of authResponse.payment.targets; index as i">
-        <h4><strong>{{ i + 1 }}- Creditor account</strong></h4>
+        <h4><strong><span *ngIf="authResponse.payment.targets.length > 1">{{ i + 1 }} - </span> Creditor account</strong></h4>
         <strong><p>{{payment.creditorAccount.iban}} {{payment.creditorAccount.currency}}</p></strong>
         <hr>
 

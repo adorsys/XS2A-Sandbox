@@ -20,7 +20,7 @@ export class PaymentDetailsComponent implements OnInit {
 
     ngOnInit() {
         this.sharedService.currentData.subscribe(
-            authResponse => this.authResponse == authResponse
+            authResponse => this.authResponse = authResponse
         );
     }
 

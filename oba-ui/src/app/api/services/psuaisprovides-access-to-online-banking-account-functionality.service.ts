@@ -236,15 +236,13 @@ class PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService extends __B
    * This call provides the server with the opportunity to close this session and redirect the PSU to the TPP or close the application window.
    * @param params The `PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.AisDoneUsingGETParams` containing the following parameters:
    *
-   * - `forgetConsent`: forgetConsent
-   *
    * - `encryptedConsentId`: encryptedConsentId
-   *
-   * - `backToTpp`: backToTpp
    *
    * - `authorisationId`: authorisationId
    *
    * - `oauth2`: oauth2
+   *
+   * - `authConfirmationCode`: authConfirmationCode
    *
    * - `Cookie`: Cookie
    *
@@ -254,11 +252,10 @@ class PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService extends __B
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    if (params.forgetConsent != null) __params = __params.set('forgetConsent', params.forgetConsent.toString());
 
-    if (params.backToTpp != null) __params = __params.set('backToTpp', params.backToTpp.toString());
 
     if (params.oauth2 != null) __params = __params.set('oauth2', params.oauth2.toString());
+    if (params.authConfirmationCode != null) __params = __params.set('authConfirmationCode', params.authConfirmationCode.toString());
     if (params.Cookie != null) __headers = __headers.set('Cookie', params.Cookie.toString());
     let req = new HttpRequest<any>(
       'GET',
@@ -281,15 +278,13 @@ class PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService extends __B
    * This call provides the server with the opportunity to close this session and redirect the PSU to the TPP or close the application window.
    * @param params The `PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.AisDoneUsingGETParams` containing the following parameters:
    *
-   * - `forgetConsent`: forgetConsent
-   *
    * - `encryptedConsentId`: encryptedConsentId
-   *
-   * - `backToTpp`: backToTpp
    *
    * - `authorisationId`: authorisationId
    *
    * - `oauth2`: oauth2
+   *
+   * - `authConfirmationCode`: authConfirmationCode
    *
    * - `Cookie`: Cookie
    *
@@ -603,19 +598,9 @@ module PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService {
   export interface AisDoneUsingGETParams {
 
     /**
-     * forgetConsent
-     */
-    forgetConsent: string;
-
-    /**
      * encryptedConsentId
      */
     encryptedConsentId: string;
-
-    /**
-     * backToTpp
-     */
-    backToTpp: string;
 
     /**
      * authorisationId
@@ -626,6 +611,11 @@ module PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService {
      * oauth2
      */
     oauth2?: boolean;
+
+    /**
+     * authConfirmationCode
+     */
+    authConfirmationCode?: string;
 
     /**
      * Cookie
