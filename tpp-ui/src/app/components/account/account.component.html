@@ -1,6 +1,10 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-body--large">
+
+            <button class="btn btn-sm btn-outline-secondary" [routerLink]="['/accounts']" queryParamsHandling="preserve">
+              &lt; Back
+            </button>
             <div class="header__title">Account details</div>
             <div class="row">
                 <div class="col-12 col-md-3 ">Account Accessors</div>
@@ -33,11 +37,11 @@
                 <div class="col-12 col-md-9 text-muted">{{account?.balances[0].amount.amount | convertBalance}}</div>
             </div>
             <button class="btn btn-primary" (click)="goToAccountDetail()">Access management</button>
-            <button class="btn btn-outline-danger ml-3" (click)="openDeleteConfirmation(deleteConfirmationModal)">
-                Delete transactions
-            </button>
             <button class="btn btn-primary ml-3" [disabled]="isAccountDeleted" (click)="goToDepositCash()">
                 Deposit cash
+            </button>
+            <button class="btn btn-outline-danger ml-3" (click)="openDeleteConfirmation(deleteConfirmationModal)">
+              Delete transactions
             </button>
         </div>
     </div>
