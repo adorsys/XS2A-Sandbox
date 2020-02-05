@@ -196,7 +196,7 @@
       <p class="response-body-text">{{ response.body | json }}</p>
     </div>
 
-    <div *ngIf="fieldsToCopy.length && response.body">
+    <div *ngIf="(fieldsToCopy || resourceIds) && response.body">
       <table>
         <tr
           class="copy-field-wrapper"
@@ -223,6 +223,30 @@
               <button
                 class="copy-btn"
                 (click)="copyService.copyThis(i, fieldsToCopy)"
+              >
+                Copy
+              </button>
+            </td>
+          </div>
+        </tr>
+
+        <tr
+          class="copy-field-wrapper"
+          *ngFor="let resourceId of resourceIds; let i = index"
+        >
+          <div>
+            <td class="copy-label">
+              <label [for]="'input-' + i">resourceId {{ i + 1 }}</label>
+            </td>
+            <td class="copy-field">
+              <input type="text" [value]="resourceId" [id]="'input-' + i" />
+            </td>
+            <td>
+              <button
+                class="copy-btn"
+                (click)="
+                  copyService.copyThis(i, resourceIds, 'resourceId ' + (i + 1))
+                "
               >
                 Copy
               </button>

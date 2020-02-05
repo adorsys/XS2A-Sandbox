@@ -8,6 +8,7 @@
     align-items: center;
     margin-bottom: 2vw;
   }
+
   select {
     font-size: 1em;
     border: none;
@@ -15,9 +16,11 @@
     box-shadow: none;
     color: #3b4151;
   }
+
   select:focus {
     outline: unset !important;
   }
+
   .payment-id {
     font-size: 1em;
     margin-top: -0.15vw;
@@ -29,27 +32,32 @@
     background: #f7f7f7;
     color: #3b4151;
   }
+
   .payment-id:focus {
     outline: unset !important;
   }
 
   .full-path {
     margin-bottom: 2vw;
+
     span {
       padding-top: 0.5vw;
       padding-bottom: 0.5vw;
       color: #3b4151 !important;
       background: #f7f7f7;
     }
+
     span:first-child {
       font-weight: bold;
       padding-left: 0.5vw;
       padding-right: 0.35vw;
     }
+
     span:last-child {
       padding-right: 0.5vw;
     }
   }
+
   .line-command-wrapper {
     display: flex;
     align-items: center;
@@ -58,17 +66,21 @@
     padding: 0.5%;
     margin-right: 0.5vw;
     border-radius: 3px;
+
     span {
       color: #fff;
     }
   }
+
   .play-with-data-table {
     display: flex;
     align-items: center;
     padding: 0.8em 1em;
+
     span {
       width: 40%;
     }
+
     input {
       outline: none;
       width: 15vw;
@@ -76,6 +88,7 @@
       padding: 0.2vw 0.5vw;
     }
   }
+
   .send-body {
     textarea {
       display: block;
@@ -86,20 +99,24 @@
       margin-top: 1em;
     }
   }
+
   .send-body-title {
     margin: 2vw 0;
     display: block;
     font-size: 1.5rem;
   }
+
   .response-status {
     .status-style {
       margin: 2vw 0;
       display: block;
       font-size: 1.5rem;
     }
+
     .response-status-wrapper {
       background-color: #f3f3f3;
       padding: 0.5vw 0 0.5vw 1vw;
+
       span {
         &:first-of-type {
           margin-right: 2vw;
@@ -107,6 +124,7 @@
         }
       }
     }
+
     .clear-button {
       min-height: 1.5rem;
       padding: 5px 25px 5px 25px;
@@ -116,6 +134,7 @@
       color: #fff;
       font-size: 0.8rem;
       outline: none;
+
       &:hover {
         background-color: #d1d1d1;
         -webkit-transition: background-color 1s ease-out;
@@ -123,15 +142,18 @@
       }
     }
   }
+
   .response-body {
     overflow: hidden;
     white-space: nowrap;
     word-break: break-all;
+
     span {
       margin: 2vw 0;
       display: block;
       font-size: 1.5rem;
     }
+
     .response-body-text {
       padding: 0.7vw;
       font-size: 0.75rem;
@@ -144,20 +166,25 @@
 
   table {
     width: 100%;
+
     .copy-field-wrapper {
       div {
         width: 100%;
         display: flex;
         justify-content: space-between;
         align-items: center;
+
         .copy-label {
           width: 7vw;
+
           label {
             display: block;
           }
         }
+
         .copy-field {
           width: calc(100% - 20vw);
+
           input {
             width: 100%;
             display: block;
@@ -166,6 +193,7 @@
             font-size: 1em;
           }
         }
+
         .copy-btn {
           display: block;
           background-color: #054f72;

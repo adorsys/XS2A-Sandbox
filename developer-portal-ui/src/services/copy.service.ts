@@ -6,21 +6,27 @@ import { DataService } from './data.service';
 export class CopyService {
   constructor(private dataService: DataService) {}
 
-  copyThis(index: number, fieldsToCopy: string[]) {
+  copyThis(index: number, fieldsToCopy: string[], fieldName?: string) {
     const copyText = document.getElementById(`input-${index}`);
-    this.copyTextToClipboard(copyText['value'], index, fieldsToCopy);
+    this.copyTextToClipboard(copyText['value'], index, fieldsToCopy, fieldName);
   }
 
-  copyTextToClipboard(text: string, index: number, fieldsToCopy: string[]) {
-    if (!navigator['clipboard']) {
+  copyTextToClipboard(
+    text: string,
+    index: number,
+    fieldsToCopy: string[],
+    fieldName?: string
+  ) {
+    if (!navigator.clipboard) {
       this.fallbackCopyTextToClipboard(text, index, fieldsToCopy);
       return;
     }
-    navigator['clipboard'].writeText(text).then(
+
+    const name = fieldName ? fieldName : fieldsToCopy[index];
+    navigator.clipboard.writeText(text).then(
       () => {
-        console.log('Async: Copying to clipboard was successful!');
         this.dataService.showToast(
-          `${fieldsToCopy[index]} copied`,
+          `${name} copied`,
           'Copy success!',
           'success'
         );

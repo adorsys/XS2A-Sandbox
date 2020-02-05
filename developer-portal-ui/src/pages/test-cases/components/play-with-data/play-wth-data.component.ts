@@ -46,6 +46,9 @@ export class PlayWthDataComponent implements OnInit {
   @Input() authorisationId = '';
   @Input() accountId = '';
   @Input() transactionId = '';
+
+  @Input() resourceIds = [];
+
   bookingStatus = '';
   redirectUrl = '';
   dateFrom = '';
@@ -151,6 +154,13 @@ export class PlayWthDataComponent implements OnInit {
           } else if (this.response.body.hasOwnProperty('transactionId')) {
             this.transactionId = this.response.body.transactionId;
             this.localStorageService.set('transactionId', this.transactionId);
+          } else if (this.response.body.hasOwnProperty('accounts')) {
+            for (const a of this.response.body.accounts) {
+              const id = a.resourceId;
+              if (id) {
+                this.resourceIds.push(id);
+              }
+            }
           }
           this.dataService.setIsLoading(false);
           this.dataService.showToast('Request sent', 'Success!', 'success');
