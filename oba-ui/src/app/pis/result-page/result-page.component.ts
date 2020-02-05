@@ -17,6 +17,7 @@ export class ResultPageComponent implements OnInit, OnDestroy {
   public scaStatus: string;
   public ref: string;
   public devPortalLink: string;
+  public multilevelSca = false;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -41,9 +42,16 @@ export class ResultPageComponent implements OnInit, OnDestroy {
         this.shareService.currentData.subscribe(authResponse => {
           this.authResponse = authResponse;
           this.scaStatus = this.authResponse.scaStatus;
+          const payment = this.authResponse.payment;
+
+          if (payment && payment.transactionStatus == 'PATC') {
+            this.multilevelSca = true;
+          }
+
           if (authResponse.authConfirmationCode) {
             this.ref = this.ref + `&authConfirmationCode=${authResponse.authConfirmationCode}`;
           }
+
         });
       }
     });

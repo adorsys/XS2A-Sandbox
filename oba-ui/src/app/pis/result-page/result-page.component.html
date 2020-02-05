@@ -8,18 +8,47 @@
 
             <ng-template [ngIf]="scaStatus" [ngIfElse]="scaStatusEmpty">
               <div [ngSwitch]="scaStatus">
+
                 <div *ngSwitchCase="'finalised'">
-                  <h3 class="card-title font-weight-bold">Success</h3>
-                  <p class="card-text text-muted">
-                    <small>Your payment has been successfully executed</small>
-                  </p>
+
+                  <div *ngIf="!multilevelSca">
+                    <h3 class="card-title font-weight-bold">Success</h3>
+                    <p class="card-text text-muted">
+                      <small>Your payment has been successfully executed</small>
+                    </p>
+                  </div>
+
+                  <div *ngIf="multilevelSca">
+                    <h3 class="card-title font-weight-bold">Partial success</h3>
+                    <p class="card-text text-muted">
+                      <small>
+                        You don't have enough permission to fully sign the payment, so the payment now is in
+                        partially accepted state, and you have to ask another empowered user or users to sign it.
+                        After the payment is signed by all owners of the account, it will be successfully executed.
+                      </small>
+                    </p>
+                  </div>
                 </div>
 
                 <div *ngSwitchCase="'unconfirmed'">
-                  <h3 class="card-title font-weight-bold">Success</h3>
-                  <p class="card-text text-muted">
-                    <small>Your payment has been successfully executed</small>
-                  </p>
+
+                  <div *ngIf="!multilevelSca">
+                    <h3 class="card-title font-weight-bold">Success</h3>
+                    <p class="card-text text-muted">
+                      <small>Your payment has been successfully executed</small>
+                    </p>
+                  </div>
+
+                  <div *ngIf="multilevelSca">
+                    <h3 class="card-title font-weight-bold">Partial success</h3>
+                    <p class="card-text text-muted">
+                      <small>
+                        You don't have enough permission to fully sign the payment, so the payment now is in
+                        partially accepted state, and you have to ask another empowered user or users to sign it.
+                        After the payment is signed by all owners of the account, it will be successfully executed.
+                      </small>
+                    </p>
+                  </div>
                 </div>
 
                 <div *ngSwitchDefault>
@@ -40,12 +69,12 @@
               </div>
             </ng-template>
 
-            <div class="form-group my-3 d-flex justify-content-between">
-              <a class="flex-fill btn btn-secondary button-icon d-flex align-items-center mr-2" [href]="devPortalLink">
-                <span class="mx-auto">To Developer portal</span>
+            <div class="form-group my-3 d-flex">
+              <a class="btn btn-secondary button-icon d-flex align-items-center mr-2" [href]="devPortalLink">
+                <span>To Developer portal</span>
               </a>
-              <a class="flex-fill btn btn-primary button-icon d-flex align-items-center" [href]="ref">
-                <span class="mx-auto">Back to TPP page</span>
+              <a class="btn btn-primary button-icon d-flex align-items-center" [href]="ref">
+                <span>Back to TPP page</span>
               </a>
             </div>
           </div>
