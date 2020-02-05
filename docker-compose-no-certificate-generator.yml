@@ -13,7 +13,7 @@ services:
 
   # Xs2a connector example
   xs2a-connector-examples:
-    image: adorsys/xs2a-connector-examples:5.3.1
+    image: adorsys/xs2a-connector-examples:5.9
     container_name: xs2a-connector-examples
     restart: on-failure
     ports:
@@ -34,7 +34,7 @@ services:
 
   # Xs2a aspsp profile
   xs2a-aspsp-profile:
-    image: adorsys/xs2a-aspsp-profile:5.3
+    image: adorsys/xs2a-aspsp-profile:5.9
     container_name: xs2a-aspsp-profile
     restart: on-failure
     environment:
@@ -50,7 +50,7 @@ services:
 
   # Consent management
   xs2a-consent-management:
-    image: adorsys/xs2a-consent-management:5.3
+    image: adorsys/xs2a-consent-management:5.9
     container_name: xs2a-consent-management
     restart: on-failure
     ports:
@@ -119,7 +119,7 @@ services:
 
   # Ledgers
   ledgers:
-    image: adorsys/ledgers:1.9
+    image: adorsys/ledgers:2.7.1
     container_name: ledgers
     restart: on-failure
     networks:
@@ -164,7 +164,7 @@ services:
 
   # TPP-UI
   xs2a-tpp-ui:
-    image: adorsys/tpp-ui
+    image: adorsys/xs2a-bank-tpp-ui
     restart: on-failure
     environment:
       - TPP_REST_SERVER_URL=http://xs2a-tpp-rest-server:8093
@@ -182,7 +182,7 @@ services:
 
   # TPP-REST-SERVER
   xs2a-tpp-rest-server:
-    image: adorsys/tpp-rest-server
+    image: adorsys/xs2a-tpp-rest-server
     restart: on-failure
     environment:
       LEDGERS_URL: "http://ledgers:8088"
@@ -205,7 +205,7 @@ services:
 
   # Developer portal ui
   developer-portal-ui:
-    image: adorsys/developer-portal-ui
+    image: adorsys/xs2a-bank-devportal
     restart: on-failure
     build:
       context: developer-portal-ui

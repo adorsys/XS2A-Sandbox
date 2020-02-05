@@ -69,6 +69,7 @@ public class AISControllerTest {
     private static final Currency EUR = Currency.getInstance("EUR");
     private static final String TPP_AUTH_ID = "TPP_123";
     private static final LocalDate DATE = LocalDate.of(2020, 1, 24);
+    private static final LocalDate EXPIRE_DATE = LocalDate.of(2050, 1, 1);
 
     @InjectMocks
     private AISController controller;
@@ -280,7 +281,7 @@ public class AISControllerTest {
 
     private CmsAisAccountConsent getCmsAisAccountConsent() {
         return new CmsAisAccountConsent("123", new AisAccountAccess(Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), null, null, null, null),
-            false, DATE, 5, null, ConsentStatus.RECEIVED, false, true, AisConsentRequestType.BANK_OFFERED, null,
+            false, DATE, EXPIRE_DATE, 5, null, ConsentStatus.RECEIVED, false, true, AisConsentRequestType.BANK_OFFERED, null,
             null, null, false, null, null, null, null);
     }
 
