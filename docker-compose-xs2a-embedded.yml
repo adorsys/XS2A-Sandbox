@@ -89,7 +89,7 @@ services:
 
   # Ledgers
   ledgers:
-    image: adorsys/ledgers:2.7.1
+    image: adorsys/ledgers:2.8
     container_name: ledgers
     restart: on-failure
     networks:
