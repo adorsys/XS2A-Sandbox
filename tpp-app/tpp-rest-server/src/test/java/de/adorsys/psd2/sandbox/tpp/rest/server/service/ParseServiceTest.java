@@ -1,7 +1,6 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import de.adorsys.psd2.sandbox.tpp.cms.api.domain.AisConsent;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.UserTransaction;
 import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
-import de.adorsys.ledgers.middleware.api.domain.payment.SinglePaymentTO;
+import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
 import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.AccountBalance;
@@ -141,7 +141,7 @@ public class TppDataUploaderControllerTest {
         List<UserTO> users = Collections.singletonList(new UserTO("login", "email", "pin"));
         List<AccountDetailsTO> accounts = Collections.singletonList(new AccountDetailsTO());
         List<AccountBalance> balances = Collections.singletonList(new AccountBalance());
-        List<SinglePaymentTO> payments = Collections.singletonList(new SinglePaymentTO());
+        List<PaymentTO> payments = Collections.singletonList(new PaymentTO());
         return new DataPayload(users, accounts, balances, payments, false, TPP_ID, new HashMap<>());
     }
 }

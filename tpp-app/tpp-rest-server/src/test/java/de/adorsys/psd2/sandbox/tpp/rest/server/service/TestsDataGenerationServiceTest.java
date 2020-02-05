@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
-import de.adorsys.ledgers.middleware.api.domain.payment.SinglePaymentTO;
+import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
@@ -75,7 +75,7 @@ public class TestsDataGenerationServiceTest {
         List<UserTO> users = singletonList(new UserTO("login", "email", "pin"));
         List<AccountDetailsTO> accounts = singletonList(new AccountDetailsTO());
         List<AccountBalance> balances = singletonList(new AccountBalance());
-        List<SinglePaymentTO> payments = singletonList(new SinglePaymentTO());
+        List<PaymentTO> payments = singletonList(new PaymentTO());
         return new DataPayload(users, accounts, balances, payments, false, TPP_ID, new HashMap<>());
     }
 }

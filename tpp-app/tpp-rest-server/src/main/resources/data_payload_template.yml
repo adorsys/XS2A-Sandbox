@@ -29,27 +29,40 @@ balancesList:
     currency: "EUR"
     amount: 100000.00
 payments:
-  - paymentId: "PAYMENT-ID" #Id to be set in Ledgers DB, leave empty if not required
-    endToEndIdentification: "IDENTIFIER BY TPP"
+  - paymentId: PAYMENT-ID #Id to be set in Ledgers DB, leave empty if not required
+    paymentType: SINGLE
+    paymentProduct: "instant-sepa-credit-transfers" #if changed to another product will not be executed straight away
+    requestedExecutionDate: 2020-12-12 #optional field can be omitted in case of instant payment is ignored
+    requestedExecutionTime: 12:00:00 #optional field can be omitted in case of instant payment is ignored
     debtorAccount:
-      iban: "DE12345"
-      currency: "EUR"
-    instructedAmount:
-      currency: "EUR"
-      amount: 999.99
-    creditorAccount:
-      iban: "DE12345"
-      currency: "EUR"
-    creditorAgent: "AGENT NAME"
-    creditorName: "CREDITORS NAME"
-    creditorAddress:
-      street: "Buhaker str"
-      buildingNumber: "123"
-      city: "Nurnberg"
-      postalCode: "04310"
-      country: "Germany"
-    remittanceInformationUnstructured: "Some payment info"
-    paymentStatus: "RCVD" #Should be RCVD for payment starting
-    paymentProduct: "INSTANT_SEPA" #if changed to another product will not be executed straight away
-    requestedExecutionDate: "2019-10-10" #optional field can be omitted in case of instant payment is ignored
-    requestedExecutionTime: "10:10:10" #optional field can be omitted in case of instant payment is ignored
+      {
+        iban: DE12345,
+        currency: EUR
+      }
+    transactionStatus: RCVD #Should be RCVD for payment starting
+    targets:
+      - {
+        paymentId: myPaymentId,
+        endToEndIdentification: IDENTIFIER BY TPP,
+        instructedAmount:
+          {
+            currency: EUR,
+            amount: 999.99
+          },
+        creditorAccount:
+          {
+            iban: DE12345,
+            currency: EUR
+          },
+        creditorAgent: AGENT NAME,
+        creditorName: CREDITORS NAME,
+        creditorAddress:
+          {
+            street: Buhaker str,
+            buildingNumber: 123,
+            city: Nurnberg,
+            postalCode: 04310,
+            country: Germany
+          },
+        remittanceInformationUnstructured: Some payment info
+      }
