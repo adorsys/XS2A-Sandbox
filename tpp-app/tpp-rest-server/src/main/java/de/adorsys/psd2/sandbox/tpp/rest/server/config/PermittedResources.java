@@ -24,6 +24,7 @@ public class PermittedResources {
         "/tpp/register",
         "/tpp/password",
         "/tpp/consent",
+        "/tpp/codes",
         "/tpp/country/**",
         "/tpp/sca/email"
     };

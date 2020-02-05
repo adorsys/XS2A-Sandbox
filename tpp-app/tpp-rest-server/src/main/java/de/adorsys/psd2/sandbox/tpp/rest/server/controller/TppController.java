@@ -15,9 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Currency;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
@@ -43,6 +41,11 @@ public class TppController implements TppRestApi {
     @Override
     public ResponseEntity<List<CountryCode>> getCountryCodes() {
         return ResponseEntity.ok(ibanGenerationService.getSupportedCountryCodes());
+    }
+
+    @Override
+    public ResponseEntity<Map<CountryCode, String>> getSupportedCountryCodes() {
+        return ResponseEntity.ok(ibanGenerationService.getCountryCodes());
     }
 
     @Override

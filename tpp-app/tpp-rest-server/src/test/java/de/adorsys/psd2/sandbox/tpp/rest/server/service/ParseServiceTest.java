@@ -1,8 +1,10 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import de.adorsys.psd2.sandbox.tpp.cms.api.domain.AisConsent;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.UserTransaction;
+import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.DataPayload;
 import org.junit.Test;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -23,42 +25,53 @@ public class ParseServiceTest {
 
     @Test
     public void getDataFromFile_Consents() throws IOException {
+        //given
         MultipartFile multipartFile = resolveMultipartFile("consents_template.yml");
 
+        //when
         Optional<List<AisConsent>> data = parseService.getDataFromFile(multipartFile, new TypeReference<List<AisConsent>>() {
         });
+
+        //then
         assertThat(data.isPresent()).isTrue();
         data.get().forEach(this::assertNoNullFields);
     }
 
     @Test
+    public void getDefaultData() {
+        //when
+        Optional<DataPayload> data = parseService.getDefaultData();
+
+        //then
+        assertThat(data.isPresent()).isTrue();
+    }
+
+    @Test
     public void convertMultiPartToFile() throws IOException {
+        //when
         List<UserTransaction> transactions = parseService.convertFileToTargetObject(resolveMultipartFile("transactions_template.csv"), UserTransaction.class);
+
+        //then
         assertThat(transactions).isNotEmpty();
         assertThat(transactions.get(0)).isEqualToComparingFieldByField(buildSingleUserTransaction());
     }
 
-    private UserTransaction buildSingleUserTransaction() {
-        UserTransaction transaction = new UserTransaction();
-        transaction.setId("50405667");
-        transaction.setPostingDate("30.01.2017");
-        transaction.setValueDate("30.01.2017");
-        transaction.setText("Lohn/Gehalt");
-        transaction.setUsage("Gehalt Teambank");
-        transaction.setPayer("Teambank Ag");
-        transaction.setAccountNumber("7807800780");
-        transaction.setBlzCode("VOHADE2HXXX");
-        transaction.setAmount("2116.17");
-        transaction.setCurrency("EUR");
-        return transaction;
+    @Test(expected = TppException.class)
+    public void convertMultiPartToFile_fileNull() {
+        //when
+        parseService.convertFileToTargetObject(null, UserTransaction.class);
     }
 
     @Test
     public void getDataFromFile_DataPayload() throws IOException {
+        //given
         MultipartFile multipartFile = resolveMultipartFile("data_payload_template.yml");
 
+        //when
         Optional<DataPayload> data = parseService.getDataFromFile(multipartFile, new TypeReference<DataPayload>() {
         });
+
+        //then
         validateDataPayload(data);
     }
 
@@ -85,5 +98,20 @@ public class ParseServiceTest {
         consent.getAccess().getAccounts().forEach(a -> assertThat(a).hasNoNullFieldsOrProperties());
         consent.getAccess().getBalances().forEach(a -> assertThat(a).hasNoNullFieldsOrProperties());
         consent.getAccess().getTransactions().forEach(a -> assertThat(a).hasNoNullFieldsOrProperties());
+    }
+
+    private UserTransaction buildSingleUserTransaction() {
+        UserTransaction transaction = new UserTransaction();
+        transaction.setId("50405667");
+        transaction.setPostingDate("30.01.2017");
+        transaction.setValueDate("30.01.2017");
+        transaction.setText("Lohn/Gehalt");
+        transaction.setUsage("Gehalt Teambank");
+        transaction.setPayer("Teambank Ag");
+        transaction.setAccountNumber("7807800780");
+        transaction.setBlzCode("VOHADE2HXXX");
+        transaction.setAmount("2116.17");
+        transaction.setCurrency("EUR");
+        return transaction;
     }
 }

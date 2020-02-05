@@ -17,7 +17,11 @@ public class BankCodeStructure {
 
     public BankCodeStructure(CountryCode countryCode) {
         this.countryCode = countryCode;
-        this.length = BbanStructure.forCountry(countryCode).getEntries().get(0).getLength();
+        this.length = BbanStructure.forCountry(countryCode).getEntries().stream()
+                          .filter(e -> e.getEntryType().equals(bank_code))
+                          .findFirst()
+                          .map(BbanStructureEntry::getLength)
+                          .orElse(0);
         this.type = BbanStructure.forCountry(countryCode).getEntries()
                         .stream()
                         .filter(e -> e.getEntryType() == bank_code)

@@ -2,11 +2,11 @@ package de.adorsys.psd2.sandbox.tpp.rest.server.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import de.adorsys.psd2.sandbox.tpp.cms.api.domain.AisConsent;
+import de.adorsys.psd2.sandbox.tpp.cms.api.service.ConsentService;
 import de.adorsys.psd2.sandbox.tpp.rest.api.resource.TppConsentRestApi;
 import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
 import de.adorsys.psd2.sandbox.tpp.rest.server.service.DownloadResourceService;
 import de.adorsys.psd2.sandbox.tpp.rest.server.service.ParseService;
-import de.adorsys.psd2.sandbox.tpp.rest.server.service.TppConsentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
@@ -26,7 +26,7 @@ import java.util.List;
 public class TppConsentController implements TppConsentRestApi {
     private static final String FILE_NAME = "consents_template.yml";
 
-    private final TppConsentService tppConsentService;
+    private final ConsentService tppConsentService;
     private final DownloadResourceService downloadResourceService;
     private final ParseService parseService;
 

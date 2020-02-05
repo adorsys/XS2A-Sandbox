@@ -9,6 +9,9 @@ import org.iban4j.CountryCode;
 import org.iban4j.Iban;
 
 import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Data
 public class TppData {
@@ -36,5 +39,12 @@ public class TppData {
                                      .max(Comparator.comparingLong(Long::longValue))
                                      .map(i -> ++i)
                                      .orElse(100L);
+    }
+
+    public static Map<CountryCode, String> sortMapByValue(Map<CountryCode, String> map) {
+        return map.entrySet()
+                   .stream()
+                   .sorted((Map.Entry.comparingByValue())) //NOPMD //each time different pmd violation
+                   .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
     }
 }

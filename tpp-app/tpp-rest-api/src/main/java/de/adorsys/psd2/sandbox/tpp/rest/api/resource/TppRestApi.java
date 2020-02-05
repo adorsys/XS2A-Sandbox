@@ -9,9 +9,7 @@ import org.iban4j.CountryCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Currency;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Api(tags = "TPP main API")
 public interface TppRestApi {
@@ -28,6 +26,10 @@ public interface TppRestApi {
     @ApiOperation(value = "Get country codes")
     @GetMapping("/country/codes")
     ResponseEntity<List<CountryCode>> getCountryCodes();
+
+    @ApiOperation(value = "Get country codes")
+    @GetMapping("/codes")
+    ResponseEntity<Map<CountryCode, String>> getSupportedCountryCodes();
 
     @ApiOperation(value = "Get country code character type and country code length")
     @GetMapping("/country/codes/structure")
