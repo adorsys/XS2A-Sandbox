@@ -12,7 +12,8 @@ users:
     accountAccesses:
       - iban: "DE12345"
         accessType: "OWNER"
-        scaWeight: 0
+        scaWeight: 100
+        currency: "EUR"
     userRoles:
       - "CUSTOMER"
 accounts:

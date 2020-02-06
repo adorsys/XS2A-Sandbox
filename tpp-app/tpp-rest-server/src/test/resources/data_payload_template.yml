@@ -9,11 +9,11 @@ users:
         methodValue: "test@mail.de"
         usesStaticTan: true #Field can be removed if not required
         staticTan: "QWERTY" #Field can be removed if not required
-        valid: false
     accountAccesses:
       - iban: "FR7630002005500000000000130"
         accessType: "OWNER"
-        scaWeight: 0
+        scaWeight: 100
+        currency: "EUR"
     userRoles:
       - "CUSTOMER"
 accounts:
