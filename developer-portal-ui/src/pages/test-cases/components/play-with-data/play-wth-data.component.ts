@@ -1,15 +1,19 @@
-import { HttpResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
-import { RestService } from '../../../../services/rest.service';
-import { DataService } from '../../../../services/data.service';
-import { getStatusText } from 'http-status-codes';
-import { CopyService } from '../../../../services/copy.service';
-import { ConsentTypes } from '../../../../models/consentTypes.model';
-import { LocalStorageService } from '../../../../services/local-storage.service';
-import { JsonService } from '../../../../services/json.service';
+import {HttpResponse} from '@angular/common/http';
+import {Component, Input, OnInit} from '@angular/core';
+import {RestService} from '../../../../services/rest.service';
+import {DataService} from '../../../../services/data.service';
+import {getStatusText} from 'http-status-codes';
+import {CopyService} from '../../../../services/copy.service';
+import {ConsentTypes} from '../../../../models/consentTypes.model';
+import {LocalStorageService} from '../../../../services/local-storage.service';
+import {JsonService} from '../../../../services/json.service';
 import * as vkbeautify from 'vkbeautify';
-import { AspspService } from '../../../../services/aspsp.service';
-import { PaymentTypesMatrix } from '../../../../models/paymentTypesMatrix.model';
+import {AspspService} from '../../../../services/aspsp.service';
+import {
+  PaymentType,
+  PaymentTypesMatrix,
+} from '../../../../models/paymentTypesMatrix.model';
+import {AcceptType} from '../../../../models/acceptType.model';
 
 @Component({
   selector: 'app-play-wth-data',
@@ -48,6 +52,7 @@ export class PlayWthDataComponent implements OnInit {
   @Input() transactionId = '';
 
   @Input() resourceIds = [];
+  @Input() acceptFlag: boolean;
 
   bookingStatus = '';
   redirectUrl = '';
@@ -57,10 +62,12 @@ export class PlayWthDataComponent implements OnInit {
   paymentServiceSelect = [];
   paymentProductSelect = [];
   bookingStatusSelect = [];
+  acceptTypes = [];
   selectedConsentType = 'dedicatedAccountsConsent';
 
   paymentTypesMatrix: PaymentTypesMatrix;
-  paymentTypes = ['payments', 'periodic-payments', 'bulk-payments'];
+  paymentTypes = [PaymentType.single, PaymentType.bulk, PaymentType.periodic];
+  acceptHeader;
 
   constructor(
     public restService: RestService,
@@ -69,7 +76,8 @@ export class PlayWthDataComponent implements OnInit {
     public localStorageService: LocalStorageService,
     public jsonService: JsonService,
     public aspspService: AspspService
-  ) {}
+  ) {
+  }
 
   /**
    * Get status text by status code
@@ -119,12 +127,20 @@ export class PlayWthDataComponent implements OnInit {
         this.finalUrl,
         this.headers,
         this.xml,
-        requestBody
+        requestBody,
+        this.acceptHeader
       )
       .subscribe(
         resp => {
           delete this.headers['Content-Type'];
+          delete this.headers['Accept'];
+
+          if (this.acceptHeader == AcceptType.xml) {
+            resp.body = vkbeautify.xml(resp.body);
+          }
+
           this.response = Object.assign(resp);
+
           if (
             this.response.body.hasOwnProperty('_links') &&
             this.response.body._links.hasOwnProperty('scaRedirect')
@@ -167,12 +183,18 @@ export class PlayWthDataComponent implements OnInit {
         },
         err => {
           delete this.headers['Content-Type'];
+          delete this.headers['Accept'];
+
           this.dataService.setIsLoading(false);
           this.dataService.showToast(
             'Something went wrong!',
             'Error!',
             'error'
           );
+          if (this.acceptHeader == AcceptType.xml) {
+            err['error'] = vkbeautify.xml(err['error']);
+          }
+
           this.response = Object.assign(err);
           console.log('err', JSON.stringify(err));
         }
@@ -193,10 +215,9 @@ export class PlayWthDataComponent implements OnInit {
       if (data.pis.supportedPaymentTypeAndProductMatrix) {
         this.paymentTypesMatrix = data.pis.supportedPaymentTypeAndProductMatrix;
         this.setPaymentServicesAndProducts();
-        this.setBookingStatuses(
-          data.ais.transactionParameters.availableBookingStatuses
-        );
+        this.setBookingStatuses(data.ais.transactionParameters.availableBookingStatuses);
         this.setDefaultFields();
+        this.setAcceptTypes(data.ais.transactionParameters.supportedTransactionApplicationTypes);
       }
     });
   }
@@ -221,12 +242,20 @@ export class PlayWthDataComponent implements OnInit {
   }
 
   private setBookingStatuses(bookingStatuses?: Array<string>) {
-    if (bookingStatuses) {
-      this.bookingStatus =
-        this.bookingStatusFlag && bookingStatuses.length > 0
-          ? bookingStatuses[0]
-          : '';
+    if (bookingStatuses && this.bookingStatusFlag && bookingStatuses.length > 0) {
+      this.bookingStatus = bookingStatuses[0];
       this.bookingStatusSelect = bookingStatuses;
+    } else {
+      this.bookingStatus = '';
+    }
+  }
+
+  private setAcceptTypes(supportedTransactionApplicationTypes: Array<string>) {
+    if (this.acceptFlag && supportedTransactionApplicationTypes && supportedTransactionApplicationTypes.length > 0) {
+      this.acceptTypes = supportedTransactionApplicationTypes;
+      this.acceptHeader = supportedTransactionApplicationTypes[0];
+    } else {
+      this.acceptHeader = '';
     }
   }
 

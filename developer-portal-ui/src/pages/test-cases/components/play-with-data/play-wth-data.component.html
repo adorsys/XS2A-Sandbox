@@ -131,10 +131,18 @@
     <span>{{ 'TEST_CASES.COMPONENTS.TH.TH_1' | translate }}</span>
     <span>{{ 'TEST_CASES.COMPONENTS.TH.TH_2' | translate }}</span>
   </div>
+
+  <div class="play-with-data-table" *ngIf="acceptFlag">
+    <span>Accept</span>
+    <select [(ngModel)]="acceptHeader" (ngModelChange)="onClear()">
+      <option *ngFor="let type of acceptTypes">{{ type }}</option>
+    </select>
+  </div>
+
   <div
     class="play-with-data-table"
     *ngFor="let item of (headers | keyvalue); let i = index; trackBy: trackByFn"
-    [ngClass]="i % 2 ? 'bg' : null"
+    [ngClass]="acceptFlag ? (i % 2 ? null : 'bg') : i % 2 ? 'bg' : null"
   >
     <span>{{ item.key }}</span>
     <input [(ngModel)]="headers[item.key]" type="text" />
@@ -188,12 +196,22 @@
 
     <div *ngIf="response['error']" class="response-body">
       <span class="status-style">Error details</span>
-      <p class="response-body-text">{{ response['error'] | json }}</p>
+      <p class="response-body-text" *ngIf="!acceptHeader || (acceptHeader == 'application/json')">
+        {{ response['error'] | json }}
+      </p>
+      <p class="response-body-text" *ngIf="acceptHeader == 'application/xml'">
+        {{ response['error'] }}
+      </p>
     </div>
 
     <div *ngIf="response.body" class="response-body">
       <span>Response body</span>
-      <p class="response-body-text">{{ response.body | json }}</p>
+      <p class="response-body-text" *ngIf="!acceptHeader || (acceptHeader == 'application/json')">
+        {{ response.body | json }}
+      </p>
+      <p class="response-body-text" *ngIf="acceptHeader == 'application/xml'">
+        {{ response.body }}
+      </p>
     </div>
 
     <div *ngIf="(fieldsToCopy || resourceIds) && response.body">
