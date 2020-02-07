@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a7cc823e-5daf-405a-80f2-1e1f91a3f3c0",
+		"_postman_id": "a62a44fb-c65b-4748-88f1-4e6e9ad6e1dd",
 		"name": "XS2A Sandbox tests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -8992,8 +8992,6 @@
 														"exec": [
 															"const jsonData = pm.response.json();",
 															"",
-															"pm.globals.set(\"resource_id\", jsonData.transactions.booked[0].transactionId);",
-															"",
 															"pm.test(\"Status code is 200\", function () {",
 															"    pm.response.to.have.status(200);",
 															"});",
@@ -13860,7 +13858,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n      \"batchBookingPreferred\": \"false\",\n      \"requestedExecutionDate\": \"2019-12-12\",\n      \"debtorAccount\": {\n        \"currency\": \"EUR\",\n        \"iban\": \"DE69760700240340283600\"\n      },\n      \"payments\": [\n        {\n          \"endToEndIdentification\": \"WBG-123456789\",\n          \"instructedAmount\": {\n            \"amount\": \"520.00\",\n            \"currency\": \"EUR\"\n          },\n          \"creditorAccount\": {\n            \"currency\": \"EUR\",\n            \"iban\": \"DE15500105172295759744\"\n          },\n          \"creditorAgent\": \"AAAADEBBXXX\",\n          \"creditorName\": \"WBG\",\n          \"creditorAddress\": {\n            \"buildingNumber\": \"56\",\n            \"city\": \"Nürnberg\",\n            \"country\": \"DE\",\n            \"postalCode\": \"90543\",\n            \"street\": \"WBG Straße\"\n          },\n          \"remittanceInformationUnstructured\": \"Ref. Number WBG-1234\"\n        },\n        {\n          \"endToEndIdentification\": \"RI-234567890\",\n          \"instructedAmount\": {\n            \"amount\": \"71.07\",\n            \"currency\": \"EUR\"\n          },\n          \"creditorAccount\": {\n            \"currency\": \"EUR\",\n            \"iban\": \"DE03500105172351985719\"\n          },\n          \"creditorAgent\": \"AAAADEBBXXX\",\n          \"creditorName\": \"Grünstrom\",\n          \"creditorAddress\": {\n            \"buildingNumber\": \"56\",\n      \"townName\": \"Nürnberg\",\n      \"country\": \"DE\",\n      \"postCode\": \"90543\",\n      \"streetName\": \"WBG Straße\"\n          },\n          \"remittanceInformationUnstructured\": \"Ref. Number GRUENSTROM-2444\"\n        }\n      ]\n    }"
+													"raw": "{\n      \"batchBookingPreferred\": \"false\",\n      \"requestedExecutionDate\": \"2020-12-12\",\n      \"debtorAccount\": {\n        \"currency\": \"EUR\",\n        \"iban\": \"DE69760700240340283600\"\n      },\n      \"payments\": [\n        {\n          \"endToEndIdentification\": \"WBG-123456789\",\n          \"instructedAmount\": {\n            \"amount\": \"520.00\",\n            \"currency\": \"EUR\"\n          },\n          \"creditorAccount\": {\n            \"currency\": \"EUR\",\n            \"iban\": \"DE15500105172295759744\"\n          },\n          \"creditorAgent\": \"AAAADEBBXXX\",\n          \"creditorName\": \"WBG\",\n          \"creditorAddress\": {\n           \"buildingNumber\": \"56\",\n           \"townName\": \"Nürnberg\",\n           \"country\": \"DE\",\n           \"postCode\": \"90543\",\n           \"streetName\": \"WBG Straße\"\n           },\n          \"remittanceInformationUnstructured\": \"Ref. Number WBG-1234\"\n        },\n        {\n          \"endToEndIdentification\": \"RI-234567890\",\n          \"instructedAmount\": {\n            \"amount\": \"71.07\",\n            \"currency\": \"EUR\"\n          },\n          \"creditorAccount\": {\n            \"currency\": \"EUR\",\n            \"iban\": \"DE03500105172351985719\"\n          },\n          \"creditorAgent\": \"AAAADEBBXXX\",\n          \"creditorName\": \"Grünstrom\",\n          \"creditorAddress\": {\n            \"buildingNumber\": \"56\",\n      \"townName\": \"Nürnberg\",\n      \"country\": \"DE\",\n      \"postCode\": \"90543\",\n      \"streetName\": \"WBG Straße\"\n          },\n          \"remittanceInformationUnstructured\": \"Ref. Number GRUENSTROM-2444\"\n        }\n      ]\n    }"
 												},
 												"url": {
 													"raw": "{{protocol}}://{{url_xs2a}}/v1/bulk-payments/{{payment_product}}",
@@ -21337,7 +21335,7 @@
 															"",
 															"pm.test(\"Payment status is ACSP\", function () {",
 															"    var jsonData = pm.response.json();",
-															"    pm.expect(jsonData.singlePayment.paymentStatus).to.eql('ACSP');",
+															"    pm.expect(jsonData.payment.transactionStatus).to.eql('ACSP');",
 															"});",
 															"",
 															"pm.globals.unset(\"Cookie\");"
@@ -21643,16 +21641,17 @@
 													"script": {
 														"id": "cc668ec4-1b3d-4d1e-a158-b82b7c1025f4",
 														"exec": [
+															"const jsonData = pm.response.json();",
+															"",
 															"pm.test(\"Status code is 200\", function () {",
 															"    pm.response.to.have.status(200);",
 															"});",
 															"",
-															"const jsonData = pm.response.json();",
-															"",
 															"pm.test(\"Payment status is ACSP\", function () {",
 															"    var jsonData = pm.response.json();",
-															"    pm.expect(jsonData.singlePayment.paymentStatus).to.eql('ACSP');",
-															"});"
+															"    pm.expect(jsonData.payment.transactionStatus).to.eql('ACSP');",
+															"});",
+															""
 														],
 														"type": "text/javascript"
 													}
@@ -23495,7 +23494,7 @@
 															"",
 															"pm.test(\"Payment status is ACSP\", function () {",
 															"    var jsonData = pm.response.json();",
-															"    pm.expect(jsonData.singlePayment.paymentStatus).to.eql('ACSP');",
+															"    pm.expect(jsonData.payment.transactionStatus).to.eql('ACSP');",
 															"});"
 														],
 														"type": "text/javascript"
@@ -24185,7 +24184,7 @@
 															"",
 															"pm.test(\"Payment status is ACSP\", function () {",
 															"    var jsonData = pm.response.json();",
-															"    pm.expect(jsonData.singlePayment.paymentStatus).to.eql('ACSP');",
+															"    pm.expect(jsonData.payment.transactionStatus).to.eql('ACSP');",
 															"});"
 														],
 														"type": "text/javascript"
@@ -24874,8 +24873,8 @@
 															"const jsonData = pm.response.json();",
 															"",
 															"pm.test(\"Payment status is ACSP\", function () {",
-															"    var jsonData = pm.response.json();",
-															"    pm.expect(jsonData.periodicPayment.paymentStatus).to.eql('ACSP');",
+															"   var jsonData = pm.response.json();",
+															"    pm.expect(jsonData.payment.transactionStatus).to.eql('ACSP');",
 															"});"
 														],
 														"type": "text/javascript"
@@ -25565,7 +25564,7 @@
 															"",
 															"pm.test(\"Payment status is ACSP\", function () {",
 															"    var jsonData = pm.response.json();",
-															"    pm.expect(jsonData.periodicPayment.paymentStatus).to.eql('ACSP');",
+															"    pm.expect(jsonData.payment.transactionStatus).to.eql('ACSP');",
 															"});"
 														],
 														"type": "text/javascript"
