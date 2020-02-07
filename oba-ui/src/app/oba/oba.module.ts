@@ -15,28 +15,30 @@ import { ConsentsComponent } from './consents/consents.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { PeriodicPaymentsComponent } from './periodic-payments/periodic-payments.component';
 
 @NgModule({
-  declarations: [
-    LoginComponent,
-    DashboardComponent,
-    NavbarComponent,
-    SidebarComponent,
-    ConsentsComponent,
-    AccountsComponent,
-    AccountDetailsComponent,
-    ResetPasswordComponent,
-    ConfirmPasswordComponent
-  ],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RouterModule,
-    ClipboardModule,
-    NgbDatepickerModule,
-    NgbPaginationModule,
-    NotFoundModule
-  ]
+    declarations: [
+        LoginComponent,
+        DashboardComponent,
+        NavbarComponent,
+        SidebarComponent,
+        ConsentsComponent,
+        AccountsComponent,
+        AccountDetailsComponent,
+        ResetPasswordComponent,
+        ConfirmPasswordComponent,
+        PeriodicPaymentsComponent,
+    ],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        RouterModule,
+        ClipboardModule,
+        NgbDatepickerModule,
+        NgbPaginationModule,
+        NotFoundModule
+    ]
 })
 export class ObaModule {
 }

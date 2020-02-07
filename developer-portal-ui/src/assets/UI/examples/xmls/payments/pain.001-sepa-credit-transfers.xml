@@ -45,13 +45,14 @@
           </LclInstrm>
         </PmtTpInf>
         <Amt>
-          <InstdAmt Ccy="CHF">1.00</InstdAmt>
+          <InstdAmt Ccy="EUR">1.00</InstdAmt>
         </Amt>
+        <Cdtr>
+          <Nm>Some Creditor</Nm>
+        </Cdtr>
         <CdtrAcct>
           <Id>
-            <Othr>
-              <Id>01-39139-1</Id>
-            </Othr>
+            <IBAN>CH450021721745521840J</IBAN>
           </Id>
         </CdtrAcct>
         <RmtInf>

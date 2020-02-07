@@ -8,4 +8,5 @@ export interface ScaUserDataTO {
   staticTan?: string;
   user?: UserTO;
   usesStaticTan?: boolean;
+  valid?: boolean;
 }

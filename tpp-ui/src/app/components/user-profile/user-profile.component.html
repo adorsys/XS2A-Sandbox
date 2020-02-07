@@ -1,26 +1,46 @@
 <div class="container-fluid">
-    <div class="card">
-        <div class="card-body--large" >
-            <div class="header__title">TPP User Details</div>
-            <div class="row">
-                <div class="col-4 col-md-3">Login</div>
-                <div class="col-8 col-md-9 text-muted">{{tppUser?.login}}</div>
-            </div>
-            <div class="row">
-                <div class="col-12 col-md-3">TPP ID</div>
-                <div class="col-12 col-md-9 text-muted">{{tppUser?.id}}</div>
-            </div>
+  <div class="card">
+    <div class="card-body--large">
+      <div class="header__title">TPP User Details</div>
+      <div class="row">
+        <div class="col-4 col-md-3">Login</div>
+        <div class="col-8 col-md-9 text-muted">{{tppUser?.login}}</div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-3">TPP ID</div>
+        <div class="col-12 col-md-9 text-muted">{{tppUser?.id}}</div>
+      </div>
 
-            <div class="row">
-                <div class="col-12 col-md-3 ">Email</div>
-                <div class="col-12 col-md-9 text-muted">{{tppUser?.email}}</div>
-            </div>
-            <div class="row">
-                <button class="btn btn-primary mr-4 ml-3"
-                        routerLink="/profile/edit"
-                        type="button">Edit
-                </button>
-            </div>
-        </div>
+      <div class="row">
+        <div class="col-12 col-md-3 ">Email</div>
+        <div class="col-12 col-md-9 text-muted">{{tppUser?.email}}</div>
+      </div>
+      <div class="row">
+        <button class="btn btn-primary mr-4 ml-3"
+                routerLink="/profile/edit"
+                type="button">Edit
+        </button>
+        <button (click)="openDeleteConfirmation(deleteConfirmationModal)" class="btn btn-outline-danger">
+          Delete TPP
+        </button>
+
+        <ng-template #deleteConfirmationModal let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">TPP deletion</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to delete this TPP?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel
+            </button>
+            <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Delete</button>
+          </div>
+        </ng-template>
+      </div>
     </div>
+  </div>
 </div>

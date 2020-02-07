@@ -1,0 +1,51 @@
+<div class="container-fluid">
+    <div class="header__title">Payments</div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">currency</th>
+                        <th scope="col">amount</th>
+                        <th scope="col">debtorAccount</th>
+                        <th scope="col">creditorName</th>
+                        <th scope="col">remittanceInformationUnstructured</th>
+                        <th scope="col">startDate</th>
+                        <th scope="col">endDate</th>
+                        <th scope="col">Frequency</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let payment of payments; index as i">
+                        <th scope="row">{{i + 1}}</th>
+                        <td>{{payment.debtorAccount.currency}}</td>
+                        <td>
+                            <div *ngFor="let tag of payment.targets">
+                                {{tag.instructedAmount.amount}}
+                            </div>
+                        </td>
+                        <td>{{payment.debtorAccount.iban}}</td>
+                        <td>
+                            <div *ngFor="let tag of payment.targets">
+                                {{tag.creditorName}}
+                            </div>
+                        </td>
+                        <td>
+                            <div *ngFor="let tag of payment.targets">
+                                {{tag.remittanceInformationUnstructured}}
+                            </div>
+                        </td>
+                        <td>{{payment.startDate}}</td>
+                        <td>{{payment.endDate}}</td>
+                        <td>{{payment.frequency}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

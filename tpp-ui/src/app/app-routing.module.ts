@@ -14,7 +14,6 @@ import { ResetPasswordComponent } from './components/auth/reset-password/reset-p
 import { CashDepositComponent } from './components/cash-deposit/cash-deposit.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
-import { SettingsComponent } from './components/settings/settings.component';
 import { TestDataGenerationComponent } from './components/testDataGeneration/test-data-generation.component';
 import { UserProfileUpdateComponent } from './components/user-profile-update/user-profile-update.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
@@ -91,10 +90,6 @@ const routes: Routes = [
             {
                 path: 'profile/edit',
                 component: UserProfileUpdateComponent
-            },
-            {
-                path: 'settings',
-                component: SettingsComponent
             }
         ]
     },

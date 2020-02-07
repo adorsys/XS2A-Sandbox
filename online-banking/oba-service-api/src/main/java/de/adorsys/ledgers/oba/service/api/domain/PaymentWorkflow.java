@@ -106,6 +106,7 @@ public class PaymentWorkflow {
         authResponse.setAuthorisationId(paymentResponse.getAuthorisationId());
         authResponse.setScaStatus(paymentResponse.getScaStatus());
         authResponse.setScaMethods(paymentResponse.getScaMethods());
+        authResponse.setAuthConfirmationCode(paymentResponse.getAuthConfirmationCode());
         authCodeMessage = paymentResponse.getPsuMessage();
     }
 }

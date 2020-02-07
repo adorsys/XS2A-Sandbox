@@ -11,8 +11,7 @@ import org.iban4j.bban.BbanStructure;
 import org.iban4j.bban.BbanStructureEntry;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.iban4j.CountryCode.*;
 import static org.iban4j.bban.BbanEntryType.account_number;
@@ -20,8 +19,9 @@ import static org.iban4j.bban.BbanEntryType.account_number;
 @Service
 @RequiredArgsConstructor
 public class IbanGenerationService {
-    private static final List<CountryCode> COUNTRY_CODES = Arrays.asList(DE, CH, FR, UA, DK, FI, HU, IS, LI, LU, PL, PT, SE, SI, GB);
-
+    private static final List<CountryCode> COUNTRY_CODES = Arrays.asList(AD, AL, AT, BE, BG, CH, CY, CZ, DE, DK, EE, ES, FI, FR, GB, GL, GR, HR, HU, IE, IL, IS, IT, LI, LT, LU, LV, MC, MD, MK, MT, NL, NO, PL, PT, RO, RS, SE, SI, SK, UA, VG, XK);
+    @Deprecated
+    private static final List<CountryCode> COUNTRY_CODES_OLD = Arrays.asList(DE, CH, FR, UA, DK, FI, HU, IS, LI, LU, PL, PT, SE, SI, GB);
     private final UserMgmtRestClient userMgmtRestClient;
 
     public String generateNextIban() {
@@ -39,8 +39,15 @@ public class IbanGenerationService {
         return generatedIban;
     }
 
+    @Deprecated
     public List<CountryCode> getSupportedCountryCodes() {
-        return COUNTRY_CODES;
+        return COUNTRY_CODES_OLD;
+    }
+
+    public Map<CountryCode, String> getCountryCodes() {
+        Map<CountryCode, String> codes = new HashMap<>();
+        COUNTRY_CODES.forEach(c -> codes.put(c, c.getName()));
+        return TppData.sortMapByValue(codes);
     }
 
     public BankCodeStructure getBankCodeStructure(CountryCode code) {

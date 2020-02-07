@@ -2,7 +2,6 @@ package de.adorsys.psd2.sandbox.tpp.rest.server.service;
 
 import de.adorsys.ledgers.middleware.api.domain.account.AccountBalanceTO;
 import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTO;
-import de.adorsys.ledgers.middleware.api.domain.payment.SinglePaymentTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UploadedDataTO;
 import de.adorsys.ledgers.middleware.client.mappers.PaymentMapperTO;
 import de.adorsys.ledgers.middleware.client.rest.DataRestClient;
@@ -47,9 +46,9 @@ public class RestExecutionService {
     }
 
     @SneakyThrows
-    private PaymentTO performMapping(SinglePaymentTO payment) {
+    private PaymentTO performMapping(PaymentTO payment) {
         String paymentString = paymentTOMapper.getMapper().writeValueAsString(payment);
-        return paymentTOMapper.toAbstractPayment(paymentString, "SINGLE", payment.getPaymentProduct().getValue());
+        return paymentTOMapper.toAbstractPayment(paymentString, "SINGLE", payment.getPaymentProduct()); //.getPaymentProduct().getValue()
     }
 
     private Map<String, AccountBalanceTO> toAccountBalanceTO(Map<String, AccountBalance> balancesByIban) {

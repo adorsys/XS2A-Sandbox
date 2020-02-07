@@ -29,14 +29,11 @@ export class ResultPageComponent implements OnInit, OnDestroy {
     // get dev portal link
     this.devPortalLink = this.settingService.settings.devPortalUrl + '/test-cases/redirect-cancellation-post';
 
-    // get query params and build link
+    // Manual redirect is used because of the CORS error otherwise
     this.route.queryParams.subscribe(params => {
-      // TODO: use routerlink to build a link https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/issues/8
       this.ref = `/oba-proxy/pis-cancellation/${params.encryptedConsentId}/authorisation/${params.authorisationId}` +
-        `/done?backToTpp=true&forgetConsent=true&oauth2=${params.oauth2}`;
+        `/done?oauth2=${params.oauth2}`;
     });
-
-
 
     // get consent data from shared service
     this.shareService.currentData.subscribe(data => {
@@ -44,26 +41,12 @@ export class ResultPageComponent implements OnInit, OnDestroy {
         this.shareService.currentData.subscribe(authResponse => {
           this.authResponse = authResponse;
           this.scaStatus = this.authResponse.scaStatus;
+          if (authResponse.authConfirmationCode) {
+            this.ref = this.ref + `&authConfirmationCode=${authResponse.authConfirmationCode}`;
+          }
         });
       }
     });
-  }
-
-  public backToTpp(): void {
-    this.paymentCancellationDone();
-  }
-
-  public forgetConsent(): void {
-    this.paymentCancellationDone();
-  }
-
-  private paymentCancellationDone(): void {
-    this.pisService.pisDone({
-      encryptedPaymentId: this.authResponse.encryptedConsentId,
-      authorisationId: this.authResponse.authorisationId,
-      forgetConsent: 'true',
-      backToTpp: 'true'
-    }).subscribe(res => console.log(res));
   }
 
   ngOnDestroy(): void {

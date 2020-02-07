@@ -136,17 +136,16 @@ public interface AISApi {
      * @param authorisationId
      * @return
      */
-    @GetMapping(path = "/{encryptedConsentId}/authorisation/{authorisationId}/done", params = {"forgetConsent", "backToTpp"})
+    @GetMapping(path = "/{encryptedConsentId}/authorisation/{authorisationId}/done")
     @ApiOperation(value = "Close consent session", authorizations = @Authorization(value = "apiKey"),
         notes = "This call provides the server with the opportunity to close this session and "
                     + "redirect the PSU to the TPP or close the application window.")
     ResponseEntity<ConsentAuthorizeResponse> aisDone(
         @PathVariable("encryptedConsentId") String encryptedConsentId,
         @PathVariable("authorisationId") String authorisationId,
-        @RequestHeader(name = "Cookie", required = false) String consentAndaccessTokenCookieString,
-        @RequestParam(name = "forgetConsent", required = false) Boolean forgetConsent,
-        @RequestParam(name = "backToTpp", required = false) Boolean backToTpp,
-        @RequestParam(name = "oauth2", required = false, defaultValue = "false") boolean isOauth2Integrated);
+        @RequestHeader(name = "Cookie", required = false) String cookie,
+        @RequestParam(name = "oauth2", required = false, defaultValue = "false") boolean isOauth2Integrated,
+        @RequestParam(name = "authConfirmationCode", required = false) String authConfirmationCode);
 
     /**
      * Fails AIS Consent authorisation object by its ID.

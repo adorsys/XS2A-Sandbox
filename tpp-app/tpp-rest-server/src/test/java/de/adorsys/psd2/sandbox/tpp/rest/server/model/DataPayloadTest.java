@@ -1,7 +1,7 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.model;
 
 import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
-import de.adorsys.ledgers.middleware.api.domain.payment.SinglePaymentTO;
+import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccountAccessTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
@@ -91,7 +91,7 @@ public class DataPayloadTest {
         List<AccountBalance> balances = nullElementInBalances
                                             ? Collections.singletonList(null)
                                             : Collections.singletonList(getBalance());
-        List<SinglePaymentTO> payments = Collections.singletonList(new SinglePaymentTO());
+        List<PaymentTO> payments = Collections.singletonList(new PaymentTO());
         return new DataPayload(users, accounts, balances, payments, false, "DE_12345678", new HashMap<>());
     }
 

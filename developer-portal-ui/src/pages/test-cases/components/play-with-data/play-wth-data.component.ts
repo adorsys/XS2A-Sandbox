@@ -1,13 +1,19 @@
-import { HttpResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
-import { RestService } from '../../../../services/rest.service';
-import { DataService } from '../../../../services/data.service';
-import { getStatusText } from 'http-status-codes';
-import { CopyService } from '../../../../services/copy.service';
-import { ConsentTypes } from '../../../../models/consentTypes.model';
-import { LocalStorageService } from '../../../../services/local-storage.service';
-import { JsonService } from '../../../../services/json.service';
+import {HttpResponse} from '@angular/common/http';
+import {Component, Input, OnInit} from '@angular/core';
+import {RestService} from '../../../../services/rest.service';
+import {DataService} from '../../../../services/data.service';
+import {getStatusText} from 'http-status-codes';
+import {CopyService} from '../../../../services/copy.service';
+import {ConsentTypes} from '../../../../models/consentTypes.model';
+import {LocalStorageService} from '../../../../services/local-storage.service';
+import {JsonService} from '../../../../services/json.service';
 import * as vkbeautify from 'vkbeautify';
+import {AspspService} from '../../../../services/aspsp.service';
+import {
+  PaymentType,
+  PaymentTypesMatrix,
+} from '../../../../models/paymentTypesMatrix.model';
+import {AcceptType} from '../../../../models/acceptType.model';
 
 @Component({
   selector: 'app-play-wth-data',
@@ -44,32 +50,34 @@ export class PlayWthDataComponent implements OnInit {
   @Input() authorisationId = '';
   @Input() accountId = '';
   @Input() transactionId = '';
+
+  @Input() resourceIds = [];
+  @Input() acceptFlag: boolean;
+
   bookingStatus = '';
   redirectUrl = '';
   dateFrom = '';
   xml = false;
 
-  paymentServiceSelect = ['payments', 'bulk-payments', 'periodic-payments'];
-  paymentProductSelect = [
-    'sepa-credit-transfers',
-    'instant-sepa-credit-transfers',
-    'target-2-payments',
-    'cross-border-credit-transfers',
-    'pain.001-sepa-credit-transfers',
-    'pain.001-instant-sepa-credit-transfers',
-    'pain.001-target-2-payments',
-    'pain.001-cross-border-credit-transfers',
-  ];
-  bookingStatusSelect = ['booked', 'pending', 'both'];
+  paymentServiceSelect = [];
+  paymentProductSelect = [];
+  bookingStatusSelect = [];
+  acceptTypes = [];
   selectedConsentType = 'dedicatedAccountsConsent';
+
+  paymentTypesMatrix: PaymentTypesMatrix;
+  paymentTypes = [PaymentType.single, PaymentType.bulk, PaymentType.periodic];
+  acceptHeader;
 
   constructor(
     public restService: RestService,
     public dataService: DataService,
     public copyService: CopyService,
     public localStorageService: LocalStorageService,
-    public jsonService: JsonService
-  ) {}
+    public jsonService: JsonService,
+    public aspspService: AspspService
+  ) {
+  }
 
   /**
    * Get status text by status code
@@ -119,12 +127,20 @@ export class PlayWthDataComponent implements OnInit {
         this.finalUrl,
         this.headers,
         this.xml,
-        requestBody
+        requestBody,
+        this.acceptHeader
       )
       .subscribe(
         resp => {
           delete this.headers['Content-Type'];
+          delete this.headers['Accept'];
+
+          if (this.acceptHeader == AcceptType.xml) {
+            resp.body = vkbeautify.xml(resp.body);
+          }
+
           this.response = Object.assign(resp);
+
           if (
             this.response.body.hasOwnProperty('_links') &&
             this.response.body._links.hasOwnProperty('scaRedirect')
@@ -154,17 +170,31 @@ export class PlayWthDataComponent implements OnInit {
           } else if (this.response.body.hasOwnProperty('transactionId')) {
             this.transactionId = this.response.body.transactionId;
             this.localStorageService.set('transactionId', this.transactionId);
+          } else if (this.response.body.hasOwnProperty('accounts')) {
+            for (const a of this.response.body.accounts) {
+              const id = a.resourceId;
+              if (id) {
+                this.resourceIds.push(id);
+              }
+            }
           }
           this.dataService.setIsLoading(false);
           this.dataService.showToast('Request sent', 'Success!', 'success');
         },
         err => {
+          delete this.headers['Content-Type'];
+          delete this.headers['Accept'];
+
           this.dataService.setIsLoading(false);
           this.dataService.showToast(
             'Something went wrong!',
             'Error!',
             'error'
           );
+          if (this.acceptHeader == AcceptType.xml) {
+            err['error'] = vkbeautify.xml(err['error']);
+          }
+
           this.response = Object.assign(err);
           console.log('err', JSON.stringify(err));
         }
@@ -181,43 +211,96 @@ export class PlayWthDataComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.paymentService = this.paymentServiceFlag ? 'payments' : '';
-    this.paymentProduct = this.paymentProductFlag
-      ? '/sepa-credit-transfers'
-      : '';
+    this.aspspService.getAspspProfile().subscribe(data => {
+      if (data.pis.supportedPaymentTypeAndProductMatrix) {
+        this.paymentTypesMatrix = data.pis.supportedPaymentTypeAndProductMatrix;
+        this.setPaymentServicesAndProducts();
+        this.setBookingStatuses(data.ais.transactionParameters.availableBookingStatuses);
+        this.setDefaultFields();
+        this.setAcceptTypes(data.ais.transactionParameters.supportedTransactionApplicationTypes);
+      }
+    });
+  }
+
+  private setPaymentServicesAndProducts() {
+    for (const paymentType of this.paymentTypes) {
+      const matrixElement = this.paymentTypesMatrix[paymentType];
+
+      if (matrixElement && matrixElement.length > 0) {
+        this.paymentServiceSelect.push(paymentType);
+
+        if (this.paymentService === '') {
+          this.paymentService = paymentType;
+
+          if (this.paymentProductFlag) {
+            this.paymentProductSelect = matrixElement;
+            this.paymentProduct = '/' + this.paymentProductSelect[0];
+          }
+        }
+      }
+    }
+  }
+
+  private setBookingStatuses(bookingStatuses?: Array<string>) {
+    if (bookingStatuses && this.bookingStatusFlag && bookingStatuses.length > 0) {
+      this.bookingStatus = bookingStatuses[0];
+      this.bookingStatusSelect = bookingStatuses;
+    } else {
+      this.bookingStatus = '';
+    }
+  }
+
+  private setAcceptTypes(supportedTransactionApplicationTypes: Array<string>) {
+    if (this.acceptFlag && supportedTransactionApplicationTypes && supportedTransactionApplicationTypes.length > 0) {
+      this.acceptTypes = supportedTransactionApplicationTypes;
+      this.acceptHeader = supportedTransactionApplicationTypes[0];
+    } else {
+      this.acceptHeader = '';
+    }
+  }
+
+  private setDefaultFields() {
     this.paymentId = this.paymentIdFlag ? this.paymentId : '';
     this.cancellationId = this.cancellationIdFlag ? this.cancellationId : '';
     this.consentId = this.consentIdFlag ? this.consentId : '';
     this.authorisationId = this.authorisationIdFlag ? this.authorisationId : '';
     this.accountId = this.accountIdFlag ? this.accountId : '';
     this.transactionId = this.transactionIdFlag ? this.transactionId : '';
-    this.bookingStatus = this.bookingStatusFlag ? 'booked' : '';
-    this.dateFrom = this.dateFromFlag ? '2010-10-10' : '';
+
+    this.dateFrom = this.dateFromFlag
+      ? new Date().toISOString().slice(0, 10)
+      : '';
     this.fieldsToCopy = this.fieldsToCopy ? this.fieldsToCopy : [];
   }
 
-  handlePaymentTypeChanged(
-    paymentType: string,
-    paymentProductChanged: boolean
-  ) {
-    if (this.body) {
-      const paymentService = paymentProductChanged
-        ? this.paymentService
-        : paymentType;
-      const paymentProduct = paymentProductChanged
-        ? paymentType
-        : this.paymentProduct;
+  public handlePaymentServiceChanged(paymentService: string) {
+    this.paymentProductSelect = this.paymentTypesMatrix[paymentService];
+    this.paymentProduct = '/' + this.paymentProductSelect[0];
+    this.updateBodyExample();
+  }
 
-      if (paymentProduct.includes('pain')) {
+  public handlePaymentProductChanged(paymentProduct: string) {
+    this.paymentProduct = paymentProduct;
+    this.updateBodyExample();
+  }
+
+  private updateBodyExample() {
+    if (this.body) {
+      if (this.paymentProduct.includes('pain')) {
         this.jsonService
-          .getPreparedXmlData(paymentService + paymentProduct)
+          .getPreparedXmlData(this.paymentService + this.paymentProduct)
           .subscribe(data => {
-            this.xml = true;
-            this.body = vkbeautify.xml(data);
+            if (data && data !== '') {
+              this.xml = true;
+              this.body = vkbeautify.xml(data);
+            }
           });
       } else {
         this.jsonService
-          .getPreparedJsonData(paymentService + paymentProduct)
+          .getPreparedJsonData(
+            this.paymentService + this.paymentProduct,
+            this.paymentProduct == '/sepa-credit-transfers'
+          )
           .subscribe(data => {
             this.xml = false;
             this.body = data;
@@ -226,7 +309,8 @@ export class PlayWthDataComponent implements OnInit {
     }
   }
 
-  onClear() {
+  public onClear() {
     this.response = undefined;
+    this.redirectUrl = undefined;
   }
 }

@@ -3,10 +3,10 @@ import { async, TestBed } from '@angular/core/testing';
 import { from } from 'rxjs';
 
 import { ConsentAuthorizeResponse } from '../../api/models/consent-authorize-response';
-import { PSUAISService } from '../../api/services';
 import { AisService } from './ais.service';
 
-import LoginUsingPOSTParams = PSUAISService.LoginUsingPOSTParams;
+import LoginUsingPOSTParams = PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.LoginUsingPOSTParams;
+import {PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService} from "../../api/services/psuaisprovides-access-to-online-banking-account-functionality.service";
 beforeEach(async(() => {
     TestBed.configureTestingModule({
         imports: [

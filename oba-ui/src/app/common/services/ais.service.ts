@@ -4,20 +4,20 @@ import { Observable } from 'rxjs';
 
 import { AccountDetailsTO, AuthorizeResponse } from '../../api/models';
 import { ConsentAuthorizeResponse } from '../../api/models/consent-authorize-response';
-import { PSUAISService } from '../../api/services';
+import {PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService} from '../../api/services';
 
-import LoginUsingPOSTParams = PSUAISService.LoginUsingPOSTParams;
-import AisAuthGetGETParams = PSUAISService.AisAuthUsingGETParams;
-import RevokeConsentUsingDELETEParams = PSUAISService.RevokeConsentUsingDELETEParams;
+import LoginUsingPOSTParams = PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.LoginUsingPOSTParams;
+import AisAuthGetGETParams = PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.AisAuthUsingGETParams;
+import RevokeConsentUsingDELETEParams = PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.RevokeConsentUsingDELETEParams;
 @Injectable({
     providedIn: 'root'
 })
 export class AisService {
 
-    constructor(private aisService: PSUAISService) {}
+    constructor(private aisService: PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService) {}
 
     public aisAuthCode(params: AisAuthGetGETParams): Observable<HttpResponse<AuthorizeResponse>> {
-      return this.aisService.aisAuthUsingGETResponse(params);
+        return this.aisService.aisAuthUsingGETResponse(params);
     }
 
     public aisAuthorise(params: LoginUsingPOSTParams): Observable<ConsentAuthorizeResponse> {
@@ -28,23 +28,23 @@ export class AisService {
         return this.aisService.getListOfAccountsUsingGET();
     }
 
-    public startConsentAuth(params: PSUAISService.StartConsentAuthUsingPOSTParams): Observable<ConsentAuthorizeResponse> {
+    public startConsentAuth(params: PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.StartConsentAuthUsingPOSTParams): Observable<ConsentAuthorizeResponse> {
         return this.aisService.startConsentAuthUsingPOST(params);
     }
 
-    public selectScaMethod(params: PSUAISService.SelectMethodUsingPOSTParams): Observable<ConsentAuthorizeResponse> {
+    public selectScaMethod(params: PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.SelectMethodUsingPOSTParams): Observable<ConsentAuthorizeResponse> {
         return this.aisService.selectMethodUsingPOST(params);
     }
 
-    public authrizedConsent(params: PSUAISService.AuthrizedConsentUsingPOSTParams): Observable<ConsentAuthorizeResponse> {
+    public authrizedConsent(params: PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.AuthrizedConsentUsingPOSTParams): Observable<ConsentAuthorizeResponse> {
         return this.aisService.authrizedConsentUsingPOST(params);
     }
 
     public revokeConsent(params: RevokeConsentUsingDELETEParams): Observable<ConsentAuthorizeResponse> {
-      return this.aisService.revokeConsentUsingDELETE(params);
+        return this.aisService.revokeConsentUsingDELETE(params);
     }
 
-    public aisDone(params: PSUAISService.AisDoneUsingGETParams): Observable<ConsentAuthorizeResponse> {
+    public aisDone(params: PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.AisDoneUsingGETParams): Observable<ConsentAuthorizeResponse> {
         return this.aisService.aisDoneUsingGET(params);
     }
 }

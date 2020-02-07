@@ -10,7 +10,7 @@ public interface CommonPaymentService {
 
     void updateAspspConsentData(PaymentWorkflow paymentWorkflow);
 
-    String resolveRedirectUrl(String encryptedPaymentId, String authorisationId, String consentAndAccessTokenCookieString, boolean isOauth2Integrated, String psuId, BearerTokenTO tokenTO);
+    String resolveRedirectUrl(String encryptedPaymentId, String authorisationId, String consentAndAccessTokenCookieString, boolean isOauth2Integrated, String psuId, BearerTokenTO tokenTO, String authConfirmationCode);
 
     PaymentWorkflow initiatePayment(PaymentWorkflow paymentWorkflow, String psuId);
 

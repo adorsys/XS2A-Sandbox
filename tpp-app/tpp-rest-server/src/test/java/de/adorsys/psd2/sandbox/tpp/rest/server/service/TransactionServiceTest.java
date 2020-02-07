@@ -43,16 +43,19 @@ public class TransactionServiceTest {
 
     @Test
     public void uploadUserTransaction() throws IOException {
+        //given
         UserTransaction tr = parseService1.convertFileToTargetObject(resolveMultipartFile("transactions_template.csv"), UserTransaction.class).get(0);
         when(parseService.convertFileToTargetObject(any(), any())).thenReturn(Collections.singletonList(tr));
         when(transactionDataConverter.toLedgersMockTransactions((anyList()))).thenReturn(converter.toLedgersMockTransactions(Collections.singletonList(tr)));
         when(transactionsStaffRestClient.transactions(anyList())).thenReturn(ResponseEntity.ok(new HashMap<String, String>()));
 
+        //when
         Map<String, String> result = transactionService.uploadUserTransaction(resolveMultipartFile("transactions_template.csv"));
+
+        //then
         assertThat(result).isEmpty();
         assertThat(result).isEqualTo(new HashMap<String, String>());
     }
-
 
     private MultipartFile resolveMultipartFile(String fileName) throws IOException {
         Resource resource = resourceLoader.getResource(fileName);

@@ -7,6 +7,9 @@ import { StrictHttpResponse as __StrictHttpResponse } from '../strict-http-respo
 import { Observable as __Observable } from 'rxjs';
 import { map as __map, filter as __filter } from 'rxjs/operators';
 
+import { OauthCodeResponseTO } from '../models/oauth-code-response-to';
+import { OauthServerInfoTO } from '../models/oauth-server-info-to';
+import { BearerTokenTO } from '../models/bearer-token-to';
 
 /**
  * Oba Oauth Controller
@@ -34,8 +37,10 @@ class OnlineBankingOauthAuthorizationService extends __BaseService {
    * - `pin`: pin
    *
    * - `login`: login
+   *
+   * @return OK
    */
-  oauthCodeUsingPOSTResponse(params: OnlineBankingOauthAuthorizationService.OauthCodeUsingPOSTParams): __Observable<__StrictHttpResponse<null>> {
+  oauthCodeUsingPOSTResponse(params: OnlineBankingOauthAuthorizationService.OauthCodeUsingPOSTParams): __Observable<__StrictHttpResponse<OauthCodeResponseTO>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -55,7 +60,7 @@ class OnlineBankingOauthAuthorizationService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<null>;
+        return _r as __StrictHttpResponse<OauthCodeResponseTO>;
       })
     );
   }
@@ -67,10 +72,12 @@ class OnlineBankingOauthAuthorizationService extends __BaseService {
    * - `pin`: pin
    *
    * - `login`: login
+   *
+   * @return OK
    */
-  oauthCodeUsingPOST(params: OnlineBankingOauthAuthorizationService.OauthCodeUsingPOSTParams): __Observable<null> {
+  oauthCodeUsingPOST(params: OnlineBankingOauthAuthorizationService.OauthCodeUsingPOSTParams): __Observable<OauthCodeResponseTO> {
     return this.oauthCodeUsingPOSTResponse(params).pipe(
-      __map(_r => _r.body as null)
+      __map(_r => _r.body as OauthCodeResponseTO)
     );
   }
 
@@ -84,8 +91,10 @@ class OnlineBankingOauthAuthorizationService extends __BaseService {
    * - `consentId`: consentId
    *
    * - `cancellationId`: cancellationId
+   *
+   * @return OK
    */
-  oauthServerInfoUsingGETResponse(params: OnlineBankingOauthAuthorizationService.OauthServerInfoUsingGETParams): __Observable<__StrictHttpResponse<null>> {
+  oauthServerInfoUsingGETResponse(params: OnlineBankingOauthAuthorizationService.OauthServerInfoUsingGETParams): __Observable<__StrictHttpResponse<OauthServerInfoTO>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -106,7 +115,7 @@ class OnlineBankingOauthAuthorizationService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<null>;
+        return _r as __StrictHttpResponse<OauthServerInfoTO>;
       })
     );
   }
@@ -120,17 +129,20 @@ class OnlineBankingOauthAuthorizationService extends __BaseService {
    * - `consentId`: consentId
    *
    * - `cancellationId`: cancellationId
+   *
+   * @return OK
    */
-  oauthServerInfoUsingGET(params: OnlineBankingOauthAuthorizationService.OauthServerInfoUsingGETParams): __Observable<null> {
+  oauthServerInfoUsingGET(params: OnlineBankingOauthAuthorizationService.OauthServerInfoUsingGETParams): __Observable<OauthServerInfoTO> {
     return this.oauthServerInfoUsingGETResponse(params).pipe(
-      __map(_r => _r.body as null)
+      __map(_r => _r.body as OauthServerInfoTO)
     );
   }
 
   /**
    * @param code code
+   * @return OK
    */
-  oauthTokenUsingPOSTResponse(code: string): __Observable<__StrictHttpResponse<null>> {
+  oauthTokenUsingPOSTResponse(code: string): __Observable<__StrictHttpResponse<BearerTokenTO>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -148,16 +160,17 @@ class OnlineBankingOauthAuthorizationService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<null>;
+        return _r as __StrictHttpResponse<BearerTokenTO>;
       })
     );
   }
   /**
    * @param code code
+   * @return OK
    */
-  oauthTokenUsingPOST(code: string): __Observable<null> {
+  oauthTokenUsingPOST(code: string): __Observable<BearerTokenTO> {
     return this.oauthTokenUsingPOSTResponse(code).pipe(
-      __map(_r => _r.body as null)
+      __map(_r => _r.body as BearerTokenTO)
     );
   }
 }

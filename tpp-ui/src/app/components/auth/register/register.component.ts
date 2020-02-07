@@ -25,7 +25,7 @@ export class RegisterComponent implements OnInit {
   public submitted: boolean;
   public errorMessage: string;
 
-  public selectedCountry: string;
+  public selectedCountry = '';
   public countries: Array<string> = [];
   public showTppStructureMessage = false;
   public tppIdStructure: TppIdStructure = {
@@ -43,6 +43,10 @@ export class RegisterComponent implements OnInit {
   }
 
   selectCountry() {
+    if (this.userForm.disabled) {
+      document.getElementById('emptySelect').remove();
+    }
+
     this.service.getTppIdStructure(this.selectedCountry)
       .subscribe(
         data => {
@@ -74,7 +78,10 @@ export class RegisterComponent implements OnInit {
 
   private initializeCountryList() {
     this.service.getCountryCodes().subscribe(
-      data => this.countries = data,
+      data => {
+        this.countries = data;
+        this.selectedCountry = '';
+      },
       error => {
         console.log(error);
         this.infoService.openFeedback("Could not download country list!");

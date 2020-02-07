@@ -75,7 +75,7 @@ public interface PisCancellationApi {
      * @param authorisationId    ID of related Payment Authorisation
      * @return redirect location header with TPP url
      */
-    @GetMapping(path = "/{encryptedPaymentId}/authorisation/{authorisationId}/done", params = {"forgetConsent", "backToTpp"})
+    @GetMapping(path = "/{encryptedPaymentId}/authorisation/{authorisationId}/done")
     @ApiOperation(value = "Close consent session", authorizations = @Authorization(value = "apiKey"),
         notes = "This call provides the server with the opportunity to close this session and "
                     + "redirect the PSU to the TPP or close the application window.")
@@ -83,8 +83,7 @@ public interface PisCancellationApi {
         @PathVariable("encryptedPaymentId") String encryptedPaymentId,
         @PathVariable("authorisationId") String authorisationId,
         @RequestHeader(name = "Cookie", required = false) String consentAndAccessTokenCookieString,
-        @RequestParam(name = "forgetConsent", required = false) Boolean forgetConsent,
-        @RequestParam(name = "backToTpp", required = false) Boolean backToTpp,
-        @RequestParam(name = "oauth2", required = false, defaultValue = "false") boolean isOauth2Integrated);
+        @RequestParam(name = "oauth2", required = false, defaultValue = "false") boolean isOauth2Integrated,
+        @RequestParam(name = "authConfirmationCode", required = false) String authConfirmationCode);
 
 }

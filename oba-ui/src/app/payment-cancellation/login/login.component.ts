@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { PSUPISCancellationService } from '../../api/services/psupiscancellation.service';
 import { InfoService } from '../../common/info/info.service';
 import { RoutingPath } from '../../common/models/routing-path.model';
 import { CustomizeService } from '../../common/services/customize.service';
@@ -12,7 +11,8 @@ import { PisCancellationService } from '../../common/services/pis-cancellation.s
 import { PisService } from '../../common/services/pis.service';
 import { ShareDataService } from '../../common/services/share-data.service';
 
-import LoginUsingPOST2Params = PSUPISCancellationService.LoginUsingPOST2Params;
+import LoginUsingPOST2Params = PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService.LoginUsingPOST2Params;
+import {PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService} from "../../api/services/psupiscancellation-provides-access-to-online-banking-payment-functionality.service";
 
 @Component({
   selector: 'app-login',
@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         authorisationId: this.redirectId,
       } as LoginUsingPOST2Params).subscribe(authorisationResponse => {
         console.log(authorisationResponse);
-        this.shareService.changeData(authorisationResponse);
+        this.shareService.changePaymentData(authorisationResponse);
         this.router.navigate([`${RoutingPath.PAYMENT_CANCELLATION}/${RoutingPath.CONFIRM_CANCELLATION}`]);
       }, (error: HttpErrorResponse) => {
         // if paymentId or redirectId is missing
