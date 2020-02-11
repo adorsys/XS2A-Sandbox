@@ -1,10 +1,10 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
 
-import { CustomizeService, Theme } from './customize.service';
+import {CustomizeService, Theme} from './customize.service';
 
 describe('CustomizeService', () => {
   let service: CustomizeService;
@@ -43,6 +43,11 @@ describe('CustomizeService', () => {
     supportedLanguages: ['en', 'de', 'es', 'ua'],
     supportedApproaches: ['redirect', 'embedded'],
     currency: 'EUR',
+    tppSettings: {
+      tppDefaultNokRedirectUrl: 'https://www.google.com',
+      tppDefaultRedirectUrl:
+        'https://adorsys-platform.de/solutions/xs2a-sandbox/',
+    },
   };
   const defUserTheme = {
     globalSettings: {
@@ -70,6 +75,11 @@ describe('CustomizeService', () => {
     supportedLanguages: [],
     supportedApproaches: [],
     currency: '',
+    tppSettings: {
+      tppDefaultNokRedirectUrl: '',
+      tppDefaultRedirectUrl:
+        '',
+    },
   };
 
   beforeEach(() => {

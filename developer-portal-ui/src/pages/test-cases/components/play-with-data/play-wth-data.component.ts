@@ -1,19 +1,19 @@
-import {HttpResponse} from '@angular/common/http';
-import {Component, Input, OnInit} from '@angular/core';
-import {RestService} from '../../../../services/rest.service';
-import {DataService} from '../../../../services/data.service';
-import {getStatusText} from 'http-status-codes';
-import {CopyService} from '../../../../services/copy.service';
-import {ConsentTypes} from '../../../../models/consentTypes.model';
-import {LocalStorageService} from '../../../../services/local-storage.service';
-import {JsonService} from '../../../../services/json.service';
+import { HttpResponse } from '@angular/common/http';
+import { Component, Input, OnInit } from '@angular/core';
+import { RestService } from '../../../../services/rest.service';
+import { DataService } from '../../../../services/data.service';
+import { getStatusText } from 'http-status-codes';
+import { CopyService } from '../../../../services/copy.service';
+import { ConsentTypes } from '../../../../models/consentTypes.model';
+import { LocalStorageService } from '../../../../services/local-storage.service';
+import { JsonService } from '../../../../services/json.service';
 import * as vkbeautify from 'vkbeautify';
-import {AspspService} from '../../../../services/aspsp.service';
+import { AspspService } from '../../../../services/aspsp.service';
 import {
   PaymentType,
   PaymentTypesMatrix,
 } from '../../../../models/paymentTypesMatrix.model';
-import {AcceptType} from '../../../../models/acceptType.model';
+import { AcceptType } from '../../../../models/acceptType.model';
 
 @Component({
   selector: 'app-play-wth-data',
@@ -76,8 +76,7 @@ export class PlayWthDataComponent implements OnInit {
     public localStorageService: LocalStorageService,
     public jsonService: JsonService,
     public aspspService: AspspService
-  ) {
-  }
+  ) {}
 
   /**
    * Get status text by status code
@@ -192,7 +191,7 @@ export class PlayWthDataComponent implements OnInit {
             'error'
           );
           if (this.acceptHeader == AcceptType.xml) {
-            err['error'] = vkbeautify.xml(err['error']);
+            err.error = vkbeautify.xml(err.error);
           }
 
           this.response = Object.assign(err);
@@ -215,9 +214,22 @@ export class PlayWthDataComponent implements OnInit {
       if (data.pis.supportedPaymentTypeAndProductMatrix) {
         this.paymentTypesMatrix = data.pis.supportedPaymentTypeAndProductMatrix;
         this.setPaymentServicesAndProducts();
-        this.setBookingStatuses(data.ais.transactionParameters.availableBookingStatuses);
+        this.setBookingStatuses(
+          data.ais.transactionParameters.availableBookingStatuses
+        );
         this.setDefaultFields();
-        this.setAcceptTypes(data.ais.transactionParameters.supportedTransactionApplicationTypes);
+        this.setAcceptTypes(
+          data.ais.transactionParameters.supportedTransactionApplicationTypes
+        );
+      }
+
+      if (this.headers) {
+        this.headers['TPP-Nok-Redirect-URI'] = localStorage.getItem(
+          'tppDefaultNokRedirectUrl'
+        );
+        this.headers['TPP-Redirect-URI'] = localStorage.getItem(
+          'tppDefaultRedirectUrl'
+        );
       }
     });
   }
@@ -242,7 +254,11 @@ export class PlayWthDataComponent implements OnInit {
   }
 
   private setBookingStatuses(bookingStatuses?: Array<string>) {
-    if (bookingStatuses && this.bookingStatusFlag && bookingStatuses.length > 0) {
+    if (
+      bookingStatuses &&
+      this.bookingStatusFlag &&
+      bookingStatuses.length > 0
+    ) {
       this.bookingStatus = bookingStatuses[0];
       this.bookingStatusSelect = bookingStatuses;
     } else {
@@ -251,7 +267,11 @@ export class PlayWthDataComponent implements OnInit {
   }
 
   private setAcceptTypes(supportedTransactionApplicationTypes: Array<string>) {
-    if (this.acceptFlag && supportedTransactionApplicationTypes && supportedTransactionApplicationTypes.length > 0) {
+    if (
+      this.acceptFlag &&
+      supportedTransactionApplicationTypes &&
+      supportedTransactionApplicationTypes.length > 0
+    ) {
       this.acceptTypes = supportedTransactionApplicationTypes;
       this.acceptHeader = supportedTransactionApplicationTypes[0];
     } else {

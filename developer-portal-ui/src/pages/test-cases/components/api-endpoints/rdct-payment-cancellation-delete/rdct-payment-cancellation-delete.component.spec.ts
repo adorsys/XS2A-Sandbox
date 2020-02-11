@@ -54,7 +54,7 @@ describe('RdctPaymentCancellationDeleteComponent', () => {
       'TPP-Explicit-Authorisation-Preferred': 'false',
       'PSU-ID': 'YOUR_USER_LOGIN',
       'PSU-IP-Address': '1.1.1.1',
-      'TPP-REDIRECT-URI': 'https://adorsys-platform.de/solutions/xs2a-sandbox/',
+      'TPP-Redirect-URI': 'https://adorsys-platform.de/solutions/xs2a-sandbox/',
       'TPP-Redirect-Preferred': 'true',
     };
     expect(typeof component.headers).toBe('object');
