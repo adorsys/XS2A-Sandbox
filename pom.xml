@@ -31,7 +31,6 @@
     <modules>
         <module>online-banking</module>
         <module>integration-tests</module>
-        <module>psd2-api-gateway</module>
         <module>certificate-generator</module>
         <module>tpp-app</module>
         <module>xs2a-cms-starter</module>
@@ -130,7 +129,8 @@
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
         <sonar.language>java</sonar.language>
-        <sonar.coverage.exclusions>**/*Entity.java,**/*TO.java,**/*Exception.java,**/*Config.java
+        <sonar.coverage.exclusions>**/*Entity.java,**/*TO.java,**/*BO.java,**/*PO.java,**/*Application.java,**/*Exception.java,
+            **/*Config.java,pom.xml,/certificate-generator/**/*,/integration-tests/**/*,**/oba-rest-api/**/*,**/oba-service-api/**/*,**/tpp-cms-api/**/*,**/tpp-rest-api/**/*,
         </sonar.coverage.exclusions>
         <sonar.moduleName>${project.artifactId}</sonar.moduleName>
         <skipITs>true</skipITs>
