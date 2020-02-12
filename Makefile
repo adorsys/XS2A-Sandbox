@@ -35,6 +35,9 @@ install-for-MacOS:
 run:  ## Run services from Docker Hub without building:
 	docker-compose pull && docker-compose up
 
+run-release:  ## Run release version of services from Docker Hub without building:
+	docker-compose -f docker-compose-release.yml pull && docker-compose -f docker-compose-release.yml up
+
 start: ## Run everything with docker-compose without building
 	docker-compose up
 
