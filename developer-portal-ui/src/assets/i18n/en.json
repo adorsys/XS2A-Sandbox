@@ -238,16 +238,17 @@
         "PART_3": "If you want use a first way:",
         "PART_4": "1. Build all the services with the command:",
         "PART_5": "2. After building services you can run XS2ASandbox with a\n simple docker command:",
-        "PART_6": "In Makefile you can use one of three commands:",
-        "PART_7": "• Run services from Docker Hub without build:",
-        "PART_8": "• Build and run services:",
-        "PART_9": "• Run services without build:",
-        "PART_10": "Once you have built the project you can run it without build next time - command",
-        "PART_11": "or",
-        "PART_12": "from Makefile.",
-        "PART_13": "Remember that after you update the project you should rebuild it - command",
-        "PART_14": "or",
-        "PART_15": "from Makefile."
+        "PART_6": "In Makefile you can use one of four commands:",
+        "PART_7": "• Run release version of services from Docker Hub without build:",
+        "PART_8": "• Run services from Docker Hub without build:",
+        "PART_9": "• Build and run services:",
+        "PART_10": "• Run services without build:",
+        "PART_11": "Once you have built the project you can run it without build next time - command",
+        "PART_12": "or",
+        "PART_13": "from Makefile.",
+        "PART_14": "Remember that after you update the project you should rebuild it - command",
+        "PART_15": "or",
+        "PART_16": "from Makefile."
       }
     },
     "TROUBLES": {

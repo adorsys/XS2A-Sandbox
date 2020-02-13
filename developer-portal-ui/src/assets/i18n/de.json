@@ -238,16 +238,17 @@
         "PART_3": "Falls Sie es wollen benutze einen ersten Weg:",
         "PART_4": "1. Bauen Sie alle Dienste mit folgendem Befehl:",
         "PART_5": "2. Nach dem Gebäude der Dienste können Sie XS2ASandbox mit einem einfachen Docker-Befehl ausführen:",
-        "PART_6": "In Makefile können Sie einen von drei Befehlen verwenden:",
-        "PART_7": "• Führen Sie Dienste ohne Build über Docker Hub aus:",
-        "PART_8": "• Bauen und starten der Dienste:",
-        "PART_9": "• Starten der Dienste ohne Bauen:",
-        "PART_10": "Sobald Sie das Projekt gebaut haben, können Sie es ausführen, ohne es das nächste Mal zu bauen - Befehl ",
-        "PART_11": "oder",
-        "PART_12": "aus Makefile",
-        "PART_13": "Denken Sie daran, dass Sie das Projekt nach dem Aktualisieren neu erstellen sollten - Befehl ",
-        "PART_14": "oder",
-        "PART_15": "aus Makefile"
+        "PART_6": "In Makefile können Sie einen von vier Befehlen verwenden:",
+        "PART_7": "• Führen Sie die Release-Version der Dienste vom Docker Hub ohne Build:",
+        "PART_8": "• Führen Sie Dienste ohne Build über Docker Hub aus:",
+        "PART_9": "• Bauen und starten der Dienste:",
+        "PART_10": "• Starten der Dienste ohne Bauen:",
+        "PART_11": "Sobald Sie das Projekt gebaut haben, können Sie es ausführen, ohne es das nächste Mal zu bauen - Befehl ",
+        "PART_12": "oder",
+        "PART_13": "aus Makefile",
+        "PART_14": "Denken Sie daran, dass Sie das Projekt nach dem Aktualisieren neu erstellen sollten - Befehl ",
+        "PART_15": "oder",
+        "PART_16": "aus Makefile"
       }
     },
     "TROUBLES": {
