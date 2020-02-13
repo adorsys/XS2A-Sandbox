@@ -1,4 +1,4 @@
-import { HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { RestService } from '../../../../services/rest.service';
 import { DataService } from '../../../../services/data.service';
@@ -14,6 +14,7 @@ import {
   PaymentTypesMatrix,
 } from '../../../../models/paymentTypesMatrix.model';
 import { AcceptType } from '../../../../models/acceptType.model';
+import * as uuid from 'uuid';
 
 @Component({
   selector: 'app-play-wth-data',
@@ -69,13 +70,16 @@ export class PlayWthDataComponent implements OnInit {
   paymentTypes = [PaymentType.single, PaymentType.bulk, PaymentType.periodic];
   acceptHeader;
 
+  private disabledHeaders = [];
+
   constructor(
     public restService: RestService,
     public dataService: DataService,
     public copyService: CopyService,
     public localStorageService: LocalStorageService,
     public jsonService: JsonService,
-    public aspspService: AspspService
+    public aspspService: AspspService,
+    private http: HttpClient
   ) {}
 
   /**
@@ -124,16 +128,12 @@ export class PlayWthDataComponent implements OnInit {
       .sendRequest(
         this.method,
         this.finalUrl,
-        this.headers,
-        this.xml,
-        requestBody,
-        this.acceptHeader
+        this.buildHeadersForRequest(),
+        this.acceptHeader,
+        requestBody
       )
       .subscribe(
         resp => {
-          delete this.headers['Content-Type'];
-          delete this.headers['Accept'];
-
           if (this.acceptHeader == AcceptType.xml) {
             resp.body = vkbeautify.xml(resp.body);
           }
@@ -181,9 +181,6 @@ export class PlayWthDataComponent implements OnInit {
           this.dataService.showToast('Request sent', 'Success!', 'success');
         },
         err => {
-          delete this.headers['Content-Type'];
-          delete this.headers['Accept'];
-
           this.dataService.setIsLoading(false);
           this.dataService.showToast(
             'Something went wrong!',
@@ -224,14 +221,49 @@ export class PlayWthDataComponent implements OnInit {
       }
 
       if (this.headers) {
-        this.headers['TPP-Nok-Redirect-URI'] = localStorage.getItem(
-          'tppDefaultNokRedirectUrl'
-        );
-        this.headers['TPP-Redirect-URI'] = localStorage.getItem(
-          'tppDefaultRedirectUrl'
-        );
+        this.setDefaultHeaders();
       }
     });
+  }
+
+  public handlePaymentServiceChanged(paymentService: string) {
+    this.paymentProductSelect = this.paymentTypesMatrix[paymentService];
+    this.paymentProduct = '/' + this.paymentProductSelect[0];
+    this.updateBodyExample();
+  }
+
+  public handlePaymentProductChanged(paymentProduct: string) {
+    this.paymentProduct = paymentProduct;
+    this.updateBodyExample();
+  }
+
+  public onClear() {
+    this.response = undefined;
+    this.redirectUrl = undefined;
+    this.paymentId = '';
+    this.accountId = '';
+    this.authorisationId = '';
+    this.cancellationId = '';
+  }
+
+  public disableHeader(event: any) {
+    const checkbox = event.target;
+    if (checkbox) {
+      const value = checkbox.value;
+      const input = document.getElementById(value);
+
+      if (input) {
+        const attributeName = 'disabled';
+
+        if (checkbox.checked) {
+          input.removeAttribute(attributeName);
+          this.disabledHeaders = this.disabledHeaders.filter(v => v != value);
+        } else {
+          input.setAttribute(attributeName, 'true');
+          this.disabledHeaders.push(value);
+        }
+      }
+    }
   }
 
   private setPaymentServicesAndProducts() {
@@ -254,11 +286,7 @@ export class PlayWthDataComponent implements OnInit {
   }
 
   private setBookingStatuses(bookingStatuses?: Array<string>) {
-    if (
-      bookingStatuses &&
-      this.bookingStatusFlag &&
-      bookingStatuses.length > 0
-    ) {
+    if (bookingStatuses && this.bookingStatusFlag && bookingStatuses.length > 0) {
       this.bookingStatus = bookingStatuses[0];
       this.bookingStatusSelect = bookingStatuses;
     } else {
@@ -293,17 +321,6 @@ export class PlayWthDataComponent implements OnInit {
     this.fieldsToCopy = this.fieldsToCopy ? this.fieldsToCopy : [];
   }
 
-  public handlePaymentServiceChanged(paymentService: string) {
-    this.paymentProductSelect = this.paymentTypesMatrix[paymentService];
-    this.paymentProduct = '/' + this.paymentProductSelect[0];
-    this.updateBodyExample();
-  }
-
-  public handlePaymentProductChanged(paymentProduct: string) {
-    this.paymentProduct = paymentProduct;
-    this.updateBodyExample();
-  }
-
   private updateBodyExample() {
     if (this.body) {
       if (this.paymentProduct.includes('pain')) {
@@ -329,8 +346,42 @@ export class PlayWthDataComponent implements OnInit {
     }
   }
 
-  public onClear() {
-    this.response = undefined;
-    this.redirectUrl = undefined;
+  private setDefaultHeaders() {
+    if (this.headers.hasOwnProperty('TPP-Redirect-Preferred') && this.headers['TPP-Redirect-Preferred'] == 'true') {
+      this.headers['TPP-Nok-Redirect-URI'] = localStorage.getItem(
+        'tppDefaultNokRedirectUrl'
+      );
+      this.headers['TPP-Redirect-URI'] = localStorage.getItem(
+        'tppDefaultRedirectUrl'
+      );
+    }
+
+    this.headers['X-Request-ID'] = uuid.v4();
+    this.setIpAddress();
+  }
+
+  private setIpAddress() {
+    return this.http
+      .get('https://api.ipify.org/?format=json')
+      .subscribe(ip => (this.headers['PSU-IP-Address'] = ip['ip']));
+  }
+
+  private buildHeadersForRequest() {
+    if (this.headers) {
+      const requestHeaders = {};
+
+      for (const key of Object.keys(this.headers)) {
+        requestHeaders[key] = this.headers[key];
+      }
+
+      requestHeaders['Content-Type'] = this.xml ? 'application/xml' : 'application/json';
+      requestHeaders['Accept'] = this.acceptHeader ? this.acceptHeader : 'application/json';
+
+      for (const disabled of this.disabledHeaders) {
+        delete requestHeaders[disabled];
+      }
+
+      return new HttpHeaders(requestHeaders);
+    }
   }
 }

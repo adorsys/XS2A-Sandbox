@@ -12,10 +12,8 @@ export class RdctPaymentCancellationPostComponent implements OnInit {
   jsonData3: object;
   jsonData4: object;
   headers: object = {
-    'X-Request-ID': '2f77a125-aa7a-45c0-b414-cea25a116035',
     'TPP-Explicit-Authorisation-Preferred': 'false',
     'PSU-ID': 'YOUR_USER_LOGIN',
-    'PSU-IP-Address': '1.1.1.1',
     'TPP-Redirect-Preferred': 'true',
     'TPP-Redirect-URI': 'https://adorsys-platform.de/solutions/xs2a-sandbox/',
     'TPP-Nok-Redirect-URI': 'https://www.google.com',
