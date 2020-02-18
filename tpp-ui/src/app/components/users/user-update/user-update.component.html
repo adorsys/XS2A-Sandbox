@@ -132,7 +132,7 @@
                                     <label class="control-label">SCA Method</label>
                                     <div [formGroupName]="i">
                                     <select formControlName="scaMethod" class="form-control">
-                                        <option *ngFor="let method of methods">{{method}}</option>
+                                        <option *ngFor="let method of methods" [selected]="method == scaDataItem.get('scaMethod').value">{{method }}</option>
                                     </select>
                                     </div>
                                 </div>
