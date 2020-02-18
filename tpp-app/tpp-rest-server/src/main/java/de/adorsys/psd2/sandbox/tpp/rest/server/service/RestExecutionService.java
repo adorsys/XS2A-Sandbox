@@ -48,7 +48,7 @@ public class RestExecutionService {
     @SneakyThrows
     private PaymentTO performMapping(PaymentTO payment) {
         String paymentString = paymentTOMapper.getMapper().writeValueAsString(payment);
-        return paymentTOMapper.toAbstractPayment(paymentString, "SINGLE", payment.getPaymentProduct()); //.getPaymentProduct().getValue()
+        return paymentTOMapper.toAbstractPayment(paymentString, "SINGLE", payment.getPaymentProduct());
     }
 
     private Map<String, AccountBalanceTO> toAccountBalanceTO(Map<String, AccountBalance> balancesByIban) {
