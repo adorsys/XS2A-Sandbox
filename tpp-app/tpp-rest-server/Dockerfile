@@ -1,4 +1,4 @@
-FROM adorsys/java:8
+FROM adorsys/java:11
 LABEL maintainer="https://github.com/adorsys/xs2a-sandbox"
 
 ENV SERVER_PORT 8093
