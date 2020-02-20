@@ -215,7 +215,7 @@
       "SUBTITLE_1": "Prerequisites",
       "CONTENT": {
         "PART_1": "This sandbox runs with the docker-compose that can be found at\n docker-compose.yml and Makefile in project directory. But before you run\n XS2ASandbox, first check if all build dependencies are installed:",
-        "PART_2": "If something is missing, install it to your local machine, otherwise the\n build will fail. List of dependencies that are required to use\n XS2ASandbox: Java 8, NodeJs, Angular CLI, Asciidoctor, jq, Docker, Docker\n Compose, Maven, PlantUML. Here are links where you can install needed\n dependencies:",
+        "PART_2": "If something is missing, install it to your local machine, otherwise the\n build will fail. List of dependencies that are required to use\n XS2ASandbox: Java 11, NodeJs, Angular CLI, Asciidoctor, jq, Docker, Docker\n Compose, Maven, PlantUML. Here are links where you can install needed\n dependencies:",
         "TH_1": "Dependency",
         "TH_2": "Link",
         "PART_3": "Stop running containers in terminal with key combination Control + C.",
