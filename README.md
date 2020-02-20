@@ -24,12 +24,12 @@ But before you run this, first of all you should check if all build dependencies
 ```
 
 If something is missing, install it to your local machine, otherwise the build will fail. 
-List of dependencies that are required to use XS2ASandbox: **Java 8**, **nodeJs**, **AngularCLI**, **asciidoctor**, **jq**, **docker**, **docker-compose**, **maven**, **plantuml**.
+List of dependencies that are required to use XS2ASandbox: **Java 11**, **nodeJs**, **AngularCLI**, **asciidoctor**, **jq**, **docker**, **docker-compose**, **maven**, **plantuml**.
 Here are links where you can install needed dependencies:
 
 | Dependency         | Link                                    |                                                     
 |--------------------|-----------------------------------------|
-| Java 8             | https://openjdk.java.net/install/       | 
+| Java 11             | https://openjdk.java.net/install/       | 
 | Node.js 11.x        | https://nodejs.org/en/download         | 
 | Angular CLI 7.x     | https://angular.io/guide/quickstart    |                                                                                                        
 | Asciidoctor 2.0    | https://asciidoctor.org                 |
