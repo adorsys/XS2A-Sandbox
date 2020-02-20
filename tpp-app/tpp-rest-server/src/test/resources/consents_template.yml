@@ -65,7 +65,7 @@
     availableAccounts: "ALL_ACCOUNTS"
     allPsd2: "ALL_ACCOUNTS"
     availableAccountsWithBalance: "ALL_ACCOUNTS"
-  validUntil: "2019-10-10"
+  validUntil: "2020-10-10"
   recurringIndicator: true
   tppRedirectPreferred: true
   combinedServiceIndicator: true

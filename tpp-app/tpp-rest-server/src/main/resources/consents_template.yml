@@ -64,8 +64,8 @@
         accountType: "IBAN"
     availableAccounts: "ALL_ACCOUNTS"
     allPsd2: "ALL_ACCOUNTS"
-    availableAccountsWithBalances: "ALL_ACCOUNTS"
-  validUntil: "2019-10-10"
+    availableAccountsWithBalance: "ALL_ACCOUNTS"
+  validUntil: "2020-10-10"
   recurringIndicator: true
   tppRedirectPreferred: true
   combinedServiceIndicator: true
