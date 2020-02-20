@@ -840,7 +840,7 @@
       "SUBTITLE_1": "¿Cómo puedo cambiar el estado de la transacción / consentimiento?",
       "PART_1": "Por defecto, una nueva transacción / consentimiento creado tiene el estado",
       "RECEIVED": "\"received\"",
-      "PART_2": ". Para realizar SCA utilizando el enfoque REDIRECT, el sandbox proporciona un Redirect Server donde el estado se actualiza según la PSU. Como SCA para REDIRECT está simplificado para este entorno limitado, es suficiente pasar un PSU-ID a través de Query-Parameter para simular todo el SCA. A continuación se proporciona un ejemplo:",
+      "PART_2": ". Para realizar SCA utilizando el enfoque REDIRECT, el sandbox proporciona un Redirect Server donde el estado se actualiza según la PSU. Como SCA para REDIRECT está simplificado para este entorno limitado, es suficiente pasar un PSU-ID a través de Query-Parameter para simular todo el SCA.",
       "PART_3": "El Query Parameter psu-id es obligatorio. Si no se proporciona, el servidor de redirección mostrará un mensaje de error predeterminado.",
       "SUBTITLE_2": "¿Por qué no puedo cambiar el estado de la transacción / consentimiento con una PSU específica?",
       "PART_4": "Si el estado de la transacción / consentimiento es “recieved\", es posible que el PSU-ID no coincida con el IBAN en el inicio de pago o la solicitud de creación de consentimiento. La asignación entre PSU-ID y IBAN (s) se documenta en el portal del desarrollador. Si el estado no cambia a pesar de que se realizó SCA y el IBAN coincide con la ID de la PSU, verifique la ID de la PSU para detectar errores tipográficos y la sensibilidad de las mayúsculas y minúsculas."

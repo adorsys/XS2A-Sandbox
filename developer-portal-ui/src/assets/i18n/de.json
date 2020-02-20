@@ -840,7 +840,7 @@
       "SUBTITLE_1": "Wie kann ich den Status einer Transaktion/Einwilligung ändern?",
       "PART_1": "Alle erstellten Transaktionen/Einwilligungen haben als Status automatisch",
       "RECEIVED": "\"received\"",
-      "PART_2": ". Um SCA mit dem REDIRECT-Ansatz durchzuführen, stellt die Sandbox einen Redirect-Server zur Verfügung, bei dem der Status abhängig von dem PSU aktualisiert wird. Dieser Vorgang ist in unserer Sandbox vereinfacht, daher reicht es aus, die PSU-ID in den Query-Parameter zu übergeben, um den gesamten SCA zu simulieren. Ein Beispiel ist im Folgenden aufgeführt:",
+      "PART_2": ". Um SCA mit dem REDIRECT-Ansatz durchzuführen, stellt die Sandbox einen Redirect-Server zur Verfügung, bei dem der Status abhängig von dem PSU aktualisiert wird. Dieser Vorgang ist in unserer Sandbox vereinfacht, daher reicht es aus, die PSU-ID in den Query-Parameter zu übergeben, um den gesamten SCA zu simulieren.",
       "PART_3": "Der Query-Parameter PSU-ID ist ein Pflichtfeld, das wenn es nicht angegeben sein sollte, zu einer Standardfehlermeldung des Redirect Servers führt.",
       "SUBTITLE_2": "Warum kann ich den Status einer Transaktion/Einwilligung nicht mit einem bestimmten PSU ändern?",
       "PART_4": "Wenn der Transaktions-/Einwilligungsstatus \"received\" ist, kann es sein, dass die PSU-ID nicht mit der IBAN in der Zahlungsinitiierungs- oder Einwilligungsanforderung übereinstimmt. Das Mapping zwischen PSU-ID und IBAN(s) ist im Developer-Portal dokumentiert. Wenn sich der Status nicht ändert, obwohl eine SCA Methode durchgeführt wurde und die IBAN mit der PSU-ID übereinstimmt, überprüfen Sie die PSU-ID auf Tippfehler und Groß-/Kleinschreibung."

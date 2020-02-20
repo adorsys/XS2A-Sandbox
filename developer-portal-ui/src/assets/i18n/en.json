@@ -840,7 +840,7 @@
       "SUBTITLE_1": "How can I change the transaction/consent status?",
       "PART_1": "By default a new created transaction/consent has the status",
       "RECEIVED": "\"received\"",
-      "PART_2": ". In order to perform SCA using\n REDIRECT approach, the sandbox provides a Redirect Server where the status\n gets updated depending on the PSU. Since SCA for REDIRECT is simplified\n for this sandbox, it is enough to pass a PSU-ID via Query-Parameter to\n simulate the whole SCA. An example is provided in the following:",
+      "PART_2": ". In order to perform SCA using\n REDIRECT approach, the sandbox provides a Redirect Server where the status\n gets updated depending on the PSU. Since SCA for REDIRECT is simplified\n for this sandbox, it is enough to pass a PSU-ID via Query-Parameter to\n simulate the whole SCA.",
       "PART_3": "The Query Parameter psu-id is mandatory. If it is not provided, the\n Redirect Server will display a default error message.",
       "SUBTITLE_2": "Why can't I change the transaction/consent status using a specific PSU?",
       "PART_4": "If the transaction/consent status is \"received\", it can be possible that\n the PSU-ID does not match IBAN in the payment initiation or consent\n creation request. The mapping between PSU-ID and IBAN(s) is documented in\n the developer portal. If the status doesn't change even though SCA was\n performed and the IBAN matches the PSU-ID, check the PSU-ID for typos and\n case sensitivity."
