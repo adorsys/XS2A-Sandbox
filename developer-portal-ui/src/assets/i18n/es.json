@@ -215,7 +215,7 @@
       "SUBTITLE_1": "Prerrequisitos",
       "CONTENT": {
         "PART_1": "Este sandbox se ejecuta con el docker-compose que se puede encontrar en docker-compose.yml y Makefile en el directorio del proyecto. Pero antes de ejecutar XS2ASandbox, primero verifique si todas las dependencias de compilación están instaladas:",
-        "PART_2": "Si falta algo, instálelo en su máquina local, de lo contrario la compilación fallará. Lista de dependencias que se requieren para usar XS2ASandbox: Java 8, NodeJs, CLI angular, Asciidoctor, jq, Docker, Docker Compose, Maven, PlantUML. Aquí están los enlaces donde puede instalar las dependencias necesarias:",
+        "PART_2": "Si falta algo, instálelo en su máquina local, de lo contrario la compilación fallará. Lista de dependencias que se requieren para usar XS2ASandbox: Java 11, NodeJs, CLI angular, Asciidoctor, jq, Docker, Docker Compose, Maven, PlantUML. Aquí están los enlaces donde puede instalar las dependencias necesarias:",
         "TH_1": "Dependency",
         "TH_2": "Link",
         "PART_3": "Dejar de correr contenedores en terminal con combinación de teclas Control + C.",
@@ -238,16 +238,17 @@
         "PART_3": "Si quieres, usa una primera manera:",
         "PART_4": "1. Construye todos los servicios con el comando:",
         "PART_5": "2. Después de edificio servicios, puede ejecutar XS2ASandbox con un simple comando docker:",
-        "PART_6": "En Makefile puede usar uno de los tres comandos:",
-        "PART_7": "• Ejecute servicios desde Docker Hub sin construir:",
-        "PART_8": "• Construir y ejecutar servicios:",
-        "PART_9": "• Ejecutar servicios sin construir:",
-        "PART_10": "Una vez que hayas construido el proyecto puedes ejecutarlo sin construir la próxima vez - comando",
-        "PART_11": "o",
-        "PART_12": "desde Makefile.",
-        "PART_13": "Recuerde que después de actualizar el proyecto debe reconstruirlo - comando",
-        "PART_14": "o",
-        "PART_15": "desde Makefile."
+        "PART_6": "En Makefile puede usar uno de los cuatro comandos:",
+        "PART_7": "• Ejecute la versión de lanzamiento de los servicios desde Docker Hub sin construir:",
+        "PART_8": "• Ejecute servicios desde Docker Hub sin construir:",
+        "PART_9": "• Construir y ejecutar servicios:",
+        "PART_10": "• Ejecutar servicios sin construir:",
+        "PART_11": "Una vez que hayas construido el proyecto puedes ejecutarlo sin construir la próxima vez - comando",
+        "PART_12": "o",
+        "PART_13": "desde Makefile.",
+        "PART_14": "Recuerde que después de actualizar el proyecto debe reconstruirlo - comando",
+        "PART_15": "o",
+        "PART_16": "desde Makefile."
       }
     },
     "TROUBLES": {
@@ -839,7 +840,7 @@
       "SUBTITLE_1": "¿Cómo puedo cambiar el estado de la transacción / consentimiento?",
       "PART_1": "Por defecto, una nueva transacción / consentimiento creado tiene el estado",
       "RECEIVED": "\"received\"",
-      "PART_2": ". Para realizar SCA utilizando el enfoque REDIRECT, el sandbox proporciona un Redirect Server donde el estado se actualiza según la PSU. Como SCA para REDIRECT está simplificado para este entorno limitado, es suficiente pasar un PSU-ID a través de Query-Parameter para simular todo el SCA. A continuación se proporciona un ejemplo:",
+      "PART_2": ". Para realizar SCA utilizando el enfoque REDIRECT, el sandbox proporciona un Redirect Server donde el estado se actualiza según la PSU. Como SCA para REDIRECT está simplificado para este entorno limitado, es suficiente pasar un PSU-ID a través de Query-Parameter para simular todo el SCA.",
       "PART_3": "El Query Parameter psu-id es obligatorio. Si no se proporciona, el servidor de redirección mostrará un mensaje de error predeterminado.",
       "SUBTITLE_2": "¿Por qué no puedo cambiar el estado de la transacción / consentimiento con una PSU específica?",
       "PART_4": "Si el estado de la transacción / consentimiento es “recieved\", es posible que el PSU-ID no coincida con el IBAN en el inicio de pago o la solicitud de creación de consentimiento. La asignación entre PSU-ID y IBAN (s) se documenta en el portal del desarrollador. Si el estado no cambia a pesar de que se realizó SCA y el IBAN coincide con la ID de la PSU, verifique la ID de la PSU para detectar errores tipográficos y la sensibilidad de las mayúsculas y minúsculas."

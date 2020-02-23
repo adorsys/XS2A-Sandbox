@@ -43,6 +43,11 @@ export class CustomizeService {
     supportedLanguages: ['en', 'de', 'es', 'ua'],
     supportedApproaches: ['redirect', 'embedded'],
     currency: 'EUR',
+    tppSettings: {
+      tppDefaultNokRedirectUrl: 'https://www.google.com',
+      tppDefaultRedirectUrl:
+        'https://adorsys-platform.de/solutions/xs2a-sandbox/',
+    },
   };
   private USER_THEME: Theme = {
     globalSettings: {
@@ -70,6 +75,10 @@ export class CustomizeService {
     supportedLanguages: [],
     supportedApproaches: [],
     currency: '',
+    tppSettings: {
+      tppDefaultNokRedirectUrl: '',
+      tppDefaultRedirectUrl: '',
+    },
   };
 
   private defaultThemeUrl = 'assets/UI/defaultTheme.json';
@@ -295,6 +304,7 @@ export interface Theme {
   supportedLanguages: string[];
   supportedApproaches: string[];
   currency: string;
+  tppSettings: TppSettings;
 }
 
 export interface GlobalSettings {
@@ -348,4 +358,9 @@ export interface OfficeInfo {
   email?: string;
   facebook?: string;
   linkedIn?: string;
+}
+
+export interface TppSettings {
+  tppDefaultNokRedirectUrl: string;
+  tppDefaultRedirectUrl: string;
 }

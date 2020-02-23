@@ -238,16 +238,17 @@
         "PART_3": "Falls Sie es wollen benutze einen ersten Weg:",
         "PART_4": "1. Bauen Sie alle Dienste mit folgendem Befehl:",
         "PART_5": "2. Nach dem Gebäude der Dienste können Sie XS2ASandbox mit einem einfachen Docker-Befehl ausführen:",
-        "PART_6": "In Makefile können Sie einen von drei Befehlen verwenden:",
-        "PART_7": "• Führen Sie Dienste ohne Build über Docker Hub aus:",
-        "PART_8": "• Bauen und starten der Dienste:",
-        "PART_9": "• Starten der Dienste ohne Bauen:",
-        "PART_10": "Sobald Sie das Projekt gebaut haben, können Sie es ausführen, ohne es das nächste Mal zu bauen - Befehl ",
-        "PART_11": "oder",
-        "PART_12": "aus Makefile",
-        "PART_13": "Denken Sie daran, dass Sie das Projekt nach dem Aktualisieren neu erstellen sollten - Befehl ",
-        "PART_14": "oder",
-        "PART_15": "aus Makefile"
+        "PART_6": "In Makefile können Sie einen von vier Befehlen verwenden:",
+        "PART_7": "• Führen Sie die Release-Version der Dienste vom Docker Hub ohne Build:",
+        "PART_8": "• Führen Sie Dienste ohne Build über Docker Hub aus:",
+        "PART_9": "• Bauen und starten der Dienste:",
+        "PART_10": "• Starten der Dienste ohne Bauen:",
+        "PART_11": "Sobald Sie das Projekt gebaut haben, können Sie es ausführen, ohne es das nächste Mal zu bauen - Befehl ",
+        "PART_12": "oder",
+        "PART_13": "aus Makefile",
+        "PART_14": "Denken Sie daran, dass Sie das Projekt nach dem Aktualisieren neu erstellen sollten - Befehl ",
+        "PART_15": "oder",
+        "PART_16": "aus Makefile"
       }
     },
     "TROUBLES": {
@@ -839,7 +840,7 @@
       "SUBTITLE_1": "Wie kann ich den Status einer Transaktion/Einwilligung ändern?",
       "PART_1": "Alle erstellten Transaktionen/Einwilligungen haben als Status automatisch",
       "RECEIVED": "\"received\"",
-      "PART_2": ". Um SCA mit dem REDIRECT-Ansatz durchzuführen, stellt die Sandbox einen Redirect-Server zur Verfügung, bei dem der Status abhängig von dem PSU aktualisiert wird. Dieser Vorgang ist in unserer Sandbox vereinfacht, daher reicht es aus, die PSU-ID in den Query-Parameter zu übergeben, um den gesamten SCA zu simulieren. Ein Beispiel ist im Folgenden aufgeführt:",
+      "PART_2": ". Um SCA mit dem REDIRECT-Ansatz durchzuführen, stellt die Sandbox einen Redirect-Server zur Verfügung, bei dem der Status abhängig von dem PSU aktualisiert wird. Dieser Vorgang ist in unserer Sandbox vereinfacht, daher reicht es aus, die PSU-ID in den Query-Parameter zu übergeben, um den gesamten SCA zu simulieren.",
       "PART_3": "Der Query-Parameter PSU-ID ist ein Pflichtfeld, das wenn es nicht angegeben sein sollte, zu einer Standardfehlermeldung des Redirect Servers führt.",
       "SUBTITLE_2": "Warum kann ich den Status einer Transaktion/Einwilligung nicht mit einem bestimmten PSU ändern?",
       "PART_4": "Wenn der Transaktions-/Einwilligungsstatus \"received\" ist, kann es sein, dass die PSU-ID nicht mit der IBAN in der Zahlungsinitiierungs- oder Einwilligungsanforderung übereinstimmt. Das Mapping zwischen PSU-ID und IBAN(s) ist im Developer-Portal dokumentiert. Wenn sich der Status nicht ändert, obwohl eine SCA Methode durchgeführt wurde und die IBAN mit der PSU-ID übereinstimmt, überprüfen Sie die PSU-ID auf Tippfehler und Groß-/Kleinschreibung."

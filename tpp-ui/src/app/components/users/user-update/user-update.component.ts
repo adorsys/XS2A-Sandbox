@@ -109,6 +109,7 @@ export class UserUpdateComponent implements OnInit {
                 scaData.get('methodValue').setValidators([Validators.required]);
             }
         });
+
         return scaData;
     }
 

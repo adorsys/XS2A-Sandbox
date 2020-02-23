@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { DataService } from '../services/data.service';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {DataService} from '../services/data.service';
 import {
   CustomizeService,
   GlobalSettings,
   Theme,
 } from '../services/customize.service';
-import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '../services/language.service';
+import {TranslateService} from '@ngx-translate/core';
+import {LanguageService} from '../services/language.service';
 
 @Component({
   selector: 'app-root',
@@ -35,9 +35,17 @@ export class AppComponent implements OnInit {
     private translateService: TranslateService,
     private languageService: LanguageService
   ) {
-    this.customizeService
-      .getJSON()
-      .then(data => (this.langs = data.supportedLanguages));
+    this.customizeService.getJSON().then(data => {
+      this.langs = data.supportedLanguages;
+      localStorage.setItem(
+        'tppDefaultNokRedirectUrl',
+        data.tppSettings.tppDefaultNokRedirectUrl
+      );
+      localStorage.setItem(
+        'tppDefaultRedirectUrl',
+        data.tppSettings.tppDefaultRedirectUrl
+      );
+    });
     this.languageService.initializeTranslation();
     this.setLangCollapsed(true);
   }

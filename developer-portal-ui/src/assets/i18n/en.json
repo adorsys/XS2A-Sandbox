@@ -215,7 +215,7 @@
       "SUBTITLE_1": "Prerequisites",
       "CONTENT": {
         "PART_1": "This sandbox runs with the docker-compose that can be found at\n docker-compose.yml and Makefile in project directory. But before you run\n XS2ASandbox, first check if all build dependencies are installed:",
-        "PART_2": "If something is missing, install it to your local machine, otherwise the\n build will fail. List of dependencies that are required to use\n XS2ASandbox: Java 8, NodeJs, Angular CLI, Asciidoctor, jq, Docker, Docker\n Compose, Maven, PlantUML. Here are links where you can install needed\n dependencies:",
+        "PART_2": "If something is missing, install it to your local machine, otherwise the\n build will fail. List of dependencies that are required to use\n XS2ASandbox: Java 11, NodeJs, Angular CLI, Asciidoctor, jq, Docker, Docker\n Compose, Maven, PlantUML. Here are links where you can install needed\n dependencies:",
         "TH_1": "Dependency",
         "TH_2": "Link",
         "PART_3": "Stop running containers in terminal with key combination Control + C.",
@@ -238,16 +238,17 @@
         "PART_3": "If you want use a first way:",
         "PART_4": "1. Build all the services with the command:",
         "PART_5": "2. After building services you can run XS2ASandbox with a\n simple docker command:",
-        "PART_6": "In Makefile you can use one of three commands:",
-        "PART_7": "• Run services from Docker Hub without build:",
-        "PART_8": "• Build and run services:",
-        "PART_9": "• Run services without build:",
-        "PART_10": "Once you have built the project you can run it without build next time - command",
-        "PART_11": "or",
-        "PART_12": "from Makefile.",
-        "PART_13": "Remember that after you update the project you should rebuild it - command",
-        "PART_14": "or",
-        "PART_15": "from Makefile."
+        "PART_6": "In Makefile you can use one of four commands:",
+        "PART_7": "• Run release version of services from Docker Hub without build:",
+        "PART_8": "• Run services from Docker Hub without build:",
+        "PART_9": "• Build and run services:",
+        "PART_10": "• Run services without build:",
+        "PART_11": "Once you have built the project you can run it without build next time - command",
+        "PART_12": "or",
+        "PART_13": "from Makefile.",
+        "PART_14": "Remember that after you update the project you should rebuild it - command",
+        "PART_15": "or",
+        "PART_16": "from Makefile."
       }
     },
     "TROUBLES": {
@@ -839,7 +840,7 @@
       "SUBTITLE_1": "How can I change the transaction/consent status?",
       "PART_1": "By default a new created transaction/consent has the status",
       "RECEIVED": "\"received\"",
-      "PART_2": ". In order to perform SCA using\n REDIRECT approach, the sandbox provides a Redirect Server where the status\n gets updated depending on the PSU. Since SCA for REDIRECT is simplified\n for this sandbox, it is enough to pass a PSU-ID via Query-Parameter to\n simulate the whole SCA. An example is provided in the following:",
+      "PART_2": ". In order to perform SCA using\n REDIRECT approach, the sandbox provides a Redirect Server where the status\n gets updated depending on the PSU. Since SCA for REDIRECT is simplified\n for this sandbox, it is enough to pass a PSU-ID via Query-Parameter to\n simulate the whole SCA.",
       "PART_3": "The Query Parameter psu-id is mandatory. If it is not provided, the\n Redirect Server will display a default error message.",
       "SUBTITLE_2": "Why can't I change the transaction/consent status using a specific PSU?",
       "PART_4": "If the transaction/consent status is \"received\", it can be possible that\n the PSU-ID does not match IBAN in the payment initiation or consent\n creation request. The mapping between PSU-ID and IBAN(s) is documented in\n the developer portal. If the status doesn't change even though SCA was\n performed and the IBAN matches the PSU-ID, check the PSU-ID for typos and\n case sensitivity."

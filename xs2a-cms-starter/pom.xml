@@ -5,7 +5,7 @@
     <parent>
         <artifactId>psd2-dynamic-sandbox</artifactId>
         <groupId>de.adorsys.psd2.sandbox</groupId>
-        <version>2.9</version>
+        <version>3.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -49,12 +49,6 @@
 
         <dependency>
             <groupId>de.adorsys.psd2</groupId>
-            <artifactId>cms-payment-common-impl</artifactId>
-            <version>${xs2a.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>de.adorsys.psd2</groupId>
             <artifactId>aspsp-profile-lib</artifactId>
             <version>${xs2a.version}</version>
         </dependency>
@@ -77,4 +71,4 @@
             <version>${project.version}</version>
         </dependency>
     </dependencies>
-    </project>
+</project>

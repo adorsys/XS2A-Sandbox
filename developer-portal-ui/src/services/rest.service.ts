@@ -1,29 +1,21 @@
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {AcceptType} from '../models/acceptType.model';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { AcceptType } from '../models/acceptType.model';
 
 @Injectable()
 export class RestService {
   serverUrl = '/xs2a-proxy';
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   public sendRequest(
     method,
     url,
-    headerParams,
-    xml: boolean,
-    body?,
-    acceptHeader?: string
+    headers,
+    acceptHeader: string,
+    body?
   ): Observable<any> {
-    const headers = this.buildHeadersForRequest(
-      headerParams,
-      xml,
-      acceptHeader
-    );
-
     if (acceptHeader && acceptHeader == AcceptType.xml) {
       const options: {
         headers?: HttpHeaders;
@@ -35,7 +27,6 @@ export class RestService {
         responseType: 'text',
       };
       return this.sendRequestWithSetOptions(method, url, options, body);
-
     } else {
       const options: {
         headers?: HttpHeaders;
@@ -48,16 +39,6 @@ export class RestService {
       };
       return this.sendRequestWithSetOptions(method, url, options, body);
     }
-  }
-
-  private buildHeadersForRequest(
-    headerParams: any,
-    xml: boolean,
-    acceptHeader: string
-  ) {
-    headerParams['Content-Type'] = xml ? 'application/xml' : 'application/json';
-    headerParams.Accept = acceptHeader ? acceptHeader : 'application/json';
-    return new HttpHeaders(headerParams);
   }
 
   private sendRequestWithSetOptions(method, url, options, body?) {

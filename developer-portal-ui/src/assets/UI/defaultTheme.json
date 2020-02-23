@@ -31,5 +31,9 @@
   ],
   "supportedLanguages": ["en", "de", "es", "ua"],
   "supportedApproaches": ["redirect", "embedded"],
-  "currency": "EUR"
+  "currency": "EUR",
+  "tppSettings": {
+    "tppDefaultNokRedirectUrl": "https://www.google.com",
+    "tppDefaultRedirectUrl": "https://adorsys-platform.de/solutions/xs2a-sandbox/"
+  }
 }
