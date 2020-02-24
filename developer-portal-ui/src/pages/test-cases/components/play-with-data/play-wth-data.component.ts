@@ -1,19 +1,19 @@
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
-import { RestService } from '../../../../services/rest.service';
-import { DataService } from '../../../../services/data.service';
-import { getStatusText } from 'http-status-codes';
-import { CopyService } from '../../../../services/copy.service';
-import { ConsentTypes } from '../../../../models/consentTypes.model';
-import { LocalStorageService } from '../../../../services/local-storage.service';
-import { JsonService } from '../../../../services/json.service';
+import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
+import {Component, Input, OnInit} from '@angular/core';
+import {RestService} from '../../../../services/rest.service';
+import {DataService} from '../../../../services/data.service';
+import {getStatusText} from 'http-status-codes';
+import {CopyService} from '../../../../services/copy.service';
+import {ConsentTypes} from '../../../../models/consentTypes.model';
+import {LocalStorageService} from '../../../../services/local-storage.service';
+import {JsonService} from '../../../../services/json.service';
 import * as vkbeautify from 'vkbeautify';
-import { AspspService } from '../../../../services/aspsp.service';
+import {AspspService} from '../../../../services/aspsp.service';
 import {
   PaymentType,
   PaymentTypesMatrix,
 } from '../../../../models/paymentTypesMatrix.model';
-import { AcceptType } from '../../../../models/acceptType.model';
+import {AcceptType} from '../../../../models/acceptType.model';
 import * as uuid from 'uuid';
 
 @Component({
@@ -71,6 +71,7 @@ export class PlayWthDataComponent implements OnInit {
   acceptHeader;
 
   private disabledHeaders = [];
+  booleanValues = ['true', 'false'];
 
   constructor(
     public restService: RestService,
@@ -80,7 +81,8 @@ export class PlayWthDataComponent implements OnInit {
     public jsonService: JsonService,
     public aspspService: AspspService,
     private http: HttpClient
-  ) {}
+  ) {
+  }
 
   /**
    * Get status text by status code
@@ -383,5 +385,13 @@ export class PlayWthDataComponent implements OnInit {
 
       return new HttpHeaders(requestHeaders);
     }
+  }
+
+  isBooleanValue(item: any) {
+    return item.value === 'true' || item.value === 'false';
+  }
+
+  changeBooleanHeader(key: any, value: any) {
+    this.headers[key] = value;
   }
 }

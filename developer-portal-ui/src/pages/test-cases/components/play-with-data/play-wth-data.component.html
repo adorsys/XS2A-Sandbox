@@ -29,7 +29,7 @@
         </option>
       </select>
       <span class="top-line" *ngIf="paymentProductFlag || accountIdFlag"
-        >/</span
+      >/</span
       >
       <input
         type="text"
@@ -72,11 +72,11 @@
 
       <span class="top-line" *ngIf="variablePathEnd">{{
         variablePathEnd
-      }}</span>
+        }}</span>
       <span
         class="top-line"
         *ngIf="authorisationIdFlag || cancellationIdFlag || transactionIdFlag"
-        >/</span
+      >/</span
       >
       <input
         type="text"
@@ -168,7 +168,16 @@
       class="checkbox"
     />
     <span>{{ item.key }}</span>
-    <input [(ngModel)]="headers[item.key]" type="text" [id]="item.key" />
+
+    <select *ngIf="isBooleanValue(item); else regularInput"
+            [(ngModel)]="item.value"
+            (change)="changeBooleanHeader(item.key, $event.target.value)">
+      <option *ngFor="let boolean of booleanValues" [value]="boolean">{{ boolean }}</option>
+    </select>
+
+    <ng-template #regularInput>
+      <input [(ngModel)]="headers[item.key]" type="text" [id]="item.key"/>
+    </ng-template>
   </div>
 
   <div class="send-body" *ngIf="body">
@@ -184,7 +193,7 @@
         <option
           *ngFor="let consent of (consentTypes | keyvalue); let i = index"
           [value]="consent.key"
-          >{{ consent.key }}
+        >{{ consent.key }}
         </option>
       </select>
     </div>
@@ -286,7 +295,7 @@
               <label [for]="'input-' + i">resourceId {{ i + 1 }}</label>
             </td>
             <td class="copy-field">
-              <input type="text" [value]="resourceId" [id]="'input-' + i" />
+              <input type="text" [value]="resourceId" [id]="'input-' + i"/>
             </td>
             <td>
               <button
