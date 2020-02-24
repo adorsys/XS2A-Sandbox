@@ -133,7 +133,7 @@
                                     <div [formGroupName]="i">
                                         <select formControlName="scaMethod"class="form-control">
                                             <option value=""></option>
-                                            <option *ngFor="let t of methods">{{t}}</option>
+                                            <option *ngFor="let t of methods" [value]="t">{{t}}</option>
                                         </select>
                                     </div>
                                     <div *ngIf="submitted && scaDataItem.controls['scaMethod'].errors" class="invalid-feedback">

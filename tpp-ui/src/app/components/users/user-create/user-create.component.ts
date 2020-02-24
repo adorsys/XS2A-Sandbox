@@ -53,8 +53,8 @@ export class UserCreateComponent implements OnInit {
         const emailValidators = [Validators.required, Validators.pattern(new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))];
 
         const scaData = this.formBuilder.group({
-            scaMethod: [ScaMethods.EMAIL, Validators.required],
-            methodValue: ['', emailValidators],
+            scaMethod: ['', Validators.required],
+            methodValue: [''],
             staticTan: [{value: '', disabled: true}],
             usesStaticTan: [false]
         });
@@ -79,6 +79,7 @@ export class UserCreateComponent implements OnInit {
             } else {
                 scaData.get('methodValue').setValidators([Validators.required]);
             }
+            scaData.get('methodValue').updateValueAndValidity();
         });
         return scaData;
     }

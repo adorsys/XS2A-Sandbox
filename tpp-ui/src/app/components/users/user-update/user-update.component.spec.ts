@@ -109,14 +109,14 @@ describe('UserUpdateComponent', () => {
   it('SCA validity', () => {
     let errors = {};
     const sca = component.updateUserForm.controls['scaUserData']['controls'][0].controls['methodValue'];
-    expect(sca.valid).toBeFalsy();
+    expect(sca.valid).toBeTruthy();
 
     // pin field is required
     errors = sca.errors || {};
-    expect(errors['required']).toBeTruthy();
+    expect(errors['required']).toBeFalsy();
 
     // set pin to something correct
-    sca.setValue('sca method');
+    sca.setValue('');
     errors = sca.errors || {};
     expect(errors['required']).toBeFalsy();
   });
@@ -140,7 +140,7 @@ describe('UserUpdateComponent', () => {
     const formGroup = component.initScaData();
     const data = {
       id: '',
-      scaMethod: ScaMethods.EMAIL,
+      scaMethod: '',
       methodValue: '',
       usesStaticTan: false
     };
@@ -177,6 +177,7 @@ describe('UserUpdateComponent', () => {
     scaUserData.at(0).get('methodValue').setValue('dart.vader@dark-side.com');
     scaUserData.at(0).get('staticTan').setValue('12345');
     scaUserData.at(0).get('usesStaticTan').setValue(true);
+    scaUserData.at(0).get('scaMethod').setValue(ScaMethods.EMAIL);
 
     // create spies and fake call function
     const sampleResponse = {value: 'sample response'};

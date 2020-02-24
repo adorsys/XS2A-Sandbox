@@ -82,8 +82,8 @@ export class UserUpdateComponent implements OnInit {
 
         const scaData = this.formBuilder.group({
             id: '',
-            scaMethod: [ScaMethods.EMAIL, Validators.required],
-            methodValue: ['', emailValidators],
+            scaMethod: ['', Validators.required],
+            methodValue: [''],
             staticTan: [{value: '', disabled: true}],
             usesStaticTan: [false]
         });
@@ -108,6 +108,7 @@ export class UserUpdateComponent implements OnInit {
             } else {
                 scaData.get('methodValue').setValidators([Validators.required]);
             }
+            scaData.get('methodValue').updateValueAndValidity();
         });
 
         return scaData;
