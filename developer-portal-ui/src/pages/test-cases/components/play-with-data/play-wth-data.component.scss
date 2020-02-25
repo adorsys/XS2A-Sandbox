@@ -12,9 +12,7 @@
   select {
     font-size: 1em;
     border: none;
-    background: #f7f7f7;
     box-shadow: none;
-    color: #3b4151;
   }
 
   select:focus {
@@ -151,13 +149,10 @@
       padding: 5px 25px 5px 25px;
       float: right;
       cursor: pointer;
-      background-color: #054f72;
-      color: #fff;
       font-size: 0.8rem;
       outline: none;
 
       &:hover {
-        background-color: #d1d1d1;
         -webkit-transition: background-color 1s ease-out;
         transition: background-color 1s ease-out;
       }
@@ -217,8 +212,6 @@
 
         .copy-btn {
           display: block;
-          background-color: #054f72;
-          color: #fff;
           width: 10vw;
           height: 2.5vw;
           font-size: 0.8rem;
@@ -235,8 +228,6 @@
     align-items: center;
 
     .submit-btn {
-      background-color: #054f72;
-      color: #fff;
       width: 10vw;
       height: 2.5vw;
       font-size: 0.8rem;
@@ -250,8 +241,6 @@
       text-decoration: none;
       text-align: center;
       padding: 0.596vw 0;
-      background-color: #054f72;
-      color: #fff;
       width: 9.8vw;
       font-size: 0.8rem;
       margin-top: 2.5vw;

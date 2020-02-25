@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import cssVars from 'css-vars-ponyfill';
+import {CSSVariables, Theme} from "../models/theme.model";
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +13,7 @@ export class CustomizeService {
   private DEFAULT_THEME: Theme = {
     globalSettings: {
       logo: 'Logo_XS2ASandbox.png',
+      footerLogo: 'Logo_XS2ASandbox.png',
       facebook: 'https://www.facebook.com/adorsysGmbH/',
       linkedIn: 'https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/',
     },
@@ -52,6 +54,7 @@ export class CustomizeService {
   private USER_THEME: Theme = {
     globalSettings: {
       logo: '',
+      footerLogo: '',
     },
     contactInfo: {
       img: '',
@@ -215,6 +218,14 @@ export class CustomizeService {
     }
   }
 
+  getFooterLogo() {
+    if (this.NEW_THEME_WAS_SET) {
+      return this.USER_THEME.globalSettings.footerLogo;
+    } else {
+      return this.DEFAULT_THEME.globalSettings.footerLogo;
+    }
+  }
+
   validateTheme(theme): string[] {
     const general = ['globalSettings', 'contactInfo', 'officesInfo'];
     const additional = [
@@ -295,72 +306,4 @@ export class CustomizeService {
     //   document.documentElement.style.setProperty('--' + variableName, variables[variableName]);
     // });
   }
-}
-
-export interface Theme {
-  globalSettings: GlobalSettings;
-  contactInfo: ContactInfo;
-  officesInfo: OfficeInfo[];
-  supportedLanguages: string[];
-  supportedApproaches: string[];
-  currency: string;
-  tppSettings: TppSettings;
-}
-
-export interface GlobalSettings {
-  logo: string;
-  favicon?: Favicon;
-  facebook?: string;
-  linkedIn?: string;
-  cssVariables?: CSSVariables;
-}
-
-export interface Favicon {
-  type: string;
-  href: string;
-}
-
-export interface CSSVariables {
-  [key: string]: string;
-
-  colorPrimary?: string;
-  colorSecondary?: string;
-  fontFamily?: string;
-  bodyBG?: string;
-  headerBG?: string;
-  headerFontColor?: string;
-  mainBG?: string;
-  footerBG?: string;
-  footerFontColor?: string;
-  anchorFontColor?: string;
-  anchorFontColorHover?: string;
-  heroBG?: string;
-  stepBG?: string;
-  contactsCardBG?: string;
-  testCasesLeftSectionBG?: string;
-  testCasesRightSectionBG?: string;
-}
-
-export interface ContactInfo {
-  img: string;
-  name: string;
-  position: string;
-  email?: string;
-  phone?: string;
-}
-
-export interface OfficeInfo {
-  city: string;
-  company: string;
-  addressFirstLine: string;
-  addressSecondLine: string;
-  phone?: string;
-  email?: string;
-  facebook?: string;
-  linkedIn?: string;
-}
-
-export interface TppSettings {
-  tppDefaultNokRedirectUrl: string;
-  tppDefaultRedirectUrl: string;
 }

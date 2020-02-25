@@ -4,7 +4,6 @@
 * {
   box-sizing: border-box;
   padding: 0;
-  //   margin: 0;
 }
 
 :after,
@@ -13,7 +12,8 @@
 }
 
 html {
-  font-size: 16px;
+  font-size: var(--textFontSize);
+  font-weight: var(--textFontWeight);
 
   @media screen and (min-width: 720px) {
     font-size: 18px;
@@ -40,6 +40,7 @@ body {
 
 main {
   background: var(--mainBG);
+
   &:before,
   &:after {
     content: '';
@@ -122,23 +123,37 @@ a:focus {
   }
 }
 
-.btn {
-  color: $btn-text-color;
-  margin-bottom: 1.1rem;
-  width: 200px;
+h1 {
+  font-size: var(--h1FontSize);
+  font-weight: var(--h1FontWeight);
+  color: var(--colorPrimary);
 }
 
-.btn-primary {
-  color: $COLOR_WHITE;
-  background: $primary-gradient;
+h2 {
+  font-size: var(--h2FontSize);
+  font-weight: var(--h2FontWeight);
+}
+
+h3 {
+  font-size: var(--h3FontSize);
+  font-weight: var(--h3FontWeight);
+}
+
+button {
+  color: var(--buttonTextColor);
+  background: var(--buttonBG);
   border-radius: 3px;
 
   &:hover {
-    background: $COLOR_DARK_BLUE;
+    background: var(--buttonHovered);
+  }
+
+  &:focus {
+    background: var(--buttonClicked);
   }
 }
 
-.btn-outline-secondary {
+.button-secondary {
   color: $COLOR_DARK_GREY;
   background-color: $COLOR_WHITE;
   border: 1px solid $COLOR_DARK_GREY;
@@ -148,6 +163,19 @@ a:focus {
     background-color: $COLOR_GREY;
     color: $COLOR_BLACK;
   }
+}
+
+input {
+  background: var(--inputBG);
+  outline: none;
+  border: var(--inputBorderStyle);
+  border-radius: 0.1rem;
+}
+
+select {
+  background: var(--selectBG);
+  outline: none;
+  color: var(--selectColor);
 }
 
 .endpoint-wrapper {

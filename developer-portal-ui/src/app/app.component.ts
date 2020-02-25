@@ -1,13 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {DataService} from '../services/data.service';
-import {
-  CustomizeService,
-  GlobalSettings,
-  Theme,
-} from '../services/customize.service';
-import {TranslateService} from '@ngx-translate/core';
-import {LanguageService} from '../services/language.service';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DataService } from '../services/data.service';
+import { CustomizeService } from '../services/customize.service';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../services/language.service';
+import { GlobalSettings, Theme } from '../models/theme.model';
 
 @Component({
   selector: 'app-root',
@@ -92,6 +89,12 @@ export class AppComponent implements OnInit {
           '../assets/UI' +
           (this.customizeService.isCustom() ? '/custom/' : '/') +
           theme.globalSettings.logo;
+      }
+      if (theme.globalSettings.footerLogo.indexOf('/') === -1) {
+        theme.globalSettings.footerLogo =
+          '../assets/UI' +
+          (this.customizeService.isCustom() ? '/custom/' : '/') +
+          theme.globalSettings.footerLogo;
       }
       if (
         theme.globalSettings.favicon &&

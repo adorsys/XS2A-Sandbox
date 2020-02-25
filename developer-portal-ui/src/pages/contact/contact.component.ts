@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import {ContactInfo, CustomizeService, OfficeInfo, Theme} from '../../services/customize.service';
+import {Component} from '@angular/core';
+import {CustomizeService} from '../../services/customize.service';
+import {ContactInfo, OfficeInfo, Theme} from "../../models/theme.model";
 
 @Component({
   selector: 'app-contact',

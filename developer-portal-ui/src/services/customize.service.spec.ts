@@ -1,10 +1,11 @@
-import {TestBed} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
 
-import {CustomizeService, Theme} from './customize.service';
+import { CustomizeService } from './customize.service';
+import { Theme } from '../models/theme.model';
 
 describe('CustomizeService', () => {
   let service: CustomizeService;
@@ -12,6 +13,7 @@ describe('CustomizeService', () => {
   const defTheme: Theme = {
     globalSettings: {
       logo: 'Logo_XS2ASandbox.png',
+      footerLogo: 'Logo_XS2ASandbox.png',
       facebook: 'https://www.facebook.com/adorsysGmbH/',
       linkedIn: 'https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/',
     },
@@ -52,6 +54,7 @@ describe('CustomizeService', () => {
   const defUserTheme = {
     globalSettings: {
       logo: '',
+      footerLogo: '',
     },
     contactInfo: {
       img: '',
@@ -77,8 +80,7 @@ describe('CustomizeService', () => {
     currency: '',
     tppSettings: {
       tppDefaultNokRedirectUrl: '',
-      tppDefaultRedirectUrl:
-        '',
+      tppDefaultRedirectUrl: '',
     },
   };
 
