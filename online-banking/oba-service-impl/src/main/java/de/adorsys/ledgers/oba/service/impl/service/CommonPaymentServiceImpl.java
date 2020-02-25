@@ -15,6 +15,7 @@ import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentWorkflow;
 import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
+import de.adorsys.ledgers.oba.service.api.service.AuthorizationService;
 import de.adorsys.ledgers.oba.service.api.service.CommonPaymentService;
 import de.adorsys.ledgers.oba.service.api.service.ConsentReferencePolicy;
 import de.adorsys.ledgers.oba.service.impl.mapper.PaymentMapper;
@@ -32,7 +33,6 @@ import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -41,7 +41,8 @@ import java.util.EnumSet;
 import java.util.Optional;
 
 import static de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode.CONSENT_DATA_UPDATE_FAILED;
-import static de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode.*;
+import static de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode.AUTH_EXPIRED;
+import static de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode.NOT_FOUND;
 import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuPisClient.DEFAULT_SERVICE_INSTANCE_ID;
 
 @Slf4j
@@ -57,6 +58,7 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
     private final PaymentMapperTO paymentMapper;
     private final PaymentMapper paymentConverter;
     private final OauthRestClient oauthRestClient;
+    private final AuthorizationService authService;
 
     @Override
     public PaymentWorkflow selectScaForPayment(String encryptedPaymentId, String authorisationId, String scaMethodId, String consentAndAccessTokenCookieString, boolean isCancellationOperation, String psuId, BearerTokenTO tokenTO) {
@@ -108,7 +110,7 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
         authInterceptor.setAccessToken(workflow.getScaResponse().getBearerToken().getAccess_token());
         String tppOkRedirectUri = isOauth2Integrated
                                       ? oauthRestClient.oauthCode(consentResponse.getTppOkRedirectUri()).getBody().getRedirectUri()
-                                      : buildTppOkRedirectUri(consentResponse.getTppOkRedirectUri(), authConfirmationCode);
+                                      : authService.resolveAuthConfirmationCodeRedirectUri(consentResponse.getTppOkRedirectUri(), authConfirmationCode);
 
         String tppNokRedirectUri = consentResponse.getTppNokRedirectUri();
         ScaStatusTO scaStatus = loadAuthorization(workflow.authId());
@@ -116,12 +118,6 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
         return EnumSet.of(ScaStatusTO.FINALISED, ScaStatusTO.UNCONFIRMED).contains(scaStatus)
                    ? tppOkRedirectUri
                    : tppNokRedirectUri;
-    }
-
-    private String buildTppOkRedirectUri(String tppOkRedirectUri, String authConfirmationCode) {
-        String authCodeParam = StringUtils.isNotBlank(authConfirmationCode)
-                                   ? "?authConfirmationCode=" + authConfirmationCode : "";
-        return tppOkRedirectUri + authCodeParam;
     }
 
     @Override

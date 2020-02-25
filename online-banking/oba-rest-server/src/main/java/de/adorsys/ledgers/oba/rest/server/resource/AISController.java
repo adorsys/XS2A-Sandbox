@@ -18,6 +18,7 @@ import de.adorsys.ledgers.oba.rest.api.resource.AISApi;
 import de.adorsys.ledgers.oba.rest.api.resource.exception.ConsentAuthorizeException;
 import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
 import de.adorsys.ledgers.oba.service.api.domain.*;
+import de.adorsys.ledgers.oba.service.api.service.AuthorizationService;
 import de.adorsys.ledgers.oba.service.api.service.ConsentService;
 import de.adorsys.ledgers.oba.service.api.service.RedirectConsentService;
 import de.adorsys.psd2.consent.api.CmsAspspConsentDataBase64;
@@ -31,7 +32,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient;
 import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
-import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,15 +46,17 @@ import java.util.List;
 import java.util.Optional;
 
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.*;
-import static de.adorsys.psd2.xs2a.core.consent.ConsentStatus.*;
-import static de.adorsys.psd2.xs2a.core.consent.ConsentStatus.RECEIVED; //NOPMD
+
+import static de.adorsys.psd2.xs2a.core.consent.ConsentStatus.RECEIVED;
+import static de.adorsys.psd2.xs2a.core.consent.ConsentStatus.VALID;
+import static de.adorsys.psd2.xs2a.core.consent.ConsentStatus.PARTIALLY_AUTHORISED;
 import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient.DEFAULT_SERVICE_INSTANCE_ID;
 
 @Slf4j
 @RestController
 @RequestMapping(AISApi.BASE_PATH)
 @Api(value = AISApi.BASE_PATH, tags = "PSU AIS. Provides access to online banking account functionality")
-@SuppressWarnings("PMD.TooManyMethods")
+@SuppressWarnings({"PMD.TooManyMethods","PMD.TooManyStaticImports"})
 @RequiredArgsConstructor
 public class AISController implements AISApi {
     private final CmsPsuAisClient cmsPsuAisClient;
@@ -70,6 +72,7 @@ public class AISController implements AISApi {
     private final AuthRequestInterceptor authInterceptor;
     private final AspspConsentDataClient aspspConsentDataClient;
     private final TokenStorageService tokenStorageService;
+    private final AuthorizationService authService;
 
     @Override
     @ApiOperation(value = "Entry point for authenticating ais consent requests.")
@@ -225,7 +228,7 @@ public class AISController implements AISApi {
         authInterceptor.setAccessToken(workflow.getScaResponse().getBearerToken().getAccess_token());
         String tppOkRedirectUri = isOauth2Integrated
                                       ? oauthRestClient.oauthCode(consentResponse.getTppOkRedirectUri()).getBody().getRedirectUri()
-                                      : buildTppOkRedirectUri(consentResponse.getTppOkRedirectUri(), authConfirmationCode);
+                                      : authService.resolveAuthConfirmationCodeRedirectUri(consentResponse.getTppOkRedirectUri(), authConfirmationCode);
         String tppNokRedirectUri = consentResponse.getTppNokRedirectUri();
 
         String redirectURL = EnumSet.of(VALID, RECEIVED, PARTIALLY_AUTHORISED).contains(consentStatus)
@@ -233,12 +236,6 @@ public class AISController implements AISApi {
                                  : tppNokRedirectUri;
 
         return responseUtils.redirect(redirectURL, response);
-    }
-
-    private String buildTppOkRedirectUri(String tppOkRedirectUri, String authConfirmationCode) {
-        String authCodeParam = StringUtils.isNotBlank(authConfirmationCode)
-                                   ? "?authConfirmationCode=" + authConfirmationCode : "";
-        return tppOkRedirectUri + authCodeParam;
     }
 
     @Override
