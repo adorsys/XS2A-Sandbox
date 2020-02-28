@@ -44,9 +44,7 @@ export class UserUpdateComponent implements OnInit {
 
     setupUserFormControl(): void {
         this.updateUserForm = this.formBuilder.group({
-            scaUserData: this.formBuilder.array([
-                this.initScaData()
-            ]),
+            scaUserData: this.formBuilder.array([]),
             email: ['', [Validators.required, Validators.email]],
             login: ['', Validators.required],
             pin: ['', [Validators.required, Validators.minLength(5)]],
