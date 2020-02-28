@@ -24,10 +24,6 @@ public interface TppRestApi {
     ResponseEntity<Set<Currency>> getCurrencies();
 
     @ApiOperation(value = "Get country codes")
-    @GetMapping("/country/codes")
-    ResponseEntity<List<CountryCode>> getCountryCodes();
-
-    @ApiOperation(value = "Get country codes")
     @GetMapping("/codes")
     ResponseEntity<Map<CountryCode, String>> getSupportedCountryCodes();
 

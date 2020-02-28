@@ -57,7 +57,7 @@ public class IbanGenerationServiceTest {
     @Test
     public void validateIbansForDifferentCountries_CharacterTypeN() {
         //when
-        List<String> ibans = generationService.getSupportedCountryCodes().stream()
+        List<String> ibans = generationService.getCountryCodes().keySet().stream()
                                  .map(c -> generationService.getBankCodeStructure(c))
                                  .filter(BankCodeStructure::isCharacterType)
                                  .map(code -> String.format(code.getCountryCode() + "_" + "%0" + code.getLength() + "d", 01))
@@ -72,7 +72,7 @@ public class IbanGenerationServiceTest {
     @Test
     public void validateIbansForDifferentCountries_CharacterTypeCAndA() {
         //when
-        List<String> ibans = generationService.getSupportedCountryCodes().stream()
+        List<String> ibans = generationService.getCountryCodes().keySet().stream()
                                  .map(c -> generationService.getBankCodeStructure(c))
                                  .filter(BankCodeStructure::isNotCharacterType)
                                  .map(b -> String.format(b.getCountryCode() + "_" + StringUtils.repeat(word, b.getLength())))
@@ -106,15 +106,6 @@ public class IbanGenerationServiceTest {
 
         //then
         assertTrue(StringUtils.isNotBlank(s));
-    }
-
-    @Test
-    public void getSupportedCountryCodes() {
-        //when
-        List<CountryCode> codes = generationService.getSupportedCountryCodes();
-
-        //then
-        assertFalse(codes.isEmpty());
     }
 
     @Test
