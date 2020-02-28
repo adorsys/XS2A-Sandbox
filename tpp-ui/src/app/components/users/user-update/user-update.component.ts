@@ -83,7 +83,9 @@ export class UserUpdateComponent implements OnInit {
             scaMethod: ['', Validators.required],
             methodValue: [''],
             staticTan: [{value: '', disabled: true}],
-            usesStaticTan: [false]
+            usesStaticTan: [false],
+            decoupled: [false],
+            valid: [false]
         });
 
         scaData.get('usesStaticTan').valueChanges.subscribe((bool: boolean = true) => {

@@ -47,7 +47,7 @@ describe('RegisterComponent', () => {
         el = de.nativeElement;
         registerFixture.detectChanges();
 
-        component.selectedCountry = "DE";
+        component.selectedCountry = "Germany";
         component.userForm.enable();
         component.tppIdStructure = testTppStructure;
     });

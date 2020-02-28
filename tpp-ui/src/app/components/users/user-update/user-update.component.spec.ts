@@ -127,7 +127,9 @@ describe('UserUpdateComponent', () => {
       id: '',
       scaMethod: '',
       methodValue: '',
-      usesStaticTan: false
+      usesStaticTan: false,
+      decoupled: false,
+      valid: false
     };
     expect(formGroup.value).toEqual(data);
   });

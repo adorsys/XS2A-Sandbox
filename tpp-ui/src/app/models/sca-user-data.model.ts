@@ -4,4 +4,6 @@ export class ScaUserData {
   scaMethod: string;
   usesStaticTan: boolean;
   staticTan: string;
+  decoupled: boolean;
+  valid: boolean;
 }

@@ -34,7 +34,7 @@
                 id="country">
             <option id="emptySelect" [ngValue]="" selected></option>
             <option *ngFor="let country of countries"
-                  [ngValue]="country">{{country}}
+                  [ngValue]="country.code">{{country.name}}
           </option>
         </select>
 

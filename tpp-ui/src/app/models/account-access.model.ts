@@ -4,4 +4,5 @@ export class AccountAccess {
   iban: string;
   scaWeight: number;
   currency: string;
+  accountId: string;
 }
