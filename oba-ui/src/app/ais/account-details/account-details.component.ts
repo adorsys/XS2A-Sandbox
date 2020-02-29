@@ -29,15 +29,15 @@ export class AccountDetailsComponent implements OnInit, OnDestroy {
 
   get accounts(): string[] {
     if (!this.authResponse) {return []; }
-    return this.authResponse.consent.access.accounts || [];
+    return this.authResponse.consent.access.accounts.sort() || [];
   }
   get balances(): string[] {
     if (!this.authResponse) {return []; }
-    return this.authResponse.consent.access.balances || [];
+    return this.authResponse.consent.access.balances.sort() || [];
   }
   get transactions(): string[] {
     if (!this.authResponse) {return []; }
-    return this.authResponse.consent.access.transactions || [];
+    return this.authResponse.consent.access.transactions.sort() || [];
   }
 
 }
