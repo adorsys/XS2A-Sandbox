@@ -135,10 +135,9 @@ $danger-gradient: linear-gradient(129.54deg, lighten($danger, 7%) 0%, $danger 10
 
   /* Inputs */
   --inputBG: white;
-  --inputBorderStyle: 1px solid #a0a0a0;
-  --inputBorderStyleLeft: 1px solid #dcdcdc;
-  --inputBorderStyleRight: 1px solid #dcdcdc;
-  --inputBorderStyleBottom: 1px solid #dcdcdc;
-  --inputBorderStyleTop: 1px solid #dcdcdc;
-  --inputBorderRadius: 0.1rem;
+  --inputBorderStyleLeft: 1px solid #a0a0a0;
+  --inputBorderStyleRight: 1px solid #a0a0a0;
+  --inputBorderStyleBottom: 1px solid #a0a0a0;
+  --inputBorderStyleTop: 1px solid #a0a0a0;
+  --inputBorderRadius: .25rem;
 }
