@@ -21,17 +21,37 @@ $dark-80: #2c2e2f;
   /* Fonts */
   --fontFamily: Arial, sans-serif;
 
-  --textFontSize: 1rem;
+  /* Text sizes and weights */
+
+  --textFontSize: 20px;
   --textFontWeight: bold;
+  --textFontSize768px: 18px;
+  --textFontWeight768px: bold;
+  --textFontSize1024px: 18px;
+  --textFontWeight1024px: bold;
+
+  /* Headers sizes and weights */
 
   --h1FontSize: 2rem;
   --h1FontWeight: bold;
+  --h1FontSize768px: 2rem;
+  --h1FontWeight768px: bold;
+  --h1FontSize1024px: 2rem;
+  --h1FontWeight1024px: bold;
 
   --h2FontSize: 1.5rem;
   --h2FontWeight: bold;
+  --h2FontSize768px: 1.5rem;
+  --h2FontWeight768px: bold;
+  --h2FontSize1024px: 1.5rem;
+  --h2FontWeight1024px: bold;
 
   --h3FontSize: 1rem;
   --h3FontWeight: normal;
+  --h3FontSize768px: 1rem;
+  --h3FontWeight768px: normal;
+  --h3FontSize1024px: 1rem;
+  --h3FontWeight1024px: normal;
 
   /* Colors */
   --colorPrimary: #054f72;
@@ -71,6 +91,7 @@ $dark-80: #2c2e2f;
 
   /* Buttons */
   --buttonTextColor: #fff;
+  --buttonBorderRadius: 3px;
 
   --buttonBgGradient1: #0db0e2;
   --buttonBgGradient2: #054f72;
@@ -80,7 +101,7 @@ $dark-80: #2c2e2f;
     var(--buttonBgGradient2) 100%
   );
 
-  --buttonHoveredGradient1: #0F62A4;
+  --buttonHoveredGradient1: #0f62a4;
   --buttonHoveredGradient2: #054f72;
   --buttonHovered: linear-gradient(
     129.54deg,
@@ -98,9 +119,40 @@ $dark-80: #2c2e2f;
 
   /* Inputs */
   --inputBG: $COLOR_WHITE;
-  --inputBorderStyle: 1px solid #dcdcdc;
+  --inputBorderStyleLeft: 1px solid #dcdcdc;
+  --inputBorderStyleRight: 1px solid #dcdcdc;
+  --inputBorderStyleBottom: 1px solid #dcdcdc;
+  --inputBorderStyleTop: 1px solid #dcdcdc;
+  --inputBorderRadius: 0.1rem;
 
   /* Selects */
   --selectBG: $COLOR_WHITE;
   --selectColor: #3b4151;
+  --selectBorderStyleLeft: none;
+  --selectBorderStyleRight: none;
+  --selectBorderStyleBottom: none;
+  --selectBorderStyleTop: none;
+  --selectBorderRadius: none;
+
+  /* Table */
+  --tableColor: black;
+  --tableBG: #fafafa;
+  --tableStripedBG: #f3f3f3;
+  --tableHeaderBG: #f3f3f3;
+
+  --tableBorderStyleBottom: none;
+  --tableBorderStyleLeft: none;
+  --tableBorderStyleRight: none;
+  --tableBorderStyleTop: none;
+
+  /* Checkboxes */
+  --checkBoxBGChecked: var(--colorPrimary);
+  --checkBoxBG: #eee;
+  --checkBoxBGHovered: #ccc;
+
+  --checkBoxMarkColor: white;
+  --checkBoxMarkLeft: 30%;
+  --checkBoxMarkTop: 30%;
+  --checkBoxMarkWidth: 7px;
+  --checkBoxMarkHeight: 8px;
 }

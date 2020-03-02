@@ -119,7 +119,7 @@ describe('CustomizeService', () => {
       const tmp = getComputedStyle(document.body).getPropertyValue(
         '--fontFamily'
       );
-      expect(tmp).toEqual(' Verdana, sans-serif');
+      expect(tmp).toEqual(' "Verdana", sans-serif');
       done();
     }, 100);
   });

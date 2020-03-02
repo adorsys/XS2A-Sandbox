@@ -6,7 +6,7 @@ import {debounceTime, map, tap} from 'rxjs/operators';
 import {AccountDetailsTO, TransactionTO} from '../../../api/models';
 import {OnlineBankingAccountInformationService} from '../../../api/services/online-banking-account-information.service';
 import {OnlineBankingService} from '../../../common/services/online-banking.service';
-import {CustomNgbDateAdapter, ngbDateToString, stringToNgbDate} from '../../../common/utils/ngb-datepicker-utils';
+import {CustomNgbDateAdapter, ngbDateToString} from '../../../common/utils/ngb-datepicker-utils';
 
 @Component({
   selector: 'app-account-details',

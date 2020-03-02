@@ -18,35 +18,44 @@ img {
 
 section {
   margin-bottom: 7.5vw;
-  .bg {
-    background-color: #f3f3f3;
-  }
-  .th {
-    font-weight: 900;
-  }
+
   .links-to-environments {
-    font-size: 0.8rem;
+    background-color: var(--tableBG);
+    border-bottom: var(--tableBorderStyleBottom);
+    border-left: var(--tableBorderStyleLeft);
+    border-right: var(--tableBorderStyleRight);
+    border-top: var(--tableBorderStyleTop);
+
     display: flex;
     align-items: center;
     padding: 0.8em;
+
     a {
       width: 30%;
       display: block;
+      font-size: 0.8em;
     }
+
     span {
       width: 30%;
     }
   }
+
+  .links-to-environments.bg {
+    background-color: var(--tableStripedBG);
+  }
+
   .currently-disabled-features {
     font-size: 1.2rem;
   }
+
   .app-line-command-wrapper {
     border: 1px solid #e8e8ea;
     padding: 0.5%;
     border-radius: 3px;
     background-color: #f8f8fc;
+
     span {
-      font-size: 0.8rem;
       color: #e83e8c;
       word-break: break-word;
     }
@@ -63,6 +72,7 @@ section {
   ul:first-child {
     padding-inline-start: 20px;
   }
+
   ol > li:nth-child(2) {
     margin-bottom: 0.7vw;
   }

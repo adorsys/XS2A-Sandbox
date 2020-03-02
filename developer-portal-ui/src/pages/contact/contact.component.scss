@@ -52,14 +52,10 @@
             font-weight: 600;
             color: #212529;
           }
-          font-size: 0.8rem;
           color: var(--colorPrimary);
         }
       }
       .sub-personal-info {
-        a {
-          font-size: 0.75em;
-        }
       }
     }
   }
@@ -99,7 +95,6 @@
       }
       .main-personal-info {
         span {
-          font-size: 0.8rem;
           &:first-of-type {
             font-size: 1.25rem;
             font-weight: 600;
@@ -112,7 +107,6 @@
       }
       .sub-personal-info {
         a {
-          font-size: 0.75em;
           margin-bottom: 1vw;
           i {
             margin-right: 0.5vw;

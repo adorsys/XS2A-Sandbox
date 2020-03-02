@@ -99,7 +99,8 @@
         [(ngModel)]="transactionId"
         [ngClass]="{ filled: transactionId, 'payment-id': !transactionId }"
       />
-      <span class="top-line" *ngIf="dateFromFlag">?dateFrom=</span>
+      <span class="top-line" *ngIf="dateFromFlag">?</span>
+      <span class="top-line" *ngIf="dateFromFlag">dateFrom=</span>
       <input
         type="text"
         class="payment-id"
@@ -136,20 +137,22 @@
   </div>
 
   <div class="play-with-data-table bg th">
-    <div class="checkbox"></div>
-    <span>{{ 'TEST_CASES.COMPONENTS.TH.TH_1' | translate }}</span>
+    <span style="width: 60%;">{{ 'TEST_CASES.COMPONENTS.TH.TH_1' | translate }}</span>
     <div>{{ 'TEST_CASES.COMPONENTS.TH.TH_2' | translate }}</div>
   </div>
 
   <div class="play-with-data-table" *ngIf="acceptFlag">
-    <input
-      type="checkbox"
-      id="acceptHeaderCheckbox"
-      name="acceptHeaderCheckbox"
-      checked
-      class="checkbox"
-    />
-    <span>Accept</span>
+    <span></span>
+    <label class="check-container">Accept
+      <input
+        type="checkbox"
+        id="acceptHeaderCheckbox"
+        name="acceptHeaderCheckbox"
+        checked
+        class="checkbox"
+      />
+      <span class="checkmark"></span>
+    </label>
     <select [(ngModel)]="acceptHeader" (ngModelChange)="onClear()">
       <option *ngFor="let type of acceptTypes">{{ type }}</option>
     </select>
@@ -160,15 +163,16 @@
     *ngFor="let item of (headers | keyvalue); let i = index; trackBy: trackByFn"
     [ngClass]="acceptFlag ? (i % 2 ? null : 'bg') : i % 2 ? 'bg' : null"
   >
-    <input
-      type="checkbox"
-      (change)="disableHeader($event)"
-      [value]="item.key"
-      checked
-      class="checkbox"
-    />
-    <span>{{ item.key }}</span>
-
+    <label class="check-container">{{ item.key }}
+      <input
+        type="checkbox"
+        (change)="disableHeader($event)"
+        [value]="item.key"
+        checked
+        class="checkbox"
+      />
+      <span class="checkmark"></span>
+    </label>
     <select *ngIf="isBooleanValue(item); else regularInput"
             [(ngModel)]="item.value"
             (change)="changeBooleanHeader(item.key, $event.target.value)">

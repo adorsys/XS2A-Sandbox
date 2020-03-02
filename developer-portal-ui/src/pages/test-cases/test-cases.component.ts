@@ -76,10 +76,10 @@ export class TestCasesComponent implements OnInit {
       const redirect = 'redirect';
 
       let redirectSupportedInSettings = data.supportedApproaches.includes(
-        embedded
+        redirect
       );
       let embeddedSupportedInSettings = data.supportedApproaches.includes(
-        redirect
+        embedded
       );
 
       this.aspspService.getScaApproaches().subscribe(

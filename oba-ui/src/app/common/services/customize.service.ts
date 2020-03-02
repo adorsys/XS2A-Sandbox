@@ -186,6 +186,7 @@ export interface Theme {
 
 export interface GlobalSettings {
   logo: string;
+  title?: string;
   favicon?: Favicon;
   cssVariables?: CSSVariables;
 }

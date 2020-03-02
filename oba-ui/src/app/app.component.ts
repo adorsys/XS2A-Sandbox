@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { CustomizeService, GlobalSettings, Theme } from './common/services/customize.service';
 import { ShareDataService } from './common/services/share-data.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,8 @@ export class AppComponent implements OnInit {
   public globalSettings: GlobalSettings;
 
   constructor(private sharedService: ShareDataService,
-              private customizeService: CustomizeService) {
+              private customizeService: CustomizeService,
+              private titleService: Title) {
     this.sharedService.currentOperation.subscribe(operation => {
       this.operation = operation;
     });
@@ -40,6 +42,12 @@ export class AppComponent implements OnInit {
         (this.customizeService.isCustom() ? '/custom/' : '/') +
         theme.globalSettings.favicon.href;
       }
+
+      const title = theme.globalSettings.title;
+      if (title) {
+        this.titleService.setTitle(title);
+      }
+
       this.customizeService.setUserTheme(theme);
     });
   }
