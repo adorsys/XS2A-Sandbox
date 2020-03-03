@@ -39,11 +39,6 @@ public class TppController implements TppRestApi {
     }
 
     @Override
-    public ResponseEntity<List<CountryCode>> getCountryCodes() {
-        return ResponseEntity.ok(ibanGenerationService.getSupportedCountryCodes());
-    }
-
-    @Override
     public ResponseEntity<Map<CountryCode, String>> getSupportedCountryCodes() {
         return ResponseEntity.ok(ibanGenerationService.getCountryCodes());
     }

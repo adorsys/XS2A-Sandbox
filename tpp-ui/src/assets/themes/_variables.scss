@@ -1,32 +1,56 @@
 // Overwrite bootstrap variables
 @import "./bootstrap-overrides";
-
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins";
 
-$primary-gradient: linear-gradient(129.54deg, #0DB0E2 0%, #10317D 100%);
-$danger-gradient: linear-gradient(129.54deg, lighten($danger, 7%) 0%, $danger 100%);
 $light-grey: #A0A0A0;
 $light-grey-10: #F8F8F8;
 $btn-text-color: #F6F6F6;
-
 $dark-80: #2C2E2F;
-
 
 /*
  * CSS Variables: Used for whitelabel customization
  */
 :root {
   /* Fonts */
-  --fontFamily: #{$font-family-base};
+
+  --fontFamily: 'Verdana', sans-serif;
+
+  --textFontSize: 1rem;
+  --textFontWeight: bold;
+  --textFontSize768px: 1rem;
+  --textFontWeight768px: bold;
+  --textFontSize1024px: 1rem;
+  --textFontWeight1024px: bold;
+
+  --h1FontSize: 2rem;
+  --h1FontWeight: bold;
+
+  --h2FontSize: 1.8rem;
+  --h2FontWeight: 700;
+
+  --h3FontSize: 1rem;
+  --h3FontWeight: normal;
+
+  --h1FontSize768px: 2rem;
+  --h1FontWeight768px: bold;
+  --h1FontSize1024px: 2rem;
+  --h1FontWeight1024px: bold;
+
+  --h2FontSize768px: 1.5rem;
+  --h2FontWeight768px: bold;
+  --h2FontSize1024px: 1.5rem;
+  --h2FontWeight1024px: bold;
+
+  --h3FontSize768px: 1rem;
+  --h3FontWeight768px: normal;
+  --h3FontSize1024px: 1rem;
+  --h3FontWeight1024px: normal;
 
   /* Colors */
   --colorPrimary: #{$primary};
-
-  /* Gradients */
-  --gradientPrimary: #{$primary-gradient};
-  --gradientDanger: #{$danger-gradient};
+  --colorSecondary: #{$primary};
 
   /* Body */
   --bodyBG: #fff;
@@ -34,8 +58,78 @@ $dark-80: #2C2E2F;
 
   /* Main */
   --mainBG: #{$light-grey-10};
+  --menuItemHovered: white;
+
+  /* Header */
+  --headerBG: #ffffff;
+  --headerFontColor: #000000;
+
+  /* Footer */
+  --footerBG: #054f72;
+  --footerFontColor: #ffffff;
 
   /* Anchor */
   --anchorFontColor: #{$link-color};
   --anchorFontColorHover: #{$link-hover-color};
+
+  /* Buttons */
+
+  /* Primary */
+
+  --buttonTextColor: #fff;
+  --buttonBorderRadius: 3px;
+
+  --buttonBgGradient1: #0db0e2;
+  --buttonBgGradient2: #10317D;
+  --buttonBG: linear-gradient(
+      129.54deg,
+      var(--buttonBgGradient1) 0%,
+      var(--buttonBgGradient2) 100%
+  );
+
+  --buttonHoveredGradient1: #0F62A4;
+  --buttonHoveredGradient2: #10317D;
+  --buttonHovered: linear-gradient(
+      129.54deg,
+      var(--buttonHoveredGradient1) 0%,
+      var(--buttonHoveredGradient2) 100%
+  );
+
+  --buttonClickedGradient1: #0db0e2;
+  --buttonClickedGradient2: #062e72;
+  --buttonClicked: linear-gradient(
+      129.54deg,
+      var(--buttonClickedGradient1) 0%,
+      var(--buttonClickedGradient2) 100%
+  );
+
+  /* Secondary */
+  --secondaryButtonTextColor: #{$danger};
+  --secondaryButtonBG: white;
+
+  --secondaryButtonHoveredTextColor: white;
+  --secondaryButtonHovered: #{$danger};
+
+  --secondaryButtonClickedTextColor: white;
+  --secondaryButtonClicked: #{$danger};
+
+  --secondaryButtonBorderStyle: 1px solid #{$danger};
+
+  /* Inputs */
+  --inputBG: white;
+  --inputBorderStyleLeft: 1px solid #a0a0a0;
+  --inputBorderStyleRight: 1px solid #a0a0a0;
+  --inputBorderStyleBottom: 1px solid #a0a0a0;
+  --inputBorderStyleTop: 1px solid #a0a0a0;
+  --inputBorderRadius: .25rem;
+
+  /* Selects */
+  --selectBG: white;
+  --selectColor: #3b4151;
+  --selectBorderStyleLeft: none;
+  --selectBorderStyleRight: none;
+  --selectBorderStyleBottom: none;
+  --selectBorderStyleTop: none;
+  --selectBorderRadius: none;
 }
+

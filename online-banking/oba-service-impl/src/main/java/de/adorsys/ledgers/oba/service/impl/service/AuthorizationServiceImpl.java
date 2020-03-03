@@ -9,6 +9,7 @@ import de.adorsys.ledgers.oba.service.api.service.AuthorizationService;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -30,5 +31,15 @@ public class AuthorizationServiceImpl implements AuthorizationService {
                       .errorCode(AuthErrorCode.LOGIN_FAILED)
                       .build();
         }
+    }
+
+    @Override
+    public String resolveAuthConfirmationCodeRedirectUri(String redirectUri, String code) {
+        if (StringUtils.isNotBlank(code)) {
+            String paramPrefix = redirectUri.contains("?") ? "&" : "?";
+            return redirectUri + paramPrefix + "authConfirmationCode=" + code;
+
+        }
+        return redirectUri;
     }
 }

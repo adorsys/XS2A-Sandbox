@@ -1,9 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 
-import {
-  ContactInfo,
-  CustomizeService,
-} from '../../services/customize.service';
+import {CustomizeService} from '../../services/customize.service';
+import {ContactInfo} from "../../models/theme.model";
 
 @Component({
   selector: 'app-home',

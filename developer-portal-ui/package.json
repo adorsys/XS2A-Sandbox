@@ -49,8 +49,8 @@
     "ramda": "^0.26.1",
     "rxjs": "^6.5.4",
     "tslib": "^1.10.0",
-    "zone.js": "~0.9.1",
-    "vkbeautify": "latest"
+    "vkbeautify": "latest",
+    "zone.js": "~0.9.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.803.25",

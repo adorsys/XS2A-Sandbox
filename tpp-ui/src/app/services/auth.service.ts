@@ -82,7 +82,7 @@ export class AuthService {
   }
 
   getCountryCodes(): Observable<any> {
-    return this.http.get(this.url + '/country/codes');
+    return this.http.get(this.url + '/codes');
   }
 
   getTppIdStructure(countryCode: string): Observable<any> {

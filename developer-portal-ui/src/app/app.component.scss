@@ -272,6 +272,11 @@
   }
 }
 
+.nav,
+.footer-bar {
+  font-weight: normal;
+}
+
 @media screen and (max-width: 720px) {
   .nav {
     .nav-content {

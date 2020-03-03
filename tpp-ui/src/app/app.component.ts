@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { CustomizeService, Theme, GlobalSettings } from './services/customize.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
     selector: 'app-root',
@@ -11,7 +12,8 @@ export class AppComponent implements OnInit {
     title = 'app';
     globalSettings: GlobalSettings;
 
-    constructor(private customizeService: CustomizeService) {}
+    constructor(private customizeService: CustomizeService,
+                private titleService: Title) {}
 
     ngOnInit() {
         let theme: Theme;
@@ -32,6 +34,11 @@ export class AppComponent implements OnInit {
                 '../assets/UI' +
                 (this.customizeService.isCustom() ? '/custom/' : '/') +
                 theme.globalSettings.favicon.href;
+            }
+
+            const title = theme.globalSettings.title;
+            if (title) {
+              this.titleService.setTitle(title);
             }
             this.customizeService.setUserTheme(theme);
         });

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CustomizeService, Theme } from '../../services/customize.service';
+import { CustomizeService } from '../../services/customize.service';
 import { saveAs } from 'file-saver';
 import { SettingsService } from '../../services/settings.service';
 import { Settings } from '../../models/settings.model';
+import {Theme} from "../../models/theme.model";
 
 @Component({
   selector: 'app-getting-started',

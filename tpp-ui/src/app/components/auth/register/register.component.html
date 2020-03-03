@@ -1,5 +1,4 @@
 <div class="bg-sm-light sticky-top">
-  <div class="container-fluid">
     <nav class="navbar navbar-light text-primary py-3">
       <a class="navbar-brand" href="#">
         <img
@@ -8,7 +7,6 @@
         />
       </a>
     </nav>
-  </div>
 </div>
 
 <div class="card">
@@ -34,7 +32,7 @@
                 id="country">
             <option id="emptySelect" [ngValue]="" selected></option>
             <option *ngFor="let country of countries"
-                  [ngValue]="country">{{country}}
+                  [ngValue]="country.code">{{country.name}}
           </option>
         </select>
 

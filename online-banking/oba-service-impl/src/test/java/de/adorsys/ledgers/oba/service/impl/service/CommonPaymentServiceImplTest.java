@@ -15,6 +15,7 @@ import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentType;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentWorkflow;
+import de.adorsys.ledgers.oba.service.api.service.AuthorizationService;
 import de.adorsys.ledgers.oba.service.api.service.ConsentReferencePolicy;
 import de.adorsys.ledgers.oba.service.impl.mapper.PaymentMapper;
 import de.adorsys.psd2.consent.api.pis.CmsCommonPayment;
@@ -73,6 +74,8 @@ public class CommonPaymentServiceImplTest {
     private OauthRestClient oauthRestClient;
     @Mock
     private PaymentMapper paymentConverter;
+    @Mock
+    private AuthorizationService authService;
 
     @Test
     public void selectScaForPayment() throws RedirectUrlIsExpiredException {
@@ -106,6 +109,7 @@ public class CommonPaymentServiceImplTest {
         when(cmsPsuPisService.checkRedirectAndGetPayment(anyString(), anyString())).thenReturn(getCmsPaymentResponse());
         when(paymentMapper.toAbstractPayment(anyString(), anyString(), anyString())).thenReturn(getPaymentTO(ACCP));
         when(cmsPsuPisService.getAuthorisationByAuthorisationId(anyString(), anyString())).thenReturn(geCmsPsuAuth(ScaStatus.FINALISED));
+        when(authService.resolveAuthConfirmationCodeRedirectUri(anyString(),anyString())).thenReturn("www.ok.ua");
         String result = service.resolveRedirectUrl(ENCRYPTED_ID, AUTH_ID, COOKIE, false, PSU_ID, new BearerTokenTO(), "");
         assertThat(result).isEqualTo(OK_REDIRECT_URI);
     }
@@ -116,6 +120,7 @@ public class CommonPaymentServiceImplTest {
         when(cmsPsuPisService.checkRedirectAndGetPayment(anyString(), anyString())).thenReturn(getCmsPaymentResponse());
         when(paymentMapper.toAbstractPayment(anyString(), anyString(), anyString())).thenReturn(getPaymentTO(ACCP));
         when(cmsPsuPisService.getAuthorisationByAuthorisationId(anyString(), anyString())).thenReturn(geCmsPsuAuth(ScaStatus.SCAMETHODSELECTED));
+        when(authService.resolveAuthConfirmationCodeRedirectUri(anyString(),anyString())).thenReturn("www.ok.ua");
         String result = service.resolveRedirectUrl(ENCRYPTED_ID, AUTH_ID, COOKIE, false, PSU_ID, new BearerTokenTO(), "");
         assertThat(result).isEqualTo(NOK_REDIRECT_URI);
     }

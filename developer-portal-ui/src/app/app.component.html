@@ -125,8 +125,9 @@
 <div class="footer-bar">
   <div class="footer-top-items">
     <img
+      *ngIf="customizeService.getFooterLogo()"
       class="logo"
-      [src]="customizeService.getLogo()"
+      [src]="customizeService.getFooterLogo()"
       (click)="goToPage('home')"
     />
     <div>

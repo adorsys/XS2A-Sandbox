@@ -44,9 +44,7 @@ export class UserUpdateComponent implements OnInit {
 
     setupUserFormControl(): void {
         this.updateUserForm = this.formBuilder.group({
-            scaUserData: this.formBuilder.array([
-                this.initScaData()
-            ]),
+            scaUserData: this.formBuilder.array([]),
             email: ['', [Validators.required, Validators.email]],
             login: ['', Validators.required],
             pin: ['', [Validators.required, Validators.minLength(5)]],
@@ -82,10 +80,12 @@ export class UserUpdateComponent implements OnInit {
 
         const scaData = this.formBuilder.group({
             id: '',
-            scaMethod: [ScaMethods.EMAIL, Validators.required],
-            methodValue: ['', emailValidators],
+            scaMethod: ['', Validators.required],
+            methodValue: [''],
             staticTan: [{value: '', disabled: true}],
-            usesStaticTan: [false]
+            usesStaticTan: [false],
+            decoupled: [false],
+            valid: [false]
         });
 
         scaData.get('usesStaticTan').valueChanges.subscribe((bool: boolean = true) => {
@@ -108,6 +108,7 @@ export class UserUpdateComponent implements OnInit {
             } else {
                 scaData.get('methodValue').setValidators([Validators.required]);
             }
+            scaData.get('methodValue').updateValueAndValidity();
         });
 
         return scaData;

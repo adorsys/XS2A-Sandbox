@@ -10,6 +10,7 @@ import { InfoModule } from '../../../commons/info/info.module';
 import { InfoService } from '../../../commons/info/info.service';
 import { UserService } from '../../../services/user.service';
 import { UserCreateComponent } from './user-create.component';
+import {ScaMethods} from "../../../models/scaMethods";
 import { of } from 'rxjs';
 
 describe('UserCreateComponent', () => {
@@ -116,14 +117,14 @@ describe('UserCreateComponent', () => {
     it('SCA validity', () => {
         let errors = {};
         const sca = component.userForm.controls['scaUserData']['controls'][0].controls['methodValue'];
-        expect(sca.valid).toBeFalsy();
+        expect(sca.valid).toBeTruthy();
 
         // pin field is required
         errors = sca.errors || {};
-        expect(errors['required']).toBeTruthy();
+        expect(errors['required']).toBeFalsy();
 
         // set pin to something correct
-        sca.setValue('sca method');
+        sca.setValue('');
         errors = sca.errors || {};
         expect(errors['required']).toBeFalsy();
     });
@@ -159,7 +160,7 @@ describe('UserCreateComponent', () => {
     it('validate iniScaData method', () => {
         const formGroup = component.initScaData();
         const data = {
-            scaMethod: 'EMAIL',
+            scaMethod: '',
             methodValue: '',
             usesStaticTan: false
         };
@@ -178,6 +179,7 @@ describe('UserCreateComponent', () => {
         component.userForm.controls['scaUserData']['controls'][0].controls['methodValue'].setValue('dart.vader@dark-side.com');
         component.userForm.controls['scaUserData']['controls'][0].controls['staticTan'].setValue('12345');
         component.userForm.controls['scaUserData']['controls'][0].controls['usesStaticTan'].setValue(true);
+        component.userForm.controls['scaUserData']['controls'][0].controls['scaMethod'].setValue(ScaMethods.EMAIL);
 
 
         // create spies and fake call function

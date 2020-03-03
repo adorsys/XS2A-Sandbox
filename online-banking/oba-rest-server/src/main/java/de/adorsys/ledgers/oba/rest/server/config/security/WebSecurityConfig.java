@@ -44,7 +44,10 @@ public class WebSecurityConfig {
                 .antMatchers(APP_WHITELIST).permitAll()
                     .and()
                 .authorizeRequests().anyRequest()
-                .authenticated();
+                .authenticated()
+                    .and()
+                .httpBasic()
+                .disable();
 
             http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
             http.headers().frameOptions().disable();

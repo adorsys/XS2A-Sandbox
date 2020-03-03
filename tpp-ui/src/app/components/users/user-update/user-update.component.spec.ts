@@ -106,21 +106,6 @@ describe('UserUpdateComponent', () => {
     expect(errors['required']).toBeFalsy();
   });
 
-  it('SCA validity', () => {
-    let errors = {};
-    const sca = component.updateUserForm.controls['scaUserData']['controls'][0].controls['methodValue'];
-    expect(sca.valid).toBeFalsy();
-
-    // pin field is required
-    errors = sca.errors || {};
-    expect(errors['required']).toBeTruthy();
-
-    // set pin to something correct
-    sca.setValue('sca method');
-    errors = sca.errors || {};
-    expect(errors['required']).toBeFalsy();
-  });
-
   it('validate onSubmit method', () => {
     component.onSubmit();
     expect(component.submitted).toEqual(true);
@@ -140,9 +125,11 @@ describe('UserUpdateComponent', () => {
     const formGroup = component.initScaData();
     const data = {
       id: '',
-      scaMethod: ScaMethods.EMAIL,
+      scaMethod: '',
       methodValue: '',
-      usesStaticTan: false
+      usesStaticTan: false,
+      decoupled: false,
+      valid: false
     };
     expect(formGroup.value).toEqual(data);
   });
@@ -166,7 +153,7 @@ describe('UserUpdateComponent', () => {
 
     component.ngOnInit();
     expect(component.submitted).toBeFalsy();
-    expect(component.updateUserForm.valid).toBeFalsy();
+    expect(component.updateUserForm.valid).toBeTruthy();
 
     // populate form
     const scaUserData = <FormArray>component.updateUserForm.get('scaUserData');
@@ -174,9 +161,6 @@ describe('UserUpdateComponent', () => {
     component.updateUserForm.get('email').setValue('dart.vader@dark-side.com');
     component.updateUserForm.get('login').setValue('dart.vader');
     component.updateUserForm.get('pin').setValue('12345678');
-    scaUserData.at(0).get('methodValue').setValue('dart.vader@dark-side.com');
-    scaUserData.at(0).get('staticTan').setValue('12345');
-    scaUserData.at(0).get('usesStaticTan').setValue(true);
 
     // create spies and fake call function
     const sampleResponse = {value: 'sample response'};

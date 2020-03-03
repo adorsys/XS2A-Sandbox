@@ -1,6 +1,6 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {RouterTestingModule} from '@angular/router/testing';
-import {AppComponent} from './app.component';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { AppComponent } from './app.component';
 import {
   TranslateLoader,
   TranslateModule,
@@ -14,13 +14,13 @@ import {
   HttpLoaderFactory,
   LanguageService,
 } from '../services/language.service';
-import {HttpClient} from '@angular/common/http';
-import {DataService} from '../services/data.service';
-import {CustomizeService} from '../services/customize.service';
-import {Pipe, PipeTransform} from '@angular/core';
-import {Router} from '@angular/router';
-import {of} from 'rxjs';
-import {NgHttpLoaderModule} from 'ng-http-loader';
+import { HttpClient } from '@angular/common/http';
+import { DataService } from '../services/data.service';
+import { CustomizeService } from '../services/customize.service';
+import { Pipe, PipeTransform } from '@angular/core';
+import { Router } from '@angular/router';
+import { of } from 'rxjs';
+import { NgHttpLoaderModule } from 'ng-http-loader';
 
 const TRANSLATIONS_EN = require('../assets/i18n/en.json');
 const TRANSLATIONS_DE = require('../assets/i18n/de.json');
@@ -38,20 +38,19 @@ describe('AppComponent', () => {
   let router: Router;
 
   const DataServiceStub = {
-    setRouterUrl: (val: string) => {
-    },
+    setRouterUrl: (val: string) => {},
     getRouterUrl: () => '',
   };
 
   const CustomizeServiceStub = {
     isCustom: () => false,
-    setUserTheme: () => {
-    },
+    setUserTheme: () => {},
     getJSON: () => {
       return new Promise(resolve => {
         resolve({
           globalSettings: {
             logo: '../assets/UI/Logo_XS2ASandbox.png',
+            footerLogo: '../assets/UI/Logo_XS2ASandbox.png',
             cssVariables: {
               colorPrimary: '#054f72',
               colorSecondary: '#eed52f',
@@ -99,18 +98,18 @@ describe('AppComponent', () => {
       });
     },
     getLogo: () => '../assets/UI/Logo_XS2ASandbox.png',
+    getFooterLogo: () => '../assets/UI/Logo_XS2ASandbox.png',
   };
 
   const LanguageServiceStub = {
     language: 'en',
-    initializeTranslation: () => {
-    },
+    initializeTranslation: () => {},
     setLang: (lang: string) => (LanguageServiceStub.language = lang),
     getLang: () => LanguageServiceStub.language,
     getLanguages: () => of(['en', 'de', 'es', 'ua']),
   };
 
-  @Pipe({name: 'translate'})
+  @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -135,9 +134,9 @@ describe('AppComponent', () => {
       ],
       providers: [
         TranslateService,
-        {provide: DataService, useValue: DataServiceStub},
-        {provide: CustomizeService, useValue: CustomizeServiceStub},
-        {provide: LanguageService, useValue: LanguageServiceStub},
+        { provide: DataService, useValue: DataServiceStub },
+        { provide: CustomizeService, useValue: CustomizeServiceStub },
+        { provide: LanguageService, useValue: LanguageServiceStub },
       ],
     })
       .compileComponents()

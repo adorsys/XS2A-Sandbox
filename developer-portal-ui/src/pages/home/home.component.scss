@@ -38,8 +38,6 @@
   .what-sandbox-title {
     margin: 64px 0;
     text-align: center;
-    font-weight: 600;
-    font-size: 2rem;
     color: var(--colorPrimary);
   }
 
@@ -54,11 +52,10 @@
 .how-use-api {
   padding: 0 25px;
   margin: 102px 0;
+  font-weight: normal;
 
   .how-use-api-title {
     text-align: center;
-    font-weight: 600;
-    font-size: 2rem;
     color: var(--colorPrimary);
   }
 
@@ -108,7 +105,6 @@
   }
 
   .open-banking-desc {
-    font-size: 0.85rem;
     color: #606060;
   }
 }
@@ -160,7 +156,6 @@
       justify-content: center;
 
       span {
-        font-size: 0.8rem;
         color: #606060;
       }
     }
@@ -188,7 +183,6 @@
   }
 
   .features-description {
-    font-size: 0.85rem;
     text-align: center;
     width: 80%;
     margin: 0 0 2em;
@@ -234,10 +228,7 @@
       cursor: pointer;
       margin: 0 auto;
       z-index: 1;
-      border: 3px solid var(--colorPrimary);
       border-radius: 19px;
-      background-color: var(--colorPrimary);
-      font-size: 0.8rem;
       color: #fff;
       display: flex;
       justify-content: center;
@@ -352,9 +343,7 @@
           position: relative;
           margin: 0 auto 0 auto;
           z-index: 1;
-          border: 3px solid #0984bf;
           border-radius: 19px;
-          background-color: #0984bf;
           font-size: 0.8rem;
           color: #fff;
           display: flex;
@@ -380,17 +369,16 @@
   padding: 0 25px;
   width: 50%;
   margin: 0 auto;
+  font-weight: normal;
 
   .any-questions-title {
     margin: 26px 0 13px 0;
-    font-weight: 600;
-    font-size: 36px;
     color: var(--colorPrimary);
   }
 
   .any-questions-subtitle {
-    font-size: 36px;
     color: #868e96;
+    font-size: var(--h1FontSize);
   }
 
   .person-card {
@@ -434,7 +422,6 @@
 
       .main-personal-info {
         span {
-          font-size: 0.8rem;
           color: var(--colorPrimary);
 
           &:first-of-type {
@@ -444,11 +431,6 @@
         }
       }
 
-      .sub-personal-info {
-        a {
-          font-size: 0.8rem;
-        }
-      }
     }
   }
 }
@@ -472,6 +454,7 @@
     }
   }
 }
+
 @media screen and (max-width: 720px) {
   .hero {
     padding: 40px 30px;
@@ -499,6 +482,7 @@
     }
   }
 }
+
 @media screen and (max-width: 720px) {
   .what-sandbox-wrapper {
     .what-sandbox-title {
@@ -521,6 +505,7 @@
     }
   }
 }
+
 @media screen and (max-width: 720px) {
   .how-use-api {
     margin: 30px 0;
@@ -531,14 +516,12 @@
 
     .steps-wrapper {
       flex-direction: column;
+
       .step {
         height: 85px;
         margin: 0 10px 0 10px;
         padding: 0 0.5em 0 0.5em;
 
-        span {
-          font-size: 0.9rem;
-        }
       }
 
       .arrow-right {
@@ -562,6 +545,7 @@
     }
   }
 }
+
 @media screen and (max-width: 720px) {
   .open-banking {
     padding: 20px 25px;
@@ -580,6 +564,7 @@
     padding-top: 0;
   }
 }
+
 @media screen and (max-width: 720px) {
   #slider {
     padding-top: 0;
@@ -606,6 +591,7 @@
 
     .product-history-header-wrapper {
       width: 100%;
+
       .title {
         margin: 13px 0 0 5px;
       }
@@ -620,6 +606,7 @@
     }
   }
 }
+
 @media screen and (max-width: 720px) {
   .product-history-wrapper {
     .product-history-header-wrapper {
@@ -688,6 +675,7 @@
     }
   }
 }
+
 @media screen and (max-width: 720px) {
   .any-questions {
     width: 100%;
