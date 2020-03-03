@@ -32,7 +32,7 @@ addons:
   sonarcloud:
     organization: "adorsys"
     token:
-      secure: $SONARCLOUD_TOKEN
+      secure: $SONAR_TOKEN
 
 before_deploy:
   - echo $GPG_SECRET_KEY | base64 --decode | $GPG_EXECUTABLE --import || true
