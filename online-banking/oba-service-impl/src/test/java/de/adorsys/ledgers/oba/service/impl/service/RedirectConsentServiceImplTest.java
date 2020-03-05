@@ -30,6 +30,7 @@ import de.adorsys.psd2.xs2a.core.profile.AccountReference;
 import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient;
 import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -45,6 +46,7 @@ import java.util.Collections;
 import java.util.Currency;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
@@ -94,20 +96,17 @@ public class RedirectConsentServiceImplTest {
 
     @Test
     public void updateAccessByConsentType_globalConsent() {
-        //when
-        redirectConsentService.updateAccessByConsentType(getConsentWorkflow(AisConsentRequestType.GLOBAL, IBAN_DE), Collections.singletonList(getAccountDetails()));
+        assertThatCode(() -> redirectConsentService.updateAccessByConsentType(getConsentWorkflow(AisConsentRequestType.GLOBAL, IBAN_DE), Collections.singletonList(getAccountDetails()))).doesNotThrowAnyException();
     }
 
     @Test
     public void updateAccessByConsentType_allAvailableAccountsConsent() {
-        //when
-        redirectConsentService.updateAccessByConsentType(getConsentWorkflow(AisConsentRequestType.ALL_AVAILABLE_ACCOUNTS, IBAN_DE), Collections.singletonList(getAccountDetails()));
+        assertThatCode(() -> redirectConsentService.updateAccessByConsentType(getConsentWorkflow(AisConsentRequestType.ALL_AVAILABLE_ACCOUNTS, IBAN_DE), Collections.singletonList(getAccountDetails()))).doesNotThrowAnyException();
     }
 
     @Test
     public void updateAccessByConsentType_dedicatedAccountsConsent() {
-        //when
-        redirectConsentService.updateAccessByConsentType(getConsentWorkflow(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE), Collections.singletonList(getAccountDetails()));
+        assertThatCode(() -> redirectConsentService.updateAccessByConsentType(getConsentWorkflow(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE), Collections.singletonList(getAccountDetails()))).doesNotThrowAnyException();
     }
 
     @Test(expected = AuthorizationException.class)
