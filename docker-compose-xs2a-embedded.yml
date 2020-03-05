@@ -28,6 +28,7 @@ services:
       - SERVER_KEY=secret123
       - SPRING_LIQUIBASE_ENABLED=true
       - USED-NON-RECURRING-CONSENT-EXPIRATION.CRON.EXPRESSION=0 0 * * * *
+      - QWAC_CERTIFICATE_MOCK=${QWAC_CERTIFICATE_MOCK}
     volumes:
       - ./bank-profile/bank_profile_ledgers.yml:/opt/profile/bank_profile_ledgers.yml
     networks:
