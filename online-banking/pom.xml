@@ -16,11 +16,11 @@
     <parent>
         <groupId>de.adorsys.psd2.sandbox</groupId>
         <artifactId>psd2-dynamic-sandbox</artifactId>
-        <version>3.1.1</version>
+        <version>3.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>online-banking</artifactId>
-    <version>3.1.1</version>
+    <version>3.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
