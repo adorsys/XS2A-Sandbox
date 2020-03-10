@@ -28,7 +28,7 @@ public class ParseServiceTest {
         MultipartFile multipartFile = resolveMultipartFile("consents_template.yml");
 
         //when
-        Optional<List<AisConsent>> data = parseService.getDataFromFile(multipartFile, new TypeReference<List<AisConsent>>() {
+        Optional<List<AisConsent>> data = parseService.getDataFromFile(multipartFile, new TypeReference<>() {
         });
 
         //then

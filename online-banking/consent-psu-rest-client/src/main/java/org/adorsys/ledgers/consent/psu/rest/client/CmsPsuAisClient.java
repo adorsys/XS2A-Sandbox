@@ -17,7 +17,6 @@
 package org.adorsys.ledgers.consent.psu.rest.client;
 
 import de.adorsys.psd2.consent.api.CmsConstant;
-import de.adorsys.psd2.consent.api.ais.AisAccountConsent;
 import de.adorsys.psd2.consent.api.ais.CmsAisAccountConsent;
 import de.adorsys.psd2.consent.api.ais.CmsAisConsentResponse;
 import de.adorsys.psd2.consent.psu.api.CmsPsuAuthorisation;
@@ -155,7 +154,7 @@ public interface CmsPsuAisClient {
     @GetMapping(path = "/{consent-id}")
     @ApiOperation(value = "Returns AIS Consent object by its ID.")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK", response = AisAccountConsent.class),
+        @ApiResponse(code = 200, message = "OK", response = CmsAisAccountConsent.class),
         @ApiResponse(code = 404, message = "Not Found")})
     ResponseEntity<CmsAisAccountConsent> getConsentByConsentId(
         @ApiParam(name = CmsConstant.PATH.CONSENT_ID, value = "The account consent identification assigned to the created account consent.", example = "bf489af6-a2cb-4b75-b71d-d66d58b934d7")
