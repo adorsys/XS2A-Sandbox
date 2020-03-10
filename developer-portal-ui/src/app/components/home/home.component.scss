@@ -1,0 +1,729 @@
+div ::ng-deep {
+
+  /*=== Hero ===*/
+
+  .hero {
+    background: var(--heroBG);
+    padding: 128px 64px 64px 64px;
+
+    h1 {
+      margin: 0;
+      color: var(--colorPrimary);
+      font-size: 64px;
+      font-weight: 900;
+    }
+
+    h2 {
+      font-weight: 500;
+      font-size: 51px;
+      color: #484848;
+    }
+
+    .hero-subheader {
+      margin-top: 38px;
+    }
+  }
+
+  /*=== What is XS2ASandbox block ===*/
+
+  .what-sandbox-wrapper {
+
+    h2 {
+      margin: 64px 0;
+      text-align: center;
+      color: var(--colorPrimary);
+    }
+
+    p {
+      margin: 0;
+      text-align: center;
+      font-weight: 600;
+    }
+  }
+
+  /*=== How to use APIs ===*/
+
+  .how-use-api {
+    padding: 0 25px;
+    margin: 102px 0;
+    font-weight: normal;
+
+    h1 {
+      text-align: center;
+      color: var(--colorPrimary);
+    }
+
+    .steps-wrapper {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+
+      p {
+        height: 166px;
+        width: 294px;
+        line-height: 1.1em;
+        background-color: var(--stepBG);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 0 20px;
+        font-size: 22px;
+        color: #232527;
+      }
+
+      .arrow-right {
+        width: 0;
+        height: 0;
+        border-top: 19px solid transparent;
+        border-bottom: 19px solid transparent;
+        border-left: 19px solid #1d5f7f;
+      }
+    }
+  }
+
+
+  /*=== Open banking ===*/
+
+  .open-banking {
+    padding: 64px 80px;
+    background-color: #fff;
+
+    h1 {
+      margin: 26px 0 13px 0;
+      font-weight: 600;
+      font-size: 36px;
+      color: var(--colorPrimary);
+    }
+
+    p {
+      color: #606060;
+    }
+  }
+
+
+  /*=== Sandbox Features text ===*/
+
+  .features-text {
+    background-color: #fff;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 64px 0 2rem 0;
+
+    h1 {
+      margin-top: 0;
+      font-weight: 600;
+      font-size: 1.75rem;
+      color: var(--colorPrimary);
+    }
+
+    p {
+      text-align: center;
+      width: 80%;
+      margin: 0 0 2em;
+    }
+  }
+
+}
+
+/*=== Sandbox Features Slider ===*/
+
+#slider {
+  background-color: #fff;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 64px 0 2rem 0;
+
+  h1 {
+    margin-top: 0;
+    font-weight: 600;
+    font-size: 1.75rem;
+    color: var(--colorPrimary);
+  }
+
+  .slide {
+    opacity: 0;
+    position: absolute;
+    pointer-events: none;
+    text-align: center;
+    max-width: 640px;
+
+    p {
+      margin-top: 0;
+      margin-bottom: 1em;
+      color: var(--colorPrimary);
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    img {
+      height: 51px;
+      width: 58px;
+      margin-bottom: 9px;
+    }
+
+    .slide-image-wrapper {
+      width: 100%;
+      display: flex;
+      margin: 0 auto;
+      align-items: center;
+      justify-content: center;
+
+      span {
+        color: #606060;
+      }
+    }
+  }
+
+  .button-block {
+    margin-top: 1rem;
+
+    button {
+      cursor: pointer;
+      outline: none;
+      margin-left: 13px;
+
+      &:first-of-type {
+        margin: 0;
+      }
+
+      border: 1px solid #979797;
+      height: 13px;
+      width: 13px;
+      padding: 0;
+      border-radius: 50%;
+      background-color: #fff;
+    }
+  }
+
+  .features-description {
+    text-align: center;
+    width: 80%;
+    margin: 0 0 2em;
+  }
+}
+
+#slider .show {
+  opacity: 1;
+  position: relative;
+}
+
+/*=== Product history section ===*/
+
+.product-history-wrapper {
+  padding: 0 25px;
+  margin: 64px 0;
+
+  .product-history-header-wrapper {
+    width: 50vw;
+    margin: 0 auto;
+
+    .title {
+      margin: 26px 0 13px 0;
+      font-weight: 600;
+      font-size: 36px;
+      color: var(--colorPrimary);
+    }
+
+    .subtitle {
+      font-size: 36px;
+      color: #868e96;
+    }
+  }
+
+  .history-scheme {
+    margin-top: 40px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    button {
+      cursor: pointer;
+      margin: 0 auto;
+      z-index: 1;
+      border-radius: 19px;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0.2em 1em;
+    }
+
+    .start-vertical-divider {
+      position: absolute;
+      height: 6vw;
+      width: 1px;
+      background-color: #868e96;
+    }
+
+    .product-history-info-wrapper {
+      width: 100%;
+      margin-top: 3vw;
+
+      .main-info-wrapper {
+        width: 50%;
+        display: flex;
+        position: relative;
+
+        &.flex-end {
+          margin-left: 50%;
+        }
+
+        .info-wrapper {
+          width: 27vw;
+          display: flex;
+          flex-direction: column;
+
+          span {
+            color: var(--colorPrimary);
+            font-size: 12px;
+          }
+
+          h1 {
+            color: #212529;
+            font-size: 23px;
+          }
+
+          .text-wrapper {
+            display: flex;
+
+            i {
+              color: #32cd32;
+              margin-right: 0.7vw;
+            }
+
+            p {
+              color: #606060;
+              font-size: 12px;
+              margin: 0;
+            }
+          }
+
+          .circle-divider {
+            position: absolute;
+            display: flex;
+            align-items: center;
+
+            .circle {
+              z-index: 1;
+              width: 9px;
+              height: 9px;
+              border-radius: 100%;
+              background-color: #fff;
+              border: 3px solid #0984bf;
+            }
+
+            .divider {
+              height: 2px;
+              width: 5.5vw;
+              background-color: #0984bf;
+            }
+
+            .vertical-divider {
+              position: absolute;
+              width: 1px;
+              background-color: #868e96;
+              height: 12vw;
+              left: 0.36vw;
+              top: 0;
+            }
+          }
+        }
+
+        .vertical-divider {
+          position: absolute;
+          height: 100%;
+          width: 1px;
+          background-color: #868e96;
+        }
+      }
+
+      .flex-end {
+        justify-content: flex-end;
+      }
+
+      .flex-start {
+        justify-content: flex-start;
+      }
+
+      .today-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        button {
+          cursor: pointer;
+          position: relative;
+          margin: 0 auto 0 auto;
+          z-index: 1;
+          border-radius: 19px;
+          font-size: 0.8rem;
+          color: #fff;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 0.2em 1em;
+        }
+
+        .vertical-divider {
+          width: 1px;
+          background-color: #868e96;
+          position: initial;
+          height: 7vw;
+        }
+      }
+    }
+  }
+}
+
+/*=== Any questions section ===*/
+
+.any-questions {
+  padding: 0 25px;
+  width: 50%;
+  margin: 0 auto;
+  font-weight: normal;
+
+  .any-questions-title {
+    margin: 26px 0 13px 0;
+    color: var(--colorPrimary);
+  }
+
+  .any-questions-subtitle {
+    color: #868e96;
+    font-size: var(--h1FontSize);
+  }
+
+  .person-card {
+    display: flex;
+    justify-content: space-between;
+    height: 15vw;
+    box-shadow: 0 1px 18px -12px #524c52;
+    margin: 40px 0;
+    background: #fff;
+
+    .person-card-image-wrapper {
+      background-color: #eeeeee;
+      width: 50%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+
+      img {
+        max-height: 100%;
+      }
+    }
+
+    .person-card-info {
+      color: #212529;
+      min-width: 50%;
+      padding: 5% 3%;
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+
+      div {
+        display: flex;
+        flex-direction: column;
+
+        span {
+          margin-bottom: 0.7vw;
+        }
+      }
+
+      .main-personal-info {
+        span {
+          color: var(--colorPrimary);
+
+          &:first-of-type {
+            font-size: 1.5rem;
+            font-weight: 600;
+          }
+        }
+      }
+
+    }
+  }
+}
+
+/*========== MEDIA QUERIES ============*/
+
+@media screen and (max-width: 1080px) {
+  .hero {
+    padding: 64px 48px 48px 48px;
+
+    .hero-subheader {
+      margin-top: 18px;
+    }
+
+    .hero-title {
+      font-size: 48px;
+    }
+
+    .hero-subtitle {
+      font-size: 30px;
+    }
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .hero {
+    padding: 40px 30px;
+
+    .hero-title {
+      font-size: 35px;
+    }
+
+    .hero-subheader {
+      margin-top: 15px;
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+    }
+  }
+}
+
+/*=== What is XS2ASandbox block ===*/
+
+@media screen and (max-width: 1080px) {
+  .what-sandbox-wrapper {
+    .what-sandbox-title {
+      margin: 40px 0;
+    }
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .what-sandbox-wrapper {
+    .what-sandbox-title {
+      margin: 20px 0;
+      font-size: 1.8rem;
+    }
+  }
+}
+
+/*=== How to use APIs ===*/
+
+@media screen and (max-width: 1080px) {
+  .how-use-api {
+    margin: 70px 0;
+
+    .steps-wrapper {
+      .step {
+        margin: 0 15px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .how-use-api {
+    margin: 30px 0;
+
+    .how-use-api-title {
+      font-size: 24px;
+    }
+
+    .steps-wrapper {
+      flex-direction: column;
+
+      .step {
+        height: 85px;
+        margin: 0 10px 0 10px;
+        padding: 0 0.5em 0 0.5em;
+
+      }
+
+      .arrow-right {
+        border-top: 19px solid #1d5f7f;
+        border-right: 19px solid transparent;
+        border-left: 19px solid transparent;
+        margin: 1em auto 0 auto;
+      }
+    }
+  }
+}
+
+/*=== Open banking ===*/
+
+@media screen and (max-width: 1080px) {
+  .open-banking {
+    padding: 40px 60px;
+
+    .open-banking-title {
+      margin: 26px 0 13px 0;
+    }
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .open-banking {
+    padding: 20px 25px;
+
+    .open-banking-title {
+      margin: 10px 0 0 0;
+      font-size: 1.8rem;
+    }
+  }
+}
+
+/*=== Sandbox Features Slider ===*/
+
+@media screen and (max-width: 1080px) {
+  #slider {
+    padding-top: 0;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  #slider {
+    padding-top: 0;
+
+    .features-description {
+      width: 90%;
+    }
+
+    .slide {
+      img {
+        margin-bottom: 0;
+        height: 30px;
+        width: 30px;
+      }
+    }
+  }
+}
+
+/*=== Product history section ===*/
+
+@media screen and (max-width: 1080px) {
+  .product-history-wrapper {
+    margin: 40px 0;
+
+    .product-history-header-wrapper {
+      width: 100%;
+
+      .title {
+        margin: 13px 0 0 5px;
+      }
+    }
+
+    .history-scheme {
+      margin-top: 20px;
+
+      .product-history-info-wrapper {
+        margin-top: 20px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .product-history-wrapper {
+    .product-history-header-wrapper {
+      width: 100%;
+
+      .title {
+        margin: 8px 0 0;
+        font-size: 24px;
+      }
+
+      .subtitle {
+        font-size: 28px;
+      }
+    }
+
+    .history-scheme {
+      margin-top: 8px;
+
+      .product-history-info-wrapper {
+        width: 100%;
+        margin-top: 1vw;
+
+        .main-info-wrapper {
+          .info-wrapper {
+            h1 {
+              font-size: 12px;
+            }
+
+            span {
+              font-size: 9px;
+            }
+
+            .text-wrapper {
+              p {
+                font-size: 8px;
+              }
+
+              i {
+                font-size: 10px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/*=== Any questions section ===*/
+
+@media screen and (max-width: 1080px) {
+  .any-questions {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .any-questions-title {
+      margin: 26px 0 13px 0;
+    }
+
+    .person-card {
+      height: 208px;
+      width: 75%;
+      align-self: center;
+      margin: 36px 0;
+    }
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .any-questions {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .any-questions-title {
+      margin: 13px 0 7px 0;
+      font-size: 28px;
+    }
+
+    .any-questions-subtitle {
+      font-size: 22px;
+    }
+
+    .person-card {
+      height: 150px;
+      width: 100%;
+      align-self: center;
+
+      .person-card-info {
+        .main-personal-info {
+          span:first-of-type {
+            font-size: 1.2rem;
+          }
+        }
+      }
+    }
+  }
+}

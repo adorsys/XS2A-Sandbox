@@ -30,11 +30,33 @@
       "linkedIn": "https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/"
     }
   ],
-  "supportedLanguages": ["en", "de", "es", "ua"],
-  "supportedApproaches": ["redirect", "embedded"],
+  "supportedLanguagesDictionary": {
+    "en": "united-kingdom.png",
+    "de": "germany.png",
+    "es": "spain.png",
+    "ua": "ukraine.png"
+  },
+  "supportedApproaches": [
+    "redirect",
+    "embedded"
+  ],
   "currency": "EUR",
   "tppSettings": {
     "tppDefaultNokRedirectUrl": "https://www.google.com",
     "tppDefaultRedirectUrl": "https://adorsys-platform.de/solutions/xs2a-sandbox/"
+  },
+  "pagesSettings": {
+    "contactPageSettings": {
+      "showContactCard": true,
+      "showQuestionsComponent": true
+    },
+    "homePageSettings": {
+      "showQuestionsComponent": true,
+      "showProductHistory": true,
+      "showSlider": true
+    },
+    "navigationBarSettings": {
+      "allowedNavigationSize": 3
+    }
   }
 }

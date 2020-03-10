@@ -1,41 +1,38 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ToastrModule } from 'ngx-toastr';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ToastrModule} from 'ngx-toastr';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { HomeComponent } from '../pages/home/home.component';
-import { GettingStartedComponent } from '../pages/getting-started/getting-started.component';
-import { FaqComponent } from '../pages/faq/faq.component';
-import { TestCasesModule } from '../pages/test-cases/test-cases.module';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { ContactComponent } from '../pages/contact/contact.component';
-import { RestService } from '../services/rest.service';
-import { DataService } from '../services/data.service';
-import { TestValuesComponent } from '../pages/test-cases/components/test-values/test-values.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AccinfAccountsGetComponent } from '../pages/test-cases/components/api-endpoints/accinf-accounts-get/accinf-accounts-get.component';
-import { AccinfAccountGetComponent } from '../pages/test-cases/components/api-endpoints/accinf-account-get/accinf-account-get.component';
-import { AccinfBalanceGetComponent } from '../pages/test-cases/components/api-endpoints/accinf-balance-get/accinf-balance-get.component';
-import { AccinfTransactionsGetComponent } from '../pages/test-cases/components/api-endpoints/accinf-transactions-get/accinf-transactions-get.component';
-import { AccinfTransactionGetComponent } from '../pages/test-cases/components/api-endpoints/accinf-transaction-get/accinf-transaction-get.component';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { HttpLoaderFactory } from '../services/language.service';
-import { SettingsLoadService } from '../services/settings-load.service';
-import { NgxImageZoomModule } from 'ngx-image-zoom';
-import { NgHttpLoaderModule } from 'ng-http-loader';
-
-export function app_Init(settingsLoadService: SettingsLoadService) {
-  return () => settingsLoadService.initializeApp();
-}
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {HomeComponent} from "./components/home/home.component";
+import {GettingStartedComponent} from "./components/getting-started/getting-started.component";
+import {ContactComponent} from "./components/contact/contact.component";
+import {TestValuesComponent} from "./components/test-cases/components/test-values/test-values.component";
+import {AccinfAccountsGetComponent} from "./components/test-cases/components/api-endpoints/accinf-accounts-get/accinf-accounts-get.component";
+import {AccinfAccountGetComponent} from "./components/test-cases/components/api-endpoints/accinf-account-get/accinf-account-get.component";
+import {AccinfTransactionsGetComponent} from "./components/test-cases/components/api-endpoints/accinf-transactions-get/accinf-transactions-get.component";
+import {AccinfBalanceGetComponent} from "./components/test-cases/components/api-endpoints/accinf-balance-get/accinf-balance-get.component";
+import {AccinfTransactionGetComponent} from "./components/test-cases/components/api-endpoints/accinf-transaction-get/accinf-transaction-get.component";
+import {NavComponent} from "./components/common/nav/nav.component";
+import {FooterComponent} from "./components/common/footer/footer.component";
+import {TestCasesModule} from "./components/test-cases/test-cases.module";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {HttpLoaderFactory, LanguageService} from "./services/language.service";
+import {NgHttpLoaderModule} from "ng-http-loader";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {NgxImageZoomModule} from "ngx-image-zoom";
+import {MarkdownModule} from "ngx-markdown";
+import {DataService} from "./services/data.service";
+import {RestService} from "./services/rest.service";
+import { CustomPageComponent } from './components/custom-page/custom-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     GettingStartedComponent,
-    FaqComponent,
     ContactComponent,
     TestValuesComponent,
     AccinfAccountsGetComponent,
@@ -43,6 +40,9 @@ export function app_Init(settingsLoadService: SettingsLoadService) {
     AccinfBalanceGetComponent,
     AccinfTransactionsGetComponent,
     AccinfTransactionGetComponent,
+    NavComponent,
+    FooterComponent,
+    CustomPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,18 +64,15 @@ export function app_Init(settingsLoadService: SettingsLoadService) {
     ReactiveFormsModule,
     FormsModule,
     NgxImageZoomModule.forRoot(),
+    MarkdownModule.forRoot(),
   ],
   exports: [],
   providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: app_Init,
-      deps: [SettingsLoadService],
-      multi: true,
-    },
     RestService,
     DataService,
+    LanguageService
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+}

@@ -45,6 +45,7 @@ $dark-80: #2c2e2f;
   --h2FontWeight768px: bold;
   --h2FontSize1024px: 1.5rem;
   --h2FontWeight1024px: bold;
+  --h2Color: rgb(95, 95, 95);
 
   --h3FontSize: 1rem;
   --h3FontWeight: normal;
@@ -67,6 +68,7 @@ $dark-80: #2c2e2f;
   /* Header */
   --headerBG: #ffffff;
   --headerFontColor: #000000;
+  --headerActiveBG: #ffffff;
 
   /* Footer */
   --footerBG: #054f72;
@@ -96,25 +98,25 @@ $dark-80: #2c2e2f;
   --buttonBgGradient1: #0db0e2;
   --buttonBgGradient2: #054f72;
   --buttonBG: linear-gradient(
-    129.54deg,
-    var(--buttonBgGradient1) 0%,
-    var(--buttonBgGradient2) 100%
+      129.54deg,
+      var(--buttonBgGradient1) 0%,
+      var(--buttonBgGradient2) 100%
   );
 
   --buttonHoveredGradient1: #0f62a4;
   --buttonHoveredGradient2: #054f72;
   --buttonHovered: linear-gradient(
-    129.54deg,
-    var(--buttonHoveredGradient1) 0%,
-    var(--buttonHoveredGradient2) 100%
+      129.54deg,
+      var(--buttonHoveredGradient1) 0%,
+      var(--buttonHoveredGradient2) 100%
   );
 
   --buttonClickedGradient1: #0db0e2;
   --buttonClickedGradient2: #062e72;
   --buttonClicked: linear-gradient(
-    129.54deg,
-    var(--buttonClickedGradient1) 0%,
-    var(--buttonClickedGradient2) 100%
+      129.54deg,
+      var(--buttonClickedGradient1) 0%,
+      var(--buttonClickedGradient2) 100%
   );
 
   /* Inputs */

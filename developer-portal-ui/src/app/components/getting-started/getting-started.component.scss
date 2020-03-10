@@ -1,0 +1,70 @@
+div ::ng-deep {
+
+  img {
+    margin-top: 3vw;
+    width: 100%;
+  }
+
+  h1 {
+    margin-bottom: 1.5vw;
+  }
+
+  h3 {
+    color: #5f5f5f;
+  }
+
+  p,
+  a,
+  li {
+    font-weight: 600;
+  }
+
+  ol {
+    margin-left: 1em;
+  }
+
+  ul:first-child {
+    padding-inline-start: 20px;
+  }
+
+  #markdown {
+    margin-bottom: 8.5vw;
+  }
+
+  table {
+    font-size: 0.8rem;
+    border-collapse: collapse;
+    width: 100%;
+
+    background-color: var(--tableBG);
+    border-bottom: var(--tableBorderStyleBottom);
+    border-left: var(--tableBorderStyleLeft);
+    border-right: var(--tableBorderStyleRight);
+    border-top: var(--tableBorderStyleTop);
+
+    th {
+      background-color: var(--tableStripedBG);
+      font-weight: 900;
+    }
+
+    tr:nth-child(even) {
+      background-color: var(--tableStripedBG);
+    }
+
+    tr:hover {
+      background-color: #ddd;
+    }
+
+    th,
+    td {
+      text-align: left;
+      margin: 1.2em;
+      padding: 1.2em;
+    }
+  }
+
+  .language-yaml {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    font-size: 1em;
+  }
+}

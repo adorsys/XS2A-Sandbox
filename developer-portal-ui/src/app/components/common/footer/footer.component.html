@@ -1,0 +1,47 @@
+<div class="footer-bar">
+  <div class="footer-top-items">
+    <img
+      *ngIf="globalSettings?.footerLogo"
+      class="logo"
+      [src]="globalSettings?.footerLogo"
+      [routerLink]="['/home']"
+    />
+    <div>
+      <a class="footer-item" [routerLink]="['/getting-started']">
+        {{ 'HEADER.GETTING_STARTED' | translate }}
+      </a>
+      <a class="footer-item" [routerLink]="['/test-cases']">
+        {{ 'HEADER.TEST_CASES' | translate }}
+      </a>
+
+      <a *ngFor="let navItem of navigation" class="footer-item" [routerLink]="['/page/' + navItem.route]">
+        {{ navItem.navName }}
+      </a>
+
+      <a class="footer-item" [routerLink]="['/contact']">
+        {{ 'HEADER.CONTACT' | translate }}
+      </a>
+
+    </div>
+  </div>
+
+  <div
+    class="social-media"
+    *ngIf="globalSettings?.facebook || globalSettings?.linkedIn">
+    <a
+      *ngIf="globalSettings?.facebook"
+      class="social-media-item"
+      [href]="globalSettings?.facebook"
+      target="_blank">
+      <i class="social-media-icon fab fa-facebook-f"></i>
+    </a>
+
+    <a
+      *ngIf="globalSettings?.linkedIn"
+      class="social-media-item"
+      [href]="globalSettings?.linkedIn"
+      target="_blank">
+      <i class="social-media-icon fab fa-linkedin-in"></i>
+    </a>
+  </div>
+</div>

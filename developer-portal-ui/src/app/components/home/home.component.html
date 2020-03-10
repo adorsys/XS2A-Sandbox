@@ -1,0 +1,116 @@
+<div>
+  <markdown [src]="pathToFile"></markdown>
+</div>
+
+<div id="home-spacer" class="spacer"></div>
+
+<!-- XS2ASandbox Features block -->
+<div id="slider" *ngIf="showSlider">
+  <div *ngFor="let slide of slides" class="slide">
+    <img [src]="slide?.photoUrl" alt=""/>
+    <p>{{ slide.title | translate }}</p>
+    <div class="slide-image-wrapper">
+      <span>{{ slide.description | translate }}</span>
+    </div>
+  </div>
+  <div class="button-block">
+    <button *ngFor="let item of slides"></button>
+  </div>
+</div>
+
+<!-- Product history -->
+<div class="product-history-wrapper" *ngIf="showProductHistory">
+  <div class="product-history-header-wrapper">
+    <div class="divider"></div>
+    <h1 class="title">Product History</h1>
+  </div>
+  <div class="history-scheme">
+    <button>Start</button>
+    <div class="start-vertical-divider"></div>
+    <div class="product-history-info-wrapper">
+      <ng-container *ngFor="let text of productHistory; let i = index">
+        <div
+          class="main-info-wrapper"
+          *ngIf="!text['isToday']"
+          [ngClass]="text['orderNumber'] % 2 === 0 ? 'flex-end' : 'flex-start'"
+          [style.opacity]="checkTodayDay(text['date']) ? '.5' : null"
+        >
+          <div
+            class="info-wrapper"
+            [ngStyle]="
+              text['orderNumber'] % 2 === 0
+                ? { 'align-items': 'flex-start', 'margin-right': '8vw' }
+                : {
+                    'align-items': 'flex-end',
+                    'margin-left': '8vw',
+                    'text-align': 'end'
+                  }
+            "
+          >
+            <span>{{
+              i === 0 || i === 1
+                ? (text['date'] | date: 'dd.MM.yyyy')
+                : (text['date'] | date: 'MM.yyyy')
+              }}</span>
+            <h1>{{ text['title'] | translate }}</h1>
+            <div class="text-wrapper">
+              <i class="fas fa-check-circle" *ngIf="i !== 0"></i>
+              <p>{{ text['text'] | translate }}</p>
+            </div>
+            <div
+              class="circle-divider"
+              [ngStyle]="
+                text['orderNumber'] % 2 !== 0
+                  ? { 'flex-direction': 'row-reverse', right: '-4px' }
+                  : { left: '-4px' }
+              "
+            >
+              <div class="circle"></div>
+              <div class="divider"></div>
+            </div>
+          </div>
+          <div
+            class="vertical-divider"
+            [style.display]="i === productHistory.length - 1 ? 'none' : null"
+            [ngStyle]="
+              text['orderNumber'] % 2 !== 0 ? { right: '-1px' } : { left: '0' }
+            "
+          ></div>
+        </div>
+        <div class="today-wrapper" *ngIf="text['isToday']">
+          <button>Today</button>
+          <div
+            class="vertical-divider"
+            *ngIf="productHistory.length - 1 !== i"
+          ></div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<!-- Any questions section -->
+<div class="any-questions" *ngIf="showQuestionsComponent && contactInfo">
+  <div class="divider"></div>
+  <h1 class="any-questions-title">{{ 'HOME.QUESTIONS.TITLE' | translate }}</h1>
+  <span class="any-questions-subtitle">{{
+    'HOME.QUESTIONS.ASK' | translate
+    }}</span>
+  <div
+    class="person-card"
+    *ngIf="contactInfo?.img || contactInfo?.name || contactInfo?.position"
+  >
+    <div class="person-card-image-wrapper">
+      <img [src]="contactInfo?.img" alt="Contact"/>
+    </div>
+    <div class="person-card-info">
+      <div class="main-personal-info">
+        <span>{{ contactInfo?.name }}</span>
+        <span>{{ contactInfo?.position }}</span>
+      </div>
+      <div class="sub-personal-info" *ngIf="contactInfo?.email">
+        <a [href]="'mailto:' + contactInfo?.email">{{ contactInfo?.email }}</a>
+      </div>
+    </div>
+  </div>
+</div>

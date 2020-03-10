@@ -30,8 +30,8 @@ Here are links where you can install needed dependencies:
 | Dependency         | Link                                    |                                                     
 |--------------------|-----------------------------------------|
 | Java 11             | https://openjdk.java.net/install/       | 
-| Node.js 11.x        | https://nodejs.org/en/download         | 
-| Angular CLI 7.x     | https://angular.io/guide/quickstart    |                                                                                                        
+| Node.js 12.x        | https://nodejs.org/en/download         | 
+| Angular CLI 8.x     | https://angular.io/guide/quickstart    |                                                                                                        
 | Asciidoctor 2.0    | https://asciidoctor.org                 |
 | jq 1.6             | https://stedolan.github.io/jq/download  |
 | Docker    1.17     | https://www.docker.com/get-started      |
@@ -40,10 +40,7 @@ Here are links where you can install needed dependencies:
 | PlantUML 1.2019.3  | http://plantuml.com/en/starting         |
 
 
-**Note 1**: please, use **Node.js** version lower than **12** (e.g. **10.x.x** or **11.x.x**). Otherwise angular applications would not be built due to
-version conflicts.
-
-**Note 2**: check amount of memory given to **Docker** (Open Docker Desktop -> Preferences -> Advanced -> Memory).
+**Note**: check amount of memory given to **Docker** (Open Docker Desktop -> Preferences -> Advanced -> Memory).
 For a fast and painless start of all the services it should be not less than 5 GB.
 
 3.Build and run the project:

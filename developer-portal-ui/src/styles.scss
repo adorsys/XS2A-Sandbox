@@ -90,6 +90,7 @@ a:focus {
   height: 6px;
   width: 77px;
   background-color: var(--colorSecondary);
+  margin-top: 6vw;
 }
 
 .api-table {
@@ -135,6 +136,7 @@ h1 {
 h2 {
   font-size: var(--h2FontSize);
   font-weight: var(--h2FontWeight);
+  color: var(--h2Color);
 }
 
 h3 {
@@ -353,4 +355,42 @@ select {
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
+}
+
+em {
+  border: 1px solid #e8e8ea;
+  padding: 0.5%;
+  border-radius: 3px;
+  background-color: #f8f8fc;
+  font-size: 0.8rem;
+  color: #e83e8c;
+  word-break: break-word;
+}
+
+pre {
+  padding: 1vw;
+  color: #fff;
+  background-color: #272822;
+  white-space: pre-wrap;
+  font-size: 0.8rem;
+  line-height: 1.3em !important;
+  margin: 0;
+}
+
+.main-wrapper {
+  margin-bottom: 7.5vw;
+}
+
+strong {
+  font-weight: var(--textFontWeight)+100;
+  color: #3b4151;
+}
+
+.centeredText {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.spacer {
+  margin-bottom: 90vw;
 }

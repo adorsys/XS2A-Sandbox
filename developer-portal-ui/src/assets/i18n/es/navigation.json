@@ -1,0 +1,8 @@
+{
+  "navigation": [
+    {
+      "navName": "FAQs",
+      "route": "faq"
+    }
+  ]
+}

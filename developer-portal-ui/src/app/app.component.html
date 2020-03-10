@@ -1,172 +1,18 @@
-<div class="nav-bar" [ngClass]="{ activeDropdown: showNavDropDown }">
-  <div class="nav-bar-content">
-    <img
-      class="logo"
-      [src]="customizeService.getLogo()"
-      (click)="goToPage('home')"
-    />
-    <div class="nav">
-      <div class="nav-content">
-        <a
-          class="header-item"
-          routerLink="/getting-started"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: false }"
-        >
-          {{ 'HEADER.GETTING_STARTED' | translate }}
-        </a>
-        <a
-          class="header-item"
-          routerLink="/test-cases/redirect"
-          routerLinkActive="active"
-          [ngClass]="{
-            active: dataService.getRouterUrl().includes('test-cases')
-          }"
-          [routerLinkActiveOptions]="{ exact: false }"
-        >
-          {{ 'HEADER.TEST_CASES' | translate }}
-        </a>
-        <a
-          class="header-item"
-          routerLink="/faq"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: false }"
-        >
-          {{ 'HEADER.FAQ' | translate }}
-        </a>
-        <a
-          class="header-item"
-          routerLink="/contact"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: false }"
-        >
-          {{ 'HEADER.CONTACT' | translate }}
-        </a>
-        <a
-          href="javascript:void(0);"
-          #dropDownIcon
-          class="icon-dropdown"
-          (click)="toggleDropdown($event)"
-          >&#9776;</a
-        >
-      </div>
-      <div class="langs-wrapper">
-        <div class="lang" (click)="collapseThis()">
-          <img class="lang-img" [src]="langIcons[lang]" [alt]="lang" />
-          <span class="lang-span">{{ lang }}</span>
-        </div>
-
-        <div
-          id="langs"
-          [ngClass]="
-            getLangCollapsed() ? 'collapse-menu--collapsed' : 'collapse-menu'
-          "
-        >
-          <div
-            class="lang-wrapper"
-            *ngFor="let lng of langs"
-            (click)="changeLang(lng)"
-            [hidden]="lng === lang"
-          >
-            <div>
-              <img class="lang-img" [src]="langIcons[lng]" [alt]="lng" />
-              <span class="lang-span">{{ lng }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    *ngIf="showNavDropDown"
-    class="nav-content-responsive"
-    (click)="toggleDropdown($event)"
-  >
-    <a
-      class="header-item"
-      routerLink="/getting-started"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: false }"
-    >
-      {{ 'HEADER.GETTING_STARTED' | translate }}
-    </a>
-    <a
-      class="header-item"
-      routerLink="/test-cases/redirect"
-      routerLinkActive="active"
-      [ngClass]="{
-        active: dataService.getRouterUrl().includes('test-cases')
-      }"
-      [routerLinkActiveOptions]="{ exact: false }"
-    >
-      {{ 'HEADER.TEST_CASES' | translate }}
-    </a>
-    <a
-      class="header-item"
-      routerLink="/faq"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: false }"
-    >
-      {{ 'HEADER.FAQ' | translate }}
-    </a>
-    <a
-      class="header-item"
-      routerLink="/contact"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: false }"
-    >
-      {{ 'HEADER.CONTACT' | translate }}
-    </a>
-  </div>
+<div *ngIf="supportedLanguagesDictionary && globalSettings">
+  <app-nav
+    [supportedLanguagesDictionary]="supportedLanguagesDictionary"
+    [navigation]="navigation"
+    [logo]="globalSettings.logo"
+    [allowedNavigationSize]="allowedNavigationSize"></app-nav>
 </div>
 
-<main><router-outlet (activate)="onActivate($event)"></router-outlet></main>
+<main>
+  <router-outlet (activate)="onActivate($event)"></router-outlet>
+</main>
 
-<div class="footer-bar">
-  <div class="footer-top-items">
-    <img
-      *ngIf="customizeService.getFooterLogo()"
-      class="logo"
-      [src]="customizeService.getFooterLogo()"
-      (click)="goToPage('home')"
-    />
-    <div>
-      <a class="footer-item" routerLink="/getting-started">{{
-        'FOOTER.GETTING_STARTED' | translate
-      }}</a>
-      <a class="footer-item" routerLink="/test-cases/redirect">{{
-        'FOOTER.TEST_CASES' | translate
-      }}</a>
-      <a class="footer-item" routerLink="/faq">{{
-        'FOOTER.FAQ' | translate
-      }}</a>
-      <a class="footer-item" routerLink="/contact">{{
-        'FOOTER.CONTACT' | translate
-      }}</a>
-    </div>
-  </div>
+<div class="spacer" id="spacer"></div>
 
-  <div
-    class="social-media"
-    *ngIf="globalSettings?.facebook || globalSettings?.linkedIn"
-  >
-    <a
-      *ngIf="globalSettings?.facebook"
-      class="social-media-item"
-      [href]="globalSettings?.facebook"
-      target="_blank"
-    >
-      <i class="social-media-icon fab fa-facebook-f"></i>
-    </a>
+<app-footer [navigation]="navigation"
+            [globalSettings]="globalSettings"></app-footer>
 
-    <a
-      *ngIf="globalSettings?.linkedIn"
-      class="social-media-item"
-      [href]="globalSettings?.linkedIn"
-      target="_blank"
-    >
-      <i class="social-media-icon fab fa-linkedin-in"></i>
-    </a>
-  </div>
-</div>
-<ng-http-loader [debounceDelay]="500" [minDuration]="1200"> </ng-http-loader>
+<ng-http-loader [debounceDelay]="500" [minDuration]="1200"></ng-http-loader>

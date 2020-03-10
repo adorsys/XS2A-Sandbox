@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { AppComponent } from './app.component';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {RouterTestingModule} from '@angular/router/testing';
+import {AppComponent} from './app.component';
 import {
   TranslateLoader,
   TranslateModule,
@@ -10,17 +10,17 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import {
-  HttpLoaderFactory,
-  LanguageService,
-} from '../services/language.service';
-import { HttpClient } from '@angular/common/http';
-import { DataService } from '../services/data.service';
-import { CustomizeService } from '../services/customize.service';
-import { Pipe, PipeTransform } from '@angular/core';
-import { Router } from '@angular/router';
-import { of } from 'rxjs';
-import { NgHttpLoaderModule } from 'ng-http-loader';
+import {HttpClient} from '@angular/common/http';
+import {Pipe, PipeTransform} from '@angular/core';
+import {Router} from '@angular/router';
+import {NgHttpLoaderModule} from 'ng-http-loader';
+import {HttpLoaderFactory, LanguageService} from "./services/language.service";
+import {DataService} from "./services/data.service";
+import {CustomizeService} from "./services/customize.service";
+import {NavComponent} from "./components/common/nav/nav.component";
+import {FooterComponent} from "./components/common/footer/footer.component";
+import {of} from "rxjs";
+import {MarkdownModule, MarkdownService} from "ngx-markdown";
 
 const TRANSLATIONS_EN = require('../assets/i18n/en.json');
 const TRANSLATIONS_DE = require('../assets/i18n/de.json');
@@ -38,13 +38,15 @@ describe('AppComponent', () => {
   let router: Router;
 
   const DataServiceStub = {
-    setRouterUrl: (val: string) => {},
+    setRouterUrl: (val: string) => {
+    },
     getRouterUrl: () => '',
   };
 
   const CustomizeServiceStub = {
     isCustom: () => false,
-    setUserTheme: () => {},
+    setUserTheme: () => {
+    },
     getJSON: () => {
       return new Promise(resolve => {
         resolve({
@@ -94,6 +96,21 @@ describe('AppComponent', () => {
             tppDefaultRedirectUrl:
               'https://adorsys-platform.de/solutions/xs2a-sandbox/',
           },
+          supportedLanguages: ['en', 'ua', 'de', 'es'],
+          pagesSettings: {
+            contactPageSettings: {
+              showContactCard: true,
+              showQuestionsComponent: true
+            },
+            homePageSettings: {
+              showQuestionsComponent: true,
+              showProductHistory: true,
+              showSlider: true
+            },
+            navigationBarSettings: {
+              allowedNavigationSize: 3
+            }
+          }
         });
       });
     },
@@ -103,13 +120,13 @@ describe('AppComponent', () => {
 
   const LanguageServiceStub = {
     language: 'en',
-    initializeTranslation: () => {},
-    setLang: (lang: string) => (LanguageServiceStub.language = lang),
+    currentLanguage: of('en'),
+    initializeTranslation: () => {
+    },
     getLang: () => LanguageServiceStub.language,
-    getLanguages: () => of(['en', 'de', 'es', 'ua']),
   };
 
-  @Pipe({ name: 'translate' })
+  @Pipe({name: 'translate'})
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -119,8 +136,14 @@ describe('AppComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AppComponent, TranslatePipe],
+      declarations: [
+        AppComponent,
+        TranslatePipe,
+        NavComponent,
+        FooterComponent
+      ],
       imports: [
+        MarkdownModule.forRoot(),
         RouterTestingModule,
         HttpClientTestingModule,
         TranslateModule.forRoot({
@@ -133,10 +156,11 @@ describe('AppComponent', () => {
         NgHttpLoaderModule.forRoot(),
       ],
       providers: [
+        MarkdownService,
         TranslateService,
-        { provide: DataService, useValue: DataServiceStub },
-        { provide: CustomizeService, useValue: CustomizeServiceStub },
-        { provide: LanguageService, useValue: LanguageServiceStub },
+        {provide: DataService, useValue: DataServiceStub},
+        {provide: CustomizeService, useValue: CustomizeServiceStub},
+        {provide: LanguageService, useValue: LanguageServiceStub},
       ],
     })
       .compileComponents()
@@ -160,31 +184,7 @@ describe('AppComponent', () => {
     expect(comp).toBeTruthy();
   }));
 
-  it('should change lang', () => {
-    comp.langs = ['en'];
-    expect(comp.getLangCollapsed()).toBeTruthy();
-    comp.changeLang('ua');
-    expect(comp.lang).toEqual('ua');
-  });
-
-  it('should collapse', () => {
-    let prevCollapseStatus;
-    for (let i = 0; i < 2; i++) {
-      prevCollapseStatus = comp.getLangCollapsed();
-      comp.collapseThis();
-      expect(comp.getLangCollapsed).not.toEqual(prevCollapseStatus);
-    }
-  });
-
   it('should set global settings in ngOnInit', () => {
-    const getGlobalSettingsSpy = spyOn(
-      customizeService,
-      'getJSON'
-    ).and.callThrough();
-
-    comp.ngOnInit();
-
-    expect(getGlobalSettingsSpy).toHaveBeenCalled();
     expect(comp.globalSettings).not.toBeUndefined();
   });
 });
