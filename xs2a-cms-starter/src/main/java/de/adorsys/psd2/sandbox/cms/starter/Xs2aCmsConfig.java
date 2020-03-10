@@ -20,7 +20,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
     "de.adorsys.psd2.event",
     "de.adorsys.psd2.consent",
     "de.adorsys.psd2.sandbox.cms.starter",
-    "de.adorsys.psd2.sandbox.tpp.cms"
+    "de.adorsys.psd2.sandbox.tpp.cms",
+    "de.adorsys.psd2.core.mapper"
 })
 @EnableTransactionManagement
 public class Xs2aCmsConfig {

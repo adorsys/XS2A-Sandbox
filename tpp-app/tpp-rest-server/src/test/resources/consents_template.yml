@@ -20,9 +20,6 @@
     city: "Nurnberg"
     state: "Bavaria"
     issuerCN: "Some issuer"
-    tppRedirectUri:
-      uri: "http://adorsys.de"
-      nokUri: "http://google.com"
     cancelTppRedirectUri:
       uri: "http://gmail.com"
       nokUri: "http://unknown.com"
@@ -62,10 +59,10 @@
         accountIdentifier: "DE54321"
         currency: "EUR"
         accountType: "IBAN"
-    availableAccounts: "ALL_ACCOUNTS"
-    allPsd2: "ALL_ACCOUNTS"
-    availableAccountsWithBalance: "ALL_ACCOUNTS"
   validUntil: "2020-10-10"
   recurringIndicator: true
   tppRedirectPreferred: true
   combinedServiceIndicator: true
+  availableAccounts: "ALL_ACCOUNTS"
+  allPsd2: "ALL_ACCOUNTS"
+  availableAccountsWithBalance: "ALL_ACCOUNTS"

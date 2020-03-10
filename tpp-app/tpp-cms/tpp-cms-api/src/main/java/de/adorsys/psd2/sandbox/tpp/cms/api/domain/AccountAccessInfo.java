@@ -6,10 +6,7 @@ import java.util.List;
 
 @Data
 public class AccountAccessInfo {
-    private List<UserAccountInfo> accounts;
-    private List<UserAccountInfo> balances;
-    private List<UserAccountInfo> transactions;
-    private UserAccountAccessType availableAccounts;
-    private UserAccountAccessType allPsd2;
-    private UserAccountAccessType availableAccountsWithBalance;
+    private List<AccountReferenceInfo> accounts;
+    private List<AccountReferenceInfo> balances;
+    private List<AccountReferenceInfo> transactions;
 }

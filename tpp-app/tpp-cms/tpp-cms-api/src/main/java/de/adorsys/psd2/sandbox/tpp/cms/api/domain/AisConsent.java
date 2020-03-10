@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AisConsent {
-    private PsuInfo psuInfo;
+    private PsuIdDataInfo psuInfo;
     private ThirdPartyInfo tppInfo;
     private Integer allowedFrequencyPerDay;
     private int requestedFrequencyPerDay;
@@ -29,4 +29,7 @@ public class AisConsent {
     private boolean recurringIndicator;
     private boolean tppRedirectPreferred;
     private boolean combinedServiceIndicator;
+    private UserAccountAccessType availableAccounts;
+    private UserAccountAccessType allPsd2;
+    private UserAccountAccessType availableAccountsWithBalance;
 }

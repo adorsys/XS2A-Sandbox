@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserAccountInfo {
+public class AccountReferenceInfo {
     private String resourceId;
     private String aspspAccountId;
     private String accountIdentifier;

@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { catchError, map } from 'rxjs/operators';
-import { CustomizeService } from './customize.service';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {catchError, map} from 'rxjs/operators';
+import {CustomizeService} from './customize.service';
 
 @Injectable({
   providedIn: 'root',
@@ -62,7 +62,7 @@ export class JsonService {
         );
         json = this.updateRequestedExecutionDateForJsonData(json);
 
-        return JSON.parse(json);
+        return JSON.parse(this.updateValidUntilForJsonData(json));
       })
     );
   }
@@ -85,10 +85,20 @@ export class JsonService {
     return data.replace(regex, 'requestedExecutionDate": "' + today + '"');
   }
 
+  private updateValidUntilForJsonData(data: string) {
+    const nextMonth = new Date();
+    nextMonth.setMonth(nextMonth.getMonth() + 1);
+
+    // replaces all the values of "validUntil" key word in formatted jsons
+    const regex = /(validUntil"\s*:\s*"\s*)(.+)(")/g;
+
+    return data.replace(regex, 'validUntil": "' + nextMonth.toISOString().slice(0, 10) + '"');
+  }
+
   public getRawXmlData(url: string) {
     const path = 'xmls/' + url + '.xml';
     return this.http
-      .get(this.customExamplesSource + path, { responseType: 'text' })
+      .get(this.customExamplesSource + path, {responseType: 'text'})
       .pipe(
         map(response => {
           if (response.includes('<!DOCTYPE html>')) {

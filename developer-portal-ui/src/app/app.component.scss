@@ -187,6 +187,7 @@
     }
   }
   .logo {
+    flex-shrink: 0;
     max-height: 75%;
     max-width: 25%;
     cursor: pointer;
@@ -217,6 +218,7 @@
   align-items: center;
   margin-bottom: 30px;
   .logo {
+    flex-shrink: 0;
     max-height: 75%;
     max-width: 25%;
     cursor: pointer;

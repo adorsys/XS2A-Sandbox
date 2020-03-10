@@ -2,13 +2,15 @@ package de.adorsys.psd2.sandbox.tpp.cms.impl.service;
 
 import de.adorsys.psd2.consent.api.CmsResponse;
 import de.adorsys.psd2.consent.api.WrongChecksumException;
-import de.adorsys.psd2.consent.api.ais.CreateAisConsentResponse;
-import de.adorsys.psd2.consent.service.AisConsentServiceInternal;
+import de.adorsys.psd2.consent.api.ais.CmsConsent;
+import de.adorsys.psd2.consent.api.consent.CmsCreateConsentResponse;
+import de.adorsys.psd2.consent.service.ConsentServiceInternal;
 import de.adorsys.psd2.sandbox.tpp.cms.api.domain.AisConsent;
 import de.adorsys.psd2.sandbox.tpp.cms.api.service.ConsentService;
-import de.adorsys.psd2.sandbox.tpp.cms.impl.mapper.AisConsentMapper;
+import de.adorsys.psd2.sandbox.tpp.cms.impl.mapper.ConsentMapper;
 import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,37 +23,35 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ConsentServiceImpl implements ConsentService {
-    private final AisConsentServiceInternal aisConsentServiceInternal;
-    private final AisConsentMapper aisConsentMapper;
+    private final ConsentServiceInternal consentServiceInternal;
+    private final ConsentMapper mapper;
 
     @Override
     @Transactional
     public List<String> generateConsents(List<AisConsent> consents) {
         List<String> consentIds = consents.stream()
-                                      .map(aisConsentMapper::toCmsAisConsentRequest)
-                                      .map(request -> {
-                                          try {
-                                              return aisConsentServiceInternal.createConsent(request);
-                                          } catch (WrongChecksumException e) {
-                                              log.error("Could not create Consent: {}", request.getInternalRequestId());
-                                              return null;
-                                          }
-                                      })
+                                      .map(mapper::mapToCmsConsent)
+                                      .map(this::doCreateConsent)
                                       .filter(Objects::nonNull)
                                       .map(CmsResponse::getPayload)
-                                      .map(CreateAisConsentResponse::getConsentId)
+                                      .map(CmsCreateConsentResponse::getConsentId)
                                       .collect(Collectors.toList());
-        updateConsentsStatus(consentIds);
-        return consentIds;
+        return updateConsentsStatus(consentIds);
     }
 
-    private void updateConsentsStatus(List<String> consentIds) {
+    @SneakyThrows
+    private CmsResponse<CmsCreateConsentResponse> doCreateConsent(CmsConsent cmsConsent) {
+        return consentServiceInternal.createConsent(cmsConsent);
+    }
+
+    private List<String> updateConsentsStatus(List<String> consentIds) {
         consentIds.forEach(id -> {
             try {
-                aisConsentServiceInternal.updateConsentStatusById(id, ConsentStatus.VALID);
+                consentServiceInternal.updateConsentStatusById(id, ConsentStatus.VALID);
             } catch (WrongChecksumException e) {
                 log.error("Could not update Consent: {} with status: {}", id, ConsentStatus.VALID.name());
             }
         });
+        return consentIds;
     }
 }
