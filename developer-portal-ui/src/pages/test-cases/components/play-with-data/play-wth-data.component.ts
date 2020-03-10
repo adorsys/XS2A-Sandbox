@@ -365,7 +365,9 @@ export class PlayWthDataComponent implements OnInit {
   private setIpAddress() {
     return this.http
       .get('https://api.ipify.org/?format=json')
-      .subscribe(ip => (this.headers['PSU-IP-Address'] = ip['ip']));
+      .subscribe(
+        ip => (this.headers['PSU-IP-Address'] = ip['ip']),
+        () => this.headers['PSU-IP-Address'] = '1.1.1.1');
   }
 
   private buildHeadersForRequest() {
