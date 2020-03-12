@@ -124,7 +124,7 @@
           <div class="form-check">
             <input (change)="generateCertificate = !generateCertificate"
                    [checked]="generateCertificate"
-                   [disabled]="selectedCountry == undefined && !userForm.valid"
+                   [disabled]="selectedCountry === undefined || selectedCountry === '' || !userForm.valid"
                    class="form-check-input"
                    id="generateCertificate"
                    type="checkbox">
