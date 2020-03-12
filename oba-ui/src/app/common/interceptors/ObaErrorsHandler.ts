@@ -23,42 +23,23 @@ export class ObaErrorsHandler implements ErrorHandler {
   public get activatedRoute(): ActivatedRoute {
     return this.injector.get(ActivatedRoute);
   }
-
-  public handleError(errorObj: HttpErrorResponse) {
-    console.error('OBA error handler: ', errorObj);
-
-    const httpErrorCode = errorObj.status;
-
-    this.zone.run( () => {
-      const error = errorObj.error;
-      const errorMessage = error ? error.message : error.statusText;
-
-      // default error handling
-      switch (httpErrorCode) {
-        case 401: {
-          this.infoService.openFeedback('Invalid credentials', {
-            severity: 'error'
+  public handleError(errorObj) {
+      console.error("OBA UI error handler: ", errorObj);
+      if (errorObj instanceof HttpErrorResponse) {
+          this.zone.run(() => {
+              let error = errorObj.error;
+              let errorMessage = error ? error.message : error.statusText;
+              this.infoService.openFeedback(errorMessage, {
+                  severity: 'error'
+              });
           });
-          break;
-        }
-        case 403: {
-          this.infoService.openFeedback('You have no rights to execute this action', {
-            severity: 'error'
+      } else {
+          this.zone.run(() => {
+              let errorMessage = errorObj.message;
+              this.infoService.openFeedback(errorMessage, {
+                  severity: 'info'
+              });
           });
-          break;
-        }
-        default: {
-          // if required could be redirected to internal server error page
-          this.infoService.openFeedback(errorMessage, {
-            severity: 'error',
-            duration: 3000
-          });
-          break;
-        }
       }
-
-    });
-
   }
-
 }
