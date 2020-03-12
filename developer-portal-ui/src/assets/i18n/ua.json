@@ -1,16 +1,4 @@
 {
-  "HEADER": {
-    "GETTING_STARTED": "Початок роботи",
-    "TEST_CASES": "Сценарії для тестування",
-    "FAQ": "FAQ",
-    "CONTACT": "Контакти"
-  },
-  "FOOTER": {
-    "GETTING_STARTED": "Початок роботи",
-    "TEST_CASES": "Сценарії для тестування",
-    "FAQ": "FAQ",
-    "CONTACT": "Контакти"
-  },
   "HOME": {
     "FEATURES": {
       "SLIDES": {

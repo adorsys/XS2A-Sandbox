@@ -2,4 +2,4 @@ For all the tests in Redirect and Embedded approaches it is required to use PIN 
 
 Test value for PIN for all automatically generated users: 12345.
 
-Test value for TAN (valid only if you run Sandbox locally with 'dev' profile):123456.
+Test value for TAN (valid only if you run Sandbox locally with 'dev' profile): 123456.

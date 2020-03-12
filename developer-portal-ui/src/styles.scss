@@ -1,5 +1,6 @@
 @import '~ngx-toastr/toastr.css';
 @import './assets/themes/variables';
+@import './assets/UI/custom/fonts';
 
 * {
   box-sizing: border-box;
@@ -25,7 +26,7 @@ html {
 
 body {
   font-family: var(--fontFamily);
-  padding: 7.5vw 7vw 0 7vw;
+  padding: var(--bodyPadding);
   margin: 0;
   color: var(--bodyFontColor);
   background-color: var(--bodyBG);
@@ -70,7 +71,7 @@ dl,
 ol,
 p,
 ul {
-  line-height: 1.5;
+  line-height: var(--textLineHeight);
 }
 
 p {
@@ -382,7 +383,7 @@ pre {
 }
 
 strong {
-  font-weight: var(--textFontWeight)+100;
+  font-weight: bold;
   color: #3b4151;
 }
 

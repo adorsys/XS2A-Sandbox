@@ -1,16 +1,4 @@
 {
-  "HEADER": {
-    "GETTING_STARTED": "Getting started",
-    "TEST_CASES": "Casos de prueba",
-    "FAQ": "FAQ",
-    "CONTACT": "Contactos"
-  },
-  "FOOTER": {
-    "GETTING_STARTED": "Getting started",
-    "TEST_CASES": "Casos de prueba",
-    "FAQ": "FAQs",
-    "CONTACT": "Contactos"
-  },
   "HOME": {
     "FEATURES": {
       "SLIDES": {

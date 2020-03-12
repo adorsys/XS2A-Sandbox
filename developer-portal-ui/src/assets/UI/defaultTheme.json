@@ -2,8 +2,12 @@
   "globalSettings": {
     "logo": "Logo_XS2ASandbox.png",
     "footerLogo": "Logo_XS2ASandbox.png",
-    "facebook": "https://www.facebook.com/adorsysGmbH/",
-    "linkedIn": "https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/"
+    "socialMedia": {
+      "facebook": "https://www.facebook.com/adorsysGmbH",
+      "twitter": "https://twitter.com/adorsys",
+      "xing": "https://www.xing.com/companies/adorsysgmbh%26cokg",
+      "linkedin": "https://www.linkedin.com/company/adorsys"
+    }
   },
   "contactInfo": {
     "img": "Rene.png",
@@ -56,7 +60,7 @@
       "showSlider": true
     },
     "navigationBarSettings": {
-      "allowedNavigationSize": 3
+      "allowedNavigationSize": 5
     }
   }
 }

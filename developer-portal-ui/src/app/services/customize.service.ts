@@ -13,9 +13,7 @@ export class CustomizeService {
   private DEFAULT_THEME: Theme = {
     globalSettings: {
       logo: 'Logo_XS2ASandbox.png',
-      footerLogo: 'Logo_XS2ASandbox.png',
-      facebook: 'https://www.facebook.com/adorsysGmbH/',
-      linkedIn: 'https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/',
+      footerLogo: 'Logo_XS2ASandbox.png'
     },
     contactInfo: {
       img: 'Rene.png',
@@ -234,14 +232,6 @@ export class CustomizeService {
       return this.USER_THEME.globalSettings.logo;
     } else {
       return this.DEFAULT_THEME.globalSettings.logo;
-    }
-  }
-
-  getFooterLogo() {
-    if (this.NEW_THEME_WAS_SET) {
-      return this.USER_THEME.globalSettings.footerLogo;
-    } else {
-      return this.DEFAULT_THEME.globalSettings.footerLogo;
     }
   }
 

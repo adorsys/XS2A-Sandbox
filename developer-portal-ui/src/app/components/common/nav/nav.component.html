@@ -1,37 +1,20 @@
 <div class="nav-bar">
   <div class="nav-bar-content">
-    <img *ngIf=logo class="logo" [src]="logo" [routerLink]="['/home']" alt="Logo"/>
+    <img *ngIf=logo class="logo"
+         [src]="logo" (click)="navigationService.goToLogoLink(logoLink, defaultLogoLink)"
+         alt="Logo"/>
 
     <div class="nav">
       <div class="nav-content">
         <div id="navLinks">
-          <a class="header-item"
-          [routerLink]="['/getting-started']"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: false }">
-          {{ 'HEADER.GETTING_STARTED' | translate }}
-          </a>
-          <a class="header-item"
-             routerLink="/test-cases/redirect"
-             routerLinkActive="active"
-             [ngClass]="{active: dataService.getRouterUrl().includes('test-cases')}"
-             [routerLinkActiveOptions]="{ exact: false }">
-            {{ 'HEADER.TEST_CASES' | translate }}
-          </a>
 
           <a *ngFor="let navItem of navigation" class="header-item"
              routerLinkActive="active"
              [routerLinkActiveOptions]="{ exact: false }"
-             [routerLink]="['/page/' + navItem.route]">
+             (click)="navigationService.navigateTo(navItem)">
             {{ navItem.navName }}
           </a>
 
-          <a class="header-item"
-             [routerLink]="['/contact']"
-             routerLinkActive="active"
-             [routerLinkActiveOptions]="{ exact: false }">
-            {{ 'HEADER.CONTACT' | translate }}
-          </a>
         </div>
 
         <a href="javascript:void(0);" class="icon-dropdown" id="dropDownIcon"
@@ -39,7 +22,7 @@
 
       </div>
 
-      <div class="langs-wrapper" *ngIf="supportedLanguagesDictionary">
+      <div class="langs-wrapper" *ngIf="supportedLanguagesDictionary && supportedLanguages.length > 1">
         <div class="lang" (click)="collapseThis()">
           <img class="lang-img" [src]="supportedLanguagesDictionary[language]" [alt]="language"/>
           <span class="lang-span">{{ language }}</span>
@@ -68,32 +51,11 @@
        (click)="toggleDropdown($event)"
        id="navContentResponsive">
 
-    <a class="header-item"
-       [routerLink]="['/getting-started']"
-       routerLinkActive="active"
-       [routerLinkActiveOptions]="{ exact: false }">
-      {{ 'HEADER.GETTING_STARTED' | translate }}
-    </a>
-    <a class="header-item"
-       routerLink="/test-cases/redirect"
-       routerLinkActive="active"
-       [ngClass]="{active: dataService.getRouterUrl().includes('test-cases')}"
-       [routerLinkActiveOptions]="{ exact: false }">
-      {{ 'HEADER.TEST_CASES' | translate }}
-    </a>
-
     <a *ngFor="let navItem of navigation" class="header-item"
        routerLinkActive="active"
        [routerLinkActiveOptions]="{ exact: false }"
-       [routerLink]="['/page/' + navItem.route]">
+       (click)="navigationService.navigateTo(navItem)">
       {{ navItem.navName }}
-    </a>
-
-    <a class="header-item"
-       [routerLink]="['/contact']"
-       routerLinkActive="active"
-       [routerLinkActiveOptions]="{ exact: false }">
-      {{ 'HEADER.CONTACT' | translate }}
     </a>
 
   </div>

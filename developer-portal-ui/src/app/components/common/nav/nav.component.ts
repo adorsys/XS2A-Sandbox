@@ -1,6 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {LanguageService} from "../../../services/language.service";
 import {DataService} from "../../../services/data.service";
+import {Router} from "@angular/router";
+import {NavItem} from "../../../models/navItem.model";
+import {NavigationService} from "../../../services/navigation.service";
 
 @Component({
   selector: 'app-nav',
@@ -10,6 +13,7 @@ import {DataService} from "../../../services/data.service";
 export class NavComponent implements OnInit {
 
   private langCollapsed = false;
+  private defaultLogoLink = '/home';
 
   showNavDropDown = false;
   language = 'en';
@@ -17,11 +21,13 @@ export class NavComponent implements OnInit {
 
   @Input() navigation;
   @Input() logo;
+  @Input() logoLink: string;
   @Input() supportedLanguagesDictionary;
-  @Input() allowedNavigationSize = 3;
+  @Input() allowedNavigationSize = 5;
 
   constructor(private languageService: LanguageService,
-              public dataService: DataService) {
+              public dataService: DataService,
+              private navigationService: NavigationService) {
     this.setLangCollapsed(true);
   }
 

@@ -13,9 +13,7 @@ describe('CustomizeService', () => {
   const defTheme: Theme = {
     globalSettings: {
       logo: 'Logo_XS2ASandbox.png',
-      footerLogo: 'Logo_XS2ASandbox.png',
-      facebook: 'https://www.facebook.com/adorsysGmbH/',
-      linkedIn: 'https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/',
+      footerLogo: 'Logo_XS2ASandbox.png'
     },
     contactInfo: {
       img: 'Rene.png',

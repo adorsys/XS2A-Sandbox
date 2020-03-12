@@ -22,7 +22,7 @@
 
   .nav-bar-content {
     position: fixed;
-    width: 86%;
+    width: var(--headerWidth);
     height: 7.5vw;
     display: flex;
     padding: 0 5vw;
@@ -50,7 +50,7 @@
       margin-right: 0;
       padding: 1rem 0;
       text-align: center;
-      border-bottom: 0.5px solid #000000;
+      border-top: 0.2px solid #000000;
     }
 
     .header-item.active {
@@ -96,14 +96,17 @@
 
   .header-item {
     color: var(--headerFontColor);
-    opacity: 0.3;
+    background-color: var(--headerBG);
     margin-right: 1.5em;
     text-decoration: none;
     cursor: pointer;
 
     &.active {
-      opacity: 1;
       background-color: var(--headerActiveBG);
+    }
+
+    &:hover {
+      opacity: 0.5;
     }
 
     &:last-of-type {

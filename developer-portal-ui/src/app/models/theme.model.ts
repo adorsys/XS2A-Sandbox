@@ -11,10 +11,10 @@ export interface Theme {
 
 export interface GlobalSettings {
   logo: string;
+  logoLink?: string;
   footerLogo: string;
   favicon?: Favicon;
-  facebook?: string;
-  linkedIn?: string;
+  socialMedia?;
   cssVariables?: CSSVariables;
 }
 
@@ -84,6 +84,7 @@ export interface PagesSettings {
     allowedNavigationSize: number
   }
   contactPageSettings?: {
+    contactPageRedirectionUrl?: string,
     showContactCard?: boolean;
     showQuestionsComponent?: boolean
   };

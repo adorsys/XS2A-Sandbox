@@ -24,9 +24,12 @@ $dark-80: #2c2e2f;
   /* Text sizes and weights */
 
   --textFontSize: 20px;
-  --textFontWeight: bold;
+  --textFontWeight: 600;
+  --textLineHeight: 1.5em;
+
   --textFontSize768px: 18px;
   --textFontWeight768px: bold;
+
   --textFontSize1024px: 18px;
   --textFontWeight1024px: bold;
 
@@ -34,15 +37,19 @@ $dark-80: #2c2e2f;
 
   --h1FontSize: 2rem;
   --h1FontWeight: bold;
+
   --h1FontSize768px: 2rem;
   --h1FontWeight768px: bold;
+
   --h1FontSize1024px: 2rem;
   --h1FontWeight1024px: bold;
 
   --h2FontSize: 1.5rem;
   --h2FontWeight: bold;
+
   --h2FontSize768px: 1.5rem;
   --h2FontWeight768px: bold;
+
   --h2FontSize1024px: 1.5rem;
   --h2FontWeight1024px: bold;
   --h2Color: rgb(95, 95, 95);
@@ -61,6 +68,7 @@ $dark-80: #2c2e2f;
   /* Body */
   --bodyBG: #fafafa;
   --bodyFontColor: #868e96;
+  --bodyPadding: 7.5vw 7vw 0 7vw;
 
   /* Main */
   --mainBG: transparent;
@@ -69,6 +77,7 @@ $dark-80: #2c2e2f;
   --headerBG: #ffffff;
   --headerFontColor: #000000;
   --headerActiveBG: #ffffff;
+  --headerWidth: 86%;
 
   /* Footer */
   --footerBG: #054f72;

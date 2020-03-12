@@ -8,6 +8,7 @@ import {HttpClient} from "@angular/common/http";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {Pipe, PipeTransform} from "@angular/core";
 import {DataService} from "../../../services/data.service";
+import {NavigationService} from "../../../services/navigation.service";
 
 describe('NavComponent', () => {
   let component: NavComponent;
@@ -46,6 +47,7 @@ describe('NavComponent', () => {
       providers: [
         LanguageService,
         TranslateService,
+        NavigationService,
         {provide: DataService, useValue: DataServiceStub},
       ],
 
