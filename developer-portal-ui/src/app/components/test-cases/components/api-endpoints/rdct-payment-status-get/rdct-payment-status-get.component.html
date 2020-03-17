@@ -28,7 +28,7 @@
     >
       <span class="bold-text">{{
         'TEST_CASES.COMPONENTS.EMB_IN_GET.SUBTITLE' | translate
-      }}</span>
+        }}</span>
       <p>
         {{ 'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_7' | translate }}
         <app-line-command title="payment-service"></app-line-command>
@@ -60,6 +60,10 @@
         [paymentIdFlag]="true"
         url="v1/"
         [variablePathEnd]="'/status'"
+        eventName="redirect_get_payment_status"
+        eventCategory="send_request"
+        eventAction="click"
+        eventLabel="redirect_get_payment_status"
       ></app-play-wth-data>
     </ng-template>
   </div>

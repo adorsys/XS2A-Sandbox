@@ -7,6 +7,10 @@ import {CustomizeService} from "./services/customize.service";
 import {LanguageService} from "./services/language.service";
 import {filter} from "rxjs/operators";
 import {MarkdownStylingService} from "./services/markdown-styling.service";
+import {TrackingIdService} from "./services/tracking-id.service";
+import {GoogleAnalyticsService} from "./services/google-analytics.service";
+
+declare let gtag: Function;
 
 @Component({
   selector: 'app-root',
@@ -26,16 +30,19 @@ export class AppComponent implements OnInit {
     public customizeService: CustomizeService,
     private languageService: LanguageService,
     private http: HttpClient,
-    private markdownStylingService: MarkdownStylingService) {
+    private markdownStylingService: MarkdownStylingService,
+    private trackingIdService: TrackingIdService,
+    private googleAnalyticsService: GoogleAnalyticsService) {
+
+    this.setUpGoogleAnalytics(trackingIdService.trackingId[0].trackingId);
 
     this.customizeService.getJSON().then(data => {
       this.supportedLanguagesDictionary = data.supportedLanguagesDictionary;
+      this.setUpRoutes(data); // TODO make it in customize Service https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/issues/591
+      this.allowedNavigationSize = data.pagesSettings.navigationBarSettings.allowedNavigationSize;
 
       localStorage.setItem('tppDefaultNokRedirectUrl', data.tppSettings.tppDefaultNokRedirectUrl);
       localStorage.setItem('tppDefaultRedirectUrl', data.tppSettings.tppDefaultRedirectUrl);
-
-      this.setUpRoutes(data); // TODO make it in customize Service https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/issues/591
-      this.allowedNavigationSize = data.pagesSettings.navigationBarSettings.allowedNavigationSize;
     });
 
     this.languageService.initializeTranslation();
@@ -105,6 +112,38 @@ export class AppComponent implements OnInit {
           document.getElementById("home-spacer").style.display = "none";
         }
       }, 500)
+    });
+  }
+
+  private setUpGoogleAnalytics(googleAnalyticsCode: string) {
+    if (googleAnalyticsCode && googleAnalyticsCode !== '') {
+      this.googleAnalyticsService.enabled = true;
+      this.createScripts(googleAnalyticsCode);
+      this.setUpGoogleAnlyticsPageViews(googleAnalyticsCode);
+    }
+  }
+
+  private createScripts(googleAnalyticsCode: string) {
+    let gaScript = document.createElement('script');
+    gaScript.setAttribute('async', 'true');
+    gaScript.setAttribute('src', `https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsCode}`);
+
+    let gaScript2 = document.createElement('script');
+    gaScript2.innerText = `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag(\'js\', new Date());gtag(\'config\', \'${googleAnalyticsCode}\');`;
+
+    document.documentElement.firstChild.appendChild(gaScript);
+    document.documentElement.firstChild.appendChild(gaScript2);
+  }
+
+  private setUpGoogleAnlyticsPageViews(googleAnalyticsCode: string) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        gtag('config', googleAnalyticsCode,
+          {
+            'page_path': event.urlAfterRedirects
+          }
+        );
+      }
     });
   }
 }

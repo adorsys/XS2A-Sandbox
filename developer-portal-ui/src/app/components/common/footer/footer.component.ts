@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {NavigationService} from "../../../services/navigation.service";
+import {GoogleAnalyticsService} from "../../../services/google-analytics.service";
 
 @Component({
   selector: 'app-footer',
@@ -25,7 +26,8 @@ export class FooterComponent implements OnInit {
   };
   private defaultLogoLink = '/home';
 
-  constructor(private navigationService: NavigationService) {
+  constructor(private navigationService: NavigationService,
+              private googleAnalyticsService: GoogleAnalyticsService) {
   }
 
   ngOnInit() {
@@ -40,5 +42,15 @@ export class FooterComponent implements OnInit {
 
   getIconForSocialMedia(social: any) {
     return `social-media-icon fab ${this.supportedSocialMedia[social]}`;
+  }
+
+  sendStats(social: any) {
+    this.googleAnalyticsService.eventEmitter(
+      social,
+      "redirect_to_social_media",
+      "click",
+      social,
+      10
+    );
   }
 }

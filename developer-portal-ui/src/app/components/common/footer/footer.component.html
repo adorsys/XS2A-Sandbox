@@ -19,7 +19,7 @@
        class="social-media-item"
        [href]="globalSettings.socialMedia[social]"
        target="_blank">
-      <i [class]="getIconForSocialMedia(social)"></i>
+      <i [class]="getIconForSocialMedia(social)" (click)="sendStats(social)"></i>
     </a>
   </div>
 

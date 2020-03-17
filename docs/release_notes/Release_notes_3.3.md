@@ -12,3 +12,5 @@ Current version consists of following components:
 - Added ability to add new languages for Developer Portal
 - Added ability to customize menu links and social media links for Developer Portal
 - Extended customization CSS properties for Developer Portal
+- Added support of Google Analytics for Developer Portal
+- Fixed TPP UI and OBA UI bugs

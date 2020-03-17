@@ -90,9 +90,12 @@ services:
 
   # Xs2a online banking backend
   xs2a-online-banking:
-    image: adorsys/xs2a-online-banking:3.2
+    image: adorsys/xs2a-online-banking
     container_name: xs2a-online-banking
     restart: on-failure
+    build:
+      context: online-banking/online-banking-app
+      dockerfile: Dockerfile
     ports:
       - "8090:8090"
       - "8190:8000"
@@ -146,8 +149,11 @@ services:
 
   # Xs2a online banking frontend
   xs2a-online-banking-ui:
-    image: adorsys/xs2a-online-banking-ui:3.2
+    image: adorsys/xs2a-online-banking-ui
     restart: on-failure
+    build:
+      context: oba-ui
+      dockerfile: Dockerfile
     ports:
       - "4400:4400"
     networks:
@@ -161,12 +167,15 @@ services:
 
   # TPP-UI
   xs2a-tpp-ui:
-    image: adorsys/xs2a-bank-tpp-ui:3.2
+    image: adorsys/xs2a-bank-tpp-ui
     restart: on-failure
     environment:
       - TPP_REST_SERVER_URL=http://xs2a-tpp-rest-server:8093
       - CERT_GEN_URL=http://certificate-generator:8092
       - CERT_GEN_ENABLED=true
+    build:
+      context: tpp-ui
+      dockerfile: Dockerfile
     ports:
       - "4205:4205"
     networks:
@@ -177,13 +186,16 @@ services:
 
   # TPP-REST-SERVER
   xs2a-tpp-rest-server:
-    image: adorsys/xs2a-tpp-rest-server:3.2
+    image: adorsys/xs2a-tpp-rest-server
     restart: on-failure
     environment:
       LEDGERS_URL: "http://ledgers:8088"
       SPRING_DATASOURCE_URL: "jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=consent"
       SPRING_DATASOURCE_USERNAME: "cms"
       SPRING_DATASOURCE_PASSWORD: "cms"
+    build:
+      context: tpp-app/tpp-rest-server
+      dockerfile: Dockerfile
     ports:
       - "8093:8093"
       - "5005:5005"
@@ -197,8 +209,11 @@ services:
 
   # Developer portal ui
   developer-portal-ui:
-    image: adorsys/xs2a-bank-devportal:3.2
+    image: adorsys/xs2a-bank-devportal
     restart: on-failure
+    build:
+      context: developer-portal-ui
+      dockerfile: Dockerfile
     ports:
       - "4206:4206"
     networks:
@@ -208,11 +223,15 @@ services:
     environment:
       - XS2A_URL=http://xs2a-connector-examples:8089
       - ASPSP_URL=http://xs2a-aspsp-profile:8080
+      - TRACKING_ID=UA-160845388-1
 
   # Certificate generator
   certificate-generator:
-    image: adorsys/xs2a-certificate-generator:3.2
+    image: adorsys/xs2a-certificate-generator
     restart: on-failure
+    build:
+      context: certificate-generator
+      dockerfile: Dockerfile
     ports:
       - "8092:8092"
     networks:

@@ -11,6 +11,7 @@ export interface Theme {
 
 export interface GlobalSettings {
   logo: string;
+  googleAnalyticsCode?: string;
   logoLink?: string;
   footerLogo: string;
   favicon?: Favicon;

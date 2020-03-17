@@ -15,6 +15,7 @@ import {
 } from '../../../../models/paymentTypesMatrix.model';
 import {AcceptType} from '../../../../models/acceptType.model';
 import * as uuid from 'uuid';
+import {GoogleAnalyticsService} from "../../../../services/google-analytics.service";
 
 @Component({
   selector: 'app-play-wth-data',
@@ -73,6 +74,11 @@ export class PlayWthDataComponent implements OnInit {
   private disabledHeaders = [];
   booleanValues = ['true', 'false'];
 
+  @Input() eventName: string;
+  @Input() eventCategory: string;
+  @Input() eventAction: string;
+  @Input() eventLabel: string;
+
   constructor(
     public restService: RestService,
     public dataService: DataService,
@@ -80,7 +86,8 @@ export class PlayWthDataComponent implements OnInit {
     public localStorageService: LocalStorageService,
     public jsonService: JsonService,
     public aspspService: AspspService,
-    private http: HttpClient
+    private http: HttpClient,
+    private googleAnalyticsService: GoogleAnalyticsService
   ) {
   }
 
@@ -97,6 +104,8 @@ export class PlayWthDataComponent implements OnInit {
   }
 
   sendRequest() {
+    this.sendGoogleAnalytics();
+
     this.dataService.setIsLoading(true);
 
     this.finalUrl = this.url;
@@ -395,5 +404,17 @@ export class PlayWthDataComponent implements OnInit {
 
   changeBooleanHeader(key: any, value: any) {
     this.headers[key] = value;
+  }
+
+  private sendGoogleAnalytics() {
+    if (this.googleAnalyticsService.enabled) {
+      this.googleAnalyticsService.eventEmitter(
+        this.eventName,
+        this.eventCategory,
+        this.eventAction,
+        this.eventLabel,
+        10
+      );
+    }
   }
 }

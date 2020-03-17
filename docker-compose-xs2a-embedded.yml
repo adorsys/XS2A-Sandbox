@@ -190,15 +190,6 @@ services:
     environment:
       - XS2A_URL=http://xs2a-connector-embedded:8089
       - ASPSP_URL=http://xs2a-connector-embedded:8089
-      - ENVLINK_DEVELOPER_PORTAL=https://dev-dynamicsandbox-developerportalui.cloud.adorsys.de/
-      - ENVLINK_XS2A_INTERFACE_SWAGGER=https://dev-dynamicsandbox-xs2a.cloud.adorsys.de/
-      - ENVLINK_CONSENT_MANAGEMENT_SYSTEM=https://dev-dynamicsandbox-cms.cloud.adorsys.de
-      - ENVLINK_LEDGERS=https://dev-dynamicsandbox-ledgers.cloud.adorsys.de
-      - ENVLINK_ASPSP_PROFILE_SWAGGER=https://dev-dynamicsandbox-aspspprofile.cloud.adorsys.de
-      - ENVLINK_TPP_UI=https://blub-dynamicsandbox-tppui.cloud.adorsys.de/login
-      - ENVLINK_ONLINE_BANKING_UI=https://dev-dynamicsandbox-onlinebankingui.cloud.adorsys.de/account-information/login
-      - ENVLINK_ONLINE_BANKING_BACKEND=https://dev-dynamicsandbox-onlinebanking.cloud.adorsys.de/swagger-ui.html
-      - ENVLINK_CERTIFICATE_GENERATOR=https://dev-dynamicsandbox-certificategenerator.cloud.adorsys.de/swagger-ui.html
 
   # Certificate generator
   certificate-generator:

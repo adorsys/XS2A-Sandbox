@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastrModule} from 'ngx-toastr';
 
@@ -27,6 +27,12 @@ import {MarkdownModule} from "ngx-markdown";
 import {DataService} from "./services/data.service";
 import {RestService} from "./services/rest.service";
 import { CustomPageComponent } from './components/custom-page/custom-page.component';
+import {GoogleAnalyticsService} from "./services/google-analytics.service";
+import {TrackingIdHttpService} from "./services/tracking-id-http.service";
+
+export function app_Init(trackingIDHttpService: TrackingIdHttpService) {
+  return () => trackingIDHttpService.initializeApp();
+}
 
 @NgModule({
   declarations: [
@@ -70,7 +76,9 @@ import { CustomPageComponent } from './components/custom-page/custom-page.compon
   providers: [
     RestService,
     DataService,
-    LanguageService
+    LanguageService,
+    GoogleAnalyticsService,
+    { provide: APP_INITIALIZER, useFactory: app_Init, deps: [TrackingIdHttpService], multi: true }
   ],
   bootstrap: [AppComponent],
 })
