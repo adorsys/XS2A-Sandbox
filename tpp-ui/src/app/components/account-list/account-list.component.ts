@@ -3,8 +3,9 @@ import {AccountService} from '../../services/account.service';
 import {Router, ActivatedRoute} from '@angular/router';
 import {Account} from '../../models/account.model';
 import {Subscription} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {map, tap, debounceTime} from 'rxjs/operators';
 import {PageConfig, PaginationConfigModel} from "../../models/pagination-config.model";
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-account-list',
@@ -14,7 +15,7 @@ import {PageConfig, PaginationConfigModel} from "../../models/pagination-config.
 export class AccountListComponent implements OnInit, OnDestroy {
   accounts: Account[] = [];
   subscription = new Subscription();
-
+  searchForm: FormGroup;
   config: PaginationConfigModel = {
     itemsPerPage: 10,
     currentPageNumber: 1,
@@ -22,6 +23,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
   };
 
   constructor(private accountService: AccountService,
+              private formBuilder: FormBuilder,
               public router: Router,
               private route: ActivatedRoute) {}
 
@@ -37,10 +39,16 @@ export class AccountListComponent implements OnInit, OnDestroy {
           this.config.currentPageNumber = 1;
         }
       });
+
+      this.searchForm = this.formBuilder.group({
+        query: ['', Validators.required],
+        itemsPerPage: [this.config.itemsPerPage, Validators.required]
+      });
+      this. onQueryUsers();
   }
 
-  getAccounts(page: number, size: number) {
-    this.accountService.getAccounts(page - 1, size).subscribe(response => {
+  getAccounts(page: number, size: number, queryParam: string = '') {
+    this.accountService.getAccounts(page - 1, size, queryParam).subscribe(response => {
       this.accounts = response.accounts;
       this.config.totalItems = response.totalElements;
     });
@@ -56,10 +64,28 @@ export class AccountListComponent implements OnInit, OnDestroy {
   }
 
   pageChange(pageConfig: PageConfig) {
-    this.getAccounts(pageConfig.pageNumber, pageConfig.pageSize);
+    this.getAccounts(pageConfig.pageNumber, pageConfig.pageSize, this.searchForm.get('query').value);
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
+
+  onQueryUsers() {
+    this.searchForm.valueChanges.pipe(
+      tap(val => {
+        this.searchForm.patchValue(val, { emitEvent: false });
+      }),
+      debounceTime(750)
+    ).subscribe(form => {
+      this.config.itemsPerPage = form.itemsPerPage;
+      this.getAccounts(1, this.config.itemsPerPage, form.query);
+    });
+  }
+
+  public changePageSize(num: number): void {
+    this.config.itemsPerPage = this.config.itemsPerPage + num;
+  }
+
+
 }

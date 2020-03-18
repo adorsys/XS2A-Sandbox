@@ -1,5 +1,24 @@
-<div class="container-fluid">
-    <div class="header__title">Accounts</div>
+<div class="container-fluid" [formGroup]="searchForm">
+     <div class="row header">
+        <div class="col-12 col-md-3 header__title">Accounts</div>
+        <div class="col-12 col-md-9">
+            <div class="row">
+                <div class="col-12 col-md-12 p-md-0">
+                    <div class="form-group has-search">
+                      <span class="form-control-feedback">
+                          <img src="./assets/icons/search.svg">
+                      </span>
+                      <div>
+                        <input class="form-control w-100"
+                               placeholder="Search by IBAN"
+                               formControlName="query"
+                               type="text">
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
