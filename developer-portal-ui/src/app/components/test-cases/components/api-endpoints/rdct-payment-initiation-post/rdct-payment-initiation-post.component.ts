@@ -34,10 +34,7 @@ export class RdctPaymentInitiationPostComponent implements OnInit {
       .getPreparedJsonData(jsonService.jsonLinks.debtorAccount)
       .subscribe(data => (this.jsonData4 = data), error => console.log(error));
     jsonService
-      .getPreparedJsonData(
-        jsonService.jsonLinks.singlePaymentPlayWithData,
-        true
-      )
+      .getPreparedJsonData(jsonService.jsonLinks.singlePayment, true)
       .subscribe(data => (this.body = data), error => console.log(error));
   }
 
