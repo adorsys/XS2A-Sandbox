@@ -90,7 +90,7 @@ services:
 
   # Xs2a online banking backend
   xs2a-online-banking:
-    image: adorsys/xs2a-online-banking:3.2
+    image: adorsys/xs2a-online-banking:3.3
     container_name: xs2a-online-banking
     restart: on-failure
     ports:
@@ -146,7 +146,7 @@ services:
 
   # Xs2a online banking frontend
   xs2a-online-banking-ui:
-    image: adorsys/xs2a-online-banking-ui:3.2
+    image: adorsys/xs2a-online-banking-ui:3.3
     restart: on-failure
     ports:
       - "4400:4400"
@@ -161,7 +161,7 @@ services:
 
   # TPP-UI
   xs2a-tpp-ui:
-    image: adorsys/xs2a-bank-tpp-ui:3.2
+    image: adorsys/xs2a-bank-tpp-ui:3.3
     restart: on-failure
     environment:
       - TPP_REST_SERVER_URL=http://xs2a-tpp-rest-server:8093
@@ -177,7 +177,7 @@ services:
 
   # TPP-REST-SERVER
   xs2a-tpp-rest-server:
-    image: adorsys/xs2a-tpp-rest-server:3.2
+    image: adorsys/xs2a-tpp-rest-server:3.3
     restart: on-failure
     environment:
       LEDGERS_URL: "http://ledgers:8088"
@@ -197,7 +197,7 @@ services:
 
   # Developer portal ui
   developer-portal-ui:
-    image: adorsys/xs2a-bank-devportal:3.2
+    image: adorsys/xs2a-bank-devportal:3.3
     restart: on-failure
     ports:
       - "4206:4206"
@@ -211,7 +211,7 @@ services:
 
   # Certificate generator
   certificate-generator:
-    image: adorsys/xs2a-certificate-generator:3.2
+    image: adorsys/xs2a-certificate-generator:3.3
     restart: on-failure
     ports:
       - "8092:8092"
