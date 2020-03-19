@@ -4,6 +4,9 @@ form {
     font-weight: 100;
 }
 
+.sticky-top {
+    z-index: 1000;
+}
 .card {
     max-width: 400px;
     border: none;

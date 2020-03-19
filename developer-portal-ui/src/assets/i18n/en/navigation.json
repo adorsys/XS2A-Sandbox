@@ -1,0 +1,29 @@
+{
+  "navigation": [
+    {
+      "navName": "Home",
+      "route": "home",
+      "type": "default"
+    },
+    {
+      "navName": "Getting started",
+      "route": "getting-started",
+      "type": "default"
+    },
+    {
+      "navName": "Test cases",
+      "route": "test-cases/redirect",
+      "type": "default"
+    },
+    {
+      "navName": "FAQs",
+      "route": "faq",
+      "type": "markdown"
+    },
+    {
+      "navName": "Contact",
+      "route": "contact",
+      "type": "default"
+    }
+  ]
+}

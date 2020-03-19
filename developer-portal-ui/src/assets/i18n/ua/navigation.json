@@ -1,0 +1,29 @@
+{
+  "navigation": [
+    {
+      "navName": "Головна",
+      "route": "home",
+      "type": "default"
+    },
+    {
+      "navName": "Початок роботи",
+      "route": "getting-started",
+      "type": "default"
+    },
+    {
+      "navName": "Сценарії для тестування",
+      "route": "test-cases/redirect",
+      "type": "default"
+    },
+    {
+      "navName": "Питання",
+      "route": "faq",
+      "type": "markdown"
+    },
+    {
+      "navName": "Контакти",
+      "route": "contact",
+      "type": "default"
+    }
+  ]
+}

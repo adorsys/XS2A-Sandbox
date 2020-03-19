@@ -1,0 +1,17 @@
+.postman-testing-wrapper::ng-deep {
+  padding: 2vw;
+
+  p {
+    color: #46494c;
+    font-weight: 600;
+  }
+
+  button {
+    height: 3vw;
+    outline: none;
+    width: 10vw;
+    cursor: pointer;
+    margin-bottom: 1em;
+    font-family: var(--fontFamily);
+  }
+}

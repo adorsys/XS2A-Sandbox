@@ -1,0 +1,78 @@
+<div class="container">
+  <markdown [src]="pathToFile"></markdown>
+</div>
+
+<!-- Any questions section -->
+<div class="any-questions" *ngIf="showQuestionsComponent">
+  <div class="divider"></div>
+  <h1 class="any-questions-title">{{ 'CONTACT.TITLE_1' | translate }}</h1>
+  <span class="any-questions-subtitle">{{
+    'CONTACT.SUBTITLE' | translate
+    }}</span>
+  <div class="person-card">
+    <div class="person-card-image-wrapper">
+      <img [src]="contactInfo?.img" alt=""/>
+    </div>
+    <div class="person-card-info">
+      <div class="main-personal-info">
+        <span>{{ contactInfo?.name }}</span>
+        <span>{{ contactInfo?.position }}</span>
+      </div>
+      <div class="sub-personal-info" *ngIf="contactInfo?.email">
+        <a [href]="'mailto:' + contactInfo?.email">{{ contactInfo?.email }}</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Contacts section -->
+<div class="contacts-wrapper" *ngIf="showContactCard">
+  <div class="divider"></div>
+  <h1 class="contacts-title">{{ 'CONTACT.TITLE_2' | translate }}</h1>
+
+  <div class="contacts-card">
+    <div class="contacts-content" *ngFor="let office of officesInfo">
+      <div class="main-personal-info">
+        <span>{{ office?.city }}</span> <span>{{ office?.company }}</span>
+        <span>{{ office?.addressFirstLine }}</span>
+        <span>{{ office?.addressSecondLine }}</span>
+      </div>
+      <div class="sub-personal-info">
+        <div *ngIf="office?.phone">
+          <a [href]="'tel:' + office?.phone">
+            <i class="fas fa-phone"></i>{{ office?.phone }}
+          </a>
+        </div>
+
+        <div *ngIf="office?.email">
+          <a [href]="'mailto:' + office?.email">
+            <i class="fas fa-envelope"></i>{{ office?.email }}
+          </a>
+        </div>
+
+        <div
+          class="social-network"
+          *ngIf="office?.linkedIn || office?.facebook"
+        >
+          <a
+            *ngIf="office?.facebook"
+            class="social-network-item"
+            [href]="office?.facebook"
+            target="_blank"
+          >
+            <i class="fab fa-facebook-square"></i>
+          </a>
+
+          <a
+            *ngIf="office?.linkedIn"
+            class="social-network-item"
+            [href]="office?.linkedIn"
+            target="_blank"
+          >
+            <i class="fab fa-linkedin"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

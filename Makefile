@@ -76,7 +76,6 @@ test: test-java-services ## Run all tests
 test-java-services: ## Run java tests
 	mvn test
 
-# Will be included after fixing tests on UI side TODO: Make all UI tests runnable https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/issues/53
 test-ui-services: ## Run tests in UI
 	cd tpp-ui && npm run test-single-headless
 	cd oba-ui && npm run test-single-headless

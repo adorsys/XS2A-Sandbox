@@ -149,6 +149,10 @@
                                              class="invalid-feedback">
                                             TAN is required
                                         </div>
+                                        <div *ngIf="(scaDataItem.controls['staticTan'].touched || submitted) && scaDataItem.controls['staticTan'].hasError('pattern')"
+                                        class="invalid-feedback">
+                                       TAN must contain 6 digits
+                                   </div>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-4 my-auto">

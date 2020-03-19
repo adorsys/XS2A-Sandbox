@@ -90,7 +90,7 @@ export class UserUpdateComponent implements OnInit {
 
         scaData.get('usesStaticTan').valueChanges.subscribe((bool: boolean = true) => {
             if(bool) {
-                scaData.get('staticTan').setValidators(Validators.required);
+                scaData.get('staticTan').setValidators([Validators.required, Validators.pattern(new RegExp(/\d{6}/))]);
                 scaData.get('staticTan').enable();
             } else {
                 scaData.get('staticTan').clearValidators();
