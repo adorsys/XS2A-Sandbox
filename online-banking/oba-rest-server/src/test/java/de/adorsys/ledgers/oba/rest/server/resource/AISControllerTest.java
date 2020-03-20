@@ -12,24 +12,21 @@ import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisAccountAccessInfoTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisConsentTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
-import de.adorsys.ledgers.middleware.api.service.TokenStorageService;
 import de.adorsys.ledgers.middleware.client.rest.AccountRestClient;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.middleware.client.rest.ConsentRestClient;
 import de.adorsys.ledgers.middleware.client.rest.OauthRestClient;
+import de.adorsys.ledgers.oba.rest.api.resource.exception.ConsentAuthorizeException;
 import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
 import de.adorsys.ledgers.oba.service.api.domain.*;
 import de.adorsys.ledgers.oba.service.api.service.AuthorizationService;
-import de.adorsys.ledgers.oba.service.api.service.ConsentService;
 import de.adorsys.ledgers.oba.service.api.service.RedirectConsentService;
 import de.adorsys.psd2.consent.api.ais.AisAccountAccess;
 import de.adorsys.psd2.consent.api.ais.CmsAisAccountConsent;
 import de.adorsys.psd2.consent.api.ais.CmsAisConsentResponse;
 import de.adorsys.psd2.xs2a.core.consent.AisConsentRequestType;
 import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
-import de.adorsys.psd2.xs2a.core.profile.AccountReference;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient;
-import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
@@ -37,6 +34,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletResponse;
@@ -85,8 +83,6 @@ public class AISControllerTest {
     @Mock
     private RedirectConsentService redirectConsentService;
     @Mock
-    private ConsentService consentService;
-    @Mock
     private XISControllerService xisService;
     @Mock
     private HttpServletResponse response;
@@ -96,14 +92,8 @@ public class AISControllerTest {
     private ObaMiddlewareAuthentication middlewareAuth;
     @Mock
     private AuthorizationService authService;
-
     @Mock
     private AuthRequestInterceptor authInterceptor;
-
-    @Mock
-    private AspspConsentDataClient aspspConsentDataClient;
-    @Mock
-    private TokenStorageService tokenStorageService;
 
     @Test
     public void aisAuth() {
@@ -117,12 +107,42 @@ public class AISControllerTest {
     public void login() {
         when(responseUtils.consentCookie(any())).thenReturn(COOKIE);
         when(redirectConsentService.identifyConsent(anyString(), anyString(), anyBoolean(), anyString(), any())).thenReturn(getConsentWorkflow(PSUIDENTIFIED));
-        when(xisService.performLoginForConsent(anyString(), anyString(), anyString(), anyString(), any(OpTypeTO.class))).thenReturn(getScaLoginResponse());
+        when(xisService.performLoginForConsent(anyString(), anyString(), anyString(), anyString(), any(OpTypeTO.class))).thenReturn(getScaLoginResponse(true));
         when(cmsPsuAisClient.updatePsuDataInConsent(anyString(), anyString(), anyString(), any())).thenReturn(ResponseEntity.ok(null));
         when(accountRestClient.getListOfAccounts()).thenReturn(ResponseEntity.ok(new ArrayList<>()));
 
         ResponseEntity<ConsentAuthorizeResponse> result = controller.login(ENCRYPTED_ID, AUTH_ID, LOGIN, PIN, COOKIE);
         assertThat(result).isEqualToComparingFieldByFieldRecursively(ResponseEntity.ok(getConsentAuthorizeResponse(true, true, false, PSUIDENTIFIED)));
+    }
+
+    @Test
+    public void login_consent_exception() {
+        when(responseUtils.consentCookie(any())).thenReturn(COOKIE);
+        when(redirectConsentService.identifyConsent(anyString(), anyString(), anyBoolean(), anyString(), any())).thenThrow(new ConsentAuthorizeException(ResponseEntity.badRequest().build()));
+
+        ResponseEntity<ConsentAuthorizeResponse> result = controller.login(ENCRYPTED_ID, AUTH_ID, LOGIN, PIN, COOKIE);
+        assertThat(result).isEqualToComparingFieldByFieldRecursively(ResponseEntity.badRequest().build());
+    }
+
+    @Test
+    public void login_fail_ledgers_login() {
+        when(responseUtils.consentCookie(any())).thenReturn(COOKIE);
+        when(redirectConsentService.identifyConsent(anyString(), anyString(), anyBoolean(), anyString(), any())).thenReturn(getConsentWorkflow(PSUIDENTIFIED));
+        when(xisService.performLoginForConsent(anyString(), anyString(), anyString(), anyString(), any(OpTypeTO.class))).thenReturn(getScaLoginResponse(false));
+
+        ResponseEntity<ConsentAuthorizeResponse> result = controller.login(ENCRYPTED_ID, AUTH_ID, LOGIN, PIN, COOKIE);
+        assertThat(result).isEqualToComparingFieldByFieldRecursively(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
+    }
+
+    @Test
+    public void login_update_cms_exception() {
+        when(responseUtils.consentCookie(any())).thenReturn(COOKIE);
+        when(redirectConsentService.identifyConsent(anyString(), anyString(), anyBoolean(), anyString(), any())).thenReturn(getConsentWorkflow(PSUIDENTIFIED));
+        when(xisService.performLoginForConsent(anyString(), anyString(), anyString(), anyString(), any(OpTypeTO.class))).thenReturn(getScaLoginResponse(true));
+        when(cmsPsuAisClient.updatePsuDataInConsent(anyString(), anyString(), anyString(), any())).thenThrow(new ConsentAuthorizeException(ResponseEntity.badRequest().build()));
+
+        ResponseEntity<ConsentAuthorizeResponse> result = controller.login(ENCRYPTED_ID, AUTH_ID, LOGIN, PIN, COOKIE);
+        assertThat(result).isEqualToComparingFieldByFieldRecursively(ResponseEntity.badRequest().build());
     }
 
     @Test
@@ -134,6 +154,16 @@ public class AISControllerTest {
 
         ResponseEntity<ConsentAuthorizeResponse> result = controller.startConsentAuth(ENCRYPTED_ID, AUTH_ID, COOKIE, getAisConsentTO(false));
         assertThat(result).isEqualToComparingFieldByFieldRecursively(ResponseEntity.ok(getConsentAuthorizeResponse(true, true, false, PSUIDENTIFIED)));
+    }
+
+    @Test
+    public void startConsentAuth_fail() {
+        Whitebox.setInternalState(controller, "middlewareAuth", new ObaMiddlewareAuthentication(null, new BearerTokenTO(TOKEN, null, 999, null, getAccessTokenTO())));
+        when(responseUtils.consentCookie(any())).thenReturn(COOKIE);
+        when(redirectConsentService.identifyConsent(anyString(), anyString(), anyBoolean(), anyString(), any())).thenThrow(new ConsentAuthorizeException(ResponseEntity.badRequest().build()));
+
+        ResponseEntity<ConsentAuthorizeResponse> result = controller.startConsentAuth(ENCRYPTED_ID, AUTH_ID, COOKIE, getAisConsentTO(false));
+        assertThat(result).isEqualToComparingFieldByFieldRecursively(ResponseEntity.badRequest().build());
     }
 
     @Test
@@ -155,15 +185,6 @@ public class AISControllerTest {
 
         ResponseEntity<ConsentAuthorizeResponse> result = controller.selectMethod(ENCRYPTED_ID, AUTH_ID, METHOD_ID, COOKIE);
         assertThat(result).isEqualToComparingFieldByFieldRecursively(ResponseEntity.ok(getConsentAuthorizeResponse(true, true, false, SCAMETHODSELECTED)));
-    }
-
-    @Test
-    public void grantPiisConsent() {
-        Whitebox.setInternalState(controller, "middlewareAuth", new ObaMiddlewareAuthentication(null, new BearerTokenTO(TOKEN, null, 999, null, getAccessTokenTO())));
-        when(consentService.createConsent(any(), anyString())).thenReturn(getScaConsentResponse(FINALISED));
-        when(aspspConsentDataClient.updateAspspConsentData(anyString(), any())).thenReturn(ResponseEntity.ok(null));
-        ResponseEntity<PIISConsentCreateResponse> result = controller.grantPiisConsent(COOKIE, getPiisRequest());
-        assertThat(result).isEqualToComparingFieldByFieldRecursively(ResponseEntity.ok(getPiisResp()));
     }
 
     @Test
@@ -201,20 +222,6 @@ public class AISControllerTest {
         return Collections.singletonList(new AccountDetailsTO(ASPSP_ACC_ID, IBAN, null, null, null, null, EUR, LOGIN, null, AccountTypeTO.CASH, AccountStatusTO.ENABLED, null, null, UsageTypeTO.PRIV, null, Collections.emptyList()));
     }
 
-    private PIISConsentCreateResponse getPiisResp() {
-        PIISConsentCreateResponse resp = new PIISConsentCreateResponse();
-        resp.setConsent(getAisConsentTO(false));
-        return resp;
-    }
-
-    private CreatePiisConsentRequestTO getPiisRequest() {
-        CreatePiisConsentRequestTO request = new CreatePiisConsentRequestTO();
-        request.setAccount(new AccountReference(ASPSP_ACC_ID, RESOURCE_ID, IBAN, null, null, null, null, EUR));
-        request.setTppAuthorisationNumber(TPP_AUTH_ID);
-        request.setValidUntil(DATE);
-        return request;
-    }
-
     private SCAConsentResponseTO getScaConsentResponse(ScaStatusTO status) {
         SCAConsentResponseTO to = new SCAConsentResponseTO();
         to.setBearerToken(getBearerToken());
@@ -244,12 +251,14 @@ public class AISControllerTest {
         return cons;
     }
 
-    private ResponseEntity<SCALoginResponseTO> getScaLoginResponse() {
+    private ResponseEntity<SCALoginResponseTO> getScaLoginResponse(boolean hasBearer) {
         SCALoginResponseTO to = new SCALoginResponseTO();
         to.setAuthorisationId(AUTH_ID);
         to.setScaStatus(PSUIDENTIFIED);
 
-        to.setBearerToken(new BearerTokenTO(null, null, 999, null, getAccessTokenTO()));
+        to.setBearerToken(hasBearer
+                              ? new BearerTokenTO(null, null, 999, null, getAccessTokenTO())
+                              : null);
         return ResponseEntity.ok(to);
     }
 
@@ -285,8 +294,8 @@ public class AISControllerTest {
 
     private CmsAisAccountConsent getCmsAisAccountConsent() {
         return new CmsAisAccountConsent("123", new AisAccountAccess(Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), null, null, null, null),
-            false, DATE, EXPIRE_DATE, 5, null, ConsentStatus.RECEIVED, false, true, AisConsentRequestType.BANK_OFFERED, null,
-            null, null, false, null, null, null, null);
+                                        false, DATE, EXPIRE_DATE, 5, null, ConsentStatus.RECEIVED, false, true, AisConsentRequestType.BANK_OFFERED, null,
+                                        null, null, false, null, null, null, null);
     }
 
     private AccessTokenTO getAccessTokenTO() {

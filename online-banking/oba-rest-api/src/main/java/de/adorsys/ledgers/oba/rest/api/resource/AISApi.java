@@ -4,8 +4,6 @@ import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisConsentTO;
 import de.adorsys.ledgers.oba.service.api.domain.AuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentAuthorizeResponse;
-import de.adorsys.ledgers.oba.service.api.domain.CreatePiisConsentRequestTO;
-import de.adorsys.ledgers.oba.service.api.domain.PIISConsentCreateResponse;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -105,11 +103,6 @@ public interface AISApi {
         @PathVariable("authorisationId") String authorisationId,
         @RequestHeader(name = "Cookie", required = false) String consentAndaccessTokenCookieString,
         @RequestParam("authCode") String authCode);
-
-    @PostMapping(path = "/piis")
-    @ApiOperation(value = "Grant a piis consent", authorizations = @Authorization(value = "apiKey"))
-    ResponseEntity<PIISConsentCreateResponse> grantPiisConsent(
-        @RequestHeader(name = "Cookie", required = false) String consentAndaccessTokenCookieString, @RequestBody CreatePiisConsentRequestTO piisConsentTO);
 
     /**
      * Return the list of accounts linked with the current customer.

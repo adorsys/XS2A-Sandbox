@@ -1,8 +1,13 @@
 package de.adorsys.ledgers.oba.rest.server.resource.oba;
 
-import de.adorsys.ledgers.oba.service.api.domain.ObaAisConsent;
 import de.adorsys.ledgers.oba.rest.api.resource.oba.ObaConsentApi;
+import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
+import de.adorsys.ledgers.oba.rest.server.resource.AuthUtils;
+import de.adorsys.ledgers.oba.service.api.domain.CreatePiisConsentRequestTO;
+import de.adorsys.ledgers.oba.service.api.domain.ObaAisConsent;
+import de.adorsys.ledgers.oba.service.api.domain.TppInfoTO;
 import de.adorsys.ledgers.oba.service.api.service.ConsentService;
+import de.adorsys.ledgers.oba.service.api.service.TppInfoCmsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +26,8 @@ import static org.springframework.http.HttpStatus.ACCEPTED;
 @RequiredArgsConstructor
 public class ObaConsentController implements ObaConsentApi {
     private final ConsentService consentService;
+    private final ObaMiddlewareAuthentication auth;
+    private final TppInfoCmsService tppInfoCmsService;
 
     @Override
     @PreAuthorize("#userLogin == authentication.principal.login")
@@ -37,5 +44,16 @@ public class ObaConsentController implements ObaConsentApi {
     public ResponseEntity<Void> confirm(String userLogin, String consentId, String authorizationId, String tan) {
         consentService.confirmAisConsentDecoupled(userLogin, consentId, authorizationId, tan);
         return new ResponseEntity<>(ACCEPTED);
+    }
+
+    @Override
+    public ResponseEntity<Void> createPiis(CreatePiisConsentRequestTO request) {
+        consentService.createPiisConsent(request, AuthUtils.psuId(auth));
+        return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<List<TppInfoTO>> tpps() {
+        return ResponseEntity.ok(tppInfoCmsService.getTpps());
     }
 }

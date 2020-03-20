@@ -97,12 +97,17 @@ public class ConsentServiceImpl implements ConsentService {
     }
 
     @Override
-    public SCAConsentResponseTO createConsent(CreatePiisConsentRequestTO request, String psuId) {
+    public void createPiisConsent(CreatePiisConsentRequestTO request, String psuId) {
+        //Create piis at Cms
         CreatePiisConsentRequest piisConsentRequest = createPiisConsentRequestMapper.fromCreatePiisConsentRequest(request);
         CreatePiisConsentResponse cmsConsent = cmsAspspPiisClient.createConsent(piisConsentRequest, psuId, null, null, null).getBody();
+
+        //Create piis at Ledgers
         String consentId = Optional.ofNullable(cmsConsent).orElseGet(CreatePiisConsentResponse::new).getConsentId();
         AisConsentTO pisConsent = new AisConsentTO(consentId, psuId, piisConsentRequest.getTppAuthorisationNumber(), 100, buildAccountAccess(piisConsentRequest.getAccount().getIban()), piisConsentRequest.getValidUntil(), true);
-        return consentRestClient.grantPIISConsent(pisConsent).getBody();
+        SCAConsentResponseTO ledgersCreateConsentResponse = consentRestClient.grantPIISConsent(pisConsent).getBody();
+        //Update Aspsp consent data at CMS
+        updateAspspConsentDataForConsent(consentId, ledgersCreateConsentResponse);
     }
 
     private AisAccountAccessInfoTO buildAccountAccess(String iban) {
