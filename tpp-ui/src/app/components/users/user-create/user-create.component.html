@@ -111,18 +111,18 @@
                                 <div class="col-12 col-md-8">
                                     <div [formGroupName]="i" class="form-group">
                                         <label class="control-label" for="scaData">SCA</label>
-                                        <input [ngClass]="{ 'is-invalid': (scaDataItem.controls['methodValue'].touched || submitted) && scaDataItem.controls['methodValue'].errors }"
+                                        <input [ngClass]="{ 'is-invalid':scaDataItem.controls['methodValue'].errors}"
                                                aria-describedby="scaDataHelp"
                                                class="form-control"
                                                formControlName="methodValue"
                                                id="scaData"
                                                placeholder="Please input SCA method for user"
                                                type="text">
-                                        <div *ngIf="scaDataItem.get('methodValue')?.errors?.required"
+                                        <div *ngIf="scaDataItem.controls['usesStaticTan'].value && scaDataItem.controls['scaMethod'].value"
                                              class="invalid-feedback">
                                             The value of the method is required
                                         </div>
-                                        <div *ngIf="scaDataItem.get('methodValue')?.hasError('pattern')"
+                                        <div *ngIf="scaDataItem.get('staticTan')?.hasError('pattern')"
                                              class="invalid-feedback">
                                             The method value has an incorrect format
                                         </div>
