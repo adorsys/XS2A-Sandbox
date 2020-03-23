@@ -12,6 +12,7 @@ $close-button-offset: calc((#{$close-button-size} / 2) * -1);
   align-items: center;
   min-width: 300px;
   box-sizing: border-box;
+  z-index: 1020 !important;
 
   .message {
     letter-spacing: 0.0625rem;

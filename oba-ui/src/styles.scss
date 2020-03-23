@@ -167,6 +167,10 @@ nav {
   }
 }
 
+.sticky-top{
+  z-index: 1000;
+}
+
 .btn {
   white-space: nowrap;
   border-radius: var(--buttonBorderRadius);
