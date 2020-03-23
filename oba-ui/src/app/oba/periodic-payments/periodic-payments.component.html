@@ -8,7 +8,6 @@
                     <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Currency</th>
                         <th scope="col">Amount</th>
                         <th scope="col">From</th>
                         <th scope="col">To</th>
@@ -21,13 +20,18 @@
                     <tbody>
                     <tr *ngFor="let payment of payments; index as i">
                         <th scope="row">{{i + 1}}</th>
-                        <td>{{payment.debtorAccount.currency}}</td>
                         <td>
                             <div *ngFor="let tag of payment.targets">
                                 {{tag.instructedAmount.amount}}
+                                <br>
+                                {{payment.debtorAccount.currency}}
                             </div>
                         </td>
-                        <td>{{payment.debtorAccount.iban}}</td>
+                        <td>
+                          {{payment.debtorAccount.iban}}
+                          <br>
+                          {{payment.debtorAccount.currency}}
+                        </td>
                         <td>
                             <div *ngFor="let tag of payment.targets">
                                 {{tag.creditorName}}
