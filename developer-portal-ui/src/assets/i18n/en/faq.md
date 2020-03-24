@@ -110,3 +110,98 @@ You need the PSU to create a new consent and use the new consentId. Another poss
   "_links": null
 }
 ```
+
+<div class="divider">
+</div>
+
+# General questions
+
+## Why does nothing happen when I press execute?
+
+If you press the execute button and do not even receive any response code, then it is very likely that you have an invalid value in a header field such as a blank space at the beginning of the X-Request-ID.
+
+Solution: Skim the header fields of your request and correct the red highlighted ones.
+
+## What should I do if I still have container conflicts?
+
+Sometimes the regular removing of the docker containers with _docker-compose rm -s -f -v is_ not enough. Still active containers can interfere the building of the services. In this case you should receive a similar error.
+
+```
+Creating xs2a-sandbox_certificate-generator_1 ... error
+" is already in use by container "ff45d8d0cc3e4745d4b7e2122c750efd11322f6b62a2610cde48923262793444". You have to remove (or rename) that container to be able to reuse that name.
+
+ERROR: for xs2a-sandbox_certificate-generator_1  Cannot start service certificate-generator: driver failed programming external connectiCreating xs2a-sandbox_fakesmtp_1              ... done
+.0:8092 failed: port is already allocated
+
+```
+
+or
+
+```
+ERROR: for xs2a-consent-management  Cannot create container for service xs2a-consent-management: Conflict. The container name "/xs2a-conCreating ledgers                              ... error
+or rename) that container to be able to reuse that name.
+```
+
+Solution: First of all you try to remove all containers from docker with following commands step by step
+
+**Warning**: this will delete also all your created local data like registered TPPs:
+
+1._docker rm -vf \$(docker ps -a -q)_
+
+2._docker rmi -f \$(docker images -a -q)_
+
+3._docker volume rm \$(docker volume ls -q)_
+
+4._docker system prune -a -_ input _y_ to confirm
+
+If building still fails, you need to manually kill the existing ports with _kill \$(lsof -t -i :PORT_NUMBER)_. Instead of PORT_NUMBER please write the number of the conflicting port, e.g. 8092 for the "Certificate Generator" or 38080 for the "Consent Management System". The port number should be mentioned in the error message, if there is just the name of the environment, you can simply find the corresponding port number in the ['Links to environments' table.](https://demo-dynamicsandbox-developerportalui.cloud.adorsys.de/getting-started)
+
+In worst case you need to reboot you computer.
+
+**Warning:** This will delete permanently all your local registered TPPs, users, accounts and transactions.
+
+## Why does the PUT endpoint say that the service is not reachable (Error 403)?
+
+This can happen if you decided to use the embedded sca approach for your test but have selected for e.g. the payment the redirect sca approach. Here it is crucial whether you have set _TPP-Redirect-Preferred_ to _true_ or _false_ earlier. In this case, you receive the error 403 as response by executing the PUT endpoint the first time (after entering the password JSON).
+
+```
+{
+  "tppMessages": [
+    {
+      "category": "ERROR",
+      "code": "SERVICE_BLOCKED",
+      "text": "This service is not reachable for the addressed PSU due to a channel independent
+       blocking by the ASPSP. Additional information might be given by the ASPSP"
+    }
+  ]
+}
+
+```
+
+Solution: E.g. if in the earlier POST endpoint the _TPP-Redirect-Preferred_ is set on _true_, that means you can just finish this test with the received scaRedirect link. Consequently, you have to restart your test after setting _TPP-Redirect-Preferred_ value correct.
+
+## How long is my TAN valid?
+
+The received TAN is valid for your session. This means if you are automatically logged out, the TAN will be invalid and you have to restart the complete request.
+
+## Why can't I finish my cancellation authorisation process?
+
+You have initiated a payment, but you cannot cancel it successful, because you receive the error 400 as response:
+
+```
+{
+  "tppMessages": [
+    {
+      "category": "ERROR",
+      "code": "FORMAT_ERROR",
+      "text": "Couldn't execute authorisation payment cancellation"
+    }
+  ]
+}
+```
+
+Solution: It is very highly probable that the payment has already been executed, the reason can be that (1) the payment-product was set on instant-sepa-credit-transfers - this kind of payment cannot be cancelled because it will be executed directly with finishing the authorisation process - or (2) the server already executed the payment - the server has a constant time interval in which it completes and effectuates the bank transfers. In both cases, the payment has already been transferred and can therefore no longer be cancelled. To be sure, you can check the balance of the debtor account in the TPP UI or check with the GET endpoint /v1/{payment-service}/{payment-product}/{paymentId} the status of the payment you tried to cancel.
+
+## Why does my Developer Portal customization not work?
+
+If you have customized the Developer Portal local by e.g. changing the logo but you cannot see any changes if you run the services, you have to rebuild them first. The best is to use the command _make all_ to rebuild and run them directly. If it is still not working, check if you saved the necessary JSON in the "custom" folder and the correct image names are used in the file.
