@@ -12,7 +12,7 @@ import { TppUserService } from '../../services/tpp.user.service';
   styleUrls: ['./user-profile-update.component.scss']
 })
 export class UserProfileUpdateComponent implements OnInit {
-    private user: User;
+    public user: User;
     public userForm: FormGroup;
     public submitted: boolean;
 

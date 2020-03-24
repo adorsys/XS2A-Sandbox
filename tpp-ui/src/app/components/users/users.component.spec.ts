@@ -46,6 +46,7 @@ describe('UsersComponent', () => {
     });
 
     it('should load users on NgOnInit', () => {
+        component.ngOnInit();
         const mockUsers: User[] = [
             {
                 id: 'USERID',
@@ -64,5 +65,39 @@ describe('UsersComponent', () => {
 
         expect(getUsersSpy).toHaveBeenCalled();
         expect(component.users).toEqual(mockUsers);
+    });
+
+    it('should load users',  () => {
+        const mockUsers: User[] = [
+            {
+                id: 'USERID',
+                email: 'user@gmail.com',
+                login: 'user',
+                branch: 'branch',
+                pin: '123345',
+                scaUserData: [],
+                accountAccesses: []
+            }
+        ];
+        const getUsersSpy = spyOn(usersService, 'listUsers').and.returnValue(of({users: mockUsers, totalElements: mockUsers.length}));
+
+        component.listUsers(5,10, 'string');
+
+        expect(getUsersSpy).toHaveBeenCalled();
+        expect(component.users).toEqual(mockUsers);
+        expect(component.config.totalItems).toEqual(mockUsers.length);
+    });
+
+    it('should pageChange', () => {
+        const mockPageConfig = {
+            pageNumber: 10,
+            pageSize: 5
+        }
+        component.searchForm.setValue({
+                                    query: 'foo',
+                                    itemsPerPage: 15});
+        const listUsersSpy = spyOn(component, 'listUsers');
+        component.pageChange(mockPageConfig);
+        expect(listUsersSpy).toHaveBeenCalledWith(10, 5, 'foo');
     });
 });
