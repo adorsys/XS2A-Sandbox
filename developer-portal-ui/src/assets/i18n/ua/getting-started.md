@@ -258,102 +258,22 @@ _node -v_
 </div>
 
 # Як кастомізувати портал розробників
-1. Створити файл `.json` з ім'ям UITheme.
-Приклад файлу:
 
-```json
-{
-  "globalSettings": {
-    "logo": "Logo_XS2ASandbox.png",
-    "facebook": "https://www.facebook.com/adorsysGmbH/",
-    "linkedIn": "https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/"
-  },
-  "contactInfo": {
-    "img": "Rene.png",
-    "name": "René Pongratz",
-    "position": "Software Architect & Expert for API Management",
-    "email": "psd2@adorsys.de"
-  },
-  "officesInfo": [
-    {
-      "city": "Nürnberg",
-      "company": "adorsys GmbH & Co. KG",
-      "addressFirstLine": "Fürther Str. 246a, Gebäude 32 im 4.OG",
-      "addressSecondLine": "90429 Nürnberg",
-      "phone": "+49(0)911 360698-0",
-      "email": "psd2@adorsys.de"
-    },
-    {
-      "city": "Frankfurt",
-      "company": "adorsys GmbH & Co. KG",
-      "addressFirstLine": "Frankfurter Straße 63 - 69",
-      "addressSecondLine": "65760 Eschborn",
-      "email": "frankfurt@adorsys.de",
-      "facebook": "https://www.facebook.com/adorsysGmbH/",
-      "linkedIn": "https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/"
-    }
-  ],
-  "supportedLanguages": ["en", "de", "es", "ua"],
-  "supportedApproaches": ["redirect", "embedded"],
-  "currency": "EUR",
-  "tppSettings": {
-    "tppDefaultNokRedirectUrl": "https://www.google.com",
-    "tppDefaultRedirectUrl": "https://adorsys-platform.de/solutions/xs2a-sandbox/"
-  }
-}
-```
+У цьому порталі можливо кастомізувати тексти, меню, кількість та контент сторінок, стилі та кольори елементів. Дізнайтеся, як це зробити, прочитавши [Гайд по кастомізації](../../../../assets/files/UIs_customization_guide.pdf).
 
-Поля Json файлу:
+<div class="divider">
+</div>
 
-- globalSettings - обов'язково
-  - logo - обов'язково, значення: текстовий рядок, URL або ім'я файлу з розширенням, або ' '
-  - favicon - необов'язковий
-    - type - обов'язково, значення: текстовий рядок
-    - href - обов'язково, значення: текстовий рядок, http url
-  - facebook - необов'язковий, значення: текстовий рядок, http url
-  - linkedIn - необов'язковий, значення: текстовий рядок, http url
-  - cssVariables - необов'язковий
-    - colorPrimary - необов'язковий, значення: текстовий рядок, hex
-    - colorSecondary - необов'язковий, значення: текстовий рядок, hex
-    - fontFamily - необов'язково, значення: текстовий рядок, font-name чи font-name, font-family
-    - bodyBG - необов'язковий, значення: текстовий рядок, hex
-    - headerBG - необов'язковий, значення: текстовий рядок, hex
-    - headerFontColor - необов'язковий, значення: текстовий рядок, hex
-    - mainBG - необов'язковий, значення: текстовий рядок, hex
-    - footerBG - необов'язковий, значення: текстовий рядок, hex
-    - footerFontColor - необов'язковий, значення: текстовий рядок, hex
-    - anchorFontColor - необов'язковий, значення: текстовий рядок, hex
-    - anchorFontColorHover - необов'язковий, значення: текстовий рядок, hex
-    - heroBG - необов'язковий, значення: текстовий рядок, hex
-    - stepBG - необов'язковий, значення: текстовий рядок, hex
-    - contactsCardBG - необов'язковий, значення: текстовий рядок, hex
-    - testCasesLeftSectionBG - необов'язковий, значення: текстовий рядок, hex
-    - testCasesRightSectionBG - необов'язковий, значення: текстовий рядок, hex
-- contactInfo - обов'язково
-  - name - обов'язково, значення: текстовий рядок
-  - position - обов'язково, значення: текстовий рядок
-  - img - обов'язково, значення: текстовий рядок, URL або ім'я файлу з розширенням
-  - email - необов'язковий, значення: текстовий рядок
-  - phone - необов'язковий, значення: текстовий рядок
-- officesInfo - обов'язково. Масив з 2 елементів.
-  - city - обов'язково, значення: текстовий рядок
-  - company - обов'язково, значення: текстовий рядок
-  - addressFirstLine - обов'язково, значення: текстовий рядок
-  - addressSecondLine - обов'язково, значення: текстовий рядок
-  - phone - необов'язковий, значення: текстовий рядок
-  - email - необов'язковий, значення: текстовий рядок
-  - facebook - необов'язковий, значення: текстовий рядок, http url
-  - linkedIn - необов'язковий, значення: текстовий рядок, http url
-- supportedLanguages - обов'язково. Масив підтримуємих мов. Налаштування за замовчанням: ["en", "de", "es", "ua"]
-- supportedApproaches - обов'язково. Масив підтримуємих типів авторизації. Налаштування за замовчанням: ["redirect", "embedded"]
-- currency - обов'язково. Головна валюта в усіх прикладах на порталі розробника. Усі валюти в json прикладах змінються на обрану в налаштуваннях валюту. Налаштування за замовчанням: "EUR"
+# Підтримка Google Analytics  
 
-2. Коли ви створюєте файл .json (наприклад, UITheme.json) і заповнюєте всі необхідні поля, помістіть цей файл з логотипом (наприклад, logo.png) та контактною особою (наприклад, contact.png) у папку. ./developer-portal-ui/src/assets/UI/custom/.
-3. Якщо вам потрібно змінити .json або .xml файли, які є прикладами у Сценаріях Тестування, створіть папку "jsons" для .json файлів чи "xmls" для .xml файлів у директорії ./developer-portal-ui/src/assets/UI/custom/examples/.
-4. Усі змінені .json або .xml файли потрібно покласти у відповідну папку. Збережіть такі самі назви файлів та структуру папок, як і у прикладах. Приклади за замовчанням з правильніми назвами та структурою для .json файлів можна знайті в директорії ./developer-portal-ui/src/assets/UI/examples/jsons/.
-Приклади за замовчанням з правильніми назвами та структурою для .xml файлів можна знайті в директорії ./developer-portal-ui/src/assets/UI/examples/xmls/.
+Щоб підключити свій обліковий запис Google Analytics, у docker-compose.yml у розділі developer-portal-ui додайте TRACKING_ID з ідентифікатором свого облікового запису Google Analytics. Потім запустіть docker-compose, і обліковий запис Google Analytics буде підключено автоматично.
 
-Кастомізація завершена, вітаємо!
+
+![Google Analytics Docker](../../assets/images/googleAnalyticsDocker.png)
+
+Приклад docker-compose.yaml з увімкненою підтримкою Google Analytics можна знайти в [docker-compose-google-analytics-enabled.yml](https://github.com/adorsys/XS2A-Sandbox/blob/master/docker-compose-google-analytics-enabled.yml) у кореневій папці Sandbox.
+
+Портал розробника надає Google Analytics інформацію про кожне відвідування сторінки та деякі події. Ці події - це кожне випробування ендпоінту API у розділі "Сценарії для тестування" (подія відправляється у Google Analytics з кожним натисканням кнопки "Надіслати") та завантаження тестів Postman (подія відправляється у Google Analytics з кожним натисканням кнопки "Завантажити").
 
 <div class="divider">
 </div>

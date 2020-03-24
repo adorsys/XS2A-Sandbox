@@ -273,102 +273,20 @@ Figure 1.2: TPP flow step-by-step
 
 # How to customize UI of developer portal
 
-1. Create `.json` file with name UITheme.
-Json example:
+It is possible to customize texts, navigation, amount and content of pages and styling of all the elements of Developer Portal. To find out how to do it, please, read [Customization Guide](../../../../assets/files/UIs_customization_guide.pdf).
 
-```json
-{
-  "globalSettings": {
-    "logo": "Logo_XS2ASandbox.png",
-    "facebook": "https://www.facebook.com/adorsysGmbH/",
-    "linkedIn": "https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/"
-  },
-  "contactInfo": {
-    "img": "Rene.png",
-    "name": "René Pongratz",
-    "position": "Software Architect & Expert for API Management",
-    "email": "psd2@adorsys.de"
-  },
-  "officesInfo": [
-    {
-      "city": "Nürnberg",
-      "company": "adorsys GmbH & Co. KG",
-      "addressFirstLine": "Fürther Str. 246a, Gebäude 32 im 4.OG",
-      "addressSecondLine": "90429 Nürnberg",
-      "phone": "+49(0)911 360698-0",
-      "email": "psd2@adorsys.de"
-    },
-    {
-      "city": "Frankfurt",
-      "company": "adorsys GmbH & Co. KG",
-      "addressFirstLine": "Frankfurter Straße 63 - 69",
-      "addressSecondLine": "65760 Eschborn",
-      "email": "frankfurt@adorsys.de",
-      "facebook": "https://www.facebook.com/adorsysGmbH/",
-      "linkedIn": "https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/"
-    }
-  ],
-  "supportedLanguages": ["en", "de", "es", "ua"],
-  "supportedApproaches": ["redirect", "embedded"],
-  "currency": "EUR",
-  "tppSettings": {
-    "tppDefaultNokRedirectUrl": "https://www.google.com",
-    "tppDefaultRedirectUrl": "https://adorsys-platform.de/solutions/xs2a-sandbox/"
-  }
-}
-```
+<div class="divider">
+</div>
 
-Json fields:
+# Google Analytics support 
 
-- globalSettings - required
-  - logo - required, value: string, http url or file name with extension or ' '
-  - favicon - optional
-    - type - required, value: string
-    - href - required, value: string, http url
-  - facebook - optional, value: string, http url
-  - linkedIn - optional, value: string, http url
-  - cssVariables - optional
-    - colorPrimary - optional, value: string, hex
-    - colorSecondary - optional, value: string, hex
-    - fontFamily - optional, value: string, font-name or font-name, font-family
-    - bodyBG - optional, value: string, hex
-    - headerBG - optional, value: string, hex
-    - headerFontColor - optional, value: string, hex
-    - mainBG - optional, value: string, hex
-    - footerBG - optional, value: string, hex
-    - footerFontColor - optional, value: string, hex
-    - anchorFontColor - optional, value: string, hex
-    - anchorFontColorHover - optional, value: string, hex
-    - heroBG - optional, value: string, hex
-    - stepBG - optional, value: string, hex
-    - contactsCardBG - optional, value: string, hex
-    - testCasesLeftSectionBG - optional, value: string, hex
-    - testCasesRightSectionBG - optional, value: string, hex
-- contactInfo - required
-  - name - required, value: string
-  - position - required, value: string
-  - img - required, value: string, http url or file name with extension
-  - email - optional, value: string
-  - phone - optional, value: string
-- officesInfo - required. Array of 2 elements.
-  - city - required, value: string
-  - company - required, value: string
-  - addressFirstLine - required, value: string
-  - addressSecondLine - required, value: string
-  - phone - optional, value: string
-  - email - optional, value: string
-  - facebook - optional, value: string, http url
-  - linkedIn - optional, value: string, http url
-- supportedLanguages - required. Array of supported languages. Default configuration is ["en", "de", "es", "ua"]
-- supportedApproaches - required. Array of supported SCA approaches. Default configuration is ["redirect", "embedded"]
-- currency - required. Main currency of developer portal examples. When you input a currency, all the jsons currencies are changed to the desired currency. Default configuration is "EUR"
+To connect your Google Analytics account, in docker-compose.yml in Developer Portal UI section add property TRACKING_ID with your Google Analytics account ID. Then run docker-compose normally, Google Analytics account would be connected automatically.
 
-2. When you create .json (e.g. UITheme.json) file and fill all required fields, put this file with logo (e.g. logo.png) and contact person (e.g. contact.png) images in folder ./developer-portal-ui/src/assets/UI/custom/.
-If you want to customize jsons/xmls, which are present as examples in Test Cases sections of Developer portal, just create a folder "jsons" for .jsons file and "xmls" for .xml files in ./developer-portal-ui/src/assets/UI/custom/examples/.
-3. Put all jsons/xmls you want to customize in these folders. Keep the exact names of the files and folder structure as in examples. The examples and default jsons with proper names could be found in folder ./developer-portal-ui/src/assets/UI/examples/jsons/.
-The examples and default xmls with proper names could be found in folder ./developer-portal-ui/src/assets/UI/examples/xmls/.
+![Google Analytics Docker](../../assets/images/googleAnalyticsDocker.png)
 
-Customization completed, congratulations!
+The example of docker-compose.yaml with enabled Google Analytics support can be fount in [docker-compose-google-analytics-enabled.yml](https://github.com/adorsys/XS2A-Sandbox/blob/master/docker-compose-google-analytics-enabled.yml) file in root of the Sandbox repository.
+
+The application gives to Google Analytics the information about every page visit and some events. These event are every try out of API endpoint in Test Cases section (event is triggered by clicking on `Submit` button) and Postman tests download (event is triggered by clicking on `Download` button).
 
 <div class="divider">
 </div>
