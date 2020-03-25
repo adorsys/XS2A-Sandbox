@@ -1,11 +1,7 @@
-<div *ngIf="supportedLanguagesDictionary && globalSettings">
-  <app-nav
-    [supportedLanguagesDictionary]="supportedLanguagesDictionary"
-    [navigation]="navigation"
-    [logo]="globalSettings.logo"
-    [logoLink]="globalSettings.logoLink"
-    [allowedNavigationSize]="allowedNavigationSize"></app-nav>
-</div>
+<app-nav *ngIf="supportedLanguagesDictionary && navigation"
+         [supportedLanguagesDictionary]=supportedLanguagesDictionary
+         [navigation]=navigation
+></app-nav>
 
 <main>
   <router-outlet (activate)="onActivate($event)"></router-outlet>
@@ -13,11 +9,8 @@
 
 <div class="spacer" id="spacer"></div>
 
-<div *ngIf="supportedLanguagesDictionary && globalSettings">
-  <app-footer [navigation]="navigation"
-              [logoLink]="globalSettings.logoLink"
-              [allowedNavigationSize]="allowedNavigationSize"
-              [globalSettings]="globalSettings"></app-footer>
+<app-footer *ngIf="navigation"
+            [navigation]=navigation
+></app-footer>
 
-</div>
 <ng-http-loader [debounceDelay]="500" [minDuration]="1200"></ng-http-loader>

@@ -1,10 +1,10 @@
 import {TestBed} from '@angular/core/testing';
-import {TrackingIdHttpService} from './tracking-id-http.service';
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
+import {SettingsHttpService} from "./settings-http.service";
 
 describe('TrackingIdHttpService', () => {
   let httpTestingController: HttpTestingController;
-  let service: TrackingIdHttpService;
+  let service: SettingsHttpService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -12,10 +12,10 @@ describe('TrackingIdHttpService', () => {
         HttpClientTestingModule,
       ],
       providers: [
-        TrackingIdHttpService
+        SettingsHttpService
       ]
     });
-    service = TestBed.get(TrackingIdHttpService);
+    service = TestBed.get(SettingsHttpService);
     httpTestingController = TestBed.get(HttpTestingController);
   });
 

@@ -17,7 +17,7 @@ export class TestCasesComponent implements OnInit {
   redirectSupported = true;
   embeddedSupported = true;
 
-  pathToHeadTestCases = `./assets/i18n/en/test-cases/headTestCases.md`;
+  pathToHeadTestCases = `./assets/content/i18n/en/test-cases/headTestCases.md`;
 
   constructor(
     private router: Router,
@@ -77,36 +77,40 @@ export class TestCasesComponent implements OnInit {
 
     this.languageService.currentLanguage.subscribe(
       data => {
-        this.pathToHeadTestCases = `./assets/i18n/${data}/test-cases/headTestCases.md`;
+        this.pathToHeadTestCases = `${this.customizeService.currentLanguageFolder}/${data}/test-cases/headTestCases.md`;
       });
   }
 
   private setUpUsedApproaches() {
-    this.customizeService.getJSON().then(data => {
-      const embedded = 'embedded';
-      const redirect = 'redirect';
+    this.customizeService.currentTheme
+      .subscribe(data => {
+        if (data.supportedApproaches) {
+          const embedded = 'embedded';
+          const redirect = 'redirect';
 
-      let redirectSupportedInSettings = data.supportedApproaches.includes(
-        redirect
-      );
-      let embeddedSupportedInSettings = data.supportedApproaches.includes(
-        embedded
-      );
+          let redirectSupportedInSettings = data.supportedApproaches.includes(
+            redirect
+          );
+          let embeddedSupportedInSettings = data.supportedApproaches.includes(
+            embedded
+          );
 
-      this.aspspService.getScaApproaches().subscribe(
-        (scaApproaches: Array<string>) => {
-          this.redirectSupported =
-            redirectSupportedInSettings &&
-            scaApproaches.includes(redirect.toLocaleUpperCase());
-          this.embeddedSupported =
-            embeddedSupportedInSettings &&
-            scaApproaches.includes(embedded.toLocaleUpperCase());
-        },
-        () => {
-          this.redirectSupported = redirectSupportedInSettings;
-          this.embeddedSupported = embeddedSupportedInSettings;
+          this.aspspService.getScaApproaches().subscribe(
+            (scaApproaches: Array<string>) => {
+              this.redirectSupported =
+                redirectSupportedInSettings &&
+                scaApproaches.includes(redirect.toLocaleUpperCase());
+              this.embeddedSupported =
+                embeddedSupportedInSettings &&
+                scaApproaches.includes(embedded.toLocaleUpperCase());
+            },
+            () => {
+              this.redirectSupported = redirectSupportedInSettings;
+              this.embeddedSupported = embeddedSupportedInSettings;
+            }
+          );
         }
-      );
-    });
+
+      });
   }
 }

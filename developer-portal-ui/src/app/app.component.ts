@@ -1,14 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {HttpClient} from "@angular/common/http";
-import {GlobalSettings} from "./models/theme.model";
 import {DataService} from "./services/data.service";
-import {CustomizeService} from "./services/customize.service";
 import {LanguageService} from "./services/language.service";
 import {filter} from "rxjs/operators";
 import {MarkdownStylingService} from "./services/markdown-styling.service";
 import {TrackingIdService} from "./services/tracking-id.service";
 import {GoogleAnalyticsService} from "./services/google-analytics.service";
+import {CustomizeService} from "./services/customize.service";
+import {Theme} from "./models/theme.model";
+import {NavigationService} from "./services/navigation.service";
 
 declare let gtag: Function;
 
@@ -18,10 +19,9 @@ declare let gtag: Function;
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  globalSettings: GlobalSettings;
+
   supportedLanguagesDictionary;
   navigation;
-  allowedNavigationSize;
 
   constructor(
     private router: Router,
@@ -32,18 +32,20 @@ export class AppComponent implements OnInit {
     private http: HttpClient,
     private markdownStylingService: MarkdownStylingService,
     private trackingIdService: TrackingIdService,
-    private googleAnalyticsService: GoogleAnalyticsService) {
+    private googleAnalyticsService: GoogleAnalyticsService,
+    private navigationService: NavigationService) {
 
     this.setUpGoogleAnalytics(trackingIdService.trackingId[0].trackingId);
 
-    this.customizeService.getJSON().then(data => {
-      this.supportedLanguagesDictionary = data.supportedLanguagesDictionary;
-      this.setUpRoutes(data); // TODO make it in customize Service https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/issues/591
-      this.allowedNavigationSize = data.pagesSettings.navigationBarSettings.allowedNavigationSize;
+    this.customizeService.currentTheme
+      .subscribe(theme => {
+        this.customizeService.setStyling(theme);
+        this.customizeService.normalizeLanguages(theme)
+          .then((theme: Theme) => this.supportedLanguagesDictionary = theme.supportedLanguagesDictionary);
 
-      localStorage.setItem('tppDefaultNokRedirectUrl', data.tppSettings.tppDefaultNokRedirectUrl);
-      localStorage.setItem('tppDefaultRedirectUrl', data.tppSettings.tppDefaultRedirectUrl);
-    });
+        localStorage.setItem('tppDefaultNokRedirectUrl', theme.tppSettings.tppDefaultNokRedirectUrl);
+        localStorage.setItem('tppDefaultRedirectUrl', theme.tppSettings.tppDefaultRedirectUrl);
+      });
 
     this.languageService.initializeTranslation();
   }
@@ -55,45 +57,11 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.languageService.currentLanguage.subscribe(
       data => {
-        this.http.get(`assets/i18n/${data}/navigation.json`).subscribe(
-          data => this.navigation = data['navigation']
-        );
+        this.navigationService.getNavigation(`${this.customizeService.currentLanguageFolder}/${data}`)
+          .then(nav => this.navigation = nav);
       });
 
     this.adjustMarkdownViews();
-  }
-
-  private setUpRoutes(data) {
-    let theme = data;
-    this.globalSettings = theme.globalSettings;
-    if (theme.globalSettings.logo.indexOf('/') === -1) {
-      theme.globalSettings.logo =
-        '../assets/UI' +
-        (this.customizeService.isCustom() ? '/custom/' : '/') +
-        theme.globalSettings.logo;
-    }
-    if (theme.globalSettings.footerLogo.indexOf('/') === -1) {
-      theme.globalSettings.footerLogo =
-        '../assets/UI' +
-        (this.customizeService.isCustom() ? '/custom/' : '/') +
-        theme.globalSettings.footerLogo;
-    }
-    if (
-      theme.globalSettings.favicon &&
-      theme.globalSettings.favicon.href.indexOf('/') === -1
-    ) {
-      theme.globalSettings.favicon.href =
-        '../assets/UI' +
-        (this.customizeService.isCustom() ? '/custom/' : '/') +
-        theme.globalSettings.favicon.href;
-    }
-    if (theme.contactInfo.img.indexOf('/') === -1) {
-      theme.contactInfo.img =
-        '../assets/UI' +
-        (this.customizeService.isCustom() ? '/custom/' : '/') +
-        theme.contactInfo.img;
-    }
-    this.customizeService.setUserTheme(theme);
   }
 
   private adjustMarkdownViews() {
@@ -118,12 +86,12 @@ export class AppComponent implements OnInit {
   private setUpGoogleAnalytics(googleAnalyticsCode: string) {
     if (googleAnalyticsCode && googleAnalyticsCode !== '') {
       this.googleAnalyticsService.enabled = true;
-      this.createScripts(googleAnalyticsCode);
+      AppComponent.createScripts(googleAnalyticsCode);
       this.setUpGoogleAnlyticsPageViews(googleAnalyticsCode);
     }
   }
 
-  private createScripts(googleAnalyticsCode: string) {
+  private static createScripts(googleAnalyticsCode: string) {
     let gaScript = document.createElement('script');
     gaScript.setAttribute('async', 'true');
     gaScript.setAttribute('src', `https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsCode}`);

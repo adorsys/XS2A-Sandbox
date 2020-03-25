@@ -20,7 +20,7 @@ export class LanguageService {
     this.translateService.use(language);
     this.languageValue = language;
 
-    const ol = document.getElementById('contentTable'); //TO DO move somewhere
+    const ol = document.getElementById('contentTable');
     if (ol) {
       ol.innerHTML = '';
     }
@@ -37,5 +37,5 @@ export class LanguageService {
 }
 
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, '../assets/i18n/', '.json');
+  return new TranslateHttpLoader(http, localStorage.getItem('currentLanguageFolder'), '.json');
 }

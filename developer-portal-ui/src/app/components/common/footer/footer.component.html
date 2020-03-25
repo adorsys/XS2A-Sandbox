@@ -1,7 +1,7 @@
 <div class="footer-bar">
   <div class="footer-top-items">
     <img *ngIf="globalSettings?.footerLogo" class="logo" [src]="globalSettings?.footerLogo"
-         (click)="navigationService.goToLogoLink(logoLink, defaultLogoLink)" alt="Logo"/>
+         (click)="navigationService.goToLogoLink(globalSettings?.logoLink, defaultLogoLink)" alt="Logo"/>
 
     <div *ngIf="showNavigation">
       <a *ngFor="let navItem of navigation" class="footer-item"

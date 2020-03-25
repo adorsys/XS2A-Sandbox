@@ -1,9 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {LanguageService} from "../../../services/language.service";
 import {DataService} from "../../../services/data.service";
-import {Router} from "@angular/router";
-import {NavItem} from "../../../models/navItem.model";
 import {NavigationService} from "../../../services/navigation.service";
+import {CustomizeService} from "../../../services/customize.service";
 
 @Component({
   selector: 'app-nav',
@@ -19,15 +18,24 @@ export class NavComponent implements OnInit {
   language = 'en';
   supportedLanguages: string[];
 
-  @Input() navigation;
-  @Input() logo;
-  @Input() logoLink: string;
+  logo;
+  logoLink: string;
+  allowedNavigationSize = 5;
   @Input() supportedLanguagesDictionary;
-  @Input() allowedNavigationSize = 5;
+  @Input() navigation;
 
   constructor(private languageService: LanguageService,
               public dataService: DataService,
+              private customizeService: CustomizeService,
               private navigationService: NavigationService) {
+
+    this.customizeService.currentTheme.subscribe(
+      data => {
+        this.logo = data.globalSettings.logo;
+        this.logoLink = data.globalSettings.logoLink;
+        this.allowedNavigationSize = data.pagesSettings.navigationBarSettings.allowedNavigationSize;
+      });
+
     this.setLangCollapsed(true);
   }
 

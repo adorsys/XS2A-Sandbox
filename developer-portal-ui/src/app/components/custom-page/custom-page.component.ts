@@ -1,6 +1,7 @@
 import {Component, DoCheck} from '@angular/core';
 import {LanguageService} from "../../services/language.service";
 import {ActivatedRoute} from "@angular/router";
+import {CustomizeService} from "../../services/customize.service";
 
 @Component({
   selector: 'app-custom-page',
@@ -9,10 +10,11 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class CustomPageComponent implements DoCheck {
   private name = 'faq';
-  pathToFile = `./assets/i18n/en/${this.name}.md`;
+  pathToFile = `./assets/content/i18n/en/${this.name}.md`;
 
   constructor(private languageService: LanguageService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private customizeService: CustomizeService) {
   }
 
   ngDoCheck() {
@@ -20,7 +22,7 @@ export class CustomPageComponent implements DoCheck {
     if (this.name) {
       this.languageService.currentLanguage.subscribe(
         data => {
-          this.pathToFile = `./assets/i18n/${data}/${this.name}.md`;
+          this.pathToFile = `${this.customizeService.currentLanguageFolder}/${data}/${this.name}.md`;
         }
       );
     }

@@ -1,6 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {NavigationService} from "../../../services/navigation.service";
 import {GoogleAnalyticsService} from "../../../services/google-analytics.service";
+import {CustomizeService} from "../../../services/customize.service";
+import {LanguageService} from "../../../services/language.service";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-footer',
@@ -10,9 +13,8 @@ import {GoogleAnalyticsService} from "../../../services/google-analytics.service
 export class FooterComponent implements OnInit {
 
   @Input() navigation;
-  @Input() globalSettings;
-  @Input() logoLink;
-  @Input() allowedNavigationSize = 5;
+  globalSettings;
+  allowedNavigationSize = 5;
   socialMedia = [];
   showNavigation = true;
 
@@ -24,10 +26,18 @@ export class FooterComponent implements OnInit {
     youtube: "fa-youtube",
     xing: "fa-xing"
   };
+
   private defaultLogoLink = '/home';
 
   constructor(private navigationService: NavigationService,
-              private googleAnalyticsService: GoogleAnalyticsService) {
+              private googleAnalyticsService: GoogleAnalyticsService,
+              private customizeService: CustomizeService) {
+
+    this.customizeService.currentTheme
+      .subscribe(data => {
+        this.globalSettings = data.globalSettings;
+        this.allowedNavigationSize = data.pagesSettings.navigationBarSettings.allowedNavigationSize;
+      });
   }
 
   ngOnInit() {

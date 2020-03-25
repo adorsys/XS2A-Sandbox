@@ -23,10 +23,10 @@ import {of} from "rxjs";
 import {MarkdownModule, MarkdownService} from "ngx-markdown";
 import {TrackingIdService} from "./services/tracking-id.service";
 
-const TRANSLATIONS_EN = require('../assets/i18n/en.json');
-const TRANSLATIONS_DE = require('../assets/i18n/de.json');
-const TRANSLATIONS_ES = require('../assets/i18n/es.json');
-const TRANSLATIONS_UA = require('../assets/i18n/ua.json');
+const TRANSLATIONS_EN = require('../assets/content/i18n/en.json');
+const TRANSLATIONS_DE = require('../assets/content/i18n/de.json');
+const TRANSLATIONS_ES = require('../assets/content/i18n/es.json');
+const TRANSLATIONS_UA = require('../assets/content/i18n/ua.json');
 
 describe('AppComponent', () => {
   let comp: AppComponent;
@@ -45,78 +45,75 @@ describe('AppComponent', () => {
   };
 
   const CustomizeServiceStub = {
-    isCustom: () => false,
-    setUserTheme: () => {
+    custom: () => false,
+    currentTheme: of({
+      globalSettings: {
+        logo: '../assets/content/Logo_XS2ASandbox.png',
+        footerLogo: '../assets/content/Logo_XS2ASandbox.png',
+        cssVariables: {
+          colorPrimary: '#054f72',
+          colorSecondary: '#eed52f',
+          fontFamily: 'Arial, sans-serif',
+          headerBG: '#ffffff',
+          headerFontColor: '#000000',
+          footerBG: '#054f72',
+          footerFontColor: '#ffffff',
+        },
+        facebook: 'https://www.facebook.com/adorsysGmbH/',
+        linkedIn: 'https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/',
+      },
+      contactInfo: {
+        img: 'Rene.png',
+        name: 'René Pongratz',
+        position: 'Software Architect & Expert for API Management',
+        email: 'psd2@adorsys.de',
+      },
+      officesInfo: [
+        {
+          city: 'Nürnberg',
+          company: 'adorsys GmbH & Co. KG',
+          addressFirstLine: 'Fürther Str. 246a, Gebäude 32 im 4.OG',
+          addressSecondLine: '90429 Nürnberg',
+          phone: '+49(0)911 360698-0',
+          email: 'psd2@adorsys.de',
+        },
+        {
+          city: 'Frankfurt',
+          company: 'adorsys GmbH & Co. KG',
+          addressFirstLine: 'Frankfurter Straße 63 - 69',
+          addressSecondLine: '65760 Eschborn',
+          email: 'frankfurt@adorsys.de',
+          facebook: 'https://www.facebook.com/adorsysGmbH/',
+          linkedIn:
+            'https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/',
+        },
+      ],
+      tppSettings: {
+        tppDefaultNokRedirectUrl: 'https://www.google.com',
+        tppDefaultRedirectUrl:
+          'https://adorsys-platform.de/solutions/xs2a-sandbox/',
+      },
+      supportedLanguages: ['en', 'ua', 'de', 'es'],
+      pagesSettings: {
+        contactPageSettings: {
+          showContactCard: true,
+          showQuestionsComponent: true
+        },
+        homePageSettings: {
+          showQuestionsComponent: true,
+          showProductHistory: true,
+          showSlider: true
+        },
+        navigationBarSettings: {
+          allowedNavigationSize: 3
+        }
+      }
+    }),
+    setStyling: (theme) => {
     },
-    getJSON: () => {
-      return new Promise(resolve => {
-        resolve({
-          globalSettings: {
-            logo: '../assets/UI/Logo_XS2ASandbox.png',
-            footerLogo: '../assets/UI/Logo_XS2ASandbox.png',
-            cssVariables: {
-              colorPrimary: '#054f72',
-              colorSecondary: '#eed52f',
-              fontFamily: 'Arial, sans-serif',
-              headerBG: '#ffffff',
-              headerFontColor: '#000000',
-              footerBG: '#054f72',
-              footerFontColor: '#ffffff',
-            },
-            facebook: 'https://www.facebook.com/adorsysGmbH/',
-            linkedIn: 'https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/',
-          },
-          contactInfo: {
-            img: 'Rene.png',
-            name: 'René Pongratz',
-            position: 'Software Architect & Expert for API Management',
-            email: 'psd2@adorsys.de',
-          },
-          officesInfo: [
-            {
-              city: 'Nürnberg',
-              company: 'adorsys GmbH & Co. KG',
-              addressFirstLine: 'Fürther Str. 246a, Gebäude 32 im 4.OG',
-              addressSecondLine: '90429 Nürnberg',
-              phone: '+49(0)911 360698-0',
-              email: 'psd2@adorsys.de',
-            },
-            {
-              city: 'Frankfurt',
-              company: 'adorsys GmbH & Co. KG',
-              addressFirstLine: 'Frankfurter Straße 63 - 69',
-              addressSecondLine: '65760 Eschborn',
-              email: 'frankfurt@adorsys.de',
-              facebook: 'https://www.facebook.com/adorsysGmbH/',
-              linkedIn:
-                'https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/',
-            },
-          ],
-          tppSettings: {
-            tppDefaultNokRedirectUrl: 'https://www.google.com',
-            tppDefaultRedirectUrl:
-              'https://adorsys-platform.de/solutions/xs2a-sandbox/',
-          },
-          supportedLanguages: ['en', 'ua', 'de', 'es'],
-          pagesSettings: {
-            contactPageSettings: {
-              showContactCard: true,
-              showQuestionsComponent: true
-            },
-            homePageSettings: {
-              showQuestionsComponent: true,
-              showProductHistory: true,
-              showSlider: true
-            },
-            navigationBarSettings: {
-              allowedNavigationSize: 3
-            }
-          }
-        });
-      });
-    },
-    getLogo: () => '../assets/UI/Logo_XS2ASandbox.png',
-    getFooterLogo: () => '../assets/UI/Logo_XS2ASandbox.png',
+    normalizeLanguages: (theme) => {
+      return CustomizeServiceStub.currentTheme.toPromise()
+    }
   };
 
   const LanguageServiceStub = {
@@ -192,7 +189,5 @@ describe('AppComponent', () => {
     expect(comp).toBeTruthy();
   }));
 
-  it('should set global settings in ngOnInit', () => {
-    expect(comp.globalSettings).not.toBeUndefined();
-  });
-});
+})
+;

@@ -57,7 +57,7 @@ describe('CustomizeService', () => {
     expect(req.request.method).toEqual('GET');
   });
 
-  it('isCustom should return boolean', () => {
+  it('custom should return boolean', () => {
     expect(typeof service.isCustom()).toBe('boolean');
   });
 

@@ -12,39 +12,33 @@ export class ContactComponent implements OnInit {
   contactInfo: ContactInfo;
   officesInfo: OfficeInfo[];
 
-  pathToFile = `./assets/i18n/en/contact.md`;
+  pathToFile = `./assets/content/i18n/en/contact.md`;
   showQuestionsComponent;
   showContactCard;
 
   constructor(public customizeService: CustomizeService,
               private languageService: LanguageService) {
-    let theme: Theme;
+    if (this.customizeService.currentTheme) {
+      this.customizeService.currentTheme
+        .subscribe(theme => {
+          this.contactInfo = theme.contactInfo;
+          this.officesInfo = theme.officesInfo;
 
-    setInterval(() => { // TODO create single instance of this service and pull data only one time! https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/issues/591
-      theme = this.customizeService.getTheme();
-      if (theme.contactInfo.img.indexOf('/') === -1) { // TODO do it in the Customize service https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/issues/591
-        theme.contactInfo.img =
-          '../assets/UI' +
-          (this.customizeService.isCustom() ? '/custom/' : '/') +
-          theme.contactInfo.img;
-      }
+          const contactPageSettings = theme.pagesSettings.contactPageSettings;
+          if (contactPageSettings) {
+            this.enableQuestionsComponent(contactPageSettings.showQuestionsComponent);
+            this.enableContactCard(contactPageSettings.showContactCard);
+          }
+        });
+    }
 
-      this.contactInfo = theme.contactInfo;
-      this.officesInfo = theme.officesInfo;
-
-      const contactPageSettings = theme.pagesSettings.contactPageSettings;
-      if (contactPageSettings) {
-        this.enableQuestionsComponent(contactPageSettings.showQuestionsComponent);
-        this.enableContactCard(contactPageSettings.showContactCard);
-
-      }
-    }, 100);
   }
 
   ngOnInit() {
     this.languageService.currentLanguage.subscribe(
       data => {
-        this.pathToFile = `./assets/i18n/${data}/contact.md`;
+
+        this.pathToFile = `${this.customizeService.currentLanguageFolder}/${data}/contact.md`;
       });
   }
 
