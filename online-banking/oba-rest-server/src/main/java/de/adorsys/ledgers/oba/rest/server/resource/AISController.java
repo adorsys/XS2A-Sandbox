@@ -276,13 +276,9 @@ public class AISController implements AISApi {
         ResponseEntity<?> resp = cmsPsuAisClient.updatePsuDataInConsent(workflow.consentId(), workflow.authId(),
             DEFAULT_SERVICE_INSTANCE_ID, psuIdData);
         if (!HttpStatus.OK.equals(resp.getStatusCode())) {
-            throw new ConsentAuthorizeException(responseUtils.couldNotProcessRequest(authResp(),
+            throw new ConsentAuthorizeException(responseUtils.couldNotProcessRequest( new ConsentAuthorizeResponse(),
                 "Error updating psu identification. See error code.", resp.getStatusCode(), response));
         }
-    }
-
-    private ConsentAuthorizeResponse authResp() {
-        return new ConsentAuthorizeResponse();
     }
 
     /*
