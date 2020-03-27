@@ -56,7 +56,7 @@
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-3">
-                                    <label class="control-label" for="pin">Pin</label>
+                                    <label class="control-label" for="pin">PIN</label>
                                     <input [ngClass]="{ 'is-invalid': (formControl['pin'].touched || submitted) && formControl['pin'].errors }"
                                            aria-describedby="pinHelp"
                                            autocomplete="new-password"
@@ -67,11 +67,11 @@
                                            type="password">
                                     <div *ngIf="(formControl['pin'].touched || submitted) && formControl['pin'].hasError('required')"
                                          class="invalid-feedback">
-                                        Pin is required
+                                        PIN is required
                                     </div>
                                     <div *ngIf="(formControl['pin'].touched || submitted) && formControl['pin'].hasError('minlength')"
                                          class="invalid-feedback">
-                                        Pin must contain at least 5 characters
+                                        PIN must contain at least 5 characters
                                     </div>
                                 </div>
                             </div>

@@ -40,14 +40,14 @@
                     </div>
                 </div>
                 <div class="row">
-                    <label class="col-12 col-md-3" for="password">New Pin</label>
+                    <label class="col-12 col-md-3" for="password">New PIN</label>
                     <div class="col-12 col-md-10">
                         <input [ngClass]="{ 'is-invalid': (formControl['password'].touched || submitted) && formControl['password'].errors }"
                             autocomplete="off" class="form-control" id="password" placeholder="Enter new Password" type="password"
                             formControlName="password">
                         <div *ngIf="(formControl['password'].touched || submitted) && formControl['password'].hasError('minlength')"
                             class="invalid-feedback">
-                            Pin must contain at least 5 characters
+                            PIN must contain at least 5 characters
                         </div>
                     </div>
                 </div>
