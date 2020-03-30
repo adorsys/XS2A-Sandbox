@@ -1,7 +1,7 @@
 <nav class="navbar navbar-light py-3">
     <a class="navbar-brand text-primary mr-4" routerLink="/">
         <img class="logo" [src]="customizeService.getLogo()" />
-        <span class="ml-3"><span *ngIf="!customizeService.isCustom()">adorsys </span>Online-Banking UI</span>
+        <span class="ml-3"><span *ngIf="!customizeService.isCustom()">adorsys</span>{{title}}</span>
     </a>
       <ul class="nav ml-auto">
           <li class="nav-item">
