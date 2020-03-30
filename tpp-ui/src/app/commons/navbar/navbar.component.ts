@@ -12,6 +12,7 @@ import { TppUserService } from '../../services/tpp.user.service';
 })
 export class NavbarComponent implements DoCheck, OnInit {
   public tppUser: User;
+  public title: string;
   public openDropdownMenu = false;
 
   constructor(private authService: AuthService,
@@ -23,6 +24,7 @@ export class NavbarComponent implements DoCheck, OnInit {
           this.authService.logout();
           throw new Error('Session expired. Please login again.');
       }
+    this.title = this.customizeService.getTitle();
   }
 
   ngOnInit(): void {
