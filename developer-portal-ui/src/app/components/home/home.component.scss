@@ -46,7 +46,6 @@ div ::ng-deep {
     font-weight: normal;
 
     h1 {
-      text-align: center;
       color: var(--colorPrimary);
     }
 
@@ -65,6 +64,7 @@ div ::ng-deep {
         display: flex;
         flex-direction: column;
         justify-content: center;
+        text-align: center;
         margin: 0 20px;
         font-size: 22px;
         color: #232527;
