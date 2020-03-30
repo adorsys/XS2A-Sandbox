@@ -1,11 +1,13 @@
 <nav class="navbar navbar-light py-3">
+  <div class="flex">
     <a class="navbar-brand text-primary mr-4" routerLink="/">
         <img
             class="logo"
             [src]="customizeService.getLogo()"
         />
     </a>
-    <span class="navbar-brand ml-3"><span *ngIf="!customizeService.isCustom()">adorsys </span>T{{title}}</span>
+    <span class="navbar-brand ml-3"><span *ngIf="!customizeService.isCustom()">adorsys&nbsp;</span>T{{title}}</span>
+  </div>
     <ul class="nav">
         <li class="dropdown ml-auto">
             <a class="nav-item dropdown-toggle mr-3 no-underline clickable" id="dropdownMenuButton"
