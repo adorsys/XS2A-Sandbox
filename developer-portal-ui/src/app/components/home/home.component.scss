@@ -1,5 +1,4 @@
 div ::ng-deep {
-
   /*=== Hero ===*/
 
   .hero {
@@ -27,7 +26,6 @@ div ::ng-deep {
   /*=== What is XS2ASandbox block ===*/
 
   .what-sandbox-wrapper {
-
     h2 {
       margin: 64px 0;
       text-align: center;
@@ -77,11 +75,10 @@ div ::ng-deep {
         height: 0;
         border-top: 19px solid transparent;
         border-bottom: 19px solid transparent;
-        border-left: 19px solid #1d5f7f;
+        border-left: 19px solid var(--arrowColor);
       }
     }
   }
-
 
   /*=== Open banking ===*/
 
@@ -100,7 +97,6 @@ div ::ng-deep {
       color: #606060;
     }
   }
-
 
   /*=== Sandbox Features text ===*/
 
@@ -126,7 +122,6 @@ div ::ng-deep {
       margin: 0 0 2em;
     }
   }
-
 }
 
 /*=== Sandbox Features Slider ===*/
@@ -450,7 +445,6 @@ div ::ng-deep {
           }
         }
       }
-
     }
   }
 }
@@ -541,11 +535,10 @@ div ::ng-deep {
         height: 85px;
         margin: 0 10px 0 10px;
         padding: 0 0.5em 0 0.5em;
-
       }
 
       .arrow-right {
-        border-top: 19px solid #1d5f7f;
+        border-top: 19px solid var(--arrowColor);
         border-right: 19px solid transparent;
         border-left: 19px solid transparent;
         margin: 1em auto 0 auto;
