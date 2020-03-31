@@ -123,6 +123,7 @@
         <opencsv.version>4.5</opencsv.version>
         <iban4j-version>3.2.1</iban4j-version>
         <commons-validator.version>1.6</commons-validator.version>
+        <bcpkix.jdk15on.version>1.60</bcpkix.jdk15on.version>
         <!--Sonar -->
         <sonar.core.coveragePlugin>jacoco</sonar.core.coveragePlugin>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
@@ -286,6 +287,13 @@
                 <groupId>org.iban4j</groupId>
                 <artifactId>iban4j</artifactId>
                 <version>${iban4j-version}</version>
+            </dependency>
+
+            <!-- Certificate -->
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcpkix-jdk15on</artifactId>
+                <version>${bcpkix.jdk15on.version}</version>
             </dependency>
 
             <!-- Commons -->
