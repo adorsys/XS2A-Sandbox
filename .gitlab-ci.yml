@@ -57,6 +57,8 @@ variables:
 
   OPENSHIFT_NAMESPACE_OPEN_BANKING_GATEWAY_DEV: "open-banking-gateway-dev"
 
+  OPENSHIFT_NAMESPACE_DEV_E2E: "adorsys-dynamic-sandbox-dev-e2e"
+
   ###########################
   # Build variables         #
   ###########################
@@ -419,6 +421,14 @@ deploy_openshift_nightly:
     OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_INTEG} # Openshift target namespace
   <<: *deploy_openshift
 
+deploy_openshift_nightly_e2e_testing:
+  stage: "Deploy"
+  only:
+    - schedules
+  variables:
+    DOCKER_TAG: nightly # Dockerhub source tag
+    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_DEV_E2E} # Openshift target namespace
+  <<: *deploy_openshift
 # master
 
 build_dockerhub_image_master:
