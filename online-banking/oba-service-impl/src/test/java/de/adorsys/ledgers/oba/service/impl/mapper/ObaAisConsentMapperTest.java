@@ -68,8 +68,8 @@ public class ObaAisConsentMapperTest {
 
     private CmsAisAccountConsent getCmsAisAccountConsent() {
         return new CmsAisAccountConsent(CONSENT_ID, getAisAccountAccess(), false, LocalDate.now().plusMonths(1), LocalDate.now().plusMonths(1), 3, LocalDate.now(), ConsentStatus.VALID, false, false,
-                                        AisConsentRequestType.GLOBAL, Collections.singletonList(getPsuIdData()), getTppInfo(), new AuthorisationTemplate(), false, Collections.EMPTY_LIST,
-                                        Collections.EMPTY_MAP, OffsetDateTime.MIN, OffsetDateTime.MIN);
+                                        AisConsentRequestType.GLOBAL, Collections.singletonList(getPsuIdData()), getTppInfo(), new AuthorisationTemplate(), false, Collections.emptyList(),
+                                        Collections.emptyMap(), OffsetDateTime.MIN, OffsetDateTime.MIN, null);
     }
 
     private TppInfo getTppInfo() {
@@ -83,7 +83,7 @@ public class ObaAisConsentMapperTest {
     }
 
     private AisAccountAccess getAisAccountAccess() {
-        return new AisAccountAccess(Collections.singletonList(getReference()), Collections.EMPTY_LIST, Collections.EMPTY_LIST, "ALL_ACCOUNTS", "ALL_ACCOUNTS", null, null);
+        return new AisAccountAccess(Collections.singletonList(getReference()), Collections.emptyList(), Collections.emptyList(), "ALL_ACCOUNTS", "ALL_ACCOUNTS", null, null);
     }
 
     private AccountReference getReference() {

@@ -7,12 +7,12 @@ import de.adorsys.ledgers.middleware.api.domain.payment.PaymentProductTO;
 import de.adorsys.ledgers.middleware.api.domain.payment.SinglePaymentTO;
 import de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO;
 import de.adorsys.psd2.consent.api.CmsAddress;
-import de.adorsys.psd2.consent.api.ais.CmsAccountReference;
 import de.adorsys.psd2.consent.api.pis.CmsAmount;
 import de.adorsys.psd2.consent.api.pis.CmsSinglePayment;
 import de.adorsys.psd2.xs2a.core.pis.PisDayOfExecution;
 import de.adorsys.psd2.xs2a.core.pis.PisExecutionRule;
 import de.adorsys.psd2.xs2a.core.pis.TransactionStatus;
+import de.adorsys.psd2.xs2a.core.profile.AccountReference;
 import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
@@ -147,8 +147,8 @@ public class SinglePaymentMapperTest {
         return new CmsAmount(CURRENCY, AMOUNT);
     }
 
-    private CmsAccountReference getCmsAccountReference() {
-        return new CmsAccountReference(null, IBAN, BBAN, PAN, MASKED_PAN, MSISDN, CURRENCY);
+    private AccountReference getCmsAccountReference() {
+        return new AccountReference(null, null, IBAN, BBAN, PAN, MASKED_PAN, MSISDN, CURRENCY);
     }
 
     private SinglePaymentTO getSinglePaymentTO() {

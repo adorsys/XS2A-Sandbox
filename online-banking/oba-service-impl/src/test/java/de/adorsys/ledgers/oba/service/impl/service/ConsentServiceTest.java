@@ -305,12 +305,12 @@ public class ConsentServiceTest {
 
     private CmsAisAccountConsent getCmsAisAccountConsent() {
         return new CmsAisAccountConsent(CONSENT_ID, getAisAccountAccess(), false, LocalDate.now().plusMonths(1), LocalDate.now().plusMonths(1), 3, LocalDate.now(), ConsentStatus.VALID, false, false,
-                                        AisConsentRequestType.BANK_OFFERED, Collections.EMPTY_LIST, new TppInfo(), new AuthorisationTemplate(), false, Collections.EMPTY_LIST,
-                                        Collections.EMPTY_MAP, OffsetDateTime.MIN, OffsetDateTime.MIN);
+                                        AisConsentRequestType.BANK_OFFERED, Collections.emptyList(), new TppInfo(), new AuthorisationTemplate(), false, Collections.emptyList(),
+                                        Collections.emptyMap(), OffsetDateTime.MIN, OffsetDateTime.MIN, null);
     }
 
     private AisAccountAccess getAisAccountAccess() {
-        return new AisAccountAccess(Collections.singletonList(getReference()), Collections.EMPTY_LIST, Collections.EMPTY_LIST, "availableAccounts", "allPsd2", "availableAccountsWithBalance", null);
+        return new AisAccountAccess(Collections.singletonList(getReference()), Collections.emptyList(), Collections.emptyList(), "availableAccounts", "allPsd2", "availableAccountsWithBalance", null);
     }
 
     private AccountReference getReference() {
