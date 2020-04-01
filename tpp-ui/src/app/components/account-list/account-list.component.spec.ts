@@ -14,6 +14,7 @@ import {NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {FilterPipeModule} from "ngx-filter-pipe";
 import {PaginationContainerComponent} from "../../commons/pagination-container/pagination-container.component";
+import {PageConfig, PaginationConfigModel} from "../../models/pagination-config.model";
 
 describe('AccountListComponent', () => {
   let component: AccountListComponent;
@@ -21,6 +22,7 @@ describe('AccountListComponent', () => {
   let accountService: AccountService;
   let infoService: InfoService;
   let router: Router;
+
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -84,5 +86,46 @@ describe('AccountListComponent', () => {
 
     expect(getAccountsSpy).toHaveBeenCalled();
     expect(component.accounts).toEqual(mockAccounts);
+  });
+
+  it('should change the page', () => {
+      const mockPageConfig = {
+          pageNumber: 10,
+          pageSize: 5
+      }
+      component.searchForm.setValue({
+          query: 'foo',
+          itemsPerPage: 15});
+      const getAccountsSpy = spyOn(component, 'getAccounts');
+      component.pageChange(mockPageConfig);
+      expect(getAccountsSpy).toHaveBeenCalledWith(10, 5, 'foo');
+  });
+
+  it('should load accounts',  () => {
+      let mockAccounts: Account[] = [
+          {
+              id: 'XXXXXX',
+              iban: 'DE35653635635663',
+              bban: 'BBBAN',
+              pan: 'pan',
+              maskedPan: 'maskedPan',
+              currency: 'EUR',
+              msisdn: 'MSISDN',
+              name: 'Pupkin',
+              product: 'Deposit',
+              accountType: AccountType.CASH,
+              accountStatus: AccountStatus.ENABLED,
+              bic: 'BIChgdgd',
+              usageType: UsageType.PRIV,
+              details: '',
+              linkedAccounts: '',
+              balances: []
+          } as Account
+      ];
+      const getAccountsSpy = spyOn(accountService, 'getAccounts').and.returnValue(of({accounts: mockAccounts, totalElements: mockAccounts.length}));
+      component.getAccounts(5,10);
+      expect(getAccountsSpy).toHaveBeenCalled();
+      expect(component.accounts).toEqual(mockAccounts);
+      expect(component.config.totalItems).toEqual(mockAccounts.length);
   });
 });
