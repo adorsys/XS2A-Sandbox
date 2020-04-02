@@ -10,6 +10,7 @@ import {GoogleAnalyticsService} from "./services/google-analytics.service";
 import {CustomizeService} from "./services/customize.service";
 import {Theme} from "./models/theme.model";
 import {NavigationService} from "./services/navigation.service";
+import {CertificateService} from "./services/certificate.service";
 
 declare let gtag: Function;
 
@@ -31,6 +32,7 @@ export class AppComponent implements OnInit {
     private languageService: LanguageService,
     private http: HttpClient,
     private markdownStylingService: MarkdownStylingService,
+    private certificateService: CertificateService,
     private trackingIdService: TrackingIdService,
     private googleAnalyticsService: GoogleAnalyticsService,
     private navigationService: NavigationService) {
@@ -46,6 +48,9 @@ export class AppComponent implements OnInit {
         localStorage.setItem('tppDefaultNokRedirectUrl', theme.tppSettings.tppDefaultNokRedirectUrl);
         localStorage.setItem('tppDefaultRedirectUrl', theme.tppSettings.tppDefaultRedirectUrl);
       });
+
+    this.certificateService.getQwacCertificate().toPromise()
+      .then(data => this.certificateService.storeCertificate(data));
 
     this.languageService.initializeTranslation();
   }

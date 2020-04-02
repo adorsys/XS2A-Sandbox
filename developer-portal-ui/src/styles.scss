@@ -1,5 +1,6 @@
 @import '~ngx-toastr/toastr.css';
 @import './assets/themes/variables';
+@import '~node_modules/bootstrap-scss/bootstrap.scss';
 
 * {
   box-sizing: border-box;
@@ -91,6 +92,7 @@ a:focus {
   width: 77px;
   background-color: var(--colorSecondary);
   margin-top: 6vw;
+  margin-bottom: 3vw;
 }
 
 .api-table {

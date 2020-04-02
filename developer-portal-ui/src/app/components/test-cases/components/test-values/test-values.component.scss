@@ -6,3 +6,10 @@ div::ng-deep {
     font-weight: 600;
   }
 }
+
+textarea {
+  width: 100%;
+  background-color: white;
+  text-align: justify;
+  padding: 20px;
+}

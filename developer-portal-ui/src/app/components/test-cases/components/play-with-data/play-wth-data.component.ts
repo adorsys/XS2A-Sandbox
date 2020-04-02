@@ -15,7 +15,8 @@ import {
 } from '../../../../models/paymentTypesMatrix.model';
 import {AcceptType} from '../../../../models/acceptType.model';
 import * as uuid from 'uuid';
-import {GoogleAnalyticsService} from "../../../../services/google-analytics.service";
+import {GoogleAnalyticsService} from '../../../../services/google-analytics.service';
+import {CertificateService} from '../../../../services/certificate.service';
 
 @Component({
   selector: 'app-play-wth-data',
@@ -70,7 +71,7 @@ export class PlayWthDataComponent implements OnInit {
   paymentTypesMatrix: PaymentTypesMatrix;
   paymentTypes = [PaymentType.single, PaymentType.bulk, PaymentType.periodic];
   acceptHeader;
-
+  certificate: string;
   private disabledHeaders = [];
   booleanValues = ['true', 'false'];
 
@@ -78,6 +79,8 @@ export class PlayWthDataComponent implements OnInit {
   @Input() eventCategory: string;
   @Input() eventAction: string;
   @Input() eventLabel: string;
+
+  default = true;
 
   constructor(
     public restService: RestService,
@@ -87,6 +90,7 @@ export class PlayWthDataComponent implements OnInit {
     public jsonService: JsonService,
     public aspspService: AspspService,
     private http: HttpClient,
+    private certificateService: CertificateService,
     private googleAnalyticsService: GoogleAnalyticsService
   ) {
   }
@@ -235,6 +239,12 @@ export class PlayWthDataComponent implements OnInit {
         this.setDefaultHeaders();
       }
     });
+
+    this.certificate = this.certificateService.getStoredCertificate();
+
+    this.certificateService.currentDefault.subscribe(
+      data => this.default = data
+    )
   }
 
   public handlePaymentServiceChanged(paymentService: string) {
@@ -269,9 +279,15 @@ export class PlayWthDataComponent implements OnInit {
         if (checkbox.checked) {
           input.removeAttribute(attributeName);
           this.disabledHeaders = this.disabledHeaders.filter(v => v != value);
+          if (value === 'TPP-QWAC-Certificate') {
+            this.certificateService.setDefault(false);
+          }
         } else {
           input.setAttribute(attributeName, 'true');
           this.disabledHeaders.push(value);
+          if (value === 'TPP-QWAC-Certificate') {
+            this.certificateService.setDefault(true);
+          }
         }
       }
     }
@@ -297,7 +313,11 @@ export class PlayWthDataComponent implements OnInit {
   }
 
   private setBookingStatuses(bookingStatuses?: Array<string>) {
-    if (bookingStatuses && this.bookingStatusFlag && bookingStatuses.length > 0) {
+    if (
+      bookingStatuses &&
+      this.bookingStatusFlag &&
+      bookingStatuses.length > 0
+    ) {
       this.bookingStatus = bookingStatuses[0];
       this.bookingStatusSelect = bookingStatuses;
     } else {
@@ -358,13 +378,22 @@ export class PlayWthDataComponent implements OnInit {
   }
 
   private setDefaultHeaders() {
-    if (this.headers.hasOwnProperty('TPP-Redirect-Preferred') && this.headers['TPP-Redirect-Preferred'] == 'true') {
+    if (
+      this.headers.hasOwnProperty('TPP-Redirect-Preferred') &&
+      this.headers['TPP-Redirect-Preferred'] == 'true'
+    ) {
       this.headers['TPP-Nok-Redirect-URI'] = localStorage.getItem(
         'tppDefaultNokRedirectUrl'
       );
       this.headers['TPP-Redirect-URI'] = localStorage.getItem(
         'tppDefaultRedirectUrl'
       );
+    }
+
+    this.headers['TPP-QWAC-Certificate'] = this.certificate;
+
+    if (this.default) {
+      this.disabledHeaders['TPP-QWAC-Certificate'] = this.certificate;
     }
 
     this.headers['X-Request-ID'] = uuid.v4();
@@ -376,7 +405,8 @@ export class PlayWthDataComponent implements OnInit {
       .get('https://api.ipify.org/?format=json')
       .subscribe(
         ip => (this.headers['PSU-IP-Address'] = ip['ip']),
-        () => this.headers['PSU-IP-Address'] = '1.1.1.1');
+        () => (this.headers['PSU-IP-Address'] = '1.1.1.1')
+      );
   }
 
   private buildHeadersForRequest() {
@@ -384,11 +414,17 @@ export class PlayWthDataComponent implements OnInit {
       const requestHeaders = {};
 
       for (const key of Object.keys(this.headers)) {
-        requestHeaders[key] = this.headers[key];
+        if (this.headers[key]) {
+          requestHeaders[key] = this.headers[key];
+        }
       }
 
-      requestHeaders['Content-Type'] = this.xml ? 'application/xml' : 'application/json';
-      requestHeaders['Accept'] = this.acceptHeader ? this.acceptHeader : 'application/json';
+      requestHeaders['Content-Type'] = this.xml
+        ? 'application/xml'
+        : 'application/json';
+      requestHeaders['Accept'] = this.acceptHeader
+        ? this.acceptHeader
+        : 'application/json';
 
       for (const disabled of this.disabledHeaders) {
         delete requestHeaders[disabled];
@@ -417,4 +453,9 @@ export class PlayWthDataComponent implements OnInit {
       );
     }
   }
+
+  updateCertificate($event) {
+    this.headers['TPP-QWAC-Certificate'] = $event;
+  }
+
 }

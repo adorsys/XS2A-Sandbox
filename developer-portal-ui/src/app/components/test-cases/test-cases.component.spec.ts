@@ -1,16 +1,26 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {TestCasesComponent} from './test-cases.component';
-import {Pipe, PipeTransform} from '@angular/core';
-import {RouterTestingModule} from '@angular/router/testing';
-import {DataService} from '../../services/data.service';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {MarkdownModule} from "ngx-markdown";
-import {TranslateLoader, TranslateModule, TranslateService} from "@ngx-translate/core";
-import {HttpLoaderFactory, LanguageService} from "../../services/language.service";
-import {HttpClient} from "@angular/common/http";
-import {of} from "rxjs";
-import {CustomizeService} from "../../services/customize.service";
+import { TestCasesComponent } from './test-cases.component';
+import { Pipe, PipeTransform } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { DataService } from '../../services/data.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MarkdownModule } from 'ngx-markdown';
+import {
+  TranslateLoader,
+  TranslateModule,
+  TranslateService,
+} from '@ngx-translate/core';
+import {
+  HttpLoaderFactory,
+  LanguageService,
+} from '../../services/language.service';
+import { HttpClient } from '@angular/common/http';
+import { of } from 'rxjs';
+import { CustomizeService } from '../../services/customize.service';
+import { PopUpComponent } from './components/play-with-data/pop-up/pop-up.component';
+import { FormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
 
 describe('TestCasesComponent', () => {
   let component: TestCasesComponent;
@@ -56,8 +66,7 @@ describe('TestCasesComponent', () => {
           addressSecondLine: '65760 Eschborn',
           email: 'frankfurt@adorsys.de',
           facebook: 'https://www.facebook.com/adorsysGmbH/',
-          linkedIn:
-            'https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/',
+          linkedIn: 'https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/',
         },
       ],
       tppSettings: {
@@ -69,32 +78,30 @@ describe('TestCasesComponent', () => {
       pagesSettings: {
         contactPageSettings: {
           showContactCard: true,
-          showQuestionsComponent: true
+          showQuestionsComponent: true,
         },
         homePageSettings: {
           showQuestionsComponent: true,
           showProductHistory: true,
-          showSlider: true
+          showSlider: true,
         },
         navigationBarSettings: {
-          allowedNavigationSize: 3
-        }
-      }
+          allowedNavigationSize: 3,
+        },
+      },
     }),
-    setStyling: (theme) => {
+    setStyling: theme => {},
+    normalizeLanguages: theme => {
+      return CustomizeServiceStub.currentTheme.toPromise();
     },
-    normalizeLanguages: (theme) => {
-      return CustomizeServiceStub.currentTheme.toPromise()
-    }
   };
 
   const DataServiceStub = {
-    setRouterUrl: (val: string) => {
-    },
+    setRouterUrl: (val: string) => {},
     getRouterUrl: () => '',
   };
 
-  @Pipe({name: 'translate'})
+  @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -104,9 +111,11 @@ describe('TestCasesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TestCasesComponent, TranslatePipe],
+      declarations: [TestCasesComponent, PopUpComponent, TranslatePipe],
       imports: [
         RouterTestingModule,
+        FormsModule,
+        BrowserModule,
         MarkdownModule.forRoot(),
         HttpClientTestingModule,
         TranslateModule.forRoot({
@@ -114,21 +123,21 @@ describe('TestCasesComponent', () => {
             provide: TranslateLoader,
             useFactory: HttpLoaderFactory,
             deps: [HttpClient],
-          }
-        })
+          },
+        }),
       ],
       providers: [
         LanguageService,
         TranslateService,
         {
           provide: DataService,
-          useValue: DataServiceStub
+          useValue: DataServiceStub,
         },
         {
           provide: CustomizeService,
-          useValue: CustomizeServiceStub
-        }
-      ]
+          useValue: CustomizeServiceStub,
+        },
+      ],
     }).compileComponents();
   }));
 

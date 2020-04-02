@@ -1,0 +1,34 @@
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Edit Certificate</h4>
+    <span aria-label="Close" class="close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </span>
+  </div>
+  <div class="modal-body">
+    <textarea class="edit-text" [(ngModel)]="certificate"> </textarea>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-light text-white"
+      (click)="clearCertificate()"
+    >
+      Clear
+    </button>
+    <button type="button" class="btn btn-light text-white"
+            (click)="restoreCertificate()">
+      Default
+    </button>
+    <button
+      type="button"
+      class="btn btn-light text-white"
+      (click)="c('Save click')"
+      (click)="saveCertificate()"
+    >
+      Save
+    </button>
+  </div>
+</ng-template>
+
+<i class="fa fa-ellipsis-v" *ngIf="!default" (click)="open(content)"> </i>

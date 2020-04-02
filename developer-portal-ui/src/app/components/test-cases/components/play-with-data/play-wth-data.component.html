@@ -137,13 +137,16 @@
   </div>
 
   <div class="play-with-data-table bg th">
-    <span style="width: 60%;">{{ 'TEST_CASES.COMPONENTS.TH.TH_1' | translate }}</span>
+    <span style="width: 60%;">{{
+      'TEST_CASES.COMPONENTS.TH.TH_1' | translate
+      }}</span>
     <div>{{ 'TEST_CASES.COMPONENTS.TH.TH_2' | translate }}</div>
   </div>
 
   <div class="play-with-data-table" *ngIf="acceptFlag">
     <span></span>
-    <label class="check-container">Accept
+    <label class="check-container"
+    >Accept
       <input
         type="checkbox"
         id="acceptHeaderCheckbox"
@@ -163,24 +166,36 @@
     *ngFor="let item of (headers | keyvalue); let i = index; trackBy: trackByFn"
     [ngClass]="acceptFlag ? (i % 2 ? null : 'bg') : i % 2 ? 'bg' : null"
   >
-    <label class="check-container">{{ item.key }}
+    <label class="check-container"
+    >{{ item.key }}
       <input
         type="checkbox"
         (change)="disableHeader($event)"
         [value]="item.key"
-        checked
+        [checked]="item.key !== 'TPP-QWAC-Certificate' || !default"
         class="checkbox"
       />
       <span class="checkmark"></span>
     </label>
-    <select *ngIf="isBooleanValue(item); else regularInput"
-            [(ngModel)]="item.value"
-            (change)="changeBooleanHeader(item.key, $event.target.value)">
-      <option *ngFor="let boolean of booleanValues" [value]="boolean">{{ boolean }}</option>
+    <select
+      *ngIf="isBooleanValue(item); else: regularInput"
+      [(ngModel)]="item.value"
+      (change)="changeBooleanHeader(item.key, $event.target.value)"
+    >
+      <option *ngFor="let boolean of booleanValues" [value]="boolean">{{
+        boolean
+        }}</option>
     </select>
 
     <ng-template #regularInput>
-      <input [(ngModel)]="headers[item.key]" type="text" [id]="item.key"/>
+      <input [(ngModel)]="headers[item.key]" type="text" [id]="item.key" class="mr-1"
+             [disabled]="item.key === 'TPP-QWAC-Certificate' && default"/>
+
+      <app-pop-up class="ml-1"
+                  [default]="default"
+                  *ngIf="item.key === 'TPP-QWAC-Certificate'"
+                  [certificate]="headers['TPP-QWAC-Certificate']"
+                  (onEditCertificate)="updateCertificate($event)"></app-pop-up>
     </ng-template>
   </div>
 
