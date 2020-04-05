@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
-
+import { Account } from '../../models/account.model';
 import { IconModule } from '../../commons/icon/icon.module';
 import { InfoModule } from '../../commons/info/info.module';
 import { InfoService } from '../../commons/info/info.service';
@@ -10,12 +10,20 @@ import { AccountStatus, AccountType, UsageType } from '../../models/account.mode
 import { AccountService } from '../../services/account.service';
 import { AccountComponent } from './account.component';
 import { ConvertBalancePipe } from '../../pipes/convertBalance.pipe';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TppService } from '../../services/tpp.service';
+import { AccountReport } from '../../models/account-report';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 describe('AccountComponent', () => {
     let component: AccountComponent;
     let fixture: ComponentFixture<AccountComponent>;
     let accountService: AccountService;
     let infoService: InfoService;
+    let tppService: TppService;
+    let modalService: NgbModal;
+    let router: Router;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -26,7 +34,7 @@ describe('AccountComponent', () => {
                 IconModule
             ],
             declarations: [AccountComponent, ConvertBalancePipe],
-            providers: [AccountService, InfoService]
+            providers: [AccountService, NgbModal, TppService, InfoService]
         })
             .compileComponents();
     }));
@@ -37,12 +45,14 @@ describe('AccountComponent', () => {
         fixture.detectChanges();
         infoService = TestBed.get(InfoService);
         accountService = TestBed.get(AccountService);
+        router = TestBed.get(Router);
+        tppService = TestBed.get(TppService);
+        modalService = TestBed.get(NgbModal);
     });
 
     it('should create', () => {
         expect(component).toBeTruthy();
     });
-
 
     it('should call getAccountReport on ngOnInit', () => {
         let getAccountSpy = spyOn(accountService, 'getAccountReport').and.callThrough();
@@ -50,6 +60,99 @@ describe('AccountComponent', () => {
         component.ngOnInit();
 
         expect(getAccountSpy).toHaveBeenCalled();
+    });
+
+    it('should check if account is deleted', () => {
+        component.accountReport = {
+            details: {
+                id: 'XXXXXX',
+                iban: 'DE35653635635663',
+                bban: 'BBBAN',
+                pan: 'pan',
+                maskedPan: 'maskedPan',
+                currency: 'EUR',
+                msisdn: 'MSISDN',
+                name: 'Pupkin',
+                product: 'Deposit',
+                accountType: AccountType.CASH,
+                accountStatus: AccountStatus.DELETED,
+                bic: 'BIChgdgd',
+                usageType: UsageType.PRIV,
+                details: '',
+                linkedAccounts: '',
+                balances: []
+            },
+            accesses: [{
+                userLogin: 'xxxxx',
+                scaWeight: 4,
+            }]
+        };
+        const deleteSpy = spyOn(tppService, 'deleteAccountTransations').and.returnValue(of({id: component.accountReport.details.id}));;
+        const infoServiceOpenFeedbackSpy = spyOn(infoService, 'openFeedback');
+
+        component.deleteAccountTransations();
+        expect(deleteSpy).toHaveBeenCalledTimes(1);
+        expect(infoServiceOpenFeedbackSpy).toHaveBeenCalledWith(`Transactions of ${component.accountReport.details.iban} successfully deleted`, {
+            severity: 'info',
+        });
+    });
+
+    it('should go to account detail', () => {
+        component.accountReport = {
+            details: {
+                id: 'XXXXXX',
+                iban: 'DE35653635635663',
+                bban: 'BBBAN',
+                pan: 'pan',
+                maskedPan: 'maskedPan',
+                currency: 'EUR',
+                msisdn: 'MSISDN',
+                name: 'Pupkin',
+                product: 'Deposit',
+                accountType: AccountType.CASH,
+                accountStatus: AccountStatus.DELETED || AccountStatus.BLOCKED,
+                bic: 'BIChgdgd',
+                usageType: UsageType.PRIV,
+                details: '',
+                linkedAccounts: '',
+                balances: []
+            },
+            accesses: [{
+                userLogin: 'xxxxx',
+                scaWeight: 4,
+            }]
+        };
+        const infoServiceOpenFeedbackSpy = spyOn(infoService, 'openFeedback');
+        component.goToAccountDetail();
+        expect(infoServiceOpenFeedbackSpy).toHaveBeenCalledWith('You can not Grant Accesses to a Deleted/Blocked account', { severity: 'error' });
+    });
+
+    it('should check if account is deleted', () => {
+        component.accountReport = {
+            details: {
+                id: 'XXXXXX',
+                iban: 'DE35653635635663',
+                bban: 'BBBAN',
+                pan: 'pan',
+                maskedPan: 'maskedPan',
+                currency: 'EUR',
+                msisdn: 'MSISDN',
+                name: 'Pupkin',
+                product: 'Deposit',
+                accountType: AccountType.CASH,
+                accountStatus: AccountStatus.DELETED || AccountStatus.BLOCKED,
+                bic: 'BIChgdgd',
+                usageType: UsageType.PRIV,
+                details: '',
+                linkedAccounts: '',
+                balances: []
+            },
+            accesses: [{
+                userLogin: 'xxxxx',
+                scaWeight: 4,
+            }]
+        };
+        component.isAccountDeleted;
     });
 
     it('should assign account-report after server call', () => {

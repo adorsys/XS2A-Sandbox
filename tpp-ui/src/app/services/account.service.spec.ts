@@ -38,6 +38,37 @@ describe('AccountService', () => {
         httpMock.verify();
     });
 
+    it('should return expected list of users (HttpClient called once)', () => {
+        let mockAccounts: Account[] = [{
+            id: 'id',
+            iban: 'DE12 1234 5678 9012 3456 00',
+            bban: 'bban',
+            pan: 'pan',
+            maskedPan: 'maskedPan',
+            msisdn: 'msisdn',
+            currency: 'EUR',
+            name: 'name',
+            product: 'product',
+            accountType: AccountType.CACC,
+            accountStatus: AccountStatus.BLOCKED,
+            bic: 'bic',
+            linkedAccounts: 'linkedAccounts',
+            usageType: UsageType.ORGA,
+            details: 'details',
+            balances: []
+        }];
+
+        accountService.getAccounts(0,25, '').subscribe(resp => {
+            expect(resp.accounts[0].iban).toEqual('DE12 1234 5678 9012 3456 00');
+            expect(resp.totalElements).toEqual(mockAccounts.length);
+        });
+        const req = httpMock.expectOne(`${url}/accounts/page?page=${0}&size=${25}&queryParam=${''}`);
+        expect(req.cancelled).toBeFalsy();
+        expect(req.request.responseType).toEqual('json');
+        expect(req.request.method).toEqual('GET');
+        req.flush({content: mockAccounts, totalElements: mockAccounts.length});
+    });
+
     it('should get the accountReport by Iban', () => {
         accountService.getAccountByIban('DE12 1234 5678 9012 3456 00').subscribe((data: any) => {
             expect(data).toBe('DE12 1234 5678 9012 3456 00')});
@@ -63,7 +94,7 @@ describe('AccountService', () => {
             iban: 'DE12 1234 5678 9012 3456 00',
             scaWeight: 50
         }
-        accountService.updateAccountAccessForUser(mockAccountAccess).subscribe((data: GrantAccountAccess) => {
+        accountService.updateAccountAccessForUser(mockAccountAccess).subscribe((data: any) => {
             expect(data.iban).toBe('DE12 1234 5678 9012 3456 00');
         });
         const req = httpMock.expectOne(url + '/accounts/access');
@@ -77,7 +108,7 @@ describe('AccountService', () => {
             currency: 'EUR',
             amount: 100
         }
-        accountService.depositCash('accountId', mockAmount).subscribe((data: Amount) => {
+        accountService.depositCash('accountId', mockAmount).subscribe((data: any) => {
             expect(data.amount).toBe(100);});
         const req = httpMock.expectOne(url + '/accounts/' + 'accountId' + '/deposit-cash');
         expect(req.request.method).toBe('POST');
@@ -104,7 +135,7 @@ describe('AccountService', () => {
             details: 'details',
             balances: []
         }
-        accountService.createAccount('accountId', mockAccount).subscribe((data: Account) => {
+        accountService.createAccount('accountId', mockAccount).subscribe((data: any) => {
             expect(data.iban).toBe('DE12 1234 5678 9012 3456 00');});
     });
 });

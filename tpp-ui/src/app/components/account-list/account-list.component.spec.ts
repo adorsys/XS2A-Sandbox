@@ -128,4 +128,38 @@ describe('AccountListComponent', () => {
       expect(component.accounts).toEqual(mockAccounts);
       expect(component.config.totalItems).toEqual(mockAccounts.length);
   });
+
+  it('should change the page size', () => {
+    const paginationConfigModel: PaginationConfigModel = {
+        itemsPerPage: 0,
+        currentPageNumber: 0,
+        totalItems: 0
+    }
+    component.config = paginationConfigModel;
+    component.changePageSize(10);
+    expect(component.config.itemsPerPage).toEqual(10);
+  });
+
+  it('should return false if account is not set', () => {
+    let mockAccount: Account = {
+        id: '123456',
+        iban: 'DE35653635635663',
+        bban: 'BBBAN',
+        pan: 'pan',
+        maskedPan: 'maskedPan',
+        currency: 'EUR',
+        msisdn: 'MSISDN',
+        name: 'Pupkin',
+        product: 'Deposit',
+        accountType: AccountType.CASH,
+        accountStatus: AccountStatus.DELETED,
+        bic: 'BIChgdgd',
+        usageType: UsageType.PRIV,
+        details: '',
+        linkedAccounts: '',
+        balances: []
+    } as Account
+    component.goToDepositCash(mockAccount);
+    });
+
 });
