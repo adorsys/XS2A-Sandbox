@@ -147,10 +147,6 @@ public class ConsentServiceTest {
         verify(objectMapper, times(1)).readTree(getByteArray());
     }
 
-    private JsonNode rest() throws JsonProcessingException {
-        return mapper.valueToTree(getResponse().body());
-    }
-
     private Response getResponse() throws JsonProcessingException {
         return Response.builder()
                    .request(Request.create(Request.HttpMethod.POST, "", new HashMap<>(), null))
@@ -173,16 +169,6 @@ public class ConsentServiceTest {
 
         //then
         verify(objectMapper, times(1)).readTree(getByteArray());
-    }
-
-    private FeignException getFeignExceptionWithDevMsg() {
-        return FeignException.errorStatus("zzz", Response.builder()
-                                                     .body(new byte[]{})
-                                                     .status(400)
-                                                     .headers(new HashMap<>())
-                                                     .reason("")
-                                                     .request(Request.create(Request.HttpMethod.POST, "null", new HashMap<>(), null))
-                                                     .build());
     }
 
     @Test

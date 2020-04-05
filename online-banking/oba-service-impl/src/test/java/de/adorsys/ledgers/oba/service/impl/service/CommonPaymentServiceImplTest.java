@@ -15,6 +15,8 @@ import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentType;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentWorkflow;
+import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.api.service.AuthorizationService;
 import de.adorsys.ledgers.oba.service.api.service.ConsentReferencePolicy;
 import de.adorsys.ledgers.oba.service.impl.mapper.PaymentMapper;
@@ -22,6 +24,7 @@ import de.adorsys.psd2.consent.api.pis.CmsCommonPayment;
 import de.adorsys.psd2.consent.api.pis.CmsPaymentResponse;
 import de.adorsys.psd2.consent.psu.api.CmsPsuAuthorisation;
 import de.adorsys.psd2.consent.psu.api.CmsPsuPisService;
+import de.adorsys.psd2.xs2a.core.exception.AuthorisationIsExpiredException;
 import de.adorsys.psd2.xs2a.core.exception.RedirectUrlIsExpiredException;
 import de.adorsys.psd2.xs2a.core.pis.TransactionStatus;
 import de.adorsys.psd2.xs2a.core.profile.PaymentType;
@@ -34,6 +37,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.ResponseEntity;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import static de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO.*;
@@ -97,10 +101,23 @@ public class CommonPaymentServiceImplTest {
         assertThat(result).isEqualToComparingFieldByFieldRecursively(getExpectedWorkflow(null, TransactionStatus.ACCP.name()));
     }
 
+    @Test(expected = ObaException.class)
+    public void identifyPayment_fail() throws RedirectUrlIsExpiredException {
+        when(referencePolicy.fromRequest(anyString(), anyString(), anyString(), anyBoolean())).thenReturn(getConsentReference());
+        when(cmsPsuPisService.checkRedirectAndGetPayment(anyString(), anyString())).thenThrow(RedirectUrlIsExpiredException.class);
+        service.identifyPayment(ENCRYPTED_ID, AUTH_ID, false, COOKIE, PSU_ID, new BearerTokenTO());
+    }
+
     @Test
     public void updateAspspConsentData() {
         //Simple void method, nothing to test here
         assertThat(true).isTrue();
+    }
+
+    @Test(expected = AuthorizationException.class)
+    public void updateAspspConsentData_exception() throws IOException {
+        when(tokenStorageService.toBase64String(any())).thenThrow(IOException.class);
+        service.updateAspspConsentData(getExpectedWorkflow("RJCT","RJCT"));
     }
 
     @Test
@@ -112,6 +129,16 @@ public class CommonPaymentServiceImplTest {
         when(authService.resolveAuthConfirmationCodeRedirectUri(anyString(),anyString())).thenReturn("www.ok.ua");
         String result = service.resolveRedirectUrl(ENCRYPTED_ID, AUTH_ID, COOKIE, false, PSU_ID, new BearerTokenTO(), "");
         assertThat(result).isEqualTo(OK_REDIRECT_URI);
+    }
+
+    @Test(expected = ObaException.class)
+    public void resolveRedirectUrl_fail() throws RedirectUrlIsExpiredException {
+        when(referencePolicy.fromRequest(anyString(), anyString(), anyString(), anyBoolean())).thenReturn(getConsentReference());
+        when(cmsPsuPisService.checkRedirectAndGetPayment(anyString(), anyString())).thenReturn(getCmsPaymentResponse());
+        when(paymentMapper.toAbstractPayment(anyString(), anyString(), anyString())).thenReturn(getPaymentTO(ACCP));
+        when(cmsPsuPisService.getAuthorisationByAuthorisationId(anyString(), anyString())).thenReturn(Optional.empty());
+        when(authService.resolveAuthConfirmationCodeRedirectUri(anyString(),anyString())).thenReturn("www.ok.ua");
+        service.resolveRedirectUrl(ENCRYPTED_ID, AUTH_ID, COOKIE, false, PSU_ID, new BearerTokenTO(), "");
     }
 
     @Test
@@ -136,6 +163,13 @@ public class CommonPaymentServiceImplTest {
         when(paymentRestClient.initiatePayment(any(), any())).thenReturn(ResponseEntity.ok(getSelectMethodResponse(TransactionStatus.ACCP.name())));
         PaymentWorkflow result = service.initiatePayment(getExpectedWorkflow(RCVD.name(), null), PSU_ID);
         assertThat(result).isEqualToComparingFieldByFieldRecursively(getExpectedWorkflow(TransactionStatus.ACCP.name(), TransactionStatus.ACCP.name()));
+    }
+
+    @Test(expected = ObaException.class)
+    public void initiatePayment_fail() throws AuthorisationIsExpiredException {
+        when(paymentRestClient.initiatePayment(any(), any())).thenReturn(ResponseEntity.ok(getSelectMethodResponse(TransactionStatus.ACCP.name())));
+        when(cmsPsuPisService.updateAuthorisationStatus(any(),anyString(),anyString(),any(),anyString(),any())).thenThrow(AuthorisationIsExpiredException.class);
+        service.initiatePayment(getExpectedWorkflow(RCVD.name(), null), PSU_ID);
     }
 
     @Test

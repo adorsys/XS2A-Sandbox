@@ -11,6 +11,8 @@ import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.ledgers.oba.service.api.domain.*;
+import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
+import de.adorsys.ledgers.oba.service.api.domain.exception.InvalidConsentException;
 import de.adorsys.ledgers.oba.service.api.service.ConsentReferencePolicy;
 import de.adorsys.psd2.consent.api.pis.CmsCommonPayment;
 import de.adorsys.psd2.consent.api.pis.CmsPaymentResponse;
@@ -84,12 +86,35 @@ public class XISControllerServiceTest {
     }
 
     @Test
+    public void auth_fail() {
+        Whitebox.setInternalState(service, "response", new MockHttpServletResponse());
+        Whitebox.setInternalState(service, "loginPage", "www.loginPage.html");
+        when(referencePolicy.fromURL(anyString(), any(), anyString())).thenThrow(InvalidConsentException.class);
+        when(responseUtils.unknownCredentials(any(), any())).thenReturn(ResponseEntity.ok(new OnlineBankingResponse()));
+
+        ResponseEntity<AuthorizeResponse> result = service.auth(AUTH_ID, ConsentType.AIS, ENCRYPTED_ID, response);
+        assertThat(result).isEqualToComparingFieldByFieldRecursively(ResponseEntity.ok(new OnlineBankingResponse()));
+    }
+
+    @Test
     public void performLoginForConsent() {
         Whitebox.setInternalState(service, "request", new MockHttpServletRequest());
         when(userMgmtRestClient.authoriseForConsent(anyString(), anyString(), anyString(), anyString(), any())).thenReturn(getLoginResponse());
 
         ResponseEntity<SCALoginResponseTO> result = service.performLoginForConsent(LOGIN, PIN, CONSENT_ID, AUTH_ID, OpTypeTO.CONSENT);
         assertThat(result).isEqualToComparingFieldByFieldRecursively(getLoginResponse());
+    }
+
+    @Test(expected = AuthorizationException.class)
+    public void performLoginForConsent_fail() {
+        Whitebox.setInternalState(service, "request", new MockHttpServletRequest());
+        service.performLoginForConsent(null, null, CONSENT_ID, AUTH_ID, OpTypeTO.CONSENT);
+    }
+
+    private ResponseEntity<SCALoginResponseTO> getLoginResponseNulls() {
+        SCALoginResponseTO response = new SCALoginResponseTO();
+
+        return ResponseEntity.ok(response);
     }
 
     @Test

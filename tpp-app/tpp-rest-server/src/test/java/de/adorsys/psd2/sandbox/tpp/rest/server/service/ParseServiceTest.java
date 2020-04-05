@@ -1,11 +1,17 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.psd2.sandbox.tpp.cms.api.domain.AisConsent;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.UserTransaction;
 import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.DataPayload;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.internal.util.reflection.Whitebox;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -18,9 +24,15 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@RunWith(MockitoJUnitRunner.class)
 public class ParseServiceTest {
-    private final ResourceLoader resourceLoader = new DefaultResourceLoader();
-    private final ParseService parseService = new ParseService(resourceLoader);
+    @InjectMocks
+    private ParseService parseService;
+
+    @Mock
+    private ObjectMapper objectMapper;
+
+    private ResourceLoader resourceLoader = new DefaultResourceLoader();
 
     @Test
     public void getDataFromFile_Consents() throws IOException {
@@ -37,12 +49,32 @@ public class ParseServiceTest {
     }
 
     @Test
+    public void getDataFromFile_Consents_fail() throws IOException {
+        //given
+        MultipartFile multipartFile = resolveMultipartFile("consents_template_error.yml");
+
+        //when
+        Optional<List<AisConsent>> data = parseService.getDataFromFile(multipartFile, new TypeReference<>() {
+        });
+
+        //then
+        assertThat(data).isEmpty();
+    }
+
+    @Test
     public void getDefaultData() {
+        Whitebox.setInternalState(parseService, "resourceLoader", resourceLoader);
         //when
         Optional<DataPayload> data = parseService.getDefaultData();
 
         //then
         assertThat(data.isPresent()).isTrue();
+    }
+
+    @Test
+    public void generateFileByPayload() {
+        byte[] result = parseService.generateFileByPayload(new DataPayload());
+        assertThat(result).isNotEmpty();
     }
 
     @Test
