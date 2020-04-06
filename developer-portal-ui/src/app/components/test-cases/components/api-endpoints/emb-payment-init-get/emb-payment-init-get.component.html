@@ -8,47 +8,60 @@
       "
       (click)="changeSegment('documentation')"
     >
-      <span>{{'TEST_CASES.COMPONENTS.TABS.DOC' | translate}}</span>
+      <span>{{ 'TEST_CASES.COMPONENTS.TABS.DOC' | translate }}</span>
     </div>
     <div
       class="endpoint-segment-item"
       [ngClass]="activeSegment === 'play-data' ? 'left-item' : 'unactive-item'"
       (click)="changeSegment('play-data')"
     >
-      <span>{{'TEST_CASES.COMPONENTS.TABS.PLAY' | translate}}</span>
+      <span>{{ 'TEST_CASES.COMPONENTS.TABS.PLAY' | translate }}</span>
     </div>
   </div>
 
   <!-- Main content -->
   <div class="endpoint-main-content">
     <!-- Documentation -->
-    <div class="endpoint-documentation" *ngIf="activeSegment === 'documentation'; else: play_with_data">
+    <div
+      class="endpoint-documentation"
+      *ngIf="activeSegment === 'documentation'; else: play_with_data"
+    >
       <p>
-        {{'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_1' | translate}}
-        <app-line-command title="/v1/{payment-service}/{payment-product}/{paymentId}"></app-line-command>
-        {{'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_2' | translate}}
-        <app-line-command title="/v1/{payment-service}/{payment-product}/{paymentId}/status"></app-line-command>
-        {{'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_3' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_1' | translate }}
+        <app-line-command
+          title="/v1/{payment-service}/{payment-product}/{paymentId}"
+        ></app-line-command>
+        {{ 'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_2' | translate }}
+        <app-line-command
+          title="/v1/{payment-service}/{payment-product}/{paymentId}/status"
+        ></app-line-command>
+        {{ 'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_3' | translate }}
       </p>
       <p>
-        {{'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_4' | translate}}
-        <app-line-command title="/v1/{payment-service}/{payment-product}/{paymentId}/authorisations"></app-line-command>
-        {{'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_5' | translate}}
-        <app-line-command title="/v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}"></app-line-command>
-        {{'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_6' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_4' | translate }}
+        <app-line-command
+          title="/v1/{payment-service}/{payment-product}/{paymentId}/authorisations"
+        ></app-line-command>
+        {{ 'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_5' | translate }}
+        <app-line-command
+          title="/v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}"
+        ></app-line-command>
+        {{ 'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_6' | translate }}
       </p>
-      <span class="bold-text">{{'TEST_CASES.COMPONENTS.EMB_IN_GET.SUBTITLE' | translate}}</span>
+      <span class="bold-text">{{
+        'TEST_CASES.COMPONENTS.EMB_IN_GET.SUBTITLE' | translate
+      }}</span>
       <p>
-        {{'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_7' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_7' | translate }}
         <app-line-command title="payment-service"></app-line-command>
-        {{'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_8' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_8' | translate }}
         <app-line-command title="payment-product"></app-line-command>
-        {{'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_9' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_9' | translate }}
       </p>
-      <p>{{'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_10' | translate}}</p>
+      <p>{{ 'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_10' | translate }}</p>
       <div class="api-table bg th">
-        <span>{{'TEST_CASES.COMPONENTS.TH.TH_1' | translate}}</span>
-        <span>{{'TEST_CASES.COMPONENTS.TH.TH_2' | translate}}</span>
+        <span>{{ 'TEST_CASES.COMPONENTS.TH.TH_1' | translate }}</span>
+        <span>{{ 'TEST_CASES.COMPONENTS.TH.TH_2' | translate }}</span>
       </div>
       <div class="api-table">
         <span>X-Request-ID</span>
@@ -63,10 +76,14 @@
       <div class="api-table bg">
         <span>PSU-IP-Address</span> <span>1.1.1.1</span>
       </div>
+      <div class="api-table">
+        <span>TPP-QWAC-Certificate</span>
+        <span> -----BEGIN CERTIFICATE-----</span>
+      </div>
       <p>
-        {{'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_11' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_11' | translate }}
         <span class="bold-text">YOUR_USER_LOGIN</span>
-        {{'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_12' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_12' | translate }}
       </p>
     </div>
 

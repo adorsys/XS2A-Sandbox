@@ -8,14 +8,14 @@
       "
       (click)="changeSegment('documentation')"
     >
-      <span>{{'TEST_CASES.COMPONENTS.TABS.DOC' | translate}}</span>
+      <span>{{ 'TEST_CASES.COMPONENTS.TABS.DOC' | translate }}</span>
     </div>
     <div
       class="endpoint-segment-item"
       [ngClass]="activeSegment === 'play-data' ? 'left-item' : 'unactive-item'"
       (click)="changeSegment('play-data')"
     >
-      <span>{{'TEST_CASES.COMPONENTS.TABS.PLAY' | translate}}</span>
+      <span>{{ 'TEST_CASES.COMPONENTS.TABS.PLAY' | translate }}</span>
     </div>
   </div>
 
@@ -27,13 +27,13 @@
       *ngIf="activeSegment === 'documentation'; else: play_with_data"
     >
       <p>
-        {{'TEST_CASES.COMPONENTS.AC_INF_AC.PART_1' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.AC_INF_AC.PART_1' | translate }}
         <app-line-command title="/v1/accounts/{account-id}"></app-line-command>
-        {{'TEST_CASES.COMPONENTS.AC_INF_AC.PART_2' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.AC_INF_AC.PART_2' | translate }}
       </p>
       <div class="api-table bg th">
-        <span>{{'TEST_CASES.COMPONENTS.TH.TH_1' | translate}}</span>
-        <span>{{'TEST_CASES.COMPONENTS.TH.TH_2' | translate}}</span>
+        <span>{{ 'TEST_CASES.COMPONENTS.TH.TH_1' | translate }}</span>
+        <span>{{ 'TEST_CASES.COMPONENTS.TH.TH_2' | translate }}</span>
       </div>
       <div class="api-table">
         <span>X-Request-ID</span>
@@ -45,10 +45,14 @@
       <div class="api-table">
         <span>PSU-IP-Address</span> <span>1.1.1.1</span>
       </div>
+      <div class="api-table bg">
+        <span>TPP-QWAC-Certificate</span>
+        <span> -----BEGIN CERTIFICATE-----</span>
+      </div>
       <p>
-        {{'TEST_CASES.COMPONENTS.AC_INF_AC.PART_3' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.AC_INF_AC.PART_3' | translate }}
         <span class="bold-text">CONSENT_ID</span>
-        {{'TEST_CASES.COMPONENTS.AC_INF_AC.PART_4' | translate}}
+        {{ 'TEST_CASES.COMPONENTS.AC_INF_AC.PART_4' | translate }}
       </p>
     </div>
 
