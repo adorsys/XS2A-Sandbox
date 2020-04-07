@@ -2,6 +2,7 @@
 </div>
 
 # Вступ
+
 [Директива про надання платіжних послуг 2](https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32015L2366&from=EN) (The Payment Service Directive 2 - PSD2) вимагає від банків - постачальників платіжних послуг (Account Servicing Payment Service Providers - ASPSP) надати повністю робочий інтерфейс доступу до облікового запису (XS2A) третім особам (TPP) до Березня 2020 року. XS2A інтерфейс складається з банківських сервісів, які можуть ініціювати платежі (PIS), запитувати дані облікового запису (AIS) та отримувати підтвердження наявності коштів (PIIS). Для того, щоб банки гарантовано встигнули перейти на XS2A інтерфейс, PSD2 вимагає від банків створити повністю робочу динамічну пісочницю(Sandbox), яка забезпечує роботу XS2A інтерфейсу у невиробничому середовищі, до червня 2019 року.
 
 **XS2ASandbox** є динамічним середовищем, яке повністю відповідає вимогам специфікації PSG2 NextGen від Berlin Group для доступу до рахунків (XS2A).
@@ -12,6 +13,7 @@
 </div>
 
 # Архітектура та модулі XS2ASandbox
+
 Компоненти XS2ASandbox з їх зв'язками показані на рисунку 1.1.
 
 ![Figure 1.1](../../assets/images/Graphic_XS2A_Sandbox.jpg)
@@ -21,12 +23,14 @@
 </div>
 
 # Інтерфейс XS2A
-Центральним компонентом **XS2ASandbox** є інтерфейс XS2A, який відповідає вимогам специфікації [NextGenPSD2]((https://www.berlin-group.org/psd2-access-to-bank-accounts)) (версія 1.3) від Berlin Group і базується на тестових даних. Ви можете відвідати наш [XS2A Swagger UI](https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/) або ознайомитись з [опенсорсною імплементацією інтерфейсу XS2A на Github](https://github.com/adorsys/xs2a).
+
+Центральним компонентом **XS2ASandbox** є інтерфейс XS2A, який відповідає вимогам специфікації [NextGenPSD2](<(https://www.berlin-group.org/psd2-access-to-bank-accounts)>) (версія 1.3) від Berlin Group і базується на тестових даних. Ви можете відвідати наш [XS2A Swagger UI](https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/) або ознайомитись з [опенсорсною імплементацією інтерфейсу XS2A на Github](https://github.com/adorsys/xs2a).
 
 <div class="divider">
 </div>
 
 # ASPSP-профіль
+
 Крім фактичного інтерфейсу, PSD2 інструктує ASPSPs надавати безкоштовну технічну документацію, що містить, серед іншого, інформацію про підтримувані платіжні продукти та платіжні послуги. Ця інформація зберігається в **ASPSP-профілі** (банківський профіль), створеного на основі yaml-файлу, де банк може надавати доступні продукти оплати (payment products), платіжні послуги (payment services), підтримувані підходи авторизації користувачів (SCA) та інші специфічні для банку параметри.
 
 <div class="divider">
@@ -93,14 +97,14 @@
 
 # Посилання на середовища
 
-| Сервіс                    |           Локальне середовище          |                                                                        Демо-середовище |
+| Сервіс                    |          Локальне середовище           |                                                                        Демо-середовище |
 | ------------------------- | :------------------------------------: | -------------------------------------------------------------------------------------: |
 | Інтерфейс XS2A Swagger    | http://localhost:8089/swagger-ui.html  |                                     https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/ |
 | Портал розробника         |         http://localhost:4206          |                        https://demo-dynamicsandbox-developerportalui.cloud.adorsys.de/ |
 | Consent management system | http://localhost:38080/swagger-ui.html |                                       https://demo-dynamicsandbox-cms.cloud.adorsys.de |
 | Ledgers                   | http://localhost:8088/swagger-ui.html  |                                   https://demo-dynamicsandbox-ledgers.cloud.adorsys.de |
 | ASPSP-профіль Swagger     | http://localhost:48080/swagger-ui.html |                              https://demo-dynamicsandbox-aspspprofile.cloud.adorsys.de |
-| Інтерфейс TPP             |      http://localhost:4205             |                               https://demo-dynamicsandbox-tppui.cloud.adorsys.de/login |
+| Інтерфейс TPP             |         http://localhost:4205          |                               https://demo-dynamicsandbox-tppui.cloud.adorsys.de/login |
 | Онлайн-банкінг            |         http://localhost:4400          | https://demo-dynamicsandbox-onlinebankingui.cloud.adorsys.de/account-information/login |
 | Сервер онлайн-банкінгу    | http://localhost:8090/swagger-ui.html  |             https://demo-dynamicsandbox-onlinebanking.cloud.adorsys.de/swagger-ui.html |
 | Генератор сертифікатів    | http://localhost:8092/swagger-ui.html  |      https://demo-dynamicsandbox-certificategenerator.cloud.adorsys.de/swagger-ui.html |
@@ -111,13 +115,14 @@
 # Як завантажити, налаштувати і запустити проект
 
 ## Вимоги до програмного забезпечення
-XS2ASandbox запускається за допомогою Docker Compose файлу, який можна знайти у docker-compose.yml, та Makefile у директорії проекту. Але перед тим, як запустити XS2ASandbox, спочатку перевірте, чи встановлені всі залежності: 
+
+XS2ASandbox запускається за допомогою Docker Compose файлу, який можна знайти у docker-compose.yml, та Makefile у директорії проекту. Але перед тим, як запустити XS2ASandbox, спочатку перевірте, чи встановлені всі залежності:
 
 _make check_
 
 Якщо чогось не вистачає, встановіть програму на локальну машину, інакше зібрати проект не вдасться. Список залежностей, які потрібні для використання XS2ASandbox: Java 11, NodeJs, Angular CLI, Asciidoctor, jq, Docker, Docker Compose, Maven, PlantUML. Ось посилання, де можна встановити необхідні залежності:
 
-| Залежності          |                  Посилання              |
+| Залежності          |                Посилання                |
 | ------------------- | :-------------------------------------: |
 | Java 8              |    https://openjdk.java.net/install/    |
 | Node.js 11.x        |     https://nodejs.org/en/download      |
@@ -136,17 +141,21 @@ _make check_
 _docker-compose rm -s -f -v_
 
 ## Примітка 1
+
 Будь ласка, використовуйте версію Node.js нижче 12 (наприклад, 10.xx або 11.xx). Інакше Angular програми не будуть побудовані через конфлікти версій.
 
 ## Примітка 2
+
 Перевірте кількість пам'яті, надану Docker (Відкрити Docker Desktop -> Налаштування -> Додатково -> Пам'ять). Для швидкого і безболісного запуску всіх сервісів кількість наданої пам'яті повинна бути не менше 5 Гб.
 
 ## Завантаження XS2ASandbox
+
 Завантажте проект безпосередньо з GitHub або скористайтеся командою:
 
 _git clone https://github.com/adorsys/XS2A-Sandbox_
 
 ## Збірка та запуск XS2ASandbox
+
 Після завантаження проекту перейдіть до головної директорії проекту:
 
 _cd XS2A-Sandbox_
@@ -163,11 +172,7 @@ _make_
 
 _docker-compose up_
 
-У Makefile ви можете використати одну з чотирьох команд:
-
-• Запустити релізну версію сервісів з Docker Hub без виконання збірки:
-
-_make run-release_
+У Makefile ви можете використати одну з трьох команд:
 
 • Запустити сервіси з Docker Hub без виконання збірки:
 
@@ -193,6 +198,7 @@ _make start_
 Далі зібрані типові помилки, які ви можете отримати під час запуску XS2ASandbox, і надано інструкцію, як їх позбутися:
 
 ## Помилка Liquibase
+
 Цю помилку можна отримати, якщо не вдалося запустити XS2ASandbox раніше. Приклад можливого stack trace:
 
 ```yaml
@@ -206,6 +212,7 @@ ledgers | 2019-05-02 13:55:59.167 INFO 1 --- [ main] liquibase.executor.jvm.Jdbc
 ledgers | 2019-05-02 13:57:38.705 INFO 1 --- [ main] l.lockservice.StandardLockService : Waiting for changelog lock....
 ledgers exited with code 137
 ```
+
 Можливе рішення:
 
 Знайдіть і видаліть усі папки "ledgerdbs" і "xs2adbs". Видаліть усі докер-контейнери за допомогою команди:
@@ -215,6 +222,7 @@ _docker-compose rm -s -f -v_
 Перезапустіть усі сервіси.
 
 ## Помилка версії NodeJs
+
 Цю помилку можна отримати через неправильну версію NodeJs (версія вище, ніж 11.x) Приклад можливого stack trace:
 
 ```yaml
@@ -243,6 +251,7 @@ _node -v_
 </div>
 
 # Як зареєструвати TPP і почати тестування
+
 1. Відкрийте сторінку входу до інтерфейсу користувача TPP.
 2. Якщо у вас немає логіна та пароля - зареєструйтеся, натиснувши кнопку "Реєстрація".
 3. Зареєструйтеся, створіть сертифікат і увійдіть до системи. Примітка: Ідентифікатор ТРР повинен складатися принаймні з 8 цифр, не допускається жодних букв або інших знаків.
@@ -264,10 +273,9 @@ _node -v_
 <div class="divider">
 </div>
 
-# Підтримка Google Analytics  
+# Підтримка Google Analytics
 
 Щоб підключити свій обліковий запис Google Analytics, у docker-compose.yml у розділі developer-portal-ui додайте TRACKING_ID з ідентифікатором свого облікового запису Google Analytics. Потім запустіть docker-compose, і обліковий запис Google Analytics буде підключено автоматично.
-
 
 ![Google Analytics Docker](../../assets/images/googleAnalyticsDocker.png)
 

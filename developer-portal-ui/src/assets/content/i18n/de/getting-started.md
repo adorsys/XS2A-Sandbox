@@ -169,11 +169,7 @@ _make_
 
 _docker-compose up_
 
-In Makefile können Sie einen von vier Befehlen verwenden:
-
-• Führen Sie die Release-Version der Dienste vom Docker Hub ohne Build:
-
-_make run-release_
+In Makefile können Sie einen von drei Befehlen verwenden:
 
 • Führen Sie Dienste ohne Build über Docker Hub aus:
 

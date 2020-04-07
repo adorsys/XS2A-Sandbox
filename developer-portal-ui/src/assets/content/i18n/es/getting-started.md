@@ -170,11 +170,7 @@ _make_
 
 _docker-compose up_
 
-En Makefile puede usar uno de los cuatro comandos:
-
-• Ejecute la versión de lanzamiento de los servicios desde Docker Hub sin construir:
-
-_make run-release_
+En Makefile puede usar uno de los tres comandos:
 
 • Ejecute servicios desde Docker Hub sin construir:
 
