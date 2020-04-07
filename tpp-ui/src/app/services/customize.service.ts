@@ -146,7 +146,7 @@ export class CustomizeService {
     }
   }
 
-  private addFavicon(type: string, href: string): void {
+  public addFavicon(type: string, href: string): void {
     const linkElement = document.createElement('link');
     linkElement.setAttribute('id', 'customize-service-injected-node');
     linkElement.setAttribute('rel', 'icon');
@@ -164,12 +164,12 @@ export class CustomizeService {
     }
   }
 
-  private setFavicon(type: string, href: string): void {
+  public setFavicon(type: string, href: string): void {
     this.removeFavicon();
     this.addFavicon(type, href);
   }
 
-  private updateCSS(variables: CSSVariables = {}) {
+  public updateCSS(variables: CSSVariables = {}) {
     // Use css-vars-ponyfill to polyfill css-variables for legacy browser
     cssVars({
       include: 'style',

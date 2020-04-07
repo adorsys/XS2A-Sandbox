@@ -1,8 +1,8 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-
+import {DebugElement} from '@angular/core';
 import {UserUpdateComponent} from './user-update.component';
 import {UserService} from "../../../services/user.service";
-import {Router} from "@angular/router";
+import {Router, ActivatedRoute} from "@angular/router";
 import {InfoModule} from "../../../commons/info/info.module";
 import {FormArray, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
@@ -17,7 +17,21 @@ describe('UserUpdateComponent', () => {
   let component: UserUpdateComponent;
   let fixture: ComponentFixture<UserUpdateComponent>;
   let userService: UserService;
+  let infoService: InfoService;
+  let activate: ActivatedRoute;
   let router: Router;
+  let de: DebugElement;
+  let el: HTMLElement;
+
+  const mockUser: User = {
+      id: 'id',
+      email: 'email',
+      login: 'login',
+      branch: 'branch',
+      pin: 'pin',
+      scaUserData: [],
+      accountAccesses: []
+  }
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -38,7 +52,9 @@ describe('UserUpdateComponent', () => {
     fixture = TestBed.createComponent(UserUpdateComponent);
     component = fixture.componentInstance;
     userService = TestBed.get(UserService);
+    infoService = TestBed.get(InfoService);
     router = TestBed.get(Router);
+    activate = TestBed.get(ActivatedRoute);
     fixture.detectChanges();
   });
 
@@ -48,6 +64,10 @@ describe('UserUpdateComponent', () => {
 
   it('submitted should false', () => {
     expect(component.submitted).toBeFalsy();
+  });
+
+  it('updateUserForm should be invalid when at least one field is empty', () => {
+      expect(component.updateUserForm.valid).toBeFalsy();
   });
 
   it('email field validity', () => {
@@ -106,6 +126,19 @@ describe('UserUpdateComponent', () => {
     expect(errors['required']).toBeFalsy();
   });
 
+  it('validate addScaData method', () => {
+      const length = (<FormArray>component.updateUserForm.controls['scaUserData']).length;
+      component.addScaDataItem();
+      const newLength = (<FormArray>component.updateUserForm.controls['scaUserData']).length;
+      expect(newLength).toEqual(length + 1);
+  });
+
+  it('validate removeScaDataItem method', () => {
+      component.removeScaDataItem(0);
+      const length = (<FormArray>component.updateUserForm.controls['scaUserData']).length;
+      expect(length).toEqual(0);
+  });
+
   it('validate onSubmit method', () => {
     component.onSubmit();
     expect(component.submitted).toEqual(true);
@@ -122,7 +155,6 @@ describe('UserUpdateComponent', () => {
   });
 
   it('validate iniScaData method', () => {
-    const formGroup = component.initScaData();
     const data = {
       id: '',
       scaMethod: '',
@@ -131,7 +163,8 @@ describe('UserUpdateComponent', () => {
       decoupled: false,
       valid: false
     };
-    expect(formGroup.value).toEqual(data);
+      const formGroup = component.initScaData();
+      expect(formGroup.value).toEqual(data);
   });
 
   it('should load actual user and update its details', () => {
@@ -177,4 +210,7 @@ describe('UserUpdateComponent', () => {
     expect(navigateSpy).toHaveBeenCalledWith(['/users/all']);
   });
 
+  it('should defined getMethodsValues', () => {
+      expect(component.getMethodsValues).toBeDefined();
+  });
 });

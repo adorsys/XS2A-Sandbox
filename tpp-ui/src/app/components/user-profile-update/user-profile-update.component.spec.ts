@@ -11,7 +11,7 @@ import { DebugElement } from '@angular/core';
 import {User} from '../../models/user.model';
 import { UserProfileUpdateComponent } from './user-profile-update.component';
 import {of} from 'rxjs';
-
+import get = Reflect.get;
 describe('UserProfileUpdateComponent', () => {
   let component: UserProfileUpdateComponent;
   let fixture: ComponentFixture<UserProfileUpdateComponent>;
@@ -38,6 +38,16 @@ describe('UserProfileUpdateComponent', () => {
 
     const mockinfoService = {
         getUserInfo: () => of(mockUser),
+        updateUserInfo: (user: User) => of({})
+    };
+
+    const mockRouter = {
+        navigate: (url: string) => {
+            console.log('mocknavigation', url);
+        }
+    };
+    const mockActivatedRoute = {
+        params: of({id: '12345'})
     };
 
     beforeEach(async(() => {
@@ -45,11 +55,11 @@ describe('UserProfileUpdateComponent', () => {
       imports: [
         ReactiveFormsModule,
         HttpClientTestingModule,
-        RouterTestingModule
       ],
       providers: [TppUserService, AuthService, TppService, NgbModal,
           {provide: AuthService, useValue: mockAuthUserService},
-          {provide: TppUserService, useValue: mockinfoService}],
+          {provide: TppUserService, useValue: mockinfoService},
+          {provide: Router, useValue: mockRouter}],
       declarations: [ UserProfileUpdateComponent ]
     })
     .compileComponents();
@@ -85,5 +95,16 @@ describe('UserProfileUpdateComponent', () => {
 
   it('validate formControl method', () => {
       expect(component.formControl).toEqual(component.userForm.controls);
+  });
+
+  it('should load the update users info', () => {
+    let infoSpy = spyOn(userInfoService, 'updateUserInfo').and.returnValue(of({mockUser}));
+    component.user = mockUser;
+    component.userForm.get('email').setValue('dart.vader@dark-side.com');
+    component.userForm.get('username').setValue('dart.vader');
+    component.userForm.get('password').setValue('12345678');
+    component.onSubmit();
+    expect(component.userForm.valid).toBeTruthy();
+    expect(infoSpy).toHaveBeenCalled();
   });
 });

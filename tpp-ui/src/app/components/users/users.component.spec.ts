@@ -10,6 +10,7 @@ import { User } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
 import { UsersComponent } from './users.component';
 import {PaginationContainerComponent} from "../../commons/pagination-container/pagination-container.component";
+import {PageConfig, PaginationConfigModel} from "../../models/pagination-config.model";
 
 
 describe('UsersComponent', () => {
@@ -100,4 +101,16 @@ describe('UsersComponent', () => {
         component.pageChange(mockPageConfig);
         expect(listUsersSpy).toHaveBeenCalledWith(10, 5, 'foo');
     });
+
+    it('should change the page size', () => {
+        const paginationConfigModel: PaginationConfigModel = {
+            itemsPerPage: 0,
+            currentPageNumber: 0,
+            totalItems: 0
+        }
+        component.config = paginationConfigModel;
+        component.changePageSize(10);
+        expect(component.config.itemsPerPage).toEqual(10);
+    });
+
 });
