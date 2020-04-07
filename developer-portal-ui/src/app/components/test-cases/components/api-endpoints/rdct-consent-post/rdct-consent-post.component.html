@@ -3,9 +3,7 @@
   <div class="endpoint-segment-wrapper">
     <div
       class="endpoint-segment-item"
-      [ngClass]="
-        activeSegment === 'documentation' ? 'left-item' : 'unactive-item'
-      "
+      [ngClass]="activeSegment === 'documentation' ? 'left-item' : 'unactive-item'"
       (click)="changeSegment('documentation')"
     >
       <span>{{ 'TEST_CASES.COMPONENTS.TABS.DOC' | translate }}</span>
@@ -22,21 +20,15 @@
   <!-- Main content -->
   <div class="endpoint-main-content">
     <!-- Documentation -->
-    <div
-      class="endpoint-documentation"
-      *ngIf="activeSegment === 'documentation'; else: play_with_data"
-    >
+    <div class="endpoint-documentation" *ngIf="activeSegment === 'documentation'; else play_with_data">
       <h1>{{ 'TEST_CASES.COMPONENTS.RDCT_CONS.TITLE_1' | translate }}</h1>
       <p>
         {{ 'TEST_CASES.COMPONENTS.RDCT_CONS.PART_1' | translate }}
-        <span class="bold-text">POST</span> endpoint
-        <app-line-command title="/v1/consents"></app-line-command>.
+        <span class="bold-text">POST</span> endpoint <app-line-command title="/v1/consents"></app-line-command>.
       </p>
       <p>
         {{ 'TEST_CASES.COMPONENTS.RDCT_CONS.PART_2' | translate }}
-        <span class="italic-text">{{
-          'TEST_CASES.COMPONENTS.RDCT_CONS.ITALIC_SPAN' | translate
-        }}</span>
+        <span class="italic-text">{{ 'TEST_CASES.COMPONENTS.RDCT_CONS.ITALIC_SPAN' | translate }}</span>
         {{ 'TEST_CASES.COMPONENTS.RDCT_CONS.PART_3' | translate }}
       </p>
 
@@ -49,23 +41,19 @@
         <span>2f77a125-aa7a-45c0-b414-cea25a116035</span>
       </div>
       <div class="api-table bg">
-        <span>TPP-Explicit-Authorisation-Preferred</span> <span>true</span>
+        <span>TPP-Explicit-Authorisation-Preferred</span>
+        <span>true</span>
       </div>
-      <div class="api-table">
-        <span>PSU-ID</span> <span>YOUR_USER_LOGIN</span>
-      </div>
-      <div class="api-table bg">
-        <span>PSU-IP-Address</span> <span>1.1.1.1</span>
-      </div>
-      <div class="api-table">
-        <span>TPP-Redirect-Preferred</span> <span>true</span>
-      </div>
+      <div class="api-table"><span>PSU-ID</span> <span>YOUR_USER_LOGIN</span></div>
+      <div class="api-table bg"><span>PSU-IP-Address</span> <span>1.1.1.1</span></div>
+      <div class="api-table"><span>TPP-Redirect-Preferred</span> <span>true</span></div>
       <div class="api-table bg">
         <span>TPP-Redirect-URI</span>
         <span>https://adorsys-platform.de/solutions/xs2a-sandbox/</span>
       </div>
       <div class="api-table">
-        <span>TPP-Nok-Redirect-URI</span> <span>https://www.google.com</span>
+        <span>TPP-Nok-Redirect-URI</span>
+        <span>https://www.google.com</span>
       </div>
       <div class="api-table bg">
         <span>TPP-QWAC-Certificate</span>

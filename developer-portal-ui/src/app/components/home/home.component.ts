@@ -1,8 +1,8 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 
-import {CustomizeService} from '../../services/customize.service';
-import {ContactInfo} from "../../models/theme.model";
-import {LanguageService} from "../../services/language.service";
+import { CustomizeService } from '../../services/customize.service';
+import { ContactInfo } from '../../models/theme.model';
+import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-home',
@@ -94,33 +94,31 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   pathToFile = `./assets/content/i18n/en/home.md`;
 
-  showQuestionsComponent;
-  showProductHistory;
+  showQuestionsComponent: boolean;
+  showProductHistory: boolean;
   showSlider = true;
 
-  constructor(private languageService: LanguageService,
-              private customizeService: CustomizeService) {
+  private carouselInterval = 3000;
+
+  constructor(private languageService: LanguageService, private customizeService: CustomizeService) {
     if (this.customizeService.currentTheme) {
-      this.customizeService.currentTheme
-        .subscribe(theme => {
-          this.contactInfo = theme.contactInfo;
-          const homePageSettings = theme.pagesSettings.homePageSettings;
+      this.customizeService.currentTheme.subscribe((theme) => {
+        this.contactInfo = theme.contactInfo;
+        const homePageSettings = theme.pagesSettings.homePageSettings;
 
-          if (homePageSettings) {
-
-            this.enableSlider(homePageSettings.showSlider);
-            this.enableProductHistory(homePageSettings.showProductHistory);
-            this.enableQuestionsComponent(homePageSettings.showQuestionsComponent);
-          }
-        });
+        if (homePageSettings) {
+          this.enableSlider(homePageSettings.showSlider);
+          this.enableProductHistory(homePageSettings.showProductHistory);
+          this.enableQuestionsComponent(homePageSettings.showQuestionsComponent);
+        }
+      });
     }
   }
 
   ngOnInit() {
-    this.languageService.currentLanguage.subscribe(
-      data => {
-        this.pathToFile = `${this.customizeService.currentLanguageFolder}/${data}/home.md`;
-      });
+    this.languageService.currentLanguage.subscribe((data) => {
+      this.pathToFile = `${this.customizeService.currentLanguageFolder}/${data}/home.md`;
+    });
   }
 
   checkTodayDay(date) {
@@ -138,32 +136,32 @@ export class HomeComponent implements OnInit, AfterViewInit {
     let currentImg = 0;
     let carouselIntervalId = null;
     // Show only first slide
-    images[currentImg]['classList'].add('show');
+    images[currentImg].classList.add('show');
     for (let i = 0; i < buttons.length; i++) {
       buttons[i].addEventListener('click', () => {
         buttons[currentImg]['style'].backgroundColor = null;
         buttons[i]['style'].backgroundColor = '#D8D8D8';
         // Stop autoplay on button click
         clearInterval(carouselIntervalId);
-        images[currentImg]['classList'].remove('show');
-        images[i]['classList'].add('show');
+        images[currentImg].classList.remove('show');
+        images[i].classList.add('show');
         currentImg = i;
       });
     }
 
     function nextSlide() {
-      images[currentImg]['classList'].remove('show');
+      images[currentImg].classList.remove('show');
       buttons[currentImg]['style'].backgroundColor = null;
       currentImg++;
       if (currentImg >= images.length) {
         currentImg = 0;
       }
-      images[currentImg]['classList'].add('show');
+      images[currentImg].classList.add('show');
       buttons[currentImg]['style'].backgroundColor = '#D8D8D8';
     }
 
     // Start autoplay
-    carouselIntervalId = setInterval(nextSlide, 3000);
+    carouselIntervalId = setInterval(nextSlide, this.carouselInterval);
   }
 
   setProductHistory() {
@@ -185,10 +183,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       });
     } else {
       for (let i = 0; i < this.productHistory.length - 1; i++) {
-        if (
-          this.productHistory[i].date <= this.today &&
-          this.productHistory[i + 1].date > this.today
-        ) {
+        if (this.productHistory[i].date <= this.today && this.productHistory[i + 1].date > this.today) {
           this.productHistory.splice(i + 1, 0, {
             title: '',
             date: null,
@@ -203,21 +198,17 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if(this.showSlider) {
+    if (this.showSlider) {
       this.slider();
     }
   }
 
   private enableSlider(showSlider: boolean) {
-    this.showSlider = !showSlider
-      ? showSlider
-      : true;
+    this.showSlider = !showSlider ? showSlider : true;
   }
 
   private enableProductHistory(showProductHistory: boolean) {
-    this.showProductHistory = !showProductHistory
-      ? showProductHistory
-      : true;
+    this.showProductHistory = !showProductHistory ? showProductHistory : true;
 
     if (this.productHistory) {
       this.setProductHistory();
@@ -225,8 +216,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   private enableQuestionsComponent(showQuestionsComponent: boolean) {
-    this.showQuestionsComponent = !showQuestionsComponent
-      ? showQuestionsComponent
-      : true;
+    this.showQuestionsComponent = !showQuestionsComponent ? showQuestionsComponent : true;
   }
 }

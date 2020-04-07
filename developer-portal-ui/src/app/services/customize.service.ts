@@ -1,29 +1,17 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import cssVars from 'css-vars-ponyfill';
-import {CSSVariables} from "../models/theme.model";
-import {of} from "rxjs";
+import { CSSVariables } from '../models/theme.model';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CustomizeService {
-  private _defaultContentFolderPath = '../assets/content';
-  private _customContentFolderPath = '../assets/custom-content';
-  private _custom = false;
-  private languagesFolder = '/i18n';
-
-  currentTheme;
-
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   set theme(theme) {
     this.currentTheme = of(this.setUpRoutes(theme));
-  }
-
-  setCustom() {
-    this._custom = true;
   }
 
   get custom() {
@@ -41,16 +29,80 @@ export class CustomizeService {
   get customContentFolder() {
     return this._customContentFolderPath;
   }
+  private _defaultContentFolderPath = '../assets/content';
+  private _customContentFolderPath = '../assets/custom-content';
+  private _custom = false;
+  private languagesFolder = '/i18n';
+
+  currentTheme;
+
+  private static addFavicon(type: string, href: string) {
+    const linkElement = document.createElement('link');
+    linkElement.setAttribute('id', 'customize-service-injected-node');
+    linkElement.setAttribute('rel', 'icon');
+    linkElement.setAttribute('type', type);
+    linkElement.setAttribute('href', href);
+    document.head.appendChild(linkElement);
+  }
+
+  private static removeFavicon() {
+    const linkElement = document.head.querySelector('#customize-service-injected-node');
+    if (linkElement) {
+      document.head.removeChild(linkElement);
+    }
+  }
+
+  private static setFavicon(type: string, href: string): void {
+    CustomizeService.removeFavicon();
+    CustomizeService.addFavicon(type, href);
+  }
+
+  private static removeExternalLinkElements() {
+    const linkElements = document.querySelectorAll('link[rel ~= "icon"]');
+    for (const linkElement of Array.from(linkElements)) {
+      linkElement.parentNode.removeChild(linkElement);
+    }
+  }
+
+  static validateTheme(theme): string[] {
+    const general = ['globalSettings', 'contactInfo', 'officesInfo'];
+    const additional = [['logo'], ['img', 'name', 'position'], ['city', 'company', 'addressFirstLine', 'addressSecondLine'], [], []];
+    const errors: string[] = [];
+    const minLength = 2;
+
+    for (let i = 0; i < general.length; i++) {
+      if (!theme.hasOwnProperty(general[i])) {
+        errors.push(`Missing field ${general[i]}!`);
+      } else if (i < minLength) {
+        for (const property of additional[i]) {
+          if (!theme[general[i]].hasOwnProperty(property)) {
+            errors.push(`Field ${general[i]} missing property ${property}!`);
+          }
+        }
+      } else {
+        for (const office of theme.officesInfo) {
+          for (const property of additional[i]) {
+            if (!office.hasOwnProperty(property)) {
+              errors.push(`Field ${general[i]} missing property ${property}!`);
+            }
+          }
+        }
+      }
+    }
+
+    return errors;
+  }
+
+  setCustom() {
+    this._custom = true;
+  }
 
   setStyling(theme) {
     this.updateCSS(theme.globalSettings.cssVariables);
     CustomizeService.removeExternalLinkElements();
 
     if (theme.globalSettings.favicon) {
-      CustomizeService.setFavicon(
-        theme.globalSettings.favicon.type,
-        theme.globalSettings.favicon.href
-      );
+      CustomizeService.setFavicon(theme.globalSettings.favicon.type, theme.globalSettings.favicon.href);
     }
   }
 
@@ -71,39 +123,10 @@ export class CustomizeService {
     // });
   }
 
-  private static addFavicon(type: string, href: string) {
-    const linkElement = document.createElement('link');
-    linkElement.setAttribute('id', 'customize-service-injected-node');
-    linkElement.setAttribute('rel', 'icon');
-    linkElement.setAttribute('type', type);
-    linkElement.setAttribute('href', href);
-    document.head.appendChild(linkElement);
-  }
-
-  private static removeFavicon() {
-    const linkElement = document.head.querySelector(
-      '#customize-service-injected-node'
-    );
-    if (linkElement) {
-      document.head.removeChild(linkElement);
-    }
-  }
-
-  private static setFavicon(type: string, href: string): void {
-    CustomizeService.removeFavicon();
-    CustomizeService.addFavicon(type, href);
-  }
-
-  private static removeExternalLinkElements() {
-    const linkElements = document.querySelectorAll('link[rel ~= "icon"]');
-    for (const linkElement of Array.from(linkElements)) {
-      linkElement.parentNode.removeChild(linkElement);
-    }
-  }
-
   private setUpRoutes(theme) {
     if (theme.globalSettings.logo) {
-      theme.globalSettings.logo = (this._custom ? this._customContentFolderPath : this._defaultContentFolderPath) + '/' + theme.globalSettings.logo;
+      theme.globalSettings.logo =
+        (this._custom ? this._customContentFolderPath : this._defaultContentFolderPath) + '/' + theme.globalSettings.logo;
     }
 
     if (theme.globalSettings.footerLogo) {
@@ -117,8 +140,7 @@ export class CustomizeService {
     }
 
     if (theme.contactInfo.img) {
-      theme.contactInfo.img =
-        (this._custom ? this._customContentFolderPath : this._defaultContentFolderPath) + '/' + theme.contactInfo.img;
+      theme.contactInfo.img = (this._custom ? this._customContentFolderPath : this._defaultContentFolderPath) + '/' + theme.contactInfo.img;
     }
 
     return theme;
@@ -147,7 +169,6 @@ export class CustomizeService {
       }
 
       theme.supportedLanguagesDictionary = correctLanguages;
-
     } else {
       theme.supportedLanguagesDictionary = defaultLanguages;
     }
@@ -157,7 +178,7 @@ export class CustomizeService {
 
   private getCorrectLanguage(lang: string, languageLink: string) {
     return this.http
-      .get(languageLink, {responseType: 'blob'})
+      .get(languageLink, { responseType: 'blob' })
       .toPromise()
       .then(() => lang)
       .catch(() => {
@@ -165,39 +186,4 @@ export class CustomizeService {
         return '';
       });
   }
-
-  static validateTheme(theme): string[] {
-    const general = ['globalSettings', 'contactInfo', 'officesInfo'];
-    const additional = [
-      ['logo'],
-      ['img', 'name', 'position'],
-      ['city', 'company', 'addressFirstLine', 'addressSecondLine'],
-      [],
-      [],
-    ];
-    const errors: string[] = [];
-
-    for (let i = 0; i < general.length; i++) {
-      if (!theme.hasOwnProperty(general[i])) {
-        errors.push(`Missing field ${general[i]}!`);
-      } else if (i < 2) {
-        for (const property of additional[i]) {
-          if (!theme[general[i]].hasOwnProperty(property)) {
-            errors.push(`Field ${general[i]} missing property ${property}!`);
-          }
-        }
-      } else {
-        for (const office of theme.officesInfo) {
-          for (const property of additional[i]) {
-            if (!office.hasOwnProperty(property)) {
-              errors.push(`Field ${general[i]} missing property ${property}!`);
-            }
-          }
-        }
-      }
-    }
-
-    return errors;
-  }
-
 }

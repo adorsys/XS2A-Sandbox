@@ -1,46 +1,26 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {RouterTestingModule} from '@angular/router/testing';
-import {AppComponent} from './app.component';
-import {
-  TranslateLoader,
-  TranslateModule,
-  TranslateService,
-} from '@ngx-translate/core';
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
-import {HttpClient} from '@angular/common/http';
-import {Pipe, PipeTransform} from '@angular/core';
-import {Router} from '@angular/router';
-import {NgHttpLoaderModule} from 'ng-http-loader';
-import {HttpLoaderFactory, LanguageService} from "./services/language.service";
-import {DataService} from "./services/data.service";
-import {CustomizeService} from "./services/customize.service";
-import {NavComponent} from "./components/common/nav/nav.component";
-import {FooterComponent} from "./components/common/footer/footer.component";
-import {of} from "rxjs";
-import {MarkdownModule, MarkdownService} from "ngx-markdown";
-import {TrackingIdService} from "./services/tracking-id.service";
-
-const TRANSLATIONS_EN = require('../assets/content/i18n/en.json');
-const TRANSLATIONS_DE = require('../assets/content/i18n/de.json');
-const TRANSLATIONS_ES = require('../assets/content/i18n/es.json');
-const TRANSLATIONS_UA = require('../assets/content/i18n/ua.json');
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { AppComponent } from './app.component';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClient } from '@angular/common/http';
+import { Pipe, PipeTransform } from '@angular/core';
+import { NgHttpLoaderModule } from 'ng-http-loader';
+import { HttpLoaderFactory, LanguageService } from './services/language.service';
+import { DataService } from './services/data.service';
+import { CustomizeService } from './services/customize.service';
+import { NavComponent } from './components/common/nav/nav.component';
+import { FooterComponent } from './components/common/footer/footer.component';
+import { of } from 'rxjs';
+import { MarkdownModule, MarkdownService } from 'ngx-markdown';
+import { TrackingIdService } from './services/tracking-id.service';
 
 describe('AppComponent', () => {
   let comp: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
-  let translate: TranslateService;
-  let http: HttpTestingController;
-  let languageService: LanguageService;
-  let dataService: DataService;
-  let customizeService: CustomizeService;
-  let router: Router;
 
   const DataServiceStub = {
-    setRouterUrl: (val: string) => {
-    },
+    setRouterUrl: () => {},
     getRouterUrl: () => '',
   };
 
@@ -84,53 +64,51 @@ describe('AppComponent', () => {
           addressSecondLine: '65760 Eschborn',
           email: 'frankfurt@adorsys.de',
           facebook: 'https://www.facebook.com/adorsysGmbH/',
-          linkedIn:
-            'https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/',
+          linkedIn: 'https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/',
         },
       ],
       tppSettings: {
         tppDefaultNokRedirectUrl: 'https://www.google.com',
-        tppDefaultRedirectUrl:
-          'https://adorsys-platform.de/solutions/xs2a-sandbox/',
+        tppDefaultRedirectUrl: 'https://adorsys-platform.de/solutions/xs2a-sandbox/',
       },
       supportedLanguages: ['en', 'ua', 'de', 'es'],
       pagesSettings: {
         contactPageSettings: {
           showContactCard: true,
-          showQuestionsComponent: true
+          showQuestionsComponent: true,
         },
         homePageSettings: {
           showQuestionsComponent: true,
           showProductHistory: true,
-          showSlider: true
+          showSlider: true,
         },
         navigationBarSettings: {
-          allowedNavigationSize: 3
-        }
-      }
+          allowedNavigationSize: 3,
+        },
+      },
     }),
-    setStyling: (theme) => {
+    setStyling: () => {},
+    normalizeLanguages: () => {
+      return CustomizeServiceStub.currentTheme.toPromise();
     },
-    normalizeLanguages: (theme) => {
-      return CustomizeServiceStub.currentTheme.toPromise()
-    }
   };
 
   const LanguageServiceStub = {
     language: 'en',
     currentLanguage: of('en'),
-    initializeTranslation: () => {
-    },
+    initializeTranslation: () => {},
     getLang: () => LanguageServiceStub.language,
   };
 
   const TrackingIdServiceStub = {
-    trackingId: [{
-      trackingId: ""
-    }]
+    trackingId: [
+      {
+        trackingId: '',
+      },
+    ],
   };
 
-  @Pipe({name: 'translate'})
+  @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -140,12 +118,7 @@ describe('AppComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AppComponent,
-        TranslatePipe,
-        NavComponent,
-        FooterComponent
-      ],
+      declarations: [AppComponent, TranslatePipe, NavComponent, FooterComponent],
       imports: [
         MarkdownModule.forRoot(),
         RouterTestingModule,
@@ -162,21 +135,12 @@ describe('AppComponent', () => {
       providers: [
         MarkdownService,
         TranslateService,
-        {provide: TrackingIdService, useValue: TrackingIdServiceStub},
-        {provide: DataService, useValue: DataServiceStub},
-        {provide: CustomizeService, useValue: CustomizeServiceStub},
-        {provide: LanguageService, useValue: LanguageServiceStub},
+        { provide: TrackingIdService, useValue: TrackingIdServiceStub },
+        { provide: DataService, useValue: DataServiceStub },
+        { provide: CustomizeService, useValue: CustomizeServiceStub },
+        { provide: LanguageService, useValue: LanguageServiceStub },
       ],
-    })
-      .compileComponents()
-      .then(() => {
-        translate = TestBed.get(TranslateService);
-        http = TestBed.get(HttpTestingController);
-        dataService = TestBed.get(DataService);
-        customizeService = TestBed.get(CustomizeService);
-        languageService = TestBed.get(LanguageService);
-        router = TestBed.get(Router);
-      });
+    }).compileComponents();
   }));
 
   beforeEach(async(() => {
@@ -188,6 +152,4 @@ describe('AppComponent', () => {
   it('should create', async(() => {
     expect(comp).toBeTruthy();
   }));
-
-})
-;
+});

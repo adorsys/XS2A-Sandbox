@@ -20,13 +20,12 @@
   <!-- Main content -->
   <div class="endpoint-main-content">
     <!-- Documentation -->
-    <div
-      class="endpoint-documentation"
-      *ngIf="activeSegment === 'documentation';else play_with_data"
-    >
+    <div class="endpoint-documentation" *ngIf="activeSegment === 'documentation';else play_with_data">
       <p>
         {{'TEST_CASES.COMPONENTS.EMB_CANS_GET.PART_1' | translate}}
-        <app-line-command title="/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{cancellationId}"></app-line-command>
+        <app-line-command
+          title="/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{cancellationId}"
+        ></app-line-command>
         {{'TEST_CASES.COMPONENTS.EMB_CANS_GET.PART_2' | translate}}
       </p>
       <p>

@@ -1,18 +1,17 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {LanguageService} from "../../../services/language.service";
-import {DataService} from "../../../services/data.service";
-import {NavigationService} from "../../../services/navigation.service";
-import {CustomizeService} from "../../../services/customize.service";
+import { Component, Input, OnInit } from '@angular/core';
+import { LanguageService } from '../../../services/language.service';
+import { DataService } from '../../../services/data.service';
+import { CustomizeService } from '../../../services/customize.service';
+import { NavigationService } from '../../../services/navigation.service';
+import { NavItem } from '../../../models/navItem.model';
 
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
-  styleUrls: ['./nav.component.scss']
+  styleUrls: ['./nav.component.scss'],
 })
 export class NavComponent implements OnInit {
-
   private langCollapsed = false;
-  private defaultLogoLink = '/home';
 
   showNavDropDown = false;
   language = 'en';
@@ -24,26 +23,25 @@ export class NavComponent implements OnInit {
   @Input() supportedLanguagesDictionary;
   @Input() navigation;
 
-  constructor(private languageService: LanguageService,
-              public dataService: DataService,
-              private customizeService: CustomizeService,
-              private navigationService: NavigationService) {
-
-    this.customizeService.currentTheme.subscribe(
-      data => {
-        this.logo = data.globalSettings.logo;
-        this.logoLink = data.globalSettings.logoLink;
-        this.allowedNavigationSize = data.pagesSettings.navigationBarSettings.allowedNavigationSize;
-      });
+  constructor(
+    private languageService: LanguageService,
+    public dataService: DataService,
+    private customizeService: CustomizeService,
+    private navigationService: NavigationService
+  ) {
+    this.customizeService.currentTheme.subscribe((data) => {
+      this.logo = data.globalSettings.logo;
+      this.logoLink = data.globalSettings.logoLink;
+      this.allowedNavigationSize = data.pagesSettings.navigationBarSettings.allowedNavigationSize;
+    });
 
     this.setLangCollapsed(true);
   }
 
   ngOnInit() {
-    this.languageService.currentLanguage.subscribe(
-      data => {
-        this.language = data;
-      });
+    this.languageService.currentLanguage.subscribe((data) => {
+      this.language = data;
+    });
 
     if (this.supportedLanguagesDictionary) {
       this.supportedLanguages = Object.keys(this.supportedLanguagesDictionary);
@@ -74,7 +72,7 @@ export class NavComponent implements OnInit {
     return this.langCollapsed;
   }
 
-  toggleDropdown(e) {
+  toggleDropdown() {
     this.showNavDropDown = !this.showNavDropDown;
   }
 
@@ -83,5 +81,13 @@ export class NavComponent implements OnInit {
       document.getElementById('navLinks').style.display = 'none';
       document.getElementById('dropDownIcon').style.display = 'block';
     }
+  }
+
+  goToLogoLink(customLink: string, defaultLink: string) {
+    this.navigationService.goToLogoLink(customLink, defaultLink);
+  }
+
+  navigateTo(navItem: NavItem) {
+    this.navigationService.navigateTo(navItem);
   }
 }

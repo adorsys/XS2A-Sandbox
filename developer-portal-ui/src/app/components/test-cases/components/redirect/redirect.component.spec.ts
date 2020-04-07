@@ -1,19 +1,19 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {RedirectComponent} from './redirect.component';
-import {Pipe, PipeTransform} from '@angular/core';
-import {NgxImageZoomModule} from 'ngx-image-zoom';
-import {MarkdownModule} from "ngx-markdown";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {TranslateLoader, TranslateModule, TranslateService} from "@ngx-translate/core";
-import {HttpLoaderFactory, LanguageService} from "../../../../services/language.service";
-import {HttpClient} from "@angular/common/http";
+import { RedirectComponent } from './redirect.component';
+import { Pipe, PipeTransform } from '@angular/core';
+import { NgxImageZoomModule } from 'ngx-image-zoom';
+import { MarkdownModule } from 'ngx-markdown';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { HttpLoaderFactory, LanguageService } from '../../../../services/language.service';
+import { HttpClient } from '@angular/common/http';
 
 describe('RedirectComponent', () => {
   let component: RedirectComponent;
   let fixture: ComponentFixture<RedirectComponent>;
 
-  @Pipe({name: 'translate'})
+  @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -33,13 +33,10 @@ describe('RedirectComponent', () => {
             provide: TranslateLoader,
             useFactory: HttpLoaderFactory,
             deps: [HttpClient],
-          }
-        })
+          },
+        }),
       ],
-      providers: [
-        LanguageService,
-        TranslateService,
-      ],
+      providers: [LanguageService, TranslateService],
     }).compileComponents();
   }));
 

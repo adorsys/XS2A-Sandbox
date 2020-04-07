@@ -17,18 +17,22 @@ export class EmbConsentPutComponent implements OnInit {
   body: object;
 
   constructor(private jsonService: JsonService) {
-    jsonService
-      .getPreparedJsonData(jsonService.jsonLinks.psuData)
-      .subscribe(data => (this.jsonData1 = data), error => console.log(error));
-    jsonService
-      .getPreparedJsonData(jsonService.jsonLinks.psuData)
-      .subscribe(data => (this.body = data), error => console.log(error));
-    jsonService
-      .getPreparedJsonData(jsonService.jsonLinks.scaAuthenticationData)
-      .subscribe(data => (this.jsonData2 = data), error => console.log(error));
-    jsonService
-      .getPreparedJsonData(jsonService.jsonLinks.authenticationMethodId)
-      .subscribe(data => (this.jsonData3 = data), error => console.log(error));
+    this.jsonService.getPreparedJsonData(jsonService.jsonLinks.psuData).subscribe(
+      (data) => (this.jsonData1 = data),
+      (error) => console.log(error)
+    );
+    this.jsonService.getPreparedJsonData(jsonService.jsonLinks.psuData).subscribe(
+      (data) => (this.body = data),
+      (error) => console.log(error)
+    );
+    this.jsonService.getPreparedJsonData(jsonService.jsonLinks.scaAuthenticationData).subscribe(
+      (data) => (this.jsonData2 = data),
+      (error) => console.log(error)
+    );
+    this.jsonService.getPreparedJsonData(jsonService.jsonLinks.authenticationMethodId).subscribe(
+      (data) => (this.jsonData3 = data),
+      (error) => console.log(error)
+    );
   }
 
   changeSegment(segment) {

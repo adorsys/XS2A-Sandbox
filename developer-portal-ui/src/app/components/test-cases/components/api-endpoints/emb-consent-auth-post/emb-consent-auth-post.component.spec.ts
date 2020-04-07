@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 
 import { EmbConsentAuthPostComponent } from './emb-consent-auth-post.component';
-import {LineCommandComponent} from "../../../../common/line-command/line-command.component";
+import { LineCommandComponent } from '../../../../common/line-command/line-command.component';
 
 describe('EmbConsentAuthPostComponent', () => {
   let component: EmbConsentAuthPostComponent;
@@ -29,12 +29,7 @@ describe('EmbConsentAuthPostComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        EmbConsentAuthPostComponent,
-        TranslatePipe,
-        LineCommandComponent,
-        MockPlayWithDataComponent,
-      ],
+      declarations: [EmbConsentAuthPostComponent, TranslatePipe, LineCommandComponent, MockPlayWithDataComponent],
     }).compileComponents();
   }));
 

@@ -1,20 +1,16 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { CopyService } from './copy.service';
-import {DataService} from './data.service';
+import { DataService } from './data.service';
 
 describe('CopyService', () => {
-
   const DataServiceStub = {
-    showToast: (val: string) => {}
+    showToast: () => {},
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        CopyService,
-        { provide: DataService, useValue: DataServiceStub },
-      ]
+      providers: [CopyService, { provide: DataService, useValue: DataServiceStub }],
     });
   });
 

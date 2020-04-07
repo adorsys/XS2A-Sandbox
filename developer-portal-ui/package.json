@@ -60,8 +60,8 @@
     "@types/jasmine": "~2.8.8",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
-    "codelyzer": "^5.1.2",
-    "husky": "^1.1.2",
+    "codelyzer": "^5.2.2",
+    "husky": "^4.2.3",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "^4.1.0",
@@ -69,14 +69,16 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~1.1.2",
     "karma-jasmine-html-reporter": "^0.2.2",
-    "lint-staged": "^8.0.4",
+    "lint-staged": "^10.1.2",
     "ngx-translate-testing": "^3.0.0",
     "node-sass": "^4.13.1",
-    "prettier": "1.15.2",
+    "prettier": "^2.0.4",
     "prettier-check": "^2.0.0",
+    "pretty-quick": "^2.0.1",
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
-    "tslint": "~5.11.0",
+    "tslint": "^6.1.1",
+    "tslint-angular": "^3.0.2",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "~3.5.3"
   },
@@ -86,16 +88,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "pretty-quick --staged && ng lint"
     }
-  },
-  "lint-staged": {
-    "*.ts": [
-      "tslint --fix -p tsconfig.json"
-    ],
-    "*.{js,ts,json,css,scss,md,html}": [
-      "prettier --write",
-      "git add"
-    ]
   }
 }

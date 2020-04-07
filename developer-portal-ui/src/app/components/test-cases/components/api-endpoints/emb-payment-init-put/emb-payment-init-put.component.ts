@@ -20,22 +20,23 @@ export class EmbPaymentInitPutComponent implements OnInit {
   paymentId: string;
   authorisationId: string;
 
-  constructor(
-    private jsonService: JsonService,
-    public localStorageService: LocalStorageService
-  ) {
-    jsonService
-      .getPreparedJsonData(jsonService.jsonLinks.psuData)
-      .subscribe(data => (this.jsonData1 = data), error => console.log(error));
-    jsonService
-      .getPreparedJsonData(jsonService.jsonLinks.psuData)
-      .subscribe(data => (this.body = data), error => console.log(error));
-    jsonService
-      .getPreparedJsonData(jsonService.jsonLinks.scaAuthenticationData)
-      .subscribe(data => (this.jsonData2 = data), error => console.log(error));
-    jsonService
-      .getPreparedJsonData(jsonService.jsonLinks.authenticationMethodId)
-      .subscribe(data => (this.jsonData3 = data), error => console.log(error));
+  constructor(private jsonService: JsonService, public localStorageService: LocalStorageService) {
+    this.jsonService.getPreparedJsonData(jsonService.jsonLinks.psuData).subscribe(
+      (data) => (this.jsonData1 = data),
+      (error) => console.log(error)
+    );
+    this.jsonService.getPreparedJsonData(jsonService.jsonLinks.psuData).subscribe(
+      (data) => (this.body = data),
+      (error) => console.log(error)
+    );
+    this.jsonService.getPreparedJsonData(jsonService.jsonLinks.scaAuthenticationData).subscribe(
+      (data) => (this.jsonData2 = data),
+      (error) => console.log(error)
+    );
+    this.jsonService.getPreparedJsonData(jsonService.jsonLinks.authenticationMethodId).subscribe(
+      (data) => (this.jsonData3 = data),
+      (error) => console.log(error)
+    );
 
     this.paymentId = localStorageService.get('paymentId');
     this.authorisationId = localStorageService.get('authorisationId');

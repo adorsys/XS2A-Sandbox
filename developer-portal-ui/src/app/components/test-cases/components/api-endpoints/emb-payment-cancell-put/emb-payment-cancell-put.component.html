@@ -3,9 +3,7 @@
   <div class="endpoint-segment-wrapper">
     <div
       class="endpoint-segment-item"
-      [ngClass]="
-        activeSegment === 'documentation' ? 'left-item' : 'unactive-item'
-      "
+      [ngClass]="activeSegment === 'documentation' ? 'left-item' : 'unactive-item'"
       (click)="changeSegment('documentation')"
     >
       <span>{{ 'TEST_CASES.COMPONENTS.TABS.DOC' | translate }}</span>
@@ -22,14 +20,11 @@
   <!-- Main content -->
   <div class="endpoint-main-content">
     <!-- Documentation -->
-    <div
-      class="endpoint-documentation"
-      *ngIf="activeSegment === 'documentation'; else: play_with_data"
-    >
-      <h1>{{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.TITLE' | translate }}</h1>
-      <span class="bold-text">{{
-        'TEST_CASES.COMPONENTS.EMB_CANS_PUT.SUBTITLE_1' | translate
-      }}</span>
+    <div class="endpoint-documentation" *ngIf="activeSegment === 'documentation'; else play_with_data">
+      <h1>
+        {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.TITLE' | translate }}
+      </h1>
+      <span class="bold-text">{{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.SUBTITLE_1' | translate }}</span>
       <p>
         {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_1' | translate }}
         <span class="bold-text">PUT</span> endpoint
@@ -41,16 +36,12 @@
         {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_3' | translate }}
         <app-line-command title="payment-product"></app-line-command>
         {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_4' | translate }}
-        <span class="bold-text">{{
-          'TEST_CASES.COMPONENTS.EMB_CANS_PUT.STEP' | translate
-        }}</span>
+        <span class="bold-text">{{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.STEP' | translate }}</span>
         {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_5' | translate }}
       </p>
       <p>
         {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_6' | translate }}
-        <span class="bold-text">{{
-          'TEST_CASES.COMPONENTS.EMB_CANS_PUT.STEP' | translate
-        }}</span>
+        <span class="bold-text">{{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.STEP' | translate }}</span>
         {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_7' | translate }}
         <app-line-command title="paymentId"></app-line-command>
         {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_8' | translate }}
@@ -71,9 +62,7 @@
         .
       </p>
 
-      <span class="bold-text">{{
-        'TEST_CASES.COMPONENTS.EMB_CANS_PUT.SUBTITLE_2' | translate
-      }}</span>
+      <span class="bold-text">{{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.SUBTITLE_2' | translate }}</span>
       <p>
         {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_13' | translate }}
         <span class="bold-text">PUT</span> endpoint
@@ -85,23 +74,21 @@
         {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_15' | translate }}
         <app-line-command title="payment-product"></app-line-command>
         {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_16' | translate }}
-        <span class="bold-text">{{
-          'TEST_CASES.COMPONENTS.EMB_CANS_PUT.STEP' | translate
-        }}</span>
+        <span class="bold-text">{{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.STEP' | translate }}</span>
         {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_17' | translate }}
       </p>
       <p>
         {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_18' | translate }}
-        <span class="bold-text">{{
-          'TEST_CASES.COMPONENTS.EMB_CANS_PUT.STEP' | translate
-        }}</span>
+        <span class="bold-text">{{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.STEP' | translate }}</span>
         {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_19' | translate }}
         <app-line-command title="paymentId"></app-line-command>
         {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_20' | translate }}
         <app-line-command title="cancellationId"></app-line-command>
         .
       </p>
-      <p>{{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_21' | translate }}</p>
+      <p>
+        {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_21' | translate }}
+      </p>
       <app-code-area [json]="jsonData1" [id]="'EPCPut-2'"></app-code-area>
 
       <p>
@@ -114,7 +101,9 @@
         <app-line-command title="200 HTTP code"></app-line-command>
         .
       </p>
-      <p>{{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_25' | translate }}</p>
+      <p>
+        {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_25' | translate }}
+      </p>
       <app-code-area [json]="jsonData2" [id]="'EPCPut-3'"></app-code-area>
 
       <p>
@@ -123,9 +112,7 @@
         <app-line-command title="200 HTTP code"></app-line-command>.
       </p>
 
-      <span class="bold-text">{{
-        'TEST_CASES.COMPONENTS.EMB_CANS_PUT.SUBTITLE_3' | translate
-      }}</span>
+      <span class="bold-text">{{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.SUBTITLE_3' | translate }}</span>
       <p>
         {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_28' | translate }}
         <span class="bold-text">PUT</span> endpoint
@@ -137,23 +124,21 @@
         {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_30' | translate }}
         <app-line-command title="payment-product"></app-line-command>
         {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_31' | translate }}
-        <span class="bold-text">{{
-          'TEST_CASES.COMPONENTS.EMB_CANS_PUT.STEP' | translate
-        }}</span>
+        <span class="bold-text">{{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.STEP' | translate }}</span>
         {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_32' | translate }}
       </p>
       <p>
         {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_33' | translate }}
-        <span class="bold-text">{{
-          'TEST_CASES.COMPONENTS.EMB_CANS_PUT.STEP' | translate
-        }}</span>
+        <span class="bold-text">{{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.STEP' | translate }}</span>
         {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_34' | translate }}
         <app-line-command title="paymentId"></app-line-command>
         {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_35' | translate }}
         <app-line-command title="cancellationId"></app-line-command>
         .
       </p>
-      <p>{{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_36' | translate }}</p>
+      <p>
+        {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_36' | translate }}
+      </p>
       <app-code-area [json]="jsonData1" [id]="'EPCPut-4'"></app-code-area>
 
       <p>
@@ -166,7 +151,9 @@
         <app-line-command title="200 HTTP code"></app-line-command>
         {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_40' | translate }}
       </p>
-      <p>{{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_41' | translate }}</p>
+      <p>
+        {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_41' | translate }}
+      </p>
       <app-code-area [json]="jsonData3" [id]="'EPCPut-5'"></app-code-area>
 
       <p>
@@ -175,7 +162,9 @@
         {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_43' | translate }}
         <app-line-command title="200 HTTP code"></app-line-command>.
       </p>
-      <p>{{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_44' | translate }}</p>
+      <p>
+        {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_44' | translate }}
+      </p>
       <app-code-area [json]="jsonData2" [id]="'EPCPut-6'"></app-code-area>
 
       <p>

@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { RdctPaymentStatusGetComponent } from './rdct-payment-status-get.component';
-import {LineCommandComponent} from "../../../../common/line-command/line-command.component";
+import { LineCommandComponent } from '../../../../common/line-command/line-command.component';
 
 describe('RdctPaymentStatusGetComponent', () => {
   let component: RdctPaymentStatusGetComponent;
@@ -30,12 +30,7 @@ describe('RdctPaymentStatusGetComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        RdctPaymentStatusGetComponent,
-        MockPlayWithDataComponent,
-        TranslatePipe,
-        LineCommandComponent,
-      ],
+      declarations: [RdctPaymentStatusGetComponent, MockPlayWithDataComponent, TranslatePipe, LineCommandComponent],
     }).compileComponents();
   }));
 

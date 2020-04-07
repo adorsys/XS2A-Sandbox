@@ -1,16 +1,15 @@
-<app-nav *ngIf="supportedLanguagesDictionary && navigation"
-         [supportedLanguagesDictionary]=supportedLanguagesDictionary
-         [navigation]=navigation
+<app-nav
+  *ngIf="supportedLanguagesDictionary && navigation"
+  [supportedLanguagesDictionary]="supportedLanguagesDictionary"
+  [navigation]="navigation"
 ></app-nav>
 
 <main>
-  <router-outlet (activate)="onActivate($event)"></router-outlet>
+  <router-outlet (activate)="onActivate()"></router-outlet>
 </main>
 
 <div class="spacer" id="spacer"></div>
 
-<app-footer *ngIf="navigation"
-            [navigation]=navigation
-></app-footer>
+<app-footer *ngIf="navigation" [navigation]="navigation"></app-footer>
 
 <ng-http-loader [debounceDelay]="500" [minDuration]="1200"></ng-http-loader>

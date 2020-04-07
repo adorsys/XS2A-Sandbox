@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs/internal/Observable';
-import {BehaviorSubject} from "rxjs";
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/internal/Observable';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -12,11 +12,12 @@ export class CertificateService {
   private default = new BehaviorSubject<boolean>(true);
   currentDefault = this.default.asObservable();
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   getQwacCertificate(): Observable<any> {
-    return this.http.get('./assets/content/certificate.txt', {responseType: 'text'});
+    return this.http.get('./assets/content/certificate.txt', {
+      responseType: 'text',
+    });
   }
 
   getStoredCertificate() {

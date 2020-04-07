@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {CustomizeService} from '../../services/customize.service';
-import {ContactInfo, OfficeInfo, Theme} from "../../models/theme.model";
-import {LanguageService} from "../../services/language.service";
+import { Component, OnInit } from '@angular/core';
+import { CustomizeService } from '../../services/customize.service';
+import { ContactInfo, OfficeInfo } from '../../models/theme.model';
+import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-contact',
@@ -16,30 +16,25 @@ export class ContactComponent implements OnInit {
   showQuestionsComponent;
   showContactCard;
 
-  constructor(public customizeService: CustomizeService,
-              private languageService: LanguageService) {
+  constructor(public customizeService: CustomizeService, private languageService: LanguageService) {
     if (this.customizeService.currentTheme) {
-      this.customizeService.currentTheme
-        .subscribe(theme => {
-          this.contactInfo = theme.contactInfo;
-          this.officesInfo = theme.officesInfo;
+      this.customizeService.currentTheme.subscribe((theme) => {
+        this.contactInfo = theme.contactInfo;
+        this.officesInfo = theme.officesInfo;
 
-          const contactPageSettings = theme.pagesSettings.contactPageSettings;
-          if (contactPageSettings) {
-            this.enableQuestionsComponent(contactPageSettings.showQuestionsComponent);
-            this.enableContactCard(contactPageSettings.showContactCard);
-          }
-        });
+        const contactPageSettings = theme.pagesSettings.contactPageSettings;
+        if (contactPageSettings) {
+          this.enableQuestionsComponent(contactPageSettings.showQuestionsComponent);
+          this.enableContactCard(contactPageSettings.showContactCard);
+        }
+      });
     }
-
   }
 
   ngOnInit() {
-    this.languageService.currentLanguage.subscribe(
-      data => {
-
-        this.pathToFile = `${this.customizeService.currentLanguageFolder}/${data}/contact.md`;
-      });
+    this.languageService.currentLanguage.subscribe((data) => {
+      this.pathToFile = `${this.customizeService.currentLanguageFolder}/${data}/contact.md`;
+    });
   }
 
   private enableQuestionsComponent(showQuestionsComponent: boolean) {

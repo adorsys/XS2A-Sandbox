@@ -1,6 +1,7 @@
 <div class="hero">
 
-# Developer Portal 
+# Developer Portal
+
 # by adorsys
 
 <div class="hero-subheader">

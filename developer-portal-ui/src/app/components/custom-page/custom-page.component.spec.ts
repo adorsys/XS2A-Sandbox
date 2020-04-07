@@ -1,12 +1,12 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {CustomPageComponent} from './custom-page.component';
-import {MarkdownModule} from "ngx-markdown";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {TranslateLoader, TranslateModule, TranslateService} from "@ngx-translate/core";
-import {HttpLoaderFactory, LanguageService} from "../../services/language.service";
-import {HttpClient} from "@angular/common/http";
-import {RouterTestingModule} from "@angular/router/testing";
+import { CustomPageComponent } from './custom-page.component';
+import { MarkdownModule } from 'ngx-markdown';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { HttpLoaderFactory, LanguageService } from '../../services/language.service';
+import { HttpClient } from '@angular/common/http';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('CustomPageComponent', () => {
   let component: CustomPageComponent;
@@ -24,12 +24,10 @@ describe('CustomPageComponent', () => {
             provide: TranslateLoader,
             useFactory: HttpLoaderFactory,
             deps: [HttpClient],
-          }
-        })],
-      providers: [
-        LanguageService,
-        TranslateService
+          },
+        }),
       ],
+      providers: [LanguageService, TranslateService],
     }).compileComponents();
   }));
 

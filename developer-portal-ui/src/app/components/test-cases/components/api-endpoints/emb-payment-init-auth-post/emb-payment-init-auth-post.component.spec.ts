@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EmbPaymentInitAuthPostComponent } from './emb-payment-init-auth-post.component';
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import {LineCommandComponent} from "../../../../common/line-command/line-command.component";
+import { LineCommandComponent } from '../../../../common/line-command/line-command.component';
 
 describe('EmbPaymentInitAuthPostComponent', () => {
   let component: EmbPaymentInitAuthPostComponent;
@@ -32,12 +32,7 @@ describe('EmbPaymentInitAuthPostComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        EmbPaymentInitAuthPostComponent,
-        TranslatePipe,
-        MockPlayWithDataComponent,
-        LineCommandComponent,
-      ],
+      declarations: [EmbPaymentInitAuthPostComponent, TranslatePipe, MockPlayWithDataComponent, LineCommandComponent],
     }).compileComponents();
   }));
 

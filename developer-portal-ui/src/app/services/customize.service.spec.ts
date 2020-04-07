@@ -1,8 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 import { CustomizeService } from './customize.service';
 import { Theme } from '../models/theme.model';
@@ -13,7 +10,7 @@ describe('CustomizeService', () => {
   const defTheme: Theme = {
     globalSettings: {
       logo: 'Logo_XS2ASandbox.png',
-      footerLogo: 'Logo_XS2ASandbox.png'
+      footerLogo: 'Logo_XS2ASandbox.png',
     },
     contactInfo: {
       img: 'Rene.png',
@@ -41,49 +38,16 @@ describe('CustomizeService', () => {
       },
     ],
     supportedLanguagesDictionary: {
-      en: "united-kingdom.png",
-      de: "germany.png",
-      es: "spain.png",
-      ua: "ukraine.png"
+      en: 'united-kingdom.png',
+      de: 'germany.png',
+      es: 'spain.png',
+      ua: 'ukraine.png',
     },
     supportedApproaches: ['redirect', 'embedded'],
     currency: 'EUR',
     tppSettings: {
       tppDefaultNokRedirectUrl: 'https://www.google.com',
-      tppDefaultRedirectUrl:
-        'https://adorsys-platform.de/solutions/xs2a-sandbox/',
-    },
-  };
-  const defUserTheme = {
-    globalSettings: {
-      logo: '',
-      footerLogo: '',
-    },
-    contactInfo: {
-      img: '',
-      name: '',
-      position: '',
-    },
-    officesInfo: [
-      {
-        city: '',
-        company: '',
-        addressFirstLine: '',
-        addressSecondLine: '',
-      },
-      {
-        city: '',
-        company: '',
-        addressFirstLine: '',
-        addressSecondLine: '',
-      },
-    ],
-    supportedLanguagesDictionary: {},
-    supportedApproaches: [],
-    currency: '',
-    tppSettings: {
-      tppDefaultNokRedirectUrl: '',
-      tppDefaultRedirectUrl: '',
+      tppDefaultRedirectUrl: 'https://adorsys-platform.de/solutions/xs2a-sandbox/',
     },
   };
 

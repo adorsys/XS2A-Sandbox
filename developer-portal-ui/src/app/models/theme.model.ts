@@ -47,12 +47,12 @@ export interface CSSVariables {
   buttonTextColor?: string;
   buttonHovered?: string;
   buttonClicked?: string;
-  h1FontSize?: string,
-  h1FontWeight?: string,
-  h2FontSize?: string,
-  h2FontWeight?: string,
-  h3FontSize?: string,
-  h3FontWeight?: string
+  h1FontSize?: string;
+  h1FontWeight?: string;
+  h2FontSize?: string;
+  h2FontWeight?: string;
+  h3FontSize?: string;
+  h3FontWeight?: string;
 }
 
 export interface ContactInfo {
@@ -81,12 +81,12 @@ export interface TppSettings {
 
 export interface PagesSettings {
   navigationBarSettings?: {
-    allowedNavigationSize: number
-  }
+    allowedNavigationSize: number;
+  };
   contactPageSettings?: {
-    contactPageRedirectionUrl?: string,
+    contactPageRedirectionUrl?: string;
     showContactCard?: boolean;
-    showQuestionsComponent?: boolean
+    showQuestionsComponent?: boolean;
   };
   homePageSettings?: HomePageSettings;
 }

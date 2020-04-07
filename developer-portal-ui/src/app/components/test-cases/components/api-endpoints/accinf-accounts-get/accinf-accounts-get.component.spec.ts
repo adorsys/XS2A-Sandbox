@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AccinfAccountsGetComponent } from './accinf-accounts-get.component';
-import {Component, Input, Pipe, PipeTransform} from '@angular/core';
-import {LineCommandComponent} from "../../../../common/line-command/line-command.component";
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { LineCommandComponent } from '../../../../common/line-command/line-command.component';
 
 describe('AccinfAccountsGetComponent', () => {
   let component: AccinfAccountsGetComponent;
@@ -10,13 +10,13 @@ describe('AccinfAccountsGetComponent', () => {
 
   @Component({
     selector: 'app-play-wth-data',
-    template: ''
+    template: '',
   })
   class MockPlayWithDataComponent {
     @Input() headers: object;
   }
 
-  @Pipe({name: 'translate'})
+  @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -26,14 +26,8 @@ describe('AccinfAccountsGetComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AccinfAccountsGetComponent,
-        TranslatePipe,
-        MockPlayWithDataComponent,
-        LineCommandComponent
-      ]
-    })
-    .compileComponents();
+      declarations: [AccinfAccountsGetComponent, TranslatePipe, MockPlayWithDataComponent, LineCommandComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

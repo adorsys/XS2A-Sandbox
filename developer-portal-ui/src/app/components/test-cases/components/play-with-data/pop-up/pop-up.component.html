@@ -9,23 +9,13 @@
     <textarea class="edit-text" [(ngModel)]="certificate"> </textarea>
   </div>
   <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-light text-white"
-      (click)="clearCertificate()"
-    >
+    <button type="button" class="btn btn-light text-white" (click)="clearCertificate()">
       Clear
     </button>
-    <button type="button" class="btn btn-light text-white"
-            (click)="restoreCertificate()">
+    <button type="button" class="btn btn-light text-white" (click)="restoreCertificate()">
       Default
     </button>
-    <button
-      type="button"
-      class="btn btn-light text-white"
-      (click)="c('Save click')"
-      (click)="saveCertificate()"
-    >
+    <button type="button" class="btn btn-light text-white" (click)="c('Save click')" (click)="saveCertificate()">
       Save
     </button>
   </div>

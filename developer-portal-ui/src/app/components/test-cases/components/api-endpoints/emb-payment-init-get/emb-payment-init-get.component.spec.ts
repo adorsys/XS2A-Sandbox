@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EmbPaymentInitGetComponent } from './emb-payment-init-get.component';
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import {LineCommandComponent} from "../../../../common/line-command/line-command.component";
+import { LineCommandComponent } from '../../../../common/line-command/line-command.component';
 
 describe('EmbPaymentInitGetComponent', () => {
   let component: EmbPaymentInitGetComponent;
@@ -29,12 +29,7 @@ describe('EmbPaymentInitGetComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        EmbPaymentInitGetComponent,
-        MockPlayWithDataComponent,
-        TranslatePipe,
-        LineCommandComponent,
-      ],
+      declarations: [EmbPaymentInitGetComponent, MockPlayWithDataComponent, TranslatePipe, LineCommandComponent],
     }).compileComponents();
   }));
 

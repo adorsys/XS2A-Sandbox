@@ -1,18 +1,18 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {PostmanTestingComponent} from './postman-testing.component';
-import {Pipe, PipeTransform} from '@angular/core';
-import {MarkdownModule} from "ngx-markdown";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {TranslateLoader, TranslateModule, TranslateService} from "@ngx-translate/core";
-import {HttpLoaderFactory, LanguageService} from "../../../../services/language.service";
-import {HttpClient} from "@angular/common/http";
+import { PostmanTestingComponent } from './postman-testing.component';
+import { Pipe, PipeTransform } from '@angular/core';
+import { MarkdownModule } from 'ngx-markdown';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { HttpLoaderFactory, LanguageService } from '../../../../services/language.service';
+import { HttpClient } from '@angular/common/http';
 
 describe('PostmanTestingComponent', () => {
   let component: PostmanTestingComponent;
   let fixture: ComponentFixture<PostmanTestingComponent>;
 
-  @Pipe({name: 'translate'})
+  @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -30,17 +30,11 @@ describe('PostmanTestingComponent', () => {
             provide: TranslateLoader,
             useFactory: HttpLoaderFactory,
             deps: [HttpClient],
-          }
-        })
+          },
+        }),
       ],
-      providers: [
-        LanguageService,
-        TranslateService,
-      ],
-      declarations: [
-        PostmanTestingComponent,
-        TranslatePipe
-      ],
+      providers: [LanguageService, TranslateService],
+      declarations: [PostmanTestingComponent, TranslatePipe],
     }).compileComponents();
   }));
 

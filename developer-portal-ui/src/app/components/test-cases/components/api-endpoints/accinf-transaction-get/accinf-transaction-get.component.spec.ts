@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AccinfTransactionGetComponent } from './accinf-transaction-get.component';
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import {LineCommandComponent} from "../../../../common/line-command/line-command.component";
+import { LineCommandComponent } from '../../../../common/line-command/line-command.component';
 
 describe('AccinfTransactionGetComponent', () => {
   let component: AccinfTransactionGetComponent;
@@ -30,12 +30,7 @@ describe('AccinfTransactionGetComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AccinfTransactionGetComponent,
-        LineCommandComponent,
-        TranslatePipe,
-        MockPlayWithDataComponent,
-      ],
+      declarations: [AccinfTransactionGetComponent, LineCommandComponent, TranslatePipe, MockPlayWithDataComponent],
     }).compileComponents();
   }));
 

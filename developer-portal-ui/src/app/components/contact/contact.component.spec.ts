@@ -1,18 +1,17 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {ContactComponent} from './contact.component';
-import {Pipe, PipeTransform} from '@angular/core';
-import {CustomizeService} from '../../services/customize.service';
-import {MarkdownModule} from "ngx-markdown";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {TranslateLoader, TranslateModule, TranslateService} from "@ngx-translate/core";
-import {HttpLoaderFactory, LanguageService} from "../../services/language.service";
-import {HttpClient} from "@angular/common/http";
+import { ContactComponent } from './contact.component';
+import { Pipe, PipeTransform } from '@angular/core';
+import { CustomizeService } from '../../services/customize.service';
+import { MarkdownModule } from 'ngx-markdown';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { HttpLoaderFactory, LanguageService } from '../../services/language.service';
+import { HttpClient } from '@angular/common/http';
 
 describe('ContactComponent', () => {
   let component: ContactComponent;
   let fixture: ComponentFixture<ContactComponent>;
-  let customizeService: CustomizeService;
 
   const CustomizeServiceStub = {
     isCustom: () => false,
@@ -61,7 +60,7 @@ describe('ContactComponent', () => {
     },
   };
 
-  @Pipe({name: 'translate'})
+  @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -80,18 +79,11 @@ describe('ContactComponent', () => {
             provide: TranslateLoader,
             useFactory: HttpLoaderFactory,
             deps: [HttpClient],
-          }
-        })],
-      providers: [
-        LanguageService,
-        TranslateService,
-        {provide: CustomizeService, useValue: CustomizeServiceStub},
+          },
+        }),
       ],
-    })
-      .compileComponents()
-      .then(() => {
-        customizeService = TestBed.get(CustomizeService);
-      });
+      providers: [LanguageService, TranslateService, { provide: CustomizeService, useValue: CustomizeServiceStub }],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

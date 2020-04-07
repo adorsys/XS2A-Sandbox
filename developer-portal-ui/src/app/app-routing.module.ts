@@ -1,30 +1,30 @@
-import {NgModule} from '@angular/core';
-import {Routes, RouterModule, ExtraOptions} from '@angular/router';
-import {HomeComponent} from "./components/home/home.component";
-import {GettingStartedComponent} from "./components/getting-started/getting-started.component";
-import {ContactComponent} from "./components/contact/contact.component";
-import {CustomPageComponent} from "./components/custom-page/custom-page.component";
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule, ExtraOptions } from '@angular/router';
+import { HomeComponent } from './components/home/home.component';
+import { GettingStartedComponent } from './components/getting-started/getting-started.component';
+import { ContactComponent } from './components/contact/contact.component';
+import { CustomPageComponent } from './components/custom-page/custom-page.component';
 
 const routes: Routes = [
   {
     path: 'home',
-    component: HomeComponent
+    component: HomeComponent,
   },
   {
     path: 'getting-started',
-    component: GettingStartedComponent
+    component: GettingStartedComponent,
   },
   {
     path: 'contact',
-    component: ContactComponent
+    component: ContactComponent,
   },
   {
     path: 'page/:name',
-    component: CustomPageComponent
+    component: CustomPageComponent,
   },
   {
     path: '**',
-    component: HomeComponent
+    component: HomeComponent,
   },
 ];
 const routerOptions: ExtraOptions = {
@@ -36,5 +36,4 @@ const routerOptions: ExtraOptions = {
   imports: [RouterModule.forRoot(routes, routerOptions)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}

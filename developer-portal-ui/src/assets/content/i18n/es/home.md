@@ -1,11 +1,12 @@
 <div class="hero">
 
 # Portal de desarrolladores
+
 # por adorsys
 
 <div class="hero-subheader">
 
-## Creando nuevos, digitales  <br/> servicios a través de Open  <br/> Banking
+## Creando nuevos, digitales <br/> servicios a través de Open <br/> Banking
 
 </div>
 </div>
@@ -53,5 +54,6 @@ Paso 3 <br/>
 
 # XS2ASandbox características
 
-XS2ASandbox es un entorno dinámico de sandbox: se puede crear usuarios, pagos y consentimientos, jugar con datos para propósitos de prueba. Con dinamica sandbox TPP UI se puede acceder directamente a la API de la banca, obtener el certificado de TPP y administrar las cuentas de prueba. El portal de desarrolladores contiene instrucciones de prueba y todos los casos de prueba necesarios. Todos los servicios de XS2ASandbox se pueden instalar y ejecutar en un solo comando. Se admiten dos enfoques principales de SCA:  REDIRECTO E INTEGRADO. Para el enfoque redirecto fue creado el online banking demo UI.
+XS2ASandbox es un entorno dinámico de sandbox: se puede crear usuarios, pagos y consentimientos, jugar con datos para propósitos de prueba. Con dinamica sandbox TPP UI se puede acceder directamente a la API de la banca, obtener el certificado de TPP y administrar las cuentas de prueba. El portal de desarrolladores contiene instrucciones de prueba y todos los casos de prueba necesarios. Todos los servicios de XS2ASandbox se pueden instalar y ejecutar en un solo comando. Se admiten dos enfoques principales de SCA: REDIRECTO E INTEGRADO. Para el enfoque redirecto fue creado el online banking demo UI.
+
 </div>

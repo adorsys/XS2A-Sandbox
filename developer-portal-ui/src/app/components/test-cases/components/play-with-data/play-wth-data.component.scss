@@ -91,7 +91,8 @@
       width: 40%;
     }
 
-    input, select {
+    input,
+    select {
       outline: none;
       width: 100%;
       font-size: 1em;
@@ -251,7 +252,8 @@
   overflow: hidden;
 }
 
-.top-line, select {
+.top-line,
+select {
   display: table-cell;
   vertical-align: middle;
 }

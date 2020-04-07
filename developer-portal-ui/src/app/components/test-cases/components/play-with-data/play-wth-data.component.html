@@ -28,9 +28,7 @@
           {{ ps }}
         </option>
       </select>
-      <span class="top-line" *ngIf="paymentProductFlag || accountIdFlag"
-      >/</span
-      >
+      <span class="top-line" *ngIf="paymentProductFlag || accountIdFlag">/</span>
       <input
         type="text"
         class="payment-id"
@@ -44,11 +42,7 @@
         [(ngModel)]="paymentProduct"
         (ngModelChange)="handlePaymentProductChanged($event)"
       >
-        <option
-          [value]="'/' + pp"
-          *ngFor="let pp of paymentProductSelect"
-          [selected]="'/' + pp == paymentProduct"
-        >
+        <option [value]="'/' + pp" *ngFor="let pp of paymentProductSelect" [selected]="'/' + pp == paymentProduct">
           {{ pp }}
         </option>
       </select>
@@ -70,34 +64,37 @@
         [ngClass]="{ filled: consentId, 'payment-id': !consentId }"
       />
 
-      <span class="top-line" *ngIf="variablePathEnd">{{
-        variablePathEnd
-        }}</span>
-      <span
-        class="top-line"
-        *ngIf="authorisationIdFlag || cancellationIdFlag || transactionIdFlag"
-      >/</span
-      >
+      <span class="top-line" *ngIf="variablePathEnd">{{ variablePathEnd }}</span>
+      <span class="top-line" *ngIf="authorisationIdFlag || cancellationIdFlag || transactionIdFlag">/</span>
       <input
         type="text"
         class="payment-id"
         *ngIf="authorisationIdFlag"
         [(ngModel)]="authorisationId"
-        [ngClass]="{ filled: authorisationId, 'payment-id': !authorisationId }"
+        [ngClass]="{
+          filled: authorisationId,
+          'payment-id': !authorisationId
+        }"
       />
       <input
         type="text"
         class="payment-id"
         *ngIf="cancellationIdFlag"
         [(ngModel)]="cancellationId"
-        [ngClass]="{ filled: cancellationId, 'payment-id': !cancellationId }"
+        [ngClass]="{
+          filled: cancellationId,
+          'payment-id': !cancellationId
+        }"
       />
       <input
         type="text"
         class="payment-id"
         *ngIf="transactionIdFlag"
         [(ngModel)]="transactionId"
-        [ngClass]="{ filled: transactionId, 'payment-id': !transactionId }"
+        [ngClass]="{
+          filled: transactionId,
+          'payment-id': !transactionId
+        }"
       />
       <span class="top-line" *ngIf="dateFromFlag">?</span>
       <span class="top-line" *ngIf="dateFromFlag">dateFrom=</span>
@@ -113,7 +110,10 @@
         id="bookingStatus"
         *ngIf="bookingStatusFlag"
         [(ngModel)]="bookingStatus"
-        [ngClass]="{ filled: bookingStatus, 'payment-id': !bookingStatus }"
+        [ngClass]="{
+          filled: bookingStatus,
+          'payment-id': !bookingStatus
+        }"
       >
         <option [value]="bs" *ngFor="let bs of bookingStatusSelect">
           {{ bs }}
@@ -137,21 +137,14 @@
   </div>
 
   <div class="play-with-data-table bg th">
-    <span style="width: 60%;">{{
-      'TEST_CASES.COMPONENTS.TH.TH_1' | translate
-      }}</span>
+    <span style="width: 60%;">{{ 'TEST_CASES.COMPONENTS.TH.TH_1' | translate }}</span>
     <div>{{ 'TEST_CASES.COMPONENTS.TH.TH_2' | translate }}</div>
   </div>
 
   <div class="play-with-data-table" *ngIf="acceptFlag">
-    <label class="check-container">Accept
-      <input
-        type="checkbox"
-        id="acceptHeaderCheckbox"
-        name="acceptHeaderCheckbox"
-        checked
-        class="checkbox"
-      />
+    <label class="check-container"
+      >Accept
+      <input type="checkbox" id="acceptHeaderCheckbox" name="acceptHeaderCheckbox" checked class="checkbox" />
       <span class="checkmark"></span>
     </label>
     <select [(ngModel)]="acceptHeader" (ngModelChange)="onClear()">
@@ -161,9 +154,11 @@
 
   <div
     class="play-with-data-table"
-    *ngFor="let item of (headers | keyvalue); let i = index; trackBy: trackByFn"
-    [ngClass]="acceptFlag ? (i % 2 ? null : 'bg') : i % 2 ? 'bg' : null">
-    <label class="check-container">{{ item.key }}
+    *ngFor="let item of headers | keyvalue; let i = index; trackBy: trackByFn"
+    [ngClass]="acceptFlag ? (i % 2 ? null : 'bg') : i % 2 ? 'bg' : null"
+  >
+    <label class="check-container"
+      >{{ item.key }}
       <input
         type="checkbox"
         (change)="disableHeader($event)"
@@ -174,23 +169,29 @@
       <span class="checkmark"></span>
     </label>
     <select
-      *ngIf="isBooleanValue(item); else: regularInput"
+      *ngIf="isBooleanValue(item); else regularInput"
       [(ngModel)]="item.value"
-      (change)="changeBooleanHeader(item.key, $event.target.value)">
-      <option *ngFor="let boolean of booleanValues" [value]="boolean">{{
-        boolean
-        }}</option>
+      (change)="changeBooleanHeader(item.key, $event.target.value)"
+    >
+      <option *ngFor="let boolean of booleanValues" [value]="boolean">{{ boolean }}</option>
     </select>
 
     <ng-template #regularInput>
-      <input [(ngModel)]="headers[item.key]" type="text" [id]="item.key" class="mr-1"
-             [disabled]="item.key === 'TPP-QWAC-Certificate' && default"/>
+      <input
+        [(ngModel)]="headers[item.key]"
+        type="text"
+        [id]="item.key"
+        class="mr-1"
+        [disabled]="item.key === 'TPP-QWAC-Certificate' && default"
+      />
 
-      <app-pop-up class="ml-1"
-                  [default]="default"
-                  *ngIf="item.key === 'TPP-QWAC-Certificate'"
-                  [certificate]="headers['TPP-QWAC-Certificate']"
-                  (onEditCertificate)="updateCertificate($event)"></app-pop-up>
+      <app-pop-up
+        class="ml-1"
+        [default]="default"
+        *ngIf="item.key === 'TPP-QWAC-Certificate'"
+        [certificate]="headers['TPP-QWAC-Certificate']"
+        (editCertificate)="updateCertificate($event)"
+      ></app-pop-up>
     </ng-template>
   </div>
 
@@ -199,35 +200,13 @@
 
     <div class="play-with-data-table bg" *ngIf="consentTypeFlag">
       <span>Select consent type</span>
-      <select
-        id="consentTypeSelector"
-        [(ngModel)]="selectedConsentType"
-        (ngModelChange)="handleConsentSelected($event)"
-      >
-        <option
-          *ngFor="let consent of (consentTypes | keyvalue); let i = index"
-          [value]="consent.key"
-        >{{ consent.key }}
-        </option>
+      <select id="consentTypeSelector" [(ngModel)]="selectedConsentType" (ngModelChange)="handleConsentSelected($event)">
+        <option *ngFor="let consent of consentTypes | keyvalue; let i = index" [value]="consent.key">{{ consent.key }} </option>
       </select>
     </div>
 
-    <textarea
-      name=""
-      id="textAreaXml"
-      cols="30"
-      rows="10"
-      *ngIf="body && xml"
-      [value]="body"
-    ></textarea>
-    <textarea
-      name=""
-      id="textArea"
-      cols="30"
-      rows="10"
-      *ngIf="body && !xml"
-      [value]="body | json"
-    ></textarea>
+    <textarea name="" id="textAreaXml" cols="30" rows="10" *ngIf="body && xml" [value]="body"></textarea>
+    <textarea name="" id="textArea" cols="30" rows="10" *ngIf="body && !xml" [value]="body | json"></textarea>
   </div>
 
   <ng-container *ngIf="response">
@@ -242,10 +221,7 @@
 
     <div *ngIf="response['error']" class="response-body">
       <span class="status-style">Error details</span>
-      <p
-        class="response-body-text"
-        *ngIf="!acceptHeader || acceptHeader == 'application/json'"
-      >
+      <p class="response-body-text" *ngIf="!acceptHeader || acceptHeader == 'application/json'">
         {{ response['error'] | json }}
       </p>
       <p class="response-body-text" *ngIf="acceptHeader == 'application/xml'">
@@ -255,10 +231,7 @@
 
     <div *ngIf="response.body" class="response-body">
       <span>Response body</span>
-      <p
-        class="response-body-text"
-        *ngIf="!acceptHeader || acceptHeader == 'application/json'"
-      >
+      <p class="response-body-text" *ngIf="!acceptHeader || acceptHeader == 'application/json'">
         {{ response.body | json }}
       </p>
       <p class="response-body-text" *ngIf="acceptHeader == 'application/xml'">
@@ -268,56 +241,32 @@
 
     <div *ngIf="(fieldsToCopy || resourceIds) && response.body">
       <table>
-        <tr
-          class="copy-field-wrapper"
-          *ngFor="let field of fieldsToCopy; let i = index"
-        >
-          <div
-            *ngIf="
-              copyService.getCopyValue(i, fieldsToCopy, response, paymentId)
-            "
-          >
+        <tr class="copy-field-wrapper" *ngFor="let field of fieldsToCopy; let i = index">
+          <div *ngIf="copyService.getCopyValue(i, fieldsToCopy, response, paymentId)">
             <td class="copy-label">
               <label [for]="'input-' + i">{{ field }}</label>
             </td>
             <td class="copy-field">
-              <input
-                type="text"
-                [value]="
-                  copyService.getCopyValue(i, fieldsToCopy, response, paymentId)
-                "
-                [id]="'input-' + i"
-              />
+              <input type="text" [value]="copyService.getCopyValue(i, fieldsToCopy, response, paymentId)" [id]="'input-' + i" />
             </td>
             <td>
-              <button
-                class="copy-btn"
-                (click)="copyService.copyThis(i, fieldsToCopy)"
-              >
+              <button class="copy-btn" (click)="copyService.copyThis(i, fieldsToCopy)">
                 Copy
               </button>
             </td>
           </div>
         </tr>
 
-        <tr
-          class="copy-field-wrapper"
-          *ngFor="let resourceId of resourceIds; let i = index"
-        >
+        <tr class="copy-field-wrapper" *ngFor="let resourceId of resourceIds; let i = index">
           <div>
             <td class="copy-label">
               <label [for]="'input-' + i">resourceId {{ i + 1 }}</label>
             </td>
             <td class="copy-field">
-              <input type="text" [value]="resourceId" [id]="'input-' + i"/>
+              <input type="text" [value]="resourceId" [id]="'input-' + i" />
             </td>
             <td>
-              <button
-                class="copy-btn"
-                (click)="
-                  copyService.copyThis(i, resourceIds, 'resourceId ' + (i + 1))
-                "
-              >
+              <button class="copy-btn" (click)="copyService.copyThis(i, resourceIds, 'resourceId ' + (i + 1))">
                 Copy
               </button>
             </td>
@@ -340,12 +289,7 @@
 
   <div class="btns">
     <button class="submit-btn" (click)="sendRequest()">Submit</button>
-    <a
-      [href]="redirectUrl"
-      target="_blank"
-      class="redirect-btn"
-      *ngIf="redirectUrl"
-    >
+    <a [href]="redirectUrl" target="_blank" class="redirect-btn" *ngIf="redirectUrl">
       Redirect Url
     </a>
   </div>

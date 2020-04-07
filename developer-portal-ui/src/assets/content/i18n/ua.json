@@ -67,7 +67,7 @@
     }
   },
   "TEST_CASES": {
-   "INTRODUCTION": {
+    "INTRODUCTION": {
       "TITLE": "ВСТУП",
       "REDIRECT": "Короткий огляд підходу REDIRECT",
       "EMBEDDED": "Короткий огляд підходу EMBEDDED",

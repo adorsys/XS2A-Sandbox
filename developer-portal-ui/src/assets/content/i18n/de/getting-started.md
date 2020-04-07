@@ -3,7 +3,7 @@
 
 # Einleitung
 
-[Die Payment Service Directive 2]((https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32015L2366&from=EN)) (PSD2) schreibt Banken (ASPSPs = Account Servicing Payment Service Providers) vor bis März 2020 eine standardisierte und voll leistungsfähige Account-Schnittstelle für Drittanbieter (TPPs = Third Payment Providers) bereitzustellen. Diese wird Access-to-Account oder kurz "XS2A" genannt. XS2A setzt sich aus folgenden Banking-Funktionalitäten zusammen: Zahlungsinitiierung (PIS = Payment Initiation Service), Kontodatenabfrage (AIS = Account Information Service) und Abfrage von verfügbarem Kapital (PIIS = confirmation of the availability of funds). Um die Einhaltung der Frist zu gewährleisten und sowohl Fehlerbehebungen als auch Anpassungen berücksichtigen zu können, verpflichtet PSD2 die Banken eine Testversion der Schnittstelle bereits im Juni 2019 zur Verfügung zu stellen.
+[Die Payment Service Directive 2](<(https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32015L2366&from=EN)>) (PSD2) schreibt Banken (ASPSPs = Account Servicing Payment Service Providers) vor bis März 2020 eine standardisierte und voll leistungsfähige Account-Schnittstelle für Drittanbieter (TPPs = Third Payment Providers) bereitzustellen. Diese wird Access-to-Account oder kurz "XS2A" genannt. XS2A setzt sich aus folgenden Banking-Funktionalitäten zusammen: Zahlungsinitiierung (PIS = Payment Initiation Service), Kontodatenabfrage (AIS = Account Information Service) und Abfrage von verfügbarem Kapital (PIIS = confirmation of the availability of funds). Um die Einhaltung der Frist zu gewährleisten und sowohl Fehlerbehebungen als auch Anpassungen berücksichtigen zu können, verpflichtet PSD2 die Banken eine Testversion der Schnittstelle bereits im Juni 2019 zur Verfügung zu stellen.
 
 Unsere **XS2ASandbox** ist eine dynamische Sandboxumgebung, die vollständig die PSD2-Anforderungen bezüglich API-Bereitstellung für Drittanbieter (TPPs = Third Payment Providers) erfüllt. Zusätzlich erfüllt sie auch alle regulatorischen Anforderungen der NextGen PSD2-Spezifikation der Berlin Group bezüglich Account Schnittstellen (XS2A = Access-to-Account) und ist NISP konform.
 
@@ -44,7 +44,6 @@ Nach der Einbettung des QWAC in die eigentliche XS2A-Anfrage werden sowohl die R
 
 TPP - Entwickler können sich im System registrieren und somit ein Zertifikat erhalten . Mit diesem Zertifikat und den vorgegeben Daten in der TPP Benutzeroberfläche können Sie Test - Daten für ihre TPP - Anwendung herunterladen
 
-
 ## Wie legt man ein Benutzerkonto für den TPP an:
 
 1. Öffnen Sie die Login - Seite in der TPP Benutzeroberfläche.
@@ -54,7 +53,6 @@ TPP - Entwickler können sich im System registrieren und somit ein Zertifikat er
 3. Geben Sie die notwendigen Informationen ein: TPP Autorisierungsnummer, Email, Login und Passwort.
 
 4. Bei Bedarf können Sie ein QWAC Testzertifikat zum Testen der XS2A Schnittstelle generieren.
-
 
 ## Wie werden Benutzer angelegt:
 
@@ -68,7 +66,6 @@ Benutzer können manuell angelegt werden oder über das Hochladen einer .yaml Da
 
 3. Wählen Sie eine Authentifizierungsmethode aus (derzeit ist nur Email gültig) und geben Sie eine gültige Email ein. Wenn Sie die Option "Statische TAN in SandboxModus verwenden" wählen, werden statische Test TANs verwendet. Das bedeutet Ihre Test TAN muss eingeben werden. Sie können mehrere SCA Methoden pro Benutzer hinzufügen
 
-
 ### Benutzerkonten manuell erstellen:
 
 1 Wählen Sie einen Benutzer in der Benutzerliste aus und klicken Sie auf "Konto erstellen"
@@ -79,7 +76,6 @@ Benutzer können manuell angelegt werden oder über das Hochladen einer .yaml Da
 
 Um Benutzer und Konten automatisch zu erstellen, können Sie Testdaten mit dem Reiter "Testdaten generieren" generieren, damit werden NISP konforme Testdaten generiert. Wenn Sie Ihre eigene .yaml Testdatei hochladen möchten, verwenden Sie den Reiter "Dateien hochladen".
 
-
 ### Wie werden Test - Zahlungen, -Zustimmungen und -Transaktionen erstellt:
 
 Um Test - Zahlungen zu erstellen, müssen Sie Test - Zahlungsdaten im Reiter "Testdaten generieren" generieren, wobei die Option "Zahlungsdaten generieren" als wahr markiert werden muss. Darüber hinaus ist das Hochladen einer benutzerdefinierten .yaml Datei mit Zahlungen im Reiter "Dateien hochladen" möglich. Zustimmungen und Transaktionen können nur mit dem Hochladen einer korrekten .yaml Datei erstellt werden.
@@ -88,6 +84,7 @@ Um Test - Zahlungen zu erstellen, müssen Sie Test - Zahlungsdaten im Reiter "Te
 </div>
 
 # Online Banking
+
 Im Falle des REDIRECT SCA-Ansatzes möchte ein Nutzer seine Zustimmung zur Verwendung seiner Kontoinformationen oder zur Zahlungsinitiierung/-stornierung erteilen. Online-Banking ist eine Benutzerschnittstelle zur Erteilung der Zustimmung zu einer Bank. Links für eine Einwilligungsbestätigung und Zahlungsinitiierung oder -stornierung werden in der Rückmeldung der entsprechenden Endpunkte angegeben.
 
 <div class="divider">
@@ -95,7 +92,7 @@ Im Falle des REDIRECT SCA-Ansatzes möchte ein Nutzer seine Zustimmung zur Verwe
 
 # Links zu den Umgebungen
 
-| Service                   |           Lokale Umgebung              |                                                                   XS2ASandbox Umgebung |
+| Service                   |            Lokale Umgebung             |                                                                   XS2ASandbox Umgebung |
 | ------------------------- | :------------------------------------: | -------------------------------------------------------------------------------------: |
 | XS2A Interface Swagger    | http://localhost:8089/swagger-ui.html  |                                     https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/ |
 | Developer portal          |         http://localhost:4206          |                        https://demo-dynamicsandbox-developerportalui.cloud.adorsys.de/ |
@@ -111,10 +108,11 @@ Im Falle des REDIRECT SCA-Ansatzes möchte ein Nutzer seine Zustimmung zur Verwe
 </div>
 
 # Herunterladen, Einrichten und Ausführen des Projekts
+
 ## Voraussetzungen
 
 Das XS2ASandbox Projekt läuft mit docker-compose, das sich in docker-compose.yml und Makefile im Projektverzeichnis befindet. Bevor Sie das Projekt ausführen lassen, überprüfen Sie mit:
- 
+
 _make check_
 
 Ob Sie alle notwendigen Programme installiert haben. Die fehlenden müssen Sie lokal auf Ihren Rechner installieren, da die XS2ASandbox ansonsten nicht erfolgreich gebaut werden kann. Hier ist eine Liste aller Programme und derer Links die Sie installiert haben müssen:
@@ -253,7 +251,7 @@ Sollte Ihre NodeJs Version höher als 11.x sein, ändern Sie diese zu einer frü
 2. Falls Sie kein Konto haben, wechseln Sie mit Hilfe des "Register" Button zu der Registrierungsansicht.
 3. Registrieren und loggen Sie sich ein.
 4. Laden Sie Ihre Testdaten hoch und starten Sie Ihren Testlauf.
-In Abbildung 1.2 ist der vollständige Ablauf wie man als TPP die Arbeit mit der XS2ASandbox beginnt veranschaulicht:
+   In Abbildung 1.2 ist der vollständige Ablauf wie man als TPP die Arbeit mit der XS2ASandbox beginnt veranschaulicht:
 
 ![Abbildung 1.2](../../assets/images/Flow.png)
 

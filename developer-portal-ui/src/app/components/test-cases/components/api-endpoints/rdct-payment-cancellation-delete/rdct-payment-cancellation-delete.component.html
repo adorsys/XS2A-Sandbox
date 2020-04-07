@@ -3,9 +3,7 @@
   <div class="endpoint-segment-wrapper">
     <div
       class="endpoint-segment-item"
-      [ngClass]="
-        activeSegment === 'documentation' ? 'left-item' : 'unactive-item'
-      "
+      [ngClass]="activeSegment === 'documentation' ? 'left-item' : 'unactive-item'"
       (click)="changeSegment('documentation')"
     >
       <span>{{ 'TEST_CASES.COMPONENTS.TABS.DOC' | translate }}</span>
@@ -22,11 +20,10 @@
   <!-- Main content -->
   <div class="endpoint-main-content">
     <!-- Documentation -->
-    <div
-      class="endpoint-documentation"
-      *ngIf="activeSegment === 'documentation'; else: play_with_data"
-    >
-      <h1>{{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.TITLE_1' | translate }}</h1>
+    <div class="endpoint-documentation" *ngIf="activeSegment === 'documentation'; else play_with_data">
+      <h1>
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.TITLE_1' | translate }}
+      </h1>
       <p>
         {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_1' | translate }}
         <app-line-command title="scaRedirect"></app-line-command>
@@ -35,10 +32,7 @@
       <p>
         {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_3' | translate }}
         <span class="bold-text">DELETE</span> endpoint
-        <app-line-command
-          title="/v1/{payment-service}/{payment-product}/{paymentId}"
-        ></app-line-command
-        >.
+        <app-line-command title="/v1/{payment-service}/{payment-product}/{paymentId}"></app-line-command>.
       </p>
       <p>
         {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_4' | translate }}
@@ -46,22 +40,20 @@
         {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_5' | translate }}
         <app-line-command title="payment-product"></app-line-command>
         {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_6' | translate }}
-        <span class="bold-text">{{
-          'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.STEP' | translate
-        }}</span
+        <span class="bold-text">{{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.STEP' | translate }}</span
         >.
       </p>
 
       <p>
         {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_7' | translate }}
-        <span class="bold-text">{{
-          'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.STEP' | translate
-        }}</span>
+        <span class="bold-text">{{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.STEP' | translate }}</span>
         {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_8' | translate }}
         <app-line-command title="paymentId"></app-line-command>.
       </p>
 
-      <p>{{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_9' | translate }}</p>
+      <p>
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_9' | translate }}
+      </p>
 
       <div class="api-table bg th">
         <span>{{ 'TEST_CASES.COMPONENTS.TH.TH_1' | translate }}</span>
@@ -71,18 +63,15 @@
         <span>X-Request-ID</span>
         <span>2f77a125-aa7a-45c0-b414-cea25a116035</span>
       </div>
-      <div class="api-table bg">
-        <span>PSU-IP-Address</span> <span>1.1.1.1</span>
-      </div>
-      <div class="api-table">
-        <span>TPP-Redirect-Preferred</span> <span>true</span>
-      </div>
+      <div class="api-table bg"><span>PSU-IP-Address</span> <span>1.1.1.1</span></div>
+      <div class="api-table"><span>TPP-Redirect-Preferred</span> <span>true</span></div>
       <div class="api-table bg">
         <span>TPP-Redirect-URI</span>
         <span>https://adorsys-platform.de/solutions/xs2a-sandbox/</span>
       </div>
       <div class="api-table">
-        <span>TPP-Nok-Redirect-URI</span> <span>https://www.google.com</span>
+        <span>TPP-Nok-Redirect-URI</span>
+        <span>https://www.google.com</span>
       </div>
       <div class="api-table bg">
         <span>TPP-QWAC-Certificate</span>
@@ -90,12 +79,12 @@
       </div>
       <p>
         {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_10' | translate }}
-        <span class="italic-text">{{
-          'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.ITALIC_SPAN' | translate
-        }}</span>
+        <span class="italic-text">{{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.ITALIC_SPAN' | translate }}</span>
         {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_11' | translate }}
       </p>
-      <h1>{{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.TITLE_2' | translate }}</h1>
+      <h1>
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.TITLE_2' | translate }}
+      </h1>
       <p>
         {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_12' | translate }}
         <app-line-command title="scaRedirect"></app-line-command>

@@ -3,9 +3,7 @@
   <div class="endpoint-segment-wrapper">
     <div
       class="endpoint-segment-item"
-      [ngClass]="
-        activeSegment === 'documentation' ? 'left-item' : 'unactive-item'
-      "
+      [ngClass]="activeSegment === 'documentation' ? 'left-item' : 'unactive-item'"
       (click)="changeSegment('documentation')"
     >
       <span>{{ 'TEST_CASES.COMPONENTS.TABS.DOC' | translate }}</span>
@@ -22,28 +20,20 @@
   <!-- Main content -->
   <div class="endpoint-main-content">
     <!-- Documentation -->
-    <div
-      class="endpoint-documentation"
-      *ngIf="activeSegment === 'documentation'; else: play_with_data"
-    >
-      <h1>{{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.TITLE' | translate }}</h1>
-      <span class="bold-text">{{
-        'TEST_CASES.COMPONENTS.EMB_CONS_PUT.SUBTITLE_1' | translate
-      }}</span>
+    <div class="endpoint-documentation" *ngIf="activeSegment === 'documentation'; else play_with_data">
+      <h1>
+        {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.TITLE' | translate }}
+      </h1>
+      <span class="bold-text">{{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.SUBTITLE_1' | translate }}</span>
       <p>
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_1' | translate }}
-        <span class="italic-text">{{
-          'TEST_CASES.COMPONENTS.EMB_CONS_PUT.ITALIC' | translate
-        }}</span>
+        <span class="italic-text">{{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.ITALIC' | translate }}</span>
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_2' | translate }}
       </p>
       <p>
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_3' | translate }}
         <span class="bold-text">PUT</span> endpoint
-        <app-line-command
-          title="/v1/consents/{consentId}/authorisations/{authorisationId}"
-        ></app-line-command
-        >.
+        <app-line-command title="/v1/consents/{consentId}/authorisations/{authorisationId}"></app-line-command>.
       </p>
       <p>
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_4' | translate }}
@@ -62,9 +52,7 @@
         <span>X-Request-ID</span>
         <span>2f77a125-aa7a-45c0-b414-cea25a116035</span>
       </div>
-      <div class="api-table bg">
-        <span>PSU-ID</span> <span>YOUR_USER_LOGIN</span>
-      </div>
+      <div class="api-table bg"><span>PSU-ID</span> <span>YOUR_USER_LOGIN</span></div>
       <div class="api-table">
         <span>PSU-IP-Address</span> <span>1.1.1.1</span>
         <div class="api-table bg">
@@ -88,16 +76,11 @@
         <app-line-command title="scaStatus: Finalised"></app-line-command>
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_13' | translate }}
       </p>
-      <span class="bold-text">{{
-        'TEST_CASES.COMPONENTS.EMB_CONS_PUT.SUBTITLE_2' | translate
-      }}</span>
+      <span class="bold-text">{{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.SUBTITLE_2' | translate }}</span>
       <p>
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_14' | translate }}
         <span class="bold-text">PUT</span> endpoint
-        <app-line-command
-          title="/v1/consents/{consentId}/authorisations/{authorisationId}"
-        ></app-line-command
-        >.
+        <app-line-command title="/v1/consents/{consentId}/authorisations/{authorisationId}"></app-line-command>.
       </p>
       <p>
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_15' | translate }}
@@ -106,7 +89,9 @@
         <app-line-command title="authorisationId"></app-line-command>
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_17' | translate }}
       </p>
-      <p>{{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_18' | translate }}</p>
+      <p>
+        {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_18' | translate }}
+      </p>
       <div class="api-table bg th">
         <span>{{ 'TEST_CASES.COMPONENTS.TH.TH_1' | translate }}</span>
         <span>{{ 'TEST_CASES.COMPONENTS.TH.TH_2' | translate }}</span>
@@ -115,18 +100,16 @@
         <span>X-Request-ID</span>
         <span>2f77a125-aa7a-45c0-b414-cea25a116035</span>
       </div>
-      <div class="api-table bg">
-        <span>PSU-ID</span> <span>YOUR_USER_LOGIN</span>
-      </div>
-      <div class="api-table">
-        <span>PSU-IP-Address</span> <span>1.1.1.1</span>
-      </div>
+      <div class="api-table bg"><span>PSU-ID</span> <span>YOUR_USER_LOGIN</span></div>
+      <div class="api-table"><span>PSU-IP-Address</span> <span>1.1.1.1</span></div>
       <p>
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_19' | translate }}
         <span class="bold-text">YOUR_USER_LOGIN</span>
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_20' | translate }}
       </p>
-      <p>{{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_21' | translate }}</p>
+      <p>
+        {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_21' | translate }}
+      </p>
       <app-code-area [json]="jsonData1" [id]="'ECP-2'"></app-code-area>
 
       <p>
@@ -138,12 +121,12 @@
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_24' | translate }}
         <app-line-command title="200 HTTP code"></app-line-command>
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_25' | translate }}
-        <app-line-command
-          title="scaStatus: ScaMethodSelected"
-        ></app-line-command>
+        <app-line-command title="scaStatus: ScaMethodSelected"></app-line-command>
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_26' | translate }}
       </p>
-      <p>{{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_27' | translate }}</p>
+      <p>
+        {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_27' | translate }}
+      </p>
       <app-code-area [json]="jsonData2" [id]="'ECP-3'"></app-code-area>
 
       <p>
@@ -156,16 +139,11 @@
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_31' | translate }}
         <app-line-command title="scaStatus: Finalised"></app-line-command>.
       </p>
-      <span class="bold-text">{{
-        'TEST_CASES.COMPONENTS.EMB_CONS_PUT.SUBTITLE_3' | translate
-      }}</span>
+      <span class="bold-text">{{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.SUBTITLE_3' | translate }}</span>
       <p>
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_32' | translate }}
         <span class="bold-text">PUT</span> endpoint
-        <app-line-command
-          title="/v1/consents/{consentId}/authorisations/{authorisationId}"
-        ></app-line-command
-        >.
+        <app-line-command title="/v1/consents/{consentId}/authorisations/{authorisationId}"></app-line-command>.
       </p>
       <p>
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_33' | translate }}
@@ -174,7 +152,9 @@
         <app-line-command title="authorisationId"></app-line-command>
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_35' | translate }}
       </p>
-      <p>{{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_36' | translate }}</p>
+      <p>
+        {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_36' | translate }}
+      </p>
       <div class="api-table bg th">
         <span>{{ 'TEST_CASES.COMPONENTS.TH.TH_1' | translate }}</span>
         <span>{{ 'TEST_CASES.COMPONENTS.TH.TH_2' | translate }}</span>
@@ -183,13 +163,11 @@
         <span>X-Request-ID</span>
         <span>2f77a125-aa7a-45c0-b414-cea25a116035</span>
       </div>
-      <div class="api-table bg">
-        <span>PSU-ID</span> <span>YOUR_USER_LOGIN</span>
-      </div>
-      <div class="api-table">
-        <span>PSU-IP-Address</span> <span>1.1.1.1</span>
-      </div>
-      <p>{{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_37' | translate }}</p>
+      <div class="api-table bg"><span>PSU-ID</span> <span>YOUR_USER_LOGIN</span></div>
+      <div class="api-table"><span>PSU-IP-Address</span> <span>1.1.1.1</span></div>
+      <p>
+        {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_37' | translate }}
+      </p>
       <app-code-area [json]="jsonData2" [id]="'ECP-4'"></app-code-area>
 
       <p>
@@ -202,7 +180,9 @@
         <app-line-command title="200 HTTP code"></app-line-command>
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_41' | translate }}
       </p>
-      <p>{{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_42' | translate }}</p>
+      <p>
+        {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_42' | translate }}
+      </p>
       <app-code-area [json]="jsonData3" [id]="'ECP-5'"></app-code-area>
 
       <p>
@@ -211,12 +191,11 @@
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_44' | translate }}
         <app-line-command title="200 HTTP code"></app-line-command>
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_45' | translate }}
-        <app-line-command
-          title="scaStatus: ScaMethodSelected"
-        ></app-line-command
-        >.
+        <app-line-command title="scaStatus: ScaMethodSelected"></app-line-command>.
       </p>
-      <p>{{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_46' | translate }}</p>
+      <p>
+        {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_46' | translate }}
+      </p>
       <app-code-area [json]="jsonData2" [id]="'ECP-6'"></app-code-area>
 
       <p>

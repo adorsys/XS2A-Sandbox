@@ -6,8 +6,9 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DataService } from '../../../../../services/data.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgHttpLoaderModule, SpinnerVisibilityService } from 'ng-http-loader';
-import {LineCommandComponent} from "../../../../common/line-command/line-command.component";
-import {CodeAreaComponent} from "../../../../common/code-area/code-area.component";
+import { LineCommandComponent } from '../../../../common/line-command/line-command.component';
+import { CodeAreaComponent } from '../../../../common/code-area/code-area.component';
+import { JSON_SPACING } from '../../../../common/constant/constants';
 
 describe('RdctConsentPOSTComponent', () => {
   let component: RdctConsentPOSTComponent;
@@ -37,7 +38,7 @@ describe('RdctConsentPOSTComponent', () => {
   @Pipe({ name: 'prettyJson' })
   class PrettyJsonPipe implements PipeTransform {
     transform(value) {
-      return JSON.stringify(value, null, 4);
+      return JSON.stringify(value, null, JSON_SPACING);
     }
   }
 
@@ -54,11 +55,7 @@ describe('RdctConsentPOSTComponent', () => {
         CodeAreaComponent,
       ],
       imports: [HttpClientTestingModule, NgHttpLoaderModule.forRoot()],
-      providers: [
-        DataService,
-        { provide: ToastrService, useValue: ToastrServiceStub },
-        SpinnerVisibilityService,
-      ],
+      providers: [DataService, { provide: ToastrService, useValue: ToastrServiceStub }, SpinnerVisibilityService],
     }).compileComponents();
   }));
 

@@ -1,11 +1,10 @@
-import {Injectable} from '@angular/core';
-import {TrackingId} from "../models/tarckingId.model";
+import { Injectable } from '@angular/core';
+import { TrackingId } from '../models/tarckingId.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TrackingIdService {
-
   trackingId: TrackingId;
 
   constructor() {

@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {DataService} from '../../services/data.service';
-import {CustomizeService} from '../../services/customize.service';
-import {AspspService} from '../../services/aspsp.service';
-import {LanguageService} from "../../services/language.service";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { DataService } from '../../services/data.service';
+import { CustomizeService } from '../../services/customize.service';
+import { AspspService } from '../../services/aspsp.service';
+import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-test-cases',
@@ -20,7 +20,6 @@ export class TestCasesComponent implements OnInit {
   pathToHeadTestCases = `./assets/content/i18n/en/test-cases/headTestCases.md`;
 
   constructor(
-    private router: Router,
     public dataService: DataService,
     private actRoute: ActivatedRoute,
     private customizeService: CustomizeService,
@@ -30,19 +29,13 @@ export class TestCasesComponent implements OnInit {
     this.setUpUsedApproaches();
   }
 
-  onActivate(ev) {
+  onActivate() {
     this.dataService.setRouterUrl(this.actRoute['_routerState'].snapshot.url);
   }
 
   collapseThis(collapseId: string): void {
-    if (
-      collapseId === 'redirect' ||
-      collapseId === 'embedded' ||
-      collapseId === 'account'
-    ) {
-      const collapsibleItemContent = document.getElementById(
-        `${collapseId}-content`
-      );
+    if (collapseId === 'redirect' || collapseId === 'embedded' || collapseId === 'account') {
+      const collapsibleItemContent = document.getElementById(`${collapseId}-content`);
 
       switch (collapseId) {
         case 'redirect':
@@ -75,42 +68,31 @@ export class TestCasesComponent implements OnInit {
       this.collapseThis('redirect');
     }
 
-    this.languageService.currentLanguage.subscribe(
-      data => {
-        this.pathToHeadTestCases = `${this.customizeService.currentLanguageFolder}/${data}/test-cases/headTestCases.md`;
-      });
+    this.languageService.currentLanguage.subscribe((data) => {
+      this.pathToHeadTestCases = `${this.customizeService.currentLanguageFolder}/${data}/test-cases/headTestCases.md`;
+    });
   }
 
   private setUpUsedApproaches() {
-    this.customizeService.currentTheme
-      .subscribe(data => {
-        if (data.supportedApproaches) {
-          const embedded = 'embedded';
-          const redirect = 'redirect';
+    this.customizeService.currentTheme.subscribe((data) => {
+      if (data.supportedApproaches) {
+        const embedded = 'embedded';
+        const redirect = 'redirect';
 
-          let redirectSupportedInSettings = data.supportedApproaches.includes(
-            redirect
-          );
-          let embeddedSupportedInSettings = data.supportedApproaches.includes(
-            embedded
-          );
+        const redirectSupportedInSettings = data.supportedApproaches.includes(redirect);
+        const embeddedSupportedInSettings = data.supportedApproaches.includes(embedded);
 
-          this.aspspService.getScaApproaches().subscribe(
-            (scaApproaches: Array<string>) => {
-              this.redirectSupported =
-                redirectSupportedInSettings &&
-                scaApproaches.includes(redirect.toLocaleUpperCase());
-              this.embeddedSupported =
-                embeddedSupportedInSettings &&
-                scaApproaches.includes(embedded.toLocaleUpperCase());
-            },
-            () => {
-              this.redirectSupported = redirectSupportedInSettings;
-              this.embeddedSupported = embeddedSupportedInSettings;
-            }
-          );
-        }
-
-      });
+        this.aspspService.getScaApproaches().subscribe(
+          (scaApproaches: Array<string>) => {
+            this.redirectSupported = redirectSupportedInSettings && scaApproaches.includes(redirect.toLocaleUpperCase());
+            this.embeddedSupported = embeddedSupportedInSettings && scaApproaches.includes(embedded.toLocaleUpperCase());
+          },
+          () => {
+            this.redirectSupported = redirectSupportedInSettings;
+            this.embeddedSupported = embeddedSupportedInSettings;
+          }
+        );
+      }
+    });
   }
 }

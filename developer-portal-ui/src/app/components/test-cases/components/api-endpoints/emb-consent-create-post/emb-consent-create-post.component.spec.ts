@@ -1,11 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import {
-  TranslateLoader,
-  TranslateModule,
-  TranslateService,
-} from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 
 import { EmbConsentCreatePostComponent } from './emb-consent-create-post.component';
@@ -15,8 +11,9 @@ import { of } from 'rxjs';
 import { DataService } from '../../../../../services/data.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgHttpLoaderModule } from 'ng-http-loader';
-import {LineCommandComponent} from "../../../../common/line-command/line-command.component";
-import {CodeAreaComponent} from "../../../../common/code-area/code-area.component";
+import { LineCommandComponent } from '../../../../common/line-command/line-command.component';
+import { CodeAreaComponent } from '../../../../common/code-area/code-area.component';
+import { JSON_SPACING } from '../../../../common/constant/constants';
 
 describe('EmbConsentCreatePostComponent', () => {
   let component: EmbConsentCreatePostComponent;
@@ -46,7 +43,7 @@ describe('EmbConsentCreatePostComponent', () => {
   @Pipe({ name: 'prettyJson' })
   class PrettyJsonPipe implements PipeTransform {
     transform(value) {
-      return JSON.stringify(value, null, 4);
+      return JSON.stringify(value, null, JSON_SPACING);
     }
   }
 
@@ -73,11 +70,7 @@ describe('EmbConsentCreatePostComponent', () => {
         }),
         NgHttpLoaderModule.forRoot(),
       ],
-      providers: [
-        TranslateService,
-        DataService,
-        { provide: ToastrService, useValue: ToastrServiceStub },
-      ],
+      providers: [TranslateService, DataService, { provide: ToastrService, useValue: ToastrServiceStub }],
     }).compileComponents();
   }));
 

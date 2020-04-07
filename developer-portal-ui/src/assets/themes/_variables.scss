@@ -108,27 +108,15 @@ $dark-80: #2c2e2f;
 
   --buttonBgGradient1: #0db0e2;
   --buttonBgGradient2: #054f72;
-  --buttonBG: linear-gradient(
-    129.54deg,
-    var(--buttonBgGradient1) 0%,
-    var(--buttonBgGradient2) 100%
-  );
+  --buttonBG: linear-gradient(129.54deg, var(--buttonBgGradient1) 0%, var(--buttonBgGradient2) 100%);
 
   --buttonHoveredGradient1: #0f62a4;
   --buttonHoveredGradient2: #054f72;
-  --buttonHovered: linear-gradient(
-    129.54deg,
-    var(--buttonHoveredGradient1) 0%,
-    var(--buttonHoveredGradient2) 100%
-  );
+  --buttonHovered: linear-gradient(129.54deg, var(--buttonHoveredGradient1) 0%, var(--buttonHoveredGradient2) 100%);
 
   --buttonClickedGradient1: #0db0e2;
   --buttonClickedGradient2: #062e72;
-  --buttonClicked: linear-gradient(
-    129.54deg,
-    var(--buttonClickedGradient1) 0%,
-    var(--buttonClickedGradient2) 100%
-  );
+  --buttonClicked: linear-gradient(129.54deg, var(--buttonClickedGradient1) 0%, var(--buttonClickedGradient2) 100%);
 
   /* Inputs */
   --inputBG: $COLOR_WHITE;

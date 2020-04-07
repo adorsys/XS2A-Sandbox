@@ -4,15 +4,8 @@ import { TestValuesComponent } from './test-values.component';
 import { Pipe, PipeTransform } from '@angular/core';
 import { MarkdownModule } from 'ngx-markdown';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import {
-  TranslateLoader,
-  TranslateModule,
-  TranslateService,
-} from '@ngx-translate/core';
-import {
-  HttpLoaderFactory,
-  LanguageService,
-} from '../../../../services/language.service';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { HttpLoaderFactory, LanguageService } from '../../../../services/language.service';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from '../../../../services/data.service';
 import { CertificateService } from '../../../../services/certificate.service';
