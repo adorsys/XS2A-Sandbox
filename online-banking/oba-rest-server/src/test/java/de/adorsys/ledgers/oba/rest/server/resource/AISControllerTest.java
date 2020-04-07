@@ -23,16 +23,16 @@ import de.adorsys.ledgers.oba.service.api.domain.*;
 import de.adorsys.ledgers.oba.service.api.service.AuthorizationService;
 import de.adorsys.ledgers.oba.service.api.service.RedirectConsentService;
 import de.adorsys.psd2.consent.api.ais.AisAccountAccess;
+import de.adorsys.psd2.consent.api.ais.AisAccountConsentAuthorisation;
 import de.adorsys.psd2.consent.api.ais.CmsAisAccountConsent;
 import de.adorsys.psd2.consent.api.ais.CmsAisConsentResponse;
 import de.adorsys.psd2.xs2a.core.consent.AisConsentRequestType;
 import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
+import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentMatchers;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.*;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
@@ -48,6 +48,7 @@ import java.util.List;
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -254,12 +255,15 @@ public class AISControllerTest {
     @Test
     public void aisDone() {
         when(responseUtils.consentCookie(any())).thenReturn(COOKIE);
-        when(redirectConsentService.identifyConsent(anyString(), anyString(), anyBoolean(), anyString(), any())).thenReturn(getConsentWorkflow(FINALISED, ConsentStatus.RECEIVED));
+        when(redirectConsentService.identifyConsent(anyString(), anyString(), anyBoolean(), anyString(), any())).thenReturn(getConsentWorkflow(FINALISED, ConsentStatus.VALID));
         when(responseUtils.redirect(anyString(), any())).thenReturn(ResponseEntity.ok(getConsentAuthorizeResponse(true, true, false, FINALISED)));
-        when(authService.resolveAuthConfirmationCodeRedirectUri(anyString(), anyString())).thenReturn("");
+        when(authService.resolveAuthConfirmationCodeRedirectUri(anyString(), anyString())).thenReturn(OK_URI);
 
         ResponseEntity<ConsentAuthorizeResponse> result = controller.aisDone(ENCRYPTED_ID, AUTH_ID, COOKIE, false, "code");
         assertThat(result).isEqualToComparingFieldByFieldRecursively(ResponseEntity.ok(getConsentAuthorizeResponse(true, true, false, FINALISED)));
+        ArgumentCaptor<String> urlCaptor = ArgumentCaptor.forClass(String.class);
+        verify(responseUtils).redirect(urlCaptor.capture(),any());
+        assertThat(urlCaptor.getValue()).isEqualTo(OK_URI);
     }
 
     @Test
@@ -271,6 +275,10 @@ public class AISControllerTest {
 
         ResponseEntity<ConsentAuthorizeResponse> result = controller.aisDone(ENCRYPTED_ID, AUTH_ID, COOKIE, false, "code");
         assertThat(result).isEqualToComparingFieldByFieldRecursively(ResponseEntity.ok(getConsentAuthorizeResponse(true, true, false, FINALISED)));
+
+        ArgumentCaptor<String> urlCaptor = ArgumentCaptor.forClass(String.class);
+        verify(responseUtils).redirect(urlCaptor.capture(),any());
+        assertThat(urlCaptor.getValue()).isEqualTo(NOK_URI);
     }
 
     @Test
@@ -382,7 +390,11 @@ public class AISControllerTest {
     private CmsAisAccountConsent getCmsAisAccountConsent(ConsentStatus consentStatus) {
         return new CmsAisAccountConsent("123", new AisAccountAccess(Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), null, null, null, null),
                                         false, DATE, EXPIRE_DATE, 5, null, consentStatus, false, true, AisConsentRequestType.BANK_OFFERED, null,
-                                        null, null, false, null, null, null, null, null);
+                                        null, null, false, Collections.singletonList(new AisAccountConsentAuthorisation("asd", null,
+                                                                                                                        consentStatus == ConsentStatus.RECEIVED
+                                                                                                                            ? ScaStatus.FAILED
+                                                                                                                            : ScaStatus.FINALISED)),
+                                        null, null, null, null);
     }
 
     private AccessTokenTO getAccessTokenTO() {
