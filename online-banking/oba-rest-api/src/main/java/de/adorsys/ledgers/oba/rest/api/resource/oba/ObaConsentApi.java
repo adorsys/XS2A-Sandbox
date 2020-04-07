@@ -1,13 +1,13 @@
 package de.adorsys.ledgers.oba.rest.api.resource.oba;
 
+import de.adorsys.ledgers.oba.service.api.domain.CreatePiisConsentRequestTO;
 import de.adorsys.ledgers.oba.service.api.domain.ObaAisConsent;
+import de.adorsys.ledgers.oba.service.api.domain.TppInfoTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -42,4 +42,12 @@ public interface ObaConsentApi {
                                  @PathVariable("consentId") String consentId,
                                  @PathVariable("authorizationId") String authorizationId,
                                  @PathVariable("tan") String tan);
+
+    @PostMapping(path = "/piis")
+    @ApiOperation(value = "Create PIIS consent", authorizations = @Authorization(value = "apiKey"))
+    ResponseEntity<Void> createPiis(@RequestBody CreatePiisConsentRequestTO request);
+
+    @GetMapping(path = "/tpp")
+    @ApiOperation(value = "Retrieves list of TPPs registered at the ASPSPs CMS", authorizations = @Authorization(value = "apiKey"))
+    ResponseEntity<List<TppInfoTO>> tpps();
 }

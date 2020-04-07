@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {LanguageService} from "../../../../services/language.service";
 import {GoogleAnalyticsService} from "../../../../services/google-analytics.service";
+import {CustomizeService} from "../../../../services/customize.service";
 
 @Component({
   selector: 'app-postman-testing',
@@ -8,16 +9,17 @@ import {GoogleAnalyticsService} from "../../../../services/google-analytics.serv
   styleUrls: ['./postman-testing.component.scss'],
 })
 export class PostmanTestingComponent {
-  pathToPostman = `./assets/i18n/en/test-cases/postman.md`;
+  pathToPostman = `./assets/content/i18n/en/test-cases/postman.md`;
 
   constructor(private languageService: LanguageService,
-              private googleAnalyticsService: GoogleAnalyticsService) {
+              private googleAnalyticsService: GoogleAnalyticsService,
+              private customizeService: CustomizeService) {
   }
 
   ngOnInit(): void {
     this.languageService.currentLanguage.subscribe(
       data => {
-        this.pathToPostman = `./assets/i18n/${data}/test-cases/postman.md`;
+        this.pathToPostman = `${this.customizeService.currentLanguageFolder}/${data}/test-cases/postman.md`;
       });
   }
 

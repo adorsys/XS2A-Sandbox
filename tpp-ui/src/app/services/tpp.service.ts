@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class TppService {
 
-    private url = `${environment.tppBackend}`;
+    public url = `${environment.tppBackend}`;
 
     constructor(private http: HttpClient) {}
 

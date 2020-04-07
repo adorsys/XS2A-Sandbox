@@ -26,12 +26,13 @@ import {NgxImageZoomModule} from "ngx-image-zoom";
 import {MarkdownModule} from "ngx-markdown";
 import {DataService} from "./services/data.service";
 import {RestService} from "./services/rest.service";
-import { CustomPageComponent } from './components/custom-page/custom-page.component';
+import {CustomPageComponent} from './components/custom-page/custom-page.component';
 import {GoogleAnalyticsService} from "./services/google-analytics.service";
-import {TrackingIdHttpService} from "./services/tracking-id-http.service";
+import {CustomizeService} from "./services/customize.service";
+import {SettingsHttpService} from "./services/settings-http.service";
 
-export function app_Init(trackingIDHttpService: TrackingIdHttpService) {
-  return () => trackingIDHttpService.initializeApp();
+export function app_Init(settingsHttpService: SettingsHttpService) {
+  return () => settingsHttpService.initializeApp();
 }
 
 @NgModule({
@@ -77,8 +78,9 @@ export function app_Init(trackingIDHttpService: TrackingIdHttpService) {
     RestService,
     DataService,
     LanguageService,
+    CustomizeService,
     GoogleAnalyticsService,
-    { provide: APP_INITIALIZER, useFactory: app_Init, deps: [TrackingIdHttpService], multi: true }
+    {provide: APP_INITIALIZER, useFactory: app_Init, deps: [SettingsHttpService], multi: true}
   ],
   bootstrap: [AppComponent],
 })

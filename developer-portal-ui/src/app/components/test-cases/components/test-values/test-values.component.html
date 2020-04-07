@@ -1,3 +1,21 @@
 <div class="test-values-wrapper">
   <markdown [src]="pathToTestValues"></markdown>
+
+  <textarea name="" id="textArea" cols="30" rows="10" [(ngModel)]="certificate">
+  </textarea>
+
+  <div class="p-0 mt-3 d-flex justify-content-end">
+    <button type="button" class="btn btn-light text-white mr-1" (click)="clear()">
+      Clear
+    </button>
+    <button type="button" class="btn btn-light text-white mr-1" (click)="default()">
+      Default
+    </button>
+    <button
+      type="button"
+      class="btn btn-light text-white"
+      (click)="save()">
+      Save
+    </button>
+  </div>
 </div>

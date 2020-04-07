@@ -1,14 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Subscription} from 'rxjs';
 
-import { AccountDetailsTO } from '../../api/models/account-details-to';
-import { ConsentAuthorizeResponse } from '../../api/models/consent-authorize-response';
-import { RoutingPath } from '../../common/models/routing-path.model';
-import { AisService } from '../../common/services/ais.service';
-import { CustomizeService } from '../../common/services/customize.service';
-import { ShareDataService } from '../../common/services/share-data.service';
+import {AccountDetailsTO} from '../../api/models/account-details-to';
+import {ConsentAuthorizeResponse} from '../../api/models/consent-authorize-response';
+import {RoutingPath} from '../../common/models/routing-path.model';
+import {AisService} from '../../common/services/ais.service';
+import {CustomizeService} from '../../common/services/customize.service';
+import {ShareDataService} from '../../common/services/share-data.service';
 
 @Component({
   selector: 'app-grant-consent',
@@ -58,18 +58,18 @@ export class GrantConsentComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.subscriptions.push(
-        this.shareService.currentData.subscribe(data => {
-      if (data) {
-        this.shareService.currentData.subscribe(authResponse => {
-          this.authResponse = authResponse;
-          this.bankOffered = this.isBankOfferedConsent();
-        });
-      }
-    }));
+      this.shareService.currentData.subscribe(data => {
+        if (data) {
+          this.shareService.currentData.subscribe(authResponse => {
+            this.authResponse = authResponse;
+            this.bankOffered = this.isBankOfferedConsent();
+          });
+        }
+      }));
 
     this.subscriptions.push(this.shareService.oauthParam.subscribe((oauth2: boolean) => {
-          this.oauth2Param = oauth2;
-      }));
+      this.oauth2Param = oauth2;
+    }));
   }
 
   public onSubmit() {
@@ -96,7 +96,6 @@ export class GrantConsentComponent implements OnInit, OnDestroy {
         encryptedConsentId: this.authResponse.encryptedConsentId,
         authorisationId: this.authResponse.authorisationId
       }).subscribe(authResponse => {
-        console.log(authResponse);
         this.router.navigate([`${RoutingPath.ACCOUNT_INFORMATION}/${RoutingPath.RESULT}`], {
           queryParams: {
             encryptedConsentId: this.authResponse.encryptedConsentId,
@@ -113,11 +112,11 @@ export class GrantConsentComponent implements OnInit, OnDestroy {
   public backToTpp() {
     this.subscriptions.push(
       this.aisService.revokeConsent({
-          encryptedConsentId: this.authResponse.encryptedConsentId,
-          authorisationId: this.authResponse.authorisationId
-      }).subscribe(authResponse => {
-          window.location.href = `/oba-proxy/ais/${this.authResponse.encryptedConsentId}/authorisation/${this.authResponse.authorisationId}` +
-              `/done?backToTpp=true&forgetConsent=true&oauth2=${this.oauth2Param}`;
+        encryptedConsentId: this.authResponse.encryptedConsentId,
+        authorisationId: this.authResponse.authorisationId
+      }).subscribe(() => {
+        window.location.href = `/oba-proxy/ais/${this.authResponse.encryptedConsentId}/authorisation/${this.authResponse.authorisationId}` +
+          `/done?backToTpp=true&forgetConsent=true&oauth2=${this.oauth2Param}`;
       })
     );
   }

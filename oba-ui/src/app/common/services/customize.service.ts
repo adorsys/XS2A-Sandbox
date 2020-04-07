@@ -101,6 +101,13 @@ export class CustomizeService {
       return this.DEFAULT_THEME.globalSettings.logo;
     }
   }
+  getTitle() {
+    if (this.NEW_THEME_WAS_SET) {
+      return this.USER_THEME.globalSettings.title;
+    } else {
+      return this.DEFAULT_THEME.globalSettings.title;
+    }
+  }
 
   validateTheme(theme): string[] {
     const general = ['globalSettings'];

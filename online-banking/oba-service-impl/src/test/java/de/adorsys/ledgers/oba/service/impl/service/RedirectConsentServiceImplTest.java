@@ -233,12 +233,12 @@ public class RedirectConsentServiceImplTest {
 
     private CmsAisAccountConsent getCmsAisAccountConsent(AisConsentRequestType type, String iban) {
         return new CmsAisAccountConsent(CONSENT_ID, getAisAccountAccess(iban), false, LocalDate.now().plusMonths(1), LocalDate.now().plusMonths(1), 3, LocalDate.now(), ConsentStatus.VALID, false, false,
-                                        type, Collections.EMPTY_LIST, new TppInfo(), new AuthorisationTemplate(), false, Collections.EMPTY_LIST,
-                                        Collections.EMPTY_MAP, OffsetDateTime.MIN, OffsetDateTime.MIN);
+                                        type, Collections.emptyList(), new TppInfo(), new AuthorisationTemplate(), false, Collections.emptyList(),
+                                        Collections.emptyMap(), OffsetDateTime.MIN, OffsetDateTime.MIN, null);
     }
 
     private AisAccountAccess getAisAccountAccess(String iban) {
-        return new AisAccountAccess(Collections.singletonList(getReference(iban)), Collections.EMPTY_LIST, Collections.EMPTY_LIST, "availableAccounts", "allPsd2", "availableAccountsWithBalance", null);
+        return new AisAccountAccess(Collections.singletonList(getReference(iban)), Collections.emptyList(), Collections.emptyList(), "availableAccounts", "allPsd2", "availableAccountsWithBalance", null);
     }
 
     private AccountReference getReference(String iban) {

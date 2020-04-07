@@ -37,16 +37,16 @@
               </div>
 
               <div class="form-group">
-                <label for="pin" class="text-muted">Pin:</label><br>
+                <label for="pin" class="text-muted">PIN:</label><br>
                 <input type="password"
                        id="pin"
                        name="pin"
                        formControlName="pin"
-                       placeholder="Enter your pin"
+                       placeholder="Enter your PIN"
                        [ngClass]="{ 'is-invalid': loginForm.controls['pin'].touched && loginForm.controls['pin'].errors }"
                        class="form-control">
                 <div class="invalid-feedback"
-                     *ngIf="loginForm.controls['pin'].touched && loginForm.controls['pin'].hasError('required')">Pin is
+                     *ngIf="loginForm.controls['pin'].touched && loginForm.controls['pin'].hasError('required')">PIN is
                   required
                 </div>
                   <div class="text-light-grey">

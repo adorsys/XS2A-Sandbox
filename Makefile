@@ -35,14 +35,11 @@ install-for-MacOS:
 run:  ## Run services from Docker Hub without building:
 	docker-compose pull && docker-compose up
 
-run-release:  ## Run release version of services from Docker Hub without building:
-	docker-compose -f docker-compose-release.yml pull && docker-compose -f docker-compose-release.yml up
-
 start: ## Run everything with docker-compose without building
-	docker-compose up
+	docker-compose -f docker-compose-build.yml up
 
 all: build-services ## Run everything with docker-compose after building
-	docker-compose up --build
+	docker-compose -f docker-compose-build.yml up --build
 
 ## Build section ##
 build-java-services: ## Build java services

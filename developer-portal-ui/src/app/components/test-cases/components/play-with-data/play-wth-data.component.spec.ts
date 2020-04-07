@@ -10,6 +10,10 @@ import { CopyService } from '../../../../services/copy.service';
 import { LocalStorageService } from '../../../../services/local-storage.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { JsonService } from '../../../../services/json.service';
+import { PopUpComponent } from './pop-up/pop-up.component';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {HttpLoaderFactory} from "../../../../services/language.service";
 
 describe('PlayWthDataComponent', () => {
   let component: PlayWthDataComponent;
@@ -47,8 +51,20 @@ describe('PlayWthDataComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [PlayWthDataComponent, TranslatePipe],
-      imports: [FormsModule, NgxLoadingModule, HttpClientTestingModule],
+      declarations: [PlayWthDataComponent, PopUpComponent, TranslatePipe],
+      imports: [
+        FormsModule,
+        NgxLoadingModule,
+        HttpClientTestingModule,
+        HttpClientModule,
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useFactory: HttpLoaderFactory,
+            deps: [HttpClient],
+          }
+        })
+      ],
       providers: [
         { provide: DataService, useValue: DataServiceStub },
         { provide: RestService, useValue: RestServiceStub },

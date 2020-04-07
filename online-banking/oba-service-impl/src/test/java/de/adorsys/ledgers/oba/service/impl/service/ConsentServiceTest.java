@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCAConsentResponseTO;
+import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
+import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.middleware.client.rest.ConsentRestClient;
 import de.adorsys.ledgers.oba.service.api.domain.CreatePiisConsentRequestTO;
@@ -21,29 +23,31 @@ import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
 import de.adorsys.psd2.xs2a.core.profile.AccountReference;
 import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
 import feign.FeignException;
+import feign.Request;
+import feign.Response;
 import org.adorsys.ledgers.consent.aspsp.rest.client.CmsAspspPiisClient;
-import org.adorsys.ledgers.consent.aspsp.rest.client.CreatePiisConsentRequest;
 import org.adorsys.ledgers.consent.aspsp.rest.client.CreatePiisConsentResponse;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient;
 import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.internal.util.reflection.Whitebox;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
-import java.util.Collections;
-import java.util.Currency;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient.DEFAULT_SERVICE_INSTANCE_ID;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.not;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -117,7 +121,7 @@ public class ConsentServiceTest {
         //given
         when(securityDataService.decryptId(any())).thenReturn(Optional.of(CONSENT_ID));
         when(aspspDataService.readAspspConsentData(any())).thenReturn(Optional.of(getAspspConsentData()));
-        when(objectMapper.readTree(getByteArray())).thenReturn(getJsonNode());
+        when(objectMapper.readTree(any(byte[].class))).thenReturn(getJsonNode());
         when(consentRestClient.authorizeConsent(any(), any(), any())).thenReturn(ResponseEntity.ok(getSCAConsentResponseTO()));
         when(cmsPsuAisClient.confirmConsent(any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok(true));
         when(cmsPsuAisClient.updateAuthorisationStatus(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok().build());
@@ -126,9 +130,72 @@ public class ConsentServiceTest {
 
         //when
         consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN);
+    }
+
+    @Test(expected = ObaException.class)
+    public void confirmAisConsentDecoupled_ledgers_auth_failure() throws IOException, NoSuchMethodException {
+        //given
+        Whitebox.setInternalState(consentService, "objectMapper", mapper);
+        when(securityDataService.decryptId(any())).thenReturn(Optional.of(CONSENT_ID));
+        when(aspspDataService.readAspspConsentData(any())).thenReturn(Optional.of(getAspspConsentData()));
+        when(consentRestClient.authorizeConsent(any(), any(), any())).thenThrow(FeignException.errorStatus("method", getResponse()));
+
+        //when
+        consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN);
 
         //then
         verify(objectMapper, times(1)).readTree(getByteArray());
+    }
+
+    private Response getResponse() throws JsonProcessingException {
+        return Response.builder()
+                   .request(Request.create(Request.HttpMethod.POST, "", new HashMap<>(), null))
+                   .reason("Msg")
+                   .headers(new HashMap<>())
+                   .status(401)
+                   .body(mapper.writeValueAsBytes(Map.of("devMessage", "Msg")))
+                   .build();
+    }
+
+    @Test(expected = ObaException.class)
+    public void confirmAisConsentDecoupled_feign_exception() throws IOException {
+        //given
+        when(securityDataService.decryptId(any())).thenReturn(Optional.of(CONSENT_ID));
+        when(aspspDataService.readAspspConsentData(any())).thenReturn(Optional.of(getAspspConsentData()));
+        when(objectMapper.readTree(any(byte[].class))).thenReturn(getJsonNodeError());
+
+        //when
+        consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN);
+
+        //then
+        verify(objectMapper, times(1)).readTree(getByteArray());
+    }
+
+    @Test
+    public void createPiisConsent() throws JsonProcessingException {
+        Whitebox.setInternalState(consentService, "createPiisConsentRequestMapper", Mappers.getMapper(CreatePiisConsentRequestMapper.class));
+        when(cmsAspspPiisClient.createConsent(any(), anyString(), nullable(String.class), nullable(String.class), nullable(String.class))).thenReturn(getCreatePiisConsentResponse());
+        when(consentRestClient.grantPIISConsent(any())).thenReturn(ResponseEntity.ok(getSCAConsentResponseTO()));
+        when(consentDataClient.updateAspspConsentData(anyString(), any())).thenReturn(ResponseEntity.ok().build());
+        when(objectMapper.writeValueAsBytes(any())).thenReturn(getByteArray());
+
+        consentService.createPiisConsent(getCreatePiisConsentRequest(), "psiId");
+
+        verify(objectMapper, times(1)).writeValueAsBytes(getSCAConsentResponseTO());
+    }
+
+    private ResponseEntity<CreatePiisConsentResponse> getCreatePiisConsentResponse() {
+        CreatePiisConsentResponse response = new CreatePiisConsentResponse();
+        response.setConsentId("consentId");
+        return ResponseEntity.ok(response);
+    }
+
+    private CreatePiisConsentRequestTO getCreatePiisConsentRequest() {
+        CreatePiisConsentRequestTO to = new CreatePiisConsentRequestTO();
+        to.setAccount(getReference());
+        to.setTppAuthorisationNumber("123456");
+        to.setValidUntil(LocalDate.of(2025, 1, 1));
+        return to;
     }
 
     @Test(expected = ObaException.class)
@@ -136,7 +203,7 @@ public class ConsentServiceTest {
         //given
         when(securityDataService.decryptId(any())).thenReturn(Optional.of(CONSENT_ID));
         when(aspspDataService.readAspspConsentData(any())).thenReturn(Optional.of(getAspspConsentData()));
-        when(objectMapper.readTree(getByteArray())).thenReturn(getJsonNode());
+        when(objectMapper.readTree(any(byte[].class))).thenReturn(getJsonNode());
         when(consentRestClient.authorizeConsent(any(), any(), any())).thenReturn(ResponseEntity.ok(getSCAConsentResponseTO()));
         when(cmsPsuAisClient.confirmConsent(any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok(true));
         when(cmsPsuAisClient.updateAuthorisationStatus(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok().build());
@@ -152,7 +219,7 @@ public class ConsentServiceTest {
         //given
         when(securityDataService.decryptId(any())).thenReturn(Optional.of(CONSENT_ID));
         when(aspspDataService.readAspspConsentData(any())).thenReturn(Optional.of(getAspspConsentData()));
-        when(objectMapper.readTree(getByteArray())).thenReturn(getJsonNode());
+        when(objectMapper.readTree(any(byte[].class))).thenReturn(getJsonNode());
         when(consentRestClient.authorizeConsent(any(), any(), any())).thenReturn(ResponseEntity.ok(getSCAConsentResponseTO()));
         when(cmsPsuAisClient.confirmConsent(any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok(true));
         when(cmsPsuAisClient.updateAuthorisationStatus(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok().build());
@@ -167,7 +234,7 @@ public class ConsentServiceTest {
         //given
         when(securityDataService.decryptId(any())).thenReturn(Optional.of(CONSENT_ID));
         when(aspspDataService.readAspspConsentData(any())).thenReturn(Optional.of(getAspspConsentData()));
-        when(objectMapper.readTree(getByteArray())).thenReturn(getJsonNode());
+        when(objectMapper.readTree(any(byte[].class))).thenReturn(getJsonNode());
         when(consentRestClient.authorizeConsent(any(), any(), any())).thenReturn(ResponseEntity.ok(getSCAConsentResponseTO()));
         when(cmsPsuAisClient.confirmConsent(any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok(true));
         when(cmsPsuAisClient.updateAuthorisationStatus(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenThrow(FeignException.class);
@@ -181,7 +248,7 @@ public class ConsentServiceTest {
         //given
         when(securityDataService.decryptId(any())).thenReturn(Optional.of(CONSENT_ID));
         when(aspspDataService.readAspspConsentData(any())).thenReturn(Optional.of(getAspspConsentData()));
-        when(objectMapper.readTree(getByteArray())).thenReturn(getJsonNode());
+        when(objectMapper.readTree(any(byte[].class))).thenReturn(getJsonNode());
         when(consentRestClient.authorizeConsent(any(), any(), any())).thenReturn(ResponseEntity.ok(getSCAConsentResponseTO()));
         when(cmsPsuAisClient.confirmConsent(any(), any(), any(), any(), any(), any())).thenThrow(FeignException.class);
 
@@ -210,56 +277,10 @@ public class ConsentServiceTest {
         //given
         when(securityDataService.decryptId(any())).thenReturn(Optional.of(CONSENT_ID));
         when(aspspDataService.readAspspConsentData(any())).thenReturn(Optional.of(getAspspConsentData()));
-        when(objectMapper.readTree(getByteArray())).thenThrow(IOException.class);
+        when(objectMapper.readTree(any(byte[].class))).thenThrow(IOException.class);
 
         //when
         consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN);
-    }
-
-    @Test
-    public void createConsent() {
-        //given
-        when(createPiisConsentRequestMapper.fromCreatePiisConsentRequest(any())).thenReturn(getCreatePiisConsentRequest());
-        when(cmsAspspPiisClient.createConsent(any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok(getCreatePiisConsentResponse()));
-        when(consentRestClient.grantPIISConsent(any())).thenReturn(ResponseEntity.ok(getSCAConsentResponseTO()));
-
-        //when
-        SCAConsentResponseTO result = consentService.createConsent(getCreatePiisConsentRequestTO(), USER_LOGIN);
-
-        //then
-        assertThat(result).isNotNull();
-        assertEquals(CONSENT_ID, result.getConsentId());
-        verify(createPiisConsentRequestMapper, times(1)).fromCreatePiisConsentRequest(getCreatePiisConsentRequestTO());
-    }
-
-    private CreatePiisConsentResponse getCreatePiisConsentResponse() {
-        CreatePiisConsentResponse response = new CreatePiisConsentResponse();
-        response.setConsentId(CONSENT_ID);
-        return response;
-    }
-
-    private CreatePiisConsentRequest getCreatePiisConsentRequest() {
-        CreatePiisConsentRequest request = new CreatePiisConsentRequest();
-        request.setAccount(getReference());
-        request.setCardExpiryDate(LocalDate.now().plusMonths(1));
-        request.setCardInformation("cardInformation");
-        request.setCardNumber("cardNumber");
-        request.setRegistrationInformation("registrationInformation");
-        request.setValidUntil(LocalDate.now().plusMonths(3));
-        request.setTppAuthorisationNumber("tppAuthorisationNumber");
-        return request;
-    }
-
-    private CreatePiisConsentRequestTO getCreatePiisConsentRequestTO() {
-        CreatePiisConsentRequestTO request = new CreatePiisConsentRequestTO();
-        request.setAccount(getReference());
-        request.setCardExpiryDate(LocalDate.now().plusMonths(1));
-        request.setCardInformation("cardInformation");
-        request.setCardNumber("cardNumber");
-        request.setRegistrationInformation("registrationInformation");
-        request.setValidUntil(LocalDate.now().plusMonths(3));
-        request.setTppAuthorisationNumber("tppAuthorisationNumber");
-        return request;
     }
 
     private SCAConsentResponseTO getSCAConsentResponseTO() {
@@ -270,12 +291,12 @@ public class ConsentServiceTest {
 
     private CmsAisAccountConsent getCmsAisAccountConsent() {
         return new CmsAisAccountConsent(CONSENT_ID, getAisAccountAccess(), false, LocalDate.now().plusMonths(1), LocalDate.now().plusMonths(1), 3, LocalDate.now(), ConsentStatus.VALID, false, false,
-                                        AisConsentRequestType.BANK_OFFERED, Collections.EMPTY_LIST, new TppInfo(), new AuthorisationTemplate(), false, Collections.EMPTY_LIST,
-                                        Collections.EMPTY_MAP, OffsetDateTime.MIN, OffsetDateTime.MIN);
+                                        AisConsentRequestType.BANK_OFFERED, Collections.emptyList(), new TppInfo(), new AuthorisationTemplate(), false, Collections.emptyList(),
+                                        Collections.emptyMap(), OffsetDateTime.MIN, OffsetDateTime.MIN, null);
     }
 
     private AisAccountAccess getAisAccountAccess() {
-        return new AisAccountAccess(Collections.singletonList(getReference()), Collections.EMPTY_LIST, Collections.EMPTY_LIST, "availableAccounts", "allPsd2", "availableAccountsWithBalance", null);
+        return new AisAccountAccess(Collections.singletonList(getReference()), Collections.emptyList(), Collections.emptyList(), "availableAccounts", "allPsd2", "availableAccountsWithBalance", null);
     }
 
     private AccountReference getReference() {
@@ -286,7 +307,13 @@ public class ConsentServiceTest {
     }
 
     private AspspConsentData getAspspConsentData() throws JsonProcessingException {
-        return new AspspConsentData(getByteArray(), CONSENT_ID);
+        return new AspspConsentData(getTokenBytes(), CONSENT_ID);
+    }
+
+    private byte[] getTokenBytes() throws JsonProcessingException {
+        SCAConsentResponseTO response = new SCAConsentResponseTO();
+        response.setBearerToken(new BearerTokenTO("eyJraWQiOiJBV3MtRk1o1V4M","Bearer",7000,null,new AccessTokenTO()));
+        return mapper.writeValueAsBytes(response);
     }
 
     private byte[] getByteArray() throws JsonProcessingException {
@@ -298,6 +325,11 @@ public class ConsentServiceTest {
     private JsonNode getJsonNode() throws JsonProcessingException {
         String json = "{ \"bearerToken\":{ \"access_token\":\"eyJraWQiOiJBV3MtRk1o1V4M\"," +
                           " \"token_type\":\"Bearer\" }}";
+        return mapper.readTree(json);
+    }
+
+    private JsonNode getJsonNodeError() throws JsonProcessingException {
+        String json = "\"{\\\"devMessage\\\":\\\"error\\\" }\"";
         return mapper.readTree(json);
     }
 }

@@ -9,6 +9,7 @@ import { CustomizeService } from '../services/customize.service';
     styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements DoCheck {
+  public title: string;
 
     constructor(public customizeService: CustomizeService,
                 private authService: AuthService) {
@@ -17,7 +18,8 @@ export class NavbarComponent implements DoCheck {
         if (!this.authService.isLoggedIn()) {
             this.authService.logout();
             throw new Error('Session expired. Please login again.');
-        }
+        };
+        this.title = this.customizeService.getTitle();
     }
 
     onLogout(): void {

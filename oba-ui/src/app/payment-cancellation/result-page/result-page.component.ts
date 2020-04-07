@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 
-import { PaymentAuthorizeResponse } from '../../api/models/payment-authorize-response';
-import { PisService } from '../../common/services/pis.service';
-import { SettingsService } from '../../common/services/settings.service';
-import { ShareDataService } from '../../common/services/share-data.service';
+import {PaymentAuthorizeResponse} from '../../api/models/payment-authorize-response';
+import {PisService} from '../../common/services/pis.service';
+import {SettingsService} from '../../common/services/settings.service';
+import {ShareDataService} from '../../common/services/share-data.service';
 
 @Component({
   selector: 'app-result-page',
@@ -31,8 +31,14 @@ export class ResultPageComponent implements OnInit, OnDestroy {
 
     // Manual redirect is used because of the CORS error otherwise
     this.route.queryParams.subscribe(params => {
+      let oauth2 = params.oauth2;
+
+      if (oauth2 === undefined || typeof oauth2 !== "boolean") {
+        oauth2 = false;
+      }
+
       this.ref = `/oba-proxy/pis-cancellation/${params.encryptedConsentId}/authorisation/${params.authorisationId}` +
-        `/done?oauth2=${params.oauth2}`;
+        `/done?oauth2=${oauth2}`;
     });
 
     // get consent data from shared service

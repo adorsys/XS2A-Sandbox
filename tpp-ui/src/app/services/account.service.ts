@@ -19,8 +19,9 @@ export class AccountService {
   constructor(private http: HttpClient) {
   }
 
-  getAccounts(page: number = 0, size: number = 25): Observable<{ accounts: Account[], totalElements: number }> {
-    return this.http.get<PaginationResponse<Account[]>>(`${this.url}/accounts/page?page=${page}&size=${size}`).pipe(
+  getAccounts(page: number = 0, size: number = 25, queryParam: string= ''): Observable<{ accounts: Account[], totalElements: number }> {
+    return this.http.get<PaginationResponse<Account[]>>(`${this.url}/accounts/page?page=${page}&size=${size}&queryParam=${queryParam}`)
+    .pipe(
       map((resp) => {
         return {
           accounts: resp.content,

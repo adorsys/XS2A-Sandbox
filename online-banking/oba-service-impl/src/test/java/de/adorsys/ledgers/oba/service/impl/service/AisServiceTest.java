@@ -5,6 +5,7 @@ import de.adorsys.ledgers.middleware.api.domain.account.TransactionTO;
 import de.adorsys.ledgers.middleware.api.domain.account.UsageTypeTO;
 import de.adorsys.ledgers.middleware.client.rest.AccountRestClient;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
+import de.adorsys.ledgers.util.domain.CustomPageImpl;
 import feign.FeignException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +23,7 @@ import java.util.List;
 import static de.adorsys.ledgers.middleware.api.domain.account.AccountStatusTO.ENABLED;
 import static de.adorsys.ledgers.middleware.api.domain.account.AccountTypeTO.CASH;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -60,6 +61,37 @@ public class AisServiceTest {
         when(accountRestClient.getTransactionByDates(any(), any(), any())).thenThrow(FeignException.class);
         aisService.getTransactions("Account id", LocalDate.of(2019, 1, 1), LocalDate.of(2020, 1, 1));
 
+    }
+
+    @Test
+    public void getTransactions_paged() {
+        when(accountRestClient.getTransactionByDatesPaged(anyString(), any(), any(), anyInt(), anyInt())).thenReturn(ResponseEntity.ok(getTransactionTOCustomPage()));
+        CustomPageImpl<TransactionTO> result = aisService.getTransactions("Account id", LocalDate.of(2019, 1, 1), LocalDate.of(2020, 1, 1), 0, 10);
+        assertThat(result.getNumber()).isEqualTo(0);
+        assertThat(result.getContent()).isEqualTo(getTransactionList().getBody());
+    }
+
+    @Test(expected = ObaException.class)
+    public void getTransactions_paged_exception() {
+        when(accountRestClient.getTransactionByDatesPaged(anyString(), any(), any(), anyInt(), anyInt())).thenThrow(FeignException.class);
+        aisService.getTransactions("Account id", LocalDate.of(2019, 1, 1), LocalDate.of(2020, 1, 1), 0, 10);
+    }
+
+    @Test
+    public void getAccount_test(){
+        when(accountRestClient.getAccountDetailsById(anyString())).thenReturn(ResponseEntity.ok(new AccountDetailsTO()));
+        AccountDetailsTO result = aisService.getAccount("1");
+        assertThat(result).isEqualTo(new AccountDetailsTO());
+    }
+
+    @Test(expected = ObaException.class)
+    public void getAccount_test_exception(){
+        when(accountRestClient.getAccountDetailsById(anyString())).thenThrow(FeignException.class);
+         aisService.getAccount("1");
+    }
+
+    private CustomPageImpl<TransactionTO> getTransactionTOCustomPage() {
+        return new CustomPageImpl<>(0, 1, 1, 1, 1, false, true, false, true, getTransactionList().getBody());
     }
 
     private ResponseEntity<List<AccountDetailsTO>> getAccountList() {

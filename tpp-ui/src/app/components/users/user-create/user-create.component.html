@@ -56,22 +56,22 @@
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-3">
-                                    <label class="control-label" for="pin">Pin</label>
+                                    <label class="control-label" for="pin">PIN</label>
                                     <input [ngClass]="{ 'is-invalid': (formControl['pin'].touched || submitted) && formControl['pin'].errors }"
                                            aria-describedby="pinHelp"
                                            autocomplete="new-password"
                                            class="form-control"
                                            formControlName="pin"
                                            id="pin"
-                                           placeholder="Enter pin"
+                                           placeholder="Enter PIN"
                                            type="password">
                                     <div *ngIf="(formControl['pin'].touched || submitted) && formControl['pin'].hasError('required')"
                                          class="invalid-feedback">
-                                        Pin is required
+                                        PIN is required
                                     </div>
                                     <div *ngIf="(formControl['pin'].touched || submitted) && formControl['pin'].hasError('minlength')"
                                          class="invalid-feedback">
-                                        Pin must contain at least 5 characters
+                                        PIN must contain at least 5 characters
                                     </div>
                                 </div>
                             </div>
@@ -111,18 +111,18 @@
                                 <div class="col-12 col-md-8">
                                     <div [formGroupName]="i" class="form-group">
                                         <label class="control-label" for="scaData">SCA</label>
-                                        <input [ngClass]="{ 'is-invalid': (scaDataItem.controls['methodValue'].touched || submitted) && scaDataItem.controls['methodValue'].errors }"
+                                        <input [ngClass]="{ 'is-invalid':scaDataItem.controls['methodValue'].errors}"
                                                aria-describedby="scaDataHelp"
                                                class="form-control"
                                                formControlName="methodValue"
                                                id="scaData"
                                                placeholder="Please input SCA method for user"
                                                type="text">
-                                        <div *ngIf="scaDataItem.get('methodValue')?.errors?.required"
+                                        <div *ngIf="scaDataItem.controls['usesStaticTan'].value && scaDataItem.controls['scaMethod'].value"
                                              class="invalid-feedback">
                                             The value of the method is required
                                         </div>
-                                        <div *ngIf="scaDataItem.get('methodValue')?.hasError('pattern')"
+                                        <div *ngIf="scaDataItem.get('staticTan')?.hasError('pattern')"
                                              class="invalid-feedback">
                                             The method value has an incorrect format
                                         </div>

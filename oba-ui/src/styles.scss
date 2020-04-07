@@ -111,6 +111,10 @@ a {
   background-color: #f8f9fa;
 }
 
+.sticky-top{
+  z-index: 1000;
+}
+
 .confirm-payment-cancellation-block {
   position: fixed;
 
@@ -146,6 +150,7 @@ h3 {
 nav {
   background: var(--headerBG);
   padding: 2rem !important;
+  border-top: var(--headerBorderTop);
 }
 
 .nav-item {

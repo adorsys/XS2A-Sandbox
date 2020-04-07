@@ -22,7 +22,8 @@
 
       </div>
 
-      <div class="langs-wrapper" *ngIf="supportedLanguagesDictionary && supportedLanguages.length > 1">
+      <div class="langs-wrapper"
+           *ngIf="supportedLanguagesDictionary && supportedLanguages && supportedLanguages.length > 1">
         <div class="lang" (click)="collapseThis()">
           <img class="lang-img" [src]="supportedLanguagesDictionary[language]" [alt]="language"/>
           <span class="lang-span">{{ language }}</span>

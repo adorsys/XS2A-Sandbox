@@ -5,25 +5,30 @@ import {HttpClientTestingModule, HttpTestingController} from "@angular/common/ht
 import {environment} from "../../environments/environment";
 
 describe('CurrencyService', () => {
-  let service: CurrencyService;
-  let httpTestingController: HttpTestingController;
-  let url = `${environment.tppBackend}`;
+  let currencyService: CurrencyService;
+  let httpMock: HttpTestingController;
+  const url = `${environment.tppBackend}`;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [CurrencyService],
     });
-    service = TestBed.get(CurrencyService);
-    httpTestingController = TestBed.get(HttpTestingController);
+    currencyService = TestBed.get(CurrencyService);
+      httpMock = TestBed.get(HttpTestingController);
   });
 
   afterEach(() => {
-    httpTestingController.verify();
+      httpMock.verify();
   });
 
   it('should be created', () => {
-    const service: CurrencyService = TestBed.get(CurrencyService);
-    expect(service).toBeTruthy();
+    const currencyService: CurrencyService = TestBed.get(CurrencyService);
+    expect(currencyService).toBeTruthy();
+  });
+
+  it('should get supported Currencies', () => {
+      currencyService.getSupportedCurrencies();
+      httpMock.verify();
   });
 });

@@ -44,7 +44,7 @@ public class GlobalExceptionHandler {
         PaymentAuthorizeResponse body = e.getError().getBody();
         PsuMessage psuMessage = body.getPsuMessages().get(0);
         Map content = buildContentMap(psuMessage.getCode(), psuMessage.getText());
-        return new ResponseEntity<>(content, HttpStatus.valueOf(psuMessage.getCode()));
+        return new ResponseEntity<>(content, HttpStatus.valueOf(Integer.parseInt(psuMessage.getCode())));
     }
 
     @ExceptionHandler(AuthorizationException.class)

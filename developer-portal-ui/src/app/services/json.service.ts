@@ -8,8 +8,8 @@ import {CustomizeService} from './customize.service';
   providedIn: 'root',
 })
 export class JsonService {
-  customExamplesSource = '../assets/UI/custom/examples/';
-  defaultExamplesSource = '../assets/UI/examples/';
+  customExamplesSource;
+  defaultExamplesSource;
 
   jsonLinks = {
     singlePayment: 'payments/sepa-credit-transfers',
@@ -30,19 +30,23 @@ export class JsonService {
 
   private currency = 'EUR';
 
-  constructor(
-    private http: HttpClient,
-    private customizeService: CustomizeService
-  ) {
-    this.customizeService.getCurrency().then(currency => {
-      if (currency && currency.length !== 0) {
-        this.currency = currency;
-      }
-    });
+  constructor(private http: HttpClient,
+              private customizeService: CustomizeService) {
+    if (this.customizeService.currentTheme) {
+      this.customizeService.currentTheme.subscribe(theme => {
+        if (theme && theme.currency && theme.currency.length !== 0) {
+          this.currency = theme.currency;
+        }
+
+        this.customExamplesSource = `${this.customizeService.customContentFolder}/examples`;
+        this.defaultExamplesSource = `${this.customizeService.defaultContentFolder}/examples`;
+      });
+    }
+
   }
 
   public getRawJsonData(url: string): Observable<any> {
-    const path = 'jsons/' + url + '.json';
+    const path = '/jsons/' + url + '.json';
     return this.http.get(this.customExamplesSource + path).pipe(
       map(response => {
         return response;
@@ -96,7 +100,7 @@ export class JsonService {
   }
 
   public getRawXmlData(url: string) {
-    const path = 'xmls/' + url + '.xml';
+    const path = '/xmls/' + url + '.xml';
     return this.http
       .get(this.customExamplesSource + path, {responseType: 'text'})
       .pipe(

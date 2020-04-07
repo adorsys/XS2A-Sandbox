@@ -62,6 +62,7 @@ export class UserCreateComponent implements OnInit {
         scaData.get('usesStaticTan').valueChanges.subscribe((bool: boolean = true) => {
             if(bool) {
                 scaData.get('staticTan').setValidators(Validators.required);
+                scaData.get('methodValue').setValidators(Validators.required);
                 scaData.get('staticTan').enable();
             } else {
                 scaData.get('staticTan').clearValidators();
@@ -69,17 +70,18 @@ export class UserCreateComponent implements OnInit {
                 scaData.get('staticTan').setValue('');
             }
             scaData.get('staticTan').updateValueAndValidity();
+            scaData.get('methodValue').updateValueAndValidity();
         });
 
-        scaData.get('scaMethod').valueChanges.subscribe(value => {
+        scaData.get('staticTan').valueChanges.subscribe(value => {
             if (value === ScaMethods.EMAIL) {
-                scaData.get('methodValue').setValidators(emailValidators);
+                scaData.get('staticTan').setValidators(emailValidators);
             } else if (value === ScaMethods.MOBILE) {
-                scaData.get('methodValue').setValidators([Validators.required, Validators.pattern(new RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/))]);
+                scaData.get('staticTan').setValidators([Validators.required, 
+                    Validators.pattern(new RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/))]);
             } else {
-                scaData.get('methodValue').setValidators([Validators.required]);
+                scaData.get('scaMethod').setValidators([Validators.required]);
             }
-            scaData.get('methodValue').updateValueAndValidity();
         });
         return scaData;
     }

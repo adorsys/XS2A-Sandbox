@@ -1,13 +1,15 @@
 import {Injectable} from '@angular/core';
 import {Router} from "@angular/router";
 import {NavItem} from "../models/navItem.model";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
 })
 export class NavigationService {
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+              private http: HttpClient) {
   }
 
   goToLogoLink(customLink: string, defaultLink: string) {
@@ -34,5 +36,13 @@ export class NavigationService {
       default:
         this.router.navigateByUrl('/');
     }
+  }
+
+  getNavigation(path: string): Promise<Array<NavItem>> {
+    return this.http.get(`${path}/navigation.json`)
+      .toPromise()
+      .then(data => {
+        return data['navigation']
+      });
   }
 }

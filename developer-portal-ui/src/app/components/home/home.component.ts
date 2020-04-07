@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 
 import {CustomizeService} from '../../services/customize.service';
-import {ContactInfo, Theme} from "../../models/theme.model";
+import {ContactInfo} from "../../models/theme.model";
 import {LanguageService} from "../../services/language.service";
 
 @Component({
@@ -92,7 +92,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     },
   ];
 
-  pathToFile = `./assets/i18n/en/home.md`;
+  pathToFile = `./assets/content/i18n/en/home.md`;
 
   showQuestionsComponent;
   showProductHistory;
@@ -100,33 +100,26 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   constructor(private languageService: LanguageService,
               private customizeService: CustomizeService) {
-    setTimeout(() => { // TODO create single instance of this service and pull data only one time! https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/issues/591
-        let theme = this.customizeService.getTheme();
-        if (theme.contactInfo.img.indexOf('/') === -1) { // TODO do it in the Customize service https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/issues/591
-          theme.contactInfo.img =
-            '../assets/UI' +
-            (this.customizeService.isCustom() ? '/custom/' : '/') +
-            theme.contactInfo.img;
-        }
+    if (this.customizeService.currentTheme) {
+      this.customizeService.currentTheme
+        .subscribe(theme => {
+          this.contactInfo = theme.contactInfo;
+          const homePageSettings = theme.pagesSettings.homePageSettings;
 
-        this.contactInfo = theme.contactInfo;
-        const homePageSettings = theme.pagesSettings.homePageSettings;
+          if (homePageSettings) {
 
-        if (homePageSettings) {
-
-          this.enableSlider(homePageSettings.showSlider);
-          this.enableProductHistory(homePageSettings.showProductHistory);
-          this.enableQuestionsComponent(homePageSettings.showQuestionsComponent);
-        }
-      }, 500
-    );
+            this.enableSlider(homePageSettings.showSlider);
+            this.enableProductHistory(homePageSettings.showProductHistory);
+            this.enableQuestionsComponent(homePageSettings.showQuestionsComponent);
+          }
+        });
+    }
   }
 
   ngOnInit() {
-
     this.languageService.currentLanguage.subscribe(
       data => {
-        this.pathToFile = `./assets/i18n/${data}/home.md`;
+        this.pathToFile = `${this.customizeService.currentLanguageFolder}/${data}/home.md`;
       });
   }
 
@@ -210,7 +203,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.slider();
+    if(this.showSlider) {
+      this.slider();
+    }
   }
 
   private enableSlider(showSlider: boolean) {
