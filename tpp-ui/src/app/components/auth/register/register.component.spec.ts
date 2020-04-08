@@ -6,8 +6,8 @@ import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs';
-
+import { of, throwError } from 'rxjs';
+import {InfoService} from '../../../commons/info/info.service';
 import { InfoModule } from '../../../commons/info/info.module';
 import { AuthService } from '../../../services/auth.service';
 import { CertificateComponent } from '../certificate/certificate.component';
@@ -18,6 +18,7 @@ describe('RegisterComponent', () => {
     let component: RegisterComponent;
     let registerFixture: ComponentFixture<RegisterComponent>;
     let authService: AuthService;
+    let infoService: InfoService;
     let router: Router;
 
     let de: DebugElement;
@@ -32,7 +33,7 @@ describe('RegisterComponent', () => {
                 BrowserAnimationsModule,
                 InfoModule, FormsModule
             ],
-            providers: [AuthService],
+            providers: [AuthService, InfoService],
             declarations: [RegisterComponent, CertificateComponent]
         })
             .compileComponents();
@@ -42,6 +43,7 @@ describe('RegisterComponent', () => {
         registerFixture = TestBed.createComponent(RegisterComponent);
         component = registerFixture.componentInstance;
         authService = TestBed.get(AuthService);
+        infoService = TestBed.get(InfoService);
         router = TestBed.get(Router);
         de = registerFixture.debugElement.query(By.css('form'));
         el = de.nativeElement;
@@ -139,5 +141,59 @@ describe('RegisterComponent', () => {
         component.onSubmit();
         expect(registerSpy).toHaveBeenCalled();
          expect(navigateSpy).toHaveBeenCalledWith(['/login']);
+    });
+
+    it('on Sumbit should be invalid ', () => {
+        component.onSubmit();
+        expect(component.submitted).toEqual(true);
+        expect(component.userForm.invalid).toBeTruthy();
+    });
+
+    it('should initialize a country List', () => {
+        let mockData = [];
+        const getCountryCodesSpy = spyOn(authService, 'getCountryCodes').and.returnValue(of({mockData}));
+        component.initializeCountryList();
+        expect(getCountryCodesSpy).toHaveBeenCalled();
+    });
+
+    it('should downloadFile', () => {
+        component.downloadFile('url');
+    });
+
+    it('select Country should be disabled',() => {
+        component.selectCountry();
+        expect(component.userForm.disabled).toBeFalsy();
+    });
+
+    it('should select a country', () => {
+        const data = {
+        };
+        component.userForm.get('id').setValue('123456');
+        let getCountrySpy = spyOn(authService, 'getTppIdStructure').and.returnValue(of({data: data}));
+        component.selectCountry();
+        expect(getCountrySpy).toHaveBeenCalled();;
+    });
+
+    it('should get tpp id type Name', () => {
+        const testTppStructure: TppIdStructure = {
+            "length": 8,
+            "type": TppIdType.n
+        };
+        component.getTppIdTypeName();
+        expect(testTppStructure.length).toEqual(8);
+    });
+
+    it('should create a zip Url', () => {
+        const blobCert = new Blob([], {
+            type: 'text/plain',
+        });
+        const blobKey = new Blob([], {
+            type: 'text/plain',
+        });
+        component.createZipUrl('encodert', 'privateKey');
+    });
+
+    it('should get certicate Value', () => {
+        component.getCertificateValue(event);
     });
 });

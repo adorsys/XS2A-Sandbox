@@ -154,20 +154,61 @@ describe('UserUpdateComponent', () => {
     expect(component.formControl).toEqual(component.updateUserForm.controls);
   });
 
-  it('validate iniScaData method', () => {
-    const data = {
-      id: '',
-      scaMethod: '',
-      methodValue: '',
-      usesStaticTan: false,
-      decoupled: false,
-      valid: false
-    };
-      const formGroup = component.initScaData();
-      expect(formGroup.value).toEqual(data);
-  });
+    it('should enable staticTan when useStaticTan is true', () => {
+        const scaData = component.initScaData();
+        scaData.get('usesStaticTan').setValue(true);
+        const enabled = scaData.get('staticTan').enabled;
+        expect(enabled).toBe(true);
+    });
 
-  it('should load actual user and update its details', () => {
+    it('should enable staticTan when useStaticTan is true', () => {
+        const expectedValue = '';
+        const scaData = component.initScaData();
+        scaData.get('usesStaticTan').setValue(true);
+        scaData.get('usesStaticTan').setValue(false);
+        const disabled = scaData.get('staticTan').disabled;
+        const value = scaData.get('staticTan').value;
+        expect(disabled).toBe(true);
+        expect(value).toBe(expectedValue);
+    });
+
+    it('should init scaUserDataFrom when user has saved scaUserData', () => {
+        component.setupUserFormControl();
+        let mockUser: User =
+            {
+                id: 'XXXXXX',
+                email: 'tes@adorsys.de',
+                login: 'bob',
+                branch: '34256',
+                pin: '12345',
+                scaUserData: [
+                    {
+                        id: '01',
+                        scaMethod: '',
+                        methodValue: '',
+                        usesStaticTan: false,
+                        decoupled: false,
+                        valid: false
+                    },
+                    {
+                        id: '02',
+                        scaMethod: '',
+                        methodValue: '',
+                        usesStaticTan: false,
+                        decoupled: false,
+                        valid: false
+                    }
+                ],
+                accountAccesses: []
+            } as User;
+        spyOn(userService, 'getUser').and.returnValue(of(mockUser));
+        component.getUserDetails();
+        const scaUserDataGroups= <FormArray>component.updateUserForm.get('scaUserData');
+        const length = scaUserDataGroups.length;
+        expect(length).toBe(2);
+    });
+
+    it('should load actual user and update its details', () => {
     let mockUser: User =
       {
         id: 'XXXXXX',
@@ -188,14 +229,12 @@ describe('UserUpdateComponent', () => {
     expect(component.submitted).toBeFalsy();
     expect(component.updateUserForm.valid).toBeTruthy();
 
-    // populate form
     const scaUserData = <FormArray>component.updateUserForm.get('scaUserData');
     component.user = mockUser;
     component.updateUserForm.get('email').setValue('dart.vader@dark-side.com');
     component.updateUserForm.get('login').setValue('dart.vader');
     component.updateUserForm.get('pin').setValue('12345678');
 
-    // create spies and fake call function
     const sampleResponse = {value: 'sample response'};
     let updateUserDetail = spyOn(userService, 'updateUserDetails').and.callFake(() => of(sampleResponse));
     let navigateSpy = spyOn(router, 'navigate');
@@ -211,6 +250,7 @@ describe('UserUpdateComponent', () => {
   });
 
   it('should defined getMethodsValues', () => {
-      expect(component.getMethodsValues).toBeDefined();
+      component.getMethodsValues()
+      expect(component.methods).toEqual(['EMAIL', 'MOBILE', 'CHIP_OTP', 'PHOTO_OTP', 'PUSH_OTP', 'SMS_OTP', 'APP_OTP' ])
   });
 });
