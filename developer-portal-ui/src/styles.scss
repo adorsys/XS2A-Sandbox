@@ -181,7 +181,9 @@ h3 {
 }
 
 button,
-a.redirect-btn {
+a.redirect-btn,
+.btn,
+.btn-light {
   color: var(--buttonTextColor);
   background: var(--buttonBG);
   border-radius: var(--buttonBorderRadius);
