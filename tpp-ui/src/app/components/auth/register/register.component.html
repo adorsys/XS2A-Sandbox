@@ -139,7 +139,7 @@
         <div>
           <button [innerHTML]="!generateCertificate ?'Register': 'Register & Generate'"
                   class="btn btn-primary btn-block mb-3"
-                  [disabled]="selectedCountry == undefined && !userForm.valid"></button>
+                  [disabled]="selectedCountry == undefined || !userForm.valid"></button>
           <div class="text-center text-light-grey">
             <a routerLink="/login">Login</a>
           </div>
