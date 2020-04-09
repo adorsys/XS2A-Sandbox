@@ -173,7 +173,6 @@ variables:
 # ------------------------------------------------------------------
 
 lint_oba_frontend:
-  name: "Lint OBA frontend"
   script:
     - echo "Run npm lint"
     - echo "Run npm prettier"
