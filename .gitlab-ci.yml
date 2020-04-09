@@ -177,6 +177,8 @@ variables:
 #-------------------------------------------------------------------
 lint_oba_frontend:
   stage: "Lint"
+  except:
+    - schedules
   script:
     - echo "Run npm lint"
     - echo "Run npm prettier"
@@ -185,6 +187,8 @@ lint_oba_frontend:
 
 lint_tpp_frontend:
   stage: "Lint"
+  except:
+    - schedules
   script:
     - echo "Run npm lint"
     - echo "Run npm prettier"
@@ -193,6 +197,8 @@ lint_tpp_frontend:
 
 lint_devportal_frontend:
   stage: "Lint"
+  except:
+    - schedules
   script:
     - cd developer-portal-ui
     - echo "Run npm lint"  
@@ -206,21 +212,29 @@ lint_devportal_frontend:
 
 lint_oba_backend:
   stage: "Lint"
+  except:
+    - schedules
   script:
     - echo "Run Dockerfile lint"
 
 lint_tpp_backend:
   stage: "Lint"
+  except:
+    - schedules
   script:
     - echo "Run Dockerfile lint"
 
 lint_certificate_generator:
   stage: "Lint"
+  except:
+    - schedules
   script:
     - echo "Run Dockerfile lint"
 
 build oba frontend:
   stage: "Compile"
+  except:
+    - schedules
   needs:
     - lint_oba_frontend
   script:
@@ -239,6 +253,8 @@ build oba frontend:
 
 build tpp frontend:
   stage: "Compile"
+  except:
+    - schedules
   needs: 
     - lint_tpp_frontend
   script:
@@ -257,6 +273,8 @@ build tpp frontend:
 
 Build DevPortal Angular8:
   stage: "Compile"
+  except:
+    - schedules
   needs:
     - lint_devportal_frontend
   script:
@@ -276,6 +294,8 @@ Build DevPortal Angular8:
 
 Compile Java11:
   <<: *build_java
+  except:
+    - schedules
   needs:
     - lint_oba_backend
     - lint_tpp_backend
@@ -293,6 +313,8 @@ Compile Java11:
 
 PMD Report:
   stage: "Compile"
+  except:
+    - schedules
   needs:
     - lint_oba_backend
     - lint_tpp_backend
@@ -316,6 +338,8 @@ PMD Report:
 
 PMD Check Java11:
   stage: "Test"
+  except:
+    - schedules
   needs:
     - "PMD Report"
   except:
@@ -331,6 +355,8 @@ PMD Check Java11:
 
 Doc Check Java11:
   stage: "Test"
+  except:
+    - schedules
   needs:
     - "Compile Java11"
   except:
@@ -346,6 +372,8 @@ Doc Check Java11:
 
 Unit Tests Java11:
   stage: "Test"
+  except:
+    - schedules
   needs:
     - "Compile Java11"
   except:
@@ -361,6 +389,8 @@ Unit Tests Java11:
 
 Unit DevPortal Angular8:
   stage: "Test"
+  except:
+    - schedules
   needs:
     - "Build DevPortal Angular8"
   script:
@@ -371,6 +401,8 @@ Unit DevPortal Angular8:
 
 tpp_frontend_unit_tests:
   stage: "Test"
+  except:
+    - schedules
   needs:
     - "build tpp frontend"
   script:
@@ -381,6 +413,8 @@ tpp_frontend_unit_tests:
 
 oba_frontend_unit_tests:
   stage: "Test"
+  except:
+    - schedules
   needs:
     - "build oba frontend"
   script:
@@ -391,6 +425,8 @@ oba_frontend_unit_tests:
 
 test building docker images:
   stage: "Test"
+  except:
+    - schedules
   needs:
     - "build oba frontend"
     - "build tpp frontend"
@@ -402,6 +438,8 @@ test building docker images:
 
 Postman Tests:
   stage: "Test"
+  except:
+    - schedules
   image:
     name: postman/newman_alpine33
     entrypoint: [""]
@@ -422,6 +460,8 @@ Postman Tests:
 
 Sonarcube Tests:
   stage: "Test"
+  except:
+    - schedules
   only:
     - develop
   needs: []
@@ -434,6 +474,8 @@ Sonarcube Tests:
 
 build_dockerhub_image_develop:
   stage: "Package"
+  except:
+    - schedules
   only:
     - develop
   variables:
@@ -442,6 +484,8 @@ build_dockerhub_image_develop:
 
 deploy_openshift_develop:
   stage: "Deploy"
+  except:
+    - schedules
   only:
     - develop
   variables:
@@ -462,6 +506,8 @@ deploy_openshift_develop:
 
 deploy_openshift_dxc_sandbox_dev:
   stage: "Deploy"
+  except:
+    - schedules
   cache: {}
   dependencies: []
   only:
@@ -473,6 +519,8 @@ deploy_openshift_dxc_sandbox_dev:
 
 deploy_openshift_bekb_sandbox_dev:
   stage: "Deploy"
+  except:
+    - schedules
   cache: {}
   dependencies: []
   only:
@@ -484,20 +532,12 @@ deploy_openshift_bekb_sandbox_dev:
 
 # nightly
 
-build_dockerhub_image_nightly:
-  stage: "Package"
-  only:
-    - schedules
-  variables:
-    DOCKER_TAG: nightly
-  <<: *push_dockerhub_images
-
 deploy_openshift_nightly:
   stage: "Deploy"
   only:
     - schedules
   variables:
-    DOCKER_TAG: nightly # Dockerhub source tag
+    DOCKER_TAG: develop # Dockerhub source tag
     OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_INTEG} # Openshift target namespace
   <<: *deploy_openshift
 
@@ -506,7 +546,7 @@ deploy_openshift_nightly_e2e_testing:
   only:
     - schedules
   variables:
-    DOCKER_TAG: nightly # Dockerhub source tag
+    DOCKER_TAG: develop # Dockerhub source tag
     OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_DEV_E2E} # Openshift target namespace
   <<: *deploy_openshift
 # master
