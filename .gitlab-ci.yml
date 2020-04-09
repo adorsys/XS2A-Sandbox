@@ -175,7 +175,7 @@ variables:
 #-------------------------------------------------------------------
 # lint
 #-------------------------------------------------------------------
-lint 0:3 frontend:
+Lint OBA frontend:
   stage: "Lint"
   except:
     - schedules
@@ -185,7 +185,7 @@ lint 0:3 frontend:
     - echo "Run Dockerfile lint"
     - echo "Run json,yaml,xml lint"
 
-lint 1:3 frontend:
+Lint TPP frontend:
   stage: "Lint"
   except:
     - schedules
@@ -195,7 +195,7 @@ lint 1:3 frontend:
     - echo "Run Dockerfile lint"
     - echo "Run json,yaml,xml lint"
 
-lint 2:3 frontend:
+Lint devportal frontend:
   stage: "Lint"
   except:
     - schedules
@@ -236,7 +236,7 @@ build oba frontend:
   except:
     - schedules
   needs:
-    - "lint 0:3 frontend"
+    - "Lint OBA frontend"
   script:
     - cd oba-ui
     - npm ci
@@ -256,7 +256,7 @@ build tpp frontend:
   except:
     - schedules
   needs: 
-    - "lint 1:3 frontend"
+    - "Lint TPP frontend"
   script:
     - cd tpp-ui
     - npm ci
@@ -276,7 +276,7 @@ Build DevPortal Angular8:
   except:
     - schedules
   needs:
-    - "lint 2:3 frontend"
+    - "Lint devportal frontend"
   script:
     - scripts/.update-postman-test-files.sh
     - cd developer-portal-ui
