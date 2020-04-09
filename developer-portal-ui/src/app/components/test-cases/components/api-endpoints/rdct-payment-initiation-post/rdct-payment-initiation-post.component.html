@@ -69,11 +69,11 @@
       <div class="api-table"><span>TPP-Redirect-Preferred</span> <span>true</span></div>
       <div class="api-table bg">
         <span>TPP-Redirect-URI</span>
-        <span>https://adorsys-platform.de/solutions/xs2a-sandbox/</span>
+        <span>{{ headers['TPP-Redirect-URI'] }}</span>
       </div>
       <div class="api-table">
         <span>TPP-Nok-Redirect-URI</span>
-        <span>https://www.google.com</span>
+        <span>{{ headers['TPP-Nok-Redirect-URI'] }}</span>
       </div>
       <div class="api-table bg">
         <span>TPP-QWAC-Certificate</span>

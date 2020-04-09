@@ -23,6 +23,10 @@ const routes: Routes = [
     component: CustomPageComponent,
   },
   {
+    path: 'test-cases',
+    loadChildren: './components/test-cases/test-cases.module#TestCasesModule',
+  },
+  {
     path: '**',
     component: HomeComponent,
   },

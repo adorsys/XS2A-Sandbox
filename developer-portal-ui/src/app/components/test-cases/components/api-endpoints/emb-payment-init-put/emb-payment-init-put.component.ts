@@ -38,8 +38,8 @@ export class EmbPaymentInitPutComponent implements OnInit {
       (error) => console.log(error)
     );
 
-    this.paymentId = localStorageService.get('paymentId');
-    this.authorisationId = localStorageService.get('authorisationId');
+    this.paymentId = LocalStorageService.get('paymentId');
+    this.authorisationId = LocalStorageService.get('authorisationId');
   }
 
   changeSegment(segment) {

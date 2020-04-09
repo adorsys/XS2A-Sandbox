@@ -10,6 +10,8 @@ import { CustomizeService } from './services/customize.service';
 import { Theme } from './models/theme.model';
 import { NavigationService } from './services/navigation.service';
 import { CertificateService } from './services/certificate.service';
+import { LocalStorageService } from './services/local-storage.service';
+import { TPP_NOK_REDIRECT_URL_KEY, TPP_REDIRECT_URL_KEY } from './components/common/constant/constants';
 
 declare let gtag;
 
@@ -41,8 +43,8 @@ export class AppComponent implements OnInit {
         .normalizeLanguages(theme)
         .then((normalizedTheme: Theme) => (this.supportedLanguagesDictionary = normalizedTheme.supportedLanguagesDictionary));
 
-      localStorage.setItem('tppDefaultNokRedirectUrl', theme.tppSettings.tppDefaultNokRedirectUrl);
-      localStorage.setItem('tppDefaultRedirectUrl', theme.tppSettings.tppDefaultRedirectUrl);
+      LocalStorageService.set(TPP_NOK_REDIRECT_URL_KEY, theme.tppSettings.tppDefaultNokRedirectUrl);
+      LocalStorageService.set(TPP_REDIRECT_URL_KEY, theme.tppSettings.tppDefaultRedirectUrl);
     });
 
     this.certificateService

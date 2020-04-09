@@ -84,7 +84,6 @@ export class PlayWthDataComponent implements OnInit {
     public restService: RestService,
     public dataService: DataService,
     public copyService: CopyService,
-    public localStorageService: LocalStorageService,
     public jsonService: JsonService,
     public aspspService: AspspService,
     private http: HttpClient,
@@ -144,22 +143,22 @@ export class PlayWthDataComponent implements OnInit {
           this.redirectUrl = this.response.body._links.scaRedirect.href;
         } else if (this.response.body.hasOwnProperty('paymentId')) {
           this.paymentId = this.response.body.paymentId;
-          this.localStorageService.set('paymentId', this.response.body.paymentId);
+          LocalStorageService.set('paymentId', this.response.body.paymentId);
         } else if (this.response.body.hasOwnProperty('authorisationId')) {
           this.authorisationId = this.response.body.authorisationId;
-          this.localStorageService.set('authorisationId', this.authorisationId);
+          LocalStorageService.set('authorisationId', this.authorisationId);
         } else if (this.response.body.hasOwnProperty('consentId')) {
           this.consentId = this.response.body.consentId;
-          this.localStorageService.set('consentId', this.consentId);
+          LocalStorageService.set('consentId', this.consentId);
         } else if (this.response.body.hasOwnProperty('cancellationId')) {
           this.cancellationId = this.response.body.cancellationId;
-          this.localStorageService.set('cancellationId', this.cancellationId);
+          LocalStorageService.set('cancellationId', this.cancellationId);
         } else if (this.response.body.hasOwnProperty('accountId')) {
           this.accountId = this.response.body.accountId;
-          this.localStorageService.set('accountId', this.accountId);
+          LocalStorageService.set('accountId', this.accountId);
         } else if (this.response.body.hasOwnProperty('transactionId')) {
           this.transactionId = this.response.body.transactionId;
-          this.localStorageService.set('transactionId', this.transactionId);
+          LocalStorageService.set('transactionId', this.transactionId);
         } else if (this.response.body.hasOwnProperty('accounts')) {
           for (const a of this.response.body.accounts) {
             const id = a.resourceId;
@@ -329,11 +328,6 @@ export class PlayWthDataComponent implements OnInit {
   }
 
   private setDefaultHeaders() {
-    if (this.headers.hasOwnProperty('TPP-Redirect-Preferred') && this.headers['TPP-Redirect-Preferred'] === 'true') {
-      this.headers['TPP-Nok-Redirect-URI'] = localStorage.getItem('tppDefaultNokRedirectUrl');
-      this.headers['TPP-Redirect-URI'] = localStorage.getItem('tppDefaultRedirectUrl');
-    }
-
     this.headers['TPP-QWAC-Certificate'] = this.certificate;
 
     if (this.default) {
