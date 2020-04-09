@@ -200,6 +200,7 @@ build oba frontend:
 
 build tpp frontend:
   stage: "Compile"
+  needs: []
   script:
     - cd tpp-ui
     - npm ci
