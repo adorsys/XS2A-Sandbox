@@ -172,6 +172,9 @@ variables:
 # jobs
 # ------------------------------------------------------------------
 
+#-------------------------------------------------------------------
+# lint
+#-------------------------------------------------------------------
 lint_oba_frontend:
   stage: "Lint"
   script:
@@ -179,6 +182,42 @@ lint_oba_frontend:
     - echo "Run npm prettier"
     - echo "Run Dockerfile lint"
     - echo "Run json,yaml,xml lint"
+
+lint_tpp_frontend:
+  stage: "Lint"
+  script:
+    - echo "Run npm lint"
+    - echo "Run npm prettier"
+    - echo "Run Dockerfile lint"
+    - echo "Run json,yaml,xml lint"
+
+lint_devportal_frontend:
+  stage: "Lint"
+  script:
+    - cd developer-portal-ui
+    - echo "Run npm lint"  
+    - nvm use 10
+    - npm ci
+    - npm run lint
+    - echo "Run npm prettier"
+    - npm run prettier-check
+    - echo "Run Dockerfile lint"
+    - echo "Run json,yaml,xml lint"
+
+lint_oba_backend:
+  stage: "Lint"
+  script:
+    - echo "Run Dockerfile lint"
+
+lint_tpp_backend:
+  stage: "Lint"
+  script:
+    - echo "Run Dockerfile lint"
+
+lint_certificate_generator:
+  stage: "Lint"
+  script:
+    - echo "Run Dockerfile lint"
 
 build oba frontend:
   stage: "Compile"
@@ -200,7 +239,8 @@ build oba frontend:
 
 build tpp frontend:
   stage: "Compile"
-  needs: []
+  needs: 
+    - lint_tpp_frontend
   script:
     - cd tpp-ui
     - npm ci
@@ -217,6 +257,8 @@ build tpp frontend:
 
 Build DevPortal Angular8:
   stage: "Compile"
+  needs:
+    - lint_devportal_frontend
   script:
     - scripts/.update-postman-test-files.sh
     - cd developer-portal-ui
@@ -234,6 +276,10 @@ Build DevPortal Angular8:
 
 Compile Java11:
   <<: *build_java
+  needs:
+    - lint_oba_backend
+    - lint_tpp_backend
+    - lint_certificate_generator
   variables:
     BUILD_JAVA_VERSION: system@1.11
     JAVA_TOOL_OPTIONS: "-Djavax.net.ssl.trustStorePassword=changeit -XX:MaxRAM=3G"
@@ -247,6 +293,10 @@ Compile Java11:
 
 PMD Report:
   stage: "Compile"
+  needs:
+    - lint_oba_backend
+    - lint_tpp_backend
+    - lint_certificate_generator
   script:
     - jabba use system@1.11
     - cat /sys/fs/cgroup/memory/memory.limit_in_bytes
@@ -266,6 +316,8 @@ PMD Report:
 
 PMD Check Java11:
   stage: "Test"
+  needs:
+    - "PMD Report"
   except:
     - develop
   variables:
@@ -279,6 +331,8 @@ PMD Check Java11:
 
 Doc Check Java11:
   stage: "Test"
+  needs:
+    - "Compile Java11"
   except:
     - develop
   variables:
@@ -292,6 +346,8 @@ Doc Check Java11:
 
 Unit Tests Java11:
   stage: "Test"
+  needs:
+    - "Compile Java11"
   except:
     - develop
   variables:
@@ -305,23 +361,18 @@ Unit Tests Java11:
 
 Unit DevPortal Angular8:
   stage: "Test"
+  needs:
+    - "Build DevPortal Angular8"
   script:
     - cd developer-portal-ui
     - nvm use 10
     - npm ci
     - npm run test-ci
 
-Quality DevPortal Angular8:
+tpp_frontend_unit_tests:
   stage: "Test"
-  script:
-    - cd developer-portal-ui
-    - nvm use 10
-    - npm ci
-    - npm run lint
-    - npm run prettier-check
-
-ttp_frontend_unit_tests:
-  stage: "Test"
+  needs:
+    - "build tpp frontend"
   script:
     - cd tpp-ui
     - nvm use 10
@@ -330,6 +381,8 @@ ttp_frontend_unit_tests:
 
 oba_frontend_unit_tests:
   stage: "Test"
+  needs:
+    - "build oba frontend"
   script:
     - cd oba-ui
     - nvm use 10
@@ -338,6 +391,11 @@ oba_frontend_unit_tests:
 
 test building docker images:
   stage: "Test"
+  needs:
+    - "build oba frontend"
+    - "build tpp frontend"
+    - "Build DevPortal Angular8"
+    - "Compile Java11"
   variables:
     DOCKER_TAG: test
   <<: *build_docker_images
@@ -366,6 +424,7 @@ Sonarcube Tests:
   stage: "Test"
   only:
     - develop
+  needs: []
   script:
     - jabba use system@1.11
     - cat /sys/fs/cgroup/memory/memory.limit_in_bytes
