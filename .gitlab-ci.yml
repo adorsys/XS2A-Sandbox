@@ -173,6 +173,7 @@ variables:
 # ------------------------------------------------------------------
 
 lint_oba_frontend:
+  stage: "Lint"
   script:
     - echo "Run npm lint"
     - echo "Run npm prettier"
