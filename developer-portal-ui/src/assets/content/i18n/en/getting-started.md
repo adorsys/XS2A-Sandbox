@@ -121,13 +121,13 @@ This sandbox runs with the docker-compose that can be found at docker-compose.ym
 
 _make check_
 
-If something is missing, install it to your local machine, otherwise the build will fail. List of dependencies that are required to use XS2ASandbox: Java 8, NodeJs, Angular CLI, Asciidoctor, jq, Docker, Docker Compose, Maven, PlantUML. Here are links where you can install needed dependencies:
+If something is missing, install it to your local machine, otherwise the build will fail. List of dependencies that are required to use XS2ASandbox: Java 11, NodeJs, Angular CLI, Asciidoctor, jq, Docker, Docker Compose, Maven, PlantUML. Here are links where you can install needed dependencies:
 
 | Dependency          |                  Link                   |
 | ------------------- | :-------------------------------------: |
-| Java 8              |    https://openjdk.java.net/install/    |
+| Java 11              |    https://openjdk.java.net/install/    |
 | Node.js 11.x        |     https://nodejs.org/en/download      |
-| Angular CLI 7.x     |   https://angular.io/guide/quickstart   |
+| Angular CLI 9.x     |   https://angular.io/guide/quickstart   |
 | Asciidoctor 2.0     |         https://asciidoctor.org         |
 | jq 1.6              | https://stedolan.github.io/jq/download  |
 | Docker 1.17         |   https://www.docker.com/get-started    |
