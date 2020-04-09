@@ -1,8 +1,8 @@
 .PHONY: all run test clean start
 
 VERSION=$(shell jq -r .version developer-portal-ui/package.json)
-ARC42_SRC = $(shell find arc42/src)
-PLANTUML_SRC = $(shell find arc42/diagrams -type f -name '*.puml')
+ARC42_SRC = $(shell find docs/arc42/src)
+PLANTUML_SRC = $(shell find docs/arc42/diagrams -type f -name '*.puml')
 DEPENDENCIES = jq npm plantuml asciidoctor docker-compose mvn docker
 
 build-services: build-java-services build-ui-services build-arc-42  ## Build all services
@@ -60,12 +60,12 @@ npm-install-developer-portal-ui: developer-portal-ui/package.json developer-port
 	cd developer-portal-ui && npm install
 
 ## Build arc42
-build-arc-42: arc42/images/generated $(ARC42_SRC) arc42/xs2a-sandbox-arc42.adoc developer-portal-ui/package.json ## Generate arc42 html documentation
-	cd arc42 && asciidoctor -a acc-version=$(VERSION) xs2a-sandbox-arc42.adoc
+build-arc-42: arc42/images/generated $(ARC42_SRC) docs/arc42/xs2a-sandbox-arc42.adoc developer-portal-ui/package.json ## Generate arc42 html documentation
+	cd docs/arc42 && asciidoctor -a acc-version=$(VERSION) xs2a-sandbox-arc42.adoc
 
 arc42/images/generated: $(PLANTUML_SRC) ## Generate images from .puml files
 # Note: Because plantuml doesnt update the images/generated timestamp we need to touch it afterwards
-	cd arc42 && mkdir -p images/generated && plantuml -o "../images/generated" diagrams/*.puml && touch images/generated
+	cd docs/arc42 && mkdir -p images/generated && plantuml -o "../images/generated" diagrams/*.puml && touch images/generated
 
 ## Tests section ##
 test: test-java-services ## Run all tests
