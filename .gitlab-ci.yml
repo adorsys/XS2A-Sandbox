@@ -9,6 +9,7 @@ image: "adorsys/ci-build:201907"
 # ------------------------------------------------------------------
 
 stages:
+  - "Lint"
   - "Compile"  # build jar and provide as artifact
   - "Test"     # run tests and code quality checks
   - "Package"  # dockerize jar and push to docker registry
@@ -171,8 +172,18 @@ variables:
 # jobs
 # ------------------------------------------------------------------
 
+lint_oba_frontend:
+  name: "Lint OBA frontend"
+  script:
+    - echo "Run npm lint"
+    - echo "Run npm prettier"
+    - echo "Run Dockerfile lint"
+    - echo "Run json,yaml,xml lint"
+
 build oba frontend:
   stage: "Compile"
+  needs:
+    - lint_oba_frontend
   script:
     - cd oba-ui
     - npm ci
