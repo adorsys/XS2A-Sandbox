@@ -1,6 +1,7 @@
 /*=== Documentation header section ===*/
 
 .documentation-header-section {
+  padding-top: 4vw;
   .documentation-header-title {
     color: var(--colorPrimary);
   }
@@ -13,7 +14,6 @@
 
 .test-cases-main {
   display: flex;
-  padding: 2vw;
   font-weight: normal;
   .left-section {
     background-color: var(--testCasesLeftSectionBG);
@@ -111,7 +111,7 @@
   }
 
   .right-section {
-    width: 100%;
+    width: 70%;
     background-color: var(--testCasesRightSectionBG);
   }
 }
