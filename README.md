@@ -34,6 +34,20 @@ All four SCA approaches are supported: REDIRECT, OAUTH, EMBEDDED, DECOUPLED. Two
 
 -   [Running XS2ASandbox instructions](https://github.com/adorsys/XS2A-Sandbox/tree/master/docs/running-xs2asandbox.md) will help you getting you a copy of the project up and running on your local machine.
 
+## Version policy
+
+In general XS2ASandbox Team follows [SemVer](https://semver.org/) for versioning. This means our versions follow the model A.B.C, where:
+
+- A - is the major version, pointing out mainline.
+
+- B - is the minor version, pointing out the next release in the mainline.
+
+- C - is the hotfix version, used to deliver patches between releases when needed. If omitted, version 4.5 will be considered equal to 4.5.0.
+
+We support one release version at the moment.
+
+Normally new version is released every two weeks, however this is not a strict rule, rather our willingness.
+
 ## Development and contributing
 
 Any person are free to join us by implementing some parts of code or fixing some bugs and making a merge requests for them.
