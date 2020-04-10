@@ -28,6 +28,7 @@
     margin-right: 2.5em;
     &:hover {
       opacity: 0.9;
+      background-color: transparent;
     }
     cursor: pointer;
     &:last-of-type {
@@ -40,6 +41,7 @@
   float: right;
   .social-media-item {
     display: inline-block;
+    background-color: transparent;
     + .social-media-item {
       margin-left: 1.5em;
     }

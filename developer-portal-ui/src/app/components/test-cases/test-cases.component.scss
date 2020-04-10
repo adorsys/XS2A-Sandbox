@@ -29,10 +29,11 @@
       span {
         margin-bottom: 1vw;
         cursor: pointer;
-        color: #484848;
+        color: var(--testCasesAnchorFontColor);
         outline: none;
         &:hover {
-          color: #0984bf;
+          color: var(--testCasesAnchorFontColorHover);
+          background-color: var(--anchorBGcolorHover);
         }
       }
     }
@@ -43,9 +44,11 @@
       padding: 2vw;
       .clickable-item {
         outline: none;
+        color: var(--testCasesAnchorFontColor);
         &:hover {
-          color: #0984bf;
+          color: var(--testCasesAnchorFontColorHover);
           cursor: pointer;
+          background-color: var(--anchorBGcolorHover);
         }
       }
       p {

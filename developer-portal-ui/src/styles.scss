@@ -85,6 +85,8 @@ a {
 a:hover,
 a:focus {
   color: var(--anchorFontColorHover);
+  background-color: var(--anchorBGcolorHover);
+  text-decoration: none;
 }
 
 .divider {

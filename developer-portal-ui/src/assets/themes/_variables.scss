@@ -101,6 +101,8 @@ $dark-80: #2c2e2f;
   /* TestCases */
   --testCasesLeftSectionBG: #ffffff;
   --testCasesRightSectionBG: #eeeeee;
+  --testCasesAnchorFontColor: #484848;
+  --testCasesAnchorFontColorHover: #0984bf;
 
   /* Buttons */
   --buttonTextColor: #fff;
@@ -156,4 +158,7 @@ $dark-80: #2c2e2f;
   --checkBoxMarkTop: 30%;
   --checkBoxMarkWidth: 7px;
   --checkBoxMarkHeight: 8px;
+
+  /* links */
+  --anchorBGcolorHover: transparent;
 }
