@@ -1,6 +1,4 @@
-<div class="documentation-header-section container">
-  <markdown [src]="pathToHeadTestCases"></markdown>
-</div>
+<div class="documentation-header-section container"><markdown [src]="pathToHeadTestCases"></markdown></div>
 
 <div class="test-cases-main">
   <div class="left-section">
@@ -23,8 +21,7 @@
             </li>
             <li *ngIf="redirectSupported">
               <span class="clickable-item" (click)="collapseThis('redirect')">
-                <span *ngIf="redirectFlag">+ </span>
-                <span *ngIf="!redirectFlag" class="minus">- </span>
+                <span *ngIf="redirectFlag">+ </span> <span *ngIf="!redirectFlag" class="minus">- </span>
                 {{ 'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LI_1' | translate }}
               </span>
               <ul class="collapse-content" id="redirect-content">
@@ -36,24 +33,21 @@
                       routerLink="/test-cases/redirect-payment-initiation-post"
                       [ngStyle]="dataService.getRouterUrl().includes('redirect-payment-initiation-post') ? { 'font-weight': 'bold' } : null"
                     >
-                      POST endpoint
-                      {{ '/v1/{payment-service}/{payment-product}' }}
+                      POST endpoint {{ '/v1/{payment-service}/{payment-product}' }}
                     </li>
                     <li
                       class="clickable-item delete"
                       routerLink="/test-cases/redirect-cancellation-delete"
                       [ngStyle]="dataService.getRouterUrl().includes('redirect-cancellation-delete') ? { 'font-weight': 'bold' } : null"
                     >
-                      DELETE endpoint
-                      {{ '/v1/{payment-service}/{payment-product}/{paymentId}' }}
+                      DELETE endpoint {{ '/v1/{payment-service}/{payment-product}/{paymentId}' }}
                     </li>
                     <li
                       class="clickable-item get"
                       routerLink="/test-cases/redirect-payment-status-get"
                       [ngStyle]="dataService.getRouterUrl().includes('redirect-payment-status-get') ? { 'font-weight': 'bold' } : null"
                     >
-                      GET endpoint
-                      {{ '/v1/{payment-service}/{payment-product}/{paymentId}/status' }}
+                      GET endpoint {{ '/v1/{payment-service}/{payment-product}/{paymentId}/status' }}
                     </li>
                   </ul>
                 </li>
@@ -73,15 +67,12 @@
             </li>
             <li *ngIf="embeddedSupported">
               <span class="clickable-item" (click)="collapseThis('embedded')">
-                <span *ngIf="!embeddedFlag">+ </span>
-                <span *ngIf="embeddedFlag" class="minus">- </span>
+                <span *ngIf="!embeddedFlag">+ </span> <span *ngIf="embeddedFlag" class="minus">- </span>
                 {{ 'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LI_2' | translate }}
               </span>
               <ul class="collapse-content" id="embedded-content">
                 <li>
-                  <span>
-                    {{ 'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_1.LI_1' | translate }}
-                  </span>
+                  <span> {{ 'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LIST_1.LI_1' | translate }} </span>
                   <ul>
                     <li
                       class="clickable-item post"
@@ -90,8 +81,7 @@
                         dataService.getRouterUrl().includes('embedded-payment-initiation-create-post') ? { 'font-weight': 'bold' } : null
                       "
                     >
-                      POST endpoint
-                      {{ '/v1/{payment-service}/{payment-product}' }}
+                      POST endpoint {{ '/v1/{payment-service}/{payment-product}' }}
                     </li>
                     <li
                       class="clickable-item post"
@@ -100,32 +90,28 @@
                         dataService.getRouterUrl().includes('embedded-payment-initiation-auth-post') ? { 'font-weight': 'bold' } : null
                       "
                     >
-                      POST endpoint
-                      {{ '/v1/{payment-service}/{payment-product}/{paymentId}/authorisations' }}
+                      POST endpoint {{ '/v1/{payment-service}/{payment-product}/{paymentId}/authorisations' }}
                     </li>
                     <li
                       class="clickable-item put"
                       routerLink="/test-cases/embedded-payment-initiation-put"
                       [ngStyle]="dataService.getRouterUrl().includes('embedded-payment-initiation-put') ? { 'font-weight': 'bold' } : null"
                     >
-                      PUT endpoint
-                      {{ '/v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}' }}
+                      PUT endpoint {{ '/v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}' }}
                     </li>
                     <li
                       class="clickable-item get"
                       routerLink="/test-cases/embedded-payment-initiation-get"
                       [ngStyle]="dataService.getRouterUrl().includes('embedded-payment-initiation-get') ? { 'font-weight': 'bold' } : null"
                     >
-                      GET endpoint
-                      {{ '/v1/{payment-service}/{payment-product}/{paymentId}' }}
+                      GET endpoint {{ '/v1/{payment-service}/{payment-product}/{paymentId}' }}
                     </li>
                     <li
                       class="clickable-item get"
                       routerLink="/test-cases/redirect-payment-status-get"
                       [ngStyle]="dataService.getRouterUrl().includes('redirect-payment-status-get') ? { 'font-weight': 'bold' } : null"
                     >
-                      GET endpoint
-                      {{ '/v1/{payment-service}/{payment-product}/{paymentId}/status' }}
+                      GET endpoint {{ '/v1/{payment-service}/{payment-product}/{paymentId}/status' }}
                     </li>
                   </ul>
                 </li>
@@ -139,8 +125,7 @@
                         dataService.getRouterUrl().includes('embedded-payment-cancellation-post-1') ? { 'font-weight': 'bold' } : null
                       "
                     >
-                      POST endpoint
-                      {{ '/v1/{payment-service}/{payment-product}' }}
+                      POST endpoint {{ '/v1/{payment-service}/{payment-product}' }}
                     </li>
                     <li
                       class="clickable-item delete"
@@ -149,8 +134,7 @@
                         dataService.getRouterUrl().includes('embedded-payment-cancellation-delete') ? { 'font-weight': 'bold' } : null
                       "
                     >
-                      DELETE endpoint
-                      {{ '/v1/{payment-service}/{payment-product}/{paymentId}' }}
+                      DELETE endpoint {{ '/v1/{payment-service}/{payment-product}/{paymentId}' }}
                     </li>
                     <li
                       class="clickable-item post"
@@ -159,8 +143,7 @@
                         dataService.getRouterUrl().includes('embedded-payment-cancellation-post-2') ? { 'font-weight': 'bold' } : null
                       "
                     >
-                      POST endpoint
-                      {{ '/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations' }}
+                      POST endpoint {{ '/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations' }}
                     </li>
                     <li
                       class="clickable-item put"
@@ -169,8 +152,7 @@
                         dataService.getRouterUrl().includes('embedded-payment-cancellation-put') ? { 'font-weight': 'bold' } : null
                       "
                     >
-                      PUT endpoint
-                      {{ '/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{cancellationId}' }}
+                      PUT endpoint {{ '/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{cancellationId}' }}
                     </li>
                     <li
                       class="clickable-item get"
@@ -179,16 +161,14 @@
                         dataService.getRouterUrl().includes('embedded-payment-cancellation-get') ? { 'font-weight': 'bold' } : null
                       "
                     >
-                      GET endpoint
-                      {{ '/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{cancellationId}' }}
+                      GET endpoint {{ '/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{cancellationId}' }}
                     </li>
                     <li
                       class="clickable-item get"
                       routerLink="/test-cases/redirect-payment-status-get"
                       [ngStyle]="dataService.getRouterUrl().includes('redirect-payment-status-get') ? { 'font-weight': 'bold' } : null"
                     >
-                      GET endpoint
-                      {{ '/v1/{payment-service}/{payment-product}/{paymentId}/status' }}
+                      GET endpoint {{ '/v1/{payment-service}/{payment-product}/{paymentId}/status' }}
                     </li>
                   </ul>
                 </li>
@@ -207,24 +187,21 @@
                       routerLink="/test-cases/embedded-consent-auth-post"
                       [ngStyle]="dataService.getRouterUrl().includes('embedded-consent-auth-post') ? { 'font-weight': 'bold' } : null"
                     >
-                      POST endpoint
-                      {{ '/v1/consents/{consentId}/authorisations' }}
+                      POST endpoint {{ '/v1/consents/{consentId}/authorisations' }}
                     </li>
                     <li
                       class="clickable-item put"
                       routerLink="/test-cases/embedded-consent-put"
                       [ngStyle]="dataService.getRouterUrl().includes('embedded-consent-put') ? { 'font-weight': 'bold' } : null"
                     >
-                      PUT endpoint
-                      {{ '/v1/consents/{consentId}/authorisations/{authorisationId}' }}
+                      PUT endpoint {{ '/v1/consents/{consentId}/authorisations/{authorisationId}' }}
                     </li>
                     <li
                       class="clickable-item get"
                       routerLink="/test-cases/embedded-consent-get"
                       [ngStyle]="dataService.getRouterUrl().includes('embedded-consent-get') ? { 'font-weight': 'bold' } : null"
                     >
-                      GET endpoint
-                      {{ '/v1/consents/{consentId}' }}
+                      GET endpoint {{ '/v1/consents/{consentId}' }}
                     </li>
                   </ul>
                 </li>
@@ -232,8 +209,7 @@
             </li>
             <li>
               <span class="clickable-item" (click)="collapseThis('account')">
-                <span *ngIf="!accountFlag">+ </span>
-                <span *ngIf="accountFlag" class="minus">- </span>
+                <span *ngIf="!accountFlag">+ </span> <span *ngIf="accountFlag" class="minus">- </span>
                 {{ 'TEST_CASES.INTRODUCTION.MENU.SUBMENU.LI_3' | translate }}
               </span>
               <ul class="collapse-content" id="account-content">
@@ -258,8 +234,7 @@
                       routerLink="/test-cases/account-information-account-get"
                       [ngStyle]="dataService.getRouterUrl().includes('account-information-account-get') ? { 'font-weight': 'bold' } : null"
                     >
-                      GET endpoint
-                      {{ '/v1/accounts/{account-id}' }}
+                      GET endpoint {{ '/v1/accounts/{account-id}' }}
                     </li>
                   </ul>
                 </li>
@@ -272,8 +247,7 @@
                       routerLink="/test-cases/account-information-balance-get"
                       [ngStyle]="dataService.getRouterUrl().includes('account-information-balance-get') ? { 'font-weight': 'bold' } : null"
                     >
-                      GET endpoint
-                      {{ '/v1/accounts/{account-id}/balances' }}
+                      GET endpoint {{ '/v1/accounts/{account-id}/balances' }}
                     </li>
                   </ul>
                 </li>
@@ -288,8 +262,7 @@
                         dataService.getRouterUrl().includes('account-information-transactions-get') ? { 'font-weight': 'bold' } : null
                       "
                     >
-                      GET endpoint
-                      {{ '/v1/accounts/{account-id}/transactions' }}
+                      GET endpoint {{ '/v1/accounts/{account-id}/transactions' }}
                     </li>
                   </ul>
                 </li>
@@ -304,8 +277,7 @@
                         dataService.getRouterUrl().includes('account-information-transaction-get') ? { 'font-weight': 'bold' } : null
                       "
                     >
-                      GET endpoint
-                      {{ '/v1/accounts/{account-id}/transactions/{transactionId}' }}
+                      GET endpoint {{ '/v1/accounts/{account-id}/transactions/{transactionId}' }}
                     </li>
                   </ul>
                 </li>
@@ -321,7 +293,5 @@
       </ul>
     </div>
   </div>
-  <div class="right-section">
-    <router-outlet (activate)="onActivate()"></router-outlet>
-  </div>
+  <div class="right-section"><router-outlet (activate)="onActivate()"></router-outlet></div>
 </div>

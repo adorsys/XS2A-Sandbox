@@ -1,11 +1,7 @@
 <div class="collapse-content" [id]="id">
   <div class="json-text">
-    <span class="top-span" *ngIf="!shown" (click)="collapseThis(id)">
-      {{ 'TEST_CASES.COMPONENTS.CODE_AREA.SHOW' | translate }}
-    </span>
-    <span class="top-span" *ngIf="shown" (click)="collapseThis(id)">
-      {{ 'TEST_CASES.COMPONENTS.CODE_AREA.HIDE' | translate }}
-    </span>
+    <span class="top-span" *ngIf="!shown" (click)="collapseThis(id)"> {{ 'TEST_CASES.COMPONENTS.CODE_AREA.SHOW' | translate }} </span>
+    <span class="top-span" *ngIf="shown" (click)="collapseThis(id)"> {{ 'TEST_CASES.COMPONENTS.CODE_AREA.HIDE' | translate }} </span>
 
     <button class="copy-btn" (click)="copyText(json)">Copy</button>
     <div class="json-content">{{ json | prettyJson }}</div>

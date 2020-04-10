@@ -14,6 +14,7 @@ div ::ng-deep {
 
   ol {
     margin-left: 1em;
+    list-style: var(--listStyle);
   }
 
   ul:first-child {

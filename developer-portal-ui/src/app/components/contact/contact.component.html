@@ -1,6 +1,4 @@
-<div class="container">
-  <markdown [src]="pathToFile"></markdown>
-</div>
+<div class="container"><markdown [src]="pathToFile"></markdown></div>
 
 <!-- Any questions section -->
 <div class="any-questions" *ngIf="showQuestionsComponent">
@@ -8,13 +6,10 @@
   <h1 class="any-questions-title">{{ 'CONTACT.TITLE_1' | translate }}</h1>
   <span class="any-questions-subtitle">{{ 'CONTACT.SUBTITLE' | translate }}</span>
   <div class="person-card">
-    <div class="person-card-image-wrapper">
-      <img [src]="contactInfo?.img" alt="" />
-    </div>
+    <div class="person-card-image-wrapper"><img [src]="contactInfo?.img" alt="" /></div>
     <div class="person-card-info">
       <div class="main-personal-info">
-        <span>{{ contactInfo?.name }}</span>
-        <span>{{ contactInfo?.position }}</span>
+        <span>{{ contactInfo?.name }}</span> <span>{{ contactInfo?.position }}</span>
       </div>
       <div class="sub-personal-info" *ngIf="contactInfo?.email">
         <a [href]="'mailto:' + contactInfo?.email">{{ contactInfo?.email }}</a>
@@ -31,9 +26,7 @@
   <div class="contacts-card">
     <div class="contacts-content" *ngFor="let office of officesInfo">
       <div class="main-personal-info">
-        <span>{{ office?.city }}</span>
-        <span>{{ office?.company }}</span>
-        <span>{{ office?.addressFirstLine }}</span>
+        <span>{{ office?.city }}</span> <span>{{ office?.company }}</span> <span>{{ office?.addressFirstLine }}</span>
         <span>{{ office?.addressSecondLine }}</span>
       </div>
       <div class="sub-personal-info">

@@ -1,6 +1,4 @@
-<div>
-  <markdown [src]="pathToFile"></markdown>
-</div>
+<div><markdown [src]="pathToFile"></markdown></div>
 
 <div id="home-spacer" class="spacer"></div>
 
@@ -13,9 +11,7 @@
       <span>{{ slide.description | translate }}</span>
     </div>
   </div>
-  <div class="button-block">
-    <button *ngFor="let item of slides"></button>
-  </div>
+  <div class="button-block"><button *ngFor="let item of slides"></button></div>
 </div>
 
 <!-- Product history -->
@@ -89,18 +85,13 @@
 <!-- Any questions section -->
 <div class="any-questions" *ngIf="showQuestionsComponent && contactInfo">
   <div class="divider"></div>
-  <h1 class="any-questions-title">
-    {{ 'HOME.QUESTIONS.TITLE' | translate }}
-  </h1>
+  <h1 class="any-questions-title">{{ 'HOME.QUESTIONS.TITLE' | translate }}</h1>
   <span class="any-questions-subtitle">{{ 'HOME.QUESTIONS.ASK' | translate }}</span>
   <div class="person-card" *ngIf="contactInfo?.img || contactInfo?.name || contactInfo?.position">
-    <div class="person-card-image-wrapper">
-      <img [src]="contactInfo?.img" alt="Contact" />
-    </div>
+    <div class="person-card-image-wrapper"><img [src]="contactInfo?.img" alt="Contact" /></div>
     <div class="person-card-info">
       <div class="main-personal-info">
-        <span>{{ contactInfo?.name }}</span>
-        <span>{{ contactInfo?.position }}</span>
+        <span>{{ contactInfo?.name }}</span> <span>{{ contactInfo?.position }}</span>
       </div>
       <div class="sub-personal-info" *ngIf="contactInfo?.email">
         <a [href]="'mailto:' + contactInfo?.email">{{ contactInfo?.email }}</a>

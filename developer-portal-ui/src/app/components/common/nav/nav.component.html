@@ -28,8 +28,7 @@
         <div id="langs" [ngClass]="getLangCollapsed() ? 'collapse-menu--collapsed' : 'collapse-menu'">
           <div class="lang-wrapper" *ngFor="let lng of supportedLanguages" (click)="changeLang(lng)" [hidden]="lng === language">
             <div>
-              <img class="lang-img" [src]="supportedLanguagesDictionary[lng]" [alt]="lng" />
-              <span class="lang-span">{{ lng }}</span>
+              <img class="lang-img" [src]="supportedLanguagesDictionary[lng]" [alt]="lng" /> <span class="lang-span">{{ lng }}</span>
             </div>
           </div>
         </div>

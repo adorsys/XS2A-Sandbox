@@ -24,9 +24,7 @@
         [(ngModel)]="paymentService"
         (ngModelChange)="handlePaymentServiceChanged($event)"
       >
-        <option [value]="ps" *ngFor="let ps of paymentServiceSelect">
-          {{ ps }}
-        </option>
+        <option [value]="ps" *ngFor="let ps of paymentServiceSelect"> {{ ps }} </option>
       </select>
       <span class="top-line" *ngIf="paymentProductFlag || accountIdFlag">/</span>
       <input
@@ -42,9 +40,7 @@
         [(ngModel)]="paymentProduct"
         (ngModelChange)="handlePaymentProductChanged($event)"
       >
-        <option [value]="'/' + pp" *ngFor="let pp of paymentProductSelect" [selected]="'/' + pp == paymentProduct">
-          {{ pp }}
-        </option>
+        <option [value]="'/' + pp" *ngFor="let pp of paymentProductSelect" [selected]="'/' + pp == paymentProduct"> {{ pp }} </option>
       </select>
       <span class="top-line" *ngIf="paymentIdFlag || consentIdFlag">/</span>
 
@@ -96,8 +92,7 @@
           'payment-id': !transactionId
         }"
       />
-      <span class="top-line" *ngIf="dateFromFlag">?</span>
-      <span class="top-line" *ngIf="dateFromFlag">dateFrom=</span>
+      <span class="top-line" *ngIf="dateFromFlag">?</span> <span class="top-line" *ngIf="dateFromFlag">dateFrom=</span>
       <input
         type="text"
         class="payment-id"
@@ -115,25 +110,17 @@
           'payment-id': !bookingStatus
         }"
       >
-        <option [value]="bs" *ngFor="let bs of bookingStatusSelect">
-          {{ bs }}
-        </option>
+        <option [value]="bs" *ngFor="let bs of bookingStatusSelect"> {{ bs }} </option>
       </select>
     </div>
   </div>
   <div class="full-path" *ngIf="false">
-    <span>Full path:</span> <span>{{ url }}</span>
-    <span *ngIf="paymentService">{{ paymentService }}</span>
-    <span *ngIf="paymentProduct">{{ paymentProduct }}</span>
-    <span *ngIf="paymentId">{{ '/' + paymentId }}</span>
-    <span *ngIf="accountId">{{ '/' + accountId }}</span>
-    <span *ngIf="consentIdFlag">{{ '/' + consentId }}</span>
-    <span *ngIf="variablePathEnd">{{ variablePathEnd }}</span>
-    <span *ngIf="transactionId">{{ '/' + transactionId }}</span>
-    <span *ngIf="dateFrom">{{ '?dateFrom=' + dateFrom }}</span>
-    <span *ngIf="bookingStatus">{{ '&bookingStatus=' + bookingStatus }}</span>
-    <span *ngIf="authorisationId">{{ '/' + authorisationId }}</span>
-    <span *ngIf="cancellationId">{{ '/' + cancellationId }}</span>
+    <span>Full path:</span> <span>{{ url }}</span> <span *ngIf="paymentService">{{ paymentService }}</span>
+    <span *ngIf="paymentProduct">{{ paymentProduct }}</span> <span *ngIf="paymentId">{{ '/' + paymentId }}</span>
+    <span *ngIf="accountId">{{ '/' + accountId }}</span> <span *ngIf="consentIdFlag">{{ '/' + consentId }}</span>
+    <span *ngIf="variablePathEnd">{{ variablePathEnd }}</span> <span *ngIf="transactionId">{{ '/' + transactionId }}</span>
+    <span *ngIf="dateFrom">{{ '?dateFrom=' + dateFrom }}</span> <span *ngIf="bookingStatus">{{ '&bookingStatus=' + bookingStatus }}</span>
+    <span *ngIf="authorisationId">{{ '/' + authorisationId }}</span> <span *ngIf="cancellationId">{{ '/' + cancellationId }}</span>
   </div>
 
   <div class="play-with-data-table bg th">
@@ -143,8 +130,7 @@
 
   <div class="play-with-data-table" *ngIf="acceptFlag">
     <label class="check-container"
-      >Accept
-      <input type="checkbox" id="acceptHeaderCheckbox" name="acceptHeaderCheckbox" checked class="checkbox" />
+      >Accept <input type="checkbox" id="acceptHeaderCheckbox" name="acceptHeaderCheckbox" checked class="checkbox" />
       <span class="checkmark"></span>
     </label>
     <select [(ngModel)]="acceptHeader" (ngModelChange)="onClear()">
@@ -211,32 +197,22 @@
 
   <ng-container *ngIf="response">
     <div *ngIf="response.status || response.statusText" class="response-status">
-      <button class="clear-button" (click)="onClear()">Clear</button>
-      <span class="status-style">Status</span>
+      <button class="clear-button" (click)="onClear()">Clear</button> <span class="status-style">Status</span>
       <div class="response-status-wrapper">
-        <span>{{ response.status }}</span>
-        <span>{{ getStatusText(response.status) }}</span>
+        <span>{{ response.status }}</span> <span>{{ getStatusText(response.status) }}</span>
       </div>
     </div>
 
     <div *ngIf="response['error']" class="response-body">
       <span class="status-style">Error details</span>
-      <p class="response-body-text" *ngIf="!acceptHeader || acceptHeader == 'application/json'">
-        {{ response['error'] | json }}
-      </p>
-      <p class="response-body-text" *ngIf="acceptHeader == 'application/xml'">
-        {{ response['error'] }}
-      </p>
+      <p class="response-body-text" *ngIf="!acceptHeader || acceptHeader == 'application/json'">{{ response['error'] | json }}</p>
+      <p class="response-body-text" *ngIf="acceptHeader == 'application/xml'">{{ response['error'] }}</p>
     </div>
 
     <div *ngIf="response.body" class="response-body">
       <span>Response body</span>
-      <p class="response-body-text" *ngIf="!acceptHeader || acceptHeader == 'application/json'">
-        {{ response.body | json }}
-      </p>
-      <p class="response-body-text" *ngIf="acceptHeader == 'application/xml'">
-        {{ response.body }}
-      </p>
+      <p class="response-body-text" *ngIf="!acceptHeader || acceptHeader == 'application/json'">{{ response.body | json }}</p>
+      <p class="response-body-text" *ngIf="acceptHeader == 'application/xml'">{{ response.body }}</p>
     </div>
 
     <div *ngIf="(fieldsToCopy || resourceIds) && response.body">
@@ -249,11 +225,7 @@
             <td class="copy-field">
               <input type="text" [value]="copyService.getCopyValue(i, fieldsToCopy, response, paymentId)" [id]="'input-' + i" />
             </td>
-            <td>
-              <button class="copy-btn" (click)="copyService.copyThis(i, fieldsToCopy)">
-                Copy
-              </button>
-            </td>
+            <td><button class="copy-btn" (click)="copyService.copyThis(i, fieldsToCopy)">Copy</button></td>
           </div>
         </tr>
 
@@ -262,14 +234,8 @@
             <td class="copy-label">
               <label [for]="'input-' + i">resourceId {{ i + 1 }}</label>
             </td>
-            <td class="copy-field">
-              <input type="text" [value]="resourceId" [id]="'input-' + i" />
-            </td>
-            <td>
-              <button class="copy-btn" (click)="copyService.copyThis(i, resourceIds, 'resourceId ' + (i + 1))">
-                Copy
-              </button>
-            </td>
+            <td class="copy-field"><input type="text" [value]="resourceId" [id]="'input-' + i" /></td>
+            <td><button class="copy-btn" (click)="copyService.copyThis(i, resourceIds, 'resourceId ' + (i + 1))">Copy</button></td>
           </div>
         </tr>
       </table>
@@ -289,8 +255,6 @@
 
   <div class="btns">
     <button class="submit-btn" (click)="sendRequest()">Submit</button>
-    <a [href]="redirectUrl" target="_blank" class="redirect-btn" *ngIf="redirectUrl">
-      Redirect Url
-    </a>
+    <a [href]="redirectUrl" target="_blank" class="redirect-btn" *ngIf="redirectUrl"> Redirect Url </a>
   </div>
 </div>

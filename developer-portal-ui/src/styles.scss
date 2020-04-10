@@ -90,6 +90,18 @@ a:focus {
   text-decoration: none;
 }
 
+ol a:before {
+  content: '';
+  background-image: var(--backgroundImage);
+  position: absolute;
+  background-repeat: no-repeat;
+  margin-left: -15px;
+  height: 0.625rem;
+  width: 0.625rem;
+  background-size: contain;
+  transform: translate(-50%, 50%) rotate(270deg);
+}
+
 .divider {
   height: 6px;
   width: 77px;
