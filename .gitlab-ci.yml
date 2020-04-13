@@ -204,21 +204,32 @@ Lint:OBA_backend:
   except:
     - schedules
   script:
-    - echo "Run Dockerfile lint"
+    - echo "Run OBA backend lint"
+    - make lint-online-banking
 
 Lint:TPP_backend:
   stage: "Lint"
   except:
     - schedules
   script:
-    - echo "Run Dockerfile lint"
+    - echo "Run TPP backend lint"
+    - make lint-tpp-rest-server
 
 Lint:Certificate_generator:
   stage: "Lint"
   except:
     - schedules
   script:
-    - echo "Run Dockerfile lint"
+    - echo "Run Certificate generator lint"
+    - make lint-certificate-generator
+
+Lint:Docker_compose:
+  stage: "Lint"
+  except:
+    - schedules
+  script:
+    - echo "Run Docker compose lint"
+    - make lint-docker-compose
 
 Build:OBA_frontend:
   stage: "Compile"
@@ -346,7 +357,7 @@ Doc Check Java11:
     - java -XX:+PrintFlagsFinal -version | grep -Ei "maxheapsize|maxram"
     - mvn -ntp -Dmaven.test.skip=true -Pjavadoc verify javadoc:javadoc
 
-UnitTest:Java11:
+UnitTests:Java11:
   stage: "Test"
   except:
     - schedules
@@ -361,7 +372,7 @@ UnitTest:Java11:
     - java -XX:+PrintFlagsFinal -version | grep -Ei "maxheapsize|maxram"
     - mvn -ntp -DskipITs --fail-at-end clean install
 
-UnitTest:DevPortal_angular8:
+UnitTests:DevPortal_angular8:
   stage: "Test"
   except:
     - schedules
@@ -372,7 +383,7 @@ UnitTest:DevPortal_angular8:
     - npm ci
     - npm run test-ci
 
-UnitTest:TPP_frontend:
+UnitTests:TPP_frontend:
   stage: "Test"
   except:
     - schedules
@@ -383,7 +394,7 @@ UnitTest:TPP_frontend:
     - npm ci
     - npm run test-ci
 
-UnitTest:OBA_frontend:
+UnitTests:OBA_frontend:
   stage: "Test"
   except:
     - schedules
