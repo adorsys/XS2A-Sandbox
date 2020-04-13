@@ -398,7 +398,7 @@ test building docker images:
   stage: "Test"
   except:
     - schedules
-  needs: ["Build:OBA_frontend", "Build:TPP_frontend", "Build:Devportal_angular8:", "Build:Java11"]
+  needs: ["Build:OBA_frontend", "Build:TPP_frontend", "Build:Devportal_angular8", "Build:Java11"]
   variables:
     DOCKER_TAG: test
   <<: *build_docker_images
