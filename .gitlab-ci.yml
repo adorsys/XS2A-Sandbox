@@ -199,28 +199,28 @@ Lint devportal frontend:
     - echo "Run Devportal frontend lint"
     - make lint-developer-portal-ui
 
-lint_oba_backend:
+Lint_oba_backend:
   stage: "Lint"
   except:
     - schedules
   script:
     - echo "Run Dockerfile lint"
 
-lint_tpp_backend:
+Lint_tpp_backend:
   stage: "Lint"
   except:
     - schedules
   script:
     - echo "Run Dockerfile lint"
 
-lint_certificate_generator:
+Lint_certificate_generator:
   stage: "Lint"
   except:
     - schedules
   script:
     - echo "Run Dockerfile lint"
 
-build oba frontend:
+Build OBA frontend:
   stage: "Compile"
   except:
     - schedules
@@ -240,7 +240,7 @@ build oba frontend:
     name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}"
     expire_in: "1 day"
 
-build tpp frontend:
+Build TPP frontend:
   stage: "Compile"
   except:
     - schedules
@@ -286,9 +286,9 @@ Compile Java11:
   except:
     - schedules
   needs:
-    - lint_oba_backend
-    - lint_tpp_backend
-    - lint_certificate_generator
+    - Lint_oba_backend
+    - Lint_tpp_backend
+    - Lint_certificate_generator
   variables:
     BUILD_JAVA_VERSION: system@1.11
     JAVA_TOOL_OPTIONS: "-Djavax.net.ssl.trustStorePassword=changeit -XX:MaxRAM=3G"
@@ -305,9 +305,9 @@ PMD Report:
   except:
     - schedules
   needs:
-    - lint_oba_backend
-    - lint_tpp_backend
-    - lint_certificate_generator
+    - Lint_oba_backend
+    - Lint_tpp_backend
+    - Lint_certificate_generator
   script:
     - jabba use system@1.11
     - cat /sys/fs/cgroup/memory/memory.limit_in_bytes
@@ -390,7 +390,7 @@ tpp_frontend_unit_tests:
   except:
     - schedules
   needs:
-    - "build tpp frontend"
+    - "Build TPP frontend"
   script:
     - cd tpp-ui
     - nvm use 10
@@ -402,7 +402,7 @@ oba_frontend_unit_tests:
   except:
     - schedules
   needs:
-    - "build oba frontend"
+    - "Build OBA frontend"
   script:
     - cd oba-ui
     - nvm use 10
@@ -414,8 +414,8 @@ test building docker images:
   except:
     - schedules
   needs:
-    - "build oba frontend"
-    - "build tpp frontend"
+    - "Build OBA frontend"
+    - "Build TPP frontend"
     - "Build DevPortal Angular8"
     - "Compile Java11"
   variables:
