@@ -31,6 +31,65 @@ install-for-MacOS:
 	brew install plantuml
 	brew install asciidoctor
 
+# Lint section
+
+lint-all: lint-tpp-ui lint-oba-ui lint-developer-portal-ui lint-tpp-rest-server lint-online-banking lint-certificate-generator lint-docker-compose #lint all services
+
+lint-tpp-ui:
+	find tpp-ui -type f -name "*.json" -exec jsonlint -qc {} \; # lint all json
+	find tpp-ui -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
+	find tpp-ui . -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
+	cd tpp-ui && npm install
+	cd tpp-ui && npm run lint 
+	cd tpp-ui && npm run prettier-check
+	docker run --rm -i hadolint/hadolint < tpp-ui/Dockerfile
+
+lint-oba-ui:
+	cd oba-ui
+	find oba-ui -type f -name "*.json" -exec jsonlint -qc {} \; # lint all json
+	find oba-ui -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
+	find oba-ui . -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
+	cd oba-ui && npm install
+	cd oba-ui && npm run lint 
+	cd oba-ui && npm run prettier-check
+	docker run --rm -i hadolint/hadolint < oba-ui/Dockerfile
+
+lint-developer-portal-ui:
+	find developer-portal-ui -type f -name "*.json" -exec jsonlint -qc {} \; # lint all json
+	find developer-portal-ui -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
+	find developer-portal-ui . -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
+	cd developer-portal-ui && npm install
+	cd developer-portal-ui && npm run lint 
+	cd developer-portal-ui && npm run prettier-check
+	docker run --rm -i hadolint/hadolint < developer-portal-ui/Dockerfile
+
+lint-tpp-rest-server:
+	cd tpp-app
+	find ./ -type f -name "*.json" -exec jsonlint -qc {} \; # lint all json
+	find ./ -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
+	find ./ . -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
+	docker run --rm -i hadolint/hadolint < tpp-rest-server/Dockerfile
+
+lint-online-banking:
+	cd online-banking
+	find ./ -type f -name "*.json" -exec jsonlint -qc {} \; # lint all json
+	find ./ -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
+	find ./ . -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
+	docker run --rm -i hadolint/hadolint < online-banking-ap/Dockerfile
+
+lint-certificate-generator:
+	cd certificate-generator
+	find ./ -type f -name "*.json" -exec jsonlint -qc {} \; # lint all json
+	find ./ -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
+	find ./ . -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
+	docker run --rm -i hadolint/hadolint < Dockerfile
+
+lint-docker-compose:
+	docker-compose -f docker-compose.yml -f docker-compose-build.yml -f docker-compose-google-analytics-enabled.yml -f docker-compose-no-certificate-generator.yml -f docker-compose-xs2a-embedded.yml config  -q
+	mvn validate
+	yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" bank-profile/*.xml
+
+
 ## Run section ##
 run:  ## Run services from Docker Hub without building:
 	docker-compose pull && docker-compose up

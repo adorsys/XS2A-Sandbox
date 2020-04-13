@@ -180,35 +180,24 @@ Lint OBA frontend:
   except:
     - schedules
   script:
-    - echo "Run npm lint"
-    - echo "Run npm prettier"
-    - echo "Run Dockerfile lint"
-    - echo "Run json,yaml,xml lint"
+    - echo "Run OBA lint"
+    - make lint-oba-ui
 
 Lint TPP frontend:
   stage: "Lint"
   except:
     - schedules
   script:
-    - echo "Run npm lint"
-    - echo "Run npm prettier"
-    - echo "Run Dockerfile lint"
-    - echo "Run json,yaml,xml lint"
+    - echo "Run TPP lint"
+    - make lint-tpp-ui
 
 Lint devportal frontend:
   stage: "Lint"
   except:
     - schedules
   script:
-    - cd developer-portal-ui
-    - echo "Run npm lint"  
-    - nvm use 10
-    - npm ci
-    - npm run lint
-    - echo "Run npm prettier"
-    - npm run prettier-check
-    - echo "Run Dockerfile lint"
-    - echo "Run json,yaml,xml lint"
+    - echo "Run Devportal frontend lint"
+    - make lint-developer-portal-ui
 
 lint_oba_backend:
   stage: "Lint"
@@ -255,7 +244,7 @@ build tpp frontend:
   stage: "Compile"
   except:
     - schedules
-  needs: 
+  needs:
     - "Lint TPP frontend"
   script:
     - cd tpp-ui
@@ -340,10 +329,9 @@ PMD Check Java11:
   stage: "Test"
   except:
     - schedules
+    - develop
   needs:
     - "PMD Report"
-  except:
-    - develop
   variables:
     JAVA_VERSION: "system@1.11"
     JAVA_TOOL_OPTIONS: "-Djavax.net.ssl.trustStorePassword=changeit -XX:MaxRAM=3G"
@@ -357,10 +345,9 @@ Doc Check Java11:
   stage: "Test"
   except:
     - schedules
+    - develop
   needs:
     - "Compile Java11"
-  except:
-    - develop
   variables:
     JAVA_TOOL_OPTIONS: "-Djavax.net.ssl.trustStorePassword=changeit -XX:MaxRAM=3G"
     JAVA_VERSION: "system@1.11"
@@ -374,10 +361,9 @@ Unit Tests Java11:
   stage: "Test"
   except:
     - schedules
+    - develop
   needs:
     - "Compile Java11"
-  except:
-    - develop
   variables:
     JAVA_VERSION: "system@1.11"
     JAVA_TOOL_OPTIONS: "-Djavax.net.ssl.trustStorePassword=changeit -XX:MaxRAM=3G"
