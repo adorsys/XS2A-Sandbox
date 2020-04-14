@@ -2,7 +2,7 @@
 # Global settings
 # ------------------------------------------------------------------
 
-image: "adorsys/ci-build:201907"
+image: "adorsys/ci-build:latest"
 
 # ------------------------------------------------------------------
 # stages
@@ -78,7 +78,7 @@ variables:
     - jabba use $BUILD_JAVA_VERSION
     - cat /sys/fs/cgroup/memory/memory.limit_in_bytes
     - java -XX:+PrintFlagsFinal -version | grep -Ei "maxheapsize|maxram"
-    - mvn -DskipTests clean install
+    - make build-java-services
   cache:
     key: "Java_${CI_COMMIT_REF_SLUG}"
     paths:
@@ -237,9 +237,8 @@ Build:OBA_frontend:
     - schedules
   needs: ["Lint:OBA_frontend"]
   script:
-    - cd oba-ui
-    - npm ci
-    - npm run build:prod
+    - echo "Run OBA frontend  Build"
+    - make npm-install-oba-ui
   cache:
     key: "OBA_UI_${CI_COMMIT_REF_SLUG}"
     paths:
@@ -256,9 +255,8 @@ Build:TPP_frontend:
     - schedules
   needs: ["Lint:TPP_frontend"]
   script:
-    - cd tpp-ui
-    - npm ci
-    - npm run build:prod
+    - echo "Run TPP frontend  Build"
+    - make npm-install-tpp-ui
   cache:
     key: "TPP_UI_${CI_COMMIT_REF_SLUG}"
     paths:
@@ -269,16 +267,16 @@ Build:TPP_frontend:
     name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}"
     expire_in: "1 day"
 
-Build:Devportal_angular8:
+Build:Devportal_frontend:
   stage: "Compile"
   except:
     - schedules
   needs: ["Lint:Devportal_frontend"]
   script:
+    - echo "Update postman test files "
     - scripts/.update-postman-test-files.sh
-    - cd developer-portal-ui
-    - npm ci
-    - npm run build:prod
+    - echo "Run Devportal frontend Build"
+    - make npm-install-developer-portal-ui
   cache:
     key: "DEVPORTAL_${CI_COMMIT_REF_SLUG}"
     paths:
@@ -372,11 +370,11 @@ UnitTests:Java11:
     - java -XX:+PrintFlagsFinal -version | grep -Ei "maxheapsize|maxram"
     - mvn -ntp -DskipITs --fail-at-end clean install
 
-UnitTests:DevPortal_angular8:
+UnitTests:DevPortal_frontend:
   stage: "Test"
   except:
     - schedules
-  needs: ["Build:Devportal_angular8"]
+  needs: ["Build:Devportal_frontend"]
   script:
     - cd developer-portal-ui
     - nvm use 10
@@ -390,7 +388,7 @@ UnitTests:TPP_frontend:
   needs: ["Build:TPP_frontend"]
   script:
     - cd tpp-ui
-    - nvm use 10
+    - nvm use 12
     - npm ci
     - npm run test-ci
 
@@ -401,7 +399,7 @@ UnitTests:OBA_frontend:
   needs: ["Build:OBA_frontend"]
   script:
     - cd oba-ui
-    - nvm use 10
+    - nvm use 12
     - npm ci
     - npm run test-ci
 
@@ -409,7 +407,7 @@ test building docker images:
   stage: "Test"
   except:
     - schedules
-  needs: ["Build:OBA_frontend", "Build:TPP_frontend", "Build:Devportal_angular8", "Build:Java11"]
+  needs: ["Build:OBA_frontend", "Build:TPP_frontend", "Build:Devportal_frontend", "Build:Java11"]
   variables:
     DOCKER_TAG: test
   <<: *build_docker_images
