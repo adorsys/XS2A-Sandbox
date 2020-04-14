@@ -84,7 +84,7 @@ lint-certificate-generator:
 lint-docker-compose:
 	docker-compose -f docker-compose.yml -f docker-compose-build.yml -f docker-compose-google-analytics-enabled.yml -f docker-compose-no-certificate-generator.yml -f docker-compose-xs2a-embedded.yml config  -q
 	mvn validate
-	yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" bank-profile/*.xml
+	yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" bank-profile/*.yml
 
 ## Run section ##
 run:  ## Run services from Docker Hub without building:
