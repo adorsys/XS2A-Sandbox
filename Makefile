@@ -122,10 +122,7 @@ unit-tests-developer-portal-ui:
 	cd developer-portal-ui && npm ci && npm install && npm run test-ci
 
 unit-tests-backend:
-    mvn -ntp -DskipITs --fail-at-end clean install
-
-## Integration tests section
-
+	mvn -ntp -DskipITs --fail-at-end clean install
 
 ## Build arc42
 build-arc-42: arc42/images/generated $(ARC42_SRC) docs/arc42/xs2a-sandbox-arc42.adoc developer-portal-ui/package.json ## Generate arc42 html documentation
