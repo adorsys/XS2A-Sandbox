@@ -247,7 +247,7 @@ Lint:Docker_compose:
   except:
     - schedules
   script:
-    - apt update && apt install yamllint docker-compose -yq
+    - apt update && apt install yamllint docker-compose make -yq
     - echo "Run Docker compose lint"
     - make lint-docker-compose
 
@@ -405,6 +405,7 @@ UnitTests:DevPortal_frontend:
   script:
     - apt-get update && apt-get install make -yq
     - echo 'Unit tests Devportal frontend'
+    - npm install chromium
     - make unit-tests-developer-portal-ui
 
 UnitTests:TPP_frontend:
@@ -416,6 +417,7 @@ UnitTests:TPP_frontend:
   script:
     - apt-get update && apt-get install make -yq
     - echo 'Unit tests TPP frontend'
+    - npm install chromium
     - make unit-tests-tpp-ui
 
 UnitTests:OBA_frontend:
@@ -427,6 +429,7 @@ UnitTests:OBA_frontend:
   script:
     - apt-get update && apt-get install make -yq
     - echo 'Unit tests OBA frontend'
+    - npm install chromium
     - make unit-tests-oba-ui
 
 test building docker images:
