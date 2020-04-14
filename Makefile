@@ -39,6 +39,7 @@ lint-tpp-ui:
 	find tpp-ui -type f -name "*.json" -exec jsonlint -q {} \; # lint all json
 	find tpp-ui -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
 	find tpp-ui -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
+	#cd tpp-ui && npm ci && npm install
 	#cd tpp-ui && npm run lint 
 	#cd tpp-ui && npm run prettier-check
 	docker run --rm -i hadolint/hadolint < tpp-ui/Dockerfile
@@ -48,7 +49,7 @@ lint-oba-ui:
 	find oba-ui -type f -name "*.json" -exec jsonlint -q {} \; # lint all json
 	find oba-ui -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
 	find oba-ui -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
-	#cd oba-ui && npm install
+	#cd oba-ui && npm ci && npm install
 	#cd oba-ui && npm run lint 
 	#cd oba-ui && npm run prettier-check
 	docker run --rm -i hadolint/hadolint < oba-ui/Dockerfile
@@ -57,7 +58,7 @@ lint-developer-portal-ui:
 	find developer-portal-ui -type f -name "*.json" -exec jsonlint -q {} \; # lint all json
 	find developer-portal-ui -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
 	find developer-portal-ui -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
-	cd developer-portal-ui && npm install
+	cd developer-portal-ui && npm ci && pm install
 	cd developer-portal-ui && npm run lint 
 	cd developer-portal-ui && npm run prettier-check
 	docker run --rm -i hadolint/hadolint < developer-portal-ui/Dockerfile
@@ -102,13 +103,13 @@ build-java-services: ## Build java services
 build-ui-services: npm-install-tpp-ui npm-install-oba-ui npm-install-developer-portal-ui ## Build ui services
 
 npm-install-tpp-ui: tpp-ui/package.json tpp-ui/package-lock.json ## Install TPP-UI NPM dependencies
-	cd tpp-ui && npm install && npm run build
+	cd tpp-ui && npm ci && npm install && npm run build
 
 npm-install-oba-ui: oba-ui/package.json oba-ui/package-lock.json ## Install OBA-UI NPM dependencies
-	cd oba-ui && npm install && npm run build
+	cd oba-ui && npm ci && npm install && npm run build
 
 npm-install-developer-portal-ui: developer-portal-ui/package.json developer-portal-ui/package-lock.json ## Install DEV-PORTAL-UI NPM dependencies
-	cd developer-portal-ui && npm install && npm run build
+	cd developer-portal-ui && npm ci && npm install && npm run build
 
 ## Unit tests section
 unit-tests-all-frontend:
