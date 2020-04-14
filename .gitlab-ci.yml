@@ -428,6 +428,7 @@ test building docker images:
     DOCKER_TAG: test
   <<: *build_docker_images
 
+
 Postman Tests:
   stage: "Test"
   except:
