@@ -33,7 +33,7 @@ install-for-MacOS:
 
 # Lint section
 
-lint-all: lint-tpp-ui lint-oba-ui lint-developer-portal-ui lint-tpp-rest-server lint-online-banking lint-certificate-generator lint-docker-compose #lint all services
+lint-all: lint-tpp-ui lint-oba-ui lint-developer-portal-ui lint-tpp-rest-server lint-online-banking lint-certificate-generator lint-docker-compose lint-pmd-cpd-report #lint all services
 
 lint-tpp-ui:
 	find tpp-ui -type f -name "*.json" -exec jsonlint -q {} \; # lint all json
@@ -86,6 +86,8 @@ lint-docker-compose:
 	mvn validate
 	yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" bank-profile/*.yml
 
+lint-pmd-cpd-report:
+	mvn -ntp -Dmaven.test.skip=true package pmd:pmd pmd:cpd 
 ## Run section ##
 run:  ## Run services from Docker Hub without building:
 	docker-compose pull && docker-compose up
@@ -131,17 +133,6 @@ build-arc-42: arc42/images/generated $(ARC42_SRC) docs/arc42/xs2a-sandbox-arc42.
 arc42/images/generated: $(PLANTUML_SRC) ## Generate images from .puml files
 # Note: Because plantuml doesnt update the images/generated timestamp we need to touch it afterwards
 	cd docs/arc42 && mkdir -p images/generated && plantuml -o "../images/generated" diagrams/*.puml && touch images/generated
-
-## Tests section ##
-test: test-java-services ## Run all tests
-
-test-java-services: ## Run java tests
-	mvn test
-
-test-ui-services: ## Run tests in UI
-	cd tpp-ui && npm run test-single-headless
-	cd oba-ui && npm run test-single-headless
-	cd developer-portal-ui && npm run test-single-headless
 
 ## Clean section ##
 clean: clean-java-services clean-ui-services ## Clean everything
