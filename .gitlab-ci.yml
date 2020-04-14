@@ -242,10 +242,12 @@ Lint:Certificate_generator:
     - make lint-certificate-generator
 
 Lint:Docker_compose:
+  image: maven:3.6-jdk-11-slim
   stage: "Lint"
   except:
     - schedules
   script:
+    - apt update && apt install yamllint docker-compose -yq
     - echo "Run Docker compose lint"
     - make lint-docker-compose
 
