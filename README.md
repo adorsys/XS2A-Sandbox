@@ -1,8 +1,8 @@
 # XS2ASandbox
+
 [![Build Status](https://api.travis-ci.com/adorsys/XS2A-Sandbox.svg?branch=master)](https://travis-ci.com/adorsys/XS2A-Sandbox)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=adorsys_XS2A-Sandbox&metric=alert_status)](https://sonarcloud.io/dashboard?id=adorsys_XS2A-Sandbox)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=adorsys_XS2A-Sandbox&metric=coverage)](https://sonarcloud.io/dashboard?id=adorsys_XS2A-Sandbox)
-
 
 ## What is it
 
@@ -23,18 +23,16 @@ All four SCA approaches are supported: REDIRECT, OAUTH, EMBEDDED, DECOUPLED. Two
 
 ![XS2ASandbox structure](https://github.com/adorsys/XS2A-Sandbox/blob/master/XS2ASandbox.png)
 
-
 ## Project documentation
 
-* [Release notes](https://github.com/adorsys/XS2A-Sandbox/tree/master/docs/release_notes) contain information about changes included into releases.
-* [User Guide](https://github.com/adorsys/XS2A-Sandbox/tree/master/docs/user-guide.md) describes how to configure XS2ASandbox.
-* [UI Customization guide](https://github.com/adorsys/XS2A-Sandbox/blob/master/docs/customization_guide/UIs_customization_guide.md) describes how to customize Developer Portal, Online Banking UI and TPP UI.
-* [Architecture Documentation](https://github.com/adorsys/XS2A-Sandbox/tree/master/docs/arc42/README.adoc) describes how to instal, create and use tools for our diagrams. 
-
+-   [Release notes](https://github.com/adorsys/XS2A-Sandbox/tree/master/docs/release_notes) contain information about changes included into releases.
+-   [User Guide](https://github.com/adorsys/XS2A-Sandbox/tree/master/docs/user-guide.md) describes how to configure XS2ASandbox.
+-   [UI Customization guide](https://github.com/adorsys/XS2A-Sandbox/blob/master/docs/customization_guide/UIs_customization_guide.md) describes how to customize Developer Portal, Online Banking UI and TPP UI.
+-   [Architecture Documentation](https://github.com/adorsys/XS2A-Sandbox/blob/develop/docs/arc42/README.adoc) describes how to instal, create and use tools for our diagrams.
 
 ## How to try it
 
-* [Running XS2ASandbox instructions](https://github.com/adorsys/XS2A-Sandbox/tree/master/docs/running-xs2asandbox.md) will help you getting you a copy of the project up and running on your local machine.
+-   [Running XS2ASandbox instructions](https://github.com/adorsys/XS2A-Sandbox/tree/master/docs/running-xs2asandbox.md) will help you getting you a copy of the project up and running on your local machine.
 
 ## Development and contributing
 
