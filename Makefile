@@ -122,7 +122,7 @@ unit-tests-developer-portal-ui:
 	cd developer-portal-ui && npm ci && npm install && npm run test-ci
 
 unit-tests-backend:
-
+    mvn -ntp -DskipITs --fail-at-end clean install
 
 ## Integration tests section
 
