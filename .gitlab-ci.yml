@@ -176,6 +176,7 @@ variables:
 # lint
 #-------------------------------------------------------------------
 Lint:OBA_frontend:
+  image: node:12.16.2-stretch-slim
   stage: "Lint"
   except:
     - schedules
@@ -184,6 +185,7 @@ Lint:OBA_frontend:
     - make lint-oba-ui
 
 Lint:TPP_frontend:
+  image: node:12.16.2-stretch-slim
   stage: "Lint"
   except:
     - schedules
@@ -192,6 +194,7 @@ Lint:TPP_frontend:
     - make lint-tpp-ui
 
 Lint:Devportal_frontend:
+  image: node:12.16.2-stretch-slim
   stage: "Lint"
   except:
     - schedules
@@ -232,6 +235,7 @@ Lint:Docker_compose:
     - make lint-docker-compose
 
 Build:OBA_frontend:
+  image: node:12.16.2-stretch-slim
   stage: "Compile"
   except:
     - schedules
@@ -250,6 +254,7 @@ Build:OBA_frontend:
     expire_in: "1 day"
 
 Build:TPP_frontend:
+  image: node:12.16.2-stretch-slim
   stage: "Compile"
   except:
     - schedules
@@ -268,6 +273,7 @@ Build:TPP_frontend:
     expire_in: "1 day"
 
 Build:Devportal_frontend:
+  image: node:12.16.2-stretch-slim
   stage: "Compile"
   except:
     - schedules
@@ -371,17 +377,18 @@ UnitTests:Java11:
     - mvn -ntp -DskipITs --fail-at-end clean install
 
 UnitTests:DevPortal_frontend:
+  image: node:12.16.2-stretch-slim
   stage: "Test"
   except:
     - schedules
   needs: ["Build:Devportal_frontend"]
   script:
     - cd developer-portal-ui
-    - nvm use 10
     - npm ci
     - npm run test-ci
 
 UnitTests:TPP_frontend:
+  image: node:12.16.2-stretch-slim
   stage: "Test"
   except:
     - schedules
@@ -393,6 +400,7 @@ UnitTests:TPP_frontend:
     - npm run test-ci
 
 UnitTests:OBA_frontend:
+  image: node:12.16.2-stretch-slim
   stage: "Test"
   except:
     - schedules
