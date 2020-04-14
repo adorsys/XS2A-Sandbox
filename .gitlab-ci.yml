@@ -256,6 +256,7 @@ Build:OBA_frontend:
     - schedules
   needs: ["Lint:OBA_frontend"]
   script:
+    - apt-get update && apt-get install make -yq
     - echo "Run OBA frontend  Build"
     - make npm-install-oba-ui
   cache:
@@ -275,6 +276,7 @@ Build:TPP_frontend:
     - schedules
   needs: ["Lint:TPP_frontend"]
   script:
+    - apt-get update && apt-get install make -yq
     - echo "Run TPP frontend  Build"
     - make npm-install-tpp-ui
   cache:
@@ -294,7 +296,7 @@ Build:Devportal_frontend:
     - schedules
   needs: ["Lint:Devportal_frontend"]
   script:
-    - apt-get update && apt-get install zip -yq
+    - apt-get update && apt-get install zip make -yq
     - echo "Update postman test files "
     - scripts/.update-postman-test-files.sh
     - echo "Run Devportal frontend Build"
