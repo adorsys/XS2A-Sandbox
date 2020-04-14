@@ -181,7 +181,8 @@ Lint:OBA_frontend:
   except:
     - schedules
   script:
-    - apt-get update && apt-get install jsonlint yamllint libxml2-utils make docker -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
+    - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl  -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
+    - curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
     - echo "Run OBA lint"
     - make lint-oba-ui
 
@@ -191,7 +192,8 @@ Lint:TPP_frontend:
   except:
     - schedules
   script:
-    - apt-get update && apt-get install jsonlint yamllint libxml2-utils make docker-yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
+    - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
+    - curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
     - echo "Run TPP lint"
     - make lint-tpp-ui
 
@@ -201,7 +203,8 @@ Lint:Devportal_frontend:
   except:
     - schedules
   script:
-    - apt-get update && apt-get install jsonlint yamllint libxml2-utils make docker -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
+    - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
+    - curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
     - echo "Run Devportal frontend lint"
     - make lint-developer-portal-ui
 
