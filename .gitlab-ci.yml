@@ -402,6 +402,8 @@ UnitTests:DevPortal_frontend:
   except:
     - schedules
   needs: ["Build:Devportal_frontend"]
+  variables:
+    CHROME_BIN: "/usr/bin/chromium"
   script:
     - apt-get update && apt-get install make chromium chromium-l10n -yq
     - echo 'Unit tests Devportal frontend'
@@ -413,6 +415,8 @@ UnitTests:TPP_frontend:
   except:
     - schedules
   needs: ["Build:TPP_frontend"]
+  variables:
+    CHROME_BIN: "/usr/bin/chromium"
   script:
     - apt-get update && apt-get install make chromium chromium-l10n -yq
     - echo 'Unit tests TPP frontend'
@@ -424,6 +428,8 @@ UnitTests:OBA_frontend:
   except:
     - schedules
   needs: ["Build:OBA_frontend"]
+  variables:
+    CHROME_BIN: "/usr/bin/chromium"
   script:
     - apt-get update && apt-get install make chromium chromium-l10n -yq
     - echo 'Unit tests OBA frontend'
