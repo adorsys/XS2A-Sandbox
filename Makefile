@@ -36,7 +36,7 @@ install-for-MacOS:
 lint-all: lint-tpp-ui lint-oba-ui lint-developer-portal-ui lint-tpp-rest-server lint-online-banking lint-certificate-generator lint-docker-compose #lint all services
 
 lint-tpp-ui:
-	find tpp-ui -type f -name "*.json" -exec jsonlint -qc {} \; # lint all json
+	find tpp-ui -type f -name "*.json" -exec jsonlint -q {} \; # lint all json
 	find tpp-ui -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
 	find tpp-ui -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
 	#cd tpp-ui && npm run lint 
@@ -45,7 +45,7 @@ lint-tpp-ui:
 
 lint-oba-ui:
 	cd oba-ui
-	find oba-ui -type f -name "*.json" -exec jsonlint -qc {} \; # lint all json
+	find oba-ui -type f -name "*.json" -exec jsonlint -q {} \; # lint all json
 	find oba-ui -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
 	find oba-ui -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
 	#cd oba-ui && npm install
@@ -54,7 +54,7 @@ lint-oba-ui:
 	docker run --rm -i hadolint/hadolint < oba-ui/Dockerfile
 
 lint-developer-portal-ui:
-	find developer-portal-ui -type f -name "*.json" -exec jsonlint -qc {} \; # lint all json
+	find developer-portal-ui -type f -name "*.json" -exec jsonlint -q {} \; # lint all json
 	find developer-portal-ui -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
 	find developer-portal-ui -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
 	cd developer-portal-ui && npm install
@@ -63,19 +63,19 @@ lint-developer-portal-ui:
 	docker run --rm -i hadolint/hadolint < developer-portal-ui/Dockerfile
 
 lint-tpp-rest-server:
-	find tpp-app -type f -name "*.json" -exec jsonlint -qc {} \; # lint all json
+	find tpp-app -type f -name "*.json" -exec jsonlint -q {} \; # lint all json
 	find tpp-app -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
 	find tpp-app -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
 	docker run --rm -i hadolint/hadolint < tpp-app/tpp-rest-server/Dockerfile
 
 lint-online-banking:
-	find online-banking -type f -name "*.json" -exec jsonlint -qc {} \; # lint all json
+	find online-banking -type f -name "*.json" -exec jsonlint -q {} \; # lint all json
 	find online-banking -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
 	find online-banking -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
 	docker run --rm -i hadolint/hadolint < online-banking/online-banking-app/Dockerfile
 
 lint-certificate-generator:
-	find certificate-generator -type f -name "*.json" -exec jsonlint -qc {} \; # lint all json
+	find certificate-generator -type f -name "*.json" -exec jsonlint -q {} \; # lint all json
 	find certificate-generator -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
 	find certificate-generator -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
 	docker run --rm -i hadolint/hadolint < certificate-generator/Dockerfile
