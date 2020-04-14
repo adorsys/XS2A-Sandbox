@@ -403,9 +403,8 @@ UnitTests:DevPortal_frontend:
     - schedules
   needs: ["Build:Devportal_frontend"]
   script:
-    - apt-get update && apt-get install make -yq
+    - apt-get update && apt-get install make chromium chromium-l10n -yq
     - echo 'Unit tests Devportal frontend'
-    - npm install chromium
     - make unit-tests-developer-portal-ui
 
 UnitTests:TPP_frontend:
@@ -415,9 +414,8 @@ UnitTests:TPP_frontend:
     - schedules
   needs: ["Build:TPP_frontend"]
   script:
-    - apt-get update && apt-get install make -yq
+    - apt-get update && apt-get install make chromium chromium-l10n -yq
     - echo 'Unit tests TPP frontend'
-    - npm install chromium
     - make unit-tests-tpp-ui
 
 UnitTests:OBA_frontend:
@@ -427,9 +425,8 @@ UnitTests:OBA_frontend:
     - schedules
   needs: ["Build:OBA_frontend"]
   script:
-    - apt-get update && apt-get install make -yq
+    - apt-get update && apt-get install make chromium chromium-l10n -yq
     - echo 'Unit tests OBA frontend'
-    - npm install chromium
     - make unit-tests-oba-ui
 
 test building docker images:
