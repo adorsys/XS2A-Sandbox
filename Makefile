@@ -58,7 +58,7 @@ lint-developer-portal-ui:
 	find developer-portal-ui -type f -name "*.json" -exec jsonlint -q {} \; # lint all json
 	find developer-portal-ui -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
 	find developer-portal-ui -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
-	cd developer-portal-ui && npm ci && pm install
+	cd developer-portal-ui && npm ci && npm install
 	cd developer-portal-ui && npm run lint 
 	cd developer-portal-ui && npm run prettier-check
 	docker run --rm -i hadolint/hadolint < developer-portal-ui/Dockerfile
