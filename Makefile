@@ -39,9 +39,8 @@ lint-tpp-ui:
 	find tpp-ui -type f -name "*.json" -exec jsonlint -qc {} \; # lint all json
 	find tpp-ui -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
 	find tpp-ui -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
-	cd tpp-ui && npm install
-	cd tpp-ui && npm run lint 
-	cd tpp-ui && npm run prettier-check
+	#cd tpp-ui && npm run lint 
+	#cd tpp-ui && npm run prettier-check
 	docker run --rm -i hadolint/hadolint < tpp-ui/Dockerfile
 
 lint-oba-ui:
@@ -49,9 +48,9 @@ lint-oba-ui:
 	find oba-ui -type f -name "*.json" -exec jsonlint -qc {} \; # lint all json
 	find oba-ui -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
 	find oba-ui -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
-	cd oba-ui && npm install
-	cd oba-ui && npm run lint 
-	cd oba-ui && npm run prettier-check
+	#cd oba-ui && npm install
+	#cd oba-ui && npm run lint 
+	#cd oba-ui && npm run prettier-check
 	docker run --rm -i hadolint/hadolint < oba-ui/Dockerfile
 
 lint-developer-portal-ui:
@@ -88,7 +87,6 @@ lint-docker-compose:
 	mvn validate
 	yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" bank-profile/*.xml
 
-
 ## Run section ##
 run:  ## Run services from Docker Hub without building:
 	docker-compose pull && docker-compose up
@@ -104,18 +102,18 @@ build-java-services: ## Build java services
 	mvn -DskipTests clean package
 
 build-ui-services: npm-install-tpp-ui npm-install-oba-ui npm-install-developer-portal-ui ## Build ui services
-	cd tpp-ui && npm run build
-	cd oba-ui && npm run build
-	cd developer-portal-ui && npm run build
 
 npm-install-tpp-ui: tpp-ui/package.json tpp-ui/package-lock.json ## Install TPP-UI NPM dependencies
 	cd tpp-ui && npm install
+	cd tpp-ui && npm run build
 
 npm-install-oba-ui: oba-ui/package.json oba-ui/package-lock.json ## Install OBA-UI NPM dependencies
 	cd oba-ui && npm install
+	cd oba-ui && npm run build
 
 npm-install-developer-portal-ui: developer-portal-ui/package.json developer-portal-ui/package-lock.json ## Install DEV-PORTAL-UI NPM dependencies
 	cd developer-portal-ui && npm install
+	cd developer-portal-ui && npm run build
 
 ## Build arc42
 build-arc-42: arc42/images/generated $(ARC42_SRC) docs/arc42/xs2a-sandbox-arc42.adoc developer-portal-ui/package.json ## Generate arc42 html documentation
