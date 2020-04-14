@@ -181,7 +181,7 @@ Lint:OBA_frontend:
   except:
     - schedules
   script:
-    - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl  -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
+    - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
     - curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
     - echo "Run OBA lint"
     - make lint-oba-ui
@@ -209,26 +209,35 @@ Lint:Devportal_frontend:
     - make lint-developer-portal-ui
 
 Lint:OBA_backend:
+  image: debian:stretch-slim
   stage: "Lint"
   except:
     - schedules
   script:
+    - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
+    - curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
     - echo "Run OBA backend lint"
     - make lint-online-banking
 
 Lint:TPP_backend:
+  image: debian:stretch-slim
   stage: "Lint"
   except:
     - schedules
   script:
+    - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
+    - curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
     - echo "Run TPP backend lint"
     - make lint-tpp-rest-server
 
 Lint:Certificate_generator:
+  image: debian:stretch-slim
   stage: "Lint"
   except:
     - schedules
   script:
+    - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
+    - curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
     - echo "Run Certificate generator lint"
     - make lint-certificate-generator
 
@@ -285,6 +294,7 @@ Build:Devportal_frontend:
     - schedules
   needs: ["Lint:Devportal_frontend"]
   script:
+    - apt-get update && apt-get install zip -yq
     - echo "Update postman test files "
     - scripts/.update-postman-test-files.sh
     - echo "Run Devportal frontend Build"
