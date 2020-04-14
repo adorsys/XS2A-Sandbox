@@ -401,9 +401,9 @@ UnitTests:DevPortal_frontend:
     - schedules
   needs: ["Build:Devportal_frontend"]
   script:
-    - cd developer-portal-ui
-    - npm ci
-    - npm run test-ci
+    - apt-get update && apt-get install make -yq
+    - echo 'Unit tests Devportal frontend'
+    - make unit-tests-developer-portal-ui
 
 UnitTests:TPP_frontend:
   image: node:12.16.2-stretch-slim
@@ -412,10 +412,9 @@ UnitTests:TPP_frontend:
     - schedules
   needs: ["Build:TPP_frontend"]
   script:
-    - cd tpp-ui
-    - nvm use 12
-    - npm ci
-    - npm run test-ci
+    - apt-get update && apt-get install make -yq
+    - - echo 'Unit tests TPP frontend'
+    - make unit-tests-tpp-ui
 
 UnitTests:OBA_frontend:
   image: node:12.16.2-stretch-slim
@@ -424,10 +423,9 @@ UnitTests:OBA_frontend:
     - schedules
   needs: ["Build:OBA_frontend"]
   script:
-    - cd oba-ui
-    - nvm use 12
-    - npm ci
-    - npm run test-ci
+    - apt-get update && apt-get install make -yq
+    - echo 'Unit tests OBA frontend'
+    - make unit-tests-oba-ui
 
 test building docker images:
   stage: "Test"

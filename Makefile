@@ -112,14 +112,14 @@ npm-install-developer-portal-ui: developer-portal-ui/package.json developer-port
 	cd developer-portal-ui && npm ci && npm install && npm run build
 
 ## Unit tests section
-unit-tests-all-frontend:
+unit-tests-all-frontend: unit-tests-oba-ui unit-tests-tpp-ui unit-tests-developer-portal-ui
 
 unit-tests-oba-ui:
-
+	cd oba-ui && npm run test-ci
 unit-tests-tpp-ui:
-
-unit-tests-develpoer-portal-ui:
-
+	cd tpp-ui && npm run test-ci
+unit-tests-developer-portal-ui:
+	cd developer-portal-ui && npm run test-ci
 
 unit-tests-backend:
 
