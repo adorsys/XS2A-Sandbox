@@ -7,11 +7,12 @@ ENV NGINX_ERROR_LOG_DEBUG error
 
 RUN \
   apt-get update && \
-  apt-get install -y ruby
+  apt-get install -y ruby \
+  && rm -rf /var/lib/apt/lists/*
 
 COPY ./nginx.conf.erb /etc/nginx/conf.d/default.conf.erb
 COPY entry.sh /opt/entry.sh
-ADD dist/tpp-ui /usr/share/nginx/html
+COPY dist/tpp-ui /usr/share/nginx/html
 
 RUN chgrp -R root /var/cache/nginx && \
     find /var/cache/nginx -type d -exec chmod 775 {} \; && \
@@ -23,4 +24,4 @@ RUN chgrp -R root /var/cache/nginx && \
 
 EXPOSE 4205
 
-ENTRYPOINT /opt/entry.sh
+ENTRYPOINT [ "/opt/entry.sh" ]
