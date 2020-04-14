@@ -181,6 +181,7 @@ Lint:OBA_frontend:
   except:
     - schedules
   script:
+    - apt-get update && apt-get install jsonlint yamllint libxml2-utils make -yq
     - echo "Run OBA lint"
     - make lint-oba-ui
 
@@ -190,6 +191,7 @@ Lint:TPP_frontend:
   except:
     - schedules
   script:
+    -apt-get update && apt-get install jsonlint yamllint libxml2-utils make -yq
     - echo "Run TPP lint"
     - make lint-tpp-ui
 
@@ -199,6 +201,7 @@ Lint:Devportal_frontend:
   except:
     - schedules
   script:
+    - apt-get update && apt-get install jsonlint yamllint libxml2-utils make -yq
     - echo "Run Devportal frontend lint"
     - make lint-developer-portal-ui
 
