@@ -14,5 +14,5 @@ USER 1001
 COPY ./target/tpp-rest-server*jar /opt/tpp-app/tpp-rest-server.jar
 
 EXPOSE 8093 8000
-
+# hadolint ignore=DL3025
 CMD exec $JAVA_HOME/bin/java $JAVA_OPTS -jar /opt/tpp-app/tpp-rest-server.jar

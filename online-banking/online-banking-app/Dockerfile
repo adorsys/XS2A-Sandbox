@@ -14,5 +14,5 @@ USER 1001
 COPY ./target/online-banking-app.jar /opt/xs2a-connector-examples/xs2a-online-banking.jar
 
 EXPOSE 8090
-
+# hadolint ignore=DL3025
 CMD exec $JAVA_HOME/bin/java $JAVA_OPTS -jar /opt/xs2a-connector-examples/xs2a-online-banking.jar
