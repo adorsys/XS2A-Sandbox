@@ -69,14 +69,12 @@ lint-tpp-rest-server:
 	docker run --rm -i hadolint/hadolint < tpp-app/tpp-rest-server/Dockerfile
 
 lint-online-banking:
-
 	find online-banking -type f -name "*.json" -exec jsonlint -qc {} \; # lint all json
 	find online-banking -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
 	find online-banking -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
 	docker run --rm -i hadolint/hadolint < online-banking/online-banking-app/Dockerfile
 
 lint-certificate-generator:
-	cd certificate-generator
 	find certificate-generator -type f -name "*.json" -exec jsonlint -qc {} \; # lint all json
 	find certificate-generator -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
 	find certificate-generator -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
@@ -104,16 +102,29 @@ build-java-services: ## Build java services
 build-ui-services: npm-install-tpp-ui npm-install-oba-ui npm-install-developer-portal-ui ## Build ui services
 
 npm-install-tpp-ui: tpp-ui/package.json tpp-ui/package-lock.json ## Install TPP-UI NPM dependencies
-	cd tpp-ui && npm install
-	cd tpp-ui && npm run build
+	cd tpp-ui && npm install && npm run build
 
 npm-install-oba-ui: oba-ui/package.json oba-ui/package-lock.json ## Install OBA-UI NPM dependencies
-	cd oba-ui && npm install
-	cd oba-ui && npm run build
+	cd oba-ui && npm install && npm run build
 
 npm-install-developer-portal-ui: developer-portal-ui/package.json developer-portal-ui/package-lock.json ## Install DEV-PORTAL-UI NPM dependencies
-	cd developer-portal-ui && npm install
-	cd developer-portal-ui && npm run build
+	cd developer-portal-ui && npm install && npm run build
+
+## Unit tests section
+unit-tests-all-frontend:
+
+unit-tests-oba-ui:
+
+unit-tests-tpp-ui:
+
+unit-tests-develpoer-portal-ui:
+
+
+unit-tests-backend:
+
+
+## Integration tests section
+
 
 ## Build arc42
 build-arc-42: arc42/images/generated $(ARC42_SRC) docs/arc42/xs2a-sandbox-arc42.adoc developer-portal-ui/package.json ## Generate arc42 html documentation
