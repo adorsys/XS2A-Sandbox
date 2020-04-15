@@ -1,6 +1,16 @@
 <div class="nav-bar">
   <div class="nav-bar-content">
-    <img *ngIf="logo" class="logo" [src]="logo" (click)="goToLogoLink(logoLink, '/home')" alt="Logo" />
+    <img
+      *ngIf="navBarSettings?.logo; else emptyTemplate"
+      class="logo"
+      [src]="navBarSettings.logo"
+      (click)="navigationService.goToLogoLink(navBarSettings.logoLink, '/home')"
+      alt="Logo"
+    />
+
+    <ng-template #emptyTemplate>
+      <div class="empty-logo"></div>
+    </ng-template>
 
     <div class="nav">
       <div class="nav-content">
@@ -10,7 +20,7 @@
             class="header-item"
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: false }"
-            (click)="navigateTo(navItem)"
+            (click)="navigationService.navigateTo(navItem)"
           >
             {{ navItem.navName }}
           </a>

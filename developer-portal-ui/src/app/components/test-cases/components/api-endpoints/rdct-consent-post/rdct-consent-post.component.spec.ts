@@ -76,8 +76,8 @@ describe('RdctConsentPOSTComponent', () => {
       'PSU-ID': 'YOUR_USER_LOGIN',
       'PSU-IP-Address': '1.1.1.1',
       'TPP-Redirect-Preferred': 'true',
-      'TPP-Redirect-URI': 'https://adorsys-platform.de/solutions/xs2a-sandbox/',
-      'TPP-Nok-Redirect-URI': 'https://www.google.com',
+      'TPP-Redirect-URI': null,
+      'TPP-Nok-Redirect-URI': null,
     };
     expect(typeof component.headers).toBe('object');
     for (const key in component.headers) {

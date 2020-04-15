@@ -4,10 +4,9 @@ import { DataService } from './services/data.service';
 import { LanguageService } from './services/language.service';
 import { filter } from 'rxjs/operators';
 import { MarkdownStylingService } from './services/markdown-styling.service';
-import { TrackingIdService } from './services/tracking-id.service';
 import { GoogleAnalyticsService } from './services/google-analytics.service';
 import { CustomizeService } from './services/customize.service';
-import { Theme } from './models/theme.model';
+import { PagesSettings, Theme } from './models/theme.model';
 import { NavigationService } from './services/navigation.service';
 import { CertificateService } from './services/certificate.service';
 import { LocalStorageService } from './services/local-storage.service';
@@ -31,27 +30,18 @@ export class AppComponent implements OnInit {
     private languageService: LanguageService,
     private markdownStylingService: MarkdownStylingService,
     private certificateService: CertificateService,
-    private trackingIdService: TrackingIdService,
     private googleAnalyticsService: GoogleAnalyticsService,
     private navigationService: NavigationService
   ) {
-    this.setUpGoogleAnalytics(this.trackingIdService.trackingId[0].trackingId);
-
-    this.customizeService.currentTheme.subscribe((theme) => {
-      this.customizeService.setStyling(theme);
+    this.customizeService.currentTheme.subscribe((theme: Theme) => {
+      this.setUpSettings(theme);
       this.customizeService
         .normalizeLanguages(theme)
-        .then((normalizedTheme: Theme) => (this.supportedLanguagesDictionary = normalizedTheme.supportedLanguagesDictionary));
-
-      LocalStorageService.set(TPP_NOK_REDIRECT_URL_KEY, theme.tppSettings.tppDefaultNokRedirectUrl);
-      LocalStorageService.set(TPP_REDIRECT_URL_KEY, theme.tppSettings.tppDefaultRedirectUrl);
+        .then(
+          (normalizedTheme: Theme) => (this.supportedLanguagesDictionary = normalizedTheme.globalSettings.supportedLanguagesDictionary)
+        );
     });
-
-    this.certificateService
-      .getQwacCertificate()
-      .toPromise()
-      .then((data) => this.certificateService.storeCertificate(data));
-
+    this.setUpCertificate();
     this.languageService.initializeTranslation();
   }
 
@@ -68,6 +58,15 @@ export class AppComponent implements OnInit {
 
     document.documentElement.firstChild.appendChild(gaScript);
     document.documentElement.firstChild.appendChild(gaScript2);
+  }
+
+  private setUpSettings(theme: Theme) {
+    this.setUpTppSettings(theme.pagesSettings);
+
+    if (theme.globalSettings) {
+      this.customizeService.setStyling(theme);
+      this.setUpGoogleAnalytics(theme.globalSettings.googleAnalyticsTrackingId);
+    }
   }
 
   onActivate() {
@@ -116,5 +115,23 @@ export class AppComponent implements OnInit {
         });
       }
     });
+  }
+
+  private setUpCertificate() {
+    this.certificateService
+      .getQwacCertificate()
+      .toPromise()
+      .then((data) => this.certificateService.storeCertificate(data));
+  }
+
+  private setUpTppSettings(pagesSettings: PagesSettings) {
+    if (pagesSettings) {
+      const playWithDataSettings = pagesSettings.playWithDataSettings;
+
+      if (playWithDataSettings && playWithDataSettings.tppSettings) {
+        LocalStorageService.set(TPP_NOK_REDIRECT_URL_KEY, playWithDataSettings.tppSettings.tppDefaultNokRedirectUrl);
+        LocalStorageService.set(TPP_REDIRECT_URL_KEY, playWithDataSettings.tppSettings.tppDefaultRedirectUrl);
+      }
+    }
   }
 }

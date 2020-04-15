@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { TrackingIdService } from './tracking-id.service';
-import { TrackingId } from '../models/tarckingId.model';
 import { CustomizeService } from './customize.service';
 import { Theme } from '../models/theme.model';
-import { forkJoin } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -13,18 +10,28 @@ export class SettingsHttpService {
   private defaultContentFolderPath = '../assets/content';
   private themeJsonName = '/UITheme.json';
   private customContentFolderPath = '../assets/custom-content';
-  private trackingJsonPath = 'assets/content/trackingId.json';
 
-  constructor(private http: HttpClient, private trackingIdService: TrackingIdService, private customizeService: CustomizeService) {}
+  constructor(private http: HttpClient, private customizeService: CustomizeService) {}
+
+  private static isThemeValid(theme) {
+    try {
+      JSON.parse(JSON.stringify(theme));
+      return true;
+    } catch (e) {
+      console.log(e);
+    }
+
+    return false;
+  }
 
   initializeApp(): Promise<any> {
     return new Promise((resolve) => {
       this.getThemeUrl().then((url) => {
-        forkJoin([this.http.get(this.trackingJsonPath), this.http.get(url)])
+        this.http
+          .get(url)
           .toPromise()
-          .then((results) => {
-            this.trackingIdService.trackingId = results[0] as TrackingId;
-            this.customizeService.theme = results[1] as Theme;
+          .then((data: Theme) => {
+            this.customizeService.theme = data;
             localStorage.setItem('currentLanguageFolder', this.customizeService.currentLanguageFolder + '/');
             resolve(true);
           });
@@ -38,7 +45,7 @@ export class SettingsHttpService {
       .toPromise()
       .then(
         (theme) => {
-          if (this.isThemeValid(theme)) {
+          if (SettingsHttpService.isThemeValid(theme)) {
             this.customizeService.setCustom();
             return this.customContentFolderPath + this.themeJsonName;
           }
@@ -49,20 +56,5 @@ export class SettingsHttpService {
           return this.defaultContentFolderPath + this.themeJsonName;
         }
       );
-  }
-
-  private isThemeValid(theme) {
-    try {
-      JSON.parse(JSON.stringify(theme));
-      const errors = CustomizeService.validateTheme(theme);
-
-      if (!errors.length) {
-        return true;
-      }
-    } catch (e) {
-      console.log(e);
-    }
-
-    return false;
   }
 }

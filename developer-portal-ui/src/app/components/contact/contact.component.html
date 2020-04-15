@@ -1,7 +1,7 @@
 <div class="container"><markdown [src]="pathToFile"></markdown></div>
 
 <!-- Any questions section -->
-<div class="any-questions" *ngIf="showQuestionsComponent">
+<div class="any-questions" *ngIf="contactInfo">
   <div class="divider"></div>
   <h1 class="any-questions-title">{{ 'CONTACT.TITLE_1' | translate }}</h1>
   <span class="any-questions-subtitle">{{ 'CONTACT.SUBTITLE' | translate }}</span>
@@ -19,7 +19,7 @@
 </div>
 
 <!-- Contacts section -->
-<div class="contacts-wrapper" *ngIf="showContactCard">
+<div class="contacts-wrapper" *ngIf="officesInfo">
   <div class="divider"></div>
   <h1 class="contacts-title">{{ 'CONTACT.TITLE_2' | translate }}</h1>
 
@@ -36,16 +36,6 @@
 
         <div *ngIf="office?.email">
           <a [href]="'mailto:' + office?.email"> <i class="fas fa-envelope"></i>{{ office?.email }} </a>
-        </div>
-
-        <div class="social-network" *ngIf="office?.linkedIn || office?.facebook">
-          <a *ngIf="office?.facebook" class="social-network-item" [href]="office?.facebook" target="_blank">
-            <i class="fab fa-facebook-square"></i>
-          </a>
-
-          <a *ngIf="office?.linkedIn" class="social-network-item" [href]="office?.linkedIn" target="_blank">
-            <i class="fab fa-linkedin"></i>
-          </a>
         </div>
       </div>
     </div>

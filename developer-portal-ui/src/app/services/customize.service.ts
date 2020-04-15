@@ -1,40 +1,22 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import cssVars from 'css-vars-ponyfill';
-import { CSSVariables } from '../models/theme.model';
+import { CSSVariables, Theme } from '../models/theme.model';
 import { of } from 'rxjs';
+import { SUPPORTED_SOCIAL_MEDIA } from '../components/common/constant/constants';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CustomizeService {
-  constructor(private http: HttpClient) {}
-
-  set theme(theme) {
-    this.currentTheme = of(this.setUpRoutes(theme));
-  }
-
-  get custom() {
-    return this._custom;
-  }
-
-  get currentLanguageFolder() {
-    return (this.custom ? this._customContentFolderPath : this._defaultContentFolderPath) + this.languagesFolder;
-  }
-
-  get defaultContentFolder() {
-    return this._defaultContentFolderPath;
-  }
-
-  get customContentFolder() {
-    return this._customContentFolderPath;
-  }
   private _defaultContentFolderPath = '../assets/content';
   private _customContentFolderPath = '../assets/custom-content';
   private _custom = false;
   private languagesFolder = '/i18n';
 
   currentTheme;
+
+  constructor(private http: HttpClient) {}
 
   private static addFavicon(type: string, href: string) {
     const linkElement = document.createElement('link');
@@ -64,45 +46,46 @@ export class CustomizeService {
     }
   }
 
-  static validateTheme(theme): string[] {
-    const general = ['globalSettings', 'contactInfo', 'officesInfo'];
-    const additional = [['logo'], ['img', 'name', 'position'], ['city', 'company', 'addressFirstLine', 'addressSecondLine'], [], []];
-    const errors: string[] = [];
-    const minLength = 2;
-
-    for (let i = 0; i < general.length; i++) {
-      if (!theme.hasOwnProperty(general[i])) {
-        errors.push(`Missing field ${general[i]}!`);
-      } else if (i < minLength) {
-        for (const property of additional[i]) {
-          if (!theme[general[i]].hasOwnProperty(property)) {
-            errors.push(`Field ${general[i]} missing property ${property}!`);
-          }
-        }
-      } else {
-        for (const office of theme.officesInfo) {
-          for (const property of additional[i]) {
-            if (!office.hasOwnProperty(property)) {
-              errors.push(`Field ${general[i]} missing property ${property}!`);
-            }
-          }
-        }
-      }
+  set theme(theme: Theme) {
+    if (theme) {
+      this.currentTheme = of(this.setUpRoutes(theme));
+    } else {
+      this.currentTheme = of({});
     }
+  }
 
-    return errors;
+  get custom(): boolean {
+    return this._custom;
+  }
+
+  get currentLanguageFolder(): string {
+    return (this.custom ? this._customContentFolderPath : this._defaultContentFolderPath) + this.languagesFolder;
+  }
+
+  get defaultContentFolder(): string {
+    return this._defaultContentFolderPath;
+  }
+
+  get customContentFolder(): string {
+    return this._customContentFolderPath;
+  }
+
+  getIconClassForSocialMedia(social: any): string {
+    return `social-media-icon fab ${SUPPORTED_SOCIAL_MEDIA[social]}`;
   }
 
   setCustom() {
     this._custom = true;
   }
 
-  setStyling(theme) {
-    this.updateCSS(theme.globalSettings.cssVariables);
-    CustomizeService.removeExternalLinkElements();
+  setStyling(theme: Theme) {
+    if (theme.globalSettings.cssVariables) {
+      this.updateCSS(theme.globalSettings.cssVariables);
+    }
 
     if (theme.globalSettings.favicon) {
-      CustomizeService.setFavicon(theme.globalSettings.favicon.type, theme.globalSettings.favicon.href);
+      CustomizeService.removeExternalLinkElements();
+      CustomizeService.setFavicon('image/x-icon', theme.globalSettings.favicon);
     }
   }
 
@@ -123,30 +106,44 @@ export class CustomizeService {
     // });
   }
 
-  private setUpRoutes(theme) {
-    if (theme.globalSettings.logo) {
-      theme.globalSettings.logo =
-        (this._custom ? this._customContentFolderPath : this._defaultContentFolderPath) + '/' + theme.globalSettings.logo;
+  private setUpRoutes(theme: Theme) {
+    const folder = this._custom ? this._customContentFolderPath : this._defaultContentFolderPath;
+
+    if (theme.globalSettings && theme.globalSettings.favicon) {
+      theme.globalSettings.favicon = `${folder}/${theme.globalSettings.favicon}`;
     }
 
-    if (theme.globalSettings.footerLogo) {
-      theme.globalSettings.footerLogo =
-        (this._custom ? this._customContentFolderPath : this._defaultContentFolderPath) + '/' + theme.globalSettings.footerLogo;
-    }
+    const pagesSettings = theme.pagesSettings;
+    if (pagesSettings) {
+      if (pagesSettings.navigationBarSettings && pagesSettings.navigationBarSettings.logo) {
+        pagesSettings.navigationBarSettings.logo = `${folder}/${pagesSettings.navigationBarSettings.logo}`;
+      }
 
-    if (theme.globalSettings.favicon && theme.globalSettings.favicon.href) {
-      theme.globalSettings.favicon.href =
-        (this._custom ? this._customContentFolderPath : this._defaultContentFolderPath) + '/' + theme.globalSettings.favicon.href;
-    }
+      if (pagesSettings.footerSettings && pagesSettings.footerSettings.logo) {
+        pagesSettings.footerSettings.logo = `${folder}/${pagesSettings.footerSettings.logo}`;
+      }
 
-    if (theme.contactInfo.img) {
-      theme.contactInfo.img = (this._custom ? this._customContentFolderPath : this._defaultContentFolderPath) + '/' + theme.contactInfo.img;
+      if (
+        pagesSettings.contactPageSettings &&
+        pagesSettings.contactPageSettings.contactInfo &&
+        pagesSettings.contactPageSettings.contactInfo.img
+      ) {
+        pagesSettings.contactPageSettings.contactInfo.img = `${folder}/${pagesSettings.contactPageSettings.contactInfo.img}`;
+      }
+
+      if (
+        pagesSettings.homePageSettings &&
+        pagesSettings.homePageSettings.contactInfo &&
+        pagesSettings.contactPageSettings.contactInfo.img
+      ) {
+        pagesSettings.homePageSettings.contactInfo.img = `${folder}/${pagesSettings.homePageSettings.contactInfo.img}`;
+      }
     }
 
     return theme;
   }
 
-  async normalizeLanguages(theme) {
+  async normalizeLanguages(theme: Theme) {
     let correctLanguages = {};
     const defaultLanguages = {
       en: `${this._defaultContentFolderPath}${this.languagesFolder}/en/united-kingdom.png`,
@@ -155,9 +152,9 @@ export class CustomizeService {
       ua: `${this._defaultContentFolderPath}${this.languagesFolder}/ua/ukraine.png`,
     };
 
-    if (theme.supportedLanguagesDictionary && this.custom) {
-      for (const lang of Object.keys(theme.supportedLanguagesDictionary)) {
-        const languageLink = `${this._customContentFolderPath}${this.languagesFolder}/${lang}/${theme.supportedLanguagesDictionary[lang]}`;
+    if (theme.globalSettings && theme.globalSettings.supportedLanguagesDictionary && this.custom) {
+      for (const lang of Object.keys(theme.globalSettings.supportedLanguagesDictionary)) {
+        const languageLink = `${this._customContentFolderPath}${this.languagesFolder}/${lang}/${theme.globalSettings.supportedLanguagesDictionary[lang]}`;
         const correctLang = await this.getCorrectLanguage(lang, languageLink);
         if (correctLang.length > 0) {
           correctLanguages[lang] = languageLink;
@@ -168,9 +165,11 @@ export class CustomizeService {
         correctLanguages = defaultLanguages;
       }
 
-      theme.supportedLanguagesDictionary = correctLanguages;
+      theme.globalSettings.supportedLanguagesDictionary = correctLanguages;
     } else {
-      theme.supportedLanguagesDictionary = defaultLanguages;
+      theme.globalSettings = {
+        supportedLanguagesDictionary: defaultLanguages,
+      };
     }
 
     return theme;

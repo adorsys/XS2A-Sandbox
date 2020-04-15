@@ -4,6 +4,7 @@ import { DataService } from '../../services/data.service';
 import { CustomizeService } from '../../services/customize.service';
 import { AspspService } from '../../services/aspsp.service';
 import { LanguageService } from '../../services/language.service';
+import { Theme } from '../../models/theme.model';
 
 @Component({
   selector: 'app-test-cases',
@@ -74,24 +75,27 @@ export class TestCasesComponent implements OnInit {
   }
 
   private setUpUsedApproaches() {
-    this.customizeService.currentTheme.subscribe((data) => {
-      if (data.supportedApproaches) {
-        const embedded = 'embedded';
-        const redirect = 'redirect';
+    this.customizeService.currentTheme.subscribe((data: Theme) => {
+      if (data.pagesSettings) {
+        const playWithDataSettings = data.pagesSettings.playWithDataSettings;
+        if (playWithDataSettings && playWithDataSettings.supportedApproaches) {
+          const embedded = 'embedded';
+          const redirect = 'redirect';
 
-        const redirectSupportedInSettings = data.supportedApproaches.includes(redirect);
-        const embeddedSupportedInSettings = data.supportedApproaches.includes(embedded);
+          const redirectSupportedInSettings = playWithDataSettings.supportedApproaches.includes(redirect);
+          const embeddedSupportedInSettings = playWithDataSettings.supportedApproaches.includes(embedded);
 
-        this.aspspService.getScaApproaches().subscribe(
-          (scaApproaches: Array<string>) => {
-            this.redirectSupported = redirectSupportedInSettings && scaApproaches.includes(redirect.toLocaleUpperCase());
-            this.embeddedSupported = embeddedSupportedInSettings && scaApproaches.includes(embedded.toLocaleUpperCase());
-          },
-          () => {
-            this.redirectSupported = redirectSupportedInSettings;
-            this.embeddedSupported = embeddedSupportedInSettings;
-          }
-        );
+          this.aspspService.getScaApproaches().subscribe(
+            (scaApproaches: Array<string>) => {
+              this.redirectSupported = redirectSupportedInSettings && scaApproaches.includes(redirect.toLocaleUpperCase());
+              this.embeddedSupported = embeddedSupportedInSettings && scaApproaches.includes(embedded.toLocaleUpperCase());
+            },
+            () => {
+              this.redirectSupported = redirectSupportedInSettings;
+              this.embeddedSupported = embeddedSupportedInSettings;
+            }
+          );
+        }
       }
     });
   }

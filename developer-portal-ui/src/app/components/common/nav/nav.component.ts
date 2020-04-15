@@ -3,7 +3,7 @@ import { LanguageService } from '../../../services/language.service';
 import { DataService } from '../../../services/data.service';
 import { CustomizeService } from '../../../services/customize.service';
 import { NavigationService } from '../../../services/navigation.service';
-import { NavItem } from '../../../models/navItem.model';
+import { NavigationSettings, Theme } from '../../../models/theme.model';
 
 @Component({
   selector: 'app-nav',
@@ -17,9 +17,7 @@ export class NavComponent implements OnInit {
   language = 'en';
   supportedLanguages: string[];
 
-  logo;
-  logoLink: string;
-  allowedNavigationSize = 5;
+  navBarSettings: NavigationSettings;
   @Input() supportedLanguagesDictionary;
   @Input() navigation;
 
@@ -27,12 +25,12 @@ export class NavComponent implements OnInit {
     private languageService: LanguageService,
     public dataService: DataService,
     private customizeService: CustomizeService,
-    private navigationService: NavigationService
+    public navigationService: NavigationService
   ) {
-    this.customizeService.currentTheme.subscribe((data) => {
-      this.logo = data.globalSettings.logo;
-      this.logoLink = data.globalSettings.logoLink;
-      this.allowedNavigationSize = data.pagesSettings.navigationBarSettings.allowedNavigationSize;
+    this.customizeService.currentTheme.subscribe((data: Theme) => {
+      if (data.pagesSettings && data.pagesSettings.navigationBarSettings) {
+        this.navBarSettings = data.pagesSettings.navigationBarSettings;
+      }
     });
 
     this.setLangCollapsed(true);
@@ -77,17 +75,13 @@ export class NavComponent implements OnInit {
   }
 
   private toggleMenuIfOutOfSize() {
-    if (this.navigation.length > this.allowedNavigationSize) {
+    if (
+      this.navBarSettings &&
+      this.navBarSettings.allowedNavigationSize &&
+      this.navigation.length > this.navBarSettings.allowedNavigationSize
+    ) {
       document.getElementById('navLinks').style.display = 'none';
       document.getElementById('dropDownIcon').style.display = 'block';
     }
-  }
-
-  goToLogoLink(customLink: string, defaultLink: string) {
-    this.navigationService.goToLogoLink(customLink, defaultLink);
-  }
-
-  navigateTo(navItem: NavItem) {
-    this.navigationService.navigateTo(navItem);
   }
 }

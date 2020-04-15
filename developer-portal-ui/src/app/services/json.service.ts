@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import { CustomizeService } from './customize.service';
 import { SLICE_DATE_FROM_ISO_STRING } from '../components/common/constant/constants';
+import { Theme } from '../models/theme.model';
 
 @Injectable({
   providedIn: 'root',
@@ -33,9 +34,14 @@ export class JsonService {
 
   constructor(private http: HttpClient, private customizeService: CustomizeService) {
     if (this.customizeService.currentTheme) {
-      this.customizeService.currentTheme.subscribe((theme) => {
-        if (theme && theme.currency && theme.currency.length !== 0) {
-          this.currency = theme.currency;
+      this.customizeService.currentTheme.subscribe((theme: Theme) => {
+        if (
+          theme.pagesSettings &&
+          theme.pagesSettings.playWithDataSettings &&
+          theme.pagesSettings.playWithDataSettings.examplesCurrency &&
+          theme.pagesSettings.playWithDataSettings.examplesCurrency.length > 0
+        ) {
+          this.currency = theme.pagesSettings.playWithDataSettings.examplesCurrency;
         }
 
         this.customExamplesSource = `${this.customizeService.customContentFolder}/examples`;

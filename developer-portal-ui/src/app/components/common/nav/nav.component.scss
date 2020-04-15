@@ -237,6 +237,11 @@
     max-width: 21%;
     cursor: pointer;
   }
+
+  .empty-logo {
+    width: 10px;
+    height: 10px;
+  }
 }
 
 ::ng-deep .collapse-content {

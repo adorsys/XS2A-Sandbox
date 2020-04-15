@@ -13,7 +13,6 @@ import { NavComponent } from './components/common/nav/nav.component';
 import { FooterComponent } from './components/common/footer/footer.component';
 import { of } from 'rxjs';
 import { MarkdownModule, MarkdownService } from 'ngx-markdown';
-import { TrackingIdService } from './services/tracking-id.service';
 
 describe('AppComponent', () => {
   let comp: AppComponent;
@@ -100,14 +99,6 @@ describe('AppComponent', () => {
     getLang: () => LanguageServiceStub.language,
   };
 
-  const TrackingIdServiceStub = {
-    trackingId: [
-      {
-        trackingId: '',
-      },
-    ],
-  };
-
   @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
@@ -135,7 +126,6 @@ describe('AppComponent', () => {
       providers: [
         MarkdownService,
         TranslateService,
-        { provide: TrackingIdService, useValue: TrackingIdServiceStub },
         { provide: DataService, useValue: DataServiceStub },
         { provide: CustomizeService, useValue: CustomizeServiceStub },
         { provide: LanguageService, useValue: LanguageServiceStub },
