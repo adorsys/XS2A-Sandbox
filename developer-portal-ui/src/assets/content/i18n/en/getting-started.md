@@ -125,7 +125,7 @@ If something is missing, install it to your local machine, otherwise the build w
 
 | Dependency          |                  Link                   |
 | ------------------- | :-------------------------------------: |
-| Java 11              |    https://openjdk.java.net/install/    |
+| Java 11             |    https://openjdk.java.net/install/    |
 | Node.js 11.x        |     https://nodejs.org/en/download      |
 | Angular CLI 9.x     |   https://angular.io/guide/quickstart   |
 | Asciidoctor 2.0     |         https://asciidoctor.org         |
@@ -276,11 +276,15 @@ It is possible to customize texts, navigation, amount and content of pages and s
 
 # Google Analytics support
 
-To connect your Google Analytics account, in docker-compose.yml in Developer Portal UI section add property TRACKING_ID with your Google Analytics account ID. Then run docker-compose normally, Google Analytics account would be connected automatically.
+To connect your Google Analytics account, in UITheme.json in `custom-content` folder in Developer Portal add property `googleAnalyticsTrackingId` with your Google Analytics account ID in `globalSettings` section. Then run application normally, Google Analytics account would be connected automatically.
 
-![Google Analytics Docker](../../assets/images/googleAnalyticsDocker.png)
-
-The example of docker-compose.yaml with enabled Google Analytics support can be fount in [docker-compose-google-analytics-enabled.yml](https://github.com/adorsys/XS2A-Sandbox/blob/master/docker-compose-google-analytics-enabled.yml) file in root of the Sandbox repository.
+```json
+{
+  "globalSettings": {
+    "googleAnalyticsTrackingId": "YOUR_TRACKING_ID"
+  }
+}
+```
 
 The application gives to Google Analytics the information about every page visit and some events. These event are every try out of API endpoint in Test Cases section (event is triggered by clicking on `Submit` button) and Postman tests download (event is triggered by clicking on `Download` button).
 

@@ -125,7 +125,7 @@ Si falta algo, instálelo en su máquina local, de lo contrario la compilación 
 
 | Dependency          |                  Link                   |
 | ------------------- | :-------------------------------------: |
-| Java 11              |    https://openjdk.java.net/install/    |
+| Java 11             |    https://openjdk.java.net/install/    |
 | Node.js 11.x        |     https://nodejs.org/en/download      |
 | Angular CLI 9.x     |   https://angular.io/guide/quickstart   |
 | Asciidoctor 2.0     |         https://asciidoctor.org         |
@@ -267,103 +267,24 @@ Figura 1.2: flujo de TPP paso a paso
 
 # Cómo personalizar el portal de desarrolladores
 
-1. Crea un archivo .json con el nombre UITheme.
+Es posible personalizar textos, navegación, cantidad y contenido de páginas y estilo de todos los elementos del Portal del desarrollador. Para saber cómo hacerlo, lea [Guía de personalización](../../../../assets/files/UIs_customization_guide.pdf).
 
-Ejemplo de Json:
+<div class="divider">
+</div>
+
+# Soporte de Google Analytics
+
+Para conectar su cuenta de Google Analytics, en UITheme.json en la sección UI del Developer Portal, agregue la propiedad `googleAnalyticsTrackingId` con su ID de cuenta de Google Analytics. Luego ejecute la aplicación normalmente, la cuenta de Google Analytics se conectará automáticamente.
 
 ```json
 {
   "globalSettings": {
-    "logo": "Logo_XS2ASandbox.png",
-    "facebook": "https://www.facebook.com/adorsysGmbH/",
-    "linkedIn": "https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/"
-  },
-  "contactInfo": {
-    "img": "Rene.png",
-    "name": "René Pongratz",
-    "position": "Software Architect & Expert for API Management",
-    "email": "psd2@adorsys.de"
-  },
-  "officesInfo": [
-    {
-      "city": "Nürnberg",
-      "company": "adorsys GmbH & Co. KG",
-      "addressFirstLine": "Fürther Str. 246a, Gebäude 32 im 4.OG",
-      "addressSecondLine": "90429 Nürnberg",
-      "phone": "+49(0)911 360698-0",
-      "email": "psd2@adorsys.de"
-    },
-    {
-      "city": "Frankfurt",
-      "company": "adorsys GmbH & Co. KG",
-      "addressFirstLine": "Frankfurter Straße 63 - 69",
-      "addressSecondLine": "65760 Eschborn",
-      "email": "frankfurt@adorsys.de",
-      "facebook": "https://www.facebook.com/adorsysGmbH/",
-      "linkedIn": "https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/"
-    }
-  ],
-  "supportedLanguages": ["en", "de", "es", "ua"],
-  "supportedApproaches": ["redirect", "embedded"],
-  "currency": "EUR",
-  "tppSettings": {
-    "tppDefaultNokRedirectUrl": "https://www.google.com",
-    "tppDefaultRedirectUrl": "https://adorsys-platform.de/solutions/xs2a-sandbox/"
+    "googleAnalyticsTrackingId": "YOUR_TRACKING_ID"
   }
 }
 ```
 
-Campos de Json:
-
-- globalSettings - requeridos
-  - logo - requeridos, value: string, http url or file name with extension or ' '
-  - favicon - optional
-  - type - required, value: string
-  - href - required, value: string, http url
-  - facebook - optional, value: string, http url
-  - linkedIn - optional, value: string, http url
-  - cssVariables - optional
-    - colorPrimary - optional, value: string, hex
-    - colorSecondary - optional, value: string, hex
-    - fontFamily - optional, value: string, font-name or font-name, font-family
-    - bodyBG - optional, value: string, hex
-    - headerBG - optional, value: string, hex
-    - headerFontColor - optional, value: string, hex
-    - mainBG - optional, value: string, hex
-    - footerBG - optional, value: string, hex
-    - footerFontColor - optional, value: string, hex
-    - anchorFontColor - optional, value: string, hex
-    - anchorFontColorHover - optional, value: string, hex
-    - heroBG - optional, value: string, hex
-    - stepBG - optional, value: string, hex
-    - contactsCardBG - optional, value: string, hex
-    - testCasesLeftSectionBG - optional, value: string, hex
-    - testCasesRightSectionBG - optional, value: string, hex
-- contactInfo - requeridos
-  - name - requeridos, value: string
-  - position - requeridos, value: string
-  - img - requeridos, value: string, http url or file name with extension
-  - email - optional, value: string
-  - phone - optional, value: string
-- officesInfo - requeridos. Array de 2 elementos.
-  - city - requeridos, value: string
-  - company - requeridos, value: string
-  - addressFirstLine - requeridos, value: string
-  - addressSecondLine - requeridos, value: string
-  - phone - optional, value: string
-  - email - optional, value: string
-  - facebook - optional, value: string, http url
-  - linkedIn - optional, value: string, http url
-- supportedLanguages - obligatorio. Matriz de idiomas admitidos. La configuración predeterminada es ["en", "de", "es", "ua"]
-- supportedApproaches - obligatorio. Matriz de enfoques SCA compatibles. La configuración predeterminada es ["redirect", "embedded"]
-- currency - obligatorio. La configuración predeterminada es "EUR".
-
-2. Cuando cree el archivo .json (por ejemplo, UITheme.json) y complete todos los campos requeridos, coloque este archivo con el logotipo (por ejemplo, logo.png) y la persona de contacto (por ejemplo, contact.png) en la carpeta ./developer-portal-ui/src/assets/UI/custom/.
-3. Si desea personalizar jsons/xmls, que están presentes como ejemplos en las secciones de Casos de prueba del portal para desarrolladores, simplemente cree una carpeta "jsons"/"xmls" en ./developer-portal-ui/src/assets/UI/custom/examples/.
-4. Ponga todos los jsons que desee personalizar en esta carpeta. Mantenga los nombres exactos de los archivos como en los ejemplos. Los ejemplos y los jsons predeterminados con los nombres adecuados se pueden encontrar en la carpeta ./developer-portal-ui/src/assets/UI/examples/jsons/.
-5. Los ejemplos y los xmls predeterminados con los nombres adecuados se pueden encontrar en la carpeta ./developer-portal-ui/src/assets/UI/examples/xmls/.
-
-Personalización esta completada, felicitaciones!
+La aplicación proporciona a Google Analytics la información sobre cada visita a la página y algunos eventos. Estos eventos son cada prueba del punto final de API en la sección Casos de prueba (el evento se activa haciendo clic en el botón Enviar) y la descarga de pruebas de Postman (el evento se activa haciendo clic en el botón Descargar).
 
 <div class="divider">
 </div>

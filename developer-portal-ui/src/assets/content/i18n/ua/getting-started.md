@@ -124,7 +124,7 @@ _make check_
 
 | Залежності          |                Посилання                |
 | ------------------- | :-------------------------------------: |
-| Java 11              |    https://openjdk.java.net/install/    |
+| Java 11             |    https://openjdk.java.net/install/    |
 | Node.js 11.x        |     https://nodejs.org/en/download      |
 | Angular CLI 9.x     |   https://angular.io/guide/quickstart   |
 | Asciidoctor 2.0     |         https://asciidoctor.org         |
@@ -275,11 +275,15 @@ _node -v_
 
 # Підтримка Google Analytics
 
-Щоб підключити свій обліковий запис Google Analytics, у docker-compose.yml у розділі developer-portal-ui додайте TRACKING_ID з ідентифікатором свого облікового запису Google Analytics. Потім запустіть docker-compose, і обліковий запис Google Analytics буде підключено автоматично.
+Щоб підключити свій обліковий запис Google Analytics, у UITheme.json у папці `custom-content` Developer Portal UI додайте `googleAnalyticsTrackingId` з ідентифікатором свого облікового запису Google Analytics. Потім запустіть застосунок, і обліковий запис Google Analytics буде підключено автоматично.
 
-![Google Analytics Docker](../../assets/images/googleAnalyticsDocker.png)
-
-Приклад docker-compose.yaml з увімкненою підтримкою Google Analytics можна знайти в [docker-compose-google-analytics-enabled.yml](https://github.com/adorsys/XS2A-Sandbox/blob/master/docker-compose-google-analytics-enabled.yml) у кореневій папці Sandbox.
+```json
+{
+  "globalSettings": {
+    "googleAnalyticsTrackingId": "YOUR_TRACKING_ID"
+  }
+}
+```
 
 Портал розробника надає Google Analytics інформацію про кожне відвідування сторінки та деякі події. Ці події - це кожне випробування ендпоінту API у розділі "Сценарії для тестування" (подія відправляється у Google Analytics з кожним натисканням кнопки "Надіслати") та завантаження тестів Postman (подія відправляється у Google Analytics з кожним натисканням кнопки "Завантажити").
 
