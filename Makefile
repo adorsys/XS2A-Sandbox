@@ -36,7 +36,7 @@ install-for-MacOS:
 lint-all: lint-tpp-ui lint-oba-ui lint-developer-portal-ui lint-tpp-rest-server lint-online-banking lint-certificate-generator lint-docker-compose lint-pmd-cpd-report #lint all services
 
 lint-tpp-ui:
-	find tpp-ui -type f -name "*.json" -exec jsonlint -q {} \; # lint all json
+	find tpp-ui -type f -name "*.json" -not -path "tpp-ui/node_modules/*" -exec jsonlint -q {} \; # lint all json
 	find tpp-ui -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
 	find tpp-ui -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
 	#cd tpp-ui && npm ci && npm install
@@ -46,7 +46,7 @@ lint-tpp-ui:
 
 lint-oba-ui:
 	cd oba-ui
-	find oba-ui -type f -name "*.json" -exec jsonlint -q {} \; # lint all json
+	find oba-ui -type f -name "*.json" -not -path "oba-ui/node_modules/*" -exec jsonlint -q {} \; # lint all json
 	find oba-ui -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
 	find oba-ui -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
 	#cd oba-ui && npm ci && npm install
@@ -55,7 +55,7 @@ lint-oba-ui:
 	docker run --rm -i hadolint/hadolint < oba-ui/Dockerfile
 
 lint-developer-portal-ui:
-	find developer-portal-ui -type f -name "*.json" -exec jsonlint -q {} \; # lint all json
+	find developer-portal-ui -type f -name "*.json" -not -path "developer-portal-ui/node_modules/*" -exec jsonlint -q {} \; # lint all json
 	find developer-portal-ui -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
 	find developer-portal-ui -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
 	cd developer-portal-ui && npm ci && npm install
@@ -92,11 +92,11 @@ lint-pmd-cpd-report:
 run:  ## Run services from Docker Hub without building:
 	docker-compose pull && docker-compose up
 
-start: ## Run everything with docker-compose without building
-	docker-compose -f docker-compose-build.yml up
+start: ## Run everything with docker-compose build dockerimages without building applications
+	docker-compose -f docker-compose.yml -f docker-compose-build.yml up
 
-all: build-services ## Run everything with docker-compose after building
-	docker-compose -f docker-compose-build.yml up --build
+all: lint-all build-ui-services build-java-services unit-tests-all-frontend unit-tests-backend ## Run everything with docker-compose after building
+	docker-compose -f docker-compose.yml -f docker-compose-build.yml up 
 
 ## Build section ##
 build-java-services: ## Build java services
