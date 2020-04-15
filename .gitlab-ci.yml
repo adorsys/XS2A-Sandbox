@@ -1,7 +1,7 @@
+--- # ------------------------------------------------------------------
+
 # ------------------------------------------------------------------
 # Global settings
-# ------------------------------------------------------------------
-
 image: "adorsys/ci-build:latest"
 
 # ------------------------------------------------------------------
@@ -10,11 +10,12 @@ image: "adorsys/ci-build:latest"
 
 stages:
   - "Lint"
-  - "Compile"  # build jar and provide as artifact
-  - "Test"     # run tests and code quality checks
-  - "Package"  # dockerize jar and push to docker registry
-  - "Deploy"   # push to openshift registry
-  - "release"  # release
+  - "Compile" # build jar and provide as artifact
+  - "Test" # run tests and code quality checks
+  - "Docker compose"
+  - "Package" # dockerize jar and push to docker registry
+  - "Deploy" # push to openshift registry
+  - "release" # release
 
 # ------------------------------------------------------------------
 # variables
@@ -317,7 +318,13 @@ Build:Java11:
   <<: *build_java
   except:
     - schedules
-  needs: ["Lint:OBA_backend", "Lint:TPP_backend", "Lint:Certificate_generator", "Lint:PMD_CPD_Report"]
+  needs:
+    [
+      "Lint:OBA_backend",
+      "Lint:TPP_backend",
+      "Lint:Certificate_generator",
+      "Lint:PMD_CPD_Report",
+    ]
   variables:
     BUILD_JAVA_VERSION: system@1.11
     JAVA_TOOL_OPTIONS: "-Djavax.net.ssl.trustStorePassword=changeit -XX:MaxRAM=3G"
@@ -366,6 +373,7 @@ Doc Check Java11:
     - mvn -ntp -Dmaven.test.skip=true -Pjavadoc verify javadoc:javadoc
 
 UnitTests:Java11:
+  image: maven:3.6-jdk-11-slim
   stage: "Test"
   except:
     - schedules
@@ -375,10 +383,9 @@ UnitTests:Java11:
     JAVA_VERSION: "system@1.11"
     JAVA_TOOL_OPTIONS: "-Djavax.net.ssl.trustStorePassword=changeit -XX:MaxRAM=3G"
   script:
-    - jabba use $JAVA_VERSION
-    - cat /sys/fs/cgroup/memory/memory.limit_in_bytes
-    - java -XX:+PrintFlagsFinal -version | grep -Ei "maxheapsize|maxram"
-    - mvn -ntp -DskipITs --fail-at-end clean install
+    - apt update && apt install make -yq
+    - echo "Run unit tests for backend"
+    - make unit-tests-backend
 
 UnitTests:DevPortal_frontend:
   image: node:12.16.2-stretch-slim
@@ -419,25 +426,41 @@ UnitTests:OBA_frontend:
     - echo 'Unit tests OBA frontend'
     - make unit-tests-oba-ui
 
-test building docker images:
+Test:Build_docker_images:
   stage: "Test"
   except:
     - schedules
-  needs: ["Build:OBA_frontend", "Build:TPP_frontend", "Build:Devportal_frontend", "Build:Java11"]
+  needs:
+    [
+      "Build:OBA_frontend",
+      "Build:TPP_frontend",
+      "Build:Devportal_frontend",
+      "Build:Java11",
+    ]
   variables:
     DOCKER_TAG: test
   <<: *build_docker_images
 
+Test_docker_compose:
+  image: docker/compose:debian-1.25.5
+  stage: "Docker compose"
+  except:
+    - schedules
+  script:
+    - apt-get update && apt-get install make -yq
+    - echo 'Run Docker compose'
+    - make start
+    - echo 'idle or check that docker compose us running'
+    - echo 'Test docker compose'
+    - echo 'postman tests'
 
 Postman Tests:
   stage: "Test"
-  except:
+  only:
     - schedules
   image:
     name: postman/newman_alpine33
     entrypoint: [""]
-  only:
-    - schedules
   script:
     - npm config set unsafe-perm true
     - npm install -g newman-reporter-html
