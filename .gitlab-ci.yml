@@ -178,8 +178,10 @@ variables:
 Lint:OBA_frontend:
   image: node:12.16.2-stretch-slim
   stage: "Lint"
-  only:
-    - merge_requests
+  except:
+    - schedules
+    - develop
+    - master
   script:
     - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
     - curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
@@ -189,8 +191,10 @@ Lint:OBA_frontend:
 Lint:TPP_frontend:
   image: node:12.16.2-stretch-slim
   stage: "Lint"
-  only:
-    - merge_requests
+  except:
+    - schedules
+    - develop
+    - master
   script:
     - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
     - curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
@@ -200,8 +204,10 @@ Lint:TPP_frontend:
 Lint:Devportal_frontend:
   image: node:12.16.2-stretch-slim
   stage: "Lint"
-  only:
-    - merge_requests
+  except:
+    - schedules
+    - develop
+    - master
   script:
     - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
     - curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
@@ -211,8 +217,10 @@ Lint:Devportal_frontend:
 Lint:OBA_backend:
   image: debian:stretch-slim
   stage: "Lint"
-  only:
-    - merge_requests
+  except:
+    - schedules
+    - develop
+    - master
   script:
     - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
     - curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
@@ -222,8 +230,10 @@ Lint:OBA_backend:
 Lint:TPP_backend:
   image: debian:stretch-slim
   stage: "Lint"
-  only:
-    - merge_requests
+  except:
+    - schedules
+    - develop
+    - master
   script:
     - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
     - curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
@@ -233,8 +243,10 @@ Lint:TPP_backend:
 Lint:Certificate_generator:
   image: debian:stretch-slim
   stage: "Lint"
-  only:
-    - merge_requests
+  except:
+    - schedules
+    - develop
+    - master
   script:
     - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
     - curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
@@ -244,8 +256,10 @@ Lint:Certificate_generator:
 Lint:Docker_compose:
   image: maven:3.6-jdk-11-slim
   stage: "Lint"
-  only:
-    - merge_requests
+  except:
+    - schedules
+    - develop
+    - master
   script:
     - apt update && apt install yamllint docker-compose make -yq
     - echo "Run Docker compose lint"
