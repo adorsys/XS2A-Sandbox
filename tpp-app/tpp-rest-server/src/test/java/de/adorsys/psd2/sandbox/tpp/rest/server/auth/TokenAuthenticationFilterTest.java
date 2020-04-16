@@ -9,12 +9,11 @@ import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import feign.FeignException;
 import feign.Request;
 import feign.Response;
-import org.apache.catalina.ssi.ByteArrayServletOutputStream;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -31,8 +30,8 @@ import java.util.Map;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
-public class TokenAuthenticationFilterTest {
+@ExtendWith(MockitoExtension.class)
+class TokenAuthenticationFilterTest {
     private static final ObjectMapper mapper = new ObjectMapper();
     @InjectMocks
     private TokenAuthenticationFilter filter;
@@ -50,36 +49,47 @@ public class TokenAuthenticationFilterTest {
     private AuthRequestInterceptor authInterceptor;
 
     @Test
-    public void doFilter() throws IOException, ServletException {
+    void doFilter() throws IOException, ServletException {
+        // Given
         SecurityContextHolder.clearContext();
         when(request.getHeader("Authorization")).thenReturn("Bearer bearerToken");
         when(ledgersUserMgmt.validate(anyString())).thenReturn(ResponseEntity.ok(getBearer()));
+
+        // When
         filter.doFilter(request, response, chain);
 
+        // Then
         verify(ledgersUserMgmt, times(1)).validate(anyString());
         verify(chain, times(1)).doFilter(any(), any());
     }
 
     @Test
-    public void doFilter_null_bearer() throws IOException, ServletException {
+    void doFilter_null_bearer() throws IOException, ServletException {
+        // Given
         SecurityContextHolder.clearContext();
         when(request.getHeader("Authorization")).thenReturn(null);
+
+        // When
         filter.doFilter(request, response, chain);
 
+        // Then
         verify(ledgersUserMgmt, times(0)).validate(anyString());
         verify(chain, times(1)).doFilter(any(), any());
     }
 
     @Test
-    public void doFilter_error() throws IOException, ServletException {
+    void doFilter_error() throws IOException, ServletException {
+        // Given
         SecurityContextHolder.clearContext();
         when(request.getHeader("Authorization")).thenReturn("Bearer bearerToken");
-        when(response.getOutputStream()).thenReturn(new ByteArrayServletOutputStream());
+        when(response.getOutputStream()).thenReturn(new MockHttpServletResponse().getOutputStream());
         when(ledgersUserMgmt.validate(anyString())).thenThrow(FeignException.errorStatus("method", getResponse()));
         response.getOutputStream().println(123);
+
+        // When
         filter.doFilter(request, response, chain);
 
-
+        // Then
         verify(ledgersUserMgmt, times(1)).validate(anyString());
         verify(chain, times(0)).doFilter(any(), any());
     }

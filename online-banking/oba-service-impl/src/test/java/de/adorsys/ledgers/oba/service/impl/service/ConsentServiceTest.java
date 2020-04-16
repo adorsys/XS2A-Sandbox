@@ -29,13 +29,13 @@ import org.adorsys.ledgers.consent.aspsp.rest.client.CmsAspspPiisClient;
 import org.adorsys.ledgers.consent.aspsp.rest.client.CreatePiisConsentResponse;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient;
 import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.internal.util.reflection.Whitebox;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.internal.util.reflection.FieldSetter;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
@@ -45,14 +45,12 @@ import java.util.*;
 
 import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient.DEFAULT_SERVICE_INSTANCE_ID;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
-public class ConsentServiceTest {
+@ExtendWith(MockitoExtension.class)
+class ConsentServiceTest {
     private static final String AUTHORIZATION_ID = "authorizationID";
     private static final String TAN = "123456";
     private static final String CONSENT_ID = "234234kjlkjklj2lk34j";
@@ -62,6 +60,7 @@ public class ConsentServiceTest {
 
     @InjectMocks
     private ConsentServiceImpl consentService;
+
     @Mock
     private CmsPsuAisClient cmsPsuAisClient;
     @Mock
@@ -84,41 +83,41 @@ public class ConsentServiceTest {
     private ObjectMapper mapper = new ObjectMapper();
 
     @Test
-    public void getListOfConsents() {
-        //given
+    void getListOfConsents() {
+        // Given
         when(cmsPsuAisClient.getConsentsForPsu(any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok(Collections.singletonList(getCmsAisAccountConsent())));
         when(securityDataService.encryptId(any())).thenReturn(Optional.of("consent"));
 
-        //when
+        // When
         List<ObaAisConsent> listOfConsents = consentService.getListOfConsents(USER_LOGIN);
 
-        //then
-        assertThat(listOfConsents).isNotNull();
+        // Then
+        assertNotNull(listOfConsents);
         assertEquals("consent", listOfConsents.get(0).getEncryptedConsent());
         assertThat(listOfConsents.get(0).getAisAccountConsent()).isEqualTo(getCmsAisAccountConsent());
     }
 
-    @Test(expected = ObaException.class)
-    public void getListOfConsents_failedGetConsent() {
-        //given
+    @Test
+    void getListOfConsents_failedGetConsent() {
+        // Given
         when(cmsPsuAisClient.getConsentsForPsu(any(), any(), any(), any(), any())).thenThrow(FeignException.class);
 
-        //when
-        consentService.getListOfConsents(USER_LOGIN);
+        // Then
+        assertThrows(ObaException.class, () -> consentService.getListOfConsents(USER_LOGIN));
     }
 
     @Test
-    public void revokeConsentSuccess() {
-        //given
+    void revokeConsentSuccess() {
+        // Given
         when(cmsPsuAisClient.revokeConsent(CONSENT_ID, null, null, null, null, DEFAULT_SERVICE_INSTANCE_ID)).thenReturn(ResponseEntity.ok(Boolean.TRUE));
 
-        //then
+        // Then
         assertTrue(consentService.revokeConsent(CONSENT_ID));
     }
 
     @Test
-    public void confirmAisConsentDecoupled() throws IOException {
-        //given
+    void confirmAisConsentDecoupled() throws IOException {
+        // Given
         when(securityDataService.decryptId(any())).thenReturn(Optional.of(CONSENT_ID));
         when(aspspDataService.readAspspConsentData(any())).thenReturn(Optional.of(getAspspConsentData()));
         when(objectMapper.readTree(any(byte[].class))).thenReturn(getJsonNode());
@@ -128,23 +127,24 @@ public class ConsentServiceTest {
         when(consentDataClient.updateAspspConsentData(any(), any())).thenReturn(ResponseEntity.ok().build());
         when(objectMapper.writeValueAsBytes(any())).thenReturn(getByteArray());
 
-        //when
+        // When
         consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN);
     }
 
-    @Test(expected = ObaException.class)
-    public void confirmAisConsentDecoupled_ledgers_auth_failure() throws IOException, NoSuchMethodException {
-        //given
-        Whitebox.setInternalState(consentService, "objectMapper", mapper);
+    @Test
+    void confirmAisConsentDecoupled_ledgers_auth_failure() throws IOException, NoSuchFieldException {
+        // Given
+        FieldSetter.setField(consentService, consentService.getClass().getDeclaredField("objectMapper"), mapper);
         when(securityDataService.decryptId(any())).thenReturn(Optional.of(CONSENT_ID));
         when(aspspDataService.readAspspConsentData(any())).thenReturn(Optional.of(getAspspConsentData()));
         when(consentRestClient.authorizeConsent(any(), any(), any())).thenThrow(FeignException.errorStatus("method", getResponse()));
 
-        //when
-        consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN);
+        // Then
+        assertThrows(ObaException.class, () -> {
+            consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN);
+            verify(objectMapper, times(1)).readTree(getByteArray());
 
-        //then
-        verify(objectMapper, times(1)).readTree(getByteArray());
+        });
     }
 
     private Response getResponse() throws JsonProcessingException {
@@ -157,23 +157,22 @@ public class ConsentServiceTest {
                    .build();
     }
 
-    @Test(expected = ObaException.class)
-    public void confirmAisConsentDecoupled_feign_exception() throws IOException {
-        //given
+    @Test
+    void confirmAisConsentDecoupled_feign_exception() throws IOException {
+        // Given
         when(securityDataService.decryptId(any())).thenReturn(Optional.of(CONSENT_ID));
         when(aspspDataService.readAspspConsentData(any())).thenReturn(Optional.of(getAspspConsentData()));
         when(objectMapper.readTree(any(byte[].class))).thenReturn(getJsonNodeError());
 
-        //when
-        consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN);
-
-        //then
-        verify(objectMapper, times(1)).readTree(getByteArray());
+        // Then
+        assertThrows(ObaException.class, () -> consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN));
     }
 
     @Test
-    public void createPiisConsent() throws JsonProcessingException {
-        Whitebox.setInternalState(consentService, "createPiisConsentRequestMapper", Mappers.getMapper(CreatePiisConsentRequestMapper.class));
+    void createPiisConsent() throws JsonProcessingException, NoSuchFieldException {
+        // Given
+        FieldSetter.setField(consentService, consentService.getClass().getDeclaredField("createPiisConsentRequestMapper"), Mappers.getMapper(CreatePiisConsentRequestMapper.class));
+
         when(cmsAspspPiisClient.createConsent(any(), anyString(), nullable(String.class), nullable(String.class), nullable(String.class))).thenReturn(getCreatePiisConsentResponse());
         when(consentRestClient.grantPIISConsent(any())).thenReturn(ResponseEntity.ok(getSCAConsentResponseTO()));
         when(consentDataClient.updateAspspConsentData(anyString(), any())).thenReturn(ResponseEntity.ok().build());
@@ -198,9 +197,9 @@ public class ConsentServiceTest {
         return to;
     }
 
-    @Test(expected = ObaException.class)
-    public void confirmAisConsentDecoupled_failedUpdateAspspData() throws IOException {
-        //given
+    @Test
+    void confirmAisConsentDecoupled_failedUpdateAspspData() throws IOException {
+        // Given
         when(securityDataService.decryptId(any())).thenReturn(Optional.of(CONSENT_ID));
         when(aspspDataService.readAspspConsentData(any())).thenReturn(Optional.of(getAspspConsentData()));
         when(objectMapper.readTree(any(byte[].class))).thenReturn(getJsonNode());
@@ -210,13 +209,13 @@ public class ConsentServiceTest {
         when(consentDataClient.updateAspspConsentData(any(), any())).thenThrow(FeignException.class);
         when(objectMapper.writeValueAsBytes(any())).thenReturn(getByteArray());
 
-        //when
-        consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN);
+        // Then
+        assertThrows(ObaException.class, () -> consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN));
     }
 
-    @Test(expected = ObaException.class)
-    public void confirmAisConsentDecoupled_failedEncode() throws IOException {
-        //given
+    @Test
+    void confirmAisConsentDecoupled_failedEncode() throws IOException {
+        // Given
         when(securityDataService.decryptId(any())).thenReturn(Optional.of(CONSENT_ID));
         when(aspspDataService.readAspspConsentData(any())).thenReturn(Optional.of(getAspspConsentData()));
         when(objectMapper.readTree(any(byte[].class))).thenReturn(getJsonNode());
@@ -225,13 +224,13 @@ public class ConsentServiceTest {
         when(cmsPsuAisClient.updateAuthorisationStatus(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok().build());
         when(objectMapper.writeValueAsBytes(any())).thenThrow(JsonProcessingException.class);
 
-        //when
-        consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN);
+        // Then
+        assertThrows(ObaException.class, () -> consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN));
     }
 
-    @Test(expected = ObaException.class)
-    public void confirmAisConsentDecoupled_failedUpdateAuthId() throws IOException {
-        //given
+    @Test
+    void confirmAisConsentDecoupled_failedUpdateAuthId() throws IOException {
+        // Given
         when(securityDataService.decryptId(any())).thenReturn(Optional.of(CONSENT_ID));
         when(aspspDataService.readAspspConsentData(any())).thenReturn(Optional.of(getAspspConsentData()));
         when(objectMapper.readTree(any(byte[].class))).thenReturn(getJsonNode());
@@ -239,48 +238,50 @@ public class ConsentServiceTest {
         when(cmsPsuAisClient.confirmConsent(any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok(true));
         when(cmsPsuAisClient.updateAuthorisationStatus(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenThrow(FeignException.class);
 
-        //when
-        consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN);
+        // Then
+        assertThrows(ObaException.class, () -> consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN));
     }
 
-    @Test(expected = ObaException.class)
-    public void confirmAisConsentDecoupled_failedConfirmConsent() throws IOException {
-        //given
+    @Test
+    void confirmAisConsentDecoupled_failedConfirmConsent() throws IOException {
+        // Given
         when(securityDataService.decryptId(any())).thenReturn(Optional.of(CONSENT_ID));
         when(aspspDataService.readAspspConsentData(any())).thenReturn(Optional.of(getAspspConsentData()));
         when(objectMapper.readTree(any(byte[].class))).thenReturn(getJsonNode());
         when(consentRestClient.authorizeConsent(any(), any(), any())).thenReturn(ResponseEntity.ok(getSCAConsentResponseTO()));
         when(cmsPsuAisClient.confirmConsent(any(), any(), any(), any(), any(), any())).thenThrow(FeignException.class);
 
-        //when
-        consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN);
+        // Then
+        assertThrows(ObaException.class, () -> consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN));
     }
 
-    @Test(expected = ObaException.class)
-    public void confirmAisConsentDecoupled_failedEncodeConsentId() {
-        //when
-        consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN);
+    @Test
+    void confirmAisConsentDecoupled_failedEncodeConsentId() {
+        // Then
+        assertThrows(ObaException.class, () -> consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN));
+
+        ;
     }
 
-    @Test(expected = ObaException.class)
-    public void confirmAisConsentDecoupled_couldNotRetrieveAspspData() throws IOException {
-        //given
+    @Test
+    void confirmAisConsentDecoupled_couldNotRetrieveAspspData() {
+        // Given
         when(securityDataService.decryptId(any())).thenReturn(Optional.of(CONSENT_ID));
         when(aspspDataService.readAspspConsentData(any())).thenReturn(Optional.of(new AspspConsentData(null, CONSENT_ID)));
 
-        //when
-        consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN);
+        // Then
+        assertThrows(ObaException.class, () -> consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN));
     }
 
-    @Test(expected = ObaException.class)
-    public void confirmAisConsentDecoupled_couldNotParseAspspData() throws IOException {
-        //given
+    @Test
+    void confirmAisConsentDecoupled_couldNotParseAspspData() throws IOException {
+        // Given
         when(securityDataService.decryptId(any())).thenReturn(Optional.of(CONSENT_ID));
         when(aspspDataService.readAspspConsentData(any())).thenReturn(Optional.of(getAspspConsentData()));
         when(objectMapper.readTree(any(byte[].class))).thenThrow(IOException.class);
 
-        //when
-        consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN);
+        // Then
+        assertThrows(ObaException.class, () -> consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN));
     }
 
     private SCAConsentResponseTO getSCAConsentResponseTO() {
@@ -312,7 +313,7 @@ public class ConsentServiceTest {
 
     private byte[] getTokenBytes() throws JsonProcessingException {
         SCAConsentResponseTO response = new SCAConsentResponseTO();
-        response.setBearerToken(new BearerTokenTO("eyJraWQiOiJBV3MtRk1o1V4M","Bearer",7000,null,new AccessTokenTO()));
+        response.setBearerToken(new BearerTokenTO("eyJraWQiOiJBV3MtRk1o1V4M", "Bearer", 7000, null, new AccessTokenTO()));
         return mapper.writeValueAsBytes(response);
     }
 

@@ -7,11 +7,11 @@ import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
 import feign.FeignException;
 import feign.Request;
 import feign.Response;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.internal.util.reflection.Whitebox;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.internal.util.reflection.FieldSetter;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.method.HandlerMethod;
@@ -21,33 +21,45 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@RunWith(MockitoJUnitRunner.class)
-public class TppExceptionAdvisorTest {
+@ExtendWith(MockitoExtension.class)
+class TppExceptionAdvisorTest {
     private static final ObjectMapper STATIC_MAPPER = new ObjectMapper().findAndRegisterModules().registerModule(new JavaTimeModule());
 
     @InjectMocks
     private TppExceptionAdvisor service;
 
     @Test
-    public void handleException() throws NoSuchMethodException {
+    void handleException() throws NoSuchMethodException {
+        // When
         ResponseEntity<Map> result = service.handleException(new Exception("Msg"), new HandlerMethod(service, "toString", null));
         ResponseEntity<Map<String, String>> expected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(getExpected(500, "Msg"));
+
+        // Then
         compareBodies(result, expected);
     }
 
     @Test
-    public void handleTppException() throws NoSuchMethodException {
+    void handleTppException() throws NoSuchMethodException {
+        // When
         ResponseEntity<Map> result = service.handleTppException(new TppException("Msg", 500), new HandlerMethod(service, "toString", null));
         ResponseEntity<Map<String, String>> expected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(getExpected(500, "Msg"));
+
+        // Then
         compareBodies(result, expected);
     }
 
     @Test
-    public void handleFeignException() throws NoSuchMethodException, JsonProcessingException {
-        Whitebox.setInternalState(service, "objectMapper", STATIC_MAPPER);
+    void handleFeignException() throws NoSuchMethodException, JsonProcessingException, NoSuchFieldException {
+        // Given
+        FieldSetter.setField(service, service.getClass().getDeclaredField("objectMapper"), STATIC_MAPPER);
+
+        // When
         ResponseEntity<Map> result = service.handleFeignException(FeignException.errorStatus("method", getResponse()), new HandlerMethod(service, "toString", null));
         ResponseEntity<Map<String, String>> expected = ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(getExpected(401, "status 401 reading method"));
+
+        // Then
         compareBodies(result, expected);
     }
 
@@ -62,7 +74,7 @@ public class TppExceptionAdvisorTest {
     }
 
     private void compareBodies(ResponseEntity<Map> result, ResponseEntity<Map<String, String>> expected) {
-        assertThat(result).isNotNull();
+        assertNotNull(result);
         assertThat(result.getStatusCode()).isEqualTo(expected.getStatusCode());
         Map<String, String> resultBody = result.getBody();
         Map<String, String> expectedBody = expected.getBody();

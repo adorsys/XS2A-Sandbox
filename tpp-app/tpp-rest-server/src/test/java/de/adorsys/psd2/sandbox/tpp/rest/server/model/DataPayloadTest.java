@@ -7,11 +7,11 @@ import de.adorsys.ledgers.middleware.api.domain.um.AccountAccessTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.psd2.sandbox.tpp.rest.server.service.IbanGenerationService;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
@@ -20,12 +20,12 @@ import java.util.Currency;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
-public class DataPayloadTest {
-    public static final Currency USD = Currency.getInstance("USD");
+@ExtendWith(MockitoExtension.class)
+class DataPayloadTest {
+    private static final Currency USD = Currency.getInstance("USD");
     public static final Currency EUR = Currency.getInstance("EUR");
     @InjectMocks
     private IbanGenerationService service;
@@ -34,47 +34,64 @@ public class DataPayloadTest {
 
 
     @Test
-    public void isValidPayload_valid() {
+    void isValidPayload_valid() {
+        // Given
         DataPayload data = getData(false, false, false);
         boolean result = data.isValidPayload();
-        assertThat(result).isTrue();
+
+        // Then
+        assertTrue(result);
     }
 
     @Test
-    public void isValidPayloadValid_emptyUsers() {
+    void isValidPayloadValid_emptyUsers() {
+        // Given
         DataPayload data = getData(true, false, false);
         boolean result = data.isValidPayload();
-        assertThat(result).isTrue();
+
+        // Then
+        assertTrue(result);
     }
 
     @Test
-    public void isValidPayloadValid_nullAccounts() {
+    void isValidPayloadValid_nullAccounts() {
+        // Given
         DataPayload data = getData(false, true, false);
         boolean result = data.isValidPayload();
-        assertThat(result).isTrue();
-        assertThat(data.getAccounts()).isNotNull();
+
+        // Then
+        assertTrue(result);
+        assertNotNull(data.getAccounts());
     }
 
     @Test
-    public void isValidPayloadValid_nullElementBalance() {
+    void isValidPayloadValid_nullElementBalance() {
+        // Given
         DataPayload data = getData(false, false, true);
         boolean result = data.isValidPayload();
-        assertThat(result).isFalse();
+
+        // Then
+        assertFalse(result);
     }
 
     @Test
-    public void updatePayload() {
+    void updatePayload() {
+        // Given
         when(restClient.getUser()).thenReturn(ResponseEntity.ok(getBranch()));
         DataPayload data = getData(false, false, false);
         data.setPayments(Collections.emptyList());
+
+        // When
         data.updatePayload(service::generateIbanForNisp, "DE_12345678", EUR, false);
-        assertThat(data).isNotNull();
-        assertThat(data.getAccounts().get(0).getIban()).isEqualTo("DE87123456780000000002");
-        assertThat(data.getAccounts().get(0).getCurrency()).isEqualTo(EUR);
-        assertThat(data.getUsers().get(0).getAccountAccesses().get(0).getIban()).isEqualTo("DE87123456780000000002");
-        assertThat(data.getUsers().get(0).getAccountAccesses().get(0).getCurrency()).isEqualTo(EUR);
-        assertThat(data.getBalancesList().get(0).getIban()).isEqualTo("DE87123456780000000002");
-        assertThat(data.getBalancesList().get(0).getCurrency()).isEqualTo(EUR);
+
+        // Then
+        assertNotNull(data);
+        assertEquals("DE87123456780000000002", data.getAccounts().get(0).getIban());
+        assertEquals(EUR, data.getAccounts().get(0).getCurrency());
+        assertEquals("DE87123456780000000002", data.getUsers().get(0).getAccountAccesses().get(0).getIban());
+        assertEquals(EUR, data.getUsers().get(0).getAccountAccesses().get(0).getCurrency());
+        assertEquals("DE87123456780000000002", data.getBalancesList().get(0).getIban());
+        assertEquals(EUR, data.getBalancesList().get(0).getCurrency());
     }
 
     private UserTO getBranch() {

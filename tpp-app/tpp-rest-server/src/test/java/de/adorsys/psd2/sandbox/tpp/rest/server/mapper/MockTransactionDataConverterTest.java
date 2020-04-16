@@ -3,7 +3,7 @@ package de.adorsys.psd2.sandbox.tpp.rest.server.mapper;
 import de.adorsys.ledgers.middleware.api.domain.account.MockBookingDetails;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.UserTransaction;
 import de.adorsys.psd2.sandbox.tpp.rest.server.service.ParseService;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
@@ -18,34 +18,48 @@ import java.util.Currency;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MockTransactionDataConverterTest {
+class MockTransactionDataConverterTest {
     private final MockTransactionDataConverter converter = Mappers.getMapper(MockTransactionDataConverter.class);
     private final ResourceLoader resourceLoader = new DefaultResourceLoader();
     private final ParseService parseService = new ParseService(resourceLoader);
 
     @Test
-    public void toLocalDateTest() {
+    void toLocalDateTest() {
+        // Given
         String input = "01.01.2019";
+
+        // When
         LocalDate result = converter.toLocalDate(input);
-        assertThat(result).isEqualTo(LocalDate.of(2019, 01, 01));
+        assertEquals(LocalDate.of(2019, 01, 01), result);
     }
 
     @Test
-    public void toLedgersMockTransactionTest() throws IOException {
+    void toLedgersMockTransactionTest() throws IOException {
+        // Given
         List<UserTransaction> input = parseService.convertFileToTargetObject(resolveMultipartFile("transactions_template.csv"), UserTransaction.class);
         MockBookingDetails expected = getExpectedMockTransaction();
+
+        // When
         MockBookingDetails result = converter.toLedgersMockTransaction(input.get(0));
-        assertThat(result).isEqualToComparingFieldByFieldRecursively(expected);
+
+        // Then
+        assertEquals(expected, result);
     }
 
     @Test
-    public void toLedgersMockTransactionsTest() throws IOException {
+    void toLedgersMockTransactionsTest() throws IOException {
+        // Given
         MockBookingDetails expected = getExpectedMockTransaction();
         List<UserTransaction> input = getListWith2EqualTransactions();
+
+        // When
         List<MockBookingDetails> result = converter.toLedgersMockTransactions(input);
         assertThat(result.size()).isEqualTo(2);
-        result.forEach(r -> assertThat(r).isEqualToComparingFieldByFieldRecursively(expected));
+
+        // Then
+        result.forEach(r -> assertEquals(expected, r));
     }
 
     private List<UserTransaction> getListWith2EqualTransactions() throws IOException {

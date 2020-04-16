@@ -12,29 +12,29 @@ import de.adorsys.psd2.sandbox.tpp.rest.server.model.DataPayload;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.IBANValidator;
 import org.iban4j.CountryCode;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.http.ResponseEntity;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.iban4j.bban.BbanStructureEntry.*;
-import static org.junit.Assert.*;
+import static org.iban4j.bban.BbanStructureEntry.EntryCharacterType;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
-public class IbanGenerationServiceTest {
+@ExtendWith(MockitoExtension.class)
+class IbanGenerationServiceTest {
     private static final String TPP_ID = "DE_12345678";
     private static final String USER_IBAN = "DE89000000115555555555";
     private static final String USER_ID = "QWERTY";
     private static final Currency CURRENCY = Currency.getInstance("EUR");
     private static final CountryCode COUNTRY_CODE = CountryCode.DE;
-    static final char word = 'A';
+    private static final char word = 'A';
 
     @InjectMocks
     private IbanGenerationService generationService;
@@ -42,21 +42,21 @@ public class IbanGenerationServiceTest {
     private UserMgmtRestClient userMgmtRestClient;
 
     @Test
-    public void generateIban() {
-        //given
+    void generateIban() {
+        // Given
         getNewUserTO(TPP_ID, Collections.EMPTY_LIST);
 
-        //when
+        // When
         String iban = generationService.generateNextIban();
 
-        //then
+        // Then
         boolean isIbanValid = IBANValidator.getInstance().isValid(iban);
         assertTrue(isIbanValid);
     }
 
     @Test
-    public void validateIbansForDifferentCountries_CharacterTypeN() {
-        //when
+    void validateIbansForDifferentCountries_CharacterTypeN() {
+        // When
         List<String> ibans = generationService.getCountryCodes().keySet().stream()
                                  .map(c -> generationService.getBankCodeStructure(c))
                                  .filter(BankCodeStructure::isCharacterType)
@@ -65,13 +65,13 @@ public class IbanGenerationServiceTest {
                                  .map(i -> generationService.generateNextIban())
                                  .collect(Collectors.toList());
 
-        //then
+        // Then
         assertTrue(isIbansValid(ibans));
     }
 
     @Test
-    public void validateIbansForDifferentCountries_CharacterTypeCAndA() {
-        //when
+    void validateIbansForDifferentCountries_CharacterTypeCAndA() {
+        // When
         List<String> ibans = generationService.getCountryCodes().keySet().stream()
                                  .map(c -> generationService.getBankCodeStructure(c))
                                  .filter(BankCodeStructure::isNotCharacterType)
@@ -80,49 +80,46 @@ public class IbanGenerationServiceTest {
                                  .map(h -> generationService.generateNextIban())
                                  .collect(Collectors.toList());
 
-        //then
+        // Then
         assertTrue(isIbansValid(ibans));
     }
 
     @Test
-    public void generateNispIban() {
-        //given
+    void generateNispIban() {
+        // Given
         getNewUserTO(TPP_ID, getAccountAccess());
 
-        //when
+        // When
         String s = generationService.generateIbanForNisp(getPayload(), "00");
 
-        //then
+        // Then
         assertTrue(StringUtils.isNotBlank(s));
     }
 
     @Test
-    public void generateNispIban_ibanExist() {
-        //given
-        getNewUserTO(TPP_ID, getAccountAccess());
-
-        //when
+    void generateNispIban_ibanExist() {
+        // When
         String s = generationService.generateIbanForNisp(getPayloadWithGeneratedIban(), USER_IBAN);
 
-        //then
+        // Then
         assertTrue(StringUtils.isNotBlank(s));
     }
 
     @Test
-    public void getCountryCodes() {
-        //when
+    void getCountryCodes() {
+        // When
         Map<CountryCode, String> codes = generationService.getCountryCodes();
 
-        //then
+        // Then
         assertFalse(codes.isEmpty());
     }
 
     @Test
-    public void getBankCodeStructure() {
-        //when
+    void getBankCodeStructure() {
+        // When
         BankCodeStructure bankCodeStructure = generationService.getBankCodeStructure(COUNTRY_CODE);
 
-        //then
+        // Then
         assertEquals(8, bankCodeStructure.getLength());
         assertEquals(bankCodeStructure.getType(), EntryCharacterType.n);
     }

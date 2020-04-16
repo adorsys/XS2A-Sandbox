@@ -3,18 +3,16 @@ package de.adorsys.ledgers.oba.service.impl.service;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentType;
 import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.internal.util.reflection.Whitebox;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.internal.util.reflection.FieldSetter;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
-@RunWith(MockitoJUnitRunner.class)
-public class DefaultConsentReferencePolicyTest {
+@ExtendWith(MockitoExtension.class)
+class DefaultConsentReferencePolicyTest {
     private static final String AUTHORIZATION_ID = "authorizationID";
     private static final ConsentType CONSENT_TYPE_AIS = ConsentType.AIS;
     private static final String ENCRYPTED_CONSENT_ID = "encryptedConsentId";
@@ -24,15 +22,15 @@ public class DefaultConsentReferencePolicyTest {
     private DefaultConsentReferencePolicy defaultConsentReferencePolicy;
 
     @Test
-    public void fromURL() {
-        //given
-        Whitebox.setInternalState(defaultConsentReferencePolicy, "hmacSecret", "6VFX8YFQG5DLFKZIMNLGH9P406XR1SY4");
+    void fromURL() throws NoSuchFieldException {
+        // Given
+        FieldSetter.setField(defaultConsentReferencePolicy, defaultConsentReferencePolicy.getClass().getDeclaredField("hmacSecret"), "6VFX8YFQG5DLFKZIMNLGH9P406XR1SY4");
 
-        //when
+        // When
         ConsentReference reference = defaultConsentReferencePolicy.fromURL(REDIRECT_ID, CONSENT_TYPE_AIS, ENCRYPTED_CONSENT_ID);
 
-        //then
-        assertThat(reference).isNotNull();
+        // Then
+        assertNotNull(reference);
         assertEquals(REDIRECT_ID, reference.getRedirectId());
         assertEquals(CONSENT_TYPE_AIS, reference.getConsentType());
         assertEquals(ENCRYPTED_CONSENT_ID, reference.getEncryptedConsentId());
@@ -40,16 +38,17 @@ public class DefaultConsentReferencePolicyTest {
     }
 
     @Test
-    public void fromRequest() {
-        //given
-        Whitebox.setInternalState(defaultConsentReferencePolicy, "hmacSecret", "6VFX8YFQG5DLFKZIMNLGH9P406XR1SY4");
+    void fromRequest() throws NoSuchFieldException {
+        // Given
+        FieldSetter.setField(defaultConsentReferencePolicy, defaultConsentReferencePolicy.getClass().getDeclaredField("hmacSecret"), "6VFX8YFQG5DLFKZIMNLGH9P406XR1SY4");
+
         ConsentReference reference = defaultConsentReferencePolicy.fromURL(REDIRECT_ID, CONSENT_TYPE_AIS, ENCRYPTED_CONSENT_ID);
 
-        //when
+        // When
         ConsentReference consentReference = defaultConsentReferencePolicy.fromRequest(ENCRYPTED_CONSENT_ID, AUTHORIZATION_ID, reference.getCookieString(), false);
 
-        //then
-        assertThat(consentReference).isNotNull();
+        // Then
+        assertNotNull(consentReference);
         assertEquals(AUTHORIZATION_ID, consentReference.getAuthorizationId());
         assertEquals(REDIRECT_ID, consentReference.getRedirectId());
         assertEquals(CONSENT_TYPE_AIS, consentReference.getConsentType());
@@ -57,29 +56,29 @@ public class DefaultConsentReferencePolicyTest {
         assertNotNull(consentReference.getCookieString());
     }
 
-    @Test(expected = AuthorizationException.class)
-    public void fromRequest_authFailed() {
-        //when
-        defaultConsentReferencePolicy.fromRequest(ENCRYPTED_CONSENT_ID, AUTHORIZATION_ID, "cookieString", false);
+    @Test
+    void fromRequest_authFailed() {
+        // Then
+        assertThrows(AuthorizationException.class, () -> defaultConsentReferencePolicy.fromRequest(ENCRYPTED_CONSENT_ID, AUTHORIZATION_ID, "cookieString", false));
     }
 
-    @Test(expected = AuthorizationException.class)
-    public void fromRequest_missingClaim() {
-        //given
-        Whitebox.setInternalState(defaultConsentReferencePolicy, "hmacSecret", "6VFX8YFQG5DLFKZIMNLGH9P406XR1SY4");
+    @Test
+    void fromRequest_missingClaim() throws NoSuchFieldException {
+        // Given
+        FieldSetter.setField(defaultConsentReferencePolicy, defaultConsentReferencePolicy.getClass().getDeclaredField("hmacSecret"), "6VFX8YFQG5DLFKZIMNLGH9P406XR1SY4");
         ConsentReference reference = defaultConsentReferencePolicy.fromURL(REDIRECT_ID, CONSENT_TYPE_AIS, ENCRYPTED_CONSENT_ID);
 
-        //when
-        defaultConsentReferencePolicy.fromRequest(ENCRYPTED_CONSENT_ID, AUTHORIZATION_ID, reference.getCookieString(), true);
+        // Then
+        assertThrows(AuthorizationException.class, () -> defaultConsentReferencePolicy.fromRequest(ENCRYPTED_CONSENT_ID, AUTHORIZATION_ID, reference.getCookieString(), true));
     }
 
-    @Test(expected = AuthorizationException.class)
-    public void fromRequest_wrongEncryptedConsentId() {
-        //given
-        Whitebox.setInternalState(defaultConsentReferencePolicy, "hmacSecret", "6VFX8YFQG5DLFKZIMNLGH9P406XR1SY4");
+    @Test
+    void fromRequest_wrongEncryptedConsentId() throws NoSuchFieldException {
+        // Given
+        FieldSetter.setField(defaultConsentReferencePolicy, defaultConsentReferencePolicy.getClass().getDeclaredField("hmacSecret"), "6VFX8YFQG5DLFKZIMNLGH9P406XR1SY4");
         ConsentReference reference = defaultConsentReferencePolicy.fromURL(REDIRECT_ID, CONSENT_TYPE_AIS, ENCRYPTED_CONSENT_ID);
 
-        //when
-        defaultConsentReferencePolicy.fromRequest(null, AUTHORIZATION_ID, reference.getCookieString(), false);
+        // Then
+        assertThrows(AuthorizationException.class, () -> defaultConsentReferencePolicy.fromRequest(null, AUTHORIZATION_ID, reference.getCookieString(), false));
     }
 }

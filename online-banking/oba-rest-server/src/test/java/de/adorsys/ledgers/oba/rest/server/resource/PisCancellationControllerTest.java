@@ -15,15 +15,14 @@ import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationExceptio
 import de.adorsys.ledgers.oba.service.api.service.CommonPaymentService;
 import de.adorsys.psd2.consent.api.pis.CmsCommonPayment;
 import de.adorsys.psd2.consent.api.pis.CmsPaymentResponse;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.internal.util.reflection.Whitebox;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.internal.util.reflection.FieldSetter;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
-import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collections;
@@ -32,12 +31,13 @@ import java.util.Currency;
 import static de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO.ACSP;
 import static de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO.RCVD;
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.*;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
-public class PisCancellationControllerTest {
+@ExtendWith(MockitoExtension.class)
+class PisCancellationControllerTest {
     private static final String PIN = "12345";
     private static final String LOGIN = "anton.brueckner";
     private static final String ENCRYPTED_ID = "ENC_123";
@@ -62,8 +62,6 @@ public class PisCancellationControllerTest {
     @Mock
     private XISControllerService xisService;
     @Mock
-    private HttpServletResponse response;
-    @Mock
     private ResponseUtils responseUtils;
     @Mock
     private ObaMiddlewareAuthentication middlewareAuth;
@@ -71,53 +69,74 @@ public class PisCancellationControllerTest {
     private AuthRequestInterceptor authInterceptor;
 
     @Test
-    public void login() {
+    void login() {
+        // Given
         when(responseUtils.consentCookie(any())).thenReturn(COOKIE);
         when(paymentService.identifyPayment(anyString(), anyString(), anyBoolean(), anyString(), anyString(), any())).thenReturn(getPaymentWorkflow(PSUIDENTIFIED, ACSP));
         when(xisService.performLoginForConsent(anyString(), anyString(), anyString(), anyString(), any(OpTypeTO.class))).thenReturn(getScaLoginResponse());
         when(xisService.resolvePaymentWorkflow(any())).thenReturn(ResponseEntity.ok(getPaymentAuthorizeResponse(true, true, PSUIDENTIFIED)));
 
+        // When
         ResponseEntity<PaymentAuthorizeResponse> result = controller.login(ENCRYPTED_ID, AUTH_ID, LOGIN, PIN, COOKIE);
-        assertThat(result).isEqualTo(ResponseEntity.ok(getPaymentAuthorizeResponse(true, true, PSUIDENTIFIED)));
+
+        // Then
+        assertEquals(ResponseEntity.ok(getPaymentAuthorizeResponse(true, true, PSUIDENTIFIED)), result);
     }
 
-    @Test(expected = AuthorizationException.class)
-    public void login_failure() {
+    @Test
+    void login_failure() {
         when(responseUtils.consentCookie(any())).thenReturn(COOKIE);
         when(paymentService.identifyPayment(anyString(), anyString(), anyBoolean(), anyString(), anyString(), any())).thenReturn(getPaymentWorkflow(PSUIDENTIFIED, RCVD));
-       controller.login(ENCRYPTED_ID, AUTH_ID, LOGIN, PIN, COOKIE);
+
+        // Then
+        assertThrows(AuthorizationException.class, () -> controller.login(ENCRYPTED_ID, AUTH_ID, LOGIN, PIN, COOKIE));
     }
 
     @Test
-    public void selectMethod() {
-        Whitebox.setInternalState(controller, "middlewareAuth", new ObaMiddlewareAuthentication(null, new BearerTokenTO(TOKEN, null, 999, null, getAccessTokenTO())));
-        when(responseUtils.consentCookie(any())).thenReturn(COOKIE);
-        when(paymentService.selectScaForPayment(anyString(), anyString(), anyString(), anyString(), anyBoolean(), anyString(), any())).thenReturn(getPaymentWorkflow(SCAMETHODSELECTED,ACSP));
+    void selectMethod() throws NoSuchFieldException {
+        // Given
+        FieldSetter.setField(controller, controller.getClass().getDeclaredField("middlewareAuth"), new ObaMiddlewareAuthentication(null, new BearerTokenTO(TOKEN, null, 999, null, getAccessTokenTO())));
 
+        when(responseUtils.consentCookie(any())).thenReturn(COOKIE);
+        when(paymentService.selectScaForPayment(anyString(), anyString(), anyString(), anyString(), anyBoolean(), anyString(), any())).thenReturn(getPaymentWorkflow(SCAMETHODSELECTED, ACSP));
+
+        // When
         ResponseEntity<PaymentAuthorizeResponse> result = controller.selectMethod(ENCRYPTED_ID, AUTH_ID, METHOD_ID, COOKIE);
-        assertThat(result).isEqualToComparingFieldByFieldRecursively(ResponseEntity.ok(getPaymentAuthorizeResponse(true, true, SCAMETHODSELECTED)));
+
+        // Then
+        assertEquals(ResponseEntity.ok(getPaymentAuthorizeResponse(true, true, SCAMETHODSELECTED)), result);
     }
 
     @Test
-    public void authorisePayment() {
-        Whitebox.setInternalState(controller, "middlewareAuth", new ObaMiddlewareAuthentication(null, new BearerTokenTO(TOKEN, null, 999, null, getAccessTokenTO())));
+    void authorisePayment() throws NoSuchFieldException {
+        // Given
+        FieldSetter.setField(controller, controller.getClass().getDeclaredField("middlewareAuth"), new ObaMiddlewareAuthentication(null, new BearerTokenTO(TOKEN, null, 999, null, getAccessTokenTO())));
+
         when(responseUtils.consentCookie(any())).thenReturn(COOKIE);
-        when(paymentService.identifyPayment(anyString(), anyString(), anyBoolean(), anyString(), anyString(), any())).thenReturn(getPaymentWorkflow(PSUIDENTIFIED,ACSP));
-        when(paymentService.authorizeCancelPayment(any(), anyString(), anyString())).thenReturn(getPaymentWorkflow(FINALISED,ACSP));
+        when(paymentService.identifyPayment(anyString(), anyString(), anyBoolean(), anyString(), anyString(), any())).thenReturn(getPaymentWorkflow(PSUIDENTIFIED, ACSP));
+        when(paymentService.authorizeCancelPayment(any(), anyString(), anyString())).thenReturn(getPaymentWorkflow(FINALISED, ACSP));
 
+        // When
         ResponseEntity<PaymentAuthorizeResponse> result = controller.authorisePayment(ENCRYPTED_ID, AUTH_ID, METHOD_ID, COOKIE);
-        assertThat(result).isEqualToComparingFieldByFieldRecursively(ResponseEntity.ok(getPaymentAuthorizeResponse(true, true, FINALISED)));
+
+        // Then
+        assertEquals(ResponseEntity.ok(getPaymentAuthorizeResponse(true, true, FINALISED)), result);
     }
 
     @Test
-    public void pisDone() {
-        Whitebox.setInternalState(controller, "middlewareAuth", new ObaMiddlewareAuthentication(null, new BearerTokenTO(TOKEN, null, 999, null, getAccessTokenTO())));
+    void pisDone() throws NoSuchFieldException {
+        // Given
+        FieldSetter.setField(controller, controller.getClass().getDeclaredField("middlewareAuth"), new ObaMiddlewareAuthentication(null, new BearerTokenTO(TOKEN, null, 999, null, getAccessTokenTO())));
+
         when(responseUtils.consentCookie(any())).thenReturn(COOKIE);
         when(paymentService.resolveRedirectUrl(anyString(), anyString(), anyString(), anyBoolean(), anyString(), any(), anyString())).thenReturn(NOK_URI);
         when(responseUtils.redirect(anyString(), any())).thenReturn(ResponseEntity.ok(getPaymentAuthorizeResponse(false, false, FAILED)));
 
+        // When
         ResponseEntity<PaymentAuthorizeResponse> result = controller.pisDone(ENCRYPTED_ID, AUTH_ID, COOKIE, false, "code");
-        assertThat(result).isEqualToComparingFieldByFieldRecursively(ResponseEntity.ok(getPaymentAuthorizeResponse(true, true, FAILED)));
+
+        // Then
+        assertEquals(ResponseEntity.ok(getPaymentAuthorizeResponse(true, true, FAILED)), result);
     }
 
     private PaymentAuthorizeResponse getPaymentAuthorizeResponse(boolean hasAuth, boolean hasEncrPmtId, ScaStatusTO scaStatus) {

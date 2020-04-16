@@ -5,19 +5,20 @@ import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.ledgers.oba.service.api.domain.UserAuthentication;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
-public class TokenAuthenticationServiceImplTest {
+@ExtendWith(MockitoExtension.class)
+class TokenAuthenticationServiceImplTest {
 
     private static final String TOKEN = "token";
     @InjectMocks
@@ -29,21 +30,31 @@ public class TokenAuthenticationServiceImplTest {
     private AuthRequestInterceptor authInterceptor;
 
     @Test
-    public void getAuthentication() {
+    void getAuthentication() {
+        // Given
         when(ledgersUserMgmt.validate(anyString())).thenReturn(ResponseEntity.ok(getBearer()));
+
+        // When
         UserAuthentication result = service.getAuthentication(TOKEN);
+
+        // Then
         assertThat(result).isEqualTo(new UserAuthentication(getBearer()));
     }
 
     @Test
-    public void getAuthentication_null_bearer() {
+    void getAuthentication_null_bearer() {
+        // Given
         when(ledgersUserMgmt.validate(anyString())).thenReturn(ResponseEntity.ok(null));
+
+        // When
         UserAuthentication result = service.getAuthentication(TOKEN);
-        assertThat(result).isEqualTo(null);
+
+        // Then
+        assertNull(result);
     }
 
     @Test
-    public void getAuthentication_null_token() {
+    void getAuthentication_null_token() {
         UserAuthentication result = service.getAuthentication(null);
         assertThat(result).isEqualTo(null);
     }

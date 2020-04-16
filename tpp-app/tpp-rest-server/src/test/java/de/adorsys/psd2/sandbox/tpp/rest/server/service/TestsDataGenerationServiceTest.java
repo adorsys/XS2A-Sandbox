@@ -10,22 +10,27 @@ import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.AccountBalance;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.DataPayload;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
-import java.util.*;
+import java.util.Currency;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 
-import static java.util.Collections.*;
-import static org.junit.Assert.assertTrue;
+import static java.util.Collections.EMPTY_LIST;
+import static java.util.Collections.singletonList;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
-public class TestsDataGenerationServiceTest {
+@ExtendWith(MockitoExtension.class)
+class TestsDataGenerationServiceTest {
     private static final String TPP_ID = "DE_12345678";
     private static final String USER_IBAN = "DE89000000115555555555";
     private static final Currency CURRENCY = Currency.getInstance("EUR");
@@ -44,27 +49,27 @@ public class TestsDataGenerationServiceTest {
     private static final ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
 
     @Test
-    public void generate() throws JsonProcessingException {
-        //given
+    void generate() throws JsonProcessingException {
+        // Given
         when(userMgmtRestClient.getUser()).thenReturn(ResponseEntity.ok(new UserTO(null, null, null, null, null, EMPTY_LIST, null, TPP_ID)));
         when(ibanGenerationService.generateIbanForNisp(any(), any())).thenReturn(USER_IBAN);
         when(parseService.generateFileByPayload(any())).thenReturn(getBytes());
         when(parseService.getDefaultData()).thenReturn(Optional.of(getPayload()));
 
-        //when
+        // When
         byte[] generatedData = generationService.generate(true, CURRENCY);
 
-        //then
+        // Then
         assertTrue(generatedData.length != 0);
     }
 
-    @Test(expected = TppException.class)
-    public void generate_noBranch() {
+    @Test
+    void generate_noBranch() {
         //given
         when(userMgmtRestClient.getUser()).thenReturn(ResponseEntity.ok(new UserTO(null, null, null, null, null, EMPTY_LIST, null, null)));
 
-        //when
-        generationService.generate(true, CURRENCY);
+        // Then
+        assertThrows(TppException.class, () -> generationService.generate(true, CURRENCY));
     }
 
     private byte[] getBytes() throws JsonProcessingException {

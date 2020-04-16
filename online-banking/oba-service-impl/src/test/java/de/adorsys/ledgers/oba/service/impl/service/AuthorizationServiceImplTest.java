@@ -7,22 +7,23 @@ import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationExceptio
 import feign.FeignException;
 import feign.Request;
 import feign.Response;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
 import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
-public class AuthorizationServiceImplTest {
+@ExtendWith(MockitoExtension.class)
+class AuthorizationServiceImplTest {
 
     private static final String LOGIN = "anton.brueckner";
     private static final String PIN = "12345";
@@ -34,17 +35,21 @@ public class AuthorizationServiceImplTest {
     private UserMgmtRestClient userMgmtRestClient;
 
     @Test
-    public void login() {
+    void login() {
         when(userMgmtRestClient.authorise(any(), any(), eq(UserRoleTO.CUSTOMER))).thenReturn(getLoginResponse());
         SCALoginResponseTO result = service.login(LOGIN, PIN);
         assertThat(result).isEqualTo(getLoginResponse().getBody());
     }
 
-    @Test(expected = AuthorizationException.class)
-    public void login_fail() {
+    @Test
+    void login_fail() {
         when(userMgmtRestClient.authorise(any(), any(), eq(UserRoleTO.CUSTOMER))).thenThrow(getFeignExceptionWithDevMsg());
-        SCALoginResponseTO result = service.login(LOGIN, PIN);
-        assertThat(result).isEqualToComparingFieldByFieldRecursively(getLoginResponse());
+
+        // Then
+        assertThrows(AuthorizationException.class, () -> {
+            SCALoginResponseTO result = service.login(LOGIN, PIN);
+            assertThat(result).isEqualToComparingFieldByFieldRecursively(getLoginResponse());
+        });
     }
 
     private FeignException getFeignExceptionWithDevMsg() {
@@ -62,20 +67,29 @@ public class AuthorizationServiceImplTest {
     }
 
     @Test
-    public void resolveAuthConfirmationCodeRedirectUri_no_params() {
+    void resolveAuthConfirmationCodeRedirectUri_no_params() {
+        // When
         String result = service.resolveAuthConfirmationCodeRedirectUri(URI, PIN);
+
+        // Then
         assertThat(result).isEqualTo(URI + "?" + "authConfirmationCode=" + PIN);
     }
 
     @Test
-    public void resolveAuthConfirmationCodeRedirectUri_with_param() {
-        String result = service.resolveAuthConfirmationCodeRedirectUri(URI+"?aaa=123", PIN);
-        assertThat(result).isEqualTo(URI + "?aaa=123"+"&" + "authConfirmationCode=" + PIN);
+    void resolveAuthConfirmationCodeRedirectUri_with_param() {
+        // When
+        String result = service.resolveAuthConfirmationCodeRedirectUri(URI + "?aaa=123", PIN);
+
+        // Then
+        assertThat(result).isEqualTo(URI + "?aaa=123" + "&" + "authConfirmationCode=" + PIN);
     }
 
     @Test
-    public void resolveAuthConfirmationCodeRedirectUri_code_null_or_empty() {
+    void resolveAuthConfirmationCodeRedirectUri_code_null_or_empty() {
+        // When
         String result = service.resolveAuthConfirmationCodeRedirectUri(URI, null);
+
+        // Then
         assertThat(result).isEqualTo(URI);
     }
 }

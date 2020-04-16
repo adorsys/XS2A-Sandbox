@@ -4,11 +4,11 @@ import de.adorsys.ledgers.middleware.api.domain.sca.SCALoginResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -23,8 +23,8 @@ import java.io.IOException;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
-public class LoginAuthenticationFilterTest {
+@ExtendWith(MockitoExtension.class)
+class LoginAuthenticationFilterTest {
 
     @InjectMocks
     private LoginAuthenticationFilter filter;
@@ -40,12 +40,17 @@ public class LoginAuthenticationFilterTest {
     private UserMgmtStaffRestClient userMgmtStaffRestClient;
 
     @Test
-    public void doFilter() throws IOException, ServletException {
+    void doFilter() throws IOException, ServletException {
+        // Given
         SecurityContextHolder.clearContext();
         when(request.getHeader("login")).thenReturn("anton.brueckner");
         when(request.getHeader("pin")).thenReturn("12345");
         when(userMgmtStaffRestClient.login(any())).thenReturn(ResponseEntity.ok(getScaLoginResponse()));
+
+        // When
         filter.doFilter(request, response, chain);
+
+        // Then
         verify(userMgmtStaffRestClient, times(1)).login(any());
     }
 

@@ -7,22 +7,27 @@ import de.adorsys.ledgers.middleware.api.domain.um.ScaUserDataTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.ScaUserDataMixedIn;
 import org.json.JSONException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 
 import java.util.Collections;
 import java.util.List;
 
-public class ObjectMapperMixInTest {
+class ObjectMapperMixInTest {
 
     @Test
-    public void scaUserDataMixIn() throws JsonProcessingException, JSONException {
+    void scaUserDataMixIn() throws JsonProcessingException, JSONException {
+        // Given
         String expected = "{\"id\":\"id\",\"login\":\"login\",\"email\":\"email\",\"pin\":\"pin\",\"scaUserData\":[{\"id\":\"id\",\"scaMethod\":\"EMAIL\",\"methodValue\":\"methodValue\",\"user\":null,\"usesStaticTan\":true,\"staticTan\":\"STATIC TAN\", \"decoupled\":false, \"valid\":false}],\"accountAccesses\":[],\"userRoles\":[],\"branch\":\"branch\"}";
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.addMixIn(ScaUserDataTO.class, ScaUserDataMixedIn.class);
 
         UserTO user = getUser();
+
+        // When
         String result = objectMapper.writeValueAsString(user);
+
+        // Then
         JSONAssert.assertEquals(result, expected, true);
     }
 

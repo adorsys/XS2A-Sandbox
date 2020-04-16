@@ -6,12 +6,11 @@ import de.adorsys.psd2.sandbox.tpp.cms.api.service.ConsentService;
 import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
 import de.adorsys.psd2.sandbox.tpp.rest.server.service.DownloadResourceService;
 import de.adorsys.psd2.sandbox.tpp.rest.server.service.ParseService;
-import org.assertj.core.api.Assertions;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -25,14 +24,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
-public class TppConsentControllerTest {
+@ExtendWith(MockitoExtension.class)
+class TppConsentControllerTest {
     private static final String FILE_NAME = "consents_template.yml";
     private final ResourceLoader resourceLoader = new DefaultResourceLoader();
 
@@ -46,37 +44,37 @@ public class TppConsentControllerTest {
     private ParseService parseService;
 
     @Test
-    public void generateConsents() throws IOException {
-        //given
+    void generateConsents() throws IOException {
+        // Given
         when(parseService.getDataFromFile(any(), any())).thenReturn(Optional.of(Collections.singletonList(getAisConsent())));
         when(tppConsentService.generateConsents(any())).thenReturn(Collections.singletonList("consent"));
 
-        //when
+        // When
         ResponseEntity<List<String>> response = tppConsentController.generateConsents(resolveMultipartFile(FILE_NAME));
 
-        //then
-        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        // Then
+        assertTrue(response.getStatusCode().is2xxSuccessful());
         assertFalse(Objects.requireNonNull(response.getBody()).isEmpty());
     }
 
-    @Test(expected = TppException.class)
-    public void generateConsents_couldNotParseData() throws IOException {
-        //given
+    @Test
+    void generateConsents_couldNotParseData() {
+        // Given
         when(parseService.getDataFromFile(any(), any())).thenReturn(Optional.empty());
 
-        //when
-        tppConsentController.generateConsents(resolveMultipartFile(FILE_NAME));
+        // When
+        assertThrows(TppException.class, () -> tppConsentController.generateConsents(resolveMultipartFile(FILE_NAME)));
     }
 
     @Test
-    public void downloadConsentTemplate() {
-        //given
+    void downloadConsentTemplate() {
+        // Given
         when(downloadResourceService.getResourceByTemplate(any())).thenReturn(resourceLoader.getResource(FILE_NAME));
 
-        //when
+        // When
         ResponseEntity<Resource> response = tppConsentController.downloadConsentTemplate();
 
-        //then
+        // Then
         assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
     }
 

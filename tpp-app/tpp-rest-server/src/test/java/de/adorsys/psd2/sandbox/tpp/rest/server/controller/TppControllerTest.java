@@ -12,24 +12,24 @@ import de.adorsys.psd2.sandbox.tpp.rest.server.mapper.UserMapper;
 import de.adorsys.psd2.sandbox.tpp.rest.server.service.IbanGenerationService;
 import org.iban4j.CountryCode;
 import org.iban4j.bban.BbanStructureEntry.EntryCharacterType;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.iban4j.CountryCode.*;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
-public class TppControllerTest {
+@ExtendWith(MockitoExtension.class)
+class TppControllerTest {
     private static final String USER_ID = "USER_ID";
     private static final String EMAIL = "EMAIL";
     private static final String LOGIN = "LOGIN";
@@ -50,82 +50,83 @@ public class TppControllerTest {
     private IbanGenerationService ibanGenerationService;
 
     @Test
-    public void register() {
-        //given
-        when(userMapper.toUserTO(any())).thenReturn(getUserTO());
-        when(userMgmtStaffRestClient.register(USER_ID, getUserTO())).thenReturn(ResponseEntity.ok(getUserTO()));
+    void register() {
+        // Given
+        UserTO userTO = getUserTO();
+        when(userMapper.toUserTO(any())).thenReturn(userTO);
+        when(userMgmtStaffRestClient.register(USER_ID, userTO)).thenReturn(ResponseEntity.ok(userTO));
 
-        //when
+        // When
         ResponseEntity<Void> response = tppController.register(getUser());
 
-        //then
-        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        // Then
+        assertTrue(response.getStatusCode().is2xxSuccessful());
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
     }
 
     @Test
-    public void remove() {
-        //given
+    void remove() {
+        // Given
         when(userMgmtRestClient.getUser()).thenReturn(ResponseEntity.ok(getUserTO()));
         when(dataRestClient.branch(any())).thenAnswer(i -> ResponseEntity.ok().build());
 
-        //when
+        // When
         ResponseEntity<Void> response = tppController.remove();
 
-        //then
-        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        // Then
+        assertTrue(response.getStatusCode().is2xxSuccessful());
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test
-    public void transactions() {
-        //given
+    void transactions() {
+        // Given
         when(dataRestClient.account(any())).thenAnswer(i -> ResponseEntity.ok().build());
 
-        //when
+        // When
         ResponseEntity<Void> response = tppController.transactions(ACCOUNT_ID);
 
-        //then
-        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        // Then
+        assertTrue(response.getStatusCode().is2xxSuccessful());
     }
 
     @Test
-    public void getBankCodeStructure() {
-        //given
+    void getBankCodeStructure() {
+        // Given
         when(ibanGenerationService.getBankCodeStructure(any())).thenReturn(getBankCode());
 
-        //when
+        // When
         ResponseEntity<BankCodeStructure> response = tppController.getBankCodeStructure("DE");
 
-        //then
-        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        // Then
+        assertTrue(response.getStatusCode().is2xxSuccessful());
         assertEquals(8, Objects.requireNonNull(response.getBody()).getLength());
         assertEquals(EntryCharacterType.n, response.getBody().getType());
     }
 
     @Test
-    public void getSupportedCountryCodes() {
-        //given
+    void getSupportedCountryCodes() {
+        // Given
         when(ibanGenerationService.getCountryCodes()).thenReturn(getSuppCountryCodes());
 
-        //when
+        // When
         ResponseEntity<Map<CountryCode, String>> response = tppController.getSupportedCountryCodes();
 
-        //then
-        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        // Then
+        assertTrue(response.getStatusCode().is2xxSuccessful());
         assertEquals(Objects.requireNonNull(response.getBody()).size(), COUNTRY_CODES.size());
     }
 
     @Test
-    public void getCurrencies() {
-        //given
+    void getCurrencies() {
+        // Given
         when(dataRestClient.currencies()).thenReturn(ResponseEntity.ok(getSupportedCurrencies()));
 
-        //when
+        // When
         ResponseEntity<Set<Currency>> response = tppController.getCurrencies();
 
-        //then
-        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        // Then
+        assertTrue(response.getStatusCode().is2xxSuccessful());
         assertEquals(Objects.requireNonNull(response.getBody()).size(), getSupportedCurrencies().size());
     }
 

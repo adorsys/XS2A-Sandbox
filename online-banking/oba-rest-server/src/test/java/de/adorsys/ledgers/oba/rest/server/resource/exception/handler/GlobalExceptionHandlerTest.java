@@ -14,11 +14,11 @@ import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import feign.FeignException;
 import feign.Request;
 import feign.Response;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.internal.util.reflection.Whitebox;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.internal.util.reflection.FieldSetter;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.method.HandlerMethod;
@@ -29,45 +29,65 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@RunWith(MockitoJUnitRunner.class)
-public class GlobalExceptionHandlerTest {
+@ExtendWith(MockitoExtension.class)
+class GlobalExceptionHandlerTest {
     private final ObjectMapper STATIC_MAPPER = new ObjectMapper().findAndRegisterModules().registerModule(new JavaTimeModule());
 
     @InjectMocks
     private GlobalExceptionHandler service;
 
     @Test
-    public void handleAisException() {
-        Whitebox.setInternalState(service, "objectMapper", STATIC_MAPPER);
+    void handleAisException() throws NoSuchFieldException {
+        // Given
+        FieldSetter.setField(service, service.getClass().getDeclaredField("objectMapper"), STATIC_MAPPER);
+
+        // When
         ResponseEntity<Map> result = service.handleAisException(ObaException.builder().devMessage("Msg").obaErrorCode(ObaErrorCode.AIS_BAD_REQUEST).build());
-        compareBodies(result, ResponseEntity.status(HttpStatus.BAD_REQUEST).body(getExpected(400,"Msg")));
+
+        // Then
+        compareBodies(result, ResponseEntity.status(HttpStatus.BAD_REQUEST).body(getExpected(400, "Msg")));
     }
 
     @Test
-    public void handlePaymentAuthorizeException() {
-        Whitebox.setInternalState(service, "objectMapper", STATIC_MAPPER);
+    void handlePaymentAuthorizeException() throws NoSuchFieldException {
+        // Given
+        FieldSetter.setField(service, service.getClass().getDeclaredField("objectMapper"), STATIC_MAPPER);
         PaymentAuthorizeResponse authorizeResponse = new PaymentAuthorizeResponse(new PaymentTO());
         PsuMessage message = new PsuMessage();
         message.setCode("400");
         message.setText("Msg");
         authorizeResponse.setPsuMessages(List.of(message));
+
+        // When
         ResponseEntity<Map> result = service.handlePaymentAuthorizeException(new PaymentAuthorizeException(ResponseEntity.status(HttpStatus.NOT_FOUND).body(authorizeResponse)));
-        compareBodies(result, ResponseEntity.status(HttpStatus.BAD_REQUEST).body(getExpected(400,"Msg")));
+
+        // Then
+        compareBodies(result, ResponseEntity.status(HttpStatus.BAD_REQUEST).body(getExpected(400, "Msg")));
     }
 
     @Test
-    public void handleAuthException() {
-        Whitebox.setInternalState(service, "objectMapper", STATIC_MAPPER);
+    void handleAuthException() throws NoSuchFieldException {
+        // Given
+        FieldSetter.setField(service, service.getClass().getDeclaredField("objectMapper"), STATIC_MAPPER);
         ResponseEntity<Map> result = service.handleAuthException(AuthorizationException.builder().devMessage("Msg").errorCode(AuthErrorCode.ACCESS_FORBIDDEN).build());
-        compareBodies(result, ResponseEntity.status(HttpStatus.FORBIDDEN).body(getExpected(403,"Msg")));
+
+        // Then
+        compareBodies(result, ResponseEntity.status(HttpStatus.FORBIDDEN).body(getExpected(403, "Msg")));
     }
 
     @Test
-    public void handleFeignException() throws JsonProcessingException, NoSuchMethodException {
-        Whitebox.setInternalState(service, "objectMapper", STATIC_MAPPER);
+    void handleFeignException() throws JsonProcessingException, NoSuchMethodException, NoSuchFieldException {
+        // Given
+        FieldSetter.setField(service, service.getClass().getDeclaredField("objectMapper"), STATIC_MAPPER);
+
+        // When
         ResponseEntity<Map> result = service.handleFeignException(FeignException.errorStatus("method", getResponse()), new HandlerMethod(service, "toString", null));
         ResponseEntity<Map<String, String>> expected = ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(getExpected(401, "status 401 reading method"));
+
+        // Then
         compareBodies(result, expected);
     }
 
@@ -83,8 +103,8 @@ public class GlobalExceptionHandlerTest {
     }
 
     private void compareBodies(ResponseEntity<Map> result, ResponseEntity<Map<String, String>> expected) {
-        assertThat(result).isNotNull();
-        assertThat(result.getStatusCode()).isEqualTo(expected.getStatusCode());
+        assertNotNull(result);
+        assertEquals(expected.getStatusCode(), result.getStatusCode());
         Map<String, String> resultBody = result.getBody();
         Map<String, String> expectedBody = expected.getBody();
         assertThat(resultBody.get("code")).isEqualTo(expectedBody.get("code"));

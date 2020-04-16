@@ -1,28 +1,31 @@
 package de.adorsys.ledgers.oba.service.impl.mapper;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class TimeMapperTest {
+
+class TimeMapperTest {
 
     @Test
-    public void mapTime() {
+    void mapTime() {
         TimeMapper mapper = new TimeMapper();
 
         LocalTime result = mapper.mapTime(OffsetDateTime.of(2020, 1, 1, 1, 1, 1, 1, ZoneOffset.UTC));
-        assertThat(result).isEqualTo(LocalTime.of(1, 1, 1, 1));
+        assertEquals(LocalTime.of(1, 1, 1, 1), result);
     }
 
     @Test
-    public void mapTime_null_time() {
+    void mapTime_null_time() {
         TimeMapper mapper = new TimeMapper();
 
         LocalTime result = mapper.mapTime(null);
-        assertThat(result).isNull();
+        assertNull(result);
     }
 }

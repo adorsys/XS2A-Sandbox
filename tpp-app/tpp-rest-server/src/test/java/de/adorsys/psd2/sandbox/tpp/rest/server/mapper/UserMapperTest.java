@@ -1,9 +1,11 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.mapper;
 
-import de.adorsys.ledgers.middleware.api.domain.um.*;
+import de.adorsys.ledgers.middleware.api.domain.um.AccountAccessTO;
+import de.adorsys.ledgers.middleware.api.domain.um.ScaMethodTypeTO;
+import de.adorsys.ledgers.middleware.api.domain.um.ScaUserDataTO;
+import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.*;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import java.util.Collections;
@@ -13,8 +15,9 @@ import static de.adorsys.ledgers.middleware.api.domain.um.AccessTypeTO.OWNER;
 import static de.adorsys.ledgers.middleware.api.domain.um.UserRoleTO.CUSTOMER;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class UserMapperTest {
+class UserMapperTest {
     private static final String USER_ID = "USER-ID";
     private static final String USER_LOGIN = "USER-LOGIN";
     private static final String EMAIL = "EMAIL";
@@ -29,32 +32,41 @@ public class UserMapperTest {
     private final UserMapper userMapper = Mappers.getMapper(UserMapper.class);
 
     @Test
-    public void toUserTO() {
+    void toUserTO() {
+        // Given
         User user = new User();
         user.setEmail("test@mail.de");
         user.setLogin("test");
         user.setPin("12345");
         user.setId("12345678");
 
+        // When
         UserTO userTO = userMapper.toUserTO(user);
 
-        Assert.assertEquals(userTO.getEmail(), user.getEmail());
-        Assert.assertEquals(userTO.getLogin(), user.getLogin());
-        Assert.assertEquals(userTO.getPin(), user.getPin());
+        // Then
+        assertEquals(userTO.getEmail(), user.getEmail());
+        assertEquals(userTO.getLogin(), user.getLogin());
+        assertEquals(userTO.getPin(), user.getPin());
     }
 
     @Test
-    public void toUserTO_null_collection_should_become_empty() {
+    void toUserTO_null_collection_should_become_empty() {
+        // Given
         User input = createUser(true);
         UserTO expected = createUserTO(true);
+
+        // When
         UserTO result = userMapper.toUserTO(input);
         assertThat(result).isEqualToComparingFieldByFieldRecursively(expected);
     }
 
     @Test
-    public void toUserTO_all_filled() {
+    void toUserTO_all_filled() {
+        // Given
         User input = createUser(false);
         UserTO expected = createUserTO(false);
+
+        // When
         UserTO result = userMapper.toUserTO(input);
         assertThat(result).isEqualToComparingFieldByFieldRecursively(expected);
     }
