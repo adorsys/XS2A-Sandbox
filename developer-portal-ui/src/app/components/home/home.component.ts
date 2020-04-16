@@ -123,7 +123,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   checkTodayDay(date) {
     let isToday = false;
-    if (date > this.today) {
+    if (date >= this.today) {
       isToday = true;
     }
     return isToday;
