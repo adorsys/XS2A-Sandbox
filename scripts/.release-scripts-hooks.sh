@@ -73,5 +73,5 @@ function build_release_modules {
 # Parameter $1 - version as text
 function set_modules_version {
   mvn versions:set -DnewVersion=$1
-  perl -i -pe 's/SANDBOX_VERSION=develop/SANDBOX_VERSION=$1/g' .env
+  perl -i -pe "s/SANDBOX_VERSION=develop/SANDBOX_VERSION=$1/g" .env
 }
