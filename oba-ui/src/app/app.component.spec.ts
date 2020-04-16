@@ -4,17 +4,19 @@ import { RouterOutlet } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgHttpLoaderModule } from 'ng-http-loader';
 import { of } from 'rxjs';
-
+import {Title} from "@angular/platform-browser";
 import { ApiConfiguration } from './api/api-configuration';
 import { AppComponent } from './app.component';
 import { URL_PARAMS_PROVIDER } from './common/constants/constants';
 import { CustomizeService } from './common/services/customize.service';
+import { ShareDataService } from './common/services/share-data.service';
 
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
   let customizeService: CustomizeService;
-
+  let shareDataService: ShareDataService;
+  let titleService: Title;
   const CustomizeServiceStub = {
     isCustom: () => false,
     setUserTheme: () => {},
@@ -46,7 +48,8 @@ describe('AppComponent', () => {
       providers: [
         ApiConfiguration,
         {provide: URL_PARAMS_PROVIDER, useValue: {}},
-        {provide: CustomizeService, useValue: CustomizeServiceStub}
+        {provide: CustomizeService, useValue: CustomizeServiceStub},
+          ShareDataService, Title
       ]
     })
     .compileComponents()
@@ -56,6 +59,7 @@ describe('AppComponent', () => {
   }));
   beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent);
+    titleService = TestBed.get(Title);
     component = fixture.componentInstance;
   });
 
@@ -81,4 +85,16 @@ describe('AppComponent', () => {
     expect(component.globalSettings).not.toBeUndefined();
   });
 
+
+  it('should check the Url', () => {
+      let mockUrl = '/login';
+      component.checkUrl();
+      expect(mockUrl).toEqual('/login');
+  });
+
+  it('should check the Url Bank', () => {
+    let mockUrl = '/bank-offered';
+      component.checkUrlbank();
+      expect(mockUrl).toEqual('/bank-offered');
+  });
 });
