@@ -8,7 +8,6 @@ ENV NGINX_ERROR_LOG_DEBUG error
 COPY ./templates/nginx.template.conf /etc/nginx/conf.d/default.conf.template
 COPY entry.sh /opt/entry.sh
 COPY dist/developer-portal /usr/share/nginx/html
-COPY ./templates/trackingId.template.json /usr/share/nginx/html/assets/content
 
 RUN chgrp -R root /var/cache/nginx && \
     find /var/cache/nginx -type d -exec chmod 775 {} \; && \
