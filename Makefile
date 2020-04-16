@@ -40,7 +40,7 @@ lint-tpp-ui:
 	find tpp-ui -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
 	find tpp-ui -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
 	#cd tpp-ui && npm ci && npm install
-	#cd tpp-ui && npm run lint 
+	#cd tpp-ui && npm run lint
 	#cd tpp-ui && npm run prettier-check
 	docker run --rm -i hadolint/hadolint < tpp-ui/Dockerfile
 
@@ -50,7 +50,7 @@ lint-oba-ui:
 	find oba-ui -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
 	find oba-ui -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
 	#cd oba-ui && npm ci && npm install
-	#cd oba-ui && npm run lint 
+	#cd oba-ui && npm run lint
 	#cd oba-ui && npm run prettier-check
 	docker run --rm -i hadolint/hadolint < oba-ui/Dockerfile
 
@@ -59,7 +59,7 @@ lint-developer-portal-ui:
 	find developer-portal-ui -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
 	find developer-portal-ui -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
 	cd developer-portal-ui && npm ci && npm install
-	cd developer-portal-ui && npm run lint 
+	cd developer-portal-ui && npm run lint
 	cd developer-portal-ui && npm run prettier-check
 	docker run --rm -i hadolint/hadolint < developer-portal-ui/Dockerfile
 
@@ -82,12 +82,12 @@ lint-certificate-generator:
 	docker run --rm -i hadolint/hadolint < certificate-generator/Dockerfile
 
 lint-docker-compose:
-	docker-compose -f docker-compose.yml -f docker-compose-build.yml -f docker-compose-google-analytics-enabled.yml -f docker-compose-no-certificate-generator.yml -f docker-compose-xs2a-embedded.yml config  -q
+	docker-compose -f docker-compose.yml -f docker-compose-build.yml -f docker-compose-no-certificate-generator.yml -f docker-compose-xs2a-embedded.yml config  -q
 	mvn validate
 	yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" bank-profile/*.yml
 
 lint-pmd-cpd-report:
-	mvn -ntp -Dmaven.test.skip=true package pmd:pmd pmd:cpd 
+	mvn -ntp -Dmaven.test.skip=true package pmd:pmd pmd:cpd
 ## Run section ##
 run:  ## Run services from Docker Hub without building:
 	docker-compose pull && docker-compose up
@@ -96,7 +96,7 @@ start: ## Run everything with docker-compose build dockerimages without building
 	docker-compose -f docker-compose.yml -f docker-compose-build.yml up
 
 all: lint-all build-ui-services build-java-services unit-tests-all-frontend unit-tests-backend ## Run everything with docker-compose after building
-	docker-compose -f docker-compose.yml -f docker-compose-build.yml up 
+	docker-compose -f docker-compose.yml -f docker-compose-build.yml up
 
 ## Build section ##
 build-java-services: ## Build java services
