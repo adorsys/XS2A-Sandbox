@@ -274,10 +274,7 @@ Build:OBA_frontend:
     - apt-get update && apt-get install make -yq
     - echo "Run OBA frontend  Build"
     - make npm-install-oba-ui
-  cache:
-    key: "OBA_UI_${CI_COMMIT_REF_SLUG}"
-    paths:
-      - oba-ui/node_modules
+  cache: {}
   artifacts:
     paths:
       - "oba-ui/dist"
@@ -293,10 +290,7 @@ Build:TPP_frontend:
     - apt-get update && apt-get install make -yq
     - echo "Run TPP frontend  Build"
     - make npm-install-tpp-ui
-  cache:
-    key: "TPP_UI_${CI_COMMIT_REF_SLUG}"
-    paths:
-      - tpp-ui/node_modules
+  cache: {}
   artifacts:
     paths:
       - "tpp-ui/dist"
@@ -314,10 +308,7 @@ Build:Devportal_frontend:
     - scripts/.update-postman-test-files.sh
     - echo "Run Devportal frontend Build"
     - make npm-install-developer-portal-ui
-  cache:
-    key: "DEVPORTAL_${CI_COMMIT_REF_SLUG}"
-    paths:
-      - developer-portal-ui/node_modules
+  cache: {}
   artifacts:
     paths:
       - "developer-portal-ui/dist"
@@ -351,10 +342,7 @@ Lint:PMD_CPD_Report:
     - apt update && apt install make -yq
     - echo "Test java code for PMD and CPD"
     - make lint-pmd-cpd-report
-  cache:
-    key: "Java_${CI_COMMIT_REF_SLUG}"
-    paths:
-      - /builds/adorsys/xs2a/psd2-dynamic-sandbox/.m2/repository
+  cache: {}
   artifacts:
     paths:
       - "qa/pmd/pmd-ruleset.xml"

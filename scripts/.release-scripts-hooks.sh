@@ -74,4 +74,5 @@ function build_release_modules {
 function set_modules_version {
   mvn versions:set -DnewVersion=$1
   perl -i -pe "s/SANDBOX_VERSION=develop/SANDBOX_VERSION=$1/g" .env
+  rm -rf docker-compose-build-template.yml
 }
