@@ -82,7 +82,7 @@ lint-certificate-generator:
 	docker run --rm -i hadolint/hadolint < certificate-generator/Dockerfile
 
 lint-docker-compose:
-	docker-compose -f docker-compose.yml -f docker-compose-build.yml -f docker-compose-no-certificate-generator.yml -f docker-compose-xs2a-embedded.yml config  -q
+	docker-compose -f docker-compose.yml -f docker-compose-build-template.yml -f docker-compose-no-certificate-generator.yml -f docker-compose-xs2a-embedded.yml config  -q
 	mvn validate
 	yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" bank-profile/*.yml
 
@@ -93,10 +93,10 @@ run:  ## Run services from Docker Hub without building:
 	docker-compose pull && docker-compose up
 
 start: ## Run everything with docker-compose build dockerimages without building applications
-	docker-compose -f docker-compose.yml -f docker-compose-build.yml up
+	docker-compose -f docker-compose.yml -f docker-compose-build-template.yml up
 
 all: lint-all build-ui-services build-java-services unit-tests-all-frontend unit-tests-backend ## Run everything with docker-compose after building
-	docker-compose -f docker-compose.yml -f docker-compose-build.yml up
+	docker-compose -f docker-compose.yml -f docker-compose-build-template.yml up
 
 ## Build section ##
 build-java-services: ## Build java services
