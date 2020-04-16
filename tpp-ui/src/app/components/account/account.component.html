@@ -2,7 +2,7 @@
     <div class="card">
         <div class="card-body--large">
 
-            <button class="btn btn-sm btn-outline-secondary" [routerLink]="['/accounts']" queryParamsHandling="preserve">
+            <button class="btn btn-sm btn-outline-secondary" [routerLink]="[pageNavigationService.getLastVisitedPage()]" queryParamsHandling="preserve">
               &lt; Back
             </button>
             <div class="header__title">Account details</div>

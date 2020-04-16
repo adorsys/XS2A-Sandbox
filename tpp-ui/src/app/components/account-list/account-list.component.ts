@@ -6,6 +6,7 @@ import {Subscription} from 'rxjs';
 import {map, tap, debounceTime} from 'rxjs/operators';
 import {PageConfig, PaginationConfigModel} from "../../models/pagination-config.model";
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {PageNavigationService} from '../../services/page-navigation.service';
 
 @Component({
   selector: 'app-account-list',
@@ -25,6 +26,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
   constructor(private accountService: AccountService,
               private formBuilder: FormBuilder,
               public router: Router,
+              public pageNavigationService: PageNavigationService,
               private route: ActivatedRoute) {}
 
   ngOnInit() {
@@ -87,5 +89,9 @@ export class AccountListComponent implements OnInit, OnDestroy {
     this.config.itemsPerPage = this.config.itemsPerPage + num;
   }
 
-
+  createAccountDetailsLink(id: string): string {
+    const baseLink = '/accounts/';
+    this.pageNavigationService.setLastVisitedPage(baseLink);
+    return `${baseLink}${id}`;
+  }
 }

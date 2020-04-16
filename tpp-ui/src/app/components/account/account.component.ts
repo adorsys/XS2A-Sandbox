@@ -9,6 +9,7 @@ import { AccountReport } from '../../models/account-report';
 import { UserAccess } from '../../models/user-access';
 import { AccountService } from '../../services/account.service';
 import { TppService } from '../../services/tpp.service';
+import {PageNavigationService} from '../../services/page-navigation.service';
 
 @Component({
   selector: 'app-account',
@@ -25,7 +26,8 @@ export class AccountComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private infoService: InfoService,
     private router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    public pageNavigationService: PageNavigationService
   ) {}
 
   ngOnInit() {
@@ -60,9 +62,9 @@ export class AccountComponent implements OnInit {
     }
   }
 
-  deleteAccountTransations() {
+  deleteAccountTransactions() {
     this.tppService
-      .deleteAccountTransations(this.account.id)
+      .deleteAccountTransactions(this.account.id)
       .subscribe(() => {
         this.getAccountReport();
         this.infoService.openFeedback(
@@ -77,7 +79,7 @@ export class AccountComponent implements OnInit {
   openDeleteConfirmation(content) {
     this.modalService.open(content).result.then(
       () => {
-        this.deleteAccountTransations();
+        this.deleteAccountTransactions();
       },
       () => {}
     );

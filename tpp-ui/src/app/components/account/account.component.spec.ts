@@ -12,8 +12,7 @@ import { AccountComponent } from './account.component';
 import { ConvertBalancePipe } from '../../pipes/convertBalance.pipe';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TppService } from '../../services/tpp.service';
-import { AccountReport } from '../../models/account-report';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 
 describe('AccountComponent', () => {
@@ -87,10 +86,10 @@ describe('AccountComponent', () => {
                 scaWeight: 4,
             }]
         };
-        const deleteSpy = spyOn(tppService, 'deleteAccountTransations').and.returnValue(of({id: component.accountReport.details.id}));;
+        const deleteSpy = spyOn(tppService, 'deleteAccountTransactions').and.returnValue(of({id: component.accountReport.details.id}));;
         const infoServiceOpenFeedbackSpy = spyOn(infoService, 'openFeedback');
 
-        component.deleteAccountTransations();
+        component.deleteAccountTransactions();
         expect(deleteSpy).toHaveBeenCalledTimes(1);
         expect(infoServiceOpenFeedbackSpy).toHaveBeenCalledWith(`Transactions of ${component.accountReport.details.iban} successfully deleted`, {
             severity: 'info',
