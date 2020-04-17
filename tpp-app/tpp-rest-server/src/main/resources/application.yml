@@ -28,8 +28,6 @@ spring:
   devtools:
     remote:
       secret: fractal
-  jpa:
-    open-in-view: false
 
 ledgers.url: http://localhost:8088
 
