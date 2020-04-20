@@ -159,7 +159,8 @@ describe('AccountListComponent', () => {
         linkedAccounts: '',
         balances: []
     } as Account
-    component.goToDepositCash(mockAccount);
+    const result = component.goToDepositCash(mockAccount);
+    expect(result).toBe(false);
     });
 
 });
