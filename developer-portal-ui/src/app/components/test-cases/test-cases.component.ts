@@ -15,6 +15,7 @@ export class TestCasesComponent implements OnInit {
   redirectFlag = false;
   embeddedFlag = false;
   accountFlag = false;
+  fundsConfirmationFlag = false;
   redirectSupported = true;
   embeddedSupported = true;
 
@@ -35,7 +36,7 @@ export class TestCasesComponent implements OnInit {
   }
 
   collapseThis(collapseId: string): void {
-    if (collapseId === 'redirect' || collapseId === 'embedded' || collapseId === 'account') {
+    if (collapseId === 'redirect' || collapseId === 'embedded' || collapseId === 'account' || collapseId === 'funds-confirmation') {
       const collapsibleItemContent = document.getElementById(`${collapseId}-content`);
 
       switch (collapseId) {
@@ -47,6 +48,9 @@ export class TestCasesComponent implements OnInit {
           break;
         case 'account':
           this.accountFlag = !this.accountFlag;
+          break;
+        case 'funds-confirmation':
+          this.fundsConfirmationFlag = !this.fundsConfirmationFlag;
           break;
       }
 

@@ -37,6 +37,7 @@ import { PopUpComponent } from './components/play-with-data/pop-up/pop-up.compon
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserModule } from '@angular/platform-browser';
 import { CertificateService } from '../../services/certificate.service';
+import { FundsConfirmationComponent } from './components/api-endpoints/funds-confirmation/funds-confirmation.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { CertificateService } from '../../services/certificate.service';
     PlayWthDataComponent,
     PrettyJsonPipe,
     PopUpComponent,
+    FundsConfirmationComponent,
   ],
   imports: [
     CommonModule,

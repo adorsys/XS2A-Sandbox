@@ -1,0 +1,12 @@
+{
+  "cardNumber": "string",
+  "account": {
+    "iban": "YOUR_USER_IBAN",
+    "currency": "EUR"
+  },
+  "payee": "string",
+  "instructedAmount": {
+    "currency": "EUR",
+    "amount": "123"
+  }
+}
