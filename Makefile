@@ -82,7 +82,7 @@ lint-certificate-generator:
 	docker run --rm -i hadolint/hadolint < certificate-generator/Dockerfile
 
 lint-docker-compose:
-	docker-compose -f docker-compose.yml -f docker-compose-build-template.yml -f docker-compose-no-certificate-generator.yml -f docker-compose-xs2a-embedded.yml config  -q
+	docker-compose -f docker-compose.yml config  -q
 	mvn validate
 	yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" bank-profile/*.yml
 
