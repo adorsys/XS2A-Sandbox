@@ -1,29 +1,26 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
+import { EVENT_VALUE } from '../components/common/constant/constants';
 
-declare let gtag: Function;
+declare let gtag;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GoogleAnalyticsService {
-
   enabled = false;
 
-  constructor() {
+  constructor() {}
+
+  sendSocialMediaClicks(social: any) {
+    this.eventEmitter(social, 'redirect_to_social_media', 'click', social, EVENT_VALUE);
   }
 
-  public eventEmitter(
-    eventName: string,
-    eventCategory: string,
-    eventAction: string,
-    eventLabel: string = null,
-    eventValue: number = null) {
+  eventEmitter(eventName: string, eventCategory: string, eventAction: string, eventLabel: string = null, eventValue: number = null) {
     gtag('event', eventName, {
-      eventCategory: eventCategory,
-      eventLabel: eventLabel,
-      eventAction: eventAction,
-      eventValue: eventValue
-    })
+      eventCategory,
+      eventLabel,
+      eventAction,
+      eventValue,
+    });
   }
-
 }

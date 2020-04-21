@@ -9,18 +9,20 @@ import de.adorsys.ledgers.middleware.api.domain.sca.SCAConsentResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCALoginResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCAPaymentResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCAResponseTO;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.internal.util.reflection.Whitebox;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.internal.util.reflection.FieldSetter;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@RunWith(MockitoJUnitRunner.class)
-public class TokenStorageServiceImplTests {
+@ExtendWith(MockitoExtension.class)
+class TokenStorageServiceImplTests {
     private static final String SCA_ID = "sca id";
     private static final String CONSENT_ID = "consent id";
     private final ObjectMapper STATIC_MAPPER = new ObjectMapper().findAndRegisterModules().registerModule(new JavaTimeModule());
@@ -29,55 +31,89 @@ public class TokenStorageServiceImplTests {
     private TokenStorageServiceImpl service;
 
     @Test
-    public void fromBytes_login() throws IOException {
-        Whitebox.setInternalState(service, "mapper", STATIC_MAPPER);
+    void fromBytes_login() throws IOException, NoSuchFieldException {
+        // Given
+        FieldSetter.setField(service, service.getClass().getDeclaredField("mapper"), STATIC_MAPPER);
+
+        // When
         SCAResponseTO result = service.fromBytes(getBytes(getLoginResponse()));
-        assertThat(result).isEqualToComparingFieldByFieldRecursively(getLoginResponse());
+
+        // Then
+        assertEquals(getLoginResponse(), result);
     }
 
     @Test
-    public void fromBytes_consent() throws IOException {
-        Whitebox.setInternalState(service, "mapper", STATIC_MAPPER);
+    void fromBytes_consent() throws IOException, NoSuchFieldException {
+        // Given
+        FieldSetter.setField(service, service.getClass().getDeclaredField("mapper"), STATIC_MAPPER);
+
+        // When
         SCAResponseTO result = service.fromBytes(getBytes(getConsentResponse()));
-        assertThat(result).isEqualToComparingFieldByFieldRecursively(getConsentResponse());
+
+        // Then
+        assertEquals(getConsentResponse(), result);
     }
 
     @Test
-    public void fromBytes_payment() throws IOException {
-        Whitebox.setInternalState(service, "mapper", STATIC_MAPPER);
+    void fromBytes_payment() throws IOException, NoSuchFieldException {
+        // Given
+        FieldSetter.setField(service, service.getClass().getDeclaredField("mapper"), STATIC_MAPPER);
+
+        // When
         SCAResponseTO result = service.fromBytes(getBytes(getPaymentResponse()));
-        assertThat(result).isEqualToComparingFieldByFieldRecursively(getPaymentResponse());
-    }
 
-    @Test(expected = IOException.class)
-    public void fromBytes_unknown_type() throws IOException {
-        Whitebox.setInternalState(service, "mapper", STATIC_MAPPER);
-        SCAResponseTO result = service.fromBytes(new byte[]{});
+        // Then
+        assertEquals(getPaymentResponse(), result);
     }
 
     @Test
-    public void fromBytes_bytes_are_null() throws IOException {
+    void fromBytes_unknown_type() throws NoSuchFieldException {
+        // Given
+        FieldSetter.setField(service, service.getClass().getDeclaredField("mapper"), STATIC_MAPPER);
+
+        // When
+        assertThrows(IOException.class, () -> service.fromBytes(new byte[]{}));
+    }
+
+    @Test
+    void fromBytes_bytes_are_null() throws IOException {
+        // When
         SCAResponseTO result = service.fromBytes(null);
+
+        // When
         assertThat(result).isNull();
     }
 
     @Test
-    public void toBytes() throws IOException {
-        Whitebox.setInternalState(service, "mapper", STATIC_MAPPER);
+    void toBytes() throws IOException, NoSuchFieldException {
+        // Given
+        FieldSetter.setField(service, service.getClass().getDeclaredField("mapper"), STATIC_MAPPER);
+
+        // When
         byte[] result = service.toBytes(getLoginResponse());
+
+        // Then
         assertThat(result).isEqualTo(getBytes(getLoginResponse()));
     }
 
     @Test
-    public void fromBytes() throws IOException {
-        Whitebox.setInternalState(service, "mapper", STATIC_MAPPER);
+    void fromBytes() throws IOException, NoSuchFieldException {
+        // Given
+        FieldSetter.setField(service, service.getClass().getDeclaredField("mapper"), STATIC_MAPPER);
+
+        // When
         SCALoginResponseTO result = service.fromBytes(getBytes(getLoginResponse()), SCALoginResponseTO.class);
-        assertThat(result).isEqualToComparingFieldByFieldRecursively(getLoginResponse());
+
+        // Then
+        assertEquals(getLoginResponse(), result);
     }
 
     @Test
-    public void toBase64String() throws IOException {
-        Whitebox.setInternalState(service, "mapper", STATIC_MAPPER);
+    void toBase64String() throws IOException, NoSuchFieldException {
+        // Given
+        FieldSetter.setField(service, service.getClass().getDeclaredField("mapper"), STATIC_MAPPER);
+
+        // When
         String result = service.toBase64String(getLoginResponse());
         assertThat(result).isEqualTo(getExpectedBase64());
     }

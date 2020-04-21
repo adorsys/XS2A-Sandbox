@@ -1,8 +1,8 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {AccinfBalanceGetComponent} from './accinf-balance-get.component';
-import {Component, Input, Pipe, PipeTransform} from '@angular/core';
-import {LineCommandComponent} from "../../../../common/line-command/line-command.component";
+import { AccinfBalanceGetComponent } from './accinf-balance-get.component';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { LineCommandComponent } from '../../../../common/line-command/line-command.component';
 
 describe('AccinfBalanceGetComponent', () => {
   let component: AccinfBalanceGetComponent;
@@ -10,7 +10,7 @@ describe('AccinfBalanceGetComponent', () => {
 
   @Component({
     selector: 'app-play-wth-data',
-    template: ''
+    template: '',
   })
   class MockPlayWithDataComponent {
     @Input() headers: object;
@@ -18,7 +18,7 @@ describe('AccinfBalanceGetComponent', () => {
     @Input() variablePathEnd: string;
   }
 
-  @Pipe({name: 'translate'})
+  @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -28,12 +28,7 @@ describe('AccinfBalanceGetComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AccinfBalanceGetComponent,
-        LineCommandComponent,
-        TranslatePipe,
-        MockPlayWithDataComponent
-      ]
+      declarations: [AccinfBalanceGetComponent, LineCommandComponent, TranslatePipe, MockPlayWithDataComponent],
     }).compileComponents();
   }));
 

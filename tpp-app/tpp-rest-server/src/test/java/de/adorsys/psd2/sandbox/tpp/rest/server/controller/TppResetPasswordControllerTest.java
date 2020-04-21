@@ -4,20 +4,19 @@ import de.adorsys.ledgers.middleware.client.rest.ResetPasswordRestClient;
 import de.adorsys.ledgers.security.ResetPassword;
 import de.adorsys.ledgers.security.SendCode;
 import de.adorsys.ledgers.security.UpdatePassword;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
-public class TppResetPasswordControllerTest {
+@ExtendWith(MockitoExtension.class)
+class TppResetPasswordControllerTest {
     private static final String LOGIN = "login";
     private static final String EMAIL = "email";
     private static final String CODE = "code";
@@ -30,28 +29,28 @@ public class TppResetPasswordControllerTest {
     private ResetPasswordRestClient resetPasswordRestClient;
 
     @Test
-    public void sendCode() {
-        //given
+    void sendCode() {
+        // Given
         when(resetPasswordRestClient.sendCode(any())).thenReturn(ResponseEntity.ok(getCode()));
 
-        //when
+        // When
         ResponseEntity<SendCode> response = tppResetPasswordController.sendCode(getResetPassword());
 
-        //then
-        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        // Then
+        assertTrue(response.getStatusCode().is2xxSuccessful());
         assertTrue(response.getBody().isSent());
     }
 
     @Test
-    public void updatePassword() {
-        //given
+    void updatePassword() {
+        // Given
         when(resetPasswordRestClient.updatePassword(any())).thenReturn(ResponseEntity.ok(getUpdatePassword()));
 
-        //when
+        // When
         ResponseEntity<UpdatePassword> response = tppResetPasswordController.updatePassword(getResetPassword());
 
-        //then
-        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        // Then
+        assertTrue(response.getStatusCode().is2xxSuccessful());
         assertTrue(response.getBody().isUpdated());
     }
 

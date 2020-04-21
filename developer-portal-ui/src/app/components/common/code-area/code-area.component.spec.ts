@@ -3,24 +3,27 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CodeAreaComponent } from './code-area.component';
 import { Pipe, PipeTransform } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import {DataService} from "../../../services/data.service";
+import { DataService } from '../../../services/data.service';
+import { JSON_SPACING } from '../constant/constants';
 
 describe('CodeAreaComponent', () => {
   let component: CodeAreaComponent;
   let fixture: ComponentFixture<CodeAreaComponent>;
 
+  const transformPipeValue = 3;
+
   @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
-      return tmp[3];
+      return tmp[transformPipeValue];
     }
   }
 
   @Pipe({ name: 'prettyJson' })
   class PrettyJsonPipe implements PipeTransform {
     transform(value) {
-      return JSON.stringify(value, null, 4);
+      return JSON.stringify(value, null, JSON_SPACING);
     }
   }
 
@@ -29,10 +32,7 @@ describe('CodeAreaComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CodeAreaComponent, TranslatePipe, PrettyJsonPipe],
-      providers: [
-        DataService,
-        { provide: ToastrService, useValue: ToastrServiceStub },
-      ],
+      providers: [DataService, { provide: ToastrService, useValue: ToastrServiceStub }],
     }).compileComponents();
   }));
 
@@ -73,21 +73,16 @@ describe('CodeAreaComponent', () => {
   });
 
   it('should collapse code area', () => {
-    let collapsedArea = document.getElementById('Collapse-test').style
-      .maxHeight;
+    let collapsedArea = document.getElementById('Collapse-test').style.maxHeight;
     component.collapseThis('Collapse-test');
 
-    expect(collapsedArea).not.toEqual(
-      document.getElementById('Collapse-test').style.maxHeight
-    );
+    expect(collapsedArea).not.toEqual(document.getElementById('Collapse-test').style.maxHeight);
     expect(component.shown).toBeTruthy();
 
     collapsedArea = document.getElementById('Collapse-test').style.maxHeight;
     component.collapseThis('Collapse-test');
 
-    expect(collapsedArea).not.toEqual(
-      document.getElementById('Collapse-test').style.maxHeight
-    );
+    expect(collapsedArea).not.toEqual(document.getElementById('Collapse-test').style.maxHeight);
     expect(component.shown).toBeFalsy();
   });
 });

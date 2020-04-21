@@ -1,8 +1,10 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
-import {catchError, map} from 'rxjs/operators';
-import {CustomizeService} from './customize.service';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { catchError, map } from 'rxjs/operators';
+import { CustomizeService } from './customize.service';
+import { SLICE_DATE_FROM_ISO_STRING } from '../components/common/constant/constants';
+import { Theme } from '../models/theme.model';
 
 @Injectable({
   providedIn: 'root',
@@ -26,29 +28,33 @@ export class JsonService {
     psuData: 'psuData',
     scaAuthenticationData: 'scaAuthenticationData',
     authenticationMethodId: 'authenticationMethodId',
+    fundsConfirmation: 'funds-confirmation',
   };
 
   private currency = 'EUR';
 
-  constructor(private http: HttpClient,
-              private customizeService: CustomizeService) {
+  constructor(private http: HttpClient, private customizeService: CustomizeService) {
     if (this.customizeService.currentTheme) {
-      this.customizeService.currentTheme.subscribe(theme => {
-        if (theme && theme.currency && theme.currency.length !== 0) {
-          this.currency = theme.currency;
+      this.customizeService.currentTheme.subscribe((theme: Theme) => {
+        if (
+          theme.pagesSettings &&
+          theme.pagesSettings.playWithDataSettings &&
+          theme.pagesSettings.playWithDataSettings.examplesCurrency &&
+          theme.pagesSettings.playWithDataSettings.examplesCurrency.length > 0
+        ) {
+          this.currency = theme.pagesSettings.playWithDataSettings.examplesCurrency;
         }
 
         this.customExamplesSource = `${this.customizeService.customContentFolder}/examples`;
         this.defaultExamplesSource = `${this.customizeService.defaultContentFolder}/examples`;
       });
     }
-
   }
 
   public getRawJsonData(url: string): Observable<any> {
     const path = '/jsons/' + url + '.json';
     return this.http.get(this.customExamplesSource + path).pipe(
-      map(response => {
+      map((response) => {
         return response;
       }),
       catchError(() => {
@@ -59,11 +65,8 @@ export class JsonService {
 
   public getPreparedJsonData(url: string, sepa?: boolean) {
     return this.getRawJsonData(url).pipe(
-      map(data => {
-        let json = this.updateCurrencyForJsonData(
-          JSON.stringify(data, null, '\t'),
-          sepa
-        );
+      map((data) => {
+        let json = this.updateCurrencyForJsonData(JSON.stringify(data, null, '\t'), sepa);
         json = this.updateRequestedExecutionDateForJsonData(json);
 
         return JSON.parse(this.updateValidUntilForJsonData(json));
@@ -81,7 +84,7 @@ export class JsonService {
   }
 
   private updateRequestedExecutionDateForJsonData(data: string) {
-    const today = new Date().toISOString().slice(0, 10);
+    const today = new Date().toISOString().slice(0, SLICE_DATE_FROM_ISO_STRING);
 
     // replaces all the values of "requestedExecutionDate" key word in formatted jsons
     const regex = /(requestedExecutionDate"\s*:\s*"\s*)(.+)(")/g;
@@ -96,61 +99,53 @@ export class JsonService {
     // replaces all the values of "validUntil" key word in formatted jsons
     const regex = /(validUntil"\s*:\s*"\s*)(.+)(")/g;
 
-    return data.replace(regex, 'validUntil": "' + nextMonth.toISOString().slice(0, 10) + '"');
+    return data.replace(regex, 'validUntil": "' + nextMonth.toISOString().slice(0, SLICE_DATE_FROM_ISO_STRING) + '"');
   }
 
   public getRawXmlData(url: string) {
     const path = '/xmls/' + url + '.xml';
-    return this.http
-      .get(this.customExamplesSource + path, {responseType: 'text'})
-      .pipe(
-        map(response => {
-          if (response.includes('<!DOCTYPE html>')) {
-            throw new Error(
-              'Custom source is not found and default html returned instead!'
-            );
-          } else {
-            return response;
-          }
-        }),
-        catchError(() => {
-          return this.http
-            .get(this.defaultExamplesSource + path, {
-              responseType: 'text',
+    return this.http.get(this.customExamplesSource + path, { responseType: 'text' }).pipe(
+      map((response) => {
+        if (response.includes('<!DOCTYPE html>')) {
+          throw new Error('Custom source is not found and default html returned instead!');
+        } else {
+          return response;
+        }
+      }),
+      catchError(() => {
+        return this.http
+          .get(this.defaultExamplesSource + path, {
+            responseType: 'text',
+          })
+          .pipe(
+            map((response) => {
+              if (response.includes('<!DOCTYPE html>')) {
+                throw new Error('Default source is not found and default html returned instead!');
+              } else {
+                return response;
+              }
+            }),
+            catchError(() => {
+              return '';
             })
-            .pipe(
-              map(response => {
-                if (response.includes('<!DOCTYPE html>')) {
-                  throw new Error(
-                    'Default source is not found and default html returned instead!'
-                  );
-                } else {
-                  return response;
-                }
-              }),
-              catchError(() => {
-                return '';
-              })
-            );
-        })
-      );
+          );
+      })
+    );
   }
 
   public getPreparedXmlData(url: string) {
     return this.getRawXmlData(url).pipe(
-      map(data => {
+      map((data) => {
         // replaces all the values of currency in xmls
         const regex = /(Ccy="\s*)(.+)(")/g;
 
-        return this.updateRequestExecutionDateForXml(
-          data.replace(regex, 'Ccy="' + this.currency + '"')
-        );
+        return this.updateRequestExecutionDateForXml(data.replace(regex, 'Ccy="' + this.currency + '"'));
       })
     );
   }
 
   private updateRequestExecutionDateForXml(data) {
-    const today = new Date().toISOString().slice(0, 10);
+    const today = new Date().toISOString().slice(0, SLICE_DATE_FROM_ISO_STRING);
 
     // replaces all the values of "ReqdExctnDt" key word in xmls
     const regex = /(ReqdExctnDt>\s*)(.+)(<\/)/g;

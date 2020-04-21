@@ -1,11 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { HttpLoaderFactory, LanguageService } from './language.service';
-import {
-  TranslateLoader,
-  TranslateModule,
-  TranslateService,
-} from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
@@ -35,7 +31,7 @@ describe('LanguageService', () => {
     expect(service).toBeTruthy();
   });
 
-  it("default translation should be 'en'", () => {
+  it('default translation should be en', () => {
     service.initializeTranslation();
     expect(translate.getDefaultLang()).toEqual('en');
     expect(translate.currentLang).toEqual('en');

@@ -1,15 +1,15 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {GettingStartedComponent} from './getting-started.component';
-import {DataService} from '../../services/data.service';
-import {ToastrService} from 'ngx-toastr';
-import {RouterTestingModule} from '@angular/router/testing';
-import {NgxImageZoomModule} from 'ngx-image-zoom';
-import {MarkdownModule} from "ngx-markdown";
-import {HttpClient, HttpClientModule} from "@angular/common/http";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {TranslateLoader, TranslateModule, TranslateService} from "@ngx-translate/core";
-import {HttpLoaderFactory, LanguageService} from "../../services/language.service";
+import { GettingStartedComponent } from './getting-started.component';
+import { DataService } from '../../services/data.service';
+import { ToastrService } from 'ngx-toastr';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NgxImageZoomModule } from 'ngx-image-zoom';
+import { MarkdownModule } from 'ngx-markdown';
+import { HttpClient } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { HttpLoaderFactory, LanguageService } from '../../services/language.service';
 
 describe('GettingStartedComponent', () => {
   let component: GettingStartedComponent;
@@ -29,17 +29,11 @@ describe('GettingStartedComponent', () => {
             provide: TranslateLoader,
             useFactory: HttpLoaderFactory,
             deps: [HttpClient],
-          }
-        })],
-      declarations: [
-        GettingStartedComponent
+          },
+        }),
       ],
-      providers: [
-        LanguageService,
-        TranslateService,
-        DataService,
-        {provide: ToastrService, useValue: ToastrServiceStub},
-      ],
+      declarations: [GettingStartedComponent],
+      providers: [LanguageService, TranslateService, DataService, { provide: ToastrService, useValue: ToastrServiceStub }],
     }).compileComponents();
   }));
 
@@ -52,5 +46,4 @@ describe('GettingStartedComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
 });

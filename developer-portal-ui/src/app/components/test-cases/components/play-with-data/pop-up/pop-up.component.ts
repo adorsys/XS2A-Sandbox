@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {NgbModal, NgbModalConfig} from '@ng-bootstrap/ng-bootstrap';
-import {CertificateService} from '../../../../../services/certificate.service';
-import {DataService} from '../../../../../services/data.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { CertificateService } from '../../../../../services/certificate.service';
+import { DataService } from '../../../../../services/data.service';
 
 @Component({
   selector: 'app-pop-up',
@@ -12,7 +12,7 @@ import {DataService} from '../../../../../services/data.service';
 export class PopUpComponent implements OnInit {
   @Input() certificate;
   @Input() default;
-  @Output() onEditCertificate = new EventEmitter();
+  @Output() editCertificate = new EventEmitter();
 
   constructor(
     config: NgbModalConfig,
@@ -29,8 +29,10 @@ export class PopUpComponent implements OnInit {
   }
 
   restoreCertificate() {
-    this.certificateService.getQwacCertificate().toPromise()
-      .then(data => {
+    this.certificateService
+      .getQwacCertificate()
+      .toPromise()
+      .then((data) => {
         this.certificateService.storeCertificate(data);
         this.certificateService.setDefault(false);
         this.certificate = data;
@@ -39,14 +41,10 @@ export class PopUpComponent implements OnInit {
   }
 
   saveCertificate() {
-    this.onEditCertificate.emit(this.certificate);
+    this.editCertificate.emit(this.certificate);
     this.certificateService.storeCertificate(this.certificate);
     this.certificateService.setDefault(false);
-    this.dataService.showToast(
-      'Certificate edited and saved',
-      'Success!',
-      'success'
-    );
+    this.dataService.showToast('Certificate edited and saved', 'Success!', 'success');
   }
 
   clearCertificate() {
@@ -55,6 +53,5 @@ export class PopUpComponent implements OnInit {
     this.dataService.showToast('Certificate deleted', 'Success!', 'success');
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 }

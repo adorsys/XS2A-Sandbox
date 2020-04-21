@@ -6,15 +6,13 @@ import { JsonService } from '../../../../../services/json.service';
 import { of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import {
-  TranslateLoader,
-  TranslateModule,
-} from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../../../../../services/language.service';
 import { DataService } from '../../../../../services/data.service';
 import { ToastrService } from 'ngx-toastr';
-import {LineCommandComponent} from "../../../../common/line-command/line-command.component";
-import {CodeAreaComponent} from "../../../../common/code-area/code-area.component";
+import { LineCommandComponent } from '../../../../common/line-command/line-command.component';
+import { CodeAreaComponent } from '../../../../common/code-area/code-area.component';
+import { JSON_SPACING } from '../../../../common/constant/constants';
 
 describe('EmbConsentPutComponent', () => {
   let component: EmbConsentPutComponent;
@@ -44,7 +42,7 @@ describe('EmbConsentPutComponent', () => {
   @Pipe({ name: 'prettyJson' })
   class PrettyJsonPipe implements PipeTransform {
     transform(value) {
-      return JSON.stringify(value, null, 4);
+      return JSON.stringify(value, null, JSON_SPACING);
     }
   }
 
@@ -70,10 +68,7 @@ describe('EmbConsentPutComponent', () => {
           },
         }),
       ],
-      providers: [
-        DataService,
-        { provide: ToastrService, useValue: ToastrServiceStub },
-      ],
+      providers: [DataService, { provide: ToastrService, useValue: ToastrServiceStub }],
     }).compileComponents();
   }));
 

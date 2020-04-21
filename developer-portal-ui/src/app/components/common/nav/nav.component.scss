@@ -33,6 +33,7 @@
     color: var(--headerFontColor);
     background-color: var(--headerBG);
     border-top: var(--headerBorderTop);
+    box-shadow: var(--headerBoxShadowBottom);
     @media screen and (max-width: 1080px) {
       width: 100%;
     }
@@ -233,9 +234,14 @@
 
   .logo {
     flex-shrink: 0;
-    max-height: 75%;
-    max-width: 25%;
+    max-height: 55%;
+    max-width: 21%;
     cursor: pointer;
+  }
+
+  .empty-logo {
+    width: 10px;
+    height: 10px;
   }
 }
 

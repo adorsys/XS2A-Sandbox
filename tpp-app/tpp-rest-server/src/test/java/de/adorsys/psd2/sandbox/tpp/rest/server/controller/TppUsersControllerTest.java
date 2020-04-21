@@ -13,22 +13,22 @@ import de.adorsys.psd2.sandbox.tpp.rest.api.domain.User;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.UserRole;
 import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
 import de.adorsys.psd2.sandbox.tpp.rest.server.mapper.UserMapper;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Collections;
 import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class TppUsersControllerTest {
     private static final UserRoleTO USER_ROLE = UserRoleTO.CUSTOMER;
     private static final String USER_ID = "USER_ID";
@@ -46,85 +46,85 @@ public class TppUsersControllerTest {
     private UserMgmtRestClient userMgmtRestClient;
 
     @Test
-    public void createUser() {
-        //given
+    void createUser() {
+        // Given
         when(userMapper.toUserTO(any())).thenReturn(getUserTO(BRANCH));
         when(userMgmtStaffRestClient.createUser(any())).thenReturn(ResponseEntity.ok(getUserTO(BRANCH)));
 
-        //when
+        // When
         ResponseEntity<UserTO> user = tppUsersController.createUser(getUser(USER_ID));
 
-        //then
-        assertThat(user.getStatusCode().is2xxSuccessful()).isTrue();
+        // Then
+        assertTrue(user.getStatusCode().is2xxSuccessful());
         assertThat(Objects.requireNonNull(user.getBody()).getId()).isEqualTo(getUserTO(BRANCH).getId());
     }
 
     @Test
-    public void getAllUsers() {
-        //given
+    void getAllUsers() {
+        // Given
         when(userMgmtStaffRestClient.getBranchUsersByRoles(Collections.singletonList(USER_ROLE), LOGIN, 0, 25)).thenReturn(ResponseEntity.ok(getCustomPageImplUserTO()));
 
-        //when
+        // When
         ResponseEntity<CustomPageImpl<UserTO>> user = tppUsersController.getAllUsers(LOGIN, 0, 25);
 
-        //then
-        assertThat(user.getStatusCode().is2xxSuccessful()).isTrue();
+        // Then
+        assertTrue(user.getStatusCode().is2xxSuccessful());
         assertEquals(user.getBody(), getCustomPageImplUserTO());
     }
 
     @Test
-    public void updateUser() {
-        //given
+    void updateUser() {
+        // Given
         when(userMapper.toUserTO(any())).thenReturn(getUserTO(BRANCH));
         when(userMgmtRestClient.getUser()).thenReturn(ResponseEntity.ok(getUserTO(BRANCH)));
         when(userMgmtStaffRestClient.modifyUser(any(), any())).thenReturn(ResponseEntity.ok(getUserTO(BRANCH)));
 
-        //when
+        // When
         ResponseEntity<Void> user = tppUsersController.updateUser(getUser(USER_ID));
 
-        //then
-        assertThat(user.getStatusCode().is2xxSuccessful()).isTrue();
+        // Then
+        assertTrue(user.getStatusCode().is2xxSuccessful());
     }
 
-    @Test(expected = TppException.class)
-    public void updateUser_userIdNull() {
-        //when
-        tppUsersController.updateUser(getUser(null));
+    @Test
+    void updateUser_userIdNull() {
+        // Then
+        assertThrows(TppException.class, () -> tppUsersController.updateUser(getUser(null)));
     }
 
-    @Test(expected = TppException.class)
-    public void updateUser_tppCodedNull() {
-        //given
+    @Test
+    void updateUser_tppCodedNull() {
+        // Given
         when(userMgmtRestClient.getUser()).thenReturn(ResponseEntity.ok(getUserTO(null)));
 
-        //when
-        tppUsersController.updateUser(getUser(USER_ID));
+        // Then
+        assertThrows(TppException.class, () -> tppUsersController.updateUser(getUser(USER_ID)));
     }
 
     @Test
-    public void getUser() {
-        //given
+    void getUser() {
+        // Given
         when(userMgmtRestClient.getUserById(any())).thenReturn(ResponseEntity.ok(getUserTO(BRANCH)));
 
-        //when
+        // When
         ResponseEntity<UserTO> user = tppUsersController.getUser(USER_ID);
 
-        //then
-        assertThat(user.getStatusCode().is2xxSuccessful()).isTrue();
-        assertThat(user.getBody().getId()).isEqualTo(USER_ID);
+        // Then
+        assertTrue(user.getStatusCode().is2xxSuccessful());
+        assertEquals(USER_ID, user.getBody().getId());
     }
 
     @Test
-    public void getSelf() {
-        //given
+    void getSelf() {
+        // Given
         when(userMgmtRestClient.getUser()).thenReturn(ResponseEntity.ok(getUserTO(BRANCH)));
 
-        //when
+        // When
         ResponseEntity<UserTO> user = tppUsersController.getSelf();
 
-        //then
-        assertThat(user.getStatusCode().is2xxSuccessful()).isTrue();
-        assertThat(user.getBody().getId()).isEqualTo(USER_ID);
+        // Then
+        assertTrue(user.getStatusCode().is2xxSuccessful());
+        assertEquals(USER_ID, user.getBody().getId());
     }
 
     private UserTO getUserTO(String branch) {

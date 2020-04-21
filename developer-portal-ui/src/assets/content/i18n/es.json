@@ -471,7 +471,17 @@
         "PART_2": "para obtener la transacción de la cuenta con la identificación actual.",
         "PART_3": "Ponga en ",
         "PART_4": " de consentimiento de la cuenta que quiere obtener (puede ver los usuarios y su información en TPP-UI)."
+      },
+      "FUNDS_CONFIRMATION": {
+        "TH": "Confirmación de fondos",
+        "TH2": "Confirmación de solicitud de fondos",
+        "PART_1": "1. Pruebe el punto final POST",
+        "PART_2": "para verificar si los fondos están disponibles para el usuario elegido. Rellene los campos de encabezado con los siguientes valores:",
+        "PART_3": "2. Inserte en el cuerpo de la solicitud el siguiente json:",
+        "PART_4": "3. Cambie marcador de posición",
+        "PART_5": "al IBAN del usuario elegido. Establezca la moneda del usuario en el campo \" currency\"."
       }
+
     }
   },
   "CONTACT": {

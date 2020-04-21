@@ -16,8 +16,8 @@ customers know and can handle.
 +
 Right now we use:
 
-* Java 8 / Spring Boot 2
-* Angular 7
+* Java 11 / Spring Boot 2
+* Angular 9
 * PostgreSQL
 * Docker
 

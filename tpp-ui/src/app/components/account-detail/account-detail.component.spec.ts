@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 import { InfoModule } from '../../commons/info/info.module';
 import { InfoService } from '../../commons/info/info.service';
@@ -11,12 +11,14 @@ import { AccountService } from '../../services/account.service';
 import { AccountComponent } from '../account/account.component';
 import { AccountDetailComponent } from './account-detail.component';
 import { ConvertBalancePipe } from 'src/app/pipes/convertBalance.pipe';
+import {TestDataGenerationService} from "../../services/test.data.generation.service";
 
 describe('AccountDetailComponent', () => {
     let component: AccountDetailComponent;
     let fixture: ComponentFixture<AccountDetailComponent>;
     let accountService: AccountService;
-
+    let testDataGenerationService: TestDataGenerationService;
+    let infoService: InfoService;
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
@@ -27,7 +29,7 @@ describe('AccountDetailComponent', () => {
                 FormsModule,
             ],
             declarations: [ AccountDetailComponent, AccountComponent, ConvertBalancePipe ],
-            providers: [AccountService, InfoService]
+            providers: [AccountService, InfoService, TestDataGenerationService]
         })
             .compileComponents();
     }));
@@ -37,6 +39,8 @@ describe('AccountDetailComponent', () => {
         component = fixture.componentInstance;
         fixture.detectChanges();
         accountService = TestBed.get(AccountService);
+        testDataGenerationService = TestBed.get(TestDataGenerationService);
+        infoService = TestBed.get(InfoService);
     });
 
     it('should create', () => {
@@ -78,4 +82,26 @@ describe('AccountDetailComponent', () => {
         expect(component.submitted).toBeTruthy();
         expect(component.errorMessage).toEqual(null);
     }) ;
+
+    it('should initiale the currencies List', () => {
+        let data  = {
+        }
+        let currenciesSpy = spyOn(accountService, 'getCurrencies').and.returnValue(of({currencies: data}));
+        component.initializeCurrenciesList();
+        expect(currenciesSpy).toHaveBeenCalled();
+    });
+
+    it('should generate Iban',() => {
+        let data  = {
+        }
+        let infoSpy = spyOn(infoService, 'openFeedback');
+        let generateSpy = spyOn(testDataGenerationService, 'generateIban').and.returnValue(of({data: infoSpy}));
+        component.generateIban();
+        expect(infoSpy).toHaveBeenCalledWith('IBAN has been successfully generated');
+    });
+
+    it('should initialize a currencies List', () => {
+        const currenciesSpy = spyOn(accountService, 'getCurrencies').and.returnValue(throwError(''));
+        component.initializeCurrenciesList();
+    });
 });

@@ -30,6 +30,7 @@ import { AccinfBalanceGetComponent } from './components/api-endpoints/accinf-bal
 import { AccinfTransactionsGetComponent } from './components/api-endpoints/accinf-transactions-get/accinf-transactions-get.component';
 import { AccinfTransactionGetComponent } from './components/api-endpoints/accinf-transaction-get/accinf-transaction-get.component';
 import { RdctPaymentStatusGetComponent } from './components/api-endpoints/rdct-payment-status-get/rdct-payment-status-get.component';
+import { FundsConfirmationComponent } from './components/api-endpoints/funds-confirmation/funds-confirmation.component';
 
 const routes: Routes = [
   {
@@ -151,6 +152,10 @@ const routes: Routes = [
       {
         path: 'account-information-transaction-get',
         component: AccinfTransactionGetComponent,
+      },
+      {
+        path: 'funds-confirmation',
+        component: FundsConfirmationComponent,
       },
     ],
   },

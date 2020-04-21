@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {LanguageService} from '../../../../services/language.service';
-import {CustomizeService} from '../../../../services/customize.service';
-import {CertificateService} from '../../../../services/certificate.service';
-import {DataService} from '../../../../services/data.service';
+import { Component, OnInit } from '@angular/core';
+import { LanguageService } from '../../../../services/language.service';
+import { CustomizeService } from '../../../../services/customize.service';
+import { CertificateService } from '../../../../services/certificate.service';
+import { DataService } from '../../../../services/data.service';
 
 @Component({
   selector: 'app-test-values',
@@ -18,14 +18,11 @@ export class TestValuesComponent implements OnInit {
     private customizeService: CustomizeService,
     private certificateService: CertificateService,
     private dataService: DataService
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.languageService.currentLanguage.subscribe(data => {
-      this.pathToTestValues = `${
-        this.customizeService.currentLanguageFolder
-        }/${data}/test-cases/predefinedTestValues.md`;
+    this.languageService.currentLanguage.subscribe((data) => {
+      this.pathToTestValues = `${this.customizeService.currentLanguageFolder}/${data}/test-cases/predefinedTestValues.md`;
     });
 
     this.certificate = this.certificateService.getStoredCertificate();
@@ -46,8 +43,10 @@ export class TestValuesComponent implements OnInit {
   }
 
   default() {
-    this.certificateService.getQwacCertificate().toPromise()
-      .then(data => {
+    this.certificateService
+      .getQwacCertificate()
+      .toPromise()
+      .then((data) => {
         this.certificateService.storeCertificate(data);
         this.certificateService.setDefault(false);
         this.certificate = data;

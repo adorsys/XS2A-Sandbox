@@ -6,12 +6,12 @@ import de.adorsys.psd2.sandbox.tpp.cms.api.domain.AisConsent;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.UserTransaction;
 import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.DataPayload;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.internal.util.reflection.Whitebox;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.internal.util.reflection.FieldSetter;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -23,9 +23,10 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
-@RunWith(MockitoJUnitRunner.class)
-public class ParseServiceTest {
+@ExtendWith(MockitoExtension.class)
+class ParseServiceTest {
     @InjectMocks
     private ParseService parseService;
 
@@ -35,74 +36,79 @@ public class ParseServiceTest {
     private ResourceLoader resourceLoader = new DefaultResourceLoader();
 
     @Test
-    public void getDataFromFile_Consents() throws IOException {
-        //given
+    void getDataFromFile_Consents() throws IOException {
+        // Given
         MultipartFile multipartFile = resolveMultipartFile("consents_template.yml");
 
-        //when
+        // When
         Optional<List<AisConsent>> data = parseService.getDataFromFile(multipartFile, new TypeReference<>() {
         });
 
-        //then
-        assertThat(data.isPresent()).isTrue();
+        // Then
+        assertTrue(data.isPresent());
         data.get().forEach(this::assertNoNullFields);
     }
 
     @Test
-    public void getDataFromFile_Consents_fail() throws IOException {
-        //given
+    void getDataFromFile_Consents_fail() throws IOException {
+        // Given
         MultipartFile multipartFile = resolveMultipartFile("consents_template_error.yml");
 
-        //when
+        // When
         Optional<List<AisConsent>> data = parseService.getDataFromFile(multipartFile, new TypeReference<>() {
         });
 
-        //then
-        assertThat(data).isEmpty();
+        // Then
+        assertTrue(data.isEmpty());
     }
 
     @Test
-    public void getDefaultData() {
-        Whitebox.setInternalState(parseService, "resourceLoader", resourceLoader);
-        //when
+    void getDefaultData() throws NoSuchFieldException {
+        // Given
+        FieldSetter.setField(parseService, parseService.getClass().getDeclaredField("resourceLoader"), resourceLoader);
+
+        // When
         Optional<DataPayload> data = parseService.getDefaultData();
 
-        //then
-        assertThat(data.isPresent()).isTrue();
+        // Then
+        assertTrue(data.isPresent());
     }
 
     @Test
-    public void generateFileByPayload() {
+    void generateFileByPayload() {
+        // When
         byte[] result = parseService.generateFileByPayload(new DataPayload());
+
+        // Then
         assertThat(result).isNotEmpty();
     }
 
     @Test
-    public void convertMultiPartToFile() throws IOException {
-        //when
+    void convertMultiPartToFile() throws IOException {
+        // When
         List<UserTransaction> transactions = parseService.convertFileToTargetObject(resolveMultipartFile("transactions_template.csv"), UserTransaction.class);
 
-        //then
+        // Then
         assertThat(transactions).isNotEmpty();
-        assertThat(transactions.get(0)).isEqualToComparingFieldByField(buildSingleUserTransaction());
-    }
-
-    @Test(expected = TppException.class)
-    public void convertMultiPartToFile_fileNull() {
-        //when
-        parseService.convertFileToTargetObject(null, UserTransaction.class);
+        assertEquals(buildSingleUserTransaction(), transactions.get(0));
     }
 
     @Test
-    public void getDataFromFile_DataPayload() throws IOException {
-        //given
+    void convertMultiPartToFile_fileNull() {
+        // Then
+        assertThrows(TppException.class, () -> parseService.convertFileToTargetObject(null, UserTransaction.class));
+    }
+
+    @Test
+    void getDataFromFile_DataPayload() throws IOException {
+        // Given
         MultipartFile multipartFile = resolveMultipartFile("data_payload_template.yml");
 
-        //when
-        Optional<DataPayload> data = parseService.getDataFromFile(multipartFile, new TypeReference<DataPayload>() {
+        // When
+        Optional<DataPayload> data = parseService.getDataFromFile(multipartFile, new TypeReference<>() {
         });
 
-        //then
+        // Then
         validateDataPayload(data);
     }
 

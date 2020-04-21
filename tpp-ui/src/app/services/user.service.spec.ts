@@ -32,7 +32,7 @@ describe('UserService', () => {
         expect(service).toBeTruthy();
     }));
 
-    xit('should return expected list of users (HttpClient called once)', () => {
+    it('should return expected list of users (HttpClient called once)', () => {
         const mockUsers = [
             {
                 accountAccesses: [
@@ -65,12 +65,11 @@ describe('UserService', () => {
         expect(req.cancelled).toBeFalsy();
         expect(req.request.responseType).toEqual('json');
         expect(req.request.method).toEqual('GET');
-
-        req.flush({users: mockUsers, totalElements: mockUsers.length});
+        req.flush({content: mockUsers, totalElements: mockUsers.length});
     });
 
     it('should get a User', () => {
-        userService.getUser('J4tdJUEPQhglZAFgvo9aJc').subscribe((data: User) => {
+        userService.getUser('J4tdJUEPQhglZAFgvo9aJc').subscribe((data: any) => {
             expect(data.pin).toBe('$2a$10$hi7Cd4j9gd/ZBw7w.kbNVOzDNUgIEXUtG5ZJYvjjTGLjUwOR0qibu');});
         const req = httpMock.expectOne(url + '/J4tdJUEPQhglZAFgvo9aJc');
         expect(req.request.method).toBe('GET');
@@ -100,7 +99,7 @@ describe('UserService', () => {
                 valid: false,
             }]
         }
-        userService.createUser(mockUser).subscribe((data: User) => {
+        userService.createUser(mockUser).subscribe((data: any) => {
             expect(data.login).toBe('test');
         });
         const req = httpMock.expectOne(url);
@@ -131,7 +130,7 @@ describe('UserService', () => {
                 valid: false,
             }]
         }
-        userService.updateUserDetails(mockUser).subscribe((data: User) => {
+        userService.updateUserDetails(mockUser).subscribe((data: any) => {
             expect(data.login).toBe('test');
         });
         const req = httpMock.expectOne(url);

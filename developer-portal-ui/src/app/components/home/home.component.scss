@@ -1,6 +1,10 @@
 div ::ng-deep {
   /*=== Hero ===*/
 
+  body {
+    margin: var(--bodyPadding);
+  }
+
   .hero {
     background: var(--heroBG);
     padding: 128px 64px 64px 64px;

@@ -10,11 +10,11 @@ import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.AccountBalance;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.DataPayload;
 import de.adorsys.psd2.sandbox.tpp.rest.server.service.*;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -25,13 +25,12 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
-public class TppDataUploaderControllerTest {
+@ExtendWith(MockitoExtension.class)
+class TppDataUploaderControllerTest {
     private static final String TPP_ID = "DE_12345678";
     private static final String USER_IBAN = "DE89000000115555555555";
     private static final Currency CURRENCY = Currency.getInstance("EUR");
@@ -57,75 +56,75 @@ public class TppDataUploaderControllerTest {
     private static final ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
 
     @Test
-    public void generateData() throws JsonProcessingException {
-        //given
+    void generateData() throws JsonProcessingException {
+        // Given
         when(generationService.generate(false, CURRENCY)).thenReturn(getBytes());
 
-        //when
+        // When
         ResponseEntity<Resource> response = uploaderController.generateData(false, "EUR");
 
-        //then
-        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        // Then
+        assertTrue(response.getStatusCode().is2xxSuccessful());
     }
 
     @Test
-    public void generateIban() {
-        //given
+    void generateIban() {
+        // Given
         when(ibanGenerationService.generateNextIban()).thenReturn(USER_IBAN);
 
-        //when
+        // When
         ResponseEntity<String> response = uploaderController.generateIban();
 
-        //then
-        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        // Then
+        assertTrue(response.getStatusCode().is2xxSuccessful());
         assertFalse(response.getBody().isEmpty());
     }
 
     @Test
-    public void uploadData() throws IOException {
-        //given
+    void uploadData() throws IOException {
+        // Given
         when(parseService.getDataFromFile(any(), any())).thenReturn(Optional.of(getPayload()));
 
-        //when
+        // When
         ResponseEntity<String> response = uploaderController.uploadData(resolveMultipartFile("transactions_template.csv"));
 
-        //then
-        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
-    }
-
-    @Test(expected = TppException.class)
-    public void uploadData_couldNotParseData() throws IOException {
-        //given
-        when(parseService.getDataFromFile(any(), any())).thenReturn(Optional.empty());
-
-        //when
-        uploaderController.uploadData(resolveMultipartFile("transactions_template.csv"));
+        // Then
+        assertTrue(response.getStatusCode().is2xxSuccessful());
     }
 
     @Test
-    public void uploadTransactions() throws IOException {
-        //given
+    void uploadData_couldNotParseData() {
+        // Given
+        when(parseService.getDataFromFile(any(), any())).thenReturn(Optional.empty());
+
+        // Then
+        assertThrows(TppException.class, () -> uploaderController.uploadData(resolveMultipartFile("transactions_template.csv")));
+    }
+
+    @Test
+    void uploadTransactions() throws IOException {
+        // Given
         when(transactionService.uploadUserTransaction(any())).thenReturn(Collections.EMPTY_MAP);
 
-        //when
+        // When
         ResponseEntity<Map<String, String>> response = uploaderController.uploadTransactions(resolveMultipartFile("transactions_template.csv"));
 
-        //then
-        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        // Then
+        assertTrue(response.getStatusCode().is2xxSuccessful());
         assertTrue(Objects.requireNonNull(response.getBody()).isEmpty());
         assertEquals(response.getBody(), new HashMap<String, String>());
     }
 
     @Test
-    public void downloadTransactionTemplate(){
-        //given
+    void downloadTransactionTemplate() {
+        // Given
         when(downloadResourceService.getResourceByTemplate(any())).thenReturn(resourceLoader.getResource(FILE_NAME));
 
-        //when
+        // When
         ResponseEntity<Resource> response = uploaderController.downloadTransactionTemplate();
 
-        //then
-        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        // Then
+        assertTrue(response.getStatusCode().is2xxSuccessful());
     }
 
     private MultipartFile resolveMultipartFile(String fileName) throws IOException {

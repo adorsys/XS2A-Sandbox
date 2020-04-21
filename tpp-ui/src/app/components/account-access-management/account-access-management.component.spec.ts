@@ -110,7 +110,6 @@ describe('AccountAccessManagementComponent', () => {
         component.onSubmit();
         expect(component.submitted).toEqual(true);
         expect(component.accountAccessForm.valid).toBeFalsy();
-        console.log('submitted', component.submitted);
     });
 
     it('validate setupAccountAccessFormControl method', () => {

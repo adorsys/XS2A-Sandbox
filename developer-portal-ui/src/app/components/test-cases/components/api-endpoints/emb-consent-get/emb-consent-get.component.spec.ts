@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 
 import { EmbConsentGetComponent } from './emb-consent-get.component';
-import {LineCommandComponent} from "../../../../common/line-command/line-command.component";
+import { LineCommandComponent } from '../../../../common/line-command/line-command.component';
 
 describe('EmbConsentGetComponent', () => {
   let component: EmbConsentGetComponent;
@@ -27,12 +27,7 @@ describe('EmbConsentGetComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        EmbConsentGetComponent,
-        TranslatePipe,
-        LineCommandComponent,
-        MockPlayWithDataComponent,
-      ],
+      declarations: [EmbConsentGetComponent, TranslatePipe, LineCommandComponent, MockPlayWithDataComponent],
     }).compileComponents();
   }));
 

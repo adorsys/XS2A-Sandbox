@@ -5,17 +5,14 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { JsonService } from '../../../../../services/json.service';
 import { of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import {
-  TranslateLoader,
-  TranslateModule,
-  TranslateService,
-} from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../../../../../services/language.service';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from '../../../../../services/data.service';
 import { ToastrService } from 'ngx-toastr';
-import {LineCommandComponent} from "../../../../common/line-command/line-command.component";
-import {CodeAreaComponent} from "../../../../common/code-area/code-area.component";
+import { LineCommandComponent } from '../../../../common/line-command/line-command.component';
+import { CodeAreaComponent } from '../../../../common/code-area/code-area.component';
+import { JSON_SPACING } from '../../../../common/constant/constants';
 
 describe('RdctPaymentInitiationPostComponent', () => {
   let component: RdctPaymentInitiationPostComponent;
@@ -46,7 +43,7 @@ describe('RdctPaymentInitiationPostComponent', () => {
   @Pipe({ name: 'prettyJson' })
   class PrettyJsonPipe implements PipeTransform {
     transform(value) {
-      return JSON.stringify(value, null, 4);
+      return JSON.stringify(value, null, JSON_SPACING);
     }
   }
 
@@ -63,11 +60,7 @@ describe('RdctPaymentInitiationPostComponent', () => {
         PrettyJsonPipe,
         PrettyJsonPipe,
       ],
-      providers: [
-        TranslateService,
-        DataService,
-        { provide: ToastrService, useValue: ToastrServiceStub },
-      ],
+      providers: [TranslateService, DataService, { provide: ToastrService, useValue: ToastrServiceStub }],
       imports: [
         HttpClientTestingModule,
         TranslateModule.forRoot({
@@ -100,8 +93,8 @@ describe('RdctPaymentInitiationPostComponent', () => {
       'PSU-ID': 'YOUR_USER_LOGIN',
       'PSU-IP-Address': '1.1.1.1',
       'TPP-Redirect-Preferred': 'true',
-      'TPP-Redirect-URI': 'https://adorsys-platform.de/solutions/xs2a-sandbox/',
-      'TPP-Nok-Redirect-URI': 'https://www.google.com',
+      'TPP-Redirect-URI': null,
+      'TPP-Nok-Redirect-URI': null,
     };
     expect(typeof component.headers).toBe('object');
     for (const key in component.headers) {

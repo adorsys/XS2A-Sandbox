@@ -61,7 +61,7 @@ import 'zone.js/dist/zone'; // Included with Angular CLI.
  * APPLICATION IMPORTS
  */
 
- /**
+/**
  * This file includes polyfills needed by Angular and is loaded before the app.
  * You can add your own extra polyfills to this file.
  *
@@ -125,13 +125,13 @@ import 'zone.js/dist/zone'; // Included with Angular CLI.
 /** IE11 was throwing console errors without these (cannot find "includes") */
 import 'core-js/es7/array';
 
-/** Evergreen browsers require these. **/
+/** Evergreen browsers require these. */
 import 'core-js/es6/reflect';
 
 /** Support Custom Event */
 import 'custom-event-polyfill'; // npm install custom-event-polyfill
 
-import 'zone.js/dist/zone';  // Included with Angular CLI.
+import 'zone.js/dist/zone'; // Included with Angular CLI.
 import 'core-js/es6/symbol';
 import 'core-js/es6/object';
 import 'core-js/es6/function';

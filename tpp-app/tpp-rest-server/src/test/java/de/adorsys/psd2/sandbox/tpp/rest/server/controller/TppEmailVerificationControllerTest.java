@@ -1,20 +1,19 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.controller;
 
 import de.adorsys.ledgers.middleware.client.rest.ScaVerificationRestClient;
-import org.assertj.core.api.Assertions;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
-public class TppEmailVerificationControllerTest {
+@ExtendWith(MockitoExtension.class)
+class TppEmailVerificationControllerTest {
     private static final String EMAIL = "EMAIL";
     private static final String TOKEN = "TOKEN";
 
@@ -24,26 +23,26 @@ public class TppEmailVerificationControllerTest {
     private ScaVerificationRestClient scaVerificationRestClient;
 
     @Test
-    public void sendEmailVerification() {
-        //given
+    void sendEmailVerification() {
+        // Given
         when(scaVerificationRestClient.sendEmailVerification(anyString())).thenAnswer(i -> ResponseEntity.ok().build());
 
-        //when
+        // When
         ResponseEntity<Void> response = verificationController.sendEmailVerification(EMAIL);
 
-        //then
-        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        // Then
+        assertTrue(response.getStatusCode().is2xxSuccessful());
     }
 
     @Test
-    public void confirmVerificationToken() {
-        //given
+    void confirmVerificationToken() {
+        // Given
         when(scaVerificationRestClient.confirmVerificationToken(anyString())).thenAnswer(i -> ResponseEntity.ok().build());
 
-        //when
+        // When
         ResponseEntity<Void> response = verificationController.confirmVerificationToken(TOKEN);
 
-        //then
-        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        // Then
+        assertTrue(response.getStatusCode().is2xxSuccessful());
     }
 }

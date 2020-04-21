@@ -3,9 +3,7 @@
   <div class="endpoint-segment-wrapper">
     <div
       class="endpoint-segment-item"
-      [ngClass]="
-        activeSegment === 'documentation' ? 'left-item' : 'unactive-item'
-      "
+      [ngClass]="activeSegment === 'documentation' ? 'left-item' : 'unactive-item'"
       (click)="changeSegment('documentation')"
     >
       <span>{{ 'TEST_CASES.COMPONENTS.TABS.DOC' | translate }}</span>
@@ -22,36 +20,21 @@
   <!-- Main content -->
   <div class="endpoint-main-content">
     <!-- Documentation -->
-    <div
-      class="endpoint-documentation"
-      *ngIf="activeSegment === 'documentation'; else: play_with_data"
-    >
+    <div class="endpoint-documentation" *ngIf="activeSegment === 'documentation'; else play_with_data">
       <p>
         {{ 'TEST_CASES.COMPONENTS.AC_INF_ACS.PART_1' | translate }}
         <app-line-command title="/v1/accounts"></app-line-command>
         {{ 'TEST_CASES.COMPONENTS.AC_INF_ACS.PART_2' | translate }}
       </p>
       <div class="api-table bg th">
-        <span>{{ 'TEST_CASES.COMPONENTS.TH.TH_1' | translate }}</span>
-        <span>{{ 'TEST_CASES.COMPONENTS.TH.TH_2' | translate }}</span>
+        <span>{{ 'TEST_CASES.COMPONENTS.TH.TH_1' | translate }}</span> <span>{{ 'TEST_CASES.COMPONENTS.TH.TH_2' | translate }}</span>
       </div>
-      <div class="api-table">
-        <span>X-Request-ID</span>
-        <span>2f77a125-aa7a-45c0-b414-cea25a116035</span>
-      </div>
-      <div class="api-table bg">
-        <span>Consent-ID</span> <span>CONSENT_ID</span>
-      </div>
-      <div class="api-table">
-        <span>PSU-IP-Address</span> <span>1.1.1.1</span>
-      </div>
-      <div class="api-table bg">
-        <span>TPP-QWAC-Certificate</span>
-        <span> -----BEGIN CERTIFICATE-----</span>
-      </div>
+      <div class="api-table"><span>X-Request-ID</span> <span>2f77a125-aa7a-45c0-b414-cea25a116035</span></div>
+      <div class="api-table bg"><span>Consent-ID</span> <span>CONSENT_ID</span></div>
+      <div class="api-table"><span>PSU-IP-Address</span> <span>1.1.1.1</span></div>
+      <div class="api-table bg"><span>TPP-QWAC-Certificate</span> <span> -----BEGIN CERTIFICATE-----</span></div>
       <p>
-        {{ 'TEST_CASES.COMPONENTS.AC_INF_ACS.PART_3' | translate }}
-        <span class="bold-text">CONSENT_ID</span>
+        {{ 'TEST_CASES.COMPONENTS.AC_INF_ACS.PART_3' | translate }} <span class="bold-text">CONSENT_ID</span>
         {{ 'TEST_CASES.COMPONENTS.AC_INF_ACS.PART_4' | translate }}
       </p>
     </div>

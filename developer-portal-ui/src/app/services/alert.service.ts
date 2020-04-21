@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AlertService {
@@ -8,7 +8,7 @@ export class AlertService {
   private keepAfterNavigationChange = false;
 
   constructor(private router: Router) {
-    router.events.subscribe(event => {
+    this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
         if (this.keepAfterNavigationChange) {
           this.keepAfterNavigationChange = false;
@@ -27,9 +27,5 @@ export class AlertService {
   error(message: string, keepAfterNavigationChange = false) {
     this.keepAfterNavigationChange = keepAfterNavigationChange;
     this.subject.next({ type: 'error', text: message });
-  }
-
-  getMessage(): Observable<any> {
-    return this.subject.asObservable();
   }
 }

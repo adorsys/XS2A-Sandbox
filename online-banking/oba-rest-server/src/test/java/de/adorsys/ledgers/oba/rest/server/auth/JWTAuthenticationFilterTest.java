@@ -4,11 +4,11 @@ import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.oba.service.api.domain.UserAuthentication;
 import de.adorsys.ledgers.oba.service.api.service.TokenAuthenticationService;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,12 +19,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
-public class JWTAuthenticationFilterTest {
+@ExtendWith(MockitoExtension.class)
+class JWTAuthenticationFilterTest {
     @InjectMocks
     private JWTAuthenticationFilter filter;
 
@@ -39,20 +39,29 @@ public class JWTAuthenticationFilterTest {
     private TokenAuthenticationService tokenAuthenticationService;
 
     @Test
-    public void doFilterInternal() throws ServletException, IOException {
+    void doFilterInternal() throws ServletException, IOException {
+        // Given
         SecurityContextHolder.clearContext();
         when(tokenAuthenticationService.getAuthentication(any())).thenReturn(new UserAuthentication(getBearer()));
+
+        // When
         filter.doFilterInternal(request, response, chain);
 
+        // Then
         verify(tokenAuthenticationService, times(1)).getAuthentication(any());
         verify(chain, times(1)).doFilter(any(), any());
     }
 
     @Test
-    public void shouldNotFilter() {
+    void shouldNotFilter() {
+        // Given
         when(request.getServletPath()).thenReturn("/someUrl/login");
+
+        // When
         boolean result = filter.shouldNotFilter(request);
-        assertThat(result).isTrue();
+
+        // Then
+        assertTrue(result);
     }
 
     private BearerTokenTO getBearer() {

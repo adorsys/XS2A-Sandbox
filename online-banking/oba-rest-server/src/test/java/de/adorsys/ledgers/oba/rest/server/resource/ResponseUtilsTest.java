@@ -7,26 +7,25 @@ import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentType;
 import de.adorsys.ledgers.oba.service.api.domain.OnlineBankingResponse;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.junit.Assert.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.Objects;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
-public class ResponseUtilsTest {
+@ExtendWith(MockitoExtension.class)
+class ResponseUtilsTest {
     private static final String LOGIN = "anton.brueckner";
     private static final String ENCRYPTED_ID = "ENC_123";
     private static final String AUTH_ID = "AUTH_1";
@@ -37,97 +36,97 @@ public class ResponseUtilsTest {
     private CookieConfigProperties cookieConfigProperties;
 
     @Test
-    public void setCookies() {
-        //given
+    void setCookies() {
+        // Given
         HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
         when(cookieConfigProperties.getMaxAge()).thenReturn(300);
         when(cookieConfigProperties.getPath()).thenReturn("somePath");
 
-        //then
+        // Then
         assertThatCode(() -> responseUtils.setCookies(response, getConsentReference(null), "accessTokenString", getAccessTokenTO())).doesNotThrowAnyException();
     }
 
     @Test
-    public void setCookies_accessTokenNull() {
-        //given
+    void setCookies_accessTokenNull() {
+        // Given
         HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
         when(cookieConfigProperties.getMaxAge()).thenReturn(300);
         when(cookieConfigProperties.getPath()).thenReturn("somePath");
 
-        //then
+        // Then
         assertThatCode(() -> responseUtils.setCookies(response, getConsentReference("someCookie"), null, getAccessTokenTO())).doesNotThrowAnyException();
     }
 
     @Test
-    public void removeCookies() {
-        //given
+    void removeCookies() {
+        // Given
         HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
         when(cookieConfigProperties.getPath()).thenReturn("somePath");
 
-        //then
+        // Then
         assertThatCode(() -> responseUtils.removeCookies(response)).doesNotThrowAnyException();
     }
 
     @Test
-    public void unknownCredentials() {
-        //given
+    void unknownCredentials() {
+        // Given
         HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
         when(cookieConfigProperties.getPath()).thenReturn("somePath");
 
-        //when
+        // When
         ResponseEntity<OnlineBankingResponse> responseResponseEntity = responseUtils.unknownCredentials(new AuthorizeResponse(), response);
 
-        //then
+        // Then
         assertTrue(responseResponseEntity.getStatusCode().is4xxClientError());
         assertSame(HttpStatus.FORBIDDEN, responseResponseEntity.getStatusCode());
         assertFalse(Objects.requireNonNull(responseResponseEntity.getBody()).getPsuMessages().isEmpty());
     }
 
     @Test
-    public void couldNotProcessRequest() {
-        //given
+    void couldNotProcessRequest() {
+        // Given
         HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
         when(cookieConfigProperties.getPath()).thenReturn("somePath");
 
-        //when
+        // When
         ResponseEntity<OnlineBankingResponse> responseResponseEntity = responseUtils.couldNotProcessRequest(new AuthorizeResponse(), "couldNotProcessRequest", HttpStatus.BAD_REQUEST, response);
 
-        //then
+        // Then
         assertTrue(responseResponseEntity.getStatusCode().is4xxClientError());
         assertSame(HttpStatus.BAD_REQUEST, responseResponseEntity.getStatusCode());
         assertFalse(Objects.requireNonNull(responseResponseEntity.getBody()).getPsuMessages().isEmpty());
     }
 
     @Test
-    public void redirect() {
-        //given
+    void redirect() {
+        // Given
         HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
         when(cookieConfigProperties.getPath()).thenReturn("somePath");
 
-        //when
+        // When
         ResponseEntity<OnlineBankingResponse> responseResponseEntity = responseUtils.redirect("locationURI", response);
 
-        //then
+        // Then
         assertTrue(responseResponseEntity.getStatusCode().is3xxRedirection());
         assertSame(HttpStatus.FOUND, responseResponseEntity.getStatusCode());
     }
 
     @Test
-    public void consentCookie() {
-        //when
+    void consentCookie() {
+        // When
         String cookie = responseUtils.consentCookie("CONSENT=mklrfkwrj3i4jrhugui3i4htvou34d");
 
-        //then
+        // Then
         assertFalse(StringUtils.isEmpty(cookie));
         assertFalse(StringUtils.isBlank(cookie));
     }
 
     @Test
-    public void consentCookie_cookieNull() {
-        //when
+    void consentCookie_cookieNull() {
+        // When
         String cookie = responseUtils.consentCookie(null);
 
-        //then
+        // Then
         assertTrue(StringUtils.isEmpty(cookie));
     }
 

@@ -6,15 +6,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { DataService } from '../../services/data.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MarkdownModule } from 'ngx-markdown';
-import {
-  TranslateLoader,
-  TranslateModule,
-  TranslateService,
-} from '@ngx-translate/core';
-import {
-  HttpLoaderFactory,
-  LanguageService,
-} from '../../services/language.service';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { HttpLoaderFactory, LanguageService } from '../../services/language.service';
 import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 import { CustomizeService } from '../../services/customize.service';
@@ -71,8 +64,7 @@ describe('TestCasesComponent', () => {
       ],
       tppSettings: {
         tppDefaultNokRedirectUrl: 'https://www.google.com',
-        tppDefaultRedirectUrl:
-          'https://adorsys-platform.de/solutions/xs2a-sandbox/',
+        tppDefaultRedirectUrl: 'https://adorsys-platform.de/solutions/xs2a-sandbox/',
       },
       supportedLanguages: ['en', 'ua', 'de', 'es'],
       pagesSettings: {
@@ -90,14 +82,14 @@ describe('TestCasesComponent', () => {
         },
       },
     }),
-    setStyling: theme => {},
-    normalizeLanguages: theme => {
+    setStyling: () => {},
+    normalizeLanguages: () => {
       return CustomizeServiceStub.currentTheme.toPromise();
     },
   };
 
   const DataServiceStub = {
-    setRouterUrl: (val: string) => {},
+    setRouterUrl: () => {},
     getRouterUrl: () => '',
   };
 
@@ -154,32 +146,20 @@ describe('TestCasesComponent', () => {
   it('should collapse', () => {
     let colHigh = document.getElementById('redirect-content').style.maxHeight;
     component.collapseThis('redirect');
-    expect(
-      document.getElementById('redirect-content').style.maxHeight
-    ).not.toBe(colHigh);
+    expect(document.getElementById('redirect-content').style.maxHeight).not.toBe(colHigh);
     component.collapseThis('redirect');
-    expect(document.getElementById('redirect-content').style.maxHeight).toBe(
-      colHigh
-    );
+    expect(document.getElementById('redirect-content').style.maxHeight).toBe(colHigh);
 
     colHigh = document.getElementById('embedded-content').style.maxHeight;
     component.collapseThis('embedded');
-    expect(
-      document.getElementById('embedded-content').style.maxHeight
-    ).not.toBe(colHigh);
+    expect(document.getElementById('embedded-content').style.maxHeight).not.toBe(colHigh);
     component.collapseThis('embedded');
-    expect(document.getElementById('embedded-content').style.maxHeight).toBe(
-      colHigh
-    );
+    expect(document.getElementById('embedded-content').style.maxHeight).toBe(colHigh);
 
     colHigh = document.getElementById('account-content').style.maxHeight;
     component.collapseThis('account');
-    expect(document.getElementById('account-content').style.maxHeight).not.toBe(
-      colHigh
-    );
+    expect(document.getElementById('account-content').style.maxHeight).not.toBe(colHigh);
     component.collapseThis('account');
-    expect(document.getElementById('account-content').style.maxHeight).toBe(
-      colHigh
-    );
+    expect(document.getElementById('account-content').style.maxHeight).toBe(colHigh);
   });
 });

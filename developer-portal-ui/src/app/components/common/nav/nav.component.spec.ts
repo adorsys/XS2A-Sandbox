@@ -1,22 +1,22 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {NavComponent} from './nav.component';
-import {RouterTestingModule} from "@angular/router/testing";
-import {HttpLoaderFactory, LanguageService} from "../../../services/language.service";
-import {TranslateLoader, TranslateModule, TranslateService} from "@ngx-translate/core";
-import {HttpClient} from "@angular/common/http";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {Pipe, PipeTransform} from "@angular/core";
-import {DataService} from "../../../services/data.service";
-import {NavigationService} from "../../../services/navigation.service";
-import {of} from "rxjs";
-import {CustomizeService} from "../../../services/customize.service";
+import { NavComponent } from './nav.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpLoaderFactory, LanguageService } from '../../../services/language.service';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Pipe, PipeTransform } from '@angular/core';
+import { DataService } from '../../../services/data.service';
+import { NavigationService } from '../../../services/navigation.service';
+import { of } from 'rxjs';
+import { CustomizeService } from '../../../services/customize.service';
 
 describe('NavComponent', () => {
   let component: NavComponent;
   let fixture: ComponentFixture<NavComponent>;
 
-  @Pipe({name: 'translate'})
+  @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -64,50 +64,43 @@ describe('NavComponent', () => {
           addressSecondLine: '65760 Eschborn',
           email: 'frankfurt@adorsys.de',
           facebook: 'https://www.facebook.com/adorsysGmbH/',
-          linkedIn:
-            'https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/',
+          linkedIn: 'https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/',
         },
       ],
       tppSettings: {
         tppDefaultNokRedirectUrl: 'https://www.google.com',
-        tppDefaultRedirectUrl:
-          'https://adorsys-platform.de/solutions/xs2a-sandbox/',
+        tppDefaultRedirectUrl: 'https://adorsys-platform.de/solutions/xs2a-sandbox/',
       },
       supportedLanguages: ['en', 'ua', 'de', 'es'],
       pagesSettings: {
         contactPageSettings: {
           showContactCard: true,
-          showQuestionsComponent: true
+          showQuestionsComponent: true,
         },
         homePageSettings: {
           showQuestionsComponent: true,
           showProductHistory: true,
-          showSlider: true
+          showSlider: true,
         },
         navigationBarSettings: {
-          allowedNavigationSize: 3
-        }
-      }
+          allowedNavigationSize: 3,
+        },
+      },
     }),
-    setStyling: (theme) => {
+    setStyling: () => {},
+    normalizeLanguages: () => {
+      return CustomizeServiceStub.currentTheme.toPromise();
     },
-    normalizeLanguages: (theme) => {
-      return CustomizeServiceStub.currentTheme.toPromise()
-    }
   };
 
   const DataServiceStub = {
-    setRouterUrl: (val: string) => {
-    },
+    setRouterUrl: () => {},
     getRouterUrl: () => '',
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        NavComponent,
-        TranslatePipe
-      ],
+      declarations: [NavComponent, TranslatePipe],
       imports: [
         RouterTestingModule,
         HttpClientTestingModule,
@@ -116,18 +109,17 @@ describe('NavComponent', () => {
             provide: TranslateLoader,
             useFactory: HttpLoaderFactory,
             deps: [HttpClient],
-          }
-        })],
+          },
+        }),
+      ],
       providers: [
         LanguageService,
         TranslateService,
         NavigationService,
-        {provide: DataService, useValue: DataServiceStub},
-        {provide: CustomizeService, useValue: CustomizeServiceStub},
+        { provide: DataService, useValue: DataServiceStub },
+        { provide: CustomizeService, useValue: CustomizeServiceStub },
       ],
-
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -149,7 +141,8 @@ describe('NavComponent', () => {
 
   it('should collapse', () => {
     let prevCollapseStatus;
-    for (let i = 0; i < 2; i++) {
+    const testSize = 2;
+    for (let i = 0; i < testSize; i++) {
       prevCollapseStatus = component.getLangCollapsed();
       component.collapseThis();
       expect(component.getLangCollapsed).not.toEqual(prevCollapseStatus);

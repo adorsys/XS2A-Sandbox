@@ -3,7 +3,7 @@ package de.adorsys.ledgers.oba.service.impl.mapper;
 import de.adorsys.ledgers.oba.service.api.domain.TppInfoTO;
 import de.adorsys.psd2.consent.domain.TppInfoEntity;
 import de.adorsys.psd2.xs2a.core.tpp.TppRole;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import java.util.Collections;
@@ -11,14 +11,26 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TppInfoObaMapperTest {
+class TppInfoObaMapperTest {
 
     private static final TppInfoObaMapper mapper = Mappers.getMapper(TppInfoObaMapper.class);
 
     @Test
-    public void toTppInfoTO() {
+    void toTppInfoTO() {
+        // When
         TppInfoTO result = mapper.toTppInfoTO(getTppInfoEntity());
+
+        // Then
         assertThat(result).isEqualToComparingFieldByFieldRecursively(getTppInfoTO());
+    }
+
+    @Test
+    void toTppInfoTOs() {
+        // When
+        List<TppInfoTO> result = mapper.toTppInfoTOs(Collections.singletonList(getTppInfoEntity()));
+
+        // Then
+        assertThat(result).isEqualTo(Collections.singletonList(getTppInfoTO()));
     }
 
     private TppInfoTO getTppInfoTO() {
@@ -53,9 +65,4 @@ public class TppInfoObaMapperTest {
         return info;
     }
 
-    @Test
-    public void toTppInfoTOs() {
-        List<TppInfoTO> result = mapper.toTppInfoTOs(Collections.singletonList(getTppInfoEntity()));
-        assertThat(result).isEqualTo(Collections.singletonList(getTppInfoTO()));
-    }
 }

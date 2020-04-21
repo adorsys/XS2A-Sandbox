@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EmbPaymentCancellDeleteComponent } from './emb-payment-cancell-delete.component';
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import {LineCommandComponent} from "../../../../common/line-command/line-command.component";
+import { LineCommandComponent } from '../../../../common/line-command/line-command.component';
 
 describe('EmbPaymentCancellDeleteComponent', () => {
   let component: EmbPaymentCancellDeleteComponent;
@@ -30,12 +30,7 @@ describe('EmbPaymentCancellDeleteComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        EmbPaymentCancellDeleteComponent,
-        TranslatePipe,
-        MockPlayWithDataComponent,
-        LineCommandComponent,
-      ],
+      declarations: [EmbPaymentCancellDeleteComponent, TranslatePipe, MockPlayWithDataComponent, LineCommandComponent],
     }).compileComponents();
   }));
 

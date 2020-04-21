@@ -5,10 +5,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-
 import { AuthService } from '../../common/services/auth.service';
 import { ResetPasswordComponent } from './reset-password.component';
-
+import { of } from 'rxjs';
 describe('ResetPasswordComponent', () => {
   let component: ResetPasswordComponent;
   let fixture: ComponentFixture<ResetPasswordComponent>;
@@ -25,7 +24,8 @@ describe('ResetPasswordComponent', () => {
           HttpClientTestingModule,
           RouterTestingModule,
           BrowserAnimationsModule,
-      ]
+      ],
+        providers: [AuthService]
     })
     .compileComponents();
   }));
@@ -91,5 +91,18 @@ describe('ResetPasswordComponent', () => {
         login.setValue('foo');
         errors = login.errors || {};
         expect(errors['required']).toBeFalsy();
+    });
+
+    it('should call the valid form on Submit ', () => {
+        component.resetPasswordForm.get('email').setValue('foo@foo.de');
+        component.resetPasswordForm.get('login').setValue('foo');
+        let resetSpy = spyOn(authService, 'requestCodeToResetPassword').and.returnValue(of({}));
+        component.onSubmit();
+        expect(resetSpy).toHaveBeenCalled();
+    });
+
+    it('should call the on Submit', () => {
+        component.onSubmit();
+        expect(component.resetPasswordForm.invalid).toBeTruthy()
     });
 });

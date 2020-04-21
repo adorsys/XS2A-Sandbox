@@ -16,12 +16,12 @@ import de.adorsys.ledgers.oba.service.api.domain.exception.InvalidConsentExcepti
 import de.adorsys.ledgers.oba.service.api.service.ConsentReferencePolicy;
 import de.adorsys.psd2.consent.api.pis.CmsCommonPayment;
 import de.adorsys.psd2.consent.api.pis.CmsPaymentResponse;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.internal.util.reflection.Whitebox;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.internal.util.reflection.FieldSetter;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -36,12 +36,14 @@ import java.util.Currency;
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.FINALISED;
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.PSUIDENTIFIED;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
-public class XISControllerServiceTest {
+@ExtendWith(MockitoExtension.class)
+class XISControllerServiceTest {
     private static final String PIN = "12345";
     private static final String LOGIN = "anton.brueckner";
     private static final String ENCRYPTED_ID = "ENC_123";
@@ -76,50 +78,62 @@ public class XISControllerServiceTest {
     private ResponseUtils responseUtils;
 
     @Test
-    public void auth() {
-        Whitebox.setInternalState(service, "response", new MockHttpServletResponse());
-        Whitebox.setInternalState(service, "loginPage", "www.loginPage.html");
+    void auth() throws NoSuchFieldException {
+        // Given
+        FieldSetter.setField(service, service.getClass().getDeclaredField("response"), new MockHttpServletResponse());
+        FieldSetter.setField(service, service.getClass().getDeclaredField("loginPage"), "www.loginPage.html");
         when(referencePolicy.fromURL(anyString(), any(), anyString())).thenReturn(getConsentReference());
 
+        // When
         ResponseEntity<AuthorizeResponse> result = service.auth(AUTH_ID, ConsentType.AIS, ENCRYPTED_ID, response);
-        assertThat(result).isEqualToComparingFieldByFieldRecursively(getExpectedAuthResponse());
+
+        // Then
+        assertEquals(getExpectedAuthResponse(), result);
     }
 
     @Test
-    public void auth_fail() {
-        Whitebox.setInternalState(service, "response", new MockHttpServletResponse());
-        Whitebox.setInternalState(service, "loginPage", "www.loginPage.html");
+    void auth_fail() throws NoSuchFieldException {
+        // Given
+        FieldSetter.setField(service, service.getClass().getDeclaredField("response"), new MockHttpServletResponse());
+        FieldSetter.setField(service, service.getClass().getDeclaredField("loginPage"), "www.loginPage.html");
         when(referencePolicy.fromURL(anyString(), any(), anyString())).thenThrow(InvalidConsentException.class);
         when(responseUtils.unknownCredentials(any(), any())).thenReturn(ResponseEntity.ok(new OnlineBankingResponse()));
 
+        // When
         ResponseEntity<AuthorizeResponse> result = service.auth(AUTH_ID, ConsentType.AIS, ENCRYPTED_ID, response);
+
+        // Then
         assertThat(result).isEqualToComparingFieldByFieldRecursively(ResponseEntity.ok(new OnlineBankingResponse()));
     }
 
     @Test
-    public void performLoginForConsent() {
-        Whitebox.setInternalState(service, "request", new MockHttpServletRequest());
+    void performLoginForConsent() throws NoSuchFieldException {
+        // Given
+        FieldSetter.setField(service, service.getClass().getDeclaredField("request"), new MockHttpServletRequest());
         when(userMgmtRestClient.authoriseForConsent(anyString(), anyString(), anyString(), anyString(), any())).thenReturn(getLoginResponse());
 
+        // When
         ResponseEntity<SCALoginResponseTO> result = service.performLoginForConsent(LOGIN, PIN, CONSENT_ID, AUTH_ID, OpTypeTO.CONSENT);
-        assertThat(result).isEqualToComparingFieldByFieldRecursively(getLoginResponse());
-    }
 
-    @Test(expected = AuthorizationException.class)
-    public void performLoginForConsent_fail() {
-        Whitebox.setInternalState(service, "request", new MockHttpServletRequest());
-        service.performLoginForConsent(null, null, CONSENT_ID, AUTH_ID, OpTypeTO.CONSENT);
-    }
-
-    private ResponseEntity<SCALoginResponseTO> getLoginResponseNulls() {
-        SCALoginResponseTO response = new SCALoginResponseTO();
-
-        return ResponseEntity.ok(response);
+        // Then
+        assertEquals(getLoginResponse(), result);
     }
 
     @Test
-    public void resolvePaymentWorkflow() {
+    void performLoginForConsent_fail() throws NoSuchFieldException {
+        // Given
+        FieldSetter.setField(service, service.getClass().getDeclaredField("request"), new MockHttpServletRequest());
+
+        // Then
+        assertThrows(AuthorizationException.class, () -> service.performLoginForConsent(null, null, CONSENT_ID, AUTH_ID, OpTypeTO.CONSENT));
+    }
+
+    @Test
+    void resolvePaymentWorkflow() {
+        // When
         ResponseEntity<PaymentAuthorizeResponse> result = service.resolvePaymentWorkflow(getPaymentWorkflow());
+
+        // Then
         assertThat(result).isEqualToComparingFieldByFieldRecursively(ResponseEntity.ok(getPaymentAuthorizeResponse()));
     }
 

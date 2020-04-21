@@ -7,9 +7,7 @@ describe('LocalStorageService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        LocalStorageService
-      ]
+      providers: [LocalStorageService],
     });
 
     service = TestBed.get(LocalStorageService);
@@ -20,16 +18,16 @@ describe('LocalStorageService', () => {
   beforeEach(() => {
     let store = {};
 
-    spyOn(localStorage, 'getItem').and.callFake( (key: string): string => {
+    spyOn(localStorage, 'getItem').and.callFake((key: string): string => {
       return store[key] || null;
     });
-    spyOn(localStorage, 'removeItem').and.callFake((key: string): void =>  {
+    spyOn(localStorage, 'removeItem').and.callFake((key: string): void => {
       delete store[key];
     });
-    spyOn(localStorage, 'setItem').and.callFake((key: string, value: string): string =>  {
-      return store[key] = value as string;
+    spyOn(localStorage, 'setItem').and.callFake((key: string, value: string): string => {
+      return (store[key] = value as string);
     });
-    spyOn(localStorage, 'clear').and.callFake(() =>  {
+    spyOn(localStorage, 'clear').and.callFake(() => {
       store = {};
     });
   });
@@ -37,29 +35,30 @@ describe('LocalStorageService', () => {
   // --- snap ---
 
   it('should set an Item', () => {
+    expect(service).toBeTruthy();
     // @ts-ignore
-    expect(service.set('foo', 'bar')).toEqual('"bar"');
-    expect(service.get('foo')).toBe('bar');
+    expect(LocalStorageService.set('foo', 'bar')).toEqual('bar');
+    expect(LocalStorageService.get('foo')).toBe('bar');
   });
 
   it('should return null for non existing items', () => {
-    expect(service.get('foo')).toBeNull(); // null
+    expect(LocalStorageService.get('foo')).toBeNull(); // null
   });
 
   it('should set and remove Item', () => {
     // @ts-ignore
-    expect(service.set('foo', 'bar')).toEqual('"bar"');
-    expect(service.remove('foo')).toBeUndefined();
-    expect(service.get('foo')).toBeNull();
+    expect(LocalStorageService.set('foo', 'bar')).toEqual('bar');
+    expect(LocalStorageService.remove('foo')).toBeUndefined();
+    expect(LocalStorageService.get('foo')).toBeNull();
   });
 
   it('should clear the storage', () => {
     // @ts-ignore
-    expect(service.set('foo', 'bar')).toEqual('"bar"');
+    expect(LocalStorageService.set('foo', 'bar')).toEqual('bar');
     // @ts-ignore
-    expect(service.set('bar', 'foo')).toEqual('"foo"');
-    expect(service.clear()).toBeUndefined();
-    expect(service.get('foo')).toBeNull();
-    expect(service.get('bar')).toBeNull();
+    expect(LocalStorageService.set('bar', 'foo')).toEqual('foo');
+    expect(LocalStorageService.clear()).toBeUndefined();
+    expect(LocalStorageService.get('foo')).toBeNull();
+    expect(LocalStorageService.get('bar')).toBeNull();
   });
 });

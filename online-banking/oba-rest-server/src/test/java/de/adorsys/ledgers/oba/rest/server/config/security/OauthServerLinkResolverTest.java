@@ -1,11 +1,11 @@
 package de.adorsys.ledgers.oba.rest.server.config.security;
 
 import de.adorsys.ledgers.middleware.api.domain.oauth.OauthServerInfoTO;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class OauthServerLinkResolverTest {
+class OauthServerLinkResolverTest {
     private final String PMT_ID = "pmt1";
     private final String AUTH_ID = "12345";
 
@@ -13,19 +13,23 @@ public class OauthServerLinkResolverTest {
     private String obaBeBaseUri = "http://localhost:8090";
 
     @Test
-    public void resolve_parametrized() {
+    void resolve_parametrized() {
+        // Given
         OauthServerLinkResolver resolver = new OauthServerLinkResolver(new OauthServerInfoTO(), PMT_ID, null, null, AUTH_ID, obaBeBaseUri, obaFeBaseUri);
         OauthServerInfoTO result = resolver.resolve();
 
-        assertThat(result).isEqualToComparingFieldByFieldRecursively(getParametrizedResponse());
+        // Then
+        assertEquals(getParametrizedResponse(), result);
     }
 
     @Test
-    public void resolve_non_parametrized() {
+    void resolve_non_parametrized() {
+        // Given
         OauthServerLinkResolver resolver = new OauthServerLinkResolver(new OauthServerInfoTO(), null, null, null, null, obaBeBaseUri, obaFeBaseUri);
         OauthServerInfoTO result = resolver.resolve();
 
-        assertThat(result).isEqualToComparingFieldByFieldRecursively(getNonParametrizedResponse());
+        // Then
+        assertEquals(getNonParametrizedResponse(), result);
     }
 
     private OauthServerInfoTO getParametrizedResponse() {

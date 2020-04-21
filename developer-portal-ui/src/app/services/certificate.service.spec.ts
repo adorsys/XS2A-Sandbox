@@ -1,17 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 
 import { CertificateService } from './certificate.service';
-import {
-  TranslateLoader,
-  TranslateModule,
-  TranslateService,
-} from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HttpLoaderFactory, LanguageService } from './language.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 describe('CertificateService', () => {
-  const DataServiceStub = {};
-  const CustomizeServiceStub = {};
   beforeEach(() =>
     TestBed.configureTestingModule({
       imports: [

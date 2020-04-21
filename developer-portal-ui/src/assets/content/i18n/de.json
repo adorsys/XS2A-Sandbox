@@ -471,6 +471,15 @@
         "PART_2": ", um die Transaktion des Kontos mit der angegebenen ID zu erhalten.",
         "PART_3": "Geben Sie anstelle von ",
         "PART_4": " die consent-id der Konten an, die Sie erhalten möchten. (Sie können Nutzer und deren Daten in der TPP-UI einsehen). "
+      },
+      "FUNDS_CONFIRMATION": {
+        "TH": "Fonds Bestätigung:",
+        "TH2": "Bestätigung der Fonds Anfrage",
+        "PART_1": "1. Nutzen Sie den POST Endpunkt",
+        "PART_2": " .Füllen Sie die benötigten Felder mit folgenden Daten aus: ",
+        "PART_3": "2. Fügen Sie folgenden Json Code in das Anforderungsfeld ein:",
+        "PART_4": "3. Ändern Sie nun ",
+        "PART_5": " zu der IBAN des ausgewählten Nutzers an folgender Stelle der Json."
       }
     }
   },

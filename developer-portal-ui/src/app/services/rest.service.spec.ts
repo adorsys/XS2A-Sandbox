@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { RestService } from './rest.service';
-import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 describe('RestService', () => {
   let service: RestService;
@@ -9,12 +9,8 @@ describe('RestService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-      ],
-      providers: [
-        RestService
-      ]
+      imports: [HttpClientTestingModule],
+      providers: [RestService],
     });
     service = TestBed.get(RestService);
     httpTestingController = TestBed.get(HttpTestingController);

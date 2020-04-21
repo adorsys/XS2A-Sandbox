@@ -13,18 +13,19 @@ import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
 import de.adorsys.psd2.xs2a.core.tpp.TppRedirectUri;
 import de.adorsys.psd2.xs2a.core.tpp.TppRole;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.util.*;
 
-@RunWith(MockitoJUnitRunner.class)
-public class ConsentMapperTest {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@ExtendWith(MockitoExtension.class)
+class ConsentMapperTest {
     private static final Integer ALLOWED_FREQUENCY = 5;
     private static final int REQUESTED_FREQUENCY = 5;
     private static final LocalDate VALID_UNTIL = LocalDate.of(2019, 8, 3);
@@ -61,14 +62,18 @@ public class ConsentMapperTest {
 
     // TODO complete all test cases, but before that move object creation to yaml or json https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/issues/592
     @Test
-    public void toCmsAisConsentRequest() {
+    void toCmsAisConsentRequest() {
+        // Given
         CmsConsent expectedResult = getCmsAisConsentRequest();
+
+        // When
         CmsConsent result = mapper.mapToCmsConsent(getAisConsent());
 
-        Assert.assertEquals(result.getConsentStatus(), expectedResult.getConsentStatus());
-        Assert.assertEquals(result.getConsentType(), expectedResult.getConsentType());
+        // Then
+        assertEquals(result.getConsentStatus(), expectedResult.getConsentStatus());
+        assertEquals(result.getConsentType(), expectedResult.getConsentType());
 
-        Assert.assertEquals(expectedResult.getTppInformation().getTppInfo(), result.getTppInformation().getTppInfo());
+        assertEquals(expectedResult.getTppInformation().getTppInfo(), result.getTppInformation().getTppInfo());
     }
 
     //TPP-UI Server entities

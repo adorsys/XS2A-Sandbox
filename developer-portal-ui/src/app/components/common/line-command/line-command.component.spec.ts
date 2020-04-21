@@ -1,6 +1,6 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {LineCommandComponent} from './line-command.component';
+import { LineCommandComponent } from './line-command.component';
 
 describe('LineCommandComponent', () => {
   let component: LineCommandComponent;
@@ -8,7 +8,7 @@ describe('LineCommandComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [LineCommandComponent]
+      declarations: [LineCommandComponent],
     }).compileComponents();
   }));
 

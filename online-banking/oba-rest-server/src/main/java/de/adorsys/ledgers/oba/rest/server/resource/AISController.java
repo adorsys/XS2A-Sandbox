@@ -22,15 +22,18 @@ import de.adorsys.ledgers.oba.service.api.domain.ConsentType;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentWorkflow;
 import de.adorsys.ledgers.oba.service.api.service.AuthorizationService;
 import de.adorsys.ledgers.oba.service.api.service.RedirectConsentService;
+import de.adorsys.psd2.consent.api.ais.AisAccountConsentAuthorisation;
 import de.adorsys.psd2.consent.api.ais.CmsAisConsentResponse;
 import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.sca.AuthenticationDataHolder;
+import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -196,13 +199,21 @@ public class AISController implements AISApi {
         String tppOkRedirectUri = isOauth2Integrated
                                       ? oauthRestClient.oauthCode(consentResponse.getTppOkRedirectUri()).getBody().getRedirectUri()
                                       : authService.resolveAuthConfirmationCodeRedirectUri(consentResponse.getTppOkRedirectUri(), authConfirmationCode);
-        String tppNokRedirectUri = consentResponse.getTppNokRedirectUri();
+        String tppNokRedirectUri = Optional.ofNullable(consentResponse.getTppNokRedirectUri())
+                                       .filter(StringUtils::isNotBlank)
+                                       .orElse(consentResponse.getTppOkRedirectUri());
 
-        String redirectURL = EnumSet.of(VALID, ConsentStatus.RECEIVED, PARTIALLY_AUTHORISED).contains(consentStatus)
+        String redirectURL = EnumSet.of(VALID, ConsentStatus.RECEIVED, PARTIALLY_AUTHORISED).contains(consentStatus) && isNotFailedAuthorizationList(consentResponse)
                                  ? tppOkRedirectUri
                                  : tppNokRedirectUri;
 
         return responseUtils.redirect(redirectURL, response);
+    }
+
+    private boolean isNotFailedAuthorizationList(CmsAisConsentResponse consentResponse) {
+        return consentResponse.getAccountConsent().getAccountConsentAuthorizations().stream()
+                   .map(AisAccountConsentAuthorisation::getScaStatus)
+                   .allMatch(s -> s != ScaStatus.FAILED);
     }
 
     @Override

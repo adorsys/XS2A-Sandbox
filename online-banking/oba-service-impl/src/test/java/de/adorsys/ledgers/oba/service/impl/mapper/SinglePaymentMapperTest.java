@@ -15,12 +15,12 @@ import de.adorsys.psd2.xs2a.core.pis.TransactionStatus;
 import de.adorsys.psd2.xs2a.core.profile.AccountReference;
 import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -30,13 +30,12 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Currency;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
-public class SinglePaymentMapperTest {
+@ExtendWith(MockitoExtension.class)
+class SinglePaymentMapperTest {
     private static final String PAYMENT_ID = "QWERTY";
     private static final String END_TO_EN_ID = "YTREWQ";
     private static final String CREDITOR_AGENT = "Agent";
@@ -64,46 +63,51 @@ public class SinglePaymentMapperTest {
     private TimeMapper timeMapper;
 
     @Test
-    public void mapToPayment() {
+    void mapToPayment() {
+        // Given
         when(timeMapper.mapTime(any())).thenReturn(REQUESTED_TIME);
         SinglePaymentTO expected = getSinglePaymentTO();
+
+        // When
         SinglePaymentTO result = mapper.toPayment(getCmsSinglePayment());
-        assertThat(result).isEqualToComparingFieldByFieldRecursively(expected);
+
+        // Then
+        assertEquals(expected, result);
     }
 
     @Test
-    public void mapPisExecutionRule() {
-        //when
+    void mapPisExecutionRule() {
+        // When
         String rule = mapper.mapPisExecutionRule(PisExecutionRule.FOLLOWING);
 
-        //then
+        // Then
         assertFalse(StringUtils.isEmpty(rule));
     }
 
     @Test
-    public void mapPisExecutionRule_null() {
-        //when
+    void mapPisExecutionRule_null() {
+        // When
         String rule = mapper.mapPisExecutionRule(null);
 
-        //then
+        // Then
         assertTrue(StringUtils.isEmpty(rule));
     }
 
     @Test
-    public void mapPisDayOfExecution() {
-        //when
+    void mapPisDayOfExecution() {
+        // When
         int day = mapper.mapPisDayOfExecution(PisDayOfExecution._3);
 
-        //then
+        // Then
         assertEquals(day, Integer.parseInt(PisDayOfExecution._3.getValue()));
     }
 
     @Test
-    public void mapPisDayOfExecution_null() {
-        //when
+    void mapPisDayOfExecution_null() {
+        // When
         int day = mapper.mapPisDayOfExecution(null);
 
-        //then
+        // Then
         assertEquals(day, Integer.parseInt(PisDayOfExecution._1.getValue()));
     }
 

@@ -1,18 +1,14 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { DataService } from './data.service';
-import {ToastrService} from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 describe('DataService', () => {
-
   const ToastrServiceStub = {};
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        DataService,
-        { provide: ToastrService, useValue: ToastrServiceStub }
-      ]
+      providers: [DataService, { provide: ToastrService, useValue: ToastrServiceStub }],
     });
   });
 

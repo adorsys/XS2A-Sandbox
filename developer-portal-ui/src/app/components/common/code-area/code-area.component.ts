@@ -1,5 +1,6 @@
-import {Component, Input} from '@angular/core';
-import {DataService} from "../../../services/data.service";
+import { Component, Input } from '@angular/core';
+import { DataService } from '../../../services/data.service';
+import { JSON_SPACING } from '../constant/constants';
 
 @Component({
   selector: 'app-code-area',
@@ -11,8 +12,7 @@ export class CodeAreaComponent {
   @Input() id: string;
   shown = false;
 
-  constructor(private dataService: DataService) {
-  }
+  constructor(private dataService: DataService) {}
 
   collapseThis(collapseId: string) {
     const collapsibleItemContent = document.getElementById(collapseId);
@@ -22,14 +22,12 @@ export class CodeAreaComponent {
     if (collapsibleItemContent.style.maxHeight) {
       collapsibleItemContent.style.maxHeight = '';
     } else {
-      collapsibleItemContent.style.maxHeight = `${
-        collapsibleItemContent.scrollHeight
-        }px`;
+      collapsibleItemContent.style.maxHeight = `${collapsibleItemContent.scrollHeight}px`;
     }
   }
 
   copyText(json: object) {
-    const textToCopy = JSON.stringify(json, null, 4);
+    const textToCopy = JSON.stringify(json, null, JSON_SPACING);
     const selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';
     selBox.style.left = '0';
@@ -41,10 +39,6 @@ export class CodeAreaComponent {
     selBox.select();
     document.execCommand('copy');
     document.body.removeChild(selBox);
-    this.dataService.showToast(
-      'Json body is copied to clipboard.',
-      'Copied successfully!',
-      'success'
-    );
+    this.dataService.showToast('Json body is copied to clipboard.', 'Copied successfully!', 'success');
   }
 }

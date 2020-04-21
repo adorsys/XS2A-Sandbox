@@ -1,15 +1,13 @@
-import {Injectable} from '@angular/core';
-import {MarkdownService} from 'ngx-markdown';
+import { Injectable } from '@angular/core';
+import { MarkdownService } from 'ngx-markdown';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MarkdownStylingService {
-
   private counter = 1;
 
-  constructor(private markdownService: MarkdownService) {
-  }
+  constructor(private markdownService: MarkdownService) {}
 
   public resetCounter() {
     this.counter = 0;
@@ -19,7 +17,7 @@ export class MarkdownStylingService {
     this.markdownService.renderer.heading = (text: string, level: number) => {
       const headerTag = `<section id="${this.counter}"><h${level}> ${text} </h${level}></section>`;
 
-      if (level == 1) {
+      if (level === 1) {
         if (contentTable) {
           this.addHeaderToTable(text, this.counter);
         }

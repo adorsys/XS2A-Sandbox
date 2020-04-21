@@ -117,17 +117,17 @@ In case of REDIRECT SCA approach a user wants to provide consent for using their
 
 ## Prerequisites
 
-This sandbox runs with the docker-compose that can be found at docker-compose.yml and Makefile in project directory. But before you run XS2ASandbox, first check if all build dependencies are installed: 
+This sandbox runs with the docker-compose that can be found at docker-compose.yml and Makefile in project directory. But before you run XS2ASandbox, first check if all build dependencies are installed:
 
 _make check_
 
-If something is missing, install it to your local machine, otherwise the build will fail. List of dependencies that are required to use XS2ASandbox: Java 8, NodeJs, Angular CLI, Asciidoctor, jq, Docker, Docker Compose, Maven, PlantUML. Here are links where you can install needed dependencies:
+If something is missing, install it to your local machine, otherwise the build will fail. List of dependencies that are required to use XS2ASandbox: Java 11, NodeJs, Angular CLI, Asciidoctor, jq, Docker, Docker Compose, Maven, PlantUML. Here are links where you can install needed dependencies:
 
 | Dependency          |                  Link                   |
 | ------------------- | :-------------------------------------: |
-| Java 8              |    https://openjdk.java.net/install/    |
+| Java 11             |    https://openjdk.java.net/install/    |
 | Node.js 11.x        |     https://nodejs.org/en/download      |
-| Angular CLI 7.x     |   https://angular.io/guide/quickstart   |
+| Angular CLI 9.x     |   https://angular.io/guide/quickstart   |
 | Asciidoctor 2.0     |         https://asciidoctor.org         |
 | jq 1.6              | https://stedolan.github.io/jq/download  |
 | Docker 1.17         |   https://www.docker.com/get-started    |
@@ -173,11 +173,7 @@ _make_
 
 _docker-compose up_
 
-In Makefile you can use one of four commands:
-
-• Run release version of services from Docker Hub without build:
-
-_make run-release_
+In Makefile you can use one of three commands:
 
 • Run services from Docker Hub without build:
 
@@ -278,13 +274,17 @@ It is possible to customize texts, navigation, amount and content of pages and s
 <div class="divider">
 </div>
 
-# Google Analytics support 
+# Google Analytics support
 
-To connect your Google Analytics account, in docker-compose.yml in Developer Portal UI section add property TRACKING_ID with your Google Analytics account ID. Then run docker-compose normally, Google Analytics account would be connected automatically.
+To connect your Google Analytics account, in UITheme.json in `custom-content` folder in Developer Portal add property `googleAnalyticsTrackingId` with your Google Analytics account ID in `globalSettings` section. Then run application normally, Google Analytics account would be connected automatically.
 
-![Google Analytics Docker](../../assets/images/googleAnalyticsDocker.png)
-
-The example of docker-compose.yaml with enabled Google Analytics support can be fount in [docker-compose-google-analytics-enabled.yml](https://github.com/adorsys/XS2A-Sandbox/blob/master/docker-compose-google-analytics-enabled.yml) file in root of the Sandbox repository.
+```json
+{
+  "globalSettings": {
+    "googleAnalyticsTrackingId": "YOUR_TRACKING_ID"
+  }
+}
+```
 
 The application gives to Google Analytics the information about every page visit and some events. These event are every try out of API endpoint in Test Cases section (event is triggered by clicking on `Submit` button) and Postman tests download (event is triggered by clicking on `Download` button).
 

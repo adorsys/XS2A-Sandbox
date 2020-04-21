@@ -1,8 +1,8 @@
 # XS2ASandbox
+
 [![Build Status](https://api.travis-ci.com/adorsys/XS2A-Sandbox.svg?branch=master)](https://travis-ci.com/adorsys/XS2A-Sandbox)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=adorsys_XS2A-Sandbox&metric=alert_status)](https://sonarcloud.io/dashboard?id=adorsys_XS2A-Sandbox)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=adorsys_XS2A-Sandbox&metric=coverage)](https://sonarcloud.io/dashboard?id=adorsys_XS2A-Sandbox)
-
 
 ## What is it
 
@@ -21,17 +21,32 @@ With XS2ASandbox [TPP UI](https://github.com/adorsys/XS2A-Sandbox/tree/master/tp
 
 All four SCA approaches are supported: REDIRECT, OAUTH, EMBEDDED, DECOUPLED. Two of them (REDIRECT, EMBEDDED) are directly testable on Developer portal. For the Redirect SCA Approach an [Online Banking UI](https://github.com/adorsys/XS2A-Sandbox/tree/master/oba-ui) is used for authorisation.
 
-![XS2ASandbox structure](https://github.com/adorsys/XS2A-Sandbox/tree/master/docs/XS2ASandbox.png)
-
+![XS2ASandbox structure](https://github.com/adorsys/XS2A-Sandbox/blob/master/XS2ASandbox.png)
 
 ## Project documentation
 
-* [Release notes](https://github.com/adorsys/XS2A-Sandbox/tree/master/docs/release_notes) contain information about changes included into releases.
-* [User Guide](https://github.com/adorsys/XS2A-Sandbox/tree/master/docs/user-guide.md) describes how to configure XS2ASandbox.
+-   [Release notes](https://github.com/adorsys/XS2A-Sandbox/tree/master/docs/release_notes) contain information about changes included into releases.
+-   [User Guide](https://github.com/adorsys/XS2A-Sandbox/tree/master/docs/user-guide.md) describes how to configure XS2ASandbox.
+-   [UI Customization guide](https://github.com/adorsys/XS2A-Sandbox/blob/master/docs/customization_guide/UIs_customization_guide.md) describes how to customize Developer Portal, Online Banking UI and TPP UI.
+-   [Architecture Documentation](https://github.com/adorsys/XS2A-Sandbox/blob/develop/docs/arc42/README.adoc) describes how to instal, create and use tools for our diagrams.
 
 ## How to try it
 
-* [Running XS2ASandbox instructions](https://github.com/adorsys/XS2A-Sandbox/tree/master/docs/running-xs2asandbox.md) will help you getting you a copy of the project up and running on your local machine.
+-   [Running XS2ASandbox instructions](https://github.com/adorsys/XS2A-Sandbox/tree/master/docs/running-xs2asandbox.md) will help you getting you a copy of the project up and running on your local machine.
+
+## Version policy
+
+In general XS2ASandbox Team follows [SemVer](https://semver.org/) for versioning. This means our versions follow the model A.B.C, where:
+
+- A - is the major version, pointing out mainline.
+
+- B - is the minor version, pointing out the next release in the mainline.
+
+- C - is the hotfix version, used to deliver patches between releases when needed. If omitted, version 4.5 will be considered equal to 4.5.0.
+
+We support one release version at the moment.
+
+Normally new version is released every two weeks, however this is not a strict rule, rather our willingness.
 
 ## Development and contributing
 

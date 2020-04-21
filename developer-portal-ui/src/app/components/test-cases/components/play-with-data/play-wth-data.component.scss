@@ -4,7 +4,7 @@
 
   .request-method {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     margin-bottom: 2vw;
   }
 
@@ -91,7 +91,8 @@
       width: 40%;
     }
 
-    input, select {
+    input,
+    select {
       outline: none;
       width: 100%;
       font-size: 1em;
@@ -251,7 +252,8 @@
   overflow: hidden;
 }
 
-.top-line, select {
-  display: table-cell;
-  vertical-align: middle;
+.top-line,
+select {
+  display: inline;
+  vertical-align: inherit;
 }

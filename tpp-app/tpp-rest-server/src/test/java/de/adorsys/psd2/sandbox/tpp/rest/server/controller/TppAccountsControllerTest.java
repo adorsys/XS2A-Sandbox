@@ -12,11 +12,11 @@ import de.adorsys.ledgers.util.domain.CustomPageImpl;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.*;
 import de.adorsys.psd2.sandbox.tpp.rest.server.mapper.AccountMapper;
 import de.adorsys.psd2.sandbox.tpp.rest.server.service.DownloadResourceService;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 
@@ -27,13 +27,12 @@ import java.util.List;
 import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
-public class TppAccountsControllerTest {
+@ExtendWith(MockitoExtension.class)
+class TppAccountsControllerTest {
     private static final String USER_LOGIN = "TEST";
     private static final String USER_ID = "o2SA3pHkRqYpnHkGYGfJ_s";
     private static final String ACCOUNT_ID = "iZ4HeU0hQ-4vAqi8w7GD7Y";
@@ -54,119 +53,119 @@ public class TppAccountsControllerTest {
     private AccountRestClient accountRestClient;
 
     @Test
-    public void createAccount() {
-        //given
+    void createAccount() {
+        // Given
         when(accountMapper.toAccountDetailsTO(any())).thenReturn(getAccountDetailsTO());
         when(accountMgmtStaffRestClient.createDepositAccountForUser(any(), any())).thenAnswer(i -> ResponseEntity.ok().build());
 
-        //when
+        // When
         ResponseEntity<Void> response = accountsController.createAccount(USER_ID, getDepositAccount());
 
-        //then
+        // Then
         assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
         verify(accountMapper, times(1)).toAccountDetailsTO(getDepositAccount());
     }
 
     @Test
-    public void updateAccountAccess() {
-        //given
+    void updateAccountAccess() {
+        // Given
         when(accountMapper.toAccountAccessTO(any())).thenReturn(getAccountAccessTO());
         when(userMgmtStaffRestClient.updateAccountAccessForUser(any(), any())).thenAnswer(i -> ResponseEntity.ok().build());
 
-        //when
+        // When
         ResponseEntity<Void> response = accountsController.updateAccountAccess(getAccountAccess());
 
-        //then
+        // Then
         assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
         verify(accountMapper, times(1)).toAccountAccessTO(getAccountAccess());
     }
 
     @Test
-    public void getAllAccounts() {
-        //given
+    void getAllAccounts() {
+        // Given
         when(accountMgmtStaffRestClient.getListOfAccounts()).thenAnswer(i -> ResponseEntity.ok(Collections.singletonList(getAccountDetailsTO())));
 
-        //when
+        // When
         ResponseEntity<List<AccountDetailsTO>> response = accountsController.getAllAccounts();
 
-        //then
+        // Then
         assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
         assertEquals(Objects.requireNonNull(response.getBody()).get(0), getAccountDetailsTO());
     }
 
     @Test
-    public void getAllAccountsPaged() {
-        //given
+    void getAllAccountsPaged() {
+        // Given
         when(accountMgmtStaffRestClient.getListOfAccountsPaged(any(), anyInt(), anyInt())).thenAnswer(i -> ResponseEntity.ok(getCustomPageImpl()));
 
-        //when
+        // When
         ResponseEntity<CustomPageImpl<AccountDetailsTO>> response = accountsController.getAllAccounts(IBAN, 0, 25);
 
-        //then
+        // Then
         assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
     }
 
     @Test
-    public void getAccountDetailsByIban() {
-        //given
+    void getAccountDetailsByIban() {
+        // Given
         when(accountRestClient.getAccountDetailsByIban(any())).thenAnswer(i -> ResponseEntity.ok(getAccountDetailsTO()));
 
-        //when
+        // When
         ResponseEntity<AccountDetailsTO> response = accountsController.getAccountDetailsByIban(IBAN);
 
-        //then
+        // Then
         assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
         assertEquals(response.getBody(), getAccountDetailsTO());
     }
 
     @Test
-    public void getSingleAccount() {
-        //given
+    void getSingleAccount() {
+        // Given
         when(accountMgmtStaffRestClient.getAccountDetailsById(any())).thenAnswer(i -> ResponseEntity.ok(getAccountDetailsTO()));
 
-        //when
+        // When
         ResponseEntity<AccountDetailsTO> response = accountsController.getSingleAccount(ACCOUNT_ID);
 
-        //then
+        // Then
         assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
         assertEquals(response.getBody(), getAccountDetailsTO());
     }
 
     @Test
-    public void accountReport() {
-        //given
+    void accountReport() {
+        // Given
         when(accountMgmtStaffRestClient.getExtendedAccountDetailsById(any())).thenReturn(ResponseEntity.ok(getAccountReportTO()));
         when(accountMapper.toAccountReport(any())).thenReturn(getAccountReport());
 
-        //when
+        // When
         ResponseEntity<AccountReport> response = accountsController.accountReport(ACCOUNT_ID);
 
-        //then
+        // Then
         assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
         assertEquals(response.getBody(), getAccountReport());
     }
 
     @Test
-    public void depositCash() {
-        //given
+    void depositCash() {
+        // Given
         when(accountMgmtStaffRestClient.depositCash(any(), any())).thenAnswer(i -> ResponseEntity.ok().build());
 
-        //when
+        // When
         ResponseEntity<Void> response = accountsController.depositCash(ACCOUNT_ID, getAmountTO());
 
-        //then
+        // Then
         assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
     }
 
     @Test
-    public void downloadAccountTemplate() {
-        //given
+    void downloadAccountTemplate() {
+        // Given
         when(downloadResourceService.getResourceByTemplate(any())).thenReturn(null);
 
-        //when
+        // When
         ResponseEntity<Resource> response = accountsController.downloadAccountTemplate();
 
-        //then
+        // Then
         assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
     }
 
@@ -208,6 +207,6 @@ public class TppAccountsControllerTest {
     }
 
     private CustomPageImpl<AccountDetailsTO> getCustomPageImpl() {
-        return new CustomPageImpl<AccountDetailsTO>();
+        return new CustomPageImpl<>();
     }
 }

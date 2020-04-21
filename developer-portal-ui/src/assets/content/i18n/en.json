@@ -471,7 +471,17 @@
         "PART_2": "to get account's transaction with current id.",
         "PART_3": "Put in ",
         "PART_4": " the consent-id of account\n that you want to get(you can view users and their information in TPP-UI)."
+      },
+      "FUNDS_CONFIRMATION": {
+        "TH": "Funds confirmation:",
+        "TH2": "Confirmation of funds request",
+        "PART_1": "1. Try POST endpoint",
+        "PART_2": " to check whether funds are available for chosen user. Fill the header fields with the following values: ",
+        "PART_3": "2. Insert into request body the following json:",
+        "PART_4": "3. Change placeholder ",
+        "PART_5": " to the IBAN of the chosen user. Set user currency in the field \"currency\"."
       }
+
     }
   },
   "CONTACT": {

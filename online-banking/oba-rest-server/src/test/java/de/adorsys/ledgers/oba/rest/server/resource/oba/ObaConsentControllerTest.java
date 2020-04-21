@@ -10,24 +10,24 @@ import de.adorsys.ledgers.oba.service.api.domain.TppInfoTO;
 import de.adorsys.ledgers.oba.service.api.service.ConsentService;
 import de.adorsys.ledgers.oba.service.api.service.TppInfoCmsService;
 import de.adorsys.psd2.consent.api.ais.CmsAisAccountConsent;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.internal.util.reflection.Whitebox;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.internal.util.reflection.FieldSetter;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
-public class ObaConsentControllerTest {
+@ExtendWith(MockitoExtension.class)
+class ObaConsentControllerTest {
     private static final String LOGIN = "login";
     private static final String CONSENT_ID = "consentId";
     private static final String AUTH_ID = "auth";
@@ -45,10 +45,15 @@ public class ObaConsentControllerTest {
     private TppInfoCmsService tppInfoCmsService;
 
     @Test
-    public void consents() {
+    void consents() {
+        // Given
         when(consentService.getListOfConsents(anyString())).thenReturn(getObaAisConsents());
+
+        // When
         ResponseEntity<List<ObaAisConsent>> response = controller.consents(LOGIN);
-        assertThat(response).isEqualToComparingFieldByFieldRecursively(ResponseEntity.ok(getObaAisConsents()));
+
+        // Then
+        assertEquals(ResponseEntity.ok(getObaAisConsents()), response);
     }
 
     private List<ObaAisConsent> getObaAisConsents() {
@@ -56,23 +61,48 @@ public class ObaConsentControllerTest {
     }
 
     @Test
-    public void revokeConsent() {
+    void revokeConsent() {
+        // Given
         when(consentService.revokeConsent(anyString())).thenReturn(true);
+
+        // When
         ResponseEntity<Boolean> response = controller.revokeConsent(CONSENT_ID);
-        assertThat(response).isEqualToComparingFieldByFieldRecursively(ResponseEntity.ok(true));
+
+        // Then
+        assertEquals(ResponseEntity.ok(true), response);
     }
 
     @Test
-    public void confirm() {
+    void confirm() {
+        // When
         ResponseEntity<Void> response = controller.confirm(LOGIN, CONSENT_ID, AUTH_ID, TAN);
-        assertThat(response).isEqualToComparingFieldByFieldRecursively(ResponseEntity.accepted().build());
+
+        // Then
+        assertEquals(ResponseEntity.accepted().build(), response);
     }
 
     @Test
-    public void createPiis() {
-        Whitebox.setInternalState(controller, "auth", new ObaMiddlewareAuthentication(null, new BearerTokenTO(TOKEN, null, 999, null, getAccessTokenTO())));
+    void createPiis() throws NoSuchFieldException {
+        // Given
+        FieldSetter.setField(controller, controller.getClass().getDeclaredField("auth"), new ObaMiddlewareAuthentication(null, new BearerTokenTO(TOKEN, null, 999, null, getAccessTokenTO())));
+
+        // When
         ResponseEntity<Void> response = controller.createPiis(new CreatePiisConsentRequestTO());
-        assertThat(response).isEqualToComparingFieldByFieldRecursively(ResponseEntity.ok().build());
+
+        // Then
+        assertEquals(ResponseEntity.ok().build(), response);
+    }
+
+    @Test
+    void tpps() {
+        // Given
+        when(tppInfoCmsService.getTpps()).thenReturn(Collections.singletonList(new TppInfoTO()));
+
+        // When
+        ResponseEntity<List<TppInfoTO>> response = controller.tpps();
+
+        // Then
+        assertEquals(ResponseEntity.ok(Collections.singletonList(new TppInfoTO())), response);
     }
 
     private AccessTokenTO getAccessTokenTO() {
@@ -86,10 +116,4 @@ public class ObaConsentControllerTest {
         return new AisConsentTO(CONSENT_ID, LOGIN, "TPP_ID", 5, null, LocalDate.of(2020, 1, 1), false);
     }
 
-    @Test
-    public void tpps() {
-        when(tppInfoCmsService.getTpps()).thenReturn(Collections.singletonList(new TppInfoTO()));
-        ResponseEntity<List<TppInfoTO>> response = controller.tpps();
-        assertThat(response).isEqualToComparingFieldByFieldRecursively(ResponseEntity.ok(Collections.singletonList(new TppInfoTO())));
-    }
 }

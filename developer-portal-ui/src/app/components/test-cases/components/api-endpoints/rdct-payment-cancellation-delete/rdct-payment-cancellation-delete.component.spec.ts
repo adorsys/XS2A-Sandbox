@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RdctPaymentCancellationDeleteComponent } from './rdct-payment-cancellation-delete.component';
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import {LineCommandComponent} from "../../../../common/line-command/line-command.component";
+import { LineCommandComponent } from '../../../../common/line-command/line-command.component';
 
 describe('RdctPaymentCancellationDeleteComponent', () => {
   let component: RdctPaymentCancellationDeleteComponent;
@@ -29,12 +29,7 @@ describe('RdctPaymentCancellationDeleteComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        RdctPaymentCancellationDeleteComponent,
-        MockPlayWithDataComponent,
-        TranslatePipe,
-        LineCommandComponent,
-      ],
+      declarations: [RdctPaymentCancellationDeleteComponent, MockPlayWithDataComponent, TranslatePipe, LineCommandComponent],
     }).compileComponents();
   }));
 
@@ -54,9 +49,9 @@ describe('RdctPaymentCancellationDeleteComponent', () => {
       'TPP-Explicit-Authorisation-Preferred': 'false',
       'PSU-ID': 'YOUR_USER_LOGIN',
       'PSU-IP-Address': '1.1.1.1',
-      'TPP-Redirect-URI': 'https://adorsys-platform.de/solutions/xs2a-sandbox/',
+      'TPP-Redirect-URI': null,
+      'TPP-Nok-Redirect-URI': null,
       'TPP-Redirect-Preferred': 'true',
-      'TPP-Nok-Redirect-URI': 'https://www.google.com'
     };
     expect(typeof component.headers).toBe('object');
     for (const key in component.headers) {

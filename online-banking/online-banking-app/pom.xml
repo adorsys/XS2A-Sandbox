@@ -5,7 +5,7 @@
     <parent>
         <groupId>de.adorsys.psd2.sandbox</groupId>
         <artifactId>online-banking</artifactId>
-        <version>3.4</version>
+        <version>3.5</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -116,7 +116,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.1.1.RELEASE</version>
+                <version>${spring-boot-dependencies.version}</version>
                 <configuration>
                     <mainClass>de.adorsys.ledgers.oba.app.LedgersXs2aObaApplication</mainClass>
                 </configuration>

@@ -5,7 +5,7 @@
     <parent>
         <artifactId>psd2-dynamic-sandbox</artifactId>
         <groupId>de.adorsys.psd2.sandbox</groupId>
-        <version>3.4</version>
+        <version>3.5</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -20,13 +20,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
-            <version>${spring-boot-dependencies.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
-            <version>${spring-boot-dependencies.version}</version>
             <optional>true</optional>
         </dependency>
 

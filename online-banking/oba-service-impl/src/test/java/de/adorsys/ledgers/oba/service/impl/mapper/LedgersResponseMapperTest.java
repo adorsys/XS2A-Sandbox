@@ -7,8 +7,7 @@ import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.ScaMethodTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.um.ScaUserDataTO;
 import de.adorsys.ledgers.oba.service.api.domain.AuthorizeResponse;
-import de.adorsys.ledgers.oba.service.impl.mapper.LedgersResponseMapper;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import java.time.LocalDateTime;
@@ -17,19 +16,22 @@ import java.util.Arrays;
 import java.util.List;
 
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.RECEIVED;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class LedgersResponseMapperTest {
+class LedgersResponseMapperTest {
     private static final String SCA_ID = "SCA QWERTY";
     private static final String AUTH_ID = "AUTH QWERTY";
     private static final LocalDateTime STATUS_DATE = LocalDateTime.of(1981, 7, 11, 1, 1);
     private static final String ACCESS_TOKEN = "TEST ACCESS TOKEN";
-    LedgersResponseMapper mapper = Mappers.getMapper(LedgersResponseMapper.class);
+    private LedgersResponseMapper mapper = Mappers.getMapper(LedgersResponseMapper.class);
 
     @Test
-    public void toAuthorizeResponse() {
+    void toAuthorizeResponse() {
+        // When
         AuthorizeResponse result = mapper.toAuthorizeResponse(getLoginResponse());
-        assertThat(result).isEqualToComparingFieldByFieldRecursively(getAuthorizeResponse());
+
+        // Then
+        assertEquals(getAuthorizeResponse(), result);
     }
 
     private AuthorizeResponse getAuthorizeResponse() {

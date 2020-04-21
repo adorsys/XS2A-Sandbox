@@ -1,13 +1,13 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {FooterComponent} from './footer.component';
-import {RouterTestingModule} from "@angular/router/testing";
-import {Pipe, PipeTransform} from "@angular/core";
-import {NavigationService} from "../../../services/navigation.service";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {GoogleAnalyticsService} from "../../../services/google-analytics.service";
-import {CustomizeService} from "../../../services/customize.service";
-import {of} from "rxjs";
+import { FooterComponent } from './footer.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Pipe, PipeTransform } from '@angular/core';
+import { NavigationService } from '../../../services/navigation.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { GoogleAnalyticsService } from '../../../services/google-analytics.service';
+import { CustomizeService } from '../../../services/customize.service';
+import { of } from 'rxjs';
 
 describe('FooterComponent', () => {
   let component: FooterComponent;
@@ -53,39 +53,36 @@ describe('FooterComponent', () => {
           addressSecondLine: '65760 Eschborn',
           email: 'frankfurt@adorsys.de',
           facebook: 'https://www.facebook.com/adorsysGmbH/',
-          linkedIn:
-            'https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/',
+          linkedIn: 'https://www.linkedin.com/company/adorsys-gmbh-&-co-kg/',
         },
       ],
       tppSettings: {
         tppDefaultNokRedirectUrl: 'https://www.google.com',
-        tppDefaultRedirectUrl:
-          'https://adorsys-platform.de/solutions/xs2a-sandbox/',
+        tppDefaultRedirectUrl: 'https://adorsys-platform.de/solutions/xs2a-sandbox/',
       },
       supportedLanguages: ['en', 'ua', 'de', 'es'],
       pagesSettings: {
         contactPageSettings: {
           showContactCard: true,
-          showQuestionsComponent: true
+          showQuestionsComponent: true,
         },
         homePageSettings: {
           showQuestionsComponent: true,
           showProductHistory: true,
-          showSlider: true
+          showSlider: true,
         },
         navigationBarSettings: {
-          allowedNavigationSize: 3
-        }
-      }
+          allowedNavigationSize: 3,
+        },
+      },
     }),
-    setStyling: (theme) => {
+    setStyling: () => {},
+    normalizeLanguages: () => {
+      return CustomizeServiceStub.currentTheme.toPromise();
     },
-    normalizeLanguages: (theme) => {
-      return CustomizeServiceStub.currentTheme.toPromise()
-    }
   };
 
-  @Pipe({name: 'translate'})
+  @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -95,21 +92,10 @@ describe('FooterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        FooterComponent,
-        TranslatePipe
-      ],
-      imports: [
-        RouterTestingModule,
-        HttpClientTestingModule
-      ],
-      providers: [
-        NavigationService,
-        GoogleAnalyticsService,
-        {provide: CustomizeService, useValue: CustomizeServiceStub}
-      ]
-    })
-      .compileComponents();
+      declarations: [FooterComponent, TranslatePipe],
+      imports: [RouterTestingModule, HttpClientTestingModule],
+      providers: [NavigationService, GoogleAnalyticsService, { provide: CustomizeService, useValue: CustomizeServiceStub }],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

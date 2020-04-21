@@ -1,26 +1,33 @@
 <div class="footer-bar">
   <div class="footer-top-items">
-    <img *ngIf="globalSettings?.footerLogo" class="logo" [src]="globalSettings?.footerLogo"
-         (click)="navigationService.goToLogoLink(globalSettings?.logoLink, defaultLogoLink)" alt="Logo"/>
+    <img
+      *ngIf="footerSettings?.logo; else emptyTemplate"
+      class="logo"
+      [src]="footerSettings?.logo"
+      (click)="navigationService.goToLogoLink(footerSettings?.logoLink, '/home')"
+      alt="Logo"
+    />
+
+    <ng-template #emptyTemplate>
+      <div class="empty-logo"></div>
+    </ng-template>
 
     <div *ngIf="showNavigation">
-      <a *ngFor="let navItem of navigation" class="footer-item"
-         routerLinkActive="active"
-         [routerLinkActiveOptions]="{ exact: false }"
-         (click)="navigationService.navigateTo(navItem)">
+      <a
+        *ngFor="let navItem of navigation"
+        class="footer-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: false }"
+        (click)="navigationService.navigateTo(navItem)"
+      >
         {{ navItem.navName }}
       </a>
-
     </div>
   </div>
 
-  <div class="social-media" *ngIf="globalSettings?.socialMedia && socialMedia.length > 1">
-    <a *ngFor="let social of socialMedia"
-       class="social-media-item"
-       [href]="globalSettings.socialMedia[social]"
-       target="_blank">
-      <i [class]="getIconForSocialMedia(social)" (click)="sendStats(social)"></i>
+  <div class="social-media" *ngIf="socialMediaDictionary && socialMedia.length > 1">
+    <a *ngFor="let social of socialMedia" class="social-media-item" [href]="socialMediaDictionary[social]" target="_blank">
+      <i [class]="customizeService.getIconClassForSocialMedia(social)" (click)="googleAnalyticsService.sendSocialMediaClicks(social)"></i>
     </a>
   </div>
-
 </div>

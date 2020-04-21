@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {DataService} from '../../services/data.service';
-import {CustomizeService} from '../../services/customize.service';
-import {AspspService} from '../../services/aspsp.service';
-import {LanguageService} from "../../services/language.service";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { DataService } from '../../services/data.service';
+import { CustomizeService } from '../../services/customize.service';
+import { AspspService } from '../../services/aspsp.service';
+import { LanguageService } from '../../services/language.service';
+import { Theme } from '../../models/theme.model';
 
 @Component({
   selector: 'app-test-cases',
@@ -14,13 +15,13 @@ export class TestCasesComponent implements OnInit {
   redirectFlag = false;
   embeddedFlag = false;
   accountFlag = false;
+  fundsConfirmationFlag = false;
   redirectSupported = true;
   embeddedSupported = true;
 
   pathToHeadTestCases = `./assets/content/i18n/en/test-cases/headTestCases.md`;
 
   constructor(
-    private router: Router,
     public dataService: DataService,
     private actRoute: ActivatedRoute,
     private customizeService: CustomizeService,
@@ -30,19 +31,13 @@ export class TestCasesComponent implements OnInit {
     this.setUpUsedApproaches();
   }
 
-  onActivate(ev) {
+  onActivate() {
     this.dataService.setRouterUrl(this.actRoute['_routerState'].snapshot.url);
   }
 
   collapseThis(collapseId: string): void {
-    if (
-      collapseId === 'redirect' ||
-      collapseId === 'embedded' ||
-      collapseId === 'account'
-    ) {
-      const collapsibleItemContent = document.getElementById(
-        `${collapseId}-content`
-      );
+    if (collapseId === 'redirect' || collapseId === 'embedded' || collapseId === 'account' || collapseId === 'funds-confirmation') {
+      const collapsibleItemContent = document.getElementById(`${collapseId}-content`);
 
       switch (collapseId) {
         case 'redirect':
@@ -53,6 +48,9 @@ export class TestCasesComponent implements OnInit {
           break;
         case 'account':
           this.accountFlag = !this.accountFlag;
+          break;
+        case 'funds-confirmation':
+          this.fundsConfirmationFlag = !this.fundsConfirmationFlag;
           break;
       }
 
@@ -75,34 +73,26 @@ export class TestCasesComponent implements OnInit {
       this.collapseThis('redirect');
     }
 
-    this.languageService.currentLanguage.subscribe(
-      data => {
-        this.pathToHeadTestCases = `${this.customizeService.currentLanguageFolder}/${data}/test-cases/headTestCases.md`;
-      });
+    this.languageService.currentLanguage.subscribe((data) => {
+      this.pathToHeadTestCases = `${this.customizeService.currentLanguageFolder}/${data}/test-cases/headTestCases.md`;
+    });
   }
 
   private setUpUsedApproaches() {
-    this.customizeService.currentTheme
-      .subscribe(data => {
-        if (data.supportedApproaches) {
+    this.customizeService.currentTheme.subscribe((data: Theme) => {
+      if (data.pagesSettings) {
+        const playWithDataSettings = data.pagesSettings.playWithDataSettings;
+        if (playWithDataSettings && playWithDataSettings.supportedApproaches) {
           const embedded = 'embedded';
           const redirect = 'redirect';
 
-          let redirectSupportedInSettings = data.supportedApproaches.includes(
-            redirect
-          );
-          let embeddedSupportedInSettings = data.supportedApproaches.includes(
-            embedded
-          );
+          const redirectSupportedInSettings = playWithDataSettings.supportedApproaches.includes(redirect);
+          const embeddedSupportedInSettings = playWithDataSettings.supportedApproaches.includes(embedded);
 
           this.aspspService.getScaApproaches().subscribe(
             (scaApproaches: Array<string>) => {
-              this.redirectSupported =
-                redirectSupportedInSettings &&
-                scaApproaches.includes(redirect.toLocaleUpperCase());
-              this.embeddedSupported =
-                embeddedSupportedInSettings &&
-                scaApproaches.includes(embedded.toLocaleUpperCase());
+              this.redirectSupported = redirectSupportedInSettings && scaApproaches.includes(redirect.toLocaleUpperCase());
+              this.embeddedSupported = embeddedSupportedInSettings && scaApproaches.includes(embedded.toLocaleUpperCase());
             },
             () => {
               this.redirectSupported = redirectSupportedInSettings;
@@ -110,7 +100,7 @@ export class TestCasesComponent implements OnInit {
             }
           );
         }
-
-      });
+      }
+    });
   }
 }

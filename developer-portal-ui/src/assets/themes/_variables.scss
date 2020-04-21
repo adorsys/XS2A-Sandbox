@@ -68,17 +68,19 @@ $dark-80: #2c2e2f;
   /* Body */
   --bodyBG: #fafafa;
   --bodyFontColor: #868e96;
-  --bodyPadding: 7.5vw 7vw 0 7vw;
+  --bodyPadding: 7vw 0vw 0vw 0vw;
 
   /* Main */
   --mainBG: transparent;
+  --mainPadding: 0 7vw;
 
   /* Header */
   --headerBG: #ffffff;
   --headerFontColor: #000000;
   --headerActiveBG: #ffffff;
-  --headerWidth: 86%;
+  --headerWidth: 100%;
   --headerBorderTop: 0px;
+  --headerBoxShadowBottom: 0 2px 2px -1px gray;
 
   /* Footer */
   --footerBG: #054f72;
@@ -101,6 +103,8 @@ $dark-80: #2c2e2f;
   /* TestCases */
   --testCasesLeftSectionBG: #ffffff;
   --testCasesRightSectionBG: #eeeeee;
+  --testCasesAnchorFontColor: #484848;
+  --testCasesAnchorFontColorHover: #0984bf;
 
   /* Buttons */
   --buttonTextColor: #fff;
@@ -108,27 +112,15 @@ $dark-80: #2c2e2f;
 
   --buttonBgGradient1: #0db0e2;
   --buttonBgGradient2: #054f72;
-  --buttonBG: linear-gradient(
-    129.54deg,
-    var(--buttonBgGradient1) 0%,
-    var(--buttonBgGradient2) 100%
-  );
+  --buttonBG: linear-gradient(129.54deg, var(--buttonBgGradient1) 0%, var(--buttonBgGradient2) 100%);
 
   --buttonHoveredGradient1: #0f62a4;
   --buttonHoveredGradient2: #054f72;
-  --buttonHovered: linear-gradient(
-    129.54deg,
-    var(--buttonHoveredGradient1) 0%,
-    var(--buttonHoveredGradient2) 100%
-  );
+  --buttonHovered: linear-gradient(129.54deg, var(--buttonHoveredGradient1) 0%, var(--buttonHoveredGradient2) 100%);
 
   --buttonClickedGradient1: #0db0e2;
   --buttonClickedGradient2: #062e72;
-  --buttonClicked: linear-gradient(
-    129.54deg,
-    var(--buttonClickedGradient1) 0%,
-    var(--buttonClickedGradient2) 100%
-  );
+  --buttonClicked: linear-gradient(129.54deg, var(--buttonClickedGradient1) 0%, var(--buttonClickedGradient2) 100%);
 
   /* Inputs */
   --inputBG: $COLOR_WHITE;
@@ -168,4 +160,13 @@ $dark-80: #2c2e2f;
   --checkBoxMarkTop: 30%;
   --checkBoxMarkWidth: 7px;
   --checkBoxMarkHeight: 8px;
+
+  /* Links */
+  --anchorBGcolorHover: transparent;
+
+  /* Background-image */
+  --backgroundImage: none;
+
+  /* List style */
+  --listStyle: decimal;
 }

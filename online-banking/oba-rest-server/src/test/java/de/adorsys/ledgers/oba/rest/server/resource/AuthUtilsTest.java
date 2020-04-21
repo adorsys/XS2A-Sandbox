@@ -5,23 +5,26 @@ import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Collections;
 
-public class AuthUtilsTest {
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+class AuthUtilsTest {
 
     private static final String LOGIN = "anton.brueckner";
 
     @Test
-    public void checkIfUserInitiatedOperation() {
+    void checkIfUserInitiatedOperation() {
         AuthUtils.checkIfUserInitiatedOperation(getLoginResult(), Collections.singletonList(getPsuIdData(LOGIN)));
     }
 
-    @Test(expected = AuthorizationException.class)
-    public void checkIfUserInitiatedOperation_fail() {
-        AuthUtils.checkIfUserInitiatedOperation(getLoginResult(), Collections.singletonList(getPsuIdData("some wrong login")));
+    @Test
+    void checkIfUserInitiatedOperation_fail() {
+        // Then
+        assertThrows(AuthorizationException.class, () -> AuthUtils.checkIfUserInitiatedOperation(getLoginResult(), Collections.singletonList(getPsuIdData("some wrong login"))));
     }
 
     private PsuIdData getPsuIdData(String login) {

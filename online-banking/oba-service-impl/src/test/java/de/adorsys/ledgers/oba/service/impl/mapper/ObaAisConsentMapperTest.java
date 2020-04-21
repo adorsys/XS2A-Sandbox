@@ -13,10 +13,10 @@ import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
 import de.adorsys.psd2.xs2a.core.profile.AccountReference;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -25,10 +25,10 @@ import java.util.Currency;
 
 import static de.adorsys.ledgers.middleware.api.domain.account.AccountStatusTO.ENABLED;
 import static de.adorsys.ledgers.middleware.api.domain.account.AccountTypeTO.CASH;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(MockitoJUnitRunner.class)
-public class ObaAisConsentMapperTest {
+@ExtendWith(MockitoExtension.class)
+class ObaAisConsentMapperTest {
     private static final String CONSENT_ID = "234234kjlkjklj2lk34j";
     private static final String IBAN = "DE1234567890";
     private static final Currency EUR = Currency.getInstance("EUR");
@@ -37,21 +37,21 @@ public class ObaAisConsentMapperTest {
     private ObaAisConsentMapper obaAisConsentMapper;
 
     @Test
-    public void toTo() {
-        //when
+    void toTo() {
+        // When
         AisConsentTO result = obaAisConsentMapper.toTo(getCmsAisAccountConsent());
 
-        //then
-        assertThat(result).isEqualToComparingFieldByFieldRecursively(getAisConsentTO());
+        // Then
+        assertEquals(getAisConsentTO(), result);
     }
 
     @Test
-    public void accountAccess() {
-        //when
+    void accountAccess() {
+        // When
         AisAccountAccess result = obaAisConsentMapper.accountAccess(getAisAccountAccessInfoTO(), Collections.singletonList(getAccountDetailsTO()));
 
-        //then
-        assertThat(result).isEqualToComparingFieldByFieldRecursively(getAisAccountAccess());
+        // Then
+        assertEquals(getAisAccountAccess(), result);
     }
 
     private AccountDetailsTO getAccountDetailsTO() {

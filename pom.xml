@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.adorsys.psd2.sandbox</groupId>
     <artifactId>psd2-dynamic-sandbox</artifactId>
-    <version>3.4</version>
+    <version>3.5</version>
     <packaging>pom</packaging>
 
     <name>PSD2 Dynamic Sandbox</name>
@@ -96,12 +96,11 @@
         <java.version>11</java.version>
         <pmd.plugin.version>3.13.0</pmd.plugin.version>
         <!-- xs2a version -->
-        <xs2a.version>7.1</xs2a.version>
-        <connector.version>7.1</connector.version>
-        <ledgers.version>3.0</ledgers.version>
-        <psd2.certificate.generator.version>1.5.0</psd2.certificate.generator.version>
+        <xs2a.version>7.2</xs2a.version>
+        <connector.version>7.2</connector.version>
+        <ledgers.version>3.1</ledgers.version>
         <!-- other properties -->
-        <spring-boot-dependencies.version>2.1.1.RELEASE</spring-boot-dependencies.version>
+        <spring-boot-dependencies.version>2.2.4.RELEASE</spring-boot-dependencies.version>
         <spring-cloud-dependencies.version>Greenwich.RELEASE</spring-cloud-dependencies.version>
         <spring-test-dependencies.version>5.1.6.RELEASE</spring-test-dependencies.version>
         <feign.version>10.2.3</feign.version>
@@ -115,8 +114,8 @@
         <lombok.version>1.18.4</lombok.version>
         <bcpkix-jdk15on.version>1.60</bcpkix-jdk15on.version>
         <commons-io.version>2.6</commons-io.version>
-        <junit.version>4.12</junit.version>
-        <mockito.version>1.10.19</mockito.version>
+        <junit-jupiter.version>5.5.2</junit-jupiter.version>
+        <mockito.version>3.2.4</mockito.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <fasterxml.version>2.10.1</fasterxml.version>
         <fasterxml-data-format.version>2.9.8</fasterxml-data-format.version>
@@ -304,24 +303,32 @@
             </dependency>
 
             <!-- Test dependencies -->
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-all</artifactId>
-                <version>${mockito.version}</version>
-                <scope>test</scope>
-            </dependency>
 
             <dependency>
                 <groupId>commons-validator</groupId>
                 <artifactId>commons-validator</artifactId>
                 <version>${commons-validator.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>${junit-jupiter.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>${junit-jupiter.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-junit-jupiter</artifactId>
+                <version>${mockito.version}</version>
                 <scope>test</scope>
             </dependency>
 

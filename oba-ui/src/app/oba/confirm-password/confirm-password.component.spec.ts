@@ -5,14 +5,17 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-
+import { CustomizeService } from '../../common/services/customize.service';
 import { AuthService } from '../../common/services/auth.service';
 import { ConfirmPasswordComponent } from './confirm-password.component';
+import {ActivatedRoute, Router} from "@angular/router";
+import { of } from 'rxjs'
 
 describe('ConfirmPasswordComponent', () => {
     let component: ConfirmPasswordComponent;
     let fixture: ComponentFixture<ConfirmPasswordComponent>;
     let authService: AuthService;
+    let customizeService: CustomizeService;
     let authServiceSpy;
     let de: DebugElement;
     let el: HTMLElement;
@@ -25,7 +28,7 @@ describe('ConfirmPasswordComponent', () => {
                 RouterTestingModule,
                 BrowserAnimationsModule,
             ],
-            providers: [AuthService],
+            providers: [AuthService, CustomizeService],
             declarations: [ConfirmPasswordComponent]
         })
             .compileComponents();
@@ -35,10 +38,9 @@ describe('ConfirmPasswordComponent', () => {
         fixture = TestBed.createComponent(ConfirmPasswordComponent);
         component = fixture.componentInstance;
         authService = fixture.debugElement.injector.get(AuthService);
-
+        customizeService = TestBed.get(CustomizeService);
         de = fixture.debugElement.query(By.css('form'));
         el = de.nativeElement;
-
         fixture.detectChanges();
         component.ngOnInit();
     });
@@ -96,5 +98,18 @@ describe('ConfirmPasswordComponent', () => {
         errors = code.errors || {};
         fixture.detectChanges();
         expect(errors['required']).toBeFalsy();
+    });
+
+    it('should call the valid form on Submit ', () => {
+        component.confirmNewPasswordForm.get('newPassword').setValue('12345');
+        component.confirmNewPasswordForm.get('code').setValue('1234');
+        let resetSpy = spyOn(authService, 'resetPassword').and.returnValue(of({}));
+        component.onSubmit();
+        expect(resetSpy).toHaveBeenCalled();
+    });
+
+    it('should call the on Submit', () => {
+        component.onSubmit();
+        expect(component.confirmNewPasswordForm.invalid).toBeTruthy()
     });
 });

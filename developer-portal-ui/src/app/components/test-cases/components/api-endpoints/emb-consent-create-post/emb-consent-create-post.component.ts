@@ -40,51 +40,49 @@ export class EmbConsentCreatePostComponent implements OnInit {
 
   fetchJsonData() {
     this.spinner.show();
+    const bodyIndex = 0;
+    const jsonDataIndex = 5;
 
-    const results = combineLatest(
-      this.jsonService.getPreparedJsonData(
-        this.jsonService.jsonLinks.dedicatedAccountsConsent
-      ),
-      this.jsonService.getPreparedJsonData(
-        this.jsonService.jsonLinks.bankOfferedConsent
-      ),
-      this.jsonService.getPreparedJsonData(
-        this.jsonService.jsonLinks.globalConsent
-      ),
-      this.jsonService.getPreparedJsonData(
-        this.jsonService.jsonLinks.availableAccountsConsent
-      ),
-      this.jsonService.getPreparedJsonData(
-        this.jsonService.jsonLinks.availableAccountsConsentWithBalance
-      ),
-      this.jsonService.getPreparedJsonData(this.jsonService.jsonLinks.consent)
-    );
+    const observables = combineLatest([
+      this.jsonService.getPreparedJsonData(this.jsonService.jsonLinks.dedicatedAccountsConsent),
+      this.jsonService.getPreparedJsonData(this.jsonService.jsonLinks.bankOfferedConsent),
+      this.jsonService.getPreparedJsonData(this.jsonService.jsonLinks.globalConsent),
+      this.jsonService.getPreparedJsonData(this.jsonService.jsonLinks.availableAccountsConsent),
+      this.jsonService.getPreparedJsonData(this.jsonService.jsonLinks.availableAccountsConsentWithBalance),
+      this.jsonService.getPreparedJsonData(this.jsonService.jsonLinks.consent),
+    ]);
 
-    results.subscribe(results => {
-      this.body = results[0];
-      this.jsonData = results[5];
+    observables.subscribe((results) => {
+      this.body = results[bodyIndex];
+      this.jsonData = results[jsonDataIndex];
       this.setConsentTypes(results);
       this.spinner.hide();
     });
   }
 
   setConsentTypes(results: any[]) {
+    const contentTypesIndex = 0;
+    const bankOfferedConsentIndex = 1;
+    const globalConsentIndex = 2;
+    const availableAccountsConsentIndex = 3;
+    const availableAccountsConsentWithBalanceIndex = 4;
+
     this.consentTypes = {
-      dedicatedAccountsConsent: results[0],
+      dedicatedAccountsConsent: results[contentTypesIndex],
     };
 
-    this.aspsp.getAspspProfile().subscribe(object => {
+    this.aspsp.getAspspProfile().subscribe((object) => {
       const allConsentTypes = object.ais.consentTypes;
 
       if (allConsentTypes.bankOfferedConsentSupported) {
-        this.consentTypes.bankOfferedConsent = results[1];
+        this.consentTypes.bankOfferedConsent = results[bankOfferedConsentIndex];
       }
       if (allConsentTypes.globalConsentSupported) {
-        this.consentTypes.globalConsent = results[2];
+        this.consentTypes.globalConsent = results[globalConsentIndex];
       }
       if (allConsentTypes.availableAccountsConsentSupported) {
-        this.consentTypes.availableAccountsConsent = results[3];
-        this.consentTypes.availableAccountsConsentWithBalance = results[4];
+        this.consentTypes.availableAccountsConsent = results[availableAccountsConsentIndex];
+        this.consentTypes.availableAccountsConsentWithBalance = results[availableAccountsConsentWithBalanceIndex];
       }
     });
   }

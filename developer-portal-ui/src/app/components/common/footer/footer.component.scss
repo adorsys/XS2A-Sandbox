@@ -17,8 +17,8 @@
   margin-bottom: 30px;
   .logo {
     flex-shrink: 0;
-    max-height: 75%;
-    max-width: 25%;
+    max-height: 55%;
+    max-width: 21%;
     cursor: pointer;
   }
   .footer-item {
@@ -28,6 +28,7 @@
     margin-right: 2.5em;
     &:hover {
       opacity: 0.9;
+      background-color: transparent;
     }
     cursor: pointer;
     &:last-of-type {
@@ -40,6 +41,7 @@
   float: right;
   .social-media-item {
     display: inline-block;
+    background-color: transparent;
     + .social-media-item {
       margin-left: 1.5em;
     }
@@ -63,6 +65,11 @@
     .logo {
       max-width: 50%;
       margin-bottom: 1.5rem;
+    }
+
+    .empty-logo {
+      width: 10px;
+      height: 10px;
     }
   }
 

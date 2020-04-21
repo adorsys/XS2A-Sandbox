@@ -1,7 +1,8 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs/internal/Observable';
-import {BehaviorSubject} from "rxjs";
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/internal/Observable';
+import { BehaviorSubject } from 'rxjs';
+import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,23 +13,24 @@ export class CertificateService {
   private default = new BehaviorSubject<boolean>(true);
   currentDefault = this.default.asObservable();
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   getQwacCertificate(): Observable<any> {
-    return this.http.get('./assets/content/certificate.txt', {responseType: 'text'});
+    return this.http.get('./assets/content/certificate.txt', {
+      responseType: 'text',
+    });
   }
 
   getStoredCertificate() {
-    return localStorage.getItem(this.certificateKey);
+    return LocalStorageService.get(this.certificateKey);
   }
 
   storeCertificate(certificate) {
-    localStorage.setItem(this.certificateKey, certificate);
+    LocalStorageService.set(this.certificateKey, certificate);
   }
 
   removeCertificate() {
-    localStorage.removeItem(this.certificateKey);
+    LocalStorageService.remove(this.certificateKey);
     this.setDefault(true);
   }
 

@@ -9,6 +9,7 @@ setting:
       notConfirmedConsentExpirationTimeMs: 86400000
       maxConsentValidityDays: 90
       accountOwnerInformationSupported: false
+      trustedBeneficiariesSupported: false
     redirectLinkToOnlineBanking:
       aisRedirectUrlToAspsp: http://localhost:4400/account-information/login?encryptedConsentId={encrypted-consent-id}&redirectId={redirect-id}
     transactionParameters:

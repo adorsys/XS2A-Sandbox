@@ -30,12 +30,11 @@ import de.adorsys.psd2.xs2a.core.profile.AccountReference;
 import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient;
 import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
-import org.assertj.core.api.Assertions;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
@@ -45,15 +44,14 @@ import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.Currency;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
-public class RedirectConsentServiceImplTest {
+@ExtendWith(MockitoExtension.class)
+class RedirectConsentServiceImplTest {
     private static final String SCA_METHOD_ID = "scaMethodId";
     private static final String AUTHORIZATION_ID = "authorizationID";
     private static final String ENCRYPTED_CONSENT_ID = "encryptedConsentId";
@@ -83,106 +81,106 @@ public class RedirectConsentServiceImplTest {
     private AspspConsentDataClient aspspConsentDataClient;
 
     @Test
-    public void selectScaMethod() {
-        //given
+    void selectScaMethod() {
+        // Given
         when(consentRestClient.selectMethod(any(), any(), any())).thenReturn(ResponseEntity.ok(getSCAConsentResponseTO()));
 
-        //when
+        // When
         redirectConsentService.selectScaMethod(SCA_METHOD_ID, getConsentWorkflow(AisConsentRequestType.GLOBAL, IBAN_DE));
 
-        //then
+        // Then
         verify(consentRestClient, times(1)).selectMethod(CONSENT_ID, AUTHORIZATION_ID, SCA_METHOD_ID);
     }
 
     @Test
-    public void updateAccessByConsentType_globalConsent() {
+    void updateAccessByConsentType_globalConsent() {
         assertThatCode(() -> redirectConsentService.updateAccessByConsentType(getConsentWorkflow(AisConsentRequestType.GLOBAL, IBAN_DE), Collections.singletonList(getAccountDetails()))).doesNotThrowAnyException();
     }
 
     @Test
-    public void updateAccessByConsentType_allAvailableAccountsConsent() {
+    void updateAccessByConsentType_allAvailableAccountsConsent() {
         assertThatCode(() -> redirectConsentService.updateAccessByConsentType(getConsentWorkflow(AisConsentRequestType.ALL_AVAILABLE_ACCOUNTS, IBAN_DE), Collections.singletonList(getAccountDetails()))).doesNotThrowAnyException();
     }
 
     @Test
-    public void updateAccessByConsentType_dedicatedAccountsConsent() {
+    void updateAccessByConsentType_dedicatedAccountsConsent() {
         assertThatCode(() -> redirectConsentService.updateAccessByConsentType(getConsentWorkflow(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE), Collections.singletonList(getAccountDetails()))).doesNotThrowAnyException();
     }
 
-    @Test(expected = AuthorizationException.class)
-    public void updateAccessByConsentType_loginFailed() {
-        //when
-        redirectConsentService.updateAccessByConsentType(getConsentWorkflow(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_FR), Collections.singletonList(getAccountDetails()));
+    @Test
+    void updateAccessByConsentType_loginFailed() {
+        // When
+        assertThrows(AuthorizationException.class, () -> redirectConsentService.updateAccessByConsentType(getConsentWorkflow(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_FR), Collections.singletonList(getAccountDetails())));
     }
 
     @Test
-    public void updateScaStatusConsentStatusConsentData() throws IOException {
-        //given
+    void updateScaStatusConsentStatusConsentData() throws IOException {
+        // Given
         when(cmsPsuAisClient.updateAuthorisationStatus(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok().build());
         when(tokenStorageService.toBase64String(any())).thenReturn(CONSENT_ID);
         when(aspspConsentDataClient.updateAspspConsentData(any(), any())).thenReturn(ResponseEntity.ok().build());
 
-        //when
+        // When
         redirectConsentService.updateScaStatusConsentStatusConsentData(USER_ID, getConsentWorkflow(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE));
 
-        //then
+        // Then
         verify(aspspConsentDataClient, times(1)).updateAspspConsentData(ENCRYPTED_CONSENT_ID, new CmsAspspConsentDataBase64(CONSENT_ID, CONSENT_ID));
     }
 
-    @Test(expected = AuthorizationException.class)
-    public void updateScaStatusConsentStatusConsentData_failure() throws IOException {
-        //given
+    @Test
+    void updateScaStatusConsentStatusConsentData_failure() throws IOException {
+        // Given
         when(cmsPsuAisClient.updateAuthorisationStatus(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok().build());
         when(tokenStorageService.toBase64String(any())).thenThrow(IOException.class);
 
-        //when
-        redirectConsentService.updateScaStatusConsentStatusConsentData(USER_ID, getConsentWorkflow(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE));
+        // Then
+        assertThrows(AuthorizationException.class, () -> redirectConsentService.updateScaStatusConsentStatusConsentData(USER_ID, getConsentWorkflow(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE)));
     }
 
     @Test
-    public void startConsent() {
-        //given
+    void startConsent() {
+        // Given
         when(consentMapper.accountAccess(any(), any())).thenReturn(getAisAccountAccess(IBAN_DE));
         when(cmsPsuAisClient.putAccountAccessInConsent(any(), any(), any())).thenReturn(ResponseEntity.ok().build());
         when(consentMapper.toTo(any())).thenReturn(getAisConsentTO());
         when(consentRestClient.startSCA(any(), any())).thenReturn(ResponseEntity.ok(getSCAConsentResponseTO()));
 
-        //when
+        // When
         redirectConsentService.startConsent(getConsentWorkflow(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE), getAisConsentTO(), Collections.singletonList(getAccountDetails()));
 
-        //then
+        // Then
         verify(consentMapper, times(1)).toTo(getCmsAisAccountConsent(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE));
 
     }
 
     @Test
-    public void identifyConsent() {
-        //given
+    void identifyConsent() {
+        // Given
         when(referencePolicy.fromRequest(any(), any(), any(), anyBoolean())).thenReturn(getConsentReference());
         when(cmsPsuAisClient.getConsentIdByRedirectId(any(), any())).thenReturn(ResponseEntity.ok(getCmsAisConsentResponse(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE)));
         when(consentMapper.toTo(any())).thenReturn(getAisConsentTO());
 
-        //when
+        // When
         ConsentWorkflow workflow = redirectConsentService.identifyConsent(ENCRYPTED_CONSENT_ID, AUTHORIZATION_ID, false, "consentCookieString", getBearerTokenTO());
 
-        //then
-        assertThat(workflow).isNotNull();
+        // Then
+        assertNotNull(workflow);
         assertEquals(workflow.getConsentReference(), getConsentReference());
         assertNotNull(workflow.getScaResponse().getBearerToken());
     }
 
     @Test
-    public void identifyConsent_bearerTokenNull() {
-        //given
+    void identifyConsent_bearerTokenNull() {
+        // Given
         when(referencePolicy.fromRequest(any(), any(), any(), anyBoolean())).thenReturn(getConsentReference());
         when(cmsPsuAisClient.getConsentIdByRedirectId(any(), any())).thenReturn(ResponseEntity.ok(getCmsAisConsentResponse(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE)));
         when(consentMapper.toTo(any())).thenReturn(getAisConsentTO());
 
-        //when
+        // When
         ConsentWorkflow workflow = redirectConsentService.identifyConsent(ENCRYPTED_CONSENT_ID, AUTHORIZATION_ID, false, "consentCookieString", null);
 
-        //then
-        assertThat(workflow).isNotNull();
+        // Then
+        assertNotNull(workflow);
         assertEquals(workflow.getConsentReference(), getConsentReference());
     }
 

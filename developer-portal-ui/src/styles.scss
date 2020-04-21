@@ -41,6 +41,7 @@ body {
 
 main {
   background: var(--mainBG);
+  padding: var(--mainPadding);
 
   &:before,
   &:after {
@@ -85,6 +86,20 @@ a {
 a:hover,
 a:focus {
   color: var(--anchorFontColorHover);
+  background-color: var(--anchorBGcolorHover);
+  text-decoration: none;
+}
+
+ol a:before {
+  content: '';
+  background-image: var(--backgroundImage);
+  position: absolute;
+  background-repeat: no-repeat;
+  margin-left: -15px;
+  height: 0.625rem;
+  width: 0.625rem;
+  background-size: contain;
+  transform: translate(-50%, 50%) rotate(270deg);
 }
 
 .divider {
@@ -181,7 +196,9 @@ h3 {
 }
 
 button,
-a.redirect-btn {
+a.redirect-btn,
+.btn,
+.btn-light {
   color: var(--buttonTextColor);
   background: var(--buttonBG);
   border-radius: var(--buttonBorderRadius);

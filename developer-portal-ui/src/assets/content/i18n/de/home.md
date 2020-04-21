@@ -1,11 +1,13 @@
 <div class="hero">
 
 # Developer Portal
+
 # von adorsys
 
 <div class="hero-subheader">
 
 ## Entwickeln neuer, digitaler <br/> Dienstleistungen durch <br/> Open Banking
+
 </div>
 </div>
 
@@ -54,4 +56,5 @@ Die [Payment Service Directive 2 (PSD2)](https://eur-lex.europa.eu/legal-content
 # XS2ASandbox Features
 
 PSD2 Accelerator ist eine dynamische Sandbox-Umgebung: Sie können sowohl Benutzer, Zahlungen und Genehmigungen erstellen als auch mit Daten interagieren für Tests. Mit der dynamischen Sandbox TPP UI können Sie direkt auf die Bank-API zugreifen, TPP-Zertifikate erhalten und Testkonten verwalten. Das Entwicklerportal enthält Testanweisungen und alle benötigten Testfälle. Zusätzlich können alle PSD2 Accelerator Services mit einem einfachen Befehl installiert und ausgeführt werden. Zwei wesentliche SCA-Ansätze werden unterstützt: REDIRECT und EMBEDDED. Für den Redirect-Ansatz wurde für Online-Banking eine Demo-Benutzeroberfläche erstellt.
+
 </div>

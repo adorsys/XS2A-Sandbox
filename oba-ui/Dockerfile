@@ -6,7 +6,7 @@ ENV NGINX_ERROR_LOG_DEBUG error
 
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf.template
 COPY entry.sh /opt/entry.sh
-ADD dist/oba-ui /usr/share/nginx/html
+COPY dist/oba-ui /usr/share/nginx/html
 
 RUN chgrp -R root /var/cache/nginx && \
     find /var/cache/nginx -type d -exec chmod 775 {} \; && \
@@ -18,4 +18,4 @@ RUN chgrp -R root /var/cache/nginx && \
 
 EXPOSE 4400
 
-ENTRYPOINT /opt/entry.sh
+ENTRYPOINT [ "/opt/entry.sh" ]

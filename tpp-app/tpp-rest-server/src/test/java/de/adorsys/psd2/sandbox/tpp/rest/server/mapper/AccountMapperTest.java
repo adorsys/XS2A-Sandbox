@@ -10,7 +10,7 @@ import de.adorsys.ledgers.middleware.api.domain.um.AccountAccessTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.*;
 import org.jetbrains.annotations.NotNull;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import java.math.BigDecimal;
@@ -23,8 +23,9 @@ import static de.adorsys.ledgers.middleware.api.domain.account.AccountTypeTO.CAS
 import static de.adorsys.ledgers.middleware.api.domain.account.BalanceTypeTO.INTERIM_AVAILABLE;
 import static de.adorsys.psd2.sandbox.tpp.rest.api.domain.AccessType.OWNER;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class AccountMapperTest {
+class AccountMapperTest {
     private static final String IBAN = "DE1234567890";
     private static final AccessTypeTO ACCESS_TYPE = AccessTypeTO.OWNER;
     private static final int SCA_WEIGHT = 20;
@@ -33,27 +34,40 @@ public class AccountMapperTest {
     private final AccountMapper accountMapper = Mappers.getMapper(AccountMapper.class);
 
     @Test
-    public void toAccountDetailsTOTest() {
+    void toAccountDetailsTOTest() {
+        // Given
         DepositAccount input = getTppUiDepositAccount();
         AccountDetailsTO expectedResult = getAccountDetailsTO();
 
+        // When
         AccountDetailsTO result = accountMapper.toAccountDetailsTO(input);
-        assertThat(result).isEqualToComparingFieldByFieldRecursively(expectedResult);
+
+        // Then
+        assertEquals(expectedResult, result);
     }
 
     @Test
-    public void toAccountAccessTOTest() {
+    void toAccountAccessTOTest() {
+        // Given
         AccountAccess input = getTppUiAccountAccess();
         AccountAccessTO expectedResult = getAccountAccessTO();
 
+        // When
         AccountAccessTO result = accountMapper.toAccountAccessTO(input);
-        assertThat(result).isEqualToComparingFieldByFieldRecursively(expectedResult);
+
+        // Then
+        assertEquals(expectedResult, result);
     }
 
     @Test
-    public void toAccountReport() {
+    void toAccountReport() {
+        // Given
         AccountReport expected = new AccountReport(getDetails(), Arrays.asList(new UserAccess("LOGIN1", SCA_WEIGHT, OWNER), new UserAccess("LOGIN2", SCA_WEIGHT, OWNER)));
+
+        // When
         AccountReport result = accountMapper.toAccountReport(getReportTO());
+
+        // Then
         assertThat(result).isEqualToComparingFieldByFieldRecursively(expected);
     }
 

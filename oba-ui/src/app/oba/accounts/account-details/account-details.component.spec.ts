@@ -3,20 +3,22 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {NgbDatepickerModule, NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
-
+import { of } from 'rxjs';
 import { AuthService } from '../../../common/services/auth.service';
 import { AccountDetailsComponent } from './account-details.component';
+import {OnlineBankingService} from '../../../common/services/online-banking.service';
 
 describe('AccountDetailsComponent', () => {
     let component: AccountDetailsComponent;
     let fixture: ComponentFixture<AccountDetailsComponent>;
-    const authServiceSpy = jasmine.createSpyObj('AuthService', ['getAuthorizedUser', 'isLoggedIn', 'logout']);
+    let authService: AuthService;
+    let onlineBankingService: OnlineBankingService;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [AccountDetailsComponent],
             imports: [RouterTestingModule, HttpClientTestingModule, ReactiveFormsModule, NgbDatepickerModule, NgbPaginationModule],
-            providers: [TestBed.overrideProvider(AuthService, {useValue: authServiceSpy})]
+            providers: [ AuthService]
         })
             .compileComponents();
     }));
@@ -24,6 +26,8 @@ describe('AccountDetailsComponent', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(AccountDetailsComponent);
         component = fixture.componentInstance;
+        authService = TestBed.get(AuthService);
+        onlineBankingService = TestBed.get(OnlineBankingService);
         fixture.detectChanges();
     });
 
@@ -31,4 +35,47 @@ describe('AccountDetailsComponent', () => {
         expect(component).toBeTruthy();
     });
 
+    it('should get the account detail', () => {
+        let mockAccount = {
+            id: '123456',
+            iban: 'DE35653635635663',
+            bban: 'BBBAN',
+            pan: 'pan',
+            maskedPan: 'maskedPan',
+            currency: 'EUR',
+            msisdn: 'MSISDN',
+            name: 'Pupkin',
+            product: 'Deposit',
+            accountType: 'CASH',
+            accountStatus: 'ENABLED',
+            bic: 'BIChgdgd',
+            usageType: 'PRIV',
+            details: '',
+            linkedAccounts: '',
+            balances: []
+        }
+        const accountSpy = spyOn(onlineBankingService, 'getAccount').and.returnValue(of({mockAccount}));
+        component.getAccountDetail();
+        expect(accountSpy).toHaveBeenCalled();
+    });
+
+    it('should get the Transactions', () => {
+        let mockResponse = {
+        }
+        let transactionsSpy = spyOn(onlineBankingService, 'getTransactions').and.returnValue(of({mockResponse}));
+        component.getTransactions(5,10);
+        expect(transactionsSpy).toHaveBeenCalled();
+    });
+
+    it('should change the page', () =>{
+        let config =  {
+            itemsPerPage: 10,
+            currentPage: 1,
+            totalItems: 0,
+            maxSize: 7
+        }
+        const transactionsSpy = spyOn(component, 'getTransactions');
+        component.pageChange(10);
+        expect(transactionsSpy).toHaveBeenCalledWith(10, 10)
+    });
 });

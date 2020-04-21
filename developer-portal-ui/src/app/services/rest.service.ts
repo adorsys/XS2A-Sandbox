@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AcceptType } from '../models/acceptType.model';
@@ -9,14 +9,8 @@ export class RestService {
 
   constructor(private http: HttpClient) {}
 
-  public sendRequest(
-    method,
-    url,
-    headers,
-    acceptHeader: string,
-    body?
-  ): Observable<any> {
-    if (acceptHeader && acceptHeader == AcceptType.xml) {
+  public sendRequest(method, url, headers, acceptHeader: string, body?): Observable<any> {
+    if (acceptHeader && acceptHeader === AcceptType.xml) {
       const options: {
         headers?: HttpHeaders;
         observe?: 'response';

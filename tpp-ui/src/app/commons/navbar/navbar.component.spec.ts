@@ -9,12 +9,13 @@ import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {ReactiveFormsModule} from "@angular/forms";
 import {Router} from "@angular/router";
 import {User} from '../../models/user.model';
-import {of} from 'rxjs';
+import {of, throwError} from 'rxjs';
 describe('NavbarComponent', () => {
     let component: NavbarComponent;
     let fixture: ComponentFixture<NavbarComponent>;
     let tppUserService: TppUserService;
     let router: Router;
+    let authService: AuthService;
     const authServiceSpy = jasmine.createSpyObj('AuthService', ['isLoggedIn', 'logout']);
 
     beforeEach(async(() => {
@@ -26,7 +27,7 @@ describe('NavbarComponent', () => {
                 IconModule
             ],
             providers: [TestBed.overrideProvider(AuthService, {useValue: authServiceSpy}),
-                        CustomizeService, TppUserService],
+                        CustomizeService, TppUserService, AuthService],
             declarations: [NavbarComponent]
         })
             .compileComponents();
@@ -38,6 +39,7 @@ describe('NavbarComponent', () => {
         authServiceSpy.isLoggedIn.and.returnValue(true);
         fixture.detectChanges();
         router = TestBed.get(Router);
+        authService = TestBed.get(AuthService);
     });
 
     it('should call loggedIn', () => {
@@ -49,4 +51,7 @@ describe('NavbarComponent', () => {
        component.onLogout();
     });
 
+    it('should throw error when the user is not logged in', () => {
+       component.ngDoCheck();
+    });
 });

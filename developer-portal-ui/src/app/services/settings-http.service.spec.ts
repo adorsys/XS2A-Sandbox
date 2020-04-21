@@ -1,6 +1,6 @@
-import {TestBed} from '@angular/core/testing';
-import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
-import {SettingsHttpService} from "./settings-http.service";
+import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { SettingsHttpService } from './settings-http.service';
 
 describe('TrackingIdHttpService', () => {
   let httpTestingController: HttpTestingController;
@@ -8,12 +8,8 @@ describe('TrackingIdHttpService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-      ],
-      providers: [
-        SettingsHttpService
-      ]
+      imports: [HttpClientTestingModule],
+      providers: [SettingsHttpService],
     });
     service = TestBed.get(SettingsHttpService);
     httpTestingController = TestBed.get(HttpTestingController);

@@ -10,7 +10,7 @@ This is description of services,dependencies and steps  to run XS2ASandbox on an
 |===
 |Service | Dependencies | Environment variables | Ports
 
-|xs2a-connector-examples | Java 8 | SPRING_PROFILES_ACTIVE | 8089,8189
+|xs2a-connector-examples | Java 11 | SPRING_PROFILES_ACTIVE | 8089,8189
 | | |ASPSP-PROFILE_BASEURL |
 | | |CMS_URL |
 | | |LEDGERS_URL |
@@ -21,9 +21,9 @@ This is description of services,dependencies and steps  to run XS2ASandbox on an
 | | |DB_USER |
 | | |DB_DATABASE |
 | | |DB_HOST |
-|xs2a-asps--profile |Java 8 | SPRING_PROFILES_ACTIVE | 48080
+|xs2a-asps--profile |Java 11 | SPRING_PROFILES_ACTIVE | 48080
 | | | BANK_PROFILE_PATH |
-|xs2a-consent-management |Java 8 | ASPSP-PROFILE_BASEURL | 38080
+|xs2a-consent-management |Java 11 | ASPSP-PROFILE_BASEURL | 38080
 | | |SPRING_DATASOURCE_URL  |
 | | |SPRING_DATASOURCE_USERNAME  |
 | | |SPRING_DATASOURCE_PASSWORD  |
@@ -66,7 +66,7 @@ This is description of services,dependencies and steps  to run XS2ASandbox on an
 |xs2a-tpp-ui | NGINX 1.15.5 | LEDGERS_URL | 4205
 | | | TPP_REST_SERVER_URL |
 | | | CERT_GEN_URL |
-| xs2a-tpp-rest-server | Java 8 | LEDGERS_URL | 8093
+| xs2a-tpp-rest-server | Java 11 | LEDGERS_URL | 8093
 | | | SPRING_DATASOURCE_URL  |
 | | | SPRING_DATASOURCE_USERNAME  |
 | | | SPRING_DATASOURCE_PASSWORD  |
@@ -85,7 +85,7 @@ This is description of services,dependencies and steps  to run XS2ASandbox on an
 | | | POSTGRESQL_DATABASE  |
 | | | POSTGRESQL_USER  |
 | | | POSTGRESQL_PASSWORD |
-|certificate-generator | Java 8 | - | 8092
+|certificate-generator | Java 11 | - | 8092
 | smtp server | any mail server to accept and send smtp messages | |
 |===
 
@@ -99,9 +99,9 @@ Select your linux distribution in the provided manual links.
 Manual to install PostgreSQL on linux server:
 https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-centos-7
 
-=== 1.2 Java 8
+=== 1.2 Java 11
 
-Manual to install Java 8 on linux server:
+Manual to install Java 11 on linux server:
 https://www.digitalocean.com/community/tutorials/how-to-install-java-on-centos-and-fedora
 
 === 1.3 NGINX

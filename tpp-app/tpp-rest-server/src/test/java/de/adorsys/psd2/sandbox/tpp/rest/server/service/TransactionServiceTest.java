@@ -3,12 +3,12 @@ package de.adorsys.psd2.sandbox.tpp.rest.server.service;
 import de.adorsys.ledgers.middleware.client.rest.MockTransactionsStaffRestClient;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.UserTransaction;
 import de.adorsys.psd2.sandbox.tpp.rest.server.mapper.MockTransactionDataConverter;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -21,13 +21,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
-public class TransactionServiceTest {
+@ExtendWith(MockitoExtension.class)
+class TransactionServiceTest {
     private final ResourceLoader resourceLoader = new DefaultResourceLoader();
     private ParseService parseService1 = new ParseService(resourceLoader);
     private MockTransactionDataConverter converter = Mappers.getMapper(MockTransactionDataConverter.class);
@@ -42,19 +43,19 @@ public class TransactionServiceTest {
     private MockTransactionDataConverter transactionDataConverter;
 
     @Test
-    public void uploadUserTransaction() throws IOException {
-        //given
+    void uploadUserTransaction() throws IOException {
+        // Given
         UserTransaction tr = parseService1.convertFileToTargetObject(resolveMultipartFile("transactions_template.csv"), UserTransaction.class).get(0);
         when(parseService.convertFileToTargetObject(any(), any())).thenReturn(Collections.singletonList(tr));
         when(transactionDataConverter.toLedgersMockTransactions((anyList()))).thenReturn(converter.toLedgersMockTransactions(Collections.singletonList(tr)));
-        when(transactionsStaffRestClient.transactions(anyList())).thenReturn(ResponseEntity.ok(new HashMap<String, String>()));
+        when(transactionsStaffRestClient.transactions(anyList())).thenReturn(ResponseEntity.ok(new HashMap<>()));
 
-        //when
+        // When
         Map<String, String> result = transactionService.uploadUserTransaction(resolveMultipartFile("transactions_template.csv"));
 
-        //then
-        assertThat(result).isEmpty();
-        assertThat(result).isEqualTo(new HashMap<String, String>());
+        // Then
+        assertTrue(result.isEmpty());
+        assertEquals(new HashMap<String, String>(), result);
     }
 
     private MultipartFile resolveMultipartFile(String fileName) throws IOException {

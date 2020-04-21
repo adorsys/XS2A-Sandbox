@@ -24,7 +24,7 @@
     <div class="form__margin">
 
       <div class="form-group">
-        <label for="country">Your country*</label>
+        <label for="country">Your Country*</label>
 
         <select [(ngModel)]="selectedCountry" (change)="selectCountry()"
                 name="country"
@@ -91,7 +91,7 @@
         </div>
 
         <div class="form-group">
-          <label for="registerTTP">Loginname*</label>
+          <label for="registerTTP">Login*</label>
           <input [ngClass]="{'is-invalid': userForm.get('login')?.errors && userForm.get('login')?.touched
                    || submitted && userForm.get('login')?.errors}"
                  autocomplete="off"
@@ -139,7 +139,7 @@
         <div>
           <button [innerHTML]="!generateCertificate ?'Register': 'Register & Generate'"
                   class="btn btn-primary btn-block mb-3"
-                  [disabled]="selectedCountry == undefined && !userForm.valid"></button>
+                  [disabled]="selectedCountry == undefined || !userForm.valid"></button>
           <div class="text-center text-light-grey">
             <a routerLink="/login">Login</a>
           </div>

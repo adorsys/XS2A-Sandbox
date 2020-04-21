@@ -1,8 +1,8 @@
 .PHONY: all run test clean start
 
 VERSION=$(shell jq -r .version developer-portal-ui/package.json)
-ARC42_SRC = $(shell find arc42/src)
-PLANTUML_SRC = $(shell find arc42/diagrams -type f -name '*.puml')
+ARC42_SRC = $(shell find docs/arc42/src)
+PLANTUML_SRC = $(shell find docs/arc42/diagrams -type f -name '*.puml')
 DEPENDENCIES = jq npm plantuml asciidoctor docker-compose mvn docker
 
 build-services: build-java-services build-ui-services build-arc-42  ## Build all services
@@ -31,52 +31,108 @@ install-for-MacOS:
 	brew install plantuml
 	brew install asciidoctor
 
+# Lint section
+
+lint-all: lint-tpp-ui lint-oba-ui lint-developer-portal-ui lint-tpp-rest-server lint-online-banking lint-certificate-generator lint-docker-compose lint-pmd-cpd-report #lint all services
+
+lint-tpp-ui:
+	find tpp-ui -type f -name "*.json" -not -path "tpp-ui/node_modules/*" -exec jsonlint -q {} \; # lint all json
+	find tpp-ui -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
+	find tpp-ui -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
+	#cd tpp-ui && npm ci && npm install
+	#cd tpp-ui && npm run lint
+	#cd tpp-ui && npm run prettier-check
+	docker run --rm -i hadolint/hadolint < tpp-ui/Dockerfile
+
+lint-oba-ui:
+	cd oba-ui
+	find oba-ui -type f -name "*.json" -not -path "oba-ui/node_modules/*" -exec jsonlint -q {} \; # lint all json
+	find oba-ui -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
+	find oba-ui -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
+	#cd oba-ui && npm ci && npm install
+	#cd oba-ui && npm run lint
+	#cd oba-ui && npm run prettier-check
+	docker run --rm -i hadolint/hadolint < oba-ui/Dockerfile
+
+lint-developer-portal-ui:
+	find developer-portal-ui -type f -name "*.json" -not -path "developer-portal-ui/node_modules/*" -exec jsonlint -q {} \; # lint all json
+	find developer-portal-ui -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
+	find developer-portal-ui -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
+	cd developer-portal-ui && npm ci && npm install
+	cd developer-portal-ui && npm run lint
+	cd developer-portal-ui && npm run prettier-check
+	docker run --rm -i hadolint/hadolint < developer-portal-ui/Dockerfile
+
+lint-tpp-rest-server:
+	find tpp-app -type f -name "*.json" -exec jsonlint -q {} \; # lint all json
+	find tpp-app -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
+	find tpp-app -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
+	docker run --rm -i hadolint/hadolint < tpp-app/tpp-rest-server/Dockerfile
+
+lint-online-banking:
+	find online-banking -type f -name "*.json" -exec jsonlint -q {} \; # lint all json
+	find online-banking -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
+	find online-banking -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
+	docker run --rm -i hadolint/hadolint < online-banking/online-banking-app/Dockerfile
+
+lint-certificate-generator:
+	find certificate-generator -type f -name "*.json" -exec jsonlint -q {} \; # lint all json
+	find certificate-generator -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
+	find certificate-generator -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
+	docker run --rm -i hadolint/hadolint < certificate-generator/Dockerfile
+
+lint-docker-compose:
+	docker-compose -f docker-compose.yml -f docker-compose-build-template.yml -f docker-compose-no-certificate-generator.yml -f docker-compose-xs2a-embedded.yml config  -q
+	mvn validate
+	yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" bank-profile/*.yml
+
+lint-pmd-cpd-report:
+	mvn -ntp -Dmaven.test.skip=true package pmd:pmd pmd:cpd
 ## Run section ##
 run:  ## Run services from Docker Hub without building:
 	docker-compose pull && docker-compose up
 
-start: ## Run everything with docker-compose without building
-	docker-compose -f docker-compose-build.yml up
+start: ## Run everything with docker-compose build dockerimages without building applications
+	docker-compose -f docker-compose.yml -f docker-compose-build-template.yml up
 
-all: build-services ## Run everything with docker-compose after building
-	docker-compose -f docker-compose-build.yml up --build
+all: lint-all build-ui-services build-java-services unit-tests-all-frontend unit-tests-backend ## Run everything with docker-compose after building
+	docker-compose -f docker-compose.yml -f docker-compose-build-template.yml up
 
 ## Build section ##
 build-java-services: ## Build java services
 	mvn -DskipTests clean package
 
 build-ui-services: npm-install-tpp-ui npm-install-oba-ui npm-install-developer-portal-ui ## Build ui services
-	cd tpp-ui && npm run build
-	cd oba-ui && npm run build
-	cd developer-portal-ui && npm run build
 
 npm-install-tpp-ui: tpp-ui/package.json tpp-ui/package-lock.json ## Install TPP-UI NPM dependencies
-	cd tpp-ui && npm install
+	cd tpp-ui && npm ci && npm install && npm run build
 
 npm-install-oba-ui: oba-ui/package.json oba-ui/package-lock.json ## Install OBA-UI NPM dependencies
-	cd oba-ui && npm install
+	cd oba-ui && npm ci && npm install && npm run build
 
 npm-install-developer-portal-ui: developer-portal-ui/package.json developer-portal-ui/package-lock.json ## Install DEV-PORTAL-UI NPM dependencies
-	cd developer-portal-ui && npm install
+	cd developer-portal-ui && npm ci && npm install && npm run build
+
+## Unit tests section
+unit-tests-all-frontend: unit-tests-oba-ui unit-tests-tpp-ui unit-tests-developer-portal-ui
+
+unit-tests-oba-ui:
+	cd oba-ui && npm ci && npm install && npm run test-ci
+unit-tests-tpp-ui:
+	cd tpp-ui && npm ci && npm install && npm run test-ci
+unit-tests-developer-portal-ui:
+	cd developer-portal-ui && npm ci && npm install && npm run test-ci
+
+unit-tests-backend:
+	mvn -ntp -DskipITs --fail-at-end clean install
 
 ## Build arc42
-build-arc-42: arc42/images/generated $(ARC42_SRC) arc42/xs2a-sandbox-arc42.adoc developer-portal-ui/package.json ## Generate arc42 html documentation
-	cd arc42 && asciidoctor -a acc-version=$(VERSION) xs2a-sandbox-arc42.adoc
+build-arc-42: arc42/images/generated $(ARC42_SRC) docs/arc42/xs2a-sandbox-arc42.adoc developer-portal-ui/package.json ## Generate arc42 html documentation
+	cd docs/arc42 && asciidoctor -a acc-version=$(VERSION) xs2a-sandbox-arc42.adoc
 
 arc42/images/generated: $(PLANTUML_SRC) ## Generate images from .puml files
 # Note: Because plantuml doesnt update the images/generated timestamp we need to touch it afterwards
-	cd arc42 && mkdir -p images/generated && plantuml -o "../images/generated" diagrams/*.puml && touch images/generated
-
-## Tests section ##
-test: test-java-services ## Run all tests
-
-test-java-services: ## Run java tests
-	mvn test
-
-test-ui-services: ## Run tests in UI
-	cd tpp-ui && npm run test-single-headless
-	cd oba-ui && npm run test-single-headless
-	cd developer-portal-ui && npm run test-single-headless
+	cd docs/arc42 && mkdir -p images/generated && plantuml -o "../images/generated" diagrams/*.puml && touch images/generated
 
 ## Clean section ##
 clean: clean-java-services clean-ui-services ## Clean everything

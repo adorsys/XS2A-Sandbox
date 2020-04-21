@@ -98,7 +98,7 @@ WARNING: It is required to enable CORS in the service which serves the customize
 .Sample bank_profile.yml
 [source,yaml]
 ----
-include::../../bank-profile/bank_profile_ledgers.yml[]
+include::../../../bank-profile/bank_profile_ledgers.yml[]
 ----
 
 ==== Technical Requirements / Sizing

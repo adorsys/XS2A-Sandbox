@@ -1,6 +1,7 @@
 /*=== Documentation header section ===*/
 
 .documentation-header-section {
+  padding-top: 4vw;
   .documentation-header-title {
     color: var(--colorPrimary);
   }
@@ -13,7 +14,6 @@
 
 .test-cases-main {
   display: flex;
-  padding: 2vw;
   font-weight: normal;
   .left-section {
     background-color: var(--testCasesLeftSectionBG);
@@ -29,10 +29,11 @@
       span {
         margin-bottom: 1vw;
         cursor: pointer;
-        color: #484848;
+        color: var(--testCasesAnchorFontColor);
         outline: none;
         &:hover {
-          color: #0984bf;
+          color: var(--testCasesAnchorFontColorHover);
+          background-color: var(--anchorBGcolorHover);
         }
       }
     }
@@ -43,9 +44,11 @@
       padding: 2vw;
       .clickable-item {
         outline: none;
+        color: var(--testCasesAnchorFontColor);
         &:hover {
-          color: #0984bf;
+          color: var(--testCasesAnchorFontColorHover);
           cursor: pointer;
+          background-color: var(--anchorBGcolorHover);
         }
       }
       p {
@@ -108,7 +111,7 @@
   }
 
   .right-section {
-    width: 100%;
+    width: 70%;
     background-color: var(--testCasesRightSectionBG);
   }
 }

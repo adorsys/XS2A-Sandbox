@@ -54,12 +54,7 @@ After building services you can run XS2ASandbox with a simple docker command:
 > docker-compose up
 ```
 
-In Makefile you can use one of four commands:
-* Run release version of services from Docker Hub without build:
-
-```sh
-> make run-release
-```
+In Makefile you can use one of three commands:
 
 * Run services from Docker Hub without build:
 

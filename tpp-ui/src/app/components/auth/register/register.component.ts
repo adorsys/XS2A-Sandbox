@@ -76,7 +76,7 @@ export class RegisterComponent implements OnInit {
     return TppIdType[this.tppIdStructure.type];
   }
 
-  private initializeCountryList() {
+  public initializeCountryList() {
     this.service.getCountryCodes().subscribe(
       data => {
         this.countries = [];
@@ -152,14 +152,14 @@ export class RegisterComponent implements OnInit {
       })
   }
 
-  private generateZipFile(certBlob, keyBlob): Promise<any> {
+  public generateZipFile(certBlob, keyBlob): Promise<any> {
     const zip = new JSZip();
     zip.file('certificate.pem', certBlob);
     zip.file('private.key', keyBlob);
     return zip.generateAsync({type: 'blob'});
   }
 
-  private initializeRegisterForm(): void {
+  public initializeRegisterForm(): void {
     this.userForm = this.formBuilder.group({
       id: ['', []],
       login: ['', Validators.required],
@@ -169,7 +169,7 @@ export class RegisterComponent implements OnInit {
     this.userForm.disable();
   }
 
-  private createZipUrl(encodedCert: string, privateKey: string): Promise<string> {
+  public createZipUrl(encodedCert: string, privateKey: string): Promise<string> {
     const blobCert = new Blob([encodedCert], {
       type: 'text/plain',
     });
@@ -183,7 +183,7 @@ export class RegisterComponent implements OnInit {
     );
   }
 
-  private downloadFile(url: string) {
+  public downloadFile(url: string) {
     const element = document.createElement('a');
     element.setAttribute('href', url);
     element.setAttribute('download', 'tpp_cert.zip');

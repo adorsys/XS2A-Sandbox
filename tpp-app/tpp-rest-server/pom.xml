@@ -5,7 +5,7 @@
     <parent>
         <artifactId>tpp-app</artifactId>
         <groupId>de.adorsys.psd2.sandbox</groupId>
-        <version>3.4</version>
+        <version>3.5</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -100,14 +100,20 @@
 
         <!-- Test dependencies -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
+            <artifactId>mockito-junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
 

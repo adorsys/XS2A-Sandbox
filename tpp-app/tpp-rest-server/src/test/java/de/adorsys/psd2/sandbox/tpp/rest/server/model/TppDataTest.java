@@ -4,32 +4,37 @@ import de.adorsys.ledgers.middleware.api.domain.um.AccessTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccountAccessTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
 import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
 import java.util.Currency;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@RunWith(MockitoJUnitRunner.class)
-public class TppDataTest {
+@ExtendWith(MockitoExtension.class)
+class TppDataTest {
     private static final String TPP_ID = "DE_11111111";
     private static final String USER_IBAN = "DE89000000115555555555";
     private static final String USER_ID = "QWERTY";
     private static final Currency CURRENCY = Currency.getInstance("EUR");
 
     @Test
-    public void tppConstructorTest_success() {
+    void tppConstructorTest_success() {
+        // Given
         TppData result = new TppData(new UserTO(null, null, null, null, null, getAccountAccess(), null, TPP_ID));
-        assertThat(result).isNotNull();
+
+        // Then
+        assertNotNull(result);
     }
 
-    @Test(expected = TppException.class)
-    public void tppConstructorTest_empty_access() {
-        new TppData(new UserTO(null, null, null, null, null, null, null, null));
+    @Test
+    void tppConstructorTest_empty_access() {
+        // Then
+        assertThrows(TppException.class, () -> new TppData(new UserTO(null, null, null, null, null, null, null, null)));
     }
 
     private List<AccountAccessTO> getAccountAccess() {
