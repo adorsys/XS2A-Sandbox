@@ -1,12 +1,11 @@
 [[section-deployment-view]]
-:imagesdir: ../images
 
 == Deployment View
 
 === adorsys Sample Setup
 
 .deployment-view
-image::deployment-view.svg[Deployment View, 100%, align="center"]
+image::../images/deployment-view.svg[Deployment View, 100%, align="center"]
 
 The XS2A Sandbox consists of 10 deployments, united into one docker-compose file. The _sandbox_ itself provides the XS2A API and a 3 web applications (and its API): developer portal, online banking and TPP UI.
 XS2A API is hosted on port `:8080`, TPP UI is hosted on port `:4205`, online banking is hosted on port  `:4400` and the _developer portal_ is hosted on port `:4206` (all ports can be configured).
@@ -122,7 +121,7 @@ include::../../../bank-profile/bank_profile_ledgers.yml[]
 - Free disk space 10GB
 
 .cpu-memory-load
-image::cpu_memory_load.png[Cpu and memory load,100%, aligh="center"]
+image::../images/cpu_memory_load.png[Cpu and memory load,100%, aligh="center"]
 
 ==== Logging
 
