@@ -23,6 +23,7 @@ install-for-Linux:
 	sudo apt-get install jq
 	sudo apt-get install plantuml
 	sudo apt-get install -y asciidoctor
+	sudo apt-get install -y jsonlint yamllint libxml2-utils
 
 # Install developer tools for MacOS
 install-for-MacOS:
@@ -30,6 +31,7 @@ install-for-MacOS:
 	brew install jq
 	brew install plantuml
 	brew install asciidoctor
+	brew install jsonlint yamllint 
 
 # Lint section
 

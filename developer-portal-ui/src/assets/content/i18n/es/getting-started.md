@@ -126,7 +126,7 @@ Si falta algo, instálelo en su máquina local, de lo contrario la compilación 
 | Dependency          |                  Link                   |
 | ------------------- | :-------------------------------------: |
 | Java 11             |    https://openjdk.java.net/install/    |
-| Node.js 11.x        |     https://nodejs.org/en/download      |
+| Node.js 12.x        |     https://nodejs.org/en/download      |
 | Angular CLI 9.x     |   https://angular.io/guide/quickstart   |
 | Asciidoctor 2.0     |         https://asciidoctor.org         |
 | jq 1.6              | https://stedolan.github.io/jq/download  |
@@ -139,11 +139,7 @@ Puede eliminar todos los contenedores de Sandbox de Docker con el siguiente coma
 
 _docker-compose rm -s -f -v_
 
-## Nota 1
-
-Utilice la versión Node.js inferior a 12 (por ejemplo, 10.x.x o 11.x.x). De lo contrario, las aplicaciones angular no se construirían debido a conflictos de versión.
-
-## Nota 2
+## Nota
 
 Verifique la cantidad de memoria asignada a Docker (Abra Docker Desktop -> Preferencias -> Avanzado -> Memoria). Para un inicio rápido e indoloro de todos los servicios, no debe ser inferior a 5 GB.
 
@@ -177,11 +173,11 @@ En Makefile puede usar uno de los tres comandos:
 
 _make run_
 
-• Construir y ejecutar servicios:
+• Construir, crea imágenes de Docker y ejecutar servicios:
 
 _make all_
 
-• Ejecutar servicios sin construir:
+• Crea imágenes de Docker y ejecutar servicios sin construir:
 
 _make start_
 

@@ -126,7 +126,7 @@ If something is missing, install it to your local machine, otherwise the build w
 | Dependency          |                  Link                   |
 | ------------------- | :-------------------------------------: |
 | Java 11             |    https://openjdk.java.net/install/    |
-| Node.js 11.x        |     https://nodejs.org/en/download      |
+| Node.js 12.x        |     https://nodejs.org/en/download      |
 | Angular CLI 9.x     |   https://angular.io/guide/quickstart   |
 | Asciidoctor 2.0     |         https://asciidoctor.org         |
 | jq 1.6              | https://stedolan.github.io/jq/download  |
@@ -141,11 +141,7 @@ You can remove all the Sandbox containers from Docker with the following command
 
 _docker-compose rm -s -f -v_
 
-## Note 1
-
-Please, use Node.js version lower than 12 (e.g. 10.x.x or 11.x.x). Otherwise angular applications would not be built due to version conflicts.
-
-## Note 2
+## Note
 
 Check amount of memory given to Docker (Open Docker Desktop -> Preferences -> Advanced -> Memory). For a fast and painless start of all the services it should be not less than 5 GB.
 
@@ -175,15 +171,15 @@ _docker-compose up_
 
 In Makefile you can use one of three commands:
 
-• Run services from Docker Hub without build:
+• Run services from Docker Hub registry without build:
 
 _make run_
 
-• Build and run services:
+• Build, make docker images and run services:
 
 _make all_
 
-• Run services without build:
+• Make docker images and run services without build:
 
 _make start_
 

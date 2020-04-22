@@ -120,7 +120,7 @@ Ob Sie alle notwendigen Programme installiert haben. Die fehlenden müssen Sie l
 | Dependency          |                  Link                   |
 | ------------------- | :-------------------------------------: |
 | Java 11              |    https://openjdk.java.net/install/    |
-| Node.js 11.x        |     https://nodejs.org/en/download      |
+| Node.js 12.x        |     https://nodejs.org/en/download      |
 | Angular CLI 9.x     |   https://angular.io/guide/quickstart   |
 | Asciidoctor 2.0     |         https://asciidoctor.org         |
 | jq 1.6              | https://stedolan.github.io/jq/download  |
@@ -135,11 +135,7 @@ Es empfiehlt sich bereits vorhandene Docker Container zu entfernen, um Fehler be
 
 _docker-compose rm -s -f -v_
 
-## Anmerkung 1
-
-Bitte, verwenden Sie eine Node.js unter Version 12 (z.B. 10.x.x oder 11.x.x). Andernfalls kann die Angular Anwendung wegen Versionskonflikten nicht gebaut werden.
-
-## Anmerkung 2
+## Anmerkung
 
 Überprüfen Sie wie viel Speicher Docker zur Verfügung steht (öffnen Sie Docker Desktop -> Preferences -> Advanced -> Memory). Um einen schnellen und problemlosen Start aller Dienste zu ermöglichen, sollte Docker auf mindestens 5 GB Speicher Zugriff haben.
 
@@ -169,15 +165,15 @@ _docker-compose up_
 
 In Makefile können Sie einen von drei Befehlen verwenden:
 
-• Führen Sie Dienste ohne Build über Docker Hub aus:
+• Führen Sie Dienste ohne Build über Docker Hub registry aus:
 
 _make run_
 
-• Bauen und starten der Dienste:
+• Bauen, erstellen Docker images und starten der Dienste:
 
 _make all_
 
-• Starten der Dienste ohne Bauen:
+• Erstellen Docker images und der Dienste ohne Bauen:
 
 _make start_
 
