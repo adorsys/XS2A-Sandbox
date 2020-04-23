@@ -58,4 +58,7 @@ export class UserDetailsComponent implements OnInit {
         });
   }
 
+  onCancel() {
+    this.router.navigate(['/users/all']);
+  }
 }

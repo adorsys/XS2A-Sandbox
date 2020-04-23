@@ -176,7 +176,8 @@
                     </div>
                 </div>
 
-                <div class="card-body text-right">
+                <div class="form-group2 d-flex flex-row justify-content-lg-between">
+                    <button class="btn btn-outline-danger" (click)="onCancel()">Cancel</button>
                     <button [disabled]="userForm.invalid"
                             class="btn btn-primary"
                             type="submit">Submit

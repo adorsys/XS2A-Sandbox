@@ -41,10 +41,13 @@
                 Confirm email
               </button>
             </div>
+            <div class="form-group d-flex flex-row justify-content-lg-between">
                 <button routerLink="/users/{{user.id}}/update-user-details"
                         class="btn btn-primary"
                         type="submit">Edit
                 </button>
+                <button class="btn btn-outline-danger " (click)="onCancel()">Back</button>
+            </div>
         </div>
     </div>
 </div>

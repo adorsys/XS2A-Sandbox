@@ -13,7 +13,7 @@ import { AuthService } from '../../../services/auth.service';
 import { CertificateComponent } from '../certificate/certificate.component';
 import { RegisterComponent } from './register.component';
 import { TppIdStructure, TppIdType} from "../../../models/tpp-id-structure.model";
-
+import JSZip from 'jszip';
 describe('RegisterComponent', () => {
     let component: RegisterComponent;
     let registerFixture: ComponentFixture<RegisterComponent>;
@@ -156,10 +156,6 @@ describe('RegisterComponent', () => {
         expect(getCountryCodesSpy).toHaveBeenCalled();
     });
 
-    it('should downloadFile', () => {
-        component.downloadFile('url');
-    });
-
     it('select Country should be disabled',() => {
         component.selectCountry();
         expect(component.userForm.disabled).toBeFalsy();
@@ -171,7 +167,7 @@ describe('RegisterComponent', () => {
         component.userForm.get('id').setValue('123456');
         let getCountrySpy = spyOn(authService, 'getTppIdStructure').and.returnValue(of({data: data}));
         component.selectCountry();
-        expect(getCountrySpy).toHaveBeenCalled();;
+        expect(getCountrySpy).toHaveBeenCalled();
     });
 
     it('should get tpp id type Name', () => {
@@ -183,17 +179,47 @@ describe('RegisterComponent', () => {
         expect(testTppStructure.length).toEqual(8);
     });
 
-    it('should create a zip Url', () => {
-        const blobCert = new Blob([], {
-            type: 'text/plain',
+    it('should create a zip Url', (done) => {
+        const encodedCert = 'encodedCert';
+        const privateKey = 'privateKey';
+        spyOn(component, 'generateZipFile').and.returnValue(of({}).toPromise());
+        spyOn(component, 'createObjectUrl').and.returnValue('dummy-obj-val');
+        component.createZipUrl(encodedCert, privateKey).then((r) => {
+            expect(r).toBe('dummy-obj-val');
+            done();
         });
-        const blobKey = new Blob([], {
-            type: 'text/plain',
-        });
-        component.createZipUrl('encodert', 'privateKey');
     });
 
-    it('should get certicate Value', () => {
-        component.getCertificateValue(event);
+    it('createObjectUrl', () => {
+        const zip = 'dummy-zip-content';
+        const mockWindow = {
+            URL: {
+                createObjectURL: (param) => `url-string-object-${param}`
+            }
+        };
+        const result = component.createObjectUrl(zip, mockWindow);
+        expect(result).toBe('url-string-object-dummy-zip-content');
+    });
+
+    it('should get certificate Value', () => {
+        component.getCertificateValue('event');
+        expect(component.certificateValue).toEqual('event');
+    });
+
+    it('should select a country and call a feedback message', () => {
+        component.userForm.get('id').setValue('123456');
+        const tppIdStructSpy = spyOn(authService, 'getTppIdStructure').and.returnValue(throwError({}));
+        const infoSpy = spyOn(infoService, 'openFeedback');
+        component.selectCountry();
+        expect(tppIdStructSpy).toHaveBeenCalled();
+        expect(infoSpy).toHaveBeenCalledWith('Could not get TPP ID structure for this country!');
+    });
+
+    it('should initialize a country and call a feedback message when error', () => {
+        const getCountryCodesSpy = spyOn(authService, 'getCountryCodes').and.returnValue(throwError({}));
+        const infoSpy = spyOn(infoService, 'openFeedback');
+        component.initializeCountryList();
+        expect(getCountryCodesSpy).toHaveBeenCalled();
+        expect(infoSpy).toHaveBeenCalledWith('Could not download country list!');
     });
 });
