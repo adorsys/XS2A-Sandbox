@@ -56,19 +56,19 @@ After building services you can run XS2ASandbox with a simple docker command:
 
 In Makefile you can use one of three commands:
 
-* Run services from Docker Hub without build:
+* Run services from Docker Hub registry without build:
 
 ```sh
 > make run
 ```
 
-* Build and run services:
+* Build, make docker images and run services:
 
 ```sh
 > make all
 ```
 
-* Run services without build:
+* Make docker images and run services without build:
 
 ```sh
 > make start

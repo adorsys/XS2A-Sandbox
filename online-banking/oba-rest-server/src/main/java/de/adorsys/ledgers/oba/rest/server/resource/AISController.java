@@ -213,7 +213,7 @@ public class AISController implements AISApi {
     private boolean isNotFailedAuthorizationList(CmsAisConsentResponse consentResponse) {
         return consentResponse.getAccountConsent().getAccountConsentAuthorizations().stream()
                    .map(AisAccountConsentAuthorisation::getScaStatus)
-                   .allMatch(s -> s != ScaStatus.FAILED);
+                   .anyMatch(s -> s != ScaStatus.FAILED);
     }
 
     @Override

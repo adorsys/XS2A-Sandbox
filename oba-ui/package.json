@@ -51,6 +51,7 @@
     "@types/jasminewd2": "^2.0.8",
     "@types/node": "^12.11.1",
     "codelyzer": "^5.2.1",
+    "husky": "^4.2.5",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
     "jquery": "^3.4.1",
