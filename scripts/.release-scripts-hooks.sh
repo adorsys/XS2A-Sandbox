@@ -73,11 +73,14 @@ function build_release_modules {
 # Parameter $1 - version as text
 function set_modules_version {
   mvn versions:set -DnewVersion=$1
-  DOCKER_COMPOSE_BUILD_TEMPLATE=$(cat docker-compose-build-template.yml)
+  DOCKER_COMPOSE_BUILD_FILE=docker-compose-build-template.yml
+  if [ -f "$DOCKER_COMPOSE_BUILD_FILE" ]; then
+   DOCKER_COMPOSE_BUILD_TEMPLATE=$(cat docker-compose-build-template.yml)
+  fi
   if [[ $1 == *"SNAPSHOT"* ]]; then
     echo "next release"
     perl -i -pe "s/SANDBOX_VERSION=.*/SANDBOX_VERSION=develop/" .env
-    echo "$DOCKER_COMPOSE_BUILD_FILE" > docker-compose-build-template.yml
+    echo "$DOCKER_COMPOSE_BUILD_TEMPLATE" > docker-compose-build-template.yml
   else
     echo "tag release"
     perl -i -pe "s/SANDBOX_VERSION=.*/SANDBOX_VERSION=$1/" .env
