@@ -58,8 +58,8 @@ function format_hotfix_branch_name {
 # Hook to build the snapshot modules before release
 # You can build and run your tests here to avoid releasing an unstable build
 function build_snapshot_modules {
-  echo "next release"
-  perl -i -pe "s/SANDBOX_VERSION=.*/SANDBOX_VERSION=develop/" .env
+  perl -i -pe "s/SANDBOX_VERSION=.*/SANDBOX_VERSION=${RELEASE_VERSION}/" .env
+  rm -rf docker-compose-build-template.yml
 	mvn clean install
 	mvn pmd:check
 }
@@ -67,9 +67,6 @@ function build_snapshot_modules {
 # Hook to build the released modules after release
 # You can deploy your artifacts here
 function build_release_modules {
-  echo "tag release"
-  perl -i -pe "s/SANDBOX_VERSION=.*/SANDBOX_VERSION=$1/" .env
-  rm -rf docker-compose-build-template.yml
 	mvn clean install
 	mvn pmd:check
 }
