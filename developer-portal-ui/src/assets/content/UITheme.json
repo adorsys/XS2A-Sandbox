@@ -6,12 +6,6 @@
       "es": "spain.png",
       "ua": "ukraine.png"
     },
-    "socialMedia": {
-      "facebook": "https://www.facebook.com/adorsysGmbH",
-      "twitter": "https://twitter.com/adorsys",
-      "xing": "https://www.xing.com/companies/adorsysgmbh%26cokg",
-      "linkedin": "https://www.linkedin.com/company/adorsys"
-    },
     "googleAnalyticsTrackingId": "UA-160845388-1"
   },
   "pagesSettings": {
@@ -51,10 +45,6 @@
       "showSlider": true
     },
     "navigationBarSettings": {
-      "allowedNavigationSize": 5,
-      "logo": "Logo_XS2ASandbox.png"
-    },
-    "footerSettings": {
       "allowedNavigationSize": 5,
       "logo": "Logo_XS2ASandbox.png"
     },
