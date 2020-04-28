@@ -1,6 +1,8 @@
 package de.adorsys.ledgers.oba.rest.server.resource.oba;
 
+import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
 import de.adorsys.ledgers.middleware.client.rest.ResetPasswordRestClient;
+import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.ledgers.oba.rest.api.resource.oba.ObaAuthorizationApi;
 import de.adorsys.ledgers.security.ResetPassword;
 import de.adorsys.ledgers.security.SendCode;
@@ -17,9 +19,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ObaAuthorizationApiController implements ObaAuthorizationApi {
     private final ResetPasswordRestClient resetPasswordRestClient;
+    private final UserMgmtRestClient userMgmtRestClient;
 
     @Override
-    public void login(String login, String password) {}
+    public void login(String login, String password) {
+    }
+
+    @Override
+    public ResponseEntity<UserTO> getSelf() {
+        return userMgmtRestClient.getUser();
+    }
 
     @Override
     public ResponseEntity<SendCode> sendCode(ResetPassword resetPassword) {
