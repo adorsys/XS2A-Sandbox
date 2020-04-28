@@ -52,7 +52,7 @@ setting:
     supportedTransactionStatusFormats:
       - application/json
   piis:
-    piisConsentSupported: TRUE
+    piisConsentSupported: ASPSP_CONSENT_SUPPORTED
   common:
     scaApproachesSupported:
       - EMBEDDED

@@ -19,7 +19,6 @@ import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationExceptio
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.api.service.AuthorizationService;
 import de.adorsys.ledgers.oba.service.api.service.ConsentReferencePolicy;
-import de.adorsys.ledgers.oba.service.impl.mapper.PaymentMapper;
 import de.adorsys.psd2.consent.api.pis.CmsCommonPayment;
 import de.adorsys.psd2.consent.api.pis.CmsPaymentResponse;
 import de.adorsys.psd2.consent.psu.api.CmsPsuAuthorisation;
@@ -80,8 +79,6 @@ class CommonPaymentServiceImplTest {
     @Mock
     private OauthRestClient oauthRestClient;
     @Mock
-    private PaymentMapper paymentConverter;
-    @Mock
     private AuthorizationService authService;
 
     @Test
@@ -104,7 +101,6 @@ class CommonPaymentServiceImplTest {
         when(referencePolicy.fromRequest(anyString(), anyString(), anyString(), anyBoolean())).thenReturn(getConsentReference());
         when(cmsPsuPisService.checkRedirectAndGetPayment(anyString(), anyString())).thenReturn(getCmsPaymentResponse());
         when(paymentMapper.toAbstractPayment(anyString(), anyString(), anyString())).thenReturn(getPaymentTO(ACCP));
-        when(paymentConverter.toTransactionStatusTO(any())).thenReturn(ACCP);
 
         // When
         PaymentWorkflow result = service.identifyPayment(ENCRYPTED_ID, AUTH_ID, false, COOKIE, PSU_ID, new BearerTokenTO());
