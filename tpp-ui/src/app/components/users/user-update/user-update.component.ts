@@ -146,4 +146,7 @@ export class UserUpdateComponent implements OnInit {
          this.methods = Object.keys(ScaMethods);
     }
 
+    onCancel() {
+        this.router.navigate(['/users/all']);
+    }
 }

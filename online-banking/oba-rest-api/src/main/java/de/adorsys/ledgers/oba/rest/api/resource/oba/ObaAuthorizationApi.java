@@ -1,15 +1,14 @@
 package de.adorsys.ledgers.oba.rest.api.resource.oba;
 
+import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
 import de.adorsys.ledgers.security.ResetPassword;
 import de.adorsys.ledgers.security.SendCode;
 import de.adorsys.ledgers.security.UpdatePassword;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.*;
 
 @Api(value = ObaAuthorizationApi.BASE_PATH, tags = "Online Banking Authorization. Provides access to online banking")
 public interface ObaAuthorizationApi {
@@ -22,6 +21,10 @@ public interface ObaAuthorizationApi {
     @PostMapping("/login")
     @ApiOperation(value = "Perform Online Banking Login")
     void login(@RequestHeader(value = "login") String login, @RequestHeader(value = "pin") String pin);
+
+    @ApiOperation(value = "Get current user", authorizations = @Authorization(value = "apiKey"))
+    @GetMapping("/me")
+    ResponseEntity<UserTO> getSelf();
 
     @PostMapping("/password")
     @ApiOperation(value = "Send code for user password reset")

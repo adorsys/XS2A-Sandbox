@@ -81,9 +81,10 @@ function set_modules_version {
     echo "next release"
     perl -i -pe "s/SANDBOX_VERSION=.*/SANDBOX_VERSION=develop/" .env
     echo "$DOCKER_COMPOSE_BUILD_TEMPLATE" > docker-compose-build-template.yml
+    git add docker-compose-build-template.yml
   else
     echo "tag release"
     perl -i -pe "s/SANDBOX_VERSION=.*/SANDBOX_VERSION=$1/" .env
     rm -rf docker-compose-build-template.yml
-  fi  
+  fi 
 }

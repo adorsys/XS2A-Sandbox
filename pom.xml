@@ -96,9 +96,9 @@
         <java.version>11</java.version>
         <pmd.plugin.version>3.13.0</pmd.plugin.version>
         <!-- xs2a version -->
-        <xs2a.version>7.2</xs2a.version>
-        <connector.version>7.2</connector.version>
-        <ledgers.version>3.1</ledgers.version>
+        <xs2a.version>7.3</xs2a.version>
+        <connector.version>7.3</connector.version>
+        <ledgers.version>3.2</ledgers.version>
         <!-- other properties -->
         <spring-boot-dependencies.version>2.2.4.RELEASE</spring-boot-dependencies.version>
         <spring-cloud-dependencies.version>Greenwich.RELEASE</spring-cloud-dependencies.version>

@@ -178,9 +178,13 @@ export class RegisterComponent implements OnInit {
     });
     return this.generateZipFile(blobCert, blobKey).then(
       zip => {
-        return window.URL.createObjectURL(zip);
+        return this.createObjectUrl(zip, window);
       }
     );
+  }
+
+  public createObjectUrl(zip: any, window: any): string {
+    return window.URL.createObjectURL(zip);
   }
 
   public downloadFile(url: string) {

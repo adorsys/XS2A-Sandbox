@@ -413,3 +413,141 @@ strong {
 .spacer {
   margin-bottom: 90vw;
 }
+
+.footer-bar {
+  padding: var(--footer-padding);
+  color: var(--footerFontColor);
+  background-color: var(--footerBG);
+
+  &:after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+
+  .footer-top-items {
+    display: flex;
+    justify-content: space-between;
+    align-items: var(--align-items);
+    margin-bottom: var(--margin-bottom);
+
+    .logo {
+      flex-shrink: 0;
+      max-height: 55%;
+      max-width: var(--max-width);
+      cursor: pointer;
+    }
+
+    p {
+      margin: 0 0;
+      color: white;
+
+      strong {
+        color: inherit;
+      }
+    }
+
+    :nth-child(2) {
+      display: var(--display-item);
+    }
+  }
+
+  .footer-item {
+    width: 25%;
+    color: var(--footerFontColor);
+    text-decoration: none;
+    white-space: nowrap;
+    opacity: var(--opacity-item);
+    margin-left: var(--margin-left-item);
+
+    &:hover {
+      opacity: var(--opacity-item-hover);
+      background-color: transparent;
+    }
+
+    cursor: pointer;
+
+    hr {
+      background-color: #ffffff;
+      margin: 10px 0;
+    }
+
+    p > a {
+      color: inherit;
+      display: inline-block;
+      margin-bottom: 1.1em;
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+}
+
+.social-media {
+  float: right;
+
+  a {
+    text-align: center;
+    margin: var(--margin-icon);
+  }
+
+  .social-media-item {
+    display: inline-block;
+    background-color: var(--background-color-social-icon);
+  }
+
+  p {
+    display: flex;
+  }
+
+  .social-media-icon {
+    cursor: pointer;
+    color: var(--footerFontColor);
+  }
+}
+
+@media screen and (max-width: 1080px) {
+  .footer-bar {
+    margin: 0 auto;
+    text-align: center;
+
+    .footer-top-items {
+      flex-flow: column nowrap;
+      display: block;
+      margin: 0 auto;
+      text-align: center;
+
+      .logo {
+        max-width: 50%;
+        margin-bottom: 1.5rem;
+      }
+
+      :nth-child(2) {
+        display: block !important;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .footer-item {
+        width: 100%;
+        display: block;
+        text-align: center;
+        margin: 0 0 0.8em 0;
+      }
+    }
+
+    .social-media {
+      float: none;
+
+      p {
+        justify-content: center;
+      }
+      .social-icon-responsive {
+        margin-top: 0.5em;
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
+}

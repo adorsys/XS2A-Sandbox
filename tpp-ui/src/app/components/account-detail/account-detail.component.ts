@@ -90,4 +90,8 @@ export class AccountDetailComponent implements OnInit {
           this.infoService.openFeedback('IBAN has been successfully generated');
         });
   }
+
+  onCancel() {
+    this.router.navigate(['/users/all']);
+  }
 }

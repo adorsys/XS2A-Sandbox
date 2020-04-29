@@ -18,7 +18,6 @@ import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.api.service.AuthorizationService;
 import de.adorsys.ledgers.oba.service.api.service.CommonPaymentService;
 import de.adorsys.ledgers.oba.service.api.service.ConsentReferencePolicy;
-import de.adorsys.ledgers.oba.service.impl.mapper.PaymentMapper;
 import de.adorsys.psd2.consent.api.CmsAspspConsentDataBase64;
 import de.adorsys.psd2.consent.api.pis.CmsCommonPayment;
 import de.adorsys.psd2.consent.api.pis.CmsPaymentResponse;
@@ -56,7 +55,6 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
     private final AspspConsentDataClient aspspConsentDataClient;
     private final TokenStorageService tokenStorageService;
     private final PaymentMapperTO paymentMapper;
-    private final PaymentMapper paymentConverter;
     private final OauthRestClient oauthRestClient;
     private final AuthorizationService authService;
 
@@ -245,7 +243,7 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
         String paymentString = new String(payment.getPaymentData(), StandardCharsets.UTF_8);
         PaymentTO abstractPayment = paymentMapper.toAbstractPayment(paymentString, workflow.paymentType().name(), payment.getPaymentProduct());
         abstractPayment.setPaymentId(workflow.paymentId());
-        abstractPayment.setTransactionStatus(paymentConverter.toTransactionStatusTO(payment.getTransactionStatus()));
+        abstractPayment.setTransactionStatus(TransactionStatusTO.valueOf(payment.getTransactionStatus().name()));
         return abstractPayment;
     }
 }

@@ -49,4 +49,8 @@ export class CashDepositComponent implements OnInit {
                     }
                 });
     }
+
+    onCancel() {
+        this.router.navigate(['/accounts']);
+    }
 }

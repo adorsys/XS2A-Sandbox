@@ -116,4 +116,8 @@ export class UserCreateComponent implements OnInit {
     getMethodsValues() {
         this.methods = Object.keys(ScaMethods);
     }
+
+    onCancel() {
+        this.router.navigate(['/users/all']);
+    }
 }
