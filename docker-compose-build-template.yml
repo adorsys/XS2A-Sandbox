@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  # Xs2a online banking backend
+  xs2a-online-banking:
+    build:
+      context: online-banking/online-banking-app
+      dockerfile: Dockerfile
+
+  # Xs2a online banking frontend
+  xs2a-online-banking-ui:
+    build:
+      context: oba-ui
+      dockerfile: Dockerfile
+
+  # TPP-UI
+  xs2a-tpp-ui:
+    build:
+      context: tpp-ui
+      dockerfile: Dockerfile
+
+  # TPP-REST-SERVER
+  xs2a-tpp-rest-server:
+    build:
+      context: tpp-app/tpp-rest-server
+      dockerfile: Dockerfile
+
+  # Developer portal ui
+  developer-portal-ui:
+    build:
+      context: developer-portal-ui
+      dockerfile: Dockerfile
+
+  # Certificate generator
+  certificate-generator:
+    build:
+      context: certificate-generator
+      dockerfile: Dockerfile
