@@ -1,6 +1,12 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  async,
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -17,13 +23,15 @@ import {
   TppIdType,
 } from '../../../models/tpp-id-structure.model';
 import JSZip from 'jszip';
+import { CertGenerationService } from '../../../services/cert-generation.service';
+
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
   let registerFixture: ComponentFixture<RegisterComponent>;
   let authService: AuthService;
   let infoService: InfoService;
   let router: Router;
-
+  let certGenerationService: CertGenerationService;
   let de: DebugElement;
   let el: HTMLElement;
 
@@ -37,7 +45,7 @@ describe('RegisterComponent', () => {
         InfoModule,
         FormsModule,
       ],
-      providers: [AuthService, InfoService],
+      providers: [AuthService, InfoService, CertGenerationService],
       declarations: [RegisterComponent, CertificateComponent],
     }).compileComponents();
   }));
@@ -47,6 +55,7 @@ describe('RegisterComponent', () => {
     component = registerFixture.componentInstance;
     authService = TestBed.get(AuthService);
     infoService = TestBed.get(InfoService);
+    certGenerationService = TestBed.get(CertGenerationService);
     router = TestBed.get(Router);
     de = registerFixture.debugElement.query(By.css('form'));
     el = de.nativeElement;
@@ -253,4 +262,31 @@ describe('RegisterComponent', () => {
       done();
     });
   });
+
+  it('should disabled the userform', () => {
+    component.userForm.disable();
+    const result = component.selectCountry();
+    expect(result).toBeFalsy();
+  });
+
+  it('should call the on submit and call the url with message', fakeAsync(() => {
+    const fakeUrl = 'http://fake.url';
+    const message =
+      'You have been successfully registered and your certificate generated. The download will start automatically within the 2 seconds';
+    spyOn(authService, 'register').and.returnValue(of({}));
+    spyOn(certGenerationService, 'generate').and.returnValue(
+      of({ encodedCertencodedCert: 'endcode.cert', privateKey: 'private.key' })
+    );
+    spyOn(component, 'createZipUrl').and.returnValue(of(fakeUrl).toPromise());
+    const navigationSpy = spyOn(component, 'navigateAndGiveFeedback');
+    component.generateCertificate = true;
+    component.certificateValue = {};
+    component.userForm.controls['id'].setValue('12345678');
+    component.userForm.controls['login'].setValue('test');
+    component.userForm.controls['email'].setValue('asd@asd.com');
+    component.userForm.controls['pin'].setValue('1234');
+    component.onSubmit();
+    tick(2000);
+    expect(navigationSpy).toHaveBeenCalledWith(fakeUrl, message);
+  }));
 });
