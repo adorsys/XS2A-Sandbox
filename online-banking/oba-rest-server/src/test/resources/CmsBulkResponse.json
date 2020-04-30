@@ -53,10 +53,10 @@
         "creditorAgent":"AAAADEBBXXX",
         "creditorName":"WBG",
         "creditorAddress":{
-          "street":"WBG Straße",
+          "streetName":"WBG Straße",
           "buildingNumber":"56",
-          "city":"Nürnberg",
-          "postalCode":"90543",
+          "townName":"Nürnberg",
+          "postCode":"90543",
           "country":"DE"
         },
         "remittanceInformationUnstructured":"Ref. Number WBG-1234",
@@ -107,10 +107,10 @@
         "creditorAgent":"AAAADEBBXXX",
         "creditorName":"Grünstrom",
         "creditorAddress":{
-          "street":"Kaisergasse",
+          "streetName":"Kaisergasse",
           "buildingNumber":"74",
-          "city":"Dresden",
-          "postalCode":"01067",
+          "townName":"Dresden",
+          "postCode":"01067",
           "country":"DE"
         },
         "remittanceInformationUnstructured":"Ref. Number GRUENSTROM-2444",
