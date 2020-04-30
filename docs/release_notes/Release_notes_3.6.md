@@ -8,4 +8,4 @@ Current version consists of following components:
 4. **Consent-Management v.7.3**
 5. **XS2A Connector-Examples v.7.3**
 
-- TODO FILL THIS OUT!!!
+- Property with typo `expiration.code.minites` was renamed to `expiration.code.minutes`
