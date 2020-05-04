@@ -105,7 +105,7 @@
 | Ledgers                   | http://localhost:8088/swagger-ui.html  |                                   https://demo-dynamicsandbox-ledgers.cloud.adorsys.de |
 | ASPSP-профіль Swagger     | http://localhost:48080/swagger-ui.html |                              https://demo-dynamicsandbox-aspspprofile.cloud.adorsys.de |
 | Інтерфейс TPP             |         http://localhost:4205          |                               https://demo-dynamicsandbox-tppui.cloud.adorsys.de/login |
-| Онлайн-банкінг            |         http://localhost:4400          | https://demo-dynamicsandbox-onlinebankingui.cloud.adorsys.de/account-information/login |
+| Онлайн-банкінг            |         http://localhost:4400          |                          https://demo-dynamicsandbox-onlinebankingui.cloud.adorsys.de/ |
 | Сервер онлайн-банкінгу    | http://localhost:8090/swagger-ui.html  |             https://demo-dynamicsandbox-onlinebanking.cloud.adorsys.de/swagger-ui.html |
 | Генератор сертифікатів    | http://localhost:8092/swagger-ui.html  |      https://demo-dynamicsandbox-certificategenerator.cloud.adorsys.de/swagger-ui.html |
 
