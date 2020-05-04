@@ -6,66 +6,63 @@
     </nav>
 </div>
 
-<div class="d-md-flex bg-white h-md-100">
+<div class="d-md-flex bg-white h-md-75">
   <div class="col">
     <div class="d-md-flex align-items-center h-100 p-4 justify-content-center">
       <div class="d-md-flex align-items-center">
-        <form [formGroup]="loginForm" (ngSubmit)="loginForm.valid && onSubmit()">
 
-          <div class="card">
-            <div class="card-body">
-              <h2 class="card-title text-center font-weight-bold"><span *ngIf="!customizeService.isCustom()">adorsys </span>Online banking</h2>
-              <div class="font-weight-light my-4 text-muted">Please log in with your bank account username</div>
-
-              <div *ngIf="errorMessage" class="alert alert-danger">
-                {{ errorMessage }}
-              </div>
-
-              <div class="form-group">
-                <label for="login" class="text-muted">Your login:</label><br>
-                <input type="text"
-                       id="login"
-                       name="login"
-                       formControlName="login"
-                       placeholder="Enter your login"
-                       [ngClass]="{ 'is-invalid': loginForm.controls['login'].touched && loginForm.controls['login'].errors }"
-                       class="form-control">
-                <div class="invalid-feedback"
-                     *ngIf="loginForm.controls['login'].touched && loginForm.controls['login'].hasError('required')">
-                  Login is required
+          <form [formGroup]="loginForm" (ngSubmit)="loginForm.valid && onSubmit()">
+            <div class="card">
+              <div class="card-body">
+                <h2 class="card-title text-center font-weight-bold "><span *ngIf="!customizeService.isCustom()">adorsys </span>Online banking</h2>
+                <div class="font-weight-light text-muted card__subtitle">
+                  Please log in with your bank account username and pin
                 </div>
-              </div>
 
-              <div class="form-group">
-                <label for="pin" class="text-muted">PIN:</label><br>
-                <input type="password"
-                       id="pin"
-                       name="pin"
-                       formControlName="pin"
-                       placeholder="Enter your PIN"
-                       [ngClass]="{ 'is-invalid': loginForm.controls['pin'].touched && loginForm.controls['pin'].errors }"
-                       class="form-control">
-                <div class="invalid-feedback"
-                     *ngIf="loginForm.controls['pin'].touched && loginForm.controls['pin'].hasError('required')">PIN is
-                  required
+                <div *ngIf="errorMessage" class="alert alert-danger">
+                  {{ errorMessage }}
                 </div>
+
+
+              <div class="form_margin">
+                <div class="form-group">
+                  <label for="login" class="text-muted" *ngIf="!customizeService.isCustom()">Your login:</label><br>
+                  <input type="text"
+                         id="login"
+                         name="login"
+                         formControlName="login"
+                         placeholder="Enter your login"
+                         [ngClass]="{ 'is-invalid': loginForm.controls['login'].touched && loginForm.controls['login'].errors }"
+                         class="form-control">
+                  <div class="invalid-feedback"
+                       *ngIf="loginForm.controls['login'].touched && loginForm.controls['login'].hasError('required')">
+                    Login is required
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="pin" class="text-muted" *ngIf="!customizeService.isCustom()">PIN:</label><br>
+                  <input type="password"
+                         id="pin"
+                         name="pin"
+                         formControlName="pin"
+                         placeholder="Enter your pin"
+                         [ngClass]="{ 'is-invalid': loginForm.controls['pin'].touched && loginForm.controls['pin'].errors }"
+                         class="form-control">
+                  <div class="invalid-feedback"
+                       *ngIf="loginForm.controls['pin'].touched && loginForm.controls['pin'].hasError('required')">PIN is
+                    required
+                  </div>
                   <div class="text-light-grey">
                       <a routerLink="/reset-password"><small>Forgot PIN?</small></a>
                   </div>
-              </div>
-
-            </div>
-
-            <div class="card-footer no-bg-color">
-              <div class="row my-3">
-                <div class="col">
-                  <button type="submit" class="btn btn-primary btn-block" [disabled]="loginForm.invalid">Login</button>
                 </div>
               </div>
             </div>
-          </div>
+            <button type="submit" class="btn btn-primary btn-block" [disabled]="loginForm.invalid" >Login</button>
 
-        </form>
+            </div>
+          </form>
       </div>
     </div>
   </div>
