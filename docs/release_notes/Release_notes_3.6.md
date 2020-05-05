@@ -2,7 +2,7 @@
 
 Current version consists of following components:
 
-1. **Ledgers v.3.2**
+1. **Ledgers v.3.3**
 2. **XS2A v.7.3**
 3. **ASPSP-Profile v.7.3**
 4. **Consent-Management v.7.3**
