@@ -75,7 +75,7 @@
       "MENU": {
         "LI_1": "Swagger testing",
         "SUBMENU": {
-          "LI_0": "Predefined test values for all tests (TAN and PIN):",
+          "LI_0": "Predefined test values for all tests (TAN and PIN)",
           "LI_1": "Redirect:",
           "LIST_1": {
             "LI_1": "Payment Flow",
@@ -481,7 +481,6 @@
         "PART_4": "3. Change placeholder ",
         "PART_5": " to the IBAN of the chosen user. Set user currency in the field \"currency\"."
       }
-
     }
   },
   "CONTACT": {
