@@ -33,8 +33,18 @@ Here are links where you can install needed dependencies:
 | PlantUML 1.2019.3  | http://plantuml.com/en/starting         |
 
 
-**Note**: check amount of memory given to **Docker** (Open Docker Desktop -> Preferences -> Advanced -> Memory).
+---
+**Note1:**
+Check amount of memory given to **Docker** (Open Docker Desktop -> Preferences -> Advanced -> Memory).
 For a fast and painless start of all the services it should be not less than 5 GB.
+
+---
+
+---
+**Note2:**
+If you clone master branch or tag version of XS2ASandbox you should run service with commands like  `docker-compose up` or `make run`.
+
+---
 
 3.Build and run the project:
 
