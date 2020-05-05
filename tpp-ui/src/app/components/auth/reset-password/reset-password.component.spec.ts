@@ -41,21 +41,6 @@ describe('ResetPasswordComponent', () => {
     fixture.detectChanges();
     component.ngOnInit();
   });
-
-  it('should call login on the service', () => {
-    authServiceSpy = spyOn(authService, 'requestCodeForResetPassword').and.callThrough();
-
-    const form = component.resetPasswordForm;
-    form.controls['login'].setValue('test');
-    form.controls['email'].setValue('test@test.de');
-
-    el = fixture.debugElement.query(By.css('button')).nativeElement;
-    el.click();
-
-    expect(authServiceSpy).toHaveBeenCalledWith({login: 'test', email: 'test@test.de'});
-    expect(authServiceSpy).toHaveBeenCalled();
-  });
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -99,9 +84,6 @@ describe('ResetPasswordComponent', () => {
     expect(component.errorMessage).toEqual('Please enter your credentials');
   });
 
-  it('Set error message by button click and invalid form', () => {
-    el = fixture.debugElement.query(By.css('button')).nativeElement;
-    el.click();
-    expect(component.errorMessage).toEqual('Please enter your credentials');
-  });
+  // TODO write unite tests https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/-/issues/704
+
 });

@@ -58,6 +58,8 @@ This is description of services,dependencies and steps  to run XS2ASandbox on an
 | | | SCA_MULTILEVEL_ENABLED  |
 | | | SPRING_MAIL_HOST  |
 | | | SPRING_MAIL_PORT  |
+| | | SPRING_MAIL_USERNAME  |
+| | | SPRING_MAIL_PASSWORD  |
 | | | SPRING_MAIL_PROPERTIES_MAIL_FROM  |
 | | | SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH  |
 | | | SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE |
@@ -242,7 +244,6 @@ The table of options and possible configurations you can find below:
 | | | spring_mail_username | username |
 | | | spring_mail_password | password |
 | | | spring_mail_properties_mail_smtp_starttls_enable | true |
-| | | spring_mail_properties_mail_smtp_starttls_required | true |
 | | | spring_mail_properties_mail_smtp_auth | true |
 | | | spring_mail_properties_mail_smtp_connectiontimeout | 5000 |
 | | | spring_mail_properties_mail_smtp_timeout | 5000 |
@@ -272,6 +273,8 @@ The table of options and possible configurations you can find below:
 
 
 NOTE: All possible mail configurations for Spring could be found here: https://www.quickprogrammingtips.com/spring-boot/how-to-send-email-from-spring-boot-applications.html
+
+NOTE: To use for example Gmail account and SMTP server to sent emails you should configure two-factor authentication and create application password.
 
 === 2.3 Nginx Frontends
 

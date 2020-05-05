@@ -29,5 +29,10 @@ public class PermittedResources {
         "/tpp/sca/email"
     };
 
+    protected static final String[] ACTUATOR_WHITELIST = {
+        "/actuator/info",
+        "/actuator/health"
+    };
+
     private PermittedResources() {}
 }

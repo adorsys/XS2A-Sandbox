@@ -5,7 +5,7 @@
     <parent>
         <artifactId>tpp-app</artifactId>
         <groupId>de.adorsys.psd2.sandbox</groupId>
-        <version>3.6-RC1</version>
+        <version>3.6</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -157,6 +157,12 @@
                     <execution>
                         <goals>
                             <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>build-info</id>
+                        <goals>
+                            <goal>build-info</goal>
                         </goals>
                     </execution>
                 </executions>

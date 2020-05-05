@@ -271,6 +271,7 @@ class CommonPaymentServiceImplTest {
         payment.setPaymentId(PAYMENT_ID);
         payment.setPaymentData(getPaymentString());
         payment.setPaymentType(PaymentType.SINGLE);
+        payment.setTransactionStatus(TransactionStatus.ACCP);
         return payment;
     }
 

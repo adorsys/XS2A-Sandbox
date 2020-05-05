@@ -4,6 +4,10 @@ form {
     font-weight: 100;
 }
 
+.container-fluid {
+  padding:0;
+}
+
 .sticky-top {
     z-index: 1000;
 }
@@ -12,25 +16,32 @@ form {
     border: none;
     margin: 5vh auto 15vh auto;
 
-    &-title {
-        font-size: 1.8rem;
-        margin: 1.1rem;
-    }
+  .card-body {
+    padding: 0;
+  }
 
+    &-title {
+        font-size: 2rem;
+    }
     &__headline {
         margin-left: auto;
         margin-right: auto;
-        max-width: 300px;
+        max-width: var(--headline-max-width);
     }
 
     &__subtitle {
         font-size: 1.1rem;
         color: $light-grey;
     }
+
+  .card__subtitle {
+    margin-bottom: 1.5rem;
+  }
+
 }
 
 .form__margin {
-    margin-bottom: 4rem;
+    margin-bottom: var(--form-margin-bottom);
 }
 
 .text-light-grey a{
@@ -39,4 +50,11 @@ form {
 
 .btn {
     width: 100%;
+
+  &:disabled {
+    opacity: 1;
+    background: var(--buttonBGDisabled);
+    color: var(--buttonColorTextDisabled);
+  }
+
 }

@@ -11,24 +11,26 @@
 
 <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
     <div class="card">
-        <div class="card-body">
+        <div class="card-body pd-0">
             <div class="card__headline text-center">
                 <h2 class="card-title font-weight-bold"><span *ngIf="!customizeService.isCustom()">adorsys </span>TPP UI</h2>
-                <div class="my-4 card__subtitle">
+                <div class="card__subtitle pd-0">
                     Please log in with your bank account username
                 </div>
+
             </div>
             <div *ngIf="errorMessage" class="alert alert-danger">
                 {{errorMessage}}
             </div>
            <div class="form__margin">
                <div class="form-group">
-                   <label for="login">Login</label>
+                   <label for="login" *ngIf="!customizeService.isCustom()">Login</label>
                    <input [ngClass]="{'is-invalid': loginForm.get('login')?.errors && loginForm.get('login')?.dirty}"
                           autocomplete="off"
                           class="form-control"
                           formControlName="login"
                           id="login"
+                          placeholder="Enter your login"
                           type="text">
                    <div *ngIf="loginForm.get('login')?.errors?.required && loginForm.get('login')?.dirty"
                         class="invalid-feedback">
@@ -37,12 +39,13 @@
                </div>
 
                <div class="form-group">
-                   <label for="pin">PIN</label>
+                   <label for="pin" *ngIf="!customizeService.isCustom()">PIN</label>
                    <input [ngClass]="{'is-invalid': loginForm.get('pin')?.errors && loginForm.get('pin')?.dirty}"
                           autocomplete="new-password"
                           class="form-control"
                           formControlName="pin"
                           id="pin"
+                          placeholder="Enter your pin"
                           type="password">
                    <div *ngIf="loginForm.get('pin')?.errors?.required && loginForm.get('pin')?.dirty"
                         class="invalid-feedback">
@@ -54,7 +57,7 @@
                </div>
 
            </div>
-            <button class="btn btn-primary btn-block mb-3" type="submit">Login</button>
+            <button class="btn btn-primary btn-block mb-3" type="submit" [disabled]="loginForm.invalid">Login</button>
             <div class="text-center text-light-grey" *ngIf="!customizeService.isCustom()">
                 <a routerLink="/register">Create new account</a>
             </div>

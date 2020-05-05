@@ -36,6 +36,10 @@ body {
   }
 }
 
+.card-title {
+  font-size: 2rem;
+}
+
 .navbar-brand {
   display: flex;
   flex-flow: row nowrap;
@@ -64,6 +68,21 @@ a {
 
 .card {
   border: none;
+  padding: 1.25rem;
+
+  .card__subtitle {
+    font-size: 1.2rem;
+    color: #a0a0a0 !important;
+    text-align: center;
+    margin-bottom: var(--subtitle-margin-botton);
+
+  }
+
+  .form__margin {
+    margin-top: 1.5rem;
+    padding-bottom: var(--padding-bottom);
+  }
+
 
   &--large {
     padding: 2rem 2rem;
@@ -77,11 +96,16 @@ a {
   .card-body {
     padding: 0;
 
-    .form-control {
-      padding: 1.5rem 1rem;
-      transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-    }
+    .form-group {
+      height: var(--form-group-height);
+      margin: var(--margin-form-group);
 
+      .form-control {
+        padding: .25rem .75rem;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+      }
+
+    }
     .form-check-label {
       margin-left: 30px;
       margin-bottom: 20px;
@@ -91,7 +115,21 @@ a {
   .card-footer {
     padding-left: 0;
     padding-right: 0;
+
+
   }
+
+
+  button {
+    margin-top: var(--margin-top);
+  }
+
+  a {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: #a0a0a0;
+  }
+
 }
 
 .no-bg-color {
@@ -173,8 +211,10 @@ nav {
 }
 
 .btn {
+  font-size: 1.1rem;
   white-space: nowrap;
   border-radius: var(--buttonBorderRadius);
+  margin-bottom: 0 !important;
 
   &-primary {
     color: var(--buttonTextColor);
@@ -187,8 +227,9 @@ nav {
     }
 
     &:disabled {
-      background: var(--buttonBG);
-      opacity: .65;
+      background: var(--buttonBGDisabled);
+      opacity: var(--button-opacity);
+      color: var(--buttonColorTextDisabled)
     }
 
     &:focus {
@@ -226,6 +267,9 @@ nav {
 }
 
 .form-control {
+  height: inherit;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
   background: var(--inputBG);
   outline: none;
   border-left: var(--inputBorderStyleLeft);

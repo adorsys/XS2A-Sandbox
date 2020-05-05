@@ -79,6 +79,10 @@ $dark-80: #2C2E2F;
 
   --buttonTextColor: #fff;
   --buttonBorderRadius: 3px;
+  --buttonColorTextDisabled: #fff;
+  --buttonBGDisabled: linear-gradient(129.54deg, var(--buttonBgGradient1) 0%, var(--buttonBgGradient2) 100%);
+  --button-opacity: .65;
+
 
   --buttonBgGradient1: #0db0e2;
   --buttonBgGradient2: #10317D;
@@ -132,5 +136,14 @@ $dark-80: #2C2E2F;
   --selectBorderStyleBottom: none;
   --selectBorderStyleTop: none;
   --selectBorderRadius: none;
+
+  /* Form */
+  --form-margin-bottom: 4rem;
+  --headline-max-width: 300px;
+  --margin-form-group: 0 0 4rem 0;
+  --form-group-height: 3.5rem;
+  --margin-top: 2rem;
+  --subtitle-margin-botton: 1.5rem;
+  --padding-bottom: 0.1rem
 }
 

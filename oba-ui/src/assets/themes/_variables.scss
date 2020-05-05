@@ -97,6 +97,9 @@ $danger-gradient: linear-gradient(129.54deg, lighten($danger, 7%) 0%, $danger 10
 
   --buttonTextColor: #fff;
   --buttonBorderRadius: 3px;
+  --buttonBGDisabled: linear-gradient(129.54deg, var(--buttonBgGradient1) 0%, var(--buttonBgGradient2) 100%);
+  --buttonColorTextDisabled: #fff;
+  --button-opacity: .65;
 
   --buttonBgGradient1: #0db0e2;
   --buttonBgGradient2: #10317D;
@@ -141,4 +144,12 @@ $danger-gradient: linear-gradient(129.54deg, lighten($danger, 7%) 0%, $danger 10
   --inputBorderStyleBottom: 1px solid #a0a0a0;
   --inputBorderStyleTop: 1px solid #a0a0a0;
   --inputBorderRadius: .25rem;
+
+  /* Forms*/
+
+  --margin-form-group: 0 0 4rem 0;
+  --form-group-height: 3.5rem;
+  --margin-top: 2rem;
+  --subtitle-margin-botton: 1.5rem;
+  --padding-bottom: 0.1rem
 }

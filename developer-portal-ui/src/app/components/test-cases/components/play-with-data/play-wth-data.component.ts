@@ -358,7 +358,7 @@ export class PlayWthDataComponent implements OnInit {
       requestHeaders['Content-Type'] = this.xml ? 'application/xml' : 'application/json';
       requestHeaders['Accept'] = this.acceptHeader ? this.acceptHeader : 'application/json';
 
-      for (const disabled of this.disabledHeaders) {
+      for (const disabled of Object.keys(this.disabledHeaders)) {
         delete requestHeaders[disabled];
       }
 
