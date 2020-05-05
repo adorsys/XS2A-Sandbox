@@ -9,3 +9,4 @@ Current version consists of following components:
 5. **XS2A Connector-Examples v.7.3**
 
 - Property with typo `expiration.code.minites` was renamed to `expiration.code.minutes`
+- Enabled `actuator/info` and `actuator/health` endpoints for TPP-APP, Online-Banking and Certificate-Generator apps 
