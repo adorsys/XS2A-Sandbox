@@ -19,9 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-import static de.adorsys.psd2.sandbox.tpp.rest.server.auth.SecurityConstant.USER_LOGIN;
-import static de.adorsys.psd2.sandbox.tpp.rest.server.auth.SecurityConstant.USER_PIN;
-import static de.adorsys.psd2.sandbox.tpp.rest.server.auth.SecurityConstant.ACCESS_TOKEN;
+import static de.adorsys.psd2.sandbox.tpp.rest.server.auth.SecurityConstant.*;
 
 public class LoginAuthenticationFilter extends AbstractAuthFilter {
     private UserMgmtStaffRestClient userMgmtStaffRestClient;
@@ -45,21 +43,27 @@ public class LoginAuthenticationFilter extends AbstractAuthFilter {
 
         if (authenticationIsRequired()) {
             try {
-                ResponseEntity<SCALoginResponseTO> loginResponse = userMgmtStaffRestClient.login(new UserCredentialsTO(login, pin, UserRoleTO.STAFF));
+                ResponseEntity<SCALoginResponseTO> loginResponse = tryLoginAsAdminOrTppIfFailed(login, pin);
 
                 BearerTokenTO bearerTokenTO = Optional.ofNullable(loginResponse.getBody())
                                                   .map(SCAResponseTO::getBearerToken)
                                                   .orElseThrow(() -> new RestException("Couldn't get bearer token"));
-
                 fillSecurityContext(bearerTokenTO);
                 addBearerTokenHeader(bearerTokenTO.getAccess_token(), response);
-
             } catch (FeignException | RestException e) {
                 handleAuthenticationFailure(response, e);
                 return;
             }
         }
         chain.doFilter(request, response);
+    }
+
+    private ResponseEntity<SCALoginResponseTO> tryLoginAsAdminOrTppIfFailed(String login, String pin) {
+        try {
+            return userMgmtStaffRestClient.login(new UserCredentialsTO(login, pin, UserRoleTO.SYSTEM));
+        } catch (FeignException e) {
+            return userMgmtStaffRestClient.login(new UserCredentialsTO(login, pin, UserRoleTO.STAFF));
+        }
     }
 
     private void addBearerTokenHeader(String token, HttpServletResponse response) {
