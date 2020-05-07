@@ -36,12 +36,10 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.initTanForm();
 
-    // get query params
     this.shareService.currentOperation.subscribe((operation: string) => {
       this.operation = operation;
     });
 
-    // fetch data that we save before after login
     this.shareService.currentData.subscribe((data) => {
       if (data) {
         console.log('response object: ', data);
@@ -51,7 +49,6 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
       }
     });
 
-    // fetch oauth param value
     this.shareService.oauthParam.subscribe((oauth2: boolean) => {
       this.oauth2Param = oauth2;
     });

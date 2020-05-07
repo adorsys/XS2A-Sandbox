@@ -120,12 +120,10 @@ export class RegisterComponent implements OnInit {
     let message: string;
 
     if (this.generateCertificate && this.certificateValue) {
-      // combine observables
       combineLatest([
         this.service.register(this.userForm.value, this.selectedCountry),
         this.certGenerationService.generate(this.certificateValue),
       ]).subscribe((combinedData: any) => {
-        // get cert generation params
         const encodedCert = combinedData[1].encodedCert;
         const privateKey = combinedData[1].privateKey;
 

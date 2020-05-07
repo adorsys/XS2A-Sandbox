@@ -83,7 +83,6 @@ describe('RegisterComponent', () => {
     component.changeIdValidators();
     const tppId = component.userForm.get('id');
 
-    // set branch to something correct
     tppId.setValue('12345678');
     expect(tppId.valid).toBeTruthy();
     expect(tppId.errors).toBeNull();
@@ -94,11 +93,9 @@ describe('RegisterComponent', () => {
     const login = component.userForm.controls['login'];
     expect(login.valid).toBeFalsy();
 
-    // login field is required
     errors = login.errors || {};
     expect(errors['required']).toBeTruthy();
 
-    // set login to something correct
     login.setValue('test@test.de');
     errors = login.errors || {};
     expect(errors['required']).toBeFalsy();
@@ -107,7 +104,6 @@ describe('RegisterComponent', () => {
   it('email field validity', () => {
     const email = component.userForm.controls['email'];
 
-    // set email to something correct
     email.setValue('test@test.de');
     let errors = email.errors || {};
     expect(errors['email']).toBeFalsy();
@@ -118,11 +114,9 @@ describe('RegisterComponent', () => {
     const pin = component.userForm.controls['pin'];
     expect(pin.valid).toBeFalsy();
 
-    // pin field is required
     errors = pin.errors || {};
     expect(errors['required']).toBeTruthy();
 
-    // set pin to something correct
     pin.setValue('12345678');
     errors = pin.errors || {};
     expect(errors['required']).toBeFalsy();
@@ -148,7 +142,6 @@ describe('RegisterComponent', () => {
     expect(component.generateCertificate).toBeFalsy();
     expect(component.userForm.valid).toBeTruthy();
 
-    // submit form
     let registerSpy = spyOn(authService, 'register').and.callFake(() =>
       of({ value: 'sample response' })
     );
