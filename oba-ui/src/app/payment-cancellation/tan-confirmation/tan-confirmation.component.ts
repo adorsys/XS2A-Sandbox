@@ -9,15 +9,14 @@ import { PisCancellationService } from '../../common/services/pis-cancellation.s
 import { ShareDataService } from '../../common/services/share-data.service';
 
 import AuthorisePaymentUsingPOSTParams = PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService.AuthorisePaymentUsingPOSTParams;
-import {PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService} from "../../api/services/psupiscancellation-provides-access-to-online-banking-payment-functionality.service";
+import { PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService } from '../../api/services/psupiscancellation-provides-access-to-online-banking-payment-functionality.service';
 
 @Component({
   selector: 'app-tan-confirmation',
   templateUrl: './tan-confirmation.component.html',
-  styleUrls: ['./tan-confirmation.component.scss']
+  styleUrls: ['./tan-confirmation.component.scss'],
 })
 export class TanConfirmationComponent implements OnInit, OnDestroy {
-
   public authResponse: PaymentAuthorizeResponse;
   public tanForm: FormGroup;
   public invalidTanCount = 0;
@@ -26,96 +25,108 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
   private operation: string;
   private oauth2Param: boolean;
 
-  constructor(private formBuilder: FormBuilder,
-              private router: Router,
-              private route: ActivatedRoute,
-              private pisCancellationService: PisCancellationService,
-              private shareService: ShareDataService) {
-  }
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute,
+    private pisCancellationService: PisCancellationService,
+    private shareService: ShareDataService
+  ) {}
 
   public ngOnInit(): void {
-
     this.initTanForm();
 
-    // get query params
-    this.shareService.currentOperation
-      .subscribe((operation: string) => {
-        this.operation = operation;
-      });
+    this.shareService.currentOperation.subscribe((operation: string) => {
+      this.operation = operation;
+    });
 
-    // fetch data that we save before after login
-    this.shareService.currentData.subscribe(data => {
+    this.shareService.currentData.subscribe((data) => {
       if (data) {
         console.log('response object: ', data);
-        this.shareService.currentData.subscribe(authResponse => this.authResponse = authResponse);
+        this.shareService.currentData.subscribe(
+          (authResponse) => (this.authResponse = authResponse)
+        );
       }
     });
 
-    // fetch oauth param value
     this.shareService.oauthParam.subscribe((oauth2: boolean) => {
       this.oauth2Param = oauth2;
     });
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 
   public onSubmit(): void {
     if (!this.authResponse) {
-      console.log('Missing application data');
       return;
     }
-    console.log('TAN: ' + this.tanForm.value);
 
     this.subscriptions.push(
-      this.pisCancellationService.authorizePayment({
-        ...this.tanForm.value,
-        encryptedPaymentId: this.authResponse.encryptedConsentId,
-        authorisationId: this.authResponse.authorisationId,
-      } as AuthorisePaymentUsingPOSTParams).subscribe(authResponse => {
-        console.log(authResponse);
-        this.router.navigate([`${RoutingPath.PAYMENT_CANCELLATION}/${RoutingPath.RESULT}`], {
-          queryParams: {
-            encryptedConsentId: this.authResponse.encryptedConsentId,
-            authorisationId: this.authResponse.authorisationId,
-            oauth2: this.oauth2Param
-          }
-        }).then(() => {
-          this.authResponse = authResponse;
-          this.shareService.changeData(this.authResponse);
-        });
-      }, (error) => {
-        this.invalidTanCount++;
+      this.pisCancellationService
+        .authorizePayment({
+          ...this.tanForm.value,
+          encryptedPaymentId: this.authResponse.encryptedConsentId,
+          authorisationId: this.authResponse.authorisationId,
+        } as AuthorisePaymentUsingPOSTParams)
+        .subscribe(
+          (authResponse) => {
+            this.router
+              .navigate(
+                [`${RoutingPath.PAYMENT_CANCELLATION}/${RoutingPath.RESULT}`],
+                {
+                  queryParams: {
+                    encryptedConsentId: this.authResponse.encryptedConsentId,
+                    authorisationId: this.authResponse.authorisationId,
+                    oauth2: this.oauth2Param,
+                  },
+                }
+              )
+              .then(() => {
+                this.authResponse = authResponse;
+                this.shareService.changeData(this.authResponse);
+              });
+          },
+          (error) => {
+            this.invalidTanCount++;
 
-        if (this.invalidTanCount >= 3) {
-          this.router.navigate([`${RoutingPath.PAYMENT_CANCELLATION}/${RoutingPath.RESULT}`], {
-            queryParams: {
-              encryptedConsentId: this.authResponse.encryptedConsentId,
-              authorisationId: this.authResponse.authorisationId,
-              oauth2: this.oauth2Param
+            if (this.invalidTanCount >= 3) {
+              this.router
+                .navigate(
+                  [`${RoutingPath.PAYMENT_CANCELLATION}/${RoutingPath.RESULT}`],
+                  {
+                    queryParams: {
+                      encryptedConsentId: this.authResponse.encryptedConsentId,
+                      authorisationId: this.authResponse.authorisationId,
+                      oauth2: this.oauth2Param,
+                    },
+                  }
+                )
+                .then(() => {
+                  throw error;
+                });
             }
-          }).then(() => {
-            throw error;
-          });
-        }
-      })
+          }
+        )
     );
   }
 
   public onCancel(): void {
-    this.router.navigate([`${RoutingPath.PAYMENT_CANCELLATION}/${RoutingPath.RESULT}`], {
-      queryParams: {
-        encryptedConsentId: this.authResponse.encryptedConsentId,
-        authorisationId: this.authResponse.authorisationId
+    this.router.navigate(
+      [`${RoutingPath.PAYMENT_CANCELLATION}/${RoutingPath.RESULT}`],
+      {
+        queryParams: {
+          encryptedConsentId: this.authResponse.encryptedConsentId,
+          authorisationId: this.authResponse.authorisationId,
+        },
       }
-    });
+    );
   }
 
   private initTanForm(): void {
     this.tanForm = this.formBuilder.group({
-      authCode: ['', Validators.required]
+      authCode: ['', Validators.required],
     });
   }
-
 }
