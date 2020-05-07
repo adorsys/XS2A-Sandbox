@@ -1,4 +1,5 @@
 @import "~src/assets/themes/table";
+@import "~src/assets/themes/variables";
 
 .justify-space-between {
   justify-content: space-between;
@@ -17,7 +18,8 @@
 
 .has-search .form-control-feedback {
     position: absolute;
-    margin-top: 6px;
+    margin-top: var(--margin-top-icon);
+    align-items: inherit;
     z-index: 2;
     display: block;
     width: 2.375rem;
