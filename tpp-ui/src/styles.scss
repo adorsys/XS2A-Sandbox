@@ -173,14 +173,20 @@ select {
   }
 }
 
-.btn {
+ card, .btn {
   white-space: nowrap;
   border-radius: var(--buttonBorderRadius);
   font-size: 1.1rem;
+  padding: 0 12px !important;
+  height: var(--button-heigh);
+
+ button {
+   text-align: center;
+ }
+
 
   &-primary {
     color: var(--buttonTextColor);
-
     background: var(--buttonBG);
     border: none;
 
@@ -226,7 +232,11 @@ select {
     }
 
   }
+
+
 }
+
+
 
 
 a {
@@ -271,9 +281,14 @@ a {
     max-width: 500px;
   }
 
-  a {
+  .text-light-grey {
     color: #a0a0a0;
   }
+
+  td, a {
+    padding-top: 4px !important;
+  }
+
 }
 
 .icon__container {
