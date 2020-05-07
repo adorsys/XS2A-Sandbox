@@ -40,6 +40,8 @@ export class SelectScaComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.shareService.currentData.subscribe((data) => {
       if (data) {
+        // TODO extract the Accounts, Balances and Transactions from data.value
+        //  https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/issues/9
         this.shareService.currentData.subscribe((authResponse) => {
           this.authResponse = authResponse;
           if (this.authResponse.scaMethods) {
