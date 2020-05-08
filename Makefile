@@ -102,7 +102,7 @@ all: lint-all build-ui-services build-java-services unit-tests-all-frontend unit
 
 ## Build section ##
 build-java-services: ## Build java services
-	mvn -DskipTests clean package
+	mvn -DskipTests clean package -Dci.build.number=Build\:${CI_PIPELINE_ID}
 
 build-ui-services: npm-install-tpp-ui npm-install-oba-ui npm-install-developer-portal-ui ## Build ui services
 

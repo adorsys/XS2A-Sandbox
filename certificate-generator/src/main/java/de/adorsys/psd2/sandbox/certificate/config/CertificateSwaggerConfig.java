@@ -1,5 +1,7 @@
 package de.adorsys.psd2.sandbox.certificate.config;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.info.BuildProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -12,7 +14,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
+@RequiredArgsConstructor
 public class CertificateSwaggerConfig {
+    private final BuildProperties buildProperties;
 
     @Bean
     public Docket apiDocket() {
@@ -24,7 +28,7 @@ public class CertificateSwaggerConfig {
                                     "adorsys GmbH & Co. KG",
                                     "https://adorsys.de",
                                     "pru@adorsys.com.ua"))
-                                .version("1.0.0")
+                                .version(buildProperties.getVersion() + " " + buildProperties.get("build.number"))
                                 .build())
                    .groupName("Certificate Generator API")
                    .select()

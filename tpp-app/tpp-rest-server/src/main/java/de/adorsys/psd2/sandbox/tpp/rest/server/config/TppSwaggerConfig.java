@@ -1,5 +1,7 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.config;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.info.BuildProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -18,7 +20,9 @@ import static springfox.documentation.swagger.web.SecurityConfigurationBuilder.b
 
 @Configuration
 @EnableSwagger2
+@RequiredArgsConstructor
 public class TppSwaggerConfig {
+    private final BuildProperties buildProperties;
 
     @Bean
     public Docket apiDocklet() {
@@ -31,7 +35,7 @@ public class TppSwaggerConfig {
                                     "https://adorsys.de",
                                     "fpo@adorsys.de")
                                 )
-                                .version("1.0.0")
+                                .version(buildProperties.getVersion() + " " + buildProperties.get("build.number"))
                                 .build())
                    .groupName("TPP-API")
                    .select()
