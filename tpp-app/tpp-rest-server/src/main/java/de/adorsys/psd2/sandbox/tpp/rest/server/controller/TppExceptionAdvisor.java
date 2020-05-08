@@ -30,7 +30,7 @@ public class TppExceptionAdvisor {
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<Map> handleException(Exception ex, HandlerMethod handlerMethod) {
         log.warn("Exception handled in service: {}, message: {}",
-            handlerMethod.getMethod().getDeclaringClass().getSimpleName(), ex.getMessage());
+                 handlerMethod.getMethod().getDeclaringClass().getSimpleName(), ex.getMessage());
 
         return new ResponseEntity<>(buildContentMap(500, ex.getMessage()), INTERNAL_SERVER_ERROR);
     }
@@ -38,7 +38,7 @@ public class TppExceptionAdvisor {
     @ExceptionHandler(TppException.class)
     public ResponseEntity<Map> handleTppException(TppException ex, HandlerMethod handlerMethod) {
         log.warn("TppException handled in service: {}, message: {}",
-            handlerMethod.getMethod().getDeclaringClass().getSimpleName(), ex.getMessage());
+                 handlerMethod.getMethod().getDeclaringClass().getSimpleName(), ex.getMessage());
 
         Map<String, String> body = buildContentMap(ex.getCode(), ex.getMessage());
         return new ResponseEntity<>(body, HttpStatus.valueOf(ex.getCode()));
@@ -47,10 +47,11 @@ public class TppExceptionAdvisor {
     @ExceptionHandler(FeignException.class)
     public ResponseEntity<Map> handleFeignException(FeignException ex, HandlerMethod handlerMethod) {
         log.warn("FeignException handled in service: {}, message: {}",
-            handlerMethod.getMethod().getDeclaringClass().getSimpleName(), ex.getMessage());
+                 handlerMethod.getMethod().getDeclaringClass().getSimpleName(), ex.getMessage());
 
         Map<String, String> body = buildContentMap(ex.status(), resolveErrorMessage(ex));
-        return new ResponseEntity<>(body, HttpStatus.valueOf(ex.status()));
+        HttpStatus status = HttpStatus.valueOf(ex.status() == 0 ? 503 : ex.status());
+        return new ResponseEntity<>(body, status);
     }
 
     private String resolveErrorMessage(FeignException ex) {

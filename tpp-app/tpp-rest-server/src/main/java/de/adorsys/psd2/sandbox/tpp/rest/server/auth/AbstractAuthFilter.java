@@ -22,7 +22,7 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @Slf4j
 abstract class AbstractAuthFilter extends GenericFilterBean {
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     protected void handleAuthenticationFailure(HttpServletResponse response, Exception e) throws IOException {
         log.error(e.getMessage());

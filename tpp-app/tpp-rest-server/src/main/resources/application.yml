@@ -59,3 +59,7 @@ management:
   health:
     mail:
       enabled: false
+
+app:
+  endpoints:
+    tpp.self.registration.disabled: false
