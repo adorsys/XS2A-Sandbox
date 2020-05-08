@@ -215,10 +215,30 @@ nav {
   }
 }
 
+
+tr {
+  border-bottom: 1px solid #c4ccd3;
+  color: var(--tr-color);
+}
+
+td {
+  padding: .5rem 1.25rem;
+}
+
+th {
+  font-size: 1.125rem !important;
+  color: #545b68 !important;
+  font-weight:700 !important;
+
+}
+
+
 .btn {
   font-size: 1.1rem;
   white-space: nowrap;
   border-radius: var(--buttonBorderRadius);
+  height: var(--button-heigh);
+  padding: 0 12px;
 
   &-primary {
     color: var(--buttonTextColor);

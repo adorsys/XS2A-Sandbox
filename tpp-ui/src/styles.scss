@@ -136,7 +136,6 @@ nav {
   border-bottom:1px solid black;
 }
 
-
 select:not([multiple]) {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -173,16 +172,38 @@ select {
   }
 }
 
- card, .btn {
+.link-color {
+  color:#a0a0a0;
+}
+
+tr {
+  border-bottom: 1px solid #c4ccd3;
+  color: var(--tr-color);
+}
+
+td {
+  padding: .5rem 1.25rem;
+}
+
+th {
+  font-size: 1.125rem !important;
+  color: #545b68 !important;
+  font-weight:700 !important;
+
+}
+
+tr:hover {
+  border-bottom: 2px solid #545b68;
+  border-bottom: var(--border-bottom)
+}
+
+.btn  {
   white-space: nowrap;
   border-radius: var(--buttonBorderRadius);
   font-size: 1.1rem;
-  padding: 0 12px !important;
-  height: var(--button-heigh);
-
- button {
-   text-align: center;
- }
+  font-weight: 500;
+  padding: 0 12px;
+  height: var(--button-heigh) !important;
 
 
   &-primary {
@@ -210,32 +231,35 @@ select {
     }
   }
 
-  &-outline-danger {
-    color: var(--secondaryButtonTextColor);
-    background: var(--secondaryButtonBG);
-    border: var(--secondaryButtonBorderStyle);
+  &-table-btn {
+    color: var(--buttonTextColor);
+    background: var(--buttonBG);
+    border: none;
 
     &:hover {
-      color: var(--secondaryButtonHoveredTextColor);
-      background: var(--secondaryButtonHovered);
+      background: var(--buttonHovered);
     }
 
     &:disabled {
+      opacity: var(--button-opacity);
       background: var(--buttonBGDisabled);
-      opacity: .65;
+      color: var(--buttonColorTextDisabled);
     }
 
     &:focus {
       outline: none;
-      background: var(--secondaryButtonClicked);
-      color: var(--secondaryButtonClickedTextColor);
+      background: var(--buttonClicked);
+    }
+
+    &:active {
+      background-color: inherit;
     }
 
   }
 
 
-}
 
+}
 
 
 
@@ -263,7 +287,6 @@ a {
   .card__subtitle {
     font-size: 1.2rem !important;
     text-align: center;
-    margin-bottom: var(--subtitle-margin);
   }
 
   .form-group {
@@ -281,14 +304,13 @@ a {
     max-width: 500px;
   }
 
-  .text-light-grey {
-    color: #a0a0a0;
-  }
+}
 
-  td, a {
-    padding-top: 4px !important;
+.form-inline {
+  display: inline-block;
+  .form-check {
+    justify-content: left;
   }
-
 }
 
 .icon__container {
@@ -307,6 +329,10 @@ a {
       height: 28px;
     }
   }
+}
+
+.has-search .form-control-feedback {
+  margin-top: var(--margin-top-icon) !important
 }
 
 .modal-footer > * {
@@ -342,13 +368,6 @@ a {
 
 .clickable {
   cursor: pointer !important;
-}
-
-.form-inline {
-  display: inline-block;
-  .form-check {
-      justify-content: left;
-    }
 }
 
 

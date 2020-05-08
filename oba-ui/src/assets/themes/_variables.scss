@@ -69,6 +69,7 @@ $danger-gradient: linear-gradient(
   /* Colors */
   --colorPrimary: #{$primary};
   --colorSecondary: #{$primary};
+  --tr-color: #000000;
 
   /* Gradients */
   --gradientPrimary: #{$primary-gradient};
@@ -96,6 +97,7 @@ $danger-gradient: linear-gradient(
   --footerFontColor: #ffffff;
 
   /* Buttons */
+  --button-heigh: 50px;
 
   /* Primary */
 

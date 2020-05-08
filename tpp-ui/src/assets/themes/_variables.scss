@@ -51,6 +51,7 @@ $dark-80: #2C2E2F;
   /* Colors */
   --colorPrimary: #{$primary};
   --colorSecondary: #{$primary};
+  --tr-color: #000000;
 
   /* Body */
   --bodyBG: #fff;
@@ -74,6 +75,7 @@ $dark-80: #2C2E2F;
   --anchorFontColorHover: #{$link-hover-color};
 
   /* Buttons */
+  --button-heigh:50px;
 
   /* Primary */
 
@@ -141,8 +143,9 @@ $dark-80: #2C2E2F;
   /* Form */
   --margin-form-group: 0 0 4rem 0;
   --form-group-height: 3.5rem;
+  --border-bottom:none;
 
-  /* Margin */
+  /* Margins */
   --margin-top-icon: 6px;
 }
 
