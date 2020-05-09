@@ -62,7 +62,7 @@ public class TppUsersControllerTest {
     @Test
     void getAllUsers() {
         // Given
-        when(userMgmtStaffRestClient.getBranchUsersByRoles(Collections.singletonList(USER_ROLE), LOGIN, 0, 25)).thenReturn(ResponseEntity.ok(getCustomPageImplUserTO()));
+        when(userMgmtStaffRestClient.getBranchUsersByRoles(Collections.singletonList(USER_ROLE), LOGIN, null,0, 25)).thenReturn(ResponseEntity.ok(getCustomPageImplUserTO()));
 
         // When
         ResponseEntity<CustomPageImpl<UserTO>> user = tppUsersController.getAllUsers(LOGIN, 0, 25);

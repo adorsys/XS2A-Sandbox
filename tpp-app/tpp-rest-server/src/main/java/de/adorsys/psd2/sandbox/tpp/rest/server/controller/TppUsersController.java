@@ -36,7 +36,7 @@ public class TppUsersController implements TppUsersRestApi {
 
     @Override
     public ResponseEntity<CustomPageImpl<UserTO>> getAllUsers(String queryParam, int page, int size) {
-        CustomPageImpl<UserTO> userPage = Optional.ofNullable(userMgmtStaffRestClient.getBranchUsersByRoles(singletonList(CUSTOMER), queryParam, page, size).getBody())
+        CustomPageImpl<UserTO> userPage = Optional.ofNullable(userMgmtStaffRestClient.getBranchUsersByRoles(singletonList(CUSTOMER), queryParam,null, page, size).getBody())
                                               .orElse(new CustomPageImpl<>());
         return ResponseEntity.ok(userPage);
     }

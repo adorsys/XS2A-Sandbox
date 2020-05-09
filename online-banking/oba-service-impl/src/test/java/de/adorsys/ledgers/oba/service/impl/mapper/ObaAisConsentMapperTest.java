@@ -55,7 +55,7 @@ class ObaAisConsentMapperTest {
     }
 
     private AccountDetailsTO getAccountDetailsTO() {
-        return new AccountDetailsTO("id", IBAN, "bban", "pan", "maskedPan", "msisdn", EUR, "name", "product", CASH, ENABLED, "bic", "linkedAccounts", UsageTypeTO.PRIV, "details", Collections.EMPTY_LIST);
+        return new AccountDetailsTO("id", IBAN, "bban", "pan", "maskedPan", "msisdn", EUR, "name", "product", CASH, ENABLED, "bic", "linkedAccounts", UsageTypeTO.PRIV, "details", Collections.EMPTY_LIST,false,false);
     }
 
     private AisConsentTO getAisConsentTO() {

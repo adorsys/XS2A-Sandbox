@@ -111,7 +111,7 @@ class ObaAisControllerTest {
     }
 
     private AccountDetailsTO getAccountDetailsTO() {
-        return new AccountDetailsTO(null, IBAN, null, null, null, null, CURRENCY, null, null, CASH, ENABLED, null, null, UsageTypeTO.PRIV, null, null);
+        return new AccountDetailsTO(null, IBAN, null, null, null, null, CURRENCY, null, null, CASH, ENABLED, null, null, UsageTypeTO.PRIV, null, null,false,false);
     }
 
     private List<TransactionTO> getTransactionList() {
