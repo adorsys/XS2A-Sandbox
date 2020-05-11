@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "TPP Admin API")
 public interface TppAdminRestApi {
-    String BASE_PATH = "/admin";
+    String BASE_PATH = "/tpp/admin";
     String COUNTRY = "country";
     String TPP_ID = "tppId";
     String TPP_LOGIN = "tppLogin";
@@ -51,7 +51,7 @@ public interface TppAdminRestApi {
                                   @RequestParam(value = TPP_ID) String tppId);
 
     @ApiOperation(value = "Remove Tpp", authorizations = @Authorization(value = "apiKey"))
-    @DeleteMapping("/tpp")
+    @DeleteMapping()
     ResponseEntity<Void> remove(String tppId);
 
     @ApiOperation(value = "Set password for Tpp",
