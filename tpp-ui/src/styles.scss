@@ -174,7 +174,13 @@ select {
 
 .link-color {
   color:#a0a0a0;
+
+  &:hover {
+    color:#a0a0a0;
+  }
+
 }
+
 
 tr {
   border-bottom: 1px solid #c4ccd3;
@@ -202,7 +208,7 @@ tr:hover {
   border-radius: var(--buttonBorderRadius);
   font-size: 1.1rem;
   font-weight: 500;
-  padding: 0 12px;
+  padding: var(--btn-padding);
   height: var(--button-heigh) !important;
 
 
@@ -238,6 +244,7 @@ tr:hover {
 
     &:hover {
       background: var(--buttonHovered);
+      color: var(--buttonTextColor);
     }
 
     &:disabled {
@@ -256,9 +263,6 @@ tr:hover {
     }
 
   }
-
-
-
 }
 
 
@@ -376,3 +380,8 @@ a {
     background-color: $light-grey-10;
   }
 }
+
+.mxw-500 {
+  max-width: 500px;
+}
+
