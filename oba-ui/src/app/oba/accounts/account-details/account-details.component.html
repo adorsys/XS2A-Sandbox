@@ -46,7 +46,18 @@
               ngbDatepicker
               #dateFrom="ngbDatepicker"
               (click)="dateFrom.toggle()"
+              [ngClass]="{
+                'dp-error-border':
+                  filtersGroup.controls['dateFrom'].touched &&
+                  filtersGroup.controls['dateFrom'].errors
+              }"
             />
+          </div>
+          <div
+            *ngIf="filtersGroup.controls['dateFrom'].hasError('required')"
+            class="dp-error-text"
+          >
+            Date is Required
           </div>
         </div>
         <div class="col">
@@ -60,13 +71,24 @@
               ngbDatepicker
               #dateTo="ngbDatepicker"
               (click)="dateTo.toggle()"
+              [ngClass]="{
+                'dp-error-border':
+                  filtersGroup.controls['dateTo'].touched &&
+                  filtersGroup.controls['dateTo'].hasError('required')
+              }"
             />
+          </div>
+          <div
+            *ngIf="filtersGroup.controls['dateTo'].hasError('required')"
+            class="dp-error-text"
+          >
+            Date is Required
           </div>
         </div>
         <div class="col-2">
           <label>&nbsp;</label>
           <button
-            class="btn btn-primary btn-block"
+            class="btn btn-primary btn-block mt-2"
             (click)="refreshTransactions()"
           >
             Refresh

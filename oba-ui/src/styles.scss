@@ -215,29 +215,26 @@ nav {
   }
 }
 
-
 tr {
   border-bottom: 1px solid #c4ccd3;
   color: var(--tr-color);
 }
 
 td {
-  padding: .5rem 1.25rem;
+  padding: 0.5rem 1.25rem;
 }
 
 th {
   font-size: 1.125rem !important;
   color: #545b68 !important;
-  font-weight:700 !important;
-
+  font-weight: 700 !important;
 }
-
 
 .btn {
   font-size: 1.1rem;
   white-space: nowrap;
   border-radius: var(--buttonBorderRadius);
-  height: var(--button-heigh);
+  height: var(--button-heigh) !important;
   padding: 0 12px;
 
   &-primary {
@@ -287,6 +284,17 @@ th {
       color: var(--secondaryButtonClickedTextColor);
     }
   }
+}
+
+.dp-error-border {
+  border-left: 1px solid var(--colorErrorText) !important;
+  border-top: 1px solid var(--colorErrorText) !important;
+  border-bottom: 1px solid var(--colorErrorText) !important;
+  border-right: 1px solid var(--colorErrorText) !important;
+}
+.dp-error-text {
+  color: var(--colorErrorText);
+  font-family: var(--fontFamily);
 }
 
 .form-control {

@@ -4,13 +4,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { UserProfileComponent } from './user-profile.component';
 import { TppUserService } from '../../services/tpp.user.service';
 import { AuthService } from '../../services/auth.service';
-import { ReactiveFormsModule} from '@angular/forms';
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import { DebugElement } from '@angular/core';
 import { User } from '../../models/user.model';
 import { of } from 'rxjs';
-import {TppManagementService} from '../../services/tpp-management.service';
+import { TppManagementService } from '../../services/tpp-management.service';
 
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
@@ -18,46 +17,47 @@ describe('UserProfileComponent', () => {
   let tppUserService: TppUserService;
   let tppService: TppManagementService;
   let authService: AuthService;
-  let modalService: NgbModal;
   let router: Router;
-  let de: DebugElement;
-  let el: HTMLElement;
 
-    const mockUser: User = {
-        id: 'id',
-        email: 'email',
-        login: 'login',
-        branch: 'branch',
-        pin: 'pin',
-        scaUserData: [],
-        accountAccesses: []
-    }
+  const mockUser: User = {
+    id: 'id',
+    email: 'email',
+    login: 'login',
+    branch: 'branch',
+    pin: 'pin',
+    scaUserData: [],
+    accountAccesses: [],
+  };
 
-    const mockTppUserService = {
-        getUserInfo: () => of(mockUser),
-    };
+  const mockTppUserService = {
+    getUserInfo: () => of(mockUser),
+  };
 
-    const mockAuthUserService = {
-        isLoggedIn: () => {
-            return true;
-        }
-    };
+  const mockAuthUserService = {
+    isLoggedIn: () => {
+      return true;
+    },
+  };
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                ReactiveFormsModule,
-                HttpClientTestingModule,
-                RouterTestingModule,
-                RouterTestingModule.withRoutes([])
-            ],
-            providers: [TppManagementService, NgbModal, AuthService, TppUserService,
-                {provide: AuthService, useValue: mockAuthUserService},
-                {provide: TppUserService, useValue: mockTppUserService}],
-            declarations: [UserProfileComponent]
-        })
-            .compileComponents();
-    }));
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        HttpClientTestingModule,
+        RouterTestingModule,
+        RouterTestingModule.withRoutes([]),
+      ],
+      providers: [
+        TppManagementService,
+        NgbModal,
+        AuthService,
+        TppUserService,
+        { provide: AuthService, useValue: mockAuthUserService },
+        { provide: TppUserService, useValue: mockTppUserService },
+      ],
+      declarations: [UserProfileComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserProfileComponent);
@@ -74,8 +74,7 @@ describe('UserProfileComponent', () => {
   });
 
   it('should init component', () => {
-     component.ngOnInit();
-     expect(component.tppUser).toEqual(mockUser)
+    component.ngOnInit();
+    expect(component.tppUser).toEqual(mockUser);
   });
-
 });
