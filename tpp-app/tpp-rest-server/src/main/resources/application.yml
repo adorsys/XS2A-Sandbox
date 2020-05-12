@@ -41,6 +41,8 @@ feign:
 
 logging.level.de.adorsys.psd2.sandbox.tpp: INFO
 
+logging.level.de.adorsys.ledgers.middleware.client.rest.AdminRestClient: DEBUG
+
 # Cors configuration
 management:
   endpoints:

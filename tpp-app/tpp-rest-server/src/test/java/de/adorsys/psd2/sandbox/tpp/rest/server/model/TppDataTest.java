@@ -25,7 +25,7 @@ class TppDataTest {
     @Test
     void tppConstructorTest_success() {
         // Given
-        TppData result = new TppData(new UserTO(null, null, null, null, null, getAccountAccess(), null, TPP_ID));
+        TppData result = new TppData(new UserTO(null, null, null, null, null, getAccountAccess(), null, TPP_ID, false, false));
 
         // Then
         assertNotNull(result);
@@ -34,7 +34,7 @@ class TppDataTest {
     @Test
     void tppConstructorTest_empty_access() {
         // Then
-        assertThrows(TppException.class, () -> new TppData(new UserTO(null, null, null, null, null, null, null, null)));
+        assertThrows(TppException.class, () -> new TppData(new UserTO(null, null, null, null, null, null, null, null, false, false)));
     }
 
     private List<AccountAccessTO> getAccountAccess() {

@@ -51,7 +51,7 @@ class TestsDataGenerationServiceTest {
     @Test
     void generate() throws JsonProcessingException {
         // Given
-        when(userMgmtRestClient.getUser()).thenReturn(ResponseEntity.ok(new UserTO(null, null, null, null, null, EMPTY_LIST, null, TPP_ID)));
+        when(userMgmtRestClient.getUser()).thenReturn(ResponseEntity.ok(new UserTO(null, null, null, null, null, EMPTY_LIST, null, TPP_ID, false, false)));
         when(ibanGenerationService.generateIbanForNisp(any(), any())).thenReturn(USER_IBAN);
         when(parseService.generateFileByPayload(any())).thenReturn(getBytes());
         when(parseService.getDefaultData()).thenReturn(Optional.of(getPayload()));
@@ -66,7 +66,7 @@ class TestsDataGenerationServiceTest {
     @Test
     void generate_noBranch() {
         //given
-        when(userMgmtRestClient.getUser()).thenReturn(ResponseEntity.ok(new UserTO(null, null, null, null, null, EMPTY_LIST, null, null)));
+        when(userMgmtRestClient.getUser()).thenReturn(ResponseEntity.ok(new UserTO(null, null, null, null, null, EMPTY_LIST, null, null, false, false)));
 
         // Then
         assertThrows(TppException.class, () -> generationService.generate(true, CURRENCY));

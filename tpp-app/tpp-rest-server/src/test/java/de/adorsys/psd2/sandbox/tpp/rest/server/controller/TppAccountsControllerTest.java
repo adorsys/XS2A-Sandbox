@@ -178,7 +178,7 @@ class TppAccountsControllerTest {
     }
 
     private UserTO getUserTO() {
-        return new UserTO(USER_ID, USER_LOGIN, "email", "pin", null, null, null, "branch");
+        return new UserTO(USER_ID, USER_LOGIN, "email", "pin", null, null, null, "branch", false, false);
     }
 
     private AccountReport getAccountReport() {
@@ -203,7 +203,7 @@ class TppAccountsControllerTest {
 
     private AccountDetailsTO getAccountDetailsTO() {
         return new AccountDetailsTO("id", IBAN, "bban", "pan", "maskedPan", "msisdn", EUR, "name", "product", AccountTypeTO.CASH, AccountStatusTO.ENABLED,
-                                    "bic", "linkedAccounts", UsageTypeTO.PRIV, "details", Collections.singletonList(new AccountBalanceTO()),false,false);
+                                    "bic", "linkedAccounts", UsageTypeTO.PRIV, "details", Collections.singletonList(new AccountBalanceTO()), false, false, null);
     }
 
     private CustomPageImpl<AccountDetailsTO> getCustomPageImpl() {

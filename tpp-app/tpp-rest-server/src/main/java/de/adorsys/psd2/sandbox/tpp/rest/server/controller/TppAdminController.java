@@ -5,7 +5,6 @@ import de.adorsys.ledgers.middleware.api.domain.um.UserRoleTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
 import de.adorsys.ledgers.middleware.client.rest.AdminRestClient;
 import de.adorsys.ledgers.middleware.client.rest.DataRestClient;
-import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
 import de.adorsys.ledgers.util.domain.CustomPageImpl;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.User;
 import de.adorsys.psd2.sandbox.tpp.rest.api.resource.TppAdminRestApi;
@@ -38,7 +37,7 @@ public class TppAdminController implements TppAdminRestApi {
     @Override
     public ResponseEntity<Void> register(User user, String tppId) {
         UserTO userTO = userMapper.toUserTO(user);
-        if (userTO.getUserRoles().contains(UserRoleTO.CUSTOMER)){
+        if (userTO.getUserRoles().contains(UserRoleTO.CUSTOMER)) {
             userTO.setBranch(tppId);
         }
         adminRestClient.register(userTO);

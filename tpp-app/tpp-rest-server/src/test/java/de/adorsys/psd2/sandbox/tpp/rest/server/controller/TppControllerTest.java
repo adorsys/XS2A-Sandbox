@@ -140,7 +140,7 @@ class TppControllerTest {
 
     private UserTO getUserTO() {
         return new UserTO(USER_ID, LOGIN, EMAIL, "pin", Collections.singletonList(new ScaUserDataTO()), Collections.singletonList(new AccountAccessTO()),
-                          Collections.singletonList(UserRoleTO.CUSTOMER), "branch");
+                          Collections.singletonList(UserRoleTO.CUSTOMER), "branch", false, false);
     }
 
     private User getUser() {

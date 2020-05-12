@@ -95,7 +95,7 @@ class DataPayloadTest {
     }
 
     private UserTO getBranch() {
-        return new UserTO(null, null, null, null, null, Collections.singletonList(new AccountAccessTO(null, "DE17123456780000000001", USD, AccessTypeTO.OWNER, 100, null)), null, "DE_12345678");
+        return new UserTO(null, null, null, null, null, Collections.singletonList(new AccountAccessTO(null, "DE17123456780000000001", USD, AccessTypeTO.OWNER, 100, null)), null, "DE_12345678", false, false);
     }
 
     private DataPayload getData(boolean emptyUsers, boolean nullAccounts, boolean nullElementInBalances) {
