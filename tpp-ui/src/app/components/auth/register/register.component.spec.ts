@@ -24,11 +24,13 @@ import {
 } from '../../../models/tpp-id-structure.model';
 import JSZip from 'jszip';
 import { CertGenerationService } from '../../../services/cert-generation.service';
+import {CountryService} from '../../../services/country.service';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
   let registerFixture: ComponentFixture<RegisterComponent>;
   let authService: AuthService;
+  let countryService: CountryService;
   let infoService: InfoService;
   let router: Router;
   let certGenerationService: CertGenerationService;
@@ -45,7 +47,7 @@ describe('RegisterComponent', () => {
         InfoModule,
         FormsModule,
       ],
-      providers: [AuthService, InfoService, CertGenerationService],
+      providers: [AuthService, CountryService, InfoService, CertGenerationService],
       declarations: [RegisterComponent, CertificateComponent],
     }).compileComponents();
   }));
@@ -55,6 +57,7 @@ describe('RegisterComponent', () => {
     component = registerFixture.componentInstance;
     authService = TestBed.get(AuthService);
     infoService = TestBed.get(InfoService);
+    countryService = TestBed.get(CountryService);
     certGenerationService = TestBed.get(CertGenerationService);
     router = TestBed.get(Router);
     de = registerFixture.debugElement.query(By.css('form'));
@@ -153,7 +156,7 @@ describe('RegisterComponent', () => {
     expect(navigateSpy).toHaveBeenCalledWith(['/login']);
   });
 
-  it('on Sumbit should be invalid ', () => {
+  it('on Submit should be invalid ', () => {
     component.onSubmit();
     expect(component.submitted).toEqual(true);
     expect(component.userForm.invalid).toBeTruthy();
@@ -162,7 +165,7 @@ describe('RegisterComponent', () => {
   it('should initialize a country List', () => {
     const mockData = [];
     const getCountryCodesSpy = spyOn(
-      authService,
+      countryService,
       'getCountryCodes'
     ).and.returnValue(of({ mockData }));
     component.initializeCountryList();
@@ -237,7 +240,7 @@ describe('RegisterComponent', () => {
 
   it('should initialize a country and call a feedback message when error', () => {
     const getCountryCodesSpy = spyOn(
-      authService,
+      countryService,
       'getCountryCodes'
     ).and.returnValue(throwError({}));
     const infoSpy = spyOn(infoService, 'openFeedback');

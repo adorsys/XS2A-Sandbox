@@ -17,6 +17,7 @@ export class Account {
   product: string;
   accountType: AccountType;
   accountStatus: AccountStatus;
+  blocked?: boolean;
   bic: string;
   linkedAccounts: string;
   usageType: UsageType;
@@ -75,4 +76,9 @@ export enum BalanceType {
   FORWARD_AVAILABLE = "FORWARD_AVAILABLE",
   NONINVOICED = "NONINVOICED",
   AVAILABLE = "AVAILABLE",
+}
+
+export interface AccountResponse {
+  accounts: Array<Account>;
+  totalElements: number;
 }

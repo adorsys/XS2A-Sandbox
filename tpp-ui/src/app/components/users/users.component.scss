@@ -1,33 +1,38 @@
 @import "~src/assets/themes/table";
 
 .has-search .form-control {
-    padding-left: 2.375rem;
+  padding-left: 2.375rem;
 }
 
 .has-search .form-control-feedback {
-    position: absolute;
-    margin-top: 6px;
-    z-index: 2;
-    display: block;
-    width: 2.375rem;
-    height: 2.375rem;
-    line-height: 2.375rem;
-    text-align: center;
-    pointer-events: none;
-    color: $dark-80;
+  position: absolute;
+  margin-top: 6px;
+  z-index: 2;
+  display: block;
+  width: 2.375rem;
+  height: 2.375rem;
+  line-height: 2.375rem;
+  text-align: center;
+  pointer-events: none;
+  color: $dark-80;
 }
 
 
 @media (min-width: 768px) and (max-width: 1420px) {
-    .header{
-        display: block;
-        max-width: 100%;
-        &__title {
-            max-width: inherit;
-        }
+  .header {
+    display: block;
+    max-width: 100%;
 
-        .right{
-            margin-left: 15px;
-        }
+    &__title {
+      max-width: inherit;
     }
+
+    .right {
+      margin-left: 15px;
+    }
+  }
+}
+
+.card button a {
+  color: white !important;
 }

@@ -45,6 +45,7 @@ import { AutoLogoutService } from './services/auto-logout.service';
 import { SettingsHttpService } from './services/settings-http.service';
 import { UploadFileComponent } from './uploadFile/uploadFile.component';
 import { PaginationContainerComponent } from './commons/pagination-container/pagination-container.component';
+import { TppsComponent } from './components/tpps/tpps.component';
 
 export function app_Init(settingsHttpService: SettingsHttpService) {
   return () => settingsHttpService.initializeApp();
@@ -79,6 +80,7 @@ export function app_Init(settingsHttpService: SettingsHttpService) {
     UserProfileUpdateComponent,
     UserProfileComponent,
     PaginationContainerComponent,
+    TppsComponent
   ],
   imports: [
     BrowserModule,

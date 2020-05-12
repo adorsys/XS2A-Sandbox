@@ -1,4 +1,4 @@
-<div *ngIf="paginationConfig?.totalItems" class="d-flex align-items-center p-2">
+<div *ngIf="paginationConfig?.totalItems" class="d-flex align-items-center justify-content-center p-2">
     <ngb-pagination (pageChange)="pageChange($event)" [(page)]="paginationConfig.currentPageNumber"
                     [collectionSize]="paginationConfig.totalItems"
                     [pageSize]="paginationConfig.itemsPerPage"></ngb-pagination>

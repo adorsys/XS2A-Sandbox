@@ -39,7 +39,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" *ngIf="!admin">
                     <label class="col-12 col-md-3" for="password">New PIN</label>
                     <div class="col-12 col-md-10">
                         <input [ngClass]="{ 'is-invalid': (formControl['password'].touched || submitted) && formControl['password'].errors }"

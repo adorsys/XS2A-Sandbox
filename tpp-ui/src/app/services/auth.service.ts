@@ -81,10 +81,6 @@ export class AuthService {
     return this.http.put(this.url + '/password', credentials);
   }
 
-  getCountryCodes(): Observable<any> {
-    return this.http.get(this.url + '/codes');
-  }
-
   getTppIdStructure(countryCode: string): Observable<any> {
     return this.http.get(this.url + '/country/codes/structure',
       {params: new HttpParams().set("countryCode", countryCode)});

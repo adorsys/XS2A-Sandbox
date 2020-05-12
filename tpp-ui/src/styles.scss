@@ -181,7 +181,6 @@ select {
 
 }
 
-
 tr {
   border-bottom: 1px solid #c4ccd3;
   color: var(--tr-color);
@@ -264,8 +263,6 @@ tr:hover {
 
   }
 }
-
-
 
 a {
   font-size: 1.1rem;
@@ -374,14 +371,63 @@ a {
   cursor: pointer !important;
 }
 
-
 @media (max-width: 767px) {
   .bg-sm-light {
     background-color: $light-grey-10;
   }
 }
 
+.disabled-tr {
+  background-color: lightgray;
+}
+
+
+/* TPP filters */
+.configs-container {
+  height: 10rem;
+}
+
+.configs {
+  //position: absolute;
+  //right: 7%;
+}
+
+.paginator {
+  //padding: 1rem;
+  //max-width: 9rem;
+}
+
+.tpp-filters {
+
+  max-width: 60%;
+
+  .filter, label {
+    padding: .5rem;
+
+    .form-control {
+      height: 90%;
+    }
+  }
+
+  .select-filter {
+    padding: .5rem;
+
+    select {
+      width: 100%;
+      height: 1.8rem;
+    }
+  }
+
+  .filter-button {
+    border: none;
+  }
+
+  .select {
+    margin: 0 !important;
+    width: 24%;
+  }
+}
+
 .mxw-500 {
   max-width: 500px;
 }
-
