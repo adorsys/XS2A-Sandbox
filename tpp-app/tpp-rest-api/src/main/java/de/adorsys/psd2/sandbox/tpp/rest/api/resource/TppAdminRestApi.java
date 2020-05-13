@@ -39,7 +39,7 @@ public interface TppAdminRestApi {
         notes = "Update user",
         authorizations = @Authorization(value = "apiKey"))
     @PutMapping("/users")
-    ResponseEntity<CustomPageImpl<UserTO>> user(@RequestBody UserTO user);
+    ResponseEntity<Void> user(@RequestBody UserTO user);
 
     @ApiOperation(value = "Retrireves Page of accounts with filters", authorizations = @Authorization(value = "apiKey"))
     @GetMapping("/account")
