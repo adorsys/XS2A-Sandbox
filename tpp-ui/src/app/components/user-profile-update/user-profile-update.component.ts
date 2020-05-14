@@ -1,16 +1,16 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import {User} from '../../models/user.model';
-import {AuthService} from '../../services/auth.service';
-import {TppUserService} from '../../services/tpp.user.service';
-import {TppManagementService} from '../../services/tpp-management.service';
+import { User } from '../../models/user.model';
+import { AuthService } from '../../services/auth.service';
+import { TppUserService } from '../../services/tpp.user.service';
+import { TppManagementService } from '../../services/tpp-management.service';
 
 @Component({
   selector: 'app-user-profile-update',
   templateUrl: './user-profile-update.component.html',
-  styleUrls: ['./user-profile-update.component.scss']
+  styleUrls: ['./user-profile-update.component.scss'],
 })
 export class UserProfileUpdateComponent implements OnInit {
   user: User;
@@ -18,22 +18,23 @@ export class UserProfileUpdateComponent implements OnInit {
   submitted: boolean;
   admin: boolean;
 
-  constructor(private authService: AuthService,
-              private userInfoService: TppUserService,
-              private formBuilder: FormBuilder,
-              private route: ActivatedRoute,
-              private tppManagementService: TppManagementService,
-              private router: Router) {
-  }
+  constructor(
+    private authService: AuthService,
+    private userInfoService: TppUserService,
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    // private tppManagementService: TppManagementService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.setupEditUserFormControl();
     this.getUserDetails();
 
-    const tppId = this.route.snapshot.params['id'];
-    if (tppId) {
-      this.getUserInfoForAdmin(tppId);
-    }
+    // const tppId = this.route.snapshot.params['id'];
+    // if (tppId) {
+    //   this.getUserInfoForAdmin(tppId);
+    // }
   }
 
   get formControl() {
@@ -47,7 +48,7 @@ export class UserProfileUpdateComponent implements OnInit {
 
         this.userForm.patchValue({
           email: this.user.email,
-          username: this.user.login
+          username: this.user.login,
         });
       });
     }
@@ -57,7 +58,7 @@ export class UserProfileUpdateComponent implements OnInit {
     this.userForm = this.formBuilder.group({
       username: ['', Validators.required],
       email: ['', [Validators.email, Validators.required]],
-      password: ['', Validators.minLength(5)]
+      password: ['', Validators.minLength(5)],
     });
   }
 
@@ -70,24 +71,26 @@ export class UserProfileUpdateComponent implements OnInit {
       ...this.user,
       email: this.userForm.get('email').value,
       login: this.userForm.get('username').value,
-      pin: this.userForm.get('password').value.trim() ? this.userForm.get('password').value : this.user.pin
+      pin: this.userForm.get('password').value.trim()
+        ? this.userForm.get('password').value
+        : this.user.pin,
     };
-    this.userInfoService.updateUserInfo(updatedUser).subscribe(
-      () => this.router.navigate(['/profile'])
-    );
+    this.userInfoService
+      .updateUserInfo(updatedUser)
+      .subscribe(() => this.router.navigate(['/profile']));
   }
 
-  private getUserInfoForAdmin(tppId: string) {
-    this.tppManagementService.getTppById(tppId).subscribe(
-      (user: User) => {
-        if (user) {
-          this.user = user;
-          this.admin = true;
-          this.userForm.patchValue({
-            email: this.user.email,
-            username: this.user.login
-          });
-        }
-      });
-  }
+  // private getUserInfoForAdmin(tppId: string) {
+  //   this.tppManagementService.getTppById(tppId).subscribe(
+  //     (user: User) => {
+  //       if (user) {
+  //         this.user = user;
+  //         this.admin = true;
+  //         this.userForm.patchValue({
+  //           email: this.user.email,
+  //           username: this.user.login
+  //         });
+  //       }
+  //     });
+  // }
 }
