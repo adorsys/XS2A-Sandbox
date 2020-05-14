@@ -1,60 +1,132 @@
 <div class="container-fluid" [formGroup]="searchForm">
-     <div class="row header">
-        <div class="col-12 col-md-3 header__title">Accounts</div>
-        <div class="col-12 col-md-9">
-            <div class="row">
-                <div class="col-12 col-md-12 p-md-0">
-                    <div class="form-group has-search">
+  <div class="row header">
+    <div class="col-12 col-md-3 header__title">Accounts</div>
+    <div class="col-12 col-md-9">
+      <div class="row">
+        <div class="col-12 col-md-12 p-md-0">
+          <div class="form-group has-search">
                       <span class="form-control-feedback">
                           <img src="./assets/icons/search.svg">
                       </span>
-                      <div>
-                        <input class="form-control w-100"
-                               placeholder="Search by IBAN"
-                               formControlName="query"
-                               type="text">
-                      </div>
+            <div>
+              <input class="form-control w-100"
+                     placeholder="Search by IBAN"
+                     formControlName="ibanParam"
+                     type="text">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="table-responsive">
+        <div class="container-fluid" [ngClass]="{'configs-container': admin}">
+          <div class="row d-flex justify-content-between configs">
+            <div class="paginator">
+              <app-pagination-container [paginationConfig]="config"
+                                        (pageDataConfig)="pageChange($event)"></app-pagination-container>
+
+            </div>
+
+            <div *ngIf="admin" class="tpp-filters">
+              <div class="container-fluid">
+                <div class="row d-flex justify-content-end">
+                  <div>
+                    <label for="country">TPP Login:</label>
+                    <div class="filter">
+                      <input class="form-control"
+                             placeholder="Enter TPP login..."
+                             formControlName="tppLogin"
+                             type="text">
                     </div>
+                  </div>
+                  <div>
+                    <label for="country">TPP ID:</label>
+                    <div class="filter">
+                      <input class="form-control"
+                             placeholder="Enter TPP ID..."
+                             formControlName="tppId"
+                             type="text">
+                    </div>
+                  </div>
+                  <div class="select">
+                    <label for="country">Country:</label>
+                    <div class="select-filter">
+                      <select name="country"
+                              class="form-control"
+                              formControlName="country"
+                              id="country">
+                        <option id="emptySelect" [ngValue]="" selected></option>
+                        <option *ngFor="let country of countries"
+                                [ngValue]="country.code">{{country.name}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-body">
-            <div class="table-responsive">
-                <app-pagination-container [paginationConfig]="config" (pageDataConfig)="pageChange($event)"></app-pagination-container>
 
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">IBAN</th>
-                        <th scope="col">Currency</th>
-                        <th scope="col">Account Type</th>
-                        <th scope="col">Usage Type</th>
-                        <th scope="col">Account Status</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr *ngFor="let account of accounts; index as i" [routerLink]="[createAccountDetailsLink(account.id)]" [queryParams]="{page: config.currentPageNumber}">
-                        <th scope="row">{{((config.currentPageNumber - 1) * config.itemsPerPage) + i + 1}}</th>
-                        <td>{{account.iban}}</td>
-                        <td>{{account.currency}}</td>
-                        <td>{{account.accountType}}</td>
-                        <td>{{account.usageType}}</td>
-                        <td>{{account.accountStatus}}</td>
-                        <td>
-                            <button class="btn btn-primary" [disabled]="!isAccountEnabled(account)"
-                                    (click)="goToDepositCash(account)">deposit cash
-                            </button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-
-                <app-pagination-container [paginationConfig]="config" (pageDataConfig)="pageChange($event)"></app-pagination-container>
+                <div class="row d-flex justify-content-end">
+                  <button class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
+                          (click)="setBlocked(false)"
+                          [ngClass]="{'active': searchForm.controls.blocked.value === false}">Active
+                  </button>
+                  <button class="btn btn-outline-primary btn-sm mt-2 mb-3 filter-button"
+                          (click)="setBlocked(true)"
+                          [ngClass]="{'active': searchForm.controls.blocked.value === true}">Blocked
+                  </button>
+                  <button class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
+                          (click)="showAllTpps()"
+                          [ngClass]="{'active': isSearchFormEmpty()}">All TPPs
+                  </button>
+                </div>
+              </div>
             </div>
+
+          </div>
         </div>
+
+
+        <table class="table">
+          <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">IBAN</th>
+            <th scope="col">Currency</th>
+            <th scope="col">Account Type</th>
+            <th scope="col">Usage Type</th>
+            <th scope="col">Account Status</th>
+            <th scope="col">Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let account of accounts; index as i" [routerLink]="[createAccountDetailsLink(account.id)]"
+              [queryParams]="{page: config.currentPageNumber}"
+              [ngClass]="{'disabled-tr': account.blocked}">
+            <th scope="row">{{((config.currentPageNumber - 1) * config.itemsPerPage) + i + 1}}</th>
+            <td>{{account.iban}}</td>
+            <td>{{account.currency}}</td>
+            <td>{{account.accountType}}</td>
+            <td>{{account.usageType}}</td>
+            <td>{{account.blocked ? 'Blocked' : 'Active'}}</td>
+            <td>
+              <button *ngIf="!account.blocked"
+                      class="btn btn-table-btn" [disabled]="!isAccountEnabled(account)"
+                      (click)="goToDepositCash(account)">deposit cash
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+        <div class="container-fluid">
+          <div class="row d-flex justify-content-start">
+            <app-pagination-container [paginationConfig]="config"
+                                      (pageDataConfig)="pageChange($event)"></app-pagination-container>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>

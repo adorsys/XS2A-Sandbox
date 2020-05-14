@@ -5,7 +5,7 @@
     <parent>
         <groupId>de.adorsys.psd2.sandbox</groupId>
         <artifactId>online-banking</artifactId>
-        <version>3.6</version>
+        <version>3.7</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -14,6 +14,7 @@
 
     <properties>
         <ruleset.basedir>../..</ruleset.basedir>
+        <ci.build.number>&#8203;</ci.build.number>
     </properties>
 
     <dependencies>
@@ -131,6 +132,12 @@
                         <goals>
                             <goal>build-info</goal>
                         </goals>
+                        <configuration>
+                            <additionalProperties>
+                                <java.version>${java.version}</java.version>
+                                <build.number>${ci.build.number}</build.number>
+                            </additionalProperties>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 import { PaginationResponse } from '../models/pagination-reponse';
-import { User } from '../models/user.model';
+import {User, UserResponse} from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  listUsers(page: number = 0, size: number = 25, queryParam: string = ''): Observable<{users: User[], totalElements: number}> {
+  listUsers(page: number = 0, size: number = 25, queryParam: string = ''): Observable<UserResponse> {
     return this.http.get<PaginationResponse<User[]>>( `${this.url}/users?page=${page}&size=${size}&queryParam=${queryParam}`).pipe(
         map((resp) => {
           return {

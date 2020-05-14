@@ -51,6 +51,7 @@ $dark-80: #2C2E2F;
   /* Colors */
   --colorPrimary: #{$primary};
   --colorSecondary: #{$primary};
+  --tr-color: #000000;
 
   /* Body */
   --bodyBG: #fff;
@@ -74,6 +75,7 @@ $dark-80: #2C2E2F;
   --anchorFontColorHover: #{$link-hover-color};
 
   /* Buttons */
+  --button-heigh:50px;
 
   /* Primary */
 
@@ -82,7 +84,8 @@ $dark-80: #2C2E2F;
   --buttonColorTextDisabled: #fff;
   --buttonBGDisabled: linear-gradient(129.54deg, var(--buttonBgGradient1) 0%, var(--buttonBgGradient2) 100%);
   --button-opacity: .65;
-
+  --button-heigh: 56px;
+  --btn-padding:15px 12px;
 
   --buttonBgGradient1: #0db0e2;
   --buttonBgGradient2: #10317D;
@@ -138,12 +141,11 @@ $dark-80: #2C2E2F;
   --selectBorderRadius: none;
 
   /* Form */
-  --form-margin-bottom: 4rem;
-  --headline-max-width: 300px;
   --margin-form-group: 0 0 4rem 0;
   --form-group-height: 3.5rem;
-  --margin-top: 2rem;
-  --subtitle-margin-botton: 1.5rem;
-  --padding-bottom: 0.1rem
+  --border-bottom:none;
+
+  /* Margins */
+  --margin-top-icon: 6px;
 }
 

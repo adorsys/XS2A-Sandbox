@@ -3,10 +3,12 @@ package de.adorsys.psd2.sandbox.tpp.rest.server.config;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
+import de.adorsys.psd2.sandbox.tpp.rest.server.auth.DisableEndpointFilter;
 import de.adorsys.psd2.sandbox.tpp.rest.server.auth.LoginAuthenticationFilter;
 import de.adorsys.psd2.sandbox.tpp.rest.server.auth.TokenAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -22,6 +24,7 @@ public class TppWebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserMgmtStaffRestClient userMgmtStaffRestClient;
     private final UserMgmtRestClient ledgersUserMgmt;
     private final AuthRequestInterceptor authInterceptor;
+    private final Environment environment;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -42,7 +45,7 @@ public class TppWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.headers().frameOptions().disable();
         http.httpBasic().disable();
-
+        http.addFilterBefore(new DisableEndpointFilter(environment), BasicAuthenticationFilter.class);
         http.addFilterBefore(new LoginAuthenticationFilter(userMgmtStaffRestClient), BasicAuthenticationFilter.class);
         http.addFilterBefore(new TokenAuthenticationFilter(ledgersUserMgmt, authInterceptor), BasicAuthenticationFilter.class);
     }

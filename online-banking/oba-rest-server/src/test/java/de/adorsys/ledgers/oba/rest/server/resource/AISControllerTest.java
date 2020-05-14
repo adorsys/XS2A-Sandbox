@@ -400,7 +400,7 @@ class AISControllerTest {
     }
 
     private List<AccountDetailsTO> getAccounts() {
-        return Collections.singletonList(new AccountDetailsTO(ASPSP_ACC_ID, IBAN, null, null, null, null, EUR, LOGIN, null, AccountTypeTO.CASH, AccountStatusTO.ENABLED, null, null, UsageTypeTO.PRIV, null, Collections.emptyList()));
+        return Collections.singletonList(new AccountDetailsTO(ASPSP_ACC_ID, IBAN, null, null, null, null, EUR, LOGIN, null, AccountTypeTO.CASH, AccountStatusTO.ENABLED, null, null, UsageTypeTO.PRIV, null, Collections.emptyList(), false, false, null));
     }
 
     private SCAConsentResponseTO getScaConsentResponse(ScaStatusTO status) {

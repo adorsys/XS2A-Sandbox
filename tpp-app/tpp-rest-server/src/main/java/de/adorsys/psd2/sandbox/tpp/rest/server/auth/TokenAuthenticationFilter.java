@@ -40,14 +40,11 @@ public class TokenAuthenticationFilter extends AbstractAuthFilter {
         if (authenticationIsRequired()) {
             try {
                 authInterceptor.setAccessToken(bearerToken);
-
                 ResponseEntity<BearerTokenTO> validateResponse = ledgersUserMgmt.validate(bearerToken);
-
                 BearerTokenTO token = Optional.ofNullable(validateResponse.getBody())
                                           .orElseThrow(() -> new RestException("Couldn't get bearer token"));
 
                 fillSecurityContext(token);
-
             } catch (FeignException | RestException e) {
                 handleAuthenticationFailure(response, e);
                 return;

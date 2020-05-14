@@ -73,7 +73,7 @@ class UserMapperTest {
 
     private UserTO createUserTO(boolean emptySca) {
         ScaUserDataTO scaUserDataTO = new ScaUserDataTO(SCA_ID, ScaMethodTypeTO.EMAIL, EMAIL, null, true, STATIC_TAN, false, false);
-        return new UserTO(USER_ID, USER_LOGIN, EMAIL, PIN, emptySca ? Collections.emptyList() : singletonList(scaUserDataTO), singletonList(new AccountAccessTO(ACC_ID, IBAN, CURRENCY, OWNER, 50, DEPOSIT_ACC_ID)), singletonList(CUSTOMER), null);
+        return new UserTO(USER_ID, USER_LOGIN, EMAIL, PIN, emptySca ? Collections.emptyList() : singletonList(scaUserDataTO), singletonList(new AccountAccessTO(ACC_ID, IBAN, CURRENCY, OWNER, 50, DEPOSIT_ACC_ID)), singletonList(CUSTOMER), null, false, false);
     }
 
     private User createUser(boolean emptySca) {

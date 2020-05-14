@@ -18,7 +18,7 @@ class ObjectMapperMixInTest {
     @Test
     void scaUserDataMixIn() throws JsonProcessingException, JSONException {
         // Given
-        String expected = "{\"id\":\"id\",\"login\":\"login\",\"email\":\"email\",\"pin\":\"pin\",\"scaUserData\":[{\"id\":\"id\",\"scaMethod\":\"EMAIL\",\"methodValue\":\"methodValue\",\"user\":null,\"usesStaticTan\":true,\"staticTan\":\"STATIC TAN\", \"decoupled\":false, \"valid\":false}],\"accountAccesses\":[],\"userRoles\":[],\"branch\":\"branch\"}";
+        String expected = "{\"id\":\"id\",\"login\":\"login\",\"email\":\"email\",\"pin\":\"pin\",\"scaUserData\":[{\"id\":\"id\",\"scaMethod\":\"EMAIL\",\"methodValue\":\"methodValue\",\"user\":null,\"usesStaticTan\":true,\"staticTan\":\"STATIC TAN\", \"decoupled\":false, \"valid\":false}],\"accountAccesses\":[],\"userRoles\":[],\"branch\":\"branch\",\"blocked\":false,\"systemBlocked\":false}";
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.addMixIn(ScaUserDataTO.class, ScaUserDataMixedIn.class);
 
@@ -32,7 +32,7 @@ class ObjectMapperMixInTest {
     }
 
     private UserTO getUser() {
-        return new UserTO("id", "login", "email", "pin", getScaUserData(), Collections.emptyList(), Collections.emptyList(), "branch");
+        return new UserTO("id", "login", "email", "pin", getScaUserData(), Collections.emptyList(), Collections.emptyList(), "branch", false, false);
     }
 
     private List<ScaUserDataTO> getScaUserData() {

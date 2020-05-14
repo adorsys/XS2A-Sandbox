@@ -1,5 +1,7 @@
 package de.adorsys.ledgers.oba.rest.server.config.swagger;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.info.BuildProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.PathSelectors;
@@ -19,7 +21,9 @@ import static springfox.documentation.swagger.web.SecurityConfigurationBuilder.b
 
 @Configuration
 @EnableSwagger2
+@RequiredArgsConstructor
 public class SwaggerConfig {
+    private final BuildProperties buildProperties;
 
     @Bean
     public Docket productApi() {
@@ -61,7 +65,7 @@ public class SwaggerConfig {
             "Implementation of backend for online banking UI. "
                 + "We have 3 preloaded users in Ledgers: <b>marion.mueller</b>, <b>anton.brueckner</b>, <b>max.musterman</b> all with the PIN <b>12345</b>. "
                 + "You can use the User Login API from Ledgers <b>/users/authorise2</b> endpoint to gain an access token. Then use the access token with the prefix 'Bearer ' to Authorize on this ui.",
-            "0.5.0",
+            buildProperties.getVersion() + " " + buildProperties.get("build.number"),
             "Terms of Service: to be edited...",
             contact,
             "Apache License Version 2.0",

@@ -14,6 +14,7 @@ export class TppUserService {
 
   private tppUser = new BehaviorSubject<User>(null);
   currentTppUser = this.tppUser.asObservable();
+
   private url = `${environment.tppBackend}`;
 
   constructor(private http: HttpClient) { }

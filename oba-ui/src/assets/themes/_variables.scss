@@ -1,23 +1,27 @@
 // Overwrite bootstrap variables
-@import "./bootstrap-overrides";
+@import './bootstrap-overrides';
 
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/mixins";
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
 
-$COLOR_LIGHT_GREEN: #96D550;
-$COLOR_DARK_GREEN: #78AA40;
-$COLOR_WHITE: #FFFFFF;
-$COLOR_GREY: #F3F3F3;
-$COLOR_LIGHT_GREY-10: #F8F8F8;
+$COLOR_LIGHT_GREEN: #96d550;
+$COLOR_DARK_GREEN: #78aa40;
+$COLOR_WHITE: #ffffff;
+$COLOR_GREY: #f3f3f3;
+$COLOR_LIGHT_GREY-10: #f8f8f8;
 $COLOR_DARK_GREY: #818181;
-$COLOR_DARK_CYAN: #00A992;
+$COLOR_DARK_CYAN: #00a992;
 $COLOR_BLACK: #000000;
 $COLOR_LIGHT_DARK: #333333;
-$COLOR_DARK_BLUE: #0F62A4;
+$COLOR_DARK_BLUE: #0f62a4;
 
-$primary-gradient: linear-gradient(129.54deg, #0DB0E2 0%, #10317D 100%);
-$danger-gradient: linear-gradient(129.54deg, lighten($danger, 7%) 0%, $danger 100%);
+$primary-gradient: linear-gradient(129.54deg, #0db0e2 0%, #10317d 100%);
+$danger-gradient: linear-gradient(
+  129.54deg,
+  lighten($danger, 7%) 0%,
+  $danger 100%
+);
 
 /*
  * CSS Variables: Used for whitelabel customization
@@ -65,6 +69,8 @@ $danger-gradient: linear-gradient(129.54deg, lighten($danger, 7%) 0%, $danger 10
   /* Colors */
   --colorPrimary: #{$primary};
   --colorSecondary: #{$primary};
+  --tr-color: #000000;
+  --colorErrorText: #dc3545;
 
   /* Gradients */
   --gradientPrimary: #{$primary-gradient};
@@ -92,37 +98,42 @@ $danger-gradient: linear-gradient(129.54deg, lighten($danger, 7%) 0%, $danger 10
   --footerFontColor: #ffffff;
 
   /* Buttons */
+  --button-heigh: 50px;
 
   /* Primary */
 
   --buttonTextColor: #fff;
   --buttonBorderRadius: 3px;
-  --buttonBGDisabled: linear-gradient(129.54deg, var(--buttonBgGradient1) 0%, var(--buttonBgGradient2) 100%);
+  --buttonBGDisabled: linear-gradient(
+    129.54deg,
+    var(--buttonBgGradient1) 0%,
+    var(--buttonBgGradient2) 100%
+  );
   --buttonColorTextDisabled: #fff;
-  --button-opacity: .65;
+  --button-opacity: 0.65;
 
   --buttonBgGradient1: #0db0e2;
-  --buttonBgGradient2: #10317D;
+  --buttonBgGradient2: #10317d;
   --buttonBG: linear-gradient(
-      129.54deg,
-      var(--buttonBgGradient1) 0%,
-      var(--buttonBgGradient2) 100%
+    129.54deg,
+    var(--buttonBgGradient1) 0%,
+    var(--buttonBgGradient2) 100%
   );
 
-  --buttonHoveredGradient1: #0F62A4;
-  --buttonHoveredGradient2: #10317D;
+  --buttonHoveredGradient1: #0f62a4;
+  --buttonHoveredGradient2: #10317d;
   --buttonHovered: linear-gradient(
-      129.54deg,
-      var(--buttonHoveredGradient1) 0%,
-      var(--buttonHoveredGradient2) 100%
+    129.54deg,
+    var(--buttonHoveredGradient1) 0%,
+    var(--buttonHoveredGradient2) 100%
   );
 
   --buttonClickedGradient1: #0db0e2;
   --buttonClickedGradient2: #062e72;
   --buttonClicked: linear-gradient(
-      129.54deg,
-      var(--buttonClickedGradient1) 0%,
-      var(--buttonClickedGradient2) 100%
+    129.54deg,
+    var(--buttonClickedGradient1) 0%,
+    var(--buttonClickedGradient2) 100%
   );
 
   /* Secondary */
@@ -143,13 +154,11 @@ $danger-gradient: linear-gradient(129.54deg, lighten($danger, 7%) 0%, $danger 10
   --inputBorderStyleRight: 1px solid #a0a0a0;
   --inputBorderStyleBottom: 1px solid #a0a0a0;
   --inputBorderStyleTop: 1px solid #a0a0a0;
-  --inputBorderRadius: .25rem;
+  --inputBorderRadius: 0.25rem;
 
   /* Forms*/
 
   --margin-form-group: 0 0 4rem 0;
   --form-group-height: 3.5rem;
-  --margin-top: 2rem;
-  --subtitle-margin-botton: 1.5rem;
-  --padding-bottom: 0.1rem
+  --subtitle-mrb: 1.5rem;
 }

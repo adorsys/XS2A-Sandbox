@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { map } from 'rxjs/operators';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {map} from 'rxjs/operators';
 
-import { InfoService } from '../../commons/info/info.service';
-import { Account } from '../../models/account.model';
-import { AccountReport } from '../../models/account-report';
-import { UserAccess } from '../../models/user-access';
-import { AccountService } from '../../services/account.service';
-import { TppService } from '../../services/tpp.service';
+import {InfoService} from '../../commons/info/info.service';
+import {Account} from '../../models/account.model';
+import {AccountReport} from '../../models/account-report';
+import {UserAccess} from '../../models/user-access';
+import {AccountService} from '../../services/account.service';
 import {PageNavigationService} from '../../services/page-navigation.service';
+import {TppManagementService} from '../../services/tpp-management.service';
+import {User} from '../../models/user.model';
+import {TppUserService} from '../../services/tpp.user.service';
 
 @Component({
   selector: 'app-account',
@@ -17,29 +19,37 @@ import {PageNavigationService} from '../../services/page-navigation.service';
   styleUrls: ['./account.component.scss'],
 })
 export class AccountComponent implements OnInit {
+  admin;
   accountReport: AccountReport;
   accountID: string;
 
   constructor(
     private accountService: AccountService,
-    private tppService: TppService,
+    private tppService: TppManagementService,
     private activatedRoute: ActivatedRoute,
     private infoService: InfoService,
+    private tppUserService: TppUserService,
     private router: Router,
     private modalService: NgbModal,
     public pageNavigationService: PageNavigationService
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
-    this.activatedRoute.params
-      .pipe(
-        map(response => {
-          return response.id;
-        })
-      )
-      .subscribe((accountID: string) => {
-        this.accountID = accountID;
-        this.getAccountReport();
+    this.tppUserService.currentTppUser.subscribe(
+      (user: User) => {
+        this.admin = user && user.userRoles.includes('SYSTEM');
+
+        this.activatedRoute.params
+          .pipe(
+            map(response => {
+              return response.id;
+            })
+          )
+          .subscribe((accountID: string) => {
+            this.accountID = accountID;
+            this.getAccountReport();
+          });
       });
   }
 
@@ -107,7 +117,6 @@ export class AccountComponent implements OnInit {
     this.accountService
       .getAccountReport(this.accountID)
       .subscribe((report: AccountReport) => {
-        console.log(report);
         this.accountReport = report;
       });
   }

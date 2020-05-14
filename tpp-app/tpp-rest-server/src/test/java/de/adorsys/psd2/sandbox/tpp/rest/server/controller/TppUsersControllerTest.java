@@ -62,7 +62,7 @@ public class TppUsersControllerTest {
     @Test
     void getAllUsers() {
         // Given
-        when(userMgmtStaffRestClient.getBranchUsersByRoles(Collections.singletonList(USER_ROLE), LOGIN, 0, 25)).thenReturn(ResponseEntity.ok(getCustomPageImplUserTO()));
+        when(userMgmtStaffRestClient.getBranchUsersByRoles(Collections.singletonList(USER_ROLE), LOGIN, null, 0, 25)).thenReturn(ResponseEntity.ok(getCustomPageImplUserTO()));
 
         // When
         ResponseEntity<CustomPageImpl<UserTO>> user = tppUsersController.getAllUsers(LOGIN, 0, 25);
@@ -129,7 +129,7 @@ public class TppUsersControllerTest {
 
     private UserTO getUserTO(String branch) {
         return new UserTO(USER_ID, LOGIN, EMAIL, "pin", Collections.singletonList(new ScaUserDataTO()), Collections.singletonList(new AccountAccessTO()),
-                          Collections.singletonList(UserRoleTO.CUSTOMER), branch);
+                          Collections.singletonList(UserRoleTO.CUSTOMER), branch, false, false);
     }
 
     private User getUser(String userId) {

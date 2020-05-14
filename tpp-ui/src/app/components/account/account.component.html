@@ -1,50 +1,57 @@
 <div class="container-fluid">
-    <div class="card">
-        <div class="card-body--large">
+  <div class="card">
+    <div class="card-body--large">
 
-            <button class="btn btn-sm btn-outline-secondary" [routerLink]="[pageNavigationService.getLastVisitedPage()]" queryParamsHandling="preserve">
-              &lt; Back
-            </button>
-            <div class="header__title">Account details</div>
-            <div class="row">
-                <div class="col-12 col-md-3 ">Account Accessors</div>
-                <div class="col-12 col-md-9 text-muted">
-                    <div *ngFor="let access of accesses; last as isLast">
-                        {{access.userLogin}},
-                        <span *ngIf="access.scaWeight">weight {{access.scaWeight}} %,</span>
-                        Role: {{access.accessType}}
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12 col-md-3 ">IBAN</div>
-                <div class="col-12 col-md-9 text-muted">{{account?.iban}}</div>
-            </div>
-            <div class="row">
-                <div class="col-12 col-md-3 ">Status</div>
-                <div class="col-12 col-md-9 text-muted">{{account?.accountStatus}}</div>
-            </div>
-            <div class="row">
-                <div class="col-12 col-md-3 ">Type</div>
-                <div class="col-12 col-md-9 text-muted">{{account?.accountType}}</div>
-            </div>
-            <div class="row">
-                <div class="col-12 col-md-3 ">Currency</div>
-                <div class="col-12 col-md-9 text-muted">{{account?.currency}}</div>
-            </div>
-            <div class="row">
-                <div class="col-12 col-md-3 ">Balance</div>
-                <div class="col-12 col-md-9 text-muted">{{account?.balances[0].amount.amount | convertBalance}}</div>
-            </div>
-            <button class="btn btn-primary" (click)="goToAccountDetail()">Access management</button>
-            <button class="btn btn-primary ml-3" [disabled]="isAccountDeleted" (click)="goToDepositCash()">
-                Deposit cash
-            </button>
-            <button class="btn btn-outline-danger ml-3" (click)="openDeleteConfirmation(deleteConfirmationModal)">
-              Delete transactions
-            </button>
+      <button class="btn btn-sm btn-outline-secondary" [routerLink]="[pageNavigationService.getLastVisitedPage()]"
+              queryParamsHandling="preserve">
+        &lt; Back
+      </button>
+      <div class="header__title">Account details</div>
+
+      <div class="row" *ngIf="admin">
+        <div class="col-12 col-md-3">TPP</div>
+        <div class="col-12 col-md-9 text-muted"><a>{{account?.id}}</a></div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-md-3 ">Account Accessors</div>
+        <div class="col-12 col-md-9 text-muted">
+          <div *ngFor="let access of accesses; last as isLast">
+            {{access.userLogin}},
+            <span *ngIf="access.scaWeight">weight {{access.scaWeight}} %,</span>
+            Role: {{access.accessType}}
+          </div>
         </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-3 ">IBAN</div>
+        <div class="col-12 col-md-9 text-muted">{{account?.iban}}</div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-3 ">Status</div>
+        <div class="col-12 col-md-9 text-muted">{{account?.accountStatus}}</div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-3 ">Type</div>
+        <div class="col-12 col-md-9 text-muted">{{account?.accountType}}</div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-3 ">Currency</div>
+        <div class="col-12 col-md-9 text-muted">{{account?.currency}}</div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-3 ">Balance</div>
+        <div class="col-12 col-md-9 text-muted">{{account?.balances[0].amount.amount | convertBalance}}</div>
+      </div>
+      <button class="btn btn-primary" (click)="goToAccountDetail()">Access management</button>
+      <button class="btn btn-primary ml-3" [disabled]="isAccountDeleted" (click)="goToDepositCash()">
+        Deposit cash
+      </button>
+      <button class="btn btn-outline-danger ml-3" (click)="openDeleteConfirmation(deleteConfirmationModal)">
+        Delete transactions
+      </button>
     </div>
+  </div>
 </div>
 
 <ng-template #deleteConfirmationModal let-modal>
@@ -55,7 +62,7 @@
     </button>
   </div>
   <div class="modal-body">
-      Are you sure you want to delete all transactions of "{{account?.iban}}"?
+    Are you sure you want to delete all transactions of "{{account?.iban}}"?
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>

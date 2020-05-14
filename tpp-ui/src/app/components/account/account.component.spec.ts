@@ -2,7 +2,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
-import { Account } from '../../models/account.model';
 import { IconModule } from '../../commons/icon/icon.module';
 import { InfoModule } from '../../commons/info/info.module';
 import { InfoService } from '../../commons/info/info.service';
@@ -11,8 +10,8 @@ import { AccountService } from '../../services/account.service';
 import { AccountComponent } from './account.component';
 import { ConvertBalancePipe } from '../../pipes/convertBalance.pipe';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TppService } from '../../services/tpp.service';
 import { Router } from '@angular/router';
+import {TppManagementService} from '../../services/tpp-management.service';
 
 
 describe('AccountComponent', () => {
@@ -20,7 +19,7 @@ describe('AccountComponent', () => {
     let fixture: ComponentFixture<AccountComponent>;
     let accountService: AccountService;
     let infoService: InfoService;
-    let tppService: TppService;
+    let tppService: TppManagementService;
     let modalService: NgbModal;
     let router: Router;
 
@@ -33,7 +32,7 @@ describe('AccountComponent', () => {
                 IconModule
             ],
             declarations: [AccountComponent, ConvertBalancePipe],
-            providers: [AccountService, NgbModal, TppService, InfoService]
+            providers: [AccountService, NgbModal, TppManagementService, InfoService]
         })
             .compileComponents();
     }));
@@ -45,7 +44,7 @@ describe('AccountComponent', () => {
         infoService = TestBed.get(InfoService);
         accountService = TestBed.get(AccountService);
         router = TestBed.get(Router);
-        tppService = TestBed.get(TppService);
+        tppService = TestBed.get(TppManagementService);
         modalService = TestBed.get(NgbModal);
     });
 

@@ -152,7 +152,7 @@ class IbanGenerationServiceTest {
 
     private OngoingStubbing<ResponseEntity<UserTO>> getNewUserTO(String branch, List accountAccess) {
         return when(userMgmtRestClient.getUser())
-                   .thenReturn(ResponseEntity.ok(new UserTO(null, null, null, null, null, accountAccess, null, branch)));
+                   .thenReturn(ResponseEntity.ok(new UserTO(null, null, null, null, null, accountAccess, null, branch, false, false)));
     }
 
     private boolean isIbansValid(List<String> ibans) {

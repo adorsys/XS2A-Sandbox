@@ -1,53 +1,63 @@
-<div class="container-fluid">
-    <div class="card">
-        <div class="card-body--large">
-            <div class="header__title">User details</div>
+<div class="container-fluid" *ngIf="user">
+  <div class="card">
+    <div class="card-body--large">
+      <button class="btn btn-sm btn-outline-secondary mb-4" [routerLink]="[lastVisitedPage]"
+              queryParamsHandling="preserve">
+        &lt; Back
+      </button>
 
-            <div class="row">
-                <div class="col-12 col-md-3">Login</div>
-                <div class="col-12 col-md-9 text-muted">{{user.login}}</div>
-            </div>
-            <div class="row">
-                <div class="col-12 col-md-3 ">Email</div>
-                <div class="col-12 col-md-9 text-muted">{{user.email}}</div>
-            </div>
-            <div class="row">
-                <div class="col-12 col-md-3 ">Accounts</div>
-                <div class=" col-12 col-md-9 text-muted">
-                    <div *ngFor="let accountAccess of user?.accountAccesses">
-                        <a href="javascript:void(0);" class="iban" (click)="handleClickOnIBAN($event);">
-                            {{accountAccess.iban}}
-                        </a>
-                        {{accountAccess.currency}}
-                    </div>
-                </div>
-            </div>
-          <div class="row">
-            <div class="col-12 col-md-12">Authentication: </div>
+      <div class="header__title">User details</div>
+
+      <div class="row" *ngIf="admin">
+        <div class="col-12 col-md-3">TPP</div>
+        <div class="col-12 col-md-9 text-muted"><a [routerLink]="[createLastVisitedPageLink(user.branch, user.id)]">{{user.branch}}</a></div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-3">Login</div>
+        <div class="col-12 col-md-9 text-muted">{{user.login}}</div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-3 ">Email</div>
+        <div class="col-12 col-md-9 text-muted">{{user.email}}</div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-3 ">Accounts</div>
+        <div class=" col-12 col-md-9 text-muted">
+          <div *ngFor="let accountAccess of user?.accountAccesses">
+            <a href="javascript:void(0);" class="iban" (click)="handleClickOnIBAN($event);">
+              {{accountAccess.iban}}
+            </a>
+            {{accountAccess.currency}}
           </div>
-          <div class="row" *ngFor="let scaItem of user?.scaUserData; index as i; last as isLast"
-                 [ngClass]="{'mb-2': !isLast}">
-            <div class="col-12 col-md-9 text-muted">
-                        {{scaItem.methodValue}}
-                        <div *ngIf="scaItem.scaMethod">
-                            Sca Method: {{scaItem.scaMethod}}
-                        </div>
-                        <div *ngIf="scaItem.usesStaticTan">
-                            Static TAN: {{scaItem.staticTan}}
-                        </div>
-                </div>
-              <button *ngIf="scaItem.scaMethod == 'EMAIL' && scaItem.methodValue" (click)="confirmEmail(scaItem.methodValue)"
-                      class="col-12 col-md-3 btn btn btn-outline-secondary">
-                Confirm email
-              </button>
-            </div>
-            <div class="form-group d-flex flex-row justify-content-lg-between">
-                <button routerLink="/users/{{user.id}}/update-user-details"
-                        class="btn btn-primary"
-                        type="submit">Edit
-                </button>
-                <button class="btn btn-outline-danger " (click)="onCancel()">Back</button>
-            </div>
         </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-12">Authentication:</div>
+      </div>
+      <div class="row" *ngFor="let scaItem of user?.scaUserData; index as i; last as isLast"
+           [ngClass]="{'mb-2': !isLast}">
+        <div class="col-12 col-md-9 text-muted">
+          {{scaItem.methodValue}}
+          <div *ngIf="scaItem.scaMethod">
+            Sca Method: {{scaItem.scaMethod}}
+          </div>
+          <div *ngIf="scaItem.usesStaticTan">
+            Static TAN: {{scaItem.staticTan}}
+          </div>
+        </div>
+        <div class="col-12 col-md-3 p-0">
+          <button *ngIf="scaItem.scaMethod == 'EMAIL' && scaItem.methodValue" (click)="confirmEmail(scaItem.methodValue)"
+                  class="btn btn-sm btn-outline-secondary">
+            Confirm email
+          </button>
+        </div>
+      </div>
+      <div class="form-group d-flex flex-row justify-content-lg-between">
+        <button routerLink="/users/{{user.id}}/update-user-details"
+                class="btn btn-primary"
+                type="submit">Edit
+        </button>
+      </div>
     </div>
+  </div>
 </div>

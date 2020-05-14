@@ -10,11 +10,11 @@ import {InfoService} from '../../commons/info/info.service';
 import {Account, AccountStatus, AccountType, UsageType} from '../../models/account.model';
 import {AccountService} from '../../services/account.service';
 import {AccountListComponent} from './account-list.component';
-import {NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {FilterPipeModule} from "ngx-filter-pipe";
-import {PaginationContainerComponent} from "../../commons/pagination-container/pagination-container.component";
-import {PageConfig, PaginationConfigModel} from "../../models/pagination-config.model";
+import {NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FilterPipeModule} from 'ngx-filter-pipe';
+import {PaginationContainerComponent} from '../../commons/pagination-container/pagination-container.component';
+import {PaginationConfigModel} from '../../models/pagination-config.model';
 
 describe('AccountListComponent', () => {
   let component: AccountListComponent;
@@ -40,7 +40,7 @@ describe('AccountListComponent', () => {
       declarations: [AccountListComponent, PaginationContainerComponent],
       providers: [AccountService, InfoService]
     })
-        .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -89,60 +89,23 @@ describe('AccountListComponent', () => {
   });
 
   it('should change the page', () => {
-      const mockPageConfig = {
-          pageNumber: 10,
-          pageSize: 5
-      }
-      component.searchForm.setValue({
-          query: 'foo',
-          itemsPerPage: 15});
-      const getAccountsSpy = spyOn(component, 'getAccounts');
-      component.pageChange(mockPageConfig);
-      expect(getAccountsSpy).toHaveBeenCalledWith(10, 5, 'foo');
+    const mockPageConfig = {
+      pageNumber: 10,
+      pageSize: 5
+    };
+    component.searchForm.setValue({
+      query: 'foo',
+      itemsPerPage: 15
+    });
+    const getAccountsSpy = spyOn(component, 'getAccounts');
+    component.pageChange(mockPageConfig);
+    expect(getAccountsSpy).toHaveBeenCalledWith(10, 5, 'foo');
   });
 
-  it('should load accounts',  () => {
-      let mockAccounts: Account[] = [
-          {
-              id: 'XXXXXX',
-              iban: 'DE35653635635663',
-              bban: 'BBBAN',
-              pan: 'pan',
-              maskedPan: 'maskedPan',
-              currency: 'EUR',
-              msisdn: 'MSISDN',
-              name: 'Pupkin',
-              product: 'Deposit',
-              accountType: AccountType.CASH,
-              accountStatus: AccountStatus.ENABLED,
-              bic: 'BIChgdgd',
-              usageType: UsageType.PRIV,
-              details: '',
-              linkedAccounts: '',
-              balances: []
-          } as Account
-      ];
-      const getAccountsSpy = spyOn(accountService, 'getAccounts').and.returnValue(of({accounts: mockAccounts, totalElements: mockAccounts.length}));
-      component.getAccounts(5,10);
-      expect(getAccountsSpy).toHaveBeenCalled();
-      expect(component.accounts).toEqual(mockAccounts);
-      expect(component.config.totalItems).toEqual(mockAccounts.length);
-  });
-
-  it('should change the page size', () => {
-    const paginationConfigModel: PaginationConfigModel = {
-        itemsPerPage: 0,
-        currentPageNumber: 0,
-        totalItems: 0
-    }
-    component.config = paginationConfigModel;
-    component.changePageSize(10);
-    expect(component.config.itemsPerPage).toEqual(10);
-  });
-
-  it('should return false if account is not set', () => {
-    let mockAccount: Account = {
-        id: '123456',
+  it('should load accounts', () => {
+    let mockAccounts: Account[] = [
+      {
+        id: 'XXXXXX',
         iban: 'DE35653635635663',
         bban: 'BBBAN',
         pan: 'pan',
@@ -152,15 +115,53 @@ describe('AccountListComponent', () => {
         name: 'Pupkin',
         product: 'Deposit',
         accountType: AccountType.CASH,
-        accountStatus: AccountStatus.DELETED,
+        accountStatus: AccountStatus.ENABLED,
         bic: 'BIChgdgd',
         usageType: UsageType.PRIV,
         details: '',
         linkedAccounts: '',
         balances: []
-    } as Account
+      } as Account
+    ];
+    const getAccountsSpy = spyOn(accountService, 'getAccounts').and.returnValue(of({accounts: mockAccounts, totalElements: mockAccounts.length}));
+    component.getAccounts(5, 10, {});
+    expect(getAccountsSpy).toHaveBeenCalled();
+    expect(component.accounts).toEqual(mockAccounts);
+    expect(component.config.totalItems).toEqual(mockAccounts.length);
+  });
+
+  it('should change the page size', () => {
+    const paginationConfigModel: PaginationConfigModel = {
+      itemsPerPage: 0,
+      currentPageNumber: 0,
+      totalItems: 0
+    };
+    component.config = paginationConfigModel;
+    component.changePageSize(10);
+    expect(component.config.itemsPerPage).toEqual(10);
+  });
+
+  it('should return false if account is not set', () => {
+    let mockAccount: Account = {
+      id: '123456',
+      iban: 'DE35653635635663',
+      bban: 'BBBAN',
+      pan: 'pan',
+      maskedPan: 'maskedPan',
+      currency: 'EUR',
+      msisdn: 'MSISDN',
+      name: 'Pupkin',
+      product: 'Deposit',
+      accountType: AccountType.CASH,
+      accountStatus: AccountStatus.DELETED,
+      bic: 'BIChgdgd',
+      usageType: UsageType.PRIV,
+      details: '',
+      linkedAccounts: '',
+      balances: []
+    } as Account;
     const result = component.goToDepositCash(mockAccount);
     expect(result).toBe(false);
-    });
+  });
 
 });

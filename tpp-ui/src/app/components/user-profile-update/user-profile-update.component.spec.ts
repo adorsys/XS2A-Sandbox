@@ -1,17 +1,16 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import {TppUserService} from '../../services/tpp.user.service';
 import {AuthService} from '../../services/auth.service';
-import {TppService} from "../../services/tpp.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import { Router } from '@angular/router';
 import { DebugElement } from '@angular/core';
 import {User} from '../../models/user.model';
 import { UserProfileUpdateComponent } from './user-profile-update.component';
 import {of} from 'rxjs';
-import get = Reflect.get;
+import {TppManagementService} from '../../services/tpp-management.service';
+
 describe('UserProfileUpdateComponent', () => {
   let component: UserProfileUpdateComponent;
   let fixture: ComponentFixture<UserProfileUpdateComponent>;
@@ -56,7 +55,7 @@ describe('UserProfileUpdateComponent', () => {
         ReactiveFormsModule,
         HttpClientTestingModule,
       ],
-      providers: [TppUserService, AuthService, TppService, NgbModal,
+      providers: [TppUserService, AuthService, TppManagementService, NgbModal,
           {provide: AuthService, useValue: mockAuthUserService},
           {provide: TppUserService, useValue: mockinfoService},
           {provide: Router, useValue: mockRouter}],

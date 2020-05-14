@@ -12,10 +12,9 @@ import { ShareDataService } from '../../common/services/share-data.service';
 @Component({
   selector: 'app-select-sca',
   templateUrl: './select-sca.component.html',
-  styleUrls: ['./select-sca.component.scss']
+  styleUrls: ['./select-sca.component.scss'],
 })
 export class SelectScaComponent implements OnInit, OnDestroy {
-
   public authResponse: PaymentAuthorizeResponse;
   public selectedScaMethod: ScaUserDataTO;
   public scaForm: FormGroup;
@@ -27,7 +26,8 @@ export class SelectScaComponent implements OnInit, OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private pisCancellationService: PisCancellationService,
-    private shareService: ShareDataService) {
+    private shareService: ShareDataService
+  ) {
     this.scaForm = this.formBuilder.group({
       scaMethod: ['', Validators.required],
     });
@@ -38,14 +38,14 @@ export class SelectScaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // fetch data that we save before after login
-    this.shareService.currentData.subscribe(data => {
+    this.shareService.currentData.subscribe((data) => {
       if (data) {
-        // TODO extract the Accounts, Balances and Transactions from data.value https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/issues/9
-        console.log('response object: ', data);
-        this.shareService.currentData.subscribe(authResponse => {
+        this.shareService.currentData.subscribe((authResponse) => {
           this.authResponse = authResponse;
-          if (this.authResponse.scaMethods && this.authResponse.scaMethods.length === 1) {
+          if (
+            this.authResponse.scaMethods &&
+            this.authResponse.scaMethods.length === 1
+          ) {
             this.selectedScaMethod = this.authResponse.scaMethods[0];
           }
         });
@@ -54,41 +54,44 @@ export class SelectScaComponent implements OnInit, OnDestroy {
   }
 
   public onSubmit(): void {
-    console.log('selecting sca');
     if (!this.authResponse || !this.selectedScaMethod) {
-      console.log('No sca method selected.');
       return;
     }
 
     this.subscriptions.push(
-      this.pisCancellationService.selectScaMethod({
-        encryptedPaymentId: this.authResponse.encryptedConsentId,
-        authorisationId: this.authResponse.authorisationId,
-        scaMethodId: this.selectedScaMethod.id
-      }).subscribe(authResponse => {
-        this.authResponse = authResponse;
-        this.shareService.changeData(this.authResponse);
-        this.router.navigate([`${RoutingPath.PAYMENT_CANCELLATION}/${RoutingPath.TAN_CONFIRMATION}`]);
-      })
+      this.pisCancellationService
+        .selectScaMethod({
+          encryptedPaymentId: this.authResponse.encryptedConsentId,
+          authorisationId: this.authResponse.authorisationId,
+          scaMethodId: this.selectedScaMethod.id,
+        })
+        .subscribe((authResponse) => {
+          this.authResponse = authResponse;
+          this.shareService.changeData(this.authResponse);
+          this.router.navigate([
+            `${RoutingPath.PAYMENT_CANCELLATION}/${RoutingPath.TAN_CONFIRMATION}`,
+          ]);
+        })
     );
   }
 
   public onCancel(): void {
-    this.router.navigate([`${RoutingPath.PAYMENT_CANCELLATION}/${RoutingPath.RESULT}`], {
-      queryParams: {
-        encryptedConsentId: this.authResponse.encryptedConsentId,
-        authorisationId: this.authResponse.authorisationId
+    this.router.navigate(
+      [`${RoutingPath.PAYMENT_CANCELLATION}/${RoutingPath.RESULT}`],
+      {
+        queryParams: {
+          encryptedConsentId: this.authResponse.encryptedConsentId,
+          authorisationId: this.authResponse.authorisationId,
+        },
       }
-    });
+    );
   }
 
   handleMethodSelectedEvent(scaMethod: ScaUserDataTO): void {
-    console.log('No sca method selected.');
     this.selectedScaMethod = scaMethod;
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
-
 }

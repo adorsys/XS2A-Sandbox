@@ -10,7 +10,7 @@ import { User } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
 import { UsersComponent } from './users.component';
 import {PaginationContainerComponent} from "../../commons/pagination-container/pagination-container.component";
-import {PageConfig, PaginationConfigModel} from "../../models/pagination-config.model";
+import { PaginationConfigModel} from "../../models/pagination-config.model";
 
 
 describe('UsersComponent', () => {
@@ -82,7 +82,7 @@ describe('UsersComponent', () => {
         ];
         const getUsersSpy = spyOn(usersService, 'listUsers').and.returnValue(of({users: mockUsers, totalElements: mockUsers.length}));
 
-        component.listUsers(5,10, 'string');
+        component.listUsers(5,10, {});
 
         expect(getUsersSpy).toHaveBeenCalled();
         expect(component.users).toEqual(mockUsers);

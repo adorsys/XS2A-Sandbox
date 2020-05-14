@@ -1,0 +1,51 @@
+@import "~src/assets/themes/table";
+
+.justify-space-between {
+  justify-content: space-between;
+}
+
+.flex {
+  display: flex;
+}
+
+.p-md-0 {
+  padding-right: 15px !important;
+  padding-left: 35px !important;
+}
+
+.has-search .form-control {
+  padding-left: 2.375rem;
+}
+
+.has-search .form-control-feedback {
+  position: absolute;
+  margin-top: 6px;
+  z-index: 2;
+  display: block;
+  width: 2.375rem;
+  height: 2.375rem;
+  line-height: 2.375rem;
+  text-align: center;
+  pointer-events: none;
+  color: $dark-80;
+}
+
+.actions {
+  white-space: nowrap;
+
+  button {
+    margin: .5rem;
+    height: 95%;
+  }
+}
+
+.filter-button {
+
+  button {
+    border: none;
+  }
+
+  .active {
+    border: 1px var(--colorPrimary) solid;
+  }
+}

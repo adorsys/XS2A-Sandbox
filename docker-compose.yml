@@ -20,10 +20,11 @@ services:
       - "8189:8000"
     environment:
       - SPRING_PROFILES_ACTIVE=mock-qwac
-      - ASPSP-PROFILE_BASEURL=http://xs2a-aspsp-profile:8080/api/v1
-      - CONSENT-SERVICE_BASEURL=http://xs2a-consent-management:8080/api/v1
-      - CMS_URL=http://xs2a-consent-management:8080
-      - LEDGERS_URL=http://ledgers:8088
+      - XS2A_CMS_ASPSP-PROFILE_BASEURL=http://xs2a-aspsp-profile:8080/api/v1
+      - XS2A_CMS_CONSENT-SERVICE_BASEURL=http://xs2a-consent-management:8080/api/v1
+      - XS2A_CMS_URL=http://xs2a-consent-management:8080
+      - XS2ASANDBOX_LEDGERS_URL=http://ledgers:8088
+      - XS2ASANDBOX_TPPUI_ONLINE-BANKING_URL=http://xs2a-online-banking:8090/api/v1/consents/confirm/{userLogin}/{consentId}/{authorizationId}/{tan}
       - QWAC_CERTIFICATE_MOCK=${QWAC_CERTIFICATE_MOCK}
     networks:
       - xs2a-net
@@ -58,7 +59,7 @@ services:
     networks:
       - xs2a-net
     environment:
-      - ASPSP-PROFILE_BASEURL=http://xs2a-aspsp-profile:8080/api/v1
+      - XS2A_CMS_ASPSP_PROFILE_BASEURL=http://xs2a-aspsp-profile:8080/api/v1
       - SPRING_DATASOURCE_URL=jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=consent
       - SPRING_DATASOURCE_USERNAME=cms
       - SPRING_DATASOURCE_PASSWORD=cms

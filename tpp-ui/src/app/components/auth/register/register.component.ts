@@ -9,14 +9,23 @@ import {AuthService} from '../../../services/auth.service';
 import {CertGenerationService} from '../../../services/cert-generation.service';
 import {CustomizeService} from '../../../services/customize.service';
 import {SettingsService} from '../../../services/settings.service';
-import {TppIdPatterns, TppIdStructure, TppIdType} from "../../../models/tpp-id-structure.model";
+import {
+  TppIdPatterns,
+  TppIdStructure,
+  TppIdType,
+} from '../../../models/tpp-id-structure.model';
+import {CountryService} from '../../../services/country.service';
+import {User} from '../../../models/user.model';
+import {TppUserService} from '../../../services/tpp.user.service';
+import {PageNavigationService} from '../../../services/page-navigation.service';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['../auth.component.scss']
+  styleUrls: ['../auth.component.scss'],
 })
 export class RegisterComponent implements OnInit {
+  admin = false;
 
   public userForm: FormGroup;
   public certificateValue = {};
@@ -26,20 +35,25 @@ export class RegisterComponent implements OnInit {
   public errorMessage: string;
 
   public selectedCountry = '';
-  public countries: Array<any> = [];
+  public countries: Array<object> = [];
   public showTppStructureMessage = false;
   public tppIdStructure: TppIdStructure = {
-    "length": 8,
-    "type": TppIdType.n
+    length: 8,
+    type: TppIdType.n,
   };
 
-  constructor(private service: AuthService,
-              private certGenerationService: CertGenerationService,
-              private infoService: InfoService,
-              private router: Router,
-              private formBuilder: FormBuilder,
-              private settingsService: SettingsService,
-              public customizeService: CustomizeService) {
+  constructor(
+    private service: AuthService,
+    private certGenerationService: CertGenerationService,
+    private infoService: InfoService,
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private settingsService: SettingsService,
+    public customizeService: CustomizeService,
+    private pageNavigationService: PageNavigationService,
+    private countryService: CountryService,
+    private tppUserService: TppUserService
+  ) {
   }
 
   selectCountry() {
@@ -47,29 +61,31 @@ export class RegisterComponent implements OnInit {
       document.getElementById('emptySelect').remove();
     }
 
-    this.service.getTppIdStructure(this.selectedCountry)
-      .subscribe(
-        data => {
-          this.tppIdStructure = data;
-          this.changeIdValidators();
-          this.userForm.enable();
-          this.showTppStructureMessage = true;
-        },
-        error => {
-          console.log(error);
-          this.infoService.openFeedback("Could not get TPP ID structure for this country!");
-        }
-      );
+    this.service.getTppIdStructure(this.selectedCountry).subscribe(
+      (data) => {
+        this.tppIdStructure = data;
+        this.changeIdValidators();
+        this.userForm.enable();
+        this.showTppStructureMessage = true;
+      },
+      (error) => {
+        console.log(error);
+        this.infoService.openFeedback(
+          'Could not get TPP ID structure for this country!'
+        );
+      }
+    );
   }
 
   changeIdValidators() {
-    this.userForm.get('id').setValidators(
-      [Validators.required,
+    this.userForm
+      .get('id')
+      .setValidators([
+        Validators.required,
         Validators.pattern(TppIdPatterns[this.tppIdStructure.type]),
         Validators.minLength(this.tppIdStructure.length),
-        Validators.maxLength(this.tppIdStructure.length)
-      ]
-    );
+        Validators.maxLength(this.tppIdStructure.length),
+      ]);
   }
 
   getTppIdTypeName() {
@@ -77,22 +93,21 @@ export class RegisterComponent implements OnInit {
   }
 
   public initializeCountryList() {
-    this.service.getCountryCodes().subscribe(
+    this.countryService.getCountryList().subscribe(
       data => {
-        this.countries = [];
-        Object.keys(data).forEach(countryKey => {
-          this.countries.push({code: countryKey, name: data[countryKey]});
-        })
+        this.countries = data;
         this.selectedCountry = '';
       },
-      error => {
+      (error) => {
         console.log(error);
-        this.infoService.openFeedback("Could not download country list!");
+        this.infoService.openFeedback('Could not download country list!');
       }
     );
   }
 
   ngOnInit() {
+    this.tppUserService.currentTppUser.subscribe(
+      (user: User) => this.admin = user && user.userRoles.includes('SYSTEM'));
     this.initializeCountryList();
     this.initializeRegisterForm();
   }
@@ -106,50 +121,52 @@ export class RegisterComponent implements OnInit {
   }
 
   public onSubmit(): void {
-
     if (this.userForm.invalid || !this.certificateValue) {
       this.submitted = true;
       return;
     }
 
     let message: string;
+    const navigateUrl = this.admin ? '/management' : '/login';
+    const messageBeginning = this.admin ? 'New TPP has ' : 'You have';
 
     if (this.generateCertificate && this.certificateValue) {
-      // combine observables
       combineLatest([
         this.service.register(this.userForm.value, this.selectedCountry),
-        this.certGenerationService.generate(this.certificateValue)
+        this.certGenerationService.generate(this.certificateValue),
       ]).subscribe((combinedData: any) => {
-
-        // get cert generation params
         const encodedCert = combinedData[1].encodedCert;
         const privateKey = combinedData[1].privateKey;
 
-        this.createZipUrl(encodedCert, privateKey).then(url => {
-            message = 'You have been successfully registered and your certificate generated. The download will start automatically within the 2 seconds';
-            this.navigateAndGiveFeedback(url, message);
-          }
-        );
+        this.createZipUrl(encodedCert, privateKey).then((url) => {
+          message = `${messageBeginning} been successfully registered and certificate generated. The download will start automatically within the 2 seconds`;
+          this.navigateAndGiveFeedback(navigateUrl, url, message);
+        });
       });
     } else {
-      this.service.register(this.userForm.value, this.selectedCountry)
+      this.service
+        .register(this.userForm.value, this.selectedCountry)
         .subscribe(() => {
-          message = 'You have been successfully registered.';
-          this.navigateAndGiveFeedback('', message);
+          message = `${messageBeginning} been successfully registered.`;
+          this.navigateAndGiveFeedback(navigateUrl, '', message);
+
         });
     }
   }
 
-  private navigateAndGiveFeedback(url: string, message: string) {
-    this.router.navigate(['/login'])
-      .then(() => {
-        this.infoService.openFeedback(message);
-        if (url) {
-          setTimeout(() => {
-            this.downloadFile(url);
-          }, 2000, url)
-        }
-      })
+  public navigateAndGiveFeedback(navigateUrl: string, downloadUrl: string, message: string) {
+    this.router.navigate([navigateUrl]).then(() => {
+      this.infoService.openFeedback(message);
+      if (downloadUrl) {
+        setTimeout(
+          () => {
+            this.downloadFile(downloadUrl);
+          },
+          2000,
+          downloadUrl
+        );
+      }
+    });
   }
 
   public generateZipFile(certBlob, keyBlob): Promise<any> {
@@ -163,24 +180,35 @@ export class RegisterComponent implements OnInit {
     this.userForm = this.formBuilder.group({
       id: ['', []],
       login: ['', Validators.required],
-      email: ['', [Validators.required, Validators.pattern(new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)),]],
-      pin: ['', Validators.required]
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            new RegExp(
+              /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            )
+          ),
+        ],
+      ],
+      pin: ['', Validators.required],
     });
     this.userForm.disable();
   }
 
-  public createZipUrl(encodedCert: string, privateKey: string): Promise<string> {
+  public createZipUrl(
+    encodedCert: string,
+    privateKey: string
+  ): Promise<string> {
     const blobCert = new Blob([encodedCert], {
       type: 'text/plain',
     });
     const blobKey = new Blob([privateKey], {
       type: 'text/plain',
     });
-    return this.generateZipFile(blobCert, blobKey).then(
-      zip => {
-        return this.createObjectUrl(zip, window);
-      }
-    );
+    return this.generateZipFile(blobCert, blobKey).then((zip) => {
+      return this.createObjectUrl(zip, window);
+    });
   }
 
   public createObjectUrl(zip: any, window: any): string {

@@ -1,8 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
-@import "./assets/themes/variables";
-@import "~bootstrap/scss/bootstrap";
-@import "./assets/themes/mobile";
-@import "~material-icons/iconfont/material-icons.css";
+@import './assets/themes/variables';
+@import '~bootstrap/scss/bootstrap';
+@import './assets/themes/mobile';
+@import '~material-icons/iconfont/material-icons.css';
 
 * {
   margin: 0;
@@ -41,6 +41,7 @@ body {
 }
 
 .navbar-brand {
+  padding: 0;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
@@ -49,11 +50,13 @@ body {
 a {
   color: var(--anchorFontColor);
 
-  &.active, &:hover {
+  &.active,
+  &:hover {
     color: var(--anchorFontColorHover);
   }
 
-  &.text-primary:hover, &.text-primary:focus {
+  &.text-primary:hover,
+  &.text-primary:focus {
     color: var(--anchorFontColorHover) !important;
   }
 }
@@ -74,15 +77,7 @@ a {
     font-size: 1.2rem;
     color: #a0a0a0 !important;
     text-align: center;
-    margin-bottom: var(--subtitle-margin-botton);
-
   }
-
-  .form__margin {
-    margin-top: 1.5rem;
-    padding-bottom: var(--padding-bottom);
-  }
-
 
   &--large {
     padding: 2rem 2rem;
@@ -101,10 +96,9 @@ a {
       margin: var(--margin-form-group);
 
       .form-control {
-        padding: .25rem .75rem;
-        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        padding: 0.25rem 0.75rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
       }
-
     }
     .form-check-label {
       margin-left: 30px;
@@ -115,21 +109,32 @@ a {
   .card-footer {
     padding-left: 0;
     padding-right: 0;
-
-
-  }
-
-
-  button {
-    margin-top: var(--margin-top);
   }
 
   a {
     font-size: 1.1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     color: #a0a0a0;
   }
+}
 
+.mrb-7 {
+  margin-bottom: 7rem;
+}
+
+.mrb-5 {
+  margin-bottom: 5rem;
+}
+
+.mrt {
+  margin-top: var(--subtitle-mrb);
+}
+.mrt-1-5 {
+  margin-top: 1.5rem;
+}
+
+.pd-0 {
+  padding: 0;
 }
 
 .no-bg-color {
@@ -149,7 +154,7 @@ a {
   background-color: #f8f9fa;
 }
 
-.sticky-top{
+.sticky-top {
   z-index: 1000;
 }
 
@@ -210,11 +215,27 @@ nav {
   }
 }
 
+tr {
+  border-bottom: 1px solid #c4ccd3;
+  color: var(--tr-color);
+}
+
+td {
+  padding: 0.5rem 1.25rem;
+}
+
+th {
+  font-size: 1.125rem !important;
+  color: #545b68 !important;
+  font-weight: 700 !important;
+}
+
 .btn {
   font-size: 1.1rem;
   white-space: nowrap;
   border-radius: var(--buttonBorderRadius);
-  margin-bottom: 0 !important;
+  height: var(--button-heigh) !important;
+  padding: 0 12px;
 
   &-primary {
     color: var(--buttonTextColor);
@@ -229,7 +250,7 @@ nav {
     &:disabled {
       background: var(--buttonBGDisabled);
       opacity: var(--button-opacity);
-      color: var(--buttonColorTextDisabled)
+      color: var(--buttonColorTextDisabled);
     }
 
     &:focus {
@@ -254,7 +275,7 @@ nav {
 
     &:disabled {
       background: var(--secondaryButtonBG);
-      opacity: .65;
+      opacity: 0.65;
     }
 
     &:focus {
@@ -262,13 +283,22 @@ nav {
       background: var(--secondaryButtonClicked);
       color: var(--secondaryButtonClickedTextColor);
     }
-
   }
+}
+
+.dp-error-border {
+  border-left: 1px solid var(--colorErrorText) !important;
+  border-top: 1px solid var(--colorErrorText) !important;
+  border-bottom: 1px solid var(--colorErrorText) !important;
+  border-right: 1px solid var(--colorErrorText) !important;
+}
+.dp-error-text {
+  color: var(--colorErrorText);
+  font-family: var(--fontFamily);
 }
 
 .form-control {
   height: inherit;
-  margin-bottom: 0.5rem;
   margin-top: 0.5rem;
   background: var(--inputBG);
   outline: none;
@@ -277,6 +307,11 @@ nav {
   border-bottom: var(--inputBorderStyleBottom);
   border-right: var(--inputBorderStyleRight);
   border-radius: var(--inputBorderRadius);
+}
+
+.form-control:focus {
+  border-left: 1px solid black;
+  border-bottom: 1px solid black;
 }
 
 @media screen and (max-width: 768px) {
