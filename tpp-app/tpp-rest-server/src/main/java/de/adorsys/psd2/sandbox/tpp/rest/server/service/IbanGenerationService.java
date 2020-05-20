@@ -1,7 +1,10 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.service;
 
+import de.adorsys.ledgers.middleware.api.domain.um.UserRoleTO;
+import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.BankCodeStructure;
+import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.DataPayload;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.TppData;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +14,10 @@ import org.iban4j.bban.BbanStructure;
 import org.iban4j.bban.BbanStructureEntry;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.iban4j.CountryCode.*;
 import static org.iban4j.bban.BbanEntryType.account_number;
@@ -23,8 +29,8 @@ public class IbanGenerationService {
 
     private final UserMgmtRestClient userMgmtRestClient;
 
-    public String generateNextIban() {
-        TppData data = getTppData();
+    public String generateNextIban(String tppId) {
+        TppData data = getTppData(tppId);
         return generateIban(data.getCountryCode(), data.getBranchId(), data.getNextAccountNumber());
     }
 
@@ -32,7 +38,7 @@ public class IbanGenerationService {
         if (payload.getGeneratedIbans().containsKey(iban)) {
             return payload.getGeneratedIbans().get(iban);
         }
-        TppData data = getTppData();
+        TppData data = new TppData(userMgmtRestClient.getUser().getBody());
         String generatedIban = generateIban(data.getCountryCode(), data.getBranchId(), Long.parseLong(iban));
         payload.getGeneratedIbans().put(iban, generatedIban);
         return generatedIban;
@@ -64,7 +70,11 @@ public class IbanGenerationService {
                    .toString();
     }
 
-    private TppData getTppData() {
-        return new TppData(userMgmtRestClient.getUser().getBody());
+    private TppData getTppData(String tppId) {
+        UserTO user = userMgmtRestClient.getUserById(tppId).getBody();
+        if (!user.getUserRoles().contains(UserRoleTO.STAFF)) {
+            throw new TppException("You're trying to generate Iban out of Tpp range", 400);
+        }
+        return new TppData(user);
     }
 }

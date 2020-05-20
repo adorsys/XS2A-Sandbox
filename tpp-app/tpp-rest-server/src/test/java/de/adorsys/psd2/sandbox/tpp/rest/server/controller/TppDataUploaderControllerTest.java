@@ -70,10 +70,10 @@ class TppDataUploaderControllerTest {
     @Test
     void generateIban() {
         // Given
-        when(ibanGenerationService.generateNextIban()).thenReturn(USER_IBAN);
+        when(ibanGenerationService.generateNextIban(TPP_ID)).thenReturn(USER_IBAN);
 
         // When
-        ResponseEntity<String> response = uploaderController.generateIban();
+        ResponseEntity<String> response = uploaderController.generateIban(TPP_ID);
 
         // Then
         assertTrue(response.getStatusCode().is2xxSuccessful());

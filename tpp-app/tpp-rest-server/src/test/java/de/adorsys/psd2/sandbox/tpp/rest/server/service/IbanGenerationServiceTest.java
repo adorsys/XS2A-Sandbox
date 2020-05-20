@@ -4,6 +4,7 @@ import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
 import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccountAccessTO;
+import de.adorsys.ledgers.middleware.api.domain.um.UserRoleTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.BankCodeStructure;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 
 import static org.iban4j.bban.BbanStructureEntry.EntryCharacterType;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -44,10 +46,10 @@ class IbanGenerationServiceTest {
     @Test
     void generateIban() {
         // Given
-        getNewUserTO(TPP_ID, Collections.EMPTY_LIST);
+        stubGetByIdCall(TPP_ID, Collections.EMPTY_LIST, UserRoleTO.STAFF);
 
         // When
-        String iban = generationService.generateNextIban();
+        String iban = generationService.generateNextIban(TPP_ID);
 
         // Then
         boolean isIbanValid = IBANValidator.getInstance().isValid(iban);
@@ -61,8 +63,8 @@ class IbanGenerationServiceTest {
                                  .map(c -> generationService.getBankCodeStructure(c))
                                  .filter(BankCodeStructure::isCharacterType)
                                  .map(code -> String.format(code.getCountryCode() + "_" + "%0" + code.getLength() + "d", 01))
-                                 .map(i -> getNewUserTO(i, Collections.EMPTY_LIST))
-                                 .map(i -> generationService.generateNextIban())
+                                 .map(i -> stubGetByIdCall(i, Collections.EMPTY_LIST, UserRoleTO.STAFF))
+                                 .map(i -> generationService.generateNextIban(TPP_ID))
                                  .collect(Collectors.toList());
 
         // Then
@@ -71,13 +73,14 @@ class IbanGenerationServiceTest {
 
     @Test
     void validateIbansForDifferentCountries_CharacterTypeCAndA() {
+
         // When
         List<String> ibans = generationService.getCountryCodes().keySet().stream()
                                  .map(c -> generationService.getBankCodeStructure(c))
                                  .filter(BankCodeStructure::isNotCharacterType)
-                                 .map(b -> String.format(b.getCountryCode() + "_" + StringUtils.repeat(word, b.getLength())))
-                                 .map(i -> getNewUserTO(i, Collections.EMPTY_LIST))
-                                 .map(h -> generationService.generateNextIban())
+                                 .map(b -> b.getCountryCode() + "_" + StringUtils.repeat(word, b.getLength()))
+                                 .map(i -> stubGetByIdCall(i, Collections.EMPTY_LIST, UserRoleTO.STAFF))
+                                 .map(h -> generationService.generateNextIban(TPP_ID))
                                  .collect(Collectors.toList());
 
         // Then
@@ -87,7 +90,7 @@ class IbanGenerationServiceTest {
     @Test
     void generateNispIban() {
         // Given
-        getNewUserTO(TPP_ID, getAccountAccess());
+        stubGetSelfCall(TPP_ID, getAccountAccess(), UserRoleTO.STAFF);
 
         // When
         String s = generationService.generateIbanForNisp(getPayload(), "00");
@@ -150,9 +153,14 @@ class IbanGenerationServiceTest {
         return Collections.singletonList(accountAccess);
     }
 
-    private OngoingStubbing<ResponseEntity<UserTO>> getNewUserTO(String branch, List accountAccess) {
+    private OngoingStubbing<ResponseEntity<UserTO>> stubGetSelfCall(String branch, List<AccountAccessTO> accountAccess, UserRoleTO role) {
         return when(userMgmtRestClient.getUser())
-                   .thenReturn(ResponseEntity.ok(new UserTO(null, null, null, null, null, accountAccess, null, branch, false, false)));
+                   .thenReturn(ResponseEntity.ok(new UserTO(null, null, null, null, null, accountAccess, Collections.singletonList(role), branch, false, false)));
+    }
+
+    private OngoingStubbing<ResponseEntity<UserTO>> stubGetByIdCall(String branch, List<AccountAccessTO> accountAccess, UserRoleTO role) {
+        return when(userMgmtRestClient.getUserById(anyString()))
+                   .thenReturn(ResponseEntity.ok(new UserTO(null, null, null, null, null, accountAccess, Collections.singletonList(role), branch, false, false)));
     }
 
     private boolean isIbansValid(List<String> ibans) {
