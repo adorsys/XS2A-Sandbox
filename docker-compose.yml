@@ -51,7 +51,7 @@ services:
 
   # Consent management
   xs2a-consent-management:
-    image: adorsys/xs2a-consent-management:${XS2a_CONSENT_MANAGEMENT_VERSION}
+    image: adorsys/xs2a-consent-management:${XS2A_CONSENT_MANAGEMENT_VERSION}
     container_name: xs2a-consent-management
     restart: on-failure
     ports:
