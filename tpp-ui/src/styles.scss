@@ -1,9 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 // Base Variables
-@import "./assets/themes/variables";
-@import "~bootstrap/scss/bootstrap";
-@import "~font-awesome/css/font-awesome.css";
-@import "~material-icons/iconfont/material-icons.css";
+@import './assets/themes/variables';
+@import '~bootstrap/scss/bootstrap';
+@import '~font-awesome/css/font-awesome.css';
+@import '~material-icons/iconfont/material-icons.css';
 
 * {
   margin: 0;
@@ -69,7 +69,7 @@ h3 {
   margin-bottom: 3rem;
 }
 
-.mrt{
+.mrt {
   margin-top: 1.5rem;
 }
 
@@ -127,13 +127,13 @@ nav {
   border-bottom: var(--inputBorderStyleBottom);
   border-right: var(--inputBorderStyleRight);
   border-radius: var(--inputBorderRadius);
-  padding: .25rem .75rem;
+  padding: 0.25rem 0.75rem;
   height: var(--form-group-height);
 }
 
 .form-control:focus {
   border-left: 1px solid black;
-  border-bottom:1px solid black;
+  border-bottom: 1px solid black;
 }
 
 select:not([multiple]) {
@@ -141,9 +141,9 @@ select:not([multiple]) {
   -moz-appearance: none;
   background-position: 95% 50%;
   background-repeat: no-repeat;
-  vertical-align:top;
-  background-image: url("assets/icons/arrow-down.svg");
-  background-size: .6em;
+  vertical-align: top;
+  background-image: url('assets/icons/arrow-down.svg');
+  background-size: 0.6em;
 }
 
 select {
@@ -173,12 +173,11 @@ select {
 }
 
 .link-color {
-  color:#a0a0a0;
+  color: #a0a0a0;
 
   &:hover {
-    color:#a0a0a0;
+    color: #a0a0a0;
   }
-
 }
 
 tr {
@@ -187,29 +186,27 @@ tr {
 }
 
 td {
-  padding: .5rem 1.25rem;
+  padding: 0.5rem 1.25rem;
 }
 
 th {
   font-size: 1.125rem !important;
   color: #545b68 !important;
-  font-weight:700 !important;
-
+  font-weight: 700 !important;
 }
 
 tr:hover {
   border-bottom: 2px solid #545b68;
-  border-bottom: var(--border-bottom)
+  border-bottom: var(--border-bottom);
 }
 
-.btn  {
+.btn {
   white-space: nowrap;
   border-radius: var(--buttonBorderRadius);
   font-size: 1.1rem;
   font-weight: 500;
   padding: var(--btn-padding);
   height: var(--button-heigh) !important;
-
 
   &-primary {
     color: var(--buttonTextColor);
@@ -260,7 +257,6 @@ tr:hover {
     &:active {
       background-color: inherit;
     }
-
   }
 }
 
@@ -269,11 +265,13 @@ a {
   transition: all 0.2s ease-in;
   color: var(--anchorFontColor);
 
-  &.active, &:hover {
+  &.active,
+  &:hover {
     color: var(--anchorFontColorHover);
   }
 
-  &.text-primary:hover, &.text-primary:focus {
+  &.text-primary:hover,
+  &.text-primary:focus {
     color: var(--anchorFontColorHover) !important;
   }
 }
@@ -304,7 +302,6 @@ a {
   &--small {
     max-width: 500px;
   }
-
 }
 
 .form-inline {
@@ -333,7 +330,7 @@ a {
 }
 
 .has-search .form-control-feedback {
-  margin-top: var(--margin-top-icon) !important
+  margin-top: var(--margin-top-icon) !important;
 }
 
 .modal-footer > * {
@@ -381,7 +378,6 @@ a {
   background-color: lightgray;
 }
 
-
 /* TPP filters */
 .configs-container {
   height: 10rem;
@@ -398,11 +394,11 @@ a {
 }
 
 .tpp-filters {
-
   max-width: 60%;
 
-  .filter, label {
-    padding: .5rem;
+  .filter,
+  label {
+    padding: 0.5rem;
 
     .form-control {
       height: 90%;
@@ -410,7 +406,7 @@ a {
   }
 
   .select-filter {
-    padding: .5rem;
+    padding: 0.5rem;
 
     select {
       width: 100%;
@@ -430,4 +426,8 @@ a {
 
 .mxw-500 {
   max-width: 500px;
+}
+
+.wd-120 {
+  width: 130px;
 }

@@ -23,7 +23,7 @@ export class UserProfileUpdateComponent implements OnInit {
     private userInfoService: TppUserService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    // private tppManagementService: TppManagementService,
+    private tppManagementService: TppManagementService,
     private router: Router
   ) {}
 
@@ -31,10 +31,10 @@ export class UserProfileUpdateComponent implements OnInit {
     this.setupEditUserFormControl();
     this.getUserDetails();
 
-    // const tppId = this.route.snapshot.params['id'];
-    // if (tppId) {
-    //   this.getUserInfoForAdmin(tppId);
-    // }
+    const tppId = this.route.snapshot.params['id'];
+    if (tppId) {
+      this.getUserInfoForAdmin(tppId);
+    }
   }
 
   get formControl() {
@@ -75,22 +75,27 @@ export class UserProfileUpdateComponent implements OnInit {
         ? this.userForm.get('password').value
         : this.user.pin,
     };
-    this.userInfoService
-      .updateUserInfo(updatedUser)
-      .subscribe(() => this.router.navigate(['/profile']));
+    if (this.admin === true) {
+      this.tppManagementService
+        .updateUserDetails(updatedUser)
+        .subscribe(() => this.router.navigate(['/users/all']));
+    } else if (this.admin === false) {
+      this.userInfoService
+        .updateUserInfo(updatedUser)
+        .subscribe(() => this.router.navigate(['/profile']));
+    }
   }
 
-  // private getUserInfoForAdmin(tppId: string) {
-  //   this.tppManagementService.getTppById(tppId).subscribe(
-  //     (user: User) => {
-  //       if (user) {
-  //         this.user = user;
-  //         this.admin = true;
-  //         this.userForm.patchValue({
-  //           email: this.user.email,
-  //           username: this.user.login
-  //         });
-  //       }
-  //     });
-  // }
+  private getUserInfoForAdmin(tppId: string) {
+    this.tppManagementService.getTppById(tppId).subscribe((user: User) => {
+      if (user) {
+        this.user = user;
+        this.admin = true;
+        this.userForm.patchValue({
+          email: this.user.email,
+          username: this.user.login,
+        });
+      }
+    });
+  }
 }

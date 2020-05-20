@@ -1,39 +1,71 @@
 <div>
   <ul class="nav flex-md-column">
     <li class="nav-item" *ngIf="admin">
-      <a [routerLinkActive]="['active']" [routerLink]="['/management']" class="nav-link">
+      <a
+        [routerLinkActive]="['active']"
+        [routerLink]="['/management']"
+        class="nav-link"
+      >
         <div class="icon__container">
-          <app-icon svgIcon="user" inline="true" class="icon--medium"></app-icon>
+          <app-icon
+            svgIcon="user"
+            inline="true"
+            class="icon--medium"
+          ></app-icon>
         </div>
         <span class="nav__title">TPP Management</span>
       </a>
     </li>
     <li class="nav-item">
-      <a [routerLinkActive]="['active']" [routerLink]="['/accounts']" class="nav-link ">
+      <a
+        [routerLinkActive]="['active']"
+        [routerLink]="['/users/all']"
+        class="nav-link"
+      >
+        <div class="icon__container">
+          <app-icon
+            svgIcon="user"
+            inline="true"
+            class="icon--medium"
+          ></app-icon>
+        </div>
+        <span class="nav__title">Users list</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+        [routerLinkActive]="['active']"
+        [routerLink]="['/accounts']"
+        class="nav-link"
+      >
         <div class="icon__container">
           <app-icon svgIcon="euro" inline="true"></app-icon>
         </div>
         <span class="nav__title">Users Accounts</span>
       </a>
     </li>
-    <li class="nav-item">
-      <a [routerLinkActive]="['active']" [routerLink]="['/users/all']" class="nav-link ">
-        <div class="icon__container">
-          <app-icon svgIcon="user" inline="true" class="icon--medium"></app-icon>
-        </div>
-        <span class="nav__title">My users list</span>
-      </a>
-    </li>
     <li class="nav-item" *ngIf="!admin">
-      <a [routerLinkActive]="['active']" [routerLink]="['/upload']" class="nav-link">
+      <a
+        [routerLinkActive]="['active']"
+        [routerLink]="['/upload']"
+        class="nav-link"
+      >
         <div class="icon__container">
-          <app-icon svgIcon="upload" inline="true" class="icon--medium"></app-icon>
+          <app-icon
+            svgIcon="upload"
+            inline="true"
+            class="icon--medium"
+          ></app-icon>
         </div>
         <span class="nav__title">Upload File</span>
       </a>
     </li>
     <li class="nav-item" *ngIf="!admin">
-      <a [routerLinkActive]="['active']" [routerLink]="['/generate-test-data']" class="nav-link">
+      <a
+        [routerLinkActive]="['active']"
+        [routerLink]="['/generate-test-data']"
+        class="nav-link"
+      >
         <div class="icon__container">
           <app-icon svgIcon="generate_test_data" inline="true"></app-icon>
         </div>
@@ -41,7 +73,11 @@
       </a>
     </li>
     <li class="nav-item" *ngIf="!admin">
-      <a [routerLinkActive]="['active']" [routerLink]="['/profile']" class="nav-link">
+      <a
+        [routerLinkActive]="['active']"
+        [routerLink]="['/profile']"
+        class="nav-link"
+      >
         <div class="icon__container">
           <app-icon svgIcon="settings" inline="true"></app-icon>
         </div>

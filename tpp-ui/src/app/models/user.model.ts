@@ -1,5 +1,5 @@
-import {AccountAccess} from './account-access.model';
-import {ScaUserData} from './sca-user-data.model';
+import { AccountAccess } from './account-access.model';
+import { ScaUserData } from './sca-user-data.model';
 
 export class User {
   id: string;
@@ -14,6 +14,6 @@ export class User {
 }
 
 export interface UserResponse {
-  users: User[],
-  totalElements: number
+  users: User[];
+  totalElements: number;
 }

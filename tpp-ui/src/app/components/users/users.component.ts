@@ -8,7 +8,7 @@ import {
   PaginationConfigModel,
 } from '../../models/pagination-config.model';
 import { TppUserService } from '../../services/tpp.user.service';
-// import {TppManagementService} from '../../services/tpp-management.service';
+import { TppManagementService } from '../../services/tpp-management.service';
 import { PageNavigationService } from '../../services/page-navigation.service';
 import { ActivatedRoute } from '@angular/router';
 import { TppQueryParams } from '../../models/tpp-management.model';
@@ -22,7 +22,6 @@ import { CountryService } from '../../services/country.service';
 // TODO Merge UsersComponent, TppsComponent and AccountListComponent into one single component https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/-/issues/713
 export class UsersComponent implements OnInit {
   admin;
-
   users: User[] = [];
   countries: Array<object> = [];
   config: PaginationConfigModel = {
@@ -45,7 +44,7 @@ export class UsersComponent implements OnInit {
     private tppUserService: TppUserService,
     private countryService: CountryService,
     private pageNavigationService: PageNavigationService,
-    // private tppManagementService: TppManagementService,
+    private tppManagementService: TppManagementService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder
   ) {}
@@ -63,7 +62,7 @@ export class UsersComponent implements OnInit {
 
   createLastVisitedPageLink(id: string): string {
     this.pageNavigationService.setLastVisitedPage('/users/all');
-    return `/profile/${id}`;
+    return `/profile/${id}/`;
   }
 
   pageChange(pageConfig: PageConfig) {
@@ -135,23 +134,21 @@ export class UsersComponent implements OnInit {
   }
 
   listUsers(page: number, size: number, params: TppQueryParams) {
-    // if (this.admin === true) {
-    //   this.tppManagementService.getAllUsers(page - 1, size, params).subscribe((response: UserResponse) => {
-    //     this.users = response.users;
-    //     this.config.totalItems = response.totalElements;
-    //   });
-    // } else if (this.admin === false) {
-    //   this.userService.listUsers(page - 1, size, params.userLogin).subscribe((response: UserResponse) => {
-    //     this.users = response.users;
-    //     this.config.totalItems = response.totalElements;
-    //   });
-    // }
-    this.userService
-      .listUsers(page - 1, size, params.userLogin)
-      .subscribe((response: UserResponse) => {
-        this.users = response.users;
-        this.config.totalItems = response.totalElements;
-      });
+    if (this.admin === true) {
+      this.tppManagementService
+        .getAllUsers(page - 1, size, params)
+        .subscribe((response: UserResponse) => {
+          this.users = response.users;
+          this.config.totalItems = response.totalElements;
+        });
+    } else if (this.admin === false) {
+      this.userService
+        .listUsers(page - 1, size, params.userLogin)
+        .subscribe((response: UserResponse) => {
+          this.users = response.users;
+          this.config.totalItems = response.totalElements;
+        });
+    }
   }
 
   private getPageConfigs() {

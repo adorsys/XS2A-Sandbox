@@ -5,20 +5,27 @@
       <div class="row">
         <div class="col-12 col-md-8 p-md-0">
           <div class="form-group has-search">
-                      <span class="form-control-feedback">
-                          <img src="./assets/icons/search.svg">
-                      </span>
+            <span class="form-control-feedback">
+              <img src="./assets/icons/search.svg" />
+            </span>
             <div>
-              <input class="form-control w-100"
-                     placeholder="Search by login"
-                     formControlName="userLogin"
-                     type="text">
+              <input
+                class="form-control w-100"
+                placeholder="Search by user login"
+                formControlName="userLogin"
+                type="text"
+              />
             </div>
           </div>
         </div>
         <div class="col-12 col-md-4">
           <div class="header__button">
-            <button class="btn btn-primary btn-block" routerLink="/users/create">Create new user</button>
+            <button
+              class="btn btn-primary btn-block"
+              routerLink="/users/create"
+            >
+              Create new user
+            </button>
           </div>
         </div>
       </div>
@@ -28,45 +35,43 @@
   <div class="card">
     <div class="card-body">
       <div class="table-responsive">
-        <div class="container-fluid" [ngClass]="{'configs-container': admin}">
+        <div class="container-fluid" [ngClass]="{ 'configs-container': admin }">
           <div class="row d-flex justify-content-between configs">
             <div class="paginator">
-              <app-pagination-container [paginationConfig]="config"
-                                        (pageDataConfig)="pageChange($event)"></app-pagination-container>
-
+              <app-pagination-container
+                [paginationConfig]="config"
+                (pageDataConfig)="pageChange($event)"
+              ></app-pagination-container>
             </div>
 
             <div *ngIf="admin" class="tpp-filters">
               <div class="container-fluid">
                 <div class="row d-flex justify-content-end">
-                  <div>
-                    <label for="country">TPP Login:</label>
-                    <div class="filter">
-                      <input class="form-control"
-                             placeholder="Enter TPP login..."
-                             formControlName="tppLogin"
-                             type="text">
-                    </div>
-                  </div>
-                  <div>
+                  <div class="mr-2">
                     <label for="country">TPP ID:</label>
                     <div class="filter">
-                      <input class="form-control"
-                             placeholder="Enter TPP ID..."
-                             formControlName="tppId"
-                             type="text">
+                      <input
+                        class="form-control"
+                        placeholder="Enter TPP ID..."
+                        formControlName="tppId"
+                        type="text"
+                      />
                     </div>
                   </div>
                   <div class="select">
                     <label for="country">Country:</label>
                     <div class="select-filter">
-                      <select name="country"
-                              class="form-control"
-                              formControlName="country"
-                              id="country">
+                      <select
+                        name="country"
+                        class="form-control"
+                        formControlName="country"
+                        id="country"
+                      >
                         <option id="emptySelect" [ngValue]="" selected></option>
-                        <option *ngFor="let country of countries"
-                                [ngValue]="country.code">{{country.name}}
+                        <option
+                          *ngFor="let country of countries"
+                          [ngValue]="country.code"
+                          >{{ country.name }}
                         </option>
                       </select>
                     </div>
@@ -74,87 +79,130 @@
                 </div>
 
                 <div class="row d-flex justify-content-end">
-                  <button class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
-                          (click)="setBlocked(false)"
-                          [ngClass]="{'active': searchForm.controls.blocked.value === false}">Active
+                  <button
+                    class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
+                    (click)="setBlocked(false)"
+                    [ngClass]="{
+                      active: searchForm.controls.blocked.value === false
+                    }"
+                  >
+                    Active
                   </button>
-                  <button class="btn btn-outline-primary btn-sm mt-2 mb-3 filter-button"
-                          (click)="setBlocked(true)"
-                          [ngClass]="{'active': searchForm.controls.blocked.value === true}">Blocked
+                  <button
+                    class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
+                    (click)="setBlocked(true)"
+                    [ngClass]="{
+                      active: searchForm.controls.blocked.value === true
+                    }"
+                  >
+                    Blocked
                   </button>
-                  <button class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
-                          (click)="showAllTpps()"
-                          [ngClass]="{'active': isSearchFormEmpty()}">All TPPs
+                  <button
+                    class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
+                    (click)="showAllTpps()"
+                    [ngClass]="{ active: isSearchFormEmpty() }"
+                  >
+                    Reset Filters
                   </button>
                 </div>
               </div>
             </div>
-
           </div>
         </div>
-
         <table class="table">
           <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Login</th>
-            <th scope="col">Email</th>
-            <th scope="col">Accounts</th>
-            <th scope="col">Currencies</th>
-            <th scope="col" *ngIf="admin">TPP</th>
-            <th scope="col">Authentication methods</th>
-            <th scope="col">Actions</th>
-          </tr>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">User Login</th>
+              <th scope="col">Email</th>
+              <th scope="col">Accounts</th>
+              <th scope="col">Currencies</th>
+              <th scope="col" *ngIf="admin">TPP ID</th>
+              <th scope="col">Authentication methods</th>
+              <th scope="col">Actions</th>
+            </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let user of users; index as i"
-              [routerLink]="['/users/' + user.id]" [queryParams]="{page: config.currentPageNumber}"
-              [ngClass]="{'disabled-tr': user.blocked}">
-            <th scope="row">{{((config.currentPageNumber - 1) * config.itemsPerPage) + i + 1}}</th>
-            <td>{{user.login}}</td>
-            <td>{{user.email}}</td>
-            <td>
-              <ul>
-                <li *ngFor="let accountAccess of user?.accountAccesses" class="nav-item">
-                  {{accountAccess.iban}}
-                </li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li *ngFor="let accountAccess of user?.accountAccesses" class="nav-item">
-                  {{accountAccess.currency}}
-                </li>
-              </ul>
-            </td>
-            <td *ngIf="admin"><a [routerLink]="[createLastVisitedPageLink(user.branch)]"
-                                 [queryParams]="{page: config.currentPageNumber}">{{user.branch}}</a></td>
-            <td>
-              <ul>
-                <li *ngFor="let scaItem of user?.scaUserData; index as i; last as isLast" [ngClass]="{'mb-2': !isLast}">
-                  {{scaItem.methodValue}}
-                  <div *ngIf="scaItem.scaMethod">
-                    Sca Method: {{scaItem.scaMethod}}
-                  </div>
-                  <div *ngIf="scaItem.usesStaticTan">
-                    Static TAN: {{scaItem.staticTan}}
-                  </div>
-                </li>
-              </ul>
-            </td>
-            <td>
-              <a class="btn btn-table-btn" routerLink="/users/{{user.id}}/create-deposit-account" *ngIf="!user.blocked">
-                Create deposit account
-              </a>
-            </td>
-          </tr>
+            <tr
+              *ngFor="let user of users; index as i"
+              [routerLink]="['/users/' + user.id]"
+              [queryParams]="{ page: config.currentPageNumber }"
+              [ngClass]="{ 'disabled-tr': user.blocked }"
+            >
+              <th scope="row">
+                {{
+                  (config.currentPageNumber - 1) * config.itemsPerPage + i + 1
+                }}
+              </th>
+              <td>{{ user.login }}</td>
+              <td>{{ user.email }}</td>
+              <td>
+                <ul>
+                  <li
+                    *ngFor="let accountAccess of user?.accountAccesses"
+                    class="nav-item"
+                  >
+                    {{ accountAccess.iban }}
+                  </li>
+                </ul>
+              </td>
+              <td>
+                <ul>
+                  <li
+                    *ngFor="let accountAccess of user?.accountAccesses"
+                    class="nav-item"
+                  >
+                    {{ accountAccess.currency }}
+                  </li>
+                </ul>
+              </td>
+              <td *ngIf="admin">
+                <a
+                  [routerLink]="[createLastVisitedPageLink(user.branch)]"
+                  [queryParams]="{ page: config.currentPageNumber }"
+                  >{{ user.branch }}
+                </a>
+              </td>
+              <td>
+                <ul>
+                  <li
+                    *ngFor="
+                      let scaItem of user?.scaUserData;
+                      index as i;
+                      last as isLast
+                    "
+                    [ngClass]="{ 'mb-2': !isLast }"
+                  >
+                    {{ scaItem.methodValue }}
+                    <div *ngIf="scaItem.scaMethod">
+                      Sca Method: {{ scaItem.scaMethod }}
+                    </div>
+                    <div *ngIf="scaItem.usesStaticTan">
+                      Static TAN: {{ scaItem.staticTan }}
+                    </div>
+                  </li>
+                </ul>
+              </td>
+              <td>
+                <a
+                  class="btn btn-table-btn"
+                  routerLink="/users/{{ user.id }}/create-deposit-account"
+                  [queryParams]="{ tppId: user.branch, userId: user.id }"
+                  *ngIf="!user.blocked"
+                >
+                  Create deposit account
+                </a>
+              </td>
+            </tr>
           </tbody>
         </table>
 
         <div class="container-fluid">
           <div class="row d-flex justify-content-start">
-            <app-pagination-container [paginationConfig]="config"
-                                      (pageDataConfig)="pageChange($event)"></app-pagination-container>
+            <app-pagination-container
+              [paginationConfig]="config"
+              (pageDataConfig)="pageChange($event)"
+            ></app-pagination-container>
           </div>
         </div>
       </div>
