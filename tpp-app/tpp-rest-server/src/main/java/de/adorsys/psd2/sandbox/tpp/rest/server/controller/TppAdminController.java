@@ -1,6 +1,7 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.controller;
 
-import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
+import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsExtendedTO;
+import de.adorsys.ledgers.middleware.api.domain.um.UserExtendedTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserRoleTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
 import de.adorsys.ledgers.middleware.client.rest.AdminRestClient;
@@ -25,7 +26,7 @@ public class TppAdminController implements TppAdminRestApi {
     private final AdminRestClient adminRestClient;
 
     @Override
-    public ResponseEntity<CustomPageImpl<UserTO>> users(String countryCode, String tppId, String tppLogin, String userLogin, UserRoleTO role, Boolean blocked, int page, int size) {
+    public ResponseEntity<CustomPageImpl<UserExtendedTO>> users(String countryCode, String tppId, String tppLogin, String userLogin, UserRoleTO role, Boolean blocked, int page, int size) {
         return adminRestClient.users(countryCode, tppId, tppLogin, userLogin, role, blocked, page, size);
     }
 
@@ -35,7 +36,7 @@ public class TppAdminController implements TppAdminRestApi {
     }
 
     @Override
-    public ResponseEntity<CustomPageImpl<AccountDetailsTO>> accounts(String countryCode, String tppId, String tppLogin, String ibanParam, Boolean isBlocked, int page, int size) {
+    public ResponseEntity<CustomPageImpl<AccountDetailsExtendedTO>> accounts(String countryCode, String tppId, String tppLogin, String ibanParam, Boolean isBlocked, int page, int size) {
         return adminRestClient.accounts(countryCode, tppId, tppLogin, ibanParam, isBlocked, page, size);
     }
 
