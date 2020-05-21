@@ -17,8 +17,10 @@ public interface TppAdminRestApi {
     String BASE_PATH = "/tpp/admin";
     String COUNTRY = "country";
     String TPP_ID = "tppId";
+    String USER_ID = "userId";
     String TPP_LOGIN = "tppLogin";
     String USER_LOGIN = "userLogin";
+    String ACCOUNT_ID = "accountId";
     String ROLE = "role";
     String BLOCKED = "blocked";
     String IBAN_PARAM = "ibanParam";
@@ -42,7 +44,7 @@ public interface TppAdminRestApi {
     @PutMapping("/users")
     ResponseEntity<Void> user(@RequestBody UserTO user);
 
-    @ApiOperation(value = "Retrireves Page of accounts with filters", authorizations = @Authorization(value = "apiKey"))
+    @ApiOperation(value = "Retrieves Page of accounts with filters", authorizations = @Authorization(value = "apiKey"))
     @GetMapping("/account")
     ResponseEntity<CustomPageImpl<AccountDetailsExtendedTO>> accounts(@RequestParam(value = COUNTRY, defaultValue = "", required = false) String countryCode,
                                                                       @RequestParam(value = TPP_ID, defaultValue = "", required = false) String tppId,
@@ -67,9 +69,9 @@ public interface TppAdminRestApi {
     @PutMapping("/password")
     ResponseEntity<Void> updatePassword(@RequestParam(value = TPP_ID) String tppId, @RequestParam("pin") String password);
 
-    @ApiOperation(value = "Block/Unblock Tpp",
-        notes = "Changes system block or regular block state for given Tpp, returns status being set to the block",
+    @ApiOperation(value = "Block/Unblock User",
+        notes = "Changes block state for given user, returns status being set to the block",
         authorizations = @Authorization(value = "apiKey"))
     @PostMapping("/status")
-    ResponseEntity<Boolean> changeStatus(@RequestParam(value = TPP_ID) String tppId);
+    ResponseEntity<Boolean> changeStatus(@RequestParam(value = USER_ID) String userId);
 }

@@ -81,4 +81,9 @@ public class TppAccountsController implements TppAccountsRestApi {
                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + FILE_NAME)
                    .body(downloadResourceService.getResourceByTemplate(FILE_NAME));
     }
+
+    @Override
+    public ResponseEntity<Boolean> changeStatus(String accountId) {
+        return accountMgmtStaffRestClient.changeStatus(accountId);
+    }
 }

@@ -54,6 +54,16 @@ public class TppExceptionAdvisor {
         return new ResponseEntity<>(body, status);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map> handleIllegalArgumentException(IllegalArgumentException ex, HandlerMethod handlerMethod) {
+        log.warn("IllegalArgumentException handled in service: {}, message: {}",
+                 handlerMethod.getMethod().getDeclaringClass().getSimpleName(), ex.getMessage());
+
+        Map<String, String> body = buildContentMap(400, ex.getMessage());
+        HttpStatus status = HttpStatus.valueOf(400);
+        return new ResponseEntity<>(body, status);
+    }
+
     private String resolveErrorMessage(FeignException ex) {
         try {
             if (ex.content() == null) {

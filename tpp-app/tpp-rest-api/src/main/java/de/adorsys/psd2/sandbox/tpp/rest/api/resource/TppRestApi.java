@@ -9,7 +9,9 @@ import org.iban4j.CountryCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.Currency;
+import java.util.Map;
+import java.util.Set;
 
 @Api(tags = "TPP main API")
 public interface TppRestApi {
@@ -31,6 +33,10 @@ public interface TppRestApi {
     @GetMapping("/country/codes/structure")
     ResponseEntity<BankCodeStructure> getBankCodeStructure(@RequestParam String countryCode);
 
+    @ApiOperation(value = "Generate random TPP-ID")
+    @PostMapping("/id")
+    ResponseEntity<String> getRandomTppId(@RequestParam String countryCode);
+
     @ApiOperation(value = "Register new TPP")
     @PostMapping("/register")
     ResponseEntity<Void> register(@RequestBody User user);
@@ -40,6 +46,14 @@ public interface TppRestApi {
     ResponseEntity<Void> remove();
 
     @ApiOperation(value = "Remove transactions for account in Tpp", authorizations = @Authorization(value = "apiKey"))
-    @DeleteMapping("/account/{accountId}")
+    @DeleteMapping("/transactions/{accountId}")
     ResponseEntity<Void> transactions(@PathVariable String accountId);
+
+    @ApiOperation(value = "Remove account", authorizations = @Authorization(value = "apiKey"))
+    @DeleteMapping("/account/{accountId}")
+    ResponseEntity<Void> account(@PathVariable String accountId);
+
+    @ApiOperation(value = "Remove account", authorizations = @Authorization(value = "apiKey"))
+    @DeleteMapping("/user/{userId}")
+    ResponseEntity<Void> user(@PathVariable String userId);
 }

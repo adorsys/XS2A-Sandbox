@@ -61,7 +61,7 @@ public class TppAdminController implements TppAdminRestApi {
     }
 
     @Override
-    public ResponseEntity<Boolean> changeStatus(String tppId) {
-        return adminRestClient.changeStatus(tppId);
+    public ResponseEntity<Boolean> changeStatus(String userId) {
+        return adminRestClient.changeStatus(userId);
     }
 }
