@@ -8,6 +8,7 @@ import de.adorsys.ledgers.middleware.api.domain.um.UserRoleTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.BankCodeStructure;
+import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.AccountBalance;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.DataPayload;
 import org.apache.commons.lang3.StringUtils;
@@ -54,6 +55,13 @@ class IbanGenerationServiceTest {
         // Then
         boolean isIbanValid = IBANValidator.getInstance().isValid(iban);
         assertTrue(isIbanValid);
+    }
+
+    @Test
+    void generateIban_fail() {
+        // Given
+        stubGetByIdCall(TPP_ID, Collections.EMPTY_LIST, UserRoleTO.CUSTOMER);
+        assertThrows(TppException.class, () -> generationService.generateNextIban(TPP_ID));
     }
 
     @Test

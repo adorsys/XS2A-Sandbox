@@ -63,6 +63,17 @@ class TppExceptionAdvisorTest {
         compareBodies(result, expected);
     }
 
+    @Test
+    void handleIllegalArgumentException() throws NoSuchMethodException {
+        //When
+        ResponseEntity<Map> result = service.handleIllegalArgumentException(new IllegalArgumentException("Msg"), new HandlerMethod(service, "toString", null));
+
+        ResponseEntity<Map<String, String>> expected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(getExpected(400, "Msg"));
+
+        // Then
+        compareBodies(result, expected);
+    }
+
     private Response getResponse() throws JsonProcessingException {
         return Response.builder()
                    .request(Request.create(Request.HttpMethod.POST, "", new HashMap<>(), null))

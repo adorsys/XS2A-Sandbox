@@ -25,6 +25,7 @@ import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
@@ -125,6 +126,13 @@ public class TppUsersControllerTest {
         // Then
         assertTrue(user.getStatusCode().is2xxSuccessful());
         assertEquals(USER_ID, user.getBody().getId());
+    }
+
+    @Test
+    void changeStatus() {
+        when(userMgmtStaffRestClient.changeStatus(anyString())).thenReturn(ResponseEntity.ok(true));
+        ResponseEntity<Boolean> result = tppUsersController.changeStatus(USER_ID);
+        assertEquals(ResponseEntity.ok(true), result);
     }
 
     private UserTO getUserTO(String branch) {

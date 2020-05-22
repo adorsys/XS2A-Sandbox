@@ -172,4 +172,18 @@ class TppControllerTest {
         COUNTRY_CODES.forEach(c -> codes.put(c, c.getName()));
         return codes;
     }
+
+    @Test
+    void account() {
+        when(dataRestClient.depositAccount(anyString())).thenReturn(ResponseEntity.ok().build());
+        ResponseEntity<Void> result = tppController.account(ACCOUNT_ID);
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+    }
+
+    @Test
+    void user() {
+        when(dataRestClient.user(anyString())).thenReturn(ResponseEntity.ok().build());
+        ResponseEntity<Void> result = tppController.user(USER_ID);
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+    }
 }
