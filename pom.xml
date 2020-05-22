@@ -133,6 +133,9 @@
         <sonar.coverage.exclusions>**/*Entity.java,**/*TO.java,**/*BO.java,**/*PO.java,**/*Application.java,**/*Exception.java,**/*Filter.java,
             **/*Config.java,pom.xml,/certificate-generator/**/*,/integration-tests/**/*,**/oba-rest-api/**/*,**/oba-service-api/**/*,**/tpp-cms-api/**/*,**/tpp-rest-api/**/*,**/tpp-rest-client/**/*,**/online-banking-app/**/*,**/consent-psu-rest-client/**/*
         </sonar.coverage.exclusions>
+        <sonar.exclusions>**/*Entity.java,**/*TO.java,**/*BO.java,**/*PO.java,**/*Application.java,**/*Exception.java,**/*Filter.java,
+            **/*Config.java,pom.xml,/certificate-generator/**/*,/integration-tests/**/*,**/oba-rest-api/**/*,**/oba-service-api/**/*,**/tpp-cms-api/**/*,**/tpp-rest-api/**/*,**/tpp-rest-client/**/*,**/online-banking-app/**/*,**/consent-psu-rest-client/**/*
+        </sonar.exclusions>
         <sonar.moduleName>${project.artifactId}</sonar.moduleName>
         <skipITs>true</skipITs>
         <skipTests>false</skipTests>

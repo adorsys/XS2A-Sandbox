@@ -1,7 +1,6 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.psd2.sandbox.tpp.cms.api.domain.AisConsent;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.UserTransaction;
 import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
@@ -12,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.internal.util.reflection.FieldSetter;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -24,6 +24,9 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class ParseServiceTest {
@@ -31,9 +34,9 @@ class ParseServiceTest {
     private ParseService parseService;
 
     @Mock
-    private ObjectMapper objectMapper;
+    private ResourceLoader resourceLoader;
 
-    private ResourceLoader resourceLoader = new DefaultResourceLoader();
+    private static final ResourceLoader LOCAL_LOADER = new DefaultResourceLoader();
 
     @Test
     void getDataFromFile_Consents() throws IOException {
@@ -65,7 +68,7 @@ class ParseServiceTest {
     @Test
     void getDefaultData() throws NoSuchFieldException {
         // Given
-        FieldSetter.setField(parseService, parseService.getClass().getDeclaredField("resourceLoader"), resourceLoader);
+        FieldSetter.setField(parseService, parseService.getClass().getDeclaredField("resourceLoader"), LOCAL_LOADER);
 
         // When
         Optional<DataPayload> data = parseService.getDefaultData();
@@ -75,12 +78,34 @@ class ParseServiceTest {
     }
 
     @Test
+    void getDefaultData_error() {
+        // Given
+        when(resourceLoader.getResource(anyString())).thenReturn(new ByteArrayResource("TEST".getBytes()));
+
+        // When
+        Optional<DataPayload> data = parseService.getDefaultData();
+
+        // Then
+        assertFalse(data.isPresent());
+    }
+
+    @Test
     void generateFileByPayload() {
         // When
         byte[] result = parseService.generateFileByPayload(new DataPayload());
 
         // Then
         assertThat(result).isNotEmpty();
+    }
+
+    @Test
+    void convertFileToTargetObject_failure() throws IOException {
+        // When
+        MockMultipartFile mock = mock(MockMultipartFile.class);
+        when(mock.getInputStream()).thenThrow(IOException.class);
+
+        // Then
+        assertThrows(TppException.class, () -> parseService.convertFileToTargetObject(mock, UserTransaction.class));
     }
 
     @Test
@@ -113,7 +138,7 @@ class ParseServiceTest {
     }
 
     private MultipartFile resolveMultipartFile(String fileName) throws IOException {
-        Resource resource = resourceLoader.getResource(fileName);
+        Resource resource = LOCAL_LOADER.getResource(fileName);
         return new MockMultipartFile("file", resource.getFile().getName(), "text/plain", resource.getInputStream());
     }
 
