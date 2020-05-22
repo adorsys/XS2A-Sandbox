@@ -27,6 +27,7 @@ describe('UserProfileComponent', () => {
     pin: 'pin',
     scaUserData: [],
     accountAccesses: [],
+    branchLogin: 'branchLogin'
   };
 
   const mockTppUserService = {

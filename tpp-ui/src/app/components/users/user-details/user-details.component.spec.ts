@@ -63,7 +63,8 @@ describe('UserDetailsComponent', () => {
             branch: '',
             pin: '12345',
             scaUserData: {},
-            accountAccesses: {}
+            accountAccesses: {},
+            branchLogin: 'branchLogin',
         } as User;
       let getUserSpy = spyOn(userService, 'getUser').and.returnValue(of(mockUser));
       component.getUserById();
@@ -96,7 +97,8 @@ describe('UserDetailsComponent', () => {
         branch: '',
         pin: '12345',
         scaUserData: {},
-        accountAccesses: {}
+        accountAccesses: {},
+        branchLogin: 'branchLogin'
       } as User;
     let getUserSpy = spyOn(userService, 'getUser').and.returnValue(of(mockUser));
 

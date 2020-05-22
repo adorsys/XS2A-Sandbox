@@ -26,7 +26,8 @@ describe('UserProfileUpdateComponent', () => {
         branch: 'branch',
         pin: 'pin',
         scaUserData: [],
-        accountAccesses: []
+        accountAccesses: [],
+        branchLogin: 'branchLogin'
     }
 
     const mockAuthUserService = {

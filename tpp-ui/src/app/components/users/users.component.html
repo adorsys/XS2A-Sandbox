@@ -48,6 +48,17 @@
               <div class="container-fluid">
                 <div class="row d-flex justify-content-end">
                   <div class="mr-2">
+                    <label for="country">TPP login:</label>
+                    <div class="filter">
+                      <input
+                        class="form-control"
+                        placeholder="Enter TPP ID..."
+                        formControlName="tppLogin"
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div class="mr-2">
                     <label for="country">TPP ID:</label>
                     <div class="filter">
                       <input
@@ -117,6 +128,7 @@
               <th scope="col">Email</th>
               <th scope="col">Accounts</th>
               <th scope="col">Currencies</th>
+              <th scope="col" *ngIf="admin">TPP login</th>
               <th scope="col" *ngIf="admin">TPP ID</th>
               <th scope="col">Authentication methods</th>
               <th scope="col">Actions</th>
@@ -156,6 +168,7 @@
                   </li>
                 </ul>
               </td>
+              <td *ngIf="admin" class="nowrap">{{ user?.branchLogin }}</td>
               <td *ngIf="admin">
                 <a
                   [routerLink]="[createLastVisitedPageLink(user.branch)]"

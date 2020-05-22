@@ -35,6 +35,7 @@ describe('TppUserService', () => {
             email: 'tes@adorsys.de',
             login: 'bob',
             branch: '34256',
+            branchLogin: 'branchLogin',
             pin: '12345',
             scaUserData: [],
             accountAccesses: [{
@@ -56,6 +57,7 @@ describe('TppUserService', () => {
                 id: 'XXXXXX',
                 email: 'tes@adorsys.de',
                 login: 'bob',
+                branchLogin: 'branchLogin',
                 branch: '34256',
                 pin: '12345',
                 scaUserData: [],

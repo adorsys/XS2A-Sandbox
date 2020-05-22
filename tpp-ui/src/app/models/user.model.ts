@@ -11,6 +11,7 @@ export class User {
   accountAccesses: AccountAccess[];
   userRoles?: Array<string>;
   blocked?: string;
+  branchLogin: string;
 }
 
 export interface UserResponse {

@@ -126,7 +126,8 @@ describe('AccountAccessManagementComponent', () => {
                 branch: 'branch',
                 pin: '12345',
                 scaUserData: [],
-                accountAccesses: []
+                accountAccesses: [],
+                branchLogin: 'branchLogin'
             }
         component.inputFormatterValue(mockUser);
         expect(mockUser.login).toEqual('user');
@@ -141,7 +142,8 @@ describe('AccountAccessManagementComponent', () => {
                 branch: 'branch',
                 pin: '12345',
                 scaUserData: [],
-                accountAccesses: []
+                accountAccesses: [],
+                branchLogin: 'branchLogin'
             }
         component.inputFormatterValue(null);
         expect(mockUser);
@@ -156,7 +158,8 @@ describe('AccountAccessManagementComponent', () => {
                 branch: 'branch',
                 pin: '12345',
                 scaUserData: [],
-                accountAccesses: []
+                accountAccesses: [],
+                branchLogin: 'branchLogin'
             }
         component.resultFormatterValue(mockUser);
         expect(mockUser.login).toEqual('user');
@@ -171,7 +174,8 @@ describe('AccountAccessManagementComponent', () => {
                 branch: 'branch',
                 pin: '12345',
                 scaUserData: [],
-                accountAccesses: []
+                accountAccesses: [],
+                branchLogin: 'branchLogin'
             }
         component.resultFormatterValue(null);
         expect(mockUser);
@@ -186,7 +190,8 @@ describe('AccountAccessManagementComponent', () => {
                 branch: 'branch',
                 pin: '12345',
                 scaUserData: [],
-                accountAccesses: []
+                accountAccesses: [],
+                branchLogin: 'branchLogin'
             }
         ];
 
