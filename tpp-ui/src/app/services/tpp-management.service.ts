@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { User, UserResponse } from '../models/user.model';
 import { TppQueryParams, TppResponse } from '../models/tpp-management.model';
 import { AccountResponse } from '../models/account.model';
+import {GrantAccountAccess} from '../models/grant-account-access.model';
 
 @Injectable({
   providedIn: 'root',
@@ -26,8 +27,8 @@ export class TppManagementService {
     );
   }
 
-  blockTpp(tppId: string) {
-    return this.http.post(`${this.url}/admin/status?tppId=${tppId}`, null);
+  blockTpp(userId: string) {
+    return this.http.post(`${this.url}/admin/status?userId=${userId}`, null);
   }
 
   deleteTpp(tppId: string) {
@@ -47,6 +48,10 @@ export class TppManagementService {
 
   deleteAccountTransactions(accountId: string) {
     return this.http.delete(this.url + '/account/' + accountId);
+  }
+
+  updateAccountAccessForUser(accountAccess: GrantAccountAccess) {
+    return this.http.put(this.url + '/accounts/access', accountAccess);
   }
 
   getUsersForTpp(tppId: string): Observable<User[]> {

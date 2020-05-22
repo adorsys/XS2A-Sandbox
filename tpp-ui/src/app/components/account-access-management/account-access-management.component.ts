@@ -10,6 +10,7 @@ import {InfoService} from '../../commons/info/info.service';
 import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
 import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 import {ADMIN_KEY} from '../../commons/constant/constant';
+import {TppManagementService} from '../../services/tpp-management.service';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
     users: User[];
     account: Account;
     subscription = new Subscription();
-
+    tppId: string;
     accountAccessForm: FormGroup;
 
     submitted = false;
@@ -32,6 +33,7 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
 
     constructor(private userService: UserService,
                 private accountService: AccountService,
+                private tppManagementService: TppManagementService,
                 private infoService: InfoService,
                 private formBuilder: FormBuilder,
                 private router: Router,
@@ -48,6 +50,10 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
         this.admin = localStorage.getItem(ADMIN_KEY);
         this.listUsers();
         this.setupAccountAccessFormControl();
+        this.route.queryParams.subscribe((params) => {
+        this.tppId = params['tppId'];
+      });
+
     }
 
     setupAccountAccessFormControl(): void {
@@ -60,12 +66,17 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
             accountId: ['']
         });
     }
-
     listUsers() {
-        const MAX_VALUE = 2147483647;
-        this.userService.listUsers( 0 , MAX_VALUE).subscribe((resp: any) => {
-            this.users = resp.users;
+      const MAX_VALUE = 2147483647;
+      if (this.admin === 'true') {
+        this.tppManagementService.getAllUsers(0, 500).subscribe((resp: any) => {
+          this.users = resp.users;
         });
+      } else {
+        this.userService.listUsers(0, MAX_VALUE).subscribe((resp: any) => {
+          this.users = resp.users;
+        });
+      }
     }
 
     onSubmit() {
@@ -77,15 +88,27 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
         this.accountAccessForm.get('iban').setValue(this.account.iban);
         this.accountAccessForm.get('currency').setValue(this.account.currency);
         this.accountAccessForm.get('accountId').setValue(this.account.id);
-        this.accountService.updateAccountAccessForUser(this.accountAccessForm.getRawValue()).subscribe(response => {
+        if (this.admin === 'true') {
+          this.tppManagementService.getTppById(this.tppId).subscribe(response => {
             this.infoService
-                .openFeedback('Access to account' + this.account.iban + 'successfully granted', {duration: 3000});
+              .openFeedback('Access to account' + this.account.iban + 'successfully granted', {duration: 3000});
 
             setTimeout(() => {
-                this.router.navigate(['/users/all']);
-            }, 3000)
+              this.router.navigate(['/users/all']);
+            }, 3000);
 
-        });
+          });
+        } else if (this.admin === 'false') {
+          this.accountService.updateAccountAccessForUser(this.accountAccessForm.getRawValue()).subscribe(response => {
+            this.infoService
+              .openFeedback('Access to account' + this.account.iban + 'successfully granted', {duration: 3000});
+
+            setTimeout(() => {
+              this.router.navigate(['/users/all']);
+            }, 3000);
+
+          });
+        }
     }
 
     @ViewChild('instance', {static: true}) instance: NgbTypeahead;

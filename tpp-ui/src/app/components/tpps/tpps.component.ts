@@ -14,7 +14,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CountryService } from '../../services/country.service';
 import { TppQueryParams } from '../../models/tpp-management.model';
 import { InfoService } from '../../commons/info/info.service';
-import {ADMIN_KEY} from "../../commons/constant/constant";
 
 @Component({
   selector: 'app-tpps',
@@ -71,6 +70,7 @@ export class TppsComponent implements OnInit {
       blocked: this.searchForm.get('blocked').value,
     });
   }
+
   setBlocked(blocked) {
     this.searchForm.controls.blocked.patchValue(blocked);
   }
@@ -147,8 +147,8 @@ export class TppsComponent implements OnInit {
       });
   }
 
-  private blockTpp(tppId: string) {
-    this.tppManagementService.blockTpp(tppId).subscribe(() => {
+  private blockTpp(userId: string) {
+    this.tppManagementService.blockTpp(userId).subscribe(() => {
       this.infoService.openFeedback('TPP was successfully blocked!', {
         severity: 'info',
       });

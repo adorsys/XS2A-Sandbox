@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-
-import { User } from '../../models/user.model';
 import { AuthService } from '../../services/auth.service';
 import { TppUserService } from '../../services/tpp.user.service';
 import { TppManagementService } from '../../services/tpp-management.service';
+import { User } from '../../models/user.model';
 import {ADMIN_KEY} from '../../commons/constant/constant';
 
 @Component({
@@ -72,6 +71,7 @@ export class UserProfileUpdateComponent implements OnInit {
     }
     const updatedUser: User = {
       ...this.user,
+      branchLogin: undefined,
       email: this.userForm.get('email').value,
       login: this.userForm.get('username').value,
       pin: this.userForm.get('password').value.trim()
@@ -81,11 +81,17 @@ export class UserProfileUpdateComponent implements OnInit {
     if (this.admin === 'true') {
       this.tppManagementService
         .updateUserDetails(updatedUser, this.tppId)
-        .subscribe(() => this.router.navigate(['/users/all']));
+        .subscribe(() =>
+          this.getUserDetails());
+          this.router.navigate(['/users/all']);
+      this.getUserDetails();
     } else if (this.admin === 'false') {
       this.userInfoService
         .updateUserInfo(updatedUser)
-        .subscribe(() => this.router.navigate(['/profile']));
+        .subscribe(() =>
+          this.getUserDetails());
+      this.router.navigate(['/profile']);
+
     }
   }
 

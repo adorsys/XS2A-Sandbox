@@ -36,17 +36,6 @@
             <div *ngIf="admin" class="tpp-filters">
               <div class="container-fluid">
                 <div class="row d-flex justify-content-end">
-                  <!--                  <div class="mr-2">-->
-                  <!--                    <label for="country">TPP Login:</label>-->
-                  <!--                    <div class="filter">-->
-                  <!--                      <input-->
-                  <!--                        class="form-control"-->
-                  <!--                        placeholder="Enter TPP login..."-->
-                  <!--                        formControlName="tppLogin"-->
-                  <!--                        type="text"-->
-                  <!--                      />-->
-                  <!--                    </div>-->
-                  <!--                  </div>-->
                   <div class="mr-2">
                     <label for="country">TPP ID:</label>
                     <div class="filter">
@@ -127,7 +116,7 @@
             <tr
               *ngFor="let account of accounts; index as i"
               [routerLink]="[createAccountDetailsLink(account.id)]"
-              [queryParams]="{ page: config.currentPageNumber }"
+              [queryParams]="{ page: config.currentPageNumber, tppId: account.branch }"
               [ngClass]="{ 'disabled-tr': account.blocked }"
             >
               <th scope="row">
