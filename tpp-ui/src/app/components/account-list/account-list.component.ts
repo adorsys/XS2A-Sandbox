@@ -15,6 +15,7 @@ import { User } from '../../models/user.model';
 import { TppUserService } from '../../services/tpp.user.service';
 import { CountryService } from '../../services/country.service';
 import { TppQueryParams } from '../../models/tpp-management.model';
+import {ADMIN_KEY} from "../../commons/constant/constant";
 
 @Component({
   selector: 'app-account-list',
@@ -23,7 +24,7 @@ import { TppQueryParams } from '../../models/tpp-management.model';
 })
 // TODO Merge UsersComponent, TppsComponent and AccountListComponent into one single component https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/-/issues/713
 export class AccountListComponent implements OnInit, OnDestroy {
-  admin = false;
+  admin: string;
   users: User[] = [];
   accounts: Account[] = [];
   subscription = new Subscription();
@@ -55,6 +56,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.admin = localStorage.getItem(ADMIN_KEY);
     this.getPageConfigs();
     this.getCountries();
     this.getCurrentData();
@@ -62,14 +64,14 @@ export class AccountListComponent implements OnInit, OnDestroy {
   }
 
   getAccounts(page: number, size: number, params: TppQueryParams) {
-    if (this.admin === true) {
+    if (this.admin === 'true') {
       this.tppManagementService
         .getAllAccounts(page - 1, size, params)
         .subscribe((response: AccountResponse) => {
           this.accounts = response.accounts;
           this.config.totalItems = response.totalElements;
         });
-    } else if (this.admin === false) {
+    } else if (this.admin === 'false') {
       this.accountService
         .getAccounts(page - 1, size, params.ibanParam)
         .subscribe((response: AccountResponse) => {
@@ -135,15 +137,6 @@ export class AccountListComponent implements OnInit, OnDestroy {
     return `${baseLink}${id}`;
   }
 
-  private getTpps(page: number, size: number, queryParams: TppQueryParams) {
-    this.tppManagementService
-      .getTpps(page - 1, size, queryParams)
-      .subscribe((response) => {
-        this.users = response.tpps;
-        this.config.totalItems = response.totalElements;
-      });
-  }
-
   createLastVisitedPageLink(id: string): string {
     this.pageNavigationService.setLastVisitedPage('/accounts');
     return `/profile/${id}`;
@@ -192,8 +185,6 @@ export class AccountListComponent implements OnInit, OnDestroy {
   }
 
   private getCurrentData() {
-    this.tppUserService.currentTppUser.subscribe((user: User) => {
-      this.admin = user && user.userRoles.includes('SYSTEM');
       this.getAccounts(
         this.config.currentPageNumber,
         this.config.itemsPerPage,
@@ -205,6 +196,5 @@ export class AccountListComponent implements OnInit, OnDestroy {
           blocked: this.searchForm.get('blocked').value,
         }
       );
-    });
   }
 }

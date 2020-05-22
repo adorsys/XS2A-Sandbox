@@ -1,14 +1,16 @@
 import {Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
-import {Account} from "../../models/account.model";
-import {User} from "../../models/user.model";
-import {UserService} from "../../services/user.service";
-import {merge, Observable, Subject, Subscription,} from "rxjs";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
-import {AccountService} from "../../services/account.service";
-import {InfoService} from "../../commons/info/info.service";
-import {debounceTime, distinctUntilChanged, filter, map} from "rxjs/operators";
-import {NgbTypeahead} from "@ng-bootstrap/ng-bootstrap";
+import {Account} from '../../models/account.model';
+import {User} from '../../models/user.model';
+import {UserService} from '../../services/user.service';
+import {merge, Observable, Subject, Subscription } from 'rxjs';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AccountService} from '../../services/account.service';
+import {InfoService} from '../../commons/info/info.service';
+import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
+import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
+import {ADMIN_KEY} from '../../commons/constant/constant';
+
 
 @Component({
     selector: 'app-account-access-management',
@@ -17,7 +19,7 @@ import {NgbTypeahead} from "@ng-bootstrap/ng-bootstrap";
     encapsulation: ViewEncapsulation.None
 })
 export class AccountAccessManagementComponent implements OnInit, OnDestroy {
-
+    admin: string;
     users: User[];
     account: Account;
     subscription = new Subscription();
@@ -43,6 +45,7 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.admin = localStorage.getItem(ADMIN_KEY);
         this.listUsers();
         this.setupAccountAccessFormControl();
     }
@@ -59,7 +62,7 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
     }
 
     listUsers() {
-        const MAX_VALUE = 2147483647; //for getting all the available user
+        const MAX_VALUE = 2147483647;
         this.userService.listUsers( 0 , MAX_VALUE).subscribe((resp: any) => {
             this.users = resp.users;
         });
@@ -76,10 +79,10 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
         this.accountAccessForm.get('accountId').setValue(this.account.id);
         this.accountService.updateAccountAccessForUser(this.accountAccessForm.getRawValue()).subscribe(response => {
             this.infoService
-                .openFeedback("Access to account " + this.account.iban + " successfully granted", {duration: 3000});
+                .openFeedback('Access to account' + this.account.iban + 'successfully granted', {duration: 3000});
 
             setTimeout(() => {
-                this.router.navigate(['/users/all'])
+                this.router.navigate(['/users/all']);
             }, 3000)
 
         });

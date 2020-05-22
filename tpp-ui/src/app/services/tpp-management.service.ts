@@ -33,12 +33,12 @@ export class TppManagementService {
   deleteTpp(tppId: string) {
     return this.http.delete(`${this.url}/admin?tppId=${tppId}`);
   }
-  updateUserDetails(user: User): Observable<any> {
-    return this.http.put(this.url + '/admin/users', user);
+  updateUserDetails(user: User, tppId: string): Observable<any> {
+    return this.http.put(this.url + `/admin/users?tppId=${tppId}`, user);
   }
 
-  createUser(user: User): Observable<any> {
-    return this.http.post(this.url + '/admin/register', user);
+  createUser(user: User, tppId: string): Observable<any> {
+    return this.http.post(this.url + `/admin/register?tppId=${tppId}`, user);
   }
 
   deleteSelf() {

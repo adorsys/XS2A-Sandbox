@@ -6,6 +6,7 @@ import { User } from '../../models/user.model';
 import { AuthService } from '../../services/auth.service';
 import { TppUserService } from '../../services/tpp.user.service';
 import { TppManagementService } from '../../services/tpp-management.service';
+import {ADMIN_KEY} from '../../commons/constant/constant';
 
 @Component({
   selector: 'app-user-profile-update',
@@ -14,9 +15,10 @@ import { TppManagementService } from '../../services/tpp-management.service';
 })
 export class UserProfileUpdateComponent implements OnInit {
   user: User;
+  tppId: string;
   userForm: FormGroup;
   submitted: boolean;
-  admin: boolean;
+  admin: string;
 
   constructor(
     private authService: AuthService,
@@ -28,12 +30,13 @@ export class UserProfileUpdateComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.admin = localStorage.getItem(ADMIN_KEY);
     this.setupEditUserFormControl();
     this.getUserDetails();
 
-    const tppId = this.route.snapshot.params['id'];
-    if (tppId) {
-      this.getUserInfoForAdmin(tppId);
+    this.tppId = this.route.snapshot.params['id'];
+    if (this.tppId) {
+      this.getUserInfoForAdmin(this.tppId);
     }
   }
 
@@ -75,11 +78,11 @@ export class UserProfileUpdateComponent implements OnInit {
         ? this.userForm.get('password').value
         : this.user.pin,
     };
-    if (this.admin === true) {
+    if (this.admin === 'true') {
       this.tppManagementService
-        .updateUserDetails(updatedUser)
+        .updateUserDetails(updatedUser, this.tppId)
         .subscribe(() => this.router.navigate(['/users/all']));
-    } else if (this.admin === false) {
+    } else if (this.admin === 'false') {
       this.userInfoService
         .updateUserInfo(updatedUser)
         .subscribe(() => this.router.navigate(['/profile']));
@@ -87,15 +90,16 @@ export class UserProfileUpdateComponent implements OnInit {
   }
 
   private getUserInfoForAdmin(tppId: string) {
-    this.tppManagementService.getTppById(tppId).subscribe((user: User) => {
-      if (user) {
-        this.user = user;
-        this.admin = true;
-        this.userForm.patchValue({
-          email: this.user.email,
-          username: this.user.login,
-        });
-      }
-    });
+   if (this.admin === 'true') {
+      this.tppManagementService.getTppById(tppId).subscribe((user: User) => {
+        if (user) {
+          this.user = user;
+          this.userForm.patchValue({
+            email: this.user.email,
+            username: this.user.login,
+          });
+        }
+      });
+    }
   }
 }

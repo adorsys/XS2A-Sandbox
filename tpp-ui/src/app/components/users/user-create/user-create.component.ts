@@ -6,6 +6,7 @@ import { User } from '../../../models/user.model';
 import { InfoService } from '../../../commons/info/info.service';
 import { ScaMethods } from '../../../models/scaMethods';
 import { TppManagementService } from '../../../services/tpp-management.service';
+import {ADMIN_KEY} from "../../../commons/constant/constant";
 
 @Component({
   selector: 'app-user-create',
@@ -14,8 +15,9 @@ import { TppManagementService } from '../../../services/tpp-management.service';
 })
 export class UserCreateComponent implements OnInit {
   id: string;
+  tppId: string;
   user: User;
-  admin: true;
+  admin: string;
   methods: string[];
   userForm: FormGroup;
   submitted: boolean;
@@ -34,6 +36,7 @@ export class UserCreateComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.admin = localStorage.getItem(ADMIN_KEY);
     this.getMethodsValues();
     this.setupUserFormControl();
   }
@@ -116,11 +119,11 @@ export class UserCreateComponent implements OnInit {
     if (this.userForm.invalid) {
       return;
     }
-    if (this.admin === true) {
+    if (this.admin === 'true') {
       this.tppManagementService
-        .createUser(this.userForm.value)
+        .createUser(this.userForm.value, this.tppId)
         .subscribe(() => this.router.navigate(['/users/all']));
-    } else if (this.admin === false) {
+    } else if (this.admin === 'false') {
       this.userService.createUser(this.userForm.value).subscribe(
         () => {
           this.router.navigateByUrl('/users/all');

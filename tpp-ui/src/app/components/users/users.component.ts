@@ -1,27 +1,30 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { debounceTime, map, tap } from 'rxjs/operators';
-import { User, UserResponse } from '../../models/user.model';
-import { UserService } from '../../services/user.service';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {debounceTime, map, tap} from 'rxjs/operators';
+import {User, UserResponse} from '../../models/user.model';
+import {UserService} from '../../services/user.service';
 import {
   PageConfig,
   PaginationConfigModel,
 } from '../../models/pagination-config.model';
-import { TppUserService } from '../../services/tpp.user.service';
-import { TppManagementService } from '../../services/tpp-management.service';
-import { PageNavigationService } from '../../services/page-navigation.service';
-import { ActivatedRoute } from '@angular/router';
-import { TppQueryParams } from '../../models/tpp-management.model';
-import { CountryService } from '../../services/country.service';
+import {TppUserService} from '../../services/tpp.user.service';
+import {TppManagementService} from '../../services/tpp-management.service';
+import {PageNavigationService} from '../../services/page-navigation.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {TppQueryParams} from '../../models/tpp-management.model';
+import {CountryService} from '../../services/country.service';
+import {ADMIN_KEY} from '../../commons/constant/constant';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
 })
+
 // TODO Merge UsersComponent, TppsComponent and AccountListComponent into one single component https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/-/issues/713
+
 export class UsersComponent implements OnInit {
-  admin;
+  admin: string;
   users: User[] = [];
   countries: Array<object> = [];
   config: PaginationConfigModel = {
@@ -47,9 +50,11 @@ export class UsersComponent implements OnInit {
     private tppManagementService: TppManagementService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
+    this.admin = localStorage.getItem(ADMIN_KEY);
     this.getPageConfigs();
     this.getCountries();
     this.getUsers();
@@ -117,7 +122,7 @@ export class UsersComponent implements OnInit {
     this.searchForm.valueChanges
       .pipe(
         tap((val) => {
-          this.searchForm.patchValue(val, { emitEvent: false });
+          this.searchForm.patchValue(val, {emitEvent: false});
         }),
         debounceTime(750)
       )
@@ -134,14 +139,14 @@ export class UsersComponent implements OnInit {
   }
 
   listUsers(page: number, size: number, params: TppQueryParams) {
-    if (this.admin === true) {
+    if (this.admin === 'true') {
       this.tppManagementService
         .getAllUsers(page - 1, size, params)
         .subscribe((response: UserResponse) => {
           this.users = response.users;
           this.config.totalItems = response.totalElements;
         });
-    } else if (this.admin === false) {
+    } else if (this.admin === 'false') {
       this.userService
         .listUsers(page - 1, size, params.userLogin)
         .subscribe((response: UserResponse) => {
@@ -166,22 +171,15 @@ export class UsersComponent implements OnInit {
   }
 
   private getUsers() {
-    this.tppUserService.currentTppUser.subscribe((user: User) => {
-      this.admin = user && user.userRoles.includes('SYSTEM');
-
-      if (this.admin !== undefined) {
-        this.listUsers(
-          this.config.currentPageNumber,
-          this.config.itemsPerPage,
-          {
-            userLogin: this.searchForm.get('userLogin').value,
-            tppId: this.searchForm.get('tppId').value,
-            tppLogin: this.searchForm.get('tppLogin').value,
-            country: this.searchForm.get('country').value,
-            blocked: this.searchForm.get('blocked').value,
-          }
-        );
-      }
-    });
+    this.listUsers(
+      this.config.currentPageNumber,
+      this.config.itemsPerPage,
+      {
+        userLogin: this.searchForm.get('userLogin').value,
+        tppId: this.searchForm.get('tppId').value,
+        tppLogin: this.searchForm.get('tppLogin').value,
+        country: this.searchForm.get('country').value,
+        blocked: this.searchForm.get('blocked').value,
+      });
   }
 }

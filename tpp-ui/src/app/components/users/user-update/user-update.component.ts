@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 import { ScaMethods } from '../../../models/scaMethods';
 import { TppUserService } from '../../../services/tpp.user.service';
 import { TppManagementService } from '../../../services/tpp-management.service';
+import {ADMIN_KEY} from "../../../commons/constant/constant";
 
 @Component({
   selector: 'app-user-update',
@@ -14,7 +15,8 @@ import { TppManagementService } from '../../../services/tpp-management.service';
   styleUrls: ['./user-update.component.scss'],
 })
 export class UserUpdateComponent implements OnInit {
-  admin;
+  admin: string;
+  tppId: string;
   user: User;
   updateUserForm: FormGroup;
   methods: string[];
@@ -35,6 +37,7 @@ export class UserUpdateComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.admin = localStorage.getItem(ADMIN_KEY);
     this.setupUserFormControl();
     this.activatedRoute.params
       .pipe(
@@ -49,7 +52,6 @@ export class UserUpdateComponent implements OnInit {
       });
 
     this.tppUserService.currentTppUser.subscribe((user: User) => {
-      this.admin = user && user.userRoles.includes('SYSTEM');
       this.activatedRoute.params.subscribe((param) => {
         this.userId = param['id'];
       });
@@ -88,11 +90,11 @@ export class UserUpdateComponent implements OnInit {
       scaUserData: this.updateUserForm.get('scaUserData').value,
     };
 
-    if (this.admin === true) {
+    if (this.admin === 'true') {
       this.tppManagementService
-        .updateUserDetails(updatedUser)
+        .updateUserDetails(updatedUser, this.tppId)
         .subscribe(() => this.router.navigate(['/users/all']));
-    } else if (this.admin === false) {
+    } else if (this.admin === 'false') {
       this.userService
         .updateUserDetails(updatedUser)
         .subscribe(() => this.router.navigate(['/users/all']));
