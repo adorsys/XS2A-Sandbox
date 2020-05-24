@@ -1,12 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UserService } from '../../../services/user.service';
-import { User } from '../../../models/user.model';
-import { InfoService } from '../../../commons/info/info.service';
-import { ScaMethods } from '../../../models/scaMethods';
-import { TppManagementService } from '../../../services/tpp-management.service';
-import {ADMIN_KEY} from "../../../commons/constant/constant";
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {UserService} from '../../../services/user.service';
+import {User} from '../../../models/user.model';
+import {InfoService} from '../../../commons/info/info.service';
+import {ScaMethods} from '../../../models/scaMethods';
+import {TppManagementService} from '../../../services/tpp-management.service';
+import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
+import {merge, Observable, Subject} from 'rxjs';
+import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
+import {ADMIN_KEY} from '../../../commons/constant/constant';
 
 @Component({
   selector: 'app-user-create',
@@ -14,9 +17,14 @@ import {ADMIN_KEY} from "../../../commons/constant/constant";
   styleUrls: ['./user-create.component.scss'],
 })
 export class UserCreateComponent implements OnInit {
-  id: string;
+  @ViewChild('instance', {static: true}) instance: NgbTypeahead;
+
+  focus$ = new Subject<User[]>();
+  click$ = new Subject<User[]>();
   tppId: string;
-  user: User;
+
+  id: string;
+  users: User[];
   admin: string;
   methods: string[];
   userForm: FormGroup;
@@ -29,7 +37,8 @@ export class UserCreateComponent implements OnInit {
     private infoService: InfoService,
     private route: ActivatedRoute,
     private tppManagementService: TppManagementService
-  ) {}
+  ) {
+  }
 
   get formControl() {
     return this.userForm.controls;
@@ -37,18 +46,51 @@ export class UserCreateComponent implements OnInit {
 
   ngOnInit() {
     this.admin = localStorage.getItem(ADMIN_KEY);
-    this.getMethodsValues();
+    this.listUsers();
     this.setupUserFormControl();
+    this.getMethodsValues();
+  }
+
+  listUsers() {
+    this.tppManagementService.getTpps(0, 500).subscribe((resp: any) => {
+      this.users = resp.tpps;
+    });
+  }
+
+  search: (obs: Observable<string>) => Observable<User[]> = (text$: Observable<string>) => {
+    const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+    const clicksWithClosedPopup$ = this.click$.pipe(filter(() =>  this.instance && !this.instance.isPopupOpen()));
+    const inputFocus$ = this.focus$;
+    return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$)
+      .pipe(
+        map((searchText: string) => (searchText ? this.users : this.users.filter((user) => user))
+        ));
   }
 
   setupUserFormControl(): void {
     this.userForm = this.formBuilder.group({
       scaUserData: this.formBuilder.array([this.initScaData()]),
+      tppId: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       login: ['', Validators.required],
       pin: ['', [Validators.required, Validators.minLength(5)]],
       userRoles: this.formBuilder.array(['CUSTOMER'])
     });
+  }
+
+  public inputFormatterValue = (user: User) => {
+    if (user) {
+      return user.branch;
+    }
+    return user;
+  }
+
+  public resultFormatterValue = (user: User) => {
+    if (user) {
+      this.userForm.get('tppId').setValue(user.branch);
+      return user.branch;
+    }
+    return user;
   }
 
   initScaData() {
@@ -64,25 +106,25 @@ export class UserCreateComponent implements OnInit {
     const scaData = this.formBuilder.group({
       scaMethod: ['', Validators.required],
       methodValue: [''],
-      staticTan: [{ value: '', disabled: true }],
+      staticTan: [{value: '', disabled: true}],
       usesStaticTan: [false],
     });
 
     scaData
       .get('usesStaticTan')
       .valueChanges.subscribe((bool: boolean = true) => {
-        if (bool) {
-          scaData.get('staticTan').setValidators(Validators.required);
-          scaData.get('methodValue').setValidators(Validators.required);
-          scaData.get('staticTan').enable();
-        } else {
-          scaData.get('staticTan').clearValidators();
-          scaData.get('staticTan').disable();
-          scaData.get('staticTan').setValue('');
-        }
-        scaData.get('staticTan').updateValueAndValidity();
-        scaData.get('methodValue').updateValueAndValidity();
-      });
+      if (bool) {
+        scaData.get('staticTan').setValidators(Validators.required);
+        scaData.get('methodValue').setValidators(Validators.required);
+        scaData.get('staticTan').enable();
+      } else {
+        scaData.get('staticTan').clearValidators();
+        scaData.get('staticTan').disable();
+        scaData.get('staticTan').setValue('');
+      }
+      scaData.get('staticTan').updateValueAndValidity();
+      scaData.get('methodValue').updateValueAndValidity();
+    });
 
     scaData.get('staticTan').valueChanges.subscribe((value) => {
       if (value === ScaMethods.EMAIL) {
@@ -121,7 +163,7 @@ export class UserCreateComponent implements OnInit {
     }
     if (this.admin === 'true') {
       this.tppManagementService
-        .createUser(this.userForm.value, this.tppId)
+        .createUser(this.userForm.value, this.userForm.get('tppId').value)
         .subscribe(() => this.router.navigate(['/users/all']));
     } else if (this.admin === 'false') {
       this.userService.createUser(this.userForm.value).subscribe(

@@ -186,7 +186,7 @@ tr {
 }
 
 .disabled-text {
-    color: #a0a0a0
+  color: #a0a0a0
 }
 
 td {
@@ -197,6 +197,9 @@ td {
   white-space: nowrap;
 }
 
+.pd-0 {
+  padding: 0;
+}
 
 th {
   font-size: 1.125rem !important;

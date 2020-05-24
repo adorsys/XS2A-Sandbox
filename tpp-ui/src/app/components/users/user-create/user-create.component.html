@@ -1,189 +1,215 @@
 <div class="container-fluid">
 
     <div class="card">
-        <div class="border-bottom">
-            <div class="card-body">
-                <div *ngIf="formControl['login'].value; else noUserLogin">
-                    <div class="header__title">{{formControl['login'].value}}</div>
-                </div>
+      <div class="border-bottom">
+        <div class="card-body">
+          <div *ngIf="formControl['login'].value; else noUserLogin">
+            <div class="header__title">{{formControl['login'].value}}</div>
+          </div>
 
-                <ng-template #noUserLogin>
-                    <div class="header__title">Create new user</div>
-                </ng-template>
-            </div>
+          <ng-template #noUserLogin>
+            <div class="header__title">Create new user</div>
+          </ng-template>
         </div>
-        <form novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()" autocomplete="off">
-            <div class="card-body pb-0">
-                <h5>User Information</h5>
+      </div>
+      <form novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()" autocomplete="off">
+        <div class="card-body">
+          <div class="form-group required col-md-6 pd-0" for="tppId" *ngIf="admin">
+            <label class="control-label">Select TPP ID</label>
+            <input
+              [ngClass]="{
+                'is-invalid':
+                  userForm.get('tppId')?.errors &&
+                  (userForm.get('tppId').dirty ||
+                    userForm.get('tppId').touched ||
+                    submitted)
+              }"
+              class="form-control"
+              id="id"
+              #instance="ngbTypeahead"
+              (focus)="focus$.next($event.target.value)"
+              (click)="click$.next($event.target.value)"
+              [inputFormatter]="inputFormatterValue"
+              [resultFormatter]="resultFormatterValue"
+              [ngbTypeahead]="search"
+            />
+            <div
+              *ngIf="userForm.get('tppId')?.errors?.required"
+              class="invalid-feedback"
+            >
+              Login name is Required
             </div>
-            <div class="border-bottom">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-12 col-md-6 form-group ">
-                            <label class="control-label" for="email">Email</label>
-                            <input [ngClass]="{ 'is-invalid': (formControl['email'].touched || submitted) && formControl['email'].errors }"
-                                   aria-describedby="emailHelp"
-                                   autocomplete="off"
-                                   class="form-control"
-                                   formControlName="email"
-                                   id="email"
-                                   placeholder="Enter email"
-                                   type="email">
-                            <div *ngIf="(formControl['email'].touched || submitted) && formControl['email'].hasError('required')"
-                                 class="invalid-feedback">
-                                Email is required
-                            </div>
-                            <div *ngIf="(formControl['email'].touched || submitted) && formControl['email'].hasError('email')"
-                                 class="invalid-feedback">
-                                Email is invalid
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-12 col-md-6 form-group ">
-                                    <label class="control-label" for="login">Login</label>
-                                    <input [ngClass]="{ 'is-invalid': (formControl['login'].touched || submitted) && formControl['login'].errors }"
-                                           aria-describedby="emailHelp"
-                                           autocomplete="off"
-                                           class="form-control"
-                                           formControlName="login"
-                                           id="login"
-                                           placeholder="Enter your banking login"
-                                           type="text">
-                                    <div *ngIf="(formControl['login'].touched || submitted) && formControl['login'].hasError('required')"
-                                         class="invalid-feedback">
-                                        Login is required
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-3">
-                                    <label class="control-label" for="pin">PIN</label>
-                                    <input [ngClass]="{ 'is-invalid': (formControl['pin'].touched || submitted) && formControl['pin'].errors }"
-                                           aria-describedby="pinHelp"
-                                           autocomplete="new-password"
-                                           class="form-control"
-                                           formControlName="pin"
-                                           id="pin"
-                                           placeholder="Enter PIN"
-                                           type="password">
-                                    <div *ngIf="(formControl['pin'].touched || submitted) && formControl['pin'].hasError('required')"
-                                         class="invalid-feedback">
-                                        PIN is required
-                                    </div>
-                                    <div *ngIf="(formControl['pin'].touched || submitted) && formControl['pin'].hasError('minlength')"
-                                         class="invalid-feedback">
-                                        PIN must contain at least 5 characters
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+          </div>
+          <h5>User Information</h5>
+        </div>
+        <div class="border-bottom">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12 col-md-6 form-group ">
+                <label class="control-label" for="email">Email</label>
+                <input [ngClass]="{ 'is-invalid': (formControl['email'].touched || submitted) && formControl['email'].errors }"
+                       aria-describedby="emailHelp"
+                       autocomplete="off"
+                       class="form-control"
+                       formControlName="email"
+                       id="email"
+                       placeholder="Enter email"
+                       type="email">
+                <div *ngIf="(formControl['email'].touched || submitted) && formControl['email'].hasError('required')"
+                     class="invalid-feedback">
+                  Email is required
                 </div>
+                <div *ngIf="(formControl['email'].touched || submitted) && formControl['email'].hasError('email')"
+                     class="invalid-feedback">
+                  Email is invalid
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-12 col-md-6 form-group ">
+                    <label class="control-label" for="login">Login</label>
+                    <input [ngClass]="{ 'is-invalid': (formControl['login'].touched || submitted) && formControl['login'].errors }"
+                           aria-describedby="emailHelp"
+                           autocomplete="off"
+                           class="form-control"
+                           formControlName="login"
+                           id="login"
+                           placeholder="Enter your banking login"
+                           type="text">
+                    <div *ngIf="(formControl['login'].touched || submitted) && formControl['login'].hasError('required')"
+                         class="invalid-feedback">
+                      Login is required
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-3">
+                    <label class="control-label" for="pin">PIN</label>
+                    <input [ngClass]="{ 'is-invalid': (formControl['pin'].touched || submitted) && formControl['pin'].errors }"
+                           aria-describedby="pinHelp"
+                           autocomplete="new-password"
+                           class="form-control"
+                           formControlName="pin"
+                           id="pin"
+                           placeholder="Enter PIN"
+                           type="password">
+                    <div *ngIf="(formControl['pin'].touched || submitted) && formControl['pin'].hasError('required')"
+                         class="invalid-feedback">
+                      PIN is required
+                    </div>
+                    <div *ngIf="(formControl['pin'].touched || submitted) && formControl['pin'].hasError('minlength')"
+                         class="invalid-feedback">
+                      PIN must contain at least 5 characters
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div formArrayName="scaUserData">
+          </div>
+        </div>
+        <div formArrayName="scaUserData">
 
-                <div class="card-body pb-0">
-                    <div class="d-block d-md-flex justify-content-between">
-                        <h5 class="d-inline">User authentication Information</h5>
-                        <div class="">
-                            <div class="d-flex " (click)="addScaDataItem()">
-                                <div class="">
-                                    <small>Add SCA method</small>
-                                </div>
-                                <div class="text-primary align-items-start icon">
-                                    <app-icon inline="true" svgIcon="add"></app-icon>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+          <div class="card-body pb-0">
+            <div class="d-block d-md-flex justify-content-between">
+              <h5 class="d-inline">User authentication Information</h5>
+              <div class="">
+                <div class="d-flex " (click)="addScaDataItem()">
+                  <div class="">
+                    <small>Add SCA method</small>
+                  </div>
+                  <div class="text-primary align-items-start icon">
+                    <app-icon inline="true" svgIcon="add"></app-icon>
+                  </div>
                 </div>
-                <div class="border-bottom">
-                    <div class="card-body">
-                        <div *ngFor="let scaDataItem of formControl['scaUserData']['controls']; let i=index"
-                             class="box mb-4">
-                            <button (click)="removeScaDataItem(i)"
-                                    *ngIf="userForm.controls['scaUserData'].controls.length"
-                                    aria-label="Close"
-                                    class="close box__close-icon"
-                                    type="button">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <div class="row">
-                                <div class="col-12 col-md-8">
-                                    <div [formGroupName]="i" class="form-group">
-                                        <label class="control-label" for="scaData">SCA</label>
-                                        <input [ngClass]="{ 'is-invalid':scaDataItem.controls['methodValue'].errors}"
-                                               aria-describedby="scaDataHelp"
-                                               class="form-control"
-                                               formControlName="methodValue"
-                                               id="scaData"
-                                               placeholder="Please input SCA method for user"
-                                               type="text">
-                                        <div *ngIf="scaDataItem.controls['usesStaticTan'].value && scaDataItem.controls['scaMethod'].value"
-                                             class="invalid-feedback">
-                                            The value of the method is required
-                                        </div>
-                                        <div *ngIf="scaDataItem.get('staticTan')?.hasError('pattern')"
-                                             class="invalid-feedback">
-                                            The method value has an incorrect format
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-4 margin-top">
-                                    <label class="control-label">Method Value</label>
-                                    <div [formGroupName]="i">
-                                        <select formControlName="scaMethod"class="form-control">
-                                            <option value=""></option>
-                                            <option *ngFor="let t of methods" [value]="t">{{t}}</option>
-                                        </select>
-                                    </div>
-                                    <div *ngIf="submitted && scaDataItem.controls['scaMethod'].errors" class="invalid-feedback">
-                                        <div *ngIf="scaDataItem.controls['scaMethod'].errors">Method Value is required</div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-8">
-                                    <div [formGroupName]="i" class="form-group">
-                                        <label class="control-label" for="scaData">Static TAN</label>
-                                        <input [ngClass]="{ 'is-invalid': (scaDataItem.controls['staticTan'].touched || submitted) && scaDataItem.controls['staticTan'].errors }"
-                                               aria-describedby="scaDataHelp"
-                                               class="form-control"
-                                               formControlName="staticTan"
-                                               placeholder="Please input Static TAN if required"
-                                               type="text">
-                                        <div *ngIf="(scaDataItem.controls['staticTan'].touched || submitted) && scaDataItem.controls['staticTan'].hasError('required')"
-                                             class="invalid-feedback">
-                                            TAN is required
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-4 my-auto">
-                                    <div [formGroupName]="i">
-                                        <div class="d-flex">
-                                            <div class="form-check mr-4">
-                                                <input class="form-check-input"
-                                                       formControlName="usesStaticTan"
-                                                       id="scaUserDataUsesStaticTan{{i}}"
-                                                       type="checkbox"
-                                                       value="false">
-                                                <label class="form-check-label" for="scaUserDataUsesStaticTan{{i}}">
-                                                    Use Static TAN in SandboxMode
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group2 d-flex flex-row justify-content-lg-between">
-                    <button class="btn btn-outline-danger" (click)="onCancel()">Cancel</button>
-                    <button [disabled]="userForm.invalid"
-                            class="btn btn-primary"
-                            type="submit">Submit
-                    </button>
-                </div>
+              </div>
             </div>
-        </form>
+          </div>
+          <div class="border-bottom">
+            <div class="card-body">
+              <div *ngFor="let scaDataItem of formControl['scaUserData']['controls']; let i=index"
+                   class="box mb-4">
+                <button (click)="removeScaDataItem(i)"
+                        *ngIf="userForm.controls['scaUserData'].controls.length"
+                        aria-label="Close"
+                        class="close box__close-icon"
+                        type="button">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="row">
+                  <div class="col-12 col-md-8">
+                    <div [formGroupName]="i" class="form-group">
+                      <label class="control-label" for="scaData">SCA</label>
+                      <input [ngClass]="{ 'is-invalid':scaDataItem.controls['methodValue'].errors}"
+                             aria-describedby="scaDataHelp"
+                             class="form-control"
+                             formControlName="methodValue"
+                             id="scaData"
+                             placeholder="Please input SCA method for user"
+                             type="text">
+                      <div *ngIf="scaDataItem.controls['usesStaticTan'].value && scaDataItem.controls['scaMethod'].value"
+                           class="invalid-feedback">
+                        The value of the method is required
+                      </div>
+                      <div *ngIf="scaDataItem.get('staticTan')?.hasError('pattern')"
+                           class="invalid-feedback">
+                        The method value has an incorrect format
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-4 margin-top">
+                    <label class="control-label">Method Value</label>
+                    <div [formGroupName]="i">
+                      <select formControlName="scaMethod"class="form-control">
+                        <option value=""></option>
+                        <option *ngFor="let t of methods" [value]="t">{{t}}</option>
+                      </select>
+                    </div>
+                    <div *ngIf="submitted && scaDataItem.controls['scaMethod'].errors" class="invalid-feedback">
+                      <div *ngIf="scaDataItem.controls['scaMethod'].errors">Method Value is required</div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-8">
+                    <div [formGroupName]="i" class="form-group">
+                      <label class="control-label" for="scaData">Static TAN</label>
+                      <input [ngClass]="{ 'is-invalid': (scaDataItem.controls['staticTan'].touched || submitted) && scaDataItem.controls['staticTan'].errors }"
+                             aria-describedby="scaDataHelp"
+                             class="form-control"
+                             formControlName="staticTan"
+                             placeholder="Please input Static TAN if required"
+                             type="text">
+                      <div *ngIf="(scaDataItem.controls['staticTan'].touched || submitted) && scaDataItem.controls['staticTan'].hasError('required')"
+                           class="invalid-feedback">
+                        TAN is required
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-4 my-auto">
+                    <div [formGroupName]="i">
+                      <div class="d-flex">
+                        <div class="form-check mr-4">
+                          <input class="form-check-input"
+                                 formControlName="usesStaticTan"
+                                 id="scaUserDataUsesStaticTan{{i}}"
+                                 type="checkbox"
+                                 value="false">
+                          <label class="form-check-label" for="scaUserDataUsesStaticTan{{i}}">
+                            Use Static TAN in SandboxMode
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group2 d-flex flex-row justify-content-lg-between">
+            <button class="btn btn-outline-danger" (click)="onCancel()">Cancel</button>
+            <button [disabled]="userForm.invalid"
+                    class="btn btn-primary"
+                    type="submit">Submit
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
 </div>

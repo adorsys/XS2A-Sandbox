@@ -27,8 +27,8 @@ export class TppManagementService {
     );
   }
 
-  blockTpp(userId: string) {
-    return this.http.post(`${this.url}/admin/status?userId=${userId}`, null);
+  blockTpp(tppId: string) {
+    return this.http.post(`${this.url}/admin/status?tppId=${tppId}`, null);
   }
 
   deleteTpp(tppId: string) {
@@ -53,6 +53,7 @@ export class TppManagementService {
   updateAccountAccessForUser(accountAccess: GrantAccountAccess) {
     return this.http.put(this.url + '/accounts/access', accountAccess);
   }
+
 
   getUsersForTpp(tppId: string): Observable<User[]> {
     return this.getAllUsers(0, 100, { tppId: tppId }).pipe(

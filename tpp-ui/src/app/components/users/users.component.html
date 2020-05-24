@@ -82,7 +82,7 @@
                         <option
                           *ngFor="let country of countries"
                           [ngValue]="country.code"
-                          >{{ country.name }}
+                        >{{ country.name }}
                         </option>
                       </select>
                     </div>
@@ -122,91 +122,91 @@
         </div>
         <table class="table">
           <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">User Login</th>
-              <th scope="col">Email</th>
-              <th scope="col">Accounts</th>
-              <th scope="col">Currencies</th>
-              <th scope="col" *ngIf="admin">TPP login</th>
-              <th scope="col" *ngIf="admin">TPP ID</th>
-              <th scope="col">Authentication methods</th>
-              <th scope="col">Actions</th>
-            </tr>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">User Login</th>
+            <th scope="col">Email</th>
+            <th scope="col">Accounts</th>
+            <th scope="col">Currencies</th>
+            <th scope="col" *ngIf="admin">TPP login</th>
+            <th scope="col" *ngIf="admin">TPP ID</th>
+            <th scope="col">Authentication methods</th>
+            <th scope="col">Actions</th>
+          </tr>
           </thead>
           <tbody>
-            <tr
-              *ngFor="let user of users; index as i"
-              [routerLink]="['/users/' + user.id]"
-              [queryParams]="{ page: config.currentPageNumber }"
-              [ngClass]="{ 'disabled-tr': user.blocked }"
-            >
-              <th scope="row">
-                {{
-                  (config.currentPageNumber - 1) * config.itemsPerPage + i + 1
-                }}
-              </th>
-              <td>{{ user.login }}</td>
-              <td>{{ user.email }}</td>
-              <td>
-                <ul>
-                  <li
-                    *ngFor="let accountAccess of user?.accountAccesses"
-                    class="nav-item"
-                  >
-                    {{ accountAccess.iban }}
-                  </li>
-                </ul>
-              </td>
-              <td>
-                <ul>
-                  <li
-                    *ngFor="let accountAccess of user?.accountAccesses"
-                    class="nav-item"
-                  >
-                    {{ accountAccess.currency }}
-                  </li>
-                </ul>
-              </td>
-              <td *ngIf="admin" class="nowrap">{{ user?.branchLogin }}</td>
-              <td *ngIf="admin">
-                <a
-                  [routerLink]="[createLastVisitedPageLink(user.branch)]"
-                  [queryParams]="{ page: config.currentPageNumber }"
-                  >{{ user.branch }}
-                </a>
-              </td>
-              <td>
-                <ul>
-                  <li
-                    *ngFor="
+          <tr
+            *ngFor="let user of users; index as i"
+            [routerLink]="['/users/' + user.id]"
+            [queryParams]="{ page: config.currentPageNumber }"
+            [ngClass]="{ 'disabled-tr': user.blocked }"
+          >
+            <th scope="row">
+              {{
+              (config.currentPageNumber - 1) * config.itemsPerPage + i + 1
+              }}
+            </th>
+            <td>{{ user.login }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+              <ul>
+                <li
+                  *ngFor="let accountAccess of user?.accountAccesses"
+                  class="nav-item"
+                >
+                  {{ accountAccess.iban }}
+                </li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li
+                  *ngFor="let accountAccess of user?.accountAccesses"
+                  class="nav-item"
+                >
+                  {{ accountAccess.currency }}
+                </li>
+              </ul>
+            </td>
+            <td *ngIf="admin" class="nowrap">{{ user.branchLogin }}</td>
+            <td *ngIf="admin">
+              <a
+                [routerLink]="[createLastVisitedPageLink(user.branch)]"
+                [queryParams]="{ page: config.currentPageNumber }"
+              >{{ user.branch }}
+              </a>
+            </td>
+            <td>
+              <ul>
+                <li
+                  *ngFor="
                       let scaItem of user?.scaUserData;
                       index as i;
                       last as isLast
                     "
-                    [ngClass]="{ 'mb-2': !isLast }"
-                  >
-                    {{ scaItem.methodValue }}
-                    <div *ngIf="scaItem.scaMethod">
-                      Sca Method: {{ scaItem.scaMethod }}
-                    </div>
-                    <div *ngIf="scaItem.usesStaticTan">
-                      Static TAN: {{ scaItem.staticTan }}
-                    </div>
-                  </li>
-                </ul>
-              </td>
-              <td>
-                <a
-                  class="btn btn-table-btn"
-                  routerLink="/users/{{ user.id }}/create-deposit-account"
-                  [queryParams]="{ tppId: user.branch, userId: user.id }"
-                  *ngIf="!user.blocked"
+                  [ngClass]="{ 'mb-2': !isLast }"
                 >
-                  Create deposit account
-                </a>
-              </td>
-            </tr>
+                  {{ scaItem.methodValue }}
+                  <div *ngIf="scaItem.scaMethod">
+                    Sca Method: {{ scaItem.scaMethod }}
+                  </div>
+                  <div *ngIf="scaItem.usesStaticTan">
+                    Static TAN: {{ scaItem.staticTan }}
+                  </div>
+                </li>
+              </ul>
+            </td>
+            <td>
+              <a
+                class="btn btn-table-btn"
+                routerLink="/users/{{ user.id }}/create-deposit-account"
+                [queryParams]="{ tppId: user.branch, userId: user.id }"
+                *ngIf="!user.blocked"
+              >
+                Create deposit account
+              </a>
+            </td>
+          </tr>
           </tbody>
         </table>
 
