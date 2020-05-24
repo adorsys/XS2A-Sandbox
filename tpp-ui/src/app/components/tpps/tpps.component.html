@@ -1,6 +1,6 @@
 <div class="container-fluid" [formGroup]="searchForm">
   <div class="row header">
-    <div class="col-12 col-md-3 header__title">List of TPP</div>
+    <div class="col-12 col-md-3 header__title">List of TPPs</div>
     <div class="col-12 col-md-9">
       <div class="row d-flex justify-content-end">
         <div class="col-12 col-md-8 p-md-0">
@@ -70,7 +70,7 @@
                         <option
                           *ngFor="let country of countriesList"
                           [ngValue]="country.code"
-                          >{{ country.name }}
+                        >{{ country.name }}
                         </option>
                       </select>
                     </div>
@@ -114,7 +114,7 @@
             <tr>
               <th scope="col">#</th>
               <th scope="col">TPP Login</th>
-              <th scope="col">TPP ID</th>
+              <th scope="col" class="nowrap">TPP ID</th>
               <th scope="col">Country</th>
               <th scope="col">Email</th>
               <th scope="col">State</th>
@@ -127,9 +127,10 @@
                 scope="row"
                 [routerLink]="[createLastVisitedPageLink(tpp.id)]"
                 [queryParams]="{ page: config.currentPageNumber }"
+                [ngClass]="{ 'disabled-text': tpp.blocked }"
               >
                 {{
-                  (config.currentPageNumber - 1) * config.itemsPerPage + i + 1
+                (config.currentPageNumber - 1) * config.itemsPerPage + i + 1
                 }}
               </th>
               <td
@@ -177,8 +178,8 @@
                 </button>
                 <button
                   (click)="
-                    openConfirmation(deleteConfirmationModal, tpp.id, 'delete')
-                  "
+                      openConfirmation(deleteConfirmationModal, tpp.id, 'delete')
+                    "
                   class="btn btn-outline-danger btn-sm wd-120"
                 >
                   Delete
@@ -269,7 +270,7 @@
                 <ng-template #blockConfirmation let-modal>
                   <div class="modal-header">
                     <h4 class="modal-title" id="modal-basic-title-1">
-                      TPP blocking
+                      TPP  {{ tpp.blocked ? 'unblocking' : 'blocking' }}
                     </h4>
                     <button
                       type="button"

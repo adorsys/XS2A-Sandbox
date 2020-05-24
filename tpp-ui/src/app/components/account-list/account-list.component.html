@@ -6,7 +6,7 @@
         <div class="col-12 col-md-12 p-md-0">
           <div class="form-group has-search">
             <span class="form-control-feedback">
-              <img src="./assets/icons/search.svg" />
+              <img src="./assets/icons/search.svg"/>
             </span>
             <div>
               <input
@@ -36,7 +36,7 @@
             <div *ngIf="admin" class="tpp-filters">
               <div class="container-fluid">
                 <div class="row d-flex justify-content-end">
-                  <div class="mr-2">
+                  <div class="mr-2" *ngIf="admin ==='true'">
                     <label for="country">TPP ID:</label>
                     <div class="filter">
                       <input
@@ -60,14 +60,14 @@
                         <option
                           *ngFor="let country of countries"
                           [ngValue]="country.code"
-                          >{{ country.name }}
+                        >{{ country.name }}
                         </option>
                       </select>
                     </div>
                   </div>
                 </div>
 
-                <div class="row d-flex justify-content-end">
+                <div class="row d-flex justify-content-end" *ngIf="admin ==='true'">
                   <button
                     class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
                     (click)="setBlocked(false)"
@@ -105,7 +105,7 @@
               <th scope="col">#</th>
               <th scope="col">IBAN</th>
               <th scope="col">Currency</th>
-              <th scope="col" *ngIf="admin">TPP ID</th>
+              <th scope="col" *ngIf="admin ==='true'">TPP ID</th>
               <th scope="col">Account Type</th>
               <th scope="col">Usage Type</th>
               <th scope="col">Account Status</th>
@@ -117,7 +117,7 @@
               *ngFor="let account of accounts; index as i"
               [routerLink]="[createAccountDetailsLink(account.id)]"
               [queryParams]="{ page: config.currentPageNumber, tppId: account.branch }"
-              [ngClass]="{ 'disabled-tr': account.blocked }"
+              [ngClass]="{ 'disabled-text': account.blocked }"
             >
               <th scope="row">
                 {{
@@ -126,7 +126,7 @@
               </th>
               <td>{{ account.iban }}</td>
               <td>{{ account.currency }}</td>
-              <td>
+              <td *ngIf="admin ==='true'">
                 <a
                   [routerLink]="[createLastVisitedPageLink(account.branch)]"
                   [queryParams]="{ page: config.currentPageNumber }"

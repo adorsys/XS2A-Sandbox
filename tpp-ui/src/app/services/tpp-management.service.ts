@@ -151,6 +151,9 @@ export class TppManagementService {
       if (queryParams.blocked) {
         params = params.set('blocked', JSON.stringify(queryParams.blocked));
       }
+      if (queryParams.blocked === false) {
+        params = params.set('blocked', JSON.stringify(queryParams.blocked));
+      }
     }
 
     const endpoint = accounts ? 'account' : 'users';
