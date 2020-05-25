@@ -14,6 +14,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {TppQueryParams} from '../../models/tpp-management.model';
 import {CountryService} from '../../services/country.service';
 import {ADMIN_KEY} from '../../commons/constant/constant';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { InfoService } from '../../commons/info/info.service';
 
 @Component({
   selector: 'app-users',
@@ -44,12 +46,14 @@ export class UsersComponent implements OnInit {
 
   constructor(
     private userService: UserService,
+    private infoService: InfoService,
     private tppUserService: TppUserService,
     private countryService: CountryService,
     private pageNavigationService: PageNavigationService,
     private tppManagementService: TppManagementService,
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private modalService: NgbModal
   ) {
   }
 
@@ -181,5 +185,58 @@ export class UsersComponent implements OnInit {
         country: this.searchForm.get('country').value,
         blocked: this.searchForm.get('blocked').value,
       });
+  }
+
+  openConfirmation(content, userId: string, type: string) {
+    this.modalService.open(content).result.then(
+      () => {
+        if (type === 'block') {
+          this.blockUser(userId);
+        } else if (type === 'delete') {
+          this.delete(userId);
+        }
+      },
+      () => {
+      }
+    );
+  }
+
+  private blockUser(userId: string) {
+    if (this.admin === 'true') {
+      this.tppManagementService.blockUser(userId).subscribe(() => {
+        this.infoService.openFeedback('User was successfully blocked!', {
+          severity: 'info',
+        });
+        this.listUsers(this.config.currentPageNumber, this.config.itemsPerPage, {});
+      });
+    } else if (this.admin === 'false') {
+
+      this.userService.blockTpp(userId).subscribe(() => {
+        this.infoService.openFeedback('User was successfully blocked!', {
+          severity: 'info',
+        });
+        this.listUsers(this.config.currentPageNumber, this.config.itemsPerPage, {});
+      });
+    }
+  }
+
+
+  private delete(userId: string) {
+    if (this.admin === 'true') {
+      this.tppManagementService.deleteTpp(userId).subscribe(() => {
+        this.infoService.openFeedback('User was successfully deleted!', {
+          severity: 'info',
+        });
+        this.listUsers(this.config.currentPageNumber, this.config.itemsPerPage, {});
+      });
+    } else if (this.admin === 'false') {
+      this.userService.deleteTpp(userId).subscribe(() => {
+        this.infoService.openFeedback('User was successfully deleted!', {
+          severity: 'info',
+        });
+        this.listUsers(this.config.currentPageNumber, this.config.itemsPerPage, {});
+      });
+    }
+
   }
 }

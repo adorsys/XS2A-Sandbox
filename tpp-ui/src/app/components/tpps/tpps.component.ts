@@ -148,13 +148,14 @@ export class TppsComponent implements OnInit {
   }
 
   private blockTpp(userId: string) {
-    this.tppManagementService.blockTpp(userId).subscribe(() => {
+    this.tppManagementService.blockUser(userId).subscribe(() => {
       this.infoService.openFeedback('TPP was successfully blocked!', {
         severity: 'info',
       });
       this.getTpps(this.config.currentPageNumber, this.config.itemsPerPage, {});
     });
   }
+
   private delete(tppId: string) {
     this.tppManagementService.deleteTpp(tppId).subscribe(() => {
       this.infoService.openFeedback('TPP was successfully deleted!', {

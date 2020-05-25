@@ -14,7 +14,7 @@
       </div>
       <form novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()" autocomplete="off">
         <div class="card-body">
-          <div class="form-group required col-md-6 pd-0" for="tppId" *ngIf="admin">
+          <div class="form-group required col-md-6 pd-0" for="tppId" *ngIf="admin==='true'">
             <label class="control-label">Select TPP ID</label>
             <input
               [ngClass]="{

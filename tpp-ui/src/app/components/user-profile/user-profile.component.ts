@@ -85,7 +85,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   private blockTpp() {
-    this.tppService.blockTpp(this.tppUser.id).subscribe(() => {
+    this.tppService.blockUser(this.tppUser.id).subscribe(() => {
       this.infoService.openFeedback('TPP was successfully blocked!', {
         severity: 'info',
       });

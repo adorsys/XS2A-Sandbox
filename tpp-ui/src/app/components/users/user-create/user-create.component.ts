@@ -52,9 +52,11 @@ export class UserCreateComponent implements OnInit {
   }
 
   listUsers() {
-    this.tppManagementService.getTpps(0, 500).subscribe((resp: any) => {
-      this.users = resp.tpps;
-    });
+    if (this.admin === 'true') {
+      this.tppManagementService.getTpps(0, 500).subscribe((resp: any) => {
+        this.users = resp.tpps;
+      });
+    }
   }
 
   search: (obs: Observable<string>) => Observable<User[]> = (text$: Observable<string>) => {
@@ -159,16 +161,18 @@ export class UserCreateComponent implements OnInit {
     this.submitted = true;
 
     if (this.userForm.invalid) {
+      console.log('validation', this.userForm.invalid)
       return;
     }
+
     if (this.admin === 'true') {
       this.tppManagementService
         .createUser(this.userForm.value, this.userForm.get('tppId').value)
         .subscribe(() => this.router.navigate(['/users/all']));
     } else if (this.admin === 'false') {
-      this.userService.createUser(this.userForm.value).subscribe(
-        () => {
-          this.router.navigateByUrl('/users/all');
+      this.userService
+        .createUser(this.userForm.value)
+        .subscribe(() => {this.router.navigateByUrl('/users/all');
         },
         () => {
           this.infoService.openFeedback(

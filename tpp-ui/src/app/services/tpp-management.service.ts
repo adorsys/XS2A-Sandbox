@@ -27,13 +27,18 @@ export class TppManagementService {
     );
   }
 
-  blockTpp(tppId: string) {
-    return this.http.post(`${this.url}/admin/status?tppId=${tppId}`, null);
+  blockUser(userId: string) {
+    return this.http.post(`${this.url}/admin/status?userId=${userId}`, userId);
   }
 
   deleteTpp(tppId: string) {
     return this.http.delete(`${this.url}/admin?tppId=${tppId}`);
   }
+
+  deleteAccount(accountId: string) {
+      return this.http.delete(this.url + `/account/${accountId}`);
+  }
+
   updateUserDetails(user: User, tppId: string): Observable<any> {
     return this.http.put(this.url + `/admin/users?tppId=${tppId}`, user);
   }

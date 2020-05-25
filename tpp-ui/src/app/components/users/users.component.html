@@ -137,11 +137,11 @@
           <tbody>
             <tr
               *ngFor="let user of users; index as i"
+              [ngClass]="{ 'disabled-text': user.blocked }"
               [routerLink]="['/users/' + user.id]"
               [queryParams]="{ page: config.currentPageNumber }"
-              [ngClass]="{ 'disabled-text': user.blocked }"
             >
-              <th scope="row">
+              <th scope="row" >
                 {{
                   (config.currentPageNumber - 1) * config.itemsPerPage + i + 1
                 }}
@@ -196,7 +196,88 @@
                   </li>
                 </ul>
               </td>
-              <td>
+              <td class="action d-flex">
+                <button  class="btn btn-outline-danger btn-sm wd-120 mr-2"
+                (click)="openConfirmation(deleteConfirmationModal, user.branch, 'delete')"
+                > Delete
+                </button>
+                <button
+                  class="btn btn-table-btn btn-sm wd-120 mr-2"
+                  (click)="openConfirmation(blockConfirmation, user.id, 'block')"
+                >
+                  {{ user.blocked ? 'Unblock User' : 'Block User' }}
+                </button>
+
+                <ng-template #deleteConfirmationModal let-modal>
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="modal-basic-title">
+                      User deletion
+                    </h4>
+                    <button
+                      type="button"
+                      class="close"
+                      aria-label="Close"
+                      (click)="modal.dismiss('Cross click')"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Are you sure you want to delete this User?
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-outline-secondary"
+                      (click)="modal.dismiss('cancel click')"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-danger"
+                      (click)="modal.close('Ok click')"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </ng-template>
+                <ng-template #blockConfirmation let-modal>
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="modal-basic-title-1">
+                      User  {{ user.blocked ? 'unblocking' : 'blocking' }}
+                    </h4>
+                    <button
+                      type="button"
+                      class="close"
+                      aria-label="Close"
+                      (click)="modal.dismiss('Cross click')"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Are you sure you want to
+                    {{ user.blocked ? 'Unblock' : 'Block' }} this User?
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-outline-secondary"
+                      (click)="modal.dismiss('cancel click')"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-danger"
+                      (click)="modal.close('Ok click')"
+                    >
+                      {{ user.blocked ? 'Unblock' : 'Block' }}
+                    </button>
+                  </div>
+                </ng-template>
+
                 <a
                   class="btn btn-table-btn"
                   routerLink="/users/{{ user.id }}/create-deposit-account"
