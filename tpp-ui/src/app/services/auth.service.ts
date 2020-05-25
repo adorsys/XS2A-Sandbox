@@ -19,6 +19,7 @@ export class AuthService {
   private authTokenStorageKey = 'access_token';
   private jwtHelperService = new JwtHelperService();
 
+
   constructor(private http: HttpClient,
               private router: Router,
               private autoLogoutService: AutoLogoutService) {
@@ -52,6 +53,9 @@ export class AuthService {
   }
 
   register(tppInfo: TppInfo, countryCode: string): Observable<any> {
+    if (tppInfo.id.startsWith(countryCode)) {
+      tppInfo.id = tppInfo.id.substring(3);
+    }
     tppInfo.id = countryCode + '_' + tppInfo.id;
     return this.http.post(this.url + '/register', tppInfo);
   }
@@ -79,7 +83,6 @@ export class AuthService {
     let admin = false;
     if (loginResponse['role'] === 'SYSTEM') {
        admin = true;
-       console.log('role', admin);
     }
     localStorage.setItem(ADMIN_KEY, admin ? 'true' : 'false');
   }

@@ -122,12 +122,12 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let tpp of tpps; index as i">
+            <tr *ngFor="let tpp of tpps; index as i"
+                [ngClass]="{ 'disabled-text': tpp.blocked }">
               <th
                 scope="row"
                 [routerLink]="[createLastVisitedPageLink(tpp.id)]"
                 [queryParams]="{ page: config.currentPageNumber }"
-                [ngClass]="{ 'disabled-text': tpp.blocked }"
               >
                 {{
                 (config.currentPageNumber - 1) * config.itemsPerPage + i + 1

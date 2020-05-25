@@ -139,7 +139,7 @@
               *ngFor="let user of users; index as i"
               [routerLink]="['/users/' + user.id]"
               [queryParams]="{ page: config.currentPageNumber }"
-              [ngClass]="{ 'disabled-tr': user.blocked }"
+              [ngClass]="{ 'disabled-text': user.blocked }"
             >
               <th scope="row">
                 {{
