@@ -43,7 +43,7 @@ export class UserService {
     return this.http.post(`${this.url}/users/status?userId=${userId}`, userId);
   }
 
-  deleteTpp(userId: string) {
+  deleteUser(userId: string) {
     return this.http.delete(`${this.url}/user/${userId}`);
   }
 

@@ -31,8 +31,16 @@ export class TppManagementService {
     return this.http.post(`${this.url}/admin/status?userId=${userId}`, userId);
   }
 
+  blockAccount(accountId: string) {
+    return this.http.post(`${this.url}/accounts/status?accountId=${accountId}`, accountId);
+  }
+
   deleteTpp(tppId: string) {
     return this.http.delete(`${this.url}/admin?tppId=${tppId}`);
+  }
+
+  deleteUser(userId: string) {
+    return this.http.delete(`${this.url}/user/${userId}`);
   }
 
   deleteAccount(accountId: string) {

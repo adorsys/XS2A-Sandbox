@@ -219,19 +219,11 @@ export class AccountListComponent implements OnInit, OnDestroy {
   }
 
   private blockAccount(accountId: string) {
-    if (this.admin === 'true') {
-      this.tppManagementService.blockUser(accountId).subscribe(() => {
+      this.tppManagementService.blockAccount(accountId).subscribe(() => {
         this.infoService.openFeedback('Account was successfully blocked!', {
           severity: 'info',
         });
       });
-    } else if (this.admin === 'false') {
-      this.accountService.blockAccount(accountId).subscribe(() => {
-        this.infoService.openFeedback('Account was successfully blocked!', {
-          severity: 'info',
-        });
-      });
-    }
   }
 
 

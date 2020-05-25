@@ -223,14 +223,14 @@ export class UsersComponent implements OnInit {
 
   private delete(userId: string) {
     if (this.admin === 'true') {
-      this.tppManagementService.deleteTpp(userId).subscribe(() => {
+      this.tppManagementService.deleteUser(userId).subscribe(() => {
         this.infoService.openFeedback('User was successfully deleted!', {
           severity: 'info',
         });
         this.listUsers(this.config.currentPageNumber, this.config.itemsPerPage, {});
       });
     } else if (this.admin === 'false') {
-      this.userService.deleteTpp(userId).subscribe(() => {
+      this.userService.deleteUser(userId).subscribe(() => {
         this.infoService.openFeedback('User was successfully deleted!', {
           severity: 'info',
         });
