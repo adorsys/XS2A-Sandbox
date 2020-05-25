@@ -54,10 +54,19 @@ public interface TppAdminRestApi {
                                                                       @RequestParam("page") int page,
                                                                       @RequestParam("size") int size);
 
-    @ApiOperation(value = "Register new TPP", authorizations = @Authorization(value = "apiKey"))
+    @ApiOperation(value = "Register new User", authorizations = @Authorization(value = "apiKey"))
     @PostMapping("/register")
     ResponseEntity<Void> register(@RequestBody User user,
                                   @RequestParam(value = TPP_ID) String tppId);
+
+    @ApiOperation(value = "Register new Admin", authorizations = @Authorization(value = "apiKey"))
+    @PostMapping("/register/admin")
+    ResponseEntity<Void> admin(@RequestBody User user);
+
+    @ApiOperation(value = "Retrieves Users with Admin rights", authorizations = @Authorization(value = "apiKey"))
+    @GetMapping("/admins")
+    ResponseEntity<CustomPageImpl<UserTO>> admins(@RequestParam("page") int page,
+                                                @RequestParam("size") int size);
 
     @ApiOperation(value = "Remove Tpp", authorizations = @Authorization(value = "apiKey"))
     @DeleteMapping()

@@ -37,6 +37,7 @@ import { UserCreateComponent } from './components/users/user-create/user-create.
 import { UserDetailsComponent } from './components/users/user-details/user-details.component';
 import { UserUpdateComponent } from './components/users/user-update/user-update.component';
 import { UsersComponent } from './components/users/users.component';
+import {AdminsComponent} from "./components/admin/admins.component";
 import { AuthGuard } from './guards/auth.guard';
 import { AuthInterceptor } from './interceptors/auth-interceptor';
 import { GlobalErrorsHandler } from './interceptors/global-errors-handler';
@@ -46,6 +47,7 @@ import { SettingsHttpService } from './services/settings-http.service';
 import { UploadFileComponent } from './uploadFile/uploadFile.component';
 import { PaginationContainerComponent } from './commons/pagination-container/pagination-container.component';
 import { TppsComponent } from './components/tpps/tpps.component';
+import {AdminCreateComponent} from "./components/admin/admin-create/admin-create.component";
 
 export function app_Init(settingsHttpService: SettingsHttpService) {
   return () => settingsHttpService.initializeApp();
@@ -64,6 +66,8 @@ export function app_Init(settingsHttpService: SettingsHttpService) {
     AccountDetailComponent,
     NotFoundComponent,
     CashDepositComponent,
+    AdminsComponent,
+    AdminCreateComponent,
     UsersComponent,
     UserDetailsComponent,
     UserCreateComponent,

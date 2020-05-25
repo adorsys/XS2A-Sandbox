@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
+
 import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
@@ -48,6 +50,19 @@ public class TppAdminController implements TppAdminRestApi {
         }
         adminRestClient.register(userTO);
         return ResponseEntity.status(CREATED).build();
+    }
+
+    @Override
+    public ResponseEntity<Void> admin(User user) {
+        UserTO userTO = userMapper.toUserTO(user);
+        userTO.setUserRoles(Collections.singletonList(UserRoleTO.SYSTEM));
+        adminRestClient.register(userTO);
+        return ResponseEntity.status(CREATED).build();
+    }
+
+    @Override
+    public ResponseEntity<CustomPageImpl<UserTO>> admins(int page, int size) {
+        return adminRestClient.admins(page, size);
     }
 
     @Override

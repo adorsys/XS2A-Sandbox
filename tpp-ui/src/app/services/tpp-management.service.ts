@@ -55,6 +55,10 @@ export class TppManagementService {
     return this.http.post(this.url + `/admin/register?tppId=${tppId}`, user);
   }
 
+  createAdmin(user: User): Observable<any> {
+    return this.http.post(this.url + `/admin/register/admin`, user);
+  }
+
   deleteSelf() {
     return this.http.delete(this.url + '/self');
   }
@@ -174,5 +178,20 @@ export class TppManagementService {
       `${this.url}/admin/${endpoint}`,
       { params: params }
     );
+  }
+
+  getAllAdmins(number: number, size: number) {
+    let params = new HttpParams();
+    params = params.set('page', number.toLocaleString());
+    params = params.set('size', size.toLocaleString());
+    return this.http.get<PaginationResponse<User[]>>(
+      `${this.url}/admin/admins`,
+      { params: params }
+    ).pipe(map((resp) => {
+      return {
+        users: resp.content,
+        totalElements: resp.totalElements,
+      };
+    }));
   }
 }

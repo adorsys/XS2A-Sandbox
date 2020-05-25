@@ -53,7 +53,7 @@ public interface TppRestApi {
     @DeleteMapping("/account/{accountId}")
     ResponseEntity<Void> account(@PathVariable String accountId);
 
-    @ApiOperation(value = "Remove account", authorizations = @Authorization(value = "apiKey"))
+    @ApiOperation(value = "Remove user", authorizations = @Authorization(value = "apiKey"))
     @DeleteMapping("/user/{userId}")
     ResponseEntity<Void> user(@PathVariable String userId);
 }

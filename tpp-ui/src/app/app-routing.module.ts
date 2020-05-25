@@ -21,9 +21,11 @@ import {UserCreateComponent} from './components/users/user-create/user-create.co
 import {UserDetailsComponent} from './components/users/user-details/user-details.component';
 import {UserUpdateComponent} from './components/users/user-update/user-update.component';
 import {UsersComponent} from './components/users/users.component';
+import {AdminsComponent} from "./components/admin/admins.component";
 import {AuthGuard} from './guards/auth.guard';
 import {UploadFileComponent} from './uploadFile/uploadFile.component';
 import {TppsComponent} from './components/tpps/tpps.component';
+import {AdminCreateComponent} from "./components/admin/admin-create/admin-create.component";
 
 const routes: Routes = [
   {
@@ -55,6 +57,14 @@ const routes: Routes = [
       {
         path: 'accounts/:id/deposit-cash',
         component: CashDepositComponent
+      },
+      {
+        path: 'admin/all',
+        component:AdminsComponent
+      },
+      {
+        path: 'admin/create',
+        component:AdminCreateComponent
       },
       {
         path: 'users/all',
