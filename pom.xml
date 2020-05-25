@@ -411,7 +411,6 @@
                     <append>true</append>
                     <excludes>
                         <exclude>**/generated-sources/**</exclude>
-                        <exclude>**/config/**</exclude>
                         <exclude>**/*Config*.*</exclude>
 
                     </excludes>
