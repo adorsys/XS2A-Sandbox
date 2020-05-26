@@ -61,7 +61,7 @@ export class UserCreateComponent implements OnInit {
         email: ['', [Validators.required, Validators.email]],
         login: ['', Validators.required],
         pin: ['', [Validators.required, Validators.minLength(5)]],
-        userRoles: this.formBuilder.array(['SYSTEM'])
+        userRoles: this.formBuilder.array(['CUSTOMER'])
       });
     } else if (this.admin === 'false') {
       this.userForm = this.formBuilder.group({
