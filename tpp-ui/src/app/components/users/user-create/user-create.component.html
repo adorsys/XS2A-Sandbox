@@ -25,7 +25,7 @@
                     submitted)
               }"
               class="form-control arrow"
-              id="tppId"
+              formControlName="tppId"
               #instance="ngbTypeahead"
               (focus)="focus$.next($event.target.value)"
               (click)="click$.next($event.target.value)"
@@ -74,7 +74,7 @@
                            class="form-control"
                            formControlName="login"
                            id="login"
-                           placeholder="Enter your banking login"
+                           placeholder="Enter your login"
                            type="text">
                     <div *ngIf="(formControl['login'].touched || submitted) && formControl['login'].hasError('required')"
                          class="invalid-feedback">
