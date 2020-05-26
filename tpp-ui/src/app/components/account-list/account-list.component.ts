@@ -1,20 +1,23 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AccountService } from '../../services/account.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Account, AccountResponse } from '../../models/account.model';
-import { Subscription } from 'rxjs';
-import { map, tap, debounceTime } from 'rxjs/operators';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AccountService} from '../../services/account.service';
+import {Router, ActivatedRoute} from '@angular/router';
+import {Account, AccountResponse} from '../../models/account.model';
+import {Subscription} from 'rxjs';
+import {map, tap, debounceTime} from 'rxjs/operators';
 import {
   PageConfig,
   PaginationConfigModel,
 } from '../../models/pagination-config.model';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { PageNavigationService } from '../../services/page-navigation.service';
-// import {TppManagementService} from '../../services/tpp-management.service';
-import { User } from '../../models/user.model';
-import { TppUserService } from '../../services/tpp.user.service';
-import { CountryService } from '../../services/country.service';
-import { TppQueryParams } from '../../models/tpp-management.model';
+import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+import {PageNavigationService} from '../../services/page-navigation.service';
+import {TppManagementService} from '../../services/tpp-management.service';
+import {User} from '../../models/user.model';
+import {TppUserService} from '../../services/tpp.user.service';
+import {CountryService} from '../../services/country.service';
+import {TppQueryParams} from '../../models/tpp-management.model';
+import {ADMIN_KEY} from '../../commons/constant/constant';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {InfoService} from '../../commons/info/info.service';
 
 @Component({
   selector: 'app-account-list',
@@ -23,7 +26,8 @@ import { TppQueryParams } from '../../models/tpp-management.model';
 })
 // TODO Merge UsersComponent, TppsComponent and AccountListComponent into one single component https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/-/issues/713
 export class AccountListComponent implements OnInit, OnDestroy {
-  admin = false;
+  admin: string;
+  users: User[] = [];
   accounts: Account[] = [];
   subscription = new Subscription();
   countries: Array<object> = [];
@@ -48,12 +52,16 @@ export class AccountListComponent implements OnInit, OnDestroy {
     public router: Router,
     private countryService: CountryService,
     public pageNavigationService: PageNavigationService,
-    // private tppManagementService: TppManagementService,
+    private tppManagementService: TppManagementService,
+    private infoService: InfoService,
     private tppUserService: TppUserService,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private modalService: NgbModal
+  ) {
+  }
 
   ngOnInit() {
+    this.admin = localStorage.getItem(ADMIN_KEY);
     this.getPageConfigs();
     this.getCountries();
     this.getCurrentData();
@@ -61,23 +69,21 @@ export class AccountListComponent implements OnInit, OnDestroy {
   }
 
   getAccounts(page: number, size: number, params: TppQueryParams) {
-    // if (this.admin) {
-    //   this.tppManagementService.getAllAccounts(page - 1, size, params).subscribe((response: AccountResponse) => {
-    //     this.accounts = response.accounts;
-    //     this.config.totalItems = response.totalElements;
-    //   });
-    // } else if (this.admin === false) {
-    //   this.accountService.getAccounts(page - 1, size, params.ibanParam).subscribe((response: AccountResponse) => {
-    //     this.accounts = response.accounts;
-    //     this.config.totalItems = response.totalElements;
-    //   });
-    // }
-    this.accountService
-      .getAccounts(page - 1, size, params.ibanParam)
-      .subscribe((response: AccountResponse) => {
-        this.accounts = response.accounts;
-        this.config.totalItems = response.totalElements;
-      });
+    if (this.admin === 'true') {
+      this.tppManagementService
+        .getAllAccounts(page - 1, size, params)
+        .subscribe((response: AccountResponse) => {
+          this.accounts = response.accounts;
+          this.config.totalItems = response.totalElements;
+        });
+    } else if (this.admin === 'false') {
+      this.accountService
+        .getAccounts(page - 1, size, params.ibanParam)
+        .subscribe((response: AccountResponse) => {
+          this.accounts = response.accounts;
+          this.config.totalItems = response.totalElements;
+        });
+    }
   }
 
   goToDepositCash(account: Account) {
@@ -110,7 +116,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
     this.searchForm.valueChanges
       .pipe(
         tap((val) => {
-          this.searchForm.patchValue(val, { emitEvent: false });
+          this.searchForm.patchValue(val, {emitEvent: false});
         }),
         debounceTime(750)
       )
@@ -134,6 +140,11 @@ export class AccountListComponent implements OnInit, OnDestroy {
     const baseLink = '/accounts/';
     this.pageNavigationService.setLastVisitedPage(baseLink);
     return `${baseLink}${id}`;
+  }
+
+  createLastVisitedPageLink(id: string): string {
+    this.pageNavigationService.setLastVisitedPage('/accounts');
+    return `/profile/${id}`;
   }
 
   setBlocked(blocked) {
@@ -180,19 +191,59 @@ export class AccountListComponent implements OnInit, OnDestroy {
   }
 
   private getCurrentData() {
-    this.tppUserService.currentTppUser.subscribe((user: User) => {
-      this.admin = user && user.userRoles.includes('SYSTEM');
-      this.getAccounts(
-        this.config.currentPageNumber,
-        this.config.itemsPerPage,
-        {
-          userLogin: this.searchForm.get('ibanParam').value,
-          tppId: this.searchForm.get('tppId').value,
-          tppLogin: this.searchForm.get('tppLogin').value,
-          country: this.searchForm.get('country').value,
-          blocked: this.searchForm.get('blocked').value,
-        }
-      );
-    });
+    this.getAccounts(
+      this.config.currentPageNumber,
+      this.config.itemsPerPage,
+      {
+        userLogin: this.searchForm.get('ibanParam').value,
+        tppId: this.searchForm.get('tppId').value,
+        tppLogin: this.searchForm.get('tppLogin').value,
+        country: this.searchForm.get('country').value,
+        blocked: this.searchForm.get('blocked').value,
+      }
+    );
   }
+
+  openConfirmation(content, tppId: string, type: string) {
+    this.modalService.open(content).result.then(
+      () => {
+        if (type === 'block') {
+          this.blockAccount(tppId);
+        } else if (type === 'delete') {
+          this.delete(tppId);
+        }
+      },
+      () => {
+      }
+    );
+  }
+
+  private blockAccount(accountId: string) {
+      this.tppManagementService.blockAccount(accountId).subscribe(() => {
+        this.infoService.openFeedback('Account was successfully blocked!', {
+          severity: 'info',
+        });
+        this.getAccounts(this.config.currentPageNumber, this.config.itemsPerPage, {});
+      });
+  }
+
+
+  private delete(accountId: string) {
+    if (this.admin === 'true') {
+      this.tppManagementService.deleteAccount(accountId).subscribe(() => {
+        this.infoService.openFeedback('Account was successfully deleted!', {
+          severity: 'info',
+        });
+        this.getAccounts(this.config.currentPageNumber, this.config.itemsPerPage, {});
+      });
+    } else if (this.admin === 'false') {
+      this.accountService.deleteAccount(accountId).subscribe(() => {
+        this.infoService.openFeedback('Account was successfully blocked!', {
+          severity: 'info',
+        });
+        this.getAccounts(this.config.currentPageNumber, this.config.itemsPerPage, {});
+      });
+    }
+  }
+
 }

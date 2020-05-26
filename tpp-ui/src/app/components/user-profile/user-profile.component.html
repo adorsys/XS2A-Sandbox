@@ -1,119 +1,191 @@
 <div class="container-fluid">
   <div class="card">
     <div class="card-body--large">
-      <button class="btn btn-sm btn-outline-secondary" [routerLink]="[pageNavigationService.getLastVisitedPage()]"
-              queryParamsHandling="preserve">
+      <button
+        class="btn btn-sm btn-outline-secondary"
+        [routerLink]="[pageNavigationService.getLastVisitedPage()]"
+        queryParamsHandling="preserve"
+      >
         &lt; Back
       </button>
 
       <div class="header__title">TPP User Details</div>
       <div class="row">
         <div class="col-4 col-md-3">Login</div>
-        <div class="col-8 col-md-9 text-muted">{{tppUser?.login}}</div>
+        <div class="col-8 col-md-9 text-muted">{{ tppUser?.login }}</div>
       </div>
       <div class="row">
         <div class="col-12 col-md-3">TPP ID</div>
-        <div class="col-12 col-md-9 text-muted">{{tppUser?.id}}</div>
+        <div class="col-12 col-md-9 text-muted">{{ tppUser?.id }}</div>
       </div>
 
       <div class="row" *ngIf="countries && tppUser?.login !== 'admin'">
         <div class="col-12 col-md-3">Country</div>
-        <div class="col-12 col-md-9 text-muted">{{countryService.getCountryByTppId(countries, tppUser?.id)}}</div>
+        <div class="col-12 col-md-9 text-muted">
+          {{ countryService.getCountryByTppId(countries, tppUser?.id) }}
+        </div>
       </div>
 
       <div class="row">
-        <div class="col-12 col-md-3 ">Email</div>
-        <div class="col-12 col-md-9 text-muted">{{tppUser?.email}}</div>
+        <div class="col-12 col-md-3">Email</div>
+        <div class="col-12 col-md-9 text-muted">{{ tppUser?.email }}</div>
       </div>
 
       <div class="row" *ngIf="admin">
         <div class="col-12 col-md-3">State</div>
-        <div class="col-12 col-md-9 text-muted">{{tppUser?.blocked ? 'Blocked' : 'Active'}}</div>
+        <div class="col-12 col-md-9 text-muted">
+          {{ tppUser?.blocked ? 'Blocked' : 'Active' }}
+        </div>
       </div>
 
       <div class="row" *ngIf="admin && tppUser?.login !== 'admin'">
         <div class="col-12 col-md-3">Users</div>
         <div class="col-12 col-md-9 text-muted">
-          <a [routerLink]="['/users/all']"
-             [queryParams]="{'tppId': tppUser?.id}">
-            {{userAmount || 0}}
-          </a></div>
-      </div>
-
-      <div class="row" *ngIf="admin  && tppUser?.login !== 'admin'">
-        <div class="col-12 col-md-3">Accounts</div>
-        <div class="col-12 col-md-9 text-muted">
-          <a [routerLink]="['/accounts']" [queryParams]="{'tppId': tppUser.id}">
-            {{tppUser?.accountAccesses?.length || 0}}
+          <a
+            [routerLink]="['/users/all']"
+            [queryParams]="{ tppId: tppUser?.id }"
+          >
+            {{ userAmount || 0 }}
           </a>
         </div>
       </div>
 
-      <div class="row d-flex justify-content-between" *ngIf="tppUser?.login !== 'admin'">
+      <div class="row" *ngIf="admin && tppUser?.login !== 'admin'">
+        <div class="col-12 col-md-3">Accounts</div>
+        <div class="col-12 col-md-9 text-muted">
+          <a [routerLink]="['/accounts']" [queryParams]="{ tppId: tppUser.id }">
+            {{ tppUser?.accountAccesses?.length || 0 }}
+          </a>
+        </div>
+      </div>
+
+      <div
+        class="row d-flex justify-content-between"
+        *ngIf="tppUser?.login !== 'admin'"
+      >
         <div>
-          <button class="btn btn-primary mr-2 ml-3"
-                  [routerLink]="['/edit/' + tppUser?.id]"
-                  type="button">Edit
+          <button
+            class="btn btn-primary mr-2 ml-3"
+            [routerLink]="['/edit/' + tppUser?.id]"
+            type="button"
+          >
+            Edit
           </button>
 
-          <button class="btn btn-primary mr-2 ml-1"
-                  (click)="openConfirmation(changePinModal, 'pin')"
-                  *ngIf="admin"
-                  type="button">Change PIN
+          <button
+            class="btn btn-primary mr-2 ml-1"
+            (click)="openConfirmation(changePinModal, 'pin')"
+            *ngIf="admin"
+            type="button"
+          >
+            Change PIN
           </button>
 
-          <button class="btn btn-outline-danger mr-2 ml-1"
-                  (click)="openConfirmation(blockConfirmation, 'block')"
-                  *ngIf="admin"
-                  type="button">Block
+          <button
+            class="btn btn-outline-danger mr-2 ml-1"
+            (click)="openConfirmation(blockConfirmation, 'block')"
+            *ngIf="admin"
+            type="button"
+          >
+            {{ tppUser.blocked ? 'Unblock' : 'Block' }}
           </button>
 
           <ng-template #changePinModal let-modal>
             <div class="modal-header">
-              <h4 class="modal-title" id="modal-basic-title-2">Change password for TPP</h4>
-              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <h4 class="modal-title" id="modal-basic-title-2">
+                Change password for TPP
+              </h4>
+              <button
+                type="button"
+                class="close"
+                aria-label="Close"
+                (click)="modal.dismiss('Cross click')"
+              >
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
-              <input type="text" class="form-control"
-                     [(ngModel)]="newPin" [ngClass]="{'is-invalid': !newPin || newPin === ''}"
-                     [ngModelOptions]="{standalone: true}">
-              <div lass="invalid-feedback" *ngIf="!newPin || newPin === ''"> Please, enter any PIN for TPP, PIN cannot be empty</div>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="newPin"
+                [ngClass]="{ 'is-invalid': !newPin || newPin === '' }"
+                [ngModelOptions]="{ standalone: true }"
+                type="password"
+              />
+              <div lass="invalid-feedback" *ngIf="!newPin || newPin === ''">
+                Please, enter any PIN for TPP, PIN cannot be empty
+              </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                (click)="modal.dismiss('cancel click')"
+              >
+                Cancel
               </button>
-              <button type="button" class="btn btn-primary" (click)="modal.close('Ok click')">Change PIN</button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="modal.close('Ok click')"
+              >
+                Change PIN
+              </button>
             </div>
           </ng-template>
 
           <ng-template #blockConfirmation let-modal>
             <div class="modal-header">
               <h4 class="modal-title" id="modal-basic-title-1">TPP blocking</h4>
-              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <button
+                type="button"
+                class="close"
+                aria-label="Close"
+                (click)="modal.dismiss('Cross click')"
+              >
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
-              Are you sure you want to block this TPP?
+              Are you sure you want to
+              {{ tppUser.blocked ? 'Unblock TPP' : 'Block TPP' }} this TPP?
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                (click)="modal.dismiss('cancel click')"
+              >
+                Cancel
               </button>
-              <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Block</button>
+              <button
+                type="button"
+                class="btn btn-danger"
+                (click)="modal.close('Ok click')"
+              >
+                {{ tppUser.blocked ? 'Unblock TPP' : 'Block TPP' }}
+              </button>
             </div>
           </ng-template>
         </div>
 
-        <button (click)="openConfirmation(deleteConfirmationModal, 'delete')" class="btn btn-danger mr-3">
+        <button
+          (click)="openConfirmation(deleteConfirmationModal, 'delete')"
+          class="btn btn-danger mr-3"
+        >
           Delete TPP
         </button>
 
         <ng-template #deleteConfirmationModal let-modal>
           <div class="modal-header">
             <h4 class="modal-title" id="modal-basic-title">TPP deletion</h4>
-            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <button
+              type="button"
+              class="close"
+              aria-label="Close"
+              (click)="modal.dismiss('Cross click')"
+            >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -121,9 +193,20 @@
             Are you sure you want to delete this TPP?
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              (click)="modal.dismiss('cancel click')"
+            >
+              Cancel
             </button>
-            <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Delete</button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              (click)="modal.close('Ok click')"
+            >
+              Delete
+            </button>
           </div>
         </ng-template>
       </div>

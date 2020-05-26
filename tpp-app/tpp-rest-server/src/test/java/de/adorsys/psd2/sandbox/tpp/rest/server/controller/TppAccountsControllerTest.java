@@ -169,6 +169,13 @@ class TppAccountsControllerTest {
         assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
     }
 
+    @Test
+    void changeStatus() {
+        when(accountMgmtStaffRestClient.changeStatus(anyString())).thenReturn(ResponseEntity.ok(true));
+        ResponseEntity<Boolean> result = accountsController.changeStatus(ACCOUNT_ID);
+        assertEquals(ResponseEntity.ok(true), result);
+    }
+
     private AmountTO getAmountTO() {
         return new AmountTO(EUR, BigDecimal.ONE);
     }

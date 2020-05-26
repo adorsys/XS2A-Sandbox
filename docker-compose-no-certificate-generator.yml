@@ -10,10 +10,9 @@ volumes:
   xs2a-tpp-rest-server-data:
 
 services:
-
   # Xs2a connector example
   xs2a-connector-examples:
-    image: adorsys/xs2a-connector-examples:7.1
+    image: adorsys/xs2a-connector-examples:${XS2A_CONNECTOR_VERSION}
     container_name: xs2a-connector-examples
     restart: on-failure
     ports:
@@ -21,10 +20,11 @@ services:
       - "8189:8000"
     environment:
       - SPRING_PROFILES_ACTIVE=mock-qwac
-      - ASPSP-PROFILE_BASEURL=http://xs2a-aspsp-profile:8080/api/v1
-      - CONSENT-SERVICE_BASEURL=http://xs2a-consent-management:8080/api/v1
-      - CMS_URL=http://xs2a-consent-management:8080
-      - LEDGERS_URL=http://ledgers:8088
+      - XS2A_CMS_ASPSP-PROFILE_BASEURL=http://xs2a-aspsp-profile:8080/api/v1
+      - XS2A_CMS_CONSENT-SERVICE_BASEURL=http://xs2a-consent-management:8080/api/v1
+      - XS2A_CMS_URL=http://xs2a-consent-management:8080
+      - XS2ASANDBOX_LEDGERS_URL=http://ledgers:8088
+      - XS2ASANDBOX_TPPUI_ONLINE-BANKING_URL=http://xs2a-online-banking:8090/api/v1/consents/confirm/{userLogin}/{consentId}/{authorizationId}/{tan}
       - QWAC_CERTIFICATE_MOCK=${QWAC_CERTIFICATE_MOCK}
     networks:
       - xs2a-net
@@ -35,7 +35,7 @@ services:
 
   # Xs2a aspsp profile
   xs2a-aspsp-profile:
-    image: adorsys/xs2a-aspsp-profile:7.1
+    image: adorsys/xs2a-aspsp-profile:${XS2A_ASPSP_PROFILE_VERSION}
     container_name: xs2a-aspsp-profile
     restart: on-failure
     environment:
@@ -51,7 +51,7 @@ services:
 
   # Consent management
   xs2a-consent-management:
-    image: adorsys/xs2a-consent-management:7.1
+    image: adorsys/xs2a-consent-management:${XS2A_CONSENT_MANAGEMENT_VERSION}
     container_name: xs2a-consent-management
     restart: on-failure
     ports:
@@ -59,7 +59,7 @@ services:
     networks:
       - xs2a-net
     environment:
-      - ASPSP-PROFILE_BASEURL=http://xs2a-aspsp-profile:8080/api/v1
+      - XS2A_CMS_ASPSP_PROFILE_BASEURL=http://xs2a-aspsp-profile:8080/api/v1
       - SPRING_DATASOURCE_URL=jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=consent
       - SPRING_DATASOURCE_USERNAME=cms
       - SPRING_DATASOURCE_PASSWORD=cms
@@ -91,7 +91,7 @@ services:
 
   # Xs2a online banking backend
   xs2a-online-banking:
-    image: adorsys/xs2a-online-banking
+    image: adorsys/xs2a-online-banking:${SANDBOX_VERSION}
     container_name: xs2a-online-banking
     restart: on-failure
     build:
@@ -110,6 +110,8 @@ services:
       XS2A_URL: "http://xs2a-connector-examples:8089"
       LEDGERS_URL: "http://ledgers:8088"
       CMS_URL: "http://xs2a-consent-management:8080"
+      OBA_URL: "http://localhost:4400"
+      SELF_URL: "http://localhost:8090"
       ONLINE_BANKING_SCA_LOGINPAGE: "http://localhost:4400/"
       ONLINE_BANKING_SCA_UIREDIRECT: "true"
       ONLINE-BANKING_URL: "http://xs2a-online-banking:8090/api/v1/consents/confirm/{userLogin}/{consentId}/{authorizationId}/{tan}"
@@ -120,7 +122,7 @@ services:
 
   # Ledgers
   ledgers:
-    image: adorsys/ledgers:3.0
+    image: adorsys/ledgers:${LEDGERS_VERSION}
     container_name: ledgers
     restart: on-failure
     networks:
@@ -129,7 +131,7 @@ services:
       - "8088:8088"
       - "8188:8001"
     environment:
-      - SPRING_PROFILES_ACTIVE=postgres,develop
+      - SPRING_PROFILES_ACTIVE=postgres,sandbox
       - SPRING_JPA_SHOW_SQL=false
       - DB_HOST=xs2a-consent-management-db
       - DB_URL=jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=ledgers
@@ -138,6 +140,7 @@ services:
       - DB_PASSWORD=cms
       - LIQUIBASE_ENABLED=true
       - SCA_MULTILEVEL_ENABLED=false
+      - AUTHORISATION_CONFIRMATION_ENABLED=false
       - SPRING_MAIL_HOST=fakesmtp
       - SPRING_MAIL_PORT=25
     volumes:
@@ -147,7 +150,7 @@ services:
 
   # Xs2a online banking frontend
   xs2a-online-banking-ui:
-    image: adorsys/xs2a-online-banking-ui
+    image: adorsys/xs2a-online-banking-ui:${SANDBOX_VERSION}
     restart: on-failure
     build:
       context: oba-ui
@@ -165,7 +168,7 @@ services:
 
   # TPP-UI
   xs2a-tpp-ui:
-    image: adorsys/xs2a-bank-tpp-ui
+    image: adorsys/xs2a-bank-tpp-ui:${SANDBOX_VERSION}
     restart: on-failure
     environment:
       - TPP_REST_SERVER_URL=http://xs2a-tpp-rest-server:8093
@@ -183,7 +186,7 @@ services:
 
   # TPP-REST-SERVER
   xs2a-tpp-rest-server:
-    image: adorsys/xs2a-tpp-rest-server
+    image: adorsys/xs2a-tpp-rest-server:${SANDBOX_VERSION}
     restart: on-failure
     environment:
       LEDGERS_URL: "http://ledgers:8088"
@@ -206,7 +209,7 @@ services:
 
   # Developer portal ui
   developer-portal-ui:
-    image: adorsys/xs2a-bank-devportal
+    image: adorsys/xs2a-bank-devportal:${SANDBOX_VERSION}
     restart: on-failure
     build:
       context: developer-portal-ui

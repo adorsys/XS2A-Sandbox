@@ -1,5 +1,6 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.controller;
 
+import de.adorsys.ledgers.middleware.api.domain.general.BbanStructure;
 import de.adorsys.ledgers.middleware.api.domain.um.AccountAccessTO;
 import de.adorsys.ledgers.middleware.api.domain.um.ScaUserDataTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserRoleTO;
@@ -14,6 +15,7 @@ import org.iban4j.CountryCode;
 import org.iban4j.bban.BbanStructureEntry.EntryCharacterType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -26,7 +28,7 @@ import static org.iban4j.CountryCode.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class TppControllerTest {
@@ -130,6 +132,20 @@ class TppControllerTest {
         assertEquals(Objects.requireNonNull(response.getBody()).size(), getSupportedCurrencies().size());
     }
 
+    @Test
+    void getRandomTppId() {
+        when(dataRestClient.branchId(any())).thenReturn(ResponseEntity.ok("DE_123"));
+        BankCodeStructure structure = new BankCodeStructure(DE);
+        ResponseEntity<String> result = tppController.getRandomTppId("DE");
+        ArgumentCaptor<BbanStructure> captor = ArgumentCaptor.forClass(BbanStructure.class);
+        verify(dataRestClient, times(1)).branchId(captor.capture());
+        BbanStructure value = captor.getValue();
+        assertEquals("DE", value.getCountryPrefix());
+        assertEquals(8, value.getLength());
+        assertEquals(BbanStructure.EntryType.N, value.getEntryType());
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+    }
+
 
     private Set<Currency> getSupportedCurrencies() {
         Set<Currency> currencies = new HashSet<>();
@@ -155,5 +171,19 @@ class TppControllerTest {
         Map<CountryCode, String> codes = new HashMap<>();
         COUNTRY_CODES.forEach(c -> codes.put(c, c.getName()));
         return codes;
+    }
+
+    @Test
+    void account() {
+        when(dataRestClient.depositAccount(anyString())).thenReturn(ResponseEntity.ok().build());
+        ResponseEntity<Void> result = tppController.account(ACCOUNT_ID);
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+    }
+
+    @Test
+    void user() {
+        when(dataRestClient.user(anyString())).thenReturn(ResponseEntity.ok().build());
+        ResponseEntity<Void> result = tppController.user(USER_ID);
+        assertEquals(HttpStatus.OK, result.getStatusCode());
     }
 }

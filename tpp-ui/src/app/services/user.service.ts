@@ -39,4 +39,12 @@ export class UserService {
       return this.http.put(this.url + '/users', user);
   }
 
+  blockTpp(userId: string) {
+    return this.http.post(`${this.url}/users/status?userId=${userId}`, userId);
+  }
+
+  deleteUser(userId: string) {
+    return this.http.delete(`${this.url}/user/${userId}`);
+  }
+
 }

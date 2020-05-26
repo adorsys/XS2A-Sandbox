@@ -1,5 +1,6 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -61,7 +62,7 @@ public class ParseService {
     public byte[] generateFileByPayload(DataPayload data) {
         try {
             return objectMapper.writeValueAsBytes(data);
-        } catch (IOException e) {
+        } catch (JsonProcessingException e) {
             log.error("Could not write bytes");
             return new byte[]{};
         }

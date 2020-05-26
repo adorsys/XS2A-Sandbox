@@ -117,4 +117,10 @@ public interface TppAccountsRestApi {
     @GetMapping("/example")
     @ApiOperation(value = "Download account template", authorizations = @Authorization(value = "apiKey"))
     ResponseEntity<Resource> downloadAccountTemplate();
+
+    @ApiOperation(value = "Block/Unblock Account",
+        notes = "Changes block state for given account, returns status being set to the block",
+        authorizations = @Authorization(value = "apiKey"))
+    @PostMapping("/status")
+    ResponseEntity<Boolean> changeStatus(@RequestParam(value = "accountId") String accountId);
 }

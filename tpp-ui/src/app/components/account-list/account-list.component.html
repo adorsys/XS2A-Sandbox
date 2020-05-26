@@ -5,14 +5,16 @@
       <div class="row">
         <div class="col-12 col-md-12 p-md-0">
           <div class="form-group has-search">
-                      <span class="form-control-feedback">
-                          <img src="./assets/icons/search.svg">
-                      </span>
+            <span class="form-control-feedback">
+              <img src="./assets/icons/search.svg"/>
+            </span>
             <div>
-              <input class="form-control w-100"
-                     placeholder="Search by IBAN"
-                     formControlName="ibanParam"
-                     type="text">
+              <input
+                class="form-control w-100"
+                placeholder="Search by IBAN"
+                formControlName="ibanParam"
+                type="text"
+              />
             </div>
           </div>
         </div>
@@ -22,71 +24,80 @@
   <div class="card">
     <div class="card-body">
       <div class="table-responsive">
-        <div class="container-fluid" [ngClass]="{'configs-container': admin}">
+        <div class="container-fluid" [ngClass]="{ 'configs-container': admin }">
           <div class="row d-flex justify-content-between configs">
             <div class="paginator">
-              <app-pagination-container [paginationConfig]="config"
-                                        (pageDataConfig)="pageChange($event)"></app-pagination-container>
-
+              <app-pagination-container
+                [paginationConfig]="config"
+                (pageDataConfig)="pageChange($event)"
+              ></app-pagination-container>
             </div>
 
             <div *ngIf="admin" class="tpp-filters">
               <div class="container-fluid">
                 <div class="row d-flex justify-content-end">
-                  <div>
-                    <label for="country">TPP Login:</label>
-                    <div class="filter">
-                      <input class="form-control"
-                             placeholder="Enter TPP login..."
-                             formControlName="tppLogin"
-                             type="text">
-                    </div>
-                  </div>
-                  <div>
+                  <div class="mr-2" *ngIf="admin ==='true'">
                     <label for="country">TPP ID:</label>
                     <div class="filter">
-                      <input class="form-control"
-                             placeholder="Enter TPP ID..."
-                             formControlName="tppId"
-                             type="text">
+                      <input
+                        class="form-control"
+                        placeholder="Enter TPP ID..."
+                        formControlName="tppId"
+                        type="text"
+                      />
                     </div>
                   </div>
                   <div class="select">
                     <label for="country">Country:</label>
                     <div class="select-filter">
-                      <select name="country"
-                              class="form-control"
-                              formControlName="country"
-                              id="country">
+                      <select
+                        name="country"
+                        class="form-control"
+                        formControlName="country"
+                        id="country"
+                      >
                         <option id="emptySelect" [ngValue]="" selected></option>
-                        <option *ngFor="let country of countries"
-                                [ngValue]="country.code">{{country.name}}
+                        <option
+                          *ngFor="let country of countries"
+                          [ngValue]="country.code"
+                        >{{ country.name }}
                         </option>
                       </select>
                     </div>
                   </div>
                 </div>
 
-                <div class="row d-flex justify-content-end">
-                  <button class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
-                          (click)="setBlocked(false)"
-                          [ngClass]="{'active': searchForm.controls.blocked.value === false}">Active
+                <div class="row d-flex justify-content-end" *ngIf="admin ==='true'">
+                  <button
+                    class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
+                    (click)="setBlocked(false)"
+                    [ngClass]="{
+                      active: searchForm.controls.blocked.value === false
+                    }"
+                  >
+                    Active
                   </button>
-                  <button class="btn btn-outline-primary btn-sm mt-2 mb-3 filter-button"
-                          (click)="setBlocked(true)"
-                          [ngClass]="{'active': searchForm.controls.blocked.value === true}">Blocked
+                  <button
+                    class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
+                    (click)="setBlocked(true)"
+                    [ngClass]="{
+                      active: searchForm.controls.blocked.value === true
+                    }"
+                  >
+                    Blocked
                   </button>
-                  <button class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
-                          (click)="showAllTpps()"
-                          [ngClass]="{'active': isSearchFormEmpty()}">All TPPs
+                  <button
+                    class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
+                    (click)="showAllTpps()"
+                    [ngClass]="{ active: isSearchFormEmpty() }"
+                  >
+                    Reset Filters
                   </button>
                 </div>
               </div>
             </div>
-
           </div>
         </div>
-
 
         <table class="table">
           <thead>
@@ -94,6 +105,7 @@
             <th scope="col">#</th>
             <th scope="col">IBAN</th>
             <th scope="col">Currency</th>
+            <th scope="col" *ngIf="admin ==='true'">TPP ID</th>
             <th scope="col">Account Type</th>
             <th scope="col">Usage Type</th>
             <th scope="col">Account Status</th>
@@ -101,19 +113,119 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let account of accounts; index as i" [routerLink]="[createAccountDetailsLink(account.id)]"
-              [queryParams]="{page: config.currentPageNumber}"
-              [ngClass]="{'disabled-tr': account.blocked}">
-            <th scope="row">{{((config.currentPageNumber - 1) * config.itemsPerPage) + i + 1}}</th>
-            <td>{{account.iban}}</td>
-            <td>{{account.currency}}</td>
-            <td>{{account.accountType}}</td>
-            <td>{{account.usageType}}</td>
-            <td>{{account.blocked ? 'Blocked' : 'Active'}}</td>
-            <td>
-              <button *ngIf="!account.blocked"
-                      class="btn btn-table-btn" [disabled]="!isAccountEnabled(account)"
-                      (click)="goToDepositCash(account)">deposit cash
+          <tr
+            *ngFor="let account of accounts; index as i"
+            [ngClass]="{ 'disabled-text': account.blocked }"
+          >
+            <th scope="row">
+              {{
+              (config.currentPageNumber - 1) * config.itemsPerPage + i + 1
+              }}
+            </th>
+            <td [routerLink]="[createAccountDetailsLink(account.id)]"
+                [queryParams]="{ page: config.currentPageNumber, tppId: account.branch }">
+              {{ account.iban }}</td>
+            <td   [routerLink]="[createAccountDetailsLink(account.id)]"
+                  [queryParams]="{ page: config.currentPageNumber, tppId: account.branch }">
+              {{ account.currency }}</td>
+            <td *ngIf="admin ==='true'">
+              <a
+                [routerLink]="[createLastVisitedPageLink(account.branch)]"
+                [queryParams]="{ page: config.currentPageNumber }"
+              >{{ account.branch }}
+              </a>
+            </td>
+            <td>{{ account.accountType }}</td>
+            <td>{{ account.usageType }}</td>
+            <td>{{ account.blocked ? 'Blocked' : 'Active' }}</td>
+            <td class="action d-flex">
+              <button class="btn btn-outline-danger btn-sm wd-120 mr-2"
+                      (click)="openConfirmation(deleteConfirmationModal, account.id , 'delete')"
+              > Delete
+              </button>
+              <button
+                class="btn btn-table-btn btn-sm wd-120 mr-2"
+                (click)="openConfirmation(blockConfirmation, account.id , 'block')"
+              >
+                {{ account.blocked ? 'Unblock Account' : 'Block Account' }}
+              </button>
+
+              <ng-template #deleteConfirmationModal let-modal>
+                <div class="modal-header">
+                  <h4 class="modal-title" id="modal-basic-title">
+                    TPP deletion
+                  </h4>
+                  <button
+                    type="button"
+                    class="close"
+                    aria-label="Close"
+                    (click)="modal.dismiss('Cross click')"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  Are you sure you want to delete this User?
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary"
+                    (click)="modal.dismiss('cancel click')"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    (click)="modal.close('Ok click')"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </ng-template>
+              <ng-template #blockConfirmation let-modal>
+                <div class="modal-header">
+                  <h4 class="modal-title" id="modal-basic-title-1">
+                    Account  {{ account.branch ? 'unblocking' : 'blocking' }}
+                  </h4>
+                  <button
+                    type="button"
+                    class="close"
+                    aria-label="Close"
+                    (click)="modal.dismiss('Cross click')"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  Are you sure you want to
+                  {{ account.branch ? 'Unblock' : 'Block' }} this Account?
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary"
+                    (click)="modal.dismiss('cancel click')"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    (click)="modal.close('Ok click')"
+                  >
+                    {{ account.blocked ? 'Unblock' : 'Block' }}
+                  </button>
+                </div>
+              </ng-template>
+              <button
+                *ngIf="!account.blocked"
+                class="btn btn-table-btn"
+                [disabled]="!isAccountEnabled(account)"
+                (click)="goToDepositCash(account)"
+              >
+                deposit cash
               </button>
             </td>
           </tr>
@@ -122,8 +234,10 @@
 
         <div class="container-fluid">
           <div class="row d-flex justify-content-start">
-            <app-pagination-container [paginationConfig]="config"
-                                      (pageDataConfig)="pageChange($event)"></app-pagination-container>
+            <app-pagination-container
+              [paginationConfig]="config"
+              (pageDataConfig)="pageChange($event)"
+            ></app-pagination-container>
           </div>
         </div>
       </div>

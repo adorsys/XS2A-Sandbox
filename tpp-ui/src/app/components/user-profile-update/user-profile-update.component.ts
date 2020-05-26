@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-
-import { User } from '../../models/user.model';
 import { AuthService } from '../../services/auth.service';
 import { TppUserService } from '../../services/tpp.user.service';
 import { TppManagementService } from '../../services/tpp-management.service';
+import { User } from '../../models/user.model';
+import {ADMIN_KEY} from '../../commons/constant/constant';
 
 @Component({
   selector: 'app-user-profile-update',
@@ -14,27 +14,29 @@ import { TppManagementService } from '../../services/tpp-management.service';
 })
 export class UserProfileUpdateComponent implements OnInit {
   user: User;
+  tppId: string;
   userForm: FormGroup;
   submitted: boolean;
-  admin: boolean;
+  admin: string;
 
   constructor(
     private authService: AuthService,
     private userInfoService: TppUserService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    // private tppManagementService: TppManagementService,
+    private tppManagementService: TppManagementService,
     private router: Router
   ) {}
 
   ngOnInit() {
+    this.admin = localStorage.getItem(ADMIN_KEY);
     this.setupEditUserFormControl();
     this.getUserDetails();
 
-    // const tppId = this.route.snapshot.params['id'];
-    // if (tppId) {
-    //   this.getUserInfoForAdmin(tppId);
-    // }
+    this.tppId = this.route.snapshot.params['id'];
+    if (this.tppId) {
+      this.getUserInfoForAdmin(this.tppId);
+    }
   }
 
   get formControl() {
@@ -69,28 +71,41 @@ export class UserProfileUpdateComponent implements OnInit {
     }
     const updatedUser: User = {
       ...this.user,
+      branchLogin: undefined,
       email: this.userForm.get('email').value,
       login: this.userForm.get('username').value,
       pin: this.userForm.get('password').value.trim()
         ? this.userForm.get('password').value
         : this.user.pin,
     };
-    this.userInfoService
-      .updateUserInfo(updatedUser)
-      .subscribe(() => this.router.navigate(['/profile']));
+    if (this.admin === 'true') {
+      this.tppManagementService
+        .updateUserDetails(updatedUser, this.tppId)
+        .subscribe(() =>
+          this.getUserDetails());
+          this.router.navigate(['/users/all']);
+      this.getUserDetails();
+    } else if (this.admin === 'false') {
+      this.userInfoService
+        .updateUserInfo(updatedUser)
+        .subscribe(() =>
+          this.getUserDetails());
+      this.router.navigate(['/profile']);
+
+    }
   }
 
-  // private getUserInfoForAdmin(tppId: string) {
-  //   this.tppManagementService.getTppById(tppId).subscribe(
-  //     (user: User) => {
-  //       if (user) {
-  //         this.user = user;
-  //         this.admin = true;
-  //         this.userForm.patchValue({
-  //           email: this.user.email,
-  //           username: this.user.login
-  //         });
-  //       }
-  //     });
-  // }
+  private getUserInfoForAdmin(tppId: string) {
+   if (this.admin === 'true') {
+      this.tppManagementService.getTppById(tppId).subscribe((user: User) => {
+        if (user) {
+          this.user = user;
+          this.userForm.patchValue({
+            email: this.user.email,
+            username: this.user.login,
+          });
+        }
+      });
+    }
+  }
 }

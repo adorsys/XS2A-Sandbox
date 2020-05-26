@@ -25,6 +25,7 @@ public class PermittedResources {
         "/tpp/password",
         "/tpp/consent",
         "/tpp/codes",
+        "/tpp/id",
         "/tpp/country/**",
         "/tpp/sca/email"
     };
@@ -34,5 +35,6 @@ public class PermittedResources {
         "/actuator/health"
     };
 
-    private PermittedResources() {}
+    private PermittedResources() {
+    }
 }

@@ -24,7 +24,7 @@ public interface TppDataUploaderRestApi {
 
     @ApiOperation(value = "Generate random IBAN", authorizations = @Authorization(value = "apiKey"))
     @GetMapping("/generate/iban")
-    ResponseEntity<String> generateIban();
+    ResponseEntity<String> generateIban(@RequestParam("tppId") String tppId);
 
     @ApiOperation(value = "Upload CSV file with transactions list", authorizations = @Authorization(value = "apiKey"))
     @PutMapping("/upload/transactions")

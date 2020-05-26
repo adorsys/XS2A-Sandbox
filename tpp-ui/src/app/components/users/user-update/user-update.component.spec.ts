@@ -28,6 +28,7 @@ describe('UserUpdateComponent', () => {
     email: 'email',
     login: 'login',
     branch: 'branch',
+    branchLogin: 'branchLogin',
     pin: 'pin',
     scaUserData: [],
     accountAccesses: [],
@@ -183,6 +184,7 @@ describe('UserUpdateComponent', () => {
       login: 'bob',
       branch: '34256',
       pin: '12345',
+      branchLogin: 'branchLogin',
       scaUserData: [
         {
           id: '01',

@@ -8,6 +8,7 @@ import {Credentials} from "../models/credentials.model";
 import {Router} from "@angular/router";
 import {AutoLogoutService} from "./auto-logout.service";
 import {TppInfo} from "../models/tpp-info.model";
+import {ADMIN_KEY} from "../commons/constant/constant";
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class AuthService {
   public url = `${environment.tppBackend}`;
   private authTokenStorageKey = 'access_token';
   private jwtHelperService = new JwtHelperService();
+
 
   constructor(private http: HttpClient,
               private router: Router,
@@ -36,31 +38,13 @@ export class AuthService {
       );
   }
 
-  login(credentials: any): Observable<boolean> {
-    return this.authorize(credentials).pipe(
-      map(jwt => {
-        if (jwt != undefined) {
-          // this.autoLogoutService.initializeTokenMonitoring();
-          localStorage.setItem(this.authTokenStorageKey, jwt);
-          return true;
-        }
-
-        return false;
-      }),
-      catchError((error) => {
-        console.log(error);
-        return of(false);
-      })
-    );
-  }
-
   isLoggedIn(): boolean {
     return !this.jwtHelperService.isTokenExpired(this.getAuthorizationToken());
   }
 
   logout() {
     this.autoLogoutService.resetMonitoringConfig();
-    localStorage.removeItem(this.authTokenStorageKey);
+    localStorage.clear();
     this.router.navigate(['/logout']);
   }
 
@@ -69,6 +53,9 @@ export class AuthService {
   }
 
   register(tppInfo: TppInfo, countryCode: string): Observable<any> {
+    if (tppInfo.id.startsWith(countryCode)) {
+      tppInfo.id = tppInfo.id.substring(3);
+    }
     tppInfo.id = countryCode + '_' + tppInfo.id;
     return this.http.post(this.url + '/register', tppInfo);
   }
@@ -85,4 +72,31 @@ export class AuthService {
     return this.http.get(this.url + '/country/codes/structure',
       {params: new HttpParams().set("countryCode", countryCode)});
   }
+
+  public setAuthorisationToken(token: any) {
+    localStorage.setItem(this.authTokenStorageKey, token);
+    this.setUsersAccessRights(this.jwtHelperService.decodeToken(token));
+    console.log('log', this.jwtHelperService.decodeToken(token));
+  }
+
+  private setUsersAccessRights(loginResponse): void {
+    let admin = false;
+    if (loginResponse['role'] === 'SYSTEM') {
+       admin = true;
+    }
+    localStorage.setItem(ADMIN_KEY, admin ? 'true' : 'false');
+  }
+
+  public login(credentials: any) {
+    return this.authorize(credentials).pipe(
+      map(jwt => {
+        if (jwt === undefined) {
+          return false;
+        }
+        this.setAuthorisationToken(jwt);
+        return true;
+      }),
+    );
+  }
+
 }

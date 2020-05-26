@@ -56,7 +56,8 @@ describe('UsersComponent', () => {
                 branch: 'branch',
                 pin: '123345',
                 scaUserData: [],
-                accountAccesses: []
+                accountAccesses: [],
+                branchLogin: 'branchLogin'
             }
         ];
 
@@ -77,7 +78,8 @@ describe('UsersComponent', () => {
                 branch: 'branch',
                 pin: '123345',
                 scaUserData: [],
-                accountAccesses: []
+                accountAccesses: [],
+                branchLogin: 'branchLogin'
             }
         ];
         const getUsersSpy = spyOn(usersService, 'listUsers').and.returnValue(of({users: mockUsers, totalElements: mockUsers.length}));

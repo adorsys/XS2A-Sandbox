@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = "TPP Users management")
 public interface TppUsersRestApi {
     String BASE_PATH = "/tpp/users";
+    String USER_ID = "userId";
 
     @ApiOperation(value = "Create users for a given TPP",
         notes = "Endpoint to create a user for a given TPP",
@@ -43,4 +44,10 @@ public interface TppUsersRestApi {
     @ApiOperation(value = "Get current user", authorizations = @Authorization(value = "apiKey"))
     @GetMapping("/me")
     ResponseEntity<UserTO> getSelf();
+
+    @ApiOperation(value = "Block/Unblock User",
+        notes = "Changes block state for given user, returns status being set to the block",
+        authorizations = @Authorization(value = "apiKey"))
+    @PostMapping("/status")
+    ResponseEntity<Boolean> changeStatus(@RequestParam(value = USER_ID) String userId);
 }
