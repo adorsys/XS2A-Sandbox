@@ -70,6 +70,7 @@ export class UserCreateComponent implements OnInit {
   }
 
   setupUserFormControl(): void {
+    if (this.admin === 'true') {
     this.userForm = this.formBuilder.group({
       scaUserData: this.formBuilder.array([this.initScaData()]),
       tppId: ['', [Validators.required]],
@@ -78,6 +79,15 @@ export class UserCreateComponent implements OnInit {
       pin: ['', [Validators.required, Validators.minLength(5)]],
       userRoles: this.formBuilder.array(['CUSTOMER'])
     });
+  } else if (this.admin === 'false') {
+      this.userForm = this.formBuilder.group({
+        scaUserData: this.formBuilder.array([this.initScaData()]),
+        email: ['', [Validators.required, Validators.email]],
+        login: ['', Validators.required],
+        pin: ['', [Validators.required, Validators.minLength(5)]],
+        userRoles: this.formBuilder.array(['CUSTOMER'])
+      });
+    }
   }
 
   public inputFormatterValue = (user: User) => {
@@ -161,7 +171,6 @@ export class UserCreateComponent implements OnInit {
     this.submitted = true;
 
     if (this.userForm.invalid) {
-      console.log('validation', this.userForm.invalid)
       return;
     }
 

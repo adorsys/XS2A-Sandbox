@@ -138,16 +138,20 @@
             <tr
               *ngFor="let user of users; index as i"
               [ngClass]="{ 'disabled-text': user.blocked }"
-              [routerLink]="['/users/' + user.id]"
-              [queryParams]="{ page: config.currentPageNumber }"
             >
               <th scope="row" >
                 {{
                   (config.currentPageNumber - 1) * config.itemsPerPage + i + 1
                 }}
               </th>
-              <td>{{ user.login }}</td>
-              <td>{{ user.email }}</td>
+              <td [routerLink]="['/users/' + user.id]"
+                  [queryParams]="{ page: config.currentPageNumber }"
+              >
+                {{ user.login }} </td>
+              <td [routerLink]="['/users/' + user.id]"
+                  [queryParams]="{ page: config.currentPageNumber }"
+              >
+                {{ user.email }}</td>
               <td>
                 <ul>
                   <li

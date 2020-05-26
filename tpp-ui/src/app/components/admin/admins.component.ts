@@ -95,6 +95,7 @@ export class AdminsComponent implements OnInit {
             this.infoService.openFeedback('Admin was successfully deleted!', {
               severity: 'info',
             });
+            this.getAdmins();
           });
           this.listAdmins(this.config.currentPageNumber, this.config.itemsPerPage);
         }

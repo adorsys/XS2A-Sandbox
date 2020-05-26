@@ -24,8 +24,8 @@
                     userForm.get('tppId').touched ||
                     submitted)
               }"
-              class="form-control"
-              id="id"
+              class="form-control arrow"
+              id="tppId"
               #instance="ngbTypeahead"
               (focus)="focus$.next($event.target.value)"
               (click)="click$.next($event.target.value)"

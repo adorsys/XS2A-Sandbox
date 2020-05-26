@@ -223,6 +223,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
         this.infoService.openFeedback('Account was successfully blocked!', {
           severity: 'info',
         });
+        this.getAccounts(this.config.currentPageNumber, this.config.itemsPerPage, {});
       });
   }
 
@@ -233,12 +234,14 @@ export class AccountListComponent implements OnInit, OnDestroy {
         this.infoService.openFeedback('Account was successfully deleted!', {
           severity: 'info',
         });
+        this.getAccounts(this.config.currentPageNumber, this.config.itemsPerPage, {});
       });
     } else if (this.admin === 'false') {
       this.accountService.deleteAccount(accountId).subscribe(() => {
         this.infoService.openFeedback('Account was successfully blocked!', {
           severity: 'info',
         });
+        this.getAccounts(this.config.currentPageNumber, this.config.itemsPerPage, {});
       });
     }
   }

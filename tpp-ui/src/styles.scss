@@ -322,6 +322,9 @@ a {
     justify-content: left;
   }
 }
+.flex-end {
+  justify-content: flex-end;
+}
 
 .icon__container {
   width: 24px;
@@ -386,9 +389,6 @@ a {
   }
 }
 
-.disabled-tr {
-  background-color: lightgray;
-}
 
 /* TPP filters */
 .configs-container {
@@ -440,6 +440,17 @@ a {
   max-width: 500px;
 }
 
+
+.arrow {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-position: 95% 50%;
+  background-repeat: no-repeat;
+  vertical-align: top;
+  background-image: url('assets/icons/arrow-down.svg');
+  background-size: 0.6em;
+}
+
 .wd-120 {
-  width: 130px;
+  width: 170px;
 }
