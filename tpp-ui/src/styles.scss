@@ -454,3 +454,7 @@ a {
 .wd-120 {
   width: 170px;
 }
+
+ .table th,  .table td {
+   vertical-align: baseline !important;
+}
