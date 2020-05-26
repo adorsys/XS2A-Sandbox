@@ -64,7 +64,7 @@ export class TppManagementService {
   }
 
   deleteAccountTransactions(accountId: string) {
-    return this.http.delete(this.url + '/account/' + accountId);
+    return this.http.delete(this.url + '/transactions/' + accountId);
   }
 
   updateAccountAccessForUser(accountAccess: GrantAccountAccess) {
