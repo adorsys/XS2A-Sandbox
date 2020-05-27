@@ -28,7 +28,7 @@ All four SCA approaches are supported: REDIRECT, OAUTH, EMBEDDED, DECOUPLED. Two
 -   [Release notes](https://github.com/adorsys/XS2A-Sandbox/tree/master/docs/release_notes) contain information about changes included into releases.
 -   [User Guide](https://github.com/adorsys/XS2A-Sandbox/tree/master/docs/user-guide.md) describes how to configure XS2ASandbox.
 -   [UI Customization guide](https://github.com/adorsys/XS2A-Sandbox/blob/master/docs/customization_guide/UIs_customization_guide.md) describes how to customize Developer Portal, Online Banking UI and TPP UI.
--   [Architecture Documentation](https://github.com/adorsys/XS2A-Sandbox/blob/develop/docs/arc42/README.adoc) describes how to instal, create and use tools for our diagrams.
+-   [Architecture Documentation](https://github.com/adorsys/XS2A-Sandbox/blob/master/docs/arc42/README.adoc) describes how to instal, create and use tools for our diagrams.
 
 ## How to try it
 
