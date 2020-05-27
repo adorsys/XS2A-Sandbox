@@ -7,7 +7,7 @@ import {InfoService} from '../../../commons/info/info.service';
 import {ScaMethods} from '../../../models/scaMethods';
 import {TppManagementService} from '../../../services/tpp-management.service';
 import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
-import {merge, Observable, Subject} from 'rxjs';
+import {merge, Observable, Subject, Subscription} from 'rxjs';
 import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
 import {ADMIN_KEY} from '../../../commons/constant/constant';
 
@@ -17,12 +17,6 @@ import {ADMIN_KEY} from '../../../commons/constant/constant';
   styleUrls: ['./user-create.component.scss'],
 })
 export class UserCreateComponent implements OnInit {
-  @ViewChild('instance', {static: true}) instance: NgbTypeahead;
-
-  focus$ = new Subject<User[]>();
-  click$ = new Subject<User[]>();
-  tppId: string;
-
   id: string;
   users: User[];
   admin: string;
@@ -59,27 +53,17 @@ export class UserCreateComponent implements OnInit {
     }
   }
 
-  search: (obs: Observable<string>) => Observable<User[]> = (text$: Observable<string>) => {
-    const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
-    const clicksWithClosedPopup$ = this.click$.pipe(filter(() =>  this.instance && !this.instance.isPopupOpen()));
-    const inputFocus$ = this.focus$;
-    return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$)
-      .pipe(
-        map((searchText: string) => (searchText ? this.users : this.users.filter((user) => user))
-        ));
-  }
-
   setupUserFormControl(): void {
     if (this.admin === 'true') {
-    this.userForm = this.formBuilder.group({
-      scaUserData: this.formBuilder.array([this.initScaData()]),
-      tppId: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      login: ['', Validators.required],
-      pin: ['', [Validators.required, Validators.minLength(5)]],
-      userRoles: this.formBuilder.array(['CUSTOMER'])
-    });
-  } else if (this.admin === 'false') {
+      this.userForm = this.formBuilder.group({
+        scaUserData: this.formBuilder.array([this.initScaData()]),
+        tppId: ['', [Validators.required]],
+        email: ['', [Validators.required, Validators.email]],
+        login: ['', Validators.required],
+        pin: ['', [Validators.required, Validators.minLength(5)]],
+        userRoles: this.formBuilder.array(['CUSTOMER'])
+      });
+    } else if (this.admin === 'false') {
       this.userForm = this.formBuilder.group({
         scaUserData: this.formBuilder.array([this.initScaData()]),
         email: ['', [Validators.required, Validators.email]],
@@ -90,16 +74,32 @@ export class UserCreateComponent implements OnInit {
     }
   }
 
-  public inputFormatterValue = (user: User) => {
-    if (user) {
-      return user.branch;
-    }
-    return user;
+
+  @ViewChild('instance', {static: true}) instance: NgbTypeahead;
+  focus$ = new Subject<User[]>();
+  click$ = new Subject<User[]>();
+
+  search: (obs: Observable<string>) => Observable<User[]> = (text$: Observable<string>) => {
+    const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+    const clicksWithClosedPopup$ = this.click$.pipe(filter(() => this.instance && !this.instance.isPopupOpen()));
+    const inputFocus$ = this.focus$;
+    return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$)
+      .pipe(
+        map((searchText: string) => (searchText === '' ? this.users : this.users.filter(user => user.branch.toLowerCase()
+          .indexOf(searchText.toLowerCase()) > -1)))
+      );
   }
 
   public resultFormatterValue = (user: User) => {
     if (user) {
       this.userForm.get('tppId').setValue(user.branch);
+      return user.branch;
+    }
+    return user;
+  }
+
+  public inputFormatterValue = (user: User) => {
+    if (user) {
       return user.branch;
     }
     return user;
@@ -173,25 +173,25 @@ export class UserCreateComponent implements OnInit {
     if (this.userForm.invalid) {
       return;
     }
-
     if (this.admin === 'true') {
       this.tppManagementService
-        .createUser(this.userForm.value, this.userForm.get('tppId').value)
+        .createUser(this.userForm.value, this.userForm.get('tppId').value.id)
         .subscribe(() => this.router.navigate(['/users/all']));
     } else if (this.admin === 'false') {
       this.userService
         .createUser(this.userForm.value)
-        .subscribe(() => {this.router.navigateByUrl('/users/all');
-        },
-        () => {
-          this.infoService.openFeedback(
-            'Provided Login or Email are already taken',
-            {
-              severity: 'error',
-            }
-          );
-        }
-      );
+        .subscribe(() => {
+            this.router.navigateByUrl('/users/all');
+          },
+          () => {
+            this.infoService.openFeedback(
+              'Provided Login or Email are already taken',
+              {
+                severity: 'error',
+              }
+            );
+          }
+        );
     }
   }
 

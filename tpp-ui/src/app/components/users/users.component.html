@@ -52,7 +52,7 @@
                     <div class="filter">
                       <input
                         class="form-control"
-                        placeholder="Enter TPP ID..."
+                        placeholder="Search by TPP login..."
                         formControlName="tppLogin"
                         type="text"
                       />
@@ -63,13 +63,13 @@
                     <div class="filter">
                       <input
                         class="form-control"
-                        placeholder="Enter TPP ID..."
+                        placeholder="Search by TPP ID..."
                         formControlName="tppId"
                         type="text"
                       />
                     </div>
                   </div>
-                  <div class="select">
+                  <div class="select" *ngIf="admin === 'true'">
                     <label for="country">Country:</label>
                     <div class="select-filter">
                       <select
@@ -177,6 +177,7 @@
                 <a
                   [routerLink]="[createLastVisitedPageLink(user.branch)]"
                   [queryParams]="{ page: config.currentPageNumber }"
+                  [ngClass]="{ 'disabled-text': user.blocked }"
                   >{{ user.branch }}
                 </a>
               </td>
