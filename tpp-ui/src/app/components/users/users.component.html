@@ -24,7 +24,7 @@
               class="btn btn-primary btn-block"
               routerLink="/users/create"
             >
-              Create new user
+              Create New User
             </button>
           </div>
         </div>
@@ -208,7 +208,7 @@
                 </button>
                 <button
                   class="btn btn-table-btn btn-sm wd-120 mr-2"
-                  (click)="openConfirmation(blockConfirmation, user.id, 'block')"
+                  (click)="openConfirmation(blockConfirmation, user.id, user.blocked ? 'block' : 'unblock')"
                 >
                   {{ user.blocked ? 'Unblock User' : 'Block User' }}
                 </button>
@@ -289,7 +289,7 @@
                   [queryParams]="{ tppId: user.branch, userId: user.id }"
                   *ngIf="!user.blocked"
                 >
-                  Create deposit account
+                  Create Deposit Account
                 </a>
               </td>
             </tr>

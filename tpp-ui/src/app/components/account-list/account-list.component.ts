@@ -28,6 +28,7 @@ import {InfoService} from '../../commons/info/info.service';
 export class AccountListComponent implements OnInit, OnDestroy {
   admin: string;
   users: User[] = [];
+  statusBlock: string;
   accounts: Account[] = [];
   subscription = new Subscription();
   countries: Array<object> = [];
@@ -205,9 +206,12 @@ export class AccountListComponent implements OnInit, OnDestroy {
   }
 
   openConfirmation(content, tppId: string, type: string) {
+    this.statusBlock = type;
     this.modalService.open(content).result.then(
       () => {
         if (type === 'block') {
+          this.blockAccount(tppId);
+        } else if (type === 'unblock') {
           this.blockAccount(tppId);
         } else if (type === 'delete') {
           this.delete(tppId);
@@ -220,13 +224,19 @@ export class AccountListComponent implements OnInit, OnDestroy {
 
   private blockAccount(accountId: string) {
       this.tppManagementService.blockAccount(accountId).subscribe(() => {
-        this.infoService.openFeedback('Account was successfully blocked!', {
-          severity: 'info',
-        });
+        if (this.statusBlock === 'block') {
+          this.infoService.openFeedback('Account was successfully unblocked!', {
+            severity: 'info',
+          });
+        }
         this.getAccounts(this.config.currentPageNumber, this.config.itemsPerPage, {});
+      }); if (this.statusBlock === 'unblock') {
+      this.infoService.openFeedback('Account was successfully blocked!', {
+        severity: 'info',
       });
+      this.getAccounts(this.config.currentPageNumber, this.config.itemsPerPage, {});
+    }
   }
-
 
   private delete(accountId: string) {
     if (this.admin === 'true') {

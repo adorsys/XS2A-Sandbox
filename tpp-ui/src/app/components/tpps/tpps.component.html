@@ -166,7 +166,7 @@
               <td class="actions d-flex">
                 <button
                   class="btn btn-table-btn btn-sm wd-120"
-                  (click)="openConfirmation(blockConfirmation, tpp.id, 'block')"
+                  (click)="openConfirmation(blockConfirmation, tpp.id, tpp.blocked ? 'block' : 'unblock')"
                 >
                   {{ tpp.blocked ? 'Unblock TPP' : 'Block TPP' }}
                 </button>
