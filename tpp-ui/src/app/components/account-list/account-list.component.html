@@ -146,7 +146,7 @@
               </button>
               <button
                 class="btn btn-table-btn btn-sm wd-120 mr-2"
-                (click)="openConfirmation(blockConfirmation, account.id , 'block')"
+                (click)="openConfirmation(blockConfirmation, account.id , account.blocked ? 'block' : 'unblock')"
               >
                 {{ account.blocked ? 'Unblock Account' : 'Block Account' }}
               </button>

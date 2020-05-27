@@ -27,6 +27,7 @@ import { InfoService } from '../../commons/info/info.service';
 
 export class UsersComponent implements OnInit {
   admin: string;
+  statusBlock: string;
   users: User[] = [];
   countries: Array<object> = [];
   config: PaginationConfigModel = {
@@ -188,9 +189,12 @@ export class UsersComponent implements OnInit {
   }
 
   openConfirmation(content, userId: string, type: string) {
+    this.statusBlock = type;
     this.modalService.open(content).result.then(
       () => {
         if (type === 'block') {
+          this.blockUser(userId);
+        } else if (type === 'unblock') {
           this.blockUser(userId);
         } else if (type === 'delete') {
           this.delete(userId);
@@ -204,11 +208,17 @@ export class UsersComponent implements OnInit {
   private blockUser(userId: string) {
     if (this.admin === 'true') {
       this.tppManagementService.blockUser(userId).subscribe(() => {
+        if (this.statusBlock === 'block') {
+          this.infoService.openFeedback('User was successfully unblocked!', {
+            severity: 'info',
+          });
+        }
+        this.listUsers(this.config.currentPageNumber, this.config.itemsPerPage, {});
+      }); if (this.statusBlock === 'unblock') {
         this.infoService.openFeedback('User was successfully blocked!', {
           severity: 'info',
         });
-        this.listUsers(this.config.currentPageNumber, this.config.itemsPerPage, {});
-      });
+      }
     } else if (this.admin === 'false') {
 
       this.userService.blockTpp(userId).subscribe(() => {

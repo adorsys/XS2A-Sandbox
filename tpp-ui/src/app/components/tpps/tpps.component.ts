@@ -23,6 +23,7 @@ import { InfoService } from '../../commons/info/info.service';
 // TODO Merge UsersComponent, TppsComponent and AccountListComponent into one single component https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/-/issues/713
 export class TppsComponent implements OnInit {
   tpps: User[] = [];
+  statusBlock: string;
   countries: Array<string>;
   countriesList: Array<object> = [];
   newPin = 'pin';
@@ -85,9 +86,12 @@ export class TppsComponent implements OnInit {
   }
 
   openConfirmation(content, tppId: string, type: string) {
+    this.statusBlock = type;
     this.modalService.open(content).result.then(
       () => {
         if (type === 'block') {
+          this.blockTpp(tppId);
+        } else if (type === 'unblock') {
           this.blockTpp(tppId);
         } else if (type === 'delete') {
           this.delete(tppId);
@@ -149,12 +153,20 @@ export class TppsComponent implements OnInit {
 
   private blockTpp(userId: string) {
     this.tppManagementService.blockUser(userId).subscribe(() => {
+      if (this.statusBlock === 'block') {
+        this.infoService.openFeedback('TPP was successfully unblocked!', {
+          severity: 'info',
+        });
+        this.getTpps(this.config.currentPageNumber, this.config.itemsPerPage, {});
+      }
+      this.getTpps(this.config.currentPageNumber, this.config.itemsPerPage, {});
+    }); if (this.statusBlock === 'unblock') {
       this.infoService.openFeedback('TPP was successfully blocked!', {
         severity: 'info',
       });
       this.getTpps(this.config.currentPageNumber, this.config.itemsPerPage, {});
-    });
-  }
+    }
+    }
 
   private delete(tppId: string) {
     this.tppManagementService.deleteTpp(tppId).subscribe(() => {
