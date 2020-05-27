@@ -5,7 +5,7 @@
     <parent>
         <groupId>de.adorsys.psd2.sandbox</groupId>
         <artifactId>online-banking</artifactId>
-        <version>3.9-SNAPSHOT</version>
+        <version>3.8.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
