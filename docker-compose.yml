@@ -41,7 +41,7 @@ services:
     environment:
       - JAVA_TOOL_OPTIONS="-Xmx256M"
       - SPRING_PROFILES_ACTIVE=debug_mode
-      - BANK_PROFILE_PATH=bank_profile_ledgers.yml
+      - XS2A_BANK_PROFILE_PATH=bank_profile_ledgers.yml
     volumes:
       - ./bank-profile/bank_profile_ledgers.yml:/opt/profile/bank_profile_ledgers.yml
     ports:

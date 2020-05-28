@@ -22,7 +22,7 @@ This is description of services,dependencies and steps  to run XS2ASandbox on an
 | | |DB_DATABASE |
 | | |DB_HOST |
 |xs2a-asps--profile |Java 11 | SPRING_PROFILES_ACTIVE | 48080
-| | | BANK_PROFILE_PATH |
+| | | XS2A_BANK_PROFILE_PATH |
 |xs2a-consent-management |Java 11 | ASPSP-PROFILE_BASEURL | 38080
 | | |SPRING_DATASOURCE_URL  |
 | | |SPRING_DATASOURCE_USERNAME  |
@@ -207,7 +207,7 @@ The table of options and possible configurations you can find below:
 |===
 | Placeholder | Service | Option | Possible configurations | Additional information
 | $JAVA_OPTS_ASPSP_PROFILE | Aspsp profile | SPRING_PROFILES_ACTIVE | debug_mode | debug_mode option allows you to change Aspsp-profile options via REST API. Should be used only for testing and not in production.
-| | | BANK_PROFILE_PATH | /data/bank_profile_yml (example) | Mandatory path to your profile settings in _yml file
+| | | XS2A_BANK_PROFILE_PATH | /data/bank_profile_yml (example) | Mandatory path to your profile settings in _yml file
 | $JAVA_OPTS_CMS | Consent management system | ASPSP_PROFILE_BASEURL | http://demo-dynamicsandbox-aspspprofile:8080/api/v1 (example) | Mandatory URL to your Aspsp-profile application.
 | | | SPRING_DATASOURCE_URL | jdbc:postgresql://localhost/cms | URL to consent_management_database
 | | | SPRING_DATASOURCE_USERNAME | cmsdb | The name of the user you created when creating consent-management-system-database.
