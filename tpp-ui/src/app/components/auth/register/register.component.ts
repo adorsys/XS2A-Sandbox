@@ -18,6 +18,7 @@ import {CountryService} from '../../../services/country.service';
 import {User} from '../../../models/user.model';
 import {TppUserService} from '../../../services/tpp.user.service';
 import {PageNavigationService} from '../../../services/page-navigation.service';
+import { TestDataGenerationService } from '../../../services/test.data.generation.service';
 
 @Component({
   selector: 'app-register',
@@ -45,6 +46,7 @@ export class RegisterComponent implements OnInit {
   constructor(
     private service: AuthService,
     private certGenerationService: CertGenerationService,
+    private generationService: TestDataGenerationService,
     private infoService: InfoService,
     private router: Router,
     private formBuilder: FormBuilder,
@@ -167,6 +169,18 @@ export class RegisterComponent implements OnInit {
         );
       }
     });
+  }
+
+  public generateTppId(countryCode: string) {
+    if (countryCode) {
+      return this.generationService.generateTppId(countryCode)
+        .subscribe((data) => {
+          this.userForm.get('id').setValue(data);
+          this.infoService.openFeedback('TPP ID has been successfully generated');
+        });
+    } else {
+      this.infoService.openFeedback('To generate TPP ID you need to select a country');
+    }
   }
 
   public generateZipFile(certBlob, keyBlob): Promise<any> {
