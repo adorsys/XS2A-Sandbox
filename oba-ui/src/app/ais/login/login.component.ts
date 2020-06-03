@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.subscriptions.forEach(sub => sub.unsubscribe());
     }
 
-    private aisAuthorise(params: LoginUsingPOSTParams) {
+    public aisAuthorise(params: LoginUsingPOSTParams) {
         this.subscriptions.push(
             this.aisService.aisAuthorise(params).subscribe(authorisationResponse => {
                 this.shareService.changeData(authorisationResponse);
@@ -83,7 +83,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         );
     }
 
-    private getAisAuthCode(): void {
+    public getAisAuthCode(): void {
         this.activatedRoute.queryParams.subscribe(params => {
             this.encryptedConsentId = params.encryptedConsentId;
             this.redirectId = params.redirectId;
