@@ -59,6 +59,9 @@ export class RegisterComponent implements OnInit {
   }
 
   selectCountry() {
+    if (this.userForm.controls['id']) {
+       this.userForm.controls['id'].setValue('');
+    }
     if (this.userForm.disabled) {
       document.getElementById('emptySelect').remove();
     }
