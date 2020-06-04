@@ -1,0 +1,31 @@
+<div class="container-fluid">
+  <div class="card card-mw">
+    <div class="card-body">
+      <button  routerLink="/"  class="btn btn-outline-secondary">
+        &lt; Back
+      </button>
+
+      <div class="header__title">User Details</div>
+      <div class="row">
+        <div class="col-4 col-md-3">Login</div>
+        <div class="col-8 col-md-9 text-muted">{{ obaUser?.login }}</div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-3">User ID</div>
+        <div class="col-12 col-md-9 text-muted">{{ obaUser?.id }}</div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-md-3">Email</div>
+        <div class="col-12 col-md-9 text-muted">{{ obaUser?.email }}</div>
+      </div>
+
+    </div>
+    <div>
+      <button routerLink="/profile-edit" class="btn btn-primary">
+       Edit
+      </button>
+    </div>
+  </div>
+</div>
+

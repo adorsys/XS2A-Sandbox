@@ -9,7 +9,9 @@ import {ConsentsComponent} from './oba/consents/consents.component';
 import {DashboardComponent} from './oba/dashboard/dashboard.component';
 import {LoginComponent} from './oba/login/login.component';
 import {ResetPasswordComponent} from './oba/reset-password/reset-password.component';
-import {PeriodicPaymentsComponent} from "./oba/periodic-payments/periodic-payments.component";
+import {PeriodicPaymentsComponent} from './oba/periodic-payments/periodic-payments.component';
+import {UserProfileComponent} from './oba/user-profile/user-profile.component';
+import {UserProfileUpdateComponent} from './oba/user-profile-update/user-profile-update.component';
 
 const externalUrlProvider = new InjectionToken('externalUrlRedirectResolver');
 
@@ -43,6 +45,14 @@ export const routes: Routes = [
             {
                 path: 'accounts',
                 component: AccountsComponent
+            },
+            {
+              path: 'profile' ,
+              component: UserProfileComponent
+            },
+            {
+              path: 'profile-edit' ,
+              component: UserProfileUpdateComponent
             },
             {
                 path: 'accounts/:id',

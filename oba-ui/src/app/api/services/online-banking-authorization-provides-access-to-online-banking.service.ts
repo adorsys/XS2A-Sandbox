@@ -22,6 +22,7 @@ class OnlineBankingAuthorizationProvidesAccessToOnlineBankingService extends __B
   static readonly sendCodeUsingPOSTPath = '/api/v1/password';
   static readonly updatePasswordUsingPUTPath = '/api/v1/password';
 
+
   constructor(
     config: __Configuration,
     http: HttpClient
@@ -143,6 +144,7 @@ class OnlineBankingAuthorizationProvidesAccessToOnlineBankingService extends __B
       __map(_r => _r.body as UpdatePassword)
     );
   }
+
 }
 
 module OnlineBankingAuthorizationProvidesAccessToOnlineBankingService {

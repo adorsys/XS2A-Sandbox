@@ -43,7 +43,7 @@ describe('AppComponent', () => {
       ],
       imports: [
         RouterTestingModule,
-        NgHttpLoaderModule.forRoot()
+        NgHttpLoaderModule.forRoot(),
       ],
       providers: [
         ApiConfiguration,

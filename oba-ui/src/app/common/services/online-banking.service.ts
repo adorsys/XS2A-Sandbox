@@ -6,9 +6,10 @@ import {ObaAisConsent} from '../../api/models/oba-ais-consent';
 import {OnlineBankingAccountInformationService} from '../../api/services/online-banking-account-information.service';
 import {OnlineBankingConsentsService} from '../../api/services/online-banking-consents.service';
 import {AuthService} from './auth.service';
-import {CustomPageImplTransactionTO} from "../../api/models/custom-page-impl-transaction-to";
-import {OnlineBankingAuthorizationProvidesAccessToOnlineBankingService} from "../../api/services/online-banking-authorization-provides-access-to-online-banking.service";
-import {PaymentTO} from "../../api/models/payment-to";
+import {CustomPageImplTransactionTO} from '../../api/models/custom-page-impl-transaction-to';
+import {OnlineBankingAuthorizationProvidesAccessToOnlineBankingService} from '../../api/services/online-banking-authorization-provides-access-to-online-banking.service';
+import {PaymentTO} from '../../api/models/payment-to';
+
 
 @Injectable({
     providedIn: 'root'
@@ -32,6 +33,10 @@ export class OnlineBankingService {
 
     public getAccount(accountID: string): Observable<AccountDetailsTO> {
         return this.onlineBankingAccountInfoService.accountUsingGET(accountID);
+    }
+
+    public getCurrentUser()  {
+      return this.onlineBankingAccountInfoService.getCurrentAccountInfo();
     }
 
     public getTransactions(params: OnlineBankingAccountInformationService.TransactionsUsingGETParams): Observable<CustomPageImplTransactionTO> {

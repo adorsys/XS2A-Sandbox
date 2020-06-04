@@ -60,11 +60,11 @@ const routes: Routes = [
       },
       {
         path: 'admin/all',
-        component:AdminsComponent
+        component: AdminsComponent
       },
       {
         path: 'admin/create',
-        component:AdminCreateComponent
+        component: AdminCreateComponent
       },
       {
         path: 'users/all',

@@ -33,6 +33,7 @@ body {
 .header {
   &__title {
     font-size: 2rem;
+    margin: 2rem 0;
   }
 }
 
@@ -117,6 +118,9 @@ a {
     color: #a0a0a0;
   }
 }
+.card-mw {
+  max-width: 650px;
+}
 
 .mrb-7 {
   margin-bottom: 7rem;
@@ -140,6 +144,10 @@ a {
 .no-bg-color {
   background-color: $COLOR_WHITE;
   border: none;
+}
+
+.row {
+  margin-bottom: 2rem;
 }
 
 @media (max-width: 767px) {
@@ -263,27 +271,6 @@ th {
     }
   }
 
-  &-outline-secondary {
-    color: var(--secondaryButtonTextColor);
-    background: var(--secondaryButtonBG);
-    border: var(--secondaryButtonBorderStyle);
-
-    &:hover {
-      color: var(--secondaryButtonHoveredTextColor);
-      background: var(--secondaryButtonHovered);
-    }
-
-    &:disabled {
-      background: var(--secondaryButtonBG);
-      opacity: 0.65;
-    }
-
-    &:focus {
-      outline: none;
-      background: var(--secondaryButtonClicked);
-      color: var(--secondaryButtonClickedTextColor);
-    }
-  }
 }
 
 .dp-error-border {
