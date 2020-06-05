@@ -1,23 +1,23 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import JSZip from 'jszip';
-import {combineLatest} from 'rxjs';
+import { combineLatest } from 'rxjs';
 
-import {InfoService} from '../../../commons/info/info.service';
-import {AuthService} from '../../../services/auth.service';
-import {CertGenerationService} from '../../../services/cert-generation.service';
-import {CustomizeService} from '../../../services/customize.service';
-import {SettingsService} from '../../../services/settings.service';
+import { InfoService } from '../../../commons/info/info.service';
+import { AuthService } from '../../../services/auth.service';
+import { CertGenerationService } from '../../../services/cert-generation.service';
+import { CustomizeService } from '../../../services/customize.service';
+import { SettingsService } from '../../../services/settings.service';
 import {
   TppIdPatterns,
   TppIdStructure,
   TppIdType,
 } from '../../../models/tpp-id-structure.model';
-import {CountryService} from '../../../services/country.service';
-import {User} from '../../../models/user.model';
-import {TppUserService} from '../../../services/tpp.user.service';
-import {PageNavigationService} from '../../../services/page-navigation.service';
+import { CountryService } from '../../../services/country.service';
+import { User } from '../../../models/user.model';
+import { TppUserService } from '../../../services/tpp.user.service';
+import { PageNavigationService } from '../../../services/page-navigation.service';
 import { TestDataGenerationService } from '../../../services/test.data.generation.service';
 
 @Component({
@@ -55,12 +55,11 @@ export class RegisterComponent implements OnInit {
     private pageNavigationService: PageNavigationService,
     private countryService: CountryService,
     private tppUserService: TppUserService
-  ) {
-  }
+  ) {}
 
   selectCountry() {
     if (this.userForm.controls['id']) {
-       this.userForm.controls['id'].setValue('');
+      this.userForm.controls['id'].setValue('');
     }
     if (this.userForm.disabled) {
       document.getElementById('emptySelect').remove();
@@ -99,7 +98,7 @@ export class RegisterComponent implements OnInit {
 
   public initializeCountryList() {
     this.countryService.getCountryList().subscribe(
-      data => {
+      (data) => {
         this.countries = data;
         this.selectedCountry = '';
       },
@@ -112,7 +111,8 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
     this.tppUserService.currentTppUser.subscribe(
-      (user: User) => this.admin = user && user.userRoles.includes('SYSTEM'));
+      (user: User) => (this.admin = user && user.userRoles.includes('SYSTEM'))
+    );
     this.initializeCountryList();
     this.initializeRegisterForm();
   }
@@ -139,27 +139,42 @@ export class RegisterComponent implements OnInit {
       combineLatest([
         this.service.register(this.userForm.value, this.selectedCountry),
         this.certGenerationService.generate(this.certificateValue),
-      ]).subscribe((combinedData: any) => {
-        const encodedCert = combinedData[1].encodedCert;
-        const privateKey = combinedData[1].privateKey;
+      ]).subscribe(
+        (combinedData: any) => {
+          const encodedCert = combinedData[1].encodedCert;
+          const privateKey = combinedData[1].privateKey;
 
-        this.createZipUrl(encodedCert, privateKey).then((url) => {
-          message = `${messageBeginning} been successfully registered and certificate generated. The download will start automatically within the 2 seconds`;
-          this.navigateAndGiveFeedback(navigateUrl, url, message);
-        });
-      });
+          this.createZipUrl(encodedCert, privateKey).then((url) => {
+            message = `${messageBeginning} been successfully registered and certificate generated. The download will start automatically within the 2 seconds`;
+            this.navigateAndGiveFeedback(navigateUrl, url, message);
+          });
+        },
+        (data) => {
+          this.userForm.reset();
+          this.infoService.openFeedback(data.error.message);
+        }
+      );
     } else {
       this.service
         .register(this.userForm.value, this.selectedCountry)
-        .subscribe(() => {
-          message = `${messageBeginning} been successfully registered.`;
-          this.navigateAndGiveFeedback(navigateUrl, '', message);
-
-        });
+        .subscribe(
+          () => {
+            message = `${messageBeginning} been successfully registered.`;
+            this.navigateAndGiveFeedback(navigateUrl, '', message);
+          },
+          (data) => {
+            this.userForm.reset();
+            this.infoService.openFeedback(data.error.message);
+          }
+        );
     }
   }
 
-  public navigateAndGiveFeedback(navigateUrl: string, downloadUrl: string, message: string) {
+  public navigateAndGiveFeedback(
+    navigateUrl: string,
+    downloadUrl: string,
+    message: string
+  ) {
     this.router.navigate([navigateUrl]).then(() => {
       this.infoService.openFeedback(message);
       if (downloadUrl) {
@@ -176,13 +191,18 @@ export class RegisterComponent implements OnInit {
 
   public generateTppId(countryCode: string) {
     if (countryCode) {
-      return this.generationService.generateTppId(countryCode)
+      return this.generationService
+        .generateTppId(countryCode)
         .subscribe((data) => {
           this.userForm.get('id').setValue(data);
-          this.infoService.openFeedback('TPP ID has been successfully generated');
+          this.infoService.openFeedback(
+            'TPP ID has been successfully generated'
+          );
         });
     } else {
-      this.infoService.openFeedback('To generate TPP ID you need to select a country');
+      this.infoService.openFeedback(
+        'To generate TPP ID you need to select a country'
+      );
     }
   }
 
@@ -190,7 +210,7 @@ export class RegisterComponent implements OnInit {
     const zip = new JSZip();
     zip.file('certificate.pem', certBlob);
     zip.file('private.key', keyBlob);
-    return zip.generateAsync({type: 'blob'});
+    return zip.generateAsync({ type: 'blob' });
   }
 
   public initializeRegisterForm(): void {

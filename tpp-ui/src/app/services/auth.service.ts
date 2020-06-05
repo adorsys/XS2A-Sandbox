@@ -1,40 +1,46 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import {environment} from "../../environments/environment";
-import {catchError, map} from "rxjs/operators";
-import {Observable, of} from "rxjs";
-import {JwtHelperService} from "@auth0/angular-jwt";
-import {Credentials} from "../models/credentials.model";
-import {Router} from "@angular/router";
-import {AutoLogoutService} from "./auto-logout.service";
-import {TppInfo} from "../models/tpp-info.model";
-import {ADMIN_KEY} from "../commons/constant/constant";
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { catchError, map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { Credentials } from '../models/credentials.model';
+import { Router } from '@angular/router';
+import { AutoLogoutService } from './auto-logout.service';
+import { TppInfo } from '../models/tpp-info.model';
+import { ADMIN_KEY } from '../commons/constant/constant';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
   public url = `${environment.tppBackend}`;
   private authTokenStorageKey = 'access_token';
   private jwtHelperService = new JwtHelperService();
 
-
-  constructor(private http: HttpClient,
-              private router: Router,
-              private autoLogoutService: AutoLogoutService) {
-  }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private autoLogoutService: AutoLogoutService
+  ) {}
 
   authorize(credentials: Credentials): Observable<string> {
-    return this.http.post<any>(this.url + '/login', {}, {
-      headers: new HttpHeaders({
-        login: credentials.login,
-        pin: credentials.pin
-      }),
-      observe: 'response'
-    })
+    return this.http
+      .post<any>(
+        this.url + '/login',
+        {},
+        {
+          headers: new HttpHeaders({
+            login: credentials.login,
+            pin: credentials.pin,
+          }),
+          observe: 'response',
+        }
+      )
       .pipe(
-        map(loginResponse => loginResponse.headers.get(this.authTokenStorageKey))
+        map((loginResponse) =>
+          loginResponse.headers.get(this.authTokenStorageKey)
+        )
       );
   }
 
@@ -53,11 +59,10 @@ export class AuthService {
   }
 
   register(tppInfo: TppInfo, countryCode: string): Observable<any> {
-    if (tppInfo.id.startsWith(countryCode)) {
-      tppInfo.id = tppInfo.id.substring(3);
+    if (countryCode !== undefined && countryCode !== null) {
+      tppInfo.id = countryCode + '_' + tppInfo.id;
+      return this.http.post(this.url + '/register', tppInfo);
     }
-    tppInfo.id = countryCode + '_' + tppInfo.id;
-    return this.http.post(this.url + '/register', tppInfo);
   }
 
   requestCodeForResetPassword(credentials: any): Observable<any> {
@@ -69,8 +74,9 @@ export class AuthService {
   }
 
   getTppIdStructure(countryCode: string): Observable<any> {
-    return this.http.get(this.url + '/country/codes/structure',
-      {params: new HttpParams().set("countryCode", countryCode)});
+    return this.http.get(this.url + '/country/codes/structure', {
+      params: new HttpParams().set('countryCode', countryCode),
+    });
   }
 
   public setAuthorisationToken(token: any) {
@@ -82,21 +88,20 @@ export class AuthService {
   private setUsersAccessRights(loginResponse): void {
     let admin = false;
     if (loginResponse['role'] === 'SYSTEM') {
-       admin = true;
+      admin = true;
     }
     localStorage.setItem(ADMIN_KEY, admin ? 'true' : 'false');
   }
 
   public login(credentials: any) {
     return this.authorize(credentials).pipe(
-      map(jwt => {
+      map((jwt) => {
         if (jwt === undefined) {
           return false;
         }
         this.setAuthorisationToken(jwt);
         return true;
-      }),
+      })
     );
   }
-
 }
