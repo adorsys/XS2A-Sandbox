@@ -6,7 +6,7 @@
     ><span *ngIf="!customizeService.isCustom()">adorsys</span>{{ title }}</span
   >
   <ul class="nav">
-    <li class="dropdown ml-auto">
+    <li class="dropdown ml-auto" (click)="showDropdown()">
       <a
         class="nav-item dropdown-toggle mr-3 no-underline clickable"
         id="dropdownMenuButton"
@@ -14,7 +14,6 @@
         aria-haspopup="true"
         aria-expanded="false"
         *ngIf="obaUser?.login"
-        (click)="showDropdown()"
         >{{ obaUser.login }}
       </a>
       <div
