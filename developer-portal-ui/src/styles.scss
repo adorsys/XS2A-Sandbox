@@ -414,6 +414,13 @@ strong {
   margin-bottom: 90vw;
 }
 
+.logo {
+  flex-shrink: 0;
+  max-height: 55%;
+  max-width: var(--max-width-logo);
+  cursor: pointer;
+}
+
 .footer-bar {
   padding: var(--footer-padding);
   color: var(--footerFontColor);
@@ -430,13 +437,6 @@ strong {
     justify-content: space-between;
     align-items: var(--align-items);
     margin-bottom: var(--margin-bottom);
-
-    .logo {
-      flex-shrink: 0;
-      max-height: 55%;
-      max-width: var(--max-width);
-      cursor: pointer;
-    }
 
     p {
       margin: 0 0;

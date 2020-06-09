@@ -1,10 +1,13 @@
 <nav class="navbar navbar-light py-3">
-  <a class="navbar-brand text-primary mr-4" routerLink="/">
-    <img class="logo" [src]="customizeService.getLogo()" />
-  </a>
-  <span class="ml-3 navbar-brand"
-    ><span *ngIf="!customizeService.isCustom()">adorsys</span>{{ title }}</span
-  >
+  <div class="navbar">
+    <a class="navbar-brand text-primary mr-4" routerLink="/">
+      <img class="logo" [src]="customizeService.getLogo()" />
+    </a>
+    <span class="ml-3 navbar-brand">
+      <span *ngIf="!customizeService.isCustom()">adorsys</span>
+      {{ title }}
+    </span>
+  </div>
   <ul class="nav">
     <li class="dropdown ml-auto" (click)="showDropdown()">
       <a
