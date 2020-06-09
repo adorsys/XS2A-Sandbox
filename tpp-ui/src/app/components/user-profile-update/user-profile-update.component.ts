@@ -5,7 +5,8 @@ import { AuthService } from '../../services/auth.service';
 import { TppUserService } from '../../services/tpp.user.service';
 import { TppManagementService } from '../../services/tpp-management.service';
 import { User } from '../../models/user.model';
-import {ADMIN_KEY} from '../../commons/constant/constant';
+import { ADMIN_KEY } from '../../commons/constant/constant';
+import { PageNavigationService } from '../../services/page-navigation.service';
 
 @Component({
   selector: 'app-user-profile-update',
@@ -20,6 +21,7 @@ export class UserProfileUpdateComponent implements OnInit {
   admin: string;
 
   constructor(
+    public pageNavigationService: PageNavigationService,
     private authService: AuthService,
     private userInfoService: TppUserService,
     private formBuilder: FormBuilder,
@@ -81,22 +83,24 @@ export class UserProfileUpdateComponent implements OnInit {
     if (this.admin === 'true') {
       this.tppManagementService
         .updateUserDetails(updatedUser, this.tppId)
-        .subscribe(() =>
-          this.getUserDetails());
-          this.router.navigate(['/users/all']);
+        .subscribe(() => this.getUserDetails());
+      this.router.navigate(['/users/all']);
       this.getUserDetails();
     } else if (this.admin === 'false') {
       this.userInfoService
         .updateUserInfo(updatedUser)
-        .subscribe(() =>
-          this.getUserDetails());
+        .subscribe(() => this.getUserDetails());
       this.router.navigate(['/profile']);
-
     }
   }
 
+  createLastVisitedPageLink(id: string): string {
+    this.pageNavigationService.setLastVisitedPage('/management');
+    return `/profile/${id}`;
+  }
+
   private getUserInfoForAdmin(tppId: string) {
-   if (this.admin === 'true') {
+    if (this.admin === 'true') {
       this.tppManagementService.getTppById(tppId).subscribe((user: User) => {
         if (user) {
           this.user = user;
