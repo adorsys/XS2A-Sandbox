@@ -271,6 +271,32 @@ th {
     }
   }
 
+  &-general {
+    color: var(--buttonTextColor);
+
+    background: var(--buttonBG);
+    border: none;
+
+    &:hover {
+      background: var(--buttonHovered);
+      color: var(--buttonTextColor);
+    }
+
+    &:disabled {
+      background: var(--buttonBGDisabled);
+      opacity: var(--button-opacity);
+      color: var(--buttonColorTextDisabled);
+    }
+
+    &:focus {
+      outline: none;
+      background: var(--buttonClicked);
+    }
+
+    &:active {
+      background-color: inherit;
+    }
+  }
 }
 
 .dp-error-border {
