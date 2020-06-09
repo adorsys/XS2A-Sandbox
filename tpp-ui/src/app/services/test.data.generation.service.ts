@@ -35,8 +35,13 @@ export class TestDataGenerationService {
     });
   }
 
-  public generateTppId( countryCode: string) {
-    return this.http.post(this.baseUrl + `/id?countryCode=${countryCode}`, countryCode);
+  public generateTppId(countryCode: string) {
+    return this.http.post(
+      this.baseUrl + `/id?countryCode=${countryCode}`,
+      countryCode,
+      {
+        responseType: 'text',
+      }
+    );
   }
-
 }
