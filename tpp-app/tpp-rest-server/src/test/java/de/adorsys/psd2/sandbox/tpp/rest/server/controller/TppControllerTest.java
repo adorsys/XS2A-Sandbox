@@ -135,7 +135,6 @@ class TppControllerTest {
     @Test
     void getRandomTppId() {
         when(dataRestClient.branchId(any())).thenReturn(ResponseEntity.ok("DE_123"));
-        BankCodeStructure structure = new BankCodeStructure(DE);
         ResponseEntity<String> result = tppController.getRandomTppId("DE");
         ArgumentCaptor<BbanStructure> captor = ArgumentCaptor.forClass(BbanStructure.class);
         verify(dataRestClient, times(1)).branchId(captor.capture());
@@ -145,7 +144,6 @@ class TppControllerTest {
         assertEquals(BbanStructure.EntryType.N, value.getEntryType());
         assertEquals(HttpStatus.OK, result.getStatusCode());
     }
-
 
     private Set<Currency> getSupportedCurrencies() {
         Set<Currency> currencies = new HashSet<>();

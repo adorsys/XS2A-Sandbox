@@ -1,15 +1,18 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.controller;
 
 import de.adorsys.ledgers.middleware.api.domain.general.BbanStructure;
+import de.adorsys.ledgers.middleware.api.domain.general.RevertRequestTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
 import de.adorsys.ledgers.middleware.client.rest.DataRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
+import de.adorsys.psd2.sandbox.tpp.cms.api.service.CmsRollbackService;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.BankCodeStructure;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.User;
 import de.adorsys.psd2.sandbox.tpp.rest.api.resource.TppRestApi;
 import de.adorsys.psd2.sandbox.tpp.rest.server.mapper.UserMapper;
 import de.adorsys.psd2.sandbox.tpp.rest.server.service.IbanGenerationService;
+import de.adorsys.psd2.sandbox.tpp.rest.server.service.RestExecutionService;
 import lombok.RequiredArgsConstructor;
 import org.iban4j.CountryCode;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +23,7 @@ import java.util.Currency;
 import java.util.Map;
 import java.util.Set;
 
+import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
@@ -31,6 +35,8 @@ public class TppController implements TppRestApi {
     private final UserMgmtRestClient userMgmtRestClient;
     private final DataRestClient dataRestClient;
     private final IbanGenerationService ibanGenerationService;
+    private final CmsRollbackService cmsRollbackService;
+    private final RestExecutionService restExecutionService;
 
     @Override
     public void login(String login, String pin) {
@@ -88,5 +94,11 @@ public class TppController implements TppRestApi {
     @Override
     public ResponseEntity<Void> user(String userId) {
         return dataRestClient.user(userId);
+    }
+
+    @Override
+    public ResponseEntity<Void> revert(RevertRequestTO revertRequest) {
+        restExecutionService.revert(revertRequest);
+        return ResponseEntity.status(ACCEPTED).build();
     }
 }
