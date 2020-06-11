@@ -202,6 +202,7 @@ a.redirect-btn,
   color: var(--buttonTextColor);
   background: var(--buttonBG);
   border-radius: var(--buttonBorderRadius);
+  border: 0px;
 
   &:hover {
     background: var(--buttonHovered);
@@ -241,7 +242,7 @@ select:not([multiple]) {
   background-position: 95% 50%;
   background-repeat: no-repeat;
   vertical-align: top;
-  background-image: url('assets/icons/arrow-down.svg');
+  background-image: var(--arrow-url);
   background-size: 0.6em;
   padding: 0.2em 1.5em 0.2em 0.2em;
   margin: 0.5em;

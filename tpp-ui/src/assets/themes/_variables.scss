@@ -1,13 +1,13 @@
 // Overwrite bootstrap variables
-@import "./bootstrap-overrides";
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/mixins";
+@import './bootstrap-overrides';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
 
-$light-grey: #A0A0A0;
-$light-grey-10: #F8F8F8;
-$btn-text-color: #F6F6F6;
-$dark-80: #2C2E2F;
+$light-grey: #a0a0a0;
+$light-grey-10: #f8f8f8;
+$btn-text-color: #f6f6f6;
+$dark-80: #2c2e2f;
 
 /*
  * CSS Variables: Used for whitelabel customization
@@ -75,40 +75,44 @@ $dark-80: #2C2E2F;
   --anchorFontColorHover: #{$link-hover-color};
 
   /* Buttons */
-  --button-heigh:50px;
+  --button-heigh: 50px;
 
   /* Primary */
 
   --buttonTextColor: #fff;
   --buttonBorderRadius: 3px;
   --buttonColorTextDisabled: #fff;
-  --buttonBGDisabled: linear-gradient(129.54deg, var(--buttonBgGradient1) 0%, var(--buttonBgGradient2) 100%);
-  --button-opacity: .65;
+  --buttonBGDisabled: linear-gradient(
+    129.54deg,
+    var(--buttonBgGradient1) 0%,
+    var(--buttonBgGradient2) 100%
+  );
+  --button-opacity: 0.65;
   --button-heigh: 56px;
-  --btn-padding:15px 12px;
+  --btn-padding: 15px 12px;
 
   --buttonBgGradient1: #0db0e2;
-  --buttonBgGradient2: #10317D;
+  --buttonBgGradient2: #10317d;
   --buttonBG: linear-gradient(
-      129.54deg,
-      var(--buttonBgGradient1) 0%,
-      var(--buttonBgGradient2) 100%
+    129.54deg,
+    var(--buttonBgGradient1) 0%,
+    var(--buttonBgGradient2) 100%
   );
 
-  --buttonHoveredGradient1: #0F62A4;
-  --buttonHoveredGradient2: #10317D;
+  --buttonHoveredGradient1: #0f62a4;
+  --buttonHoveredGradient2: #10317d;
   --buttonHovered: linear-gradient(
-      129.54deg,
-      var(--buttonHoveredGradient1) 0%,
-      var(--buttonHoveredGradient2) 100%
+    129.54deg,
+    var(--buttonHoveredGradient1) 0%,
+    var(--buttonHoveredGradient2) 100%
   );
 
   --buttonClickedGradient1: #0db0e2;
   --buttonClickedGradient2: #062e72;
   --buttonClicked: linear-gradient(
-      129.54deg,
-      var(--buttonClickedGradient1) 0%,
-      var(--buttonClickedGradient2) 100%
+    129.54deg,
+    var(--buttonClickedGradient1) 0%,
+    var(--buttonClickedGradient2) 100%
   );
 
   /* Secondary */
@@ -129,7 +133,7 @@ $dark-80: #2C2E2F;
   --inputBorderStyleRight: 1px solid #a0a0a0;
   --inputBorderStyleBottom: 1px solid #a0a0a0;
   --inputBorderStyleTop: 1px solid #a0a0a0;
-  --inputBorderRadius: .25rem;
+  --inputBorderRadius: 0.25rem;
 
   /* Selects */
   --selectBG: white;
@@ -143,9 +147,11 @@ $dark-80: #2C2E2F;
   /* Form */
   --margin-form-group: 0 0 4rem 0;
   --form-group-height: 3.5rem;
-  --border-bottom:none;
+  --border-bottom: none;
 
   /* Margins */
   --margin-top-icon: 6px;
-}
 
+  /* Image URL */
+  --arrow-url: url('src/assets/icons/arrow-down.svg');
+}
