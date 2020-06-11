@@ -26,6 +26,10 @@ public interface ObaAuthorizationApi {
     @GetMapping("/me")
     ResponseEntity<UserTO> getSelf();
 
+    @ApiOperation(value = "Edit current user", authorizations = @Authorization(value = "apiKey"))
+    @PutMapping("/me")
+    ResponseEntity<Void> editSelf(UserTO user);
+
     @PostMapping("/password")
     @ApiOperation(value = "Send code for user password reset")
     ResponseEntity<SendCode> sendCode(@RequestBody ResetPassword resetPassword);
