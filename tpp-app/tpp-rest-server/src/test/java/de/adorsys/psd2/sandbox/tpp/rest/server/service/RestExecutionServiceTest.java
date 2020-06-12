@@ -18,6 +18,7 @@ import de.adorsys.ledgers.middleware.client.mappers.PaymentMapperTO;
 import de.adorsys.ledgers.middleware.client.rest.DataRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
+import de.adorsys.ledgers.util.domain.CustomPageImpl;
 import de.adorsys.psd2.sandbox.tpp.cms.api.service.CmsRollbackService;
 import de.adorsys.psd2.sandbox.tpp.rest.server.mapper.BalanceMapper;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.AccountBalance;
@@ -81,8 +82,12 @@ class RestExecutionServiceTest {
     @Test
     void revert_ok() {
         // Given
-        when(userMgmtRestClient.getAllUsers())
-            .thenReturn(ResponseEntity.ok(Collections.singletonList(getUserTO())));
+        when(userMgmtStaffRestClient.getBranchUsersByRoles(Collections.singletonList(UserRoleTO.CUSTOMER),
+                                                           "",
+                                                           Boolean.FALSE,
+                                                           0,
+                                                           1000))
+            .thenReturn(ResponseEntity.ok(new CustomPageImpl<>(0, 1, 1, 1, 1, false, true, false, true, Collections.singletonList(getUserTO()))));
         RevertRequestTO revertRequestTO = getRevertRequest();
 
         // When
@@ -90,6 +95,24 @@ class RestExecutionServiceTest {
 
         // Then
         verify(userMgmtStaffRestClient, times(1)).revertDatabase(revertRequestTO);
+    }
+
+    @Test
+    void revert_listIsNull() {
+        // Given
+        when(userMgmtStaffRestClient.getBranchUsersByRoles(Collections.singletonList(UserRoleTO.CUSTOMER),
+                                                           "",
+                                                           Boolean.FALSE,
+                                                           0,
+                                                           1000))
+            .thenReturn(ResponseEntity.ok(new CustomPageImpl<>(0, 1, 1, 1, 1, false, true, false, true, null)));
+        RevertRequestTO revertRequestTO = getRevertRequest();
+
+        // When
+        executionService.revert(revertRequestTO);
+
+        // Then
+        verify(userMgmtStaffRestClient, never()).revertDatabase(revertRequestTO);
     }
 
     private AccountBalanceTO getAccountBalanceTO() {

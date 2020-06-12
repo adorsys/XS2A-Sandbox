@@ -4,11 +4,12 @@ import de.adorsys.ledgers.middleware.api.domain.account.AccountBalanceTO;
 import de.adorsys.ledgers.middleware.api.domain.general.RevertRequestTO;
 import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UploadedDataTO;
+import de.adorsys.ledgers.middleware.api.domain.um.UserRoleTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
 import de.adorsys.ledgers.middleware.client.mappers.PaymentMapperTO;
 import de.adorsys.ledgers.middleware.client.rest.DataRestClient;
-import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
+import de.adorsys.ledgers.util.domain.CustomPageImpl;
 import de.adorsys.psd2.sandbox.tpp.cms.api.service.CmsRollbackService;
 import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
 import de.adorsys.psd2.sandbox.tpp.rest.server.mapper.BalanceMapper;
@@ -17,9 +18,9 @@ import de.adorsys.psd2.sandbox.tpp.rest.server.model.DataPayload;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -32,7 +33,6 @@ public class RestExecutionService {
     private final DataRestClient dataRestClient;
     private final BalanceMapper balanceMapper;
     private final PaymentMapperTO paymentTOMapper;
-    private final UserMgmtRestClient userMgmtRestClient;
     private final UserMgmtStaffRestClient userMgmtStaffRestClient;
     private final CmsRollbackService cmsRollbackService;
 
@@ -45,11 +45,15 @@ public class RestExecutionService {
     }
 
     public void revert(RevertRequestTO revertRequest) {
-        List<UserTO> userList = userMgmtRestClient.getAllUsers().getBody();
+        CustomPageImpl<UserTO> pageableList = userMgmtStaffRestClient.getBranchUsersByRoles(Collections.singletonList(UserRoleTO.CUSTOMER),
+                                                                                            "",
+                                                                                            false,
+                                                                                            0,
+                                                                                            1000).getBody();
 
         // If users are present within this branch - get their logins (PSU IDs) and clean the ledgers and CMS DB with logins and timestamp.
-        if (CollectionUtils.isNotEmpty(userList)) {
-            List<String> userLogins = userList.stream()
+        if (pageableList != null && pageableList.getContent() != null) {
+            List<String> userLogins = pageableList.getContent().stream()
                                           .map(UserTO::getLogin)
                                           .collect(Collectors.toList());
 
