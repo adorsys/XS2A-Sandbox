@@ -37,10 +37,15 @@ export class UserProfileUpdateComponent implements OnInit {
     }
     const updatedUser: UserTO = {
       ...this.obaUser,
-      login: this.userForm.get('login').value,
+      login: this.userForm.get('username').value,
       email: this.userForm.get('email').value,
       pin: this.userForm.get('pin').value,
     };
+    console.log('updatedUser', updatedUser);
+    this.onlineBankingService
+      .updateUserDetails(updatedUser)
+      .subscribe(() => this.setDefaultUserDetails());
+    this.router.navigate(['/accounts']);
   }
 
   setUpEditedUserFormControl(): void {
