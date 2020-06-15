@@ -58,7 +58,7 @@ public class RestExecutionService {
                                           .collect(Collectors.toList());
 
             userMgmtStaffRestClient.revertDatabase(revertRequest);
-            CompletableFuture.runAsync(() -> cmsRollbackService.revertDatabase(userLogins, revertRequest.getTimestampToRevert()));
+            cmsRollbackService.revertDatabase(userLogins, revertRequest.getTimestampToRevert());
         }
     }
 
