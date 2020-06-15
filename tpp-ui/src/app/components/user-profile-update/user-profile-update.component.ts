@@ -95,8 +95,13 @@ export class UserProfileUpdateComponent implements OnInit {
   }
 
   createLastVisitedPageLink(id: string): string {
-    this.pageNavigationService.setLastVisitedPage('/management');
-    return `/profile/${id}`;
+    if (this.admin === 'true') {
+      return `/profile/${id}`;
+      this.pageNavigationService.setLastVisitedPage('/management');
+    } else if (this.admin === 'false') {
+      this.pageNavigationService.setLastVisitedPage('/accounts');
+      return `/profile`;
+    }
   }
 
   private getUserInfoForAdmin(tppId: string) {

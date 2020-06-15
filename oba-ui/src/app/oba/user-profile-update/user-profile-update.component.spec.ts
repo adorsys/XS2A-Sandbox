@@ -4,6 +4,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { OnlineBankingAccountInformationService } from '../../api/services';
 import { OnlineBankingService } from '../../common/services/online-banking.service';
+import { InfoService } from '../../common/info/info.service';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 describe('UserProfileEditComponent', () => {
   let component: UserProfileUpdateComponent;
@@ -13,8 +15,8 @@ describe('UserProfileEditComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UserProfileUpdateComponent],
-      imports: [ReactiveFormsModule, RouterTestingModule],
-      providers: [OnlineBankingAccountInformationService],
+      imports: [ReactiveFormsModule, RouterTestingModule, OverlayModule],
+      providers: [OnlineBankingAccountInformationService, InfoService],
     }).compileComponents();
   }));
 

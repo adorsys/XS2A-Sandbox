@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OnlineBankingService } from '../../common/services/online-banking.service';
 import { Router } from '@angular/router';
 import { UserTO } from '../../api/models/user-to';
+import { InfoService } from '../../common/info/info.service';
 
 @Component({
   selector: 'app-user-profile-edit',
@@ -17,6 +18,7 @@ export class UserProfileUpdateComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private onlineBankingService: OnlineBankingService,
+    private infoService: InfoService,
     private router: Router
   ) {}
 
@@ -41,10 +43,12 @@ export class UserProfileUpdateComponent implements OnInit {
       email: this.userForm.get('email').value,
       pin: this.userForm.get('pin').value,
     };
-    console.log('updatedUser', updatedUser);
     this.onlineBankingService
       .updateUserDetails(updatedUser)
       .subscribe(() => this.setDefaultUserDetails());
+    this.infoService.openFeedback('User details was successfully updated!', {
+      severity: 'info',
+    });
     this.router.navigate(['/accounts']);
   }
 
