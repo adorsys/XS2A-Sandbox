@@ -73,26 +73,26 @@
             </div>
           </div>
         </div>
-        <div class="row" *ngIf="!admin">
-          <label class="col-12 col-md-3" for="password">New PIN</label>
+        <div class="row">
+          <label class="col-12 col-md-3" for="pin">New PIN</label>
           <div class="col-12 col-md-10">
             <input
               [ngClass]="{
                 'is-invalid':
-                  (formControl['password'].touched || submitted) &&
-                  formControl['password'].errors
+                  (formControl['pin'].touched || submitted) &&
+                  formControl['pin'].errors
               }"
               autocomplete="off"
               class="form-control"
-              id="password"
-              placeholder="Enter new Password"
+              id="pin"
+              placeholder="Enter new Pin"
               type="password"
-              formControlName="password"
+              formControlName="pin"
             />
             <div
               *ngIf="
-                (formControl['password'].touched || submitted) &&
-                formControl['password'].hasError('minlength')
+                (formControl['pin'].touched || submitted) &&
+                formControl['pin'].hasError('minlength')
               "
               class="invalid-feedback"
             >
