@@ -12,7 +12,7 @@ volumes:
 services:
   # Xs2a connector embedded xs2a-connector,cms,aspsp-profile
   xs2a-connector-embedded:
-    image: adorsys/xs2a-connector-embedded:7.1
+    image: adorsys/xs2a-connector-embedded:7.4.2
     container_name: xs2a-connector-embedded
     restart: on-failure
     ports:
@@ -21,7 +21,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=mock-qwac,debug_mode
       - LEDGERS_URL=http://ledgers:8088
-      - BANK_PROFILE_PATH=/opt/profile/bank_profile_ledgers.yml
+      - XS2A_BANK_PROFILE_PATH=/opt/profile/bank_profile_ledgers.yml
       - SPRING_DATASOURCE_URL=jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=consent
       - SPRING_DATASOURCE_USERNAME=cms
       - SPRING_DATASOURCE_PASSWORD=cms
@@ -90,7 +90,7 @@ services:
 
   # Ledgers
   ledgers:
-    image: adorsys/ledgers:3.0
+    image: adorsys/ledgers:3.6
     container_name: ledgers
     restart: on-failure
     networks:

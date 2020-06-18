@@ -142,8 +142,8 @@ select:not([multiple]) {
   background-position: 95% 50%;
   background-repeat: no-repeat;
   vertical-align: top;
-  background-image: url('assets/icons/arrow-down.svg');
-  background-size: 0.6em;
+  background-image: var(--arrow-url);
+  background-size: 0.65em;
 }
 
 select {
@@ -186,7 +186,7 @@ tr {
 }
 
 .disabled-text {
-  color: #a0a0a0
+  color: #a0a0a0;
 }
 
 td {
@@ -389,7 +389,6 @@ a {
   }
 }
 
-
 /* TPP filters */
 .configs-container {
   height: 10rem;
@@ -440,14 +439,13 @@ a {
   max-width: 500px;
 }
 
-
 .arrow {
   -webkit-appearance: none;
   -moz-appearance: none;
   background-position: 95% 50%;
   background-repeat: no-repeat;
   vertical-align: top;
-  background-image: url('assets/icons/arrow-down.svg');
+  background-image: var(--arrow-url);
   background-size: 0.6em;
 }
 
@@ -455,6 +453,7 @@ a {
   width: 170px;
 }
 
- .table th,  .table td {
-   vertical-align: baseline !important;
+.table th,
+.table td {
+  vertical-align: baseline !important;
 }

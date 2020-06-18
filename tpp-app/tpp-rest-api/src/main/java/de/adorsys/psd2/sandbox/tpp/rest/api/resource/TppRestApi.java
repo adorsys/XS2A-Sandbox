@@ -1,5 +1,6 @@
 package de.adorsys.psd2.sandbox.tpp.rest.api.resource;
 
+import de.adorsys.ledgers.middleware.api.domain.general.RevertRequestTO;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.BankCodeStructure;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.User;
 import io.swagger.annotations.Api;
@@ -56,4 +57,8 @@ public interface TppRestApi {
     @ApiOperation(value = "Remove user", authorizations = @Authorization(value = "apiKey"))
     @DeleteMapping("/user/{userId}")
     ResponseEntity<Void> user(@PathVariable String userId);
+
+    @ApiOperation(value = "Revert TPP data by certain timestamp", authorizations = @Authorization(value = "apiKey"))
+    @PostMapping("/revert")
+    ResponseEntity<Void> revert(@RequestBody RevertRequestTO revertRequest);
 }

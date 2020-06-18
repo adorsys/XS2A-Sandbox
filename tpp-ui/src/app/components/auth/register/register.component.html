@@ -84,19 +84,24 @@
                     <span *ngIf="!admin">Your</span>
                     TPP ID*</label
                   >
-                  <input
-                    [ngClass]="{
-                      'is-invalid':
-                        (userForm.get('id')?.errors &&
-                          userForm.get('id')?.touched) ||
-                        (submitted && userForm.get('id')?.errors)
-                    }"
-                    autocomplete="off"
-                    class="form-control"
-                    formControlName="id"
-                    id="id"
-                    type="text"
-                  />
+                  <div class="input-group">
+                    <input
+                      [ngClass]="{
+                        'is-invalid':
+                          (userForm.get('id')?.errors &&
+                            userForm.get('id')?.touched) ||
+                          (submitted && userForm.get('id')?.errors)
+                      }"
+                      autocomplete="off"
+                      class="form-control"
+                      formControlName="id"
+                      id="id"
+                      type="text"
+                    />
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary bg-light text-black-50 mb-0" type="button" (click)="generateTppId(selectedCountry)">Generate TPP ID</button>
+                    </div>
+                  </div>
                   <div
                     *ngIf="userForm.get('id')?.errors?.required"
                     class="invalid-feedback"

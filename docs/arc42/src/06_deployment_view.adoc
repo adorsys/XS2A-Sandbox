@@ -44,7 +44,7 @@ NOTE: Spring Boot automatically translates properties to environment variables. 
 [options="header"]
 |=======
 | Property                   | Description        | Default
-| BANK_PROFILE_PATH
+| XS2A_BANK_PROFILE_PATH
 a| File path to the customized `bank_profile.yml`.
 
 Possible values could be `bank_profile.yml` (relative) or `/mnt/my_bank_profile.yml`

@@ -94,7 +94,7 @@ $dark-80: #2c2e2f;
   --footer-padding: 50px 5vw 50px;
   --display-item: flex;
   --margin-icon: 0 0 0 1em;
-  --max-width: 38%;
+  --max-width-logo: 420px;
 
   /* Anchor */
   --anchorFontColor: #0984bf;
@@ -179,4 +179,7 @@ $dark-80: #2c2e2f;
 
   /* List style */
   --listStyle: decimal;
+
+  /* Image URL */
+  --arrow-url: url('src/assets/icons/arrow-down.svg');
 }

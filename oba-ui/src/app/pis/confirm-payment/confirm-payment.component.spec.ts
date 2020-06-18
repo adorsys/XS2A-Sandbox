@@ -5,6 +5,7 @@ import { RoutingPath } from '../../common/models/routing-path.model';
 import { ShareDataService } from '../../common/services/share-data.service';
 import { PaymentDetailsComponent } from '../payment-details/payment-details.component';
 import { ConfirmPaymentComponent } from './confirm-payment.component';
+import { ConsentAuthorizeResponse } from '../../api/models/consent-authorize-response';
 import { of } from 'rxjs';
 
 const mockRouter = {

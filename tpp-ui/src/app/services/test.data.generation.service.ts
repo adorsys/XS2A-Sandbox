@@ -34,4 +34,14 @@ export class TestDataGenerationService {
       responseType: 'text',
     });
   }
+
+  public generateTppId(countryCode: string) {
+    return this.http.post(
+      this.baseUrl + `/id?countryCode=${countryCode}`,
+      countryCode,
+      {
+        responseType: 'text',
+      }
+    );
+  }
 }

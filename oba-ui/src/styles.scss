@@ -33,6 +33,7 @@ body {
 .header {
   &__title {
     font-size: 2rem;
+    margin: 2rem 0;
   }
 }
 
@@ -59,6 +60,17 @@ a {
   &.text-primary:focus {
     color: var(--anchorFontColorHover) !important;
   }
+}
+
+select:not([multiple]) {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-position: 95% 50%;
+  background-repeat: no-repeat;
+  vertical-align: top;
+  background-image: var(--arrow-url);
+  background-size: 0.7em;
+  padding: 0.2em 2.5em 0.2em 0.2em;
 }
 
 .text-dark {
@@ -117,6 +129,9 @@ a {
     color: #a0a0a0;
   }
 }
+.card-mw {
+  max-width: 650px;
+}
 
 .mrb-7 {
   margin-bottom: 7rem;
@@ -140,6 +155,10 @@ a {
 .no-bg-color {
   background-color: $COLOR_WHITE;
   border: none;
+}
+
+.row {
+  margin-bottom: 2rem;
 }
 
 @media (max-width: 767px) {
@@ -263,25 +282,30 @@ th {
     }
   }
 
-  &-outline-secondary {
-    color: var(--secondaryButtonTextColor);
-    background: var(--secondaryButtonBG);
-    border: var(--secondaryButtonBorderStyle);
+  &-general {
+    color: var(--buttonTextColor);
+
+    background: var(--buttonBG);
+    border: none;
 
     &:hover {
-      color: var(--secondaryButtonHoveredTextColor);
-      background: var(--secondaryButtonHovered);
+      background: var(--buttonHovered);
+      color: var(--buttonTextColor);
     }
 
     &:disabled {
-      background: var(--secondaryButtonBG);
-      opacity: 0.65;
+      background: var(--buttonBGDisabled);
+      opacity: var(--button-opacity);
+      color: var(--buttonColorTextDisabled);
     }
 
     &:focus {
       outline: none;
-      background: var(--secondaryButtonClicked);
-      color: var(--secondaryButtonClickedTextColor);
+      background: var(--buttonClicked);
+    }
+
+    &:active {
+      background-color: inherit;
     }
   }
 }

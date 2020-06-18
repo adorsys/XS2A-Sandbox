@@ -202,6 +202,7 @@ a.redirect-btn,
   color: var(--buttonTextColor);
   background: var(--buttonBG);
   border-radius: var(--buttonBorderRadius);
+  border: 0px;
 
   &:hover {
     background: var(--buttonHovered);
@@ -241,7 +242,7 @@ select:not([multiple]) {
   background-position: 95% 50%;
   background-repeat: no-repeat;
   vertical-align: top;
-  background-image: url('assets/icons/arrow-down.svg');
+  background-image: var(--arrow-url);
   background-size: 0.6em;
   padding: 0.2em 1.5em 0.2em 0.2em;
   margin: 0.5em;
@@ -414,6 +415,13 @@ strong {
   margin-bottom: 90vw;
 }
 
+.logo {
+  flex-shrink: 0;
+  max-height: 55%;
+  max-width: var(--max-width-logo);
+  cursor: pointer;
+}
+
 .footer-bar {
   padding: var(--footer-padding);
   color: var(--footerFontColor);
@@ -430,13 +438,6 @@ strong {
     justify-content: space-between;
     align-items: var(--align-items);
     margin-bottom: var(--margin-bottom);
-
-    .logo {
-      flex-shrink: 0;
-      max-height: 55%;
-      max-width: var(--max-width);
-      cursor: pointer;
-    }
 
     p {
       margin: 0 0;

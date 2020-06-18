@@ -1,16 +1,45 @@
 <nav class="navbar navbar-light py-3">
+  <div class="navbar">
     <a class="navbar-brand text-primary mr-4" routerLink="/">
-        <img class="logo" [src]="customizeService.getLogo()" />
+      <img class="logo" [src]="customizeService.getLogo()" />
     </a>
-    <span class="ml-3 navbar-brand"><span *ngIf="!customizeService.isCustom()">adorsys</span>{{title}}</span>
-      <ul class="nav ml-auto">
-          <li class="nav-item">
-              <a (click)="onLogout()" [routerLinkActive]="['active']" class="btn nav-link px-0 mb-0">
-                  <div class="mr-2">
-                      <img src="./assets/icons/sign_out.svg">
-                  </div>
-                  <span class="nav__title">Sign out</span>
-              </a>
-          </li>
-      </ul>
+    <span class="ml-3 navbar-brand">
+      <span *ngIf="!customizeService.isCustom()">adorsys</span>
+      {{ title }}
+    </span>
+  </div>
+  <ul class="nav">
+    <li class="dropdown ml-auto" (click)="showDropdown()">
+      <a
+        class="nav-item dropdown-toggle mr-3 no-underline clickable"
+        id="dropdownMenuButton"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+        *ngIf="obaUser?.login"
+        >{{ obaUser.login }}
+      </a>
+      <div
+        class="dropdown-menu dropdown-menu-right"
+        [ngClass]="{ show: toggleFlag }"
+      >
+        <a routerLink="/profile" class="dropdown-item py-2">
+          <div>
+            <img src="./assets/icons/user.svg" />
+            <span>Profile</span>
+          </div>
+        </a>
+        <a
+          (click)="onLogout()"
+          [routerLinkActive]="['active']"
+          class="dropdown-item clickable pb-2"
+        >
+          <div>
+            <img src="./assets/icons/sign_out.svg" />
+            <span class="nav__title"> Sign out</span>
+          </div>
+        </a>
+      </div>
+    </li>
+  </ul>
 </nav>

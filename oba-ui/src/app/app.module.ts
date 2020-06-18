@@ -25,7 +25,7 @@ export function app_Init(settingsHttpService: SettingsHttpService) {
 @NgModule({
     declarations: [
         AppComponent,
-        InternalServerErrorComponent
+        InternalServerErrorComponent,
     ],
     imports: [
         BrowserModule,

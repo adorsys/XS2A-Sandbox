@@ -1,19 +1,18 @@
-import {Injectable, OnInit} from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {environment} from '../../environments/environment';
-import {HttpClient} from '@angular/common/http';
-import {map} from 'rxjs/operators';
+import { Injectable, OnInit } from '@angular/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CountryService {
   public url = `${environment.tppBackend}`;
   private countries = new BehaviorSubject<any>(null);
   currentCountries = this.countries.asObservable();
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   getCountryCodes(): Observable<any> {
     return this.http.get(this.url + '/codes');
@@ -27,25 +26,25 @@ export class CountryService {
   }
 
   loadCountries() {
-    this.getCountryCodes().toPromise().then(data => {
-      this.countries.next(data);
-    });
+    this.getCountryCodes()
+      .toPromise()
+      .then((data) => {
+        this.countries.next(data);
+      });
   }
 
-  getCountryList(): Observable<Array<object>> {
+  getCountryList(): Observable<Array<any>> {
     return this.currentCountries.pipe(
-      map(
-        data => {
-          if (data != null) {
-            let countries = [];
-            Object.keys(data).forEach((countryKey: string) => {
-              countries.push({code: countryKey, name: data[countryKey]});
-            });
+      map((data) => {
+        if (data != null) {
+          const countries = [];
+          Object.keys(data).forEach((countryKey: string) => {
+            countries.push({ code: countryKey, name: data[countryKey] });
+          });
 
-            return countries;
-          }
+          return countries;
         }
-      ));
+      })
+    );
   }
-
 }

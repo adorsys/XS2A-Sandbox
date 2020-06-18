@@ -31,6 +31,12 @@ public class ObaAuthorizationApiController implements ObaAuthorizationApi {
     }
 
     @Override
+    public ResponseEntity<Void> editSelf(UserTO user) {
+        userMgmtRestClient.editSelf(user);
+        return ResponseEntity.accepted().build();
+    }
+
+    @Override
     public ResponseEntity<SendCode> sendCode(ResetPassword resetPassword) {
         return resetPasswordRestClient.sendCode(resetPassword);
     }
