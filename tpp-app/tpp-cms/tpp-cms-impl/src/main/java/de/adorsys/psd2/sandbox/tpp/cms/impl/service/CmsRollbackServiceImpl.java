@@ -30,6 +30,7 @@ public class CmsRollbackServiceImpl implements CmsRollbackService {
         executeNativeQuery(ROLLBACK_CMS, userIds, databaseStateDateTime);
     }
 
+    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
     private void executeNativeQuery(String queryFilePath, List<String> userIds, LocalDateTime databaseStateDateTime) {
         try {
             InputStream stream = loader.getResource(queryFilePath).getInputStream();

@@ -6,6 +6,7 @@ import de.adorsys.ledgers.middleware.api.domain.account.AccountBalanceTO;
 import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
 import de.adorsys.ledgers.middleware.api.domain.account.AccountReferenceTO;
 import de.adorsys.ledgers.middleware.api.domain.general.AddressTO;
+import de.adorsys.ledgers.middleware.api.domain.general.RecoveryPointTO;
 import de.adorsys.ledgers.middleware.api.domain.general.RevertRequestTO;
 import de.adorsys.ledgers.middleware.api.domain.payment.AmountTO;
 import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTO;
@@ -18,7 +19,6 @@ import de.adorsys.ledgers.middleware.client.mappers.PaymentMapperTO;
 import de.adorsys.ledgers.middleware.client.rest.DataRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
-import de.adorsys.ledgers.util.domain.CustomPageImpl;
 import de.adorsys.psd2.sandbox.tpp.cms.api.service.CmsRollbackService;
 import de.adorsys.psd2.sandbox.tpp.rest.server.mapper.BalanceMapper;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.AccountBalance;
@@ -28,7 +28,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
@@ -37,7 +36,6 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import static de.adorsys.ledgers.middleware.api.domain.payment.PaymentTypeTO.SINGLE;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
@@ -82,12 +80,9 @@ class RestExecutionServiceTest {
     @Test
     void revert_ok() {
         // Given
-        when(userMgmtStaffRestClient.getBranchUsersByRoles(Collections.singletonList(UserRoleTO.CUSTOMER),
-                                                           "",
-                                                           Boolean.FALSE,
-                                                           0,
-                                                           1000))
-            .thenReturn(ResponseEntity.ok(new CustomPageImpl<>(0, 1, 1, 1, 1, false, true, false, true, Collections.singletonList(getUserTO()))));
+        when(userMgmtStaffRestClient.getBranchUserLogins())
+            .thenReturn(ResponseEntity.ok(Arrays.asList(LOGIN)));
+        when(dataRestClient.getPoint(anyLong())).thenReturn(ResponseEntity.ok(getPoint()));
         RevertRequestTO revertRequestTO = getRevertRequest();
 
         // When
@@ -97,22 +92,13 @@ class RestExecutionServiceTest {
         verify(userMgmtStaffRestClient, times(1)).revertDatabase(revertRequestTO);
     }
 
-    @Test
-    void revert_listIsNull() {
-        // Given
-        when(userMgmtStaffRestClient.getBranchUsersByRoles(Collections.singletonList(UserRoleTO.CUSTOMER),
-                                                           "",
-                                                           Boolean.FALSE,
-                                                           0,
-                                                           1000))
-            .thenReturn(ResponseEntity.ok(new CustomPageImpl<>(0, 1, 1, 1, 1, false, true, false, true, null)));
-        RevertRequestTO revertRequestTO = getRevertRequest();
-
-        // When
-        executionService.revert(revertRequestTO);
-
-        // Then
-        verify(userMgmtStaffRestClient, never()).revertDatabase(revertRequestTO);
+    private RecoveryPointTO getPoint() {
+        RecoveryPointTO to = new RecoveryPointTO();
+        to.setDescription("Descr");
+        to.setBranchId(TPP_ID);
+        to.setId(1L);
+        to.setRollBackTime(LocalDateTime.now());
+        return to;
     }
 
     private AccountBalanceTO getAccountBalanceTO() {
@@ -165,8 +151,7 @@ class RestExecutionServiceTest {
     private RevertRequestTO getRevertRequest() {
         RevertRequestTO revertRequestTO = new RevertRequestTO();
         revertRequestTO.setBranchId("DE-FAKENCA");
-        revertRequestTO.setTimestampToRevert(LocalDateTime.now());
-
+        revertRequestTO.setRecoveryPointId(1L);
         return revertRequestTO;
     }
 }
