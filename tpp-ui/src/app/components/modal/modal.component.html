@@ -1,0 +1,30 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{ title }}</h4>
+  <button
+    type="button"
+    class="close pull-right"
+    aria-label="Close"
+    (click)="close()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="flex" *ngIf="list.length">
+    <div [formGroup]="userForm">
+      <input
+        *ngFor="let item of list"
+        formControlName="description"
+        placeholder="{{ item }}"
+      />
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary mr-2" (click)="createRecoveryPoints()">
+    Create State
+  </button>
+  <button type="button" class="btn btn-outline-secondary" (click)="close()">
+    {{ closeBtnName }}
+  </button>
+</div>

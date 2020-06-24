@@ -9,6 +9,17 @@ import { CountryService } from '../../services/country.service';
 import { PageNavigationService } from '../../services/page-navigation.service';
 import { AccountAccess } from '../../models/account-access.model';
 import { InfoService } from '../../commons/info/info.service';
+import { ResetLedgersService } from '../../services/reset-ledgers.service';
+import { RecoveryPoint } from '../../models/recovery-point.models';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { ADMIN_KEY } from '../../commons/constant/constant';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-user-profile',
@@ -16,6 +27,10 @@ import { InfoService } from '../../commons/info/info.service';
   styleUrls: ['./user-profile.component.scss'],
 })
 export class UserProfileComponent implements OnInit {
+  public recoveryPoints: RecoveryPoint;
+  public description = new FormControl('');
+  public userForm: FormGroup;
+  public bsModalRef: BsModalRef;
   admin;
   tppUser: User;
   countries;
@@ -30,13 +45,15 @@ export class UserProfileComponent implements OnInit {
     private router: Router,
     private infoService: InfoService,
     private route: ActivatedRoute,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private modal: BsModalService,
+    private ledgersService: ResetLedgersService
   ) {}
 
   ngOnInit(): void {
+    this.getRecoveryPoints();
     this.setUpCountries();
     this.setUpCurrentUser();
-
     const tppId = this.route.snapshot.params['id'];
     if (tppId) {
       this.getUserInfo(tppId);
@@ -131,5 +148,40 @@ export class UserProfileComponent implements OnInit {
           this.userAmount = userSet.size;
         });
     }
+  }
+
+  getRecoveryPoints() {
+    if (!this.admin) {
+      this.ledgersService
+        .getAllRecoveryPoints()
+        .subscribe((data) => (this.recoveryPoints = data));
+    }
+  }
+
+  deleteRecoveryPointById(pointID: string) {
+    this.ledgersService.deleteRecoveryPoints(pointID).subscribe((point) => {
+      this.getRecoveryPoints();
+      this.infoService.openFeedback('Point successfully deleted');
+    });
+  }
+
+  rollbackRecoveryPointById(pointID: string) {
+    const revertData = {
+      branchId: this.tppUser.branch,
+      recoveryPointId: pointID,
+    };
+    this.ledgersService.rollBackPointsById(revertData).subscribe((point) => {
+      this.infoService.openFeedback('Ledgers successfully reverted');
+    });
+  }
+
+  openModalWithComponent() {
+    const initialState = {
+      list: ['Type state point'],
+      title: 'Create point',
+      points: this.getRecoveryPoints(),
+    };
+    this.bsModalRef = this.modal.show(ModalComponent, { initialState });
+    this.bsModalRef.content.closeBtnName = 'Cancel';
   }
 }

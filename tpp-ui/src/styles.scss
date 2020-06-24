@@ -181,8 +181,8 @@ select {
 }
 
 tr {
-  border-bottom: 1px solid #c4ccd3;
   color: var(--tr-color);
+  border-bottom: var(--border-bottom);
 }
 
 .disabled-text {
@@ -307,7 +307,7 @@ a {
 
   .card-body {
     &--large {
-      padding: 2rem 2rem;
+      padding: 1rem 2rem;
     }
   }
 
@@ -342,6 +342,9 @@ a {
       height: 28px;
     }
   }
+}
+.flex {
+  display: flex;
 }
 
 .has-search .form-control-feedback {
@@ -456,4 +459,23 @@ a {
 .table th,
 .table td {
   vertical-align: baseline !important;
+}
+.table thead th {
+  border-bottom: none;
+}
+input {
+  border: none;
+  padding: 3px;
+}
+
+.profile-icon {
+  display: inline-block;
+  content: '';
+  background-image: url('assets/icons/profile.svg');
+  background-repeat: no-repeat;
+  margin-right: 1rem;
+
+  .va-m {
+    align-items: center !important;
+  }
 }
