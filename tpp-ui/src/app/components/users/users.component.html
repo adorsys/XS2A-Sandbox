@@ -36,7 +36,7 @@
     <div class="card-body">
       <div class="table-responsive">
         <div class="container-fluid" [ngClass]="{ 'configs-container': admin }">
-          <div class="row d-flex justify-content-between configs">
+          <div class="row d-flex justify-content-between configs fixed-width">
             <div class="paginator">
               <app-pagination-container
                 [paginationConfig]="config"
@@ -139,19 +139,23 @@
               *ngFor="let user of users; index as i"
               [ngClass]="{ 'disabled-text': user.blocked }"
             >
-              <th scope="row" >
+              <th scope="row">
                 {{
                   (config.currentPageNumber - 1) * config.itemsPerPage + i + 1
                 }}
               </th>
-              <td [routerLink]="['/users/' + user.id]"
-                  [queryParams]="{ page: config.currentPageNumber }"
+              <td
+                [routerLink]="['/users/' + user.id]"
+                [queryParams]="{ page: config.currentPageNumber }"
               >
-                {{ user.login }} </td>
-              <td [routerLink]="['/users/' + user.id]"
-                  [queryParams]="{ page: config.currentPageNumber }"
+                {{ user.login }}
+              </td>
+              <td
+                [routerLink]="['/users/' + user.id]"
+                [queryParams]="{ page: config.currentPageNumber }"
               >
-                {{ user.email }}</td>
+                {{ user.email }}
+              </td>
               <td>
                 <ul>
                   <li
@@ -172,7 +176,9 @@
                   </li>
                 </ul>
               </td>
-              <td *ngIf="admin === 'true'" class="nowrap">{{ user?.branchLogin }}</td>
+              <td *ngIf="admin === 'true'" class="nowrap">
+                {{ user?.branchLogin }}
+              </td>
               <td *ngIf="admin === 'true'">
                 <a
                   [routerLink]="[createLastVisitedPageLink(user.branch)]"
@@ -202,13 +208,23 @@
                 </ul>
               </td>
               <td class="action d-flex">
-                <button  class="btn btn-outline-danger btn-sm wd-120 mr-2"
-                (click)="openConfirmation(deleteConfirmationModal, user.id, 'delete')"
-                > Delete
+                <button
+                  class="btn btn-outline-danger btn-sm wd-120 mr-2"
+                  (click)="
+                    openConfirmation(deleteConfirmationModal, user.id, 'delete')
+                  "
+                >
+                  Delete
                 </button>
                 <button
                   class="btn btn-table-btn btn-sm wd-120 mr-2"
-                  (click)="openConfirmation(blockConfirmation, user.id, user.blocked ? 'block' : 'unblock')"
+                  (click)="
+                    openConfirmation(
+                      blockConfirmation,
+                      user.id,
+                      user.blocked ? 'block' : 'unblock'
+                    )
+                  "
                 >
                   {{ user.blocked ? 'Unblock User' : 'Block User' }}
                 </button>
@@ -250,7 +266,7 @@
                 <ng-template #blockConfirmation let-modal>
                   <div class="modal-header">
                     <h4 class="modal-title" id="modal-basic-title-1">
-                      User  {{ user.blocked ? 'unblocking' : 'blocking' }}
+                      User {{ user.blocked ? 'unblocking' : 'blocking' }}
                     </h4>
                     <button
                       type="button"

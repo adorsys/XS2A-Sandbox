@@ -51,6 +51,7 @@ export class UserProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.admin = localStorage.getItem(ADMIN_KEY);
     this.getRecoveryPoints();
     this.setUpCountries();
     this.setUpCurrentUser();
@@ -151,7 +152,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   getRecoveryPoints() {
-    if (!this.admin) {
+    if (this.admin === 'false') {
       this.ledgersService
         .getAllRecoveryPoints()
         .subscribe((data) => (this.recoveryPoints = data));

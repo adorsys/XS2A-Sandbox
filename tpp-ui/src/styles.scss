@@ -347,6 +347,13 @@ a {
   display: flex;
 }
 
+.fb-50 {
+  flex-basis: 50%;
+}
+
+.fixed-width {
+  width: 1300px;
+}
 .has-search .form-control-feedback {
   margin-top: var(--margin-top-icon) !important;
 }
@@ -392,19 +399,10 @@ a {
   }
 }
 
-/* TPP filters */
-.configs-container {
-  height: 10rem;
-}
-
-.configs {
-  //position: absolute;
-  //right: 7%;
-}
-
-.paginator {
-  //padding: 1rem;
-  //max-width: 9rem;
+@media (max-width: 1280px) {
+  fb-50 {
+    flex-basis: 30%;
+  }
 }
 
 .tpp-filters {
@@ -460,9 +458,11 @@ a {
 .table td {
   vertical-align: baseline !important;
 }
+
 .table thead th {
   border-bottom: none;
 }
+
 input {
   border: none;
   padding: 3px;
