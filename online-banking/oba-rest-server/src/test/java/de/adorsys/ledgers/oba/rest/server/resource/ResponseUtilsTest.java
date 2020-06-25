@@ -112,6 +112,36 @@ class ResponseUtilsTest {
     }
 
     @Test
+    void redirect_relative_url() {
+        // Given
+        HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
+        when(cookieConfigProperties.getPath()).thenReturn("somePath");
+
+        // When
+        ResponseEntity<OnlineBankingResponse> responseResponseEntity = responseUtils.redirect("www.google.com", response);
+
+        // Then
+        assertTrue(responseResponseEntity.getStatusCode().is3xxRedirection());
+        assertSame(HttpStatus.FOUND, responseResponseEntity.getStatusCode());
+        assertEquals("http://www.google.com", responseResponseEntity.getHeaders().get("Location").get(0));
+    }
+
+    @Test
+    void redirect_absolute_url() {
+        // Given
+        HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
+        when(cookieConfigProperties.getPath()).thenReturn("somePath");
+
+        // When
+        ResponseEntity<OnlineBankingResponse> responseResponseEntity = responseUtils.redirect("http://www.google.com", response);
+
+        // Then
+        assertTrue(responseResponseEntity.getStatusCode().is3xxRedirection());
+        assertSame(HttpStatus.FOUND, responseResponseEntity.getStatusCode());
+        assertEquals("http://www.google.com", responseResponseEntity.getHeaders().get("Location").get(0));
+    }
+
+    @Test
     void consentCookie() {
         // When
         String cookie = responseUtils.consentCookie("CONSENT=mklrfkwrj3i4jrhugui3i4htvou34d");
