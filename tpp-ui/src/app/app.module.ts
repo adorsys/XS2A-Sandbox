@@ -52,6 +52,7 @@ import { TppsComponent } from './components/tpps/tpps.component';
 import { AdminCreateComponent } from './components/admin/admin-create/admin-create.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { ModalModule } from 'ngx-bootstrap';
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 
 export function app_Init(settingsHttpService: SettingsHttpService) {
@@ -109,6 +110,7 @@ export function app_Init(settingsHttpService: SettingsHttpService) {
     NgbModalModule,
     NgbPaginationModule,
     ModalModule.forRoot(),
+    TypeaheadModule.forRoot(),
   ],
   providers: [
     AutoLogoutService,
