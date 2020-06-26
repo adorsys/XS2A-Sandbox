@@ -10,3 +10,4 @@ Current version consists of following components:
 5. **XS2A Connector-Examples v.7.4.2**
 
 - Added relative redirect URLs support, like `www.google.com`.
+- Removed sources of certificate-generator from the project.

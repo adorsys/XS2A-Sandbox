@@ -35,7 +35,7 @@ install-for-MacOS:
 
 # Lint section
 
-lint-all: lint-tpp-ui lint-oba-ui lint-developer-portal-ui lint-tpp-rest-server lint-online-banking lint-certificate-generator lint-docker-compose lint-pmd-cpd-report #lint all services
+lint-all: lint-tpp-ui lint-oba-ui lint-developer-portal-ui lint-tpp-rest-server lint-online-banking lint-docker-compose lint-pmd-cpd-report #lint all services
 
 lint-tpp-ui:
 	find tpp-ui -type f -name "*.json" -not -path "tpp-ui/node_modules/*" -exec jsonlint -q {} \; # lint all json
@@ -76,12 +76,6 @@ lint-online-banking:
 	find online-banking -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
 	find online-banking -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
 	docker run --rm -i hadolint/hadolint < online-banking/online-banking-app/Dockerfile
-
-lint-certificate-generator:
-	find certificate-generator -type f -name "*.json" -exec jsonlint -q {} \; # lint all json
-	find certificate-generator -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
-	find certificate-generator -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
-	docker run --rm -i hadolint/hadolint < certificate-generator/Dockerfile
 
 lint-docker-compose:
 	docker-compose -f docker-compose.yml config  -q
