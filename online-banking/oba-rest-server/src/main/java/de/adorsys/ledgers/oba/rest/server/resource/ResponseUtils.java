@@ -97,6 +97,7 @@ public class ResponseUtils {
 		return error(authResp, status, message, httpResp);
 	}
 
+	@SuppressWarnings("PMD.AvoidReassigningParameters")
 	public <T extends OnlineBankingResponse> ResponseEntity<T> redirect(String locationURI, HttpServletResponse httpResp) {
 		HttpHeaders headers = new HttpHeaders();
 

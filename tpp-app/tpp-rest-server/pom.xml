@@ -94,10 +94,11 @@
             <artifactId>mapstruct-jdk8</artifactId>
         </dependency>
 
-        <dependency>
+        <!-- Quickfix Iban4j -->
+        <!--dependency>
             <groupId>org.iban4j</groupId>
             <artifactId>iban4j</artifactId>
-        </dependency>
+        </dependency-->
 
         <!-- Test dependencies -->
         <dependency>

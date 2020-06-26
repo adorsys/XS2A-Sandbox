@@ -20,6 +20,4 @@
         <module>tpp-rest-server</module>
         <module>tpp-cms</module>
     </modules>
-
-
 </project>

@@ -120,7 +120,7 @@
         <fasterxml.version>2.10.1</fasterxml.version>
         <fasterxml-data-format.version>2.9.8</fasterxml-data-format.version>
         <opencsv.version>4.5</opencsv.version>
-        <iban4j-version>3.2.1</iban4j-version>
+        <!--iban4j-version>3.2.1</iban4j-version-->
         <commons-validator.version>1.6</commons-validator.version>
         <bcpkix.jdk15on.version>1.60</bcpkix.jdk15on.version>
         <!--Sonar -->
@@ -285,11 +285,12 @@
                 <version>${fasterxml-data-format.version}</version>
             </dependency>
 
-            <dependency>
+            <!-- Quickfix Iban4j -->
+            <!--dependency>
                 <groupId>org.iban4j</groupId>
                 <artifactId>iban4j</artifactId>
                 <version>${iban4j-version}</version>
-            </dependency>
+            </dependency-->
 
             <!-- Certificate -->
             <dependency>
