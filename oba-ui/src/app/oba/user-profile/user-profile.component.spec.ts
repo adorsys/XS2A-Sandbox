@@ -2,14 +2,14 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { UserProfileComponent } from './user-profile.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { UserTO } from '../../api/models/user-to';
-import { OnlineBankingService } from '../../common/services/online-banking.service';
 import { of } from 'rxjs/internal/observable/of';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CurrentUserService } from '../../common/services/current-user.service';
 
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
   let fixture: ComponentFixture<UserProfileComponent>;
-  let mockObaService: OnlineBankingService;
+  let mockObaService: CurrentUserService;
 
   const mockUser: UserTO = {
     accountAccesses: [],
@@ -31,8 +31,8 @@ describe('UserProfileComponent', () => {
       declarations: [UserProfileComponent],
       imports: [RouterTestingModule, HttpClientTestingModule],
       providers: [
-        OnlineBankingService,
-        { provide: OnlineBankingService, useValue: mockObaUserService },
+        CurrentUserService,
+        { provide: CurrentUserService, useValue: mockObaUserService },
       ],
     }).compileComponents();
   }));
@@ -40,7 +40,7 @@ describe('UserProfileComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UserProfileComponent);
     component = fixture.componentInstance;
-    mockObaService = TestBed.get(OnlineBankingService);
+    mockObaService = TestBed.get(CurrentUserService);
     fixture.detectChanges();
   });
 

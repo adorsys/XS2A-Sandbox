@@ -9,9 +9,6 @@ import { AuthService } from './auth.service';
 import { CustomPageImplTransactionTO } from '../../api/models/custom-page-impl-transaction-to';
 import { OnlineBankingAuthorizationProvidesAccessToOnlineBankingService } from '../../api/services/online-banking-authorization-provides-access-to-online-banking.service';
 import { PaymentTO } from '../../api/models/payment-to';
-import { UpdatedUserDetails } from '../../api/models/updated-user-details';
-import { SendCode } from '../../api/models/send-code';
-import { UserTO } from '../../api/models/user-to';
 
 @Injectable({
   providedIn: 'root',
@@ -37,10 +34,6 @@ export class OnlineBankingService {
     return this.onlineBankingAccountInfoService.accountUsingGET(accountID);
   }
 
-  public getCurrentUser() {
-    return this.onlineBankingAccountInfoService.getCurrentAccountInfo();
-  }
-
   public getTransactions(
     params: OnlineBankingAccountInformationService.TransactionsUsingGETParams
   ): Observable<CustomPageImplTransactionTO> {
@@ -61,10 +54,5 @@ export class OnlineBankingService {
 
   public getPayments(): Observable<PaymentTO[]> {
     return this.onlineBankingAccountInfoService.getPendingPeriodicPaymentsUsingGET();
-  }
-  public updateUserDetails(updatedUserDetails: UserTO) {
-    return this.onlineBankingAuthorizationService.updateUserDetailsUsingPUT(
-      updatedUserDetails
-    );
   }
 }
