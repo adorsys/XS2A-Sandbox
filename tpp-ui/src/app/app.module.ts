@@ -54,6 +54,10 @@ import { ModalComponent } from './components/modal/modal.component';
 import { ModalModule } from 'ngx-bootstrap';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+import { NgxsModule } from '@ngxs/store';
+import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
+import { RecoveryPointState } from './state/recoverypoints.state';
 
 export function app_Init(settingsHttpService: SettingsHttpService) {
   return () => settingsHttpService.initializeApp();
@@ -111,6 +115,9 @@ export function app_Init(settingsHttpService: SettingsHttpService) {
     NgbPaginationModule,
     ModalModule.forRoot(),
     TypeaheadModule.forRoot(),
+    NgxsModule.forRoot([RecoveryPointState]),
+    NgxsReduxDevtoolsPluginModule.forRoot(),
+    NgxsLoggerPluginModule.forRoot(),
   ],
   providers: [
     AutoLogoutService,

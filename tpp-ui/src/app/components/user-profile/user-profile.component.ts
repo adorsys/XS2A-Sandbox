@@ -11,15 +11,17 @@ import { AccountAccess } from '../../models/account-access.model';
 import { InfoService } from '../../commons/info/info.service';
 import { ResetLedgersService } from '../../services/reset-ledgers.service';
 import { RecoveryPoint } from '../../models/recovery-point.models';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { ADMIN_KEY } from '../../commons/constant/constant';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { ModalComponent } from '../modal/modal.component';
+import { Select, Store } from '@ngxs/store';
+import {
+  DeleteRecoveryPoint,
+  GetRecoveryPoint,
+} from '../actions/revertpoints.action';
+import { Observable } from 'rxjs';
+import { RecoveryPointState } from '../../state/recoverypoints.state';
 
 @Component({
   selector: 'app-user-profile',
@@ -27,8 +29,8 @@ import { ModalComponent } from '../modal/modal.component';
   styleUrls: ['./user-profile.component.scss'],
 })
 export class UserProfileComponent implements OnInit {
-  public recoveryPoints: RecoveryPoint;
-  public description = new FormControl('');
+  @Select(RecoveryPointState.getRecoveryPointsList)
+  ngxsrecoveryPoint: Observable<RecoveryPoint[]>;
   public userForm: FormGroup;
   public bsModalRef: BsModalRef;
   admin;
@@ -47,12 +49,13 @@ export class UserProfileComponent implements OnInit {
     private route: ActivatedRoute,
     private modalService: NgbModal,
     private modal: BsModalService,
-    private ledgersService: ResetLedgersService
+    private ledgersService: ResetLedgersService,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
+    this.store.dispatch(new GetRecoveryPoint());
     this.admin = localStorage.getItem(ADMIN_KEY);
-    this.getRecoveryPoints();
     this.setUpCountries();
     this.setUpCurrentUser();
     const tppId = this.route.snapshot.params['id'];
@@ -153,17 +156,13 @@ export class UserProfileComponent implements OnInit {
 
   getRecoveryPoints() {
     if (this.admin === 'false') {
-      this.ledgersService
-        .getAllRecoveryPoints()
-        .subscribe((data) => (this.recoveryPoints = data));
+      this.store.dispatch(new GetRecoveryPoint());
     }
   }
 
   deleteRecoveryPointById(pointID: string) {
-    this.ledgersService.deleteRecoveryPoints(pointID).subscribe((point) => {
-      this.getRecoveryPoints();
-      this.infoService.openFeedback('Point successfully deleted');
-    });
+    this.store.dispatch(new DeleteRecoveryPoint(pointID));
+    this.infoService.openFeedback('Point successfully deleted');
   }
 
   rollbackRecoveryPointById(pointID: string) {
@@ -178,9 +177,8 @@ export class UserProfileComponent implements OnInit {
 
   openModalWithComponent() {
     const initialState = {
-      list: ['Type state point'],
+      list: ['description'],
       title: 'Create point',
-      points: this.getRecoveryPoints(),
     };
     this.bsModalRef = this.modal.show(ModalComponent, { initialState });
     this.bsModalRef.content.closeBtnName = 'Cancel';

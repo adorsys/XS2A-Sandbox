@@ -225,25 +225,25 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let point of recoveryPoints; let i = index">
+          <tr *ngFor="let point of ngxsrecoveryPoint | async; let i = index">
             <td>
               {{ i + 1 }}
             </td>
             <td>
               <div>
-                {{ point.description }}
+                {{ point?.description }}
               </div>
             </td>
             <td class="flex va-m">
               <button
                 class="btn btn-primary mr-2"
-                (click)="rollbackRecoveryPointById(point.id)"
+                (click)="rollbackRecoveryPointById(point?.id)"
               >
                 Rollback State
               </button>
               <button
                 class="btn btn-danger"
-                (click)="deleteRecoveryPointById(point.id)"
+                (click)="deleteRecoveryPointById(point?.id)"
               >
                 Delete
               </button>
