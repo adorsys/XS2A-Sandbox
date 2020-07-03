@@ -35,7 +35,7 @@
     <div class="card-body">
       <div class="table-responsive">
         <div class="container-fluid configs-container">
-          <div class="row d-flex justify-content-between confgs">
+          <div class="row d-flex justify-content-between confgs fixed-width">
             <div class="paginator">
               <app-pagination-container
                 [paginationConfig]="config"
@@ -70,7 +70,7 @@
                         <option
                           *ngFor="let country of countriesList"
                           [ngValue]="country.code"
-                        >{{ country.name }}
+                          >{{ country.name }}
                         </option>
                       </select>
                     </div>
@@ -122,15 +122,17 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let tpp of tpps; index as i"
-                [ngClass]="{ 'disabled-text': tpp.blocked }">
+            <tr
+              *ngFor="let tpp of tpps; index as i"
+              [ngClass]="{ 'disabled-text': tpp.blocked }"
+            >
               <th
                 scope="row"
                 [routerLink]="[createLastVisitedPageLink(tpp.id)]"
                 [queryParams]="{ page: config.currentPageNumber }"
               >
                 {{
-                (config.currentPageNumber - 1) * config.itemsPerPage + i + 1
+                  (config.currentPageNumber - 1) * config.itemsPerPage + i + 1
                 }}
               </th>
               <td
@@ -166,7 +168,13 @@
               <td class="actions d-flex">
                 <button
                   class="btn btn-table-btn btn-sm wd-120"
-                  (click)="openConfirmation(blockConfirmation, tpp.id, tpp.blocked ? 'block' : 'unblock')"
+                  (click)="
+                    openConfirmation(
+                      blockConfirmation,
+                      tpp.id,
+                      tpp.blocked ? 'block' : 'unblock'
+                    )
+                  "
                 >
                   {{ tpp.blocked ? 'Unblock TPP' : 'Block TPP' }}
                 </button>
@@ -178,8 +186,8 @@
                 </button>
                 <button
                   (click)="
-                      openConfirmation(deleteConfirmationModal, tpp.id, 'delete')
-                    "
+                    openConfirmation(deleteConfirmationModal, tpp.id, 'delete')
+                  "
                   class="btn btn-outline-danger btn-sm wd-120"
                 >
                   Delete
@@ -270,7 +278,7 @@
                 <ng-template #blockConfirmation let-modal>
                   <div class="modal-header">
                     <h4 class="modal-title" id="modal-basic-title-1">
-                      TPP  {{ tpp.blocked ? 'unblocking' : 'blocking' }}
+                      TPP {{ tpp.blocked ? 'unblocking' : 'blocking' }}
                     </h4>
                     <button
                       type="button"

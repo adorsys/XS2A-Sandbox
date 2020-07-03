@@ -8,7 +8,7 @@ import { By } from '@angular/platform-browser';
 import { LoginComponent } from './login.component';
 import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 fdescribe('LoginComponent', () => {
   let component: LoginComponent;
@@ -92,9 +92,10 @@ fdescribe('LoginComponent', () => {
   it('should throw a error message', () => {
     component.loginForm.get('login').setValue('foo');
     component.loginForm.get('pin').setValue('12345');
-    const logSpy = spyOn(authService, 'login').and.returnValue(of(false));
+    const logSpy = spyOn(authService, 'login').and.returnValue(
+      throwError({ success: false })
+    );
     component.onSubmit();
     expect(logSpy).toHaveBeenCalled();
-    expect(component.errorMessage).toEqual('Invalid credentials');
   });
 });

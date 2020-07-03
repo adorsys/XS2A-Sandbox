@@ -16,6 +16,7 @@ import { AccountDetailsTO } from '../models/account-details-to';
 import { PaymentTO } from '../models/payment-to';
 import { TransactionTO } from '../models/transaction-to';
 import { CustomPageImplTransactionTO } from '../models/custom-page-impl-transaction-to';
+import { UserTO } from '../models/user-to';
 
 /**
  * Oba Ais Controller
@@ -296,7 +297,7 @@ class OnlineBankingAccountInformationService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter((_r) => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<AccountDetailsTO>;
+        return _r as __StrictHttpResponse<UserTO>;
       })
     );
   }

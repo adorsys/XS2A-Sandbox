@@ -20,7 +20,7 @@ public interface TppDataUploaderRestApi {
 
     @ApiOperation(value = "Generate test data and upload it to Ledgers", authorizations = @Authorization(value = "apiKey"))
     @GetMapping(value = "/generate/{currency}")
-    ResponseEntity<Resource> generateData(@RequestParam boolean generatePayments, @PathVariable("currency") String currency);
+    ResponseEntity<Resource> generateData(@RequestParam("generatePayments") boolean generatePayments, @PathVariable("currency") String currency);
 
     @ApiOperation(value = "Generate random IBAN", authorizations = @Authorization(value = "apiKey"))
     @GetMapping("/generate/iban")

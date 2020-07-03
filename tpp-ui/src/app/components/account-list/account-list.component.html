@@ -6,7 +6,7 @@
         <div class="col-12 col-md-12 p-md-0">
           <div class="form-group has-search">
             <span class="form-control-feedback">
-              <img src="./assets/icons/search.svg"/>
+              <img src="./assets/icons/search.svg" />
             </span>
             <div>
               <input
@@ -25,7 +25,7 @@
     <div class="card-body">
       <div class="table-responsive">
         <div class="container-fluid" [ngClass]="{ 'configs-container': admin }">
-          <div class="row d-flex justify-content-between configs">
+          <div class="row d-flex justify-content-between configs fixed-width">
             <div class="paginator">
               <app-pagination-container
                 [paginationConfig]="config"
@@ -36,7 +36,7 @@
             <div *ngIf="admin" class="tpp-filters">
               <div class="container-fluid">
                 <div class="row d-flex justify-content-end">
-                  <div class="mr-2" *ngIf="admin ==='true'">
+                  <div class="mr-2" *ngIf="admin === 'true'">
                     <label for="country">TPP ID:</label>
                     <div class="filter">
                       <input
@@ -47,7 +47,7 @@
                       />
                     </div>
                   </div>
-                  <div class="select" *ngIf="admin ==='true'">
+                  <div class="select" *ngIf="admin === 'true'">
                     <label for="country">Country:</label>
                     <div class="select-filter">
                       <select
@@ -60,14 +60,17 @@
                         <option
                           *ngFor="let country of countries"
                           [ngValue]="country.code"
-                        >{{ country.name }}
+                          >{{ country.name }}
                         </option>
                       </select>
                     </div>
                   </div>
                 </div>
 
-                <div class="row d-flex justify-content-end" *ngIf="admin ==='true'">
+                <div
+                  class="row d-flex justify-content-end"
+                  *ngIf="admin === 'true'"
+                >
                   <button
                     class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
                     (click)="setBlocked(false)"
@@ -101,135 +104,161 @@
 
         <table class="table">
           <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">IBAN</th>
-            <th scope="col">Currency</th>
-            <th scope="col" *ngIf="admin ==='true'">TPP ID</th>
-            <th scope="col">Account Type</th>
-            <th scope="col">Usage Type</th>
-            <th scope="col">Account Status</th>
-            <th scope="col">Actions</th>
-          </tr>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">IBAN</th>
+              <th scope="col">Currency</th>
+              <th scope="col" *ngIf="admin === 'true'">TPP ID</th>
+              <th scope="col">Account Type</th>
+              <th scope="col">Usage Type</th>
+              <th scope="col">Account Status</th>
+              <th scope="col">Actions</th>
+            </tr>
           </thead>
           <tbody>
-          <tr
-            *ngFor="let account of accounts; index as i"
-            [ngClass]="{ 'disabled-text': account.blocked }"
-          >
-            <th scope="row">
-              {{
-              (config.currentPageNumber - 1) * config.itemsPerPage + i + 1
-              }}
-            </th>
-            <td [routerLink]="[createAccountDetailsLink(account.id)]"
-                [queryParams]="{ page: config.currentPageNumber, tppId: account.branch }">
-              {{ account.iban }}</td>
-            <td   [routerLink]="[createAccountDetailsLink(account.id)]"
-                  [queryParams]="{ page: config.currentPageNumber, tppId: account.branch }">
-              {{ account.currency }}</td>
-            <td *ngIf="admin ==='true'">
-              <a
-                [routerLink]="[createLastVisitedPageLink(account.branch)]"
-                [queryParams]="{ page: config.currentPageNumber }"
-                [ngClass]="{ 'disabled-text': account.blocked }"
-              >{{ account.branch }}
-              </a>
-            </td>
-            <td>{{ account.accountType }}</td>
-            <td>{{ account.usageType }}</td>
-            <td>{{ account.blocked ? 'Blocked' : 'Active' }}</td>
-            <td class="action d-flex">
-              <button class="btn btn-outline-danger btn-sm wd-120 mr-2"
-                      (click)="openConfirmation(deleteConfirmationModal, account.id , 'delete')"
-              > Delete
-              </button>
-              <button
-                class="btn btn-table-btn btn-sm wd-120 mr-2"
-                (click)="openConfirmation(blockConfirmation, account.id , account.blocked ? 'block' : 'unblock')"
+            <tr
+              *ngFor="let account of accounts; index as i"
+              [ngClass]="{ 'disabled-text': account.blocked }"
+            >
+              <th scope="row">
+                {{
+                  (config.currentPageNumber - 1) * config.itemsPerPage + i + 1
+                }}
+              </th>
+              <td
+                [routerLink]="[createAccountDetailsLink(account.id)]"
+                [queryParams]="{
+                  page: config.currentPageNumber,
+                  tppId: account.branch
+                }"
               >
-                {{ account.blocked ? 'Unblock Account' : 'Block Account' }}
-              </button>
+                {{ account.iban }}
+              </td>
+              <td
+                [routerLink]="[createAccountDetailsLink(account.id)]"
+                [queryParams]="{
+                  page: config.currentPageNumber,
+                  tppId: account.branch
+                }"
+              >
+                {{ account.currency }}
+              </td>
+              <td *ngIf="admin === 'true'">
+                <a
+                  [routerLink]="[createLastVisitedPageLink(account.branch)]"
+                  [queryParams]="{ page: config.currentPageNumber }"
+                  [ngClass]="{ 'disabled-text': account.blocked }"
+                  >{{ account.branch }}
+                </a>
+              </td>
+              <td>{{ account.accountType }}</td>
+              <td>{{ account.usageType }}</td>
+              <td>{{ account.blocked ? 'Blocked' : 'Active' }}</td>
+              <td class="action d-flex">
+                <button
+                  class="btn btn-outline-danger btn-sm wd-120 mr-2"
+                  (click)="
+                    openConfirmation(
+                      deleteConfirmationModal,
+                      account.id,
+                      'delete'
+                    )
+                  "
+                >
+                  Delete
+                </button>
+                <button
+                  class="btn btn-table-btn btn-sm wd-120 mr-2"
+                  (click)="
+                    openConfirmation(
+                      blockConfirmation,
+                      account.id,
+                      account.blocked ? 'block' : 'unblock'
+                    )
+                  "
+                >
+                  {{ account.blocked ? 'Unblock Account' : 'Block Account' }}
+                </button>
 
-              <ng-template #deleteConfirmationModal let-modal>
-                <div class="modal-header">
-                  <h4 class="modal-title" id="modal-basic-title">
-                    TPP deletion
-                  </h4>
-                  <button
-                    type="button"
-                    class="close"
-                    aria-label="Close"
-                    (click)="modal.dismiss('Cross click')"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  Are you sure you want to delete this User?
-                </div>
-                <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-outline-secondary"
-                    (click)="modal.dismiss('cancel click')"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-danger"
-                    (click)="modal.close('Ok click')"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </ng-template>
-              <ng-template #blockConfirmation let-modal>
-                <div class="modal-header">
-                  <h4 class="modal-title" id="modal-basic-title-1">
-                    Account  {{ account.blocked ? 'unblocking' : 'blocking' }}
-                  </h4>
-                  <button
-                    type="button"
-                    class="close"
-                    aria-label="Close"
-                    (click)="modal.dismiss('Cross click')"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  Are you sure you want to
-                  {{ account.blocked ? 'Unblock' : 'Block' }} this Account?
-                </div>
-                <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-outline-secondary"
-                    (click)="modal.dismiss('cancel click')"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-danger"
-                    (click)="modal.close('Ok click')"
-                  >
-                    {{ account.blocked ? 'Unblock' : 'Block' }}
-                  </button>
-                </div>
-              </ng-template>
-              <button
-                *ngIf="!account.blocked"
-                class="btn btn-table-btn"
-                [disabled]="!isAccountEnabled(account)"
-                (click)="goToDepositCash(account)"
-              >
-                Deposit Cash
-              </button>
-            </td>
-          </tr>
+                <ng-template #deleteConfirmationModal let-modal>
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="modal-basic-title">
+                      TPP deletion
+                    </h4>
+                    <button
+                      type="button"
+                      class="close"
+                      aria-label="Close"
+                      (click)="modal.dismiss('Cross click')"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Are you sure you want to delete this User?
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-outline-secondary"
+                      (click)="modal.dismiss('cancel click')"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-danger"
+                      (click)="modal.close('Ok click')"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </ng-template>
+                <ng-template #blockConfirmation let-modal>
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="modal-basic-title-1">
+                      Account {{ account.blocked ? 'unblocking' : 'blocking' }}
+                    </h4>
+                    <button
+                      type="button"
+                      class="close"
+                      aria-label="Close"
+                      (click)="modal.dismiss('Cross click')"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Are you sure you want to
+                    {{ account.blocked ? 'Unblock' : 'Block' }} this Account?
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-outline-secondary"
+                      (click)="modal.dismiss('cancel click')"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-danger"
+                      (click)="modal.close('Ok click')"
+                    >
+                      {{ account.blocked ? 'Unblock' : 'Block' }}
+                    </button>
+                  </div>
+                </ng-template>
+                <button
+                  *ngIf="!account.blocked"
+                  class="btn btn-table-btn"
+                  [disabled]="!isAccountEnabled(account)"
+                  (click)="goToDepositCash(account)"
+                >
+                  Deposit Cash
+                </button>
+              </td>
+            </tr>
           </tbody>
         </table>
 

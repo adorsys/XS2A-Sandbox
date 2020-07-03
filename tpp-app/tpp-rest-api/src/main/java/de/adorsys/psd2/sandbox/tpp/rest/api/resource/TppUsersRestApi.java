@@ -25,9 +25,9 @@ public interface TppUsersRestApi {
         authorizations = @Authorization(value = "apiKey"))
     @GetMapping
     ResponseEntity<CustomPageImpl<UserTO>> getAllUsers(
-        @RequestParam(required = false, defaultValue = "") String queryParam,
-        @RequestParam(required = false, defaultValue = "0") int page,
-        @RequestParam(required = false, defaultValue = "25") int size);
+        @RequestParam(value = "queryParam", required = false, defaultValue = "") String queryParam,
+        @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+        @RequestParam(value = "size", required = false, defaultValue = "25") int size);
 
     @ApiOperation(value = "Update user for a given TPP",
         notes = "Endpoint to update a user for a given TPP",
@@ -39,7 +39,7 @@ public interface TppUsersRestApi {
         notes = "Endpoint to get user by id",
         authorizations = @Authorization(value = "apiKey"))
     @GetMapping("/{userId}")
-    ResponseEntity<UserTO> getUser(@PathVariable String userId);
+    ResponseEntity<UserTO> getUser(@PathVariable("userId") String userId);
 
     @ApiOperation(value = "Get current user", authorizations = @Authorization(value = "apiKey"))
     @GetMapping("/me")

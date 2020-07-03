@@ -25,6 +25,9 @@
     "@angular/router": "^8.2.14",
     "@auth0/angular-jwt": "^2.1.0",
     "@ng-bootstrap/ng-bootstrap": "^5.3.0",
+    "@ngxs/devtools-plugin": "^3.6.2",
+    "@ngxs/logger-plugin": "^3.6.2",
+    "@ngxs/store": "^3.6.2",
     "bootstrap": "^4.3.1",
     "core-js": "^2.5.4",
     "css-vars-ponyfill": "^2.2.0",
@@ -35,9 +38,11 @@
     "material-icons": "^0.3.1",
     "ng-http-loader": "^6.0.1",
     "ng2-file-upload": "^1.3.0",
+    "ngx-bootstrap": "^2.0.5",
     "ngx-filter-pipe": "^2.1.2",
     "node-sass": "^4.14.1",
     "rxjs": "^6.5.4",
+    "rxjs-compat": "^6.5.5",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {

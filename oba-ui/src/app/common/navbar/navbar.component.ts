@@ -1,8 +1,8 @@
 import { Component, DoCheck, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { CustomizeService } from '../services/customize.service';
-import { UserTO } from '../../api/models';
-import { OnlineBankingService } from '../services/online-banking.service';
+import { ShareDataService } from '../services/share-data.service';
+import { CurrentUserService } from '../services/current-user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -11,19 +11,24 @@ import { OnlineBankingService } from '../services/online-banking.service';
 })
 export class NavbarComponent implements OnInit, DoCheck {
   public title: string;
-  public obaUser: UserTO;
+  public obaUser;
   public toggleFlag = false;
+
   constructor(
     public customizeService: CustomizeService,
     private authService: AuthService,
-    private onlineBankingService: OnlineBankingService
+    private shareDataService: ShareDataService,
+    private currentUserService: CurrentUserService
   ) {}
 
   ngOnInit() {
     if (this.authService.isLoggedIn()) {
-      this.onlineBankingService
+      this.currentUserService
         .getCurrentUser()
         .subscribe((data) => (this.obaUser = data.body));
+      this.shareDataService.currentUser.subscribe(
+        (data) => (this.obaUser = data)
+      );
     }
   }
 

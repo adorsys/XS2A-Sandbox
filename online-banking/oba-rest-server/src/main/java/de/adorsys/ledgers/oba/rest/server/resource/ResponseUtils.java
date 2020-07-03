@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.web.util.UrlUtils;
 import org.springframework.stereotype.Service;
 
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
@@ -96,8 +97,14 @@ public class ResponseUtils {
 		return error(authResp, status, message, httpResp);
 	}
 
+	@SuppressWarnings("PMD.AvoidReassigningParameters")
 	public <T extends OnlineBankingResponse> ResponseEntity<T> redirect(String locationURI, HttpServletResponse httpResp) {
 		HttpHeaders headers = new HttpHeaders();
+
+		if (!UrlUtils.isAbsoluteUrl(locationURI)) {
+		    locationURI = "http://" + locationURI;
+        }
+
 		headers.add(LOCATION_HEADER_NAME, locationURI);
 		removeCookies(httpResp);
 		return new ResponseEntity<>(headers, HttpStatus.FOUND);

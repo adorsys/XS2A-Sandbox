@@ -32,11 +32,11 @@ public interface TppRestApi {
 
     @ApiOperation(value = "Get country code character type and country code length")
     @GetMapping("/country/codes/structure")
-    ResponseEntity<BankCodeStructure> getBankCodeStructure(@RequestParam String countryCode);
+    ResponseEntity<BankCodeStructure> getBankCodeStructure(@RequestParam(value = "countryCode") String countryCode);
 
     @ApiOperation(value = "Generate random TPP-ID")
     @PostMapping("/id")
-    ResponseEntity<String> getRandomTppId(@RequestParam String countryCode);
+    ResponseEntity<String> getRandomTppId(@RequestParam(value = "countryCode") String countryCode);
 
     @ApiOperation(value = "Register new TPP")
     @PostMapping("/register")
@@ -48,15 +48,15 @@ public interface TppRestApi {
 
     @ApiOperation(value = "Remove transactions for account in Tpp", authorizations = @Authorization(value = "apiKey"))
     @DeleteMapping("/transactions/{accountId}")
-    ResponseEntity<Void> transactions(@PathVariable String accountId);
+    ResponseEntity<Void> transactions(@PathVariable(value = "accountId") String accountId);
 
     @ApiOperation(value = "Remove account", authorizations = @Authorization(value = "apiKey"))
     @DeleteMapping("/account/{accountId}")
-    ResponseEntity<Void> account(@PathVariable String accountId);
+    ResponseEntity<Void> account(@PathVariable(value = "accountId") String accountId);
 
     @ApiOperation(value = "Remove user", authorizations = @Authorization(value = "apiKey"))
     @DeleteMapping("/user/{userId}")
-    ResponseEntity<Void> user(@PathVariable String userId);
+    ResponseEntity<Void> user(@PathVariable(value = "userId") String userId);
 
     @ApiOperation(value = "Revert TPP data by certain timestamp", authorizations = @Authorization(value = "apiKey"))
     @PostMapping("/revert")

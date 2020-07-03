@@ -5,7 +5,7 @@
     <parent>
         <artifactId>tpp-app</artifactId>
         <groupId>de.adorsys.psd2.sandbox</groupId>
-        <version>4.1</version>
+        <version>4.2</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -94,10 +94,11 @@
             <artifactId>mapstruct-jdk8</artifactId>
         </dependency>
 
-        <dependency>
+        <!-- Quickfix Iban4j -->
+        <!--dependency>
             <groupId>org.iban4j</groupId>
             <artifactId>iban4j</artifactId>
-        </dependency>
+        </dependency-->
 
         <!-- Test dependencies -->
         <dependency>

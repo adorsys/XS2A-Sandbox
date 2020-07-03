@@ -1,15 +1,10 @@
 <div class="container-fluid">
   <div class="card">
     <div class="card-body--large">
-      <button
-        class="btn btn-sm btn-outline-secondary"
-        [routerLink]="[pageNavigationService.getLastVisitedPage()]"
-        queryParamsHandling="preserve"
-      >
-        &lt; Back
-      </button>
-
-      <div class="header__title">TPP User Details</div>
+      <div class="header__title">
+        <span class="profile-icon"> &nbsp; &nbsp; &nbsp;</span>
+        {{ tppUser?.login === 'admin' ? 'Admin' : 'TPP' }} User Details
+      </div>
       <div class="row">
         <div class="col-4 col-md-3">Login</div>
         <div class="col-8 col-md-9 text-muted">{{ tppUser?.login }}</div>
@@ -25,19 +20,16 @@
           {{ countryService.getCountryByTppId(countries, tppUser?.id) }}
         </div>
       </div>
-
       <div class="row">
         <div class="col-12 col-md-3">Email</div>
         <div class="col-12 col-md-9 text-muted">{{ tppUser?.email }}</div>
       </div>
-
       <div class="row" *ngIf="admin">
         <div class="col-12 col-md-3">State</div>
         <div class="col-12 col-md-9 text-muted">
           {{ tppUser?.blocked ? 'Blocked' : 'Active' }}
         </div>
       </div>
-
       <div class="row" *ngIf="admin && tppUser?.login !== 'admin'">
         <div class="col-12 col-md-3">Users</div>
         <div class="col-12 col-md-9 text-muted">
@@ -49,7 +41,6 @@
           </a>
         </div>
       </div>
-
       <div class="row" *ngIf="admin && tppUser?.login !== 'admin'">
         <div class="col-12 col-md-3">Accounts</div>
         <div class="col-12 col-md-9 text-muted">
@@ -58,12 +49,18 @@
           </a>
         </div>
       </div>
-
       <div
         class="row d-flex justify-content-between"
         *ngIf="tppUser?.login !== 'admin'"
       >
-        <div>
+        <div class="mr-3">
+          <button
+            class="btn btn-sm btn-outline-secondary"
+            [routerLink]="[pageNavigationService.getLastVisitedPage()]"
+            queryParamsHandling="preserve"
+          >
+            < Back
+          </button>
           <button
             class="btn btn-primary mr-2 ml-3"
             [routerLink]="['/edit/' + tppUser?.id]"
@@ -79,6 +76,15 @@
             type="button"
           >
             Change PIN
+          </button>
+
+          <button
+            class="btn btn-primary mr-2"
+            type="button"
+            (click)="openModalWithComponent()"
+            *ngIf="!admin"
+          >
+            Create State
           </button>
 
           <button
@@ -210,6 +216,41 @@
           </div>
         </ng-template>
       </div>
+      <table class="table mr-2" *ngIf="!admin">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th scope="col">Ledgers State</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let point of ngxsrecoveryPoint | async; let i = index">
+            <td>
+              {{ i + 1 }}
+            </td>
+            <td>
+              <div>
+                {{ point?.description }}
+              </div>
+            </td>
+            <td class="flex va-m">
+              <button
+                class="btn btn-primary mr-2"
+                (click)="rollbackRecoveryPointById(point?.id)"
+              >
+                Rollback State
+              </button>
+              <button
+                class="btn btn-danger"
+                (click)="deleteRecoveryPointById(point?.id)"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

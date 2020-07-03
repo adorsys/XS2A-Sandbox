@@ -9,6 +9,19 @@ import { CountryService } from '../../services/country.service';
 import { PageNavigationService } from '../../services/page-navigation.service';
 import { AccountAccess } from '../../models/account-access.model';
 import { InfoService } from '../../commons/info/info.service';
+import { ResetLedgersService } from '../../services/reset-ledgers.service';
+import { RecoveryPoint } from '../../models/recovery-point.models';
+import { FormGroup } from '@angular/forms';
+import { ADMIN_KEY } from '../../commons/constant/constant';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { ModalComponent } from '../modal/modal.component';
+import { Select, Store } from '@ngxs/store';
+import {
+  DeleteRecoveryPoint,
+  GetRecoveryPoint,
+} from '../actions/revertpoints.action';
+import { Observable } from 'rxjs';
+import { RecoveryPointState } from '../../state/recoverypoints.state';
 
 @Component({
   selector: 'app-user-profile',
@@ -16,6 +29,10 @@ import { InfoService } from '../../commons/info/info.service';
   styleUrls: ['./user-profile.component.scss'],
 })
 export class UserProfileComponent implements OnInit {
+  @Select(RecoveryPointState.getRecoveryPointsList)
+  ngxsrecoveryPoint: Observable<RecoveryPoint[]>;
+  public userForm: FormGroup;
+  public bsModalRef: BsModalRef;
   admin;
   tppUser: User;
   countries;
@@ -30,13 +47,17 @@ export class UserProfileComponent implements OnInit {
     private router: Router,
     private infoService: InfoService,
     private route: ActivatedRoute,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private modal: BsModalService,
+    private ledgersService: ResetLedgersService,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
+    this.store.dispatch(new GetRecoveryPoint());
+    this.admin = localStorage.getItem(ADMIN_KEY);
     this.setUpCountries();
     this.setUpCurrentUser();
-
     const tppId = this.route.snapshot.params['id'];
     if (tppId) {
       this.getUserInfo(tppId);
@@ -131,5 +152,35 @@ export class UserProfileComponent implements OnInit {
           this.userAmount = userSet.size;
         });
     }
+  }
+
+  getRecoveryPoints() {
+    if (this.admin === 'false') {
+      this.store.dispatch(new GetRecoveryPoint());
+    }
+  }
+
+  deleteRecoveryPointById(pointID: string) {
+    this.store.dispatch(new DeleteRecoveryPoint(pointID));
+    this.infoService.openFeedback('Point successfully deleted');
+  }
+
+  rollbackRecoveryPointById(pointID: string) {
+    const revertData = {
+      branchId: this.tppUser.branch,
+      recoveryPointId: pointID,
+    };
+    this.ledgersService.rollBackPointsById(revertData).subscribe((point) => {
+      this.infoService.openFeedback('Ledgers successfully reverted');
+    });
+  }
+
+  openModalWithComponent() {
+    const initialState = {
+      list: ['description'],
+      title: 'Create point',
+    };
+    this.bsModalRef = this.modal.show(ModalComponent, { initialState });
+    this.bsModalRef.content.closeBtnName = 'Cancel';
   }
 }

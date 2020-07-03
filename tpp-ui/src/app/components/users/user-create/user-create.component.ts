@@ -1,15 +1,14 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
-import {UserService} from '../../../services/user.service';
-import {User} from '../../../models/user.model';
-import {InfoService} from '../../../commons/info/info.service';
-import {ScaMethods} from '../../../models/scaMethods';
-import {TppManagementService} from '../../../services/tpp-management.service';
-import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
-import {merge, Observable, Subject, Subscription} from 'rxjs';
-import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
-import {ADMIN_KEY} from '../../../commons/constant/constant';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from '../../../services/user.service';
+import { User } from '../../../models/user.model';
+import { InfoService } from '../../../commons/info/info.service';
+import { ScaMethods } from '../../../models/scaMethods';
+import { TppManagementService } from '../../../services/tpp-management.service';
+import { Observable, of, Subscriber } from 'rxjs';
+import { ADMIN_KEY } from '../../../commons/constant/constant';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-create',
@@ -17,12 +16,16 @@ import {ADMIN_KEY} from '../../../commons/constant/constant';
   styleUrls: ['./user-create.component.scss'],
 })
 export class UserCreateComponent implements OnInit {
+  public error: string;
   id: string;
   users: User[];
+  dataSource: Observable<User[]>;
   admin: string;
   methods: string[];
   userForm: FormGroup;
   submitted: boolean;
+  asyncSelected: string;
+  typeaheadLoading: boolean;
 
   constructor(
     private userService: UserService,
@@ -32,6 +35,9 @@ export class UserCreateComponent implements OnInit {
     private route: ActivatedRoute,
     private tppManagementService: TppManagementService
   ) {
+    this.dataSource = new Observable((observer: Subscriber<string>) => {
+      observer.next(this.asyncSelected);
+    }).pipe(mergeMap((token: string) => this.getStatesAsObservable(token)));
   }
 
   get formControl() {
@@ -43,6 +49,21 @@ export class UserCreateComponent implements OnInit {
     this.listUsers();
     this.setupUserFormControl();
     this.getMethodsValues();
+  }
+
+  public getStatesAsObservable(token: string): Observable<User[]> {
+    console.log('token', token);
+    const query = new RegExp(token, 'i');
+
+    return of(
+      this.users.filter((state: any) => {
+        return query.test(state.branch);
+      })
+    );
+  }
+
+  public changeTypeaheadLoading(e: boolean): void {
+    this.typeaheadLoading = e;
   }
 
   listUsers() {
@@ -61,7 +82,7 @@ export class UserCreateComponent implements OnInit {
         email: ['', [Validators.required, Validators.email]],
         login: ['', Validators.required],
         pin: ['', [Validators.required, Validators.minLength(5)]],
-        userRoles: this.formBuilder.array(['CUSTOMER'])
+        userRoles: this.formBuilder.array(['CUSTOMER']),
       });
     } else if (this.admin === 'false') {
       this.userForm = this.formBuilder.group({
@@ -69,40 +90,9 @@ export class UserCreateComponent implements OnInit {
         email: ['', [Validators.required, Validators.email]],
         login: ['', Validators.required],
         pin: ['', [Validators.required, Validators.minLength(5)]],
-        userRoles: this.formBuilder.array(['CUSTOMER'])
+        userRoles: this.formBuilder.array(['CUSTOMER']),
       });
     }
-  }
-
-
-  @ViewChild('instance', {static: true}) instance: NgbTypeahead;
-  focus$ = new Subject<User[]>();
-  click$ = new Subject<User[]>();
-
-  search: (obs: Observable<string>) => Observable<User[]> = (text$: Observable<string>) => {
-    const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
-    const clicksWithClosedPopup$ = this.click$.pipe(filter(() => this.instance && !this.instance.isPopupOpen()));
-    const inputFocus$ = this.focus$;
-    return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$)
-      .pipe(
-        map((searchText: string) => (searchText === '' ? this.users : this.users.filter(user => user.branch.toLowerCase()
-          .indexOf(searchText.toLowerCase()) > -1)))
-      );
-  }
-
-  public resultFormatterValue = (user: User) => {
-    if (user) {
-      this.userForm.get('tppId').setValue(user.branch);
-      return user.branch;
-    }
-    return user;
-  }
-
-  public inputFormatterValue = (user: User) => {
-    if (user) {
-      return user.branch;
-    }
-    return user;
   }
 
   initScaData() {
@@ -118,25 +108,25 @@ export class UserCreateComponent implements OnInit {
     const scaData = this.formBuilder.group({
       scaMethod: ['', Validators.required],
       methodValue: [''],
-      staticTan: [{value: '', disabled: true}],
+      staticTan: [{ value: '', disabled: true }],
       usesStaticTan: [false],
     });
 
     scaData
       .get('usesStaticTan')
       .valueChanges.subscribe((bool: boolean = true) => {
-      if (bool) {
-        scaData.get('staticTan').setValidators(Validators.required);
-        scaData.get('methodValue').setValidators(Validators.required);
-        scaData.get('staticTan').enable();
-      } else {
-        scaData.get('staticTan').clearValidators();
-        scaData.get('staticTan').disable();
-        scaData.get('staticTan').setValue('');
-      }
-      scaData.get('staticTan').updateValueAndValidity();
-      scaData.get('methodValue').updateValueAndValidity();
-    });
+        if (bool) {
+          scaData.get('staticTan').setValidators(Validators.required);
+          scaData.get('methodValue').setValidators(Validators.required);
+          scaData.get('staticTan').enable();
+        } else {
+          scaData.get('staticTan').clearValidators();
+          scaData.get('staticTan').disable();
+          scaData.get('staticTan').setValue('');
+        }
+        scaData.get('staticTan').updateValueAndValidity();
+        scaData.get('methodValue').updateValueAndValidity();
+      });
 
     scaData.get('staticTan').valueChanges.subscribe((value) => {
       if (value === ScaMethods.EMAIL) {
@@ -175,23 +165,27 @@ export class UserCreateComponent implements OnInit {
     }
     if (this.admin === 'true') {
       this.tppManagementService
-        .createUser(this.userForm.value, this.userForm.get('tppId').value.id)
-        .subscribe(() => this.router.navigate(['/users/all']));
-    } else if (this.admin === 'false') {
-      this.userService
-        .createUser(this.userForm.value)
+        .createUser(this.userForm.value, this.userForm.get('tppId').value)
         .subscribe(() => {
-            this.router.navigateByUrl('/users/all');
-          },
-          () => {
-            this.infoService.openFeedback(
-              'Provided Login or Email are already taken',
-              {
-                severity: 'error',
-              }
-            );
-          }
-        );
+          this.infoService.openFeedback('User was successfully created!', {
+            severity: 'info',
+          });
+          this.router.navigate(['/users/all']);
+        });
+    } else if (this.admin === 'false') {
+      this.userService.createUser(this.userForm.value).subscribe(
+        () => {
+          this.router.navigateByUrl('/users/all');
+        },
+        () => {
+          this.infoService.openFeedback(
+            'Provided Login or Email are already taken',
+            {
+              severity: 'error',
+            }
+          );
+        }
+      );
     }
   }
 

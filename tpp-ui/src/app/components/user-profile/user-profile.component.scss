@@ -1,8 +1,16 @@
-.header__title, .row {
+.header__title,
+.row {
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
 
+input {
+  height: 50px;
+}
 .card {
-  max-width: 650px;
+  width: 850px;
+}
+
+.width-650 {
+  width: 650px;
 }
