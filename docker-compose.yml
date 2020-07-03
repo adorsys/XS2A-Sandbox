@@ -212,7 +212,7 @@ services:
 
   # Certificate generator
   certificate-generator:
-    image: adorsys/xs2a-certificate-generator:${SANDBOX_VERSION}
+    image: adorsys/xs2a-certificate-generator:${XS2A_CONSENT_MANAGEMENT_VERSION}
     restart: on-failure
     ports:
       - "8092:8092"
