@@ -4,6 +4,8 @@ import de.adorsys.psd2.sandbox.tpp.cms.api.service.CmsRollbackService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,10 +21,15 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CmsRollbackServiceImpl implements CmsRollbackService {
-    private final EntityManager entityManager;
+    private EntityManager cmsEntityManager;
     private final ResourceLoader loader;
-
     private static final String ROLLBACK_CMS = "classpath:rollbackCms.sql";
+
+    @Qualifier("cmsEntityManager")
+    @Autowired
+    public void setCmsEntityManager(EntityManager cmsEntityManager) {
+        this.cmsEntityManager = cmsEntityManager;
+    }
 
     @Override
     @Transactional
@@ -35,7 +42,7 @@ public class CmsRollbackServiceImpl implements CmsRollbackService {
         try {
             InputStream stream = loader.getResource(queryFilePath).getInputStream();
             String query = IOUtils.toString(stream, StandardCharsets.UTF_8);
-            entityManager.createNativeQuery(query)
+            cmsEntityManager.createNativeQuery(query)
                 .setParameter(1, userIds)
                 .setParameter(2, databaseStateDateTime)
                 .executeUpdate();

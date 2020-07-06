@@ -29,6 +29,18 @@
         </dependency>
 
         <dependency>
+            <groupId>de.adorsys.psd2.sandbox</groupId>
+            <artifactId>tpp-db-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.adorsys.psd2.sandbox</groupId>
+            <artifactId>tpp-db-schema</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>de.adorsys.ledgers</groupId>
             <artifactId>ledgers-middleware-rest-client</artifactId>
         </dependency>

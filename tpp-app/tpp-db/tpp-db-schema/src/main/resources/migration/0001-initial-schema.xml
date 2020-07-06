@@ -1,0 +1,25 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="dmitrymischuk (generated)" id="1593699012687-1">
+        <createTable tableName="operation_info">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="operation_info_pkey"/>
+            </column>
+            <column name="created" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="encrypted_op_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="op_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tpp_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="dmitrymischuk (generated)" id="1593699012687-2">
+        <createSequence sequenceName="operation_info_id_seq" />
+    </changeSet>
+</databaseChangeLog>

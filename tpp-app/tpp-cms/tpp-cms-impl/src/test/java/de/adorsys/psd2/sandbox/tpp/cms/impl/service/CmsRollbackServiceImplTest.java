@@ -1,6 +1,8 @@
 package de.adorsys.psd2.sandbox.tpp.cms.impl.service;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -19,15 +21,21 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CmsRollbackServiceImplTest {
 
     @InjectMocks
     private CmsRollbackServiceImpl cmsRollbackService;
 
     @Mock
-    private EntityManager entityManager;
+    private final EntityManager cmsEntityManager = mock(EntityManager.class);
     @Mock
     private ResourceLoader loader;
+
+    @BeforeEach
+    void prepare() {
+        cmsRollbackService.setCmsEntityManager(cmsEntityManager);
+    }
 
     @Test
     void revertDatabase() {
@@ -37,13 +45,13 @@ class CmsRollbackServiceImplTest {
 
         Query query = mock(Query.class);
 
-        when(entityManager.createNativeQuery(anyString()))
+        when(cmsEntityManager.createNativeQuery(anyString()))
             .thenReturn(query);
         when(query.setParameter(anyInt(), any()))
             .thenReturn(query);
         when(query.setParameter(anyInt(), any()))
             .thenReturn(query);
-        when(entityManager.createNativeQuery(anyString()))
+        when(cmsEntityManager.createNativeQuery(anyString()))
             .thenReturn(query);
 
         // When

@@ -20,7 +20,6 @@ public interface TppAdminRestApi {
     String USER_ID = "userId";
     String TPP_LOGIN = "tppLogin";
     String USER_LOGIN = "userLogin";
-    String ACCOUNT_ID = "accountId";
     String ROLE = "role";
     String BLOCKED = "blocked";
     String IBAN_PARAM = "ibanParam";
@@ -66,7 +65,7 @@ public interface TppAdminRestApi {
     @ApiOperation(value = "Retrieves Users with Admin rights", authorizations = @Authorization(value = "apiKey"))
     @GetMapping("/admins")
     ResponseEntity<CustomPageImpl<UserTO>> admins(@RequestParam("page") int page,
-                                                @RequestParam("size") int size);
+                                                  @RequestParam("size") int size);
 
     @ApiOperation(value = "Remove Tpp", authorizations = @Authorization(value = "apiKey"))
     @DeleteMapping()

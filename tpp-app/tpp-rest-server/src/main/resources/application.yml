@@ -16,6 +16,12 @@ server:
   port: 8093
 
 spring:
+  liquibase:
+    enabled: true
+    change-log: classpath:liquibase-master-changelog.xml
+    default-schema: tpp_db
+  jpa:
+    open-in-view: false
   servlet:
     multipart:
       enabled: true
@@ -28,6 +34,15 @@ spring:
   devtools:
     remote:
       secret: fractal
+
+      #DBs Properties
+spring.datasource.hikari.jdbc-url: jdbc:postgresql://localhost:5432/consent?currentSchema=consent
+spring.datasource.hikari.username: cms
+spring.datasource.hikari.password: cms
+
+spring.tpp.datasource.hikari.jdbc-url: jdbc:postgresql://localhost:5432/consent?currentSchema=tpp_db
+spring.tpp.datasource.hikari.username: cms
+spring.tpp.datasource.hikari.password: cms
 
 ledgers.url: http://localhost:8088
 

@@ -1,0 +1,8 @@
+changeLogFile=src/main/resources/liquibase-master-changelog.xml
+
+url=jdbc:postgresql://localhost:5433/tpp_db?currentSchema=tpp_db
+defaultSchemaName=tpp_db
+username=login
+password=password
+
+outputChangeLogFile=src/main/resources/migration/0001-initial-schema.xml

@@ -26,6 +26,23 @@ server:
 
 spring:
   application.name: ledgers-xs2a-oba
+  datasource:
+    hikari:
+      jdbc-url: jdbc:postgresql://localhost:5432/consent?currentSchema=consent
+      username: cms
+      password: cms
+  jpa:
+    open-in-view: false
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        default_schema: consent
+        jdbc:
+          lob:
+            non_contextual_creation: true
+    show-sql: false
   jackson:
     serialization:
       write_dates_as_timestamps: false

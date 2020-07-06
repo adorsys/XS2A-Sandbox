@@ -26,6 +26,8 @@ services:
       - XS2ASANDBOX_LEDGERS_URL=http://ledgers:8088
       - XS2ASANDBOX_TPPUI_ONLINE-BANKING_URL=http://xs2a-online-banking:8090/api/v1/consents/confirm/{userLogin}/{consentId}/{authorizationId}/{tan}
       - QWAC_CERTIFICATE_MOCK=${QWAC_CERTIFICATE_MOCK}
+      - XS2A_FUNDS_CONFIRMATION_USER_LOGIN=admin
+      - XS2A_FUNDS_CONFIRMATION_USER_PASSWORD=admin123
     networks:
       - xs2a-net
     depends_on:
@@ -112,9 +114,9 @@ services:
       ONLINE_BANKING_SCA_LOGINPAGE: "http://localhost:4400/"
       ONLINE_BANKING_SCA_UIREDIRECT: "true"
       ONLINE-BANKING_URL: "http://xs2a-online-banking:8090/api/v1/consents/confirm/{userLogin}/{consentId}/{authorizationId}/{tan}"
-      SPRING_DATASOURCE_URL: "jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=consent"
-      SPRING_DATASOURCE_USERNAME: "cms"
-      SPRING_DATASOURCE_PASSWORD: "cms"
+      SPRING_DATASOURCE_HIKARI_JDBCURL: "jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=consent"
+      SPRING_DATASOURCE_HIKARI_USERNAME: "cms"
+      SPRING_DATASOURCE_HIKARI_PASSWORD: "cms"
       SERVER_KEY: "secret123"
 
   # Ledgers
@@ -182,9 +184,12 @@ services:
     restart: on-failure
     environment:
       LEDGERS_URL: "http://ledgers:8088"
-      SPRING_DATASOURCE_URL: "jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=consent"
+      SPRING_DATASOURCE_HIKARI_JDBCURL: "jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=consent"
       SPRING_DATASOURCE_USERNAME: "cms"
       SPRING_DATASOURCE_PASSWORD: "cms"
+      SPRING_TPP_DATASOURCE_HIKARI_JDBCURL: "jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=tpp_db"
+      SPRING_TPP_DATASOURCE_USERNAME: "cms"
+      SPRING_TPP_DATASOURCE_PASSWORD: "cms"
     ports:
       - "8093:8093"
       - "5005:5005"
