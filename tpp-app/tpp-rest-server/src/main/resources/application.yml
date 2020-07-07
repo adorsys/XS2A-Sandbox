@@ -19,7 +19,7 @@ spring:
   liquibase:
     enabled: true
     change-log: classpath:liquibase-master-changelog.xml
-    default-schema: tpp_db
+    default-schema: tpp
   jpa:
     open-in-view: false
   servlet:
@@ -40,7 +40,7 @@ spring.datasource.hikari.jdbc-url: jdbc:postgresql://localhost:5432/consent?curr
 spring.datasource.hikari.username: cms
 spring.datasource.hikari.password: cms
 
-spring.tpp.datasource.hikari.jdbc-url: jdbc:postgresql://localhost:5432/consent?currentSchema=tpp_db
+spring.tpp.datasource.hikari.jdbc-url: jdbc:postgresql://localhost:5432/consent?currentSchema=tpp
 spring.tpp.datasource.hikari.username: cms
 spring.tpp.datasource.hikari.password: cms
 

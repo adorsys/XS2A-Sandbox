@@ -9,5 +9,5 @@ psql -U postgres -d consent -c 'CREATE SCHEMA IF NOT EXISTS consent AUTHORIZATIO
 echo "Create schema='ledgers' for local postgres installation"
 psql -U postgres -d consent -c 'CREATE SCHEMA IF NOT EXISTS ledgers AUTHORIZATION cms;'
 
-echo "Create schema='tpp_db' for local postgres installation"
-psql -U postgres -d consent -c 'CREATE SCHEMA IF NOT EXISTS tpp_db AUTHORIZATION cms;'
+echo "Create schema='tpp' for local postgres installation"
+psql -U postgres -d consent -c 'CREATE SCHEMA IF NOT EXISTS tpp AUTHORIZATION cms;'

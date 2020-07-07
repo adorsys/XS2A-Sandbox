@@ -195,7 +195,7 @@ services:
       SPRING_DATASOURCE_HIKARI_JDBCURL: "jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=consent"
       SPRING_DATASOURCE_USERNAME: "cms"
       SPRING_DATASOURCE_PASSWORD: "cms"
-      SPRING_TPP_DATASOURCE_HIKARI_JDBCURL: "jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=tpp_db"
+      SPRING_TPP_DATASOURCE_HIKARI_JDBCURL: "jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=tpp"
       SPRING_TPP_DATASOURCE_USERNAME: "cms"
       SPRING_TPP_DATASOURCE_PASSWORD: "cms"
     build:
