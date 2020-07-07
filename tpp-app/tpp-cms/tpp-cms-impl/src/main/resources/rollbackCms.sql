@@ -78,7 +78,7 @@ with psuIds as
      authorisationTemplateIds as
          (select authorisation_template_id
           from consent
-          where authorisation_template_id in (select * from consentIdsFilteredByPsuIds)),
+          where consent_id in (select * from consentIdsFilteredByPsuIds)),
 
      deleteAuthorisationTemplate as
          (delete from authorisation_template where authorisation_template_id in (select * from authorisationTemplateIds))

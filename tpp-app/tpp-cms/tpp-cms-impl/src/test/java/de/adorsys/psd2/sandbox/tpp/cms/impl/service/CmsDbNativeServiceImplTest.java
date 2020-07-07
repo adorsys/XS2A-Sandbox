@@ -22,10 +22,10 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class CmsRollbackServiceImplTest {
+class CmsDbNativeServiceImplTest {
 
     @InjectMocks
-    private CmsRollbackServiceImpl cmsRollbackService;
+    private CmsDbDbNativeServiceImpl cmsDbNativeService;
 
     @Mock
     private final EntityManager cmsEntityManager = mock(EntityManager.class);
@@ -34,7 +34,7 @@ class CmsRollbackServiceImplTest {
 
     @BeforeEach
     void prepare() {
-        cmsRollbackService.setCmsEntityManager(cmsEntityManager);
+        cmsDbNativeService.setCmsEntityManager(cmsEntityManager);
     }
 
     @Test
@@ -56,7 +56,27 @@ class CmsRollbackServiceImplTest {
 
         // When
         try {
-            cmsRollbackService.revertDatabase(Arrays.asList("anton.brueckner", "max.musterman"), LocalDateTime.now());
+            cmsDbNativeService.revertDatabase(Arrays.asList("anton.brueckner", "max.musterman"), LocalDateTime.now());
+        } catch (Exception e) {
+            fail("Should not be any exceptions");
+        }
+    }
+
+    @Test
+    void deleteConsents() {
+        // Given
+        Query query = mock(Query.class);
+
+        when(cmsEntityManager.createNativeQuery(anyString()))
+            .thenReturn(query);
+        when(query.setParameter(anyInt(), any()))
+            .thenReturn(query);
+        when(cmsEntityManager.createNativeQuery(anyString()))
+            .thenReturn(query);
+
+        // When
+        try {
+            cmsDbNativeService.deleteConsentsByUserIds(Arrays.asList("anton.brueckner", "max.musterman"));
         } catch (Exception e) {
             fail("Should not be any exceptions");
         }

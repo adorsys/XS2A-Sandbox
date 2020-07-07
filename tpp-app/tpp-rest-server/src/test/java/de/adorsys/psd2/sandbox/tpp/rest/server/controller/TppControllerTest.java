@@ -1,6 +1,7 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.controller;
 
 import de.adorsys.ledgers.middleware.api.domain.general.BbanStructure;
+import de.adorsys.ledgers.middleware.api.domain.general.RevertRequestTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccountAccessTO;
 import de.adorsys.ledgers.middleware.api.domain.um.ScaUserDataTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserRoleTO;
@@ -8,9 +9,11 @@ import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
 import de.adorsys.ledgers.middleware.client.rest.DataRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
+import de.adorsys.psd2.sandbox.tpp.cms.api.service.CmsDbNativeService;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.*;
 import de.adorsys.psd2.sandbox.tpp.rest.server.mapper.UserMapper;
 import de.adorsys.psd2.sandbox.tpp.rest.server.service.IbanGenerationService;
+import de.adorsys.psd2.sandbox.tpp.rest.server.service.RestExecutionService;
 import org.iban4j.CountryCode;
 import org.iban4j.bban.BbanStructureEntry.EntryCharacterType;
 import org.junit.jupiter.api.Test;
@@ -50,6 +53,10 @@ class TppControllerTest {
     private DataRestClient dataRestClient;
     @Mock
     private IbanGenerationService ibanGenerationService;
+    @Mock
+    private CmsDbNativeService cmsDbNativeService;
+    @Mock
+    private RestExecutionService restExecutionService;
 
     @Test
     void register() {
@@ -69,7 +76,11 @@ class TppControllerTest {
     @Test
     void remove() {
         // Given
-        when(userMgmtRestClient.getUser()).thenReturn(ResponseEntity.ok(getUserTO()));
+        when(userMgmtRestClient.getUser())
+            .thenReturn(ResponseEntity.ok(getUserTO()));
+        when(userMgmtStaffRestClient.getBranchUserLogins())
+            .thenReturn(ResponseEntity.ok(Arrays.asList("anton.brueckner", "max.musterman")));
+
         when(dataRestClient.branch(any())).thenAnswer(i -> ResponseEntity.ok().build());
 
         // When
@@ -78,6 +89,16 @@ class TppControllerTest {
         // Then
         assertTrue(response.getStatusCode().is2xxSuccessful());
         assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    void revert() {
+        // When
+        ResponseEntity<Void> response = tppController.revert(getRevertRequest());
+
+        // Then
+        assertTrue(response.getStatusCode().is2xxSuccessful());
+        assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
     }
 
     @Test
@@ -145,6 +166,20 @@ class TppControllerTest {
         assertEquals(HttpStatus.OK, result.getStatusCode());
     }
 
+    @Test
+    void user() {
+        when(dataRestClient.user(anyString())).thenReturn(ResponseEntity.ok().build());
+        ResponseEntity<Void> result = tppController.user(USER_ID);
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+    }
+
+    @Test
+    void account() {
+        when(dataRestClient.depositAccount(anyString())).thenReturn(ResponseEntity.ok().build());
+        ResponseEntity<Void> result = tppController.account(ACCOUNT_ID);
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+    }
+
     private Set<Currency> getSupportedCurrencies() {
         Set<Currency> currencies = new HashSet<>();
         currencies.add(Currency.getInstance("EUR"));
@@ -171,17 +206,12 @@ class TppControllerTest {
         return codes;
     }
 
-    @Test
-    void account() {
-        when(dataRestClient.depositAccount(anyString())).thenReturn(ResponseEntity.ok().build());
-        ResponseEntity<Void> result = tppController.account(ACCOUNT_ID);
-        assertEquals(HttpStatus.OK, result.getStatusCode());
+    private RevertRequestTO getRevertRequest() {
+        RevertRequestTO revertRequestTO = new RevertRequestTO();
+        revertRequestTO.setBranchId("DE-12345");
+        revertRequestTO.setRecoveryPointId(111L);
+
+        return revertRequestTO;
     }
 
-    @Test
-    void user() {
-        when(dataRestClient.user(anyString())).thenReturn(ResponseEntity.ok().build());
-        ResponseEntity<Void> result = tppController.user(USER_ID);
-        assertEquals(HttpStatus.OK, result.getStatusCode());
-    }
 }
