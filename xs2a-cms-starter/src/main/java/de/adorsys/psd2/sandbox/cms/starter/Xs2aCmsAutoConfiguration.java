@@ -51,6 +51,7 @@ public class Xs2aCmsAutoConfiguration {
     }
 
     @Bean
+    @Primary
     public PlatformTransactionManager cmsTransactionManager(Environment env) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(cmsEntityManager(env).getObject());
