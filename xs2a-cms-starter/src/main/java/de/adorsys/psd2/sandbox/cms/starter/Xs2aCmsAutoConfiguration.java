@@ -3,6 +3,8 @@ package de.adorsys.psd2.sandbox.cms.starter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy;
+import org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -10,6 +12,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 import java.util.HashMap;
 
@@ -45,6 +48,8 @@ public class Xs2aCmsAutoConfiguration {
         em.setJpaVendorAdapter(vendorAdapter);
         HashMap<String, Object> properties = new HashMap<>();
         properties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
+        properties.put("hibernate.physical_naming_strategy", SpringPhysicalNamingStrategy.class.getName());
+        properties.put("hibernate.implicit_naming_strategy", SpringImplicitNamingStrategy.class.getName());
         em.setJpaPropertyMap(properties);
 
         return em;
