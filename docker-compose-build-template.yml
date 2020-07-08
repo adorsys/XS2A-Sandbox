@@ -31,8 +31,3 @@ services:
       context: developer-portal-ui
       dockerfile: Dockerfile
 
-  # Certificate generator
-  certificate-generator:
-    build:
-      context: certificate-generator
-      dockerfile: Dockerfile

@@ -12,6 +12,11 @@ server {
     add_header Cache-Control public;
   }
 
+  location /health {
+         default_type application/json;
+         return 200 '{"status": "UP"}';
+  }
+
   location /tpp/ {
         proxy_pass <%= ENV['TPP_REST_SERVER_URL'] %>;
 
