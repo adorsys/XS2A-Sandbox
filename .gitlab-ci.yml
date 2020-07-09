@@ -244,13 +244,18 @@ Build:OBA_frontend:
   except:
     - schedules
   script:
-    - apt-get update && apt-get install make -yq
+    - apt-get update && apt-get install make libxml2-utils jq -yq
+    - echo "Update info.json"
+    - VERSION=$(xmllint --xpath "//*[local-name()='project']/*[local-name()='version']/text()" pom.xml)
+    - jq --arg VERSION "$VERSION"  --arg BUILD_ID "$CI_PIPELINE_ID" '.version = $VERSION | .build_number = $BUILD_ID' oba-ui/info.json >> info.json
+    - mv info.json oba-ui/info.json
     - echo "Run OBA frontend  Build"
     - make npm-install-oba-ui
   cache: {}
   artifacts:
     paths:
       - "oba-ui/dist"
+      - "oba-ui/info.json"
     name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}"
     expire_in: "1 day"
 
@@ -260,13 +265,18 @@ Build:TPP_frontend:
   except:
     - schedules
   script:
-    - apt-get update && apt-get install make -yq
+    - apt-get update && apt-get install make jq libxml2-utils -yq
+    - echo "Update info.json"
+    - VERSION=$(xmllint --xpath "//*[local-name()='project']/*[local-name()='version']/text()" pom.xml)
+    - jq --arg VERSION "$VERSION"  --arg BUILD_ID "$CI_PIPELINE_ID" '.version = $VERSION | .build_number = $BUILD_ID' tpp-ui/info.json >> info.json
+    - mv info.json oba-ui/info.json
     - echo "Run TPP frontend  Build"
     - make npm-install-tpp-ui
   cache: {}
   artifacts:
     paths:
       - "tpp-ui/dist"
+      - "tpp-ui/info.json"
     name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}"
     expire_in: "1 day"
 
@@ -276,8 +286,12 @@ Build:Devportal_frontend:
   except:
     - schedules
   script:
-    - apt-get update && apt-get install zip make -yq
-    - echo "Update postman test files "
+    - apt-get update && apt-get install zip make jq libxml2-utils -yq
+    - echo "Update info.json"
+    - VERSION=$(xmllint --xpath "//*[local-name()='project']/*[local-name()='version']/text()" pom.xml)
+    - jq --arg VERSION "$VERSION"  --arg BUILD_ID "$CI_PIPELINE_ID" '.version = $VERSION | .build_number = $BUILD_ID' developer-portal-ui/info.json >> info.json
+    - mv info.json developer-portal-ui/info.json
+    - echo "Update postman test files"
     - scripts/.update-postman-test-files.sh
     - echo "Run Devportal frontend Build"
     - make npm-install-developer-portal-ui
@@ -285,6 +299,7 @@ Build:Devportal_frontend:
   artifacts:
     paths:
       - "developer-portal-ui/dist"
+      - "developer-portal-ui/info.json"
     name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}"
     expire_in: "1 day"
 
