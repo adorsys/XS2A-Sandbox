@@ -13,8 +13,13 @@ server {
   }
 
   location /health {
-         default_type application/json;
-         return 200 '{"status":"UP"}';
+        default_type application/json;
+        return 200 '{"status":"UP"}';
+  }
+
+  location /info {
+        default_type application/json;
+        alias /usr/share/nginx/html/info.json;
   }
 
   location /tpp/ {

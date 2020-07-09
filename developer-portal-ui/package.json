@@ -1,6 +1,6 @@
 {
   "name": "developer-portal",
-  "version": "0.0.1",
+  "version": "4.3.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json --port 4206",
