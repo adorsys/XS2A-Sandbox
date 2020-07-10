@@ -12,6 +12,16 @@ server {
     add_header Cache-Control public;
   }
 
+  location /health {
+        default_type application/json;
+        return 200 '{"status":"UP"}';
+  }
+
+  location /info {
+        default_type application/json;
+        alias /usr/share/nginx/html/info.json;
+  }
+
   location /tpp/ {
         proxy_pass <%= ENV['TPP_REST_SERVER_URL'] %>;
 

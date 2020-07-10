@@ -14,7 +14,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaRepositories(basePackages = {
     "de.adorsys.psd2.consent.repository",
     "de.adorsys.psd2.event.persist"
-})
+},
+    entityManagerFactoryRef = "cmsEntityManager",
+    transactionManagerRef = "cmsTransactionManager"
+)
 @ComponentScan(basePackages = {
     "de.adorsys.psd2.aspsp",
     "de.adorsys.psd2.event",

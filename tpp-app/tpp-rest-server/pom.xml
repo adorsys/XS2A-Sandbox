@@ -5,7 +5,7 @@
     <parent>
         <artifactId>tpp-app</artifactId>
         <groupId>de.adorsys.psd2.sandbox</groupId>
-        <version>4.2</version>
+        <version>4.3</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -25,6 +25,18 @@
         <dependency>
             <groupId>de.adorsys.psd2.sandbox</groupId>
             <artifactId>tpp-rest-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.adorsys.psd2.sandbox</groupId>
+            <artifactId>tpp-db-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.adorsys.psd2.sandbox</groupId>
+            <artifactId>tpp-db-schema</artifactId>
             <version>${project.version}</version>
         </dependency>
 

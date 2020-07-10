@@ -8,7 +8,7 @@ import de.adorsys.ledgers.middleware.api.domain.um.UploadedDataTO;
 import de.adorsys.ledgers.middleware.client.mappers.PaymentMapperTO;
 import de.adorsys.ledgers.middleware.client.rest.DataRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
-import de.adorsys.psd2.sandbox.tpp.cms.api.service.CmsRollbackService;
+import de.adorsys.psd2.sandbox.tpp.cms.api.service.CmsDbNativeService;
 import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
 import de.adorsys.psd2.sandbox.tpp.rest.server.mapper.BalanceMapper;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.AccountBalance;
@@ -30,7 +30,7 @@ public class RestExecutionService {
     private final BalanceMapper balanceMapper;
     private final PaymentMapperTO paymentTOMapper;
     private final UserMgmtStaffRestClient userMgmtStaffRestClient;
-    private final CmsRollbackService cmsRollbackService;
+    private final CmsDbNativeService cmsDbNativeService;
 
 
     public void updateLedgers(DataPayload payload) {
@@ -47,7 +47,7 @@ public class RestExecutionService {
         RecoveryPointTO point = dataRestClient.getPoint(revertRequest.getRecoveryPointId()).getBody();
 
         userMgmtStaffRestClient.revertDatabase(revertRequest);
-        cmsRollbackService.revertDatabase(logins, point.getRollBackTime());
+        cmsDbNativeService.revertDatabase(logins, point.getRollBackTime());
     }
 
     private UploadedDataTO initialiseDataSets(DataPayload payload) {

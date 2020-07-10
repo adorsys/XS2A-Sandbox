@@ -23,6 +23,7 @@ public class ObaAuthorizationApiController implements ObaAuthorizationApi {
 
     @Override
     public void login(String login, String password) {
+        //See corresponding Filter
     }
 
     @Override

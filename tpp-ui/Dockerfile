@@ -13,6 +13,7 @@ RUN \
 COPY ./nginx.conf.erb /etc/nginx/conf.d/default.conf.erb
 COPY entry.sh /opt/entry.sh
 COPY dist/tpp-ui /usr/share/nginx/html
+COPY info.json /usr/share/nginx/html
 
 RUN chgrp -R root /var/cache/nginx && \
     find /var/cache/nginx -type d -exec chmod 775 {} \; && \

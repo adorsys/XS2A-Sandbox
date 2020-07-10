@@ -6,7 +6,7 @@ import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
 import de.adorsys.ledgers.middleware.client.rest.DataRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
-import de.adorsys.psd2.sandbox.tpp.cms.api.service.CmsRollbackService;
+import de.adorsys.psd2.sandbox.tpp.cms.api.service.CmsDbNativeService;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.BankCodeStructure;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.User;
 import de.adorsys.psd2.sandbox.tpp.rest.api.resource.TppRestApi;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Currency;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -35,11 +36,12 @@ public class TppController implements TppRestApi {
     private final UserMgmtRestClient userMgmtRestClient;
     private final DataRestClient dataRestClient;
     private final IbanGenerationService ibanGenerationService;
-    private final CmsRollbackService cmsRollbackService;
+    private final CmsDbNativeService cmsDbNativeService;
     private final RestExecutionService restExecutionService;
 
     @Override
     public void login(String login, String pin) {
+        //See corresponding Filter
     }
 
     @Override
@@ -77,8 +79,11 @@ public class TppController implements TppRestApi {
 
     @Override
     public ResponseEntity<Void> remove() {
-        String branchId = userMgmtRestClient.getUser().getBody().getBranch();
-        return dataRestClient.branch(branchId);
+        List<String> logins = userMgmtStaffRestClient.getBranchUserLogins().getBody();
+        cmsDbNativeService.deleteConsentsByUserIds(logins);
+        UserTO user = userMgmtRestClient.getUser().getBody();
+
+        return dataRestClient.branch(user.getBranch());
     }
 
     @Override

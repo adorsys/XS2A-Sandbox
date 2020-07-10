@@ -1,6 +1,8 @@
 package de.adorsys.psd2.sandbox.tpp.cms.impl.service;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -19,15 +21,21 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class CmsRollbackServiceImplTest {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+class CmsDbNativeServiceImplTest {
 
     @InjectMocks
-    private CmsRollbackServiceImpl cmsRollbackService;
+    private CmsDbDbNativeServiceImpl cmsDbNativeService;
 
     @Mock
-    private EntityManager entityManager;
+    private final EntityManager cmsEntityManager = mock(EntityManager.class);
     @Mock
     private ResourceLoader loader;
+
+    @BeforeEach
+    void prepare() {
+        cmsDbNativeService.setCmsEntityManager(cmsEntityManager);
+    }
 
     @Test
     void revertDatabase() {
@@ -37,18 +45,38 @@ class CmsRollbackServiceImplTest {
 
         Query query = mock(Query.class);
 
-        when(entityManager.createNativeQuery(anyString()))
+        when(cmsEntityManager.createNativeQuery(anyString()))
             .thenReturn(query);
         when(query.setParameter(anyInt(), any()))
             .thenReturn(query);
         when(query.setParameter(anyInt(), any()))
             .thenReturn(query);
-        when(entityManager.createNativeQuery(anyString()))
+        when(cmsEntityManager.createNativeQuery(anyString()))
             .thenReturn(query);
 
         // When
         try {
-            cmsRollbackService.revertDatabase(Arrays.asList("anton.brueckner", "max.musterman"), LocalDateTime.now());
+            cmsDbNativeService.revertDatabase(Arrays.asList("anton.brueckner", "max.musterman"), LocalDateTime.now());
+        } catch (Exception e) {
+            fail("Should not be any exceptions");
+        }
+    }
+
+    @Test
+    void deleteConsents() {
+        // Given
+        Query query = mock(Query.class);
+
+        when(cmsEntityManager.createNativeQuery(anyString()))
+            .thenReturn(query);
+        when(query.setParameter(anyInt(), any()))
+            .thenReturn(query);
+        when(cmsEntityManager.createNativeQuery(anyString()))
+            .thenReturn(query);
+
+        // When
+        try {
+            cmsDbNativeService.deleteConsentsByUserIds(Arrays.asList("anton.brueckner", "max.musterman"));
         } catch (Exception e) {
             fail("Should not be any exceptions");
         }
