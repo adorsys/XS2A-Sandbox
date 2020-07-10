@@ -82,9 +82,23 @@ function set_modules_version {
     perl -i -pe "s/SANDBOX_VERSION=.*/SANDBOX_VERSION=develop/" .env
     echo "$DOCKER_COMPOSE_BUILD_TEMPLATE" > docker-compose-build-template.yml
     git add docker-compose-build-template.yml
+    echo "Update frontend version"
+    jq --arg VERSION "$1"  --arg BUILD_ID "null" '.version = $VERSION | .build_number = $BUILD_ID' developer-portal-ui/info.json >> info.json
+    mv info.json developer-portal-ui/info.json
+    jq --arg VERSION "$1"  --arg BUILD_ID "null" '.version = $VERSION | .build_number = $BUILD_ID' tpp-ui/info.json >> info.json
+    mv info.json tpp-ui/info.json
+    jq --arg VERSION "$1"  --arg BUILD_ID "null" '.version = $VERSION | .build_number = $BUILD_ID' oba-ui/info.json >> info.json
+    mv info.json oba-ui/info.json
   else
     echo "tag release"
     perl -i -pe "s/SANDBOX_VERSION=.*/SANDBOX_VERSION=$1/" .env
     rm -rf docker-compose-build-template.yml
+    echo "Update frontend version"
+    jq --arg VERSION "$1"  --arg BUILD_ID "null" '.version = $VERSION | .build_number = $BUILD_ID' developer-portal-ui/info.json >> info.json
+    mv info.json developer-portal-ui/info.json
+    jq --arg VERSION "$1"  --arg BUILD_ID "null" '.version = $VERSION | .build_number = $BUILD_ID' tpp-ui/info.json >> info.json
+    mv info.json tpp-ui/info.json
+    jq --arg VERSION "$1"  --arg BUILD_ID "null" '.version = $VERSION | .build_number = $BUILD_ID' oba-ui/info.json >> info.json
+    mv info.json oba-ui/info.json
   fi 
 }
