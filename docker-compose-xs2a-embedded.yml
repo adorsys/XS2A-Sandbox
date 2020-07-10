@@ -12,7 +12,7 @@ volumes:
 services:
   # Xs2a connector embedded xs2a-connector,cms,aspsp-profile
   xs2a-connector-embedded:
-    image: adorsys/xs2a-connector-embedded:7.4.2
+    image: adorsys/xs2a-connector-embedded:7.5
     container_name: xs2a-connector-embedded
     restart: on-failure
     ports:
@@ -90,7 +90,7 @@ services:
 
   # Ledgers
   ledgers:
-    image: adorsys/ledgers:3.8
+    image: adorsys/ledgers:3.9
     container_name: ledgers
     restart: on-failure
     networks:
@@ -107,8 +107,8 @@ services:
       - DB_USER=cms
       - DB_PASSWORD=cms
       - LIQUIBASE_ENABLED=true
-      - SCA_MULTILEVEL_ENABLED=false
-      - AUTHORISATION_CONFIRMATION_ENABLED=false
+      - LEDGERS_SCA_MULTILEVEL_ENABLED=false
+      - LEDGERS_SCA_AUTHORISATION_CONFIRMATION_ENABLED=false
       - SPRING_MAIL_HOST=fakesmtp
       - SPRING_MAIL_PORT=25
     volumes:
