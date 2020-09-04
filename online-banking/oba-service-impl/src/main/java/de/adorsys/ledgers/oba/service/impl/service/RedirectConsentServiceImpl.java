@@ -1,13 +1,16 @@
 package de.adorsys.ledgers.oba.service.impl.service;
 
 import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
+import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
+import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCAConsentResponseTO;
+import de.adorsys.ledgers.middleware.api.domain.sca.StartScaOprTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisAccountAccessInfoTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisConsentTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
-import de.adorsys.ledgers.middleware.api.service.TokenStorageService;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.middleware.client.rest.ConsentRestClient;
+import de.adorsys.ledgers.middleware.client.rest.RedirectScaRestClient;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentWorkflow;
@@ -20,6 +23,7 @@ import de.adorsys.psd2.consent.api.ais.AisAccountAccess;
 import de.adorsys.psd2.consent.api.ais.CmsAisConsentResponse;
 import de.adorsys.psd2.consent.psu.api.ais.CmsAisConsentAccessRequest;
 import de.adorsys.psd2.xs2a.core.consent.AisConsentRequestType;
+import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
 import de.adorsys.psd2.xs2a.core.profile.AccountReference;
 import de.adorsys.psd2.xs2a.core.sca.AuthenticationDataHolder;
 import lombok.RequiredArgsConstructor;
@@ -50,22 +54,36 @@ public class RedirectConsentServiceImpl implements RedirectConsentService {
     private final AuthRequestInterceptor authInterceptor;
     private final ObaAisConsentMapper consentMapper;
     private final ConsentReferencePolicy referencePolicy;
-    private final TokenStorageService tokenStorageService;
+    private final CmsAspspConsentDataService dataService;
     private final AspspConsentDataClient aspspConsentDataClient;
+    private final RedirectScaRestClient redirectScaClient;
 
     @Override
     public void selectScaMethod(String scaMethodId, final ConsentWorkflow workflow) {
         try {
             authInterceptor.setAccessToken(workflow.bearerToken().getAccess_token());
-            // INFO. Server does not set the bearer token.
-            BearerTokenTO bearerToken = workflow.bearerToken();
-            SCAConsentResponseTO sca = consentRestClient.selectMethod(workflow.consentId(), workflow.authId(), scaMethodId).getBody();
-            // INFO. Server does not set the bearer token.
-            sca.setBearerToken(bearerToken);
-            workflow.storeSCAResponse(sca);
+            StartScaOprTO opr = new StartScaOprTO();
+            opr.setAuthorisationId(workflow.authId());
+            opr.setOpType(OpTypeTO.PAYMENT);
+            opr.setOprId(workflow.consentId());
+            GlobalScaResponseTO response = redirectScaClient.startSca(opr).getBody();
+            response = redirectScaClient.selectMethod(response.getAuthorisationId(), scaMethodId).getBody();
+            workflow.storeSCAResponse(response);
         } finally {
             authInterceptor.setAccessToken(null);
         }
+    }
+
+    @Override
+    public ConsentWorkflow authorizeConsent(ConsentWorkflow workflow, String authCode) {
+        authInterceptor.setAccessToken(workflow.bearerToken().getAccess_token());
+        GlobalScaResponseTO response = redirectScaClient.validateScaCode(workflow.authId(), authCode).getBody();
+
+        workflow.storeSCAResponse(response);
+        workflow.setConsentStatus(response.isPartiallyAuthorised()
+                                      ? ConsentStatus.PARTIALLY_AUTHORISED.name()
+                                      : ConsentStatus.VALID.name());
+        return workflow;
     }
 
     @Override
@@ -134,7 +152,7 @@ public class RedirectConsentServiceImpl implements RedirectConsentService {
     private void updateAspspConsentData(ConsentWorkflow workflow) {
         CmsAspspConsentDataBase64 consentData;
         try {
-            consentData = new CmsAspspConsentDataBase64(workflow.consentId(), tokenStorageService.toBase64String(workflow.getScaResponse()));
+            consentData = new CmsAspspConsentDataBase64(workflow.consentId(), dataService.toBase64String(workflow.getScaResponse()));
         } catch (IOException e) {
             throw AuthorizationException.builder()
                       .errorCode(CONSENT_DATA_UPDATE_FAILED)
@@ -157,12 +175,9 @@ public class RedirectConsentServiceImpl implements RedirectConsentService {
         workflow.getAuthResponse().setConsent(consent);
 
         authInterceptor.setAccessToken(workflow.bearerToken().getAccess_token());
-        SCAConsentResponseTO sca = consentRestClient.startSCA(workflow.consentId(), consent).getBody();
-
-        // Store sca response in workflow.
-        // TODO: CHeck why. INFO. Server does not set the bearer token.
-        sca.setBearerToken(workflow.bearerToken()); // copy bearer from old sca object.
-        workflow.storeSCAResponse(sca);
+        SCAConsentResponseTO initResponse = consentRestClient.initiateAisConsent(workflow.consentId(), consent).getBody();
+        GlobalScaResponseTO map = dataService.mapToGlobalResponse(initResponse, OpTypeTO.CONSENT);
+        workflow.storeSCAResponse(map);
     }
 
     /*
@@ -195,7 +210,7 @@ public class RedirectConsentServiceImpl implements RedirectConsentService {
         if (bearerToken != null) {
             SCAConsentResponseTO scaConsentResponseTO = new SCAConsentResponseTO();
             scaConsentResponseTO.setBearerToken(bearerToken);
-            workflow.setScaResponse(scaConsentResponseTO);
+            workflow.setScaResponse(dataService.mapToGlobalResponse(scaConsentResponseTO, OpTypeTO.CONSENT));
         }
         return workflow;
     }

@@ -18,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -67,6 +68,6 @@ class JWTAuthenticationFilterTest {
     private BearerTokenTO getBearer() {
         AccessTokenTO token = new AccessTokenTO();
         token.setLogin("anton.brueckner");
-        return new BearerTokenTO(null, null, 600, null, token);
+        return new BearerTokenTO(null, null, 600, null, token,new HashSet<>());
     }
 }

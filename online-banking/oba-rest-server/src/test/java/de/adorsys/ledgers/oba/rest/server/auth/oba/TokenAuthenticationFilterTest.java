@@ -2,6 +2,7 @@ package de.adorsys.ledgers.oba.rest.server.auth.oba;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.adorsys.ledgers.keycloak.client.api.KeycloakTokenService;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
@@ -14,7 +15,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,10 +25,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -44,7 +44,7 @@ class TokenAuthenticationFilterTest {
     @Mock
     private FilterChain chain;
     @Mock
-    private UserMgmtRestClient ledgersUserMgmt;
+    private KeycloakTokenService tokenService;
     @Mock
     private AuthRequestInterceptor authInterceptor;
 
@@ -53,13 +53,13 @@ class TokenAuthenticationFilterTest {
         // Given
         SecurityContextHolder.clearContext();
         when(request.getHeader("Authorization")).thenReturn("Bearer bearerToken");
-        when(ledgersUserMgmt.validate(anyString())).thenReturn(ResponseEntity.ok(getBearer()));
+        when(tokenService.validate(anyString())).thenReturn(getBearer());
 
         // When
         filter.doFilter(request, response, chain);
 
         // Then
-        verify(ledgersUserMgmt, times(1)).validate(anyString());
+        verify(tokenService, times(1)).validate(anyString());
         verify(chain, times(1)).doFilter(any(), any());
     }
 
@@ -73,7 +73,7 @@ class TokenAuthenticationFilterTest {
         filter.doFilter(request, response, chain);
 
         // Then
-        verify(ledgersUserMgmt, times(0)).validate(anyString());
+        verify(tokenService, times(0)).validate(anyString());
         verify(chain, times(1)).doFilter(any(), any());
     }
 
@@ -83,14 +83,14 @@ class TokenAuthenticationFilterTest {
         SecurityContextHolder.clearContext();
         when(request.getHeader("Authorization")).thenReturn("Bearer bearerToken");
         when(response.getOutputStream()).thenReturn(new MockHttpServletResponse().getOutputStream());
-        when(ledgersUserMgmt.validate(anyString())).thenThrow(FeignException.errorStatus("method", getResponse()));
+        when(tokenService.validate(anyString())).thenThrow(FeignException.errorStatus("method", getResponse()));
         response.getOutputStream().println(123);
 
         // When
         filter.doFilter(request, response, chain);
 
         // Then
-        verify(ledgersUserMgmt, times(1)).validate(anyString());
+        verify(tokenService, times(1)).validate(anyString());
         verify(chain, times(0)).doFilter(any(), any());
     }
 
@@ -107,6 +107,6 @@ class TokenAuthenticationFilterTest {
     private BearerTokenTO getBearer() {
         AccessTokenTO token = new AccessTokenTO();
         token.setLogin("anton.brueckner");
-        return new BearerTokenTO(null, null, 600, null, token);
+        return new BearerTokenTO(null, null, 600, null, token, new HashSet<>());
     }
 }

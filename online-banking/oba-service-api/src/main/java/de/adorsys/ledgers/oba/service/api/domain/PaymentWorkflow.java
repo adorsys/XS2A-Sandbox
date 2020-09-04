@@ -1,15 +1,18 @@
 package de.adorsys.ledgers.oba.service.api.domain;
 
 import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTypeTO;
-import de.adorsys.ledgers.middleware.api.domain.sca.SCAResponseTO;
+import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.ScaUserDataTO;
 import de.adorsys.psd2.consent.api.pis.CmsPaymentResponse;
+import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Optional;
 
+@Data
 public class PaymentWorkflow {
     private final CmsPaymentResponse paymentResponse;
 
@@ -17,7 +20,7 @@ public class PaymentWorkflow {
     private String authCodeMessage;
     private PaymentAuthorizeResponse authResponse;
     private final ConsentReference consentReference;
-    private SCAResponseTO scaResponse;
+    private GlobalScaResponseTO scaResponse;
 
     public PaymentWorkflow(@NotNull CmsPaymentResponse paymentResponse, ConsentReference consentReference) {
         if (consentReference == null) {
@@ -25,38 +28,6 @@ public class PaymentWorkflow {
         }
         this.paymentResponse = paymentResponse;
         this.consentReference = consentReference;
-    }
-
-    public CmsPaymentResponse getPaymentResponse() {
-        return paymentResponse;
-    }
-
-    public String getPaymentStatus() {
-        return paymentStatus;
-    }
-
-    public void setPaymentStatus(String paymentStatus) {
-        this.paymentStatus = paymentStatus;
-    }
-
-    public String getAuthCodeMessage() {
-        return authCodeMessage;
-    }
-
-    public void setAuthCodeMessage(String authCodeMessage) {
-        this.authCodeMessage = authCodeMessage;
-    }
-
-    public PaymentAuthorizeResponse getAuthResponse() {
-        return authResponse;
-    }
-
-    public void setAuthResponse(PaymentAuthorizeResponse authResponse) {
-        this.authResponse = authResponse;
-    }
-
-    public ConsentReference getConsentReference() {
-        return consentReference;
     }
 
     public String paymentId() {
@@ -69,14 +40,6 @@ public class PaymentWorkflow {
 
     public String encryptedConsentId() {
         return consentReference.getEncryptedConsentId();
-    }
-
-    public SCAResponseTO getScaResponse() {
-        return scaResponse;
-    }
-
-    public void setScaResponse(SCAResponseTO scaResponse) {
-        this.scaResponse = scaResponse;
     }
 
     public BearerTokenTO bearerToken() {
@@ -101,9 +64,12 @@ public class PaymentWorkflow {
         return scaResponse.getScaStatus();
     }
 
-    public void processSCAResponse(SCAResponseTO paymentResponse) {
+    public void processSCAResponse(GlobalScaResponseTO paymentResponse) {
+        if (paymentResponse.getBearerToken() == null) {
+            paymentResponse.setBearerToken(this.scaResponse.getBearerToken());
+        }
         scaResponse = paymentResponse;
-        authResponse.setAuthorisationId(paymentResponse.getAuthorisationId());
+        Optional.ofNullable(paymentResponse.getAuthorisationId()).ifPresent(authResponse::setAuthorisationId);
         authResponse.setScaStatus(paymentResponse.getScaStatus());
         authResponse.setScaMethods(paymentResponse.getScaMethods());
         authResponse.setAuthConfirmationCode(paymentResponse.getAuthConfirmationCode());

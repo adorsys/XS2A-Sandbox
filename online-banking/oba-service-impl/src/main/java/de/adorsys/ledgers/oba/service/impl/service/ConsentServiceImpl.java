@@ -3,12 +3,14 @@ package de.adorsys.ledgers.oba.service.impl.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCAConsentResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCAResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisAccountAccessInfoTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisConsentTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.middleware.client.rest.ConsentRestClient;
+import de.adorsys.ledgers.middleware.client.rest.RedirectScaRestClient;
 import de.adorsys.ledgers.oba.service.api.domain.CreatePiisConsentRequestTO;
 import de.adorsys.ledgers.oba.service.api.domain.ObaAisConsent;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode;
@@ -62,6 +64,7 @@ public class ConsentServiceImpl implements ConsentService {
     private final AspspDataService aspspDataService;
     private final CmsAspspPiisClient cmsAspspPiisClient;
     private final CreatePiisConsentRequestMapper createPiisConsentRequestMapper;
+    private final RedirectScaRestClient redirectScaRestClient;
 
     @Override
     public List<ObaAisConsent> getListOfConsents(String userLogin) {
@@ -89,7 +92,7 @@ public class ConsentServiceImpl implements ConsentService {
         String consentId = getDecryptedConsentId(encryptedConsentId);
         setActiveAccessTokenFromConsentData(encryptedConsentId);
 
-        SCAConsentResponseTO ledgerValidateTanConsentResponse = authorizeConsentAtLedgers(consentId, authorizationId, tan);
+        SCAConsentResponseTO ledgerValidateTanConsentResponse = authorizeConsentAtLedgers(authorizationId, tan);
         confirmConsentAtCms(userLogin, consentId);
         updateCmsAuthorization(userLogin, authorizationId, consentId);
         updateAspspConsentDataForConsent(encryptedConsentId, ledgerValidateTanConsentResponse);
@@ -180,15 +183,34 @@ public class ConsentServiceImpl implements ConsentService {
         }
     }
 
-    private SCAConsentResponseTO authorizeConsentAtLedgers(String consentId, String authorizationId, String tan) {
+    private SCAConsentResponseTO authorizeConsentAtLedgers(String authorizationId, String tan) {
         try {
-            return consentRestClient.authorizeConsent(consentId, authorizationId, tan).getBody();
+            return mapToScaConsentResponse(redirectScaRestClient.validateScaCode(authorizationId, tan).getBody());
         } catch (FeignException e) {
             throw ObaException.builder()
                       .devMessage(getDevMessageFromFeignException(e))
                       .obaErrorCode(AIS_BAD_REQUEST)
                       .build();
         }
+    }
+
+    private SCAConsentResponseTO mapToScaConsentResponse(GlobalScaResponseTO source) {
+        SCAConsentResponseTO target = new SCAConsentResponseTO();
+        target.setConsentId(source.getOperationObjectId());
+        target.setPartiallyAuthorised(source.isPartiallyAuthorised());
+        target.setScaStatus(source.getScaStatus());
+        target.setAuthorisationId(source.getAuthorisationId());
+        target.setScaMethods(source.getScaMethods());
+        target.setChosenScaMethod(null);//TODO FIX ME
+        target.setChallengeData(source.getChallengeData());
+        target.setPsuMessage(source.getPsuMessage());
+        target.setStatusDate(source.getStatusDate());
+        target.setExpiresInSeconds(source.getExpiresInSeconds());
+        target.setMultilevelScaRequired(source.isMultilevelScaRequired());
+        target.setAuthConfirmationCode(source.getAuthConfirmationCode());
+        target.setBearerToken(source.getBearerToken());
+        target.setObjectType(source.getOpType().name());
+        return target;
     }
 
     private String getDevMessageFromFeignException(FeignException e) {

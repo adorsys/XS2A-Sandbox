@@ -1,5 +1,6 @@
 package de.adorsys.ledgers.oba.rest.server.config.security;
 
+import de.adorsys.ledgers.keycloak.client.api.KeycloakTokenService;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
@@ -36,24 +37,25 @@ public class WebSecurityConfig {
     public static class ObaSecurityConfig extends WebSecurityConfigurerAdapter {
         private final UserMgmtRestClient userMgmtRestClient;
         private final AuthRequestInterceptor authInterceptor;
+        private final KeycloakTokenService tokenService;
 
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.antMatcher("/api/v1/**")
                 .authorizeRequests()
                 .antMatchers(APP_WHITELIST).permitAll()
-                    .and()
+                .and()
                 .authorizeRequests().anyRequest()
                 .authenticated()
-                    .and()
+                .and()
                 .httpBasic()
                 .disable();
 
             http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
             http.headers().frameOptions().disable();
 
-            http.addFilterBefore(new LoginAuthenticationFilter(userMgmtRestClient), BasicAuthenticationFilter.class);
-            http.addFilterBefore(new TokenAuthenticationFilter(userMgmtRestClient, authInterceptor), BasicAuthenticationFilter.class);
+            http.addFilterBefore(new LoginAuthenticationFilter(tokenService), BasicAuthenticationFilter.class);
+            http.addFilterBefore(new TokenAuthenticationFilter(authInterceptor, tokenService), BasicAuthenticationFilter.class);
         }
     }
 

@@ -5,5 +5,6 @@ public enum ObaErrorCode {
     AIS_BAD_REQUEST,
     NOT_FOUND,
     CONVERSION_EXCEPTION,
-    AUTH_EXPIRED
+    AUTH_EXPIRED,
+    LOGIN_FAILED
 }

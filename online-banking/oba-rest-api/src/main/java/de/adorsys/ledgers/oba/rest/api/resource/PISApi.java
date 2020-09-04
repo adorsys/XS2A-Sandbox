@@ -16,10 +16,10 @@ public interface PISApi {
     /**
      * STEP-P0: payment Entry Point
      * <p>
-     * Receptions a payment authorization link. Generate an eca-id associated with the login process.
+     * Receptions a payment authorization link. Generate an sca-id associated with the login process.
      *
-     * @param redirectId         the redirect is
-     * @param encryptedPaymentId the enc payment idf
+     * @param redirectId         the redirect id
+     * @param encryptedPaymentId the enc payment id
      * @return AuthorizeResponse
      */
     @GetMapping(path = "/auth", params = {"redirectId", "encryptedPaymentId"})
@@ -36,7 +36,7 @@ public interface PISApi {
      * @param authorisationId     the auth id
      * @param login               the login
      * @param pin                 the password
-     * @param consentCookieString the cosent cookie
+     * @param consentCookieString the consent cookie
      * @return PaymentAuthorizeResponse
      */
     @PostMapping(path = "/{encryptedPaymentId}/authorisation/{authorisationId}/login")

@@ -10,6 +10,8 @@ import java.util.List;
 public interface RedirectConsentService {
     void selectScaMethod(String scaMethodId, final ConsentWorkflow workflow);
 
+    ConsentWorkflow authorizeConsent(ConsentWorkflow workflow, String authCode);
+
     void updateAccessByConsentType(ConsentWorkflow workflow, List<AccountDetailsTO> listOfAccounts);
 
     void startConsent(final ConsentWorkflow workflow, AisConsentTO aisConsent, List<AccountDetailsTO> listOfAccounts);

@@ -1,7 +1,7 @@
 package de.adorsys.ledgers.oba.rest.server.resource;
 
+import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
-import de.adorsys.ledgers.middleware.api.domain.sca.SCALoginResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.oba.rest.api.resource.PISApi;
@@ -12,6 +12,8 @@ import de.adorsys.ledgers.oba.service.api.domain.ConsentType;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentWorkflow;
 import de.adorsys.ledgers.oba.service.api.service.CommonPaymentService;
+import de.adorsys.ledgers.oba.service.api.service.TokenAuthenticationService;
+import feign.FeignException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -22,15 +24,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.Objects;
 
 import static de.adorsys.ledgers.oba.rest.api.resource.PISApi.BASE_PATH;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(BASE_PATH)
 @Api(value = BASE_PATH, tags = "PSU PIS. Provides access to online banking payment functionality")
-@RequiredArgsConstructor
 public class PISController implements PISApi {
     private final CommonPaymentService paymentService;
     private final XISControllerService xisService;
@@ -38,6 +39,7 @@ public class PISController implements PISApi {
     private final ResponseUtils responseUtils;
     private final ObaMiddlewareAuthentication middlewareAuth;
     private final AuthRequestInterceptor authInterceptor;
+    private final TokenAuthenticationService authenticationService;
 
     @Override
     public ResponseEntity<AuthorizeResponse> pisAuth(String redirectId, String encryptedPaymentId, String token) {
@@ -51,23 +53,27 @@ public class PISController implements PISApi {
         PaymentWorkflow workflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, false, consentCookie, login, null);
 
         // Authorize
-        ResponseEntity<SCALoginResponseTO> loginResult = xisService.performLoginForConsent(login, pin, workflow.paymentId(), workflow.authId(), OpTypeTO.PAYMENT);
-        AuthUtils.checkIfUserInitiatedOperation(loginResult, workflow.getPaymentResponse().getPayment().getPsuIdDatas());
-        workflow.processSCAResponse(Objects.requireNonNull(loginResult.getBody()));
+        GlobalScaResponseTO ledgersResponse = null;
+        try {
+            ledgersResponse = authenticationService.login(login, pin, authorisationId);
+            workflow.processSCAResponse(ledgersResponse);
+            AuthUtils.checkIfUserInitiatedOperation(ledgersResponse, workflow.getPaymentResponse().getPayment().getPsuIdDatas());
+            workflow = paymentService.initiatePaymentOpr(workflow, workflow.bearerToken().getAccessTokenObject().getLogin(), OpTypeTO.PAYMENT);
+        } catch (FeignException e) {
+            log.error("Failed to Login user: {}, pass {}", login, pin);
+        }
 
-        if (!AuthUtils.success(loginResult)) {
+        if (ledgersResponse == null) {
             // failed Message. No repeat. Delete cookies.
-            responseUtils.removeCookies(response);
+            responseUtils.removeCookies(this.response);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        String psuId = AuthUtils.psuId(workflow.bearerToken());
-        PaymentWorkflow initiatePaymentWorkflow = paymentService.initiatePayment(workflow, psuId);
-        return xisService.resolvePaymentWorkflow(initiatePaymentWorkflow);
+        return xisService.resolvePaymentWorkflow(workflow);
     }
 
     @Override
-    public ResponseEntity<PaymentAuthorizeResponse> initiatePayment(
-        String encryptedPaymentId, String authorisationId, String consentAndaccessTokenCookieString) {
+    public ResponseEntity<PaymentAuthorizeResponse> initiatePayment( //TODO Seems to be unused!!! Subject to removal!
+                                                                     String encryptedPaymentId, String authorisationId, String consentAndaccessTokenCookieString) {
 
         try {
             String psuId = AuthUtils.psuId(middlewareAuth);
@@ -78,7 +84,7 @@ public class PISController implements PISApi {
             // Update status
             identifyPaymentWorkflow.getScaResponse().setScaStatus(ScaStatusTO.PSUAUTHENTICATED);
 
-            PaymentWorkflow initiatePaymentWorkflow = paymentService.initiatePayment(identifyPaymentWorkflow, psuId);
+            PaymentWorkflow initiatePaymentWorkflow = paymentService.initiatePaymentOpr(identifyPaymentWorkflow, psuId, OpTypeTO.PAYMENT);
 
             // Store result in token.
             responseUtils.setCookies(response, initiatePaymentWorkflow.getConsentReference(), initiatePaymentWorkflow.bearerToken().getAccess_token(), initiatePaymentWorkflow.bearerToken().getAccessTokenObject());
@@ -89,30 +95,17 @@ public class PISController implements PISApi {
     }
 
     @Override
-    public ResponseEntity<PaymentAuthorizeResponse> selectMethod(String encryptedPaymentId, String authorisationId,
-                                                                 String scaMethodId, String consentAndaccessTokenCookieString) {
-        PaymentWorkflow workflow;
-        try {
-            String consentCookie = responseUtils.consentCookie(consentAndaccessTokenCookieString);
-            workflow = paymentService.selectScaForPayment(encryptedPaymentId, authorisationId, scaMethodId, consentCookie, false, AuthUtils.psuId(middlewareAuth), middlewareAuth.getBearerToken());
-            responseUtils.setCookies(response, workflow.getConsentReference(), workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
-        } catch (PaymentAuthorizeException p) {
-            return p.getError();
-        }
-        return ResponseEntity.ok(workflow.getAuthResponse());
+    public ResponseEntity<PaymentAuthorizeResponse> selectMethod(String encryptedPaymentId, String authorisationId, String scaMethodId, String consentAndaccessTokenCookieString) {
+        return xisService.selectScaMethod(encryptedPaymentId, authorisationId, scaMethodId, consentAndaccessTokenCookieString);
     }
 
     @Override
-    public ResponseEntity<PaymentAuthorizeResponse> authrizedPayment(
-        String encryptedPaymentId,
-        String authorisationId,
-        String consentAndaccessTokenCookieString, String authCode) {
-
+    public ResponseEntity<PaymentAuthorizeResponse> authrizedPayment(String encryptedPaymentId, String authorisationId, String consentAndaccessTokenCookieString, String authCode) {
         String psuId = AuthUtils.psuId(middlewareAuth);
         try {
             String consentCookie = responseUtils.consentCookie(consentAndaccessTokenCookieString);
             PaymentWorkflow identifyPaymentWorkflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, true, consentCookie, psuId, middlewareAuth.getBearerToken());
-            PaymentWorkflow authorizePaymentWorkflow = paymentService.authorizePayment(identifyPaymentWorkflow, psuId, authCode);
+            PaymentWorkflow authorizePaymentWorkflow = paymentService.authorizePaymentOpr(identifyPaymentWorkflow, psuId, authCode, OpTypeTO.PAYMENT);
 
             responseUtils.setCookies(response, authorizePaymentWorkflow.getConsentReference(), authorizePaymentWorkflow.bearerToken().getAccess_token(), authorizePaymentWorkflow.bearerToken().getAccessTokenObject());
             log.info("Confirmation code: {}", authorizePaymentWorkflow.getAuthResponse().getAuthConfirmationCode());

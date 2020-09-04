@@ -45,6 +45,12 @@
             <artifactId>ledgers-middleware-rest-client</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>de.adorsys.ledgers</groupId>
+            <artifactId>keycloak-client</artifactId>
+            <version>3.11-SNAPSHOT</version>
+        </dependency>
+
         <!-- CMS embedded mode -->
         <dependency>
             <groupId>de.adorsys.psd2.sandbox</groupId>

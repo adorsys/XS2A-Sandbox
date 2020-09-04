@@ -1,8 +1,7 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.config;
 
+import de.adorsys.ledgers.keycloak.client.api.KeycloakTokenService;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
-import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
-import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
 import de.adorsys.psd2.sandbox.tpp.rest.server.auth.DisableEndpointFilter;
 import de.adorsys.psd2.sandbox.tpp.rest.server.auth.LoginAuthenticationFilter;
 import de.adorsys.psd2.sandbox.tpp.rest.server.auth.TokenAuthenticationFilter;
@@ -21,8 +20,7 @@ import static de.adorsys.psd2.sandbox.tpp.rest.server.config.PermittedResources.
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class TppWebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private final UserMgmtStaffRestClient userMgmtStaffRestClient;
-    private final UserMgmtRestClient ledgersUserMgmt;
+    private final KeycloakTokenService tokenService;
     private final AuthRequestInterceptor authInterceptor;
     private final Environment environment;
 
@@ -46,7 +44,7 @@ public class TppWebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().disable();
         http.httpBasic().disable();
         http.addFilterBefore(new DisableEndpointFilter(environment), BasicAuthenticationFilter.class);
-        http.addFilterBefore(new LoginAuthenticationFilter(userMgmtStaffRestClient), BasicAuthenticationFilter.class);
-        http.addFilterBefore(new TokenAuthenticationFilter(ledgersUserMgmt, authInterceptor), BasicAuthenticationFilter.class);
+        http.addFilterBefore(new LoginAuthenticationFilter(tokenService), BasicAuthenticationFilter.class);
+        http.addFilterBefore(new TokenAuthenticationFilter(authInterceptor, tokenService), BasicAuthenticationFilter.class);
     }
 }

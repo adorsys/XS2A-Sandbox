@@ -2,14 +2,13 @@ package de.adorsys.ledgers.oba.service.impl.service;
 
 import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTO;
 import de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO;
-import de.adorsys.ledgers.middleware.api.domain.sca.SCAPaymentResponseTO;
-import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
+import de.adorsys.ledgers.middleware.api.domain.sca.*;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
-import de.adorsys.ledgers.middleware.api.service.TokenStorageService;
 import de.adorsys.ledgers.middleware.client.mappers.PaymentMapperTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.middleware.client.rest.OauthRestClient;
 import de.adorsys.ledgers.middleware.client.rest.PaymentRestClient;
+import de.adorsys.ledgers.middleware.client.rest.RedirectScaRestClient;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentWorkflow;
@@ -53,15 +52,16 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
     private final CmsPsuPisService cmsPsuPisService;
     private final PaymentRestClient paymentRestClient;
     private final AspspConsentDataClient aspspConsentDataClient;
-    private final TokenStorageService tokenStorageService;
+    private final CmsAspspConsentDataService dataService;
     private final PaymentMapperTO paymentMapper;
     private final OauthRestClient oauthRestClient;
     private final AuthorizationService authService;
+    private final RedirectScaRestClient redirectScaClient;
 
     @Override
-    public PaymentWorkflow selectScaForPayment(String encryptedPaymentId, String authorisationId, String scaMethodId, String consentAndAccessTokenCookieString, boolean isCancellationOperation, String psuId, BearerTokenTO tokenTO) {
+    public PaymentWorkflow selectScaForPayment(String encryptedPaymentId, String authorisationId, String scaMethodId, String consentAndAccessTokenCookieString, String psuId, BearerTokenTO tokenTO) {
         PaymentWorkflow workflow = identifyPayment(encryptedPaymentId, authorisationId, true, consentAndAccessTokenCookieString, psuId, tokenTO);
-        selectMethodAndUpdateWorkflow(scaMethodId, workflow, isCancellationOperation);
+        selectMethodAndUpdateWorkflow(scaMethodId, workflow);
         doUpdateAuthData(psuId, workflow);
         return workflow;
     }
@@ -78,9 +78,9 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
         workflow.getAuthResponse().setEncryptedConsentId(encryptedPaymentId);
         workflow.setPaymentStatus(Optional.ofNullable(payment.getTransactionStatus()).map(Enum::name).orElse("RCVD"));
         if (bearerToken != null) {
-            SCAPaymentResponseTO scaPaymentResponseTO = new SCAPaymentResponseTO();
-            scaPaymentResponseTO.setBearerToken(bearerToken);
-            workflow.setScaResponse(scaPaymentResponseTO);
+            GlobalScaResponseTO response = new GlobalScaResponseTO();
+            response.setBearerToken(bearerToken);
+            workflow.setScaResponse(response);
         }
         return workflow;
     }
@@ -89,7 +89,7 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
     public void updateAspspConsentData(PaymentWorkflow paymentWorkflow) {
         CmsAspspConsentDataBase64 consentData;
         try {
-            consentData = new CmsAspspConsentDataBase64(paymentWorkflow.paymentId(), tokenStorageService.toBase64String(paymentWorkflow.getScaResponse()));
+            consentData = new CmsAspspConsentDataBase64(paymentWorkflow.paymentId(), dataService.toBase64String(paymentWorkflow.getScaResponse()));
         } catch (IOException e) {
             throw AuthorizationException.builder()
                       .errorCode(CONSENT_DATA_UPDATE_FAILED)
@@ -119,12 +119,15 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
     }
 
     @Override
-    public PaymentWorkflow initiatePayment(PaymentWorkflow paymentWorkflow, String psuId) {
+    public PaymentWorkflow initiatePaymentOpr(PaymentWorkflow paymentWorkflow, String psuId, OpTypeTO opType) {
         authInterceptor.setAccessToken(paymentWorkflow.bearerToken().getAccess_token());
 
-        SCAPaymentResponseTO paymentResponseTO = paymentRestClient.initiatePayment(paymentWorkflow.paymentType(), paymentWorkflow.getAuthResponse().getPayment()).getBody();
+        SCAPaymentResponseTO paymentResponseTO = opType == OpTypeTO.PAYMENT
+                                                     ? paymentRestClient.initiatePayment(paymentWorkflow.paymentType(), paymentWorkflow.getAuthResponse().getPayment()).getBody()
+                                                     : paymentRestClient.initiatePmtCancellation(paymentWorkflow.paymentId()).getBody();
+        GlobalScaResponseTO response = dataService.mapToGlobalResponse(paymentResponseTO, opType);
 
-        paymentWorkflow.processSCAResponse(paymentResponseTO);
+        paymentWorkflow.processSCAResponse(response);
         paymentWorkflow.setPaymentStatus(paymentResponseTO.getTransactionStatus().name());
 
         doUpdateAuthData(psuId, paymentWorkflow);
@@ -133,42 +136,20 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
     }
 
     @Override
-    public PaymentWorkflow initiateCancelPayment(PaymentWorkflow paymentWorkflow, String psuId) {
+    public PaymentWorkflow authorizePaymentOpr(PaymentWorkflow paymentWorkflow, String psuId, String authCode, OpTypeTO opType) {
         authInterceptor.setAccessToken(paymentWorkflow.bearerToken().getAccess_token());
-        SCAPaymentResponseTO paymentResponseTO = paymentRestClient.initiatePmtCancellation(paymentWorkflow.paymentId()).getBody();
+        GlobalScaResponseTO response = redirectScaClient.validateScaCode(paymentWorkflow.authId(), authCode).getBody();
 
-        paymentWorkflow.processSCAResponse(paymentResponseTO);
-        paymentWorkflow.setPaymentStatus(paymentResponseTO.getTransactionStatus().name());
+        authInterceptor.setAccessToken(response.getBearerToken().getAccess_token());
+        SCAPaymentResponseTO scaPaymentResponse = opType == OpTypeTO.PAYMENT
+                                                      ? paymentRestClient.executePayment(paymentWorkflow.paymentId()).getBody()
+                                                      : paymentRestClient.executeCancelPayment(paymentWorkflow.paymentId()).getBody();
 
+        paymentWorkflow.processSCAResponse(response);
+        paymentWorkflow.setPaymentStatus(opType == OpTypeTO.PAYMENT
+                                             ? scaPaymentResponse.getTransactionStatus().name()
+                                             : TransactionStatusTO.CANC.toString());
         doUpdateAuthData(psuId, paymentWorkflow);
-
-        return paymentWorkflow;
-    }
-
-    @Override
-    public PaymentWorkflow authorizePayment(PaymentWorkflow paymentWorkflow, String psuId, String authCode) {
-        authInterceptor.setAccessToken(paymentWorkflow.bearerToken().getAccess_token());
-
-        SCAPaymentResponseTO scaPaymentResponse = paymentRestClient.authorizePayment(paymentWorkflow.paymentId(), paymentWorkflow.authId(), authCode).getBody();
-
-        paymentWorkflow.processSCAResponse(scaPaymentResponse);
-        paymentWorkflow.setPaymentStatus(scaPaymentResponse.getTransactionStatus().name());
-
-        doUpdateAuthData(psuId, paymentWorkflow);
-
-        return paymentWorkflow;
-    }
-
-    @Override
-    public PaymentWorkflow authorizeCancelPayment(PaymentWorkflow paymentWorkflow, String psuId, String authCode) {
-        authInterceptor.setAccessToken(paymentWorkflow.bearerToken().getAccess_token());
-
-        SCAPaymentResponseTO scaPaymentResponse = paymentRestClient.authorizeCancelPayment(paymentWorkflow.paymentId(), paymentWorkflow.authId(), authCode).getBody();
-
-        paymentWorkflow.processSCAResponse(scaPaymentResponse);
-        paymentWorkflow.setPaymentStatus(TransactionStatusTO.CANC.toString());
-        doUpdateAuthData(psuId, paymentWorkflow);
-
         return paymentWorkflow;
     }
 
@@ -178,15 +159,17 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
         updateAspspConsentData(workflow);
     }
 
-    private void selectMethodAndUpdateWorkflow(String scaMethodId, final PaymentWorkflow workflow, boolean isCancellationOperation) {
+    private void selectMethodAndUpdateWorkflow(String scaMethodId, final PaymentWorkflow workflow) {
         try {
             authInterceptor.setAccessToken(workflow.bearerToken().getAccess_token());
+            StartScaOprTO opr = new StartScaOprTO();
+            opr.setAuthorisationId(workflow.authId());
+            opr.setOpType(OpTypeTO.PAYMENT);
+            opr.setOprId(workflow.paymentId());
 
-            SCAPaymentResponseTO paymentResponseTO = isCancellationOperation
-                                                         ? paymentRestClient.selecCancelPaymentSCAtMethod(workflow.paymentId(), workflow.authId(), scaMethodId).getBody()
-                                                         : paymentRestClient.selectMethod(workflow.paymentId(), workflow.authId(), scaMethodId).getBody();
-            workflow.processSCAResponse(paymentResponseTO);
-            workflow.setPaymentStatus(paymentResponseTO.getTransactionStatus().name());
+            GlobalScaResponseTO response = redirectScaClient.startSca(opr).getBody();
+            response = redirectScaClient.selectMethod(response.getAuthorisationId(), scaMethodId).getBody();
+            workflow.processSCAResponse(response);
         } finally {
             authInterceptor.setAccessToken(null);
         }

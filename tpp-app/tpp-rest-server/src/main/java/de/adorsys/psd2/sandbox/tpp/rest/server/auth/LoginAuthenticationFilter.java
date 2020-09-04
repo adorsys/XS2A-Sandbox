@@ -1,14 +1,10 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.auth;
 
-import de.adorsys.ledgers.middleware.api.domain.sca.SCALoginResponseTO;
-import de.adorsys.ledgers.middleware.api.domain.sca.SCAResponseTO;
+import de.adorsys.ledgers.keycloak.client.api.KeycloakTokenService;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
-import de.adorsys.ledgers.middleware.api.domain.um.UserCredentialsTO;
-import de.adorsys.ledgers.middleware.api.domain.um.UserRoleTO;
-import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
 import feign.FeignException;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.ResponseEntity;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -17,16 +13,12 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Optional;
 
 import static de.adorsys.psd2.sandbox.tpp.rest.server.auth.SecurityConstant.*;
 
+@RequiredArgsConstructor
 public class LoginAuthenticationFilter extends AbstractAuthFilter {
-    private final UserMgmtStaffRestClient userMgmtStaffRestClient;
-
-    public LoginAuthenticationFilter(UserMgmtStaffRestClient userMgmtStaffRestClient) {
-        this.userMgmtStaffRestClient = userMgmtStaffRestClient;
-    }
+    private final KeycloakTokenService tokenService;
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
@@ -43,15 +35,11 @@ public class LoginAuthenticationFilter extends AbstractAuthFilter {
 
         if (authenticationIsRequired()) {
             try {
-                ResponseEntity<SCALoginResponseTO> loginResponse = userMgmtStaffRestClient.login(new UserCredentialsTO(login, pin, UserRoleTO.STAFF));
-
-                BearerTokenTO bearerTokenTO = Optional.ofNullable(loginResponse.getBody())
-                                                  .map(SCAResponseTO::getBearerToken)
-                                                  .orElseThrow(() -> new RestException("Couldn't get bearer token"));
+                BearerTokenTO bearerTokenTO = tokenService.login(login, pin);
+                bearerTokenTO = tokenService.validate(bearerTokenTO.getAccess_token());
 
                 fillSecurityContext(bearerTokenTO);
                 addBearerTokenHeader(bearerTokenTO.getAccess_token(), response);
-
             } catch (FeignException | RestException e) {
                 handleAuthenticationFailure(response, e);
                 return;

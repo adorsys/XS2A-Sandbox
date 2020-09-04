@@ -1,18 +1,15 @@
 package de.adorsys.ledgers.oba.rest.server.resource;
 
+import de.adorsys.ledgers.keycloak.client.api.KeycloakTokenService;
 import de.adorsys.ledgers.middleware.api.domain.account.AccountReferenceTO;
 import de.adorsys.ledgers.middleware.api.domain.payment.*;
-import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
-import de.adorsys.ledgers.middleware.api.domain.sca.SCALoginResponseTO;
-import de.adorsys.ledgers.middleware.api.domain.sca.SCAPaymentResponseTO;
-import de.adorsys.ledgers.middleware.api.domain.sca.SCAResponseTO;
+import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
-import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
-import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
+import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
 import de.adorsys.ledgers.oba.service.api.domain.*;
-import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
 import de.adorsys.ledgers.oba.service.api.domain.exception.InvalidConsentException;
+import de.adorsys.ledgers.oba.service.api.service.CommonPaymentService;
 import de.adorsys.ledgers.oba.service.api.service.ConsentReferencePolicy;
 import de.adorsys.psd2.consent.api.pis.CmsCommonPayment;
 import de.adorsys.psd2.consent.api.pis.CmsPaymentResponse;
@@ -23,7 +20,6 @@ import org.mockito.Mock;
 import org.mockito.internal.util.reflection.FieldSetter;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,12 +28,11 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Currency;
+import java.util.HashSet;
 
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.FINALISED;
-import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.PSUIDENTIFIED;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -65,17 +60,19 @@ class XISControllerServiceTest {
     private XISControllerService service;
 
     @Mock
-    private AuthRequestInterceptor authInterceptor;
-    @Mock
     private HttpServletRequest request;
     @Mock
     private HttpServletResponse response;
     @Mock
-    private UserMgmtRestClient userMgmtRestClient;
-    @Mock
     private ConsentReferencePolicy referencePolicy;
     @Mock
     private ResponseUtils responseUtils;
+    @Mock
+    private KeycloakTokenService tokenService;
+    @Mock
+    private CommonPaymentService paymentService;
+    @Mock
+    private ObaMiddlewareAuthentication middlewareAuth;
 
     @Test
     void auth() throws NoSuchFieldException {
@@ -107,47 +104,12 @@ class XISControllerServiceTest {
     }
 
     @Test
-    void performLoginForConsent() throws NoSuchFieldException {
-        // Given
-        FieldSetter.setField(service, service.getClass().getDeclaredField("request"), new MockHttpServletRequest());
-        when(userMgmtRestClient.authoriseForConsent(anyString(), anyString(), anyString(), anyString(), any())).thenReturn(getLoginResponse());
-
-        // When
-        ResponseEntity<SCALoginResponseTO> result = service.performLoginForConsent(LOGIN, PIN, CONSENT_ID, AUTH_ID, OpTypeTO.CONSENT);
-
-        // Then
-        assertEquals(getLoginResponse(), result);
-    }
-
-    @Test
-    void performLoginForConsent_fail() throws NoSuchFieldException {
-        // Given
-        FieldSetter.setField(service, service.getClass().getDeclaredField("request"), new MockHttpServletRequest());
-
-        // Then
-        assertThrows(AuthorizationException.class, () -> service.performLoginForConsent(null, null, CONSENT_ID, AUTH_ID, OpTypeTO.CONSENT));
-    }
-
-    @Test
     void resolvePaymentWorkflow() {
         // When
         ResponseEntity<PaymentAuthorizeResponse> result = service.resolvePaymentWorkflow(getPaymentWorkflow());
 
         // Then
         assertThat(result).isEqualToComparingFieldByFieldRecursively(ResponseEntity.ok(getPaymentAuthorizeResponse()));
-    }
-
-    private ResponseEntity<SCALoginResponseTO> getLoginResponse() {
-        SCALoginResponseTO res = new SCALoginResponseTO();
-        res.setScaStatus(PSUIDENTIFIED);
-        AccessTokenTO to = new AccessTokenTO();
-        to.setAuthorisationId(AUTH_ID);
-        res.setBearerToken(new BearerTokenTO(null, null, 0, null, to));
-        res.setScaId(ENCRYPTED_ID);
-        res.setAuthorisationId(AUTH_ID);
-        res.setMultilevelScaRequired(false);
-        res.setScaMethods(Collections.emptyList());
-        return ResponseEntity.ok(res);
     }
 
     private ConsentReference getConsentReference() {
@@ -175,20 +137,18 @@ class XISControllerServiceTest {
         return workflow;
     }
 
-    private SCAResponseTO getScaResponse() {
-        SCAPaymentResponseTO to = new SCAPaymentResponseTO();
+    private GlobalScaResponseTO getScaResponse() {
+        GlobalScaResponseTO to = new GlobalScaResponseTO();
         to.setScaStatus(FINALISED);
         to.setAuthorisationId(AUTH_ID);
-        to.setPaymentId(PMT_ID);
+        to.setOperationObjectId(PMT_ID);
         to.setBearerToken(getBearerToken());
-        to.setPaymentProduct(SEPA);
-        to.setPaymentType(PaymentTypeTO.SINGLE);
         to.setMultilevelScaRequired(false);
         return to;
     }
 
     private BearerTokenTO getBearerToken() {
-        return new BearerTokenTO(TOKEN, null, 999, null, getAccessTokenTO());
+        return new BearerTokenTO(TOKEN, null, 999, null, getAccessTokenTO(), new HashSet<>());
     }
 
     private CmsPaymentResponse getCmsPaymentResponse() {

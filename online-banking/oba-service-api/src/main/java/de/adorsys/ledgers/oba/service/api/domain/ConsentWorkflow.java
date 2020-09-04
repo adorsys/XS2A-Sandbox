@@ -1,6 +1,6 @@
 package de.adorsys.ledgers.oba.service.api.domain;
 
-import de.adorsys.ledgers.middleware.api.domain.sca.SCAResponseTO;
+import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.psd2.consent.api.ais.CmsAisConsentResponse;
@@ -15,7 +15,7 @@ public class ConsentWorkflow {
     private String authCodeMessage;
     private ConsentAuthorizeResponse authResponse;
     private final ConsentReference consentReference;
-    private SCAResponseTO scaResponse;
+    private GlobalScaResponseTO scaResponse;
 
     public ConsentWorkflow(CmsAisConsentResponse consentResponse, ConsentReference consentReference) {
         if (consentResponse == null || consentReference == null) {
@@ -47,9 +47,12 @@ public class ConsentWorkflow {
         return scaResponse.getScaStatus();
     }
 
-    public void storeSCAResponse(SCAResponseTO consentResponse) {
+    public void storeSCAResponse(GlobalScaResponseTO consentResponse) {
         Optional.ofNullable(consentResponse)
             .ifPresent(r -> {
+                if (consentResponse.getBearerToken() == null) {
+                    consentResponse.setBearerToken(this.scaResponse.getBearerToken());
+                }
                 scaResponse = r;
                 authResponse.setAuthorisationId(r.getAuthorisationId());
                 authResponse.setScaStatus(r.getScaStatus());

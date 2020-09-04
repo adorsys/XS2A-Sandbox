@@ -3,11 +3,14 @@ package de.adorsys.ledgers.oba.service.impl.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
+import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCAConsentResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.middleware.client.rest.ConsentRestClient;
+import de.adorsys.ledgers.middleware.client.rest.RedirectScaRestClient;
 import de.adorsys.ledgers.oba.service.api.domain.CreatePiisConsentRequestTO;
 import de.adorsys.ledgers.oba.service.api.domain.ObaAisConsent;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
@@ -79,8 +82,10 @@ class ConsentServiceTest {
     private CmsAspspPiisClient cmsAspspPiisClient;
     @Mock
     private CreatePiisConsentRequestMapper createPiisConsentRequestMapper;
+    @Mock
+    private RedirectScaRestClient redirectScaRestClient;
 
-    private ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper();
 
     @Test
     void getListOfConsents() {
@@ -121,12 +126,11 @@ class ConsentServiceTest {
         when(securityDataService.decryptId(any())).thenReturn(Optional.of(CONSENT_ID));
         when(aspspDataService.readAspspConsentData(any())).thenReturn(Optional.of(getAspspConsentData()));
         when(objectMapper.readTree(any(byte[].class))).thenReturn(getJsonNode());
-        when(consentRestClient.authorizeConsent(any(), any(), any())).thenReturn(ResponseEntity.ok(getSCAConsentResponseTO()));
         when(cmsPsuAisClient.confirmConsent(any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok(true));
         when(cmsPsuAisClient.updateAuthorisationStatus(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok().build());
         when(consentDataClient.updateAspspConsentData(any(), any())).thenReturn(ResponseEntity.ok().build());
         when(objectMapper.writeValueAsBytes(any())).thenReturn(getByteArray());
-
+        when(redirectScaRestClient.validateScaCode(any(), any())).thenReturn(getGlobalResponse());
         // When
         consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN);
     }
@@ -137,7 +141,7 @@ class ConsentServiceTest {
         FieldSetter.setField(consentService, consentService.getClass().getDeclaredField("objectMapper"), mapper);
         when(securityDataService.decryptId(any())).thenReturn(Optional.of(CONSENT_ID));
         when(aspspDataService.readAspspConsentData(any())).thenReturn(Optional.of(getAspspConsentData()));
-        when(consentRestClient.authorizeConsent(any(), any(), any())).thenThrow(FeignException.errorStatus("method", getResponse()));
+        when(redirectScaRestClient.validateScaCode(any(), any())).thenThrow(FeignException.errorStatus("method", getResponse()));
 
         // Then
         assertThrows(ObaException.class, () -> {
@@ -203,7 +207,7 @@ class ConsentServiceTest {
         when(securityDataService.decryptId(any())).thenReturn(Optional.of(CONSENT_ID));
         when(aspspDataService.readAspspConsentData(any())).thenReturn(Optional.of(getAspspConsentData()));
         when(objectMapper.readTree(any(byte[].class))).thenReturn(getJsonNode());
-        when(consentRestClient.authorizeConsent(any(), any(), any())).thenReturn(ResponseEntity.ok(getSCAConsentResponseTO()));
+        when(redirectScaRestClient.validateScaCode(any(), any())).thenReturn(getGlobalResponse());
         when(cmsPsuAisClient.confirmConsent(any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok(true));
         when(cmsPsuAisClient.updateAuthorisationStatus(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok().build());
         when(consentDataClient.updateAspspConsentData(any(), any())).thenThrow(FeignException.class);
@@ -213,16 +217,24 @@ class ConsentServiceTest {
         assertThrows(ObaException.class, () -> consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN));
     }
 
+    private ResponseEntity<GlobalScaResponseTO> getGlobalResponse() {
+        GlobalScaResponseTO response = new GlobalScaResponseTO();
+        response.setAuthorisationId(AUTHORIZATION_ID);
+        response.setBearerToken(new BearerTokenTO(null, null, 0, null, new AccessTokenTO(), null));
+        response.setOpType(OpTypeTO.CONSENT);
+        return ResponseEntity.ok(response);
+    }
+
     @Test
     void confirmAisConsentDecoupled_failedEncode() throws IOException {
         // Given
         when(securityDataService.decryptId(any())).thenReturn(Optional.of(CONSENT_ID));
         when(aspspDataService.readAspspConsentData(any())).thenReturn(Optional.of(getAspspConsentData()));
         when(objectMapper.readTree(any(byte[].class))).thenReturn(getJsonNode());
-        when(consentRestClient.authorizeConsent(any(), any(), any())).thenReturn(ResponseEntity.ok(getSCAConsentResponseTO()));
         when(cmsPsuAisClient.confirmConsent(any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok(true));
         when(cmsPsuAisClient.updateAuthorisationStatus(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok().build());
         when(objectMapper.writeValueAsBytes(any())).thenThrow(JsonProcessingException.class);
+        when(redirectScaRestClient.validateScaCode(any(), any())).thenReturn(getGlobalResponse());
 
         // Then
         assertThrows(ObaException.class, () -> consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN));
@@ -234,7 +246,7 @@ class ConsentServiceTest {
         when(securityDataService.decryptId(any())).thenReturn(Optional.of(CONSENT_ID));
         when(aspspDataService.readAspspConsentData(any())).thenReturn(Optional.of(getAspspConsentData()));
         when(objectMapper.readTree(any(byte[].class))).thenReturn(getJsonNode());
-        when(consentRestClient.authorizeConsent(any(), any(), any())).thenReturn(ResponseEntity.ok(getSCAConsentResponseTO()));
+        when(redirectScaRestClient.validateScaCode(any(), any())).thenReturn(getGlobalResponse());
         when(cmsPsuAisClient.confirmConsent(any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok(true));
         when(cmsPsuAisClient.updateAuthorisationStatus(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenThrow(FeignException.class);
 
@@ -248,7 +260,7 @@ class ConsentServiceTest {
         when(securityDataService.decryptId(any())).thenReturn(Optional.of(CONSENT_ID));
         when(aspspDataService.readAspspConsentData(any())).thenReturn(Optional.of(getAspspConsentData()));
         when(objectMapper.readTree(any(byte[].class))).thenReturn(getJsonNode());
-        when(consentRestClient.authorizeConsent(any(), any(), any())).thenReturn(ResponseEntity.ok(getSCAConsentResponseTO()));
+        when(redirectScaRestClient.validateScaCode(any(), any())).thenReturn(getGlobalResponse());
         when(cmsPsuAisClient.confirmConsent(any(), any(), any(), any(), any(), any())).thenThrow(FeignException.class);
 
         // Then
@@ -282,7 +294,7 @@ class ConsentServiceTest {
 
         // Then
         assertThrows(ObaException.class, () -> consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN));
-    }
+    } //TODO FIX ME!!!
 
     private SCAConsentResponseTO getSCAConsentResponseTO() {
         SCAConsentResponseTO response = new SCAConsentResponseTO();
@@ -313,7 +325,7 @@ class ConsentServiceTest {
 
     private byte[] getTokenBytes() throws JsonProcessingException {
         SCAConsentResponseTO response = new SCAConsentResponseTO();
-        response.setBearerToken(new BearerTokenTO("eyJraWQiOiJBV3MtRk1o1V4M", "Bearer", 7000, null, new AccessTokenTO()));
+        response.setBearerToken(new BearerTokenTO("eyJraWQiOiJBV3MtRk1o1V4M", "Bearer", 7000, null, new AccessTokenTO(), new HashSet<>()));
         return mapper.writeValueAsBytes(response);
     }
 

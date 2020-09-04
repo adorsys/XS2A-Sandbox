@@ -36,6 +36,12 @@
         </dependency>
 
         <dependency>
+            <groupId>de.adorsys.ledgers</groupId>
+            <artifactId>keycloak-client</artifactId>
+            <version>3.11-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
             <groupId>de.adorsys.psd2.sandbox</groupId>
             <artifactId>consent-psu-rest-client</artifactId>
             <version>${project.version}</version>
