@@ -32,7 +32,6 @@
             <password>${env.NEXUS_LOCAL_PASSWORD}</password>
         </server>
     </servers>
-    </servers>
     <profiles>
         <profile>
             <id>sonatype</id>
