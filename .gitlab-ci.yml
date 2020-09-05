@@ -61,7 +61,6 @@ variables:
 
   OPENSHIFT_NAMESPACE_DEV_E2E: "adorsys-dynamic-sandbox-dev-e2e"
 
-  OPENSHIFT_NAMESPACE_MODELBANK_KEYCLOAK_DEV: adorsys-modelbank-keycloak-dev
 
   ###########################
   # Build variables         #
@@ -518,19 +517,6 @@ deploy_openshift_bekb_sandbox_dev:
     DOCKER_TAG: develop # Dockerhub source tag
     OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_BEKB_SANDBOX_DEV} # Openshift target namespace
   <<: *deploy_dxc_openshift
-
-deploy_openshift_modelbank_keycloak_dev:
-  stage: "Deploy"
-  except:
-    - schedules
-  cache: {}
-  dependencies: []
-  only:
-    - develop
-  variables:
-    DOCKER_TAG: develop # Dockerhub source tag
-    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_MODELBANK_KEYCLOAK_DEV} # Openshift target namespace
-  <<: *deploy_openshift
 
 deploy_openshift_e2e_testing:
   stage: "Deploy"
