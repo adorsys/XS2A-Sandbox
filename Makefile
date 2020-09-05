@@ -83,7 +83,7 @@ lint-docker-compose:
 	yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" bank-profile/*.yml
 
 lint-pmd-cpd-report:
-	mvn -ntp -Dmaven.test.skip=true package pmd:pmd pmd:cpd
+	mvn -ntp --settings scripts/mvn-release-settings.xml -Dmaven.test.skip=true package pmd:pmd pmd:cpd
 ## Run section ##
 run:  ## Run services from Docker Hub without building:
 	docker-compose pull && docker-compose up
@@ -96,7 +96,7 @@ all: lint-all build-ui-services build-java-services unit-tests-all-frontend unit
 
 ## Build section ##
 build-java-services: ## Build java services
-	mvn -DskipTests clean package -Dci.build.number=Build\:${CI_PIPELINE_ID}
+	mvn -ntp --settings scripts/mvn-release-settings.xml -DskipTests clean package -Dci.build.number=Build\:${CI_PIPELINE_ID}
 
 build-ui-services: npm-install-tpp-ui npm-install-oba-ui npm-install-developer-portal-ui ## Build ui services
 
@@ -120,7 +120,7 @@ unit-tests-developer-portal-ui:
 	cd developer-portal-ui && npm ci && npm install && npm run test-ci
 
 unit-tests-backend:
-	mvn -ntp -DskipITs --fail-at-end clean install
+	mvn -ntp --settings scripts/mvn-release-settings.xml -DskipITs --fail-at-end clean install
 
 ## Build arc42
 build-arc-42: arc42/images/generated $(ARC42_SRC) docs/arc42/xs2a-sandbox-arc42.adoc developer-portal-ui/package.json ## Generate arc42 html documentation

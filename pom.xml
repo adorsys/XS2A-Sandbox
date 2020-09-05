@@ -152,7 +152,16 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
-
+		<repository>
+			<id>snapshots-nexus-ledgers</id>
+			<url>https://dxc-nexus.cloud.adorsys.de/repository/ledgers-keycloak-snapshot</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
     </repositories>
 
     <dependencyManagement>
