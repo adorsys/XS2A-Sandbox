@@ -5,6 +5,7 @@ import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.psd2.consent.api.ais.CmsAisConsentResponse;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Optional;
 
@@ -54,7 +55,7 @@ public class ConsentWorkflow {
                     consentResponse.setBearerToken(this.scaResponse.getBearerToken());
                 }
                 scaResponse = r;
-                authResponse.setAuthorisationId(r.getAuthorisationId());
+                authResponse.setAuthorisationId(StringUtils.isBlank(r.getAuthorisationId()) ? authId() : r.getAuthorisationId());
                 authResponse.setScaStatus(r.getScaStatus());
                 authResponse.setScaMethods(r.getScaMethods());
                 authResponse.setAuthConfirmationCode(r.getAuthConfirmationCode());

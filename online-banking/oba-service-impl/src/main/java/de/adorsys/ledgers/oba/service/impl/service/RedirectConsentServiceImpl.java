@@ -64,7 +64,7 @@ public class RedirectConsentServiceImpl implements RedirectConsentService {
             authInterceptor.setAccessToken(workflow.bearerToken().getAccess_token());
             StartScaOprTO opr = new StartScaOprTO();
             opr.setAuthorisationId(workflow.authId());
-            opr.setOpType(OpTypeTO.PAYMENT);
+            opr.setOpType(OpTypeTO.CONSENT);
             opr.setOprId(workflow.consentId());
             GlobalScaResponseTO response = redirectScaClient.startSca(opr).getBody();
             response = redirectScaClient.selectMethod(response.getAuthorisationId(), scaMethodId).getBody();
