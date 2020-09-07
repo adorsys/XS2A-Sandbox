@@ -35,7 +35,6 @@ public class WebSecurityConfig {
     @Configuration
     @RequiredArgsConstructor
     public static class ObaSecurityConfig extends WebSecurityConfigurerAdapter {
-        private final UserMgmtRestClient userMgmtRestClient;
         private final AuthRequestInterceptor authInterceptor;
         private final KeycloakTokenService tokenService;
 

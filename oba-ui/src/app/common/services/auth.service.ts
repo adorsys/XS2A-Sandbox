@@ -73,8 +73,7 @@ export class AuthService {
   }
 
   getAuthorizedUser(): string {
-    return this.jwtHelperService.decodeToken(this.getAuthorizationToken())
-      .login;
+    return this.jwtHelperService.decodeToken(this.getAuthorizationToken()).name;
   }
 
   getAuthorizationToken(): string {
