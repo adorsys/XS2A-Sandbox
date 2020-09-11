@@ -50,17 +50,14 @@ export class UserDetailsComponent implements OnInit {
       .subscribe((user: User) => (this.user = user));
   }
 
-  handleClickOnIBAN(event) {
-    let iban = event.target.innerHTML.trim();
+  handleClickOnIBAN(data: string) {
     this.pageNavigationService.setLastVisitedPage(
       `${this.currentPage}${this.userId}`
     );
     this.pageNavigationService.setLastVisitedPage(
       `${this.currentPage}${this.userId}`
     );
-    this.accService
-      .getAccountByIban(iban)
-      .subscribe((account) => this.router.navigate(['/accounts/', account.id]));
+    this.router.navigate(['/accounts/', data]);
   }
 
   confirmEmail(email: string) {

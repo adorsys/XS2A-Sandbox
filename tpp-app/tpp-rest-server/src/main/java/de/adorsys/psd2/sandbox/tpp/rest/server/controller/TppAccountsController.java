@@ -55,11 +55,6 @@ public class TppAccountsController implements TppAccountsRestApi {
     }
 
     @Override
-    public ResponseEntity<AccountDetailsTO> getAccountDetailsByIban(String iban) {
-        return accountRestClient.getAccountDetailsByIban(iban);
-    }
-
-    @Override
     public ResponseEntity<AccountDetailsTO> getSingleAccount(String accountId) {
         return accountMgmtStaffRestClient.getAccountDetailsById(accountId);
     }

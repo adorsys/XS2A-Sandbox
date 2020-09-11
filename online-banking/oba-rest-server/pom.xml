@@ -27,12 +27,6 @@
             <groupId>de.adorsys.ledgers</groupId>
             <artifactId>ledgers-middleware-rest-client</artifactId>
             <version>${ledgers.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springdoc</groupId>
-                    <artifactId>springdoc-openapi-ui</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
@@ -44,13 +38,7 @@
         <dependency>
             <groupId>de.adorsys.ledgers</groupId>
             <artifactId>keycloak-client</artifactId>
-            <version>3.11-SNAPSHOT</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springdoc</groupId>
-                    <artifactId>springdoc-openapi-ui</artifactId>
-                </exclusion>
-            </exclusions>
+            <version>${ledgers.version}</version>
         </dependency>
 
         <dependency>

@@ -2,6 +2,7 @@ package de.adorsys.psd2.sandbox.tpp.rest.server.auth;
 
 import de.adorsys.ledgers.keycloak.client.api.KeycloakTokenService;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
+import de.adorsys.ledgers.middleware.api.domain.um.UserRoleTO;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -13,6 +14,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.EnumSet;
 
 import static de.adorsys.psd2.sandbox.tpp.rest.server.auth.SecurityConstant.*;
 
@@ -37,7 +39,10 @@ public class LoginAuthenticationFilter extends AbstractAuthFilter {
             try {
                 BearerTokenTO bearerTokenTO = tokenService.login(login, pin);
                 bearerTokenTO = tokenService.validate(bearerTokenTO.getAccess_token());
-
+                if (!EnumSet.of(UserRoleTO.SYSTEM, UserRoleTO.STAFF).contains(bearerTokenTO.getAccessTokenObject().getRole())) {
+                    handleAuthenticationFailure(response, new IllegalAccessException(String.format("User %s is missing required Role to login", login)));
+                    return;
+                }
                 fillSecurityContext(bearerTokenTO);
                 addBearerTokenHeader(bearerTokenTO.getAccess_token(), response);
             } catch (FeignException | RestException e) {

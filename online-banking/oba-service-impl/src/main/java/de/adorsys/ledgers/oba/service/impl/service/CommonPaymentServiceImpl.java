@@ -162,10 +162,7 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
     private void selectMethodAndUpdateWorkflow(String scaMethodId, final PaymentWorkflow workflow) {
         try {
             authInterceptor.setAccessToken(workflow.bearerToken().getAccess_token());
-            StartScaOprTO opr = new StartScaOprTO();
-            opr.setAuthorisationId(workflow.authId());
-            opr.setOpType(OpTypeTO.PAYMENT);
-            opr.setOprId(workflow.paymentId());
+            StartScaOprTO opr = new StartScaOprTO(workflow.paymentId(), workflow.authId(), OpTypeTO.PAYMENT);
 
             GlobalScaResponseTO response = redirectScaClient.startSca(opr).getBody();
             response = redirectScaClient.selectMethod(response.getAuthorisationId(), scaMethodId).getBody();

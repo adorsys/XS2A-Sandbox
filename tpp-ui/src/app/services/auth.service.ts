@@ -87,9 +87,7 @@ export class AuthService {
 
   private setUsersAccessRights(loginResponse): void {
     let admin = false;
-    console.log(loginResponse['realm_access']['roles']);
     if (loginResponse['realm_access']['roles'].includes('SYSTEM')) {
-      //loginResponse['role'] === 'SYSTEM') {
       admin = true;
     }
     localStorage.setItem(ADMIN_KEY, admin ? 'true' : 'false');

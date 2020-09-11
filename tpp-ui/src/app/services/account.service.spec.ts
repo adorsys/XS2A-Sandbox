@@ -77,20 +77,6 @@ describe('AccountService', () => {
     });
   });
 
-  it('should get the accountReport by Iban', () => {
-    accountService
-      .getAccountByIban('DE12 1234 5678 9012 3456 00')
-      .subscribe((data: any) => {
-        expect(data).toBe('DE12 1234 5678 9012 3456 00');
-      });
-    const req = httpMock.expectOne(
-      url + '/accounts/details?iban=' + 'DE12 1234 5678 9012 3456 00'
-    );
-    expect(req.request.method).toBe('GET');
-    req.flush('DE12 1234 5678 9012 3456 00');
-    httpMock.verify();
-  });
-
   it('should get the accountReport by id', () => {
     accountService.getAccountReport('accountId').subscribe((data: any) => {
       expect(data).toBe('accountId');
