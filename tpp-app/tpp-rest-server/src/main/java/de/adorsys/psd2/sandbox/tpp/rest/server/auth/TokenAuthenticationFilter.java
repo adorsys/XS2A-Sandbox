@@ -29,6 +29,7 @@ public class TokenAuthenticationFilter extends AbstractAuthFilter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
+        authInterceptor.setAccessToken(null);
         String bearerToken = resolveBearerToken(request);
 
         if (StringUtils.isBlank(bearerToken)) {
