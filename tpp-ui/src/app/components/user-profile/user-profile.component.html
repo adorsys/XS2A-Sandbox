@@ -3,7 +3,8 @@
     <div class="card-body--large">
       <div class="header__title">
         <span class="profile-icon"> &nbsp; &nbsp; &nbsp;</span>
-        {{ tppUser?.login === 'admin' ? 'Admin' : 'TPP' }} User Details
+        {{ tppUser?.userRoles.includes('SYSTEM') ? 'Admin' : 'TPP' }} User
+        Details
       </div>
       <div class="row">
         <div class="col-4 col-md-3">Login</div>
