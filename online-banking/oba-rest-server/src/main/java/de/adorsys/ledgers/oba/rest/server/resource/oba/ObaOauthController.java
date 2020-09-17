@@ -33,7 +33,7 @@ public class ObaOauthController implements ObaOauthApi {
 
     @Override
     public ResponseEntity<BearerTokenTO> oauthToken(String code) {
-        return oauthRestClient.oauthToken(GrantTypeTO.AUTHORISATION_CODE, code);
+        return oauthRestClient.oauthToken(code);
     }
 
     @Override
