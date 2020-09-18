@@ -2,6 +2,7 @@ package de.adorsys.ledgers.oba.rest.server.auth;
 
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
+import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.oba.service.api.domain.UserAuthentication;
 import de.adorsys.ledgers.oba.service.api.service.TokenAuthenticationService;
 import lombok.RequiredArgsConstructor;
@@ -32,17 +33,18 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     private static final String ACCESS_TOKEN_COOKIE = "ACCESS_TOKEN";
 
     private final TokenAuthenticationService tokenAuthenticationService;
+    private final AuthRequestInterceptor authInterceptor;
 
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if (log.isTraceEnabled()) {
             log.trace("doFilter start");
         }
-
+        authInterceptor.setAccessToken(null);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
             UserAuthentication userAuthentication = tokenAuthenticationService.getAuthentication(readAccessTokenCookie(request));
-            if(userAuthentication != null) {
+            if (userAuthentication != null) {
                 BearerTokenTO bearerToken = userAuthentication.getBearerToken();
                 AccessTokenTO token = bearerToken.getAccessTokenObject();
                 SecurityContextHolder.getContext().setAuthentication(new ObaMiddlewareAuthentication(token.getSub(), bearerToken, buildAuthorities(token)));
@@ -65,7 +67,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     private String readAccessTokenCookie(HttpServletRequest request) {
         Cookie cookie = WebUtils.getCookie(request, ACCESS_TOKEN_COOKIE);
         return cookie != null ? cookie.getValue()
-                           : null;
+                   : null;
     }
 
     private List<GrantedAuthority> buildAuthorities(AccessTokenTO token) {

@@ -3,7 +3,6 @@ package de.adorsys.ledgers.oba.rest.server.config.security;
 import de.adorsys.ledgers.keycloak.client.api.KeycloakTokenService;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
-import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.ledgers.oba.rest.server.auth.JWTAuthenticationFilter;
 import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
 import de.adorsys.ledgers.oba.rest.server.auth.oba.LoginAuthenticationFilter;
@@ -63,6 +62,7 @@ public class WebSecurityConfig {
     @RequiredArgsConstructor
     public static class ObaScaSecurityConfig extends WebSecurityConfigurerAdapter {
         private final TokenAuthenticationService tokenAuthenticationService;
+        private final AuthRequestInterceptor authInterceptor;
 
         @Override
         protected void configure(HttpSecurity http) throws Exception {
@@ -84,7 +84,7 @@ public class WebSecurityConfig {
             http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
             http.headers().frameOptions().disable();
 
-            http.addFilterBefore(new JWTAuthenticationFilter(tokenAuthenticationService), BasicAuthenticationFilter.class);
+            http.addFilterBefore(new JWTAuthenticationFilter(tokenAuthenticationService, authInterceptor), BasicAuthenticationFilter.class);
         }
     }
 
