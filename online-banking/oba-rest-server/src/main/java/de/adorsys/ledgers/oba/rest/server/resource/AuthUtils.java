@@ -1,13 +1,11 @@
 package de.adorsys.ledgers.oba.rest.server.resource;
 
 import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
-import de.adorsys.ledgers.middleware.api.domain.sca.SCALoginResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
 import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -16,13 +14,6 @@ import static de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode.
 public class AuthUtils {
 
     private AuthUtils() {
-    }
-
-    public static boolean success(ResponseEntity<SCALoginResponseTO> authoriseForConsent) {
-        // Success if there is a bearer token.
-        return authoriseForConsent != null
-                   && authoriseForConsent.getBody() != null
-                   && authoriseForConsent.getBody().getBearerToken() != null;
     }
 
     public static String psuId(ObaMiddlewareAuthentication auth) {

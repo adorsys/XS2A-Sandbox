@@ -23,7 +23,7 @@ public class TokenAuthenticationFilter extends AbstractAuthFilter {
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String bearerToken = resolveBearerToken(request);
-
+        authInterceptor.setAccessToken(null);
         if (StringUtils.isBlank(bearerToken)) {
             filterChain.doFilter(request, response);
             return;
