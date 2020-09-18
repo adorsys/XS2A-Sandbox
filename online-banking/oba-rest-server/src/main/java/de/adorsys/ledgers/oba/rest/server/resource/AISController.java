@@ -92,7 +92,9 @@ public class AISController implements AISApi {
         // Authorize
         GlobalScaResponseTO ledgersResponse = null;
         try {
-            ledgersResponse = authenticationService.login(login, pin, authorisationId);
+            ledgersResponse = consentCookieString.contains("ACCESS_TOKEN") //TODO Think of moving this to FE
+                                  ? authenticationService.loginWithCookie(consentCookieString)
+                                  : authenticationService.login(login, pin, authorisationId);
             workflow.storeSCAResponse(ledgersResponse);
             AuthUtils.checkIfUserInitiatedOperation(ledgersResponse, workflow.getConsentResponse().getAccountConsent().getPsuIdDataList());
         } catch (FeignException e) {

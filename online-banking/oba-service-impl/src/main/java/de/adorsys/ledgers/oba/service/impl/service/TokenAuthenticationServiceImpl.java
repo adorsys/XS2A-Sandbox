@@ -14,8 +14,9 @@ import de.adorsys.ledgers.oba.service.api.service.TokenAuthenticationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
 
 @Slf4j
 @Service
@@ -34,15 +35,15 @@ public class TokenAuthenticationServiceImpl implements TokenAuthenticationServic
         BearerTokenTO bearerToken = tokenService.validate(accessToken);
 
         if (bearerToken == null) {
-            debug("Token is not valid.");
+            debug();
             return null;
         }
         return new UserAuthentication(bearerToken);
     }
 
-    private void debug(String s) {
+    private void debug() {
         if (log.isDebugEnabled()) {
-            log.debug(s);
+            log.debug("Token is not valid.");
         }
     }
 
@@ -67,29 +68,45 @@ public class TokenAuthenticationServiceImpl implements TokenAuthenticationServic
                       .obaErrorCode(ObaErrorCode.LOGIN_FAILED)
                       .build();
         }
-        return getScaResponseTO(login, pin);
-    }
-
-    @NotNull
-    private GlobalScaResponseTO getScaResponseTO(String login, String pin) {
         try {
             BearerTokenTO token = tokenService.login(login, pin);
-            token = tokenService.validate(token.getAccess_token());
-            authInterceptor.setAccessToken(token.getAccess_token());
-            UserTO user = ledgersUserMgmt.getUser().getBody();
-            GlobalScaResponseTO response = new GlobalScaResponseTO();
-            response.setBearerToken(token);
-            response.setScaMethods(user.getScaUserData());
-            response.setScaStatus(ScaStatusTO.PSUIDENTIFIED);
-            authInterceptor.setAccessToken(null);
-            return response;
+            return getScaResponseTO(token.getAccess_token());
         } catch (Exception e) {
-            log.error(e.getMessage());
-            authInterceptor.setAccessToken(null);
-            throw ObaException.builder()
-                      .devMessage(e.getMessage())
-                      .obaErrorCode(ObaErrorCode.LOGIN_FAILED)
-                      .build();
+            throw throwException(e);
         }
+    }
+
+    @Override
+    public GlobalScaResponseTO loginWithCookie(String tokenCookie) {
+        try {
+            String token = Arrays.stream(tokenCookie.split(";"))
+                               .filter(s -> s.contains("ACCESS_TOKEN=")).findFirst()
+                               .map(s -> s.replace("ACCESS_TOKEN=", ""))
+                               .orElse("");
+            return getScaResponseTO(token);
+        } catch (Exception e) {
+            throw throwException(e);
+        }
+    }
+
+    private GlobalScaResponseTO getScaResponseTO(String tokenString) {
+        BearerTokenTO token = tokenService.validate(tokenString);
+        authInterceptor.setAccessToken(token.getAccess_token());
+        UserTO user = ledgersUserMgmt.getUser().getBody();
+        GlobalScaResponseTO response = new GlobalScaResponseTO();
+        response.setBearerToken(token);
+        response.setScaMethods(user.getScaUserData());
+        response.setScaStatus(ScaStatusTO.PSUIDENTIFIED);
+        authInterceptor.setAccessToken(null);
+        return response;
+    }
+
+    private ObaException throwException(Exception e) {
+        log.error(e.getMessage());
+        authInterceptor.setAccessToken(null);
+        return ObaException.builder()
+                   .devMessage(e.getMessage())
+                   .obaErrorCode(ObaErrorCode.LOGIN_FAILED)
+                   .build();
     }
 }
