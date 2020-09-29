@@ -63,7 +63,7 @@
 
                  </div>
                   <button class="btn btn-primary btn-block mb-3" type="submit" [disabled]="loginForm.invalid">Login</button>
-                  <div class="text-center text-light-grey" *ngIf="!customizeService.isCustom()">
+                  <div class="text-center text-light-grey" *ngIf="customizeService.showRegister()">
                       <a routerLink="/register">Create new account</a>
                   </div>
               </div>

@@ -18,7 +18,7 @@ export class CustomizeService {
   };
   private USER_THEME: Theme = {
     globalSettings: {
-      logo: ''
+      logo: '',
     }
   };
 
@@ -58,6 +58,10 @@ export class CustomizeService {
 
   isCustom() {
     return this.IS_CUSTOM;
+  }
+
+  showRegister() {
+    return this.USER_THEME.globalSettings.showRegister;
   }
 
   getTheme(type?: string): Theme {
@@ -196,6 +200,7 @@ export interface GlobalSettings {
   title?: string;
   favicon?: Favicon;
   cssVariables?: CSSVariables;
+  showRegister?: boolean;
 }
 
 export interface Favicon {
