@@ -12,7 +12,7 @@ volumes:
 services:
   # Xs2a connector embedded xs2a-connector,cms,aspsp-profile
   xs2a-connector-embedded:
-    image: adorsys/xs2a-connector-embedded:7.6
+    image: adorsys/xs2a-connector-embedded:8.0
     container_name: xs2a-connector-embedded
     restart: on-failure
     ports:
@@ -90,7 +90,7 @@ services:
 
   # Ledgers
   ledgers:
-    image: adorsys/ledgers:3.9
+    image: adorsys/ledgers:3.10
     container_name: ledgers
     restart: on-failure
     networks:
