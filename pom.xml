@@ -96,8 +96,8 @@
         <java.version>11</java.version>
         <pmd.plugin.version>3.13.0</pmd.plugin.version>
         <!-- xs2a version -->
-        <xs2a.version>7.7</xs2a.version>
-        <connector.version>7.7</connector.version>
+        <xs2a.version>8.0</xs2a.version>
+        <connector.version>8.0</connector.version>
         <ledgers.version>3.10</ledgers.version>
         <!-- other properties -->
         <spring-boot-dependencies.version>2.2.4.RELEASE</spring-boot-dependencies.version>
@@ -514,7 +514,7 @@
                                         <arg>--pinentry-mode</arg>
                                         <arg>loopback</arg>
                                     </gpgArguments>
-                                </configuration> 
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
