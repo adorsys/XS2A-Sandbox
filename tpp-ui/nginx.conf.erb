@@ -13,11 +13,13 @@ server {
   }
 
   location /health {
+        access_log off;
         default_type application/json;
         return 200 '{"status":"UP"}';
   }
 
   location /info {
+        access_log off;
         default_type application/json;
         alias /usr/share/nginx/html/info.json;
   }
