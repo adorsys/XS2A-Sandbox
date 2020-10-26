@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { AuthService } from '../../common/services/auth.service';
 import { CustomizeService } from '../../common/services/customize.service';
+import {InfoService} from "../../common/info/info.service";
 
 @Component({
     selector: 'app-reset-password',
@@ -19,12 +20,13 @@ export class ResetPasswordComponent implements OnInit {
       public customizeService: CustomizeService,
       private authService: AuthService,
       private formBuilder: FormBuilder,
-      private router: Router) {
+      private router: Router,
+      private infoService: InfoService,
+      ) {
     }
 
     ngOnInit() {
         this.resetPasswordForm = this.formBuilder.group({
-            email: ['', [Validators.required, Validators.pattern(new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)),]],
             login: ['', Validators.required],
         });
     }
@@ -36,7 +38,11 @@ export class ResetPasswordComponent implements OnInit {
             return;
         }
 
-        this.authService.requestCodeToResetPassword(this.resetPasswordForm.value)
-            .subscribe(() => this.router.navigate(['/confirm-password']));
+      this.authService.resetPasswordViaEmail(this.resetPasswordForm.value.login).subscribe(() => {
+        this.infoService.openFeedback('Link for password reset was sent, check email.', {
+          severity: 'info',
+        });
+        this.router.navigate(['/logout']);
+      });
     }
 }

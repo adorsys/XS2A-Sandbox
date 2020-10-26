@@ -50,7 +50,8 @@ export class UserProfileComponent implements OnInit {
     private modalService: NgbModal,
     private modal: BsModalService,
     private ledgersService: ResetLedgersService,
-    private store: Store
+    private store: Store,
+    private tppUserService: TppUserService
   ) {}
 
   ngOnInit(): void {
@@ -182,5 +183,13 @@ export class UserProfileComponent implements OnInit {
     };
     this.bsModalRef = this.modal.show(ModalComponent, { initialState });
     this.bsModalRef.content.closeBtnName = 'Cancel';
+  }
+
+  resetPasswordViaEmail(login: string) {
+    this.tppUserService.resetPasswordViaEmail(login).subscribe(() => {
+      this.infoService.openFeedback('Link for password reset was sent, check email.', {
+        severity: 'info',
+      });
+    });
   }
 }

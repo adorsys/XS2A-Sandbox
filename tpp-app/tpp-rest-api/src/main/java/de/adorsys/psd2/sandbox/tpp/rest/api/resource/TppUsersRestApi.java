@@ -50,4 +50,8 @@ public interface TppUsersRestApi {
         authorizations = @Authorization(value = "apiKey"))
     @PostMapping("/status")
     ResponseEntity<Boolean> changeStatus(@RequestParam(value = USER_ID) String userId);
+
+    @ApiOperation(value = "Send link to update password")
+    @PostMapping(value = "/reset/password/{login}")
+    ResponseEntity<Void> resetPasswordViaEmail(@PathVariable("login") String login);
 }

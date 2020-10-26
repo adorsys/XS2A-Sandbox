@@ -74,31 +74,11 @@
           </div>
         </div>
         <div class="row">
-          <label class="col-12 col-md-3" for="pin">New PIN</label>
-          <div class="col-12 col-md-10">
-            <input
-              [ngClass]="{
-                'is-invalid':
-                  (formControl['pin'].touched || submitted) &&
-                  formControl['pin'].errors
-              }"
-              autocomplete="off"
-              class="form-control"
-              id="pin"
-              placeholder="Enter new Password"
-              type="password"
-              formControlName="pin"
-            />
-            <div
-              *ngIf="
-                (formControl['pin'].touched || submitted) &&
-                formControl['pin'].hasError('minlength')
-              "
-              class="invalid-feedback"
-            >
-              PIN must contain at least 5 characters
-            </div>
-          </div>
+          <button class="btn btn-general mr-4 ml-3"
+                  (click)=resetPasswordViaEmail(obaUser.login)
+                  type="button">
+            Send password update link
+          </button>
         </div>
         <div class="row">
           <button class="btn btn-general mr-4 ml-3" type="submit">

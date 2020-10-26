@@ -1,22 +1,17 @@
 /* tslint:disable */
-import { Injectable } from '@angular/core';
-import {
-  HttpClient,
-  HttpRequest,
-  HttpResponse,
-  HttpHeaders,
-} from '@angular/common/http';
-import { BaseService as __BaseService } from '../base-service';
-import { ApiConfiguration as __Configuration } from '../api-configuration';
-import { StrictHttpResponse as __StrictHttpResponse } from '../strict-http-response';
-import { Observable as __Observable } from 'rxjs';
-import { map as __map, filter as __filter } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders, HttpRequest, HttpResponse,} from '@angular/common/http';
+import {BaseService as __BaseService} from '../base-service';
+import {ApiConfiguration as __Configuration} from '../api-configuration';
+import {StrictHttpResponse as __StrictHttpResponse} from '../strict-http-response';
+import {Observable, Observable as __Observable} from 'rxjs';
+import {filter as __filter, map as __map} from 'rxjs/operators';
 
-import { SendCode } from '../models/send-code';
-import { ResetPassword } from '../models/reset-password';
-import { UpdatePassword } from '../models/update-password';
-import { UserTO } from '../models/user-to';
-import { UpdatedUserDetails } from '../models/updated-user-details';
+import {SendCode} from '../models/send-code';
+import {ResetPassword} from '../models/reset-password';
+import {UpdatePassword} from '../models/update-password';
+import {UserTO} from '../models/user-to';
+import {UpdatedUserDetails} from '../models/updated-user-details';
 
 /**
  * Oba Authorization Api Controller
@@ -187,6 +182,10 @@ class OnlineBankingAuthorizationProvidesAccessToOnlineBankingService extends __B
     return this.updateUserDetailsUsingPUTResponse(User).pipe(
       __map((_r) => _r.body as UpdatedUserDetails)
     );
+  }
+
+  public resetPasswordViaEmail(login: string): Observable<any> {
+    return this.http.post(this.rootUrl + '/api/v1/users/reset/password/' + login, null);
   }
 }
 

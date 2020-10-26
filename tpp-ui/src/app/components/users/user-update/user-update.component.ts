@@ -8,6 +8,7 @@ import { ScaMethods } from '../../../models/scaMethods';
 import { TppUserService } from '../../../services/tpp.user.service';
 import { TppManagementService } from '../../../services/tpp-management.service';
 import {ADMIN_KEY} from "../../../commons/constant/constant";
+import {InfoService} from "../../../commons/info/info.service";
 
 @Component({
   selector: 'app-user-update',
@@ -31,7 +32,8 @@ export class UserUpdateComponent implements OnInit {
     private tppUserService: TppUserService,
     private tppManagementService: TppManagementService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private infoService: InfoService
   ) {
     this.user = new User();
   }
@@ -67,8 +69,7 @@ export class UserUpdateComponent implements OnInit {
     this.updateUserForm = this.formBuilder.group({
       scaUserData: this.formBuilder.array([]),
       email: ['', [Validators.required, Validators.email]],
-      login: ['', Validators.required],
-      pin: ['', [Validators.required, Validators.minLength(5)]],
+      login: ['', Validators.required]
     });
   }
 
@@ -86,7 +87,6 @@ export class UserUpdateComponent implements OnInit {
       ...this.user,
       email: this.updateUserForm.get('email').value,
       login: this.updateUserForm.get('login').value,
-      pin: this.updateUserForm.get('pin').value,
       scaUserData: this.updateUserForm.get('scaUserData').value,
     };
 
@@ -165,7 +165,6 @@ export class UserUpdateComponent implements OnInit {
       this.user = item;
       this.updateUserForm.patchValue({
         email: this.user.email,
-        pin: this.user.pin,
         login: this.user.login,
       });
       const scaUserData = <FormArray>this.updateUserForm.get('scaUserData');
@@ -194,5 +193,13 @@ export class UserUpdateComponent implements OnInit {
 
   onCancel() {
     this.router.navigate(['/users/all']);
+  }
+
+  resetPasswordViaEmail(login: string) {
+    this.tppUserService.resetPasswordViaEmail(login).subscribe(() => {
+      this.infoService.openFeedback('Link for password reset was sent, check email.', {
+        severity: 'info',
+      });
+    });
   }
 }

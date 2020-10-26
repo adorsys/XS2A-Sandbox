@@ -1,9 +1,6 @@
 package de.adorsys.ledgers.oba.rest.api.resource.oba;
 
 import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
-import de.adorsys.ledgers.security.ResetPassword;
-import de.adorsys.ledgers.security.SendCode;
-import de.adorsys.ledgers.security.UpdatePassword;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
@@ -26,15 +23,12 @@ public interface ObaAuthorizationApi {
     @GetMapping("/me")
     ResponseEntity<UserTO> getSelf();
 
+    @ApiOperation(value = "Send link to update password", authorizations = @Authorization(value = "apiKey"))
+    @PostMapping("/users/reset/password/{login}")
+    ResponseEntity<Void> resetPasswordViaEmail(@PathVariable("login") String login);
+
     @ApiOperation(value = "Edit current user", authorizations = @Authorization(value = "apiKey"))
     @PutMapping("/me")
     ResponseEntity<Void> editSelf(@RequestBody UserTO user);
 
-    @PostMapping("/password")
-    @ApiOperation(value = "Send code for user password reset")
-    ResponseEntity<SendCode> sendCode(@RequestBody ResetPassword resetPassword);
-
-    @PutMapping("/password")
-    @ApiOperation(value = "Update user password")
-    ResponseEntity<UpdatePassword> updatePassword(@RequestBody ResetPassword resetPassword);
 }

@@ -29,7 +29,8 @@ export class UserProfileUpdateComponent implements OnInit {
     private route: ActivatedRoute,
     private tppManagementService: TppManagementService,
     private infoService: InfoService,
-    private router: Router
+    private router: Router,
+    private tppUserService: TppUserService
   ) {}
 
   ngOnInit() {
@@ -125,5 +126,13 @@ export class UserProfileUpdateComponent implements OnInit {
         }
       });
     }
+  }
+
+  resetPasswordViaEmail(login: string) {
+    this.tppUserService.resetPasswordViaEmail(login).subscribe(() => {
+      this.infoService.openFeedback('Link for password reset was sent, check email.', {
+        severity: 'info',
+      });
+    });
   }
 }

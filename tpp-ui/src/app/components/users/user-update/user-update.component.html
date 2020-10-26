@@ -86,41 +86,13 @@
                     Login is required
                   </div>
                 </div>
-                <div class="col-12 col-md-3">
-                  <label class="control-label" for="pin">PIN</label>
-                  <input
-                    [ngClass]="{
-                      'is-invalid':
-                        (formControl['pin'].touched || submitted) &&
-                        formControl['pin'].errors
-                    }"
-                    aria-describedby="pinHelp"
-                    autocomplete="new-password"
-                    class="form-control"
-                    formControlName="pin"
-                    id="pin"
-                    placeholder="Enter PIN"
-                    type="password"
-                  />
-                  <div
-                    *ngIf="
-                      (formControl['pin'].touched || submitted) &&
-                      formControl['pin'].hasError('required')
-                    "
-                    class="invalid-feedback"
-                  >
-                    PIN is required
-                  </div>
-                  <div
-                    *ngIf="
-                      (formControl['pin'].touched || submitted) &&
-                      formControl['pin'].hasError('minlength')
-                    "
-                    class="invalid-feedback"
-                  >
-                    PIN must contain at least 5 characters
-                  </div>
-                </div>
+              </div>
+              <div class="row">
+                <button class="btn btn-primary mr-4 ml-3"
+                        (click)=resetPasswordViaEmail(user.login)
+                        type="button">
+                  Send password update link
+                </button>
               </div>
             </div>
           </div>

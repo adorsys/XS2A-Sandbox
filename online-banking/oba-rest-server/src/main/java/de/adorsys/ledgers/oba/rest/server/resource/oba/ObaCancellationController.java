@@ -22,7 +22,6 @@ import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.EXEMPTED;
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.FINALISED;
 import static de.adorsys.psd2.xs2a.core.pis.TransactionStatus.CANC;
 import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuPisClient.DEFAULT_SERVICE_INSTANCE_ID;
-import static org.springframework.http.HttpStatus.*;
 
 @Slf4j
 @RestController
@@ -81,9 +80,9 @@ public class ObaCancellationController implements ObaCancellationApi {
     private HttpStatus resolveStatus(String paymentId, SCAPaymentResponseTO response) {
         if (EnumSet.of(EXEMPTED, FINALISED).contains(response.getScaStatus())) {
             return cmsPsuPisService.updatePaymentStatus(paymentId, CANC, DEFAULT_SERVICE_INSTANCE_ID)
-                       ? NO_CONTENT
-                       : BAD_REQUEST;
+                       ?HttpStatus.NO_CONTENT
+                       : HttpStatus.BAD_REQUEST;
         }
-        return OK;
+        return HttpStatus.OK;
     }
 }
