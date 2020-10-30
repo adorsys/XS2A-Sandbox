@@ -1,51 +1,54 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import {PaymentAuthorizeResponse} from '../../api/models/payment-authorize-response';
-import {SettingsService} from '../../common/services/settings.service';
-import {ShareDataService} from '../../common/services/share-data.service';
-import {PisService} from '../../common/services/pis.service';
+import { PaymentAuthorizeResponse } from '../../api/models/payment-authorize-response';
+import { SettingsService } from '../../common/services/settings.service';
+import { ShareDataService } from '../../common/services/share-data.service';
+import { PisService } from '../../common/services/pis.service';
 
 @Component({
   selector: 'app-result-page',
   templateUrl: './result-page.component.html',
-  styleUrls: ['./result-page.component.scss']
+  styleUrls: ['./result-page.component.scss'],
 })
 export class ResultPageComponent implements OnInit, OnDestroy {
-
   public authResponse: PaymentAuthorizeResponse;
   public scaStatus: string;
   public ref: string;
   public devPortalLink: string;
   public multilevelSca = false;
 
-  constructor(private router: Router,
-              private route: ActivatedRoute,
-              private settingService: SettingsService,
-              private pisService: PisService,
-              private shareService: ShareDataService) {
-  }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private settingService: SettingsService,
+    private pisService: PisService,
+    private shareService: ShareDataService
+  ) {}
 
   public ngOnInit(): void {
     // get dev portal link
-    this.devPortalLink = this.settingService.settings.devPortalUrl + '/test-cases/redirect-payment-initiation-post';
+    this.devPortalLink =
+      this.settingService.settings.devPortalUrl +
+      '/test-cases/redirect-payment-initiation-post';
 
     // Manual redirect is used because of the CORS error otherwise
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       let oauth2 = params.oauth2;
 
-      if (oauth2 === undefined || typeof oauth2 !== "boolean") {
+      if (oauth2 === undefined || oauth2 !== 'true') {
         oauth2 = false;
       }
 
-      this.ref = `/oba-proxy/pis/${params.encryptedConsentId}/authorisation/${params.authorisationId}` +
+      this.ref =
+        `/oba-proxy/pis/${params.encryptedConsentId}/authorisation/${params.authorisationId}` +
         `/done?oauth2=${oauth2}`;
     });
 
     // get consent data from shared service
-    this.shareService.currentData.subscribe(data => {
+    this.shareService.currentData.subscribe((data) => {
       if (data) {
-        this.shareService.currentData.subscribe(authResponse => {
+        this.shareService.currentData.subscribe((authResponse) => {
           this.authResponse = authResponse;
           this.scaStatus = this.authResponse.scaStatus;
           const payment = this.authResponse.payment;
@@ -55,15 +58,14 @@ export class ResultPageComponent implements OnInit, OnDestroy {
           }
 
           if (authResponse.authConfirmationCode) {
-            this.ref = this.ref + `&authConfirmationCode=${authResponse.authConfirmationCode}`;
+            this.ref =
+              this.ref +
+              `&authConfirmationCode=${authResponse.authConfirmationCode}`;
           }
-
         });
       }
     });
   }
 
-  ngOnDestroy(): void {
-  }
-
+  ngOnDestroy(): void {}
 }
