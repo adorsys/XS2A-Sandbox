@@ -148,7 +148,7 @@ services:
     networks:
       - xs2a-net
     depends_on:
-#      - certificate-generator
+      #      - certificate-generator
       - xs2a-tpp-rest-server
 
   # TPP-REST-SERVER
@@ -157,9 +157,15 @@ services:
     restart: on-failure
     environment:
       LEDGERS_URL: "http://ledgers:8088"
-      SPRING_DATASOURCE_URL: "jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=consent"
-      SPRING_DATASOURCE_USERNAME: "cms"
-      SPRING_DATASOURCE_PASSWORD: "cms"
+      SPRING_DATASOURCE_HIKARI_JDBCURL: "jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=consent"
+      SPRING_DATASOURCE_HIKARI_USERNAME: "cms"
+      SPRING_DATASOURCE_HIKARI_PASSWORD: "cms"
+      SPRING_CONSENT_DATASOURCE_HIKARI_JDBCURL: "jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=consent"
+      SPRING_CONSENT_DATASOURCE_HIKARI_USERNAME: "cms"
+      SPRING_CONSENT_DATASOURCE_HIKARI_PASSWORD: "cms"
+      SPRING_TPP_DATASOURCE_HIKARI_JDBCURL: "jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=tpp"
+      SPRING_TPP_DATASOURCE_HIKARI_USERNAME: "cms"
+      SPRING_TPP_DATASOURCE_HIKARI_PASSWORD: "cms"
     build:
       context: tpp-app/tpp-rest-server
       dockerfile: Dockerfile
