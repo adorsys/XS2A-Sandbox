@@ -1,4 +1,4 @@
-.card-body{
+.card-body {
   padding: 2rem 2rem;
 }
 
@@ -13,4 +13,19 @@
   padding-left: 31px;
   padding-right: 31px;
   padding-bottom: 20px;
+}
+
+.push-select {
+  width: 10%;
+}
+
+.input-method {
+  width: 89.5%;
+}
+
+.custom-row {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
 }

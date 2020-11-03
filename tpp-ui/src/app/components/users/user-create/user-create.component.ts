@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../../services/user.service';
@@ -9,6 +9,8 @@ import { TppManagementService } from '../../../services/tpp-management.service';
 import { Observable, of, Subscriber } from 'rxjs';
 import { ADMIN_KEY } from '../../../commons/constant/constant';
 import { mergeMap } from 'rxjs/operators';
+import { HttpMethod } from '../../../models/http-method';
+import { SettingsService } from '../../../services/settings.service';
 
 @Component({
   selector: 'app-user-create',
@@ -16,12 +18,15 @@ import { mergeMap } from 'rxjs/operators';
   styleUrls: ['./user-create.component.scss'],
 })
 export class UserCreateComponent implements OnInit {
+  public url =
+    `${this.settingsService.settings.tppBackendBasePath}` + '/tpp/push/tan';
   public error: string;
   id: string;
   users: User[];
   dataSource: Observable<User[]>;
   admin: string;
   methods: string[];
+  httpMethods: string[];
   userForm: FormGroup;
   submitted: boolean;
   asyncSelected: string;
@@ -33,7 +38,8 @@ export class UserCreateComponent implements OnInit {
     private router: Router,
     private infoService: InfoService,
     private route: ActivatedRoute,
-    private tppManagementService: TppManagementService
+    private tppManagementService: TppManagementService,
+    private settingsService: SettingsService
   ) {
     this.dataSource = new Observable((observer: Subscriber<string>) => {
       observer.next(this.asyncSelected);
@@ -52,7 +58,6 @@ export class UserCreateComponent implements OnInit {
   }
 
   public getStatesAsObservable(token: string): Observable<User[]> {
-    console.log('token', token);
     const query = new RegExp(token, 'i');
 
     return of(
@@ -108,6 +113,7 @@ export class UserCreateComponent implements OnInit {
     const scaData = this.formBuilder.group({
       scaMethod: ['', Validators.required],
       methodValue: [''],
+      pushMethod: '',
       staticTan: [{ value: '', disabled: true }],
       usesStaticTan: [false],
     });
@@ -157,15 +163,33 @@ export class UserCreateComponent implements OnInit {
     control.removeAt(i);
   }
 
+  updateValue() {
+    const body = this.userForm.value as User;
+    body.scaUserData.forEach((d) => {
+      if (d.scaMethod === 'PUSH_OTP') {
+        if (d.pushMethod == '' || d.pushMethod == undefined) {
+          d.pushMethod = 'POST';
+        }
+        if (d.methodValue === '' || d.methodValue === undefined) {
+          d.methodValue = this.url;
+        }
+        d.methodValue = d.pushMethod + ',' + d.methodValue;
+      }
+      d.pushMethod = undefined;
+    });
+    return body;
+  }
+
   onSubmit() {
     this.submitted = true;
 
     if (this.userForm.invalid) {
       return;
     }
+    const body = this.updateValue();
     if (this.admin === 'true') {
       this.tppManagementService
-        .createUser(this.userForm.value, this.userForm.get('tppId').value)
+        .createUser(body, this.userForm.get('tppId').value)
         .subscribe(() => {
           this.infoService.openFeedback('User was successfully created!', {
             severity: 'info',
@@ -173,7 +197,7 @@ export class UserCreateComponent implements OnInit {
           this.router.navigate(['/users/all']);
         });
     } else if (this.admin === 'false') {
-      this.userService.createUser(this.userForm.value).subscribe(
+      this.userService.createUser(body).subscribe(
         () => {
           this.router.navigateByUrl('/users/all');
         },
@@ -191,6 +215,7 @@ export class UserCreateComponent implements OnInit {
 
   getMethodsValues() {
     this.methods = Object.keys(ScaMethods);
+    this.httpMethods = Object.keys(HttpMethod);
   }
 
   onCancel() {

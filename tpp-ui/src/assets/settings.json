@@ -1,3 +1,4 @@
 {
-  "certGenEnabled": "true"
+  "certGenEnabled": "true",
+  "tppBackendBasePath": "http://localhost:8093"
 }

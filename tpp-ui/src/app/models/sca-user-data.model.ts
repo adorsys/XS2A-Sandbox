@@ -6,4 +6,5 @@ export class ScaUserData {
   staticTan: string;
   decoupled: boolean;
   valid: boolean;
+  pushMethod?: string;
 }

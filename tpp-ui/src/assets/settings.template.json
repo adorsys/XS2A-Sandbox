@@ -1,3 +1,4 @@
 {
-  "certGenEnabled": "${CERT_GEN_ENABLED}"
+  "certGenEnabled": "${CERT_GEN_ENABLED}",
+  "tppBackendBasePath": "${TPP_REST_SERVER_URL}"
 }

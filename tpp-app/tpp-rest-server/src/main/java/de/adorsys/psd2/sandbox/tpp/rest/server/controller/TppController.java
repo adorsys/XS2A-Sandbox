@@ -14,6 +14,7 @@ import de.adorsys.psd2.sandbox.tpp.rest.server.mapper.UserMapper;
 import de.adorsys.psd2.sandbox.tpp.rest.server.service.IbanGenerationService;
 import de.adorsys.psd2.sandbox.tpp.rest.server.service.RestExecutionService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.iban4j.CountryCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,7 @@ import java.util.Set;
 import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.CREATED;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(TppRestApi.BASE_PATH)
@@ -105,5 +107,11 @@ public class TppController implements TppRestApi {
     public ResponseEntity<Void> revert(RevertRequestTO revertRequest) {
         restExecutionService.revert(revertRequest);
         return ResponseEntity.status(ACCEPTED).build();
+    }
+
+    @Override
+    public ResponseEntity<Void> consumeTan(String tan) {
+        log.info("\n***\nReceived message from CoreBanking: {} \n***", tan);
+        return ResponseEntity.accepted().build();
     }
 }

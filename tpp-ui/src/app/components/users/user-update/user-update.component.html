@@ -88,9 +88,11 @@
                 </div>
               </div>
               <div class="row">
-                <button class="btn btn-primary mr-4 ml-3"
-                        (click)=resetPasswordViaEmail(user.login)
-                        type="button">
+                <button
+                  class="btn btn-primary mr-4 ml-3"
+                  (click)="resetPasswordViaEmail(user.login)"
+                  type="button"
+                >
                   Send password update link
                 </button>
               </div>
@@ -138,20 +140,43 @@
                     <label class="control-label" for="scaData{{ i }}"
                       >Method Value</label
                     >
-                    <input
-                      [ngClass]="{
-                        'is-invalid':
-                          (scaDataItem.controls['methodValue'].touched ||
-                            submitted) &&
-                          scaDataItem.controls['methodValue'].errors
-                      }"
-                      aria-describedby="scaDataHelp"
-                      class="form-control"
-                      formControlName="methodValue"
-                      id="scaData{{ i }}"
-                      placeholder="Please input SCA method value"
-                      type="text"
-                    />
+                    <div class="custom-row">
+                      <select
+                        formControlName="pushMethod"
+                        class="form-control push-select"
+                        *ngIf="
+                          scaDataItem.get('scaMethod').value === 'PUSH_OTP'
+                        "
+                      >
+                        <option
+                          *ngFor="let httpMethod of httpMethods"
+                          [selected]="
+                            httpMethod == scaDataItem.get('pushMethod').value
+                          "
+                          >{{ httpMethod }}</option
+                        >
+                      </select>
+                      <input
+                        [ngClass]="{
+                          'is-invalid':
+                            (scaDataItem.controls['methodValue'].touched ||
+                              submitted) &&
+                            scaDataItem.controls['methodValue'].errors,
+                          'input-method':
+                            scaDataItem.get('scaMethod').value === 'PUSH_OTP'
+                        }"
+                        aria-describedby="scaDataHelp"
+                        class="form-control"
+                        formControlName="methodValue"
+                        id="scaData{{ i }}"
+                        [placeholder]="
+                          scaDataItem.get('scaMethod').value === 'PUSH_OTP'
+                            ? 'Please set your PushOTP endpoint or leave blank for default'
+                            : 'Please input SCA method for user'
+                        "
+                        type="text"
+                      />
+                    </div>
                     <div
                       *ngIf="scaDataItem.get('methodValue')?.errors?.required"
                       class="invalid-feedback"

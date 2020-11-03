@@ -180,17 +180,40 @@
                 <div class="col-12 col-md-8">
                   <div [formGroupName]="i" class="form-group">
                     <label class="control-label" for="scaData">SCA</label>
-                    <input
-                      [ngClass]="{
-                        'is-invalid': scaDataItem.controls['methodValue'].errors
-                      }"
-                      aria-describedby="scaDataHelp"
-                      class="form-control"
-                      formControlName="methodValue"
-                      id="scaData"
-                      placeholder="Please input SCA method for user"
-                      type="text"
-                    />
+                    <div class="custom-row">
+                      <select
+                        formControlName="pushMethod"
+                        class="form-control push-select"
+                        *ngIf="
+                          scaDataItem.get('scaMethod').value === 'PUSH_OTP'
+                        "
+                      >
+                        <option
+                          *ngFor="let httpMethod of httpMethods"
+                          [selected]="httpMethod == 'POST'"
+                          >{{ httpMethod }}</option
+                        >
+                      </select>
+
+                      <input
+                        [ngClass]="{
+                          'is-invalid':
+                            scaDataItem.controls['methodValue'].errors,
+                          'input-method':
+                            scaDataItem.get('scaMethod').value === 'PUSH_OTP'
+                        }"
+                        aria-describedby="scaDataHelp"
+                        class="form-control"
+                        formControlName="methodValue"
+                        id="scaData"
+                        [placeholder]="
+                          scaDataItem.get('scaMethod').value === 'PUSH_OTP'
+                            ? 'Please set your PushOTP endpoint or leave blank for default'
+                            : 'Please input SCA method for user'
+                        "
+                        type="text"
+                      />
+                    </div>
                     <div
                       *ngIf="
                         scaDataItem.controls['usesStaticTan'].value &&

@@ -61,4 +61,8 @@ public interface TppRestApi {
     @ApiOperation(value = "Revert TPP data by certain timestamp", authorizations = @Authorization(value = "apiKey"))
     @PostMapping("/revert")
     ResponseEntity<Void> revert(@RequestBody RevertRequestTO revertRequest);
+
+    @ApiOperation(value = "Consume TAN notification from CoreBanking")
+    @PutMapping("/push/tan")
+    ResponseEntity<Void> consumeTan(@RequestBody String tan);
 }
