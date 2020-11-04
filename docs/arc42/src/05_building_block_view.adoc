@@ -11,7 +11,7 @@ image::writebox.svg[Whitebox Overall System Level 1, 60%, title="Whitebox Overal
 Motivation::
 
 The application has micro-service architecture and uses Spring Boot 2.1.1. Every independent feature "xyz" maps to a top level package (`de.adorsys.psd2.sandbox.xyz`) (backend) or a top level folder (`src/app/xyz`) (UI). The UI is
-implemented as an Angular app and bundled at build time in the backend JAR. The ModelBank consists of the _sandbox_ and depends on XS2A and Ledgers.
+implemented as an Angular app and bundled at build time in the backend JAR. The project consists of the _ModelBank_ and depends on XS2A and Ledgers.
 
 
 Contained Building Blocks::
