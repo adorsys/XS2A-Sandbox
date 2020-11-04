@@ -1,17 +1,31 @@
-.card-body{
-    padding: 2rem 2rem;
+.card-body {
+  padding: 2rem 2rem;
 }
 
 .icon {
-    width: 25px;
-    height: 25px;
-    padding-left: 3px;
+  width: 25px;
+  height: 25px;
+  padding-left: 3px;
 }
 
-
 .form-group2 {
-    padding-top: 20px;
-    padding-left: 31px;
-    padding-right: 31px;
-    padding-bottom: 20px;
+  padding-top: 20px;
+  padding-left: 31px;
+  padding-right: 31px;
+  padding-bottom: 20px;
+}
+
+.push-select {
+  width: 10%;
+}
+
+.input-method {
+  width: 89.5%;
+}
+
+.custom-row {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
 }

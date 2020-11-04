@@ -23,14 +23,14 @@ based upon your problem statement, the quality goals and key constraints.
 Refer to details in the following sections.
 ****
 
-image::xs2asandbox.svg[High-level Architecture XS2A Sandbox, 80%, title="High-level Architecture XS2A Sandbox", align="center"]
+image::modelbank.svg[High-level Architecture ModelBank, 80%, title="High-level Architecture ModelBank", align="center"]
 
-The XS2A Sandbox bundles one top level component: the _sandbox_. The _sandbox_ contains the XS2A API (with XS2A Interface, ASPSP-profile and Consent-management system), does the certificate handling, provides TPP UI, Online Banking UI and documentation in the developer portal.
+The project bundles one top-level component: the _modelbank_. The _modelbank_ contains the XS2A API (with XS2A Interface, ASPSP-profile and Consent-management system), does the certificate handling, provides TPP UI, Online Banking UI and documentation in the developer portal.
 
 
 === TPP Certificate Handling
 
-Issuing a real certificate just for testing purposes would be a bit too much effort, which is why the XS2A Sandbox acts as a TSP issuing Qualified Website Authentication Certificates (QWAC) valid only for the XS2A Sandbox. A QWAC is defined in https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32014R0910&from=EN[eIDAS] and is implemented as a https://www.ietf.org/rfc/rfc3739.txt[X.509] certificate.
+Issuing a real certificate just for testing purposes would be a bit too much effort, which is why the ModelBank acts as a TSP issuing Qualified Website Authentication Certificates (QWAC) valid only for the ModelBank. A QWAC is defined in https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32014R0910&from=EN[eIDAS] and is implemented as a https://www.ietf.org/rfc/rfc3739.txt[X.509] certificate.
 
 For PSD2-purposes the certificate gets extended by the QcStatement containing appropriate values such as the role(s) of the PSP (see https://www.etsi.org/deliver/etsi_ts/119400_119499/119495/01.01.02_60/ts_119495v010102p.pdf[ETSI]).
 

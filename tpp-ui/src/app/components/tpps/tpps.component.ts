@@ -14,6 +14,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CountryService } from '../../services/country.service';
 import { TppQueryParams } from '../../models/tpp-management.model';
 import { InfoService } from '../../commons/info/info.service';
+import {TppUserService} from "../../services/tpp.user.service";
 
 @Component({
   selector: 'app-tpps',
@@ -52,7 +53,8 @@ export class TppsComponent implements OnInit {
     public pageNavigationService: PageNavigationService,
     private countryService: CountryService,
     private modalService: NgbModal,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private tppUserService: TppUserService
   ) {}
 
   ngOnInit() {
@@ -222,5 +224,13 @@ export class TppsComponent implements OnInit {
           this.config.currentPageNumber = 1;
         }
       });
+  }
+
+  resetPasswordViaEmail(login: string) {
+    this.tppUserService.resetPasswordViaEmail(login).subscribe(() => {
+      this.infoService.openFeedback('Link for password reset was sent, check email.', {
+        severity: 'info',
+      });
+    });
   }
 }

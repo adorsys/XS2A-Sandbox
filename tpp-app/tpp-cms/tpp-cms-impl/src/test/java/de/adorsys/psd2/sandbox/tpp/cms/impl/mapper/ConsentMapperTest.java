@@ -60,7 +60,6 @@ class ConsentMapperTest {
     @Mock
     private ConsentDataMapper consentDataMapper;
 
-    // TODO complete all test cases, but before that move object creation to yaml or json https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/issues/592
     @Test
     void toCmsAisConsentRequest() {
         // Given

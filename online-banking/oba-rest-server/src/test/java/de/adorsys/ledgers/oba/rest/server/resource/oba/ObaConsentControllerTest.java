@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -84,7 +85,7 @@ class ObaConsentControllerTest {
     @Test
     void createPiis() throws NoSuchFieldException {
         // Given
-        FieldSetter.setField(controller, controller.getClass().getDeclaredField("auth"), new ObaMiddlewareAuthentication(null, new BearerTokenTO(TOKEN, null, 999, null, getAccessTokenTO())));
+        FieldSetter.setField(controller, controller.getClass().getDeclaredField("auth"), new ObaMiddlewareAuthentication(null, new BearerTokenTO(TOKEN, null, 999, null, getAccessTokenTO(), new HashSet<>())));
 
         // When
         ResponseEntity<Void> response = controller.createPiis(new CreatePiisConsentRequestTO());

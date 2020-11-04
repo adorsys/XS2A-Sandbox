@@ -1,12 +1,11 @@
 package de.adorsys.ledgers.oba.rest.server.resource;
 
-import de.adorsys.ledgers.middleware.api.domain.sca.SCALoginResponseTO;
+import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.ResponseEntity;
 
 import java.util.Collections;
 
@@ -31,13 +30,13 @@ class AuthUtilsTest {
         return new PsuIdData(login, null, null, null, null);
     }
 
-    private ResponseEntity<SCALoginResponseTO> getLoginResult() {
-        SCALoginResponseTO result = new SCALoginResponseTO();
+    private GlobalScaResponseTO getLoginResult() {
+        GlobalScaResponseTO result = new GlobalScaResponseTO();
         BearerTokenTO token = new BearerTokenTO();
         AccessTokenTO acc = new AccessTokenTO();
         acc.setLogin(LOGIN);
         token.setAccessTokenObject(acc);
         result.setBearerToken(token);
-        return ResponseEntity.ok(result);
+        return result;
     }
 }

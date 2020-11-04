@@ -6,6 +6,7 @@ import { UserTO } from '../../api/models/user-to';
 import { InfoService } from '../../common/info/info.service';
 import { CurrentUserService } from '../../common/services/current-user.service';
 import { ShareDataService } from '../../common/services/share-data.service';
+import {AuthService} from "../../common/services/auth.service";
 
 @Component({
   selector: 'app-user-profile-edit',
@@ -24,8 +25,10 @@ export class UserProfileUpdateComponent implements OnInit {
     private shareDataService: ShareDataService,
     private currentUser: CurrentUserService,
     private infoService: InfoService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private authService: AuthService
+  ) {
+  }
 
   ngOnInit() {
     this.setDefaultUserDetails();
@@ -45,8 +48,7 @@ export class UserProfileUpdateComponent implements OnInit {
     const updatedUser: UserTO = {
       ...this.obaUser,
       login: this.userForm.get('username').value,
-      email: this.userForm.get('email').value,
-      pin: this.userForm.get('pin').value,
+      email: this.userForm.get('email').value
     };
     this.currentUser
       .updateUserDetails(updatedUser)
@@ -62,8 +64,7 @@ export class UserProfileUpdateComponent implements OnInit {
   setUpEditedUserFormControl(): void {
     this.userForm = this.formBuilder.group({
       username: ['', Validators.required],
-      email: ['', [Validators.email, Validators.required]],
-      pin: ['', [Validators.required]],
+      email: ['', [Validators.email, Validators.required]]
     });
   }
 
@@ -73,8 +74,15 @@ export class UserProfileUpdateComponent implements OnInit {
       this.obaUser = data.body;
       this.userForm.setValue({
         username: this.obaUser.login,
-        email: this.obaUser.email,
-        pin: this.obaUser.pin,
+        email: this.obaUser.email
+      });
+    });
+  }
+
+  resetPasswordViaEmail(login: string) {
+    this.authService.resetPasswordViaEmail(login).subscribe(() => {
+      this.infoService.openFeedback('Link for password reset was sent, check email.', {
+        severity: 'info',
       });
     });
   }

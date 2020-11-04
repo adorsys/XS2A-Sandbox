@@ -1,15 +1,14 @@
 package de.adorsys.ledgers.oba.rest.server.resource;
 
-import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
-import de.adorsys.ledgers.middleware.api.domain.sca.SCALoginResponseTO;
+import de.adorsys.ledgers.keycloak.client.api.KeycloakTokenService;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
-import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
-import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
+import de.adorsys.ledgers.oba.rest.api.resource.exception.PaymentAuthorizeException;
+import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
 import de.adorsys.ledgers.oba.service.api.domain.*;
-import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
 import de.adorsys.ledgers.oba.service.api.domain.exception.InvalidConsentException;
+import de.adorsys.ledgers.oba.service.api.service.CommonPaymentService;
 import de.adorsys.ledgers.oba.service.api.service.ConsentReferencePolicy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,9 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
-import org.springframework.web.util.WebUtils;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.EnumSet;
@@ -30,20 +27,18 @@ import java.util.Optional;
 
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.*;
 import static de.adorsys.ledgers.oba.rest.server.auth.oba.SecurityConstant.BEARER_TOKEN_PREFIX;
-import static de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode.LOGIN_FAILED;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class XISControllerService {
-    private static final String ACCESS_TOKEN_COOKIE = "ACCESS_TOKEN";
-
-    private final AuthRequestInterceptor authInterceptor;
     private final HttpServletRequest request;
     private final HttpServletResponse response;
-    private final UserMgmtRestClient userMgmtRestClient;
     private final ConsentReferencePolicy referencePolicy;
     private final ResponseUtils responseUtils;
+    private final KeycloakTokenService tokenService;
+    private final CommonPaymentService paymentService;
+    private final ObaMiddlewareAuthentication middlewareAuth;
 
     @Value("${online-banking.sca.loginpage:http://localhost:4400/}")
     private String loginPage;
@@ -83,7 +78,7 @@ public class XISControllerService {
                                .map(t -> StringUtils.substringAfter(t, BEARER_TOKEN_PREFIX))
                                .orElse(null);
             // 2. Set cookies
-            AccessTokenTO tokenTO = Optional.ofNullable(token).map(t -> userMgmtRestClient.validate(t).getBody())
+            AccessTokenTO tokenTO = Optional.ofNullable(token).map(tokenService::validate)
                                         .map(BearerTokenTO::getAccessTokenObject)
                                         .orElse(null);
             responseUtils.setCookies(response, consentReference, token, tokenTO);
@@ -108,27 +103,6 @@ public class XISControllerService {
         return ResponseEntity.ok(authResponse);
     }
 
-    public ResponseEntity<SCALoginResponseTO> performLoginForConsent(String login, String pin, String operationId, String authId, OpTypeTO operationType) {
-        Cookie cookie = WebUtils.getCookie(request, ACCESS_TOKEN_COOKIE);
-        String token = cookie != null
-                           ? cookie.getValue()
-                           : null;
-        return performLoginForConsent(login, pin, token, operationId, authId, operationType);
-    }
-
-    private ResponseEntity<SCALoginResponseTO> performLoginForConsent(String login, String pin, String token, String operationId, String authId, OpTypeTO operationType) {
-        if (StringUtils.isNotBlank(token)) {
-            authInterceptor.setAccessToken(token);
-            return userMgmtRestClient.authoriseForConsent(operationId, authId, operationType);
-        } else if (StringUtils.isNotBlank(login) || StringUtils.isNotBlank(pin)) {
-            return userMgmtRestClient.authoriseForConsent(login, pin, operationId, authId, operationType);
-        }
-        throw AuthorizationException.builder()
-                  .errorCode(LOGIN_FAILED)
-                  .devMessage("Login or pin is missing.")
-                  .build();
-    }
-
     public ResponseEntity<PaymentAuthorizeResponse> resolvePaymentWorkflow(PaymentWorkflow workflow) {
         ScaStatusTO scaStatusTO = workflow.scaStatus();
         if (EnumSet.of(PSUIDENTIFIED, FINALISED, EXEMPTED, PSUAUTHENTICATED, SCAMETHODSELECTED).contains(scaStatusTO)) {
@@ -137,5 +111,17 @@ public class XISControllerService {
         }// failed Message. No repeat. Delete cookies.
         responseUtils.removeCookies(response);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
+    public ResponseEntity<PaymentAuthorizeResponse> selectScaMethod(String encryptedPaymentId, String authorisationId, String scaMethodId, String consentAndaccessTokenCookieString) {
+        PaymentWorkflow workflow;
+        try {
+            String consentCookie = responseUtils.consentCookie(consentAndaccessTokenCookieString);
+            workflow = paymentService.selectScaForPayment(encryptedPaymentId, authorisationId, scaMethodId, consentCookie, AuthUtils.psuId(middlewareAuth), middlewareAuth.getBearerToken());
+            responseUtils.setCookies(response, workflow.getConsentReference(), workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
+        } catch (PaymentAuthorizeException p) {
+            return p.getError();
+        }
+        return ResponseEntity.ok(workflow.getAuthResponse());
     }
 }

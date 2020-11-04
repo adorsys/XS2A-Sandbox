@@ -11,7 +11,7 @@ image::writebox.svg[Whitebox Overall System Level 1, 60%, title="Whitebox Overal
 Motivation::
 
 The application has micro-service architecture and uses Spring Boot 2.1.1. Every independent feature "xyz" maps to a top level package (`de.adorsys.psd2.sandbox.xyz`) (backend) or a top level folder (`src/app/xyz`) (UI). The UI is
-implemented as an Angular app and bundled at build time in the backend JAR. The XS2A Sandbox consists of the _sandbox_ and depends on XS2A and Ledgers.
+implemented as an Angular app and bundled at build time in the backend JAR. The project consists of the _ModelBank_ and depends on XS2A and Ledgers.
 
 
 Contained Building Blocks::
@@ -36,7 +36,7 @@ Contained Building Blocks::
 | bank-profile | This module consists of 1 .yaml file with ASPSP-specific information (bank profile). The file can be configured depending on ASPSP features and restrictions.
 |===
 
-XS2A Sandbox depends on XS2A (consent-management, aspsp-profile, XS2A interface) and Ledgers.
+ModelBank depends on XS2A (consent-management, aspsp-profile, XS2A interface) and Ledgers.
 
 === Level 2
 
@@ -59,13 +59,13 @@ image::generated/whitebox-2-xs2a.png[Whitebox xs2a Level 2, 60%, title="Whitebox
 | Provide the Payment Issuer Instruments implementation for XS2A (implements interface from `xs2a-impl`). Uses the _testdata_ module for the actual values.
 
 | aspsp-profile (library)
-| Expose the XS2A configuration via REST API. The actual values come from the top level _config_ module. Is provided by the `profile` library from XS2A and embedded in our sandbox. Needed by `xs2a-impl` and not directly called by us.
+| Expose the XS2A configuration via REST API. The actual values come from the top level _config_ module. Is provided by the `profile` library from XS2A and embedded in our ModelBank. Needed by `xs2a-impl` and not directly called by us.
 
 Part of the https://github.com/adorsys/xs2a[adorsys PSD2 XS2A implementation].
 
 | consent-management (library)
 | Handle consents for us. Every payment or account information needs/creates a consent. Is
-provided by the `consent-management` library from XS2A and embedded in our sandbox.
+provided by the `consent-management` library from XS2A and embedded in our ModelBank.
 
 Part of the https://github.com/adorsys/xs2a[adorsys PSD2 XS2A implementation].
 

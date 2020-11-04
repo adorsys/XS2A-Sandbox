@@ -178,11 +178,10 @@
                 >
                   {{ tpp.blocked ? 'Unblock TPP' : 'Block TPP' }}
                 </button>
-                <button
-                  class="btn btn-table-btn btn-sm wd-120"
-                  (click)="openConfirmation(changePinModal, tpp.id, 'pin')"
-                >
-                  Change PIN
+                <button class="btn btn-primary mr-4 ml-3"
+                        (click)=resetPasswordViaEmail(tpp.login)
+                        type="button">
+                  Send password update link
                 </button>
                 <button
                   (click)="
@@ -192,53 +191,6 @@
                 >
                   Delete
                 </button>
-
-                <ng-template #changePinModal let-modal>
-                  <div class="modal-header">
-                    <h4 class="modal-title" id="modal-basic-title-2">
-                      Change PIN for TPP
-                    </h4>
-                    <button
-                      type="button"
-                      class="close"
-                      aria-label="Close"
-                      (click)="modal.dismiss('Cross click')"
-                    >
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <input
-                      class="form-control"
-                      [(ngModel)]="newPin"
-                      [ngClass]="{ 'is-invalid': !newPin || newPin === '' }"
-                      [ngModelOptions]="{ standalone: true }"
-                      type="password"
-                    />
-                    <div
-                      lass="invalid-feedback"
-                      *ngIf="!newPin || newPin === ''"
-                    >
-                      Please, enter any PIN for TPP, PIN cannot be empty
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-outline-secondary"
-                      (click)="modal.dismiss('cancel click')"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-primary"
-                      (click)="modal.close('Ok click')"
-                    >
-                      Change PIN
-                    </button>
-                  </div>
-                </ng-template>
 
                 <ng-template #deleteConfirmationModal let-modal>
                   <div class="modal-header">

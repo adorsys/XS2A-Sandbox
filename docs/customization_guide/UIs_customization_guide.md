@@ -71,7 +71,7 @@
 
 ### General information
 
-All three user interfaces provided inside of XS2A Sandbox support customization. Depending on your needs, you can choose, which fields and UIs to customize.
+All three user interfaces provided inside of ModelBank support customization. Depending on your needs, you can choose, which fields and UIs to customize.
 
 For **Developer Portal** you can customize logo, CSS styles, content of all the pages, `xml` and `json` examples in _Play with Data_ section, currency of the examples, available SCA approaches and supported languages.
 
@@ -79,7 +79,7 @@ For Online Banking UI and TPP UI you can customize logo and CSS styles.
 
 ### Step-by-step guide
 
-Here is a general instruction on how to customize any user interface in XS2A Sandbox. Detailed examples of customization and features of each user interface you can find in related sections of [Table of Content](#table-of-content).
+Here is a general instruction on how to customize any user interface in ModelBank. Detailed examples of customization and features of each user interface you can find in related sections of [Table of Content](#table-of-content).
 
 1.  Create `json` file with name UITheme (e.g. UITheme.json).
 2.  `Json` example (this is a general example which can be used in any of user interfaces. For more features see `json` example for every user interface you want to customize):
@@ -119,7 +119,7 @@ Here is a general instruction on how to customize any user interface in XS2A San
 4.  When you create `UITheme.json` file and fill all required fields, put this file with `logo` (e.g. `logo.png`) and `favicon` images in folder `./src/assets/UI/custom/` of your user interface.
 5.  Steps for putting files in this folder:
     -   Local environment customization
-        -   Before running all services of the XS2A Sandbox local, put your files in folder ./developer-portal-ui/src/assets/UI/custom/
+        -   Before running all services of the ModelBank local, put your files in folder ./developer-portal-ui/src/assets/UI/custom/
     -   Openshift environment customization
         -   Install the Openshift Command Line Tools: [https://docs.okd.io/latest/cli_reference/get_started_cli.html](https://docs.okd.io/latest/cli_reference/get_started_cli.html)
         -   Navigate to local source folder (where the customisation files are stored):
@@ -457,7 +457,7 @@ You can customize html body background color and font color with the following p
 
 #### Examples of input customization
 
-1.  Default Sandbox input:
+1.  Default ModelBank input:
 
 ```json
 "inputBG": "white",
@@ -597,7 +597,7 @@ Additional properties for Developer Portal:
 | contactPageSettings      | Content settings of Contact Page                                                                                                                                             | pagesSettings                           | contactInfo, officesInfo                                                      | child properties                                                                     | No       |
 | homePageSettings         | Content settings of Home Page                                                                                                                                                | pagesSettings                           | showProductHistory, contactInfo, showSlider                                   | child properties                                                                     | No       |
 | showProductHistory       | Defines if product history should be shown on Home Page or not                                                                                                               | homePageSettings                        | -                                                                             | boolean                                                                              | No       |
-| showSlider               | Defines if slider with Sandbox features should be shown on Home Page or not                                                                                                  | homePageSettings                        | -                                                                             | boolean                                                                              | No       |
+| showSlider               | Defines if slider with ModelBank features should be shown on Home Page or not                                                                                                  | homePageSettings                        | -                                                                             | boolean                                                                              | No       |
 | navigationBarSettings    | Navigation bar settings                                                                                                                                                      | pagesSettings                           | allowedNavigationSize, logo, logoLink                                         | child properties                                                                     | No       |
 | footerSettings           | Footer settings                                                                                                                                                              | pagesSettings                           | allowedNavigationSize, logo, logoLink                                         | child properties                                                                     | No       |
 | allowedNavigationSize    | Defines the amount of the Menu items displays in Navigation Bar. If the amount of menu items is more than allowedNavigationSize, menu would be collapsed in mobile view menu | navigationBarSettings                   | -                                                                             | number                                                                               | Yes      |
@@ -621,7 +621,7 @@ Additional properties for Developer Portal:
 | supportedLanguages       | Used to customize supported languages of Developer Portal                                                                                                                    | -                                       | -                                                                             | Array of supported languages. Default configuration is ["en", "de", "es", "ua"]      | Yes      |
 | supportedApproaches      | Used to customize shown information about SCA approaches                                                                                                                     | playWithDataSettings                    | -                                                                             | Array of supported SCA approaches. Default configuration is ["redirect", "embedded"] | Yes      |
 | examplesCurrency         | Main currency of developer portal examples. When you input a currency, all the jsons currencies are changed to the desired currency.                                         | playWithDataSettings                    | -                                                                             | All currency values in ISO standard. Default configuration is "EUR"                  | Yes      |
-| tppSettings              | Settings related to a particular TPP using the Sandbox                                                                                                                       | playWithDataSettings                    | tppDefaultNokRedirectUrl, tppDefaultRedirectUrl                               | child properties                                                                     | Yes      |
+| tppSettings              | Settings related to a particular TPP using the ModelBank                                                                                                                       | playWithDataSettings                    | tppDefaultNokRedirectUrl, tppDefaultRedirectUrl                               | child properties                                                                     | Yes      |
 | tppDefaultNokRedirectUrl | TPP not OK link, used in all XS2A requests in `Play with data` section and related to XS2A standard header for Redirect SCA approach `TPP-Nok-Redirect-URI`                  | tppSettings                             | -                                                                             | Https url. Default value is `https://www.google.com`                                 | Yes      |
 | tppDefaultRedirectUrl    | TPP not OK link, used in all XS2A requests in `Play with data` section and related to XS2A standard header for Redirect SCA approach `TPP-Redirect-URI`                      | tppSettings                             | -                                                                             | Https url. Default value is `https://adorsys-platform.de/solutions/xs2a-sandbox/`    | Yes      |
 
@@ -643,7 +643,7 @@ Additional properties for Developer Portal:
 
 | Name   | Usage                                                                  | Bound to CSS property | Accepted values                                                     | Examples                                                              |
 | ------ | ---------------------------------------------------------------------- | --------------------- | ------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| stepBG | Background of the steps (How to use Sandbox) html element on home page | background-color      | May contain any legal CSS color values supported by modern browsers | [Examples of StepBG customization](#examples-of-stepbg-customization) |
+| stepBG | Background of the steps (How to use ModelBank) html element on home page | background-color      | May contain any legal CSS color values supported by modern browsers | [Examples of StepBG customization](#examples-of-stepbg-customization) |
 
 #### Contacts Card
 

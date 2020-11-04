@@ -56,7 +56,7 @@ Ein anderer Grund könnte sein, dass der Status der Einwilligung nicht gültig i
 
 ## Wie kann ich den Status einer Transaktion/Einwilligung ändern?
 
-Alle erstellten Transaktionen/Einwilligungen haben als Status automatisch "received" . Um SCA mit dem REDIRECT-Ansatz durchzuführen, stellt die Sandbox einen Redirect-Server zur Verfügung, bei dem der Status abhängig von dem PSU aktualisiert wird. Dieser Vorgang ist in unserer Sandbox vereinfacht, daher reicht es aus, die PSU-ID in den Query-Parameter zu übergeben, um den gesamten SCA zu simulieren.
+Alle erstellten Transaktionen/Einwilligungen haben als Status automatisch "received" . Um SCA mit dem REDIRECT-Ansatz durchzuführen, stellt die ModelBank einen Redirect-Server zur Verfügung, bei dem der Status abhängig von dem PSU aktualisiert wird. Dieser Vorgang ist in unserer ModelBank vereinfacht, daher reicht es aus, die PSU-ID in den Query-Parameter zu übergeben, um den gesamten SCA zu simulieren.
 
 Der Query-Parameter PSU-ID ist ein Pflichtfeld, das wenn es nicht angegeben sein sollte, zu einer Standardfehlermeldung des Redirect Servers führt.
 
@@ -71,7 +71,7 @@ Wenn der Transaktions-/Einwilligungsstatus "received" ist, kann es sein, dass di
 
 ## Wie kann ich ein gültiges Zertifikat erstellen?
 
-Um Zugang zu der XS2A API zu erhalten, benötigt ein TPP ein gültiges QWAC Zertifikat. Solch ein Zertifikat bekommt man üblicherweise bei einem zugelassenen TSP, für unsere Sandbox verwenden wir erstellte Testzertifikate. Ein solches Zertifikat kann hier: erstellt werden oder direkt bei der Registrierung eines TPPs. So erhalten Sie ein für die Sandbox authentifiziertes Zertifikat (.pem) und den zugehörigen Privatschlüssel (.key) in einer .zip Datei.
+Um Zugang zu der XS2A API zu erhalten, benötigt ein TPP ein gültiges QWAC Zertifikat. Solch ein Zertifikat bekommt man üblicherweise bei einem zugelassenen TSP, für unsere ModelBank verwenden wir erstellte Testzertifikate. Ein solches Zertifikat kann hier: erstellt werden oder direkt bei der Registrierung eines TPPs. So erhalten Sie ein für die ModelBank authentifiziertes Zertifikat (.pem) und den zugehörigen Privatschlüssel (.key) in einer .zip Datei.
 
 ## Wie kann ich ein Zertifikat in einer Anfrage integrieren?
 

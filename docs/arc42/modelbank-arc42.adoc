@@ -6,8 +6,8 @@
 // configure EN settings for asciidoc
 include::src/config.adoc[]
 
-= image:logo_xas2a_sandbox.svg[XS2A Sandbox, 120] Architecture Documentation
-Sandbox Team <psd2-sandbox@adorsys.de>
+= image:logo_xas2a_sandbox.svg[ModelBank, 120] Architecture Documentation
+ModelBank Team <psd2-sandbox@adorsys.de>
 {acc-version}, {docdate}
 
 //additional style for arc42 help callouts

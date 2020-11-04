@@ -4,14 +4,16 @@ import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
 import de.adorsys.ledgers.middleware.api.domain.account.AccountStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.account.AccountTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.account.UsageTypeTO;
-import de.adorsys.ledgers.middleware.api.domain.sca.ChallengeDataTO;
+import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCAConsentResponseTO;
-import de.adorsys.ledgers.middleware.api.domain.sca.SCAResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
-import de.adorsys.ledgers.middleware.api.domain.um.*;
-import de.adorsys.ledgers.middleware.api.service.TokenStorageService;
+import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
+import de.adorsys.ledgers.middleware.api.domain.um.AisAccountAccessInfoTO;
+import de.adorsys.ledgers.middleware.api.domain.um.AisConsentTO;
+import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.middleware.client.rest.ConsentRestClient;
+import de.adorsys.ledgers.middleware.client.rest.RedirectScaRestClient;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentType;
@@ -39,10 +41,10 @@ import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.Currency;
+import java.util.HashSet;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.jupiter.api.Assertions.*;
@@ -76,20 +78,23 @@ class RedirectConsentServiceImplTest {
     @Mock
     private ConsentReferencePolicy referencePolicy;
     @Mock
-    private TokenStorageService tokenStorageService;
-    @Mock
     private AspspConsentDataClient aspspConsentDataClient;
+    @Mock
+    private CmsAspspConsentDataService dataService;
+    @Mock
+    private RedirectScaRestClient redirectScaClient;
 
     @Test
     void selectScaMethod() {
         // Given
-        when(consentRestClient.selectMethod(any(), any(), any())).thenReturn(ResponseEntity.ok(getSCAConsentResponseTO()));
+        when(redirectScaClient.startSca(any())).thenReturn(ResponseEntity.ok(getGlobalResponse()));
+        when(redirectScaClient.selectMethod(any(), any())).thenReturn(ResponseEntity.ok(getGlobalResponse()));
 
         // When
         redirectConsentService.selectScaMethod(SCA_METHOD_ID, getConsentWorkflow(AisConsentRequestType.GLOBAL, IBAN_DE));
 
         // Then
-        verify(consentRestClient, times(1)).selectMethod(CONSENT_ID, AUTHORIZATION_ID, SCA_METHOD_ID);
+        verify(redirectScaClient, times(1)).selectMethod(AUTHORIZATION_ID, SCA_METHOD_ID);
     }
 
     @Test
@@ -117,7 +122,7 @@ class RedirectConsentServiceImplTest {
     void updateScaStatusConsentStatusConsentData() throws IOException {
         // Given
         when(cmsPsuAisClient.updateAuthorisationStatus(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok().build());
-        when(tokenStorageService.toBase64String(any())).thenReturn(CONSENT_ID);
+        when(dataService.toBase64String(any())).thenReturn(CONSENT_ID);
         when(aspspConsentDataClient.updateAspspConsentData(any(), any())).thenReturn(ResponseEntity.ok().build());
 
         // When
@@ -131,7 +136,7 @@ class RedirectConsentServiceImplTest {
     void updateScaStatusConsentStatusConsentData_failure() throws IOException {
         // Given
         when(cmsPsuAisClient.updateAuthorisationStatus(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok().build());
-        when(tokenStorageService.toBase64String(any())).thenThrow(IOException.class);
+        when(dataService.toBase64String(any())).thenThrow(IOException.class);
 
         // Then
         assertThrows(AuthorizationException.class, () -> redirectConsentService.updateScaStatusConsentStatusConsentData(USER_ID, getConsentWorkflow(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE)));
@@ -143,14 +148,13 @@ class RedirectConsentServiceImplTest {
         when(consentMapper.accountAccess(any(), any())).thenReturn(getAisAccountAccess(IBAN_DE));
         when(cmsPsuAisClient.putAccountAccessInConsent(any(), any(), any())).thenReturn(ResponseEntity.ok().build());
         when(consentMapper.toTo(any())).thenReturn(getAisConsentTO());
-        when(consentRestClient.startSCA(any(), any())).thenReturn(ResponseEntity.ok(getSCAConsentResponseTO()));
+        when(consentRestClient.initiateAisConsent(any(), any())).thenReturn(ResponseEntity.ok(getSCAConsentResponseTO()));
 
         // When
         redirectConsentService.startConsent(getConsentWorkflow(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE), getAisConsentTO(), Collections.singletonList(getAccountDetails()));
 
         // Then
         verify(consentMapper, times(1)).toTo(getCmsAisAccountConsent(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE));
-
     }
 
     @Test
@@ -159,6 +163,7 @@ class RedirectConsentServiceImplTest {
         when(referencePolicy.fromRequest(any(), any(), any(), anyBoolean())).thenReturn(getConsentReference());
         when(cmsPsuAisClient.getConsentIdByRedirectId(any(), any())).thenReturn(ResponseEntity.ok(getCmsAisConsentResponse(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE)));
         when(consentMapper.toTo(any())).thenReturn(getAisConsentTO());
+        when(dataService.mapToGlobalResponse(any(), any())).thenReturn(getSCAResponseTO());
 
         // When
         ConsentWorkflow workflow = redirectConsentService.identifyConsent(ENCRYPTED_CONSENT_ID, AUTHORIZATION_ID, false, "consentCookieString", getBearerTokenTO());
@@ -216,13 +221,18 @@ class RedirectConsentServiceImplTest {
         return new AisConsentTO("id", "userId", "tppId", 6, new AisAccountAccessInfoTO(), LocalDate.now(), false);
     }
 
-    private SCAResponseTO getSCAResponseTO() {
-        return new SCAResponseTO(ScaStatusTO.FINALISED, AUTHORIZATION_ID, Collections.EMPTY_LIST, new ScaUserDataTO(), new ChallengeDataTO(), "psuMessage", LocalDateTime.now(), 15, false, "authConfirmationCode", getBearerTokenTO(), "objectType") {
-        };
+    private GlobalScaResponseTO getSCAResponseTO() {
+        GlobalScaResponseTO response = new GlobalScaResponseTO();
+        response.setScaStatus(ScaStatusTO.FINALISED);
+        response.setAuthorisationId(AUTHORIZATION_ID);
+        response.setBearerToken(getBearerTokenTO());
+        //response.setOpType();
+        return response;
+        //ScaStatusTO.FINALISED, AUTHORIZATION_ID, Collections.EMPTY_LIST, new ScaUserDataTO(), new ChallengeDataTO(), "psuMessage", LocalDateTime.now(), 15, false, "authConfirmationCode", getBearerTokenTO(), "objectType"
     }
 
     private BearerTokenTO getBearerTokenTO() {
-        return new BearerTokenTO("access_token", "Bearer", 60, "refresh_token", new AccessTokenTO());
+        return new BearerTokenTO("access_token", "Bearer", 60, "refresh_token", new AccessTokenTO(), new HashSet<>());
     }
 
     private CmsAisConsentResponse getCmsAisConsentResponse(AisConsentRequestType type, String iban) {
@@ -258,6 +268,17 @@ class RedirectConsentServiceImplTest {
     private SCAConsentResponseTO getSCAConsentResponseTO() {
         SCAConsentResponseTO response = new SCAConsentResponseTO();
         response.setConsentId(CONSENT_ID);
+        response.setAuthorisationId(AUTHORIZATION_ID);
+        response.setScaStatus(ScaStatusTO.FINALISED);
+        response.setScaMethods(Collections.EMPTY_LIST);
+        response.setAuthConfirmationCode("code");
+        response.setPsuMessage("psuMessage");
+        return response;
+    }
+
+    private GlobalScaResponseTO getGlobalResponse() {
+        GlobalScaResponseTO response = new GlobalScaResponseTO();
+        response.setOperationObjectId(CONSENT_ID);
         response.setAuthorisationId(AUTHORIZATION_ID);
         response.setScaStatus(ScaStatusTO.FINALISED);
         response.setScaMethods(Collections.EMPTY_LIST);

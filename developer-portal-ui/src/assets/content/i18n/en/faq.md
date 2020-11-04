@@ -57,7 +57,7 @@ Another reason might be that the consent status is not valid. A status will e.g.
 
 ## How can I change the transaction/consent status?
 
-By default a new created transaction/consent has the status RECEIVED. In order to perform SCA using REDIRECT approach, the sandbox provides a Redirect Server where the status gets updated depending on the PSU. Since SCA for REDIRECT is simplified for this sandbox, it is enough to pass a PSU-ID via Query-Parameter to simulate the whole SCA.
+By default a new created transaction/consent has the status RECEIVED. In order to perform SCA using REDIRECT approach, the ModelBank provides a Redirect Server where the status gets updated depending on the PSU. Since SCA for REDIRECT is simplified for this ModelBank, it is enough to pass a PSU-ID via Query-Parameter to simulate the whole SCA.
 The Query Parameter psu-id is mandatory. If it is not provided, the Redirect Server will display a default error message.
 
 ## Why can't I change the transaction/consent status using a specific PSU?

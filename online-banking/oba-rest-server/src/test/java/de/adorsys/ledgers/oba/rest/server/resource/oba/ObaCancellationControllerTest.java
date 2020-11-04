@@ -1,12 +1,17 @@
 package de.adorsys.ledgers.oba.rest.server.resource.oba;
 
-import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO;
+import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
+import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCAPaymentResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
+import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
+import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.ScaMethodTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.um.ScaUserDataTO;
+import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.middleware.client.rest.PaymentRestClient;
+import de.adorsys.ledgers.middleware.client.rest.RedirectScaRestClient;
 import de.adorsys.psd2.consent.psu.api.CmsPsuPisService;
 import de.adorsys.psd2.xs2a.core.pis.TransactionStatus;
 import org.junit.jupiter.api.Test;
@@ -19,9 +24,11 @@ import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.HashSet;
 
 import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuPisClient.DEFAULT_SERVICE_INSTANCE_ID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.*;
 
@@ -40,6 +47,10 @@ class ObaCancellationControllerTest {
     private CmsPsuPisService cmsPsuPisService;
     @Mock
     private PaymentRestClient paymentRestClient;
+    @Mock
+    private RedirectScaRestClient redirectScaRestClient;
+    @Mock
+    private AuthRequestInterceptor auth;
 
     // No Sca set success
     @Test
@@ -71,20 +82,29 @@ class ObaCancellationControllerTest {
     @Test
     void selectSca() {
         // Given
-        when(paymentRestClient.selecCancelPaymentSCAtMethod(PMT_ID, AUTH_ID, METHOD_ID)).thenReturn(getResponse(ScaStatusTO.SCAMETHODSELECTED, TransactionStatusTO.ACSP, true, true, OK));
-
+        when(redirectScaRestClient.selectMethod(any(), any())).thenReturn(ResponseEntity.ok(getGlobalResponse()));
         // When
         ResponseEntity<SCAPaymentResponseTO> result = controller.selectSca(PMT_ID, AUTH_ID, METHOD_ID);
 
         // Then
-        assertEquals(getResponse(ScaStatusTO.EXEMPTED, TransactionStatusTO.ACSP, true, true, OK), result);
+        assertEquals(getResponse(ScaStatusTO.EXEMPTED, null, true, true, OK), result);
+    }
+
+    private GlobalScaResponseTO getGlobalResponse() {
+        GlobalScaResponseTO response = new GlobalScaResponseTO();
+        response.setBearerToken(new BearerTokenTO("", "Bearer", 0, "", new AccessTokenTO(), new HashSet<>()));
+        response.setScaStatus(ScaStatusTO.SCAMETHODSELECTED);
+        response.setOpType(OpTypeTO.PAYMENT);
+        response.setOperationObjectId(PMT_ID);
+        return response;
     }
 
     @Test
     void validateTAN() {
         // Given
-        when(paymentRestClient.authorizeCancelPayment(PMT_ID, AUTH_ID, TAN)).thenReturn(getResponse(ScaStatusTO.FINALISED, TransactionStatusTO.CANC, true, true, NO_CONTENT));
+        when(paymentRestClient.executeCancelPayment(PMT_ID)).thenReturn(getResponse(ScaStatusTO.FINALISED, TransactionStatusTO.CANC, true, true, NO_CONTENT));
         when(cmsPsuPisService.updatePaymentStatus(PMT_ID, TransactionStatus.CANC, DEFAULT_SERVICE_INSTANCE_ID)).thenReturn(true);
+        when(redirectScaRestClient.validateScaCode(any(), any())).thenReturn(ResponseEntity.ok(getGlobalResponse()));
 
         // When
         ResponseEntity<Void> result = controller.validateTAN(PMT_ID, AUTH_ID, TAN);
@@ -110,8 +130,6 @@ class ObaCancellationControllerTest {
         SCAPaymentResponseTO to = new SCAPaymentResponseTO();
         to.setPaymentId(PMT_ID);
         to.setTransactionStatus(transactionStatus);
-        to.setPaymentProduct(SEPA);
-        to.setPaymentType(PaymentTypeTO.SINGLE);
         to.setScaStatus(status);
         to.setAuthorisationId(AUTH_ID);
         to.setScaMethods(hasSCAs ? Collections.singletonList(getScaMethod()) : Collections.emptyList());

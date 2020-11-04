@@ -27,7 +27,9 @@ public class PermittedResources {
         "/tpp/codes",
         "/tpp/id",
         "/tpp/country/**",
-        "/tpp/sca/email"
+        "/tpp/sca/email",
+        "/tpp/users/reset/password/*",
+        "/tpp/push/tan"
     };
 
     protected static final String[] ACTUATOR_WHITELIST = {

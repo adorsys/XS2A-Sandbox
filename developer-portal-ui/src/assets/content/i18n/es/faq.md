@@ -56,7 +56,7 @@ Otra razón podría ser que el estado de consentimiento no es válido. Un estado
 
 ## ¿Cómo puedo cambiar el estado de la transacción / consentimiento?
 
-Por defecto, una nueva transacción / consentimiento creado tiene el estado "received" . Para realizar SCA utilizando el enfoque REDIRECT, el sandbox proporciona un Redirect Server donde el estado se actualiza según la PSU. Como SCA para REDIRECT está simplificado para este entorno limitado, es suficiente pasar un PSU-ID a través de Query-Parameter para simular todo el SCA.
+Por defecto, una nueva transacción / consentimiento creado tiene el estado "received" . Para realizar SCA utilizando el enfoque REDIRECT, el ModelBank proporciona un Redirect Server donde el estado se actualiza según la PSU. Como SCA para REDIRECT está simplificado para este entorno limitado, es suficiente pasar un PSU-ID a través de Query-Parameter para simular todo el SCA.
 
 El Query Parameter psu-id es obligatorio. Si no se proporciona, el servidor de redirección mostrará un mensaje de error predeterminado.
 
@@ -71,7 +71,7 @@ Si el estado de la transacción / consentimiento es “recieved", es posible que
 
 ## ¿Cómo puedo crear un certificado válido?
 
-Para acceder a la XS2A API, un TPP debe tener un Qualified Website Authentication Certificate (QWAC, por sus siglas en inglés) válido que generalmente es emitido por un registrado Trust Service Provider. Para el uso de este sandbox, puede emitir certificados de prueba aquí: . Obtendrá un certificado autofirmado (.pem) y una clave privada correspondiente (.key) incrustadas en un archivo .zip
+Para acceder a la XS2A API, un TPP debe tener un Qualified Website Authentication Certificate (QWAC, por sus siglas en inglés) válido que generalmente es emitido por un registrado Trust Service Provider. Para el uso de este ModelBank, puede emitir certificados de prueba aquí: . Obtendrá un certificado autofirmado (.pem) y una clave privada correspondiente (.key) incrustadas en un archivo .zip
 
 ## ¿Cómo puedo incrustar un certificado en una solicitud?
 

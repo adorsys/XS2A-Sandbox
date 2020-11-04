@@ -13,6 +13,7 @@ import org.mapstruct.factory.Mappers;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.RECEIVED;
@@ -56,7 +57,7 @@ class LedgersResponseMapperTest {
         response.setExpiresInSeconds(600);
         response.setChallengeData(new ChallengeDataTO());
         response.setMultilevelScaRequired(false);
-        response.setBearerToken(new BearerTokenTO(ACCESS_TOKEN, "Bearer", 600, null, new AccessTokenTO()));
+        response.setBearerToken(new BearerTokenTO(ACCESS_TOKEN, "Bearer", 600, null, new AccessTokenTO(), new HashSet<>()));
         return response;
     }
 

@@ -25,6 +25,12 @@
             <username>${env.SONATYPE_USERNAME}</username>
             <password>${env.SONATYPE_PASSWORD}</password>
         </server>
+        <server>
+            <!-- Nexus local ledgers-->
+            <id>snapshots-nexus-ledgers</id>
+            <username>${env.NEXUS_LOCAL_USERNAME}</username>
+            <password>${env.NEXUS_LOCAL_PASSWORD}</password>
+        </server>
     </servers>
     <profiles>
         <profile>

@@ -106,19 +106,6 @@ class TppAccountsControllerTest {
     }
 
     @Test
-    void getAccountDetailsByIban() {
-        // Given
-        when(accountRestClient.getAccountDetailsByIban(any())).thenAnswer(i -> ResponseEntity.ok(getAccountDetailsTO()));
-
-        // When
-        ResponseEntity<AccountDetailsTO> response = accountsController.getAccountDetailsByIban(IBAN);
-
-        // Then
-        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
-        assertEquals(response.getBody(), getAccountDetailsTO());
-    }
-
-    @Test
     void getSingleAccount() {
         // Given
         when(accountMgmtStaffRestClient.getAccountDetailsById(any())).thenAnswer(i -> ResponseEntity.ok(getAccountDetailsTO()));

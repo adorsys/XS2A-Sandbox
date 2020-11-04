@@ -10,12 +10,6 @@ with psuIds as
      deleteAccountAccess as
        (delete from account_access where consent_id in
                                          (select * from consentIdsFilteredByPsuIds)),
-     deleteAisAccountAccess as
-       (delete from ais_account_access where consent_id in
-                                             (select * from consentIdsFilteredByPsuIds)),
-     deleteAisAspspAccountAccess as
-       (delete from ais_aspsp_account_access where consent_id in
-                                                   (select * from consentIdsFilteredByPsuIds)),
      deleteAisConsent as
        (delete from ais_consent where id in
                                       (select * from consentIdsFilteredByPsuIds)),
@@ -28,15 +22,9 @@ with psuIds as
      deleteConsentCommonPsuData as
        (delete from psu_data where id in (select * from consentCommonPsuDataIds)),
 
-     deleteAisConsentPsuData as
-       (delete from ais_consent_psu_data where ais_consent_id in
-                                               (select * from consentIdsFilteredByPsuIds)),
      deleteAisConsentTransaction as
        (delete from ais_consent_transaction where consent_id in
                                                   (select * from consentIdsFilteredByPsuIds)),
-     deleteAisConsentUsage as
-       (delete from ais_consent_usage where consent_id in
-                                            (select * from consentIdsFilteredByPsuIds)),
      deleteAspspAccountAccess as
        (delete from aspsp_account_access where consent_id in
                                                (select * from consentIdsFilteredByPsuIds)),

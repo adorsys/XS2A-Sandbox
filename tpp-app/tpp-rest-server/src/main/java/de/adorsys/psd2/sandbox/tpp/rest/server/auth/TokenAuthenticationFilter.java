@@ -1,12 +1,11 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.auth;
 
+import de.adorsys.ledgers.keycloak.client.api.KeycloakTokenService;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
-import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.ResponseEntity;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -22,14 +21,15 @@ import static de.adorsys.psd2.sandbox.tpp.rest.server.auth.SecurityConstant.BEAR
 
 @RequiredArgsConstructor
 public class TokenAuthenticationFilter extends AbstractAuthFilter {
-    private final UserMgmtRestClient ledgersUserMgmt;
     private final AuthRequestInterceptor authInterceptor;
+    private final KeycloakTokenService tokenService;
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
+        authInterceptor.setAccessToken(null);
         String bearerToken = resolveBearerToken(request);
 
         if (StringUtils.isBlank(bearerToken)) {
@@ -40,8 +40,10 @@ public class TokenAuthenticationFilter extends AbstractAuthFilter {
         if (authenticationIsRequired()) {
             try {
                 authInterceptor.setAccessToken(bearerToken);
-                ResponseEntity<BearerTokenTO> validateResponse = ledgersUserMgmt.validate(bearerToken);
-                BearerTokenTO token = Optional.ofNullable(validateResponse.getBody())
+
+                BearerTokenTO validateResponse = tokenService.validate(bearerToken);
+
+                BearerTokenTO token = Optional.ofNullable(validateResponse)
                                           .orElseThrow(() -> new RestException("Couldn't get bearer token"));
 
                 fillSecurityContext(token);

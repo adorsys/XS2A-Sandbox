@@ -73,8 +73,7 @@ export class AuthService {
   }
 
   getAuthorizedUser(): string {
-    return this.jwtHelperService.decodeToken(this.getAuthorizationToken())
-      .login;
+    return this.jwtHelperService.decodeToken(this.getAuthorizationToken()).preferred_username;
   }
 
   getAuthorizationToken(): string {
@@ -93,5 +92,9 @@ export class AuthService {
     return this.onlineBankingAuthorizationService.sendCodeUsingPOST(
       resetPassword
     );
+  }
+
+  public resetPasswordViaEmail(login: string): Observable<any> {
+    return this.onlineBankingAuthorizationService.resetPasswordViaEmail(login)
   }
 }

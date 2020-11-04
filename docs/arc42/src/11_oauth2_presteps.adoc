@@ -5,7 +5,7 @@
 [role="arc42help"]
 ****
 .Contents
-A short step by step instruction how to test oAuth 2.0 pre-steps in the Dynamic Sandbox with Postman.
+A short step by step instruction how to test oAuth 2.0 pre-steps in the ModelBank with Postman.
 ****
 
 === oAuth 2.0 Flow

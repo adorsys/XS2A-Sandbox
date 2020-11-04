@@ -1,10 +1,10 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, Observable} from 'rxjs';
 
-import { environment } from '../../environments/environment';
-import { User } from '../models/user.model';
-import { tap } from 'rxjs/operators';
+import {environment} from '../../environments/environment';
+import {User} from '../models/user.model';
+import {tap} from 'rxjs/operators';
 
 
 @Injectable({
@@ -23,6 +23,10 @@ export class TppUserService {
     return this.http.get<User>(`${this.url}/users/me`).pipe(
       tap(user => this.tppUser.next(user))
     );
+  }
+
+  public resetPasswordViaEmail(login: string): Observable<any> {
+    return this.http.post(this.url + '/users/reset/password/' + login, null);
   }
 
   public loadUserInfo(): void {

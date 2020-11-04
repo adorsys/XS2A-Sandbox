@@ -44,8 +44,7 @@ public class ResponseUtils {
 	 *
 	 * @param accessTokenTO
 	 */
-	public void setCookies(HttpServletResponse response, ConsentReference consentReference, String accessTokenString,
-			AccessTokenTO accessTokenTO) {
+	public void setCookies(HttpServletResponse response, ConsentReference consentReference, String accessTokenString, AccessTokenTO accessTokenTO) {
 
 		int validity = cookieConfigProperties.getMaxAge();// default to five seconds.
 		if (StringUtils.isNoneBlank(accessTokenString) && accessTokenTO != null) {

@@ -13,15 +13,15 @@
 
 <div class="what-sandbox-wrapper container">
 
-## ¿Qué es XS2A Sandbox?
+## ¿Qué es XS2A ModelBank?
 
-El XS2ASandbox es un entorno dinámico de sandbox que cumple completamente con los requisitos de PSD2 para proporcionar API para terceros proveedores (TPP). Basado en la especificación NextGen PSD2 de Berlin Group para el acceso a las cuentas (XS2A), XS2ASandbox cumple todos los requisitos reglamentarios y cumple con NISP. Este portal de desarrolladores se crea para ayudar a los desarrolladores de TPP a comenzar a trabajar con XS2A Sandbox.
+El ModelBank es un entorno dinámico de sandbox que cumple completamente con los requisitos de PSD2 para proporcionar API para terceros proveedores (TPP). Basado en la especificación NextGen PSD2 de Berlin Group para el acceso a las cuentas (XS2A), ModelBank cumple todos los requisitos reglamentarios y cumple con NISP. Este portal de desarrolladores se crea para ayudar a los desarrolladores de TPP a comenzar a trabajar con ModelBank.
 
 </div>
 
 <div class="how-use-api">
 
-# Cómo usar el XS2A Sandbox
+# Cómo usar el ModelBank
 
 <div class="steps-wrapper">
 
@@ -31,7 +31,7 @@ Leer el manual de [«Cómo empezar»](/getting-started)
 <div class="arrow-right"></div>
 
 Paso 2 <br/>
-Descargar, instalar y ejecutar XS2A Sandbox
+Descargar, instalar y ejecutar ModelBank
 
 <div class="arrow-right"></div>
 
@@ -52,8 +52,8 @@ Paso 3 <br/>
 
 <div class="features-text">
 
-# XS2ASandbox características
+# ModelBank características
 
-XS2ASandbox es un entorno dinámico de sandbox: se puede crear usuarios, pagos y consentimientos, jugar con datos para propósitos de prueba. Con dinamica sandbox TPP UI se puede acceder directamente a la API de la banca, obtener el certificado de TPP y administrar las cuentas de prueba. El portal de desarrolladores contiene instrucciones de prueba y todos los casos de prueba necesarios. Todos los servicios de XS2ASandbox se pueden instalar y ejecutar en un solo comando. Se admiten dos enfoques principales de SCA: REDIRECTO E INTEGRADO. Para el enfoque redirecto fue creado el online banking demo UI.
+ModelBank es un entorno dinámico de sandbox: se puede crear usuarios, pagos y consentimientos, jugar con datos para propósitos de prueba. Con ModelBank TPP UI se puede acceder directamente a la API de la banca, obtener el certificado de TPP y administrar las cuentas de prueba. El portal de desarrolladores contiene instrucciones de prueba y todos los casos de prueba necesarios. Todos los servicios de ModelBank se pueden instalar y ejecutar en un solo comando. Se admiten dos enfoques principales de SCA: REDIRECTO E INTEGRADO. Para el enfoque redirecto fue creado el online banking demo UI.
 
 </div>

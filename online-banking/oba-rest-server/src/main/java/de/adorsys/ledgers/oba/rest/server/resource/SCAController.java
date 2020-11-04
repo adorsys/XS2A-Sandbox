@@ -3,14 +3,13 @@ package de.adorsys.ledgers.oba.rest.server.resource;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCALoginResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
-import de.adorsys.ledgers.middleware.api.domain.um.UserRoleTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
+import de.adorsys.ledgers.oba.rest.api.resource.SCAApi;
+import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
 import de.adorsys.ledgers.oba.service.api.domain.AuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.PsuMessage;
 import de.adorsys.ledgers.oba.service.api.domain.PsuMessageCategory;
-import de.adorsys.ledgers.oba.rest.api.resource.SCAApi;
-import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -69,7 +68,7 @@ public class SCAController implements SCAApi {
     @ApiOperation(value = "Identifies the user by login an pin. Return sca methods information")
     public ResponseEntity<AuthorizeResponse> login(String login, String pin) {
         // Authorize
-        SCALoginResponseTO loginResponse = ledgersUserMgmt.authorise(login, pin, UserRoleTO.CUSTOMER).getBody();
+        SCALoginResponseTO loginResponse = new SCALoginResponseTO() /*ledgersUserMgmt.authorise(login, pin, UserRoleTO.CUSTOMER).getBody()*/; //TODO Fix me!
 
         // build response
         AuthorizeResponse authResponse = new AuthorizeResponse();
@@ -82,23 +81,23 @@ public class SCAController implements SCAApi {
                 // PSU Message will contain message for selection of sca method.
                 authResponse.setScaMethods(loginResponse.getScaMethods());
             case FINALISED:
-                // SCA was successfull
+                // SCA was successful
             case EXEMPTED:
             case PSUAUTHENTICATED:
                 // Password check was successful.
                 // No auth code required.
                 // PSU Message for login complete.
             case SCAMETHODSELECTED:
-                // Passwor check was successful.
+                // Password check was successful.
                 // Method was auto selected ans auth code was sent.
                 // PSUMessage will contain prompt for auth code.
-                responseUtils.setCookies(response, null, bearerToken.getAccess_token(), bearerToken.getAccessTokenObject());
+                responseUtils.setCookies(this.response, null, bearerToken.getAccess_token(), bearerToken.getAccessTokenObject());
                 return ResponseEntity.ok(authResponse);
             case STARTED:
             case FAILED:
             default:
                 // failed Message. No repeat. Delete cookies.
-                responseUtils.removeCookies(response);
+                responseUtils.removeCookies(this.response);
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
@@ -108,7 +107,7 @@ public class SCAController implements SCAApi {
         ScaStatusTO scaStatus = loginResponse.getScaStatus();
         authResponse.setScaStatus(scaStatus);
         authResponse.setAuthorisationId(loginResponse.getBearerToken().getAccessTokenObject().getAuthorisationId());
-        authResponse.setEncryptedConsentId(loginResponse.getScaId());
+        //authResponse.setEncryptedConsentId(loginResponse.getScaId()); TODO Check if required
         PsuMessage psuMessage = new PsuMessage().category(PsuMessageCategory.INFO).text(loginResponse.getPsuMessage());
         authResponse.setPsuMessages(Collections.singletonList(psuMessage));
         return scaStatus;
@@ -133,7 +132,7 @@ public class SCAController implements SCAApi {
 
         try {
             authInterceptor.setAccessToken(auth.getBearerToken().getAccess_token());
-            SCALoginResponseTO loginResponse = ledgersUserMgmt.selectMethod(scaId, authorisationId, methodId).getBody();
+            SCALoginResponseTO loginResponse = new SCALoginResponseTO()/*ledgersUserMgmt.selectMethod(scaId, authorisationId, methodId).getBody()*/; //TODO Seems to be useless
             prepareAuthResponse(authResponse, Objects.requireNonNull(loginResponse));
             BearerTokenTO bearerToken = loginResponse.getBearerToken();
             responseUtils.setCookies(response, null, bearerToken.getAccess_token(), bearerToken.getAccessTokenObject());
@@ -154,7 +153,7 @@ public class SCAController implements SCAApi {
         try {
             authInterceptor.setAccessToken(auth.getBearerToken().getAccess_token());
 
-            SCALoginResponseTO authorizeResponse = ledgersUserMgmt.authorizeLogin(scaId, authorisationId, authCode).getBody();
+            SCALoginResponseTO authorizeResponse = new SCALoginResponseTO()/*ledgersUserMgmt.authorizeLogin(scaId, authorisationId, authCode).getBody()*/;//TODO Seems to be useless
             prepareAuthResponse(authResponse, Objects.requireNonNull(authorizeResponse));
             BearerTokenTO bearerToken = authorizeResponse.getBearerToken();
             responseUtils.setCookies(response, null, bearerToken.getAccess_token(), bearerToken.getAccessTokenObject());

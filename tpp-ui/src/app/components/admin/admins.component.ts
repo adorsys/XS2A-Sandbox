@@ -6,10 +6,11 @@ import {UserService} from '../../services/user.service';
 import {PageConfig, PaginationConfigModel,} from '../../models/pagination-config.model';
 import {TppManagementService} from '../../services/tpp-management.service';
 import {PageNavigationService} from '../../services/page-navigation.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ADMIN_KEY} from '../../commons/constant/constant';
 import {InfoService} from '../../commons/info/info.service';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {TppUserService} from "../../services/tpp.user.service";
 
 @Component({
   selector: 'app-admins',
@@ -37,7 +38,9 @@ export class AdminsComponent implements OnInit {
     private tppManagementService: TppManagementService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private router: Router,
+    private userInfoService: TppUserService
   ) {
   }
 
@@ -91,13 +94,19 @@ export class AdminsComponent implements OnInit {
     this.modalService.open(content).result.then(
       () => {
         if (type === 'delete') {
-          this.tppManagementService.deleteUser(userId).subscribe(() => {
-            this.infoService.openFeedback('Admin was successfully deleted!', {
-              severity: 'info',
+          this.userInfoService.getUserInfo().subscribe((user: User) => {
+            this.tppManagementService.deleteUser(userId).subscribe(() => {
+              this.infoService.openFeedback('Admin was successfully deleted!', {
+                severity: 'info',
+              });
+              if (userId === user.id) {
+                localStorage.removeItem('access_token');
+                this.router.navigateByUrl('/login');
+              } else {
+                this.getAdmins();
+              }
             });
-            this.getAdmins();
           });
-          this.listAdmins(this.config.currentPageNumber, this.config.itemsPerPage);
         }
       },
       () => {

@@ -1,6 +1,5 @@
 package de.adorsys.ledgers.oba.rest.server.resource.oba;
 
-import de.adorsys.ledgers.middleware.api.domain.oauth.GrantTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.oauth.OauthCodeResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.oauth.OauthServerInfoTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
@@ -33,7 +32,7 @@ public class ObaOauthController implements ObaOauthApi {
 
     @Override
     public ResponseEntity<BearerTokenTO> oauthToken(String code) {
-        return oauthRestClient.oauthToken(GrantTypeTO.AUTHORISATION_CODE, code);
+        return oauthRestClient.oauthToken(code);
     }
 
     @Override

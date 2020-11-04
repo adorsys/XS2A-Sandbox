@@ -2,4 +2,4 @@ Für alle Tests, sowohl die Redirect als auch die Embedded Ansätze, wird ein PI
 
 Der Test-PIN wird automatisch für jeden Nutzer generiert und lautet: 12345.
 
-Folgende Test-TAN ist nur gültig, wenn Sie die Sandbox lokal über das ‘dev’ Profil laufen lassen: 123456.
+Folgende Test-TAN ist nur gültig, wenn Sie die ModelBank lokal über das ‘dev’ Profil laufen lassen: 123456.

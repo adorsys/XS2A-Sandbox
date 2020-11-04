@@ -1,4 +1,4 @@
-= About the XS2A Sandbox Architecture Documentation
+= About the ModelBank Architecture Documentation
 
 == How to Build
 
@@ -18,7 +18,7 @@ $ gem install asciidoctor
 * create architecture documentation
 +
 ```sh
-$ make docs/arc42/xs2a-sandbox-arc42.html
+$ make docs/arc42/modelbank-arc42.html
 ```
 
 == Tools Used for Diagrams

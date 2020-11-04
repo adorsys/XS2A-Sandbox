@@ -2,13 +2,15 @@ package de.adorsys.ledgers.oba.rest.server.resource;
 
 import de.adorsys.ledgers.middleware.api.domain.account.AccountReferenceTO;
 import de.adorsys.ledgers.middleware.api.domain.payment.*;
-import de.adorsys.ledgers.middleware.api.domain.sca.*;
+import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
+import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
 import de.adorsys.ledgers.oba.service.api.domain.*;
 import de.adorsys.ledgers.oba.service.api.service.CommonPaymentService;
+import de.adorsys.ledgers.oba.service.api.service.TokenAuthenticationService;
 import de.adorsys.psd2.consent.api.pis.CmsCommonPayment;
 import de.adorsys.psd2.consent.api.pis.CmsPaymentResponse;
 import org.junit.jupiter.api.Test;
@@ -23,6 +25,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Currency;
+import java.util.HashSet;
 
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -60,6 +63,8 @@ class PISControllerTest {
     private ObaMiddlewareAuthentication middlewareAuth;
     @Mock
     private AuthRequestInterceptor authInterceptor;
+    @Mock
+    private TokenAuthenticationService authenticationService;
 
     @Test
     void pisAuth() {
@@ -78,8 +83,8 @@ class PISControllerTest {
         // Given
         when(responseUtils.consentCookie(any())).thenReturn(COOKIE);
         when(paymentService.identifyPayment(anyString(), anyString(), anyBoolean(), anyString(), anyString(), any())).thenReturn(getPaymentWorkflow(PSUIDENTIFIED));
-        when(xisService.performLoginForConsent(anyString(), anyString(), anyString(), anyString(), any(OpTypeTO.class))).thenReturn(getScaLoginResponse());
-        when(paymentService.initiatePayment(any(), anyString())).thenReturn(getPaymentWorkflow(PSUIDENTIFIED));
+        when(authenticationService.login(anyString(), anyString(), anyString())).thenReturn(getScaLoginResponse());
+        when(paymentService.initiatePaymentOpr(any(), anyString(), any())).thenReturn(getPaymentWorkflow(PSUIDENTIFIED));
         when(xisService.resolvePaymentWorkflow(any())).thenReturn(ResponseEntity.ok(getPaymentAuthorizeResponse(true, true, PSUIDENTIFIED)));
 
         // When
@@ -89,7 +94,7 @@ class PISControllerTest {
         assertEquals(ResponseEntity.ok(getPaymentAuthorizeResponse(true, true, PSUIDENTIFIED)), result);
     }
 
-    @Test
+    /*@Test
     void initiatePayment() throws NoSuchFieldException {
         // Given
         FieldSetter.setField(controller, controller.getClass().getDeclaredField("middlewareAuth"), new ObaMiddlewareAuthentication(null, new BearerTokenTO(TOKEN, null, 999, null, getAccessTokenTO())));
@@ -102,30 +107,15 @@ class PISControllerTest {
 
         // Then
         assertEquals(ResponseEntity.ok(getPaymentAuthorizeResponse(true, true, PSUIDENTIFIED)), result);
-    }
-
-    @Test
-    void selectMethod() throws NoSuchFieldException {
-        // Given
-        FieldSetter.setField(controller, controller.getClass().getDeclaredField("middlewareAuth"), new ObaMiddlewareAuthentication(null, new BearerTokenTO(TOKEN, null, 999, null, getAccessTokenTO())));
-
-        when(responseUtils.consentCookie(any())).thenReturn(COOKIE);
-        when(paymentService.selectScaForPayment(anyString(), anyString(), anyString(), anyString(), anyBoolean(), anyString(), any())).thenReturn(getPaymentWorkflow(SCAMETHODSELECTED));
-
-        // When
-        ResponseEntity<PaymentAuthorizeResponse> result = controller.selectMethod(ENCRYPTED_ID, AUTH_ID, METHOD_ID, COOKIE);
-
-        // Then
-        assertEquals(ResponseEntity.ok(getPaymentAuthorizeResponse(true, true, SCAMETHODSELECTED)), result);
-    }
+    }*/ //TODO Useless as seems method unused by FE
 
     @Test
     void authrizedPayment() throws NoSuchFieldException {
         // Given
-        FieldSetter.setField(controller, controller.getClass().getDeclaredField("middlewareAuth"), new ObaMiddlewareAuthentication(null, new BearerTokenTO(TOKEN, null, 999, null, getAccessTokenTO())));
+        FieldSetter.setField(controller, controller.getClass().getDeclaredField("middlewareAuth"), new ObaMiddlewareAuthentication(null, getBearerToken()));
         when(responseUtils.consentCookie(any())).thenReturn(COOKIE);
         when(paymentService.identifyPayment(anyString(), anyString(), anyBoolean(), anyString(), anyString(), any())).thenReturn(getPaymentWorkflow(PSUIDENTIFIED));
-        when(paymentService.authorizePayment(any(), anyString(), anyString())).thenReturn(getPaymentWorkflow(FINALISED));
+        when(paymentService.authorizePaymentOpr(any(), anyString(), anyString(), any())).thenReturn(getPaymentWorkflow(FINALISED));
 
         // When
         ResponseEntity<PaymentAuthorizeResponse> result = controller.authrizedPayment(ENCRYPTED_ID, AUTH_ID, METHOD_ID, COOKIE);
@@ -137,7 +127,7 @@ class PISControllerTest {
     @Test
     void failPaymentAuthorisation() throws NoSuchFieldException {
         // Given
-        FieldSetter.setField(controller, controller.getClass().getDeclaredField("middlewareAuth"), new ObaMiddlewareAuthentication(null, new BearerTokenTO(TOKEN, null, 999, null, getAccessTokenTO())));
+        FieldSetter.setField(controller, controller.getClass().getDeclaredField("middlewareAuth"), new ObaMiddlewareAuthentication(null, getBearerToken()));
         when(responseUtils.consentCookie(any())).thenReturn(COOKIE);
         when(paymentService.identifyPayment(anyString(), anyString(), anyBoolean(), anyString(), anyString(), any())).thenReturn(getPaymentWorkflow(FAILED));
 
@@ -151,7 +141,7 @@ class PISControllerTest {
     @Test
     void pisDone() throws NoSuchFieldException {
         // Given
-        FieldSetter.setField(controller, controller.getClass().getDeclaredField("middlewareAuth"), new ObaMiddlewareAuthentication(null, new BearerTokenTO(TOKEN, null, 999, null, getAccessTokenTO())));
+        FieldSetter.setField(controller, controller.getClass().getDeclaredField("middlewareAuth"), new ObaMiddlewareAuthentication(null, getBearerToken()));
         when(responseUtils.consentCookie(any())).thenReturn(COOKIE);
         when(paymentService.resolveRedirectUrl(anyString(), anyString(), anyString(), anyBoolean(), anyString(), any(), anyString())).thenReturn(NOK_URI);
         when(responseUtils.redirect(anyString(), any())).thenReturn(ResponseEntity.ok(getPaymentAuthorizeResponse(false, false, FAILED)));
@@ -170,20 +160,18 @@ class PISControllerTest {
         return workflow;
     }
 
-    private SCAResponseTO getScaResponse(ScaStatusTO status) {
-        SCAPaymentResponseTO to = new SCAPaymentResponseTO();
+    private GlobalScaResponseTO getScaResponse(ScaStatusTO status) {
+        GlobalScaResponseTO to = new GlobalScaResponseTO();
         to.setScaStatus(status);
         to.setAuthorisationId(AUTH_ID);
-        to.setPaymentId(PMT_ID);
+        to.setOperationObjectId(PMT_ID);
         to.setBearerToken(getBearerToken());
-        to.setPaymentProduct(SEPA);
-        to.setPaymentType(PaymentTypeTO.SINGLE);
         to.setMultilevelScaRequired(false);
         return to;
     }
 
     private BearerTokenTO getBearerToken() {
-        return new BearerTokenTO(TOKEN, null, 999, null, getAccessTokenTO());
+        return new BearerTokenTO(TOKEN, null, 999, null, getAccessTokenTO(), new HashSet<>());
     }
 
     private CmsPaymentResponse getCmsPaymentResponse() {
@@ -228,13 +216,13 @@ class PISControllerTest {
         return ResponseEntity.ok(resp);
     }
 
-    private ResponseEntity<SCALoginResponseTO> getScaLoginResponse() {
-        SCALoginResponseTO to = new SCALoginResponseTO();
+    private GlobalScaResponseTO getScaLoginResponse() {
+        GlobalScaResponseTO to = new GlobalScaResponseTO();
         to.setAuthorisationId(AUTH_ID);
         to.setScaStatus(PSUIDENTIFIED);
 
-        to.setBearerToken(new BearerTokenTO(null, null, 999, null, getAccessTokenTO()));
-        return ResponseEntity.ok(to);
+        to.setBearerToken(getBearerToken());
+        return to;
     }
 
     private AccessTokenTO getAccessTokenTO() {
