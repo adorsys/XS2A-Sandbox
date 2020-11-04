@@ -1,6 +1,6 @@
-## Running the XS2ASandbox
+## Running the ModelBank
 
-For build and run XS2ASandbox requires GNU Make to be installed on your local machine. Please, make sure it is installed.
+For build and run ModelBank requires GNU Make to be installed on your local machine. Please, make sure it is installed.
 
 1.Download the project and go to the project directory:
 
@@ -9,7 +9,7 @@ For build and run XS2ASandbox requires GNU Make to be installed on your local ma
 > cd XS2A-Sandbox
 ```
 
-2.This sandbox runs with the docker-compose that can be found at:  [docker-compose.yml](docker-compose.yml) and [Makefile](Makefile).
+2.This ModelBank runs with the docker-compose that can be found at:  [docker-compose.yml](docker-compose.yml) and [Makefile](Makefile).
 But before you run this, first of all you should check if all build dependencies are installed:
 
 ```sh
@@ -17,7 +17,7 @@ But before you run this, first of all you should check if all build dependencies
 ```
 
 If something is missing, install it to your local machine, otherwise the build will fail. 
-List of dependencies that are required to use XS2ASandbox: **Java 11**, **nodeJs**, **AngularCLI**, **asciidoctor**, **jq**, **docker**, **docker-compose**, **maven**, **plantuml**.
+List of dependencies that are required to use ModelBank: **Java 11**, **nodeJs**, **AngularCLI**, **asciidoctor**, **jq**, **docker**, **docker-compose**, **maven**, **plantuml**.
 Here are links where you can install needed dependencies:
 
 | Dependency         | Link                                    |                                                     
@@ -42,13 +42,13 @@ For a fast and painless start of all the services it should be not less than 5 G
 
 ---
 **Note2:**
-If you clone master branch or tag version of XS2ASandbox you should run service with commands like  `docker-compose up` or `make run`.
+If you clone master branch or tag version of ModelBank you should run service with commands like  `docker-compose up` or `make run`.
 
 ---
 
 3.Build and run the project:
 
-You can build and run XS2ASandbox in two ways - with a docker command or with Makefile commands.
+You can build and run ModelBank in two ways - with a docker command or with Makefile commands.
 
 If you want use a first way:
 
@@ -58,7 +58,7 @@ Build all the services with command:
 > make
 ```
 
-After building services you can run XS2ASandbox with a simple docker command:
+After building services you can run ModelBank with a simple docker command:
 
 ```sh 
 > docker-compose up
@@ -88,11 +88,11 @@ Once you have built the project you can run it without build next time - command
 
 Remember that after you update the project you should rebuild it - command **make** or **make all** from Makefile.
 
-4.Open [Developer Portal](http://localhost:4206) and follow the manual to start working with XS2ASandbox.
+4.Open [Developer Portal](http://localhost:4206) and follow the manual to start working with ModelBank.
 
 5.Stop running containers in terminal with key combination **Control + C**.
 
-6.Afterwards you can remove all the Sandbox containers from Docker with the following command:
+6.Afterwards you can remove all the ModelBank containers from Docker with the following command:
 
 ```sh 
 > docker-compose rm -s -f -v
@@ -120,7 +120,7 @@ http://localhost:48080/swagger-ui.html
 
 ### Developer portal UI
 
-Developer portal is the main information resource on how to get started, how to test and work with XS2ASandbox.
+Developer portal is the main information resource on how to get started, how to test and work with ModelBank.
 
 ```
 http://localhost:4206

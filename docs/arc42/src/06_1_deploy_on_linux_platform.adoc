@@ -2,7 +2,7 @@
 
 == Linux Deployment
 
-This is description of services,dependencies and steps  to run XS2ASandbox on any linux system.
+This is description of services, dependencies and steps to run ModelBank on any linux system.
 
 .Table of services and dependencies:
 
@@ -170,34 +170,34 @@ $ postgres=# CREATE SCHEMA consent AUTHORIZATION cmsdb;
 === 2.2 Java Backend
 ==== 2.2.1 Java applications
 
-* create directory for application binaries
+* create a directory for application binaries
 
 ```sh
-$ mkdir /opt/sandbox
+$ mkdir /opt/modelbank
 ```
 
 * copy the binaries:
 
 ```sh
-$ cp *.jar /opt/sandbox/
+$ cp *.jar /opt/modelbank/
 ```
 
 * make the binaries executable:
 
 ```sh
-$ chmod +x /opt/sandbox/*.jar
+$ chmod +x /opt/modelbank/*.jar
 ```
 
 * run the binaries (through a startup script on server boot):
 
 ```sh
-$ $JAVA_HOME/bin/java $JAVA_OPTS_ASPSP_PROFILE -jar /opt/sandbox/aspsp-profile.jar
-$ $JAVA_HOME/bin/java $JAVA_OPTS_CMS -jar /opt/sandbox/consent-management.jar
-$ $JAVA_HOME/bin/java $JAVA_OPTS_GATEWAY -jar /opt/sandbox/gateway-app.jar
-$ $JAVA_HOME/bin/java $JAVA_OPTS_LEDGERS -jar /opt/sandbox/ledgers-app.jar
-$ $JAVA_HOME/bin/java $JAVA_OPTS_OBA -jar /opt/sandbox/xs2a-online-banking.jar
-$ $JAVA_HOME/bin/java $JAVA_OPTS_TPP -jar /opt/sandbox/tpp-rest-server.jar
-$ $JAVA_HOME/bin/java -jar /opt/sandbox/certificate-generator.jar
+$ $JAVA_HOME/bin/java $JAVA_OPTS_ASPSP_PROFILE -jar /opt/modelbank/aspsp-profile.jar
+$ $JAVA_HOME/bin/java $JAVA_OPTS_CMS -jar /opt/modelbank/consent-management.jar
+$ $JAVA_HOME/bin/java $JAVA_OPTS_GATEWAY -jar /opt/modelbank/gateway-app.jar
+$ $JAVA_HOME/bin/java $JAVA_OPTS_LEDGERS -jar /opt/modelbank/ledgers-app.jar
+$ $JAVA_HOME/bin/java $JAVA_OPTS_OBA -jar /opt/modelbank/xs2a-online-banking.jar
+$ $JAVA_HOME/bin/java $JAVA_OPTS_TPP -jar /opt/modelbank/tpp-rest-server.jar
+$ $JAVA_HOME/bin/java -jar /opt/modelbank/certificate-generator.jar
 ```
 NOTE: Please, note, that you have to change $JAVA_OPTS_* placeholder to the options you want to specify for every jar.
 The table of options and possible configurations you can find below:
@@ -220,13 +220,13 @@ The table of options and possible configurations you can find below:
 | | | SPRING_LIQUIBASE_PASSWORD | password_to_change | The same as for SPRING_DATASOURCE_PASSWORD
 | | | USED_NON_RECURRING_CONSENT_EXPIRATION_CRON_EXPRESSION | 0 0 * * * * |
 | | | SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA | consent |
-| | | skip_ssl_certificate_verification | true, false | Value used in XS2A_Sandbox is true
+| | | skip_ssl_certificate_verification | true, false | Value used in ModelBank is true
 | $JAVA_OPTS_GATEWAY | XS2A Connector examples | SPRING_PROFILES_ACTIVE | postgres,mock-qwac | mock-qwac is used only for testing, this profile mocks TPP QWAC certificate for every request. This profile should not be used for production
 | | | ASPSP_PROFILE_BASEURL | http://localhost:8080/api/v1 (example) | Mandatory URL to your Aspsp-profile application.
 | | | CMS_URL | http://localhost:8080 (example) | Mandatory consent-management-system URL
 | | | LEDGERS_URL | http://localhost:8088 (example)| Mandatory Ledgers URL
 | | | CONSENT_SERVICE_BASEURL | http://localhost:8080/api/v1 (example) | Base consent-management URL for calls to endpoints (CMS_URL + "api/v1")
-| | | skip_ssl_certificate_verification | true, false | Value used in XS2A Sandbox is true
+| | | skip_ssl_certificate_verification | true, false | Value used in ModelBank is true
 | | | DB_PASSWORD | password-to-change |
 | | | DB_USER | cmsdb |
 | | | DB_DATABASE | cms |
@@ -252,7 +252,7 @@ The table of options and possible configurations you can find below:
 | | | LEDGERS_URL | http://localhost:8088 |
 | | | CMS_URL | http://localhost:8080 |
 | | | ONLINE_BANKING_SCA_LOGINPAGE | https://demo-dynamicsandbox-onlinebankingui-cloud-adorsys.de/ (example) | Online-banking page, to which user would be redirected in Redirect approach
-| | | ONLINE_BANKING_SCA_UIREDIRECT | true, false | XS2A Sandbox uses "true" as a value in this configuration
+| | | ONLINE_BANKING_SCA_UIREDIRECT | true, false | ModelBank uses "true" as a value in this configuration
 | | | MANAGEMENT_ENDPOINTS_WEB_CORS_ALLOWED_METHODS | GET,POST,PUT,DELETE,OPTIONS,PATCH | CORS settings
 | | | MANAGEMENT_ENDPOINTS_WEB_CORS_ALLOWED_ORIGINS | https://demo-dynamicsandbox-onlinebankingui-cloud-adorsys.de | CORS settings
 | $JAVA_OPTS_TPP | TPP REST server | LEDGERS_URL | http://localhost:8088 |
@@ -400,26 +400,26 @@ server {
 == 3. Handling SSL-connection
 
 * Option 1:
-`TPP -> (https + tls) -> GW -> (http + header) -> Sandbox`
+`TPP -> (https + tls) -> GW -> (http + header) -> ModelBank`
 
-Using an existing gateway which terminates SSL, extracts the TPP / QWAC certificate and hands it on to the sandbox application in HTTP header.
+Using an existing gateway which terminates SSL, extracts the TPP / QWAC certificate and hands it on to the ModelBank application in HTTP header.
 
 * Option 2:
-`TPP -> (https + tls) -> GW -> (https + tls) -> ssl-proxy -> (http + header) -> Sandbox`
+`TPP -> (https + tls) -> GW -> (https + tls) -> ssl-proxy -> (http + header) -> ModelBank`
 
-Passing HTTPS through the existing gateway and deploying our SSL-Proxy, which will then terminate SSL, extract the TPP / QWAC certificate and hand it on to the sandbox application in HTTP header.
+Passing HTTPS through the existing gateway and deploying our SSL-Proxy, which will then terminate SSL, extract the TPP / QWAC certificate and hand it on to the ModelBank application in HTTP header.
 
 ```sh
-$ cp sandbox-xs2a-server.conf sandbox-portal-server.conf /etc/nginx/conf.d/
+$ cp modelbank-xs2a-server.conf modelbank-portal-server.conf /etc/nginx/conf.d/
 $ mkdir /usr/share/nginx/html/ssl-proxy/
 $ cp dist/tpp-ui/* /usr/share/nginx/html/tpp-ui/
 ```
 
-**sandbox-portal-server.conf file: **
+**modelbank-portal-server.conf file: **
 
 ```
 server {
-  # The Sandbox HTTPS server, which proxies our requests
+  # The ModelBank HTTPS server, which proxies our requests
   listen 8443 ssl;
   server_name $PORTAL_EXTERNAL_URL;
   ssl_protocols TLSv1.1 TLSv1.2;
@@ -442,11 +442,11 @@ server {
 }
 ```
 
-**sandbox-xs2a-server.conf file:**
+**modelbank-xs2a-server.conf file:**
 
 ```
 server {
-  # The Sandbox HTTPS server, which proxies our requests
+  # The ModelBank HTTPS server, which proxies our requests
   listen 8443 ssl;
   server_name $API_EXTERNAL_URL;
   ssl_protocols TLSv1.1 TLSv1.2;

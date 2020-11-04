@@ -1,6 +1,6 @@
 # Testfälle
 
-Nachdem das System die Testdaten geladen hat, können Sie die XS2ASandbox Endpunkte mit Swagger oder den Postman Tests testen. Der Abschnitt „Swagger testing“ beinhaltet eine API Dokumentation und Erklärungen bezüglich der Swagger Nutzung, das Vorbereiten von Testdaten (Jsons).
+Nachdem das System die Testdaten geladen hat, können Sie die ModelBank Endpunkte mit Swagger oder den Postman Tests testen. Der Abschnitt „Swagger testing“ beinhaltet eine API Dokumentation und Erklärungen bezüglich der Swagger Nutzung, das Vorbereiten von Testdaten (Jsons).
 
 Der Abschnitt Postman tests befasst sich mit der Postman-Nutzung für Tests und dem Herunterladen von erstellten Postman Tests mit Testdaten.
 

@@ -3,7 +3,7 @@
 [role="arc42help"]
 ****
 .Contents
-A short step by step instruction how to create an OAuth integrated and pre-step consent approach in our Dynamic Sandbox with Postman.
+A short step by step instruction how to create an OAuth integrated and pre-step consent approach in our ModelBank with Postman.
 ****
 
 NOTE: Please, note, that all steps are for the developer environment and not the DEMO.

@@ -1,6 +1,6 @@
-## XS2ASandbox User Guide
+## ModelBank User Guide
 
-This document describes how to configure XS2ASandbox in your environment.
+This document describes how to configure ModelBank in your environment.
 
 ### E-mail configuration
 

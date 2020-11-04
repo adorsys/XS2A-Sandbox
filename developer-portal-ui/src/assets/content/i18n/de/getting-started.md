@@ -5,27 +5,27 @@
 
 [Die Payment Service Directive 2](<(https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32015L2366&from=EN)>) (PSD2) schreibt Banken (ASPSPs = Account Servicing Payment Service Providers) vor bis März 2020 eine standardisierte und voll leistungsfähige Account-Schnittstelle für Drittanbieter (TPPs = Third Payment Providers) bereitzustellen. Diese wird Access-to-Account oder kurz "XS2A" genannt. XS2A setzt sich aus folgenden Banking-Funktionalitäten zusammen: Zahlungsinitiierung (PIS = Payment Initiation Service), Kontodatenabfrage (AIS = Account Information Service) und Abfrage von verfügbarem Kapital (PIIS = confirmation of the availability of funds). Um die Einhaltung der Frist zu gewährleisten und sowohl Fehlerbehebungen als auch Anpassungen berücksichtigen zu können, verpflichtet PSD2 die Banken eine Testversion der Schnittstelle bereits im Juni 2019 zur Verfügung zu stellen.
 
-Unsere **XS2ASandbox** ist eine dynamische Sandboxumgebung, die vollständig die PSD2-Anforderungen bezüglich API-Bereitstellung für Drittanbieter (TPPs = Third Payment Providers) erfüllt. Zusätzlich erfüllt sie auch alle regulatorischen Anforderungen der NextGen PSD2-Spezifikation der Berlin Group bezüglich Account Schnittstellen (XS2A = Access-to-Account) und ist NISP konform.
+Unsere **ModelBank** ist eine dynamische Sandboxumgebung, die vollständig die PSD2-Anforderungen bezüglich API-Bereitstellung für Drittanbieter (TPPs = Third Payment Providers) erfüllt. Zusätzlich erfüllt sie auch alle regulatorischen Anforderungen der NextGen PSD2-Spezifikation der Berlin Group bezüglich Account Schnittstellen (XS2A = Access-to-Account) und ist NISP konform.
 
-Ziel des Developer-Portals ist es TPP-Entwicklern bei der Arbeit mit unserer XS2ASandbox zu unterstützen.
+Ziel des Developer-Portals ist es TPP-Entwicklern bei der Arbeit mit unserer ModelBank zu unterstützen.
 
 <div class="divider">
 </div>
 
-# XS2ASandbox Architektur und Module
+# ModelBank Architektur und Module
 
-Die XS2ASandbox setzt sich aus ihren Komponenten wie in Abbildung 1.1 zusammen.
+Die ModelBank setzt sich aus ihren Komponenten wie in Abbildung 1.1 zusammen.
 
 ![Abbildung 1.1](../../assets/images/Graphic_XS2A_Sandbox.jpg)
 
-Abbildung 1.1: Komponenten der XS2ASandbox
+Abbildung 1.1: Komponenten der ModelBank
 
 <div class="divider">
 </div>
 
 # XS2A-Schnittstelle
 
-Der Zentrale Bestandteil der **XS2ASandbox** ist die XS2A-Schnittstelle, die gemäß der Spezifikation der Berlin Group [NextGenPSD2](https://www.berlin-group.org/psd2-access-to-bank-accounts) (Version 1.3) implementiert wurde und auf Testdaten basiert. Mehr Details finden Sie in unsere [XS2A Swagger UI](https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/) und der [OpenSource XS2A Schnittstelle auf Github](https://github.com/adorsys/xs2a).
+Der Zentrale Bestandteil der **ModelBank** ist die XS2A-Schnittstelle, die gemäß der Spezifikation der Berlin Group [NextGenPSD2](https://www.berlin-group.org/psd2-access-to-bank-accounts) (Version 1.3) implementiert wurde und auf Testdaten basiert. Mehr Details finden Sie in unsere [XS2A Swagger UI](https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/) und der [OpenSource XS2A Schnittstelle auf Github](https://github.com/adorsys/xs2a).
 
 # ASPSP-Profile
 
@@ -33,7 +33,7 @@ Neben der Schnittstelle ist es für Banken ebenfalls vorgeschrieben eine kostenf
 
 # TPP Zertifikat-Service
 
-Zukünftig wird es für einen TPP notwendig sein, sich bei der BAFIN zu registrieren und von einem Treuhanddienstleister (TSP = Trust Service Provider) ein [eIDAS](https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32014R0910&from=EN) Zertifikat ausstellen zu lassen, um XS2A-Dienstleistungen bei Banken nutzen zu können. Da das Ausstellen eines echten Zertifikates für Testzwecke einen sehr hohen Aufwand bedeuten würde, wird im Rahmen der **XS2ASandbox** ein TSP simuliert und eine Funktion zur Erstellung eines qualifizierten Website-Authentifizierungs-Zertifikates (QWAC) bereitgestellt. Ein QWAC ist Teil der eIDAS und wird auch als [X.509](https://www.ietf.org/rfc/rfc3739.txt) Zertifikat bezeichnet. Für PSD2-Zwecke wird das Zertifikat durch ein QcStatement erweitert, welche Informationen wie die Rolle des Drittanbieters beinhaltet (siehe auch [ETSI](https://www.etsi.org/deliver/etsi_ts/119400_119499/119495/01.01.02_60/ts_119495v010102p.pdf)).
+Zukünftig wird es für einen TPP notwendig sein, sich bei der BAFIN zu registrieren und von einem Treuhanddienstleister (TSP = Trust Service Provider) ein [eIDAS](https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32014R0910&from=EN) Zertifikat ausstellen zu lassen, um XS2A-Dienstleistungen bei Banken nutzen zu können. Da das Ausstellen eines echten Zertifikates für Testzwecke einen sehr hohen Aufwand bedeuten würde, wird im Rahmen der **ModelBank** ein TSP simuliert und eine Funktion zur Erstellung eines qualifizierten Website-Authentifizierungs-Zertifikates (QWAC) bereitgestellt. Ein QWAC ist Teil der eIDAS und wird auch als [X.509](https://www.ietf.org/rfc/rfc3739.txt) Zertifikat bezeichnet. Für PSD2-Zwecke wird das Zertifikat durch ein QcStatement erweitert, welche Informationen wie die Rolle des Drittanbieters beinhaltet (siehe auch [ETSI](https://www.etsi.org/deliver/etsi_ts/119400_119499/119495/01.01.02_60/ts_119495v010102p.pdf)).
 
 Nach der Einbettung des QWAC in die eigentliche XS2A-Anfrage werden sowohl die Rolle als auch die Signatur in einem zentralen Reverse-Proxy validiert, bevor sie schließlich an die für die Banklogik verantwortliche Schnittstelle übergeben werden.
 
@@ -64,7 +64,7 @@ Benutzer können manuell angelegt werden oder über das Hochladen einer .yaml Da
 
 2. Geben Sie Email, Login und Pin für den neuen Benutzer ein.
 
-3. Wählen Sie eine Authentifizierungsmethode aus (derzeit ist nur Email gültig) und geben Sie eine gültige Email ein. Wenn Sie die Option "Statische TAN in SandboxModus verwenden" wählen, werden statische Test TANs verwendet. Das bedeutet Ihre Test TAN muss eingeben werden. Sie können mehrere SCA Methoden pro Benutzer hinzufügen
+3. Wählen Sie eine Authentifizierungsmethode aus (derzeit ist nur Email gültig) und geben Sie eine gültige Email ein. Wenn Sie die Option "Statische TAN in ModelBank verwenden" wählen, werden statische Test TANs verwendet. Das bedeutet Ihre Test TAN muss eingeben werden. Sie können mehrere SCA Methoden pro Benutzer hinzufügen
 
 ### Benutzerkonten manuell erstellen:
 
@@ -92,7 +92,7 @@ Im Falle des REDIRECT SCA-Ansatzes möchte ein Nutzer seine Zustimmung zur Verwe
 
 # Links zu den Umgebungen
 
-| Service                   |            Lokale Umgebung             |                                                                   XS2ASandbox Umgebung |
+| Service                   |            Lokale Umgebung             |                                                                   ModelBank Umgebung |
 | ------------------------- | :------------------------------------: | -------------------------------------------------------------------------------------: |
 | XS2A Interface Swagger    | http://localhost:8089/swagger-ui.html  |                                     https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/ |
 | Developer portal          |         http://localhost:4206          |                        https://demo-dynamicsandbox-developerportalui.cloud.adorsys.de/ |
@@ -111,11 +111,11 @@ Im Falle des REDIRECT SCA-Ansatzes möchte ein Nutzer seine Zustimmung zur Verwe
 
 ## Voraussetzungen
 
-Das XS2ASandbox Projekt läuft mit docker-compose, das sich in docker-compose.yml und Makefile im Projektverzeichnis befindet. Bevor Sie das Projekt ausführen lassen, überprüfen Sie mit:
+Das ModelBank Projekt läuft mit docker-compose, das sich in docker-compose.yml und Makefile im Projektverzeichnis befindet. Bevor Sie das Projekt ausführen lassen, überprüfen Sie mit:
 
 _make check_
 
-Ob Sie alle notwendigen Programme installiert haben. Die fehlenden müssen Sie lokal auf Ihren Rechner installieren, da die XS2ASandbox ansonsten nicht erfolgreich gebaut werden kann. Hier ist eine Liste aller Programme und derer Links die Sie installiert haben müssen:
+Ob Sie alle notwendigen Programme installiert haben. Die fehlenden müssen Sie lokal auf Ihren Rechner installieren, da die ModelBank ansonsten nicht erfolgreich gebaut werden kann. Hier ist eine Liste aller Programme und derer Links die Sie installiert haben müssen:
 
 | Dependency          |                  Link                   |
 | ------------------- | :-------------------------------------: |
@@ -139,19 +139,19 @@ _docker-compose rm -s -f -v_
 
 Überprüfen Sie wie viel Speicher Docker zur Verfügung steht (öffnen Sie Docker Desktop -> Preferences -> Advanced -> Memory). Um einen schnellen und problemlosen Start aller Dienste zu ermöglichen, sollte Docker auf mindestens 5 GB Speicher Zugriff haben.
 
-## Download XS2ASandbox
+## Download ModelBank
 
 Laden Sie das Projekt direkt von GitHub herunter oder nutzen Sie folgenden Befehl:
 
 _git clone https://github.com/adorsys/XS2A-Sandbox_
 
-## Starten der XS2ASandbox
+## Starten der ModelBank
 
 Nach dem erfolgreichen Herunterladen des Projektes gehen Sie in das Projektverzeichnis:
 
 _cd XS2A-Sandbox_
 
-Danach können Sie XS2ASandbox auf zwei Arten bauen und ausführen - mit einem Docker-Befehl oder mit Makefile-Befehlen.
+Danach können Sie ModelBank auf zwei Arten bauen und ausführen - mit einem Docker-Befehl oder mit Makefile-Befehlen.
 
 Falls Sie es wollen benutze einen ersten Weg:
 
@@ -159,7 +159,7 @@ Falls Sie es wollen benutze einen ersten Weg:
 
 _make_
 
-2. Nach dem Gebäude der Dienste können Sie XS2ASandbox mit einem einfachen Docker-Befehl ausführen:
+2. Nach dem Gebäude der Dienste können Sie ModelBank mit einem einfachen Docker-Befehl ausführen:
 
 _docker-compose up_
 
@@ -186,11 +186,11 @@ Denken Sie daran, dass Sie das Projekt nach dem Aktualisieren neu erstellen soll
 
 # Fehlerbehebung
 
-Hier erklären wir Ihnen mögliche Fehler, die beim Starten der XS2ASandbox auftreten können, und wie Sie diese beheben können.
+Hier erklären wir Ihnen mögliche Fehler, die beim Starten der ModelBank auftreten können, und wie Sie diese beheben können.
 
 ## Liquibase changelog Fehler
 
-Dieser Fehler kann auftreten, wenn ein vorheriger Start der XS2ASandbox fehlschlug. Hier ein Beispiel eines möglichen Stacktrace:
+Dieser Fehler kann auftreten, wenn ein vorheriger Start der ModelBank fehlschlug. Hier ein Beispiel eines möglichen Stacktrace:
 
 ```yaml
 ledgers | 2019-05-02 13:54:29.410 INFO 1 --- [ main] liquibase.executor.jvm.JdbcExecutor : SELECT LOCKED FROM ledgers.databasechangeloglock WHERE ID=1
@@ -247,7 +247,7 @@ Sollte Ihre NodeJs Version höher als 11.x sein, ändern Sie diese zu einer frü
 2. Falls Sie kein Konto haben, wechseln Sie mit Hilfe des "Register" Button zu der Registrierungsansicht.
 3. Registrieren und loggen Sie sich ein.
 4. Laden Sie Ihre Testdaten hoch und starten Sie Ihren Testlauf.
-   In Abbildung 1.2 ist der vollständige Ablauf wie man als TPP die Arbeit mit der XS2ASandbox beginnt veranschaulicht:
+   In Abbildung 1.2 ist der vollständige Ablauf wie man als TPP die Arbeit mit der ModelBank beginnt veranschaulicht:
 
 ![Abbildung 1.2](../../assets/images/Flow.png)
 
@@ -361,4 +361,4 @@ Herzlichen Glückwunsch, Sie haben Ihre Anpassung abgeschlossen!
 
 # Nächsten Schritte
 
-Wenn Sie alle oben genannten Schritte durchgeführt haben, können Sie unter Testfälle weitergehende Tests nachlesen und durchführen. Dort finden Sie von uns erstellte Postman tests, Beschreibung der XS2A Interface API und Erklärungen der XS2ASandbox Tests mit Swagger.
+Wenn Sie alle oben genannten Schritte durchgeführt haben, können Sie unter Testfälle weitergehende Tests nachlesen und durchführen. Dort finden Sie von uns erstellte Postman tests, Beschreibung der XS2A Interface API und Erklärungen der ModelBank Tests mit Swagger.

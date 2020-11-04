@@ -13,15 +13,15 @@
 
 <div class="what-sandbox-wrapper container">
 
-## What is XS2ASandbox?
+## What is ModelBank?
 
-The XS2ASandbox is a dynamic sandbox environment that fully meets the PSD2 requirements for providing APIs for Third-Party Providers (TPP). Based on the Berlin Group’s NextGen PSD2 specification for access to accounts (XS2A), XS2ASandbox meets all the regulatory requirements and is NISP compliant. This developer portal is created to help TPP developers start working with XS2ASandbox.
+The ModelBank is a dynamic sandbox environment that fully meets the PSD2 requirements for providing APIs for Third-Party Providers (TPP). Based on the Berlin Group’s NextGen PSD2 specification for access to accounts (XS2A), ModelBank meets all the regulatory requirements and is NISP compliant. This developer portal is created to help TPP developers start working with ModelBank.
 
 </div>
 
 <div class="how-use-api">
 
-# How to use XS2ASandbox
+# How to use ModelBank
 
 <div class="steps-wrapper">
 
@@ -31,7 +31,7 @@ Read [«Getting started»](/getting-started) manual
 <div class="arrow-right"></div>
 
 Step 2 <br/>
-Download, install and run XS2ASandbox
+Download, install and run ModelBank
 
 <div class="arrow-right"></div>
 
@@ -53,8 +53,8 @@ The [Payment Service Directive 2 (PSD2)](https://eur-lex.europa.eu/legal-content
 
 <div class="features-text">
 
-# XS2ASandbox Features
+# ModelBank Features
 
-XS2ASandbox is a dynamic sandbox environment: you can create users, payments and consents, play with data for testing purposes. With dynamic sandbox TPP UI you can access banking API directly, get TPP certificate and manage testing accounts. The developer portal contains testing instructions and all needed test-cases. All XS2ASandbox services can be installed and run in one simple command. Two main SCA approaches are supported: REDIRECT and EMBEDDED. For redirect approach online banking demo UI was created.
+ModelBank is a dynamic sandbox environment: you can create users, payments and consents, play with data for testing purposes. With ModelBank TPP UI you can access banking API directly, get TPP certificate and manage testing accounts. The developer portal contains testing instructions and all needed test-cases. All ModelBank services can be installed and run in one simple command. Two main SCA approaches are supported: REDIRECT and EMBEDDED. For redirect approach online banking demo UI was created.
 
 </div>

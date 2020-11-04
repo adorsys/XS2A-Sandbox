@@ -22,5 +22,5 @@ Right now we use:
 * Docker
 
 Continuous development & update::
-All projects included into Dynamic Sandbox are continuously developed and updated to latest BerlinGroup PSD2 Specification and
-are always up to date featuring latest releases of all components.
+All projects included into ModelBank are continuously developed and updated to latest BerlinGroup PSD2 Specification and
+are always up to date featuring the latest releases of all components.

@@ -2,4 +2,4 @@ Para todas las pruebas en los enfoques Redirecto e Integrado, se requiere usar n
 
 Valor de prueba para PIN para todos los usuarios generados automáticamente: 12345.
 
-Valor de prueba para TAN (válido solo si ejecuta Sandbox localmente con perfil 'dev'): 123456.
+Valor de prueba para TAN (válido solo si ejecuta ModelBank localmente con perfil 'dev'): 123456.

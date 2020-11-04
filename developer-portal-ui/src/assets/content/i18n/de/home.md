@@ -13,15 +13,15 @@
 
 <div class="what-sandbox-wrapper container">
 
-## Was ist die XS2ASandbox?
+## Was ist die ModelBank?
 
-Unsere XS2ASandbox ist eine dynamische Sandboxumgebung, die vollständig die PSD2-Anforderungen bezüglich API-Bereitstellung für Drittanbieter (TPPs = Third Payment Providers) erfüllt. Zusätzlich erfüllt sie auch alle regulatorischen Anforderungen der NextGen PSD2-Spezifikation der Berlin Group bezüglich Account Schnittstellen (XS2A = Access-to-Account) und ist NISP konform. Ziel des Developer-Portals ist es TPP-Entwicklern bei der Arbeit mit unserer XS2ASandbox zu unterstützen.
+Unsere ModelBank ist eine dynamische Sandboxumgebung, die vollständig die PSD2-Anforderungen bezüglich API-Bereitstellung für Drittanbieter (TPPs = Third Payment Providers) erfüllt. Zusätzlich erfüllt sie auch alle regulatorischen Anforderungen der NextGen PSD2-Spezifikation der Berlin Group bezüglich Account Schnittstellen (XS2A = Access-to-Account) und ist NISP konform. Ziel des Developer-Portals ist es TPP-Entwicklern bei der Arbeit mit unserer ModelBank zu unterstützen.
 
 </div>
 
 <div class="how-use-api">
 
-# Wie nutzt man die XS2ASandbox?
+# Wie nutzt man die ModelBank?
 
 <div class="steps-wrapper">
 
@@ -31,7 +31,7 @@ Lesen der Anleitung [«Erste Schritte»](/getting-started)
 <div class="arrow-right"></div>
 
 Schritt 2 <br/>
-Herunterladen, installieren und ausführen der XS2ASandbox
+Herunterladen, installieren und ausführen der ModelBank
 
 <div class="arrow-right"></div>
 
@@ -53,8 +53,8 @@ Die [Payment Service Directive 2 (PSD2)](https://eur-lex.europa.eu/legal-content
 
 <div class="features-text">
 
-# XS2ASandbox Features
+# ModelBank Features
 
-PSD2 Accelerator ist eine dynamische Sandbox-Umgebung: Sie können sowohl Benutzer, Zahlungen und Genehmigungen erstellen als auch mit Daten interagieren für Tests. Mit der dynamischen Sandbox TPP UI können Sie direkt auf die Bank-API zugreifen, TPP-Zertifikate erhalten und Testkonten verwalten. Das Entwicklerportal enthält Testanweisungen und alle benötigten Testfälle. Zusätzlich können alle PSD2 Accelerator Services mit einem einfachen Befehl installiert und ausgeführt werden. Zwei wesentliche SCA-Ansätze werden unterstützt: REDIRECT und EMBEDDED. Für den Redirect-Ansatz wurde für Online-Banking eine Demo-Benutzeroberfläche erstellt.
+ModelBank ist eine dynamische Sandbox-Umgebung: Sie können sowohl Benutzer, Zahlungen und Genehmigungen erstellen als auch mit Daten interagieren für Tests. Mit der ModelBank TPP UI können Sie direkt auf die Bank-API zugreifen, TPP-Zertifikate erhalten und Testkonten verwalten. Das Entwicklerportal enthält Testanweisungen und alle benötigten Testfälle. Zusätzlich können alle PSD2 Accelerator Services mit einem einfachen Befehl installiert und ausgeführt werden. Zwei wesentliche SCA-Ansätze werden unterstützt: REDIRECT und EMBEDDED. Für den Redirect-Ansatz wurde für Online-Banking eine Demo-Benutzeroberfläche erstellt.
 
 </div>

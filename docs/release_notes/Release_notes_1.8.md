@@ -11,7 +11,7 @@ Current version consists of following components:
 - Added AccessManagement to TPP-UI
 - Added Get Transactions by dates to Online Banking
 - Added Functionality to Upload list of transactions through TPP-UI
-- Added manual fo Sandbox Deployment for linux servers
+- Added manual for ModelBank Deployment for linux servers
 - Added password recovery for Online Banking
 - Added date picker for transactions in Online Banking
 - Fixed some discrepancies in ukrainian and spanish translations
@@ -34,4 +34,4 @@ Current version consists of following components:
 - Added Oauth2 Integrated support to Online Banking
 - Added Radio buttons to create different Consent Types in Developer Portal
 - Added missing consent types support for REDIRECT flow in Online Banking
-- Updated information in Developer Portal on how to build and run XS2A Sandbox
+- Updated information in Developer Portal on how to build and run ModelBank

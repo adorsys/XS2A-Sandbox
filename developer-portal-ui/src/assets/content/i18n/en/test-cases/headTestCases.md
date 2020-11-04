@@ -1,6 +1,6 @@
 # Test cases
 
-After loading test data into the system, TPP developer can test XS2ASandbox endpoints with Swagger or Postman tests. In Swagger section you can find information about usage of Swagger, prepared test data (Jsons) for testing and short API documentation.
+After loading test data into the system, TPP developer can test ModelBank endpoints with Swagger or Postman tests. In Swagger section you can find information about usage of Swagger, prepared test data (Jsons) for testing and short API documentation.
 
 In Postman tests section you can find information about usage of Postman for testing and download prepared Postman tests with testing data.
 
