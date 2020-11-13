@@ -45,6 +45,9 @@ variables:
   # Private Openshift Images #
   ############################
 
+  # temporary env
+  OPENSHIFT_NAMESPACE_ADORSYS_MODELBANK_KEYCLOAK_DEV: "adorsys-modelbank-keycloak-dev"
+
   OPENSHIFT_NAMESPACE_ADORSYS_MODELBANK_DEV: "adorsys-modelbank-dev"
   OPENSHIFT_NAMESPACE_ADORSYS_MODELBANK_INTEG: "adorsys-modelbank-integ"
 
@@ -452,6 +455,17 @@ deploy_openshift_develop:
   variables:
     DOCKER_TAG: develop # Dockerhub source tag
     OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_ADORSYS_MODELBANK_DEV} # Openshift target namespace
+  <<: *deploy_openshift
+
+deploy_openshift_keycloak_dev:
+  stage: "Deploy"
+  except:
+    - schedules
+  only:
+    - develop
+  variables:
+    DOCKER_TAG: develop # Dockerhub source tag
+    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_ADORSYS_MODELBANK_KEYCLOAK_DEV} # Openshift target namespace
   <<: *deploy_openshift
 
 ###########
