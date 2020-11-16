@@ -32,6 +32,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient;
+import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuPiisV2Client;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
@@ -58,6 +59,7 @@ import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient.DEFAUL
 @RequiredArgsConstructor
 public class AISController implements AISApi {
     private final CmsPsuAisClient cmsPsuAisClient;
+    private final CmsPsuPiisV2Client cmsPsuPiisV2Client;
     private final AccountRestClient accountRestClient;
     private final OauthRestClient oauthRestClient;
     private final RedirectConsentService redirectConsentService;
@@ -110,7 +112,7 @@ public class AISController implements AISApi {
         String psuId = AuthUtils.psuId(workflow.bearerToken());
         try {
             updatePSUIdentification(workflow, psuId);
-            redirectConsentService.updateScaStatusConsentStatusConsentData(psuId, workflow);
+            redirectConsentService.updateScaStatusAndConsentData(psuId, workflow);
         } catch (ConsentAuthorizeException e) {
             return e.getError();
         }
@@ -128,7 +130,7 @@ public class AISController implements AISApi {
             workflow = redirectConsentService.identifyConsent(encryptedConsentId, authorisationId, false, consentCookie, middlewareAuth.getBearerToken());
             listOfAccounts = listOfAccounts(workflow);
             redirectConsentService.startConsent(workflow, aisConsent, listOfAccounts);
-            redirectConsentService.updateScaStatusConsentStatusConsentData(psuId, workflow);
+            redirectConsentService.updateScaStatusAndConsentData(psuId, workflow);
         } catch (ConsentAuthorizeException e) {
             return e.getError();
         }
@@ -146,9 +148,13 @@ public class AISController implements AISApi {
             workflow = redirectConsentService.authorizeConsent(workflow, authCode);
 
             if (workflow.getConsentStatus().equals(VALID.name())) {
-                cmsPsuAisClient.confirmConsent(workflow.consentId(), psuId, null, null, null, DEFAULT_SERVICE_INSTANCE_ID);
+                ResponseEntity<Boolean> response = cmsPsuAisClient.confirmConsent(workflow.consentId(), psuId, null, null, null, DEFAULT_SERVICE_INSTANCE_ID);
+                if (!response.getBody()){ //TODO This is a workaround! Should be fixed with separate OBA controller set!
+                    log.info("Consent not found so assume we have a PIIS consent");
+                    cmsPsuPiisV2Client.updateConsentStatus(workflow.consentId(), VALID.name(), DEFAULT_SERVICE_INSTANCE_ID);
+                }
             }
-            redirectConsentService.updateScaStatusConsentStatusConsentData(psuId, workflow);
+            redirectConsentService.updateScaStatusAndConsentData(psuId, workflow);
 
             // if consent is partially authorized the access token is null
             Optional<BearerTokenTO> token = Optional.ofNullable(workflow.bearerToken());
@@ -171,7 +177,7 @@ public class AISController implements AISApi {
             String consentCookie = responseUtils.consentCookie(consentAndAccessTokenCookieString);
             ConsentWorkflow workflow = redirectConsentService.identifyConsent(encryptedConsentId, authorisationId, true, consentCookie, middlewareAuth.getBearerToken());
             redirectConsentService.selectScaMethod(scaMethodId, encryptedConsentId, workflow);
-            redirectConsentService.updateScaStatusConsentStatusConsentData(psuId, workflow);
+            redirectConsentService.updateScaStatusAndConsentData(psuId, workflow);
             responseUtils.setCookies(response, workflow.getConsentReference(), workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
 
             return ResponseEntity.ok(workflow.getAuthResponse());

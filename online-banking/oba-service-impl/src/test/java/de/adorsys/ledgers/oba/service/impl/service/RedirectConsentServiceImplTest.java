@@ -126,7 +126,7 @@ class RedirectConsentServiceImplTest {
         when(aspspConsentDataClient.updateAspspConsentData(any(), any())).thenReturn(ResponseEntity.ok().build());
 
         // When
-        redirectConsentService.updateScaStatusConsentStatusConsentData(USER_ID, getConsentWorkflow(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE));
+        redirectConsentService.updateScaStatusAndConsentData(USER_ID, getConsentWorkflow(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE));
 
         // Then
         verify(aspspConsentDataClient, times(1)).updateAspspConsentData(ENCRYPTED_CONSENT_ID, new CmsAspspConsentDataBase64(CONSENT_ID, CONSENT_ID));
@@ -139,7 +139,7 @@ class RedirectConsentServiceImplTest {
         when(dataService.toBase64String(any())).thenThrow(IOException.class);
 
         // Then
-        assertThrows(AuthorizationException.class, () -> redirectConsentService.updateScaStatusConsentStatusConsentData(USER_ID, getConsentWorkflow(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE)));
+        assertThrows(AuthorizationException.class, () -> redirectConsentService.updateScaStatusAndConsentData(USER_ID, getConsentWorkflow(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE)));
     }
 
     @Test
