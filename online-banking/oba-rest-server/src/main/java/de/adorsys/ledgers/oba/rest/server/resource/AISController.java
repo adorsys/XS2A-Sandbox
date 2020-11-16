@@ -170,7 +170,7 @@ public class AISController implements AISApi {
         try {
             String consentCookie = responseUtils.consentCookie(consentAndAccessTokenCookieString);
             ConsentWorkflow workflow = redirectConsentService.identifyConsent(encryptedConsentId, authorisationId, true, consentCookie, middlewareAuth.getBearerToken());
-            redirectConsentService.selectScaMethod(scaMethodId, workflow);
+            redirectConsentService.selectScaMethod(scaMethodId, encryptedConsentId, workflow);
             redirectConsentService.updateScaStatusConsentStatusConsentData(psuId, workflow);
             responseUtils.setCookies(response, workflow.getConsentReference(), workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
 

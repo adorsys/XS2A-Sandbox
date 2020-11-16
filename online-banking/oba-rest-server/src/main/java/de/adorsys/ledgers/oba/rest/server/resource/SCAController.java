@@ -4,7 +4,6 @@ import de.adorsys.ledgers.middleware.api.domain.sca.SCALoginResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
-import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.ledgers.oba.rest.api.resource.SCAApi;
 import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
 import de.adorsys.ledgers.oba.service.api.domain.AuthorizeResponse;
@@ -29,7 +28,6 @@ import static de.adorsys.ledgers.oba.rest.api.resource.SCAApi.BASE_PATH;
 @Api(value = BASE_PATH, tags = "PSU SCA. Provides access to one time password for strong customer authentication.")
 @RequiredArgsConstructor
 public class SCAController implements SCAApi {
-    private final UserMgmtRestClient ledgersUserMgmt;
     private final ResponseUtils responseUtils;
     private final AuthRequestInterceptor authInterceptor;
     private final HttpServletResponse response;

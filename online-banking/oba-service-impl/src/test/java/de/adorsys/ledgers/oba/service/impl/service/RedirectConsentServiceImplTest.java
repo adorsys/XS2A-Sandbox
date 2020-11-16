@@ -91,7 +91,7 @@ class RedirectConsentServiceImplTest {
         when(redirectScaClient.selectMethod(any(), any())).thenReturn(ResponseEntity.ok(getGlobalResponse()));
 
         // When
-        redirectConsentService.selectScaMethod(SCA_METHOD_ID, getConsentWorkflow(AisConsentRequestType.GLOBAL, IBAN_DE));
+        redirectConsentService.selectScaMethod(SCA_METHOD_ID, null, getConsentWorkflow(AisConsentRequestType.GLOBAL, IBAN_DE));
 
         // Then
         verify(redirectScaClient, times(1)).selectMethod(AUTHORIZATION_ID, SCA_METHOD_ID);

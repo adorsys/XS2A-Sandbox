@@ -42,7 +42,7 @@ public class ObaCancellationController implements ObaCancellationApi {
 
     @Override
     public ResponseEntity<SCAPaymentResponseTO> selectSca(String paymentId, String cancellationId, String scaMethodId) {
-        StartScaOprTO opr = new StartScaOprTO(paymentId, cancellationId, OpTypeTO.CANCEL_PAYMENT);
+        StartScaOprTO opr = new StartScaOprTO(paymentId, null,cancellationId, OpTypeTO.CANCEL_PAYMENT);
         redirectScaRestClient.startSca(opr);
         return ResponseEntity.ok(mapToPaymentResponse(redirectScaRestClient.selectMethod(cancellationId, scaMethodId).getBody()));
     }

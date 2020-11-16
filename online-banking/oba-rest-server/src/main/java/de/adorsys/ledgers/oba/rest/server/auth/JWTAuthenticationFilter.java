@@ -7,6 +7,7 @@ import de.adorsys.ledgers.oba.service.api.domain.UserAuthentication;
 import de.adorsys.ledgers.oba.service.api.service.TokenAuthenticationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -43,7 +45,10 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         authInterceptor.setAccessToken(null);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
-            UserAuthentication userAuthentication = tokenAuthenticationService.getAuthentication(readAccessTokenCookie(request));
+            String tokenCookie = readAccessTokenCookie(request);
+            UserAuthentication userAuthentication = tokenAuthenticationService.getAuthentication(StringUtils.isBlank(tokenCookie)
+                                                                                                     ? readAccessTokenHeader(request)
+                                                                                                     : tokenCookie);
             if (userAuthentication != null) {
                 BearerTokenTO bearerToken = userAuthentication.getBearerToken();
                 AccessTokenTO token = bearerToken.getAccessTokenObject();
@@ -68,6 +73,12 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         Cookie cookie = WebUtils.getCookie(request, ACCESS_TOKEN_COOKIE);
         return cookie != null ? cookie.getValue()
                    : null;
+    }
+
+    private String readAccessTokenHeader(HttpServletRequest request) {
+        return Optional.ofNullable(request.getHeader("authorization"))
+                   .map(s -> s.replace("Bearer ", ""))
+                   .orElse(null);
     }
 
     private List<GrantedAuthority> buildAuthorities(AccessTokenTO token) {

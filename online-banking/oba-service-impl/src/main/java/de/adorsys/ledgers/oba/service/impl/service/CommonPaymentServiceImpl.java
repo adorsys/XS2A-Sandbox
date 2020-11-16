@@ -61,7 +61,7 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
     @Override
     public PaymentWorkflow selectScaForPayment(String encryptedPaymentId, String authorisationId, String scaMethodId, String consentAndAccessTokenCookieString, String psuId, BearerTokenTO tokenTO) {
         PaymentWorkflow workflow = identifyPayment(encryptedPaymentId, authorisationId, true, consentAndAccessTokenCookieString, psuId, tokenTO);
-        selectMethodAndUpdateWorkflow(scaMethodId, workflow);
+        selectMethodAndUpdateWorkflow(scaMethodId, encryptedPaymentId, workflow);
         doUpdateAuthData(psuId, workflow);
         return workflow;
     }
@@ -159,10 +159,10 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
         updateAspspConsentData(workflow);
     }
 
-    private void selectMethodAndUpdateWorkflow(String scaMethodId, final PaymentWorkflow workflow) {
+    private void selectMethodAndUpdateWorkflow(String scaMethodId, String externalId, final PaymentWorkflow workflow) {
         try {
             authInterceptor.setAccessToken(workflow.bearerToken().getAccess_token());
-            StartScaOprTO opr = new StartScaOprTO(workflow.paymentId(), workflow.authId(), OpTypeTO.PAYMENT);
+            StartScaOprTO opr = new StartScaOprTO(workflow.paymentId(), externalId, workflow.authId(), OpTypeTO.PAYMENT);
 
             GlobalScaResponseTO response = redirectScaClient.startSca(opr).getBody();
             response = redirectScaClient.selectMethod(response.getAuthorisationId(), scaMethodId).getBody();

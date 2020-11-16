@@ -8,7 +8,7 @@ import de.adorsys.ledgers.oba.service.api.domain.ConsentWorkflow;
 import java.util.List;
 
 public interface RedirectConsentService {
-    void selectScaMethod(String scaMethodId, final ConsentWorkflow workflow);
+    void selectScaMethod(String scaMethodId, String encryptedConsentId, final ConsentWorkflow workflow);
 
     ConsentWorkflow authorizeConsent(ConsentWorkflow workflow, String authCode);
 

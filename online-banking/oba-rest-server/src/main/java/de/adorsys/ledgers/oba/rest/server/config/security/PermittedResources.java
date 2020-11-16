@@ -35,7 +35,8 @@ public class PermittedResources {
         "/api/v1//users/reset/password/*",
         "/oauth/authorise/**",
         "/oauth/token/**",
-        "/oauth/authorization-server/**"
+        "/oauth/authorization-server/**",
+        "/api/v1/decoupled/message"
     };
 
     protected static final String[] ACTUATOR_WHITELIST = {
