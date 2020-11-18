@@ -27,7 +27,7 @@ services:
       - XS2ASANDBOX_TPPUI_ONLINE-BANKING_URL=http://xs2a-online-banking:8090/api/v1/consents/confirm/{userLogin}/{consentId}/{authorizationId}/{tan}
       - QWAC_CERTIFICATE_MOCK=${QWAC_CERTIFICATE_MOCK}
       - XS2A_FUNDS_CONFIRMATION_USER_LOGIN=admin
-      - XS2A_FUNDS_CONFIRMATION_USER_PASSWORD=admin123
+      - XS2A_FUNDS_CONFIRMATION_USER_PASSWORD=12345
     networks:
       - xs2a-net
     depends_on:

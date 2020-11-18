@@ -41,6 +41,7 @@ setting:
         - instant-sepa-credit-transfers
         - target-2-payments
         - cross-border-credit-transfers
+        - pain.001-sepa-credit-transfers
     maxTransactionValidityDays: 0
     notConfirmedPaymentExpirationTimeMs: 86400000
     paymentCancellationAuthorisationMandated: FALSE
@@ -52,13 +53,18 @@ setting:
     supportedTransactionStatusFormats:
       - application/json
   piis:
-    piisConsentSupported: ASPSP_CONSENT_SUPPORTED
+    piisConsentSupported: TPP_CONSENT_SUPPORTED
+    redirectLinkToOnlineBanking:
+      piisRedirectUrlToAspsp: http://localhost:4400/account-information/login?encryptedConsentId={encrypted-consent-id}&redirectId={redirect-id}
+  sb:
+    signingBasketSupported: FALSE
+    signingBasketMaxEntries: 10
+    notConfirmedSigningBasketExpirationTimeMs: 86400000
   common:
     scaApproachesSupported:
       - EMBEDDED
       - REDIRECT
       - DECOUPLED
-      - OAUTH
     scaRedirectFlow: REDIRECT
     oauthConfigurationUrl: http://localhost:8090/oauth/authorization-server
     startAuthorisationMode: auto
@@ -72,10 +78,10 @@ setting:
       - IBAN
     multicurrencyAccountLevelSupported: SUBACCOUNT
     aisPisSessionsSupported: FALSE
-    signingBasketSupported: FALSE
-    checkTppRolesFromCertificateSupported: FALSE
+    checkTppRolesFromCertificateSupported: TRUE
     aspspNotificationsSupported:
       - NONE
     authorisationConfirmationRequestMandated: FALSE
     authorisationConfirmationCheckByXs2a: FALSE
     checkUriComplianceToDomainSupported: FALSE
+    tppUriComplianceResponse: WARNING
