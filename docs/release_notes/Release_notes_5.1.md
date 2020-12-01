@@ -13,3 +13,4 @@ Current version consists of following components:
 -   Added android application for decoupled Sca flow termination
 -   Added TPP-PIIS Consent support
 -   Renamed Sandbox to ModelBank on the front end side
+-   Added certificate generator validity field validator (this field could be from 1 to 999)
