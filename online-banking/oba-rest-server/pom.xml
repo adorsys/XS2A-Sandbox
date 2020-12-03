@@ -26,7 +26,6 @@
         <dependency>
             <groupId>de.adorsys.ledgers</groupId>
             <artifactId>ledgers-middleware-rest-client</artifactId>
-            <version>${ledgers.version}</version>
         </dependency>
 
         <dependency>

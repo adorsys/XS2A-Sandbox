@@ -158,7 +158,7 @@ public class AISController implements AISApi {
 
             // if consent is partially authorized the access token is null
             Optional<BearerTokenTO> token = Optional.ofNullable(workflow.bearerToken());
-            String tokenString = token.map(BearerTokenTO::getAccess_token).orElseGet(() -> "");
+            String tokenString = token.map(BearerTokenTO::getAccess_token).orElse("");
             AccessTokenTO tokenTO = token.map(BearerTokenTO::getAccessTokenObject).orElse(null);
             responseUtils.setCookies(response, workflow.getConsentReference(), tokenString, tokenTO);
             log.info("Confirmation code: {}", workflow.getAuthResponse().getAuthConfirmationCode());

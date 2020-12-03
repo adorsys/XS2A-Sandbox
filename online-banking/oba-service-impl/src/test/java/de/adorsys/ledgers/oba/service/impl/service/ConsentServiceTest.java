@@ -42,6 +42,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.*;
@@ -153,7 +154,7 @@ class ConsentServiceTest {
 
     private Response getResponse() throws JsonProcessingException {
         return Response.builder()
-                   .request(Request.create(Request.HttpMethod.POST, "", new HashMap<>(), null))
+                   .request(Request.create(Request.HttpMethod.POST, "", new HashMap<>(), null, Charset.defaultCharset()))
                    .reason("Msg")
                    .headers(new HashMap<>())
                    .status(401)

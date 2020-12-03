@@ -114,14 +114,12 @@ public class PsuMessage {
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("class PsuMessage {\n");
-		sb.append("    category: ").append(toIndentedString(category)).append("\n");
-		sb.append("    code: ").append(toIndentedString(code)).append("\n");
-		sb.append("    path: ").append(toIndentedString(path)).append("\n");
-		sb.append("    text: ").append(toIndentedString(text)).append("\n");
-		sb.append("}");
-		return sb.toString();
+        return "class PsuMessage {\n" +
+                        "    category: " + toIndentedString(category) + "\n" +
+                        "    code: " + toIndentedString(code) + "\n" +
+                        "    path: " + toIndentedString(path) + "\n" +
+                        "    text: " + toIndentedString(text) + "\n" +
+                        "}";
 	}
 
 	/**
