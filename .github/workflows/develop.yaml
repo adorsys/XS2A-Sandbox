@@ -44,7 +44,7 @@ jobs:
 
   sonar:
     name: Publish code coverage to Sonar Cloud
-    needs: build
+    needs: build_and_test
     runs-on: ubuntu-latest
     steps:
       - name: Clone Modelbank develop repository
