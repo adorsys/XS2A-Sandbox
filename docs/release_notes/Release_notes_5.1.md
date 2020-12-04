@@ -2,11 +2,11 @@
 
 Current version consists of following components:
 
-1. **Ledgers v.4.1**
-2. **XS2A v.9.2**
-3. **ASPSP-Profile v.9.2**
-4. **Consent-Management v.9.2**
-5. **XS2A Connector-Examples v.9.2**
+1. **Ledgers v.4.2**
+2. **XS2A v.9.3**
+3. **ASPSP-Profile v.9.3**
+4. **Consent-Management v.9.3**
+5. **XS2A Connector-Examples v.9.3**
 
 -   Added TPP-Rest server notifier for PUSH_OTP Sca flow.
 -   Added Websocket service for decoupled Sca approach
