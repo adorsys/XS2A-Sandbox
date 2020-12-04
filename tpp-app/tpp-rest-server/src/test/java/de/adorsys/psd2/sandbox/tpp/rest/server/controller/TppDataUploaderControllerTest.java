@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -93,18 +93,18 @@ class TppDataUploaderControllerTest {
     }
 
     @Test
-    void uploadData_couldNotParseData() {
+    void uploadData_couldNotParseData() throws IOException {
         // Given
         when(parseService.getDataFromFile(any(), any())).thenReturn(Optional.empty());
-
+        MultipartFile file = resolveMultipartFile("transactions_template.csv");
         // Then
-        assertThrows(TppException.class, () -> uploaderController.uploadData(resolveMultipartFile("transactions_template.csv")));
+        assertThrows(TppException.class, () -> uploaderController.uploadData(file));
     }
 
     @Test
     void uploadTransactions() throws IOException {
         // Given
-        when(transactionService.uploadUserTransaction(any())).thenReturn(Collections.EMPTY_MAP);
+        when(transactionService.uploadUserTransaction(any())).thenReturn(Collections.emptyMap());
 
         // When
         ResponseEntity<Map<String, String>> response = uploaderController.uploadTransactions(resolveMultipartFile("transactions_template.csv"));

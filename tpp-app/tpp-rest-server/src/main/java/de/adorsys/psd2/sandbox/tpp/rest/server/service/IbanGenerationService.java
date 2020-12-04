@@ -14,11 +14,9 @@ import org.iban4j.bban.BbanStructure;
 import org.iban4j.bban.BbanStructureEntry;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import static java.util.Objects.requireNonNull;
 import static org.iban4j.CountryCode.*;
 import static org.iban4j.bban.BbanEntryType.account_number;
 
@@ -45,7 +43,7 @@ public class IbanGenerationService {
     }
 
     public Map<CountryCode, String> getCountryCodes() {
-        Map<CountryCode, String> codes = new HashMap<>();
+        Map<CountryCode, String> codes = new EnumMap<>(CountryCode.class);
         COUNTRY_CODES.forEach(c -> codes.put(c, c.getName()));
         return TppData.sortMapByValue(codes);
     }
@@ -72,7 +70,7 @@ public class IbanGenerationService {
 
     private TppData getTppData(String tppId) {
         UserTO user = userMgmtRestClient.getUserById(tppId).getBody();
-        if (!user.getUserRoles().contains(UserRoleTO.STAFF)) {
+        if (!requireNonNull(user).getUserRoles().contains(UserRoleTO.STAFF)) {
             throw new TppException("You're trying to generate Iban out of Tpp range", 400);
         }
         return new TppData(user);

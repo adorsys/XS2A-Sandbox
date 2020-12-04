@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.Objects;
 
+import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.*;
 import static de.adorsys.ledgers.oba.rest.api.resource.SCAApi.BASE_PATH;
 
 @RestController
@@ -32,7 +34,7 @@ public class SCAController implements SCAApi {
     private final AuthRequestInterceptor authInterceptor;
     private final HttpServletResponse response;
     private final ObaMiddlewareAuthentication auth;
-
+//TODO Seems unused for the moment, has to be completely rewritten upon FE management
 
     /**
      * STEP-P1, STEP-A1: Validates the login and password of a user. This request is associated with
@@ -72,32 +74,16 @@ public class SCAController implements SCAApi {
         AuthorizeResponse authResponse = new AuthorizeResponse();
         ScaStatusTO scaStatus = prepareAuthResponse(authResponse, Objects.requireNonNull(loginResponse));
         BearerTokenTO bearerToken = loginResponse.getBearerToken();
-        switch (scaStatus) {
-            case PSUIDENTIFIED:
-                // Password check was successful.
-                // sca method must be selected.
-                // PSU Message will contain message for selection of sca method.
-                authResponse.setScaMethods(loginResponse.getScaMethods());
-            case FINALISED:
-                // SCA was successful
-            case EXEMPTED:
-            case PSUAUTHENTICATED:
-                // Password check was successful.
-                // No auth code required.
-                // PSU Message for login complete.
-            case SCAMETHODSELECTED:
-                // Password check was successful.
-                // Method was auto selected ans auth code was sent.
-                // PSUMessage will contain prompt for auth code.
-                responseUtils.setCookies(this.response, null, bearerToken.getAccess_token(), bearerToken.getAccessTokenObject());
-                return ResponseEntity.ok(authResponse);
-            case STARTED:
-            case FAILED:
-            default:
-                // failed Message. No repeat. Delete cookies.
-                responseUtils.removeCookies(this.response);
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        if (scaStatus == PSUIDENTIFIED) {// Password check was successful.
+            authResponse.setScaMethods(loginResponse.getScaMethods());
+            responseUtils.setCookies(this.response, null, bearerToken.getAccess_token(), bearerToken.getAccessTokenObject());
+            return ResponseEntity.ok(authResponse);
+        } else if (EnumSet.of(FINALISED, EXEMPTED, PSUAUTHENTICATED, SCAMETHODSELECTED).contains(scaStatus)) {
+            responseUtils.setCookies(this.response, null, bearerToken.getAccess_token(), bearerToken.getAccessTokenObject());
+            return ResponseEntity.ok(authResponse);
         }
+        responseUtils.removeCookies(this.response);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
     private ScaStatusTO prepareAuthResponse(AuthorizeResponse authResponse, SCALoginResponseTO loginResponse) {
@@ -105,7 +91,7 @@ public class SCAController implements SCAApi {
         ScaStatusTO scaStatus = loginResponse.getScaStatus();
         authResponse.setScaStatus(scaStatus);
         authResponse.setAuthorisationId(loginResponse.getBearerToken().getAccessTokenObject().getAuthorisationId());
-        //authResponse.setEncryptedConsentId(loginResponse.getScaId()); TODO Check if required
+        //authResponse.setEncryptedConsentId(loginResponse.getScaId()); guess should be removed
         PsuMessage psuMessage = new PsuMessage().category(PsuMessageCategory.INFO).text(loginResponse.getPsuMessage());
         authResponse.setPsuMessages(Collections.singletonList(psuMessage));
         return scaStatus;
@@ -122,26 +108,15 @@ public class SCAController implements SCAApi {
      */
     @Override
     public ResponseEntity<AuthorizeResponse> selectMethod(String scaId, String authorisationId, String methodId, String cookies) {
-
-        // build response
-        AuthorizeResponse authResponse = new AuthorizeResponse();
-        authResponse.setEncryptedConsentId(scaId);
-        authResponse.setAuthorisationId(authorisationId);
-
-        try {
-            authInterceptor.setAccessToken(auth.getBearerToken().getAccess_token());
-            SCALoginResponseTO loginResponse = new SCALoginResponseTO()/*ledgersUserMgmt.selectMethod(scaId, authorisationId, methodId).getBody()*/; //TODO Seems to be useless
-            prepareAuthResponse(authResponse, Objects.requireNonNull(loginResponse));
-            BearerTokenTO bearerToken = loginResponse.getBearerToken();
-            responseUtils.setCookies(response, null, bearerToken.getAccess_token(), bearerToken.getAccessTokenObject());
-            return ResponseEntity.ok(authResponse);
-        } finally {
-            authInterceptor.setAccessToken(null);
-        }
+        return getResponse(scaId, authorisationId);
     }
 
     @Override
     public ResponseEntity<AuthorizeResponse> validateAuthCode(String scaId, String authorisationId, String authCode, String cookies) {
+        return getResponse(scaId, authorisationId);
+    }
+
+    private ResponseEntity<AuthorizeResponse> getResponse(String scaId, String authorisationId/*, String otherParam, TriFunction<String,String,String,SCALoginResponseTO> function*/) {
 
         // build response
         AuthorizeResponse authResponse = new AuthorizeResponse();
@@ -151,7 +126,9 @@ public class SCAController implements SCAApi {
         try {
             authInterceptor.setAccessToken(auth.getBearerToken().getAccess_token());
 
-            SCALoginResponseTO authorizeResponse = new SCALoginResponseTO()/*ledgersUserMgmt.authorizeLogin(scaId, authorisationId, authCode).getBody()*/;//TODO Seems to be useless
+            SCALoginResponseTO authorizeResponse = new SCALoginResponseTO();
+            //ledgersUserMgmt.authorizeLogin(scaId, authorisationId, authCode).getBody() -> this is for validateAuthCode (validateTAN)
+            //ledgersUserMgmt.selectMethod(scaId, authorisationId, methodId).getBody() -> this is for SelectMethod
             prepareAuthResponse(authResponse, Objects.requireNonNull(authorizeResponse));
             BearerTokenTO bearerToken = authorizeResponse.getBearerToken();
             responseUtils.setCookies(response, null, bearerToken.getAccess_token(), bearerToken.getAccessTokenObject());

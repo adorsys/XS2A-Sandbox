@@ -32,14 +32,6 @@ public class CmsAspspConsentDataService {
         return mapper.writeValueAsBytes(response);
     }
 
-   /* public <T extends SCAResponseTO> T fromBytes(byte[] tokenBytes, Class<T> klass) throws IOException {
-        String type = readType(tokenBytes);
-        if (!klass.getSimpleName().equals(type)) {
-            return null;
-        }
-        return mapper.readValue(tokenBytes, klass);
-    }*/
-
     private String readType(byte[] tokenBytes) throws IOException {
         JsonNode jsonNode = mapper.readTree(tokenBytes);
         JsonNode objectType = jsonNode.get("objectType");

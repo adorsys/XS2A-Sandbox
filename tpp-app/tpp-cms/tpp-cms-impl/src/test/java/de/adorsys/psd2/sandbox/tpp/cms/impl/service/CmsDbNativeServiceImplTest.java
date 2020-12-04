@@ -25,7 +25,7 @@ import static org.mockito.Mockito.when;
 class CmsDbNativeServiceImplTest {
 
     @InjectMocks
-    private CmsDbDbNativeServiceImpl cmsDbNativeService;
+    private CmsDbNativeServiceImpl cmsDbNativeService;
 
     @Mock
     private final EntityManager cmsEntityManager = mock(EntityManager.class);

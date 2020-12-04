@@ -27,6 +27,7 @@ import de.adorsys.psd2.xs2a.core.profile.AccountReference;
 import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
 import feign.FeignException;
 import feign.Request;
+import feign.RequestTemplate;
 import feign.Response;
 import org.adorsys.ledgers.consent.aspsp.rest.client.CmsAspspPiisClient;
 import org.adorsys.ledgers.consent.aspsp.rest.client.CreatePiisConsentResponse;
@@ -42,7 +43,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.*;
@@ -145,16 +145,12 @@ class ConsentServiceTest {
         when(redirectScaRestClient.validateScaCode(any(), any())).thenThrow(FeignException.errorStatus("method", getResponse()));
 
         // Then
-        assertThrows(ObaException.class, () -> {
-            consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN);
-            verify(objectMapper, times(1)).readTree(getByteArray());
-
-        });
+        assertThrows(ObaException.class, () -> consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN));
     }
 
     private Response getResponse() throws JsonProcessingException {
         return Response.builder()
-                   .request(Request.create(Request.HttpMethod.POST, "", new HashMap<>(), null, Charset.defaultCharset()))
+                   .request(Request.create(Request.HttpMethod.POST, "", new HashMap<>(), null, new RequestTemplate()))
                    .reason("Msg")
                    .headers(new HashMap<>())
                    .status(401)
@@ -272,8 +268,6 @@ class ConsentServiceTest {
     void confirmAisConsentDecoupled_failedEncodeConsentId() {
         // Then
         assertThrows(ObaException.class, () -> consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN));
-
-        ;
     }
 
     @Test

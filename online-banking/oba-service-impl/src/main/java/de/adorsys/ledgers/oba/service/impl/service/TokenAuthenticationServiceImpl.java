@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 
+import static java.util.Objects.requireNonNull;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -95,7 +97,7 @@ public class TokenAuthenticationServiceImpl implements TokenAuthenticationServic
         UserTO user = ledgersUserMgmt.getUser().getBody();
         GlobalScaResponseTO response = new GlobalScaResponseTO();
         response.setBearerToken(token);
-        response.setScaMethods(user.getScaUserData());
+        response.setScaMethods(requireNonNull(user).getScaUserData());
         response.setScaStatus(ScaStatusTO.PSUIDENTIFIED);
         authInterceptor.setAccessToken(null);
         return response;

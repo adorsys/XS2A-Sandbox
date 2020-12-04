@@ -12,21 +12,23 @@ import org.springframework.core.io.DefaultResourceLoader;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 class DeserializerTest {
-    private static SimpleModule module = new SimpleModule();
-    private static ObjectMapper mapper = new ObjectMapper();
+    private static final SimpleModule MODULE = new SimpleModule();
+    private static final ObjectMapper MAPPER = new ObjectMapper();
 
     static {
-        module.addDeserializer(CmsPayment.class, new CmsPaymentDeserializer(mapper))
-            .addDeserializer(CmsSinglePayment.class, new CmsSinglePaymentDeserializer(mapper));
-        mapper.registerModule(module)
+        MODULE.addDeserializer(CmsPayment.class, new CmsPaymentDeserializer(MAPPER))
+            .addDeserializer(CmsSinglePayment.class, new CmsSinglePaymentDeserializer(MAPPER));
+        MAPPER.registerModule(MODULE)
             .registerModule(new JavaTimeModule());
     }
 
     @Test
     void paymentDeserializerTest() throws IOException {
         InputStream stream = new DefaultResourceLoader().getResource("CmsBulkResponse.json").getInputStream();
-        mapper.readValue(stream, CmsPaymentResponse.class);
-        assert true;
+        CmsPaymentResponse result = MAPPER.readValue(stream, CmsPaymentResponse.class);
+        assertNotNull(result);
     }
 }

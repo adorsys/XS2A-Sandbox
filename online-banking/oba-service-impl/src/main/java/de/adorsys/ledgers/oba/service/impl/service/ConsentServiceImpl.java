@@ -34,6 +34,7 @@ import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -42,6 +43,7 @@ import java.util.stream.Collectors;
 import static de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode.*;
 import static java.lang.String.format;
 import static java.util.Base64.getEncoder;
+import static java.util.Objects.requireNonNull;
 
 @Slf4j
 @Service
@@ -148,7 +150,7 @@ public class ConsentServiceImpl implements ConsentService {
 
     private void confirmConsentAtCms(String userLogin, String consentId) {
         try {
-            cmsPsuAisClient.confirmConsent(consentId, userLogin, null, null, null, DEFAULT_SERVICE_INSTANCE_ID).getBody();
+            cmsPsuAisClient.confirmConsent(consentId, userLogin, null, null, null, DEFAULT_SERVICE_INSTANCE_ID);
         } catch (FeignException e) {
             String msg = e.status() == 404
                              ? format(CONSENT_COULD_NOT_BE_FOUND, consentId)
@@ -185,7 +187,7 @@ public class ConsentServiceImpl implements ConsentService {
 
     private SCAConsentResponseTO authorizeConsentAtLedgers(String authorizationId, String tan) {
         try {
-            return mapToScaConsentResponse(redirectScaRestClient.validateScaCode(authorizationId, tan).getBody());
+            return mapToScaConsentResponse(requireNonNull(redirectScaRestClient.validateScaCode(authorizationId, tan).getBody()));
         } catch (FeignException e) {
             throw ObaException.builder()
                       .devMessage(getDevMessageFromFeignException(e))
@@ -215,7 +217,7 @@ public class ConsentServiceImpl implements ConsentService {
 
     private String getDevMessageFromFeignException(FeignException e) {
         try {
-            return objectMapper.readTree(e.content()).get("devMessage").asText();
+            return objectMapper.readTree(e.responseBody().map(ByteBuffer::array).orElse(new byte[]{})).get("devMessage").asText();
         } catch (IOException i) {
             return "Could not extract exception message from ASPSP response";
         }

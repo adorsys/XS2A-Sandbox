@@ -33,8 +33,9 @@ class TppDataTest {
 
     @Test
     void tppConstructorTest_empty_access() {
+        UserTO user = new UserTO(null, null, null, null, null, null, null, null, false, false);
         // Then
-        assertThrows(TppException.class, () -> new TppData(new UserTO(null, null, null, null, null, null, null, null, false, false)));
+        assertThrows(TppException.class, () -> new TppData(user));
     }
 
     private List<AccountAccessTO> getAccountAccess() {

@@ -39,8 +39,8 @@ import java.util.EnumSet;
 import java.util.Optional;
 
 import static de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode.CONSENT_DATA_UPDATE_FAILED;
-import static de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode.AUTH_EXPIRED;
-import static de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode.NOT_FOUND;
+import static de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode.*;
+import static java.util.Objects.requireNonNull;
 import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuPisClient.DEFAULT_SERVICE_INSTANCE_ID;
 
 @Slf4j
@@ -107,7 +107,7 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
 
         authInterceptor.setAccessToken(workflow.getScaResponse().getBearerToken().getAccess_token());
         String tppOkRedirectUri = isOauth2Integrated
-                                      ? oauthRestClient.oauthCode(consentResponse.getTppOkRedirectUri()).getBody().getRedirectUri()
+                                      ? requireNonNull(oauthRestClient.oauthCode(consentResponse.getTppOkRedirectUri()).getBody()).getRedirectUri()
                                       : authService.resolveAuthConfirmationCodeRedirectUri(consentResponse.getTppOkRedirectUri(), authConfirmationCode);
 
         String tppNokRedirectUri = consentResponse.getTppNokRedirectUri();
@@ -125,7 +125,7 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
         SCAPaymentResponseTO paymentResponseTO = opType == OpTypeTO.PAYMENT
                                                      ? paymentRestClient.initiatePayment(paymentWorkflow.paymentType(), paymentWorkflow.getAuthResponse().getPayment()).getBody()
                                                      : paymentRestClient.initiatePmtCancellation(paymentWorkflow.paymentId()).getBody();
-        GlobalScaResponseTO response = dataService.mapToGlobalResponse(paymentResponseTO, opType);
+        GlobalScaResponseTO response = dataService.mapToGlobalResponse(requireNonNull(paymentResponseTO), opType);
 
         paymentWorkflow.processSCAResponse(response);
         paymentWorkflow.setPaymentStatus(paymentResponseTO.getTransactionStatus().name());
@@ -140,14 +140,14 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
         authInterceptor.setAccessToken(paymentWorkflow.bearerToken().getAccess_token());
         GlobalScaResponseTO response = redirectScaClient.validateScaCode(paymentWorkflow.authId(), authCode).getBody();
 
-        authInterceptor.setAccessToken(response.getBearerToken().getAccess_token());
+        authInterceptor.setAccessToken(requireNonNull(response).getBearerToken().getAccess_token());
         SCAPaymentResponseTO scaPaymentResponse = opType == OpTypeTO.PAYMENT
                                                       ? paymentRestClient.executePayment(paymentWorkflow.paymentId()).getBody()
                                                       : paymentRestClient.executeCancelPayment(paymentWorkflow.paymentId()).getBody();
 
         paymentWorkflow.processSCAResponse(response);
         paymentWorkflow.setPaymentStatus(opType == OpTypeTO.PAYMENT
-                                             ? scaPaymentResponse.getTransactionStatus().name()
+                                             ? requireNonNull(scaPaymentResponse).getTransactionStatus().name()
                                              : TransactionStatusTO.CANC.toString());
         doUpdateAuthData(psuId, paymentWorkflow);
         return paymentWorkflow;
@@ -165,8 +165,8 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
             StartScaOprTO opr = new StartScaOprTO(workflow.paymentId(), externalId, workflow.authId(), OpTypeTO.PAYMENT);
 
             GlobalScaResponseTO response = redirectScaClient.startSca(opr).getBody();
-            response = redirectScaClient.selectMethod(response.getAuthorisationId(), scaMethodId).getBody();
-            workflow.processSCAResponse(response);
+            response = redirectScaClient.selectMethod(requireNonNull(response).getAuthorisationId(), scaMethodId).getBody();
+            workflow.processSCAResponse(requireNonNull(response));
         } finally {
             authInterceptor.setAccessToken(null);
         }

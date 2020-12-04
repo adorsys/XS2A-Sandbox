@@ -1,35 +1,19 @@
 package de.adorsys.ledgers.oba.rest.server.resource;
 
-import de.adorsys.ledgers.middleware.api.domain.sca.SCALoginResponseTO;
-import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
-import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
-import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
-import de.adorsys.ledgers.middleware.api.domain.um.ScaUserDataTO;
-import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
-import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
-import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
-import de.adorsys.ledgers.oba.service.api.domain.AuthorizeResponse;
-import de.adorsys.ledgers.oba.service.api.domain.PsuMessage;
-import de.adorsys.ledgers.oba.service.api.domain.PsuMessageCategory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.ResponseEntity;
 
-import java.util.Collections;
-import java.util.List;
-
-import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.FINALISED;
-import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.PSUIDENTIFIED;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
 class SCAControllerTest {
-    private static final String PIN = "12345";
+    @Test
+    void stubTest() {
+        assertTrue(true);
+    }
+    //TODO Seem has to be completely removed along whith whole controller
+   /* private static final String PIN = "12345";  STUB
     private static final String LOGIN = "anton.brueckner";
     private static final String ENCRYPTED_ID = "ENC_123";
     private static final String AUTH_ID = "AUTH_1";
@@ -48,7 +32,7 @@ class SCAControllerTest {
     @Mock
     private ObaMiddlewareAuthentication auth;
 
-   /* @Test //TODO Fix me if required!
+    @Test
     void login() {
         // Given
         when(ledgersUserMgmt.authorise(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.any())).thenReturn(getLoginResponse(PSUIDENTIFIED));
@@ -84,9 +68,9 @@ class SCAControllerTest {
 
         // Then
         assertEquals(getExpectedAuthResponse(FINALISED, null), result);
-    }*/
+    }
 
-   /* private ResponseEntity<SCALoginResponseTO> getLoginResponse(ScaStatusTO status) { //TODO FIX ME!!!
+    private ResponseEntity<SCALoginResponseTO> getLoginResponse(ScaStatusTO status) {
         SCALoginResponseTO res = new SCALoginResponseTO();
         res.setScaStatus(status);
         AccessTokenTO to = new AccessTokenTO();
@@ -97,7 +81,7 @@ class SCAControllerTest {
         res.setMultilevelScaRequired(false);
         res.setScaMethods(Collections.emptyList());
         return ResponseEntity.ok(res);
-    }*/
+    }
 
     private ResponseEntity<AuthorizeResponse> getExpectedAuthResponse(ScaStatusTO scaStatus, List<ScaUserDataTO> methods) {
         AuthorizeResponse res = new AuthorizeResponse();
@@ -109,5 +93,5 @@ class SCAControllerTest {
         message.setCategory(PsuMessageCategory.INFO);
         res.setPsuMessages(Collections.singletonList(message));
         return ResponseEntity.ok(res);
-    }
+    }*/
 }

@@ -47,7 +47,7 @@ class IbanGenerationServiceTest {
     @Test
     void generateIban() {
         // Given
-        stubGetByIdCall(TPP_ID, Collections.EMPTY_LIST, UserRoleTO.STAFF);
+        stubGetByIdCall(TPP_ID, Collections.emptyList(), UserRoleTO.STAFF);
 
         // When
         String iban = generationService.generateNextIban(TPP_ID);
@@ -60,7 +60,7 @@ class IbanGenerationServiceTest {
     @Test
     void generateIban_fail() {
         // Given
-        stubGetByIdCall(TPP_ID, Collections.EMPTY_LIST, UserRoleTO.CUSTOMER);
+        stubGetByIdCall(TPP_ID, Collections.emptyList(), UserRoleTO.CUSTOMER);
         assertThrows(TppException.class, () -> generationService.generateNextIban(TPP_ID));
     }
 
@@ -71,7 +71,7 @@ class IbanGenerationServiceTest {
                                  .map(c -> generationService.getBankCodeStructure(c))
                                  .filter(BankCodeStructure::isCharacterType)
                                  .map(code -> String.format(code.getCountryCode() + "_" + "%0" + code.getLength() + "d", 01))
-                                 .map(i -> stubGetByIdCall(i, Collections.EMPTY_LIST, UserRoleTO.STAFF))
+                                 .map(i -> stubGetByIdCall(i, Collections.emptyList(), UserRoleTO.STAFF))
                                  .map(i -> generationService.generateNextIban(TPP_ID))
                                  .collect(Collectors.toList());
 
@@ -87,7 +87,7 @@ class IbanGenerationServiceTest {
                                  .map(c -> generationService.getBankCodeStructure(c))
                                  .filter(BankCodeStructure::isNotCharacterType)
                                  .map(b -> b.getCountryCode() + "_" + StringUtils.repeat(word, b.getLength()))
-                                 .map(i -> stubGetByIdCall(i, Collections.EMPTY_LIST, UserRoleTO.STAFF))
+                                 .map(i -> stubGetByIdCall(i, Collections.emptyList(), UserRoleTO.STAFF))
                                  .map(h -> generationService.generateNextIban(TPP_ID))
                                  .collect(Collectors.toList());
 
@@ -132,7 +132,7 @@ class IbanGenerationServiceTest {
 
         // Then
         assertEquals(8, bankCodeStructure.getLength());
-        assertEquals(bankCodeStructure.getType(), EntryCharacterType.n);
+        assertEquals(EntryCharacterType.n, bankCodeStructure.getType());
     }
 
     private DataPayload getPayload() {
@@ -145,7 +145,7 @@ class IbanGenerationServiceTest {
 
     private DataPayload getPayloadWithGeneratedIban() {
         DataPayload dataPayload = getPayload();
-        HashMap<String, String> hashMap = new HashMap();
+        HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put(USER_IBAN, "value");
         dataPayload.setGeneratedIbans(hashMap);
         return dataPayload;

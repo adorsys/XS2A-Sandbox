@@ -55,7 +55,11 @@ public class DecoupledServiceImpl implements DecoupledService {
             BearerTokenTO scaToken = tokenService.exchangeToken(token, request.getAuthorizationTTL(), Constants.SCOPE_SCA);
             authInterceptor.setAccessToken(scaToken.getAccess_token());
             GlobalScaResponseTO response = redirectScaClient.validateScaCode(request.getAuthorizationId(), request.getAuthCode()).getBody();
-            authInterceptor.setAccessToken(response.getBearerToken().getAccess_token());
+            Optional.ofNullable(response)
+                .map(GlobalScaResponseTO::getBearerToken)
+                .map(BearerTokenTO::getAccess_token)
+                .ifPresent(authInterceptor::setAccessToken);
+
 
             if (EnumSet.of(OpTypeTO.PAYMENT, OpTypeTO.CANCEL_PAYMENT).contains(request.getOpType())) {
                 String transactionStatus = executePaymentOperation(request, response);

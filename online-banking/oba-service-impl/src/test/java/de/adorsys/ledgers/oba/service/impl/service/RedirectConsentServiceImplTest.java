@@ -45,7 +45,9 @@ import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.Currency;
 import java.util.HashSet;
+import java.util.List;
 
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -99,23 +101,25 @@ class RedirectConsentServiceImplTest {
 
     @Test
     void updateAccessByConsentType_globalConsent() {
-        assertThatCode(() -> redirectConsentService.updateAccessByConsentType(getConsentWorkflow(AisConsentRequestType.GLOBAL, IBAN_DE), Collections.singletonList(getAccountDetails()))).doesNotThrowAnyException();
+        assertThatCode(() -> redirectConsentService.updateAccessByConsentType(getConsentWorkflow(AisConsentRequestType.GLOBAL, IBAN_DE), singletonList(getAccountDetails()))).doesNotThrowAnyException();
     }
 
     @Test
     void updateAccessByConsentType_allAvailableAccountsConsent() {
-        assertThatCode(() -> redirectConsentService.updateAccessByConsentType(getConsentWorkflow(AisConsentRequestType.ALL_AVAILABLE_ACCOUNTS, IBAN_DE), Collections.singletonList(getAccountDetails()))).doesNotThrowAnyException();
+        assertThatCode(() -> redirectConsentService.updateAccessByConsentType(getConsentWorkflow(AisConsentRequestType.ALL_AVAILABLE_ACCOUNTS, IBAN_DE), singletonList(getAccountDetails()))).doesNotThrowAnyException();
     }
 
     @Test
     void updateAccessByConsentType_dedicatedAccountsConsent() {
-        assertThatCode(() -> redirectConsentService.updateAccessByConsentType(getConsentWorkflow(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE), Collections.singletonList(getAccountDetails()))).doesNotThrowAnyException();
+        assertThatCode(() -> redirectConsentService.updateAccessByConsentType(getConsentWorkflow(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE), singletonList(getAccountDetails()))).doesNotThrowAnyException();
     }
 
     @Test
     void updateAccessByConsentType_loginFailed() {
+        ConsentWorkflow workflow = getConsentWorkflow(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_FR);
+        List<AccountDetailsTO> details = List.of(getAccountDetails());
         // When
-        assertThrows(AuthorizationException.class, () -> redirectConsentService.updateAccessByConsentType(getConsentWorkflow(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_FR), Collections.singletonList(getAccountDetails())));
+        assertThrows(AuthorizationException.class, () -> redirectConsentService.updateAccessByConsentType(workflow, details));
     }
 
     @Test
@@ -137,9 +141,9 @@ class RedirectConsentServiceImplTest {
         // Given
         when(cmsPsuAisClient.updateAuthorisationStatus(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok().build());
         when(dataService.toBase64String(any())).thenThrow(IOException.class);
-
+        ConsentWorkflow workflow = getConsentWorkflow(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE);
         // Then
-        assertThrows(AuthorizationException.class, () -> redirectConsentService.updateScaStatusAndConsentData(USER_ID, getConsentWorkflow(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE)));
+        assertThrows(AuthorizationException.class, () -> redirectConsentService.updateScaStatusAndConsentData(USER_ID, workflow));
     }
 
     @Test
@@ -151,7 +155,7 @@ class RedirectConsentServiceImplTest {
         when(consentRestClient.initiateAisConsent(any(), any())).thenReturn(ResponseEntity.ok(getSCAConsentResponseTO()));
 
         // When
-        redirectConsentService.startConsent(getConsentWorkflow(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE), getAisConsentTO(), Collections.singletonList(getAccountDetails()));
+        redirectConsentService.startConsent(getConsentWorkflow(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE), getAisConsentTO(), singletonList(getAccountDetails()));
 
         // Then
         verify(consentMapper, times(1)).toTo(getCmsAisAccountConsent(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE));
@@ -210,7 +214,7 @@ class RedirectConsentServiceImplTest {
 
     private ConsentAuthorizeResponse getConsentAuthorizeResponse() {
         ConsentAuthorizeResponse response = new ConsentAuthorizeResponse();
-        response.setAccounts(Collections.singletonList(getAccountDetails()));
+        response.setAccounts(singletonList(getAccountDetails()));
         response.setAuthMessageTemplate("authMessageTemplate");
         response.setConsent(getAisConsentTO());
         response.setScaStatus(ScaStatusTO.FINALISED);
@@ -246,7 +250,7 @@ class RedirectConsentServiceImplTest {
     }
 
     private AisAccountAccess getAisAccountAccess(String iban) {
-        return new AisAccountAccess(Collections.singletonList(getReference(iban)), Collections.emptyList(), Collections.emptyList(), "availableAccounts", "allPsd2", "availableAccountsWithBalance", null);
+        return new AisAccountAccess(singletonList(getReference(iban)), Collections.emptyList(), Collections.emptyList(), "availableAccounts", "allPsd2", "availableAccountsWithBalance", null);
     }
 
     private AccountReference getReference(String iban) {
@@ -270,7 +274,7 @@ class RedirectConsentServiceImplTest {
         response.setConsentId(CONSENT_ID);
         response.setAuthorisationId(AUTHORIZATION_ID);
         response.setScaStatus(ScaStatusTO.FINALISED);
-        response.setScaMethods(Collections.EMPTY_LIST);
+        response.setScaMethods(Collections.emptyList());
         response.setAuthConfirmationCode("code");
         response.setPsuMessage("psuMessage");
         return response;
@@ -281,7 +285,7 @@ class RedirectConsentServiceImplTest {
         response.setOperationObjectId(CONSENT_ID);
         response.setAuthorisationId(AUTHORIZATION_ID);
         response.setScaStatus(ScaStatusTO.FINALISED);
-        response.setScaMethods(Collections.EMPTY_LIST);
+        response.setScaMethods(Collections.emptyList());
         response.setAuthConfirmationCode("code");
         response.setPsuMessage("psuMessage");
         return response;

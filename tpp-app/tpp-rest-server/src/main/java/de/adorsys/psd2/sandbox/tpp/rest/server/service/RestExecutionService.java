@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.requireNonNull;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -47,7 +49,7 @@ public class RestExecutionService {
         RecoveryPointTO point = dataRestClient.getPoint(revertRequest.getRecoveryPointId()).getBody();
 
         userMgmtStaffRestClient.revertDatabase(revertRequest);
-        cmsDbNativeService.revertDatabase(logins, point.getRollBackTime());
+        cmsDbNativeService.revertDatabase(logins, requireNonNull(point).getRollBackTime());
     }
 
     private UploadedDataTO initialiseDataSets(DataPayload payload) {

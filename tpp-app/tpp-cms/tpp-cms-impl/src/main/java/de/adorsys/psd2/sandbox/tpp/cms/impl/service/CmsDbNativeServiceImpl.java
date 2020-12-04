@@ -21,7 +21,7 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class CmsDbDbNativeServiceImpl implements CmsDbNativeService {
+public class CmsDbNativeServiceImpl implements CmsDbNativeService {
     private final ResourceLoader loader;
 
     private static final String ROLLBACK_CMS = "classpath:rollbackCms.sql";
@@ -55,7 +55,7 @@ public class CmsDbDbNativeServiceImpl implements CmsDbNativeService {
             .executeUpdate();
     }
 
-    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
+    @SuppressWarnings({"PMD.AvoidThrowingRawExceptionTypes", "java:S112"})
     private String loadQueryFromFile(String filename) {
         try {
             InputStream stream = loader.getResource(filename).getInputStream();

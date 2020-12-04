@@ -49,6 +49,7 @@ import java.util.Optional;
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.*;
 import static de.adorsys.psd2.xs2a.core.consent.ConsentStatus.PARTIALLY_AUTHORISED;
 import static de.adorsys.psd2.xs2a.core.consent.ConsentStatus.VALID;
+import static java.util.Objects.requireNonNull;
 import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient.DEFAULT_SERVICE_INSTANCE_ID;
 
 @Slf4j
@@ -148,8 +149,8 @@ public class AISController implements AISApi {
             workflow = redirectConsentService.authorizeConsent(workflow, authCode);
 
             if (workflow.getConsentStatus().equals(VALID.name())) {
-                ResponseEntity<Boolean> response = cmsPsuAisClient.confirmConsent(workflow.consentId(), psuId, null, null, null, DEFAULT_SERVICE_INSTANCE_ID);
-                if (!response.getBody()){ //TODO This is a workaround! Should be fixed with separate OBA controller set!
+                boolean isConfirmedConsent = Optional.ofNullable(cmsPsuAisClient.confirmConsent(workflow.consentId(), psuId, null, null, null, DEFAULT_SERVICE_INSTANCE_ID).getBody()).orElse(false);
+                if (!isConfirmedConsent) { //TODO This is a workaround! Should be fixed with separate OBA controller set!
                     log.info("Consent not found so assume we have a PIIS consent");
                     cmsPsuPiisV2Client.updateConsentStatus(workflow.consentId(), VALID.name(), DEFAULT_SERVICE_INSTANCE_ID);
                 }
@@ -192,7 +193,7 @@ public class AISController implements AISApi {
             // Set access token
             authInterceptor.setAccessToken(middlewareAuth.getBearerToken().getAccess_token());
             ResponseEntity<List<AccountDetailsTO>> listOfAccounts = accountRestClient.getListOfAccounts();
-            return ResponseEntity.ok(listOfAccounts.getBody());
+            return ResponseEntity.ok(requireNonNull(listOfAccounts.getBody()));
         } finally {
             authInterceptor.setAccessToken(null);
         }
@@ -207,7 +208,7 @@ public class AISController implements AISApi {
         CmsAisConsentResponse consentResponse = workflow.getConsentResponse();
         authInterceptor.setAccessToken(workflow.getScaResponse().getBearerToken().getAccess_token());
         String tppOkRedirectUri = isOauth2Integrated
-                                      ? oauthRestClient.oauthCode(consentResponse.getTppOkRedirectUri()).getBody().getRedirectUri()
+                                      ? requireNonNull(oauthRestClient.oauthCode(consentResponse.getTppOkRedirectUri()).getBody()).getRedirectUri()
                                       : authService.resolveAuthConfirmationCodeRedirectUri(consentResponse.getTppOkRedirectUri(), authConfirmationCode);
         String tppNokRedirectUri = Optional.ofNullable(consentResponse.getTppNokRedirectUri())
                                        .filter(StringUtils::isNotBlank)
