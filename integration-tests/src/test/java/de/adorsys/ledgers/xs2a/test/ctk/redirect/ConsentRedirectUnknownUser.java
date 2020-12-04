@@ -28,7 +28,7 @@ public class ConsentRedirectUnknownUser extends AbstractConsentRedirect {
     }
 
     @Test
-    public void authenticating_a_user_for_consent_with_wrong_user_name_must_return_404() throws IOException {
+    public void authenticating_a_user_for_consent_with_wrong_user_name_must_return_404() {
 
         ResponseEntity<ConsentsResponse201> createConsentResp = consentHelper.createDedicatedConsent();
 

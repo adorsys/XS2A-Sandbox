@@ -26,8 +26,11 @@ import de.adorsys.psd2.xs2a.core.consent.AisConsentRequestType;
 import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
 import de.adorsys.psd2.xs2a.core.profile.AccountReference;
 import de.adorsys.psd2.xs2a.core.sca.AuthenticationDataHolder;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient;
+import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuPiisV2Client;
 import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
@@ -46,10 +49,12 @@ import static de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode.
 import static de.adorsys.psd2.xs2a.core.consent.AisConsentRequestType.*;
 import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient.DEFAULT_SERVICE_INSTANCE_ID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class RedirectConsentServiceImpl implements RedirectConsentService {
     private final CmsPsuAisClient cmsPsuAisClient;
+    private final CmsPsuPiisV2Client cmsPsuPiisV2Client;
     private final ConsentRestClient consentRestClient;
     private final AuthRequestInterceptor authInterceptor;
     private final ObaAisConsentMapper consentMapper;
@@ -59,10 +64,10 @@ public class RedirectConsentServiceImpl implements RedirectConsentService {
     private final RedirectScaRestClient redirectScaClient;
 
     @Override
-    public void selectScaMethod(String scaMethodId, final ConsentWorkflow workflow) {
+    public void selectScaMethod(String scaMethodId, String encryptedConsentId, final ConsentWorkflow workflow) {
         try {
             authInterceptor.setAccessToken(workflow.bearerToken().getAccess_token());
-            StartScaOprTO opr = new StartScaOprTO(workflow.consentId(), workflow.authId(), OpTypeTO.CONSENT);
+            StartScaOprTO opr = new StartScaOprTO(workflow.consentId(), encryptedConsentId, workflow.authId(), OpTypeTO.CONSENT);
             GlobalScaResponseTO response = redirectScaClient.startSca(opr).getBody();
             response = redirectScaClient.selectMethod(response.getAuthorisationId(), scaMethodId).getBody();
             workflow.storeSCAResponse(response);
@@ -134,7 +139,7 @@ public class RedirectConsentServiceImpl implements RedirectConsentService {
     }
 
     @Override
-    public void updateScaStatusConsentStatusConsentData(String psuId, ConsentWorkflow workflow) {
+    public void updateScaStatusAndConsentData(String psuId, ConsentWorkflow workflow) {
         // UPDATE CMS
         updateCmsAuthorizationScaStatus(workflow, psuId);
         updateAspspConsentData(workflow);
@@ -142,8 +147,14 @@ public class RedirectConsentServiceImpl implements RedirectConsentService {
 
     private void updateCmsAuthorizationScaStatus(ConsentWorkflow workflow, String psuId) {
         String status = workflow.getAuthResponse().getScaStatus().name();
-        cmsPsuAisClient.updateAuthorisationStatus(workflow.consentId(), status,
-                                                  workflow.authId(), psuId, null, null, null, DEFAULT_SERVICE_INSTANCE_ID, new AuthenticationDataHolder(null, workflow.getScaResponse().getAuthConfirmationCode()));
+        try {
+            cmsPsuAisClient.updateAuthorisationStatus(workflow.consentId(), status,
+                                                      workflow.authId(), psuId, null, null, null, DEFAULT_SERVICE_INSTANCE_ID, new AuthenticationDataHolder(null, workflow.getScaResponse().getAuthConfirmationCode()));
+        } catch (FeignException e) {
+            if (e.status() == 400 || e.status() == 404) { //TODO This is a workaround! Should be fixed with separate OBA controller set!
+                cmsPsuPiisV2Client.updateAuthorisationStatus(workflow.consentId(), status, workflow.authId(), psuId, null, null, null, DEFAULT_SERVICE_INSTANCE_ID, new AuthenticationDataHolder(null, workflow.getScaResponse().getAuthConfirmationCode()));
+            }
+        }
     }
 
     private void updateAspspConsentData(ConsentWorkflow workflow) {
@@ -164,8 +175,11 @@ public class RedirectConsentServiceImpl implements RedirectConsentService {
         // Map the requested access and push it to the consent management system.
         AisAccountAccess accountAccess = consentMapper.accountAccess(aisConsent.getAccess(), listOfAccounts);
         CmsAisConsentAccessRequest accountAccessRequest = new CmsAisConsentAccessRequest(accountAccess, aisConsent.getValidUntil(), aisConsent.getFrequencyPerDay(), false, aisConsent.isRecurringIndicator());
-        cmsPsuAisClient.putAccountAccessInConsent(workflow.consentId(), accountAccessRequest, DEFAULT_SERVICE_INSTANCE_ID);
-
+        try {
+            cmsPsuAisClient.putAccountAccessInConsent(workflow.consentId(), accountAccessRequest, DEFAULT_SERVICE_INSTANCE_ID);
+        } catch (FeignException e) {
+            log.error("Consent not found expecting it is a PIIS consent");
+        }
         // Prepare consent object for ledger
         AisConsentTO consent = consentMapper.toTo(workflow.getConsentResponse().getAccountConsent());
         consent.setAccess(aisConsent.getAccess());

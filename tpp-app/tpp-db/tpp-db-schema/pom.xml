@@ -21,7 +21,7 @@
     <parent>
         <artifactId>tpp-db</artifactId>
         <groupId>de.adorsys.psd2.sandbox</groupId>
-        <version>5.0</version>
+        <version>5.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -47,7 +47,6 @@
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
-            <version>3.6.2</version>
         </dependency>
     </dependencies>
 

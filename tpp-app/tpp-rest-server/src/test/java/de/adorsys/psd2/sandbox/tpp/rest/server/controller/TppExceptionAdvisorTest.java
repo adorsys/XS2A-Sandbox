@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.method.HandlerMethod;
 
+import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,7 +58,7 @@ class TppExceptionAdvisorTest {
 
         // When
         ResponseEntity<Map> result = service.handleFeignException(FeignException.errorStatus("method", getResponse()), new HandlerMethod(service, "toString", null));
-        ResponseEntity<Map<String, String>> expected = ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(getExpected(401, "status 401 reading method"));
+        ResponseEntity<Map<String, String>> expected = ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(getExpected(401, "[401 Msg] during [POST] to [] [method]: [\"e2Rldk1lc3NhZ2U9TXNnfQ==\"]"));
 
         // Then
         compareBodies(result, expected);
@@ -76,7 +77,7 @@ class TppExceptionAdvisorTest {
 
     private Response getResponse() throws JsonProcessingException {
         return Response.builder()
-                   .request(Request.create(Request.HttpMethod.POST, "", new HashMap<>(), null))
+                   .request(Request.create(Request.HttpMethod.POST, "", new HashMap<>(), null, Charset.defaultCharset()))
                    .reason("Msg")
                    .headers(new HashMap<>())
                    .status(401)

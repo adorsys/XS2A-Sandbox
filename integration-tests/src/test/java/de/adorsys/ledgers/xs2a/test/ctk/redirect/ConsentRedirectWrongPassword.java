@@ -33,7 +33,7 @@ public class ConsentRedirectWrongPassword extends AbstractConsentRedirect {
     }
 
     @Test
-    public void login_for_consent_with_wrong_password_must_return_403_and_scaStatus_PSU_IDENTIFIED() throws IOException {
+    public void login_for_consent_with_wrong_password_must_return_403_and_scaStatus_PSU_IDENTIFIED() {
 
         ResponseEntity<ConsentsResponse201> createConsentResp = consentHelper.createDedicatedConsent();
 

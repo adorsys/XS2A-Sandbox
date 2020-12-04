@@ -5,10 +5,10 @@ import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.access.AccessDeniedException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -23,9 +23,8 @@ public class TokenAuthenticationFilter extends AbstractAuthFilter {
     private final AuthRequestInterceptor authInterceptor;
     private final KeycloakTokenService tokenService;
 
-    @SneakyThrows
     @Override
-    public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         String bearerToken = resolveBearerToken(request);
         authInterceptor.setAccessToken(null);
         if (StringUtils.isBlank(bearerToken)) {
@@ -43,7 +42,7 @@ public class TokenAuthenticationFilter extends AbstractAuthFilter {
                                           .orElseThrow(() -> new RestException("Couldn't get bearer token"));
 
                 fillSecurityContext(token);
-            } catch (FeignException | RestException e) {
+            } catch (FeignException | RestException| AccessDeniedException e) {
                 handleAuthenticationFailure(response, e);
                 return;
             }

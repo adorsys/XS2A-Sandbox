@@ -5,7 +5,7 @@
     <parent>
         <artifactId>online-banking</artifactId>
         <groupId>de.adorsys.psd2.sandbox</groupId>
-        <version>5.0</version>
+        <version>5.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -26,7 +26,6 @@
         <dependency>
             <groupId>de.adorsys.ledgers</groupId>
             <artifactId>ledgers-middleware-rest-client</artifactId>
-            <version>${ledgers.version}</version>
         </dependency>
 
         <dependency>
@@ -51,6 +50,11 @@
             <groupId>de.adorsys.psd2.sandbox</groupId>
             <artifactId>oba-service-api</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
 
         <!-- test dependencies -->

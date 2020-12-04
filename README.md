@@ -32,17 +32,17 @@ All four SCA approaches are supported: REDIRECT, OAUTH, EMBEDDED, DECOUPLED. Two
 
 ## How to try it
 
--   [Running ModelBank instructions](https://github.com/adorsys/XS2A-Sandbox/tree/master/docs/running-xs2asandbox.md) will help you getting you a copy of the project up and running on your local machine.
+-   [Running ModelBank instructions](https://github.com/adorsys/XS2A-Sandbox/tree/master/docs/running-modelbank.md) will help you getting you a copy of the project up and running on your local machine.
 
 ## Version policy
 
 In general ModelBank Team follows [SemVer](https://semver.org/) for versioning. This means our versions follow the model A.B.C, where:
 
-- A - is the major version, pointing out mainline.
+-   A - is the major version, pointing out mainline.
 
-- B - is the minor version, pointing out the next release in the mainline.
+-   B - is the minor version, pointing out the next release in the mainline.
 
-- C - is the hotfix version, used to deliver patches between releases when needed. If omitted, version 4.5 will be considered equal to 4.5.0.
+-   C - is the hotfix version, used to deliver patches between releases when needed. If omitted, version 4.5 will be considered equal to 4.5.0.
 
 We support one release version at the moment.
 

@@ -89,7 +89,7 @@
                     class="form-control"
                     formControlName="login"
                     id="login"
-                    placeholder="Enter your login"
+                    placeholder="Enter user online banking login"
                     type="text"
                   />
                   <div
@@ -179,7 +179,9 @@
               <div class="row">
                 <div class="col-12 col-md-8">
                   <div [formGroupName]="i" class="form-group">
-                    <label class="control-label" for="scaData">SCA</label>
+                    <label class="control-label" for="scaData"
+                      >Method Value</label
+                    >
                     <div class="custom-row">
                       <select
                         formControlName="pushMethod"
@@ -232,7 +234,7 @@
                   </div>
                 </div>
                 <div class="col-12 col-md-4 margin-top">
-                  <label class="control-label">Method Value</label>
+                  <label class="control-label">SCA Method</label>
                   <div [formGroupName]="i">
                     <select formControlName="scaMethod" class="form-control">
                       <option value=""></option>

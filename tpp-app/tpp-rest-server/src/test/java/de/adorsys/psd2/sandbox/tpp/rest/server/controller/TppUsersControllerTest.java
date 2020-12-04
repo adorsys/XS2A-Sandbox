@@ -30,7 +30,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class TppUsersControllerTest {
+class TppUsersControllerTest {
     private static final UserRoleTO USER_ROLE = UserRoleTO.CUSTOMER;
     private static final String USER_ID = "USER_ID";
     private static final String EMAIL = "EMAIL";
@@ -105,7 +105,7 @@ public class TppUsersControllerTest {
     @Test
     void getUser() {
         // Given
-        when(userMgmtRestClient.getUserById(any())).thenReturn(ResponseEntity.ok(getUserTO(BRANCH)));
+        when(userMgmtStaffRestClient.getBranchUserById(any())).thenReturn(ResponseEntity.ok(getUserTO(BRANCH)));
 
         // When
         ResponseEntity<UserTO> user = tppUsersController.getUser(USER_ID);

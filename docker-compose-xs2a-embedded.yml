@@ -12,7 +12,7 @@ volumes:
 services:
   # Xs2a connector embedded xs2a-connector,cms,aspsp-profile
   xs2a-connector-embedded:
-    image: adorsys/xs2a-connector-embedded:9.0
+    image: adorsys/xs2a-connector-embedded:9.2
     container_name: xs2a-connector-embedded
     restart: on-failure
     ports:
@@ -20,7 +20,15 @@ services:
       - "8189:8000"
     environment:
       - SPRING_PROFILES_ACTIVE=mock-qwac,debug_mode
-      - LEDGERS_URL=http://ledgers:8088
+      - KEYCLOAK_AUTH_SERVER_URL=http://ledgers-keycloak:8080/auth
+      - XS2A_CMS_ASPSP-PROFILE_BASEURL=http://xs2a-aspsp-profile:8080/api/v1
+      - XS2A_CMS_CONSENT-SERVICE_BASEURL=http://xs2a-consent-management:8080/api/v1
+      - XS2A_CMS_URL=http://xs2a-consent-management:8080
+      - XS2ASANDBOX_LEDGERS_URL=http://ledgers:8088
+      - XS2ASANDBOX_TPPUI_ONLINE-BANKING_URL=http://xs2a-online-banking:8090/api/v1/consents/confirm/{userLogin}/{consentId}/{authorizationId}/{tan}
+      - QWAC_CERTIFICATE_MOCK=${QWAC_CERTIFICATE_MOCK}
+      - XS2A_FUNDS_CONFIRMATION_USER_LOGIN=admin
+      - XS2A_FUNDS_CONFIRMATION_USER_PASSWORD=12345
       - XS2A_BANK_PROFILE_PATH=/opt/profile/bank_profile_ledgers.yml
       - SPRING_DATASOURCE_URL=jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=consent
       - SPRING_DATASOURCE_USERNAME=cms
@@ -28,7 +36,6 @@ services:
       - SERVER_KEY=secret123
       - SPRING_LIQUIBASE_ENABLED=true
       - USED-NON-RECURRING-CONSENT-EXPIRATION.CRON.EXPRESSION=0 0 * * * *
-      - QWAC_CERTIFICATE_MOCK=${QWAC_CERTIFICATE_MOCK}
     volumes:
       - ./bank-profile/bank_profile_ledgers.yml:/opt/profile/bank_profile_ledgers.yml
     networks:
@@ -75,6 +82,7 @@ services:
     networks:
       - xs2a-net
     environment:
+      KEYCLOAK_AUTH_SERVER_URL: "http://ledgers-keycloak:8080/auth"
       XS2A_URL: "http://xs2a-connector-embedded:8089"
       LEDGERS_URL: "http://ledgers:8088"
       CMS_URL: "http://xs2a-connector-embedded:8089"
@@ -90,7 +98,7 @@ services:
 
   # Ledgers
   ledgers:
-    image: adorsys/ledgers:4.0.1
+    image: adorsys/ledgers:4.1
     container_name: ledgers
     restart: on-failure
     networks:
@@ -101,6 +109,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=postgres,develop
       - SPRING_JPA_SHOW_SQL=false
+      - KEYCLOAK_AUTH_SERVER_URL=http://ledgers-keycloak:8080/auth
       - DB_HOST=xs2a-consent-management-db
       - DB_URL=jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=ledgers
       - DB_DATABASE=consent
@@ -111,8 +120,25 @@ services:
       - LEDGERS_SCA_AUTHORISATION_CONFIRMATION_ENABLED=false
       - SPRING_MAIL_HOST=fakesmtp
       - SPRING_MAIL_PORT=25
+      - LEDGERS_SCA_AUTHCODE_APP_OTP_SOCKET_SERVICE_URL=http://xs2a-online-banking:8090/api/v1/decoupled/message
     volumes:
       - xs2a-ledgers-data:/var/lib/data
+    depends_on:
+      - fakesmtp
+      - ledgers-keycloak
+
+  # Keycloak as IDP
+  ledgers-keycloak:
+    image: adorsys/ledgers-keycloak:${LEDGERS_VERSION}
+    container_name: ledgers-keycloak
+    restart: on-failure
+    networks:
+      - xs2a-net
+    ports:
+      - "8080:8080"
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
 
   # Xs2a online banking frontend
   xs2a-online-banking-ui:
@@ -139,7 +165,7 @@ services:
     environment:
       - TPP_REST_SERVER_URL=http://xs2a-tpp-rest-server:8093
       - CERT_GEN_URL=http://certificate-generator:8092
-      - CERT_GEN_ENABLED=false
+      - CERT_GEN_ENABLED=true
     build:
       context: tpp-ui
       dockerfile: Dockerfile
@@ -148,7 +174,7 @@ services:
     networks:
       - xs2a-net
     depends_on:
-      #      - certificate-generator
+      - certificate-generator
       - xs2a-tpp-rest-server
 
   # TPP-REST-SERVER
@@ -156,6 +182,7 @@ services:
     image: adorsys/xs2a-tpp-rest-server
     restart: on-failure
     environment:
+      KEYCLOAK_AUTH_SERVER_URL: "http://ledgers-keycloak:8080/auth"
       LEDGERS_URL: "http://ledgers:8088"
       SPRING_DATASOURCE_HIKARI_JDBCURL: "jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=consent"
       SPRING_DATASOURCE_HIKARI_USERNAME: "cms"

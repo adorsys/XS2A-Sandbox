@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.HandlerMethod;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.util.Map;
 
 import static java.util.Optional.ofNullable;
@@ -60,7 +61,20 @@ public class GlobalExceptionHandler {
                  handlerMethod.getMethod().getDeclaringClass().getSimpleName(), ex.getMessage());
 
         Map<String, String> body = buildContentMap(ex.status(), resolveErrorMessage(ex));
-        return new ResponseEntity<>(body, HttpStatus.valueOf(ex.status()));
+        HttpStatus status = HttpStatus.I_AM_A_TEAPOT;
+        try {
+            status = HttpStatus.valueOf(ex.status());
+        } catch (IllegalArgumentException e) {
+            log.error(e.getMessage());
+        }
+        return new ResponseEntity<>(body, status);
+    }
+
+    @ExceptionHandler(ConnectException.class)
+    public ResponseEntity<Map> handleAuthException(ConnectException e) {
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        Map message = buildContentMap(status.value(), e.getMessage());
+        return ResponseEntity.status(status).body(message);
     }
 
     private Map<String, String> buildContentMap(String code, String message) {

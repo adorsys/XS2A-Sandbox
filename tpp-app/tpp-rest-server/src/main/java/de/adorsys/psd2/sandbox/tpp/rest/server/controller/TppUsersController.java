@@ -59,7 +59,7 @@ public class TppUsersController implements TppUsersRestApi {
 
     @Override
     public ResponseEntity<UserTO> getUser(String userId) {
-        return userMgmtRestClient.getUserById(userId);
+        return userMgmtStaffRestClient.getBranchUserById(userId);
     }
 
     @Override

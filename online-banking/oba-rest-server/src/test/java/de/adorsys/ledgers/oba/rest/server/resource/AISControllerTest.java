@@ -258,6 +258,7 @@ class AISControllerTest {
         when(responseUtils.consentCookie(any())).thenReturn(COOKIE);
         when(redirectConsentService.identifyConsent(anyString(), anyString(), anyBoolean(), anyString(), any())).thenReturn(getConsentWorkflow(FINALISED, ConsentStatus.RECEIVED));
         when(redirectConsentService.authorizeConsent(any(), any())).thenReturn(getConsentWorkflow(FINALISED, ConsentStatus.VALID));
+        when(cmsPsuAisClient.confirmConsent(any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok(true));
         // When
         ResponseEntity<ConsentAuthorizeResponse> result = controller.authrizedConsent(ENCRYPTED_ID, AUTH_ID, COOKIE, CODE);
 
