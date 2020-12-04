@@ -91,7 +91,7 @@ public class DecoupledServiceImpl implements DecoupledService {
     }
 
 
-    public void updateCmForConsent(String psuId, GlobalScaResponseTO scaResponse) {
+    private void updateCmForConsent(String psuId, GlobalScaResponseTO scaResponse) {
         // UPDATE CMS
         updateCmsScaConsentStatus(psuId, scaResponse);
         updateAspspConsentData(scaResponse);
@@ -103,12 +103,12 @@ public class DecoupledServiceImpl implements DecoupledService {
     }
 
     private void updateCmsForPayment(String psuId, GlobalScaResponseTO scaResponse, String transactionStatus) {
-        updateCmsScaPaymentStatus(scaResponse, psuId);
+        updateCmsScaPaymentAuthStatus(scaResponse, psuId);
         Optional.ofNullable(transactionStatus).ifPresent(s -> updatePaymentStatus(scaResponse.getOperationObjectId(), s));
         updateAspspConsentData(scaResponse);
     }
 
-    private void updateCmsScaPaymentStatus(GlobalScaResponseTO scaResponse, String psuId) {
+    private void updateCmsScaPaymentAuthStatus(GlobalScaResponseTO scaResponse, String psuId) {
         try {
             cmsPsuPisService.updateAuthorisationStatus(new PsuIdData(psuId, null, null, null, null),
                                                        scaResponse.getOperationObjectId(), scaResponse.getAuthorisationId(), ScaStatus.valueOf(scaResponse.getScaStatus().name()), DEFAULT_SERVICE_INSTANCE_ID, new AuthenticationDataHolder(null, scaResponse.getAuthConfirmationCode()));
