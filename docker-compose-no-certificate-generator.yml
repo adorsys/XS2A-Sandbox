@@ -157,7 +157,7 @@ services:
 
   # Keycloak as IDP
   ledgers-keycloak:
-    image: adorsys/ledgers-keycloak:develop
+    image: adorsys/ledgers-keycloak:${LEDGERS_VERSION}
     container_name: ledgers-keycloak
     restart: on-failure
     networks:
