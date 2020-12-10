@@ -1,127 +1,190 @@
-<form (change)="onChange()" [formGroup]="certificateFormGroup" autocomplete="off">
-    <h4 class="card-title text-center font-weight-bold">Certificate generation</h4>
-    <div class="form-group">
-        <label>Common Name*</label>
-        <input
-            [ngClass]="{'is-invalid': certificateFormGroup.get('commonName')?.errors && certificateFormGroup.get('commonName')?.touched}"
-            autocomplete="off"
-            class="form-control"
-            formControlName="commonName"
-            id="commonName"
-            placeholder="Common Name"
-            type="text"/>
-        <div *ngIf="certificateFormGroup.get('commonName')?.errors?.required"
-             class="invalid-feedback d-block">
-            Common Name required
-        </div>
+<form
+  (change)="onChange()"
+  [formGroup]="certificateFormGroup"
+  autocomplete="off"
+>
+  <h4 class="card-title text-center font-weight-bold">
+    Certificate generation
+  </h4>
+  <div class="form-group">
+    <label>Common Name*</label>
+    <input
+      [ngClass]="{
+        'is-invalid':
+          certificateFormGroup.get('commonName')?.errors &&
+          certificateFormGroup.get('commonName')?.touched
+      }"
+      autocomplete="off"
+      class="form-control"
+      formControlName="commonName"
+      id="commonName"
+      placeholder="Common Name"
+      type="text"
+    />
+    <div
+      *ngIf="certificateFormGroup.get('commonName')?.errors?.required"
+      class="invalid-feedback d-block"
+    >
+      Common Name required
     </div>
-    <div class="form-group">
-        <label>Authorization Number*</label>
-        <input
-            [ngClass]="{'is-invalid': certificateFormGroup.get('authorizationNumber')?.errors && certificateFormGroup.get('authorizationNumber')?.touched}"
-            autocomplete="off"
-            class="form-control"
-            formControlName="authorizationNumber"
-            id="authorizationNumber"
-            placeholder="Authorization Number"
-            type="text"/>
-        <div *ngIf="certificateFormGroup.get('authorizationNumber')?.errors?.required"
-             class="invalid-feedback d-block">
-            Authorization Number required
-        </div>
+  </div>
+  <div class="form-group">
+    <label>Authorization Number*</label>
+    <input
+      [ngClass]="{
+        'is-invalid':
+          certificateFormGroup.get('authorizationNumber')?.errors &&
+          certificateFormGroup.get('authorizationNumber')?.touched
+      }"
+      autocomplete="off"
+      class="form-control"
+      formControlName="authorizationNumber"
+      id="authorizationNumber"
+      placeholder="Authorization Number"
+      type="text"
+    />
+    <div
+      *ngIf="certificateFormGroup.get('authorizationNumber')?.errors?.required"
+      class="invalid-feedback d-block"
+    >
+      Authorization Number required
     </div>
-    <div class="form-group">
-        <label>Country</label>
-        <input autocomplete="off"
-               class="form-control"
-               formControlName="countryName"
-               id="country"
-               placeholder="Country Name"
-               type="text"/>
-    </div>
+  </div>
+  <div class="form-group">
+    <label>Country</label>
+    <input
+      autocomplete="off"
+      class="form-control"
+      formControlName="countryName"
+      id="country"
+      placeholder="Country Name"
+      type="text"
+    />
+  </div>
 
-    <div class="form-group">
-        <label>State</label>
-        <input autocomplete="off"
-               class="form-control"
-               formControlName="stateOrProvinceName"
-               id="state"
-               placeholder="State"
-               type="text"/>
-    </div>
-    <div class="form-group">
-        <label>City</label>
-        <input autocomplete="off"
-               class="form-control"
-               formControlName="localityName"
-               id="city"
-               placeholder="City"
-               type="text"/>
-    </div>
+  <div class="form-group">
+    <label>State</label>
+    <input
+      autocomplete="off"
+      class="form-control"
+      formControlName="stateOrProvinceName"
+      id="state"
+      placeholder="State"
+      type="text"
+    />
+  </div>
+  <div class="form-group">
+    <label>City</label>
+    <input
+      autocomplete="off"
+      class="form-control"
+      formControlName="localityName"
+      id="city"
+      placeholder="City"
+      type="text"
+    />
+  </div>
 
-    <div class="form-group">
-        <label>Organization Name*</label>
-        <input
-            [ngClass]="{'is-invalid': certificateFormGroup.get('organizationName')?.errors && certificateFormGroup.get('organizationName')?.touched}"
-            autocomplete="off"
-            class="form-control"
-            formControlName="organizationName"
-            id="organizationName"
-            placeholder="Organization Name"
-            type="text"/>
-        <div *ngIf="certificateFormGroup.get('organizationName')?.errors?.required"
-             class="invalid-feedback d-block">
-            Organization Name required
-        </div>
+  <div class="form-group">
+    <label>Organization Name*</label>
+    <input
+      [ngClass]="{
+        'is-invalid':
+          certificateFormGroup.get('organizationName')?.errors &&
+          certificateFormGroup.get('organizationName')?.touched
+      }"
+      autocomplete="off"
+      class="form-control"
+      formControlName="organizationName"
+      id="organizationName"
+      placeholder="Organization Name"
+      type="text"
+    />
+    <div
+      *ngIf="certificateFormGroup.get('organizationName')?.errors?.required"
+      class="invalid-feedback d-block"
+    >
+      Organization Name required
     </div>
-    <div class="form-group">
-        <label>Domain</label>
-        <input autocomplete="off"
-               class="form-control"
-               formControlName="domainComponent"
-               id="domain"
-               placeholder="Domain"
-               type="text"/>
-    </div>
+  </div>
+  <div class="form-group">
+    <label>Domain</label>
+    <input
+      autocomplete="off"
+      class="form-control"
+      formControlName="domainComponent"
+      id="domain"
+      placeholder="Domain"
+      type="text"
+    />
+  </div>
 
-    <div class="form-group">
-        <label>Validity (days)*</label>
-        <input
-            [ngClass]="{'is-invalid': certificateFormGroup.get('validity')?.errors && certificateFormGroup.get('validity')?.touched}"
-            autocomplete="off"
-            class="form-control"
-            formControlName="validity"
-            id="validity"
-            placeholder="Validity"
-            type="number"/>
-        <div *ngIf="certificateFormGroup.get('validity')?.errors?.required"
-             class="invalid-feedback d-block">
-            Validity required
-        </div>
+  <div class="form-group">
+    <label>Validity (days)*</label>
+    <input
+      [ngClass]="{
+        'is-invalid':
+          certificateFormGroup.get('validity')?.errors &&
+          certificateFormGroup.get('validity')?.touched
+      }"
+      autocomplete="off"
+      class="form-control"
+      formControlName="validity"
+      id="validity"
+      placeholder="Validity"
+      type="number"
+    />
+    <div
+      *ngIf="certificateFormGroup.get('validity')?.errors?.required"
+      class="invalid-feedback d-block"
+    >
+      Validity required
     </div>
-    <div class="form-group">
-        <label>Organization Unit</label>
-        <input autocomplete="off"
-               class="form-control"
-               formControlName="organizationUnit"
-               id="organizationUnit"
-               placeholder="Organization Unit"
-               type="text"/>
+    <div
+      *ngIf="
+        certificateFormGroup.get('validity')?.errors?.min ||
+        certificateFormGroup.get('validity')?.errors?.max
+      "
+      class="invalid-feedback d-block"
+    >
+      Validity should be from 1 to 999
     </div>
+  </div>
+  <div class="form-group">
+    <label>Organization Unit</label>
+    <input
+      autocomplete="off"
+      class="form-control"
+      formControlName="organizationUnit"
+      id="organizationUnit"
+      placeholder="Organization Unit"
+      type="text"
+    />
+  </div>
 
-    <div class="row">
-        <div *ngFor="let role of checkboxArray.controls; let i = index;" class="form-check mx-3 my-1">
-            <input (change)="getSelectedCheckboxValue()"
-                   [checked]="role.value"
-                   [formControl]="role"
-                   [ngClass]="{'is-invalid': rolesOptionsError && certificateFormGroup.get('roles')?.touched}"
-                   class="form-check-input"
-                   id="inlineCheckbox{{i}}"
-                   type="checkbox">
-            <label class="form-check-label" for="inlineCheckbox{{i}}">{{ roles[i] }}</label>
-        </div>
-        <div *ngIf="rolesOptionsError" class="invalid-feedback d-block mx-3">
-            You must select at least one option.
-        </div>
+  <div class="row">
+    <div
+      *ngFor="let role of checkboxArray.controls; let i = index"
+      class="form-check mx-3 my-1"
+    >
+      <input
+        (change)="getSelectedCheckboxValue()"
+        [checked]="role.value"
+        [formControl]="role"
+        [ngClass]="{
+          'is-invalid':
+            rolesOptionsError && certificateFormGroup.get('roles')?.touched
+        }"
+        class="form-check-input"
+        id="inlineCheckbox{{ i }}"
+        type="checkbox"
+      />
+      <label class="form-check-label" for="inlineCheckbox{{ i }}">{{
+        roles[i]
+      }}</label>
     </div>
+    <div *ngIf="rolesOptionsError" class="invalid-feedback d-block mx-3">
+      You must select at least one option.
+    </div>
+  </div>
 </form>
