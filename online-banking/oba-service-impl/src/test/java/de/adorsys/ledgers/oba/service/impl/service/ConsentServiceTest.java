@@ -91,7 +91,7 @@ class ConsentServiceTest {
     @Test
     void getListOfConsents() {
         // Given
-        when(cmsPsuAisClient.getConsentsForPsu(any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok(Collections.singletonList(getCmsAisAccountConsent())));
+        when(cmsPsuAisClient.getConsentsForPsu(any(), any(), any(), any(), any(),any(),any())).thenReturn(ResponseEntity.ok(Collections.singletonList(getCmsAisAccountConsent())));
         when(securityDataService.encryptId(any())).thenReturn(Optional.of("consent"));
 
         // When
@@ -106,7 +106,7 @@ class ConsentServiceTest {
     @Test
     void getListOfConsents_failedGetConsent() {
         // Given
-        when(cmsPsuAisClient.getConsentsForPsu(any(), any(), any(), any(), any())).thenThrow(FeignException.class);
+        when(cmsPsuAisClient.getConsentsForPsu(any(), any(), any(), any(), any(), any(), any())).thenThrow(FeignException.class);
 
         // Then
         assertThrows(ObaException.class, () -> consentService.getListOfConsents(USER_LOGIN));

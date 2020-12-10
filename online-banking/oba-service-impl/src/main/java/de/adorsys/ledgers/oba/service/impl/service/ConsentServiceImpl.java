@@ -17,6 +17,7 @@ import de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.api.service.ConsentService;
 import de.adorsys.ledgers.oba.service.impl.mapper.CreatePiisConsentRequestMapper;
+import de.adorsys.ledgers.util.domain.CustomPageImpl;
 import de.adorsys.psd2.consent.api.AspspDataService;
 import de.adorsys.psd2.consent.api.CmsAspspConsentDataBase64;
 import de.adorsys.psd2.consent.api.ais.CmsAisAccountConsent;
@@ -71,9 +72,26 @@ public class ConsentServiceImpl implements ConsentService {
     @Override
     public List<ObaAisConsent> getListOfConsents(String userLogin) {
         try {
-            List<CmsAisAccountConsent> aisAccountConsents = Optional.ofNullable(cmsPsuAisClient.getConsentsForPsu(userLogin, null, null, null, DEFAULT_SERVICE_INSTANCE_ID).getBody())
+            List<CmsAisAccountConsent> aisAccountConsents = Optional.ofNullable(cmsPsuAisClient.getConsentsForPsu(userLogin, null, null, null, DEFAULT_SERVICE_INSTANCE_ID, null, null).getBody())
                                                                 .orElse(Collections.emptyList());
             return toObaAisConsent(aisAccountConsents);
+        } catch (FeignException e) {
+            String msg = format(GET_CONSENTS_ERROR_MSG, userLogin, e.status(), e.getMessage());
+            log.error(msg);
+            throw ObaException.builder()
+                      .devMessage(RESPONSE_ERROR)
+                      .obaErrorCode(AIS_BAD_REQUEST).build();
+        }
+    }
+
+    @Override
+    public CustomPageImpl<ObaAisConsent> getListOfConsentsPaged(String userLogin, int page, int size) {
+        try {
+            List<CmsAisAccountConsent> aisAccountConsents = Optional.ofNullable(cmsPsuAisClient.getConsentsForPsu(userLogin, null, null, null, DEFAULT_SERVICE_INSTANCE_ID, page, size).getBody())
+                                                                .orElse(Collections.emptyList());
+
+            return new CustomPageImpl<>(page, size, 100, aisAccountConsents.size(), 1000, true,
+                                        false, true, false, toObaAisConsent(aisAccountConsents));//TODO Fixme after new Implementation in CMS
         } catch (FeignException e) {
             String msg = format(GET_CONSENTS_ERROR_MSG, userLogin, e.status(), e.getMessage());
             log.error(msg);

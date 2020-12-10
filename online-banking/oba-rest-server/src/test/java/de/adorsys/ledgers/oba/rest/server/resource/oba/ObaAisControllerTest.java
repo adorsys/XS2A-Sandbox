@@ -99,19 +99,20 @@ class ObaAisControllerTest {
     @Test
     void getPendingPeriodicPayments() {
         // Given
-        when(paymentRestClient.getPendingPeriodicPayments()).thenReturn(ResponseEntity.ok(Collections.singletonList(getPaymentTO())));
+        CustomPageImpl<PaymentTO> page = new CustomPageImpl<>(1, 1, 1, 1, 1, false, true, false, true, Collections.singletonList(getPaymentTO()));
+        when(paymentRestClient.getPendingPeriodicPaymentsPaged(anyInt(),anyInt())).thenReturn(ResponseEntity.ok(page));
 
         // When
-        ResponseEntity<List<PaymentTO>> response = obaAisController.getPendingPeriodicPayments();
+        ResponseEntity<CustomPageImpl<PaymentTO>> response = obaAisController.getPendingPeriodicPayments(1, 25);
 
         // Then
         assertTrue(response.getStatusCode().is2xxSuccessful());
-        assertEquals(Objects.requireNonNull(response.getBody()).get(0), getPaymentTO());
-        verify(paymentRestClient, times(1)).getPendingPeriodicPayments();
+        assertEquals(Objects.requireNonNull(response.getBody()).getContent().get(0), getPaymentTO());
+        verify(paymentRestClient, times(1)).getPendingPeriodicPaymentsPaged(anyInt(),anyInt());
     }
 
     private AccountDetailsTO getAccountDetailsTO() {
-        return new AccountDetailsTO(null, IBAN, null, null, null, null, CURRENCY, null, null, CASH, ENABLED, null, null, UsageTypeTO.PRIV, null, null,false,false,null);
+        return new AccountDetailsTO(null, IBAN, null, null, null, null, CURRENCY, null, null, CASH, ENABLED, null, null, UsageTypeTO.PRIV, null, null, false, false, null);
     }
 
     private List<TransactionTO> getTransactionList() {

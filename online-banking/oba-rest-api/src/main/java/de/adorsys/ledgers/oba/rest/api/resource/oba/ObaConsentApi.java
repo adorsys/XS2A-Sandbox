@@ -3,6 +3,7 @@ package de.adorsys.ledgers.oba.rest.api.resource.oba;
 import de.adorsys.ledgers.oba.service.api.domain.CreatePiisConsentRequestTO;
 import de.adorsys.ledgers.oba.service.api.domain.ObaAisConsent;
 import de.adorsys.ledgers.oba.service.api.domain.TppInfoTO;
+import de.adorsys.ledgers.util.domain.CustomPageImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
@@ -22,6 +23,16 @@ public interface ObaConsentApi {
     @GetMapping(path = "/{userLogin}")
     @ApiOperation(value = "Get List of valid AIS Consents", authorizations = @Authorization(value = "apiKey"))
     ResponseEntity<List<ObaAisConsent>> consents(@PathVariable("userLogin") String userLogin);
+
+    /**
+     * @param userLogin login of current user
+     * @return List of valid AIS Consents for user
+     */
+    @GetMapping(path = "/{userLogin}/paged")
+    @ApiOperation(value = "Get List of valid AIS Consents", authorizations = @Authorization(value = "apiKey"))
+    ResponseEntity<CustomPageImpl<ObaAisConsent>> consentsPaged(@PathVariable("userLogin") String userLogin,
+                                                           @RequestParam(required = false, defaultValue = "0") int page,
+                                                           @RequestParam(required = false, defaultValue = "25") int size);
 
     /**
      * @param consentId identifier of consent

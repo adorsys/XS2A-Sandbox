@@ -20,6 +20,7 @@ import de.adorsys.psd2.consent.api.CmsConstant;
 import de.adorsys.psd2.consent.api.ais.CmsAisAccountConsent;
 import de.adorsys.psd2.consent.api.ais.CmsAisConsentResponse;
 import de.adorsys.psd2.consent.psu.api.CmsPsuAuthorisation;
+import de.adorsys.psd2.consent.psu.api.PsuHeadersDescription;
 import de.adorsys.psd2.consent.psu.api.ais.CmsAisConsentAccessRequest;
 import de.adorsys.psd2.consent.psu.api.ais.CmsAisPsuDataAuthorisation;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
@@ -31,6 +32,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static de.adorsys.psd2.consent.psu.api.config.CmsPsuApiDefaultValue.DEFAULT_SERVICE_INSTANCE_ID;
 
 @FeignClient(value = "cmsPsuAis", url = "${cms.url}", path = "/psu-api/v1/ais/consent", primary = false, configuration = FeignConfig.class)
 @Api(value = "psu-api/v1/ais/consent", tags = "PSU AIS Consents")
@@ -105,12 +108,15 @@ public interface CmsPsuAisClient {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK"),
         @ApiResponse(code = 404, message = "Not Found")})
+    @PsuHeadersDescription
     ResponseEntity<List<CmsAisAccountConsent>> getConsentsForPsu(
         @RequestHeader(value = CmsConstant.HEADERS.PSU_ID, required = false) String psuId,
         @RequestHeader(value = CmsConstant.HEADERS.PSU_ID_TYPE, required = false) String psuIdType,
         @RequestHeader(value = CmsConstant.HEADERS.PSU_CORPORATE_ID, required = false) String psuCorporateId,
         @RequestHeader(value = CmsConstant.HEADERS.PSU_CORPORATE_ID_TYPE, required = false) String psuCorporateIdType,
-        @RequestHeader(value = CmsConstant.HEADERS.INSTANCE_ID, required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId);
+        @RequestHeader(value = CmsConstant.HEADERS.INSTANCE_ID, required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId,
+        @RequestParam(value = CmsConstant.QUERY.PAGE_INDEX, required = false) Integer pageIndex,
+        @RequestParam(value = CmsConstant.QUERY.ITEMS_PER_PAGE, required = false) Integer itemsPerPage);
 
     @PutMapping(path = "/{consent-id}/revoke-consent")
     @ApiOperation(value = "Revokes AIS Consent object by its ID. Consent gets status Revoked by PSU.")

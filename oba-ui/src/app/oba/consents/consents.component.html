@@ -1,59 +1,118 @@
-<div class="container-fluid">
+<div class="container-fluid" [formGroup]="formModel">
   <div class="header__title">Consents</div>
 
   <div class="card">
     <div class="card-body">
       <div class="table-responsive">
+        <div
+          *ngIf="
+            config && consents && consents.length > 0;
+            let i = index
+          "class="d-flex align-items-center p-2"
+        >
+          <ngb-pagination
+            [collectionSize]="config.totalItems"
+            [(page)]="config.currentPage"
+            [boundaryLinks]="true"
+            [pageSize]="config.itemsPerPage"
+            [maxSize]="config.maxSize"
+            [rotate]="true"
+            (pageChange)="pageChange($event)"
+          ></ngb-pagination>
+          <select
+            class="custom-select custom-select-sm ml-4 mb-4"
+            style="width: auto;"
+            formControlName="itemsPerPage"
+          >
+            <option [value]="10">10</option>
+            <option [value]="20">20</option>
+            <option [value]="40">40</option>
+            <option [value]="50">50</option>
+            <option [value]="60">60</option>
+            <option [value]="100">100</option>
+          </select>
+        </div>
         <table class="table">
           <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">ID</th>
+            <th scope="col">Issued to</th>
             <th scope="col">Accounts</th>
-            <th scope="col">Balances</th>
-            <th scope="col">Transactions</th>
             <th scope="col">Status</th>
-            <th scope="col">Daily Frequency</th>
-            <th scope="col">Date Of Last Action</th>
+            <th scope="col">Last Action</th>
             <th scope="col">Valid Until</th>
-            <th scope="col">Recurring Indicator</th>
             <th scope="col">Actions</th>
           </tr>
           </thead>
           <tbody>
           <tr *ngFor="let consent of consents; index as i">
-            <th scope="row">{{i + 1}}</th>
-            <td>{{consent.aisAccountConsent.id}}</td>
+            <th scope="row"> {{ (config.currentPage - 1) * config.itemsPerPage + i + 1 }}</th>
+            <td>{{consent.aisAccountConsent.tppInfo.authorityName}}</td>
             <td>
-              <div *ngFor="let account of consent.aisAccountConsent.access.accounts; index as i; last as isLast" [ngClass]="{'mb-2': !isLast}">
-                IBAN: {{account.iban}}<br/>
-                Currency: {{account.currency}}
+              <div *ngIf="consent.aisAccountConsent.access.accounts && consent.aisAccountConsent.access.accounts.length>0">
+                <b>Accounts:</b>
+                <div *ngFor="let account of consent.aisAccountConsent.access.accounts; index as i; last as isLast" [ngClass]="{'mb-2': !isLast}">
+                  {{account.iban}} {{account.currency}}
+                </div>
               </div>
-            </td>
-            <td>
-              <div *ngFor="let balance of consent.aisAccountConsent.access.balances; index as i; last as isLast" [ngClass]="{'mb-2': !isLast}">
-                IBAN: {{balance.iban}}<br/>
-                Currency: {{balance.currency}}
+
+              <div *ngIf="consent.aisAccountConsent.access.balances && consent.aisAccountConsent.access.balances.length>0">
+                <b>Balances:</b>
+                <div *ngFor="let balance of consent.aisAccountConsent.access.balances; index as i; last as isLast" [ngClass]="{'mb-2': !isLast}">
+                  {{balance.iban}} {{balance.currency}}
+                </div>
               </div>
-            </td>
-            <td>
-              <div *ngFor="let transaction of consent.aisAccountConsent.access.transactions; index as i; last as isLast" [ngClass]="{'mb-2': !isLast}">
-                IBAN: {{transaction.iban}}<br/>
-                Currency: {{transaction.currency}}
+
+              <div *ngIf="consent.aisAccountConsent.access.transactions && consent.aisAccountConsent.access.transactions.length>0">
+                <b>Transactions:</b>
+                <div *ngFor="let transaction of consent.aisAccountConsent.access.transactions; index as i; last as isLast" [ngClass]="{'mb-2': !isLast}">
+                  {{transaction.iban}} {{transaction.currency}}
+                </div>
+              </div>
+
+              <div *ngIf="consent.aisAccountConsent.access.accounts && consent.aisAccountConsent.access.accounts.length===0
+                        && consent.aisAccountConsent.access.balances && consent.aisAccountConsent.access.balances.length===0
+                        && consent.aisAccountConsent.access.transactions && consent.aisAccountConsent.access.transactions.length===0">
+                    No Account info available
               </div>
             </td>
             <td>{{consent.aisAccountConsent.consentStatus}}</td>
-            <td>{{consent.aisAccountConsent.frequencyPerDay}}</td>
             <td>{{consent.aisAccountConsent.lastActionDate}}</td>
             <td>{{consent.aisAccountConsent.validUntil}}</td>
-            <td>{{consent.aisAccountConsent.recurringIndicator}}</td>
             <td>
               <button class="btn btn-primary mr-2" [disabled]="!isConsentEnabled(consent)" (click)="revokeConsent(consent)">Revoke</button>
-              <button class="btn btn-primary" ngxClipboard [cbContent]="consent.encryptedConsent" (cbOnSuccess)="copiedConsentSuccessful($event)">Copy to clipboard</button>
             </td>
           </tr>
           </tbody>
         </table>
+        <div
+          *ngIf="
+            config && consents && consents.length > 0;
+            let i = index
+          "class="d-flex align-items-center p-2"
+        >
+          <ngb-pagination
+            [collectionSize]="config.totalItems"
+            [(page)]="config.currentPage"
+            [boundaryLinks]="true"
+            [pageSize]="config.itemsPerPage"
+            [maxSize]="config.maxSize"
+            [rotate]="true"
+            (pageChange)="pageChange($event)"
+          ></ngb-pagination>
+          <select
+            class="custom-select custom-select-sm ml-4 mb-4"
+            style="width: auto;"
+            formControlName="itemsPerPage"
+          >
+            <option [value]="10">10</option>
+            <option [value]="20">20</option>
+            <option [value]="40">40</option>
+            <option [value]="50">50</option>
+            <option [value]="60">60</option>
+            <option [value]="100">100</option>
+          </select>
+        </div>
       </div>
     </div>
   </div>

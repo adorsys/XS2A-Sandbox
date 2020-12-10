@@ -8,6 +8,7 @@ import { Observable as __Observable } from 'rxjs';
 import { map as __map, filter as __filter } from 'rxjs/operators';
 
 import { ObaAisConsent } from '../models/oba-ais-consent';
+import {CustomPageImplObaAisConsent} from "../models/custom-page-impl-ais-consents";
 
 /**
  * Oba Consent Controller
@@ -116,18 +117,29 @@ class OnlineBankingConsentsService extends __BaseService {
     );
   }
 
+  consentsPagedUsingGET(userLogin: string,  params: OnlineBankingConsentsService.PagedUsingGetParams): __Observable<CustomPageImplObaAisConsent> {
+    return this.consentsPagedUsingGETResponse(userLogin, params).pipe(
+      __map(_r => _r.body as CustomPageImplObaAisConsent)
+    );
+  }
+
   /**
    * @param userLogin userLogin
    * @return OK
    */
-  consentsUsingGETResponse(userLogin: string): __Observable<__StrictHttpResponse<Array<ObaAisConsent>>> {
+  consentsPagedUsingGETResponse(userLogin: string, params: OnlineBankingConsentsService.PagedUsingGetParams): __Observable<__StrictHttpResponse<Array<ObaAisConsent>>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
 
+    if (params.size != null)
+      __params = __params.set('size', params.size.toString());
+    if (params.page != null)
+      __params = __params.set('page', params.page.toString());
+
     let req = new HttpRequest<any>(
       'GET',
-      this.rootUrl + `/api/v1/consents/${userLogin}`,
+      this.rootUrl + `/api/v1/consents/${userLogin}/paged`,
       __body,
       {
         headers: __headers,
@@ -140,15 +152,6 @@ class OnlineBankingConsentsService extends __BaseService {
       __map((_r) => {
         return _r as __StrictHttpResponse<Array<ObaAisConsent>>;
       })
-    );
-  }
-  /**
-   * @param userLogin userLogin
-   * @return OK
-   */
-  consentsUsingGET(userLogin: string): __Observable<Array<ObaAisConsent>> {
-    return this.consentsUsingGETResponse(userLogin).pipe(
-      __map(_r => _r.body as Array<ObaAisConsent>)
     );
   }
 }
@@ -179,6 +182,22 @@ module OnlineBankingConsentsService {
      * authorizationId
      */
     authorizationId: string;
+  }
+
+  /**
+   * Parameters for consentsPagedUsingGET
+   */
+  export interface PagedUsingGetParams {
+
+    /**
+     * size
+     */
+    size?: number;
+
+    /**
+     * page
+     */
+    page?: number;
   }
 }
 

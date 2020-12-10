@@ -8,6 +8,7 @@ import de.adorsys.ledgers.oba.service.api.domain.ObaAisConsent;
 import de.adorsys.ledgers.oba.service.api.domain.TppInfoTO;
 import de.adorsys.ledgers.oba.service.api.service.ConsentService;
 import de.adorsys.ledgers.oba.service.api.service.TppInfoCmsService;
+import de.adorsys.ledgers.util.domain.CustomPageImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,12 @@ public class ObaConsentController implements ObaConsentApi {
     @PreAuthorize("#userLogin == authentication.principal.login")
     public ResponseEntity<List<ObaAisConsent>> consents(String userLogin) {
         return ResponseEntity.ok(consentService.getListOfConsents(userLogin));
+    }
+
+    @Override
+    @PreAuthorize("#userLogin == authentication.principal.login")
+    public ResponseEntity<CustomPageImpl<ObaAisConsent>> consentsPaged(String userLogin, int page, int size) {
+        return ResponseEntity.ok(consentService.getListOfConsentsPaged(userLogin, page, size));
     }
 
     @Override
