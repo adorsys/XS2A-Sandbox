@@ -306,13 +306,13 @@ public class ConsentHelper {
         return consents;
     }
 
-    public Map<String, Map<String, List<TransactionDetails>>> loadTransactions(ConsentAuthorizeResponse consentAuthorizeResponse, Boolean withBalance) {
+    public Map<String, Map<String, TransactionList>> loadTransactions(ConsentAuthorizeResponse consentAuthorizeResponse, Boolean withBalance) {
         String encryptedConsentId = consentAuthorizeResponse.getEncryptedConsentId();
         AccountList accountList = lisftOfAccounts(withBalance, encryptedConsentId);
         List<AccountDetails> accounts = accountList.getAccounts();
-        Map<String, Map<String, List<TransactionDetails>>> result = new HashMap<>();
+        Map<String, Map<String, TransactionList>> result = new HashMap<>();
         accounts.forEach(a -> {
-            Map<String, List<TransactionDetails>> loadTransactions = loadTransactions(a, encryptedConsentId, withBalance);
+            Map<String, TransactionList> loadTransactions = loadTransactions(a, encryptedConsentId, withBalance);
             result.put(a.getResourceId(), loadTransactions);
         });
         return result;
@@ -327,7 +327,7 @@ public class ConsentHelper {
                    .getBody();
     }
 
-    private Map<String, List<TransactionDetails>> loadTransactions(AccountDetails a, String encryptedConsentId, Boolean withBalance) {
+    private Map<String, TransactionList> loadTransactions(AccountDetails a, String encryptedConsentId, Boolean withBalance) {
         UUID xRequestID = UUID.randomUUID();
 
         LocalDate dateFrom = LocalDate.of(2017, 01, 01);
@@ -344,7 +344,7 @@ public class ConsentHelper {
                                                                       .getBody();
         AccountReport transactions = transactionsResponse200Json.getTransactions();
         TransactionList booked = transactions.getBooked();
-        Map<String, List<TransactionDetails>> result = new HashMap<>();
+        Map<String, TransactionList> result = new HashMap<>();
         result.put("BOOKED", booked);
         TransactionList pending = transactions.getPending();
         result.put("PENDING", pending);

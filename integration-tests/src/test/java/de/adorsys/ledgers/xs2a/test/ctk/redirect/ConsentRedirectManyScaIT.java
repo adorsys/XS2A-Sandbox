@@ -1,18 +1,16 @@
 package de.adorsys.ledgers.xs2a.test.ctk.redirect;
 
-import java.util.List;
-import java.util.Map;
-
+import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentAuthorizeResponse;
+import de.adorsys.psd2.model.ConsentStatus;
+import de.adorsys.psd2.model.ConsentsResponse201;
+import de.adorsys.psd2.model.ScaStatus;
+import de.adorsys.psd2.model.TransactionList;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.http.ResponseEntity;
 
-import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
-import de.adorsys.psd2.model.ConsentStatus;
-import de.adorsys.psd2.model.ConsentsResponse201;
-import de.adorsys.psd2.model.ScaStatus;
-import de.adorsys.psd2.model.TransactionDetails;
+import java.util.Map;
 
 public class ConsentRedirectManyScaIT extends AbstractConsentRedirect {
 	@Override
@@ -58,7 +56,7 @@ public class ConsentRedirectManyScaIT extends AbstractConsentRedirect {
 		consentHelper.checkConsentScaStatusFromXS2A(encryptedConsentId, authorisationId, ScaStatus.FINALISED);
 
 		// ============== READ TRANSACTIONS ========================//
-		Map<String, Map<String, List<TransactionDetails>>> loadTransactions = consentHelper.loadTransactions(authCodeResponseWrapper.getBody(), false);
+		Map<String, Map<String, TransactionList>> loadTransactions = consentHelper.loadTransactions(authCodeResponseWrapper.getBody(), false);
 		Assert.assertTrue(loadTransactions.size()>0);
 	}
 

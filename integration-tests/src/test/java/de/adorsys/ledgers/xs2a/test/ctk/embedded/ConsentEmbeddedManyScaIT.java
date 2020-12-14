@@ -6,7 +6,6 @@ import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.List;
 import java.util.Map;
 
 import static de.adorsys.ledgers.xs2a.test.ctk.embedded.LinkResolver.getLink;
@@ -69,7 +68,7 @@ public class ConsentEmbeddedManyScaIT extends AbstractConsentEmbedded {
         Assert.assertEquals(ConsentStatus.VALID, consentStatusResponse200.getConsentStatus());
 
         // ============== READ TRANSACTIONS ========================//
-        Map<String, Map<String, List<TransactionDetails>>> loadTransactions = consentHelper.loadTransactions(authCodeResponse, false);
+        Map<String, Map<String, TransactionList>> loadTransactions = consentHelper.loadTransactions(authCodeResponse, false);
         Assert.assertTrue(loadTransactions.size() > 0);
     }
 }
