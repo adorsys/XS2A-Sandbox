@@ -20,6 +20,8 @@ import de.adorsys.ledgers.oba.service.impl.mapper.CreatePiisConsentRequestMapper
 import de.adorsys.ledgers.util.domain.CustomPageImpl;
 import de.adorsys.psd2.consent.api.AspspDataService;
 import de.adorsys.psd2.consent.api.CmsAspspConsentDataBase64;
+import de.adorsys.psd2.consent.api.CmsPageInfo;
+import de.adorsys.psd2.consent.api.ResponseData;
 import de.adorsys.psd2.consent.api.ais.CmsAisAccountConsent;
 import de.adorsys.psd2.consent.service.security.SecurityDataService;
 import de.adorsys.psd2.xs2a.core.consent.AspspConsentData;
@@ -27,6 +29,7 @@ import de.adorsys.psd2.xs2a.core.sca.AuthenticationDataHolder;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.adorsys.ledgers.consent.aspsp.rest.client.CmsAspspAisClient;
 import org.adorsys.ledgers.consent.aspsp.rest.client.CmsAspspPiisClient;
 import org.adorsys.ledgers.consent.aspsp.rest.client.CreatePiisConsentRequest;
 import org.adorsys.ledgers.consent.aspsp.rest.client.CreatePiisConsentResponse;
@@ -36,9 +39,11 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode.*;
@@ -68,6 +73,7 @@ public class ConsentServiceImpl implements ConsentService {
     private final CmsAspspPiisClient cmsAspspPiisClient;
     private final CreatePiisConsentRequestMapper createPiisConsentRequestMapper;
     private final RedirectScaRestClient redirectScaRestClient;
+    private final CmsAspspAisClient cmsAspspAisClient;
 
     @Override
     public List<ObaAisConsent> getListOfConsents(String userLogin) {
@@ -87,11 +93,8 @@ public class ConsentServiceImpl implements ConsentService {
     @Override
     public CustomPageImpl<ObaAisConsent> getListOfConsentsPaged(String userLogin, int page, int size) {
         try {
-            List<CmsAisAccountConsent> aisAccountConsents = Optional.ofNullable(cmsPsuAisClient.getConsentsForPsu(userLogin, null, null, null, DEFAULT_SERVICE_INSTANCE_ID, page, size).getBody())
-                                                                .orElse(Collections.emptyList());
-
-            return new CustomPageImpl<>(page, size, 100, aisAccountConsents.size(), 1000, true,
-                                        false, true, false, toObaAisConsent(aisAccountConsents));//TODO Fixme after new Implementation in CMS
+            ResponseData<Collection<CmsAisAccountConsent>> responseData = cmsAspspAisClient.getConsentsByPsu(null, null, userLogin, null, null, null, DEFAULT_SERVICE_INSTANCE_ID, page, size);
+            return toCustomPage(responseData, this::toObaAisConsent);
         } catch (FeignException e) {
             String msg = format(GET_CONSENTS_ERROR_MSG, userLogin, e.status(), e.getMessage());
             log.error(msg);
@@ -99,6 +102,23 @@ public class ConsentServiceImpl implements ConsentService {
                       .devMessage(RESPONSE_ERROR)
                       .obaErrorCode(AIS_BAD_REQUEST).build();
         }
+    }
+
+    private <S, R> CustomPageImpl<R> toCustomPage(ResponseData<Collection<S>> responseData, Function<Collection<S>, List<R>> mapper) {
+        CmsPageInfo pageInfo = responseData.getPageInfo();
+        int totalPages = (int) pageInfo.getTotal() / (int) pageInfo.getItemsPerPage();
+        return new CustomPageImpl<>(
+            (int) pageInfo.getPageIndex(),
+            (int) pageInfo.getItemsPerPage(),
+            totalPages,
+            (int) pageInfo.getTotal(),
+            responseData.getData().size(),
+            pageInfo.getPageIndex() > 0,
+            pageInfo.getPageIndex() == 0,
+            totalPages > pageInfo.getPageIndex(),
+            totalPages == pageInfo.getPageIndex(),
+            mapper.apply(responseData.getData())
+        );
     }
 
     @Override
@@ -266,7 +286,7 @@ public class ConsentServiceImpl implements ConsentService {
         authInterceptor.setAccessToken(token);
     }
 
-    private List<ObaAisConsent> toObaAisConsent(List<CmsAisAccountConsent> aisAccountConsents) {
+    private List<ObaAisConsent> toObaAisConsent(Collection<CmsAisAccountConsent> aisAccountConsents) {
         return aisAccountConsents.stream()
                    .map(a -> new ObaAisConsent(securityDataService.encryptId(a.getId()).orElse(""), a))
                    .collect(Collectors.toList());
