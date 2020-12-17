@@ -1,7 +1,6 @@
 package org.adorsys.ledgers.consent.aspsp.rest.client;
 
 import de.adorsys.psd2.consent.api.CmsConstant;
-import de.adorsys.psd2.consent.api.ResponseData;
 import de.adorsys.psd2.consent.api.ais.CmsAisAccountConsent;
 import io.swagger.annotations.Api;
 import org.adorsys.ledgers.consent.xs2a.rest.config.FeignConfig;
