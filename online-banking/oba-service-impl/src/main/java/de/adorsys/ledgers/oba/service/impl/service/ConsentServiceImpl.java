@@ -106,13 +106,13 @@ public class ConsentServiceImpl implements ConsentService {
 
     private <S, R> CustomPageImpl<R> toCustomPage(ResponseData<Collection<S>> responseData, Function<Collection<S>, List<R>> mapper) {
         CmsPageInfo pageInfo = responseData.getPageInfo();
-        int totalPages = (int) pageInfo.getTotal() / (int) pageInfo.getItemsPerPage();
+        int totalPages = (int) Math.ceil((double) pageInfo.getTotal() / pageInfo.getItemsPerPage());
         return new CustomPageImpl<>(
             (int) pageInfo.getPageIndex(),
             (int) pageInfo.getItemsPerPage(),
             totalPages,
-            (int) pageInfo.getTotal(),
             responseData.getData().size(),
+            pageInfo.getTotal(),
             pageInfo.getPageIndex() > 0,
             pageInfo.getPageIndex() == 0,
             totalPages > pageInfo.getPageIndex(),
