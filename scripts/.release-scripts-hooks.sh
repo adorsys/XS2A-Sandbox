@@ -32,13 +32,24 @@ function get_remote_repo_name {
 # Hook method to define the develop branch name
 # Returns the develop branch name as text
 function get_develop_branch_name {
-  echo "develop"
+  if [[ "$1" =~ ^4\..* ]]
+  then
+    echo "support-4.x"
+  else
+    echo "develop"
+  fi
 }
 
 # Hook method to define the master branch name
 # Returns the master branch name as text
 function get_master_branch_name {
-  echo "master"
+  if [[ "$1"  =~ ^4\..* ]]
+  then
+    echo "master-4.x"
+  else
+    echo "master"
+  fi
+
 }
 
 # Hook method to format the release branch name
@@ -79,7 +90,7 @@ function set_modules_version {
   fi
   if [[ $1 == *"SNAPSHOT"* ]]; then
     echo "next release"
-    perl -i -pe "s/SANDBOX_VERSION=.*/SANDBOX_VERSION=develop/" .env
+    perl -i -pe "s/SANDBOX_VERSION=.*/SANDBOX_VERSION=support4x/" .env
     echo "$DOCKER_COMPOSE_BUILD_TEMPLATE" > docker-compose-build-template.yml
     git add docker-compose-build-template.yml
     echo "Update frontend version"

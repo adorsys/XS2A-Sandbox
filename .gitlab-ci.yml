@@ -170,8 +170,8 @@ Lint:OBA_frontend:
   stage: "Lint"
   except:
     - schedules
-    - develop
-    - master
+    - support-4.x
+    - master-4.x
   script:
     - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
     - curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
@@ -183,8 +183,8 @@ Lint:TPP_frontend:
   stage: "Lint"
   except:
     - schedules
-    - develop
-    - master
+    - support-4.x
+    - master-4.x
   script:
     - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
     - curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
@@ -196,8 +196,8 @@ Lint:Devportal_frontend:
   stage: "Lint"
   except:
     - schedules
-    - develop
-    - master
+    - support-4.x
+    - master-4.x
   script:
     - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
     - curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
@@ -209,8 +209,8 @@ Lint:OBA_backend:
   stage: "Lint"
   except:
     - schedules
-    - develop
-    - master
+    - support-4.x
+    - master-4.x
   script:
     - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
     - curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
@@ -222,8 +222,8 @@ Lint:TPP_backend:
   stage: "Lint"
   except:
     - schedules
-    - develop
-    - master
+    - support-4.x
+    - master-4.x
   script:
     - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
     - curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
@@ -235,8 +235,8 @@ Lint:Docker_compose:
   stage: "Lint"
   except:
     - schedules
-    - develop
-    - master
+    - support-4.x
+    - master-4.x
   script:
     - apt update && apt install yamllint docker-compose make -yq
     - echo "Run Docker compose lint"
@@ -328,8 +328,8 @@ Lint:PMD_CPD_Report:
   stage: "Lint"
   except:
     - schedules
-    - develop
-    - master
+    - support-4.x
+    - master-4.x
   script:
     - apt update && apt install make -yq
     - echo "Test java code for PMD and CPD"
@@ -347,7 +347,7 @@ Doc Check Java11:
   stage: "Test"
   except:
     - schedules
-    - develop
+    - support-4.x
   needs: ["Build:Java11"]
   variables:
     JAVA_TOOL_OPTIONS: "-Djavax.net.ssl.trustStorePassword=changeit -XX:MaxRAM=3G"
@@ -363,7 +363,7 @@ UnitTests:Java11:
   stage: "Test"
   except:
     - schedules
-    - develop
+    - support-4.x
   needs: ["Build:Java11"]
   variables:
     JAVA_VERSION: "system@1.11"
@@ -452,7 +452,7 @@ Sonarcube Tests:
   except:
     - schedules
   only:
-    - develop
+    - support-4.x
   needs: []
   script:
     - jabba use system@1.11
@@ -466,9 +466,9 @@ build_dockerhub_image_develop:
   except:
     - schedules
   only:
-    - develop
+    - support-4.x
   variables:
-    DOCKER_TAG: develop
+    DOCKER_TAG: support4x
   <<: *push_dockerhub_images
 
 deploy_openshift_develop:
@@ -476,22 +476,11 @@ deploy_openshift_develop:
   except:
     - schedules
   only:
-    - develop
+    - support-4.x
   variables:
-    DOCKER_TAG: develop # Dockerhub source tag
+    DOCKER_TAG: support4x # Dockerhub source tag
     OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_DEV} # Openshift target namespace
   <<: *deploy_openshift
-
-#deploy_openshift_banking_gateway_dev:
-#  stage: "Deploy"
-#  cache: {}
-#  dependencies: []
-#  only:
-#    - develop
-#  variables:
-#    DOCKER_TAG: develop # Dockerhub source tag
-#    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_BANKING_GATEWAY_DEV} # Openshift target namespace
-#  <<: *deploy_openshift
 
 deploy_openshift_dxc_sandbox_dev:
   stage: "Deploy"
@@ -500,9 +489,9 @@ deploy_openshift_dxc_sandbox_dev:
   cache: {}
   dependencies: []
   only:
-    - develop
+    - support-4.x
   variables:
-    DOCKER_TAG: develop # Dockerhub source tag
+    DOCKER_TAG: support4x # Dockerhub source tag
     OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_DXC_SANDBOX_DEV} # Openshift target namespace
   <<: *deploy_dxc_openshift
 
@@ -513,24 +502,11 @@ deploy_openshift_bekb_sandbox_dev:
   cache: {}
   dependencies: []
   only:
-    - develop
+    - support-4.x
   variables:
-    DOCKER_TAG: develop # Dockerhub source tag
+    DOCKER_TAG: support4x # Dockerhub source tag
     OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_BEKB_SANDBOX_DEV} # Openshift target namespace
   <<: *deploy_dxc_openshift
-
-deploy_openshift_e2e_testing:
-  stage: "Deploy"
-  except:
-    - schedules
-  cache: {}
-  dependencies: []
-  only:
-    - develop
-  variables:
-    DOCKER_TAG: develop # Dockerhub source tag
-    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_DEV_E2E} # Openshift target namespace
-  <<: *deploy_openshift
 
 deploy_openshift_modelbank_dev:
   stage: "Deploy"
@@ -539,76 +515,10 @@ deploy_openshift_modelbank_dev:
   cache: {}
   dependencies: []
   only:
-    - develop
+    - support-4.x
   variables:
-    DOCKER_TAG: develop # Dockerhub source tag
+    DOCKER_TAG: support4x # Dockerhub source tag
     OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_MODELBANK_DEV} # Openshift target namespace
-  <<: *deploy_openshift
-
-# nightly
-
-deploy_openshift_nightly:
-  stage: "Deploy"
-  only:
-    - schedules
-  variables:
-    DOCKER_TAG: develop # Dockerhub source tag
-    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_INTEG} # Openshift target namespace
-  <<: *deploy_openshift
-
-# master
-
-build_dockerhub_image_master:
-  stage: "Package"
-  only:
-    - master
-  variables:
-    DOCKER_TAG: latest
-  <<: *push_dockerhub_images
-
-deploy_openshift_demo:
-  stage: "Deploy"
-  only:
-    - master
-  variables:
-    DOCKER_TAG: latest # Dockerhub source tag
-    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_DEMO} # Openshift target namespace
-  <<: *deploy_openshift
-
-#deploy_openshift_banking_gateway_integ:
-#  stage: "Deploy"
-#  cache: {}
-#  dependencies: []
-#  only:
-#    - master
-#  variables:
-#    GIT_STRATEGY: none
-#    DOCKER_TAG: latest # Dockerhub source tag
-#    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_BANKING_GATEWAY_INTEG} # Openshift target namespace
-#  <<: *deploy_openshift
-
-deploy_openshift_aspsp_xs2a_dev:
-  stage: "Deploy"
-  cache: {}
-  dependencies: []
-  only:
-    - master
-  variables:
-    GIT_STRATEGY: none
-    DOCKER_TAG: latest # Dockerhub source tag
-    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_ASPSP_XS2A_DEV} # Openshift target namespace
-  <<: *deploy_openshift_tpp_rest_server
-
-deploy_openshift_open_banking_gateway_dev:
-  stage: "Deploy"
-  cache: {}
-  dependencies: []
-  only:
-    - master
-  variables:
-    GIT_STRATEGY: none
-    DOCKER_TAG: latest # Dockerhub source tag
-    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_OPEN_BANKING_GATEWAY_DEV} # Openshift target namespace
   <<: *deploy_openshift
 
 # tags
