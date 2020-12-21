@@ -123,18 +123,18 @@ class CommonPaymentServiceImplTest {
         // Given
         when(referencePolicy.fromRequest(anyString(), anyString(), anyString(), anyBoolean())).thenReturn(getConsentReference());
         when(cmsPsuPisService.checkRedirectAndGetPayment(anyString(), anyString())).thenThrow(RedirectUrlIsExpiredException.class);
-
+        BearerTokenTO token = new BearerTokenTO();
         // Then
-        assertThrows(ObaException.class, () -> service.identifyPayment(ENCRYPTED_ID, AUTH_ID, false, COOKIE, PSU_ID, new BearerTokenTO()));
+        assertThrows(ObaException.class, () -> service.identifyPayment(ENCRYPTED_ID, AUTH_ID, false, COOKIE, PSU_ID, token));
     }
 
     @Test
     void updateAspspConsentData_exception() throws IOException {
         // Given
         when(dataService.toBase64String(any())).thenThrow(IOException.class);
-
+        PaymentWorkflow expectedWorkflow = getExpectedWorkflow("RJCT");
         // Then
-        assertThrows(AuthorizationException.class, () -> service.updateAspspConsentData(getExpectedWorkflow("RJCT")));
+        assertThrows(AuthorizationException.class, () -> service.updateAspspConsentData(expectedWorkflow));
     }
 
     @Test
@@ -161,9 +161,9 @@ class CommonPaymentServiceImplTest {
         when(paymentMapper.toAbstractPayment(anyString(), anyString(), anyString())).thenReturn(getPaymentTO(ACCP));
         when(cmsPsuPisService.getAuthorisationByAuthorisationId(anyString(), anyString())).thenReturn(Optional.empty());
         when(authService.resolveAuthConfirmationCodeRedirectUri(anyString(), anyString())).thenReturn("www.ok.ua");
-
+        BearerTokenTO token = new BearerTokenTO();
         // Then
-        assertThrows(ObaException.class, () -> service.resolveRedirectUrl(ENCRYPTED_ID, AUTH_ID, COOKIE, false, PSU_ID, new BearerTokenTO(), ""));
+        assertThrows(ObaException.class, () -> service.resolveRedirectUrl(ENCRYPTED_ID, AUTH_ID, COOKIE, false, PSU_ID, token, ""));
     }
 
     @Test
@@ -201,9 +201,9 @@ class CommonPaymentServiceImplTest {
         when(paymentRestClient.initiatePayment(any(), any())).thenReturn(ResponseEntity.ok(getSelectMethodResponse(TransactionStatus.ACCP.name())));
         when(dataService.mapToGlobalResponse(any(), any())).thenReturn(getSelectMethodResponse());
         when(cmsPsuPisService.updateAuthorisationStatus(any(), anyString(), anyString(), any(), anyString(), any())).thenThrow(AuthorisationIsExpiredException.class);
-
+        PaymentWorkflow workflow = getExpectedWorkflow(null);
         // Then
-        assertThrows(ObaException.class, () -> service.initiatePaymentOpr(getExpectedWorkflow(null), PSU_ID, OpTypeTO.PAYMENT));
+        assertThrows(ObaException.class, () -> service.initiatePaymentOpr(workflow, PSU_ID, OpTypeTO.PAYMENT));
     }
 
     @Test

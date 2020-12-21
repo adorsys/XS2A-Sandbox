@@ -8,6 +8,7 @@ import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -22,8 +23,10 @@ class AuthUtilsTest {
 
     @Test
     void checkIfUserInitiatedOperation_fail() {
+        GlobalScaResponseTO loginResult = getLoginResult();
+        List<PsuIdData> wrongLogin = List.of(getPsuIdData("some wrong login"));
         // Then
-        assertThrows(AuthorizationException.class, () -> AuthUtils.checkIfUserInitiatedOperation(getLoginResult(), Collections.singletonList(getPsuIdData("some wrong login"))));
+        assertThrows(AuthorizationException.class, () -> AuthUtils.checkIfUserInitiatedOperation(loginResult, wrongLogin));
     }
 
     private PsuIdData getPsuIdData(String login) {

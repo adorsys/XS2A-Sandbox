@@ -49,7 +49,7 @@ public class TppOperationInfoService {
 
     private String validateAndGetTppId() {
         UserTO user = userMgmtRestClient.getUser().getBody();
-        if (!user.getUserRoles().contains(UserRoleTO.STAFF) || StringUtils.isBlank(user.getId())) {
+        if (user == null || !user.getUserRoles().contains(UserRoleTO.STAFF) || StringUtils.isBlank(user.getId())) {
             throw new TppException("Only TPPs are allowed to query this data", 403);
         }
         return user.getId();

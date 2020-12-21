@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.EnumSet;
 
-import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.EXEMPTED;
-import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.FINALISED;
+import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.*;
 import static de.adorsys.psd2.xs2a.core.pis.TransactionStatus.CANC;
+import static java.util.Objects.requireNonNull;
 import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuPisClient.DEFAULT_SERVICE_INSTANCE_ID;
 
 @Slf4j
@@ -36,23 +36,20 @@ public class ObaCancellationController implements ObaCancellationApi {
     @Override
     public ResponseEntity<SCAPaymentResponseTO> initCancellation(String paymentId) {
         SCAPaymentResponseTO response = paymentRestClient.initiatePmtCancellation(paymentId).getBody();
-        HttpStatus status = resolveStatus(paymentId, response);
+        HttpStatus status = resolveStatus(paymentId, requireNonNull(response));
         return new ResponseEntity<>(response, status);
     }
 
     @Override
     public ResponseEntity<SCAPaymentResponseTO> selectSca(String paymentId, String cancellationId, String scaMethodId) {
-        StartScaOprTO opr = new StartScaOprTO(paymentId, null,cancellationId, OpTypeTO.CANCEL_PAYMENT);
+        StartScaOprTO opr = new StartScaOprTO(paymentId, null, cancellationId, OpTypeTO.CANCEL_PAYMENT);
         redirectScaRestClient.startSca(opr);
-        return ResponseEntity.ok(mapToPaymentResponse(redirectScaRestClient.selectMethod(cancellationId, scaMethodId).getBody()));
+        return ResponseEntity.ok(mapToPaymentResponse(requireNonNull(redirectScaRestClient.selectMethod(cancellationId, scaMethodId).getBody())));
     }
 
     private SCAPaymentResponseTO mapToPaymentResponse(GlobalScaResponseTO source) {
         SCAPaymentResponseTO target = new SCAPaymentResponseTO();
-        /*target.setTransactionStatus(null);
-        target.setPaymentProduct(null);
-        target.setPaymentType(null);
-        target.setChosenScaMethod(null);*/ //TODO This are missed as irrelevant
+        //target.setTransactionStatus(null); target.setPaymentProduct(null);target.setPaymentType(null);target.setChosenScaMethod(null); This are missed as irrelevant
         target.setPaymentId(source.getOperationObjectId());
         target.setScaStatus(source.getScaStatus());
         target.setAuthorisationId(source.getAuthorisationId());
@@ -71,16 +68,16 @@ public class ObaCancellationController implements ObaCancellationApi {
     @Override
     public ResponseEntity<Void> validateTAN(String paymentId, String cancellationId, String authCode) {
         GlobalScaResponseTO validateScaCode = redirectScaRestClient.validateScaCode(cancellationId, authCode).getBody();
-        auth.setAccessToken(validateScaCode.getBearerToken().getAccess_token());
+        auth.setAccessToken(requireNonNull(validateScaCode).getBearerToken().getAccess_token());
         SCAPaymentResponseTO response = paymentRestClient.executeCancelPayment(paymentId).getBody();
-        HttpStatus status = resolveStatus(paymentId, response);
+        HttpStatus status = resolveStatus(paymentId, requireNonNull(response));
         return new ResponseEntity<>(status);
     }
 
     private HttpStatus resolveStatus(String paymentId, SCAPaymentResponseTO response) {
         if (EnumSet.of(EXEMPTED, FINALISED).contains(response.getScaStatus())) {
             return cmsPsuPisService.updatePaymentStatus(paymentId, CANC, DEFAULT_SERVICE_INSTANCE_ID)
-                       ?HttpStatus.NO_CONTENT
+                       ? HttpStatus.NO_CONTENT
                        : HttpStatus.BAD_REQUEST;
         }
         return HttpStatus.OK;

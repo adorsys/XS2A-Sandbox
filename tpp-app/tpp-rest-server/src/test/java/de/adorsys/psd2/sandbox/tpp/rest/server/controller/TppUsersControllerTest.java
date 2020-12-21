@@ -25,8 +25,8 @@ import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -89,17 +89,19 @@ class TppUsersControllerTest {
 
     @Test
     void updateUser_userIdNull() {
+        User user = getUser(null);
         // Then
-        assertThrows(TppException.class, () -> tppUsersController.updateUser(getUser(null)));
+        assertThrows(TppException.class, () -> tppUsersController.updateUser(user));
     }
 
     @Test
     void updateUser_tppCodedNull() {
         // Given
-        when(userMgmtRestClient.getUser()).thenReturn(ResponseEntity.ok(getUserTO(null)));
-
+        UserTO userTO = getUserTO(null);
+        when(userMgmtRestClient.getUser()).thenReturn(ResponseEntity.ok(userTO));
+        User user = getUser(USER_ID);
         // Then
-        assertThrows(TppException.class, () -> tppUsersController.updateUser(getUser(USER_ID)));
+        assertThrows(TppException.class, () -> tppUsersController.updateUser(user));
     }
 
     @Test
@@ -145,6 +147,6 @@ class TppUsersControllerTest {
     }
 
     private CustomPageImpl<UserTO> getCustomPageImplUserTO() {
-        return new CustomPageImpl<UserTO>();
+        return new CustomPageImpl<>();
     }
 }

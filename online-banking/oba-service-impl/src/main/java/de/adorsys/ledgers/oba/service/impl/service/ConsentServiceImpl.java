@@ -13,12 +13,15 @@ import de.adorsys.ledgers.middleware.client.rest.ConsentRestClient;
 import de.adorsys.ledgers.middleware.client.rest.RedirectScaRestClient;
 import de.adorsys.ledgers.oba.service.api.domain.CreatePiisConsentRequestTO;
 import de.adorsys.ledgers.oba.service.api.domain.ObaAisConsent;
+import org.adorsys.ledgers.consent.aspsp.rest.client.ResponseData;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.api.service.ConsentService;
 import de.adorsys.ledgers.oba.service.impl.mapper.CreatePiisConsentRequestMapper;
+import de.adorsys.ledgers.util.domain.CustomPageImpl;
 import de.adorsys.psd2.consent.api.AspspDataService;
 import de.adorsys.psd2.consent.api.CmsAspspConsentDataBase64;
+import de.adorsys.psd2.consent.api.CmsPageInfo;
 import de.adorsys.psd2.consent.api.ais.CmsAisAccountConsent;
 import de.adorsys.psd2.consent.service.security.SecurityDataService;
 import de.adorsys.psd2.xs2a.core.consent.AspspConsentData;
@@ -26,6 +29,7 @@ import de.adorsys.psd2.xs2a.core.sca.AuthenticationDataHolder;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.adorsys.ledgers.consent.aspsp.rest.client.CmsAspspAisClient;
 import org.adorsys.ledgers.consent.aspsp.rest.client.CmsAspspPiisClient;
 import org.adorsys.ledgers.consent.aspsp.rest.client.CreatePiisConsentRequest;
 import org.adorsys.ledgers.consent.aspsp.rest.client.CreatePiisConsentResponse;
@@ -34,14 +38,18 @@ import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode.*;
 import static java.lang.String.format;
 import static java.util.Base64.getEncoder;
+import static java.util.Objects.requireNonNull;
 
 @Slf4j
 @Service
@@ -65,11 +73,12 @@ public class ConsentServiceImpl implements ConsentService {
     private final CmsAspspPiisClient cmsAspspPiisClient;
     private final CreatePiisConsentRequestMapper createPiisConsentRequestMapper;
     private final RedirectScaRestClient redirectScaRestClient;
+    private final CmsAspspAisClient cmsAspspAisClient;
 
     @Override
     public List<ObaAisConsent> getListOfConsents(String userLogin) {
         try {
-            List<CmsAisAccountConsent> aisAccountConsents = Optional.ofNullable(cmsPsuAisClient.getConsentsForPsu(userLogin, null, null, null, DEFAULT_SERVICE_INSTANCE_ID).getBody())
+            List<CmsAisAccountConsent> aisAccountConsents = Optional.ofNullable(cmsPsuAisClient.getConsentsForPsu(userLogin, null, null, null, DEFAULT_SERVICE_INSTANCE_ID, null, null).getBody())
                                                                 .orElse(Collections.emptyList());
             return toObaAisConsent(aisAccountConsents);
         } catch (FeignException e) {
@@ -79,6 +88,37 @@ public class ConsentServiceImpl implements ConsentService {
                       .devMessage(RESPONSE_ERROR)
                       .obaErrorCode(AIS_BAD_REQUEST).build();
         }
+    }
+
+    @Override
+    public CustomPageImpl<ObaAisConsent> getListOfConsentsPaged(String userLogin, int page, int size) {
+        try {
+            ResponseData<Collection<CmsAisAccountConsent>> responseData = cmsAspspAisClient.getConsentsByPsu(null, null, userLogin, null, null, null, DEFAULT_SERVICE_INSTANCE_ID, page, size);
+            return toCustomPage(responseData, this::toObaAisConsent);
+        } catch (FeignException e) {
+            String msg = format(GET_CONSENTS_ERROR_MSG, userLogin, e.status(), e.getMessage());
+            log.error(msg);
+            throw ObaException.builder()
+                      .devMessage(RESPONSE_ERROR)
+                      .obaErrorCode(AIS_BAD_REQUEST).build();
+        }
+    }
+
+    private <S, R> CustomPageImpl<R> toCustomPage(ResponseData<Collection<S>> responseData, Function<Collection<S>, List<R>> mapper) {
+        CmsPageInfo pageInfo = responseData.getPageInfo();
+        int totalPages = (int) Math.ceil((double) pageInfo.getTotal() / pageInfo.getItemsPerPage());
+        return new CustomPageImpl<>(
+            (int) pageInfo.getPageIndex(),
+            (int) pageInfo.getItemsPerPage(),
+            totalPages,
+            responseData.getData().size(),
+            pageInfo.getTotal(),
+            pageInfo.getPageIndex() > 0,
+            pageInfo.getPageIndex() == 0,
+            totalPages > pageInfo.getPageIndex(),
+            totalPages == pageInfo.getPageIndex(),
+            mapper.apply(responseData.getData())
+        );
     }
 
     @Override
@@ -148,7 +188,7 @@ public class ConsentServiceImpl implements ConsentService {
 
     private void confirmConsentAtCms(String userLogin, String consentId) {
         try {
-            cmsPsuAisClient.confirmConsent(consentId, userLogin, null, null, null, DEFAULT_SERVICE_INSTANCE_ID).getBody();
+            cmsPsuAisClient.confirmConsent(consentId, userLogin, null, null, null, DEFAULT_SERVICE_INSTANCE_ID);
         } catch (FeignException e) {
             String msg = e.status() == 404
                              ? format(CONSENT_COULD_NOT_BE_FOUND, consentId)
@@ -185,7 +225,7 @@ public class ConsentServiceImpl implements ConsentService {
 
     private SCAConsentResponseTO authorizeConsentAtLedgers(String authorizationId, String tan) {
         try {
-            return mapToScaConsentResponse(redirectScaRestClient.validateScaCode(authorizationId, tan).getBody());
+            return mapToScaConsentResponse(requireNonNull(redirectScaRestClient.validateScaCode(authorizationId, tan).getBody()));
         } catch (FeignException e) {
             throw ObaException.builder()
                       .devMessage(getDevMessageFromFeignException(e))
@@ -215,7 +255,7 @@ public class ConsentServiceImpl implements ConsentService {
 
     private String getDevMessageFromFeignException(FeignException e) {
         try {
-            return objectMapper.readTree(e.content()).get("devMessage").asText();
+            return objectMapper.readTree(e.responseBody().map(ByteBuffer::array).orElse(new byte[]{})).get("devMessage").asText();
         } catch (IOException i) {
             return "Could not extract exception message from ASPSP response";
         }
@@ -246,7 +286,7 @@ public class ConsentServiceImpl implements ConsentService {
         authInterceptor.setAccessToken(token);
     }
 
-    private List<ObaAisConsent> toObaAisConsent(List<CmsAisAccountConsent> aisAccountConsents) {
+    private List<ObaAisConsent> toObaAisConsent(Collection<CmsAisAccountConsent> aisAccountConsents) {
         return aisAccountConsents.stream()
                    .map(a -> new ObaAisConsent(securityDataService.encryptId(a.getId()).orElse(""), a))
                    .collect(Collectors.toList());

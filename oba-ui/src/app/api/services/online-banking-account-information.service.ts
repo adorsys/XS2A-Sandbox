@@ -17,6 +17,10 @@ import { PaymentTO } from '../models/payment-to';
 import { TransactionTO } from '../models/transaction-to';
 import { CustomPageImplTransactionTO } from '../models/custom-page-impl-transaction-to';
 import { UserTO } from '../models/user-to';
+import {CustomPageImplObaAisConsent} from "../models/custom-page-impl-ais-consents";
+import {ObaAisConsent} from "../models/oba-ais-consent";
+import {OnlineBankingConsentsService} from "./online-banking-consents.service";
+import {CustomPageImplPaymentTO} from "../models/custom-page-impl-paayment-to";
 
 /**
  * Oba Ais Controller
@@ -119,12 +123,26 @@ class OnlineBankingAccountInformationService extends __BaseService {
   /**
    * @return OK
    */
-  getPendingPeriodicPaymentsUsingGETResponse(): __Observable<
-    __StrictHttpResponse<Array<PaymentTO>>
-  > {
+  getPendingPeriodicPaymentsUsingGET(userLogin: string,  params: OnlineBankingConsentsService.PagedUsingGetParams): __Observable<CustomPageImplPaymentTO> {
+    return this.periodicPaymentsPagedUsingGETResponse(userLogin, params).pipe(
+      __map(_r => _r.body as CustomPageImplPaymentTO)
+    );
+  }
+
+  /**
+   * @param userLogin userLogin
+   * @return OK
+   */
+  periodicPaymentsPagedUsingGETResponse(userLogin: string, params: OnlineBankingConsentsService.PagedUsingGetParams): __Observable<__StrictHttpResponse<CustomPageImplPaymentTO>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
+
+    if (params.size != null)
+      __params = __params.set('size', params.size.toString());
+    if (params.page != null)
+      __params = __params.set('page', params.page.toString());
+
     let req = new HttpRequest<any>(
       'GET',
       this.rootUrl + `/api/v1/ais/payments`,
@@ -132,23 +150,14 @@ class OnlineBankingAccountInformationService extends __BaseService {
       {
         headers: __headers,
         params: __params,
-        responseType: 'json',
-      }
-    );
+        responseType: 'json'
+      });
 
     return this.http.request<any>(req).pipe(
-      __filter((_r) => _r instanceof HttpResponse),
+      __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<Array<PaymentTO>>;
+        return _r as __StrictHttpResponse<CustomPageImplPaymentTO>;
       })
-    );
-  }
-  /**
-   * @return OK
-   */
-  getPendingPeriodicPaymentsUsingGET(): __Observable<Array<PaymentTO>> {
-    return this.getPendingPeriodicPaymentsUsingGETResponse().pipe(
-      __map((_r) => _r.body as Array<PaymentTO>)
     );
   }
 
@@ -251,7 +260,6 @@ class OnlineBankingAccountInformationService extends __BaseService {
         responseType: 'json',
       }
     );
-    console.log('hello from service', req.body);
     return this.http.request<any>(req).pipe(
       __filter((_r) => _r instanceof HttpResponse),
       __map((_r) => {

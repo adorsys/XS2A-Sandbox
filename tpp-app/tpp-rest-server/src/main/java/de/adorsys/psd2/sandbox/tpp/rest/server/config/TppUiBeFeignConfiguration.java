@@ -25,7 +25,7 @@ public class TppUiBeFeignConfiguration {
     public Encoder feignEncoder() {
         objectMapper.addMixIn(ScaUserDataTO.class, ScaUserDataMixedIn.class)
             .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        HttpMessageConverter jacksonConverter = new MappingJackson2HttpMessageConverter(objectMapper);
+        HttpMessageConverter<?> jacksonConverter = new MappingJackson2HttpMessageConverter(objectMapper);
         ObjectFactory<HttpMessageConverters> objectFactory = () -> new HttpMessageConverters(jacksonConverter);
         return new SpringEncoder(objectFactory);
     }

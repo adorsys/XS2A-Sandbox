@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static java.util.Objects.requireNonNull;
 import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.CREATED;
 
@@ -85,7 +86,7 @@ public class TppController implements TppRestApi {
         cmsDbNativeService.deleteConsentsByUserIds(logins);
         UserTO user = userMgmtRestClient.getUser().getBody();
 
-        return dataRestClient.branch(user.getBranch());
+        return dataRestClient.branch(requireNonNull(user).getBranch());
     }
 
     @Override

@@ -1,14 +1,12 @@
 package de.adorsys.ledgers.xs2a.test.ctk.redirect;
 
-import de.adorsys.ledgers.oba.service.api.domain.ConsentAuthorizeResponse;
+import de.adorsys.psd2.model.ConsentStatus;
+import de.adorsys.psd2.model.ConsentsResponse201;
+import feign.FeignException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import de.adorsys.psd2.model.ConsentStatus;
-import de.adorsys.psd2.model.ConsentsResponse201;
-import feign.FeignException;
 
 public class ConsentRedirectNoScaIT extends AbstractConsentRedirect {
 	@Override
@@ -27,8 +25,7 @@ public class ConsentRedirectNoScaIT extends AbstractConsentRedirect {
 		consentHelper.checkConsentStatus(createConsentResp, ConsentStatus.RECEIVED);
 
 		try {
-			ResponseEntity<ConsentAuthorizeResponse> loginResponseWrapper = consentHelper.login(createConsentResp);
-			ConsentAuthorizeResponse body = loginResponseWrapper.getBody();
+			consentHelper.login(createConsentResp);
 			Assert.fail("Expecting a bad request");
 		} catch(FeignException f) {
 			// TODO: create Ticket why bad request. Middleware return exempted.

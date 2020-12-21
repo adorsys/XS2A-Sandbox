@@ -26,7 +26,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -58,12 +58,12 @@ class TppConsentControllerTest {
     }
 
     @Test
-    void generateConsents_couldNotParseData() {
+    void generateConsents_couldNotParseData() throws IOException {
         // Given
         when(parseService.getDataFromFile(any(), any())).thenReturn(Optional.empty());
-
+        MultipartFile file = resolveMultipartFile(FILE_NAME);
         // When
-        assertThrows(TppException.class, () -> tppConsentController.generateConsents(resolveMultipartFile(FILE_NAME)));
+        assertThrows(TppException.class, () -> tppConsentController.generateConsents(file));
     }
 
     @Test

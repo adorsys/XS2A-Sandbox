@@ -20,7 +20,6 @@ public class PermittedResources {
     };
 
     protected static final String[] APP_SCA_WHITELIST = {
-        "/sca/login",
         "/pis/auth/**",
         "/pis/*/authorisation/*/login",
         "/pis-cancellation/*/authorisation/*/login",

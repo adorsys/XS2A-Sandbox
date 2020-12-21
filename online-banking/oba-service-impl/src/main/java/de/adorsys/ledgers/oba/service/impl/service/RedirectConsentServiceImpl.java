@@ -37,16 +37,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode.CONSENT_DATA_UPDATE_FAILED;
-import static de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode.LOGIN_FAILED;
+import static de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode.*;
 import static de.adorsys.psd2.xs2a.core.consent.AisConsentRequestType.*;
+import static java.util.Objects.requireNonNull;
 import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient.DEFAULT_SERVICE_INSTANCE_ID;
 
 @Slf4j
@@ -69,7 +66,7 @@ public class RedirectConsentServiceImpl implements RedirectConsentService {
             authInterceptor.setAccessToken(workflow.bearerToken().getAccess_token());
             StartScaOprTO opr = new StartScaOprTO(workflow.consentId(), encryptedConsentId, workflow.authId(), OpTypeTO.CONSENT);
             GlobalScaResponseTO response = redirectScaClient.startSca(opr).getBody();
-            response = redirectScaClient.selectMethod(response.getAuthorisationId(), scaMethodId).getBody();
+            response = redirectScaClient.selectMethod(requireNonNull(response).getAuthorisationId(), scaMethodId).getBody();
             workflow.storeSCAResponse(response);
         } finally {
             authInterceptor.setAccessToken(null);
@@ -82,7 +79,7 @@ public class RedirectConsentServiceImpl implements RedirectConsentService {
         GlobalScaResponseTO response = redirectScaClient.validateScaCode(workflow.authId(), authCode).getBody();
 
         workflow.storeSCAResponse(response);
-        workflow.setConsentStatus(response.isPartiallyAuthorised()
+        workflow.setConsentStatus(requireNonNull(response).isPartiallyAuthorised()
                                       ? ConsentStatus.PARTIALLY_AUTHORISED.name()
                                       : ConsentStatus.VALID.name());
         return workflow;
@@ -187,7 +184,7 @@ public class RedirectConsentServiceImpl implements RedirectConsentService {
 
         authInterceptor.setAccessToken(workflow.bearerToken().getAccess_token());
         SCAConsentResponseTO initResponse = consentRestClient.initiateAisConsent(workflow.consentId(), consent).getBody();
-        GlobalScaResponseTO map = dataService.mapToGlobalResponse(initResponse, OpTypeTO.CONSENT);
+        GlobalScaResponseTO map = dataService.mapToGlobalResponse(requireNonNull(initResponse), OpTypeTO.CONSENT);
         workflow.storeSCAResponse(map);
     }
 
@@ -213,7 +210,7 @@ public class RedirectConsentServiceImpl implements RedirectConsentService {
         CmsAisConsentResponse cmsConsentResponse = loadConsentByRedirectId(consentReference);
 
         ConsentWorkflow workflow = new ConsentWorkflow(cmsConsentResponse, consentReference);
-        AisConsentTO aisConsentTO = consentMapper.toTo(cmsConsentResponse.getAccountConsent());
+        AisConsentTO aisConsentTO = consentMapper.toTo(requireNonNull(cmsConsentResponse).getAccountConsent());
 
         workflow.setAuthResponse(new ConsentAuthorizeResponse(aisConsentTO));
         workflow.getAuthResponse().setAuthorisationId(cmsConsentResponse.getAuthorisationId());

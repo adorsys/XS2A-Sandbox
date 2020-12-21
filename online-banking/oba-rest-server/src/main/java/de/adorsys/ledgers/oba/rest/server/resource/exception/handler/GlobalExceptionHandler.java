@@ -6,8 +6,10 @@ import de.adorsys.ledgers.oba.rest.api.resource.exception.PaymentAuthorizeExcept
 import de.adorsys.ledgers.oba.rest.server.auth.oba.ErrorResponse;
 import de.adorsys.ledgers.oba.rest.server.resource.exception.resolver.AisExceptionStatusResolver;
 import de.adorsys.ledgers.oba.rest.server.resource.exception.resolver.AuthorizationExceptionStatusResolver;
+import de.adorsys.ledgers.oba.service.api.domain.OnlineBankingResponse;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.PsuMessage;
+import de.adorsys.ledgers.oba.service.api.domain.PsuMessageCategory;
 import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import feign.FeignException;
@@ -21,9 +23,11 @@ import org.springframework.web.method.HandlerMethod;
 
 import java.io.IOException;
 import java.net.ConnectException;
+import java.nio.ByteBuffer;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-
-import static java.util.Optional.ofNullable;
+import java.util.Optional;
 
 @Slf4j
 @ControllerAdvice
@@ -34,29 +38,28 @@ public class GlobalExceptionHandler {
     private final ObjectMapper objectMapper;
 
     @ExceptionHandler(ObaException.class)
-    public ResponseEntity<Map> handleAisException(ObaException e) {
+    public ResponseEntity<Map<String, String>> handleAisException(ObaException e) {
         HttpStatus status = AisExceptionStatusResolver.resolveHttpStatusByCode(e.getObaErrorCode());
-        Map message = buildContentMap(status.value(), e.getDevMessage());
+        Map<String, String> message = buildContentMap(status.value(), e.getDevMessage());
         return ResponseEntity.status(status).body(message);
     }
 
     @ExceptionHandler(PaymentAuthorizeException.class)
-    public ResponseEntity<Map> handlePaymentAuthorizeException(PaymentAuthorizeException e) {
-        PaymentAuthorizeResponse body = e.getError().getBody();
-        PsuMessage psuMessage = body.getPsuMessages().get(0);
-        Map content = buildContentMap(psuMessage.getCode(), psuMessage.getText());
+    public ResponseEntity<Map<String, String>> handlePaymentAuthorizeException(PaymentAuthorizeException e) {
+        PsuMessage psuMessage = extractPsuMessage(e.getError());
+        Map<String, String> content = buildContentMap(psuMessage.getCode(), psuMessage.getText());
         return new ResponseEntity<>(content, HttpStatus.valueOf(Integer.parseInt(psuMessage.getCode())));
     }
 
     @ExceptionHandler(AuthorizationException.class)
-    public ResponseEntity<Map> handleAuthException(AuthorizationException e) {
+    public ResponseEntity<Map<String, String>> handleAuthException(AuthorizationException e) {
         HttpStatus status = AuthorizationExceptionStatusResolver.resolveHttpStatusByCode(e.getErrorCode());
-        Map message = buildContentMap(status.value(), e.getDevMessage());
+        Map<String, String> message = buildContentMap(status.value(), e.getDevMessage());
         return ResponseEntity.status(status).body(message);
     }
 
     @ExceptionHandler(FeignException.class)
-    public ResponseEntity<Map> handleFeignException(FeignException ex, HandlerMethod handlerMethod) {
+    public ResponseEntity<Map<String, String>> handleFeignException(FeignException ex, HandlerMethod handlerMethod) {
         log.warn("FeignException handled in service: {}, message: {}",
                  handlerMethod.getMethod().getDeclaringClass().getSimpleName(), ex.getMessage());
 
@@ -71,10 +74,21 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ConnectException.class)
-    public ResponseEntity<Map> handleAuthException(ConnectException e) {
+    public ResponseEntity<Map<String, String>> handleAuthException(ConnectException e) {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-        Map message = buildContentMap(status.value(), e.getMessage());
+        Map<String, String> message = buildContentMap(status.value(), e.getMessage());
         return ResponseEntity.status(status).body(message);
+    }
+
+    private PsuMessage extractPsuMessage(ResponseEntity<PaymentAuthorizeResponse> error) {
+        return Optional.ofNullable(error.getBody())
+                   .map(OnlineBankingResponse::getPsuMessages)
+                   .map(List::iterator)
+                   .map(Iterator::next)
+                   .orElse(new PsuMessage()
+                               .category(PsuMessageCategory.ERROR)
+                               .code(String.valueOf(error.getStatusCodeValue()))
+                               .text("No message available"));
     }
 
     private Map<String, String> buildContentMap(String code, String message) {
@@ -87,15 +101,20 @@ public class GlobalExceptionHandler {
     }
 
     private String resolveErrorMessage(FeignException ex) {
+        return ex.responseBody()
+                   .map(ByteBuffer::array)
+                   .map(b -> extractMessage(ex, b))
+                   .orElse(ex.getMessage());
+    }
+
+    private String extractMessage(FeignException ex, byte[] b) {
         try {
-            return ex.content() != null
-                       ? ofNullable(objectMapper.readTree(ex.content()).get(DEV_MESSAGE))
-                             .map(JsonNode::asText)
-                             .orElseGet(ex::getMessage)
-                       : ex.getMessage();
+            return Optional.ofNullable(objectMapper.readTree(b).get(DEV_MESSAGE))
+                       .map(JsonNode::asText)
+                       .orElseGet(ex::getMessage);
         } catch (IOException e) {
             log.warn("Couldn't read json content");
+            return ex.getMessage();
         }
-        return ex.getMessage();
     }
 }

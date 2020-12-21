@@ -13,6 +13,7 @@ import de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import feign.FeignException;
 import feign.Request;
+import feign.RequestTemplate;
 import feign.Response;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,7 +24,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.method.HandlerMethod;
 
-import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +46,7 @@ class GlobalExceptionHandlerTest {
         FieldSetter.setField(service, service.getClass().getDeclaredField("objectMapper"), STATIC_MAPPER);
 
         // When
-        ResponseEntity<Map> result = service.handleAisException(ObaException.builder().devMessage("Msg").obaErrorCode(ObaErrorCode.AIS_BAD_REQUEST).build());
+        ResponseEntity<Map<String, String>> result = service.handleAisException(ObaException.builder().devMessage("Msg").obaErrorCode(ObaErrorCode.AIS_BAD_REQUEST).build());
 
         // Then
         compareBodies(result, ResponseEntity.status(HttpStatus.BAD_REQUEST).body(getExpected(400, "Msg")));
@@ -63,7 +63,7 @@ class GlobalExceptionHandlerTest {
         authorizeResponse.setPsuMessages(List.of(message));
 
         // When
-        ResponseEntity<Map> result = service.handlePaymentAuthorizeException(new PaymentAuthorizeException(ResponseEntity.status(HttpStatus.NOT_FOUND).body(authorizeResponse)));
+        ResponseEntity<Map<String, String>> result = service.handlePaymentAuthorizeException(new PaymentAuthorizeException(ResponseEntity.status(HttpStatus.NOT_FOUND).body(authorizeResponse)));
 
         // Then
         compareBodies(result, ResponseEntity.status(HttpStatus.BAD_REQUEST).body(getExpected(400, "Msg")));
@@ -73,7 +73,7 @@ class GlobalExceptionHandlerTest {
     void handleAuthException() throws NoSuchFieldException {
         // Given
         FieldSetter.setField(service, service.getClass().getDeclaredField("objectMapper"), STATIC_MAPPER);
-        ResponseEntity<Map> result = service.handleAuthException(AuthorizationException.builder().devMessage("Msg").errorCode(AuthErrorCode.ACCESS_FORBIDDEN).build());
+        ResponseEntity<Map<String, String>> result = service.handleAuthException(AuthorizationException.builder().devMessage("Msg").errorCode(AuthErrorCode.ACCESS_FORBIDDEN).build());
 
         // Then
         compareBodies(result, ResponseEntity.status(HttpStatus.FORBIDDEN).body(getExpected(403, "Msg")));
@@ -85,7 +85,7 @@ class GlobalExceptionHandlerTest {
         FieldSetter.setField(service, service.getClass().getDeclaredField("objectMapper"), STATIC_MAPPER);
 
         // When
-        ResponseEntity<Map> result = service.handleFeignException(FeignException.errorStatus("method", getResponse()), new HandlerMethod(service, "toString", null));
+        ResponseEntity<Map<String, String>> result = service.handleFeignException(FeignException.errorStatus("method", getResponse()), new HandlerMethod(service, "toString", null));
         ResponseEntity<Map<String, String>> expected = ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(getExpected(401, "[401 Msg] during [POST] to [] [method]: [\"e2Rldk1lc3NhZ2U9TXNnfQ==\"]"));
 
         // Then
@@ -95,7 +95,7 @@ class GlobalExceptionHandlerTest {
 
     private Response getResponse() throws JsonProcessingException {
         return Response.builder()
-                   .request(Request.create(Request.HttpMethod.POST, "", new HashMap<>(), null, Charset.defaultCharset()))
+                   .request(Request.create(Request.HttpMethod.POST, "", new HashMap<>(), null, new RequestTemplate()))
                    .reason("Msg")
                    .headers(new HashMap<>())
                    .status(401)
@@ -103,13 +103,15 @@ class GlobalExceptionHandlerTest {
                    .build();
     }
 
-    private void compareBodies(ResponseEntity<Map> result, ResponseEntity<Map<String, String>> expected) {
+    private void compareBodies(ResponseEntity<Map<String, String>> result, ResponseEntity<Map<String, String>> expected) {
         assertNotNull(result);
         assertEquals(expected.getStatusCode(), result.getStatusCode());
         Map<String, String> resultBody = result.getBody();
         Map<String, String> expectedBody = expected.getBody();
-        assertThat(resultBody.get("code")).isEqualTo(expectedBody.get("code"));
-        assertThat(resultBody.get("message")).isEqualTo(expectedBody.get("message"));
+        assertNotNull(resultBody);
+        assertNotNull(expectedBody);
+        assertThat(resultBody).containsEntry("code", expectedBody.get("code"));
+        assertThat(resultBody).containsEntry("message", expectedBody.get("message"));
         assertThat(LocalDateTime.parse(resultBody.get("dateTime"))).isEqualToIgnoringSeconds(LocalDateTime.now());
     }
 

@@ -75,9 +75,10 @@ class AisServiceTest {
     void getTransactionByDates_bad_request() {
         // Given
         when(accountRestClient.getTransactionByDates(any(), any(), any())).thenThrow(FeignException.class);
-
+        LocalDate from = LocalDate.of(2019, 1, 1);
+        LocalDate to = LocalDate.of(2020, 1, 1);
         // Then
-        assertThrows(ObaException.class, () -> aisService.getTransactions("Account id", LocalDate.of(2019, 1, 1), LocalDate.of(2020, 1, 1)));
+        assertThrows(ObaException.class, () -> aisService.getTransactions("Account id", from, to));
     }
 
     @Test
@@ -97,9 +98,10 @@ class AisServiceTest {
     void getTransactions_paged_exception() {
         // Given
         when(accountRestClient.getTransactionByDatesPaged(anyString(), any(), any(), anyInt(), anyInt())).thenThrow(FeignException.class);
-
+        LocalDate from = LocalDate.of(2019, 1, 1);
+        LocalDate to = LocalDate.of(2020, 1, 1);
         // Then
-        assertThrows(ObaException.class, () -> aisService.getTransactions("Account id", LocalDate.of(2019, 1, 1), LocalDate.of(2020, 1, 1), 0, 10));
+        assertThrows(ObaException.class, () -> aisService.getTransactions("Account id", from, to, 0, 10));
     }
 
     @Test
@@ -137,6 +139,6 @@ class AisServiceTest {
 
     private AccountDetailsTO getAccount() {
         String IBAN = "DE1263";
-        return new AccountDetailsTO(null, IBAN, null, null, null, null, CURRENCY, null, null, CASH, ENABLED, null, null, UsageTypeTO.PRIV, null, null,false,false,null);
+        return new AccountDetailsTO(null, IBAN, null, null, null, null, CURRENCY, null, null, CASH, ENABLED, null, null, UsageTypeTO.PRIV, null, null, false, false, null);
     }
 }

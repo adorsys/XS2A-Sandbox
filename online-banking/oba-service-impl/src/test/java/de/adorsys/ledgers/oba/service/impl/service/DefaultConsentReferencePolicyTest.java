@@ -1,3 +1,4 @@
+
 package de.adorsys.ledgers.oba.service.impl.service;
 
 import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
@@ -67,9 +68,9 @@ class DefaultConsentReferencePolicyTest {
         // Given
         FieldSetter.setField(defaultConsentReferencePolicy, defaultConsentReferencePolicy.getClass().getDeclaredField("hmacSecret"), "6VFX8YFQG5DLFKZIMNLGH9P406XR1SY4");
         ConsentReference reference = defaultConsentReferencePolicy.fromURL(REDIRECT_ID, CONSENT_TYPE_AIS, ENCRYPTED_CONSENT_ID);
-
+        String cookieString = reference.getCookieString();
         // Then
-        assertThrows(AuthorizationException.class, () -> defaultConsentReferencePolicy.fromRequest(ENCRYPTED_CONSENT_ID, AUTHORIZATION_ID, reference.getCookieString(), true));
+        assertThrows(AuthorizationException.class, () -> defaultConsentReferencePolicy.fromRequest(ENCRYPTED_CONSENT_ID, AUTHORIZATION_ID, cookieString, true));
     }
 
     @Test
@@ -77,8 +78,8 @@ class DefaultConsentReferencePolicyTest {
         // Given
         FieldSetter.setField(defaultConsentReferencePolicy, defaultConsentReferencePolicy.getClass().getDeclaredField("hmacSecret"), "6VFX8YFQG5DLFKZIMNLGH9P406XR1SY4");
         ConsentReference reference = defaultConsentReferencePolicy.fromURL(REDIRECT_ID, CONSENT_TYPE_AIS, ENCRYPTED_CONSENT_ID);
-
+        String cookieString = reference.getCookieString();
         // Then
-        assertThrows(AuthorizationException.class, () -> defaultConsentReferencePolicy.fromRequest(null, AUTHORIZATION_ID, reference.getCookieString(), false));
+        assertThrows(AuthorizationException.class, () -> defaultConsentReferencePolicy.fromRequest(null, AUTHORIZATION_ID, cookieString, false));
     }
 }
