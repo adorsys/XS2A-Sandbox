@@ -85,6 +85,7 @@ describe('AccountComponent', () => {
         details: '',
         linkedAccounts: '',
         balances: [],
+        creditLimit: undefined,
       },
       accesses: [
         {
@@ -129,6 +130,7 @@ describe('AccountComponent', () => {
         details: '',
         linkedAccounts: '',
         balances: [],
+        creditLimit: undefined,
       },
       accesses: [
         {
@@ -167,6 +169,7 @@ describe('AccountComponent', () => {
         details: '',
         linkedAccounts: '',
         balances: [],
+        creditLimit: undefined,
       },
       accesses: [
         {

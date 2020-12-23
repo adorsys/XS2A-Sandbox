@@ -95,6 +95,16 @@ export class AccountComponent implements OnInit {
     );
   }
 
+  openSetCreditLimitConfirmation(limit) {
+    this.modalService.open(limit).result.then(
+      () => {
+        console.log(this.account.creditLimit);
+        this.setCreditLimit();
+      },
+      () => {}
+    );
+  }
+
   get isAccountDeleted(): boolean {
     if (this.account) {
       return (
@@ -119,5 +129,14 @@ export class AccountComponent implements OnInit {
       .subscribe((report: AccountReport) => {
         this.accountReport = report;
       });
+  }
+
+  getValue(data) {
+    this.account.creditLimit = data.value;
+  }
+
+  private setCreditLimit() {
+    this.accountService.setCreditLimit(this.account.id, this.account.creditLimit)
+      .subscribe(()=> this.getAccountReport());
   }
 }

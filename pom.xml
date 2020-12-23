@@ -98,7 +98,7 @@
         <!-- xs2a version -->
         <xs2a.version>9.4</xs2a.version>
         <connector.version>9.4</connector.version>
-        <ledgers.version>4.3</ledgers.version>
+        <ledgers.version>4.4-SNAPSHOT</ledgers.version>
         <!-- other properties -->
         <spring-boot-dependencies.version>2.2.4.RELEASE</spring-boot-dependencies.version>
         <spring-cloud-dependencies.version>Hoxton.SR9</spring-cloud-dependencies.version>

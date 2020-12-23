@@ -24,6 +24,7 @@ export class Account {
   usageType: UsageType;
   details: string;
   balances: AccountBalance[];
+  creditLimit: bigint;
 }
 
 export enum AccountType {

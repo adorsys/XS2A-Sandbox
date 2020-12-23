@@ -17,4 +17,5 @@ export interface AccountDetailsTO {
   pan?: string;
   product?: string;
   usageType?: 'PRIV' | 'ORGA';
+  creditLimit?: bigint;
 }

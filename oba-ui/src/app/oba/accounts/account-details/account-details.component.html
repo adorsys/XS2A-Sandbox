@@ -22,10 +22,19 @@
         <div class="col-12 col-md-9 text-muted">{{ account?.currency }}</div>
       </div>
       <div class="row">
-        <div class="col-12 col-md-3">Balance</div>
-        <div class="col-12 col-md-9 text-muted">
-          {{ (account?.balances)[0].amount.amount | convertBalance }}
-        </div>
+        <div class="col-12 col-md-3 ">Balance</div>
+        <div class="col-12 col-md-9 text-muted" *ngIf="account?.creditLimit===0">{{account?.balances[0].amount.amount | convertBalance}} {{account?.currency}}</div>
+        <div class="col-12 col-md-9 text-muted" *ngIf="account?.creditLimit!==0">{{account?.balances[0].amount.amount + account?.creditLimit | convertBalance}} {{account?.currency}}</div>
+      </div>
+
+      <div class="row" *ngIf="account?.creditLimit!==0">
+        <div class="col-12 col-md-3 ">Personal belongings</div>
+        <div class="col-12 col-md-9 text-muted">{{account?.balances[0].amount.amount | convertBalance}} {{account?.currency}}</div>
+      </div>
+
+      <div class="row" *ngIf="account?.creditLimit!==0">
+        <div class="col-12 col-md-3 ">Credit Limit</div>
+        <div class="col-12 col-md-9 text-muted">{{account?.creditLimit | convertBalance}} {{account?.currency}}</div>
       </div>
     </div>
   </div>

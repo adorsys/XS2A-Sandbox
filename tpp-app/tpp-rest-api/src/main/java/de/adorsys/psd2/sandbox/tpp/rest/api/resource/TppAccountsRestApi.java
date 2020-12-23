@@ -12,6 +12,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Api(tags = "TPP Accounts management")
@@ -58,9 +59,9 @@ public interface TppAccountsRestApi {
     })
     @GetMapping("/page")
     ResponseEntity<CustomPageImpl<AccountDetailsTO>> getAllAccounts(
-        @RequestParam(value = "queryParam",required = false, defaultValue = "") String queryParam,
-        @RequestParam(value = "page",required = false, defaultValue = "0") int page,
-        @RequestParam(value = "size",required = false, defaultValue = "25") int size);
+        @RequestParam(value = "queryParam", required = false, defaultValue = "") String queryParam,
+        @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+        @RequestParam(value = "size", required = false, defaultValue = "25") int size);
 
     /**
      * Returns a single account by its ID if it belong to the same branch as STAFF user.
@@ -113,4 +114,10 @@ public interface TppAccountsRestApi {
         authorizations = @Authorization(value = "apiKey"))
     @PostMapping("/status")
     ResponseEntity<Boolean> changeStatus(@RequestParam(value = "accountId") String accountId);
+
+    @ApiOperation(value = "Update credit limit for account",
+        notes = "Enables/Disables credit limit for certain account",
+        authorizations = @Authorization(value = "apiKey"))
+    @PutMapping("/credit")
+    ResponseEntity<Void> updateCreditLimit(@RequestParam(value = "accountId") String accountId, @RequestBody BigDecimal creditAmount);
 }

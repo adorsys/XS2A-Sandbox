@@ -41,9 +41,22 @@
       </div>
       <div class="row">
         <div class="col-12 col-md-3 ">Balance</div>
-        <div class="col-12 col-md-9 text-muted">{{account?.balances[0].amount.amount | convertBalance}}</div>
+        <div class="col-12 col-md-9 text-muted" *ngIf="account?.creditLimit===0">{{account?.balances[0].amount.amount | convertBalance}} {{account?.currency}}</div>
+        <div class="col-12 col-md-9 text-muted" *ngIf="account?.creditLimit!==0">{{account?.balances[0].amount.amount + account?.creditLimit | convertBalance}} {{account?.currency}}</div>
       </div>
+
+      <div class="row" *ngIf="account?.creditLimit!==0">
+        <div class="col-12 col-md-3 ">Personal belongings</div>
+        <div class="col-12 col-md-9 text-muted">{{account?.balances[0].amount.amount | convertBalance}} {{account?.currency}}</div>
+      </div>
+
+      <div class="row" *ngIf="account?.creditLimit!==0">
+        <div class="col-12 col-md-3 ">Credit Limit</div>
+        <div class="col-12 col-md-9 text-muted">{{account?.creditLimit | convertBalance}} {{account?.currency}}</div>
+      </div>
+
       <button class="btn btn-primary" (click)="goToAccountDetail()">Access management</button>
+      <button class="btn btn-primary ml-3" (click)="openSetCreditLimitConfirmation(setCreditLimitModal)">Set Credit Limit</button>
       <button class="btn btn-primary ml-3" [disabled]="isAccountDeleted" (click)="goToDepositCash()">
         Deposit cash
       </button>
@@ -67,5 +80,25 @@
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
     <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Delete transactions</button>
+  </div>
+</ng-template>
+
+<ng-template #setCreditLimitModal let-modal let-limit>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title1">Set Credit Limit</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    Please input Dispo Credit Limit for account "{{account?.iban}}" "{{account?.currency}}"
+    <input (change)=getValue($event.target) class="form-control" id="amount"
+           value="{{account.creditLimit}}"
+           placeholder="{{account?.creditLimit}}"
+           type="number" min="0">
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
+    <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Set Credit Limit</button>
   </div>
 </ng-template>
