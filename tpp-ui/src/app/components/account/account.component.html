@@ -41,18 +41,22 @@
       </div>
       <div class="row">
         <div class="col-12 col-md-3 ">Balance</div>
-        <div class="col-12 col-md-9 text-muted" *ngIf="account?.creditLimit===0">{{account?.balances[0].amount.amount | convertBalance}} {{account?.currency}}</div>
-        <div class="col-12 col-md-9 text-muted" *ngIf="account?.creditLimit!==0">{{account?.balances[0].amount.amount + account?.creditLimit | convertBalance}} {{account?.currency}}</div>
+        <div class="col-12 col-md-9 text-muted">{{balance?.balance}}</div>
       </div>
 
-      <div class="row" *ngIf="account?.creditLimit!==0">
-        <div class="col-12 col-md-3 ">Personal belongings</div>
-        <div class="col-12 col-md-9 text-muted">{{account?.balances[0].amount.amount | convertBalance}} {{account?.currency}}</div>
-      </div>
-
-      <div class="row" *ngIf="account?.creditLimit!==0">
+      <div class="row" *ngIf="balance?.isCreditEnabled">
         <div class="col-12 col-md-3 ">Credit Limit</div>
-        <div class="col-12 col-md-9 text-muted">{{account?.creditLimit | convertBalance}} {{account?.currency}}</div>
+        <div class="col-12 col-md-9 text-muted">{{balance?.limit}}</div>
+      </div>
+
+      <div class="row" *ngIf="balance?.isCreditEnabled">
+        <div class="col-12 col-md-3 ">Personal funds</div>
+        <div class="col-12 col-md-9 text-muted">{{balance?.personal}}</div>
+      </div>
+
+      <div class="row" *ngIf="balance?.isCreditEnabled">
+        <div class="col-12 col-md-3 ">Credit funds available</div>
+        <div class="col-12 col-md-9 text-muted">{{balance?.creditLeft}}</div>
       </div>
 
       <button class="btn btn-primary" (click)="goToAccountDetail()">Access management</button>
