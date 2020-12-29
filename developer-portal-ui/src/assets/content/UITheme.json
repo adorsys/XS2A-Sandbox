@@ -49,6 +49,7 @@
       "logo": "Logo_XS2ASandbox.png"
     },
     "playWithDataSettings": {
+      "fundConfirmationSupported": true,
       "supportedApproaches": ["redirect", "embedded"],
       "examplesCurrency": "EUR",
       "tppSettings": {
