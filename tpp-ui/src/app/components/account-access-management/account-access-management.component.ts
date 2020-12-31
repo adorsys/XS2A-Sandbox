@@ -11,6 +11,7 @@ import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
 import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 import {ADMIN_KEY} from '../../commons/constant/constant';
 import {TppManagementService} from '../../services/tpp-management.service';
+import {Location} from '@angular/common';
 
 
 @Component({
@@ -37,7 +38,8 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
                 private infoService: InfoService,
                 private formBuilder: FormBuilder,
                 private router: Router,
-                private route: ActivatedRoute) {
+                private route: ActivatedRoute,
+                private location: Location) {
 
         this.route.params.subscribe(params => {
             this.accountService.getAccount(params.id).subscribe((account: Account) => {
@@ -100,8 +102,7 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
           });
         } else if (this.admin === 'false') {
           this.accountService.updateAccountAccessForUser(this.accountAccessForm.getRawValue()).subscribe(response => {
-            this.infoService
-              .openFeedback('Access to account' + this.account.iban + 'successfully granted', {duration: 3000});
+            this.infoService.openFeedback('Access to account' + this.account.iban + 'successfully granted', {duration: 3000});
 
             setTimeout(() => {
               this.router.navigate(['/users/all']);
@@ -144,4 +145,8 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.subscription.unsubscribe();
     }
+
+  cancel() {
+    this.location.back();
+  }
 }

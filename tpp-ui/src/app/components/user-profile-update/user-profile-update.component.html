@@ -1,95 +1,87 @@
 <div class="container-fluid">
-  <div class="card">
+  <div class="header__title mb-4">Update TPP User Details</div>
+
+  <div class="card card--small">
     <div class="card-body--large">
-      <div class="header__title">Update TPP User Details</div>
       <form
         novalidate
         [formGroup]="userForm"
         (ngSubmit)="onSubmit()"
-        autocomplete="off"
-      >
-        <div class="row">
-          <label class="control-label col-12 col-md-3" for="username"
-            >Login</label
-          >
-          <div class="col-12 col-md-10">
-            <input
-              [ngClass]="{
+        autocomplete="off">
+        <div class="mb-4">
+          <label for="username">Login</label>
+          <input
+            [ngClass]="{
                 'is-invalid':
                   (formControl['username'].touched || submitted) &&
                   formControl['username'].errors
               }"
-              autocomplete="off"
-              class="form-control"
-              id="username"
-              placeholder="Enter login"
-              type="text"
-              formControlName="username"
-            />
-            <div
-              *ngIf="
+            autocomplete="off"
+            class="form-control"
+            id="username"
+            placeholder="Enter login"
+            type="text"
+            formControlName="username"
+          />
+          <div
+            *ngIf="
                 (formControl['username'].touched || submitted) &&
                 formControl['username'].hasError('required')
               "
-              class="invalid-feedback"
-            >
-              Username is required
-            </div>
+            class="invalid-feedback"
+          >
+            Username is required
           </div>
         </div>
-        <div class="row">
-          <label class="col-12 col-md-6" for="email">Email</label>
-          <div class="col-12 col-md-10">
-            <input
-              [ngClass]="{
+        <div class="mb-4">
+          <label for="email">Email</label>
+          <input
+            [ngClass]="{
                 'is-invalid':
                   (formControl['email'].touched || submitted) &&
                   formControl['email'].errors
               }"
-              autocomplete="off"
-              class="form-control"
-              id="email"
-              placeholder="Enter Email"
-              type="email"
-              formControlName="email"
-            />
-            <div
-              *ngIf="
+            autocomplete="off"
+            class="form-control"
+            id="email"
+            placeholder="Enter Email"
+            type="email"
+            formControlName="email"
+          />
+          <div
+            *ngIf="
                 (formControl['email'].touched || submitted) &&
                 formControl['email'].hasError('required')
               "
-              class="invalid-feedback"
-            >
-              Email is required
-            </div>
-            <div
-              *ngIf="
+            class="invalid-feedback"
+          >
+            Email is required
+          </div>
+          <div
+            *ngIf="
                 (formControl['email'].touched || submitted) &&
                 formControl['email'].hasError('email')
               "
-              class="invalid-feedback"
-            >
-              Email is invalid
-            </div>
+            class="invalid-feedback"
+          >
+            Email is invalid
           </div>
         </div>
-        <div class="row">
-          <button class="btn btn-primary mr-4 ml-3"
+        <div class="mb-4">
+          <button class="btn btn-primary"
                   (click)=resetPasswordViaEmail(user.login)
                   type="button">
             Send password update link
           </button>
         </div>
-        <div class="row">
-          <button class="btn btn-primary mr-4 ml-3" type="submit">
-            Submit
-          </button>
-          <button
-            class="btn btn-outline-dark mr-4 ml-3"
-            [routerLink]="[createLastVisitedPageLink(tppId)]"
-            type="button"
-          >
+
+        <div class="d-flex justify-content-between">
+          <button class="btn btn-outline-danger" type="button" (click)="location.back()">
             Cancel
+          </button>
+
+          <button class="btn btn-primary" type="submit" [disabled]="userForm.invalid">
+            Submit
           </button>
         </div>
       </form>

@@ -9,8 +9,8 @@ import {PageNavigationService} from '../../services/page-navigation.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ADMIN_KEY} from '../../commons/constant/constant';
 import {InfoService} from '../../commons/info/info.service';
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {TppUserService} from "../../services/tpp.user.service";
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {TppUserService} from '../../services/tpp.user.service';
 
 @Component({
   selector: 'app-admins',
@@ -30,6 +30,7 @@ export class AdminsComponent implements OnInit {
   searchForm: FormGroup = this.formBuilder.group({
     itemsPerPage: [this.config.itemsPerPage, Validators.required],
   });
+  newPin: any;
 
   constructor(
     private userService: UserService,
@@ -93,24 +94,30 @@ export class AdminsComponent implements OnInit {
   openConfirmation(content, userId: string, type: string) {
     this.modalService.open(content).result.then(
       () => {
-        if (type === 'delete') {
-          this.userInfoService.getUserInfo().subscribe((user: User) => {
-            this.tppManagementService.deleteUser(userId).subscribe(() => {
-              this.infoService.openFeedback('Admin was successfully deleted!', {
-                severity: 'info',
+        this.userInfoService.getUserInfo().subscribe((user: User) => {
+
+            if (type === 'delete') {
+              this.tppManagementService.deleteUser(userId).subscribe(() => {
+                if (userId === user.id) {
+                  localStorage.removeItem('access_token');
+                  this.router.navigateByUrl('/login');
+                } else {
+                  this.getAdmins();
+                }
+                this.infoService.openFeedback('Admin was successfully deleted!', {
+                  severity: 'info',
+                });
               });
-              if (userId === user.id) {
-                localStorage.removeItem('access_token');
-                this.router.navigateByUrl('/login');
-              } else {
+            } else if (type === 'pin') {
+              this.tppManagementService.changePin(userId, this.newPin).subscribe(() => {
                 this.getAdmins();
-              }
-            });
-          });
-        }
-      },
-      () => {
-      }
-    );
+                this.infoService.openFeedback('Pin was successfully changed!', {
+                  severity: 'info',
+                });
+              });
+            }
+          },
+          () => {});
+      });
   }
 }

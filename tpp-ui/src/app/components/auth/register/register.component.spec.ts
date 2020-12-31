@@ -22,18 +22,19 @@ import {
   TppIdStructure,
   TppIdType,
 } from '../../../models/tpp-id-structure.model';
-import JSZip from 'jszip';
-import { CertGenerationService } from '../../../services/cert-generation.service';
 import {CountryService} from '../../../services/country.service';
+import {CertificateGenerationService} from '../../../services/certificate/certificate-generation.service';
+import {CertificateDownloadService} from '../../../services/certificate/certificate-download.service';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
   let registerFixture: ComponentFixture<RegisterComponent>;
   let authService: AuthService;
   let countryService: CountryService;
+  let certificateDownloadService: CertificateDownloadService;
   let infoService: InfoService;
   let router: Router;
-  let certGenerationService: CertGenerationService;
+  let certificateGenerationService: CertificateGenerationService;
   let de: DebugElement;
   let el: HTMLElement;
 
@@ -47,7 +48,7 @@ describe('RegisterComponent', () => {
         InfoModule,
         FormsModule,
       ],
-      providers: [AuthService, CountryService, InfoService, CertGenerationService],
+      providers: [AuthService, CountryService, InfoService, CertificateGenerationService, CertificateDownloadService],
       declarations: [RegisterComponent, CertificateComponent],
     }).compileComponents();
   }));
@@ -58,7 +59,8 @@ describe('RegisterComponent', () => {
     authService = TestBed.get(AuthService);
     infoService = TestBed.get(InfoService);
     countryService = TestBed.get(CountryService);
-    certGenerationService = TestBed.get(CertGenerationService);
+    certificateGenerationService = TestBed.get(CertificateGenerationService);
+    certificateDownloadService = TestBed.get(CertificateDownloadService);
     router = TestBed.get(Router);
     de = registerFixture.debugElement.query(By.css('form'));
     el = de.nativeElement;
@@ -197,28 +199,6 @@ describe('RegisterComponent', () => {
     expect(testTppStructure.length).toEqual(8);
   });
 
-  it('should create a zip Url', (done) => {
-    const encodedCert = 'encodedCert';
-    const privateKey = 'privateKey';
-    spyOn(component, 'generateZipFile').and.returnValue(of({}).toPromise());
-    spyOn(component, 'createObjectUrl').and.returnValue('dummy-obj-val');
-    component.createZipUrl(encodedCert, privateKey).then((r) => {
-      expect(r).toBe('dummy-obj-val');
-      done();
-    });
-  });
-
-  it('createObjectUrl', () => {
-    const zip = 'dummy-zip-content';
-    const mockWindow = {
-      URL: {
-        createObjectURL: (param) => `url-string-object-${param}`,
-      },
-    };
-    const result = component.createObjectUrl(zip, mockWindow);
-    expect(result).toBe('url-string-object-dummy-zip-content');
-  });
-
   it('should get certificate Value', () => {
     component.getCertificateValue('event');
     expect(component.certificateValue).toEqual('event');
@@ -249,16 +229,6 @@ describe('RegisterComponent', () => {
     expect(infoSpy).toHaveBeenCalledWith('Could not download country list!');
   });
 
-  it('should generate a Zip file', (done) => {
-    const certBlob = 'certBlob';
-    const keyBlob = 'keyBlob';
-    const mockZip: JSZip = ['Blob'];
-    component.generateZipFile(certBlob, keyBlob).then((r: any) => {
-      expect(r).toBeTruthy();
-      done();
-    });
-  });
-
   it('should disabled the userform', () => {
     component.userForm.disable();
     const result = component.selectCountry();
@@ -270,11 +240,11 @@ describe('RegisterComponent', () => {
     const message =
       'You have been successfully registered and your certificate generated. The download will start automatically within the 2 seconds';
     spyOn(authService, 'register').and.returnValue(of({}));
-    spyOn(certGenerationService, 'generate').and.returnValue(
+    spyOn(certificateGenerationService, 'generate').and.returnValue(
       of({ encodedCertencodedCert: 'endcode.cert', privateKey: 'private.key' })
     );
-    spyOn(component, 'createZipUrl').and.returnValue(of(fakeUrl).toPromise());
-    const navigationSpy = spyOn(component, 'navigateAndGiveFeedback');
+    spyOn(certificateDownloadService, 'createZipUrl').and.returnValue(of(fakeUrl).toPromise());
+    const navigationSpy = spyOn(certificateDownloadService, 'navigateAndGiveFeedback');
     component.generateCertificate = true;
     component.certificateValue = {};
     component.userForm.controls['id'].setValue('12345678');

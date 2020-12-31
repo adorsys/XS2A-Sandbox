@@ -6,7 +6,7 @@
         <div class="col-12 col-md-4">
           <div class="header__button">
             <button
-              class="btn btn-primary btn-block"
+              class="btn btn-primary btn-block mb-4"
               routerLink="/admin/create">
               New Administrator
             </button>
@@ -27,15 +27,6 @@
                 (pageDataConfig)="pageChange($event)"
               ></app-pagination-container>
             </div>
-
-            <div *ngIf="admin === 'true'" class="tpp-filters">
-              <div class="container-fluid">
-                <div class="row d-flex justify-content-end">
-                </div>
-
-                <div class="row d-flex justify-content-end"></div>
-              </div>
-            </div>
           </div>
         </div>
         <table class="table">
@@ -50,8 +41,7 @@
           <tbody>
           <tr
             *ngFor="let user of users; index as i"
-            [ngClass]="{ 'disabled-text': user.blocked }"
-          >
+            [ngClass]="{ 'disabled-text': user.blocked }">
             <th scope="row">
               {{
               (config.currentPageNumber - 1) * config.itemsPerPage + i + 1
@@ -60,14 +50,21 @@
             <td>{{ user.login }}</td>
             <td>{{ user.email }}</td>
             <td class="actions d-flex">
-              <button
-                (click)="openConfirmation(deleteConfirmationModal, user.id, 'delete')"
-                class="btn btn-outline-danger btn-sm wd-120"
-              >
+
+              <button class="btn btn-table-btn btn-sm wd-120 mr-3" [routerLink]="['/edit/' + user.id]" [queryParams]="{admin: config.totalItems}">
+                Edit
+              </button>
+
+              <button class="btn btn-table-btn btn-sm wd-120 mr-3" (click)="openConfirmation(changePinModal, user.id, 'pin')">
+                Change PIN
+              </button>
+
+              <button (click)="openConfirmation(deleteConfirmationModal, user.id, 'delete')"
+                      class="btn btn-outline-danger btn-sm wd-120">
                 Delete
               </button>
 
-              <ng-template #deleteConfirmationModal let-modal>
+              <ng-template   #deleteConfirmationModal let-modal>
                 <div class="modal-header">
                   <h4 class="modal-title" id="modal-basic-title">
                     Admin deletion
@@ -101,11 +98,10 @@
                   </button>
                 </div>
               </ng-template>
-
-              <ng-template #blockConfirmation let-modal>
+              <ng-template #changePinModal let-modal>
                 <div class="modal-header">
-                  <h4 class="modal-title" id="modal-basic-title-1">
-                    Admin  {{ user.blocked ? 'unblocking' : 'blocking' }}
+                  <h4 class="modal-title" id="modal-basic-title-2">
+                    Change PIN for Admin
                   </h4>
                   <button
                     type="button"
@@ -117,8 +113,16 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  Are you sure you want to
-                  {{ user.blocked ? 'Unblock' : 'Block' }} this Admin?
+                  <input
+                    class="form-control"
+                    [(ngModel)]="newPin"
+                    [ngClass]="{ 'is-invalid': !newPin || newPin === '' }"
+                    [ngModelOptions]="{ standalone: true }"
+                    type="password"
+                  />
+                  <div class="invalid-feedback" *ngIf="!newPin || newPin === ''">
+                    Please, enter any PIN for Admin, PIN cannot be empty
+                  </div>
                 </div>
                 <div class="modal-footer">
                   <button
@@ -130,10 +134,10 @@
                   </button>
                   <button
                     type="button"
-                    class="btn btn-danger"
+                    class="btn btn-primary"
                     (click)="modal.close('Ok click')"
                   >
-                    {{ user.blocked ? 'Unblock' : 'Block' }}
+                    Change PIN
                   </button>
                 </div>
               </ng-template>

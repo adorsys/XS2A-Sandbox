@@ -37,19 +37,16 @@ export class CustomizeService {
                 JSON.parse(JSON.stringify(theme));
                 const errors = this.validateTheme(theme);
                 if (errors.length) {
-                    console.log(errors);
                     theme = this.getDefaultTheme();
                     this.IS_CUSTOM = false;
                 }
             } catch (e) {
-                console.log(e);
                 theme = this.getDefaultTheme();
                 this.IS_CUSTOM = false;
             }
             return theme as Theme;
         }),
         catchError(e => {
-            console.log(e);
             this.IS_CUSTOM = false;
             return this.getDefaultTheme();
         })
@@ -85,7 +82,7 @@ export class CustomizeService {
     this.USER_THEME = theme;
     this.updateCSS(this.USER_THEME.globalSettings.cssVariables);
     if (this.isCustom) {
-      this.removeExternalLinkElements();
+      CustomizeService.removeExternalLinkElements();
     }
     if (this.USER_THEME.globalSettings.favicon) {
       this.setFavicon(
@@ -95,7 +92,6 @@ export class CustomizeService {
     }
     this.NEW_THEME_WAS_SET = true;
     this.STATUS_WAS_CHANGED = !this.STATUS_WAS_CHANGED;
-    // this.IS_CUSTOM = true;
   }
 
   getLogo() {
@@ -143,7 +139,7 @@ export class CustomizeService {
     return errors;
   }
 
-  private removeExternalLinkElements(): void {
+  private static removeExternalLinkElements(): void {
     const linkElements = document.querySelectorAll('link[rel ~= "icon"]');
     for (const linkElement of Array.from(linkElements)) {
       linkElement.parentNode.removeChild(linkElement);
@@ -159,7 +155,7 @@ export class CustomizeService {
     document.head.appendChild(linkElement);
   }
 
-  private removeFavicon(): void {
+  private static removeFavicon(): void {
     const linkElement = document.head.querySelector(
       '#customize-service-injected-node'
     );
@@ -169,7 +165,7 @@ export class CustomizeService {
   }
 
   public setFavicon(type: string, href: string): void {
-    this.removeFavicon();
+    CustomizeService.removeFavicon();
     this.addFavicon(type, href);
   }
 
@@ -181,7 +177,6 @@ export class CustomizeService {
       watch: true,
       variables,
       onComplete(cssText, styleNode, cssVariables) {
-        console.log(cssText, styleNode, cssVariables);
       },
     });
     // If you decide to drop ie11, edge < 14 support in future, use this as implementation to set variables
