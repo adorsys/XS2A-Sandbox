@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {Observable} from 'rxjs';
 import { PaginationResponse } from '../models/pagination-reponse';
 import { map } from 'rxjs/operators';
 import { User, UserResponse } from '../models/user.model';
@@ -177,6 +177,17 @@ export class TppManagementService {
     return this.http.get<PaginationResponse<User[]>>(
       `${this.url}/admin/${endpoint}`,
       { params: params }
+    );
+  }
+
+  getAdminById(id, size): Observable<any> {
+    return this.getAllAdmins(0, size).pipe(
+      map(data => {
+        if (data.users) {
+          return data.users.find(u => u.id === id);
+        }
+        return undefined;
+      })
     );
   }
 

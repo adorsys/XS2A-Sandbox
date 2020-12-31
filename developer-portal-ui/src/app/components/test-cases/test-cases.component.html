@@ -283,7 +283,7 @@
                 </li>
               </ul>
             </li>
-            <li>
+            <li *ngIf="fundsConfirmationSupported">
               <span class="clickable-item" (click)="collapseThis('funds-confirmation')">
                 <span *ngIf="!fundsConfirmationFlag">+ </span>
                 <span *ngIf="fundsConfirmationFlag" class="minus">- </span>

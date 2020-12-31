@@ -49,7 +49,7 @@ variables:
   OPENSHIFT_NAMESPACE_ADORSYS_MODELBANK_KEYCLOAK_DEV: "adorsys-modelbank-keycloak-dev"
 
   OPENSHIFT_NAMESPACE_ADORSYS_MODELBANK_DEV: "adorsys-modelbank-dev"
-  OPENSHIFT_NAMESPACE_ADORSYS_MODELBANK_INTEG: "adorsys-modelbank-integ"
+  OPENSHIFT_NAMESPACE_ADORSYS_MODELBANK_E2E: "adorsys-modelbank-e2e"
 
   ###########################
   # Build variables         #
@@ -457,6 +457,7 @@ deploy_openshift_develop:
     OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_ADORSYS_MODELBANK_DEV} # Openshift target namespace
   <<: *deploy_openshift
 
+#Will be deleted after move to develop
 deploy_openshift_keycloak_dev:
   stage: "Deploy"
   except:
@@ -478,7 +479,7 @@ deploy_openshift_nightly:
     - schedules
   variables:
     DOCKER_TAG: develop # Dockerhub source tag
-    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_ADORSYS_MODELBANK_INTEG} # Openshift target namespace
+    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_ADORSYS_MODELBANK_E2E} # Openshift target namespace
   <<: *deploy_openshift
 
 ##########

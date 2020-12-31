@@ -59,6 +59,7 @@ describe('AccountService', () => {
       usageType: UsageType.ORGA,
       details: 'details',
       balances: [],
+      creditLimit: undefined,
     };
 
     accountService.getAccounts(0, 25, '').subscribe((resp) => {
@@ -142,6 +143,7 @@ describe('AccountService', () => {
       usageType: UsageType.ORGA,
       details: 'details',
       balances: [],
+      creditLimit: undefined,
     };
     accountService
       .createAccount('accountId', mockAccount)

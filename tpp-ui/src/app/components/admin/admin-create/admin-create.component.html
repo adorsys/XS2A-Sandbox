@@ -1,83 +1,73 @@
 <div class="container-fluid">
 
-  <div class="card">
-    <div class="border-bottom">
-      <div class="card-body">
-      </div>
-    </div>
+  <div class="header__title mb-4">Create new administrator</div>
+
+  <div class="card card--medium">
     <form novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()" autocomplete="off">
-      <div class="border-bottom">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-12 col-md-6 form-group">
-              <label class="control-label" for="email">Email</label>
-              <input
-                [ngClass]="{ 'is-invalid': (formControl['email'].touched || submitted) && formControl['email'].errors }"
-                aria-describedby="emailHelp"
-                autocomplete="off"
-                class="form-control"
-                formControlName="email"
-                id="email"
-                placeholder="Enter email"
-                type="email">
-              <div *ngIf="(formControl['email'].touched || submitted) && formControl['email'].hasError('required')"
-                   class="invalid-feedback">
-                Email is required
-              </div>
-              <div *ngIf="(formControl['email'].touched || submitted) && formControl['email'].hasError('email')"
-                   class="invalid-feedback">
-                Email is invalid
-              </div>
-            </div>
+      <div class="card-body">
+        <div class="mb-4">
+          <label for="email">Email</label>
+          <input
+            [ngClass]="{ 'is-invalid': (formControl['email'].touched || submitted) && formControl['email'].errors }"
+            aria-describedby="emailHelp"
+            autocomplete="off"
+            class="form-control"
+            formControlName="email"
+            id="email"
+            placeholder="Enter email"
+            type="email">
+          <div *ngIf="(formControl['email'].touched || submitted) && formControl['email'].hasError('required')"
+               class="invalid-feedback">
+            Email is required
           </div>
-          <div class="row">
-            <div class="col-12 col-md-6 form-group ">
-              <label class="control-label" for="login">Login</label>
-              <input
-                [ngClass]="{ 'is-invalid': (formControl['login'].touched || submitted) && formControl['login'].errors }"
-                aria-describedby="emailHelp"
-                autocomplete="off"
-                class="form-control"
-                formControlName="login"
-                id="login"
-                placeholder="Enter your login"
-                type="text">
-              <div *ngIf="(formControl['login'].touched || submitted) && formControl['login'].hasError('required')"
-                   class="invalid-feedback">
-                Login is required
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12 col-md-6 form-group ">
-              <label class="control-label" for="pin">PIN</label>
-              <input
-                [ngClass]="{ 'is-invalid': (formControl['pin'].touched || submitted) && formControl['pin'].errors }"
-                aria-describedby="pinHelp"
-                autocomplete="new-password"
-                class="form-control"
-                formControlName="pin"
-                id="pin"
-                placeholder="Enter PIN"
-                type="password">
-              <div *ngIf="(formControl['pin'].touched || submitted) && formControl['pin'].hasError('required')"
-                   class="invalid-feedback">
-                PIN is required
-              </div>
-              <div *ngIf="(formControl['pin'].touched || submitted) && formControl['pin'].hasError('minlength')"
-                   class="invalid-feedback">
-                PIN must contain at least 5 characters
-              </div>
-            </div>
+          <div *ngIf="(formControl['email'].touched || submitted) && formControl['email'].hasError('email')"
+               class="invalid-feedback">
+            Email is invalid
           </div>
         </div>
-      </div>
-      <div>
+        <div class="mb-4">
+          <label class="control-label" for="login">Login</label>
+          <input
+            [ngClass]="{ 'is-invalid': (formControl['login'].touched || submitted) && formControl['login'].errors }"
+            aria-describedby="emailHelp"
+            autocomplete="off"
+            class="form-control"
+            formControlName="login"
+            id="login"
+            placeholder="Enter your login"
+            type="text">
+          <div *ngIf="(formControl['login'].touched || submitted) && formControl['login'].hasError('required')"
+               class="invalid-feedback">
+            Login is required
+          </div>
+        </div>
+        <div class="mb-4">
+          <label class="control-label" for="pin">PIN</label>
+          <input
+            [ngClass]="{ 'is-invalid': (formControl['pin'].touched || submitted) && formControl['pin'].errors }"
+            aria-describedby="pinHelp"
+            autocomplete="new-password"
+            class="form-control"
+            formControlName="pin"
+            id="pin"
+            placeholder="Enter PIN"
+            type="password">
+          <div *ngIf="(formControl['pin'].touched || submitted) && formControl['pin'].hasError('required')"
+               class="invalid-feedback">
+            PIN is required
+          </div>
+          <div *ngIf="(formControl['pin'].touched || submitted) && formControl['pin'].hasError('minlength')"
+               class="invalid-feedback">
+            PIN must contain at least 5 characters
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <button class="btn btn-outline-danger" type="button" (click)="location.back()">
+            Cancel
+          </button>
 
-        <div class="form-group2 d-flex flex-row justify-content-lg-between">
-          <button [disabled]="userForm.invalid"
-                  class="btn btn-primary"
-                  type="submit">Submit
+          <button [disabled]="userForm.invalid" class="btn btn-primary" type="submit">
+            Submit
           </button>
         </div>
       </div>

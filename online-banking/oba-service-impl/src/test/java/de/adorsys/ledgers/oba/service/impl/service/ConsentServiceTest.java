@@ -15,7 +15,9 @@ import de.adorsys.ledgers.oba.service.api.domain.CreatePiisConsentRequestTO;
 import de.adorsys.ledgers.oba.service.api.domain.ObaAisConsent;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.impl.mapper.CreatePiisConsentRequestMapper;
+import de.adorsys.ledgers.util.domain.CustomPageImpl;
 import de.adorsys.psd2.consent.api.AspspDataService;
+import de.adorsys.psd2.consent.api.CmsPageInfo;
 import de.adorsys.psd2.consent.api.ais.AisAccountAccess;
 import de.adorsys.psd2.consent.api.ais.CmsAisAccountConsent;
 import de.adorsys.psd2.consent.service.security.SecurityDataService;
@@ -29,8 +31,10 @@ import feign.FeignException;
 import feign.Request;
 import feign.RequestTemplate;
 import feign.Response;
+import org.adorsys.ledgers.consent.aspsp.rest.client.CmsAspspAisClient;
 import org.adorsys.ledgers.consent.aspsp.rest.client.CmsAspspPiisClient;
 import org.adorsys.ledgers.consent.aspsp.rest.client.CreatePiisConsentResponse;
+import org.adorsys.ledgers.consent.aspsp.rest.client.ResponseData;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient;
 import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
 import org.junit.jupiter.api.Test;
@@ -46,7 +50,10 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
+import static de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode.AIS_BAD_REQUEST;
 import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient.DEFAULT_SERVICE_INSTANCE_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -85,13 +92,15 @@ class ConsentServiceTest {
     private CreatePiisConsentRequestMapper createPiisConsentRequestMapper;
     @Mock
     private RedirectScaRestClient redirectScaRestClient;
+    @Mock
+    private CmsAspspAisClient cmsAspspAisClient;
 
     private final ObjectMapper mapper = new ObjectMapper();
 
     @Test
     void getListOfConsents() {
         // Given
-        when(cmsPsuAisClient.getConsentsForPsu(any(), any(), any(), any(), any(),any(),any())).thenReturn(ResponseEntity.ok(Collections.singletonList(getCmsAisAccountConsent())));
+        when(cmsPsuAisClient.getConsentsForPsu(any(), any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok(Collections.singletonList(getCmsAisAccountConsent())));
         when(securityDataService.encryptId(any())).thenReturn(Optional.of("consent"));
 
         // When
@@ -339,6 +348,36 @@ class ConsentServiceTest {
     private JsonNode getJsonNodeError() throws JsonProcessingException {
         String json = "\"{\\\"devMessage\\\":\\\"error\\\" }\"";
         return mapper.readTree(json);
+    }
+
+    @Test
+    void getListOfConsentsPaged() {
+        CmsAisAccountConsent consent = new CmsAisAccountConsent();
+        Collection<CmsAisAccountConsent> collection = IntStream.range(0, 10)
+                                                          .mapToObj(i -> {
+                                                              consent.setId(String.valueOf(i));
+                                                              return consent;
+                                                          }).collect(Collectors.toList());
+        ResponseData<Collection<CmsAisAccountConsent>> consentResponse = ResponseData.list(collection, new CmsPageInfo(0, 10, 10), null);
+        when(cmsAspspAisClient.getConsentsByPsu(any(), any(), anyString(), any(), any(), any(), any(), any(), any()))
+            .thenReturn(consentResponse);
+        CustomPageImpl<ObaAisConsent> result = consentService.getListOfConsentsPaged(USER_LOGIN, 0, 10);
+        assertEquals(10, result.getNumberOfElements());
+        assertEquals(0, result.getNumber());
+        assertTrue(result.isFirstPage());
+        assertTrue(result.isFirstPage());
+        assertFalse(result.isNextPage());
+        assertTrue(result.isLastPage());
+        assertEquals(10, result.getTotalElements());
+        assertEquals(10, result.getContent().size());
+    }
+
+    @Test
+    void getListOfConsentsPaged_error() {
+        when(cmsAspspAisClient.getConsentsByPsu(any(), any(), anyString(), any(), any(), any(), any(), any(), any()))
+            .thenThrow(FeignException.class);
+        ObaException exception = assertThrows(ObaException.class, () -> consentService.getListOfConsentsPaged(USER_LOGIN, 0, 10));
+        assertEquals(AIS_BAD_REQUEST, exception.getObaErrorCode());
     }
 }
 

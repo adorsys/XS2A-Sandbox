@@ -58,16 +58,13 @@ public class PISController implements PISApi {
             ledgersResponse = authenticationService.login(login, pin, authorisationId);
             workflow.processSCAResponse(ledgersResponse);
             AuthUtils.checkIfUserInitiatedOperation(ledgersResponse, workflow.getPaymentResponse().getPayment().getPsuIdDatas());
-            workflow = paymentService.initiatePaymentOpr(workflow, workflow.bearerToken().getAccessTokenObject().getLogin(), OpTypeTO.PAYMENT);
         } catch (FeignException e) {
             log.error("Failed to Login user: {}, pass {}", login, pin);
-        }
-
-        if (ledgersResponse == null) {
-            // failed Message. No repeat. Delete cookies.
             responseUtils.removeCookies(this.response);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+
+        workflow = paymentService.initiatePaymentOpr(workflow, workflow.bearerToken().getAccessTokenObject().getLogin(), OpTypeTO.PAYMENT);
         return xisService.resolvePaymentWorkflow(workflow);
     }
 

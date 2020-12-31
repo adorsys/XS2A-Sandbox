@@ -115,8 +115,8 @@ public class ConsentServiceImpl implements ConsentService {
             pageInfo.getTotal(),
             pageInfo.getPageIndex() > 0,
             pageInfo.getPageIndex() == 0,
-            totalPages > pageInfo.getPageIndex(),
-            totalPages == pageInfo.getPageIndex(),
+            totalPages > pageInfo.getPageIndex() + 1,
+            totalPages == pageInfo.getPageIndex() + 1,
             mapper.apply(responseData.getData())
         );
     }

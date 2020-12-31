@@ -82,7 +82,6 @@ export class AuthService {
   public setAuthorisationToken(token: any) {
     localStorage.setItem(this.authTokenStorageKey, token);
     this.setUsersAccessRights(this.jwtHelperService.decodeToken(token));
-    console.log('log', this.jwtHelperService.decodeToken(token));
   }
 
   private setUsersAccessRights(loginResponse): void {

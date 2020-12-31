@@ -1,15 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { debounceTime, map, tap } from 'rxjs/operators';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {debounceTime, map, tap} from 'rxjs/operators';
 
-import { AccountDetailsTO, TransactionTO } from '../../../api/models';
-import { OnlineBankingAccountInformationService } from '../../../api/services/online-banking-account-information.service';
-import { OnlineBankingService } from '../../../common/services/online-banking.service';
-import {
-  CustomNgbDateAdapter,
-  ngbDateToString,
-} from '../../../common/utils/ngb-datepicker-utils';
+import {AccountDetailsTO, TransactionTO} from '../../../api/models';
+import {OnlineBankingAccountInformationService} from '../../../api/services/online-banking-account-information.service';
+import {OnlineBankingService} from '../../../common/services/online-banking.service';
+import {CustomNgbDateAdapter, ngbDateToString,} from '../../../common/utils/ngb-datepicker-utils';
+import {ExtendedBalance} from "../../../api/models/extendedBalance";
 
 @Component({
   selector: 'app-account-details',
@@ -18,6 +16,7 @@ import {
 })
 export class AccountDetailsComponent implements OnInit {
   account: AccountDetailsTO;
+  balance: ExtendedBalance;
   accountID: string;
   transactions: TransactionTO[];
   filtersGroup: FormGroup;
@@ -39,7 +38,8 @@ export class AccountDetailsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
     private onlineBankingService: OnlineBankingService
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     const today = new Date();
@@ -71,7 +71,11 @@ export class AccountDetailsComponent implements OnInit {
   getAccountDetail() {
     this.onlineBankingService
       .getAccount(this.accountID)
-      .subscribe((account: AccountDetailsTO) => (this.account = account));
+      .subscribe((account: AccountDetailsTO) => {
+        this.account = account;
+        this.balance = new ExtendedBalance(account);
+        console.log(this.balance)
+      });
   }
 
   refreshTransactions() {
@@ -101,7 +105,7 @@ export class AccountDetailsComponent implements OnInit {
     this.formModel.valueChanges
       .pipe(
         tap((val) => {
-          this.formModel.patchValue(val, { emitEvent: false });
+          this.formModel.patchValue(val, {emitEvent: false});
         }),
         debounceTime(750)
       )

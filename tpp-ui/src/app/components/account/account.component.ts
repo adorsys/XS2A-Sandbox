@@ -12,6 +12,7 @@ import {PageNavigationService} from '../../services/page-navigation.service';
 import {TppManagementService} from '../../services/tpp-management.service';
 import {User} from '../../models/user.model';
 import {TppUserService} from '../../services/tpp.user.service';
+import {ExtendedBalance} from "../../models/extendedBalance";
 
 @Component({
   selector: 'app-account',
@@ -21,6 +22,7 @@ import {TppUserService} from '../../services/tpp.user.service';
 export class AccountComponent implements OnInit {
   admin;
   accountReport: AccountReport;
+  balance: ExtendedBalance;
   accountID: string;
 
   constructor(
@@ -91,7 +93,19 @@ export class AccountComponent implements OnInit {
       () => {
         this.deleteAccountTransactions();
       },
-      () => {}
+      () => {
+      }
+    );
+  }
+
+  openSetCreditLimitConfirmation(limit) {
+    this.modalService.open(limit).result.then(
+      () => {
+        console.log(this.account.creditLimit);
+        this.setCreditLimit();
+      },
+      () => {
+      }
     );
   }
 
@@ -118,6 +132,16 @@ export class AccountComponent implements OnInit {
       .getAccountReport(this.accountID)
       .subscribe((report: AccountReport) => {
         this.accountReport = report;
+        this.balance = new ExtendedBalance(report.details)
       });
+  }
+
+  getValue(data) {
+    this.account.creditLimit = data.value;
+  }
+
+  private setCreditLimit() {
+    this.accountService.setCreditLimit(this.account.id, this.account.creditLimit)
+      .subscribe(() => this.getAccountReport());
   }
 }

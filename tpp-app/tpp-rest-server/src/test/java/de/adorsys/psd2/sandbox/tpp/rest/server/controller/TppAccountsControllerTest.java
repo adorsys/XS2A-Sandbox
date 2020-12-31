@@ -197,7 +197,7 @@ class TppAccountsControllerTest {
 
     private AccountDetailsTO getAccountDetailsTO() {
         return new AccountDetailsTO("id", IBAN, "bban", "pan", "maskedPan", "msisdn", EUR, "name", "product", AccountTypeTO.CASH, AccountStatusTO.ENABLED,
-                                    "bic", "linkedAccounts", UsageTypeTO.PRIV, "details", Collections.singletonList(new AccountBalanceTO()), false, false, null);
+                                    "bic", "linkedAccounts", UsageTypeTO.PRIV, "details", Collections.singletonList(new AccountBalanceTO()), false, false, BigDecimal.ZERO, null);
     }
 
     private CustomPageImpl<AccountDetailsTO> getCustomPageImpl() {

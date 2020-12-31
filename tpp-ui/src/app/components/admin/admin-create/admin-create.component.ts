@@ -7,6 +7,7 @@ import {CustomizeService} from '../../../services/customize.service';
 import {SettingsService} from '../../../services/settings.service';
 import {TppManagementService} from "../../../services/tpp-management.service";
 import {PageNavigationService} from '../../../services/page-navigation.service';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-create-admin',
@@ -26,8 +27,9 @@ export class AdminCreateComponent implements OnInit {
     private settingsService: SettingsService,
     public customizeService: CustomizeService,
     private pageNavigationService: PageNavigationService,
-    private tppManagementService: TppManagementService
-  ) {
+    private tppManagementService: TppManagementService,
+    public location: Location
+) {
   }
 
   ngOnInit() {
