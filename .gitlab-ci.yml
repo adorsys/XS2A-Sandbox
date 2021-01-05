@@ -41,27 +41,19 @@ variables:
 
   DOCKERHUB_NAMESPACE: "adorsys"
 
-  ############################
-  # Private Openshift Images #
-  ############################
-
-  OPENSHIFT_NAMESPACE_DEV: "adorsys-dynamic-sandbox-dev"
-  OPENSHIFT_NAMESPACE_INTEG: "adorsys-dynamic-sandbox-integ"
-  OPENSHIFT_NAMESPACE_DEMO: "adorsys-dynamic-sandbox-demo"
+  ################################################
+  # Private Openshift namespaces for support-4.x #
+  ################################################
 
   OPENSHIFT_NAMESPACE_BANKING_GATEWAY_DEV: "banking-gateway-dev"
   OPENSHIFT_NAMESPACE_BANKING_GATEWAY_INTEG: "banking-gateway-integ"
 
-  OPENSHIFT_NAMESPACE_ASPSP_XS2A_DEV: "adorsys-psd2-develop"
-
   OPENSHIFT_NAMESPACE_DXC_SANDBOX_DEV: "dxc-sandbox-dev"
   OPENSHIFT_NAMESPACE_BEKB_SANDBOX_DEV: "bekb-sandbox-dev"
 
+  OPENSHIFT_NAMESPACE_ADORSYS_MODELBANK_SUPPORT4X: "adorsys-modelbank-support4x"
+
   OPENSHIFT_NAMESPACE_OPEN_BANKING_GATEWAY_DEV: "open-banking-gateway-dev"
-
-  OPENSHIFT_NAMESPACE_DEV_E2E: "adorsys-dynamic-sandbox-dev-e2e"
-
-  OPENSHIFT_NAMESPACE_MODELBANK_DEV: "adorsys-modelbank-dev"
 
   ###########################
   # Build variables         #
@@ -461,7 +453,7 @@ Sonarcube Tests:
     - mvn -ntp --fail-at-end clean install
     - mvn sonar:sonar -Dsonar.host.url=${SONAR_HOST} -Dsonar.login=${SONAR_TOKEN}
 
-build_dockerhub_image_develop:
+build_dockerhub_image_support4x:
   stage: "Package"
   except:
     - schedules
@@ -471,7 +463,7 @@ build_dockerhub_image_develop:
     DOCKER_TAG: support4x
   <<: *push_dockerhub_images
 
-deploy_openshift_develop:
+deploy_openshift_adorsys_modelbank_support4x:
   stage: "Deploy"
   except:
     - schedules
@@ -479,7 +471,7 @@ deploy_openshift_develop:
     - support-4.x
   variables:
     DOCKER_TAG: support4x # Dockerhub source tag
-    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_DEV} # Openshift target namespace
+    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_ADORSYS_MODELBANK_SUPPORT4X} # Openshift target namespace
   <<: *deploy_openshift
 
 deploy_openshift_dxc_sandbox_dev:
@@ -507,19 +499,6 @@ deploy_openshift_bekb_sandbox_dev:
     DOCKER_TAG: support4x # Dockerhub source tag
     OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_BEKB_SANDBOX_DEV} # Openshift target namespace
   <<: *deploy_dxc_openshift
-
-deploy_openshift_modelbank_dev:
-  stage: "Deploy"
-  except:
-    - schedules
-  cache: {}
-  dependencies: []
-  only:
-    - support-4.x
-  variables:
-    DOCKER_TAG: support4x # Dockerhub source tag
-    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_MODELBANK_DEV} # Openshift target namespace
-  <<: *deploy_openshift
 
 # tags
 
