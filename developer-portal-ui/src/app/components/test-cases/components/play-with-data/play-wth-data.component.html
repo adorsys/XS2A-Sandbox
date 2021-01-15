@@ -129,8 +129,9 @@
   </div>
 
   <div class="play-with-data-table" *ngIf="acceptFlag">
-    <label class="check-container"
-      >Accept <input type="checkbox" id="acceptHeaderCheckbox" name="acceptHeaderCheckbox" checked class="checkbox" />
+    <label class="check-container">
+      Accept
+      <input type="checkbox" id="acceptHeaderCheckbox" name="acceptHeaderCheckbox" checked class="checkbox" />
       <span class="checkmark"></span>
     </label>
     <select [(ngModel)]="acceptHeader" (ngModelChange)="onClear()">
@@ -143,8 +144,8 @@
     *ngFor="let item of headers | keyvalue; let i = index; trackBy: trackByFn"
     [ngClass]="acceptFlag ? (i % 2 ? null : 'bg') : i % 2 ? 'bg' : null"
   >
-    <label class="check-container"
-      >{{ item.key }}
+    <label class="check-container">
+      {{ item.key }}
       <input
         type="checkbox"
         (change)="disableHeader($event)"
@@ -155,6 +156,7 @@
       <span class="checkmark"></span>
     </label>
     <select
+      [id]="item.key"
       *ngIf="isBooleanValue(item); else regularInput"
       [(ngModel)]="item.value"
       (change)="changeBooleanHeader(item.key, $event.target.value)"

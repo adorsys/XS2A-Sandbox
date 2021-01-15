@@ -40,20 +40,23 @@ export class PlayWthDataComponent implements OnInit {
   @Input() dateFromFlag: boolean;
   @Input() consentTypeFlag: boolean;
   @Input() consentTypes: ConsentTypes;
-
-  response: HttpResponse<any>;
-  finalUrl: string;
-  paymentService = '';
-  paymentProduct = '';
   @Input() paymentId;
   @Input() cancellationId = '';
   @Input() consentId = '';
   @Input() authorisationId = '';
   @Input() accountId = '';
   @Input() transactionId = '';
-
   @Input() resourceIds = [];
   @Input() acceptFlag: boolean;
+  @Input() eventName: string;
+  @Input() eventCategory: string;
+  @Input() eventAction: string;
+  @Input() eventLabel: string;
+
+  response: HttpResponse<any>;
+  finalUrl: string;
+  paymentService = '';
+  paymentProduct = '';
 
   bookingStatus = '';
   redirectUrl = '';
@@ -70,15 +73,11 @@ export class PlayWthDataComponent implements OnInit {
   paymentTypes = [PaymentType.single, PaymentType.bulk, PaymentType.periodic];
   acceptHeader;
   certificate: string;
-  private disabledHeaders = [];
   booleanValues = ['true', 'false'];
 
-  @Input() eventName: string;
-  @Input() eventCategory: string;
-  @Input() eventAction: string;
-  @Input() eventLabel: string;
-
   default = true;
+
+  private disabledHeaders = [];
 
   constructor(
     public restService: RestService,
@@ -91,10 +90,6 @@ export class PlayWthDataComponent implements OnInit {
     private googleAnalyticsService: GoogleAnalyticsService
   ) {}
 
-  /**
-   * Get status text by status code
-   * using http-status-codes library
-   */
   getStatusText(status) {
     if (status) {
       return getStatusText(status);
@@ -105,28 +100,8 @@ export class PlayWthDataComponent implements OnInit {
 
   sendRequest() {
     this.sendGoogleAnalytics();
-
     this.dataService.setIsLoading(true);
-
-    this.finalUrl = this.url;
-    if (this.paymentServiceFlag) {
-      this.finalUrl += this.paymentService + this.paymentProduct;
-
-      this.finalUrl += this.paymentId ? '/' + this.paymentId : '';
-      this.finalUrl += this.variablePathEnd ? this.variablePathEnd : '';
-      this.finalUrl += this.authorisationId ? '/' + this.authorisationId : '';
-      this.finalUrl += this.cancellationId ? '/' + this.cancellationId : '';
-    } else if (this.consentIdFlag) {
-      this.finalUrl += '/' + this.consentId;
-      this.finalUrl += this.variablePathEnd ? this.variablePathEnd : '';
-      this.finalUrl += this.authorisationId ? '/' + this.authorisationId : '';
-    } else if (this.accountIdFlag) {
-      this.finalUrl += '/' + this.accountId;
-      this.finalUrl += this.variablePathEnd ? this.variablePathEnd : '';
-      this.finalUrl += this.dateFrom ? '?dateFrom=' + this.dateFrom : '';
-      this.finalUrl += this.bookingStatus ? '&bookingStatus=' + this.bookingStatus : '';
-      this.finalUrl += this.transactionId ? '/' + this.transactionId : '';
-    }
+    this.finalUrl = this.composeUrl();
 
     const respBodyEl: any = this.xml ? document.getElementById('textAreaXml') : document.getElementById('textArea');
     const requestBody = respBodyEl ? respBodyEl.value.toString() : {};
@@ -136,37 +111,7 @@ export class PlayWthDataComponent implements OnInit {
         if (this.acceptHeader === AcceptType.xml) {
           resp.body = vkbeautify.xml(resp.body);
         }
-
-        this.response = Object.assign(resp);
-
-        if (this.response.body.hasOwnProperty('_links') && this.response.body._links.hasOwnProperty('scaRedirect')) {
-          this.redirectUrl = this.response.body._links.scaRedirect.href;
-        } else if (this.response.body.hasOwnProperty('paymentId')) {
-          this.paymentId = this.response.body.paymentId;
-          LocalStorageService.set('paymentId', this.response.body.paymentId);
-        } else if (this.response.body.hasOwnProperty('authorisationId')) {
-          this.authorisationId = this.response.body.authorisationId;
-          LocalStorageService.set('authorisationId', this.authorisationId);
-        } else if (this.response.body.hasOwnProperty('consentId')) {
-          this.consentId = this.response.body.consentId;
-          LocalStorageService.set('consentId', this.consentId);
-        } else if (this.response.body.hasOwnProperty('cancellationId')) {
-          this.cancellationId = this.response.body.cancellationId;
-          LocalStorageService.set('cancellationId', this.cancellationId);
-        } else if (this.response.body.hasOwnProperty('accountId')) {
-          this.accountId = this.response.body.accountId;
-          LocalStorageService.set('accountId', this.accountId);
-        } else if (this.response.body.hasOwnProperty('transactionId')) {
-          this.transactionId = this.response.body.transactionId;
-          LocalStorageService.set('transactionId', this.transactionId);
-        } else if (this.response.body.hasOwnProperty('accounts')) {
-          for (const a of this.response.body.accounts) {
-            const id = a.resourceId;
-            if (id) {
-              this.resourceIds.push(id);
-            }
-          }
-        }
+        this.processResponse(resp);
         this.dataService.setIsLoading(false);
         this.dataService.showToast('Request sent', 'Success!', 'success');
       },
@@ -178,12 +123,10 @@ export class PlayWthDataComponent implements OnInit {
         }
 
         this.response = Object.assign(err);
-        console.log('err', JSON.stringify(err));
       }
     );
   }
 
-  // Fixing the loss of input focus
   trackByFn(index: any) {
     return index;
   }
@@ -212,18 +155,18 @@ export class PlayWthDataComponent implements OnInit {
     this.certificateService.currentDefault.subscribe((data) => (this.default = data));
   }
 
-  public handlePaymentServiceChanged(paymentService: string) {
+  handlePaymentServiceChanged(paymentService: string) {
     this.paymentProductSelect = this.paymentTypesMatrix[paymentService];
     this.paymentProduct = '/' + this.paymentProductSelect[0];
     this.updateBodyExample();
   }
 
-  public handlePaymentProductChanged(paymentProduct: string) {
+  handlePaymentProductChanged(paymentProduct: string) {
     this.paymentProduct = paymentProduct;
     this.updateBodyExample();
   }
 
-  public onClear() {
+  onClear() {
     this.response = undefined;
     this.redirectUrl = undefined;
     this.paymentId = '';
@@ -232,8 +175,9 @@ export class PlayWthDataComponent implements OnInit {
     this.cancellationId = '';
   }
 
-  public disableHeader(event: any) {
+  disableHeader(event: any) {
     const checkbox = event.target;
+
     if (checkbox) {
       const value = checkbox.value;
       const input = document.getElementById(value);
@@ -256,6 +200,18 @@ export class PlayWthDataComponent implements OnInit {
         }
       }
     }
+  }
+
+  isBooleanValue(item: any) {
+    return item.value === 'true' || item.value === 'false';
+  }
+
+  changeBooleanHeader(key: any, value: any) {
+    this.headers[key] = value;
+  }
+
+  updateCertificate($event) {
+    this.headers['TPP-QWAC-Certificate'] = $event;
   }
 
   private setPaymentServicesAndProducts() {
@@ -331,7 +287,7 @@ export class PlayWthDataComponent implements OnInit {
     this.headers['TPP-QWAC-Certificate'] = this.certificate;
 
     if (this.default) {
-      this.disabledHeaders['TPP-QWAC-Certificate'] = this.certificate;
+      this.disabledHeaders.push('TPP-QWAC-Certificate');
     }
 
     this.headers['X-Request-ID'] = uuid.v4();
@@ -358,20 +314,12 @@ export class PlayWthDataComponent implements OnInit {
       requestHeaders['Content-Type'] = this.xml ? 'application/xml' : 'application/json';
       requestHeaders['Accept'] = this.acceptHeader ? this.acceptHeader : 'application/json';
 
-      for (const disabled of Object.keys(this.disabledHeaders)) {
+      for (const disabled of this.disabledHeaders) {
         delete requestHeaders[disabled];
       }
 
       return new HttpHeaders(requestHeaders);
     }
-  }
-
-  isBooleanValue(item: any) {
-    return item.value === 'true' || item.value === 'false';
-  }
-
-  changeBooleanHeader(key: any, value: any) {
-    this.headers[key] = value;
   }
 
   private sendGoogleAnalytics() {
@@ -380,7 +328,60 @@ export class PlayWthDataComponent implements OnInit {
     }
   }
 
-  updateCertificate($event) {
-    this.headers['TPP-QWAC-Certificate'] = $event;
+  private composeUrl(): string {
+    let finalUrl = this.url;
+    if (this.paymentServiceFlag) {
+      finalUrl += this.paymentService + this.paymentProduct;
+
+      finalUrl += this.paymentId ? '/' + this.paymentId : '';
+      finalUrl += this.variablePathEnd ? this.variablePathEnd : '';
+      finalUrl += this.authorisationId ? '/' + this.authorisationId : '';
+      finalUrl += this.cancellationId ? '/' + this.cancellationId : '';
+    } else if (this.consentIdFlag) {
+      finalUrl += '/' + this.consentId;
+      finalUrl += this.variablePathEnd ? this.variablePathEnd : '';
+      finalUrl += this.authorisationId ? '/' + this.authorisationId : '';
+    } else if (this.accountIdFlag) {
+      finalUrl += '/' + this.accountId;
+      finalUrl += this.variablePathEnd ? this.variablePathEnd : '';
+      finalUrl += this.dateFrom ? '?dateFrom=' + this.dateFrom : '';
+      finalUrl += this.bookingStatus ? '&bookingStatus=' + this.bookingStatus : '';
+      finalUrl += this.transactionId ? '/' + this.transactionId : '';
+    }
+
+    return finalUrl;
+  }
+
+  private processResponse(resp): void {
+    this.response = Object.assign(resp);
+
+    if (this.response.body.hasOwnProperty('_links') && this.response.body._links.hasOwnProperty('scaRedirect')) {
+      this.redirectUrl = this.response.body._links.scaRedirect.href;
+    } else if (this.response.body.hasOwnProperty('paymentId')) {
+      this.paymentId = this.response.body.paymentId;
+      LocalStorageService.set('paymentId', this.response.body.paymentId);
+    } else if (this.response.body.hasOwnProperty('authorisationId')) {
+      this.authorisationId = this.response.body.authorisationId;
+      LocalStorageService.set('authorisationId', this.authorisationId);
+    } else if (this.response.body.hasOwnProperty('consentId')) {
+      this.consentId = this.response.body.consentId;
+      LocalStorageService.set('consentId', this.consentId);
+    } else if (this.response.body.hasOwnProperty('cancellationId')) {
+      this.cancellationId = this.response.body.cancellationId;
+      LocalStorageService.set('cancellationId', this.cancellationId);
+    } else if (this.response.body.hasOwnProperty('accountId')) {
+      this.accountId = this.response.body.accountId;
+      LocalStorageService.set('accountId', this.accountId);
+    } else if (this.response.body.hasOwnProperty('transactionId')) {
+      this.transactionId = this.response.body.transactionId;
+      LocalStorageService.set('transactionId', this.transactionId);
+    } else if (this.response.body.hasOwnProperty('accounts')) {
+      for (const a of this.response.body.accounts) {
+        const id = a.resourceId;
+        if (id) {
+          this.resourceIds.push(id);
+        }
+      }
+    }
   }
 }
