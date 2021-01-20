@@ -10,7 +10,7 @@
         <div class="col-4 col-md-3">Login</div>
         <div class="col-8 col-md-9 text-muted">{{ tppUser?.login }}</div>
       </div>
-      <div class="row">
+      <div class="row" *ngIf="!admin">
         <div class="col-12 col-md-3">TPP ID</div>
         <div class="col-12 col-md-9 text-muted">{{ tppUser?.id }}</div>
       </div>
