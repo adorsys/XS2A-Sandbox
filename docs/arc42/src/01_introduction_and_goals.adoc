@@ -17,7 +17,7 @@ The Berlin-Group Initiative https://www.berlin-group.org/[NextGenPSD2] joint for
 
 ==== ModelBank Project
 
-image::modelbank.svg[High-level Architecture ModelBank, 80%, title="High-level Architecture ModelBank", align="center"]
+image::../images/modelbank.svg[High-level Architecture ModelBank, 80%, title="High-level Architecture ModelBank", align="center"]
 
 According to the law every European bank must provide a sandbox so that TPPs can begin integrating against it. The adorsys ModelBank is a full implementation of this sandbox. It provides an XS2A API which is compliant to the Berlin Group XS2A spec (Version 1.3).
 
