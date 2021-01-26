@@ -18,8 +18,10 @@ import de.adorsys.ledgers.oba.service.impl.mapper.CreatePiisConsentRequestMapper
 import de.adorsys.ledgers.util.domain.CustomPageImpl;
 import de.adorsys.psd2.consent.api.AspspDataService;
 import de.adorsys.psd2.consent.api.CmsPageInfo;
+import de.adorsys.psd2.consent.api.ResponseData;
 import de.adorsys.psd2.consent.api.ais.AisAccountAccess;
 import de.adorsys.psd2.consent.api.ais.CmsAisAccountConsent;
+import de.adorsys.psd2.consent.aspsp.api.piis.CreatePiisConsentResponse;
 import de.adorsys.psd2.consent.service.security.SecurityDataService;
 import de.adorsys.psd2.xs2a.core.authorisation.AuthorisationTemplate;
 import de.adorsys.psd2.xs2a.core.consent.AisConsentRequestType;
@@ -33,8 +35,6 @@ import feign.RequestTemplate;
 import feign.Response;
 import org.adorsys.ledgers.consent.aspsp.rest.client.CmsAspspAisClient;
 import org.adorsys.ledgers.consent.aspsp.rest.client.CmsAspspPiisClient;
-import org.adorsys.ledgers.consent.aspsp.rest.client.CreatePiisConsentResponse;
-import org.adorsys.ledgers.consent.aspsp.rest.client.ResponseData;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient;
 import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
 import org.junit.jupiter.api.Test;
@@ -54,7 +54,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode.AIS_BAD_REQUEST;
-import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient.DEFAULT_SERVICE_INSTANCE_ID;
+import static de.adorsys.psd2.consent.aspsp.api.config.CmsPsuApiDefaultValue.DEFAULT_SERVICE_INSTANCE_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -124,7 +124,7 @@ class ConsentServiceTest {
     @Test
     void revokeConsentSuccess() {
         // Given
-        when(cmsPsuAisClient.revokeConsent(CONSENT_ID, null, null, null, null, DEFAULT_SERVICE_INSTANCE_ID)).thenReturn(ResponseEntity.ok(Boolean.TRUE));
+        when(cmsPsuAisClient.revokeConsent(CONSENT_ID, DEFAULT_SERVICE_INSTANCE_ID)).thenReturn(ResponseEntity.ok(Boolean.TRUE));
 
         // Then
         assertTrue(consentService.revokeConsent(CONSENT_ID));
@@ -136,7 +136,7 @@ class ConsentServiceTest {
         when(securityDataService.decryptId(any())).thenReturn(Optional.of(CONSENT_ID));
         when(aspspDataService.readAspspConsentData(any())).thenReturn(Optional.of(getAspspConsentData()));
         when(objectMapper.readTree(any(byte[].class))).thenReturn(getJsonNode());
-        when(cmsPsuAisClient.confirmConsent(any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok(true));
+        when(cmsPsuAisClient.confirmConsent(any(), any())).thenReturn(ResponseEntity.ok(true));
         when(cmsPsuAisClient.updateAuthorisationStatus(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok().build());
         when(consentDataClient.updateAspspConsentData(any(), any())).thenReturn(ResponseEntity.ok().build());
         when(objectMapper.writeValueAsBytes(any())).thenReturn(getByteArray());
@@ -183,7 +183,7 @@ class ConsentServiceTest {
         // Given
         FieldSetter.setField(consentService, consentService.getClass().getDeclaredField("createPiisConsentRequestMapper"), Mappers.getMapper(CreatePiisConsentRequestMapper.class));
 
-        when(cmsAspspPiisClient.createConsent(any(), anyString(), nullable(String.class), nullable(String.class), nullable(String.class))).thenReturn(getCreatePiisConsentResponse());
+        when(cmsAspspPiisClient.createConsent(any(), anyString(), nullable(String.class), nullable(String.class), nullable(String.class), any())).thenReturn(getCreatePiisConsentResponse());
         when(consentRestClient.grantPIISConsent(any())).thenReturn(ResponseEntity.ok(getSCAConsentResponseTO()));
         when(consentDataClient.updateAspspConsentData(anyString(), any())).thenReturn(ResponseEntity.ok().build());
         when(objectMapper.writeValueAsBytes(any())).thenReturn(getByteArray());
@@ -194,8 +194,7 @@ class ConsentServiceTest {
     }
 
     private ResponseEntity<CreatePiisConsentResponse> getCreatePiisConsentResponse() {
-        CreatePiisConsentResponse response = new CreatePiisConsentResponse();
-        response.setConsentId("consentId");
+        CreatePiisConsentResponse response = new CreatePiisConsentResponse("consentId");
         return ResponseEntity.ok(response);
     }
 
@@ -214,7 +213,7 @@ class ConsentServiceTest {
         when(aspspDataService.readAspspConsentData(any())).thenReturn(Optional.of(getAspspConsentData()));
         when(objectMapper.readTree(any(byte[].class))).thenReturn(getJsonNode());
         when(redirectScaRestClient.validateScaCode(any(), any())).thenReturn(getGlobalResponse());
-        when(cmsPsuAisClient.confirmConsent(any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok(true));
+        when(cmsPsuAisClient.confirmConsent(any(), any())).thenReturn(ResponseEntity.ok(true));
         when(cmsPsuAisClient.updateAuthorisationStatus(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok().build());
         when(consentDataClient.updateAspspConsentData(any(), any())).thenThrow(FeignException.class);
         when(objectMapper.writeValueAsBytes(any())).thenReturn(getByteArray());
@@ -237,7 +236,7 @@ class ConsentServiceTest {
         when(securityDataService.decryptId(any())).thenReturn(Optional.of(CONSENT_ID));
         when(aspspDataService.readAspspConsentData(any())).thenReturn(Optional.of(getAspspConsentData()));
         when(objectMapper.readTree(any(byte[].class))).thenReturn(getJsonNode());
-        when(cmsPsuAisClient.confirmConsent(any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok(true));
+        when(cmsPsuAisClient.confirmConsent(any(), any())).thenReturn(ResponseEntity.ok(true));
         when(cmsPsuAisClient.updateAuthorisationStatus(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok().build());
         when(objectMapper.writeValueAsBytes(any())).thenThrow(JsonProcessingException.class);
         when(redirectScaRestClient.validateScaCode(any(), any())).thenReturn(getGlobalResponse());
@@ -253,7 +252,7 @@ class ConsentServiceTest {
         when(aspspDataService.readAspspConsentData(any())).thenReturn(Optional.of(getAspspConsentData()));
         when(objectMapper.readTree(any(byte[].class))).thenReturn(getJsonNode());
         when(redirectScaRestClient.validateScaCode(any(), any())).thenReturn(getGlobalResponse());
-        when(cmsPsuAisClient.confirmConsent(any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok(true));
+        when(cmsPsuAisClient.confirmConsent(any(), any())).thenReturn(ResponseEntity.ok(true));
         when(cmsPsuAisClient.updateAuthorisationStatus(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenThrow(FeignException.class);
 
         // Then
@@ -267,7 +266,7 @@ class ConsentServiceTest {
         when(aspspDataService.readAspspConsentData(any())).thenReturn(Optional.of(getAspspConsentData()));
         when(objectMapper.readTree(any(byte[].class))).thenReturn(getJsonNode());
         when(redirectScaRestClient.validateScaCode(any(), any())).thenReturn(getGlobalResponse());
-        when(cmsPsuAisClient.confirmConsent(any(), any(), any(), any(), any(), any())).thenThrow(FeignException.class);
+        when(cmsPsuAisClient.confirmConsent(any(), any())).thenThrow(FeignException.class);
 
         // Then
         assertThrows(ObaException.class, () -> consentService.confirmAisConsentDecoupled(USER_LOGIN, "encryptedConsentId", AUTHORIZATION_ID, TAN));

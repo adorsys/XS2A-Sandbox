@@ -18,14 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.EnumSet;
 
-import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.*;
+import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.EXEMPTED;
+import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.FINALISED;
+import static de.adorsys.psd2.consent.psu.api.config.CmsPsuApiDefaultValue.DEFAULT_SERVICE_INSTANCE_ID;
 import static de.adorsys.psd2.xs2a.core.pis.TransactionStatus.CANC;
 import static java.util.Objects.requireNonNull;
-import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuPisClient.DEFAULT_SERVICE_INSTANCE_ID;
 
 @Slf4j
 @RestController
 @RequestMapping(ObaCancellationApi.BASE_PATH)
+@SuppressWarnings({"PMD.TooManyStaticImports"})
 @RequiredArgsConstructor
 public class ObaCancellationController implements ObaCancellationApi {
     private final CmsPsuPisService cmsPsuPisService;

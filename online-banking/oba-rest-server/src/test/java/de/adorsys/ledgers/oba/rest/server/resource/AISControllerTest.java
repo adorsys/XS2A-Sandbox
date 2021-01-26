@@ -18,6 +18,7 @@ import de.adorsys.ledgers.middleware.client.rest.OauthRestClient;
 import de.adorsys.ledgers.oba.rest.api.resource.exception.ConsentAuthorizeException;
 import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
 import de.adorsys.ledgers.oba.service.api.domain.*;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.api.service.AuthorizationService;
 import de.adorsys.ledgers.oba.service.api.service.RedirectConsentService;
 import de.adorsys.ledgers.oba.service.api.service.TokenAuthenticationService;
@@ -28,6 +29,7 @@ import de.adorsys.psd2.consent.api.ais.CmsAisConsentResponse;
 import de.adorsys.psd2.xs2a.core.consent.AisConsentRequestType;
 import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
+import feign.FeignException;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
@@ -48,9 +50,9 @@ import java.util.*;
 
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class AISControllerTest {
@@ -149,29 +151,16 @@ class AISControllerTest {
     }
 
     @Test
-    void login_consent_exception() {
-        // Given
-        when(responseUtils.consentCookie(any())).thenReturn(COOKIE);
-        when(redirectConsentService.identifyConsent(anyString(), anyString(), anyBoolean(), anyString(), any())).thenThrow(new ConsentAuthorizeException(ResponseEntity.badRequest().build()));
-
-        // When
-        ResponseEntity<ConsentAuthorizeResponse> result = controller.login(ENCRYPTED_ID, AUTH_ID, LOGIN, PIN, COOKIE);
-
-        // Then
-        assertEquals(ResponseEntity.badRequest().build(), result);
-    }
-
-    @Test
     void login_fail_ledgers_login() {
         // Given
         when(responseUtils.consentCookie(any())).thenReturn(COOKIE);
         when(redirectConsentService.identifyConsent(anyString(), anyString(), anyBoolean(), anyString(), any())).thenReturn(getConsentWorkflow(PSUIDENTIFIED, ConsentStatus.RECEIVED));
+        when(authenticationService.login(any(), any(), any())).thenThrow(FeignException.class);
+        doThrow(ObaException.class).when(xisService).resolveFailedLoginAttempt(any(), any(), any(), any(), any());//when(xisService.resolveFailedLoginAttempt(any(),any(),any(),any(),any())).thenThrow();
 
         // When
-        ResponseEntity<ConsentAuthorizeResponse> result = controller.login(ENCRYPTED_ID, AUTH_ID, LOGIN, PIN, COOKIE);
-
-        // Then
-        assertEquals(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(), result);
+        assertThrows(ObaException.class, () -> controller.login(ENCRYPTED_ID, AUTH_ID, LOGIN, PIN, COOKIE));
+        verify(xisService, times(1)).resolveFailedLoginAttempt(any(), any(), any(), any(), any());
     }
 
     @Test
@@ -259,7 +248,7 @@ class AISControllerTest {
         when(responseUtils.consentCookie(any())).thenReturn(COOKIE);
         when(redirectConsentService.identifyConsent(anyString(), anyString(), anyBoolean(), anyString(), any())).thenReturn(getConsentWorkflow(FINALISED, ConsentStatus.RECEIVED));
         when(redirectConsentService.authorizeConsent(any(), any())).thenReturn(getConsentWorkflow(FINALISED, ConsentStatus.VALID));
-        when(cmsPsuAisClient.confirmConsent(any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok(true));
+        when(cmsPsuAisClient.confirmConsent(any(), any())).thenReturn(ResponseEntity.ok(true));
         // When
         ResponseEntity<ConsentAuthorizeResponse> result = controller.authrizedConsent(ENCRYPTED_ID, AUTH_ID, COOKIE, CODE);
 

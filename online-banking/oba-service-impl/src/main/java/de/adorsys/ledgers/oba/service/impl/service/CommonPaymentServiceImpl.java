@@ -12,9 +12,9 @@ import de.adorsys.ledgers.middleware.client.rest.RedirectScaRestClient;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentWorkflow;
-import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.api.service.AuthorizationService;
+import de.adorsys.ledgers.oba.service.api.service.CmsAspspConsentDataService;
 import de.adorsys.ledgers.oba.service.api.service.CommonPaymentService;
 import de.adorsys.ledgers.oba.service.api.service.ConsentReferencePolicy;
 import de.adorsys.psd2.consent.api.CmsAspspConsentDataBase64;
@@ -33,15 +33,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.EnumSet;
 import java.util.Optional;
 
-import static de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode.CONSENT_DATA_UPDATE_FAILED;
-import static de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode.*;
+import static de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode.AUTH_EXPIRED;
+import static de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode.NOT_FOUND;
+import static de.adorsys.psd2.consent.aspsp.api.config.CmsPsuApiDefaultValue.DEFAULT_SERVICE_INSTANCE_ID;
 import static java.util.Objects.requireNonNull;
-import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuPisClient.DEFAULT_SERVICE_INSTANCE_ID;
 
 @Slf4j
 @Service
@@ -87,15 +86,7 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
 
     @Override
     public void updateAspspConsentData(PaymentWorkflow paymentWorkflow) {
-        CmsAspspConsentDataBase64 consentData;
-        try {
-            consentData = new CmsAspspConsentDataBase64(paymentWorkflow.paymentId(), dataService.toBase64String(paymentWorkflow.getScaResponse()));
-        } catch (IOException e) {
-            throw AuthorizationException.builder()
-                      .errorCode(CONSENT_DATA_UPDATE_FAILED)
-                      .devMessage("Consent data update failed")
-                      .build();
-        }
+        CmsAspspConsentDataBase64 consentData = new CmsAspspConsentDataBase64(paymentWorkflow.paymentId(), dataService.toBase64String(paymentWorkflow.getScaResponse()));
         aspspConsentDataClient.updateAspspConsentData(paymentWorkflow.getConsentReference().getEncryptedConsentId(), consentData);
     }
 

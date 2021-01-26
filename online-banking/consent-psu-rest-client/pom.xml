@@ -23,6 +23,12 @@
 		</dependency>
 
         <dependency>
+            <groupId>de.adorsys.psd2</groupId>
+            <artifactId>consent-aspsp-api</artifactId>
+            <version>${xs2a.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>

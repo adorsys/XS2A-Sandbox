@@ -15,6 +15,7 @@ import de.adorsys.ledgers.oba.service.api.domain.ConsentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentWorkflow;
 import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
+import de.adorsys.ledgers.oba.service.api.service.CmsAspspConsentDataService;
 import de.adorsys.ledgers.oba.service.api.service.ConsentReferencePolicy;
 import de.adorsys.ledgers.oba.service.api.service.RedirectConsentService;
 import de.adorsys.ledgers.oba.service.impl.mapper.ObaAisConsentMapper;
@@ -36,15 +37,17 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.util.*;
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode.*;
+import static de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode.LOGIN_FAILED;
+import static de.adorsys.psd2.consent.aspsp.api.config.CmsPsuApiDefaultValue.DEFAULT_SERVICE_INSTANCE_ID;
 import static de.adorsys.psd2.xs2a.core.consent.AisConsentRequestType.*;
 import static java.util.Objects.requireNonNull;
-import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient.DEFAULT_SERVICE_INSTANCE_ID;
 
 @Slf4j
 @Service
@@ -155,15 +158,7 @@ public class RedirectConsentServiceImpl implements RedirectConsentService {
     }
 
     private void updateAspspConsentData(ConsentWorkflow workflow) {
-        CmsAspspConsentDataBase64 consentData;
-        try {
-            consentData = new CmsAspspConsentDataBase64(workflow.consentId(), dataService.toBase64String(workflow.getScaResponse()));
-        } catch (IOException e) {
-            throw AuthorizationException.builder()
-                      .errorCode(CONSENT_DATA_UPDATE_FAILED)
-                      .devMessage("Consent data update failed")
-                      .build();
-        }
+        CmsAspspConsentDataBase64 consentData = new CmsAspspConsentDataBase64(workflow.consentId(), dataService.toBase64String(workflow.getScaResponse()));
         aspspConsentDataClient.updateAspspConsentData(workflow.getConsentReference().getEncryptedConsentId(), consentData);
     }
 

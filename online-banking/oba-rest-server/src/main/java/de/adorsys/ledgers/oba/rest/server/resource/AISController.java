@@ -2,6 +2,7 @@ package de.adorsys.ledgers.oba.rest.server.resource;
 
 import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
+import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisAccountAccessInfoTO;
@@ -17,6 +18,7 @@ import de.adorsys.ledgers.oba.service.api.domain.AuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentType;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentWorkflow;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.api.service.AuthorizationService;
 import de.adorsys.ledgers.oba.service.api.service.RedirectConsentService;
 import de.adorsys.ledgers.oba.service.api.service.TokenAuthenticationService;
@@ -47,10 +49,10 @@ import java.util.List;
 import java.util.Optional;
 
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.*;
+import static de.adorsys.psd2.consent.aspsp.api.config.CmsPsuApiDefaultValue.DEFAULT_SERVICE_INSTANCE_ID;
 import static de.adorsys.psd2.xs2a.core.consent.ConsentStatus.PARTIALLY_AUTHORISED;
 import static de.adorsys.psd2.xs2a.core.consent.ConsentStatus.VALID;
 import static java.util.Objects.requireNonNull;
-import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient.DEFAULT_SERVICE_INSTANCE_ID;
 
 @Slf4j
 @RestController
@@ -80,34 +82,19 @@ public class AISController implements AISApi {
 
     @Override
     public ResponseEntity<ConsentAuthorizeResponse> login(String encryptedConsentId, String authorisationId, String login, String pin, String consentCookieString) {
-        // Verify request parameter against cookie. encryptedConsentId and authorisationId must
-        // match value stored in the cookie.
-        // The load initiated consent from consent database, and store it in the response.
-        // Also hold Bearer Token in the consent workflow if any.
+        String consentCookie = responseUtils.consentCookie(consentCookieString);
+        ConsentWorkflow workflow = redirectConsentService.identifyConsent(encryptedConsentId, authorisationId, false, consentCookie, null);
+        xisService.checkFailedCount(encryptedConsentId);
 
-        ConsentWorkflow workflow;
-        try {
-            String consentCookie = responseUtils.consentCookie(consentCookieString);
-            workflow = redirectConsentService.identifyConsent(encryptedConsentId, authorisationId, false, consentCookie, null);
-        } catch (ConsentAuthorizeException e) {
-            return e.getError();
-        }
         // Authorize
-        GlobalScaResponseTO ledgersResponse = null;
         try {
-            ledgersResponse = consentCookieString.contains("ACCESS_TOKEN") //TODO Think of moving this to FE
-                                  ? authenticationService.loginWithCookie(consentCookieString)
-                                  : authenticationService.login(login, pin, authorisationId);
+            GlobalScaResponseTO ledgersResponse = consentCookieString.contains("ACCESS_TOKEN") //TODO Think of moving this to FE
+                                                      ? authenticationService.loginWithCookie(consentCookieString)
+                                                      : authenticationService.login(login, pin, authorisationId);
             workflow.storeSCAResponse(ledgersResponse);
             AuthUtils.checkIfUserInitiatedOperation(ledgersResponse, workflow.getConsentResponse().getAccountConsent().getPsuIdDataList());
-        } catch (FeignException e) {
-            log.error("Failed to Login user: {}, pass {}", login, pin);
-        }
-
-        if (ledgersResponse == null) {
-            // failed Message. No repeat. Delete cookies.
-            responseUtils.removeCookies(this.response);
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        } catch (FeignException | ObaException e) {
+            xisService.resolveFailedLoginAttempt(encryptedConsentId, workflow.consentId(), login, workflow.authId(), OpTypeTO.CONSENT);
         }
 
         String psuId = AuthUtils.psuId(workflow.bearerToken());
@@ -149,7 +136,7 @@ public class AISController implements AISApi {
             workflow = redirectConsentService.authorizeConsent(workflow, authCode);
 
             if (workflow.getConsentStatus().equals(VALID.name())) {
-                boolean isConfirmedConsent = Optional.ofNullable(cmsPsuAisClient.confirmConsent(workflow.consentId(), psuId, null, null, null, DEFAULT_SERVICE_INSTANCE_ID).getBody()).orElse(false);
+                boolean isConfirmedConsent = Optional.ofNullable(cmsPsuAisClient.confirmConsent(workflow.consentId(), DEFAULT_SERVICE_INSTANCE_ID).getBody()).orElse(false);
                 if (!isConfirmedConsent) { //TODO This is a workaround! Should be fixed with separate OBA controller set!
                     log.info("Consent not found so assume we have a PIIS consent");
                     cmsPsuPiisV2Client.updateConsentStatus(workflow.consentId(), VALID.name(), DEFAULT_SERVICE_INSTANCE_ID);

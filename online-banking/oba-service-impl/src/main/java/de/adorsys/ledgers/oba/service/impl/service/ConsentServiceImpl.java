@@ -13,7 +13,6 @@ import de.adorsys.ledgers.middleware.client.rest.ConsentRestClient;
 import de.adorsys.ledgers.middleware.client.rest.RedirectScaRestClient;
 import de.adorsys.ledgers.oba.service.api.domain.CreatePiisConsentRequestTO;
 import de.adorsys.ledgers.oba.service.api.domain.ObaAisConsent;
-import org.adorsys.ledgers.consent.aspsp.rest.client.ResponseData;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.api.service.ConsentService;
@@ -22,7 +21,10 @@ import de.adorsys.ledgers.util.domain.CustomPageImpl;
 import de.adorsys.psd2.consent.api.AspspDataService;
 import de.adorsys.psd2.consent.api.CmsAspspConsentDataBase64;
 import de.adorsys.psd2.consent.api.CmsPageInfo;
+import de.adorsys.psd2.consent.api.ResponseData;
 import de.adorsys.psd2.consent.api.ais.CmsAisAccountConsent;
+import de.adorsys.psd2.consent.aspsp.api.piis.CreatePiisConsentRequest;
+import de.adorsys.psd2.consent.aspsp.api.piis.CreatePiisConsentResponse;
 import de.adorsys.psd2.consent.service.security.SecurityDataService;
 import de.adorsys.psd2.xs2a.core.consent.AspspConsentData;
 import de.adorsys.psd2.xs2a.core.sca.AuthenticationDataHolder;
@@ -31,8 +33,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.adorsys.ledgers.consent.aspsp.rest.client.CmsAspspAisClient;
 import org.adorsys.ledgers.consent.aspsp.rest.client.CmsAspspPiisClient;
-import org.adorsys.ledgers.consent.aspsp.rest.client.CreatePiisConsentRequest;
-import org.adorsys.ledgers.consent.aspsp.rest.client.CreatePiisConsentResponse;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient;
 import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
 import org.springframework.stereotype.Service;
@@ -64,16 +64,16 @@ public class ConsentServiceImpl implements ConsentService {
     private static final String DEFAULT_SERVICE_INSTANCE_ID = "UNDEFINED";
 
     private final CmsPsuAisClient cmsPsuAisClient;
-    private final SecurityDataService securityDataService;
+    private final CmsAspspAisClient cmsAspspAisClient;
+    private final CmsAspspPiisClient cmsAspspPiisClient;
     private final AspspConsentDataClient consentDataClient;
+    private final SecurityDataService securityDataService;
     private final ConsentRestClient consentRestClient;
     private final AuthRequestInterceptor authInterceptor;
     private final ObjectMapper objectMapper;
     private final AspspDataService aspspDataService;
-    private final CmsAspspPiisClient cmsAspspPiisClient;
     private final CreatePiisConsentRequestMapper createPiisConsentRequestMapper;
     private final RedirectScaRestClient redirectScaRestClient;
-    private final CmsAspspAisClient cmsAspspAisClient;
 
     @Override
     public List<ObaAisConsent> getListOfConsents(String userLogin) {
@@ -123,7 +123,7 @@ public class ConsentServiceImpl implements ConsentService {
 
     @Override
     public boolean revokeConsent(String consentId) {
-        return Optional.ofNullable(cmsPsuAisClient.revokeConsent(consentId, null, null, null, null, DEFAULT_SERVICE_INSTANCE_ID).getBody())
+        return Optional.ofNullable(cmsPsuAisClient.revokeConsent(consentId, DEFAULT_SERVICE_INSTANCE_ID).getBody())
                    .orElse(false);
     }
 
@@ -143,10 +143,10 @@ public class ConsentServiceImpl implements ConsentService {
     public void createPiisConsent(CreatePiisConsentRequestTO request, String psuId) {
         //Create piis at Cms
         CreatePiisConsentRequest piisConsentRequest = createPiisConsentRequestMapper.fromCreatePiisConsentRequest(request);
-        CreatePiisConsentResponse cmsConsent = cmsAspspPiisClient.createConsent(piisConsentRequest, psuId, null, null, null).getBody();
+        CreatePiisConsentResponse cmsConsent = cmsAspspPiisClient.createConsent(piisConsentRequest, psuId, null, null, null, DEFAULT_SERVICE_INSTANCE_ID).getBody();
 
         //Create piis at Ledgers
-        String consentId = Optional.ofNullable(cmsConsent).orElseGet(CreatePiisConsentResponse::new).getConsentId();
+        String consentId = Optional.ofNullable(cmsConsent).orElseGet(() -> new CreatePiisConsentResponse(null)).getConsentId();
         AisConsentTO pisConsent = new AisConsentTO(consentId, psuId, piisConsentRequest.getTppAuthorisationNumber(), 100, buildAccountAccess(piisConsentRequest.getAccount().getIban()), piisConsentRequest.getValidUntil(), true);
         SCAConsentResponseTO ledgersCreateConsentResponse = consentRestClient.grantPIISConsent(pisConsent).getBody();
         //Update Aspsp consent data at CMS
@@ -186,9 +186,10 @@ public class ConsentServiceImpl implements ConsentService {
         }
     }
 
+    @SuppressWarnings("PMD.UnusedFormalParameter")
     private void confirmConsentAtCms(String userLogin, String consentId) {
         try {
-            cmsPsuAisClient.confirmConsent(consentId, userLogin, null, null, null, DEFAULT_SERVICE_INSTANCE_ID);
+            cmsPsuAisClient.confirmConsent(consentId, DEFAULT_SERVICE_INSTANCE_ID);
         } catch (FeignException e) {
             String msg = e.status() == 404
                              ? format(CONSENT_COULD_NOT_BE_FOUND, consentId)

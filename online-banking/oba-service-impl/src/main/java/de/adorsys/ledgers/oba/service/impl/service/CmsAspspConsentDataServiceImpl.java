@@ -4,17 +4,31 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.*;
+import de.adorsys.ledgers.oba.service.api.domain.LoginFailedCount;
+import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
+import de.adorsys.ledgers.oba.service.api.service.CmsAspspConsentDataService;
+import de.adorsys.psd2.consent.api.CmsAspspConsentDataBase64;
 import lombok.RequiredArgsConstructor;
+import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.Base64;
+import java.util.Optional;
+
+import static de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode.CONSENT_DATA_UPDATE_FAILED;
 
 @Service
 @RequiredArgsConstructor
-public class CmsAspspConsentDataService {
+public class CmsAspspConsentDataServiceImpl implements CmsAspspConsentDataService {
     private final ObjectMapper mapper;
+    private final AspspConsentDataClient client;
 
+    @Value("${oba.maxLoginFailedCount:3}")
+    private int loginFailedMax;
+
+    @Override
     public GlobalScaResponseTO fromBytes(byte[] tokenBytes) throws IOException {
         String type = readType(tokenBytes);
         if (SCAConsentResponseTO.class.getSimpleName().equals(type)) {
@@ -28,7 +42,7 @@ public class CmsAspspConsentDataService {
         }
     }
 
-    public byte[] toBytes(GlobalScaResponseTO response) throws IOException {
+    private <T> byte[] toBytes(T response) throws IOException {
         return mapper.writeValueAsBytes(response);
     }
 
@@ -41,10 +55,19 @@ public class CmsAspspConsentDataService {
         return objectType.toString();
     }
 
-    public String toBase64String(GlobalScaResponseTO response) throws IOException {
-        return Base64.getEncoder().encodeToString(toBytes(response));
+    @Override
+    public <T> String toBase64String(T response) {
+        try {
+            return Base64.getEncoder().encodeToString(toBytes(response));
+        } catch (IOException e) {
+            throw AuthorizationException.builder()
+                      .errorCode(CONSENT_DATA_UPDATE_FAILED)
+                      .devMessage("Consent data update failed")
+                      .build();
+        }
     }
 
+    @Override
     public <T extends SCAResponseTO> GlobalScaResponseTO mapToGlobalResponse(T source, OpTypeTO type) {
         GlobalScaResponseTO target = new GlobalScaResponseTO();
         target.setOpType(type);
@@ -74,5 +97,33 @@ public class CmsAspspConsentDataService {
         }
 
         return target;
+    }
+
+    @Override
+    public int updateLoginFailedCount(String encryptedId) {
+        int failedCount = extractAspspConsentData(encryptedId).getFailedCount();
+        client.updateAspspConsentData(encryptedId, new CmsAspspConsentDataBase64(encryptedId, toBase64String(new LoginFailedCount(failedCount + 1))));
+        return loginFailedMax - 1 - failedCount;
+    }
+
+    @Override
+    public boolean isFailedLogin(String encryptedId) {
+        return extractAspspConsentData(encryptedId).getFailedCount() >= loginFailedMax;
+    }
+
+    private LoginFailedCount extractAspspConsentData(String encryptedId) {
+        CmsAspspConsentDataBase64 body = client.getAspspConsentData(encryptedId).getBody();
+        return Optional.ofNullable(body)
+                   .map(this::getLoginFailedCount)
+                   .orElse(new LoginFailedCount());
+    }
+
+    private LoginFailedCount getLoginFailedCount(CmsAspspConsentDataBase64 body) {
+        try {
+            byte[] decode = Base64.getDecoder().decode(body.getAspspConsentDataBase64());
+            return mapper.readValue(decode, LoginFailedCount.class);
+        } catch (IOException e) {
+            return new LoginFailedCount();
+        }
     }
 }

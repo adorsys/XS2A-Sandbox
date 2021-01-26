@@ -19,6 +19,7 @@ import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentType;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentWorkflow;
 import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
+import de.adorsys.ledgers.oba.service.api.service.CmsAspspConsentDataService;
 import de.adorsys.ledgers.oba.service.api.service.ConsentReferencePolicy;
 import de.adorsys.ledgers.oba.service.impl.mapper.ObaAisConsentMapper;
 import de.adorsys.psd2.consent.api.CmsAspspConsentDataBase64;
@@ -134,16 +135,6 @@ class RedirectConsentServiceImplTest {
 
         // Then
         verify(aspspConsentDataClient, times(1)).updateAspspConsentData(ENCRYPTED_CONSENT_ID, new CmsAspspConsentDataBase64(CONSENT_ID, CONSENT_ID));
-    }
-
-    @Test
-    void updateScaStatusConsentStatusConsentData_failure() throws IOException {
-        // Given
-        when(cmsPsuAisClient.updateAuthorisationStatus(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok().build());
-        when(dataService.toBase64String(any())).thenThrow(IOException.class);
-        ConsentWorkflow workflow = getConsentWorkflow(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE);
-        // Then
-        assertThrows(AuthorizationException.class, () -> redirectConsentService.updateScaStatusAndConsentData(USER_ID, workflow));
     }
 
     @Test
