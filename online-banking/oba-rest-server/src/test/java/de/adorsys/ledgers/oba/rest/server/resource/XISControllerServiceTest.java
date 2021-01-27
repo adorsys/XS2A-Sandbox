@@ -4,15 +4,21 @@ import de.adorsys.ledgers.keycloak.client.api.KeycloakTokenService;
 import de.adorsys.ledgers.middleware.api.domain.account.AccountReferenceTO;
 import de.adorsys.ledgers.middleware.api.domain.payment.*;
 import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
+import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
 import de.adorsys.ledgers.oba.service.api.domain.*;
 import de.adorsys.ledgers.oba.service.api.domain.exception.InvalidConsentException;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
+import de.adorsys.ledgers.oba.service.api.service.CmsAspspConsentDataService;
 import de.adorsys.ledgers.oba.service.api.service.CommonPaymentService;
 import de.adorsys.ledgers.oba.service.api.service.ConsentReferencePolicy;
 import de.adorsys.psd2.consent.api.pis.CmsCommonPayment;
 import de.adorsys.psd2.consent.api.pis.CmsPaymentResponse;
+import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient;
+import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuPisClient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -32,10 +38,10 @@ import java.util.HashSet;
 
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.FINALISED;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class XISControllerServiceTest {
@@ -73,6 +79,12 @@ class XISControllerServiceTest {
     private CommonPaymentService paymentService;
     @Mock
     private ObaMiddlewareAuthentication middlewareAuth;
+    @Mock
+    private CmsAspspConsentDataService consentDataService;
+    @Mock
+    private CmsPsuAisClient cmsPsuAisClient;
+    @Mock
+    private CmsPsuPisClient cmsPsuPisClient;
 
     @Test
     void auth() throws NoSuchFieldException {
@@ -188,5 +200,47 @@ class XISControllerServiceTest {
         AccessTokenTO tokenTO = new AccessTokenTO();
         tokenTO.setLogin(LOGIN);
         return tokenTO;
+    }
+
+    @Test
+    void selectScaMethod() {
+        when(responseUtils.consentCookie(any())).thenReturn("cookie");
+        when(paymentService.selectScaForPayment(any(), any(), any(), any(), any(), any())).thenReturn(getPaymentWorkflow());
+        when(middlewareAuth.getBearerToken()).thenReturn(getBearerToken());
+        ResponseEntity<PaymentAuthorizeResponse> result = service.selectScaMethod(ENCRYPTED_ID, AUTH_ID, "method", "cookie");
+        verify(responseUtils, times(1)).setCookies(any(), any(), any(), any());
+        //More  validation seems senseless
+    }
+
+    @Test
+    void checkFailedCount() {
+        when(consentDataService.isFailedLogin(any())).thenReturn(false);
+        assertDoesNotThrow(() -> service.checkFailedCount("id"));
+    }
+
+    @Test
+    void checkFailedCount_fail() {
+        when(consentDataService.isFailedLogin(any())).thenReturn(true);
+        assertThrows(ObaException.class, () -> service.checkFailedCount("id"));
+    }
+
+    @Test
+    void resolveFailedLoginAttempt() {
+        when(consentDataService.updateLoginFailedCount(any())).thenReturn(1);
+
+        ObaException obaException = assertThrows(ObaException.class, () -> service.resolveFailedLoginAttempt("id", "id", LOGIN, AUTH_ID, OpTypeTO.CONSENT));
+        assertEquals(ObaErrorCode.LOGIN_FAILED, obaException.getObaErrorCode());
+        assertEquals("Login Failed!\n You have 1 attempts left", obaException.getDevMessage());
+    }
+
+    @Test
+    void resolveFailedLoginAttempt_last_use() {
+        when(consentDataService.updateLoginFailedCount(any())).thenReturn(0);
+
+        ObaException obaException = assertThrows(ObaException.class, () -> service.resolveFailedLoginAttempt("id", "id", LOGIN, AUTH_ID, OpTypeTO.CONSENT));
+        assertEquals(ObaErrorCode.LOGIN_FAILED, obaException.getObaErrorCode());
+        assertEquals("Login Failed!\n You've exceeded login attempts limit for current session. Please open new Authorization session", obaException.getDevMessage());
+        verify(cmsPsuAisClient, times(1)).updateAuthorisationStatus(any(), any(), any(), any(), any(), any(), any(), any(), any());
+        verify(responseUtils, times(1)).removeCookies(any());
     }
 }

@@ -28,7 +28,11 @@ public class CmsAspspConsentDataServiceImpl implements CmsAspspConsentDataServic
     @Value("${oba.maxLoginFailedCount:3}")
     private int loginFailedMax;
 
+    /**
+     * @deprecated
+     */
     @Override
+    @Deprecated(forRemoval = true, since = "v.5.6")
     public GlobalScaResponseTO fromBytes(byte[] tokenBytes) throws IOException {
         String type = readType(tokenBytes);
         if (SCAConsentResponseTO.class.getSimpleName().equals(type)) {
