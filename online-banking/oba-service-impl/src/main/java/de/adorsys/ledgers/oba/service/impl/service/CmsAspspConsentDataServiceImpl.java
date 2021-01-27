@@ -5,7 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.*;
 import de.adorsys.ledgers.oba.service.api.domain.LoginFailedCount;
-import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.api.service.CmsAspspConsentDataService;
 import de.adorsys.psd2.consent.api.CmsAspspConsentDataBase64;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +17,6 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.Optional;
-
-import static de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode.CONSENT_DATA_UPDATE_FAILED;
 
 @Service
 @RequiredArgsConstructor
@@ -56,7 +55,7 @@ public class CmsAspspConsentDataServiceImpl implements CmsAspspConsentDataServic
         if (objectType == null) {
             return null;
         }
-        return objectType.toString();
+        return objectType.asText();
     }
 
     @Override
@@ -64,9 +63,9 @@ public class CmsAspspConsentDataServiceImpl implements CmsAspspConsentDataServic
         try {
             return Base64.getEncoder().encodeToString(toBytes(response));
         } catch (IOException e) {
-            throw AuthorizationException.builder()
-                      .errorCode(CONSENT_DATA_UPDATE_FAILED)
+            throw ObaException.builder()
                       .devMessage("Consent data update failed")
+                      .obaErrorCode(ObaErrorCode.CONVERSION_EXCEPTION)
                       .build();
         }
     }

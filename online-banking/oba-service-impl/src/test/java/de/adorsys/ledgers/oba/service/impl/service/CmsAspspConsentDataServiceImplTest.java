@@ -10,6 +10,7 @@ import de.adorsys.ledgers.middleware.api.domain.um.ScaMethodTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.um.ScaUserDataTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
 import de.adorsys.ledgers.oba.service.api.domain.LoginFailedCount;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.psd2.consent.api.CmsAspspConsentDataBase64;
 import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,12 +22,14 @@ import org.mockito.internal.util.reflection.FieldSetter;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -36,18 +39,28 @@ class CmsAspspConsentDataServiceImplTest {
 
     @Mock
     private AspspConsentDataClient client;
+    @Mock
+    private ObjectMapper mapper;
 
     @BeforeEach
     void set() throws NoSuchFieldException {
-        FieldSetter.setField(service, service.getClass().getDeclaredField("mapper"), new ObjectMapper());
         FieldSetter.setField(service, service.getClass().getDeclaredField("loginFailedMax"), 3);
     }
 
     @Test
-    void toBase64String() {
+    void toBase64String() throws JsonProcessingException {
+        when(mapper.writeValueAsBytes(any())).thenAnswer(i -> new ObjectMapper().writeValueAsBytes(i.getArgument(0)));
         String expected = "eyJmYWlsZWRDb3VudCI6MX0=";
         String s = service.toBase64String(new LoginFailedCount(1));
         assertEquals(expected, s);
+    }
+
+    @Test
+    void toBase64String_fail() throws JsonProcessingException {
+        when(mapper.writeValueAsBytes(any())).thenThrow(JsonProcessingException.class);
+
+        LoginFailedCount failedCount = new LoginFailedCount(1);
+        assertThrows(ObaException.class, () -> service.toBase64String(failedCount));
     }
 
     @Test
@@ -139,13 +152,17 @@ class CmsAspspConsentDataServiceImplTest {
 
     @Test
     void updateLoginFailedCount() throws JsonProcessingException {
+        when(mapper.writeValueAsBytes(any())).thenAnswer(i -> new ObjectMapper().writeValueAsBytes(i.getArgument(0)));
         when(client.getAspspConsentData(any())).thenReturn(getCmsAspspCnsData(0));
         int attemptsLeft = service.updateLoginFailedCount("id");
         assertEquals(2, attemptsLeft);
     }
 
     @Test
-    void updateLoginFailedCount_last_attempt() throws JsonProcessingException {
+    void updateLoginFailedCount_last_attempt() throws IOException {
+        when(mapper.readValue(any(byte[].class), eq(LoginFailedCount.class)))
+            .thenAnswer(i -> new ObjectMapper().readValue((byte[]) i.getArgument(0), LoginFailedCount.class));
+        when(mapper.writeValueAsBytes(any())).thenAnswer(i -> new ObjectMapper().writeValueAsBytes((i.getArgument(0))));
         when(client.getAspspConsentData(any())).thenReturn(getCmsAspspCnsData(2));
         int attemptsLeft = service.updateLoginFailedCount("id");
         assertEquals(0, attemptsLeft);
@@ -157,16 +174,42 @@ class CmsAspspConsentDataServiceImplTest {
     }
 
     @Test
-    void isFailedLogin() throws JsonProcessingException {
+    void isFailedLogin() throws IOException {
+        when(mapper.readValue(any(byte[].class), eq(LoginFailedCount.class)))
+            .thenAnswer(i -> new ObjectMapper().readValue((byte[]) i.getArgument(0), LoginFailedCount.class));
         when(client.getAspspConsentData(any())).thenReturn(getCmsAspspCnsData(1));
         boolean isFailed = service.isFailedLogin("id");
         assertFalse(isFailed);
     }
 
     @Test
-    void isFailedLogin_failed() throws JsonProcessingException {
+    void isFailedLogin_failed() throws IOException {
+        when(mapper.readValue(any(byte[].class), eq(LoginFailedCount.class)))
+            .thenAnswer(i -> new ObjectMapper().readValue((byte[]) i.getArgument(0), LoginFailedCount.class));
         when(client.getAspspConsentData(any())).thenReturn(getCmsAspspCnsData(3));
         boolean isFailed = service.isFailedLogin("id");
         assertTrue(isFailed);
+    }
+
+    @Test
+    void fromBytes() throws IOException {
+        when(mapper.readTree(any(byte[].class))).thenAnswer(i -> new ObjectMapper().readTree((byte[]) i.getArgument(0)));
+        when(mapper.readValue(any(byte[].class), eq(SCAConsentResponseTO.class))).thenReturn(getScaConsentResponseTO(LocalDateTime.now(), new UserTO()));
+        SCAConsentResponseTO to = new SCAConsentResponseTO();
+        to.setObjectType(SCAConsentResponseTO.class.getSimpleName());
+        byte[] bytes = new ObjectMapper().writeValueAsBytes(to);
+        GlobalScaResponseTO result = service.fromBytes(bytes);
+        assertNotNull(result);
+    }
+
+    @Test
+    void fromBytes_2() throws IOException {
+        when(mapper.readTree(any(byte[].class))).thenAnswer(i -> new ObjectMapper().readTree((byte[]) i.getArgument(0)));
+        when(mapper.readValue(any(byte[].class), eq(SCAPaymentResponseTO.class))).thenReturn(getScaPaymentResponseTO(LocalDateTime.now(), new UserTO()));
+        SCAPaymentResponseTO to = new SCAPaymentResponseTO();
+        to.setObjectType(SCAPaymentResponseTO.class.getSimpleName());
+        byte[] bytes = new ObjectMapper().writeValueAsBytes(to);
+        GlobalScaResponseTO result = service.fromBytes(bytes);
+        assertNotNull(result);
     }
 }
