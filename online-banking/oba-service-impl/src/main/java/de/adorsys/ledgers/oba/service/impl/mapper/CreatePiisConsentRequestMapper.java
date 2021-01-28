@@ -1,7 +1,7 @@
 package de.adorsys.ledgers.oba.service.impl.mapper;
 
 import de.adorsys.ledgers.oba.service.api.domain.CreatePiisConsentRequestTO;
-import org.adorsys.ledgers.consent.aspsp.rest.client.CreatePiisConsentRequest;
+import de.adorsys.psd2.consent.aspsp.api.piis.CreatePiisConsentRequest;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring", uses = {TimeMapper.class})

@@ -11,6 +11,7 @@ import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentWorkflow;
 import de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode;
 import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.api.service.CommonPaymentService;
 import de.adorsys.ledgers.oba.service.api.service.TokenAuthenticationService;
 import feign.FeignException;
@@ -18,7 +19,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,21 +52,16 @@ public class PisCancellationController implements PisCancellationApi {
                       .errorCode(AuthErrorCode.LOGIN_FAILED)
                       .build();
         }
+        xisService.checkFailedCount(encryptedPaymentId);
+
         // Authorize
-        GlobalScaResponseTO ledgersResponse = null;
         try {
-            ledgersResponse = authenticationService.login(login, pin, authorisationId);
+            GlobalScaResponseTO ledgersResponse = authenticationService.login(login, pin, authorisationId);
             workflow.processSCAResponse(ledgersResponse);
             AuthUtils.checkIfUserInitiatedOperation(ledgersResponse, workflow.getPaymentResponse().getPayment().getPsuIdDatas());
             workflow = paymentService.initiatePaymentOpr(workflow, login, OpTypeTO.CANCEL_PAYMENT);
-        } catch (FeignException e) {
-            log.error("Failed to Login user: {}, pass {}", login, pin);
-        }
-
-        if (ledgersResponse == null) {
-            // failed Message. No repeat. Delete cookies.
-            responseUtils.removeCookies(this.response);
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        } catch (FeignException | ObaException e) {
+            xisService.resolveFailedLoginAttempt(encryptedPaymentId, workflow.paymentId(), login, workflow.authId(), OpTypeTO.PAYMENT);
         }
         return xisService.resolvePaymentWorkflow(workflow);
     }

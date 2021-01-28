@@ -11,8 +11,8 @@ import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.middleware.client.rest.PaymentRestClient;
 import de.adorsys.ledgers.middleware.client.rest.RedirectScaRestClient;
 import de.adorsys.ledgers.oba.service.api.domain.DecoupledConfRequest;
-import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
+import de.adorsys.ledgers.oba.service.api.service.CmsAspspConsentDataService;
 import de.adorsys.ledgers.oba.service.api.service.DecoupledService;
 import de.adorsys.psd2.consent.api.CmsAspspConsentDataBase64;
 import de.adorsys.psd2.consent.psu.api.CmsPsuPisService;
@@ -28,13 +28,11 @@ import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.EnumSet;
 import java.util.Optional;
 
-import static de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode.CONSENT_DATA_UPDATE_FAILED;
 import static de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode.AUTH_EXPIRED;
-import static org.adorsys.ledgers.consent.psu.rest.client.CmsPsuPisClient.DEFAULT_SERVICE_INSTANCE_ID;
+import static de.adorsys.psd2.consent.aspsp.api.config.CmsPsuApiDefaultValue.DEFAULT_SERVICE_INSTANCE_ID;
 
 @Slf4j
 @Service
@@ -99,7 +97,7 @@ public class DecoupledServiceImpl implements DecoupledService {
 
     private void updateCmsScaConsentStatus(String psuId, GlobalScaResponseTO scaResponse) {
         cmsPsuAisClient.updateAuthorisationStatus(scaResponse.getOperationObjectId(), scaResponse.getScaStatus().name(),
-                                                  scaResponse.getAuthorisationId(), psuId, null, null, null, CmsPsuAisClient.DEFAULT_SERVICE_INSTANCE_ID, new AuthenticationDataHolder(null, scaResponse.getAuthConfirmationCode()));
+                                                  scaResponse.getAuthorisationId(), psuId, null, null, null, DEFAULT_SERVICE_INSTANCE_ID, new AuthenticationDataHolder(null, scaResponse.getAuthConfirmationCode()));
     }
 
     private void updateCmsForPayment(String psuId, GlobalScaResponseTO scaResponse, String transactionStatus) {
@@ -126,15 +124,7 @@ public class DecoupledServiceImpl implements DecoupledService {
     }
 
     private void updateAspspConsentData(GlobalScaResponseTO scaResponse) {
-        CmsAspspConsentDataBase64 consentData;
-        try {
-            consentData = new CmsAspspConsentDataBase64(scaResponse.getOperationObjectId(), dataService.toBase64String(scaResponse));
-        } catch (IOException e) {
-            throw AuthorizationException.builder()
-                      .errorCode(CONSENT_DATA_UPDATE_FAILED)
-                      .devMessage("Consent data update failed")
-                      .build();
-        }
+        CmsAspspConsentDataBase64 consentData = new CmsAspspConsentDataBase64(scaResponse.getOperationObjectId(), dataService.toBase64String(scaResponse));
         aspspConsentDataClient.updateAspspConsentData(scaResponse.getExternalId(), consentData);
     }
 }

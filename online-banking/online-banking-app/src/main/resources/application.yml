@@ -66,6 +66,8 @@ cms.url: http://localhost:38080
 oba.url: http://localhost:4400
 self.url: http://localhost:8090
 
+oba.maxLoginFailedCount: 3
+
 #LOGGER
 # logging.level.org.springframework.web: DEBUG
 

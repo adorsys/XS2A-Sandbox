@@ -83,7 +83,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             );
           } else {
             if (error.status === 401) {
-              this.errorMessage = 'Invalid credentials';
+              this.errorMessage = error.error.message;
             } else if (error.status === 400) {
               this.errorMessage =
                 'Consent is cancelled and cannot be authorized';

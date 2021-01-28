@@ -5,7 +5,7 @@
     <parent>
         <groupId>de.adorsys.psd2.sandbox</groupId>
         <artifactId>online-banking</artifactId>
-        <version>5.4</version>
+        <version>5.5</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -21,6 +21,12 @@
 			<artifactId>consent-psu-api</artifactId>
 			<version>${xs2a.version}</version>
 		</dependency>
+
+        <dependency>
+            <groupId>de.adorsys.psd2</groupId>
+            <artifactId>consent-aspsp-api</artifactId>
+            <version>${xs2a.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>

@@ -1,6 +1,7 @@
 package de.adorsys.ledgers.oba.rest.server.resource;
 
 import de.adorsys.ledgers.keycloak.client.api.KeycloakTokenService;
+import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
@@ -8,10 +9,16 @@ import de.adorsys.ledgers.oba.rest.api.resource.exception.PaymentAuthorizeExcept
 import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
 import de.adorsys.ledgers.oba.service.api.domain.*;
 import de.adorsys.ledgers.oba.service.api.domain.exception.InvalidConsentException;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
+import de.adorsys.ledgers.oba.service.api.service.CmsAspspConsentDataService;
 import de.adorsys.ledgers.oba.service.api.service.CommonPaymentService;
 import de.adorsys.ledgers.oba.service.api.service.ConsentReferencePolicy;
+import de.adorsys.psd2.xs2a.core.sca.AuthenticationDataHolder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient;
+import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuPisClient;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -27,6 +34,7 @@ import java.util.Optional;
 
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.*;
 import static de.adorsys.ledgers.oba.rest.server.auth.oba.SecurityConstant.BEARER_TOKEN_PREFIX;
+import static de.adorsys.psd2.consent.aspsp.api.config.CmsPsuApiDefaultValue.DEFAULT_SERVICE_INSTANCE_ID;
 
 @Slf4j
 @Service
@@ -39,6 +47,9 @@ public class XISControllerService {
     private final KeycloakTokenService tokenService;
     private final CommonPaymentService paymentService;
     private final ObaMiddlewareAuthentication middlewareAuth;
+    private final CmsAspspConsentDataService consentDataService;
+    private final CmsPsuAisClient cmsPsuAisClient;
+    private final CmsPsuPisClient cmsPsuPisClient;
 
     @Value("${online-banking.sca.loginpage:http://localhost:4400/}")
     private String loginPage;
@@ -123,5 +134,46 @@ public class XISControllerService {
             return p.getError();
         }
         return ResponseEntity.ok(workflow.getAuthResponse());
+    }
+
+    public void checkFailedCount(String encryptedId) {
+        if (consentDataService.isFailedLogin(encryptedId)) {
+            throw ObaException.builder()
+                      .devMessage("You have exceeded maximum login attempts for current Authorization!")
+                      .obaErrorCode(ObaErrorCode.AUTH_EXPIRED)
+                      .build();
+        }
+    }
+
+    public void resolveFailedLoginAttempt(String encryptedId, String id, String login, String authId, OpTypeTO opType) {
+        int attemptsLeft = consentDataService.updateLoginFailedCount(encryptedId);
+        if (attemptsLeft < 1) {
+            if (opType == OpTypeTO.CONSENT) {
+                failConsentAuthorization(id, login, authId);
+            } else {
+                failPaymentAuthorisation(id, login, authId);
+            }
+            responseUtils.removeCookies(this.response);
+        }
+        String msg = attemptsLeft > 0
+                         ? String.format("You have %s attempts left", attemptsLeft)
+                         : "You've exceeded login attempts limit for current session. Please open new Authorization session";
+        throw ObaException.builder()
+                  .devMessage(String.format("Login Failed!%n %s", msg))
+                  .obaErrorCode(ObaErrorCode.LOGIN_FAILED)
+                  .build();
+    }
+
+    private void failConsentAuthorization(String id, String login, String authId) {
+        cmsPsuAisClient.updateAuthorisationStatus(id,
+                                                  "FAILED", authId, login, null, null, null,
+                                                  DEFAULT_SERVICE_INSTANCE_ID, new AuthenticationDataHolder(null, null));
+    }
+
+    private void failPaymentAuthorisation(String id, String login, String authId) {
+        cmsPsuPisClient.updateAuthorisationStatus(login,
+                                                  null, null, null, id, authId, "FAILED",
+                                                  DEFAULT_SERVICE_INSTANCE_ID, new AuthenticationDataHolder(null, null));
+
     }
 }

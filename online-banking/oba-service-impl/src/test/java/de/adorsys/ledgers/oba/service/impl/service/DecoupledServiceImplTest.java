@@ -13,6 +13,7 @@ import de.adorsys.ledgers.middleware.client.rest.RedirectScaRestClient;
 import de.adorsys.ledgers.oba.service.api.domain.DecoupledConfRequest;
 import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
+import de.adorsys.ledgers.oba.service.api.service.CmsAspspConsentDataService;
 import de.adorsys.psd2.consent.psu.api.CmsPsuPisService;
 import de.adorsys.psd2.xs2a.core.exception.AuthorisationIsExpiredException;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient;
@@ -92,26 +93,6 @@ class DecoupledServiceImplTest {
         verify(authInterceptor, times(1)).setAccessToken(eq("full_token"));
         verify(paymentRestClient, times(1)).executePayment(any());
         verify(cmsPsuPisService, times(1)).updateAuthorisationStatus(any(), any(), any(), any(), any(), any());
-        verify(authInterceptor, times(1)).setAccessToken(eq(null));
-    }
-
-    @Test
-    void executeDecoupledOpr__pmt_base64_fail() throws AuthorisationIsExpiredException, IOException {
-        when(tokenService.exchangeToken(any(), any(), any())).thenReturn(getToken("sca_token"));
-        when(redirectScaClient.validateScaCode(any(), eq("TAN"))).thenReturn(getResponse());
-        when(paymentRestClient.executePayment(any())).thenReturn(ResponseEntity.ok(getScaPaymentResponse()));
-        doThrow(IOException.class).when(dataService).toBase64String(any());
-
-        DecoupledConfRequest request = getDecoupledRequest(OpTypeTO.PAYMENT);
-        AuthorizationException exception = assertThrows(AuthorizationException.class, () -> service.executeDecoupledOpr(request, "login_token"));
-        assertEquals(CONSENT_DATA_UPDATE_FAILED, exception.getErrorCode());
-        verify(tokenService, times(1)).exchangeToken(anyString(), anyInt(), eq(Constants.SCOPE_SCA));
-        verify(authInterceptor, times(1)).setAccessToken(eq("sca_token"));
-        verify(redirectScaClient, times(1)).validateScaCode(any(), eq("TAN"));
-        verify(authInterceptor, times(1)).setAccessToken(eq("full_token"));
-        verify(paymentRestClient, times(1)).executePayment(any());
-        verify(cmsPsuPisService, times(1)).updateAuthorisationStatus(any(), any(), any(), any(), any(), any());
-        verify(cmsPsuPisService, times(1)).updatePaymentStatus(any(), any(), any());
         verify(authInterceptor, times(1)).setAccessToken(eq(null));
     }
 

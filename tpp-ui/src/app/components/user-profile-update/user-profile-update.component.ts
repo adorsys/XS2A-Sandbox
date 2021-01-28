@@ -22,6 +22,7 @@ export class UserProfileUpdateComponent implements OnInit, OnDestroy {
   userForm: FormGroup;
   submitted: boolean;
   admin: string;
+  private currentLogin: string;
 
   private unsubscribe$ = new Subject<void>();
 
@@ -33,12 +34,12 @@ export class UserProfileUpdateComponent implements OnInit, OnDestroy {
     private tppManagementService: TppManagementService,
     private infoService: InfoService,
     public location: Location,
-    private tppUserService: TppUserService
   ) {
   }
 
   ngOnInit() {
     this.admin = localStorage.getItem(ADMIN_KEY);
+    this.getCurrentUserLogin();
     this.setupEditUserFormControl();
     this.getUserDetails();
     this.setUpTppOrAdmin();
@@ -64,7 +65,7 @@ export class UserProfileUpdateComponent implements OnInit, OnDestroy {
           this.userForm.patchValue({
             email: this.user.email,
             username: this.user.login,
-            pin: this.user.pin,
+            //pin: this.user.pin,
           });
         });
     }
@@ -74,24 +75,19 @@ export class UserProfileUpdateComponent implements OnInit, OnDestroy {
     this.userForm = this.formBuilder.group({
       username: ['', Validators.required],
       email: ['', [Validators.email, Validators.required]],
-      pin: ['', [Validators.minLength(5), Validators.required]],
+      //pin: ['', [Validators.minLength(5), Validators.required]],
     });
   }
 
   onSubmit() {
-    this.submitted = true;
     if (this.userForm.invalid || this.admin === undefined) {
       return;
     }
-
     const updatedUser: User = {
       ...this.user,
       branchLogin: undefined,
       email: this.userForm.get('email').value,
       login: this.userForm.get('username').value,
-      pin: this.userForm.get('pin').value.trim()
-        ? this.userForm.get('pin').value
-        : this.user.pin,
     };
 
     let restCall;
@@ -108,6 +104,18 @@ export class UserProfileUpdateComponent implements OnInit, OnDestroy {
         this.infoService.openFeedback(
           'The information has been successfully updated'
         );
+
+        if (this.currentLogin === this.user.login) {
+          this.authService.logout();
+        }
+      });
+  }
+
+  private getCurrentUserLogin() {
+    this.userInfoService.currentTppUser
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(user => {
+        this.currentLogin = user.login;
       });
   }
 
@@ -128,7 +136,7 @@ export class UserProfileUpdateComponent implements OnInit, OnDestroy {
 
   private setUpTppOrAdmin() {
     this.tppId = this.route.snapshot.params['id'];
-    if (this.tppId) {
+    if (this.admin === 'true') {
       this.route.queryParams.subscribe(params => {
         this.getUserInfoForAdmin(this.tppId, params['admin']);
       });
@@ -136,7 +144,7 @@ export class UserProfileUpdateComponent implements OnInit, OnDestroy {
   }
 
   resetPasswordViaEmail(login: string) {
-    this.tppUserService.resetPasswordViaEmail(login).subscribe(() => {
+    this.userInfoService.resetPasswordViaEmail(login).subscribe(() => {
       this.infoService.openFeedback('Link for password reset was sent, check email.', {
         severity: 'info',
       });

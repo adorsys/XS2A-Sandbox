@@ -21,6 +21,7 @@ import de.adorsys.ledgers.oba.service.api.domain.PaymentWorkflow;
 import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.api.service.AuthorizationService;
+import de.adorsys.ledgers.oba.service.api.service.CmsAspspConsentDataService;
 import de.adorsys.ledgers.oba.service.api.service.ConsentReferencePolicy;
 import de.adorsys.psd2.consent.api.pis.CmsCommonPayment;
 import de.adorsys.psd2.consent.api.pis.CmsPaymentResponse;
@@ -126,15 +127,6 @@ class CommonPaymentServiceImplTest {
         BearerTokenTO token = new BearerTokenTO();
         // Then
         assertThrows(ObaException.class, () -> service.identifyPayment(ENCRYPTED_ID, AUTH_ID, false, COOKIE, PSU_ID, token));
-    }
-
-    @Test
-    void updateAspspConsentData_exception() throws IOException {
-        // Given
-        when(dataService.toBase64String(any())).thenThrow(IOException.class);
-        PaymentWorkflow expectedWorkflow = getExpectedWorkflow("RJCT");
-        // Then
-        assertThrows(AuthorizationException.class, () -> service.updateAspspConsentData(expectedWorkflow));
     }
 
     @Test
