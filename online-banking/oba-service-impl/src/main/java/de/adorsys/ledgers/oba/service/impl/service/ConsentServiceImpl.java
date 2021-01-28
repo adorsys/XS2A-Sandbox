@@ -266,7 +266,7 @@ public class ConsentServiceImpl implements ConsentService {
         String token;
         try {
             byte[] decodedData = aspspDataService.readAspspConsentData(encryptedConsentId)
-                                     .map(AspspConsentData::getAspspConsentData)
+                                     .map(AspspConsentData::getAspspConsentDataBytes)
                                      .orElseThrow(() -> ObaException.builder()
                                                             .devMessage(COULD_NOT_RETRIEVE_ASPSP_CONSENT_DATA)
                                                             .obaErrorCode(AIS_BAD_REQUEST)
