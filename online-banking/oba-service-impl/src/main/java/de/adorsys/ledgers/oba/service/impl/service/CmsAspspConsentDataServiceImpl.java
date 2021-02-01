@@ -1,6 +1,5 @@
 package de.adorsys.ledgers.oba.service.impl.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.*;
@@ -27,35 +26,8 @@ public class CmsAspspConsentDataServiceImpl implements CmsAspspConsentDataServic
     @Value("${oba.maxLoginFailedCount:3}")
     private int loginFailedMax;
 
-    /**
-     * @deprecated
-     */
-    @Override
-    @Deprecated(forRemoval = true, since = "v.5.6")
-    public GlobalScaResponseTO fromBytes(byte[] tokenBytes) throws IOException {
-        String type = readType(tokenBytes);
-        if (SCAConsentResponseTO.class.getSimpleName().equals(type)) {
-            return mapToGlobalResponse(mapper.readValue(tokenBytes, SCAConsentResponseTO.class), OpTypeTO.CONSENT);
-        } else if (SCALoginResponseTO.class.getSimpleName().equals(type)) {
-            return mapToGlobalResponse(mapper.readValue(tokenBytes, SCALoginResponseTO.class), OpTypeTO.LOGIN);
-        } else if (SCAPaymentResponseTO.class.getSimpleName().equals(type)) {
-            return mapToGlobalResponse(mapper.readValue(tokenBytes, SCAPaymentResponseTO.class), OpTypeTO.PAYMENT);
-        } else {
-            return mapper.readValue(tokenBytes, GlobalScaResponseTO.class);
-        }
-    }
-
     private <T> byte[] toBytes(T response) throws IOException {
         return mapper.writeValueAsBytes(response);
-    }
-
-    private String readType(byte[] tokenBytes) throws IOException {
-        JsonNode jsonNode = mapper.readTree(tokenBytes);
-        JsonNode objectType = jsonNode.get("objectType");
-        if (objectType == null) {
-            return null;
-        }
-        return objectType.asText();
     }
 
     @Override

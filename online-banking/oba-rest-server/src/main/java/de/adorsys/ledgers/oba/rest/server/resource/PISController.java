@@ -5,7 +5,6 @@ import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.oba.rest.api.resource.PISApi;
-import de.adorsys.ledgers.oba.rest.api.resource.exception.PaymentAuthorizeException;
 import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
 import de.adorsys.ledgers.oba.service.api.domain.AuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentType;
@@ -50,7 +49,7 @@ public class PISController implements PISApi {
     @ApiOperation(value = "Identifies the user by login an pin. Return sca methods information")
     public ResponseEntity<PaymentAuthorizeResponse> login(String encryptedPaymentId, String authorisationId, String login, String pin, String consentCookieString) {
         String consentCookie = responseUtils.consentCookie(consentCookieString);
-        PaymentWorkflow workflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, false, consentCookie, login, null);
+        PaymentWorkflow workflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, false, consentCookie, null);
         xisService.checkFailedCount(encryptedPaymentId);
 
         // Authorize
@@ -70,11 +69,10 @@ public class PISController implements PISApi {
     public ResponseEntity<PaymentAuthorizeResponse> initiatePayment( //TODO Seems to be unused!!! Subject to removal!
                                                                      String encryptedPaymentId, String authorisationId, String consentAndaccessTokenCookieString) {
 
-        try {
             String psuId = AuthUtils.psuId(middlewareAuth);
             // Identity the link and load the workflow.
             String consentCookie = responseUtils.consentCookie(consentAndaccessTokenCookieString);
-            PaymentWorkflow identifyPaymentWorkflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, true, consentCookie, psuId, middlewareAuth.getBearerToken());
+            PaymentWorkflow identifyPaymentWorkflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, true, consentCookie, middlewareAuth.getBearerToken());
 
             // Update status
             identifyPaymentWorkflow.getScaResponse().setScaStatus(ScaStatusTO.PSUAUTHENTICATED);
@@ -84,9 +82,6 @@ public class PISController implements PISApi {
             // Store result in token.
             responseUtils.setCookies(response, initiatePaymentWorkflow.getConsentReference(), initiatePaymentWorkflow.bearerToken().getAccess_token(), initiatePaymentWorkflow.bearerToken().getAccessTokenObject());
             return ResponseEntity.ok(initiatePaymentWorkflow.getAuthResponse());
-        } catch (PaymentAuthorizeException e) {
-            return e.getError();
-        }
     }
 
     @Override
@@ -99,25 +94,22 @@ public class PISController implements PISApi {
         String psuId = AuthUtils.psuId(middlewareAuth);
         try {
             String consentCookie = responseUtils.consentCookie(consentAndaccessTokenCookieString);
-            PaymentWorkflow identifyPaymentWorkflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, true, consentCookie, psuId, middlewareAuth.getBearerToken());
+            PaymentWorkflow identifyPaymentWorkflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, true, consentCookie, middlewareAuth.getBearerToken());
             PaymentWorkflow authorizePaymentWorkflow = paymentService.authorizePaymentOpr(identifyPaymentWorkflow, psuId, authCode, OpTypeTO.PAYMENT);
 
             responseUtils.setCookies(response, authorizePaymentWorkflow.getConsentReference(), authorizePaymentWorkflow.bearerToken().getAccess_token(), authorizePaymentWorkflow.bearerToken().getAccessTokenObject());
             log.info("Confirmation code: {}", authorizePaymentWorkflow.getAuthResponse().getAuthConfirmationCode());
             return ResponseEntity.ok(authorizePaymentWorkflow.getAuthResponse());
-        } catch (PaymentAuthorizeException e) {
-            return e.getError();
-        } finally {
+        }  finally {
             authInterceptor.setAccessToken(null);
         }
     }
 
     @Override
     public ResponseEntity<PaymentAuthorizeResponse> failPaymentAuthorisation(String encryptedPaymentId, String authorisationId, String cookieString) {
-        String psuId = AuthUtils.psuId(middlewareAuth);
         try {
             String consentCookie = responseUtils.consentCookie(cookieString);
-            PaymentWorkflow workflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, true, consentCookie, psuId, middlewareAuth.getBearerToken());
+            PaymentWorkflow workflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, true, consentCookie, middlewareAuth.getBearerToken());
 
             authInterceptor.setAccessToken(workflow.bearerToken().getAccess_token());
 
@@ -126,9 +118,6 @@ public class PISController implements PISApi {
 
             responseUtils.removeCookies(response);
             return ResponseEntity.ok(workflow.getAuthResponse());
-        } catch (PaymentAuthorizeException e) {
-            responseUtils.removeCookies(response);
-            return e.getError();
         } finally {
             authInterceptor.setAccessToken(null);
         }

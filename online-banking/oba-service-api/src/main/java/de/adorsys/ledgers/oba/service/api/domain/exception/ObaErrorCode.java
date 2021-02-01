@@ -6,5 +6,6 @@ public enum ObaErrorCode {
     NOT_FOUND,
     CONVERSION_EXCEPTION,
     AUTH_EXPIRED,
-    LOGIN_FAILED
+    LOGIN_FAILED,
+    ACCESS_FORBIDDEN
 }

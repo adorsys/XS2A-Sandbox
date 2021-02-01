@@ -3,7 +3,7 @@ package de.adorsys.ledgers.oba.service.impl.service;
 
 import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentType;
-import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -60,7 +60,7 @@ class DefaultConsentReferencePolicyTest {
     @Test
     void fromRequest_authFailed() {
         // Then
-        assertThrows(AuthorizationException.class, () -> defaultConsentReferencePolicy.fromRequest(ENCRYPTED_CONSENT_ID, AUTHORIZATION_ID, "cookieString", false));
+        assertThrows(ObaException.class, () -> defaultConsentReferencePolicy.fromRequest(ENCRYPTED_CONSENT_ID, AUTHORIZATION_ID, "cookieString", false));
     }
 
     @Test
@@ -70,7 +70,7 @@ class DefaultConsentReferencePolicyTest {
         ConsentReference reference = defaultConsentReferencePolicy.fromURL(REDIRECT_ID, CONSENT_TYPE_AIS, ENCRYPTED_CONSENT_ID);
         String cookieString = reference.getCookieString();
         // Then
-        assertThrows(AuthorizationException.class, () -> defaultConsentReferencePolicy.fromRequest(ENCRYPTED_CONSENT_ID, AUTHORIZATION_ID, cookieString, true));
+        assertThrows(ObaException.class, () -> defaultConsentReferencePolicy.fromRequest(ENCRYPTED_CONSENT_ID, AUTHORIZATION_ID, cookieString, true));
     }
 
     @Test
@@ -80,6 +80,6 @@ class DefaultConsentReferencePolicyTest {
         ConsentReference reference = defaultConsentReferencePolicy.fromURL(REDIRECT_ID, CONSENT_TYPE_AIS, ENCRYPTED_CONSENT_ID);
         String cookieString = reference.getCookieString();
         // Then
-        assertThrows(AuthorizationException.class, () -> defaultConsentReferencePolicy.fromRequest(null, AUTHORIZATION_ID, cookieString, false));
+        assertThrows(ObaException.class, () -> defaultConsentReferencePolicy.fromRequest(null, AUTHORIZATION_ID, cookieString, false));
     }
 }

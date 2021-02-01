@@ -3,7 +3,7 @@ package de.adorsys.ledgers.oba.rest.server.resource;
 import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
-import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +26,7 @@ class AuthUtilsTest {
         GlobalScaResponseTO loginResult = getLoginResult();
         List<PsuIdData> wrongLogin = List.of(getPsuIdData("some wrong login"));
         // Then
-        assertThrows(AuthorizationException.class, () -> AuthUtils.checkIfUserInitiatedOperation(loginResult, wrongLogin));
+        assertThrows(ObaException.class, () -> AuthUtils.checkIfUserInitiatedOperation(loginResult, wrongLogin));
     }
 
     private PsuIdData getPsuIdData(String login) {

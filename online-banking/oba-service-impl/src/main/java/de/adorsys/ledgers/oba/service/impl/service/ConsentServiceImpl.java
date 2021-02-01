@@ -133,7 +133,7 @@ public class ConsentServiceImpl implements ConsentService {
         setActiveAccessTokenFromConsentData(encryptedConsentId);
 
         SCAConsentResponseTO ledgerValidateTanConsentResponse = authorizeConsentAtLedgers(authorizationId, tan);
-        confirmConsentAtCms(userLogin, consentId);
+        confirmConsentAtCms(consentId);
         updateCmsAuthorization(userLogin, authorizationId, consentId);
         updateAspspConsentDataForConsent(encryptedConsentId, ledgerValidateTanConsentResponse);
         authInterceptor.setAccessToken(null);
@@ -186,8 +186,7 @@ public class ConsentServiceImpl implements ConsentService {
         }
     }
 
-    @SuppressWarnings("PMD.UnusedFormalParameter")
-    private void confirmConsentAtCms(String userLogin, String consentId) {
+    private void confirmConsentAtCms(String consentId) {
         try {
             cmsPsuAisClient.confirmConsent(consentId, DEFAULT_SERVICE_INSTANCE_ID);
         } catch (FeignException e) {

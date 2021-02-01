@@ -18,7 +18,6 @@ import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentType;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentWorkflow;
-import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.api.service.AuthorizationService;
 import de.adorsys.ledgers.oba.service.api.service.CmsAspspConsentDataService;
@@ -40,7 +39,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Optional;
 
@@ -113,7 +111,7 @@ class CommonPaymentServiceImplTest {
         when(paymentMapper.toAbstractPayment(anyString(), anyString(), anyString())).thenReturn(getPaymentTO(ACCP));
 
         // When
-        PaymentWorkflow result = service.identifyPayment(ENCRYPTED_ID, AUTH_ID, false, COOKIE, PSU_ID, new BearerTokenTO());
+        PaymentWorkflow result = service.identifyPayment(ENCRYPTED_ID, AUTH_ID, false, COOKIE, new BearerTokenTO());
 
         // Then
         assertThat(result).isEqualToComparingFieldByFieldRecursively(getExpectedIdentifyWorkflow(TransactionStatus.ACCP.name()));
@@ -126,7 +124,7 @@ class CommonPaymentServiceImplTest {
         when(cmsPsuPisService.checkRedirectAndGetPayment(anyString(), anyString())).thenThrow(RedirectUrlIsExpiredException.class);
         BearerTokenTO token = new BearerTokenTO();
         // Then
-        assertThrows(ObaException.class, () -> service.identifyPayment(ENCRYPTED_ID, AUTH_ID, false, COOKIE, PSU_ID, token));
+        assertThrows(ObaException.class, () -> service.identifyPayment(ENCRYPTED_ID, AUTH_ID, false, COOKIE, token));
     }
 
     @Test

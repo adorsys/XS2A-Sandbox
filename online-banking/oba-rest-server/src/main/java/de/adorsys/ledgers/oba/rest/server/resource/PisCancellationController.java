@@ -5,12 +5,10 @@ import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.oba.rest.api.resource.PisCancellationApi;
-import de.adorsys.ledgers.oba.rest.api.resource.exception.PaymentAuthorizeException;
 import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentWorkflow;
-import de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode;
-import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.api.service.CommonPaymentService;
 import de.adorsys.ledgers.oba.service.api.service.TokenAuthenticationService;
@@ -45,11 +43,11 @@ public class PisCancellationController implements PisCancellationApi {
     @ApiOperation(value = "Identifies the user by login an pin. Return sca methods information")
     public ResponseEntity<PaymentAuthorizeResponse> login(String encryptedPaymentId, String authorisationId, String login, String pin, String consentCookieString) {
         String consentCookie = responseUtils.consentCookie(consentCookieString);
-        PaymentWorkflow workflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, false, consentCookie, login, null);
+        PaymentWorkflow workflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, false, consentCookie, null);
         if (workflow.getPaymentStatus().equals(TransactionStatusTO.RCVD.name())) {
-            throw AuthorizationException.builder()
+            throw ObaException.builder()
                       .devMessage(String.format("Cancellation of Payment id: %s is not possible thought OnlineBanking as it's status is RECEIVED, cancellation of this payment is only possible though EMBEDDED route", encryptedPaymentId))
-                      .errorCode(AuthErrorCode.LOGIN_FAILED)
+                      .obaErrorCode(ObaErrorCode.LOGIN_FAILED)
                       .build();
         }
         xisService.checkFailedCount(encryptedPaymentId);
@@ -79,14 +77,12 @@ public class PisCancellationController implements PisCancellationApi {
         try {
             String consentCookie = responseUtils.consentCookie(consentAndAccessTokenCookieString);
 
-            PaymentWorkflow identifyPaymentWorkflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, true, consentCookie, psuId, middlewareAuth.getBearerToken());
+            PaymentWorkflow identifyPaymentWorkflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, true, consentCookie, middlewareAuth.getBearerToken());
             PaymentWorkflow authorizeCancelPaymentWorkflow = paymentService.authorizePaymentOpr(identifyPaymentWorkflow, psuId, authCode, OpTypeTO.CANCEL_PAYMENT);
 
             responseUtils.setCookies(response, authorizeCancelPaymentWorkflow.getConsentReference(), authorizeCancelPaymentWorkflow.bearerToken().getAccess_token(), authorizeCancelPaymentWorkflow.bearerToken().getAccessTokenObject());
             log.info("Confirmation code: {}", authorizeCancelPaymentWorkflow.getAuthResponse().getAuthConfirmationCode());
             return ResponseEntity.ok(authorizeCancelPaymentWorkflow.getAuthResponse());
-        } catch (PaymentAuthorizeException e) {
-            return e.getError();
         } finally {
             authInterceptor.setAccessToken(null);
         }

@@ -1,26 +1,24 @@
 package de.adorsys.ledgers.xs2a.test.ctk.redirect;
 
-import java.net.MalformedURLException;
-
+import de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO;
+import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
-import de.adorsys.ledgers.oba.rest.api.resource.exception.PaymentAuthorizeException;
+import de.adorsys.psd2.model.PaymentInitationRequestResponse201;
+import de.adorsys.psd2.model.TransactionStatus;
 import org.junit.Test;
 import org.springframework.http.ResponseEntity;
 
-import de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO;
-import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
-import de.adorsys.psd2.model.PaymentInitationRequestResponse201;
-import de.adorsys.psd2.model.TransactionStatus;
+import java.net.MalformedURLException;
 
 public class SinglePaymentRedirectOneScaMethodIT extends AbstractSinglePaymentRedirect {
 
-	@Test
-	public void test_create_payment() throws MalformedURLException, PaymentAuthorizeException {
-		// Initiate Payment
-		PaymentInitationRequestResponse201 initiatedPayment = paymentInitService.initiatePayment();
-		String paymentId = initiatedPayment.getPaymentId();
+    @Test
+    public void test_create_payment() throws MalformedURLException {
+        // Initiate Payment
+        PaymentInitationRequestResponse201 initiatedPayment = paymentInitService.initiatePayment();
+        String paymentId = initiatedPayment.getPaymentId();
 
-		// Login User
+        // Login User
         ResponseEntity<PaymentAuthorizeResponse> loginResponseWrapper = paymentInitService.login(initiatedPayment);
         paymentInitService.validateResponseStatus(loginResponseWrapper.getBody(), ScaStatusTO.PSUIDENTIFIED, TransactionStatusTO.ACCP);
         paymentInitService.checkTxStatus(paymentId, TransactionStatus.ACCP);
@@ -29,8 +27,8 @@ public class SinglePaymentRedirectOneScaMethodIT extends AbstractSinglePaymentRe
         paymentInitService.validateResponseStatus(choseScaMethodResponseWrapper.getBody(), ScaStatusTO.SCAMETHODSELECTED, TransactionStatusTO.ACCP);
         paymentInitService.checkTxStatus(paymentId, TransactionStatus.ACCP);
 
-		ResponseEntity<PaymentAuthorizeResponse> authCodeResponseWrapper = paymentInitService.authCode(loginResponseWrapper);
-		paymentInitService.validateResponseStatus(authCodeResponseWrapper.getBody(), ScaStatusTO.FINALISED, TransactionStatusTO.ACSP);
-		paymentInitService.checkTxStatus(paymentId, TransactionStatus.ACSP);
-	}
+        ResponseEntity<PaymentAuthorizeResponse> authCodeResponseWrapper = paymentInitService.authCode(loginResponseWrapper);
+        paymentInitService.validateResponseStatus(authCodeResponseWrapper.getBody(), ScaStatusTO.FINALISED, TransactionStatusTO.ACSP);
+        paymentInitService.checkTxStatus(paymentId, TransactionStatus.ACSP);
+    }
 }

@@ -5,10 +5,8 @@ import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
-import de.adorsys.ledgers.oba.rest.api.resource.exception.PaymentAuthorizeException;
 import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
 import de.adorsys.ledgers.oba.service.api.domain.*;
-import de.adorsys.ledgers.oba.service.api.domain.exception.InvalidConsentException;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.api.service.CmsAspspConsentDataService;
@@ -80,26 +78,20 @@ public class XISControllerService {
         AuthorizeResponse authResponse = new AuthorizeResponse();
 
         // 1. Store redirect link in a cookie
-        try {
-            ConsentReference consentReference = referencePolicy.fromURL(redirectId, consentType, encryptedConsentId);
-            authResponse.setEncryptedConsentId(encryptedConsentId);
-            authResponse.setAuthorisationId(redirectId);
-            String token = Optional.ofNullable(request.getHeader(HttpHeaders.AUTHORIZATION))
-                               .filter(t -> StringUtils.startsWithIgnoreCase(t, BEARER_TOKEN_PREFIX))
-                               .map(t -> StringUtils.substringAfter(t, BEARER_TOKEN_PREFIX))
-                               .orElse(null);
-            // 2. Set cookies
-            AccessTokenTO tokenTO = Optional.ofNullable(token).map(tokenService::validate)
-                                        .map(BearerTokenTO::getAccessTokenObject)
-                                        .orElse(null);
-            responseUtils.setCookies(response, consentReference, token, tokenTO);
-            if (StringUtils.isNotBlank(token)) {
-                response.addHeader(HttpHeaders.AUTHORIZATION, token);
-            }
-        } catch (InvalidConsentException e) {
-            log.info(e.getMessage());
-            responseUtils.removeCookies(response);
-            return responseUtils.unknownCredentials(authResponse, response);
+        ConsentReference consentReference = referencePolicy.fromURL(redirectId, consentType, encryptedConsentId);
+        authResponse.setEncryptedConsentId(encryptedConsentId);
+        authResponse.setAuthorisationId(redirectId);
+        String token = Optional.ofNullable(request.getHeader(HttpHeaders.AUTHORIZATION))
+                           .filter(t -> StringUtils.startsWithIgnoreCase(t, BEARER_TOKEN_PREFIX))
+                           .map(t -> StringUtils.substringAfter(t, BEARER_TOKEN_PREFIX))
+                           .orElse(null);
+        // 2. Set cookies
+        AccessTokenTO tokenTO = Optional.ofNullable(token).map(tokenService::validate)
+                                    .map(BearerTokenTO::getAccessTokenObject)
+                                    .orElse(null);
+        responseUtils.setCookies(response, consentReference, token, tokenTO);
+        if (StringUtils.isNotBlank(token)) {
+            response.addHeader(HttpHeaders.AUTHORIZATION, token);
         }
 
         // This is the link we are expecting from the loaded agent.
@@ -125,14 +117,9 @@ public class XISControllerService {
     }
 
     public ResponseEntity<PaymentAuthorizeResponse> selectScaMethod(String encryptedPaymentId, String authorisationId, String scaMethodId, String consentAndaccessTokenCookieString) {
-        PaymentWorkflow workflow;
-        try {
-            String consentCookie = responseUtils.consentCookie(consentAndaccessTokenCookieString);
-            workflow = paymentService.selectScaForPayment(encryptedPaymentId, authorisationId, scaMethodId, consentCookie, AuthUtils.psuId(middlewareAuth), middlewareAuth.getBearerToken());
-            responseUtils.setCookies(response, workflow.getConsentReference(), workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
-        } catch (PaymentAuthorizeException p) {
-            return p.getError();
-        }
+        String consentCookie = responseUtils.consentCookie(consentAndaccessTokenCookieString);
+        PaymentWorkflow workflow = paymentService.selectScaForPayment(encryptedPaymentId, authorisationId, scaMethodId, consentCookie, AuthUtils.psuId(middlewareAuth), middlewareAuth.getBearerToken());
+        responseUtils.setCookies(response, workflow.getConsentReference(), workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
         return ResponseEntity.ok(workflow.getAuthResponse());
     }
 

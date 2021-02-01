@@ -190,26 +190,4 @@ class CmsAspspConsentDataServiceImplTest {
         boolean isFailed = service.isFailedLogin("id");
         assertTrue(isFailed);
     }
-
-    @Test
-    void fromBytes() throws IOException {
-        when(mapper.readTree(any(byte[].class))).thenAnswer(i -> new ObjectMapper().readTree((byte[]) i.getArgument(0)));
-        when(mapper.readValue(any(byte[].class), eq(SCAConsentResponseTO.class))).thenReturn(getScaConsentResponseTO(LocalDateTime.now(), new UserTO()));
-        SCAConsentResponseTO to = new SCAConsentResponseTO();
-        to.setObjectType(SCAConsentResponseTO.class.getSimpleName());
-        byte[] bytes = new ObjectMapper().writeValueAsBytes(to);
-        GlobalScaResponseTO result = service.fromBytes(bytes);
-        assertNotNull(result);
-    }
-
-    @Test
-    void fromBytes_2() throws IOException {
-        when(mapper.readTree(any(byte[].class))).thenAnswer(i -> new ObjectMapper().readTree((byte[]) i.getArgument(0)));
-        when(mapper.readValue(any(byte[].class), eq(SCAPaymentResponseTO.class))).thenReturn(getScaPaymentResponseTO(LocalDateTime.now(), new UserTO()));
-        SCAPaymentResponseTO to = new SCAPaymentResponseTO();
-        to.setObjectType(SCAPaymentResponseTO.class.getSimpleName());
-        byte[] bytes = new ObjectMapper().writeValueAsBytes(to);
-        GlobalScaResponseTO result = service.fromBytes(bytes);
-        assertNotNull(result);
-    }
 }

@@ -8,9 +8,10 @@ import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
-import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
-import de.adorsys.ledgers.oba.service.api.service.ConsentReferencePolicy;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentType;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
+import de.adorsys.ledgers.oba.service.api.service.ConsentReferencePolicy;
 import de.adorsys.ledgers.util.Ids;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -20,8 +21,6 @@ import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
 import java.util.Date;
-
-import static de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode.ACCESS_FORBIDDEN;
 
 @Slf4j
 @Component
@@ -140,11 +139,11 @@ public class DefaultConsentReferencePolicy implements ConsentReferencePolicy {
         return cr;
     }
 
-    private AuthorizationException invalidConsent(String message) {
+    private ObaException invalidConsent(String message) {
         log.warn(message);
-        return AuthorizationException.builder()
-            .errorCode(ACCESS_FORBIDDEN)
-            .devMessage(message)
-            .build();
+        return ObaException.builder()
+                   .obaErrorCode(ObaErrorCode.ACCESS_FORBIDDEN)
+                   .devMessage(message)
+                   .build();
     }
 }

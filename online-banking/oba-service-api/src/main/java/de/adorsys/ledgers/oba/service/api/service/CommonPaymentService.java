@@ -7,7 +7,7 @@ import de.adorsys.ledgers.oba.service.api.domain.PaymentWorkflow;
 public interface CommonPaymentService {
     PaymentWorkflow selectScaForPayment(String encryptedPaymentId, String authorisationId, String scaMethodId, String consentAndAccessTokenCookieString, String psuId, BearerTokenTO tokenTO);
 
-    PaymentWorkflow identifyPayment(String encryptedPaymentId, String authorizationId, boolean strict, String consentCookieString, String psuId, BearerTokenTO bearerToken);
+    PaymentWorkflow identifyPayment(String encryptedPaymentId, String authorizationId, boolean strict, String consentCookieString, BearerTokenTO bearerToken);
 
     void updateAspspConsentData(PaymentWorkflow paymentWorkflow);
 

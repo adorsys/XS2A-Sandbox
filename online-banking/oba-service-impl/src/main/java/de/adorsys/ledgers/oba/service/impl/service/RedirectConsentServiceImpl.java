@@ -14,7 +14,8 @@ import de.adorsys.ledgers.middleware.client.rest.RedirectScaRestClient;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentWorkflow;
-import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.api.service.CmsAspspConsentDataService;
 import de.adorsys.ledgers.oba.service.api.service.ConsentReferencePolicy;
 import de.adorsys.ledgers.oba.service.api.service.RedirectConsentService;
@@ -44,7 +45,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode.LOGIN_FAILED;
 import static de.adorsys.psd2.consent.aspsp.api.config.CmsPsuApiDefaultValue.DEFAULT_SERVICE_INSTANCE_ID;
 import static de.adorsys.psd2.xs2a.core.consent.AisConsentRequestType.*;
 import static java.util.Objects.requireNonNull;
@@ -112,8 +112,8 @@ public class RedirectConsentServiceImpl implements RedirectConsentService {
 
     private void checkAccess(Set<String> ibansFromAccess, Set<String> ibans) {
         if (!ibans.containsAll(ibansFromAccess)) {
-            throw AuthorizationException.builder()
-                      .errorCode(LOGIN_FAILED)
+            throw ObaException.builder()
+                      .obaErrorCode(ObaErrorCode.LOGIN_FAILED)
                       .devMessage("Operation you're logging in is not meant for current user")
                       .build();
         }

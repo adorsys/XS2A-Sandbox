@@ -68,36 +68,6 @@ class ResponseUtilsTest {
     }
 
     @Test
-    void unknownCredentials() {
-        // Given
-        HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
-        when(cookieConfigProperties.getPath()).thenReturn("somePath");
-
-        // When
-        ResponseEntity<OnlineBankingResponse> responseResponseEntity = responseUtils.unknownCredentials(new AuthorizeResponse(), response);
-
-        // Then
-        assertTrue(responseResponseEntity.getStatusCode().is4xxClientError());
-        assertSame(HttpStatus.FORBIDDEN, responseResponseEntity.getStatusCode());
-        assertFalse(Objects.requireNonNull(responseResponseEntity.getBody()).getPsuMessages().isEmpty());
-    }
-
-    @Test
-    void couldNotProcessRequest() {
-        // Given
-        HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
-        when(cookieConfigProperties.getPath()).thenReturn("somePath");
-
-        // When
-        ResponseEntity<OnlineBankingResponse> responseResponseEntity = responseUtils.couldNotProcessRequest(new AuthorizeResponse(), "couldNotProcessRequest", HttpStatus.BAD_REQUEST, response);
-
-        // Then
-        assertTrue(responseResponseEntity.getStatusCode().is4xxClientError());
-        assertSame(HttpStatus.BAD_REQUEST, responseResponseEntity.getStatusCode());
-        assertFalse(Objects.requireNonNull(responseResponseEntity.getBody()).getPsuMessages().isEmpty());
-    }
-
-    @Test
     void redirect() {
         // Given
         HttpServletResponse response = Mockito.mock(HttpServletResponse.class);

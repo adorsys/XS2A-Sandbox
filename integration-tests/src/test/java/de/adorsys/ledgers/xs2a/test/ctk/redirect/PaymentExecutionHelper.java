@@ -3,10 +3,9 @@ package de.adorsys.ledgers.xs2a.test.ctk.redirect;
 import de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.um.ScaUserDataTO;
+import de.adorsys.ledgers.oba.rest.client.ObaPisApiClient;
 import de.adorsys.ledgers.oba.service.api.domain.AuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
-import de.adorsys.ledgers.oba.rest.api.resource.exception.PaymentAuthorizeException;
-import de.adorsys.ledgers.oba.rest.client.ObaPisApiClient;
 import de.adorsys.ledgers.xs2a.client.PaymentApiClient;
 import de.adorsys.psd2.model.PaymentInitationRequestResponse201;
 import de.adorsys.psd2.model.PaymentInitiationStatusResponse200Json;
@@ -103,7 +102,7 @@ public class PaymentExecutionHelper {
         }
     }
 
-    public ResponseEntity<PaymentAuthorizeResponse> login(PaymentInitationRequestResponse201 initiatedPayment) throws MalformedURLException, PaymentAuthorizeException {
+    public ResponseEntity<PaymentAuthorizeResponse> login(PaymentInitationRequestResponse201 initiatedPayment) throws MalformedURLException {
         String scaRedirectLink = getLink(initiatedPayment.getLinks(), "scaRedirect");
         String encryptedPaymentId = initiatedPayment.getPaymentId();
         String redirectId = QuerryParser.param(scaRedirectLink, "redirectId");
