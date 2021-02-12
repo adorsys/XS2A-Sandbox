@@ -70,7 +70,7 @@ class ObaAisConsentMapperTest {
     private CmsAisAccountConsent getCmsAisAccountConsent() {
         return new CmsAisAccountConsent(CONSENT_ID, getAisAccountAccess(), false, LocalDate.now().plusMonths(1), LocalDate.now().plusMonths(1), 3, LocalDate.now(), ConsentStatus.VALID, false, false,
                                         AisConsentRequestType.GLOBAL, Collections.singletonList(getPsuIdData()), getTppInfo(), new AuthorisationTemplate(), false, Collections.emptyList(),
-                                        Collections.emptyMap(), OffsetDateTime.MIN, OffsetDateTime.MIN, null);
+                                        Collections.emptyMap(), OffsetDateTime.MIN, OffsetDateTime.MIN, null, null);
     }
 
     private TppInfo getTppInfo() {
