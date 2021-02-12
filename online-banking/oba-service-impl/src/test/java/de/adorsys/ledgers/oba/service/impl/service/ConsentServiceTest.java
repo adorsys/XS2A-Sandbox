@@ -35,6 +35,7 @@ import feign.RequestTemplate;
 import feign.Response;
 import org.adorsys.ledgers.consent.aspsp.rest.client.CmsAspspAisClient;
 import org.adorsys.ledgers.consent.aspsp.rest.client.CmsAspspPiisClient;
+import org.adorsys.ledgers.consent.mixin.ResponseDataMixIn;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient;
 import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
 import org.junit.jupiter.api.Test;
@@ -100,7 +101,7 @@ class ConsentServiceTest {
     @Test
     void getListOfConsents() {
         // Given
-        when(cmsPsuAisClient.getConsentsForPsu(any(), any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok(Collections.singletonList(getCmsAisAccountConsent())));
+        when(cmsPsuAisClient.getConsentsForPsu(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok(Collections.singletonList(getCmsAisAccountConsent())));
         when(securityDataService.encryptId(any())).thenReturn(Optional.of("consent"));
 
         // When
@@ -115,7 +116,7 @@ class ConsentServiceTest {
     @Test
     void getListOfConsents_failedGetConsent() {
         // Given
-        when(cmsPsuAisClient.getConsentsForPsu(any(), any(), any(), any(), any(), any(), any())).thenThrow(FeignException.class);
+        when(cmsPsuAisClient.getConsentsForPsu(any(), any(), any(), any(), any(), any(), any(), any())).thenThrow(FeignException.class);
 
         // Then
         assertThrows(ObaException.class, () -> consentService.getListOfConsents(USER_LOGIN));
@@ -308,7 +309,7 @@ class ConsentServiceTest {
     private CmsAisAccountConsent getCmsAisAccountConsent() {
         return new CmsAisAccountConsent(CONSENT_ID, getAisAccountAccess(), false, LocalDate.now().plusMonths(1), LocalDate.now().plusMonths(1), 3, LocalDate.now(), ConsentStatus.VALID, false, false,
                                         AisConsentRequestType.BANK_OFFERED, Collections.emptyList(), new TppInfo(), new AuthorisationTemplate(), false, Collections.emptyList(),
-                                        Collections.emptyMap(), OffsetDateTime.MIN, OffsetDateTime.MIN, null);
+                                        Collections.emptyMap(), OffsetDateTime.MIN, OffsetDateTime.MIN, null, null);
     }
 
     private AisAccountAccess getAisAccountAccess() {
@@ -357,8 +358,8 @@ class ConsentServiceTest {
                                                               consent.setId(String.valueOf(i));
                                                               return consent;
                                                           }).collect(Collectors.toList());
-        ResponseData<Collection<CmsAisAccountConsent>> consentResponse = ResponseData.list(collection, new CmsPageInfo(0, 10, 10), null);
-        when(cmsAspspAisClient.getConsentsByPsu(any(), any(), anyString(), any(), any(), any(), any(), any(), any()))
+        ResponseDataMixIn<Collection<CmsAisAccountConsent>> consentResponse = /*ResponseDataMixIn.list(collection, new CmsPageInfo(0, 10, 10), null);*/new ResponseDataMixIn(collection,new CmsPageInfo(0, 10, 10), null);
+        when(cmsAspspAisClient.getConsentsByPsu(any(), any(), anyString(), any(), any(), any(), any(), any(), any(), any()))
             .thenReturn(consentResponse);
         CustomPageImpl<ObaAisConsent> result = consentService.getListOfConsentsPaged(USER_LOGIN, 0, 10);
         assertEquals(10, result.getNumberOfElements());
@@ -373,7 +374,7 @@ class ConsentServiceTest {
 
     @Test
     void getListOfConsentsPaged_error() {
-        when(cmsAspspAisClient.getConsentsByPsu(any(), any(), anyString(), any(), any(), any(), any(), any(), any()))
+        when(cmsAspspAisClient.getConsentsByPsu(any(), any(), anyString(), any(), any(), any(), any(), any(), any(), any()))
             .thenThrow(FeignException.class);
         ObaException exception = assertThrows(ObaException.class, () -> consentService.getListOfConsentsPaged(USER_LOGIN, 0, 10));
         assertEquals(AIS_BAD_REQUEST, exception.getObaErrorCode());

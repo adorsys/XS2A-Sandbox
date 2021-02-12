@@ -3,12 +3,13 @@ package de.adorsys.ledgers.oba.rest.server.auth.oba;
 import de.adorsys.ledgers.keycloak.client.api.KeycloakTokenService;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.AccessDeniedException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -39,10 +40,12 @@ public class TokenAuthenticationFilter extends AbstractAuthFilter {
                 BearerTokenTO validateResponse = tokenService.validate(bearerToken);
 
                 BearerTokenTO token = Optional.ofNullable(validateResponse)
-                                          .orElseThrow(() -> new RestException("Couldn't get bearer token"));
+                                          .orElseThrow(() -> ObaException.builder()
+                                                                 .obaErrorCode(ObaErrorCode.ACCESS_FORBIDDEN)
+                                                                 .devMessage("Couldn't get bearer token").build());
 
                 fillSecurityContext(token);
-            } catch (FeignException | RestException| AccessDeniedException e) {
+            } catch (FeignException | ObaException e) {
                 handleAuthenticationFailure(response, e);
                 return;
             }

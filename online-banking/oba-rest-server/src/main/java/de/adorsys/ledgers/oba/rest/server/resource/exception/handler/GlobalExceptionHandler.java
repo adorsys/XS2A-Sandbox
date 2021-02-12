@@ -2,15 +2,8 @@ package de.adorsys.ledgers.oba.rest.server.resource.exception.handler;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.adorsys.ledgers.oba.rest.api.resource.exception.PaymentAuthorizeException;
 import de.adorsys.ledgers.oba.rest.server.auth.oba.ErrorResponse;
 import de.adorsys.ledgers.oba.rest.server.resource.exception.resolver.AisExceptionStatusResolver;
-import de.adorsys.ledgers.oba.rest.server.resource.exception.resolver.AuthorizationExceptionStatusResolver;
-import de.adorsys.ledgers.oba.service.api.domain.OnlineBankingResponse;
-import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
-import de.adorsys.ledgers.oba.service.api.domain.PsuMessage;
-import de.adorsys.ledgers.oba.service.api.domain.PsuMessageCategory;
-import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +17,6 @@ import org.springframework.web.method.HandlerMethod;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.nio.ByteBuffer;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -40,20 +31,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ObaException.class)
     public ResponseEntity<Map<String, String>> handleAisException(ObaException e) {
         HttpStatus status = AisExceptionStatusResolver.resolveHttpStatusByCode(e.getObaErrorCode());
-        Map<String, String> message = buildContentMap(status.value(), e.getDevMessage());
-        return ResponseEntity.status(status).body(message);
-    }
-
-    @ExceptionHandler(PaymentAuthorizeException.class)
-    public ResponseEntity<Map<String, String>> handlePaymentAuthorizeException(PaymentAuthorizeException e) {
-        PsuMessage psuMessage = extractPsuMessage(e.getError());
-        Map<String, String> content = buildContentMap(psuMessage.getCode(), psuMessage.getText());
-        return new ResponseEntity<>(content, HttpStatus.valueOf(Integer.parseInt(psuMessage.getCode())));
-    }
-
-    @ExceptionHandler(AuthorizationException.class)
-    public ResponseEntity<Map<String, String>> handleAuthException(AuthorizationException e) {
-        HttpStatus status = AuthorizationExceptionStatusResolver.resolveHttpStatusByCode(e.getErrorCode());
         Map<String, String> message = buildContentMap(status.value(), e.getDevMessage());
         return ResponseEntity.status(status).body(message);
     }
@@ -78,21 +55,6 @@ public class GlobalExceptionHandler {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
         Map<String, String> message = buildContentMap(status.value(), e.getMessage());
         return ResponseEntity.status(status).body(message);
-    }
-
-    private PsuMessage extractPsuMessage(ResponseEntity<PaymentAuthorizeResponse> error) {
-        return Optional.ofNullable(error.getBody())
-                   .map(OnlineBankingResponse::getPsuMessages)
-                   .map(List::iterator)
-                   .map(Iterator::next)
-                   .orElse(new PsuMessage()
-                               .category(PsuMessageCategory.ERROR)
-                               .code(String.valueOf(error.getStatusCodeValue()))
-                               .text("No message available"));
-    }
-
-    private Map<String, String> buildContentMap(String code, String message) {
-        return buildContentMap(Integer.parseInt(code), message);
     }
 
     private Map<String, String> buildContentMap(int code, String message) {

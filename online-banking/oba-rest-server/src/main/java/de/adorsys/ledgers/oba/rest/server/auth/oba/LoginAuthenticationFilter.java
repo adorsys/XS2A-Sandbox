@@ -35,7 +35,7 @@ public class LoginAuthenticationFilter extends AbstractAuthFilter {
 
                 fillSecurityContext(bearerTokenTO);
                 addBearerTokenHeader(bearerTokenTO.getAccess_token(), response);
-            } catch (FeignException | RestException e) {
+            } catch (FeignException e) {
                 handleAuthenticationFailure(response, e);
                 return;
             }

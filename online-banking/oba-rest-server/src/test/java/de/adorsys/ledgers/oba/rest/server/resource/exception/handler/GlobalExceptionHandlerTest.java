@@ -3,18 +3,14 @@ package de.adorsys.ledgers.oba.rest.server.resource.exception.handler;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTO;
-import de.adorsys.ledgers.oba.rest.api.resource.exception.PaymentAuthorizeException;
-import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
-import de.adorsys.ledgers.oba.service.api.domain.PsuMessage;
-import de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode;
-import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
+import de.adorsys.ledgers.oba.rest.server.resource.exception.resolver.AisExceptionStatusResolver;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import feign.FeignException;
 import feign.Request;
 import feign.RequestTemplate;
 import feign.Response;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -25,20 +21,35 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.method.HandlerMethod;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
+@Slf4j
 @ExtendWith(MockitoExtension.class)
 class GlobalExceptionHandlerTest {
     private final ObjectMapper STATIC_MAPPER = new ObjectMapper().findAndRegisterModules().registerModule(new JavaTimeModule());
 
     @InjectMocks
     private GlobalExceptionHandler service;
+
+    @Test
+    void handler_coverage() {
+        boolean allMatch = Arrays.stream(ObaErrorCode.values())
+                               .map(c -> {
+                                   HttpStatus status = AisExceptionStatusResolver.resolveHttpStatusByCode(c);
+                                   if (status == null) {
+                                       log.error("ErrorCode {} not covered with resolver!", c.name());
+                                   }
+                                   return status;
+                               })
+                               .allMatch(Objects::nonNull);
+        assertTrue(allMatch);
+    }
 
     @Test
     void handleAisException() throws NoSuchFieldException {
@@ -50,33 +61,6 @@ class GlobalExceptionHandlerTest {
 
         // Then
         compareBodies(result, ResponseEntity.status(HttpStatus.BAD_REQUEST).body(getExpected(400, "Msg")));
-    }
-
-    @Test
-    void handlePaymentAuthorizeException() throws NoSuchFieldException {
-        // Given
-        FieldSetter.setField(service, service.getClass().getDeclaredField("objectMapper"), STATIC_MAPPER);
-        PaymentAuthorizeResponse authorizeResponse = new PaymentAuthorizeResponse(new PaymentTO());
-        PsuMessage message = new PsuMessage();
-        message.setCode("400");
-        message.setText("Msg");
-        authorizeResponse.setPsuMessages(List.of(message));
-
-        // When
-        ResponseEntity<Map<String, String>> result = service.handlePaymentAuthorizeException(new PaymentAuthorizeException(ResponseEntity.status(HttpStatus.NOT_FOUND).body(authorizeResponse)));
-
-        // Then
-        compareBodies(result, ResponseEntity.status(HttpStatus.BAD_REQUEST).body(getExpected(400, "Msg")));
-    }
-
-    @Test
-    void handleAuthException() throws NoSuchFieldException {
-        // Given
-        FieldSetter.setField(service, service.getClass().getDeclaredField("objectMapper"), STATIC_MAPPER);
-        ResponseEntity<Map<String, String>> result = service.handleAuthException(AuthorizationException.builder().devMessage("Msg").errorCode(AuthErrorCode.ACCESS_FORBIDDEN).build());
-
-        // Then
-        compareBodies(result, ResponseEntity.status(HttpStatus.FORBIDDEN).body(getExpected(403, "Msg")));
     }
 
     @Test

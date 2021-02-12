@@ -1,5 +1,5 @@
 // where are images located?
-:imagesdir: ./images
+:imagesdir: ../images
 
 // print warnings if used attributes are not set (e.g. acc-version)
 :attribute-missing: warn

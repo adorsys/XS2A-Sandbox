@@ -12,7 +12,6 @@ import de.adorsys.ledgers.middleware.client.rest.AccountRestClient;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.middleware.client.rest.OauthRestClient;
 import de.adorsys.ledgers.oba.rest.api.resource.AISApi;
-import de.adorsys.ledgers.oba.rest.api.resource.exception.ConsentAuthorizeException;
 import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
 import de.adorsys.ledgers.oba.service.api.domain.AuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentAuthorizeResponse;
@@ -98,12 +97,8 @@ public class AISController implements AISApi {
         }
 
         String psuId = AuthUtils.psuId(workflow.bearerToken());
-        try {
-            updatePSUIdentification(workflow, psuId);
-            redirectConsentService.updateScaStatusAndConsentData(psuId, workflow);
-        } catch (ConsentAuthorizeException e) {
-            return e.getError();
-        }
+        updatePSUIdentification(workflow, psuId);
+        redirectConsentService.updateScaStatusAndConsentData(psuId, workflow);
         return resolveResponseByScaStatus(workflow, true);
 
     }
@@ -111,67 +106,51 @@ public class AISController implements AISApi {
     @Override
     public ResponseEntity<ConsentAuthorizeResponse> startConsentAuth(String encryptedConsentId, String authorisationId, String consentAndAccessTokenCookieString, AisConsentTO aisConsent) {
         String psuId = AuthUtils.psuId(middlewareAuth);
-        ConsentWorkflow workflow;
-        List<AccountDetailsTO> listOfAccounts;
-        try {
-            String consentCookie = responseUtils.consentCookie(consentAndAccessTokenCookieString);
-            workflow = redirectConsentService.identifyConsent(encryptedConsentId, authorisationId, false, consentCookie, middlewareAuth.getBearerToken());
-            listOfAccounts = listOfAccounts(workflow);
-            redirectConsentService.startConsent(workflow, aisConsent, listOfAccounts);
-            redirectConsentService.updateScaStatusAndConsentData(psuId, workflow);
-        } catch (ConsentAuthorizeException e) {
-            return e.getError();
-        }
-
+        String consentCookie = responseUtils.consentCookie(consentAndAccessTokenCookieString);
+        ConsentWorkflow workflow = redirectConsentService.identifyConsent(encryptedConsentId, authorisationId, false, consentCookie, middlewareAuth.getBearerToken());
+        List<AccountDetailsTO> listOfAccounts = listOfAccounts(workflow);
+        redirectConsentService.startConsent(workflow, aisConsent, listOfAccounts);
+        redirectConsentService.updateScaStatusAndConsentData(psuId, workflow);
         return resolveResponseByScaStatus(workflow, false);
     }
 
     @Override
     public ResponseEntity<ConsentAuthorizeResponse> authrizedConsent(String encryptedConsentId, String authorisationId, String consentAndAccessTokenCookieString, String authCode) {
         String psuId = AuthUtils.psuId(middlewareAuth);
-        try {
-            String consentCookie = responseUtils.consentCookie(consentAndAccessTokenCookieString);
-            ConsentWorkflow workflow = redirectConsentService.identifyConsent(encryptedConsentId, authorisationId, true, consentCookie, middlewareAuth.getBearerToken());
 
-            workflow = redirectConsentService.authorizeConsent(workflow, authCode);
+        String consentCookie = responseUtils.consentCookie(consentAndAccessTokenCookieString);
+        ConsentWorkflow workflow = redirectConsentService.identifyConsent(encryptedConsentId, authorisationId, true, consentCookie, middlewareAuth.getBearerToken());
 
-            if (workflow.getConsentStatus().equals(VALID.name())) {
-                boolean isConfirmedConsent = Optional.ofNullable(cmsPsuAisClient.confirmConsent(workflow.consentId(), DEFAULT_SERVICE_INSTANCE_ID).getBody()).orElse(false);
-                if (!isConfirmedConsent) { //TODO This is a workaround! Should be fixed with separate OBA controller set!
-                    log.info("Consent not found so assume we have a PIIS consent");
-                    cmsPsuPiisV2Client.updateConsentStatus(workflow.consentId(), VALID.name(), DEFAULT_SERVICE_INSTANCE_ID);
-                }
+        workflow = redirectConsentService.authorizeConsent(workflow, authCode);
+
+        if (workflow.getConsentStatus().equals(VALID.name())) {
+            boolean isConfirmedConsent = Optional.ofNullable(cmsPsuAisClient.confirmConsent(workflow.consentId(), DEFAULT_SERVICE_INSTANCE_ID).getBody()).orElse(false);
+            if (!isConfirmedConsent) { //TODO This is a workaround! Should be fixed with separate OBA controller set!
+                log.info("Consent not found so assume we have a PIIS consent");
+                cmsPsuPiisV2Client.updateConsentStatus(workflow.consentId(), VALID.name(), DEFAULT_SERVICE_INSTANCE_ID);
             }
-            redirectConsentService.updateScaStatusAndConsentData(psuId, workflow);
-
-            // if consent is partially authorized the access token is null
-            Optional<BearerTokenTO> token = Optional.ofNullable(workflow.bearerToken());
-            String tokenString = token.map(BearerTokenTO::getAccess_token).orElse("");
-            AccessTokenTO tokenTO = token.map(BearerTokenTO::getAccessTokenObject).orElse(null);
-            responseUtils.setCookies(response, workflow.getConsentReference(), tokenString, tokenTO);
-            log.info("Confirmation code: {}", workflow.getAuthResponse().getAuthConfirmationCode());
-            return ResponseEntity.ok(workflow.getAuthResponse());
-        } catch (ConsentAuthorizeException e) {
-            return e.getError();
-        } finally {
-            authInterceptor.setAccessToken(null);
         }
+        redirectConsentService.updateScaStatusAndConsentData(psuId, workflow);
+
+        // if consent is partially authorized the access token is null
+        Optional<BearerTokenTO> token = Optional.ofNullable(workflow.bearerToken());
+        String tokenString = token.map(BearerTokenTO::getAccess_token).orElse("");
+        AccessTokenTO tokenTO = token.map(BearerTokenTO::getAccessTokenObject).orElse(null);
+        responseUtils.setCookies(response, workflow.getConsentReference(), tokenString, tokenTO);
+        log.info("Confirmation code: {}", workflow.getAuthResponse().getAuthConfirmationCode());
+        return ResponseEntity.ok(workflow.getAuthResponse());
     }
 
     @Override
     public ResponseEntity<ConsentAuthorizeResponse> selectMethod(String encryptedConsentId, String authorisationId, String scaMethodId, String consentAndAccessTokenCookieString) {
         String psuId = AuthUtils.psuId(middlewareAuth);
-        try {
-            String consentCookie = responseUtils.consentCookie(consentAndAccessTokenCookieString);
-            ConsentWorkflow workflow = redirectConsentService.identifyConsent(encryptedConsentId, authorisationId, true, consentCookie, middlewareAuth.getBearerToken());
-            redirectConsentService.selectScaMethod(scaMethodId, encryptedConsentId, workflow);
-            redirectConsentService.updateScaStatusAndConsentData(psuId, workflow);
-            responseUtils.setCookies(response, workflow.getConsentReference(), workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
+        String consentCookie = responseUtils.consentCookie(consentAndAccessTokenCookieString);
+        ConsentWorkflow workflow = redirectConsentService.identifyConsent(encryptedConsentId, authorisationId, true, consentCookie, middlewareAuth.getBearerToken());
+        redirectConsentService.selectScaMethod(scaMethodId, encryptedConsentId, workflow);
+        redirectConsentService.updateScaStatusAndConsentData(psuId, workflow);
+        responseUtils.setCookies(response, workflow.getConsentReference(), workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
 
-            return ResponseEntity.ok(workflow.getAuthResponse());
-        } catch (ConsentAuthorizeException e) {
-            return e.getError();
-        }
+        return ResponseEntity.ok(workflow.getAuthResponse());
     }
 
     @Override
@@ -216,14 +195,9 @@ public class AISController implements AISApi {
 
     @Override
     public ResponseEntity<ConsentAuthorizeResponse> revokeConsent(@NotNull String encryptedConsentId, @NotNull String authorisationId, String cookieString) {
-        ConsentWorkflow workflow;
-        try {
-            String consentCookie = responseUtils.consentCookie(cookieString);
-            workflow = redirectConsentService.identifyConsent(encryptedConsentId, authorisationId, true, consentCookie, middlewareAuth.getBearerToken());
-            authInterceptor.setAccessToken(middlewareAuth.getBearerToken().getAccess_token());
-        } catch (ConsentAuthorizeException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        String consentCookie = responseUtils.consentCookie(cookieString);
+        ConsentWorkflow workflow = redirectConsentService.identifyConsent(encryptedConsentId, authorisationId, true, consentCookie, middlewareAuth.getBearerToken());
+        authInterceptor.setAccessToken(middlewareAuth.getBearerToken().getAccess_token());
 
         String psuId = AuthUtils.psuId(middlewareAuth);
         if (failAuthorisation(workflow.consentId(), psuId, authorisationId)) {
@@ -282,12 +256,7 @@ public class AISController implements AISApi {
 
     private void updatePSUIdentification(ConsentWorkflow workflow, String psuId) {
         PsuIdData psuIdData = new PsuIdData(psuId, null, null, null, null);
-        ResponseEntity<?> resp = cmsPsuAisClient.updatePsuDataInConsent(workflow.consentId(), workflow.authId(),
-                                                                        DEFAULT_SERVICE_INSTANCE_ID, psuIdData);
-        if (!HttpStatus.OK.equals(resp.getStatusCode())) {
-            throw new ConsentAuthorizeException(responseUtils.couldNotProcessRequest(new ConsentAuthorizeResponse(),
-                                                                                     "Error updating psu identification. See error code.", resp.getStatusCode(), response));
-        }
+        cmsPsuAisClient.updatePsuDataInConsent(workflow.consentId(), workflow.authId(), DEFAULT_SERVICE_INSTANCE_ID, psuIdData);
     }
 
     /*

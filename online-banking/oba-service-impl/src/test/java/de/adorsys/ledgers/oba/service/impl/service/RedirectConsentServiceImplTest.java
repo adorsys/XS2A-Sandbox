@@ -18,7 +18,7 @@ import de.adorsys.ledgers.oba.service.api.domain.ConsentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentType;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentWorkflow;
-import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.api.service.CmsAspspConsentDataService;
 import de.adorsys.ledgers.oba.service.api.service.ConsentReferencePolicy;
 import de.adorsys.ledgers.oba.service.impl.mapper.ObaAisConsentMapper;
@@ -120,7 +120,7 @@ class RedirectConsentServiceImplTest {
         ConsentWorkflow workflow = getConsentWorkflow(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_FR);
         List<AccountDetailsTO> details = List.of(getAccountDetails());
         // When
-        assertThrows(AuthorizationException.class, () -> redirectConsentService.updateAccessByConsentType(workflow, details));
+        assertThrows(ObaException.class, () -> redirectConsentService.updateAccessByConsentType(workflow, details));
     }
 
     @Test
@@ -206,7 +206,6 @@ class RedirectConsentServiceImplTest {
     private ConsentAuthorizeResponse getConsentAuthorizeResponse() {
         ConsentAuthorizeResponse response = new ConsentAuthorizeResponse();
         response.setAccounts(singletonList(getAccountDetails()));
-        response.setAuthMessageTemplate("authMessageTemplate");
         response.setConsent(getAisConsentTO());
         response.setScaStatus(ScaStatusTO.FINALISED);
         return response;
@@ -237,7 +236,7 @@ class RedirectConsentServiceImplTest {
     private CmsAisAccountConsent getCmsAisAccountConsent(AisConsentRequestType type, String iban) {
         return new CmsAisAccountConsent(CONSENT_ID, getAisAccountAccess(iban), false, LocalDate.now().plusMonths(1), LocalDate.now().plusMonths(1), 3, LocalDate.now(), ConsentStatus.VALID, false, false,
                                         type, Collections.emptyList(), new TppInfo(), new AuthorisationTemplate(), false, Collections.emptyList(),
-                                        Collections.emptyMap(), OffsetDateTime.MIN, OffsetDateTime.MIN, null);
+                                        Collections.emptyMap(), OffsetDateTime.MIN, OffsetDateTime.MIN, null, null);
     }
 
     private AisAccountAccess getAisAccountAccess(String iban) {

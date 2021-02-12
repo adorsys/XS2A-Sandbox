@@ -78,7 +78,7 @@ public class ConsentServiceImpl implements ConsentService {
     @Override
     public List<ObaAisConsent> getListOfConsents(String userLogin) {
         try {
-            List<CmsAisAccountConsent> aisAccountConsents = Optional.ofNullable(cmsPsuAisClient.getConsentsForPsu(userLogin, null, null, null, DEFAULT_SERVICE_INSTANCE_ID, null, null).getBody())
+            List<CmsAisAccountConsent> aisAccountConsents = Optional.ofNullable(cmsPsuAisClient.getConsentsForPsu(userLogin, null, null, null, DEFAULT_SERVICE_INSTANCE_ID, 0, 9999, null).getBody())
                                                                 .orElse(Collections.emptyList());
             return toObaAisConsent(aisAccountConsents);
         } catch (FeignException e) {
@@ -93,7 +93,7 @@ public class ConsentServiceImpl implements ConsentService {
     @Override
     public CustomPageImpl<ObaAisConsent> getListOfConsentsPaged(String userLogin, int page, int size) {
         try {
-            ResponseData<Collection<CmsAisAccountConsent>> responseData = cmsAspspAisClient.getConsentsByPsu(null, null, userLogin, null, null, null, DEFAULT_SERVICE_INSTANCE_ID, page, size);
+            ResponseData<Collection<CmsAisAccountConsent>> responseData = cmsAspspAisClient.getConsentsByPsu(null, null, userLogin, null, null, null, DEFAULT_SERVICE_INSTANCE_ID, page, size, null);
             return toCustomPage(responseData, this::toObaAisConsent);
         } catch (FeignException e) {
             String msg = format(GET_CONSENTS_ERROR_MSG, userLogin, e.status(), e.getMessage());
@@ -133,7 +133,7 @@ public class ConsentServiceImpl implements ConsentService {
         setActiveAccessTokenFromConsentData(encryptedConsentId);
 
         SCAConsentResponseTO ledgerValidateTanConsentResponse = authorizeConsentAtLedgers(authorizationId, tan);
-        confirmConsentAtCms(userLogin, consentId);
+        confirmConsentAtCms(consentId);
         updateCmsAuthorization(userLogin, authorizationId, consentId);
         updateAspspConsentDataForConsent(encryptedConsentId, ledgerValidateTanConsentResponse);
         authInterceptor.setAccessToken(null);
@@ -186,8 +186,7 @@ public class ConsentServiceImpl implements ConsentService {
         }
     }
 
-    @SuppressWarnings("PMD.UnusedFormalParameter")
-    private void confirmConsentAtCms(String userLogin, String consentId) {
+    private void confirmConsentAtCms(String consentId) {
         try {
             cmsPsuAisClient.confirmConsent(consentId, DEFAULT_SERVICE_INSTANCE_ID);
         } catch (FeignException e) {

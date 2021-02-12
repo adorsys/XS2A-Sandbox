@@ -59,14 +59,14 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
 
     @Override
     public PaymentWorkflow selectScaForPayment(String encryptedPaymentId, String authorisationId, String scaMethodId, String consentAndAccessTokenCookieString, String psuId, BearerTokenTO tokenTO) {
-        PaymentWorkflow workflow = identifyPayment(encryptedPaymentId, authorisationId, true, consentAndAccessTokenCookieString, psuId, tokenTO);
+        PaymentWorkflow workflow = identifyPayment(encryptedPaymentId, authorisationId, true, consentAndAccessTokenCookieString, tokenTO);
         selectMethodAndUpdateWorkflow(scaMethodId, encryptedPaymentId, workflow);
         doUpdateAuthData(psuId, workflow);
         return workflow;
     }
 
     @Override
-    public PaymentWorkflow identifyPayment(String encryptedPaymentId, String authorizationId, boolean strict, String consentCookieString, String psuId, BearerTokenTO bearerToken) {
+    public PaymentWorkflow identifyPayment(String encryptedPaymentId, String authorizationId, boolean strict, String consentCookieString, BearerTokenTO bearerToken) {
         ConsentReference consentReference = referencePolicy.fromRequest(encryptedPaymentId, authorizationId, consentCookieString, strict);
         CmsPaymentResponse cmsPaymentResponse = loadPaymentByRedirectId(consentReference);
         PaymentWorkflow workflow = new PaymentWorkflow(cmsPaymentResponse, consentReference);
@@ -92,7 +92,7 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
 
     @Override
     public String resolveRedirectUrl(String encryptedPaymentId, String authorisationId, String consentAndAccessTokenCookieString, boolean isOauth2Integrated, String psuId, BearerTokenTO tokenTO, String authConfirmationCode) {
-        PaymentWorkflow workflow = identifyPayment(encryptedPaymentId, authorisationId, true, consentAndAccessTokenCookieString, psuId, tokenTO);
+        PaymentWorkflow workflow = identifyPayment(encryptedPaymentId, authorisationId, true, consentAndAccessTokenCookieString, tokenTO);
 
         CmsPaymentResponse consentResponse = workflow.getPaymentResponse();
 

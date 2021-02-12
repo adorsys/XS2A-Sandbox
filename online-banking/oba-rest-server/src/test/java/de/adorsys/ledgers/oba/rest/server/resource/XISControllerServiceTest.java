@@ -9,7 +9,6 @@ import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
 import de.adorsys.ledgers.oba.service.api.domain.*;
-import de.adorsys.ledgers.oba.service.api.domain.exception.InvalidConsentException;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.api.service.CmsAspspConsentDataService;
@@ -98,21 +97,6 @@ class XISControllerServiceTest {
 
         // Then
         assertEquals(getExpectedAuthResponse(), result);
-    }
-
-    @Test
-    void auth_fail() throws NoSuchFieldException {
-        // Given
-        FieldSetter.setField(service, service.getClass().getDeclaredField("response"), new MockHttpServletResponse());
-        FieldSetter.setField(service, service.getClass().getDeclaredField("loginPage"), "www.loginPage.html");
-        when(referencePolicy.fromURL(anyString(), any(), anyString())).thenThrow(InvalidConsentException.class);
-        when(responseUtils.unknownCredentials(any(), any())).thenReturn(ResponseEntity.ok(new OnlineBankingResponse()));
-
-        // When
-        ResponseEntity<AuthorizeResponse> result = service.auth(AUTH_ID, ConsentType.AIS, ENCRYPTED_ID, response);
-
-        // Then
-        assertThat(result).isEqualToComparingFieldByFieldRecursively(ResponseEntity.ok(new OnlineBankingResponse()));
     }
 
     @Test

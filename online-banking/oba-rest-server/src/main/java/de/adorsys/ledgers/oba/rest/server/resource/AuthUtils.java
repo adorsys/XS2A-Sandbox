@@ -3,13 +3,12 @@ package de.adorsys.ledgers.oba.rest.server.resource;
 import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
-import de.adorsys.ledgers.oba.service.api.domain.exception.AuthorizationException;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.List;
-
-import static de.adorsys.ledgers.oba.service.api.domain.exception.AuthErrorCode.LOGIN_FAILED;
 
 public class AuthUtils {
 
@@ -35,8 +34,8 @@ public class AuthUtils {
 
     private static void checkUserInitiatedProcedure(String loginFromRequest, BearerTokenTO bearerToken) {
         if (!psuId(bearerToken).equals(loginFromRequest)) {
-            throw AuthorizationException.builder()
-                      .errorCode(LOGIN_FAILED)
+            throw ObaException.builder()
+                      .obaErrorCode(ObaErrorCode.LOGIN_FAILED)
                       .devMessage("Operation you're logging in is not meant for current user")
                       .build();
         }
