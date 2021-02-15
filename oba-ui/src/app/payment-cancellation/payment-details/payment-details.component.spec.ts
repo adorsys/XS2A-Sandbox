@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ShareDataService } from '../../common/services/share-data.service';
 import { PaymentDetailsComponent } from './payment-details.component';
 
@@ -6,7 +6,7 @@ describe('PaymentDetailsComponent', () => {
   let component: PaymentDetailsComponent;
   let fixture: ComponentFixture<PaymentDetailsComponent>;
   let shareDataService: ShareDataService;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [PaymentDetailsComponent],
       providers: [ShareDataService],

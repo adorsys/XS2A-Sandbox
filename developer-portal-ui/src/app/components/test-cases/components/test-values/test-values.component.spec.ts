@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { TestValuesComponent } from './test-values.component';
 import { Pipe, PipeTransform } from '@angular/core';
@@ -26,31 +26,33 @@ describe('TestValuesComponent', () => {
     }
   }
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        BrowserModule,
-        FormsModule,
-        MarkdownModule.forRoot(),
-        HttpClientTestingModule,
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useFactory: HttpLoaderFactory,
-            deps: [HttpClient],
-          },
-        }),
-      ],
-      providers: [
-        LanguageService,
-        TranslateService,
-        DataService,
-        { provide: ToastrService, useValue: ToastrServiceStub },
-        CertificateService,
-      ],
-      declarations: [TestValuesComponent, TranslatePipe],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          BrowserModule,
+          FormsModule,
+          MarkdownModule.forRoot(),
+          HttpClientTestingModule,
+          TranslateModule.forRoot({
+            loader: {
+              provide: TranslateLoader,
+              useFactory: HttpLoaderFactory,
+              deps: [HttpClient],
+            },
+          }),
+        ],
+        providers: [
+          LanguageService,
+          TranslateService,
+          DataService,
+          { provide: ToastrService, useValue: ToastrServiceStub },
+          CertificateService,
+        ],
+        declarations: [TestValuesComponent, TranslatePipe],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestValuesComponent);

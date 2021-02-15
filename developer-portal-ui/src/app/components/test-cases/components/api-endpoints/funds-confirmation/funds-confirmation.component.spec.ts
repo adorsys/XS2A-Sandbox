@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FundsConfirmationComponent } from './funds-confirmation.component';
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -38,20 +38,22 @@ describe('FundsConfirmationComponent', () => {
     }
   }
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        FundsConfirmationComponent,
-        TranslatePipe,
-        PrettyJsonPipe,
-        MockPlayWithDataComponent,
-        LineCommandComponent,
-        CodeAreaComponent,
-      ],
-      imports: [HttpClientTestingModule, NgHttpLoaderModule.forRoot()],
-      providers: [DataService, { provide: ToastrService, useValue: ToastrServiceStub }, SpinnerVisibilityService],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [
+          FundsConfirmationComponent,
+          TranslatePipe,
+          PrettyJsonPipe,
+          MockPlayWithDataComponent,
+          LineCommandComponent,
+          CodeAreaComponent,
+        ],
+        imports: [HttpClientTestingModule, NgHttpLoaderModule.forRoot()],
+        providers: [DataService, { provide: ToastrService, useValue: ToastrServiceStub }, SpinnerVisibilityService],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FundsConfirmationComponent);

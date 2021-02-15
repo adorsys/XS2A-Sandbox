@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { GettingStartedComponent } from './getting-started.component';
 import { DataService } from '../../services/data.service';
@@ -17,25 +17,27 @@ describe('GettingStartedComponent', () => {
 
   const ToastrServiceStub = {};
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        NgxImageZoomModule.forRoot(),
-        RouterTestingModule,
-        MarkdownModule.forRoot(),
-        HttpClientTestingModule,
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useFactory: HttpLoaderFactory,
-            deps: [HttpClient],
-          },
-        }),
-      ],
-      declarations: [GettingStartedComponent],
-      providers: [LanguageService, TranslateService, DataService, { provide: ToastrService, useValue: ToastrServiceStub }],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          NgxImageZoomModule,
+          RouterTestingModule,
+          MarkdownModule.forRoot(),
+          HttpClientTestingModule,
+          TranslateModule.forRoot({
+            loader: {
+              provide: TranslateLoader,
+              useFactory: HttpLoaderFactory,
+              deps: [HttpClient],
+            },
+          }),
+        ],
+        declarations: [GettingStartedComponent],
+        providers: [LanguageService, TranslateService, DataService, { provide: ToastrService, useValue: ToastrServiceStub }],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(GettingStartedComponent);

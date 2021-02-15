@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CustomizeService } from '../../services/customize.service';
 import { TppUserService } from '../../services/tpp.user.service';
 import {NavbarComponent} from './navbar.component';
@@ -18,7 +18,7 @@ describe('NavbarComponent', () => {
     let authService: AuthService;
     const authServiceSpy = jasmine.createSpyObj('AuthService', ['isLoggedIn', 'logout']);
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [
                 RouterTestingModule,

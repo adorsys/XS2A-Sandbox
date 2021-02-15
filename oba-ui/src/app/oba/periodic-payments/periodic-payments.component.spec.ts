@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {OnlineBankingService} from "../../common/services/online-banking.service";
 import {InfoService} from "../../common/info/info.service";
 import { PeriodicPaymentsComponent } from './periodic-payments.component';
@@ -14,7 +14,7 @@ describe('PeriodicPaymentsComponent', () => {
     let fixture: ComponentFixture<PeriodicPaymentsComponent>;
     let inforService: InfoService;
     let onlineBankingService: OnlineBankingService;
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [ReactiveFormsModule, RouterTestingModule, InfoModule, ClipboardModule],
             declarations: [ PeriodicPaymentsComponent ],

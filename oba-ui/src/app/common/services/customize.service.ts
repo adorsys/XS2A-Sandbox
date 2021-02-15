@@ -13,13 +13,13 @@ export class CustomizeService {
   private IS_CUSTOM = false;
   private DEFAULT_THEME: Theme = {
     globalSettings: {
-      logo: 'Logo_XS2ASandbox.png'
+      logo: 'Logo_XS2ASandbox.png',
     },
   };
   private USER_THEME: Theme = {
     globalSettings: {
-      logo: ''
-    }
+      logo: '',
+    },
   };
 
   constructor(private http: HttpClient) {
@@ -27,33 +27,31 @@ export class CustomizeService {
   }
 
   public getJSON(): Observable<Theme> {
-    return this.http
-      .get('../assets/UI/custom/UITheme.json')
-      .pipe(
-        map(data => {
-            let theme = data;
-            this.IS_CUSTOM = true;
-            try {
-                JSON.parse(JSON.stringify(theme));
-                const errors = this.validateTheme(theme);
-                if (errors.length) {
-                    console.log(errors);
-                    theme = this.getDefaultTheme();
-                    this.IS_CUSTOM = false;
-                }
-            } catch (e) {
-                console.log(e);
-                theme = this.getDefaultTheme();
-                this.IS_CUSTOM = false;
-            }
-            return theme as Theme;
-        }),
-        catchError(e => {
-            console.log(e);
+    return this.http.get('../assets/UI/defaultTheme.json').pipe(
+      map(data => {
+        let theme = data;
+        this.IS_CUSTOM = true;
+        try {
+          JSON.parse(JSON.stringify(theme));
+          const errors = this.validateTheme(theme);
+          if (errors.length) {
+            console.log(errors);
+            theme = this.getDefaultTheme();
             this.IS_CUSTOM = false;
-            return this.getDefaultTheme();
-        })
-      );
+          }
+        } catch (e) {
+          console.log(e);
+          theme = this.getDefaultTheme();
+          this.IS_CUSTOM = false;
+        }
+        return theme as Theme;
+      }),
+      catchError(e => {
+        console.log(e);
+        this.IS_CUSTOM = false;
+        return this.getDefaultTheme();
+      })
+    );
   }
 
   isCustom() {
@@ -111,9 +109,7 @@ export class CustomizeService {
 
   validateTheme(theme): string[] {
     const general = ['globalSettings'];
-    const additional = [
-      ['logo']
-    ];
+    const additional = [['logo']];
     const errors: string[] = [];
 
     for (let i = 0; i < general.length; i++) {

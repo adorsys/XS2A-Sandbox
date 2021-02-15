@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgHttpLoaderModule } from 'ng-http-loader';
 import { of } from 'rxjs';
@@ -30,7 +30,7 @@ describe('AppComponent', () => {
         getLogo: () => '../assets/UI/Logo_XS2ASandbox.png',
     };
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [
                 NgHttpLoaderModule,

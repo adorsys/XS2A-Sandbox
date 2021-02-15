@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UserProfileComponent } from './user-profile.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { UserTO } from '../../api/models/user-to';
@@ -26,16 +26,18 @@ describe('UserProfileComponent', () => {
     getCurrentUser: () => of(mockUser),
   };
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [UserProfileComponent],
-      imports: [RouterTestingModule, HttpClientTestingModule],
-      providers: [
-        CurrentUserService,
-        { provide: CurrentUserService, useValue: mockObaUserService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [UserProfileComponent],
+        imports: [RouterTestingModule, HttpClientTestingModule],
+        providers: [
+          CurrentUserService,
+          { provide: CurrentUserService, useValue: mockObaUserService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserProfileComponent);
@@ -50,7 +52,7 @@ describe('UserProfileComponent', () => {
 
   it('should call getUserInfo()', () => {
     const accountsSpy = spyOn(mockObaService, 'getCurrentUser').and.returnValue(
-      of({ mockUser })
+      of<any>({ mockUser })
     );
     component.getUserInfo();
     expect(accountsSpy).toHaveBeenCalled();

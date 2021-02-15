@@ -7,6 +7,7 @@ import {
 } from '../components/actions/revertpoints.action';
 import { ResetLedgersService } from '../services/reset-ledgers.service';
 import { tap } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 
 export class RecoveryPointStateModel {
   recoveryPoints: RecoveryPoint[];
@@ -20,6 +21,7 @@ export class RecoveryPointStateModel {
     selectedPoints: null,
   },
 })
+@Injectable()
 export class RecoveryPointState {
   constructor(private resetLedgersService: ResetLedgersService) {}
 

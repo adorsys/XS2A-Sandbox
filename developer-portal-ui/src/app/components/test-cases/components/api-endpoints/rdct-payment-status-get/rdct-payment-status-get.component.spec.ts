@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { RdctPaymentStatusGetComponent } from './rdct-payment-status-get.component';
@@ -28,11 +28,13 @@ describe('RdctPaymentStatusGetComponent', () => {
     }
   }
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [RdctPaymentStatusGetComponent, MockPlayWithDataComponent, TranslatePipe, LineCommandComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [RdctPaymentStatusGetComponent, MockPlayWithDataComponent, TranslatePipe, LineCommandComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RdctPaymentStatusGetComponent);

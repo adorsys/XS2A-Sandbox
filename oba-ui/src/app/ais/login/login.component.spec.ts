@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AisService } from '../../common/services/ais.service';
 import { CustomizeService } from '../../common/services/customize.service';
 import { ShareDataService } from '../../common/services/share-data.service';
@@ -27,13 +27,20 @@ describe('LoginComponent', () => {
   let shareDataService: ShareDataService;
   let router: Router;
   let route: ActivatedRoute;
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, RouterTestingModule, InfoModule],
-      declarations: [LoginComponent],
-      providers: [AisService, ShareDataService, CustomizeService, InfoService],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [ReactiveFormsModule, RouterTestingModule, InfoModule],
+        declarations: [LoginComponent],
+        providers: [
+          AisService,
+          ShareDataService,
+          CustomizeService,
+          InfoService,
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);
@@ -41,6 +48,7 @@ describe('LoginComponent', () => {
     aisService = TestBed.get(AisService);
     infoService = TestBed.get(InfoService);
     router = TestBed.get(Router);
+    router.initialNavigation();
     route = TestBed.get(ActivatedRoute);
     customizeService = TestBed.get(CustomizeService);
     shareDataService = TestBed.get(ShareDataService);
@@ -112,13 +120,13 @@ describe('LoginComponent', () => {
         'uzf7d5PJiuoui78owirhJHGVSgueif98200293uwpgofowbOUIGb39845zt0',
       redirectId: 'owirhJHGVSgueif98200293uwpgofowbOUIGb39845zt0',
       headers: {
-        get: (param) => {
+        get: param => {
           return 'auth_token';
         },
       },
     };
     const codeSpy = spyOn(aisService, 'aisAuthCode').and.returnValue(
-      of(mockAuthCodeResponse)
+      of<any>(mockAuthCodeResponse)
     );
     component.getAisAuthCode();
     expect(codeSpy).toHaveBeenCalled();

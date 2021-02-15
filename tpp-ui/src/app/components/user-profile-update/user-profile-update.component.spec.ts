@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {TppUserService} from '../../services/tpp.user.service';
 import {AuthService} from '../../services/auth.service';
@@ -50,7 +50,7 @@ describe('UserProfileUpdateComponent', () => {
         params: of({id: '12345'})
     };
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,

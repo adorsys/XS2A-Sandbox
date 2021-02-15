@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CustomizeService } from '../../common/services/customize.service';
@@ -27,13 +27,20 @@ describe('LoginComponent', () => {
   let router: Router;
   let route: ActivatedRoute;
   let infoService: InfoService;
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ReactiveFormsModule, InfoModule],
-      declarations: [LoginComponent],
-      providers: [PisService, ShareDataService, CustomizeService, InfoService],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule, ReactiveFormsModule, InfoModule],
+        declarations: [LoginComponent],
+        providers: [
+          PisService,
+          ShareDataService,
+          CustomizeService,
+          InfoService,
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);
@@ -112,13 +119,13 @@ describe('LoginComponent', () => {
         'uzf7d5PJiuoui78owirhJHGVSgueif98200293uwpgofowbOUIGb39845zt0',
       redirectId: 'owirhJHGVSgueif98200293uwpgofowbOUIGb39845zt0',
       headers: {
-        get: (param) => {
+        get: param => {
           return 'auth_token';
         },
       },
     };
     const codeSpy = spyOn(pisService, 'pisAuthCode').and.returnValue(
-      of(mockAuthCodeResponse)
+      of<any>(mockAuthCodeResponse)
     );
     component.getPisAuthCode();
     expect(codeSpy).toHaveBeenCalled();

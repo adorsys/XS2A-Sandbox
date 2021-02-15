@@ -4,7 +4,7 @@ import { RecoveryPoint } from '../../models/recovery-point.models';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ResetLedgersService } from '../../services/reset-ledgers.service';
 import { InfoService } from '../../commons/info/info.service';
-import { BsModalService } from 'ngx-bootstrap';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import {
   AddRecoveryPoint,
   GetRecoveryPoint,

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AccinfTransactionsGetComponent } from './accinf-transactions-get.component';
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
@@ -28,11 +28,13 @@ describe('AccinfTransactionsGetComponent', () => {
     }
   }
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [AccinfTransactionsGetComponent, LineCommandComponent, TranslatePipe, MockPlayWithDataComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [AccinfTransactionsGetComponent, LineCommandComponent, TranslatePipe, MockPlayWithDataComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AccinfTransactionsGetComponent);

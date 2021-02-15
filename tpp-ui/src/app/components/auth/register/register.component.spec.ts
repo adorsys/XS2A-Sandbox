@@ -1,11 +1,11 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import {
-  async,
   ComponentFixture,
   fakeAsync,
   TestBed,
   tick,
+  waitForAsync,
 } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -22,9 +22,9 @@ import {
   TppIdStructure,
   TppIdType,
 } from '../../../models/tpp-id-structure.model';
-import {CountryService} from '../../../services/country.service';
-import {CertificateGenerationService} from '../../../services/certificate/certificate-generation.service';
-import {CertificateDownloadService} from '../../../services/certificate/certificate-download.service';
+import { CountryService } from '../../../services/country.service';
+import { CertificateGenerationService } from '../../../services/certificate/certificate-generation.service';
+import { CertificateDownloadService } from '../../../services/certificate/certificate-download.service';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -38,20 +38,28 @@ describe('RegisterComponent', () => {
   let de: DebugElement;
   let el: HTMLElement;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        HttpClientTestingModule,
-        RouterTestingModule,
-        BrowserAnimationsModule,
-        InfoModule,
-        FormsModule,
-      ],
-      providers: [AuthService, CountryService, InfoService, CertificateGenerationService, CertificateDownloadService],
-      declarations: [RegisterComponent, CertificateComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          ReactiveFormsModule,
+          HttpClientTestingModule,
+          RouterTestingModule,
+          BrowserAnimationsModule,
+          InfoModule,
+          FormsModule,
+        ],
+        providers: [
+          AuthService,
+          CountryService,
+          InfoService,
+          CertificateGenerationService,
+          CertificateDownloadService,
+        ],
+        declarations: [RegisterComponent, CertificateComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     registerFixture = TestBed.createComponent(RegisterComponent);
@@ -151,7 +159,7 @@ describe('RegisterComponent', () => {
       of({ value: 'sample response' })
     );
     let navigateSpy = spyOn(router, 'navigate').and.callFake(() =>
-      Promise.resolve([])
+      Promise.resolve(true)
     );
     component.onSubmit();
     expect(registerSpy).toHaveBeenCalled();
@@ -241,10 +249,18 @@ describe('RegisterComponent', () => {
       'You have been successfully registered and your certificate generated. The download will start automatically within the 2 seconds';
     spyOn(authService, 'register').and.returnValue(of({}));
     spyOn(certificateGenerationService, 'generate').and.returnValue(
-      of({ encodedCertencodedCert: 'endcode.cert', privateKey: 'private.key' })
+      of({
+        encodedCertencodedCert: 'endcode.cert',
+        privateKey: 'private.key',
+      })
     );
-    spyOn(certificateDownloadService, 'createZipUrl').and.returnValue(of(fakeUrl).toPromise());
-    const navigationSpy = spyOn(certificateDownloadService, 'navigateAndGiveFeedback');
+    spyOn(certificateDownloadService, 'createZipUrl').and.returnValue(
+      of(fakeUrl).toPromise()
+    );
+    const navigationSpy = spyOn(
+      certificateDownloadService,
+      'navigateAndGiveFeedback'
+    );
     component.generateCertificate = true;
     component.certificateValue = {};
     component.userForm.controls['id'].setValue('12345678');
@@ -253,6 +269,9 @@ describe('RegisterComponent', () => {
     component.userForm.controls['pin'].setValue('1234');
     component.onSubmit();
     tick(2000);
-    expect(navigationSpy).toHaveBeenCalledWith(fakeUrl, message);
+    expect(navigationSpy).toHaveBeenCalledWith({
+      navigateUrl: fakeUrl,
+      message: message,
+    });
   }));
 });

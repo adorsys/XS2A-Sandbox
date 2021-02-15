@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { EmbPaymentInitCreatePostComponent } from './emb-payment-init-create-post.component';
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
@@ -48,29 +48,31 @@ describe('EmbPaymentInitCreatePostComponent', () => {
 
   const ToastrServiceStub = {};
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        EmbPaymentInitCreatePostComponent,
-        TranslatePipe,
-        PrettyJsonPipe,
-        MockPlayWithDataComponent,
-        LineCommandComponent,
-        CodeAreaComponent,
-      ],
-      providers: [TranslateService, DataService, { provide: ToastrService, useValue: ToastrServiceStub }],
-      imports: [
-        HttpClientTestingModule,
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useFactory: HttpLoaderFactory,
-            deps: [HttpClient],
-          },
-        }),
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [
+          EmbPaymentInitCreatePostComponent,
+          TranslatePipe,
+          PrettyJsonPipe,
+          MockPlayWithDataComponent,
+          LineCommandComponent,
+          CodeAreaComponent,
+        ],
+        providers: [TranslateService, DataService, { provide: ToastrService, useValue: ToastrServiceStub }],
+        imports: [
+          HttpClientTestingModule,
+          TranslateModule.forRoot({
+            loader: {
+              provide: TranslateLoader,
+              useFactory: HttpLoaderFactory,
+              deps: [HttpClient],
+            },
+          }),
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     jsonService = TestBed.get(JsonService);

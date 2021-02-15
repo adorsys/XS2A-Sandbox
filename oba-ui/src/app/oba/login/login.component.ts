@@ -8,64 +8,66 @@ import { AuthService } from '../../common/services/auth.service';
 import { CustomizeService } from '../../common/services/customize.service';
 
 import LoginUsingPOST1Params = OnlineBankingAuthorizationProvidesAccessToOnlineBankingService.LoginUsingPOST1Params;
-import {OnlineBankingAuthorizationProvidesAccessToOnlineBankingService} from "../../api/services/online-banking-authorization-provides-access-to-online-banking.service";
+import { OnlineBankingAuthorizationProvidesAccessToOnlineBankingService } from '../../api/services/online-banking-authorization-provides-access-to-online-banking.service';
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss'],
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
-    loginForm: FormGroup;
-    errorMessage: string;
+  loginForm: FormGroup;
+  errorMessage: string;
 
-    private subscriptions: Subscription[] = [];
+  private subscriptions: Subscription[] = [];
 
-    constructor(
-        public customizeService: CustomizeService,
-        private formBuilder: FormBuilder,
-        private router: Router,
-        private authService: AuthService
-    ) {}
+  constructor(
+    public customizeService: CustomizeService,
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
-    ngOnInit() {
-        this.initLoginForm();
+  ngOnInit() {
+    this.initLoginForm();
 
-        this.loginForm.valueChanges.subscribe(val => {
-            this.errorMessage = null;
-        });
-    }
+    this.loginForm.valueChanges.subscribe(val => {
+      this.errorMessage = null;
+    });
+  }
 
-    public onSubmit(): void {
-        this.subscriptions.push(
-            this.authService
-                .login({ ...this.loginForm.value } as LoginUsingPOST1Params)
-                .subscribe(
-                    success => {
-                        if (success) {
-                            this.router.navigate([`${RoutingPath.ACCOUNTS}`]);
-                        }
-                    },
-                    error => {
-                        if (error.status === 401) {
-                            this.errorMessage = 'Invalid credentials';
-                        } else {
-                            this.errorMessage = error.error ? error.error.message : error.message;
-                        }
-                        return throwError(error);
-                    }
-                )
-        );
-    }
+  public onSubmit(): void {
+    this.subscriptions.push(
+      this.authService
+        .login({ ...this.loginForm.value } as LoginUsingPOST1Params)
+        .subscribe(
+          success => {
+            if (success) {
+              this.router.navigate([`${RoutingPath.ACCOUNTS}`]);
+            }
+          },
+          error => {
+            if (error.status === 401) {
+              this.errorMessage = 'Invalid credentials';
+            } else {
+              this.errorMessage = error.error
+                ? error.error.message
+                : error.message;
+            }
+            return throwError(error);
+          }
+        )
+    );
+  }
 
-    ngOnDestroy(): void {
-        this.subscriptions.forEach(sub => sub.unsubscribe());
-    }
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
 
-    private initLoginForm(): void {
-        this.loginForm = this.formBuilder.group({
-            login: ['', Validators.required],
-            pin: ['', Validators.required],
-        });
-    }
+  private initLoginForm(): void {
+    this.loginForm = this.formBuilder.group({
+      login: ['', Validators.required],
+      pin: ['', Validators.required],
+    });
+  }
 }

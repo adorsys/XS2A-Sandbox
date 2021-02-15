@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgxLoadingModule } from 'ngx-loading';
 import { Pipe, PipeTransform } from '@angular/core';
 
@@ -49,34 +49,36 @@ describe('PlayWthDataComponent', () => {
     }
   }
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [PlayWthDataComponent, PopUpComponent, TranslatePipe],
-      imports: [
-        FormsModule,
-        NgxLoadingModule,
-        HttpClientTestingModule,
-        HttpClientModule,
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useFactory: HttpLoaderFactory,
-            deps: [HttpClient],
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [PlayWthDataComponent, PopUpComponent, TranslatePipe],
+        imports: [
+          FormsModule,
+          NgxLoadingModule,
+          HttpClientTestingModule,
+          HttpClientModule,
+          TranslateModule.forRoot({
+            loader: {
+              provide: TranslateLoader,
+              useFactory: HttpLoaderFactory,
+              deps: [HttpClient],
+            },
+          }),
+        ],
+        providers: [
+          { provide: DataService, useValue: DataServiceStub },
+          { provide: RestService, useValue: RestServiceStub },
+          { provide: CopyService, useValue: CopyServiceStub },
+          {
+            provide: LocalStorageService,
+            useValue: LocalStorageServiceStub,
           },
-        }),
-      ],
-      providers: [
-        { provide: DataService, useValue: DataServiceStub },
-        { provide: RestService, useValue: RestServiceStub },
-        { provide: CopyService, useValue: CopyServiceStub },
-        {
-          provide: LocalStorageService,
-          useValue: LocalStorageServiceStub,
-        },
-        { provide: JsonService, useValue: JsonServiceStub },
-      ],
-    }).compileComponents();
-  }));
+          { provide: JsonService, useValue: JsonServiceStub },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PlayWthDataComponent);

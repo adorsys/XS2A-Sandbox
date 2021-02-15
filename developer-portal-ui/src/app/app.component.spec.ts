@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -107,39 +107,46 @@ describe('AppComponent', () => {
     }
   }
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [AppComponent, TranslatePipe, NavComponent, FooterComponent],
-      imports: [
-        MarkdownModule.forRoot(),
-        RouterTestingModule,
-        HttpClientTestingModule,
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useFactory: HttpLoaderFactory,
-            deps: [HttpClient],
-          },
-        }),
-        NgHttpLoaderModule.forRoot(),
-      ],
-      providers: [
-        MarkdownService,
-        TranslateService,
-        { provide: DataService, useValue: DataServiceStub },
-        { provide: CustomizeService, useValue: CustomizeServiceStub },
-        { provide: LanguageService, useValue: LanguageServiceStub },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [AppComponent, TranslatePipe, NavComponent, FooterComponent],
+        imports: [
+          MarkdownModule.forRoot(),
+          RouterTestingModule,
+          HttpClientTestingModule,
+          TranslateModule.forRoot({
+            loader: {
+              provide: TranslateLoader,
+              useFactory: HttpLoaderFactory,
+              deps: [HttpClient],
+            },
+          }),
+          NgHttpLoaderModule.forRoot(),
+        ],
+        providers: [
+          MarkdownService,
+          TranslateService,
+          { provide: DataService, useValue: DataServiceStub },
+          { provide: CustomizeService, useValue: CustomizeServiceStub },
+          { provide: LanguageService, useValue: LanguageServiceStub },
+        ],
+      }).compileComponents();
+    })
+  );
 
-  beforeEach(async(() => {
-    fixture = TestBed.createComponent(AppComponent);
-    comp = fixture.componentInstance;
-    fixture.detectChanges();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      fixture = TestBed.createComponent(AppComponent);
+      comp = fixture.componentInstance;
+      fixture.detectChanges();
+    })
+  );
 
-  it('should create', async(() => {
-    expect(comp).toBeTruthy();
-  }));
+  it(
+    'should create',
+    waitForAsync(() => {
+      expect(comp).toBeTruthy();
+    })
+  );
 });

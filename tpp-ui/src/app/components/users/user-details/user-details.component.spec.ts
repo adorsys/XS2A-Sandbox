@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AccountService } from '../../../services/account.service';
 import { UserDetailsComponent } from './user-details.component';
 import { UserService } from '../../../services/user.service';
@@ -27,7 +27,7 @@ describe('UserDetailsComponent', () => {
   let router: Router;
   let infoService: InfoService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule.withRoutes([]),

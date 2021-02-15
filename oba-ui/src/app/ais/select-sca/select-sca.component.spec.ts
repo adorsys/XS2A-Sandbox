@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AisService } from '../../common/services/ais.service';
 import { CustomizeService } from '../../common/services/customize.service';
 import { ShareDataService } from '../../common/services/share-data.service';
@@ -27,7 +27,7 @@ describe('SelectScaComponent', () => {
   let aisService: AisService;
   let router: Router;
   let route: ActivatedRoute;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, ReactiveFormsModule],
       declarations: [SelectScaComponent, AccountDetailsComponent],

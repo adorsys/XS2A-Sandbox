@@ -70,7 +70,7 @@ export function app_Init(settingsHttpService: SettingsHttpService) {
     NgHttpLoaderModule.forRoot(),
     ReactiveFormsModule,
     FormsModule,
-    NgxImageZoomModule.forRoot(),
+    NgxImageZoomModule,
     MarkdownModule.forRoot(),
   ],
   exports: [],
