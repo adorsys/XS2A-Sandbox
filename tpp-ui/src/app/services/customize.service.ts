@@ -13,13 +13,13 @@ export class CustomizeService {
   private IS_CUSTOM = false;
   private DEFAULT_THEME: Theme = {
     globalSettings: {
-      logo: 'Logo_XS2ASandbox.png'
+      logo: 'assets/UI/Logo_XS2ASandbox.png',
     },
   };
   private USER_THEME: Theme = {
     globalSettings: {
       logo: '',
-    }
+    },
   };
 
   constructor(private http: HttpClient) {
@@ -27,30 +27,28 @@ export class CustomizeService {
   }
 
   public getJSON(): Observable<Theme> {
-    return this.http
-      .get('../assets/UI/custom/UITheme.json')
-      .pipe(
-        map(data => {
-            let theme = data;
-            this.IS_CUSTOM = true;
-            try {
-                JSON.parse(JSON.stringify(theme));
-                const errors = this.validateTheme(theme);
-                if (errors.length) {
-                    theme = this.getDefaultTheme();
-                    this.IS_CUSTOM = false;
-                }
-            } catch (e) {
-                theme = this.getDefaultTheme();
-                this.IS_CUSTOM = false;
-            }
-            return theme as Theme;
-        }),
-        catchError(e => {
+    return this.http.get('../assets/UI/custom/UITheme.json').pipe(
+      map((data) => {
+        let theme = data;
+        this.IS_CUSTOM = true;
+        try {
+          JSON.parse(JSON.stringify(theme));
+          const errors = this.validateTheme(theme);
+          if (errors.length) {
+            theme = this.getDefaultTheme();
             this.IS_CUSTOM = false;
-            return this.getDefaultTheme();
-        })
-      );
+          }
+        } catch (e) {
+          theme = this.getDefaultTheme();
+          this.IS_CUSTOM = false;
+        }
+        return theme as Theme;
+      }),
+      catchError((e) => {
+        this.IS_CUSTOM = false;
+        return this.getDefaultTheme();
+      })
+    );
   }
 
   isCustom() {
@@ -73,7 +71,7 @@ export class CustomizeService {
     return this.http
       .get('../assets/UI/defaultTheme.json')
       .toPromise()
-      .then(data => {
+      .then((data) => {
         return data as Theme;
       });
   }
@@ -111,9 +109,7 @@ export class CustomizeService {
   }
   validateTheme(theme): string[] {
     const general = ['globalSettings'];
-    const additional = [
-      ['logo']
-    ];
+    const additional = [['logo']];
     const errors: string[] = [];
 
     for (let i = 0; i < general.length; i++) {
@@ -176,8 +172,7 @@ export class CustomizeService {
       onlyLegacy: true,
       watch: true,
       variables,
-      onComplete(cssText, styleNode, cssVariables) {
-      },
+      onComplete(cssText, styleNode, cssVariables) {},
     });
     // If you decide to drop ie11, edge < 14 support in future, use this as implementation to set variables
     // Object.keys(variables).forEach(variableName => {

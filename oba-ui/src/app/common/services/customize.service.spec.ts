@@ -12,7 +12,7 @@ describe('CustomizeService', () => {
   let httpTestingController: HttpTestingController;
   const defTheme: Theme = {
     globalSettings: {
-      logo: 'Logo_XS2ASandbox.png',
+      logo: 'assets/UI/Logo_XS2ASandbox.png',
     },
   };
   const defUserTheme = {

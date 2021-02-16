@@ -13,7 +13,7 @@ export class CustomizeService {
   private IS_CUSTOM = false;
   private DEFAULT_THEME: Theme = {
     globalSettings: {
-      logo: 'Logo_XS2ASandbox.png',
+      logo: 'assets/UI/Logo_XS2ASandbox.png',
     },
   };
   private USER_THEME: Theme = {
