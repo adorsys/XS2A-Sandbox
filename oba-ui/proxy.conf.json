@@ -1,6 +1,6 @@
 {
   "/oba-proxy/*": {
-    "target": "https://dev-modelbank-oba-backend.cloud.adorsys.de",
+    "target": "http://localhost:8090",
     "secure": false,
     "changeOrigin": true,
     "ws": true,

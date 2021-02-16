@@ -1,6 +1,6 @@
 {
   "/xs2a-proxy/*": {
-    "target": "https://dev-dynamicsandbox-xs2a.cloud.adorsys.de",
+    "target": "https://dev-modelbank-xs2a-connector.cloud.adorsys.de",
     "secure": true,
     "changeOrigin": true,
     "logLevel": "debug",
@@ -9,7 +9,7 @@
     }
   },
   "/aspsp-proxy/*": {
-    "target": "https://dev-dynamicsandbox-aspspprofile.cloud.adorsys.de",
+    "target": "https://dev-modelbank-xs2a-aspsp-profile.cloud.adorsys.de",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug",

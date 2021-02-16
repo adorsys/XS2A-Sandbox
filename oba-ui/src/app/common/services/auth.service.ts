@@ -86,6 +86,10 @@ export class AuthService {
     );
   }
 
+  setAuthToken(newToken: string){
+    localStorage.setItem(this.authTokenStorageKey, newToken);
+  }
+
   requestCodeToResetPassword(
     resetPassword: ResetPassword
   ): Observable<SendCode> {

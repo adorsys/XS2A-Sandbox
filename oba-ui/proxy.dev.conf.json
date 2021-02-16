@@ -1,6 +1,6 @@
 {
   "/oba-proxy/*": {
-    "target": "https://dev-dynamicsandbox-onlinebanking.cloud.adorsys.de",
+    "target": "https://dev-modelbank-oba-backend.cloud.adorsys.de",
     "secure": true,
     "changeOrigin": true,
     "ws": true,
