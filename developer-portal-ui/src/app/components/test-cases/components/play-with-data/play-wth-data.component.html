@@ -24,7 +24,7 @@
         [(ngModel)]="paymentService"
         (ngModelChange)="handlePaymentServiceChanged($event)"
       >
-        <option [value]="ps" *ngFor="let ps of paymentServiceSelect"> {{ ps }} </option>
+        <option [value]="ps" *ngFor="let ps of paymentServiceSelect">{{ ps }}</option>
       </select>
       <span class="top-line" *ngIf="paymentProductFlag || accountIdFlag">/</span>
       <input
@@ -40,7 +40,7 @@
         [(ngModel)]="paymentProduct"
         (ngModelChange)="handlePaymentProductChanged($event)"
       >
-        <option [value]="'/' + pp" *ngFor="let pp of paymentProductSelect" [selected]="'/' + pp == paymentProduct"> {{ pp }} </option>
+        <option [value]="'/' + pp" *ngFor="let pp of paymentProductSelect" [selected]="'/' + pp == paymentProduct">{{ pp }}</option>
       </select>
       <span class="top-line" *ngIf="paymentIdFlag || consentIdFlag">/</span>
 
@@ -110,7 +110,7 @@
           'payment-id': !bookingStatus
         }"
       >
-        <option [value]="bs" *ngFor="let bs of bookingStatusSelect"> {{ bs }} </option>
+        <option [value]="bs" *ngFor="let bs of bookingStatusSelect">{{ bs }}</option>
       </select>
     </div>
   </div>
@@ -124,7 +124,7 @@
   </div>
 
   <div class="play-with-data-table bg th">
-    <span style="width: 60%;">{{ 'TEST_CASES.COMPONENTS.TH.TH_1' | translate }}</span>
+    <span style="width: 60%">{{ 'TEST_CASES.COMPONENTS.TH.TH_1' | translate }}</span>
     <div>{{ 'TEST_CASES.COMPONENTS.TH.TH_2' | translate }}</div>
   </div>
 
@@ -189,7 +189,7 @@
     <div class="play-with-data-table bg" *ngIf="consentTypeFlag">
       <span>Select consent type</span>
       <select id="consentTypeSelector" [(ngModel)]="selectedConsentType" (ngModelChange)="handleConsentSelected($event)">
-        <option *ngFor="let consent of consentTypes | keyvalue; let i = index" [value]="consent.key">{{ consent.key }} </option>
+        <option *ngFor="let consent of consentTypes | keyvalue; let i = index" [value]="consent.key">{{ consent.key }}</option>
       </select>
     </div>
 
