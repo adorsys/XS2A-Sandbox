@@ -113,7 +113,7 @@
         <junit-jupiter.version>5.5.2</junit-jupiter.version>
         <mockito.version>3.2.4</mockito.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
-        <fasterxml.version>2.10.1</fasterxml.version>
+        <fasterxml.version>2.12.1</fasterxml.version>
         <fasterxml-data-format.version>2.9.8</fasterxml-data-format.version>
         <opencsv.version>4.5</opencsv.version>
         <!--iban4j-version>3.2.1</iban4j-version-->
