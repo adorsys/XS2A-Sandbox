@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateService } from '@ngx-translate/core';
+import { LocalStorageService } from './local-storage.service';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -10,14 +12,14 @@ import { TranslateService } from '@ngx-translate/core';
 export class LanguageService {
   private languageValue = 'en';
   private language = new BehaviorSubject<string>(this.languageValue);
-  currentLanguage = this.language.asObservable();
 
   constructor(private translateService: TranslateService) {}
 
   setLanguage(language: string) {
-    this.language.next(language);
     this.translateService.use(language);
     this.languageValue = language;
+    LocalStorageService.set('userLanguage', this.languageValue);
+    this.language.next(language);
 
     const ol = document.getElementById('contentTable');
     if (ol) {
@@ -26,12 +28,25 @@ export class LanguageService {
   }
 
   initializeTranslation() {
-    this.translateService.setDefaultLang(this.languageValue);
-    this.translateService.use(this.languageValue);
+    if (LocalStorageService.get('userLanguage')) {
+      this.translateService.setDefaultLang(LocalStorageService.get('userLanguage'));
+      this.translateService.use(LocalStorageService.get('userLanguage'));
+    } else {
+      this.translateService.setDefaultLang(this.languageValue);
+      this.translateService.use(this.languageValue);
+    }
   }
 
   getLang() {
-    return this.languageValue;
+    if (LocalStorageService.get('userLanguage')) {
+      return LocalStorageService.get('userLanguage');
+    } else {
+      return this.languageValue;
+    }
+  }
+
+  get currentLanguage(): Observable<string> {
+    return this.language.asObservable().pipe(map(() => this.getLang()));
   }
 }
 

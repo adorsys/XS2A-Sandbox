@@ -4,6 +4,7 @@ import { HttpLoaderFactory, LanguageService } from './language.service';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { LocalStorageService } from './local-storage.service';
 
 describe('LanguageService', () => {
   let translate: TranslateService;
@@ -32,6 +33,7 @@ describe('LanguageService', () => {
   });
 
   it('default translation should be en', () => {
+    LocalStorageService.remove('userLanguage');
     service.initializeTranslation();
     expect(translate.getDefaultLang()).toEqual('en');
     expect(translate.currentLang).toEqual('en');
