@@ -123,8 +123,8 @@ export class UserUpdateComponent implements OnInit {
     ];
     const scaData = this.formBuilder.group({
       id: '',
-      scaMethod: ['', Validators.required],
-      methodValue: [''],
+      scaMethod: [''],
+      methodValue: ['', Validators.required],
       staticTan: [{ value: '', disabled: true }],
       usesStaticTan: [false],
       decoupled: [false],
