@@ -5,10 +5,8 @@
     <div class="card-body">
       <div class="table-responsive">
         <div
-          *ngIf="
-            config && payments && payments.length > 0;
-            let i = index
-          " class="d-flex align-items-center p-2"
+          *ngIf="config && payments && payments.length > 0; let i = index"
+          class="d-flex align-items-center p-2"
         >
           <ngb-pagination
             [collectionSize]="config.totalItems"
@@ -21,7 +19,7 @@
           ></ngb-pagination>
           <select
             class="custom-select custom-select-sm ml-4 mb-4"
-            style="width: auto;"
+            style="width: auto"
             formControlName="itemsPerPage"
           >
             <option [value]="10">10</option>
@@ -34,56 +32,69 @@
         </div>
         <table class="table">
           <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Amount</th>
-            <th scope="col">From</th>
-            <th scope="col">To</th>
-            <th scope="col">Purpose</th>
-            <th scope="col">Start Date</th>
-            <th scope="col">End Date</th>
-            <th scope="col">Frequency</th>
-          </tr>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Amount</th>
+              <th scope="col">From</th>
+              <th scope="col">To</th>
+              <th scope="col">Purpose</th>
+              <th scope="col">Start Date</th>
+              <th scope="col">End Date</th>
+              <th scope="col">Frequency</th>
+            </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let payment of payments; index as i">
-            <th scope="row"> {{ (config.currentPage - 1) * config.itemsPerPage + i + 1 }}</th>
-            <td>
-              <div *ngFor="let tag of payment.targets">
-                {{tag.instructedAmount.amount}}
-                <br>
-                {{payment.debtorAccount.currency}}
-              </div>
-            </td>
-            <td>
-              {{payment.debtorAccount.iban}}
-              <br>
-              {{payment.debtorAccount.currency}}
-            </td>
-            <td>
-              <div *ngFor="let tag of payment.targets">
-                {{tag.creditorName}}
-              </div>
-            </td>
-            <td>
-              <div *ngFor="let tag of payment.targets">
-                {{tag.remittanceInformationUnstructured}}
-              </div>
-            </td>
-            <td>{{payment.startDate}}</td>
-            <td>{{payment.endDate}}</td>
-            <td>{{payment.frequency}}</td>
-            <td>
-              <button class="btn btn-primary ml-3" (click)="openCancelPaymentModal(confirmCancelModal, selectMethodModal, tanInputModal, contentDeletedModal, payment)">Cancel</button>
-            </td>
-          </tr>
+            <tr *ngFor="let payment of payments; index as i">
+              <th scope="row">
+                {{ (config.currentPage - 1) * config.itemsPerPage + i + 1 }}
+              </th>
+              <td>
+                <div *ngFor="let tag of payment.targets">
+                  {{ tag.instructedAmount.amount }}
+                  <br />
+                  {{ payment.debtorAccount.currency }}
+                </div>
+              </td>
+              <td>
+                {{ payment.debtorAccount.iban }}
+                <br />
+                {{ payment.debtorAccount.currency }}
+              </td>
+              <td>
+                <div *ngFor="let tag of payment.targets">
+                  {{ tag.creditorName }}
+                </div>
+              </td>
+              <td>
+                <div *ngFor="let tag of payment.targets">
+                  {{ tag.remittanceInformationUnstructured }}
+                </div>
+              </td>
+              <td>{{ payment.startDate }}</td>
+              <td>{{ payment.endDate }}</td>
+              <td>{{ payment.frequency }}</td>
+              <td>
+                <button
+                  class="btn btn-primary ml-3"
+                  (click)="
+                    openCancelPaymentModal(
+                      confirmCancelModal,
+                      selectMethodModal,
+                      tanInputModal,
+                      contentDeletedModal,
+                      payment
+                    )
+                  "
+                >
+                  Cancel
+                </button>
+              </td>
+            </tr>
           </tbody>
         </table>
         <div
-          *ngIf="
-            config && payments && payments.length > 0;
-            let i = index
-          " class="d-flex align-items-center p-2"
+          *ngIf="config && payments && payments.length > 0; let i = index"
+          class="d-flex align-items-center p-2"
         >
           <ngb-pagination
             [collectionSize]="config.totalItems"
@@ -96,7 +107,7 @@
           ></ngb-pagination>
           <select
             class="custom-select custom-select-sm ml-4 mb-4"
-            style="width: auto;"
+            style="width: auto"
             formControlName="itemsPerPage"
           >
             <option [value]="10">10</option>
@@ -114,90 +125,143 @@
   <ng-template #confirmCancelModal let-modal>
     <div class="modal-body">
       <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title1">Are you sure you want to cancel periodic payment</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <h4 class="modal-title" id="modal-basic-title1">
+          Are you sure you want to cancel periodic payment
+        </h4>
       </div>
-      <div>id: {{targetedPayment.paymentId}}</div>
-      <div *ngFor="let target of targetedPayment.targets">
-        <div>to: {{target.creditorName}}</div>
-        <div>{{target.creditorAccount.iban}} {{target.creditorAccount.currency}}</div>
-        <div>amount: {{target.instructedAmount.amount}} {{target.instructedAmount.currency}}</div>
+      <div class="modal-body">
+        <div>Id: {{ targetedPayment.paymentId }}</div>
+        <div *ngFor="let target of targetedPayment.targets">
+          <div>To: {{ target.creditorName }}</div>
+          <div>
+            {{ target.creditorAccount.iban }}
+            {{ target.creditorAccount.currency }}
+          </div>
+          <div>
+            Amount: {{ target.instructedAmount.amount }}
+            {{ target.instructedAmount.currency }}
+          </div>
+        </div>
       </div>
-
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
-      <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Initiate Cancellation</button>
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        (click)="modal.dismiss('cancel click')"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        class="btn btn-danger"
+        (click)="modal.close('Ok click')"
+      >
+        Initiate Cancellation
+      </button>
     </div>
   </ng-template>
 
   <ng-template #selectMethodModal let-modal>
     <div class="modal-body">
       <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title2">Please select preferred confirmation method</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <h4 class="modal-title" id="modal-basic-title2">
+          Please select preferred confirmation method
+        </h4>
       </div>
-      <div>
-        <div *ngFor="let scaMethod of cancellationResponse.scaMethods; let i = index" class="form-check">
-          <input class="form-check-input"
-                 type="radio"
-                 name="scaMethod"
-                 [id]="scaMethod.id"
-                 [checked]="i == 0" (change)="handleMethodSelectedEvent(scaMethod)">
+      <div class="modal-body">
+        <div
+          *ngFor="
+            let scaMethod of cancellationResponse.scaMethods;
+            let i = index
+          "
+          class="form-check"
+        >
+          <input
+            class="form-check-input"
+            type="radio"
+            name="scaMethod"
+            [id]="scaMethod.id"
+            [checked]="i == 0"
+            (change)="handleMethodSelectedEvent(scaMethod)"
+          />
           <label class="form-check-label ml-4" [for]="scaMethod.id">
-            {{scaMethod.scaMethod}} with value {{scaMethod.methodValue}}
+            {{ scaMethod.scaMethod }} with value {{ scaMethod.methodValue }}
           </label>
         </div>
-
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
-      <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Send Code</button>
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        (click)="modal.dismiss('cancel click')"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        class="btn btn-danger"
+        (click)="modal.close('Ok click')"
+      >
+        Send Code
+      </button>
     </div>
   </ng-template>
 
   <ng-template #tanInputModal let-modal>
     <div class="modal-body">
       <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title3">Please input TAN you've received to confirm cancellation</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <h4 class="modal-title" id="modal-basic-title3">
+          Please input TAN you've received to confirm cancellation
+        </h4>
       </div>
-      <div>
+      <div class="modal-body">
         <div>
-          <input type="text"
-                 class="form-control"
-                 name="tan"
-                 placeholder="Enter your TAN"
-                 (input)="handleTanInputEvent($event.target.value)">
+          <input
+            type="text"
+            class="form-control"
+            name="tan"
+            placeholder="Enter your TAN"
+            (input)="handleTanInputEvent($event.target.value)"
+          />
         </div>
-
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
-      <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Confirm and Cancel</button>
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        (click)="modal.dismiss('cancel click')"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        class="btn btn-danger"
+        (click)="modal.close('Ok click')"
+      >
+        Confirm and Cancel
+      </button>
     </div>
   </ng-template>
 
   <ng-template #contentDeletedModal let-modal>
-    <div class="modal-body">
-      <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title4">Payment Cancelled"</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
+    <div class="modal-body text-center" id="modal-basic-title4">
+      Payment Cancelled
     </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">OK</button>
+    <div class="container">
+      <div class="row">
+        <div class="col text-center">
+          <button
+            type="button"
+            class="btn btn-success"
+            (click)="modal.close('Ok click')"
+          >
+            OK
+          </button>
+        </div>
+      </div>
     </div>
   </ng-template>
 </div>
-

@@ -9,39 +9,71 @@
   <!--&lt;!&ndash; Second 1/4 &ndash;&gt;-->
   <div class="col-md-8 bg-white h-md-100">
     <div class="d-md-flex align-items-center h-100 p-4 justify-content-center">
-      <div class="d-md-flex align-items-center ">
-
-        <form [formGroup]="scaForm" (ngSubmit)="onSubmit()">
-
+      <div class="d-md-flex align-items-center">
+        <form
+          [formGroup]="scaForm"
+          (ngSubmit)="onSubmit()"
+          *ngIf="!isScaMethodNotAvailable"
+        >
           <div class="card">
-
             <h3 class="mb-4 text-left">SCA Method</h3>
 
-            <p class="text-secondary mb-5 text-left">Please choose an SCA method to go on.</p>
+            <p class="text-secondary mb-5 text-left">
+              Please choose an SCA method to go on.
+            </p>
 
             <div class="form-group my-4">
-              <div *ngFor="let scaMethod of scaMethods; let i = index" class="form-check">
-                <input class="form-check-input"
-                       type="radio"
-                       formControlName="scaMethod"
-                       [id]="scaMethod.id"
-                       [value]="scaMethod.id">
+              <div
+                *ngFor="let scaMethod of scaMethods; let i = index"
+                class="form-check"
+              >
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  formControlName="scaMethod"
+                  [id]="scaMethod.id"
+                  [value]="scaMethod.id"
+                />
                 <label class="form-check-label ml-4" [for]="scaMethod.id">
-                  {{scaMethod.scaMethod}} with value {{scaMethod.methodValue}}
+                  {{ scaMethod.scaMethod }} with value
+                  {{ scaMethod.methodValue }}
                 </label>
               </div>
             </div>
 
             <div class="form-group d-flex flex-row justify-content-lg-between">
-              <button class="btn md-6 w-100 mr-sm-2 mr-md-3 btn-outline-secondary" (click)="onCancel()">Cancel</button>
-              <button type="submit" class="btn md-6 w-100 btn-primary" [disabled]="!selectedScaMethod">Send Code</button>
+              <button
+                class="btn md-6 w-100 mr-sm-2 mr-md-3 btn-outline-secondary"
+                (click)="onCancel()"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                class="btn md-6 w-100 btn-primary"
+                [disabled]="!selectedScaMethod"
+              >
+                Send Code
+              </button>
             </div>
-
           </div>
-
         </form>
-
-
+        <div class="container" *ngIf="isScaMethodNotAvailable">
+          <div class="row">
+            <div class="col text-center">
+              Oops! No SCA Method found. Please select SCA method first and then
+              proceed with authorizing the payment.
+              <div class="form-group my-3 d-flex">
+                <a
+                  class="btn btn-secondary button-icon d-flex align-items-center mr-2"
+                  [href]="devPortalLink"
+                >
+                  <span>To Developer portal</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

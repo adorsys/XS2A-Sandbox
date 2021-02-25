@@ -146,16 +146,20 @@ export class UsersComponent implements OnInit {
       this.tppManagementService
         .getAllUsers(page - 1, size, params)
         .subscribe((response: UserResponse) => {
-          this.users = response.users;
-          this.users.reverse();
+          if (typeof response.users !== 'undefined') {
+            this.users = response.users;
+            this.users.reverse();
+          }
           this.config.totalItems = response.totalElements;
         });
     } else if (this.admin === 'false') {
       this.userService
         .listUsers(page - 1, size, params.userLogin)
         .subscribe((response: UserResponse) => {
-          this.users = response.users;
-          this.users.reverse();
+          if (typeof response.users !== 'undefined') {
+            this.users = response.users;
+            this.users.reverse();
+          }
           this.config.totalItems = response.totalElements;
         });
     }

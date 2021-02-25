@@ -82,8 +82,10 @@ export class AdminsComponent implements OnInit {
     this.tppManagementService
       .getAllAdmins(page - 1, size)
       .subscribe((response: UserResponse) => {
-        this.users = response.users;
-        this.users.reverse();
+        if (typeof response.users !== 'undefined') {
+          this.users = response.users;
+          this.users.reverse();
+        }
         this.config.totalItems = response.totalElements;
       });
   }

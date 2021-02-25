@@ -8,6 +8,7 @@ import { ScaUserDataTO } from '../../api/models/sca-user-data-to';
 import { RoutingPath } from '../../common/models/routing-path.model';
 import { PisService } from '../../common/services/pis.service';
 import { ShareDataService } from '../../common/services/share-data.service';
+import { SettingsService } from 'src/app/common/services/settings.service';
 
 @Component({
   selector: 'app-select-sca',
@@ -18,6 +19,8 @@ export class SelectScaComponent implements OnInit, OnDestroy {
   public authResponse: PaymentAuthorizeResponse;
   public selectedScaMethod: ScaUserDataTO;
   public scaForm: FormGroup;
+  public isScaMethodNotAvailable: boolean = false;
+  public devPortalLink: string;
 
   public subscriptions: Subscription[] = [];
 
@@ -26,7 +29,8 @@ export class SelectScaComponent implements OnInit, OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private pisService: PisService,
-    private shareService: ShareDataService
+    private shareService: ShareDataService,
+    private settingService: SettingsService
   ) {
     this.scaForm = this.formBuilder.group({
       scaMethod: ['', Validators.required],
@@ -38,6 +42,10 @@ export class SelectScaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.devPortalLink =
+      this.settingService.settings.devPortalUrl +
+      '/test-cases/redirect-payment-initiation-post';
+
     this.shareService.currentData.subscribe((data) => {
       if (data) {
         // TODO extract the Accounts, Balances and Transactions from data.value
@@ -45,11 +53,14 @@ export class SelectScaComponent implements OnInit, OnDestroy {
         this.shareService.currentData.subscribe((authResponse) => {
           this.authResponse = authResponse;
           if (this.authResponse.scaMethods) {
+            this.isScaMethodNotAvailable = false;
             this.selectedScaMethod = this.authResponse.scaMethods[0];
             console.log(this.selectedScaMethod);
             this.scaForm
               .get('scaMethod')
               .setValue(this.selectedScaMethod.id, { emitEvent: false });
+          } else {
+            this.isScaMethodNotAvailable = true;
           }
         });
       }
