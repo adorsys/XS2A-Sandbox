@@ -3,6 +3,7 @@ package de.adorsys.ledgers.oba.rest.server.auth.oba;
 import de.adorsys.ledgers.keycloak.client.api.KeycloakTokenService;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
+import de.adorsys.ledgers.middleware.api.domain.um.UserRoleTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -55,7 +56,9 @@ class LoginAuthenticationFilterTest {
     }
 
     private BearerTokenTO getBearer() {
-        return new BearerTokenTO(null, null, 600, null, new AccessTokenTO(), new HashSet<>());
+        AccessTokenTO token = new AccessTokenTO();
+        token.setRole(UserRoleTO.CUSTOMER);
+        return new BearerTokenTO(null, null, 600, null, token, new HashSet<>());
     }
 
     @Test

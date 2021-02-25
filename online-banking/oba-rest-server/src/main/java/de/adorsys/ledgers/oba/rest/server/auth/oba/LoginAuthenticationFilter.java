@@ -2,6 +2,7 @@ package de.adorsys.ledgers.oba.rest.server.auth.oba;
 
 import de.adorsys.ledgers.keycloak.client.api.KeycloakTokenService;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
+import de.adorsys.ledgers.middleware.api.domain.um.UserRoleTO;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -32,7 +33,10 @@ public class LoginAuthenticationFilter extends AbstractAuthFilter {
             try {
                 BearerTokenTO bearerTokenTO = tokenService.login(login, pin);
                 bearerTokenTO = tokenService.validate(bearerTokenTO.getAccess_token());
-
+                if (UserRoleTO.CUSTOMER != bearerTokenTO.getAccessTokenObject().getRole()) {
+                    handleAuthenticationFailure(response, new IllegalAccessException(String.format("User %s is missing required Role to login", login)));
+                    return;
+                }
                 fillSecurityContext(bearerTokenTO);
                 addBearerTokenHeader(bearerTokenTO.getAccess_token(), response);
             } catch (FeignException e) {
