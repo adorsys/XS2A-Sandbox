@@ -20,12 +20,12 @@
             }"
             class="form-control arrow"
             id="id"
-            #instance="ngbTypeahead"
-            (focus)="focus$.next($event.target.value)"
-            (click)="click$.next($event.target.value)"
-            [inputFormatter]="inputFormatterValue"
-            [resultFormatter]="resultFormatterValue"
             [ngbTypeahead]="search"
+            (focus)="focus$.next($any($event).target.value)"
+            (click)="click$.next($any($event).target.value)"
+            [inputFormatter]="resultFormatterValue"
+            [resultFormatter]="resultFormatterValue"
+            #instance="ngbTypeahead"
           />
           <div
             *ngIf="accountAccessForm.get('id')?.errors?.required"
@@ -81,11 +81,9 @@
             formControlName="accessType"
             id="accessType"
           >
-            <option
-              *ngFor="let accessType of accessTypes"
-              [value]="accessType"
-              >{{ accessType }}</option
-            >
+            <option *ngFor="let accessType of accessTypes" [value]="accessType">
+              {{ accessType }}
+            </option>
           </select>
           <div
             *ngIf="accountAccessForm.get('accessType')?.errors?.required"
@@ -96,8 +94,12 @@
         </div>
 
         <div class="d-flex justify-content-between">
-          <button class="btn btn-outline-danger" (click)="cancel()">Cancel</button>
-          <button class="btn btn-primary" type="submit" (click)="onSubmit()">Grant access</button>
+          <button class="btn btn-outline-danger" (click)="cancel()">
+            Cancel
+          </button>
+          <button class="btn btn-primary" type="submit" (click)="onSubmit()">
+            Grant access
+          </button>
         </div>
       </form>
     </div>
