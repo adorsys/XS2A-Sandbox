@@ -16,8 +16,10 @@ export class TestCasesComponent implements OnInit {
   embeddedFlag = false;
   accountFlag = false;
   fundsConfirmationFlag = false;
+
   redirectSupported = true;
   embeddedSupported = true;
+  fundsConfirmationSupported = true;
 
   pathToHeadTestCases = `./assets/content/i18n/en/test-cases/headTestCases.md`;
 
@@ -82,6 +84,8 @@ export class TestCasesComponent implements OnInit {
     this.customizeService.currentTheme.subscribe((data: Theme) => {
       if (data.pagesSettings) {
         const playWithDataSettings = data.pagesSettings.playWithDataSettings;
+        this.fundsConfirmationSupported = playWithDataSettings.fundConfirmationSupported;
+
         if (playWithDataSettings && playWithDataSettings.supportedApproaches) {
           const embedded = 'embedded';
           const redirect = 'redirect';

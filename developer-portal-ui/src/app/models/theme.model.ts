@@ -57,6 +57,7 @@ class ContactPageSettings {
 }
 
 class PlayWithDataSettings {
+  fundConfirmationSupported?: boolean;
   supportedApproaches?: string[];
   examplesCurrency?: string;
   tppSettings?: TppSettings;
