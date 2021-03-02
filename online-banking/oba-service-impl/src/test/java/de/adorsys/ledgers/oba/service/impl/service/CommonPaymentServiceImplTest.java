@@ -175,7 +175,7 @@ class CommonPaymentServiceImplTest {
     @Test
     void initiatePayment() {
         // Given
-        when(paymentRestClient.initiatePayment(any(), any())).thenReturn(ResponseEntity.ok(getSelectMethodResponse(TransactionStatus.ACCP.name())));
+        when(paymentRestClient.initiatePayment(any())).thenReturn(ResponseEntity.ok(getSelectMethodResponse(TransactionStatus.ACCP.name())));
         when(dataService.mapToGlobalResponse(any(), any())).thenReturn(getSelectMethodResponse());
 
         // When
@@ -188,7 +188,7 @@ class CommonPaymentServiceImplTest {
     @Test
     void initiatePayment_fail() throws AuthorisationIsExpiredException {
         // Given
-        when(paymentRestClient.initiatePayment(any(), any())).thenReturn(ResponseEntity.ok(getSelectMethodResponse(TransactionStatus.ACCP.name())));
+        when(paymentRestClient.initiatePayment(any())).thenReturn(ResponseEntity.ok(getSelectMethodResponse(TransactionStatus.ACCP.name())));
         when(dataService.mapToGlobalResponse(any(), any())).thenReturn(getSelectMethodResponse());
         when(cmsPsuPisService.updateAuthorisationStatus(any(), anyString(), anyString(), any(), anyString(), any())).thenThrow(AuthorisationIsExpiredException.class);
         PaymentWorkflow workflow = getExpectedWorkflow(null);
