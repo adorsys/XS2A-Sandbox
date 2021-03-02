@@ -23,7 +23,7 @@
             #instance="ngbTypeahead"
             (focus)="focus$.next($event.target.value)"
             (click)="click$.next($event.target.value)"
-            [inputFormatter]="inputFormatterValue"
+            [inputFormatter]="resultFormatterValue"
             [resultFormatter]="resultFormatterValue"
             [ngbTypeahead]="search"
           />
@@ -81,11 +81,9 @@
             formControlName="accessType"
             id="accessType"
           >
-            <option
-              *ngFor="let accessType of accessTypes"
-              [value]="accessType"
-              >{{ accessType }}</option
-            >
+            <option *ngFor="let accessType of accessTypes" [value]="accessType">
+              {{ accessType }}
+            </option>
           </select>
           <div
             *ngIf="accountAccessForm.get('accessType')?.errors?.required"
