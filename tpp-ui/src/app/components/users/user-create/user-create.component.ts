@@ -85,7 +85,7 @@ export class UserCreateComponent implements OnInit {
         scaUserData: this.formBuilder.array([this.initScaData()]),
         tppId: ['', [Validators.required]],
         email: ['', [Validators.required, Validators.email]],
-        login: ['', Validators.required],
+        login: ['', [Validators.required, Validators.minLength(5)]],
         pin: ['', [Validators.required, Validators.minLength(5)]],
         userRoles: this.formBuilder.array(['CUSTOMER']),
       });
@@ -93,7 +93,7 @@ export class UserCreateComponent implements OnInit {
       this.userForm = this.formBuilder.group({
         scaUserData: this.formBuilder.array([this.initScaData()]),
         email: ['', [Validators.required, Validators.email]],
-        login: ['', Validators.required],
+        login: ['', [Validators.required, Validators.minLength(5)]],
         pin: ['', [Validators.required, Validators.minLength(5)]],
         userRoles: this.formBuilder.array(['CUSTOMER']),
       });

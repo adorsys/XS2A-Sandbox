@@ -163,12 +163,14 @@ export class UserUpdateComponent implements OnInit {
               new RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/)
             ),
           ]);
+      } else if (value === ScaMethods.PUSH_OTP) {
+        scaData.get('methodValue').clearValidators();
       } else {
         scaData.get('methodValue').setValidators([Validators.required]);
       }
       scaData.get('methodValue').updateValueAndValidity();
     });
-
+    scaData.get('scaMethod').setValue('EMAIL');
     return scaData;
   }
 

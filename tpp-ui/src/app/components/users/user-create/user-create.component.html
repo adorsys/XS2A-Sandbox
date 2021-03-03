@@ -101,6 +101,15 @@
                   >
                     Login is required
                   </div>
+                  <div
+                    *ngIf="
+                      (formControl['login'].touched || submitted) &&
+                      formControl['login'].hasError('minlength')
+                    "
+                    class="invalid-feedback"
+                  >
+                    Login should be equal to or more than 5 characters
+                  </div>
                 </div>
                 <div class="col-12 col-md-3">
                   <label class="control-label" for="pin">PIN</label>
@@ -193,8 +202,9 @@
                         <option
                           *ngFor="let httpMethod of httpMethods"
                           [selected]="httpMethod == 'POST'"
-                          >{{ httpMethod }}</option
                         >
+                          {{ httpMethod }}
+                        </option>
                       </select>
 
                       <input
@@ -238,9 +248,9 @@
                   <div [formGroupName]="i">
                     <select formControlName="scaMethod" class="form-control">
                       <option value=""></option>
-                      <option *ngFor="let t of methods" [value]="t">{{
-                        t
-                      }}</option>
+                      <option *ngFor="let t of methods" [value]="t">
+                        {{ t }}
+                      </option>
                     </select>
                   </div>
                   <div
