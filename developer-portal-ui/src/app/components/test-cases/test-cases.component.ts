@@ -84,7 +84,7 @@ export class TestCasesComponent implements OnInit {
     this.customizeService.currentTheme.subscribe((data: Theme) => {
       if (data.pagesSettings) {
         const playWithDataSettings = data.pagesSettings.playWithDataSettings;
-        this.fundsConfirmationSupported = playWithDataSettings.fundConfirmationSupported;
+        this.fundsConfirmationSupported = playWithDataSettings ? playWithDataSettings.fundConfirmationSupported : false;
 
         if (playWithDataSettings && playWithDataSettings.supportedApproaches) {
           const embedded = 'embedded';
