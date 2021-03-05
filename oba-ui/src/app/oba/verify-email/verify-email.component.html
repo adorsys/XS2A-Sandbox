@@ -1,0 +1,31 @@
+<div class=""></div>
+<div class="container" *ngIf="hasRoute('email-confirmation/success')">
+  <div class="row h-100">
+    <div class="col-4"></div>
+    <div class="col-8 align-self-center">
+      <div class="card card-body"></div>
+      <div class="card card-body">
+        <p>Hurray! Your email is successfully verified.</p>
+        <!-- <button type="button" class="btn btn-success" (click)="closeWindow()">
+          Close
+        </button> -->
+      </div>
+    </div>
+    <div class="col-4"></div>
+  </div>
+</div>
+
+<div class="container" *ngIf="hasRoute('email-confirmation/fail')">
+  <div class="row h-100">
+    <div class="col-4"></div>
+    <div class="col-8 align-self-center">
+      <div class="card card-body"></div>
+      <div class="card card-body">
+        <p>Oops! Your email is not verified. Please try again later.</p>
+        <!-- <button type="button" class="btn btn-danger" (click)="closeWindow()">
+          Close
+        </button> -->
+      </div>
+    </div>
+  </div>
+</div>

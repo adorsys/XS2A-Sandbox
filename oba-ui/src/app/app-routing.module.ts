@@ -12,6 +12,7 @@ import { ResetPasswordComponent } from './oba/reset-password/reset-password.comp
 import { PeriodicPaymentsComponent } from './oba/periodic-payments/periodic-payments.component';
 import { UserProfileComponent } from './oba/user-profile/user-profile.component';
 import { UserProfileUpdateComponent } from './oba/user-profile-update/user-profile-update.component';
+import { VerifyEmailComponent } from './oba/verify-email/verify-email.component';
 
 const externalUrlProvider = new InjectionToken('externalUrlRedirectResolver');
 
@@ -27,6 +28,20 @@ export const routes: Routes = [
   {
     path: 'confirm-password',
     component: ConfirmPasswordComponent,
+  },
+  {
+    path: 'email-confirmation',
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'success',
+        component: VerifyEmailComponent,
+      },
+      {
+        path: 'fail',
+        component: VerifyEmailComponent,
+      },
+    ],
   },
   {
     path: '',
@@ -66,21 +81,21 @@ export const routes: Routes = [
   },
   {
     path: 'auth',
-    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
+    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
   {
     path: 'account-information',
-    loadChildren: () => import('./ais/ais.module').then(m => m.AisModule),
+    loadChildren: () => import('./ais/ais.module').then((m) => m.AisModule),
   },
   {
     path: 'payment-initiation',
-    loadChildren: () => import('./pis/pis.module').then(m => m.PisModule),
+    loadChildren: () => import('./pis/pis.module').then((m) => m.PisModule),
   },
   {
     path: 'payment-cancellation',
     loadChildren: () =>
       import('./payment-cancellation/payment-cancellation.module').then(
-        m => m.PaymentCancellationModule
+        (m) => m.PaymentCancellationModule
       ),
   },
   {

@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
-  NgbDatepickerModule, NgbModule,
+  NgbDatepickerModule,
+  NgbModule,
   NgbPaginationModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { ClipboardModule } from 'ngx-clipboard';
@@ -22,7 +23,7 @@ import { PeriodicPaymentsComponent } from './periodic-payments/periodic-payments
 import { ConvertBalancePipe } from '../pipes/convertBalance.pipe';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserProfileUpdateComponent } from './user-profile-update/user-profile-update.component';
-
+import { VerifyEmailComponent } from './verify-email/verify-email.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { UserProfileUpdateComponent } from './user-profile-update/user-profile-u
     PeriodicPaymentsComponent,
     ConvertBalancePipe,
     UserProfileComponent,
-    UserProfileUpdateComponent
+    UserProfileUpdateComponent,
+    VerifyEmailComponent,
   ],
   imports: [
     CommonModule,
