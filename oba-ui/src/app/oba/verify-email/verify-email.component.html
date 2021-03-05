@@ -1,30 +1,55 @@
-<div class=""></div>
-<div class="container" *ngIf="hasRoute('email-confirmation/success')">
-  <div class="row h-100">
-    <div class="col-4"></div>
-    <div class="col-8 align-self-center">
-      <div class="card card-body"></div>
-      <div class="card card-body">
-        <p>Hurray! Your email is successfully verified.</p>
-        <!-- <button type="button" class="btn btn-success" (click)="closeWindow()">
-          Close
-        </button> -->
+<div class="bg-sm-light sticky-top">
+  <nav class="navbar navbar-light text-primary py-3">
+    <a class="navbar-brand" href="#">
+      <img class="logo" [src]="customizeService.getLogo()" />
+    </a>
+  </nav>
+</div>
+<div class="d-md-flex bg-white" *ngIf="hasRoute('email-confirmation/success')">
+  <div class="col">
+    <div class="d-md-flex align-items-center h-100 p-4 justify-content-center">
+      <div class="d-md-flex align-items-center">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title text-center font-weight-bold">
+              <span *ngIf="!customizeService.isCustom()">adorsys </span>Online
+              banking
+            </h2>
+            <div class="card__subtitle">
+              Hurray! Your email is successfully verified.
+            </div>
+            <div class="text-center mt-4">
+              <a href="#" onclick="close_window();return false;">
+                <button class="btn btn-success">Close</button>
+                Close
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="col-4"></div>
   </div>
 </div>
-
-<div class="container" *ngIf="hasRoute('email-confirmation/fail')">
-  <div class="row h-100">
-    <div class="col-4"></div>
-    <div class="col-8 align-self-center">
-      <div class="card card-body"></div>
-      <div class="card card-body">
-        <p>Oops! Your email is not verified. Please try again later.</p>
-        <!-- <button type="button" class="btn btn-danger" (click)="closeWindow()">
-          Close
-        </button> -->
+<div class="d-md-flex bg-white" *ngIf="hasRoute('email-confirmation/fail')">
+  <div class="col">
+    <div class="d-md-flex align-items-center h-100 p-4 justify-content-center">
+      <div class="d-md-flex align-items-center">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title text-center font-weight-bold">
+              <span *ngIf="!customizeService.isCustom()">adorsys </span>Online
+              banking
+            </h2>
+            <div class="card__subtitle">
+              Oops! Your email is not verified. Please try again later.
+            </div>
+            <div class="text-center mt-4">
+              <a href="#" onclick="close_window();return false;">
+                <button class="btn btn-danger">Close</button>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

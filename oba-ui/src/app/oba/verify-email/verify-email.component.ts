@@ -1,5 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
+import { CustomizeService } from 'src/app/common/services/customize.service';
 
 @Component({
   selector: 'app-verify-email',
@@ -7,12 +8,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./verify-email.component.scss'],
 })
 export class VerifyEmailComponent implements OnInit {
-  constructor(private _router: Router) {}
+  constructor(
+    private _router: Router,
+    public customizeService: CustomizeService
+  ) {}
 
   ngOnInit(): void {}
-  closeWindow() {
-    open(location.hostname, '_self').close();
-  }
+
   /**
    * Check if the router url contains the specified route
    *

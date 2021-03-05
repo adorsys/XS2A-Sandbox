@@ -31,7 +31,6 @@ export const routes: Routes = [
   },
   {
     path: 'email-confirmation',
-    canActivate: [AuthGuard],
     children: [
       {
         path: 'success',
