@@ -2,37 +2,57 @@
   <div class="col">
     <div class="d-md-flex align-items-center h-100 p-4 justify-content-center">
       <div class="d-md-flex align-items-center">
-
         <div class="card w-100">
           <div class="card-body">
-
             <ng-template [ngIf]="scaStatus" [ngIfElse]="scaStatusEmpty">
               <div [ngSwitch]="scaStatus">
                 <div *ngSwitchCase="'finalised'">
                   <h3 class="card-title font-weight-bold">Success</h3>
                   <p class="card-text text-muted">
-                    <small>The consent to access your account has been successfully provided</small>
+                    <small
+                      >The consent to access your account has been successfully
+                      provided</small
+                    >
                   </p>
                 </div>
 
                 <div *ngSwitchCase="'unconfirmed'">
                   <h3 class="card-title font-weight-bold">Success</h3>
                   <p class="card-text text-muted">
-                    <small>The consent to access your account has been successfully provided</small>
+                    <small
+                      >The consent to access your account has been successfully
+                      provided</small
+                    >
                   </p>
                 </div>
 
                 <div *ngSwitchCase="'exempted'">
                   <h3 class="card-title font-weight-bold">Revoked</h3>
                   <p class="card-text text-muted">
-                    <small> The consent to access your account has been revoked</small>
+                    <small>
+                      The consent to access your account has been revoked</small
+                    >
+                  </p>
+                </div>
+                <div *ngSwitchCase="'scaMethodSelected'">
+                  <h3 class="card-title font-weight-bold">
+                    Check your Mobile phone
+                  </h3>
+                  <p class="card-text text-muted">
+                    <small>
+                      Decoupled notification was sent to your mobile device.
+                      Please finish you authorisation at your mobile device
+                      application.</small
+                    >
                   </p>
                 </div>
 
                 <div *ngSwitchDefault>
                   <h3 class="card-title font-weight-bold">Sorry</h3>
                   <p class="card-text text-muted">
-                    <small> The consent to access your account was not given</small>
+                    <small>
+                      The consent to access your account was not given</small
+                    >
                   </p>
                 </div>
               </div>
@@ -48,16 +68,21 @@
             </ng-template>
 
             <div class="form-group my-3 d-flex justify-content-between">
-              <a class="flex-fill btn btn-secondary button-icon d-flex align-items-center mr-2" [href]="devPortalLink">
+              <a
+                class="flex-fill btn btn-secondary button-icon d-flex align-items-center mr-2"
+                [href]="devPortalLink"
+              >
                 <span class="mx-auto">To Developer portal</span>
               </a>
-              <a class="flex-fill btn btn-primary button-icon d-flex align-items-center" [href]="ref">
+              <a
+                class="flex-fill btn btn-primary button-icon d-flex align-items-center"
+                [href]="ref"
+              >
                 <span class="mx-auto">Back to TPP page</span>
               </a>
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>

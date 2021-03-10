@@ -89,9 +89,15 @@ export class SelectScaComponent implements OnInit, OnDestroy {
         .subscribe((authResponse) => {
           this.authResponse = authResponse;
           this.shareService.changeData(this.authResponse);
-          this.router.navigate([
-            `${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.TAN_CONFIRMATION}`,
-          ]);
+          if (this.selectedScaMethod.decoupled) {
+            this.router.navigate([
+              `${RoutingPath.ACCOUNT_INFORMATION}/${RoutingPath.RESULT}`,
+            ]);
+          } else {
+            this.router.navigate([
+              `${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.TAN_CONFIRMATION}`,
+            ]);
+          }
         })
     );
   }
