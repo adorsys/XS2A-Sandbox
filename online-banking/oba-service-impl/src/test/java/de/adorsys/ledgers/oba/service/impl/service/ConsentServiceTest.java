@@ -101,7 +101,7 @@ class ConsentServiceTest {
     @Test
     void getListOfConsents() {
         // Given
-        when(cmsPsuAisClient.getConsentsForPsu(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok(Collections.singletonList(getCmsAisAccountConsent())));
+        when(cmsPsuAisClient.getConsentsForPsu(any(), any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(ResponseEntity.ok(Collections.singletonList(getCmsAisAccountConsent())));
         when(securityDataService.encryptId(any())).thenReturn(Optional.of("consent"));
 
         // When
@@ -116,7 +116,7 @@ class ConsentServiceTest {
     @Test
     void getListOfConsents_failedGetConsent() {
         // Given
-        when(cmsPsuAisClient.getConsentsForPsu(any(), any(), any(), any(), any(), any(), any(), any())).thenThrow(FeignException.class);
+        when(cmsPsuAisClient.getConsentsForPsu(any(), any(), any(), any(), any(), any(), any(), any(), any(), any())).thenThrow(FeignException.class);
 
         // Then
         assertThrows(ObaException.class, () -> consentService.getListOfConsents(USER_LOGIN));
@@ -358,7 +358,7 @@ class ConsentServiceTest {
                                                               consent.setId(String.valueOf(i));
                                                               return consent;
                                                           }).collect(Collectors.toList());
-        ResponseDataMixIn<Collection<CmsAisAccountConsent>> consentResponse = /*ResponseDataMixIn.list(collection, new CmsPageInfo(0, 10, 10), null);*/new ResponseDataMixIn(collection,new CmsPageInfo(0, 10, 10), null);
+        ResponseDataMixIn<Collection<CmsAisAccountConsent>> consentResponse = new ResponseDataMixIn(collection,new CmsPageInfo(0, 10, 10), null);
         when(cmsAspspAisClient.getConsentsByPsu(any(), any(), anyString(), any(), any(), any(), any(), any(), any(), any()))
             .thenReturn(consentResponse);
         CustomPageImpl<ObaAisConsent> result = consentService.getListOfConsentsPaged(USER_LOGIN, 0, 10);
