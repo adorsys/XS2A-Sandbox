@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AccinfBalanceGetComponent } from './accinf-balance-get.component';
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
@@ -26,11 +26,13 @@ describe('AccinfBalanceGetComponent', () => {
     }
   }
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [AccinfBalanceGetComponent, LineCommandComponent, TranslatePipe, MockPlayWithDataComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [AccinfBalanceGetComponent, LineCommandComponent, TranslatePipe, MockPlayWithDataComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AccinfBalanceGetComponent);

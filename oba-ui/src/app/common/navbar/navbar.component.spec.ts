@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import {NavbarComponent} from './navbar.component';
 import {RouterTestingModule} from '@angular/router/testing';
@@ -13,7 +13,7 @@ describe('NavbarComponent', () => {
     let router: Router;
     const authServiceSpy = jasmine.createSpyObj('AuthService', ['isLoggedIn', 'logout']);
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [
                 RouterTestingModule,

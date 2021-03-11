@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CustomizeService } from '../../common/services/customize.service';
@@ -30,13 +30,15 @@ describe('LoginComponent', () => {
   let infoService: InfoService;
   let router: Router;
   let route: ActivatedRoute;
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ReactiveFormsModule, InfoModule],
-      declarations: [LoginComponent],
-      providers: [PisCancellationService, CustomizeService, PisService],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule, ReactiveFormsModule, InfoModule],
+        declarations: [LoginComponent],
+        providers: [PisCancellationService, CustomizeService, PisService],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);
@@ -83,7 +85,7 @@ describe('LoginComponent', () => {
       authorisationId: 'uwpgofowbOUIGb39845zt0owirhJHGVSgueif98200293',
     };
     const pisAuthSpy = spyOn(pisService, 'pisAuthCode').and.returnValue(
-      of(mockResponse)
+      of<any>(mockResponse)
     );
     component.encryptedPaymentId = mockResponse.encryptedPaymentId;
     component.redirectId = mockResponse.authorisationId;

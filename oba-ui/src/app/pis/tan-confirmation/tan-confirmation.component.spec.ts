@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -24,18 +24,20 @@ describe('TanConfirmationComponent', () => {
   let pisService: PisService;
   let router: Router;
   let route: ActivatedRoute;
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ReactiveFormsModule],
-      declarations: [TanConfirmationComponent, PaymentDetailsComponent],
-      providers: [
-        ShareDataService,
-        PisService,
-        { provide: Router, useValue: mockRouter },
-        { provide: ActivatedRoute, useValue: mockActivatedRoute },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule, ReactiveFormsModule],
+        declarations: [TanConfirmationComponent, PaymentDetailsComponent],
+        providers: [
+          ShareDataService,
+          PisService,
+          { provide: Router, useValue: mockRouter },
+          { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TanConfirmationComponent);
@@ -97,9 +99,9 @@ describe('TanConfirmationComponent', () => {
     const pisAuthSpy = spyOn(pisService, 'authorizePayment').and.returnValue(
       throwError(mockResponse)
     );
-    const navigateSpy = spyOn(router, 'navigate').and.returnValue(
-      of(undefined).toPromise()
-    );
+    const error = of(undefined).toPromise();
+    const errorSpy = spyOn(error, 'then');
+    const navigateSpy = spyOn(router, 'navigate').and.returnValue(error);
     component.onSubmit();
     expect(navigateSpy).toHaveBeenCalledWith(
       [`${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.RESULT}`],
@@ -111,6 +113,7 @@ describe('TanConfirmationComponent', () => {
         },
       }
     );
+    expect(errorSpy).toHaveBeenCalled();
     expect(pisAuthSpy).toHaveBeenCalled();
   });
 

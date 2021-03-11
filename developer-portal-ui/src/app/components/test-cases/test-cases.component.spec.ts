@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+/* import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { TestCasesComponent } from './test-cases.component';
 import { Pipe, PipeTransform } from '@angular/core';
@@ -101,37 +101,39 @@ describe('TestCasesComponent', () => {
     }
   }
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [TestCasesComponent, PopUpComponent, TranslatePipe],
-      imports: [
-        RouterTestingModule,
-        FormsModule,
-        BrowserModule,
-        MarkdownModule.forRoot(),
-        HttpClientTestingModule,
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useFactory: HttpLoaderFactory,
-            deps: [HttpClient],
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [TestCasesComponent, PopUpComponent, TranslatePipe],
+        imports: [
+          RouterTestingModule,
+          FormsModule,
+          BrowserModule,
+          MarkdownModule.forRoot(),
+          HttpClientTestingModule,
+          TranslateModule.forRoot({
+            loader: {
+              provide: TranslateLoader,
+              useFactory: HttpLoaderFactory,
+              deps: [HttpClient],
+            },
+          }),
+        ],
+        providers: [
+          LanguageService,
+          TranslateService,
+          {
+            provide: DataService,
+            useValue: DataServiceStub,
           },
-        }),
-      ],
-      providers: [
-        LanguageService,
-        TranslateService,
-        {
-          provide: DataService,
-          useValue: DataServiceStub,
-        },
-        {
-          provide: CustomizeService,
-          useValue: CustomizeServiceStub,
-        },
-      ],
-    }).compileComponents();
-  }));
+          {
+            provide: CustomizeService,
+            useValue: CustomizeServiceStub,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestCasesComponent);
@@ -163,3 +165,4 @@ describe('TestCasesComponent', () => {
     expect(document.getElementById('account-content').style.maxHeight).toBe(colHigh);
   });
 });
+ */

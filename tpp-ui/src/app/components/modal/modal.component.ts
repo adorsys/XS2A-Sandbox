@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { BsModalRef } from 'ngx-bootstrap/modal';
 import { RecoveryPoint } from '../../models/recovery-point.models';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ResetLedgersService } from '../../services/reset-ledgers.service';
 import { InfoService } from '../../commons/info/info.service';
-import { BsModalService } from 'ngx-bootstrap';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import {
   AddRecoveryPoint,
   GetRecoveryPoint,
@@ -31,7 +30,8 @@ export class ModalComponent implements OnInit {
     private ledgersService: ResetLedgersService,
     private infoService: InfoService,
     private store: Store,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private _bsModalRef: BsModalRef
   ) {}
 
   ngOnInit() {
@@ -63,6 +63,6 @@ export class ModalComponent implements OnInit {
   }
 
   close(): void {
-    this.modal._hideModal(1);
+    this._bsModalRef.hide();
   }
 }

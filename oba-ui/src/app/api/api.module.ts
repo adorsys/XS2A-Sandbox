@@ -38,7 +38,7 @@ import { PSUSCAProvidesAccessToOneTimePasswordForStrongCustomerAuthenticationSer
   ],
 })
 export class ApiModule {
-  static forRoot(customParams: ApiConfigurationInterface): ModuleWithProviders {
+  static forRoot(customParams: ApiConfigurationInterface): ModuleWithProviders<ApiModule> {
     return {
       ngModule: ApiModule,
       providers: [

@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { IconModule } from '../../commons/icon/icon.module';
@@ -26,18 +26,25 @@ describe('AccountComponent', () => {
   let modalService: NgbModal;
   let router: Router;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        HttpClientTestingModule,
-        InfoModule,
-        IconModule,
-      ],
-      declarations: [AccountComponent, ConvertBalancePipe],
-      providers: [AccountService, NgbModal, TppManagementService, InfoService],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          RouterTestingModule,
+          HttpClientTestingModule,
+          InfoModule,
+          IconModule,
+        ],
+        declarations: [AccountComponent, ConvertBalancePipe],
+        providers: [
+          AccountService,
+          NgbModal,
+          TppManagementService,
+          InfoService,
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AccountComponent);
@@ -201,6 +208,7 @@ describe('AccountComponent', () => {
         details: '',
         linkedAccounts: '',
         balances: [],
+        creditLimit: BigInt(9080809898098),
       },
       accesses: [
         {

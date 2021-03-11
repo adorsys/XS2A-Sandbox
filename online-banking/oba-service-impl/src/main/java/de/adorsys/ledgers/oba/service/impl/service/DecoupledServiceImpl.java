@@ -25,7 +25,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient;
 import org.adorsys.ledgers.consent.xs2a.rest.client.AspspConsentDataClient;
-import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.EnumSet;
@@ -57,8 +56,6 @@ public class DecoupledServiceImpl implements DecoupledService {
                 .map(GlobalScaResponseTO::getBearerToken)
                 .map(BearerTokenTO::getAccess_token)
                 .ifPresent(authInterceptor::setAccessToken);
-
-
             if (EnumSet.of(OpTypeTO.PAYMENT, OpTypeTO.CANCEL_PAYMENT).contains(request.getOpType())) {
                 String transactionStatus = executePaymentOperation(request, response);
                 updateCmsForPayment(request.getAddressedUser(), response, transactionStatus);
@@ -71,7 +68,6 @@ public class DecoupledServiceImpl implements DecoupledService {
         return true;
     }
 
-    @Nullable
     private String executePaymentOperation(DecoupledConfRequest request, GlobalScaResponseTO response) {
         SCAPaymentResponseTO executionResponse = request.isConfirmed() && request.getOpType() == OpTypeTO.PAYMENT
                                                      ? paymentRestClient.executePayment(request.getObjId()).getBody()
@@ -92,6 +88,7 @@ public class DecoupledServiceImpl implements DecoupledService {
     private void updateCmForConsent(String psuId, GlobalScaResponseTO scaResponse) {
         // UPDATE CMS
         updateCmsScaConsentStatus(psuId, scaResponse);
+        updateConsentStatus(scaResponse);
         updateAspspConsentData(scaResponse);
     }
 
@@ -121,6 +118,14 @@ public class DecoupledServiceImpl implements DecoupledService {
 
     private void updatePaymentStatus(String paymentId, String transactionStatus) {
         cmsPsuPisService.updatePaymentStatus(paymentId, TransactionStatus.valueOf(transactionStatus), DEFAULT_SERVICE_INSTANCE_ID);
+    }
+
+    private void updateConsentStatus(GlobalScaResponseTO response) {
+        if (response.isPartiallyAuthorised()) {
+            cmsPsuAisClient.authorisePartiallyConsent(response.getOperationObjectId(), DEFAULT_SERVICE_INSTANCE_ID);
+        } else {
+            cmsPsuAisClient.confirmConsent(response.getOperationObjectId(), DEFAULT_SERVICE_INSTANCE_ID);
+        }
     }
 
     private void updateAspspConsentData(GlobalScaResponseTO scaResponse) {

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { RdctPaymentInitiationPostComponent } from './rdct-payment-initiation-post.component';
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
@@ -49,30 +49,32 @@ describe('RdctPaymentInitiationPostComponent', () => {
 
   const ToastrServiceStub = {};
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        RdctPaymentInitiationPostComponent,
-        MockPlayWithDataComponent,
-        LineCommandComponent,
-        CodeAreaComponent,
-        TranslatePipe,
-        PrettyJsonPipe,
-        PrettyJsonPipe,
-      ],
-      providers: [TranslateService, DataService, { provide: ToastrService, useValue: ToastrServiceStub }],
-      imports: [
-        HttpClientTestingModule,
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useFactory: HttpLoaderFactory,
-            deps: [HttpClient],
-          },
-        }),
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [
+          RdctPaymentInitiationPostComponent,
+          MockPlayWithDataComponent,
+          LineCommandComponent,
+          CodeAreaComponent,
+          TranslatePipe,
+          PrettyJsonPipe,
+          PrettyJsonPipe,
+        ],
+        providers: [TranslateService, DataService, { provide: ToastrService, useValue: ToastrServiceStub }],
+        imports: [
+          HttpClientTestingModule,
+          TranslateModule.forRoot({
+            loader: {
+              provide: TranslateLoader,
+              useFactory: HttpLoaderFactory,
+              deps: [HttpClient],
+            },
+          }),
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     jsonService = TestBed.get(JsonService);

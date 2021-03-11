@@ -2,15 +2,11 @@
   <div class="col">
     <div class="d-md-flex align-items-center h-100 p-4 justify-content-center">
       <div class="d-md-flex align-items-center">
-
         <div class="card w-100">
           <div class="card-body">
-
             <ng-template [ngIf]="scaStatus" [ngIfElse]="scaStatusEmpty">
               <div [ngSwitch]="scaStatus">
-
                 <div *ngSwitchCase="'finalised'">
-
                   <div *ngIf="!multilevelSca">
                     <h3 class="card-title font-weight-bold">Success</h3>
                     <p class="card-text text-muted">
@@ -22,16 +18,17 @@
                     <h3 class="card-title font-weight-bold">Partial success</h3>
                     <p class="card-text text-muted">
                       <small>
-                        You don't have enough permission to fully sign the payment, so the payment now is in
-                        partially accepted state, and you have to ask another empowered user or users to sign it.
-                        After the payment is signed by all owners of the account, it will be successfully executed.
+                        You don't have enough permission to fully sign the
+                        payment, so the payment now is in partially accepted
+                        state, and you have to ask another empowered user or
+                        users to sign it. After the payment is signed by all
+                        owners of the account, it will be successfully executed.
                       </small>
                     </p>
                   </div>
                 </div>
 
                 <div *ngSwitchCase="'unconfirmed'">
-
                   <div *ngIf="!multilevelSca">
                     <h3 class="card-title font-weight-bold">Success</h3>
                     <p class="card-text text-muted">
@@ -43,19 +40,33 @@
                     <h3 class="card-title font-weight-bold">Partial success</h3>
                     <p class="card-text text-muted">
                       <small>
-                        You don't have enough permission to fully sign the payment, so the payment now is in
-                        partially accepted state, and you have to ask another empowered user or users to sign it.
-                        After the payment is signed by all owners of the account, it will be successfully executed.
+                        You don't have enough permission to fully sign the
+                        payment, so the payment now is in partially accepted
+                        state, and you have to ask another empowered user or
+                        users to sign it. After the payment is signed by all
+                        owners of the account, it will be successfully executed.
                       </small>
                     </p>
                   </div>
                 </div>
 
                 <div *ngSwitchCase="'exempted'">
-                    <h3 class="card-title font-weight-bold">Success</h3>
-                    <p class="card-text text-muted">
-                      <small>Your payment has been successfully executed</small>
-                    </p>
+                  <h3 class="card-title font-weight-bold">Success</h3>
+                  <p class="card-text text-muted">
+                    <small>Your payment has been successfully executed</small>
+                  </p>
+                </div>
+                <div *ngSwitchCase="'scaMethodSelected'">
+                  <h3 class="card-title font-weight-bold">
+                    Check your Mobile phone
+                  </h3>
+                  <p class="card-text text-muted">
+                    <small>
+                      Decoupled notification was sent to your mobile device.
+                      Please finish you authorisation at your mobile device
+                      application.</small
+                    >
+                  </p>
                 </div>
 
                 <div *ngSwitchDefault>
@@ -77,16 +88,21 @@
             </ng-template>
 
             <div class="form-group my-3 d-flex">
-              <a class="btn btn-secondary button-icon d-flex align-items-center mr-2" [href]="devPortalLink">
+              <a
+                class="btn btn-secondary button-icon d-flex align-items-center mr-2"
+                [href]="devPortalLink"
+              >
                 <span>To Developer portal</span>
               </a>
-              <a class="btn btn-primary button-icon d-flex align-items-center" [href]="ref">
+              <a
+                class="btn btn-primary button-icon d-flex align-items-center"
+                [href]="ref"
+              >
                 <span>Back to TPP page</span>
               </a>
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>

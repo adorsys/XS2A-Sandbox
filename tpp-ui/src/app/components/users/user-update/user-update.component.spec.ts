@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { UserUpdateComponent } from './user-update.component';
 import { UserService } from '../../../services/user.service';
@@ -34,7 +34,7 @@ describe('UserUpdateComponent', () => {
     accountAccesses: [],
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,

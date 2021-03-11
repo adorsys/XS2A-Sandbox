@@ -1,20 +1,25 @@
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {Router} from '@angular/router';
-import {RouterTestingModule} from '@angular/router/testing';
-import {of} from 'rxjs';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 
-import {IconModule} from '../../commons/icon/icon.module';
-import {InfoModule} from '../../commons/info/info.module';
-import {InfoService} from '../../commons/info/info.service';
-import {Account, AccountStatus, AccountType, UsageType} from '../../models/account.model';
-import {AccountService} from '../../services/account.service';
-import {AccountListComponent} from './account-list.component';
-import {NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {FilterPipeModule} from 'ngx-filter-pipe';
-import {PaginationContainerComponent} from '../../commons/pagination-container/pagination-container.component';
-import {PaginationConfigModel} from '../../models/pagination-config.model';
+import { IconModule } from '../../commons/icon/icon.module';
+import { InfoModule } from '../../commons/info/info.module';
+import { InfoService } from '../../commons/info/info.service';
+import {
+  Account,
+  AccountStatus,
+  AccountType,
+  UsageType,
+} from '../../models/account.model';
+import { AccountService } from '../../services/account.service';
+import { AccountListComponent } from './account-list.component';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FilterPipeModule } from 'ngx-filter-pipe';
+import { PaginationContainerComponent } from '../../commons/pagination-container/pagination-container.component';
+import { PaginationConfigModel } from '../../models/pagination-config.model';
 
 describe('AccountListComponent', () => {
   let component: AccountListComponent;
@@ -23,25 +28,25 @@ describe('AccountListComponent', () => {
   let infoService: InfoService;
   let router: Router;
 
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        ReactiveFormsModule,
-        HttpClientTestingModule,
-        InfoModule,
-        RouterTestingModule,
-        FilterPipeModule,
-        IconModule,
-        NgbPaginationModule,
-        FormsModule
-      ],
-      declarations: [AccountListComponent, PaginationContainerComponent],
-      providers: [AccountService, InfoService]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          RouterTestingModule,
+          ReactiveFormsModule,
+          HttpClientTestingModule,
+          InfoModule,
+          RouterTestingModule,
+          FilterPipeModule,
+          IconModule,
+          NgbPaginationModule,
+          FormsModule,
+        ],
+        declarations: [AccountListComponent, PaginationContainerComponent],
+        providers: [AccountService, InfoService],
+      }).compileComponents();
     })
-      .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AccountListComponent);
@@ -74,13 +79,15 @@ describe('AccountListComponent', () => {
         usageType: UsageType.PRIV,
         details: '',
         linkedAccounts: '',
-        balances: []
-      } as Account
+        balances: [],
+      } as Account,
     ];
-    let getAccountsSpy = spyOn(accountService, 'getAccounts').and.returnValue(of({
-      accounts: mockAccounts,
-      totalElements: mockAccounts.length
-    }));
+    let getAccountsSpy = spyOn(accountService, 'getAccounts').and.returnValue(
+      of({
+        accounts: mockAccounts,
+        totalElements: mockAccounts.length,
+      })
+    );
 
     component.ngOnInit();
 
@@ -91,15 +98,15 @@ describe('AccountListComponent', () => {
   it('should change the page', () => {
     const mockPageConfig = {
       pageNumber: 10,
-      pageSize: 5
+      pageSize: 5,
     };
     component.searchForm.setValue({
       query: 'foo',
-      itemsPerPage: 15
+      itemsPerPage: 15,
     });
     const getAccountsSpy = spyOn(component, 'getAccounts');
     component.pageChange(mockPageConfig);
-    expect(getAccountsSpy).toHaveBeenCalledWith(10, 5, 'foo');
+    expect(getAccountsSpy).toHaveBeenCalledWith(10, 5, null);
   });
 
   it('should load accounts', () => {
@@ -120,10 +127,12 @@ describe('AccountListComponent', () => {
         usageType: UsageType.PRIV,
         details: '',
         linkedAccounts: '',
-        balances: []
-      } as Account
+        balances: [],
+      } as Account,
     ];
-    const getAccountsSpy = spyOn(accountService, 'getAccounts').and.returnValue(of({accounts: mockAccounts, totalElements: mockAccounts.length}));
+    const getAccountsSpy = spyOn(accountService, 'getAccounts').and.returnValue(
+      of({ accounts: mockAccounts, totalElements: mockAccounts.length })
+    );
     component.getAccounts(5, 10, {});
     expect(getAccountsSpy).toHaveBeenCalled();
     expect(component.accounts).toEqual(mockAccounts);
@@ -134,7 +143,7 @@ describe('AccountListComponent', () => {
     const paginationConfigModel: PaginationConfigModel = {
       itemsPerPage: 0,
       currentPageNumber: 0,
-      totalItems: 0
+      totalItems: 0,
     };
     component.config = paginationConfigModel;
     component.changePageSize(10);
@@ -158,10 +167,9 @@ describe('AccountListComponent', () => {
       usageType: UsageType.PRIV,
       details: '',
       linkedAccounts: '',
-      balances: []
+      balances: [],
     } as Account;
     const result = component.goToDepositCash(mockAccount);
     expect(result).toBe(false);
   });
-
 });

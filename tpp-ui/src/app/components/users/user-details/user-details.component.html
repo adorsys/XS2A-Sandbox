@@ -61,7 +61,7 @@
         </div>
         <div class="col-12 col-md-3 p-0">
           <button
-            *ngIf="scaItem.scaMethod == 'EMAIL' && scaItem.methodValue"
+            *ngIf="scaItem.scaMethod == 'EMAIL' && scaItem.methodValue && !scaItem.valid"
             (click)="confirmEmail(scaItem.methodValue)"
             class="btn btn-sm btn-outline-secondary"
           >

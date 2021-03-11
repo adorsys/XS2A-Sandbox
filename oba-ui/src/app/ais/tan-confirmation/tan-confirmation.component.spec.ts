@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AisService } from '../../common/services/ais.service';
 import { CustomizeService } from '../../common/services/customize.service';
 import { ShareDataService } from '../../common/services/share-data.service';
@@ -10,6 +10,8 @@ import { RoutingPath } from '../../common/models/routing-path.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import get = Reflect.get;
+import { ResultPageComponent } from '../result-page/result-page.component';
+import { AccountsComponent } from 'src/app/oba/accounts/accounts.component';
 
 const mockRouter = {
   navigate: (url: string) => {},
@@ -27,19 +29,21 @@ describe('TanConfirmationComponent', () => {
   let aisService: AisService;
   let router: Router;
   let route: ActivatedRoute;
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ReactiveFormsModule],
-      declarations: [TanConfirmationComponent, AccountDetailsComponent],
-      providers: [
-        CustomizeService,
-        ShareDataService,
-        AisService,
-        { provide: Router, useValue: mockRouter },
-        { provide: ActivatedRoute, useValue: mockActivatedRoute },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule, ReactiveFormsModule],
+        declarations: [TanConfirmationComponent, AccountDetailsComponent],
+        providers: [
+          CustomizeService,
+          ShareDataService,
+          AisService,
+          { provide: Router, useValue: mockRouter },
+          { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TanConfirmationComponent);
@@ -103,9 +107,9 @@ describe('TanConfirmationComponent', () => {
     let pisAuthSpy = spyOn(aisService, 'authrizedConsent').and.returnValue(
       throwError(mockResponse)
     );
-    let navigateSpy = spyOn(router, 'navigate').and.returnValue(
-      of(undefined).toPromise()
-    );
+    const error = of(undefined).toPromise();
+    const errorSpy = spyOn(error, 'then');
+    let navigateSpy = spyOn(router, 'navigate').and.returnValue(error);
     component.onSubmit();
     expect(navigateSpy).toHaveBeenCalledWith(
       [`${RoutingPath.ACCOUNT_INFORMATION}/${RoutingPath.RESULT}`],
@@ -117,6 +121,7 @@ describe('TanConfirmationComponent', () => {
         },
       }
     );
+    expect(errorSpy).toHaveBeenCalled();
     expect(pisAuthSpy).toHaveBeenCalled();
   });
 

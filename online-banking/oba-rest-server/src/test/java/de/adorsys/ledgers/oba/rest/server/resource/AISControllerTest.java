@@ -6,7 +6,6 @@ import de.adorsys.ledgers.middleware.api.domain.account.AccountTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.account.UsageTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.oauth.OauthCodeResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
-import de.adorsys.ledgers.middleware.api.domain.sca.SCALoginResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisAccountAccessInfoTO;
@@ -352,17 +351,6 @@ class AISControllerTest {
         cons.setConsent(getAisConsentTO(isEmptyConsent));
         cons.setEncryptedConsentId(hasEncrConsId ? ENCRYPTED_ID : null);
         return cons;
-    }
-
-    private ResponseEntity<SCALoginResponseTO> getScaLoginResponse(boolean hasBearer) {
-        SCALoginResponseTO to = new SCALoginResponseTO();
-        to.setAuthorisationId(AUTH_ID);
-        to.setScaStatus(PSUIDENTIFIED);
-
-        to.setBearerToken(hasBearer
-                              ? getBearer(null)
-                              : null);
-        return ResponseEntity.ok(to);
     }
 
     private ResponseEntity<AuthorizeResponse> getAuthResponse() {

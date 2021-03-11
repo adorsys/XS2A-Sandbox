@@ -1,6 +1,6 @@
 {
   "/ledgers/*": {
-    "target": "https://dev-dynamicsandbox-ledgers.cloud.adorsys.de",
+    "target": "https://dev-modelbank-ledgers.cloud.adorsys.de",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug",
@@ -10,7 +10,7 @@
   },
 
   "/certgen/*": {
-    "target": "https://dev-dynamicsandbox-certificategenerator.cloud.adorsys.de",
+    "target": "https://dev-modelbank-certificate-generator.cloud.adorsys.de",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug",
@@ -20,7 +20,7 @@
   },
 
   "/tpp/*": {
-    "target": "https://dev-dynamicsandbox-tppui.cloud.adorsys.de",
+    "target": "https://dev-modelbank-tpp-backend.cloud.adorsys.de",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug",

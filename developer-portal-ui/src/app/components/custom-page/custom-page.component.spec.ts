@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { CustomPageComponent } from './custom-page.component';
 import { MarkdownModule } from 'ngx-markdown';
@@ -12,24 +12,26 @@ describe('CustomPageComponent', () => {
   let component: CustomPageComponent;
   let fixture: ComponentFixture<CustomPageComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [CustomPageComponent],
-      imports: [
-        RouterTestingModule,
-        MarkdownModule.forRoot(),
-        HttpClientTestingModule,
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useFactory: HttpLoaderFactory,
-            deps: [HttpClient],
-          },
-        }),
-      ],
-      providers: [LanguageService, TranslateService],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [CustomPageComponent],
+        imports: [
+          RouterTestingModule,
+          MarkdownModule.forRoot(),
+          HttpClientTestingModule,
+          TranslateModule.forRoot({
+            loader: {
+              provide: TranslateLoader,
+              useFactory: HttpLoaderFactory,
+              deps: [HttpClient],
+            },
+          }),
+        ],
+        providers: [LanguageService, TranslateService],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CustomPageComponent);

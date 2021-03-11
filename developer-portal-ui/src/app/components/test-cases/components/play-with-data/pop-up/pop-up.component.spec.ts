@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { PopUpComponent } from './pop-up.component';
 import { FormsModule } from '@angular/forms';
@@ -14,13 +14,15 @@ describe('PopUpComponent', () => {
   let fixture: ComponentFixture<PopUpComponent>;
   const ToastrServiceStub = {};
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [PopUpComponent],
-      imports: [BrowserModule, FormsModule, HttpClientTestingModule],
-      providers: [CertificateService, DataService, { provide: ToastrService, useValue: ToastrServiceStub }, NgbModal],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [PopUpComponent],
+        imports: [BrowserModule, FormsModule, HttpClientTestingModule],
+        providers: [CertificateService, DataService, { provide: ToastrService, useValue: ToastrServiceStub }, NgbModal],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PopUpComponent);

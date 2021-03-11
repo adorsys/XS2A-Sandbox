@@ -82,7 +82,8 @@
                         <option
                           *ngFor="let country of countries"
                           [ngValue]="country.code"
-                          >{{ country.name }}
+                        >
+                          {{ country.name }}
                         </option>
                       </select>
                     </div>
@@ -158,20 +159,14 @@
               </td>
               <td>
                 <ul>
-                  <li
-                    *ngFor="let accountAccess of user?.accountAccesses"
-                    class="nav-item"
-                  >
+                  <li *ngFor="let accountAccess of user?.accountAccesses">
                     {{ accountAccess.iban }}
                   </li>
                 </ul>
               </td>
               <td>
                 <ul>
-                  <li
-                    *ngFor="let accountAccess of user?.accountAccesses"
-                    class="nav-item"
-                  >
+                  <li *ngFor="let accountAccess of user?.accountAccesses">
                     {{ accountAccess.currency }}
                   </li>
                 </ul>

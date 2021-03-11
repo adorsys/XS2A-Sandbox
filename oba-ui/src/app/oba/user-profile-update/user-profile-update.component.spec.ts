@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UserProfileUpdateComponent } from './user-profile-update.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -12,7 +12,7 @@ describe('UserProfileEditComponent', () => {
   let fixture: ComponentFixture<UserProfileUpdateComponent>;
   let mockObaService = OnlineBankingService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UserProfileUpdateComponent],
       imports: [ReactiveFormsModule, RouterTestingModule, OverlayModule],

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ShareDataService } from '../../common/services/share-data.service';
 import { PisService } from '../../common/services/pis.service';
@@ -13,7 +13,7 @@ describe('ResultPageComponent', () => {
   let shareDataService: ShareDataService;
   let pisService: PisService;
   let settingsService: SettingsService;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       declarations: [ResultPageComponent],

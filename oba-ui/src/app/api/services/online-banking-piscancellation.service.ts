@@ -59,7 +59,7 @@ class OnlineBankingPISCancellationService extends __BaseService {
    */
   initCancellationUsingPOST(paymentId: string): __Observable<SCAPaymentResponseTO> {
     return this.initCancellationUsingPOSTResponse(paymentId).pipe(
-      __map(_r => _r.body as SCAPaymentResponseTO)
+      __map(_r => _r.body)
     );
   }
 

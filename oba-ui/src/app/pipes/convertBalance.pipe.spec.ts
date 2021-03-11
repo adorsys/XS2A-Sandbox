@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ConvertBalancePipe } from './convertBalance.pipe';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
@@ -12,7 +12,7 @@ export class ConvertBalancePipeHostComponent {
 }
 
 describe('ConvertBalancePipe inside a Component', () => {
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ConvertBalancePipe, ConvertBalancePipeHostComponent],
     }).compileComponents();

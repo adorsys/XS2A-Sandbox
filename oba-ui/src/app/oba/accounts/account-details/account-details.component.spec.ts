@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -18,19 +18,21 @@ describe('AccountDetailsComponent', () => {
   let authService: AuthService;
   let onlineBankingService: OnlineBankingService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [AccountDetailsComponent, ConvertBalancePipe],
-      imports: [
-        RouterTestingModule,
-        HttpClientTestingModule,
-        ReactiveFormsModule,
-        NgbDatepickerModule,
-        NgbPaginationModule,
-      ],
-      providers: [AuthService],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [AccountDetailsComponent, ConvertBalancePipe],
+        imports: [
+          RouterTestingModule,
+          HttpClientTestingModule,
+          ReactiveFormsModule,
+          NgbDatepickerModule,
+          NgbPaginationModule,
+        ],
+        providers: [AuthService],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AccountDetailsComponent);
@@ -61,12 +63,12 @@ describe('AccountDetailsComponent', () => {
       usageType: 'PRIV',
       details: '',
       linkedAccounts: '',
-      balances: [],
+      balances: [{ amount: 6767 }],
     };
     const accountSpy = spyOn(
       onlineBankingService,
       'getAccount'
-    ).and.returnValue(of({ mockAccount }));
+    ).and.returnValue(of<any>(mockAccount));
     component.getAccountDetail();
     expect(accountSpy).toHaveBeenCalled();
   });
@@ -76,7 +78,7 @@ describe('AccountDetailsComponent', () => {
     const transactionsSpy = spyOn(
       onlineBankingService,
       'getTransactions'
-    ).and.returnValue(of({ mockResponse }));
+    ).and.returnValue(of(mockResponse));
     component.getTransactions(5, 10);
     expect(transactionsSpy).toHaveBeenCalled();
   });

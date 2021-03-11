@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 
 import { EmbConsentGetComponent } from './emb-consent-get.component';
@@ -25,11 +25,13 @@ describe('EmbConsentGetComponent', () => {
     }
   }
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [EmbConsentGetComponent, TranslatePipe, LineCommandComponent, MockPlayWithDataComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [EmbConsentGetComponent, TranslatePipe, LineCommandComponent, MockPlayWithDataComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EmbConsentGetComponent);

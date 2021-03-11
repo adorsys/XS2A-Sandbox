@@ -78,7 +78,9 @@ public class ConsentServiceImpl implements ConsentService {
     @Override
     public List<ObaAisConsent> getListOfConsents(String userLogin) {
         try {
-            List<CmsAisAccountConsent> aisAccountConsents = Optional.ofNullable(cmsPsuAisClient.getConsentsForPsu(userLogin, null, null, null, DEFAULT_SERVICE_INSTANCE_ID, 0, 9999, null).getBody())
+            List<CmsAisAccountConsent> aisAccountConsents = Optional.ofNullable(
+                cmsPsuAisClient.getConsentsForPsu(userLogin, null, null, null, DEFAULT_SERVICE_INSTANCE_ID, null, null,
+                                                  null, 0, 9999).getBody())
                                                                 .orElse(Collections.emptyList());
             return toObaAisConsent(aisAccountConsents);
         } catch (FeignException e) {

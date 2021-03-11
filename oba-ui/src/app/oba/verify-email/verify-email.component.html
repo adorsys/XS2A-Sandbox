@@ -1,0 +1,45 @@
+<div class="bg-sm-light sticky-top">
+  <nav class="navbar navbar-light text-primary py-3">
+    <a class="navbar-brand" href="#">
+      <img class="logo" [src]="customizeService.getLogo()" />
+    </a>
+  </nav>
+</div>
+<div class="d-md-flex bg-white" *ngIf="hasRoute('email-confirmation/success')">
+  <div class="col">
+    <div class="d-md-flex align-items-center h-100 p-4 justify-content-center">
+      <div class="d-md-flex align-items-center">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title text-center font-weight-bold">
+              <span *ngIf="!customizeService.isCustom()">adorsys </span>Online
+              banking
+            </h2>
+            <div class="card__subtitle">
+              Thank you! Your email has been successfully verified.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="d-md-flex bg-white" *ngIf="hasRoute('email-confirmation/fail')">
+  <div class="col">
+    <div class="d-md-flex align-items-center h-100 p-4 justify-content-center">
+      <div class="d-md-flex align-items-center">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title text-center font-weight-bold">
+              <span *ngIf="!customizeService.isCustom()">adorsys </span>Online
+              banking
+            </h2>
+            <div class="card__subtitle">
+              Oops! Your email has not been verified. Please try again.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

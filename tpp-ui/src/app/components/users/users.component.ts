@@ -1,19 +1,19 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {debounceTime, map, tap} from 'rxjs/operators';
-import {User, UserResponse} from '../../models/user.model';
-import {UserService} from '../../services/user.service';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { debounceTime, map, tap } from 'rxjs/operators';
+import { User, UserResponse } from '../../models/user.model';
+import { UserService } from '../../services/user.service';
 import {
   PageConfig,
   PaginationConfigModel,
 } from '../../models/pagination-config.model';
-import {TppUserService} from '../../services/tpp.user.service';
-import {TppManagementService} from '../../services/tpp-management.service';
-import {PageNavigationService} from '../../services/page-navigation.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {TppQueryParams} from '../../models/tpp-management.model';
-import {CountryService} from '../../services/country.service';
-import {ADMIN_KEY} from '../../commons/constant/constant';
+import { TppUserService } from '../../services/tpp.user.service';
+import { TppManagementService } from '../../services/tpp-management.service';
+import { PageNavigationService } from '../../services/page-navigation.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TppQueryParams } from '../../models/tpp-management.model';
+import { CountryService } from '../../services/country.service';
+import { ADMIN_KEY } from '../../commons/constant/constant';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { InfoService } from '../../commons/info/info.service';
 
@@ -24,7 +24,6 @@ import { InfoService } from '../../commons/info/info.service';
 })
 
 // TODO Merge UsersComponent, TppsComponent and AccountListComponent into one single component https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/-/issues/713
-
 export class UsersComponent implements OnInit {
   admin: string;
   statusBlock: string;
@@ -55,8 +54,7 @@ export class UsersComponent implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private modalService: NgbModal
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     this.admin = localStorage.getItem(ADMIN_KEY);
@@ -127,7 +125,7 @@ export class UsersComponent implements OnInit {
     this.searchForm.valueChanges
       .pipe(
         tap((val) => {
-          this.searchForm.patchValue(val, {emitEvent: false});
+          this.searchForm.patchValue(val, { emitEvent: false });
         }),
         debounceTime(750)
       )
@@ -148,14 +146,20 @@ export class UsersComponent implements OnInit {
       this.tppManagementService
         .getAllUsers(page - 1, size, params)
         .subscribe((response: UserResponse) => {
-          this.users = response.users;
+          if (typeof response.users !== 'undefined') {
+            this.users = response.users;
+            this.users.reverse();
+          }
           this.config.totalItems = response.totalElements;
         });
     } else if (this.admin === 'false') {
       this.userService
         .listUsers(page - 1, size, params.userLogin)
         .subscribe((response: UserResponse) => {
-          this.users = response.users;
+          if (typeof response.users !== 'undefined') {
+            this.users = response.users;
+            this.users.reverse();
+          }
           this.config.totalItems = response.totalElements;
         });
     }
@@ -176,16 +180,13 @@ export class UsersComponent implements OnInit {
   }
 
   private getUsers() {
-    this.listUsers(
-      this.config.currentPageNumber,
-      this.config.itemsPerPage,
-      {
-        userLogin: this.searchForm.get('userLogin').value,
-        tppId: this.searchForm.get('tppId').value,
-        tppLogin: this.searchForm.get('tppLogin').value,
-        country: this.searchForm.get('country').value,
-        blocked: this.searchForm.get('blocked').value,
-      });
+    this.listUsers(this.config.currentPageNumber, this.config.itemsPerPage, {
+      userLogin: this.searchForm.get('userLogin').value,
+      tppId: this.searchForm.get('tppId').value,
+      tppLogin: this.searchForm.get('tppLogin').value,
+      country: this.searchForm.get('country').value,
+      blocked: this.searchForm.get('blocked').value,
+    });
   }
 
   openConfirmation(content, userId: string, type: string) {
@@ -200,8 +201,7 @@ export class UsersComponent implements OnInit {
           this.delete(userId);
         }
       },
-      () => {
-      }
+      () => {}
     );
   }
 
@@ -213,23 +213,30 @@ export class UsersComponent implements OnInit {
             severity: 'info',
           });
         }
-        this.listUsers(this.config.currentPageNumber, this.config.itemsPerPage, {});
-      }); if (this.statusBlock === 'unblock') {
+        this.listUsers(
+          this.config.currentPageNumber,
+          this.config.itemsPerPage,
+          {}
+        );
+      });
+      if (this.statusBlock === 'unblock') {
         this.infoService.openFeedback('User was successfully blocked!', {
           severity: 'info',
         });
       }
     } else if (this.admin === 'false') {
-
       this.userService.blockTpp(userId).subscribe(() => {
         this.infoService.openFeedback('User was successfully blocked!', {
           severity: 'info',
         });
-        this.listUsers(this.config.currentPageNumber, this.config.itemsPerPage, {});
+        this.listUsers(
+          this.config.currentPageNumber,
+          this.config.itemsPerPage,
+          {}
+        );
       });
     }
   }
-
 
   private delete(userId: string) {
     if (this.admin === 'true') {
@@ -237,16 +244,23 @@ export class UsersComponent implements OnInit {
         this.infoService.openFeedback('User was successfully deleted!', {
           severity: 'info',
         });
-        this.listUsers(this.config.currentPageNumber, this.config.itemsPerPage, {});
+        this.listUsers(
+          this.config.currentPageNumber,
+          this.config.itemsPerPage,
+          {}
+        );
       });
     } else if (this.admin === 'false') {
       this.userService.deleteUser(userId).subscribe(() => {
         this.infoService.openFeedback('User was successfully deleted!', {
           severity: 'info',
         });
-        this.listUsers(this.config.currentPageNumber, this.config.itemsPerPage, {});
+        this.listUsers(
+          this.config.currentPageNumber,
+          this.config.itemsPerPage,
+          {}
+        );
       });
     }
-
   }
 }

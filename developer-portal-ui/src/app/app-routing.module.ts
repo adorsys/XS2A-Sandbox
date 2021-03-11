@@ -24,7 +24,7 @@ const routes: Routes = [
   },
   {
     path: 'test-cases',
-    loadChildren: './components/test-cases/test-cases.module#TestCasesModule',
+    loadChildren: () => import('./components/test-cases/test-cases.module').then((m) => m.TestCasesModule),
   },
   {
     path: '**',
@@ -34,6 +34,7 @@ const routes: Routes = [
 const routerOptions: ExtraOptions = {
   scrollPositionRestoration: 'top',
   anchorScrolling: 'enabled',
+  relativeLinkResolution: 'legacy',
 };
 
 @NgModule({

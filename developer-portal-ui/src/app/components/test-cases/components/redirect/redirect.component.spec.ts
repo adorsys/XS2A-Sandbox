@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { RedirectComponent } from './redirect.component';
 import { Pipe, PipeTransform } from '@angular/core';
@@ -21,24 +21,26 @@ describe('RedirectComponent', () => {
     }
   }
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [RedirectComponent, TranslatePipe],
-      imports: [
-        NgxImageZoomModule.forRoot(),
-        MarkdownModule.forRoot(),
-        HttpClientTestingModule,
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useFactory: HttpLoaderFactory,
-            deps: [HttpClient],
-          },
-        }),
-      ],
-      providers: [LanguageService, TranslateService],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [RedirectComponent, TranslatePipe],
+        imports: [
+          NgxImageZoomModule,
+          MarkdownModule.forRoot(),
+          HttpClientTestingModule,
+          TranslateModule.forRoot({
+            loader: {
+              provide: TranslateLoader,
+              useFactory: HttpLoaderFactory,
+              deps: [HttpClient],
+            },
+          }),
+        ],
+        providers: [LanguageService, TranslateService],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RedirectComponent);

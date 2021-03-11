@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { from } from 'rxjs';
 
 import { ConsentAuthorizeResponse } from '../../api/models/consent-authorize-response';
@@ -9,7 +9,7 @@ import LoginUsingPOSTParams = PSUAISProvidesAccessToOnlineBankingAccountFunction
 import {PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService} from '../../api/services/psuaisprovides-access-to-online-banking-account-functionality.service';
 import AisAuthGetGETParams = PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.AisAuthUsingGETParams;
 import RevokeConsentUsingDELETEParams = PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.RevokeConsentUsingDELETEParams;
-beforeEach(async(() => {
+beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
         imports: [
             HttpClientTestingModule

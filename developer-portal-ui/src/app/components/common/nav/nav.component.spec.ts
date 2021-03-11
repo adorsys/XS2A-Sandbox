@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { NavComponent } from './nav.component';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -98,29 +98,31 @@ describe('NavComponent', () => {
     getRouterUrl: () => '',
   };
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [NavComponent, TranslatePipe],
-      imports: [
-        RouterTestingModule,
-        HttpClientTestingModule,
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useFactory: HttpLoaderFactory,
-            deps: [HttpClient],
-          },
-        }),
-      ],
-      providers: [
-        LanguageService,
-        TranslateService,
-        NavigationService,
-        { provide: DataService, useValue: DataServiceStub },
-        { provide: CustomizeService, useValue: CustomizeServiceStub },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [NavComponent, TranslatePipe],
+        imports: [
+          RouterTestingModule,
+          HttpClientTestingModule,
+          TranslateModule.forRoot({
+            loader: {
+              provide: TranslateLoader,
+              useFactory: HttpLoaderFactory,
+              deps: [HttpClient],
+            },
+          }),
+        ],
+        providers: [
+          LanguageService,
+          TranslateService,
+          NavigationService,
+          { provide: DataService, useValue: DataServiceStub },
+          { provide: CustomizeService, useValue: CustomizeServiceStub },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NavComponent);

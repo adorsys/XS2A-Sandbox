@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { RdctConsentPOSTComponent } from './rdct-consent-post.component';
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
@@ -44,20 +44,22 @@ describe('RdctConsentPOSTComponent', () => {
 
   const ToastrServiceStub = {};
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        RdctConsentPOSTComponent,
-        TranslatePipe,
-        PrettyJsonPipe,
-        MockPlayWithDataComponent,
-        LineCommandComponent,
-        CodeAreaComponent,
-      ],
-      imports: [HttpClientTestingModule, NgHttpLoaderModule.forRoot()],
-      providers: [DataService, { provide: ToastrService, useValue: ToastrServiceStub }, SpinnerVisibilityService],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [
+          RdctConsentPOSTComponent,
+          TranslatePipe,
+          PrettyJsonPipe,
+          MockPlayWithDataComponent,
+          LineCommandComponent,
+          CodeAreaComponent,
+        ],
+        imports: [HttpClientTestingModule, NgHttpLoaderModule.forRoot()],
+        providers: [DataService, { provide: ToastrService, useValue: ToastrServiceStub }, SpinnerVisibilityService],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RdctConsentPOSTComponent);

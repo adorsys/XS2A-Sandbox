@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "1b79e510-c285-4a9e-a08e-8ab848232dcf"
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -28,7 +31,8 @@
             "scripts": [
               "./node_modules/jquery/dist/jquery.js",
               "./node_modules/bootstrap/dist/js/bootstrap.js"
-            ]
+            ],
+            "aot": true
           },
           "configurations": {
             "production": {
@@ -41,12 +45,16 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ]
             }
           }
         },
@@ -135,7 +143,7 @@
   "defaultProject": "tpp-ui",
   "schematics": {
     "@schematics/angular:component": {
-      "styleext": "scss"
+      "style": "scss"
     }
   }
 }

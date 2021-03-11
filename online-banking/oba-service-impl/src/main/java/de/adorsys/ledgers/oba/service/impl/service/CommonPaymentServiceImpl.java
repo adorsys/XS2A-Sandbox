@@ -114,7 +114,7 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
         authInterceptor.setAccessToken(paymentWorkflow.bearerToken().getAccess_token());
 
         SCAPaymentResponseTO paymentResponseTO = opType == OpTypeTO.PAYMENT
-                                                     ? paymentRestClient.initiatePayment(paymentWorkflow.paymentType(), paymentWorkflow.getAuthResponse().getPayment()).getBody()
+                                                     ? paymentRestClient.initiatePayment(paymentWorkflow.getAuthResponse().getPayment()).getBody()
                                                      : paymentRestClient.initiatePmtCancellation(paymentWorkflow.paymentId()).getBody();
         GlobalScaResponseTO response = dataService.mapToGlobalResponse(requireNonNull(paymentResponseTO), opType);
 

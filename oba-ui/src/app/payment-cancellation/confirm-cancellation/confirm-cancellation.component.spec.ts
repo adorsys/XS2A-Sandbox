@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RoutingPath } from '../../common/models/routing-path.model';
 import { ShareDataService } from '../../common/services/share-data.service';
@@ -22,7 +22,7 @@ describe('ConfirmCancellationComponent', () => {
   let router: Router;
   let route: ActivatedRoute;
   let shareDataService: ShareDataService;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       declarations: [ConfirmCancellationComponent, PaymentDetailsComponent],

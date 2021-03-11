@@ -1,7 +1,10 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
-import {of, throwError} from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { CustomizeService, Theme } from './customize.service';
 
 describe('CustomizeService', () => {
@@ -9,37 +12,37 @@ describe('CustomizeService', () => {
   let httpTestingController: HttpTestingController;
   const defTheme: Theme = {
     globalSettings: {
-      logo: 'Logo_XS2ASandbox.png'
-    }
+      logo: 'assets/UI/Logo_XS2ASandbox.png',
+    },
   };
   const defUserTheme = {
     globalSettings: {
-      logo: ''
-    }
+      logo: '',
+    },
   };
 
-  const theme : Theme = {
-      globalSettings: {
-          logo: 'logog',
-          title: 'title',
-          favicon: {
-              type: 'type',
-              href: 'href',
-          },
-          cssVariables:{
-              colorPrimary: 'colorPrimary',
-              fontFamily: 'fontFamily',
-              bodyBG: 'bodyBG',
-              headerBG: 'headerBG',
-              headerFontColor: 'headerFontColor',
-              sidebarBG: 'sidebarBG',
-              sidebarFontColor: 'sidebarFontColor',
-              mainBG: 'mainBG',
-              anchorFontColor: 'anchorFontColor',
-              anchorFontColorHover: 'anchorFontColorHover',
-          }
-      }
-  }
+  const theme: Theme = {
+    globalSettings: {
+      logo: 'logog',
+      title: 'title',
+      favicon: {
+        type: 'type',
+        href: 'href',
+      },
+      cssVariables: {
+        colorPrimary: 'colorPrimary',
+        fontFamily: 'fontFamily',
+        bodyBG: 'bodyBG',
+        headerBG: 'headerBG',
+        headerFontColor: 'headerFontColor',
+        sidebarBG: 'sidebarBG',
+        sidebarFontColor: 'sidebarFontColor',
+        mainBG: 'mainBG',
+        anchorFontColor: 'anchorFontColor',
+        anchorFontColorHover: 'anchorFontColorHover',
+      },
+    },
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -73,38 +76,38 @@ describe('CustomizeService', () => {
     });
 
     const req = httpTestingController.expectOne(
-      '../assets/UI/custom/UITheme.json'
+      '../assets/UI/defaultTheme.json'
     );
     expect(req.request.method).toEqual('GET');
   });
 
   describe('getJson', () => {
-      let http: HttpClient;
-      beforeEach(() => {
-          http = TestBed.get(HttpClient);
-      });
-      it('should return custom theme', () => {
-          const httpSpy = spyOn(http, 'get').and.returnValue(of(theme));
-          service.getJSON().subscribe();
-          expect(service.isCustom()).toBeTruthy();
-      });
+    let http: HttpClient;
+    beforeEach(() => {
+      http = TestBed.get(HttpClient);
+    });
+    it('should return custom theme', () => {
+      const httpSpy = spyOn(http, 'get').and.returnValue(of(theme));
+      service.getJSON().subscribe();
+      expect(service.isCustom()).toBeTruthy();
+    });
 
-      it('should return default theme when custom theme is invalid', () => {
-          const invalidJsonTheme = undefined;
-          const httpSpy = spyOn(http, 'get').and.returnValue(of(invalidJsonTheme));
-          service.getJSON().subscribe();
-          expect(service.isCustom()).toBeFalsy();
-      });
+    it('should return default theme when custom theme is invalid', () => {
+      const invalidJsonTheme = {};
+      const httpSpy = spyOn(http, 'get').and.returnValue(of(invalidJsonTheme));
+      service.getJSON().subscribe();
+      expect(service.isCustom()).toBeFalsy();
+    });
 
-      it('should return default theme when custom theme has validations error', () => {
-          const invalidTheme = {};
-          const httpSpy = spyOn(http, 'get').and.returnValue(of(invalidTheme));
-          service.getJSON().subscribe();
-          expect(service.isCustom()).toBeFalsy();
-      });
+    it('should return default theme when custom theme has validations error', () => {
+      const invalidTheme = {};
+      const httpSpy = spyOn(http, 'get').and.returnValue(of(invalidTheme));
+      service.getJSON().subscribe();
+      expect(service.isCustom()).toBeFalsy();
+    });
   });
 
-    it('custom should return boolean', () => {
+  it('custom should return boolean', () => {
     expect(typeof service.isCustom()).toBe('boolean');
   });
 
@@ -180,10 +183,10 @@ describe('CustomizeService', () => {
   });
 
   it('should add favicon', () => {
-      service.addFavicon('type', 'href');
+    service.addFavicon('type', 'href');
   });
 
   it('should set favicon', () => {
-      service.setFavicon('type', 'href');
+    service.setFavicon('type', 'href');
   });
 });

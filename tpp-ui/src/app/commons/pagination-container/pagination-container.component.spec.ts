@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {PaginationConfigModel, PageConfig} from "../../models/pagination-config.model";
 import { PaginationContainerComponent } from './pagination-container.component';
 import {NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
@@ -8,7 +8,7 @@ describe('PaginationContainerComponent', () => {
   let component: PaginationContainerComponent;
   let fixture: ComponentFixture<PaginationContainerComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ PaginationContainerComponent ],
       imports: [

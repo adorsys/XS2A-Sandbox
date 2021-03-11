@@ -1,25 +1,28 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import {User} from '../../models/user.model';
-import {TppUserService} from '../../services/tpp.user.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {TppManagementService} from '../../services/tpp-management.service';
-import {CountryService} from '../../services/country.service';
-import {PageNavigationService} from '../../services/page-navigation.service';
-import {AccountAccess} from '../../models/account-access.model';
-import {InfoService} from '../../commons/info/info.service';
-import {ResetLedgersService} from '../../services/reset-ledgers.service';
-import {RecoveryPoint} from '../../models/recovery-point.models';
-import {FormGroup} from '@angular/forms';
-import {ADMIN_KEY} from '../../commons/constant/constant';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap';
-import {ModalComponent} from '../modal/modal.component';
-import {Select, Store} from '@ngxs/store';
-import {DeleteRecoveryPoint, GetRecoveryPoint,} from '../actions/revertpoints.action';
-import {Observable} from 'rxjs';
-import {RecoveryPointState} from '../../state/recoverypoints.state';
-import {AuthService} from "../../services/auth.service";
+import { User } from '../../models/user.model';
+import { TppUserService } from '../../services/tpp.user.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TppManagementService } from '../../services/tpp-management.service';
+import { CountryService } from '../../services/country.service';
+import { PageNavigationService } from '../../services/page-navigation.service';
+import { AccountAccess } from '../../models/account-access.model';
+import { InfoService } from '../../commons/info/info.service';
+import { ResetLedgersService } from '../../services/reset-ledgers.service';
+import { RecoveryPoint } from '../../models/recovery-point.models';
+import { FormGroup } from '@angular/forms';
+import { ADMIN_KEY } from '../../commons/constant/constant';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ModalComponent } from '../modal/modal.component';
+import { Select, Store } from '@ngxs/store';
+import {
+  DeleteRecoveryPoint,
+  GetRecoveryPoint,
+} from '../actions/revertpoints.action';
+import { Observable } from 'rxjs';
+import { RecoveryPointState } from '../../state/recoverypoints.state';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -50,8 +53,7 @@ export class UserProfileComponent implements OnInit {
     private ledgersService: ResetLedgersService,
     private store: Store,
     private authService: AuthService
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.store.dispatch(new GetRecoveryPoint());
@@ -101,8 +103,7 @@ export class UserProfileComponent implements OnInit {
           this.changePin();
         }
       },
-      () => {
-      }
+      () => {}
     );
   }
 
@@ -182,15 +183,18 @@ export class UserProfileComponent implements OnInit {
       list: ['description'],
       title: 'Create point',
     };
-    this.bsModalRef = this.modal.show(ModalComponent, {initialState});
+    this.bsModalRef = this.modal.show(ModalComponent, { initialState });
     this.bsModalRef.content.closeBtnName = 'Cancel';
   }
 
   resetPasswordViaEmail(login: string) {
     this.userInfoService.resetPasswordViaEmail(login).subscribe(() => {
-      this.infoService.openFeedback('Link for password reset was sent, check email.', {
-        severity: 'info',
-      });
+      this.infoService.openFeedback(
+        'Link for password reset was sent, check email.',
+        {
+          severity: 'info',
+        }
+      );
     });
   }
 }
