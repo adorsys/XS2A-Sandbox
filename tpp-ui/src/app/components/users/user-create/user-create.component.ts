@@ -51,7 +51,7 @@ export class UserCreateComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.admin = localStorage.getItem(ADMIN_KEY);
+    this.admin = sessionStorage.getItem(ADMIN_KEY);
     this.listUsers();
     this.setupUserFormControl();
     this.getMethodsValues();

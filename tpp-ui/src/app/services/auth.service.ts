@@ -50,12 +50,12 @@ export class AuthService {
 
   logout() {
     this.autoLogoutService.resetMonitoringConfig();
-    localStorage.clear();
+    sessionStorage.clear();
     this.router.navigate(['/logout']);
   }
 
   getAuthorizationToken(): string {
-    return localStorage.getItem(this.authTokenStorageKey);
+    return sessionStorage.getItem(this.authTokenStorageKey);
   }
 
   register(tppInfo: TppInfo, countryCode: string): Observable<any> {
@@ -80,7 +80,7 @@ export class AuthService {
   }
 
   public setAuthorisationToken(token: any) {
-    localStorage.setItem(this.authTokenStorageKey, token);
+    sessionStorage.setItem(this.authTokenStorageKey, token);
     this.setUsersAccessRights(this.jwtHelperService.decodeToken(token));
   }
 
@@ -89,7 +89,7 @@ export class AuthService {
     if (loginResponse['realm_access']['roles'].includes('SYSTEM')) {
       admin = true;
     }
-    localStorage.setItem(ADMIN_KEY, admin ? 'true' : 'false');
+    sessionStorage.setItem(ADMIN_KEY, admin ? 'true' : 'false');
   }
 
   public login(credentials: any) {

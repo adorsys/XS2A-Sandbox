@@ -46,7 +46,7 @@ export class AuthService {
       map((jwt) => {
         if (jwt !== undefined) {
           this.autoLogoutService.initializeTokenMonitoring();
-          localStorage.setItem(this.authTokenStorageKey, jwt);
+          sessionStorage.setItem(this.authTokenStorageKey, jwt);
           this.currentUserService
             .getCurrentUser()
             .subscribe((data) =>
@@ -68,16 +68,17 @@ export class AuthService {
 
   logout() {
     this.autoLogoutService.resetMonitoringConfig();
-    localStorage.removeItem(this.authTokenStorageKey);
+    sessionStorage.removeItem(this.authTokenStorageKey);
     this.router.navigate(['/logout']);
   }
 
   getAuthorizedUser(): string {
-    return this.jwtHelperService.decodeToken(this.getAuthorizationToken()).preferred_username;
+    return this.jwtHelperService.decodeToken(this.getAuthorizationToken())
+      .preferred_username;
   }
 
   getAuthorizationToken(): string {
-    return localStorage.getItem(this.authTokenStorageKey);
+    return sessionStorage.getItem(this.authTokenStorageKey);
   }
 
   resetPassword(resetPassword: ResetPassword): Observable<UpdatePassword> {
@@ -86,8 +87,8 @@ export class AuthService {
     );
   }
 
-  setAuthToken(newToken: string){
-    localStorage.setItem(this.authTokenStorageKey, newToken);
+  setAuthToken(newToken: string) {
+    sessionStorage.setItem(this.authTokenStorageKey, newToken);
   }
 
   requestCodeToResetPassword(
@@ -99,6 +100,6 @@ export class AuthService {
   }
 
   public resetPasswordViaEmail(login: string): Observable<any> {
-    return this.onlineBankingAuthorizationService.resetPasswordViaEmail(login)
+    return this.onlineBankingAuthorizationService.resetPasswordViaEmail(login);
   }
 }
