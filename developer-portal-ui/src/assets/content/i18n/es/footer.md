@@ -2,19 +2,19 @@
 
   <div class="footer-top-items">
 
-[<img src="../assets/content/Logo_XS2ASandbox.png" class="logo">](https://dev-dynamicsandbox-developerportalui.cloud.adorsys.de/home)
+[<img src="../assets/content/Logo_XS2ASandbox.png" class="logo">](https://dev-modelbank-devportal.cloud.adorsys.de/home)
 
   <div>
 
-[<span class="footer-item"> Home </span>](https://dev-dynamicsandbox-developerportalui.cloud.adorsys.de/home)
+[<span class="footer-item"> Home </span>](https://dev-modelbank-devportal.cloud.adorsys.de/home)
 
-[<span class="footer-item">Getting started</span>](https://dev-dynamicsandbox-developerportalui.cloud.adorsys.de/getting-started)
+[<span class="footer-item">Getting started</span>](https://dev-modelbank-devportal.cloud.adorsys.de/getting-started)
 
-[<span class="footer-item">Casos de prueba</span>](https://dev-dynamicsandbox-developerportalui.cloud.adorsys.de/test-cases/redirect)
+[<span class="footer-item">Casos de prueba</span>](https://dev-modelbank-devportal.cloud.adorsys.de/test-cases/redirect)
 
-[<span class="footer-item">FAQs</span>](https://dev-dynamicsandbox-developerportalui.cloud.adorsys.de/page/faq)
+[<span class="footer-item">FAQs</span>](https://dev-modelbank-devportal.cloud.adorsys.de/page/faq)
 
-[<span class="footer-item">Contactos</span>](https://dev-dynamicsandbox-developerportalui.cloud.adorsys.de/page)
+[<span class="footer-item">Contactos</span>](https://dev-modelbank-devportal.cloud.adorsys.de/page)
 
   </div>
   </div>

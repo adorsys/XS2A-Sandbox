@@ -2,19 +2,19 @@
 
   <div class="footer-top-items">
 
-[<img src="../assets/content/Logo_XS2ASandbox.png" class="logo">](https://dev-dynamicsandbox-developerportalui.cloud.adorsys.de/home)
+[<img src="../assets/content/Logo_XS2ASandbox.png" class="logo">](https://dev-modelbank-devportal.cloud.adorsys.de/home)
 
   <div>
 
-[<span class="footer-item"> Головна </span>](https://dev-dynamicsandbox-developerportalui.cloud.adorsys.de/home)
+[<span class="footer-item"> Головна </span>](https://dev-modelbank-devportal.cloud.adorsys.de/home)
 
-[<span class="footer-item">Початок роботи</span>](https://dev-dynamicsandbox-developerportalui.cloud.adorsys.de/getting-started)
+[<span class="footer-item">Початок роботи</span>](https://dev-modelbank-devportal.cloud.adorsys.de/getting-started)
 
-[<span class="footer-item">Сценарії для тестування</span>](https://dev-dynamicsandbox-developerportalui.cloud.adorsys.de/test-cases/redirect)
+[<span class="footer-item">Сценарії для тестування</span>](https://dev-modelbank-devportal.cloud.adorsys.de/test-cases/redirect)
 
-[<span class="footer-item">Питання</span>](https://dev-dynamicsandbox-developerportalui.cloud.adorsys.de/page/faq)
+[<span class="footer-item">Питання</span>](https://dev-modelbank-devportal.cloud.adorsys.de/page/faq)
 
-[<span class="footer-item">Контакти</span>](https://dev-dynamicsandbox-developerportalui.cloud.adorsys.de/page)
+[<span class="footer-item">Контакти</span>](https://dev-modelbank-devportal.cloud.adorsys.de/page)
 
   </div>
   </div>
