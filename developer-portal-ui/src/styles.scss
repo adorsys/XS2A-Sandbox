@@ -418,9 +418,10 @@ strong {
 
 .logo {
   flex-shrink: 0;
-  max-height: 55%;
-  max-width: var(--max-width-logo);
+  // max-height: 55%;
+  // max-width: var(--max-width-logo);
   cursor: pointer;
+  width: 80px;
 }
 
 .footer-bar {
