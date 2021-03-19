@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { AuthService } from '../../../services/auth.service';
 import { CustomizeService } from '../../../services/customize.service';
+import { ADMIN_KEY } from 'src/app/commons/constant/constant';
 
 @Component({
   selector: 'app-login',
@@ -37,7 +38,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.loginForm.value).subscribe(
       (success) => {
         if (success) {
-          this.router.navigate(['/']);
+          this.navigateOnLogin();
         }
       },
       (data) => {
@@ -46,5 +47,13 @@ export class LoginComponent implements OnInit {
         }
       }
     );
+  }
+
+  navigateOnLogin() {
+    if (sessionStorage.getItem(ADMIN_KEY) === 'true') {
+      this.router.navigate(['/management']);
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 }

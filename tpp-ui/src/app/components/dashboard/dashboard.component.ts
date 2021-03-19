@@ -10,11 +10,7 @@ import { ADMIN_KEY } from '../../commons/constant/constant';
 })
 export class DashboardComponent implements OnInit {
   private role = sessionStorage.getItem(ADMIN_KEY);
-  constructor(private authService: AuthService, private router: Router) {
-    if (this.role === 'true') {
-      this.router.navigate(['/management']);
-    }
-  }
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {}
 }
