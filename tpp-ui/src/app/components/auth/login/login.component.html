@@ -1,76 +1,113 @@
-<div class="bg-sm-light sticky-top">
-        <nav class="navbar navbar-light text-primary py-3">
-            <a class="navbar-brand" href="#">
-                <img
-                    class="logo"
-                    [src]="customizeService.getLogo()"
-                />
-            </a>
-        </nav>
-</div>
+<div class="d-flex vh-100">
+  <div class="col-2"></div>
+  <div class="col-3 bg-white pt-5">
+    <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+      <a class="navbar-brand" href="#">
+        <img class="logo" [src]="customizeService.getLogo()" /> </a
+      ><br />
+      <h2 class="card-title font-weight-bold">
+        <p *ngIf="!customizeService.isCustom()">
+          Welcome to <br />adorsys TPP UI
+        </p>
+      </h2>
 
-<div class="d-md-flex bg-white h-md-75">
-  <div class="col">
-    <div class="d-md-flex align-items-center h-100 p-4 justify-content-center">
-      <div class="d-md-flex align-items-center">
-
-        <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
-          <div class="card">
-              <div class="card-body pd-0">
-                  <div class="card__headline text-center">
-                      <h2 class="card-title font-weight-bold"><span *ngIf="!customizeService.isCustom()">adorsys </span>TPP UI</h2>
-                      <div class="card__subtitle pd-0">
-                          Please log in with your bank account username
-                      </div>
-
-                  </div>
-                  <div *ngIf="errorMessage" class="alert alert-danger">
-                      {{errorMessage}}
-                  </div>
-                 <div class="mrb-3 mrt">
-                     <div class="form-group">
-                         <label for="login" *ngIf="!customizeService.isCustom()">Login</label>
-                         <input [ngClass]="{'is-invalid': loginForm.get('login')?.errors && loginForm.get('login')?.dirty}"
-                                autocomplete="off"
-                                class="form-control"
-                                formControlName="login"
-                                id="login"
-                                placeholder="Enter your login"
-                                type="text">
-                         <div *ngIf="loginForm.get('login')?.errors?.required && loginForm.get('login')?.dirty"
-                              class="invalid-feedback">
-                             Login is Required
-                         </div>
-                     </div>
-
-                     <div class="form-group">
-                         <label for="pin" *ngIf="!customizeService.isCustom()">PIN</label>
-                         <input [ngClass]="{'is-invalid': loginForm.get('pin')?.errors && loginForm.get('pin')?.dirty}"
-                                autocomplete="new-password"
-                                class="form-control"
-                                formControlName="pin"
-                                id="pin"
-                                placeholder="Enter your pin"
-                                type="password">
-                         <div *ngIf="loginForm.get('pin')?.errors?.required && loginForm.get('pin')?.dirty"
-                              class="invalid-feedback">
-                             Pin is Required
-                         </div>
-                         <div>
-                           <a routerLink="/reset-password" class="link-color"><small>Forgot PIN?</small></a>
-                         </div>
-                     </div>
-
-                 </div>
-                  <button class="btn btn-primary btn-block mb-3" type="submit" [disabled]="loginForm.invalid">Login</button>
-                  <div class="text-center text-light-grey" *ngIf="customizeService.showRegister()">
-                      <a routerLink="/register">Create new account</a>
-                  </div>
-              </div>
-          </div>
-        </form>
+      <p class="card-text">Please log in with your bank account user name</p>
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
       </div>
+      <div class="mrb-3 mrt">
+        <div class="form-group">
+          <label class="p-2" for="login" *ngIf="!customizeService.isCustom()"
+            >Username</label
+          >
+          <input
+            [ngClass]="{
+              'is-invalid':
+                loginForm.get('login')?.errors && loginForm.get('login')?.dirty
+            }"
+            autocomplete="off"
+            class="form-control"
+            formControlName="login"
+            id="login"
+            placeholder="Enter your login"
+            type="text"
+          />
+          <div
+            *ngIf="
+              loginForm.get('login')?.errors?.required &&
+              loginForm.get('login')?.dirty
+            "
+            class="invalid-feedback"
+          >
+            Login is Required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="p-2" for="pin" *ngIf="!customizeService.isCustom()"
+            >Password</label
+          >
+          <input
+            [ngClass]="{
+              'is-invalid':
+                loginForm.get('pin')?.errors && loginForm.get('pin')?.dirty
+            }"
+            autocomplete="new-password"
+            class="form-control"
+            formControlName="pin"
+            id="pin"
+            placeholder="Enter your pin"
+            type="password"
+          />
+          <div
+            *ngIf="
+              loginForm.get('pin')?.errors?.required &&
+              loginForm.get('pin')?.dirty
+            "
+            class="invalid-feedback"
+          >
+            Pin is Required
+          </div>
+          <div>
+            <a routerLink="/reset-password" class="link-color"
+              ><small>Forgot PIN?</small></a
+            >
+          </div>
+        </div>
+      </div>
+      <button
+        class="btn btn-primary btn-block mb-3"
+        type="submit"
+        [disabled]="loginForm.invalid"
+      >
+        Login
+      </button>
+      <div
+        class="text-center text-light-green"
+        *ngIf="customizeService.showRegister()"
+      >
+        <a routerLink="/register">Create new account</a>
+      </div>
+    </form>
+    <div class="align-self-end text-center text-light-grey">
+      <p>
+        powered by <br />
+        adorsys
+      </p>
     </div>
   </div>
+  <div class="col-1"></div>
+  <div class="col bg-light d-flex flex-column">
+    <img
+      src="../../../../assets/UI/dots-left.svg"
+      class="image-fluid w-50 h-25 align-self-start flip-vertical"
+    /><img
+      src="../../../../assets/UI/modelbank-illustration.svg"
+      class="image-fluid h-50 w-50 align-self-center"
+    />
+    <img
+      src="../../../../assets/UI/dots-right.svg"
+      class="image-fluid h-25 w-50 align-self-end"
+    />
+  </div>
 </div>
-

@@ -1,14 +1,19 @@
-<div class="hero">
+<div class="container-fluid hero">
 
-# Developer Portal
-
-# by adorsys
-
-<div class="hero-subheader">
-
-## Creating new, digital <br/> services through Open <br/> Banking
+<div class="row">
+<div class="col-2"></div>
+<div class="col-4">
+<h1>Developer Portal <br/> by adorsys <br/></h1><br/><h2> Creating new, digital <br/> services through Open <br/> Banking</h2>
+</div>
+<div class="col-5">
+    <div class="text-center">
+<img src="../assets/images/modelbank-illustration.svg" class="image-fluid">
+</div>
 
 </div>
+</div>
+<img src="../assets/images/dots-left.svg" class="image-fluid">
+<img src="../assets/images/dots-right.svg" style="float:right" class="image-fluid">
 </div>
 
 <div class="what-sandbox-wrapper container">

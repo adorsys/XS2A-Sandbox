@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="370" height="160" viewBox="0 0 370 160">
+  <g fill="#D3D8DB" fill-rule="evenodd">
+    <g transform="translate(19 57)">
+      <circle cx="4" cy="4" r="4"/>
+      <circle cx="4" cy="23" r="4"/>
+      <circle cx="4" cy="42" r="4" opacity=".495"/>
+      <circle cx="4" cy="61" r="4"/>
+      <circle cx="4" cy="80" r="4"/>
+      <circle cx="4" cy="99" r="4" opacity=".495"/>
+    </g>
+    <g transform="translate(76 114)">
+      <circle cx="4" cy="4" r="4"/>
+      <circle cx="4" cy="23" r="4"/>
+      <circle cx="4" cy="42" r="4" opacity=".495"/>
+    </g>
+    <g transform="translate(95 57)">
+      <circle cx="4" cy="4" r="4"/>
+      <circle cx="4" cy="23" r="4"/>
+      <circle cx="4" cy="42" r="4" opacity=".495"/>
+      <circle cx="4" cy="61" r="4"/>
+      <circle cx="4" cy="80" r="4"/>
+      <circle cx="4" cy="99" r="4" opacity=".495"/>
+    </g>
+    <g transform="translate(114 95)">
+      <circle cx="4" cy="4" r="4" opacity=".495"/>
+      <circle cx="4" cy="23" r="4"/>
+      <circle cx="4" cy="42" r="4"/>
+      <circle cx="4" cy="61" r="4" opacity=".495"/>
+    </g>
+    <g transform="translate(133 76)">
+      <circle cx="4" cy="4" r="4"/>
+      <circle cx="4" cy="23" r="4" opacity=".495"/>
+      <circle cx="4" cy="42" r="4"/>
+    </g>
+    <g transform="translate(152 57)">
+      <circle cx="4" cy="4" r="4"/>
+      <circle cx="4" cy="23" r="4"/>
+      <circle cx="4" cy="42" r="4" opacity=".495"/>
+      <circle cx="4" cy="61" r="4"/>
+      <circle cx="4" cy="80" r="4"/>
+      <circle cx="4" cy="99" r="4" opacity=".495"/>
+    </g>
+    <g transform="translate(171 114)">
+      <circle cx="4" cy="4" r="4"/>
+      <circle cx="4" cy="23" r="4"/>
+      <circle cx="4" cy="42" r="4" opacity=".495"/>
+    </g>
+    <g transform="translate(190 95)">
+      <circle cx="4" cy="4" r="4" opacity=".495"/>
+      <circle cx="4" cy="23" r="4"/>
+      <circle cx="4" cy="42" r="4"/>
+      <circle cx="4" cy="61" r="4" opacity=".495"/>
+    </g>
+    <g transform="translate(209 114)">
+      <circle cx="4" cy="4" r="4"/>
+      <circle cx="4" cy="42" r="4" opacity=".495"/>
+    </g>
+    <g transform="translate(228 76)">
+      <circle cx="4" cy="4" r="4"/>
+      <circle cx="4" cy="23" r="4" opacity=".495"/>
+      <circle cx="4" cy="42" r="4"/>
+      <circle cx="4" cy="61" r="4"/>
+      <circle cx="4" cy="80" r="4" opacity=".495"/>
+    </g>
+    <g transform="translate(247 57)">
+      <circle cx="4" cy="4" r="4"/>
+      <circle cx="4" cy="23" r="4"/>
+      <circle cx="4" cy="42" r="4" opacity=".495"/>
+      <circle cx="4" cy="61" r="4"/>
+      <circle cx="4" cy="80" r="4"/>
+      <circle cx="4" cy="99" r="4" opacity=".495"/>
+    </g>
+    <g opacity=".495" transform="translate(266 95)">
+      <circle cx="4" cy="4" r="4"/>
+      <circle cx="4" cy="61" r="4"/>
+    </g>
+    <g transform="translate(285 76)">
+      <circle cx="4" cy="4" r="4"/>
+      <circle cx="4" cy="23" r="4" opacity=".495"/>
+      <circle cx="4" cy="42" r="4"/>
+      <circle cx="4" cy="61" r="4"/>
+      <circle cx="4" cy="80" r="4" opacity=".495"/>
+    </g>
+    <g transform="translate(304 133)">
+      <circle cx="4" cy="4" r="4"/>
+      <circle cx="4" cy="23" r="4" opacity=".495"/>
+    </g>
+    <g transform="translate(323 95)">
+      <circle cx="4" cy="4" r="4" opacity=".495"/>
+      <circle cx="4" cy="23" r="4"/>
+      <circle cx="4" cy="42" r="4"/>
+      <circle cx="4" cy="61" r="4" opacity=".495"/>
+      <circle cx="43" cy="42" r="4"/>
+      <circle cx="43" cy="61" r="4" opacity=".495"/>
+    </g>
+    <circle cx="4" cy="4" r="4" opacity=".495" transform="translate(342 152)"/>
+    <circle cx="42" cy="80" r="4"/>
+    <circle cx="42" cy="99" r="4"/>
+    <circle cx="61" cy="80" r="4" opacity=".497"/>
+    <circle cx="61" cy="99" r="4"/>
+    <circle cx="42" cy="118" r="4" opacity=".497"/>
+    <circle cx="42" cy="23" r="4"/>
+    <circle cx="42" cy="42" r="4"/>
+    <circle cx="42" cy="61" r="4" opacity=".497"/>
+    <circle cx="23" cy="4" r="4"/>
+    <circle cx="23" cy="23" r="4"/>
+    <circle cx="23" cy="42" r="4" opacity=".497"/>
+    <circle cx="42" cy="137" r="4"/>
+    <circle cx="42" cy="156" r="4"/>
+    <circle cx="4" cy="118" r="4" opacity=".497"/>
+    <circle cx="4" cy="137" r="4"/>
+    <circle cx="61" cy="118" r="4" opacity=".497"/>
+  </g>
+</svg>

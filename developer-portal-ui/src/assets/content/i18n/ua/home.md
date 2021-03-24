@@ -1,14 +1,21 @@
-<div class="hero">
+<div class="container-fluid hero">
 
-# Портал розробника
-
-# від adorsys
-
-<div class="hero-subheader">
-
-## Створення нових цифрових <br/> сервісів за допомогою <br/> Відкрого Банкінгу
+<div class="row">
+<div class="col-2"></div>
+<div class="col-4">
+<h1>Портал розробника <br/> від adorsys <br/></h1><br/><h2> Створення нових цифрових <br/> сервісів за допомогою
+ <br/> Відкрого Банкінгу
+</h2>
+</div>
+<div class="col-5">
+    <div class="text-center">
+<img src="../assets/images/modelbank-illustration.svg" class="image-fluid">
+</div>
 
 </div>
+</div>
+<img src="../assets/images/dots-left.svg" class="image-fluid">
+<img src="../assets/images/dots-right.svg" style="float:right" class="image-fluid">
 </div>
 
 <div class="what-sandbox-wrapper container">
