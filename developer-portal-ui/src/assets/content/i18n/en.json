@@ -487,5 +487,8 @@
     "TITLE_1": "Any Questions?",
     "SUBTITLE": "Ask this person.",
     "TITLE_2": "Contact"
+  },
+  "GETTING_STARTED": {
+    "TABLE_OF_CONTENTS": "Table of contents"
   }
 }
