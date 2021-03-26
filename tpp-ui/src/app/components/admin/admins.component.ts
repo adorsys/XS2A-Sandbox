@@ -47,7 +47,7 @@ export class AdminsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.admin = localStorage.getItem(ADMIN_KEY);
+    this.admin = sessionStorage.getItem(ADMIN_KEY);
     this.getAdmins();
     this.onQueryUsers();
   }
@@ -97,7 +97,7 @@ export class AdminsComponent implements OnInit {
           if (type === 'delete') {
             this.tppManagementService.deleteUser(userId).subscribe(() => {
               if (userId === user.id) {
-                localStorage.removeItem('access_token');
+                sessionStorage.removeItem('access_token');
                 this.router.navigateByUrl('/login');
               } else {
                 this.getAdmins();

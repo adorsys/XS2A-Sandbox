@@ -7,19 +7,19 @@ div ::ng-deep {
 
   .hero {
     background: var(--heroBG);
-    padding: 128px 64px 64px 64px;
+    padding: 128px 0px 0px 0px;
 
     h1 {
       margin: 0;
       color: var(--colorPrimary);
-      font-size: 64px;
+      font-size: 50px;
       font-weight: 900;
       text-align: left;
     }
 
     h2 {
       font-weight: 500;
-      font-size: 51px;
+      font-size: 23pt;
       color: #484848;
     }
 
@@ -319,13 +319,13 @@ div ::ng-deep {
               height: 9px;
               border-radius: 100%;
               background-color: #fff;
-              border: 3px solid #0984bf;
+              border: 3px solid #13bf9f;
             }
 
             .divider {
               height: 2px;
               width: 5.5vw;
-              background-color: #0984bf;
+              //background-color: #0984bf;
             }
 
             .vertical-divider {

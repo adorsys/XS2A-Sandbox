@@ -1,15 +1,15 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute} from '@angular/router';
-import {AuthService} from '../../services/auth.service';
-import {TppUserService} from '../../services/tpp.user.service';
-import {TppManagementService} from '../../services/tpp-management.service';
-import {User} from '../../models/user.model';
-import {ADMIN_KEY} from '../../commons/constant/constant';
-import {InfoService} from '../../commons/info/info.service';
-import {Location} from '@angular/common';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { TppUserService } from '../../services/tpp.user.service';
+import { TppManagementService } from '../../services/tpp-management.service';
+import { User } from '../../models/user.model';
+import { ADMIN_KEY } from '../../commons/constant/constant';
+import { InfoService } from '../../commons/info/info.service';
+import { Location } from '@angular/common';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-profile-update',
@@ -33,12 +33,11 @@ export class UserProfileUpdateComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private tppManagementService: TppManagementService,
     private infoService: InfoService,
-    public location: Location,
-  ) {
-  }
+    public location: Location
+  ) {}
 
   ngOnInit() {
-    this.admin = localStorage.getItem(ADMIN_KEY);
+    this.admin = sessionStorage.getItem(ADMIN_KEY);
     this.getCurrentUserLogin();
     this.setupEditUserFormControl();
     this.getUserDetails();
@@ -56,7 +55,8 @@ export class UserProfileUpdateComponent implements OnInit, OnDestroy {
 
   getUserDetails(): void {
     if (this.authService.isLoggedIn()) {
-      this.userInfoService.getUserInfo()
+      this.userInfoService
+        .getUserInfo()
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe((user: User) => {
           this.user = user;
@@ -92,52 +92,54 @@ export class UserProfileUpdateComponent implements OnInit, OnDestroy {
 
     let restCall;
     if (this.admin === 'true') {
-      restCall = this.tppManagementService.updateUserDetails(updatedUser, this.tppId);
+      restCall = this.tppManagementService.updateUserDetails(
+        updatedUser,
+        this.tppId
+      );
     } else {
       restCall = this.userInfoService.updateUserInfo(updatedUser);
     }
 
-    restCall.pipe(takeUntil(this.unsubscribe$))
-      .subscribe(() => {
-        this.getUserDetails();
-        this.location.back();
-        this.infoService.openFeedback(
-          'The information has been successfully updated'
-        );
+    restCall.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+      this.getUserDetails();
+      this.location.back();
+      this.infoService.openFeedback(
+        'The information has been successfully updated'
+      );
 
-        if (this.currentLogin === this.user.login) {
-          this.authService.logout();
-        }
-      });
+      if (this.currentLogin === this.user.login) {
+        this.authService.logout();
+      }
+    });
   }
 
   private getCurrentUserLogin() {
     this.userInfoService.currentTppUser
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(user => {
+      .subscribe((user) => {
         this.currentLogin = user.login;
       });
   }
 
   private getUserInfoForAdmin(tppId: string, adminSize?) {
-    const restCall = adminSize ? this.tppManagementService.getAdminById(tppId, adminSize) : this.tppManagementService.getTppById(tppId);
-    restCall
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((user: User) => {
-        if (user) {
-          this.user = user;
-          this.userForm.patchValue({
-            email: this.user.email,
-            username: this.user.login
-          });
-        }
-      });
+    const restCall = adminSize
+      ? this.tppManagementService.getAdminById(tppId, adminSize)
+      : this.tppManagementService.getTppById(tppId);
+    restCall.pipe(takeUntil(this.unsubscribe$)).subscribe((user: User) => {
+      if (user) {
+        this.user = user;
+        this.userForm.patchValue({
+          email: this.user.email,
+          username: this.user.login,
+        });
+      }
+    });
   }
 
   private setUpTppOrAdmin() {
     this.tppId = this.route.snapshot.params['id'];
     if (this.admin === 'true') {
-      this.route.queryParams.subscribe(params => {
+      this.route.queryParams.subscribe((params) => {
         this.getUserInfoForAdmin(this.tppId, params['admin']);
       });
     }
@@ -145,9 +147,12 @@ export class UserProfileUpdateComponent implements OnInit, OnDestroy {
 
   resetPasswordViaEmail(login: string) {
     this.userInfoService.resetPasswordViaEmail(login).subscribe(() => {
-      this.infoService.openFeedback('Link for password reset was sent, check email.', {
-        severity: 'info',
-      });
+      this.infoService.openFeedback(
+        'Link for password reset was sent, check email.',
+        {
+          severity: 'info',
+        }
+      );
     });
   }
 }

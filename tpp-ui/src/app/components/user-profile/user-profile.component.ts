@@ -57,7 +57,7 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new GetRecoveryPoint());
-    this.admin = localStorage.getItem(ADMIN_KEY);
+    this.admin = sessionStorage.getItem(ADMIN_KEY);
     this.setUpCountries();
     this.setUpCurrentUser();
     const tppId = this.route.snapshot.params['id'];
@@ -125,7 +125,7 @@ export class UserProfileComponent implements OnInit {
       });
     } else {
       this.tppService.deleteSelf().subscribe(() => {
-        localStorage.removeItem('access_token');
+        sessionStorage.removeItem('access_token');
         this.authService.logout();
         this.router.navigateByUrl('/login');
       });

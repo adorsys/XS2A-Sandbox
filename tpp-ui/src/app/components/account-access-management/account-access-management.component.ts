@@ -62,7 +62,7 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.admin = localStorage.getItem(ADMIN_KEY);
+    this.admin = sessionStorage.getItem(ADMIN_KEY);
     this.listUsers();
     this.setupAccountAccessFormControl();
     this.route.queryParams.subscribe((params) => {

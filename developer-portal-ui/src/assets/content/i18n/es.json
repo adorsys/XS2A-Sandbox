@@ -481,12 +481,14 @@
         "PART_4": "3. Cambie marcador de posición",
         "PART_5": "al IBAN del usuario elegido. Establezca la moneda del usuario en el campo \" currency\"."
       }
-
     }
   },
   "CONTACT": {
     "TITLE_1": "¿Tienes algunas preguntas?",
     "SUBTITLE": "Pregunta a este hombre.",
     "TITLE_2": "Contactos"
+  },
+  "GETTING_STARTED": {
+    "TABLE_OF_CONTENTS": "Tabla de contenido"
   }
 }

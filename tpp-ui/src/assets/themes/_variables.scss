@@ -1,13 +1,14 @@
 // Overwrite bootstrap variables
-@import "./bootstrap-overrides";
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/mixins";
+@import './bootstrap-overrides';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
 
 $light-grey: #a0a0a0;
 $light-grey-10: #f8f8f8;
 $btn-text-color: #f6f6f6;
 $dark-80: #2c2e2f;
+$green: #059c85;
 
 /*
  * CSS Variables: Used for whitelabel customization
@@ -15,7 +16,7 @@ $dark-80: #2c2e2f;
 :root {
   /* Fonts */
 
-  --fontFamily: "Verdana", sans-serif;
+  --fontFamily: 'Verdana', sans-serif;
 
   --textFontSize: 1rem;
   --textFontWeight: bold;
@@ -82,22 +83,38 @@ $dark-80: #2c2e2f;
   --buttonTextColor: #fff;
   --buttonBorderRadius: 3px;
   --buttonColorTextDisabled: #fff;
-  --buttonBGDisabled: linear-gradient(129.54deg, var(--buttonBgGradient1) 0%, var(--buttonBgGradient2) 100%);
+  --buttonBGDisabled: linear-gradient(
+    129.54deg,
+    var(--buttonBgGradient1) 0%,
+    var(--buttonBgGradient2) 100%
+  );
   --button-opacity: 0.65;
   --button-heigh: 56px;
   --btn-padding: 15px 12px;
 
-  --buttonBgGradient1: #0db0e2;
-  --buttonBgGradient2: #10317d;
-  --buttonBG: linear-gradient(129.54deg, var(--buttonBgGradient1) 0%, var(--buttonBgGradient2) 100%);
+  --buttonBgGradient1: #13b4bf;
+  --buttonBgGradient2: #0a8f70;
+  --buttonBG: linear-gradient(
+    129.54deg,
+    var(--buttonBgGradient1) 0%,
+    var(--buttonBgGradient2) 100%
+  );
 
-  --buttonHoveredGradient1: #0f62a4;
-  --buttonHoveredGradient2: #10317d;
-  --buttonHovered: linear-gradient(129.54deg, var(--buttonHoveredGradient1) 0%, var(--buttonHoveredGradient2) 100%);
+  --buttonHoveredGradient1: #059c85;
+  --buttonHoveredGradient2: #0a8f70;
+  --buttonHovered: linear-gradient(
+    129.54deg,
+    var(--buttonHoveredGradient1) 0%,
+    var(--buttonHoveredGradient2) 100%
+  );
 
-  --buttonClickedGradient1: #0db0e2;
-  --buttonClickedGradient2: #062e72;
-  --buttonClicked: linear-gradient(129.54deg, var(--buttonClickedGradient1) 0%, var(--buttonClickedGradient2) 100%);
+  --buttonClickedGradient1: #13b4bf;
+  --buttonClickedGradient2: #008073;
+  --buttonClicked: linear-gradient(
+    129.54deg,
+    var(--buttonClickedGradient1) 0%,
+    var(--buttonClickedGradient2) 100%
+  );
 
   /* Secondary */
   --secondaryButtonTextColor: #{$danger};
@@ -137,5 +154,5 @@ $dark-80: #2c2e2f;
   --margin-top-icon: 6px;
 
   /* Image URL */
-  --arrow-url: url("/assets/icons/arrow-down.svg");
+  --arrow-url: url('/assets/icons/arrow-down.svg');
 }

@@ -42,7 +42,7 @@ describe('AuthService', () => {
     );
     authService.logout();
 
-    expect(localStorage.getItem('token')).toBeNull();
+    expect(sessionStorage.getItem('token')).toBeNull();
     expect(navigateSpy).toHaveBeenCalledWith(['/logout']);
   });
 

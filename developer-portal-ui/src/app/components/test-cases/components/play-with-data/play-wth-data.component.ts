@@ -332,8 +332,9 @@ export class PlayWthDataComponent implements OnInit {
     let finalUrl = this.url;
     if (this.paymentServiceFlag) {
       finalUrl += this.paymentService + this.paymentProduct;
-
-      finalUrl += this.paymentId ? '/' + this.paymentId : '';
+      if (this.paymentIdFlag) {
+        finalUrl += this.paymentId ? '/' + this.paymentId : '';
+      }
       finalUrl += this.variablePathEnd ? this.variablePathEnd : '';
       finalUrl += this.authorisationId ? '/' + this.authorisationId : '';
       finalUrl += this.cancellationId ? '/' + this.cancellationId : '';

@@ -57,7 +57,7 @@ export class UsersComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.admin = localStorage.getItem(ADMIN_KEY);
+    this.admin = sessionStorage.getItem(ADMIN_KEY);
     this.getPageConfigs();
     this.getCountries();
     this.getUsers();

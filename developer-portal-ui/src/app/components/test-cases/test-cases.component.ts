@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { DataService } from '../../services/data.service';
 import { CustomizeService } from '../../services/customize.service';
 import { AspspService } from '../../services/aspsp.service';
@@ -16,6 +16,7 @@ export class TestCasesComponent implements OnInit {
   embeddedFlag = false;
   accountFlag = false;
   fundsConfirmationFlag = false;
+  isViewInitialized = false;
 
   redirectSupported = true;
   embeddedSupported = true;
@@ -25,22 +26,24 @@ export class TestCasesComponent implements OnInit {
 
   constructor(
     public dataService: DataService,
-    private actRoute: ActivatedRoute,
     private customizeService: CustomizeService,
     private aspspService: AspspService,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private router: Router
   ) {
     this.setUpUsedApproaches();
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd && this.isViewInitialized) {
+        this.dataService.setRouterUrl(event.urlAfterRedirects);
+        this.ngOnInit();
+      }
+    });
   }
 
-  onActivate() {
-    this.dataService.setRouterUrl(this.actRoute['_routerState'].snapshot.url);
-  }
+  onActivate() {}
 
   collapseThis(collapseId: string): void {
     if (collapseId === 'redirect' || collapseId === 'embedded' || collapseId === 'account' || collapseId === 'funds-confirmation') {
-      const collapsibleItemContent = document.getElementById(`${collapseId}-content`);
-
       switch (collapseId) {
         case 'redirect':
           this.redirectFlag = !this.redirectFlag;
@@ -55,18 +58,11 @@ export class TestCasesComponent implements OnInit {
           this.fundsConfirmationFlag = !this.fundsConfirmationFlag;
           break;
       }
-
-      if (collapsibleItemContent) {
-        if (collapsibleItemContent.style.maxHeight) {
-          collapsibleItemContent.style.maxHeight = '';
-        } else {
-          collapsibleItemContent.style.maxHeight = 'none';
-        }
-      }
     }
   }
 
   ngOnInit() {
+    this.isViewInitialized = true;
     if (this.dataService.getRouterUrl().includes('account')) {
       this.collapseThis('account');
     } else if (this.dataService.getRouterUrl().includes('embedded')) {
@@ -74,7 +70,6 @@ export class TestCasesComponent implements OnInit {
     } else if (this.dataService.getRouterUrl().includes('redirect')) {
       this.collapseThis('redirect');
     }
-
     this.languageService.currentLanguage.subscribe((data) => {
       this.pathToHeadTestCases = `${this.customizeService.currentLanguageFolder}/${data}/test-cases/headTestCases.md`;
     });

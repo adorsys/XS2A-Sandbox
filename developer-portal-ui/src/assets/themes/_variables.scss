@@ -62,8 +62,8 @@ $dark-80: #2c2e2f;
   --h3FontWeight1024px: normal;
 
   /* Colors */
-  --colorPrimary: #054f72;
-  --colorSecondary: #eed52f;
+  --colorPrimary: #101c27;
+  --colorSecondary: #13bf9f;
 
   /* Body */
   --bodyBG: #fafafa;
@@ -72,7 +72,7 @@ $dark-80: #2c2e2f;
 
   /* Main */
   --mainBG: transparent;
-  --mainPadding: 0 7vw;
+  --mainPadding: 0 0;
 
   /* Header */
   --headerBG: #ffffff;
@@ -83,7 +83,7 @@ $dark-80: #2c2e2f;
   --headerBoxShadowBottom: 0 2px 2px -1px gray;
 
   /* Footer */
-  --footerBG: #054f72;
+  --footerBG: #101c27;
   --footerFontColor: #ffffff;
   --align-items: center;
   --margin-bottom: 0px;
@@ -97,15 +97,15 @@ $dark-80: #2c2e2f;
   --max-width-logo: 420px;
 
   /* Anchor */
-  --anchorFontColor: #0984bf;
-  --anchorFontColorHover: #054f72;
+  --anchorFontColor: #13bf9f;
+  --anchorFontColorHover: #008073;
 
   /* Hero */
   --heroBG: #eeeeee;
 
   /* Steps */
   --stepBG: #cccccc;
-  --arrowColor: #1d5f7f;
+  --arrowColor: #13bf9f;
 
   /* ContactsCard */
   --contactsCardBG: #eeeeee;
@@ -120,16 +120,16 @@ $dark-80: #2c2e2f;
   --buttonTextColor: #fff;
   --buttonBorderRadius: 3px;
 
-  --buttonBgGradient1: #0db0e2;
-  --buttonBgGradient2: #054f72;
+  --buttonBgGradient1: #13b4bf;
+  --buttonBgGradient2: #0a8f70;
   --buttonBG: linear-gradient(129.54deg, var(--buttonBgGradient1) 0%, var(--buttonBgGradient2) 100%);
 
-  --buttonHoveredGradient1: #0f62a4;
-  --buttonHoveredGradient2: #054f72;
+  --buttonHoveredGradient1: #059c85;
+  --buttonHoveredGradient2: #0a8f70;
   --buttonHovered: linear-gradient(129.54deg, var(--buttonHoveredGradient1) 0%, var(--buttonHoveredGradient2) 100%);
 
-  --buttonClickedGradient1: #0db0e2;
-  --buttonClickedGradient2: #062e72;
+  --buttonClickedGradient1: #13b4bf;
+  --buttonClickedGradient2: #008073;
   --buttonClicked: linear-gradient(129.54deg, var(--buttonClickedGradient1) 0%, var(--buttonClickedGradient2) 100%);
 
   /* Inputs */
