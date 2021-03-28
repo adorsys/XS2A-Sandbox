@@ -75,7 +75,7 @@ describe('EmbPaymentCancellPostComponent', () => {
   );
 
   beforeEach(() => {
-    jsonService = TestBed.get(JsonService);
+    jsonService = TestBed.inject(JsonService);
     spyOn(jsonService, 'getPreparedJsonData').and.returnValue(of('body'));
     fixture = TestBed.createComponent(EmbPaymentCancellPostComponent);
     component = fixture.componentInstance;

@@ -12,8 +12,8 @@ describe('RestService', () => {
       imports: [HttpClientTestingModule],
       providers: [RestService],
     });
-    service = TestBed.get(RestService);
-    httpTestingController = TestBed.get(HttpTestingController);
+    service = TestBed.inject(RestService);
+    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {

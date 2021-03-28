@@ -11,8 +11,8 @@ describe('TrackingIdHttpService', () => {
       imports: [HttpClientTestingModule],
       providers: [SettingsHttpService],
     });
-    service = TestBed.get(SettingsHttpService);
-    httpTestingController = TestBed.get(HttpTestingController);
+    service = TestBed.inject(SettingsHttpService);
+    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {

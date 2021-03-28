@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Inject, LOCALE_ID } from '@angular/core';
 import { RestService } from '../../../../services/rest.service';
 import { DataService } from '../../../../services/data.service';
 import { getStatusText } from 'http-status-codes';
@@ -15,6 +15,8 @@ import * as uuid from 'uuid';
 import { GoogleAnalyticsService } from '../../../../services/google-analytics.service';
 import { CertificateService } from '../../../../services/certificate.service';
 import { EVENT_VALUE, SLICE_DATE_FROM_ISO_STRING } from '../../../common/constant/constants';
+import { formatDate } from '@angular/common';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-play-wth-data',
@@ -87,7 +89,8 @@ export class PlayWthDataComponent implements OnInit {
     public aspspService: AspspService,
     private http: HttpClient,
     private certificateService: CertificateService,
-    private googleAnalyticsService: GoogleAnalyticsService
+    private googleAnalyticsService: GoogleAnalyticsService,
+    @Inject(LOCALE_ID) private locale: string
   ) {}
 
   getStatusText(status) {
@@ -275,6 +278,18 @@ export class PlayWthDataComponent implements OnInit {
       } else {
         this.jsonService
           .getPreparedJsonData(this.paymentService + this.paymentProduct, this.paymentProduct === '/sepa-credit-transfers')
+          .pipe(
+            map((result) => {
+              const now = new Date();
+              const monthToBeAdded = 7;
+              const copy = {
+                ...result,
+                startDate: formatDate(now, 'yyyy-MM-dd', this.locale),
+                endDate: formatDate(new Date(now.getFullYear(), now.getMonth() + monthToBeAdded, now.getDay()), 'yyyy-MM-dd', this.locale),
+              };
+              return copy;
+            })
+          )
           .subscribe((data) => {
             this.xml = false;
             this.body = data;

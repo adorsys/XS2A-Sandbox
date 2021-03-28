@@ -10,7 +10,7 @@ describe('LocalStorageService', () => {
       providers: [LocalStorageService],
     });
 
-    service = TestBed.get(LocalStorageService);
+    service = TestBed.inject(LocalStorageService);
   });
 
   // --- snip ---
