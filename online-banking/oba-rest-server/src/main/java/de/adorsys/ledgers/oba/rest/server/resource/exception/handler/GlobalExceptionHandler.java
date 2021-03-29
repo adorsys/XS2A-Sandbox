@@ -78,7 +78,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ConnectException.class)
     public ResponseEntity<Map<String, String>> handleAuthException(ConnectException e) {
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        HttpStatus status = INTERNAL_SERVER_ERROR;
         Map<String, String> message = buildContentMap(status.value(), e.getMessage());
         return ResponseEntity.status(status).body(message);
     }
