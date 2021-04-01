@@ -73,7 +73,7 @@ export class AuthService {
   }
 
   getAuthorizedUser(): string {
-    return this.jwtHelperService.decodeToken(this.getAuthorizationToken()).preferred_username;
+    return this.jwtHelperService.decodeToken(this.getAuthorizationToken()).name;
   }
 
   getAuthorizationToken(): string {
@@ -86,7 +86,7 @@ export class AuthService {
     );
   }
 
-  setAuthToken(newToken: string){
+  setAuthToken(newToken: string) {
     localStorage.setItem(this.authTokenStorageKey, newToken);
   }
 
@@ -99,6 +99,6 @@ export class AuthService {
   }
 
   public resetPasswordViaEmail(login: string): Observable<any> {
-    return this.onlineBankingAuthorizationService.resetPasswordViaEmail(login)
+    return this.onlineBankingAuthorizationService.resetPasswordViaEmail(login);
   }
 }
