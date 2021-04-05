@@ -24,8 +24,6 @@ import java.nio.ByteBuffer;
 import java.util.Map;
 import java.util.Optional;
 
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-
 @Slf4j
 @ControllerAdvice
 @RequiredArgsConstructor
@@ -37,11 +35,12 @@ public class GlobalExceptionHandler {
     private final ObjectMapper objectMapper;
 
     @ExceptionHandler(value = Exception.class)
-    public ResponseEntity<Map> handleException(Exception ex, HandlerMethod handlerMethod) {
+    public ResponseEntity<Map<String, String>> handleException(Exception ex, HandlerMethod handlerMethod) {
         log.warn("Exception handled in service: {}, message: {}",
                  handlerMethod.getMethod().getDeclaringClass().getSimpleName(), ex.getMessage());
 
-        return new ResponseEntity<>(buildContentMap(500, ex.getMessage()), INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(buildContentMap(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage()),
+                                    HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(AccessDeniedException.class)

@@ -2,10 +2,11 @@ package de.adorsys.ledgers.oba.rest.server.resource;
 
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.oba.rest.server.config.cors.CookieConfigProperties;
-import de.adorsys.ledgers.oba.service.api.domain.AuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentType;
 import de.adorsys.ledgers.oba.service.api.domain.OnlineBankingResponse;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
-import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.jupiter.api.Assertions.*;
@@ -119,6 +119,27 @@ class ResponseUtilsTest {
         // Then
         assertFalse(StringUtils.isEmpty(cookie));
         assertFalse(StringUtils.isBlank(cookie));
+    }
+
+    @Test
+    void consentCookie_contentWithPrefix() {
+        // When
+        String cookie = responseUtils.consentCookie("PREFIX_CONSENT=mklrfkwrj3i4jrhugui3i4htvou34d");
+
+        // Then
+        assertFalse(StringUtils.isEmpty(cookie));
+        assertFalse(StringUtils.isBlank(cookie));
+    }
+
+    @Test
+    void consentCookie_corruptedCookie() {
+        try {
+            responseUtils.consentCookie("CORRUPTED_COOKIE");
+            fail();
+        } catch (ObaException e) {
+            assertEquals(ObaErrorCode.COOKIE_ERROR, e.getObaErrorCode());
+            assertEquals("Cookie is corrupted, deleting cookie. Please try again!", e.getDevMessage());
+        }
     }
 
     @Test

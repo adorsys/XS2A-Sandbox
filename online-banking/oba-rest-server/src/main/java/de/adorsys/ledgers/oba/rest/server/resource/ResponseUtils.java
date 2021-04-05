@@ -110,8 +110,8 @@ public class ResponseUtils {
 
         try {
             // Fix Java: rfc2965 want cookie to be separated by comma.
-            // SOmehow i am receiving some semicolon separated cookies.
-            // Quick Fix: First strip the preceeding cookies if not the first.
+            // Somehow i am receiving some semicolon separated cookies.
+            // Quick Fix: First strip the preceding cookies if not the first.
             if (!StringUtils.startsWithIgnoreCase(cookieString, cookieParamName)) {
                 int indexOfIgnoreCase = StringUtils.indexOfIgnoreCase(cookieString, cookieParamName);
                 cookieString = cookieString.substring(indexOfIgnoreCase);
