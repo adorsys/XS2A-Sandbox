@@ -157,6 +157,20 @@ variables:
 #-------------------------------------------------------------------
 # lint
 #-------------------------------------------------------------------
+Lint:Dockerfiles:
+  image: docker:20.10
+  stage: "Lint"
+  services:
+    - docker:20.10-dind
+  except:
+    - schedules
+    - develop
+    - master
+  script:
+    - apk add make
+    - echo "Run Dockerfiles lint"
+    - make lint-dockerfiles
+
 Lint:OBA_frontend:
   image: node:12.16.2-stretch-slim
   stage: "Lint"
@@ -166,7 +180,6 @@ Lint:OBA_frontend:
     - master-4.x
   script:
     - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
-    - curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
     - echo "Run OBA lint"
     - make lint-oba-ui
 
@@ -179,7 +192,6 @@ Lint:TPP_frontend:
     - master-4.x
   script:
     - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
-    - curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
     - echo "Run TPP lint"
     - make lint-tpp-ui
 
@@ -192,7 +204,6 @@ Lint:Devportal_frontend:
     - master-4.x
   script:
     - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
-    - curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
     - echo "Run Devportal frontend lint"
     - make lint-developer-portal-ui
 
@@ -205,7 +216,6 @@ Lint:OBA_backend:
     - master-4.x
   script:
     - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
-    - curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
     - echo "Run OBA backend lint"
     - make lint-online-banking
 
@@ -218,7 +228,6 @@ Lint:TPP_backend:
     - master-4.x
   script:
     - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
-    - curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
     - echo "Run TPP backend lint"
     - make lint-tpp-rest-server
 
