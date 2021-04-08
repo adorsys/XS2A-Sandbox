@@ -31,11 +31,18 @@ install-for-MacOS:
 	brew install jq
 	brew install plantuml
 	brew install asciidoctor
-	brew install jsonlint yamllint 
+	brew install jsonlint yamllint
 
 # Lint section
 
-lint-all: lint-tpp-ui lint-oba-ui lint-developer-portal-ui lint-tpp-rest-server lint-online-banking lint-docker-compose lint-pmd-cpd-report #lint all services
+lint-all: lint-dockerfiles lint-tpp-ui lint-oba-ui lint-developer-portal-ui lint-tpp-rest-server lint-online-banking lint-docker-compose lint-pmd-cpd-report #lint all services
+
+lint-dockerfiles:
+	docker run --rm -i hadolint/hadolint < tpp-ui/Dockerfile
+	docker run --rm -i hadolint/hadolint < oba-ui/Dockerfile
+	docker run --rm -i hadolint/hadolint < developer-portal-ui/Dockerfile
+	docker run --rm -i hadolint/hadolint < tpp-app/tpp-rest-server/Dockerfile
+	docker run --rm -i hadolint/hadolint < online-banking/online-banking-app/Dockerfile
 
 lint-tpp-ui:
 	find tpp-ui -type f -name "*.json" -not -path "tpp-ui/node_modules/*" -exec jsonlint -q {} \; # lint all json
@@ -44,7 +51,6 @@ lint-tpp-ui:
 	#cd tpp-ui && npm ci && npm install
 	#cd tpp-ui && npm run lint
 	#cd tpp-ui && npm run prettier-check
-	docker run --rm -i hadolint/hadolint < tpp-ui/Dockerfile
 
 lint-oba-ui:
 	cd oba-ui
@@ -54,7 +60,6 @@ lint-oba-ui:
 	#cd oba-ui && npm ci && npm install
 	#cd oba-ui && npm run lint
 	#cd oba-ui && npm run prettier-check
-	docker run --rm -i hadolint/hadolint < oba-ui/Dockerfile
 
 lint-developer-portal-ui:
 	find developer-portal-ui -type f -name "*.json" -not -path "developer-portal-ui/node_modules/*" -exec jsonlint -q {} \; # lint all json
@@ -63,19 +68,16 @@ lint-developer-portal-ui:
 	cd developer-portal-ui && npm ci && npm install
 	cd developer-portal-ui && npm run lint
 	cd developer-portal-ui && npm run prettier-check
-	docker run --rm -i hadolint/hadolint < developer-portal-ui/Dockerfile
 
 lint-tpp-rest-server:
 	find tpp-app -type f -name "*.json" -exec jsonlint -q {} \; # lint all json
 	find tpp-app -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
 	find tpp-app -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
-	docker run --rm -i hadolint/hadolint < tpp-app/tpp-rest-server/Dockerfile
 
 lint-online-banking:
 	find online-banking -type f -name "*.json" -exec jsonlint -q {} \; # lint all json
 	find online-banking -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
 	find online-banking -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
-	docker run --rm -i hadolint/hadolint < online-banking/online-banking-app/Dockerfile
 
 lint-docker-compose:
 	docker-compose -f docker-compose.yml config  -q
