@@ -4,6 +4,8 @@ import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.oba.rest.server.config.cors.CookieConfigProperties;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
 import de.adorsys.ledgers.oba.service.api.domain.OnlineBankingResponse;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
@@ -106,20 +108,27 @@ public class ResponseUtils {
 
         String cookieParamName = name + "=";
 
-        // Fix Java: rfc2965 want cookie to be separated by comma.
-        // SOmehow i am receiving some semicolon separated cookies.
-        // Quick Fix: First strip the preceeding cookies if not the first.
-        if (!StringUtils.startsWithIgnoreCase(cookieString, cookieParamName)) {
-            int indexOfIgnoreCase = StringUtils.indexOfIgnoreCase(cookieString, cookieParamName);
-            cookieString = cookieString.substring(indexOfIgnoreCase);
-        }
-        // The proce
-        List<HttpCookie> cookies = HttpCookie.parse(cookieString);
-        for (HttpCookie httpCookie : cookies) {
-            if (StringUtils.equalsIgnoreCase(httpCookie.getName(), name)) {
-                return httpCookie.getValue();
+        try {
+            // Fix Java: rfc2965 want cookie to be separated by comma.
+            // Somehow i am receiving some semicolon separated cookies.
+            // Quick Fix: First strip the preceding cookies if not the first.
+            if (!StringUtils.startsWithIgnoreCase(cookieString, cookieParamName)) {
+                int indexOfIgnoreCase = StringUtils.indexOfIgnoreCase(cookieString, cookieParamName);
+                cookieString = cookieString.substring(indexOfIgnoreCase);
             }
+            // The proce
+            List<HttpCookie> cookies = HttpCookie.parse(cookieString);
+            for (HttpCookie httpCookie : cookies) {
+                if (StringUtils.equalsIgnoreCase(httpCookie.getName(), name)) {
+                    return httpCookie.getValue();
+                }
+            }
+            return null;
+        } catch (IndexOutOfBoundsException e) {
+            throw ObaException.builder()
+                      .obaErrorCode(ObaErrorCode.COOKIE_ERROR)
+                      .devMessage("Cookie is corrupted, deleting cookie. Please try again!")
+                      .build();
         }
-        return null;
     }
 }

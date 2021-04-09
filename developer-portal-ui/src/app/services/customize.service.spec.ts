@@ -12,8 +12,8 @@ describe('CustomizeService', () => {
       imports: [HttpClientTestingModule],
       providers: [CustomizeService],
     });
-    service = TestBed.get(CustomizeService);
-    httpTestingController = TestBed.get(HttpTestingController);
+    service = TestBed.inject(CustomizeService);
+    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {

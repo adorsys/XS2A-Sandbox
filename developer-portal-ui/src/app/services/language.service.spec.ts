@@ -24,8 +24,8 @@ describe('LanguageService', () => {
       ],
       providers: [LanguageService, TranslateService],
     });
-    service = TestBed.get(LanguageService);
-    translate = TestBed.get(TranslateService);
+    service = TestBed.inject(LanguageService);
+    translate = TestBed.inject(TranslateService);
   });
 
   it('should be created', () => {

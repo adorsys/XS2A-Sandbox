@@ -12,8 +12,8 @@ describe('JsonService', () => {
       imports: [HttpClientTestingModule],
       providers: [JsonService],
     });
-    service = TestBed.get(JsonService);
-    httpTestingController = TestBed.get(HttpTestingController);
+    service = TestBed.inject(JsonService);
+    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {

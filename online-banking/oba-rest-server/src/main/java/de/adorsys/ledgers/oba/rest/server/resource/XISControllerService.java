@@ -89,6 +89,7 @@ public class XISControllerService {
         AccessTokenTO tokenTO = Optional.ofNullable(token).map(tokenService::validate)
                                     .map(BearerTokenTO::getAccessTokenObject)
                                     .orElse(null);
+        responseUtils.removeCookies(response);
         responseUtils.setCookies(response, consentReference, token, tokenTO);
         if (StringUtils.isNotBlank(token)) {
             response.addHeader(HttpHeaders.AUTHORIZATION, token);

@@ -12,7 +12,7 @@ describe('MarkdownStylingService', () => {
   );
 
   it('should be created', () => {
-    const service: MarkdownStylingService = TestBed.get(MarkdownStylingService);
+    const service: MarkdownStylingService = TestBed.inject(MarkdownStylingService);
     expect(service).toBeTruthy();
   });
 });

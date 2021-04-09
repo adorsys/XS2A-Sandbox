@@ -28,8 +28,9 @@ import org.springframework.http.ResponseEntity;
 import java.util.Set;
 
 import static de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode.AUTH_EXPIRED;
+import static de.adorsys.psd2.consent.aspsp.api.config.CmsPsuApiDefaultValue.DEFAULT_SERVICE_INSTANCE_ID;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -56,57 +57,131 @@ class DecoupledServiceImplTest {
 
     @Test
     void executeDecoupledOpr_pmt() throws AuthorisationIsExpiredException {
-        when(tokenService.exchangeToken(any(), any(), any())).thenReturn(getToken("sca_token"));
-        when(redirectScaClient.validateScaCode(any(), eq("TAN"))).thenReturn(getResponse());
-        when(paymentRestClient.executePayment(any())).thenReturn(ResponseEntity.ok(getScaPaymentResponse()));
+        DecoupledConfRequest request = getDecoupledRequest(OpTypeTO.PAYMENT);
 
-        boolean result = service.executeDecoupledOpr(getDecoupledRequest(OpTypeTO.PAYMENT), "login_token");
+        when(tokenService.exchangeToken("login_token", request.getAuthorizationTTL(), Constants.SCOPE_SCA)).thenReturn(getToken("sca_token"));
+        when(redirectScaClient.validateScaCode(request.getAuthorizationId(), "TAN")).thenReturn(getResponse());
+        when(paymentRestClient.executePayment(request.getObjId())).thenReturn(ResponseEntity.ok(getScaPaymentResponse()));
+
+        boolean result = service.executeDecoupledOpr(request, "login_token");
         assertTrue(result);
-        verify(tokenService, times(1)).exchangeToken(anyString(), anyInt(), eq(Constants.SCOPE_SCA));
-        verify(authInterceptor, times(1)).setAccessToken(eq("sca_token"));
-        verify(redirectScaClient, times(1)).validateScaCode(any(), eq("TAN"));
-        verify(authInterceptor, times(1)).setAccessToken(eq("full_token"));
-        verify(paymentRestClient, times(1)).executePayment(any());
+        verify(tokenService, times(1)).exchangeToken("login_token", request.getAuthorizationTTL(), Constants.SCOPE_SCA);
+        verify(authInterceptor, times(1)).setAccessToken("sca_token");
+        verify(redirectScaClient, times(1)).validateScaCode(request.getAuthorizationId(), "TAN");
+        verify(authInterceptor, times(1)).setAccessToken("full_token");
+        verify(paymentRestClient, times(1)).executePayment(request.getObjId());
         verify(cmsPsuPisService, times(1)).updateAuthorisationStatus(any(), any(), any(), any(), any(), any());
         verify(cmsPsuPisService, times(1)).updatePaymentStatus(any(), any(), any());
         verify(aspspConsentDataClient, times(1)).updateAspspConsentData(any(), any());
-        verify(authInterceptor, times(1)).setAccessToken(eq(null));
+        verify(authInterceptor, times(1)).setAccessToken(null);
     }
 
     @Test
-    void executeDecoupledOpr__pmt_updateFail() throws AuthorisationIsExpiredException {
-        when(tokenService.exchangeToken(any(), any(), any())).thenReturn(getToken("sca_token"));
-        when(redirectScaClient.validateScaCode(any(), eq("TAN"))).thenReturn(getResponse());
-        when(paymentRestClient.executePayment(any())).thenReturn(ResponseEntity.ok(getScaPaymentResponse()));
+    void executeDecoupledOpr_cancelPmt() throws AuthorisationIsExpiredException {
+        DecoupledConfRequest request = getDecoupledRequest(OpTypeTO.CANCEL_PAYMENT);
+
+        when(tokenService.exchangeToken("login_token", request.getAuthorizationTTL(), Constants.SCOPE_SCA)).thenReturn(getToken("sca_token"));
+        when(redirectScaClient.validateScaCode(request.getAuthorizationId(), "TAN")).thenReturn(getResponse());
+        when(paymentRestClient.executeCancelPayment(request.getObjId())).thenReturn(ResponseEntity.ok(getScaPaymentResponse()));
+
+        boolean result = service.executeDecoupledOpr(request, "login_token");
+        assertTrue(result);
+        verify(tokenService, times(1)).exchangeToken("login_token", request.getAuthorizationTTL(), Constants.SCOPE_SCA);
+        verify(authInterceptor, times(1)).setAccessToken("sca_token");
+        verify(redirectScaClient, times(1)).validateScaCode(request.getAuthorizationId(), "TAN");
+        verify(authInterceptor, times(1)).setAccessToken("full_token");
+        verify(paymentRestClient, times(1)).executeCancelPayment(request.getObjId());
+        verify(cmsPsuPisService, times(1)).updateAuthorisationStatus(any(), any(), any(), any(), any(), any());
+        verify(cmsPsuPisService, times(1)).updatePaymentStatus(any(), any(), any());
+        verify(aspspConsentDataClient, times(1)).updateAspspConsentData(any(), any());
+        verify(authInterceptor, times(1)).setAccessToken(null);
+    }
+
+    @Test
+    void executeDecoupledOpr_pmtUnconfirmed() throws AuthorisationIsExpiredException {
+        DecoupledConfRequest request = getDecoupledRequest(OpTypeTO.PAYMENT);
+        request.setConfirmed(false);
+
+        when(tokenService.exchangeToken("login_token", request.getAuthorizationTTL(), Constants.SCOPE_SCA)).thenReturn(getToken("sca_token"));
+        when(redirectScaClient.validateScaCode(request.getAuthorizationId(), "TAN")).thenReturn(getResponse());
+        when(paymentRestClient.executeCancelPayment(request.getObjId())).thenReturn(ResponseEntity.ok(getScaPaymentResponse()));
+
+        boolean result = service.executeDecoupledOpr(request, "login_token");
+        assertTrue(result);
+        verify(tokenService, times(1)).exchangeToken("login_token", request.getAuthorizationTTL(), Constants.SCOPE_SCA);
+        verify(authInterceptor, times(1)).setAccessToken("sca_token");
+        verify(redirectScaClient, times(1)).validateScaCode(request.getAuthorizationId(), "TAN");
+        verify(authInterceptor, times(1)).setAccessToken("full_token");
+        verify(paymentRestClient, times(1)).executeCancelPayment(request.getObjId());
+        verify(cmsPsuPisService, times(1)).updateAuthorisationStatus(any(), any(), any(), any(), any(), any());
+        verify(cmsPsuPisService, times(1)).updatePaymentStatus(any(), any(), any());
+        verify(aspspConsentDataClient, times(1)).updateAspspConsentData(any(), any());
+        verify(authInterceptor, times(1)).setAccessToken(null);
+    }
+
+    @Test
+    void executeDecoupledOpr_pmt_updateFail() throws AuthorisationIsExpiredException {
+        DecoupledConfRequest request = getDecoupledRequest(OpTypeTO.PAYMENT);
+
+        when(tokenService.exchangeToken("login_token", request.getAuthorizationTTL(), Constants.SCOPE_SCA)).thenReturn(getToken("sca_token"));
+        when(redirectScaClient.validateScaCode(request.getAuthorizationId(), "TAN")).thenReturn(getResponse());
+        when(paymentRestClient.executePayment(request.getObjId())).thenReturn(ResponseEntity.ok(getScaPaymentResponse()));
         doThrow(AuthorisationIsExpiredException.class).when(cmsPsuPisService).updateAuthorisationStatus(any(), any(), any(), any(), any(), any());
 
-        DecoupledConfRequest request = getDecoupledRequest(OpTypeTO.PAYMENT);
         ObaException exception = assertThrows(ObaException.class, () -> service.executeDecoupledOpr(request, "login_token"));
         assertEquals(AUTH_EXPIRED, exception.getObaErrorCode());
 
-        verify(tokenService, times(1)).exchangeToken(anyString(), anyInt(), eq(Constants.SCOPE_SCA));
-        verify(authInterceptor, times(1)).setAccessToken(eq("sca_token"));
-        verify(redirectScaClient, times(1)).validateScaCode(any(), eq("TAN"));
-        verify(authInterceptor, times(1)).setAccessToken(eq("full_token"));
-        verify(paymentRestClient, times(1)).executePayment(any());
+        verify(tokenService, times(1)).exchangeToken("login_token", request.getAuthorizationTTL(), Constants.SCOPE_SCA);
+        verify(authInterceptor, times(1)).setAccessToken("sca_token");
+        verify(redirectScaClient, times(1)).validateScaCode(request.getAuthorizationId(), "TAN");
+        verify(authInterceptor, times(1)).setAccessToken("full_token");
+        verify(paymentRestClient, times(1)).executePayment(request.getObjId());
         verify(cmsPsuPisService, times(1)).updateAuthorisationStatus(any(), any(), any(), any(), any(), any());
-        verify(authInterceptor, times(1)).setAccessToken(eq(null));
+        verify(authInterceptor, times(1)).setAccessToken(null);
     }
 
     @Test
     void executeDecoupledOpr_cns() {
-        when(tokenService.exchangeToken(any(), any(), any())).thenReturn(getToken("sca_token"));
-        when(redirectScaClient.validateScaCode(any(), eq("TAN"))).thenReturn(getResponse());
+        DecoupledConfRequest request = getDecoupledRequest(OpTypeTO.CONSENT);
 
-        boolean result = service.executeDecoupledOpr(getDecoupledRequest(OpTypeTO.CONSENT), "login_token");
+        when(tokenService.exchangeToken("login_token", request.getAuthorizationTTL(), Constants.SCOPE_SCA)).thenReturn(getToken("sca_token"));
+        ResponseEntity<GlobalScaResponseTO> response = getResponse();
+        when(redirectScaClient.validateScaCode(request.getAuthorizationId(), "TAN")).thenReturn(response);
+
+        boolean result = service.executeDecoupledOpr(request, "login_token");
         assertTrue(result);
-        verify(tokenService, times(1)).exchangeToken(anyString(), anyInt(), eq(Constants.SCOPE_SCA));
-        verify(authInterceptor, times(1)).setAccessToken(eq("sca_token"));
-        verify(redirectScaClient, times(1)).validateScaCode(any(), eq("TAN"));
-        verify(authInterceptor, times(1)).setAccessToken(eq("full_token"));
+        verify(tokenService, times(1)).exchangeToken("login_token", request.getAuthorizationTTL(), Constants.SCOPE_SCA);
+        verify(authInterceptor, times(1)).setAccessToken("sca_token");
+        verify(redirectScaClient, times(1)).validateScaCode(request.getAuthorizationId(), "TAN");
+        verify(authInterceptor, times(1)).setAccessToken("full_token");
         verify(cmsPsuAisClient, times(1)).updateAuthorisationStatus(any(), any(), any(), any(), any(), any(), any(), any(), any());
         verify(aspspConsentDataClient, times(1)).updateAspspConsentData(any(), any());
-        verify(authInterceptor, times(1)).setAccessToken(eq(null));
+        verify(cmsPsuAisClient, times(1)).confirmConsent(response.getBody().getOperationObjectId(), DEFAULT_SERVICE_INSTANCE_ID);
+        verify(authInterceptor, times(1)).setAccessToken(null);
+    }
+
+    @Test
+    void executeDecoupledOpr_cns_partialAuthorize() {
+        DecoupledConfRequest request = getDecoupledRequest(OpTypeTO.CONSENT);
+
+        GlobalScaResponseTO globalScaResponseTO = new GlobalScaResponseTO(getToken("full_token"));
+        globalScaResponseTO.setScaStatus(ScaStatusTO.FINALISED);
+        globalScaResponseTO.setPartiallyAuthorised(true);
+        ResponseEntity<GlobalScaResponseTO> response = ResponseEntity.ok(globalScaResponseTO);
+
+        when(tokenService.exchangeToken("login_token", request.getAuthorizationTTL(), Constants.SCOPE_SCA)).thenReturn(getToken("sca_token"));
+        when(redirectScaClient.validateScaCode(request.getAuthorizationId(), "TAN")).thenReturn(response);
+
+        boolean result = service.executeDecoupledOpr(request, "login_token");
+        assertTrue(result);
+        verify(tokenService, times(1)).exchangeToken("login_token", request.getAuthorizationTTL(), Constants.SCOPE_SCA);
+        verify(authInterceptor, times(1)).setAccessToken("sca_token");
+        verify(redirectScaClient, times(1)).validateScaCode(request.getAuthorizationId(), "TAN");
+        verify(authInterceptor, times(1)).setAccessToken("full_token");
+        verify(cmsPsuAisClient, times(1)).updateAuthorisationStatus(any(), any(), any(), any(), any(), any(), any(), any(), any());
+        verify(aspspConsentDataClient, times(1)).updateAspspConsentData(any(), any());
+        verify(cmsPsuAisClient, times(1)).authorisePartiallyConsent(globalScaResponseTO.getOperationObjectId(), DEFAULT_SERVICE_INSTANCE_ID);
+        verify(authInterceptor, times(1)).setAccessToken(null);
     }
 
     private SCAPaymentResponseTO getScaPaymentResponse() {
