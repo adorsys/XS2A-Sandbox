@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import de.adorsys.ledgers.oba.rest.server.config.mapper.CmsPaymentDeserializer;
 import de.adorsys.ledgers.oba.rest.server.config.mapper.CmsSinglePaymentDeserializer;
-import de.adorsys.psd2.consent.api.pis.CmsPayment;
+import de.adorsys.psd2.consent.api.pis.BaseCmsPayment;
 import de.adorsys.psd2.consent.api.pis.CmsSinglePayment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +20,7 @@ public class ObaObjectMapperConfig {
     @PostConstruct
     public void postConstruct() {
         SimpleModule module = new SimpleModule();
-        module.addDeserializer(CmsPayment.class, new CmsPaymentDeserializer(objectMapper))
+        module.addDeserializer(BaseCmsPayment.class, new CmsPaymentDeserializer(objectMapper))
             .addDeserializer(CmsSinglePayment.class, new CmsSinglePaymentDeserializer(objectMapper));
         objectMapper.registerModule(module)
             .registerModule(new JavaTimeModule());

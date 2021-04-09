@@ -3,7 +3,7 @@ package de.adorsys.ledgers.oba.rest.server.config.mapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import de.adorsys.psd2.consent.api.pis.CmsPayment;
+import de.adorsys.psd2.consent.api.pis.BaseCmsPayment;
 import de.adorsys.psd2.consent.api.pis.CmsPaymentResponse;
 import de.adorsys.psd2.consent.api.pis.CmsSinglePayment;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ class DeserializerTest {
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     static {
-        MODULE.addDeserializer(CmsPayment.class, new CmsPaymentDeserializer(MAPPER))
+        MODULE.addDeserializer(BaseCmsPayment.class, new CmsPaymentDeserializer(MAPPER))
             .addDeserializer(CmsSinglePayment.class, new CmsSinglePaymentDeserializer(MAPPER));
         MAPPER.registerModule(MODULE)
             .registerModule(new JavaTimeModule());
