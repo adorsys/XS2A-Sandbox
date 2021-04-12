@@ -90,19 +90,19 @@ Im Falle des REDIRECT SCA-Ansatzes möchte ein Nutzer seine Zustimmung zur Verwe
 <div class="divider">
 </div>
 
-# Links zu den Umgebungen
+# Links to environments
 
-| Service                   |            Lokale Umgebung             |                                                                   ModelBank Umgebung |
-| ------------------------- | :------------------------------------: | -------------------------------------------------------------------------------------: |
-| XS2A Interface Swagger    | http://localhost:8089/swagger-ui.html  |                                     https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/ |
-| Developer portal          |         http://localhost:4206          |                        https://demo-dynamicsandbox-developerportalui.cloud.adorsys.de/ |
-| Consent management system | http://localhost:38080/swagger-ui.html |                                       https://demo-dynamicsandbox-cms.cloud.adorsys.de |
-| Ledgers                   | http://localhost:8088/swagger-ui.html  |                                   https://demo-dynamicsandbox-ledgers.cloud.adorsys.de |
-| ASPSP-Profile Swagger     | http://localhost:48080/swagger-ui.html |                              https://demo-dynamicsandbox-aspspprofile.cloud.adorsys.de |
-| TPP User Interface        |         http://localhost:4205          |                               https://demo-dynamicsandbox-tppui.cloud.adorsys.de/login |
-| Online banking UI         |         http://localhost:4400          |                          https://demo-dynamicsandbox-onlinebankingui.cloud.adorsys.de/ |
-| Online banking backend    | http://localhost:8090/swagger-ui.html  |             https://demo-dynamicsandbox-onlinebanking.cloud.adorsys.de/swagger-ui.html |
-| Certificate Generator     | http://localhost:8092/swagger-ui.html  |      https://demo-dynamicsandbox-certificategenerator.cloud.adorsys.de/swagger-ui.html |
+| Service                   |                                                        Demo environment |
+| ------------------------- | ----------------------------------------------------------------------: |
+| XS2A Interface Swagger    |        <a href="#" id="XS2AInterfaceSwagger">XS2A Interface Swagger</a> |
+| Developer portal          |                   <a href="#" id="developerPortal">Developer Portal</a> |
+| Consent management system | <a href="#" id="consentManagementSystem" >Consent management system</a> |
+| Ledgers                   |                                   <a href="#" id="ledgers" >Ledgers</a> |
+| ASPSP-Profile Swagger     |         <a href="#" id="ASPSPProfileSwagger" >ASPSP-Profile Swagger</a> |
+| TPP User Interface        |               <a href="#" id="TPPUserInterface" >TPP User Interface</a> |
+| Online banking UI         |                 <a href="#" id="onlineBankingUI" >Online banking UI</a> |
+| Online banking backend    |       <a href="#" id="onlineBankingBackend" >Online banking backend</a> |
+| Certificate Generator     |        <a href="#" id="certificateGenerator" >Certificate Generator</a> |
 
 <div class="divider">
 </div>
@@ -119,7 +119,7 @@ Ob Sie alle notwendigen Programme installiert haben. Die fehlenden müssen Sie l
 
 | Dependency          |                  Link                   |
 | ------------------- | :-------------------------------------: |
-| Java 11              |    https://openjdk.java.net/install/    |
+| Java 11             |    https://openjdk.java.net/install/    |
 | Node.js 12.x        |     https://nodejs.org/en/download      |
 | Angular CLI 9.x     |   https://angular.io/guide/quickstart   |
 | Asciidoctor 2.0     |         https://asciidoctor.org         |

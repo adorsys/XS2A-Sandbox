@@ -30,9 +30,15 @@ import { CustomPageComponent } from './components/custom-page/custom-page.compon
 import { GoogleAnalyticsService } from './services/google-analytics.service';
 import { CustomizeService } from './services/customize.service';
 import { SettingsHttpService } from './services/settings-http.service';
+import { UrlLoadService } from './services/url-load.service';
+import { UrlService } from './services/url.service';
+import { SanitizeHtmlPipe } from './pipes/sanitize-html.pipe';
 
 export function app_Init(settingsHttpService: SettingsHttpService) {
   return () => settingsHttpService.initializeApp();
+}
+export function url_Init(urlLoadService: UrlLoadService) {
+  return () => urlLoadService.initializeUrls();
 }
 
 @NgModule({
@@ -50,6 +56,7 @@ export function app_Init(settingsHttpService: SettingsHttpService) {
     NavComponent,
     FooterComponent,
     CustomPageComponent,
+    SanitizeHtmlPipe,
   ],
   imports: [
     BrowserModule,
@@ -81,11 +88,18 @@ export function app_Init(settingsHttpService: SettingsHttpService) {
     DataService,
     LanguageService,
     CustomizeService,
+    UrlService,
     GoogleAnalyticsService,
     {
       provide: APP_INITIALIZER,
       useFactory: app_Init,
       deps: [SettingsHttpService],
+      multi: true,
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: url_Init,
+      deps: [UrlLoadService],
       multi: true,
     },
   ],
