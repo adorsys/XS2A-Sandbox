@@ -4,43 +4,43 @@
       "environmentLink": "http://localhost:8088/swagger-ui.html"
     },
     "XS2AInterfaceSwagger": {
-      "environmentLink": "http://localhost:8088/swagger-ui.html"
+      "environmentLink": "http://localhost:8089/swagger-ui.html"
     },
     "developerPortal": {
-      "environmentLink": "http://localhost:8088/swagger-ui.html"
+      "environmentLink": "http://localhost:4206/"
     },
     "consentManagementSystem": {
-      "environmentLink": "http://localhost:8088/swagger-ui.html"
+      "environmentLink": "http://localhost:38080/swagger-ui.html"
     },
     "ASPSPProfileSwagger": {
-      "environmentLink": "http://localhost:8088/swagger-ui.html"
+      "environmentLink": "http://localhost:48080/swagger-ui.html"
     },
     "TPPUserInterface": {
-      "environmentLink": "http://localhost:8088/swagger-ui.html"
+      "environmentLink": "http://localhost:4205/"
     },
     "onlineBankingUI": {
-      "environmentLink": "http://localhost:8088/swagger-ui.html"
+      "environmentLink": "http://localhost:4400/"
     },
     "onlineBankingBackend": {
-      "environmentLink": "http://localhost:8088/swagger-ui.html"
+      "environmentLink": "http://localhost:8090/swagger-ui.html"
     },
     "certificateGenerator": {
-      "environmentLink": "http://localhost:8088/swagger-ui.html"
+      "environmentLink": "http://localhost:8092/swagger-ui.html"
     },
     "footerLogo": {
-      "environmentLink": "http://localhost:4200/home"
+      "environmentLink": "http://localhost:4206/home"
     },
     "gettingStarted": {
-      "environmentLink": "http://localhost:4200/getting-started"
+      "environmentLink": "http://localhost:4206/getting-started"
     },
     "testCase": {
-      "environmentLink": "http://localhost:4200/test-cases/redirect"
+      "environmentLink": "http://localhost:4206/test-cases/redirect"
     },
     "faq": {
-      "environmentLink": "http://localhost:4200/page/faq"
+      "environmentLink": "http://localhost:4206/page/faq"
     },
     "contacts": {
-      "environmentLink": "http://localhost:4200/contact"
+      "environmentLink": "http://localhost:4206/contact"
     }
   }
 }
