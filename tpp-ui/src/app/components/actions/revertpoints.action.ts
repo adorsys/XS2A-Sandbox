@@ -13,3 +13,8 @@ export class DeleteRecoveryPoint {
   static readonly type = '[RecoveryPoint] Delete';
   constructor(public id: string) {}
 }
+
+export class RollbackRecoveryPoint {
+  static readonly type = '[RecoveryPoint] Rollback';
+  constructor(public id: any) {}
+}
