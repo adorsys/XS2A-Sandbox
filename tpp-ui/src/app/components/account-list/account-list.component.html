@@ -60,7 +60,8 @@
                         <option
                           *ngFor="let country of countries"
                           [ngValue]="country.code"
-                          >{{ country.name }}
+                        >
+                          {{ country.name }}
                         </option>
                       </select>
                     </div>
@@ -195,7 +196,7 @@
                     </button>
                   </div>
                   <div class="modal-body">
-                    Are you sure you want to delete this User?
+                    Are you sure you want to delete this Account?
                   </div>
                   <div class="modal-footer">
                     <button
