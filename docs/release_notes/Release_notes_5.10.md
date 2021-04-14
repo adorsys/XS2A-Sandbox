@@ -11,3 +11,4 @@ Current version consists of following components:
 -   Updated links of developer portal according to deployed environment
 -   Updated the warning message while deleting the account from TPP-UI
 -   State lists gets updated while performing the Rollback action
+-   Back and Cancel Button navigation fixed

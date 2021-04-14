@@ -1,13 +1,9 @@
 <div class="container-fluid" *ngIf="user">
   <div class="card">
     <div class="card-body--large">
-      <button
-        class="btn btn-sm btn-outline-secondary mb-4"
-        [routerLink]="[lastVisitedPage]"
-        queryParamsHandling="preserve"
-      >
-        &lt; Back
-      </button>
+      <a href="javascript:void(0);" (click)="handleClickOnBackButton()">
+        <button class="btn btn-sm btn-outline-secondary mb-4">&lt; Back</button>
+      </a>
 
       <div class="header__title">User details</div>
 
@@ -61,7 +57,11 @@
         </div>
         <div class="col-12 col-md-3 p-0">
           <button
-            *ngIf="scaItem.scaMethod == 'EMAIL' && scaItem.methodValue && !scaItem.valid"
+            *ngIf="
+              scaItem.scaMethod == 'EMAIL' &&
+              scaItem.methodValue &&
+              !scaItem.valid
+            "
             (click)="confirmEmail(scaItem.methodValue)"
             class="btn btn-sm btn-outline-secondary"
           >

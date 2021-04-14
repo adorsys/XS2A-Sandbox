@@ -127,6 +127,9 @@ export class UserProfileComponent implements OnInit {
     } else {
       this.tppService.deleteSelf().subscribe(() => {
         sessionStorage.removeItem('access_token');
+        sessionStorage.removeItem(
+          this.pageNavigationService.getLastVisitedPage()
+        );
         this.authService.logout();
         this.router.navigateByUrl('/login');
       });

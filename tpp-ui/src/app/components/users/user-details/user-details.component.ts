@@ -54,10 +54,14 @@ export class UserDetailsComponent implements OnInit {
     this.pageNavigationService.setLastVisitedPage(
       `${this.currentPage}${this.userId}`
     );
+    this.router.navigate(['/accounts/', data]);
+  }
+
+  handleClickOnBackButton() {
     this.pageNavigationService.setLastVisitedPage(
       `${this.currentPage}${this.userId}`
     );
-    this.router.navigate(['/accounts/', data]);
+    this.router.navigate(['/users/all']);
   }
 
   confirmEmail(email: string) {

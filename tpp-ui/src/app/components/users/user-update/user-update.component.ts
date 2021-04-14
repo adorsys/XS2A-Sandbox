@@ -231,7 +231,9 @@ export class UserUpdateComponent implements OnInit {
   }
 
   onCancel() {
-    this.router.navigate(['/users/all']);
+    if (this.user) {
+      this.router.navigate(['/users/' + `${this.userId}`]);
+    }
   }
 
   resetPasswordViaEmail(login: string) {
