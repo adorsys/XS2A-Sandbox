@@ -54,15 +54,19 @@
           <div *ngIf="scaItem.usesStaticTan">
             Static TAN: {{ scaItem.staticTan }}
           </div>
+          <div *ngIf="scaItem.scaMethod === 'EMAIL' && scaItem.methodValue">
+            <span [ngClass]="{
+                  'confirmed' : scaItem.valid,
+                  'unconfirmed' : !scaItem.valid
+                  }">
+              {{scaItem.valid ? "Confirmed" : "Unconfirmed"}}
+            </span>
+          </div>
         </div>
         <div class="col-12 col-md-3 p-0">
           <button
-            *ngIf="
-              scaItem.scaMethod == 'EMAIL' &&
-              scaItem.methodValue &&
-              !scaItem.valid
-            "
-            (click)="confirmEmail(scaItem.methodValue)"
+            *ngIf="scaItem.scaMethod === 'EMAIL' && scaItem.methodValue"
+            (click)="confirmEmail(scaItem)"
             class="btn btn-sm btn-outline-secondary"
           >
             Confirm email

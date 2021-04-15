@@ -12,3 +12,4 @@ Current version consists of following components:
 -   Updated the warning message while deleting the account from TPP-UI
 -   State lists gets updated while performing the Rollback action
 -   Back and Cancel Button navigation fixed
+-   Adjusted email confirmation flow

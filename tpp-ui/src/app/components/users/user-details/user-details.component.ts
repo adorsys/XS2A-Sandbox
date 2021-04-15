@@ -7,6 +7,7 @@ import { EmailVerificationService } from '../../../services/email-verification.s
 import { InfoService } from '../../../commons/info/info.service';
 import { PageNavigationService } from '../../../services/page-navigation.service';
 import { TppUserService } from '../../../services/tpp.user.service';
+import {ScaUserData} from "../../../models/sca-user-data.model";
 
 @Component({
   selector: 'app-user-details',
@@ -64,7 +65,9 @@ export class UserDetailsComponent implements OnInit {
     this.router.navigate(['/users/all']);
   }
 
-  confirmEmail(email: string) {
+  confirmEmail(scaItem: ScaUserData) {
+    let email = scaItem.methodValue;
+    scaItem.valid = false;
     this.emailVerificationService.sendEmailForVerification(email).subscribe(
       () =>
         this.infoService.openFeedback(
