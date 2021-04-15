@@ -14,3 +14,4 @@ Current version consists of following components:
 -   Back and Cancel Button navigation fixed
 -   Adjusted email confirmation flow
 -   Navigation while Granting Access is fixed
+-   Security vulnerability: set guava version 30.1.1-jre

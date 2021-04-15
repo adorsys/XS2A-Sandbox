@@ -118,6 +118,7 @@
         <opencsv.version>4.5</opencsv.version>
         <!--iban4j-version>3.2.1</iban4j-version-->
         <commons-validator.version>1.6</commons-validator.version>
+        <guava.version>30.1.1-jre</guava.version>
         <!--Sonar -->
         <sonar.core.coveragePlugin>jacoco</sonar.core.coveragePlugin>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
@@ -292,6 +293,12 @@
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-yaml</artifactId>
                 <version>${fasterxml-data-format.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
             </dependency>
 
             <!-- Quickfix Iban4j -->
