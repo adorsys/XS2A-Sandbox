@@ -13,3 +13,4 @@ Current version consists of following components:
 -   State lists gets updated while performing the Rollback action
 -   Back and Cancel Button navigation fixed
 -   Adjusted email confirmation flow
+-   Navigation while Granting Access is fixed

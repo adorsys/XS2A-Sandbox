@@ -112,7 +112,7 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
         );
 
         setTimeout(() => {
-          this.router.navigate(['/users/all']);
+          this.location.back();
         }, 3000);
       });
     } else if (this.admin === 'false') {
@@ -125,7 +125,7 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
           );
 
           setTimeout(() => {
-            this.router.navigate(['/users/all']);
+            this.location.back();
           }, 3000);
         });
     }
