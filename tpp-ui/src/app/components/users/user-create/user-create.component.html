@@ -191,55 +191,50 @@
                     <label class="control-label" for="scaData"
                       >Method Value</label
                     >
-                    <div class="custom-row">
-                      <select
-                        formControlName="pushMethod"
-                        class="form-control push-select"
-                        *ngIf="
-                          scaDataItem.get('scaMethod').value === 'PUSH_OTP'
-                        "
+                    <select
+                      formControlName="pushMethod"
+                      class="form-control push-select"
+                      *ngIf="scaDataItem.get('scaMethod').value === 'PUSH_OTP'"
+                    >
+                      <option
+                        *ngFor="let httpMethod of httpMethods"
+                        [selected]="httpMethod == 'POST'"
                       >
-                        <option
-                          *ngFor="let httpMethod of httpMethods"
-                          [selected]="httpMethod == 'POST'"
-                        >
-                          {{ httpMethod }}
-                        </option>
-                      </select>
+                        {{ httpMethod }}
+                      </option>
+                    </select>
 
-                      <input
-                        [ngClass]="{
-                          'is-invalid':
-                            scaDataItem.controls['methodValue'].errors,
-                          'input-method':
-                            scaDataItem.get('scaMethod').value === 'PUSH_OTP'
-                        }"
-                        aria-describedby="scaDataHelp"
-                        class="form-control"
-                        formControlName="methodValue"
-                        id="scaData"
-                        [placeholder]="
+                    <input
+                      [ngClass]="{
+                        'is-invalid':
+                          scaDataItem.controls['methodValue'].errors,
+                        'input-method':
                           scaDataItem.get('scaMethod').value === 'PUSH_OTP'
-                            ? 'Please set your PushOTP endpoint or leave blank for default'
-                            : 'Please input SCA method for user'
-                        "
-                        type="text"
-                      />
+                      }"
+                      aria-describedby="scaDataHelp"
+                      class="form-control"
+                      formControlName="methodValue"
+                      id="scaData"
+                      [placeholder]="
+                        scaDataItem.get('scaMethod').value === 'PUSH_OTP'
+                          ? 'Please set your PushOTP endpoint or leave blank for default'
+                          : 'Please provide SCA value for user'
+                      "
+                      type="text"
+                    />
+                    <div
+                      *ngIf="scaDataItem.get('methodValue')?.errors?.required"
+                      class="invalid-feedback"
+                    >
+                      SCA value is required
                     </div>
                     <div
                       *ngIf="
-                        scaDataItem.controls['usesStaticTan'].value &&
-                        scaDataItem.controls['scaMethod'].value
+                        scaDataItem.get('methodValue')?.hasError('pattern')
                       "
                       class="invalid-feedback"
                     >
-                      The value of the method is required
-                    </div>
-                    <div
-                      *ngIf="scaDataItem.get('staticTan')?.hasError('pattern')"
-                      class="invalid-feedback"
-                    >
-                      The method value has an incorrect format
+                      SCA value has an incorrect format
                     </div>
                   </div>
                 </div>
@@ -279,7 +274,7 @@
                       aria-describedby="scaDataHelp"
                       class="form-control"
                       formControlName="staticTan"
-                      placeholder="Please input Static TAN if required"
+                      placeholder="Please provide Static TAN if required"
                       type="text"
                     />
                     <div
