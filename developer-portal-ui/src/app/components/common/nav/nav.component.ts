@@ -4,6 +4,7 @@ import { DataService } from '../../../services/data.service';
 import { CustomizeService } from '../../../services/customize.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { NavigationSettings, Theme } from '../../../models/theme.model';
+import { NavItem } from 'src/app/models/navItem.model';
 
 @Component({
   selector: 'app-nav',
@@ -83,5 +84,12 @@ export class NavComponent implements OnInit {
       document.getElementById('navLinks').style.display = 'none';
       document.getElementById('dropDownIcon').style.display = 'block';
     }
+  }
+
+  createRouterLinks(navItem: NavItem): string[] {
+    if (navItem.type === 'markdown') {
+      return ['/page/faq'];
+    }
+    return [navItem.route];
   }
 }
