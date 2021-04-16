@@ -109,7 +109,7 @@
         <org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
         <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
         <swagger-annotations.version>1.5.20</swagger-annotations.version>
-        <google.guava.version>23.0</google.guava.version>
+        <guava.version>30.1.1-jre</guava.version>
         <nimbus-jose-jwt.version>7.9</nimbus-jose-jwt.version>
         <lombok.version>1.18.4</lombok.version>
         <bcpkix-jdk15on.version>1.60</bcpkix-jdk15on.version>
@@ -283,6 +283,12 @@
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-yaml</artifactId>
                 <version>${fasterxml-data-format.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
             </dependency>
 
             <!-- Quickfix Iban4j -->
