@@ -23,23 +23,25 @@ describe('ConfirmPaymentComponent', () => {
   let route: ActivatedRoute;
   let shareDataService: ShareDataService;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [ConfirmPaymentComponent, PaymentDetailsComponent],
-      providers: [
-        ShareDataService,
-        { provide: Router, useValue: mockRouter },
-        { provide: ActivatedRoute, useValue: mockActivatedRoute },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule],
+        declarations: [ConfirmPaymentComponent, PaymentDetailsComponent],
+        providers: [
+          ShareDataService,
+          { provide: Router, useValue: mockRouter },
+          { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfirmPaymentComponent);
-    router = TestBed.get(Router);
-    route = TestBed.get(ActivatedRoute);
-    shareDataService = TestBed.get(ShareDataService);
+    router = TestBed.inject(Router);
+    route = TestBed.inject(ActivatedRoute);
+    shareDataService = TestBed.inject(ShareDataService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

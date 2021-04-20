@@ -15,22 +15,36 @@ describe('ConsentsComponent', () => {
   let fixture: ComponentFixture<ConsentsComponent>;
   let infoService: InfoService;
   let onlineBankingService: OnlineBankingService;
-  const authServiceSpy = jasmine.createSpyObj('AuthService', ['getAuthorizedUser', 'isLoggedIn', 'logout']);
+  const authServiceSpy = jasmine.createSpyObj('AuthService', [
+    'getAuthorizedUser',
+    'isLoggedIn',
+    'logout',
+  ]);
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, RouterTestingModule, InfoModule, ClipboardModule],
-      declarations: [ConsentsComponent],
-      providers: [TestBed.overrideProvider(AuthService, {useValue: authServiceSpy}), InfoService, OnlineBankingService],
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          ReactiveFormsModule,
+          RouterTestingModule,
+          InfoModule,
+          ClipboardModule,
+        ],
+        declarations: [ConsentsComponent],
+        providers: [
+          TestBed.overrideProvider(AuthService, { useValue: authServiceSpy }),
+          InfoService,
+          OnlineBankingService,
+        ],
+      }).compileComponents();
     })
-      .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConsentsComponent);
     component = fixture.componentInstance;
-    onlineBankingService = TestBed.get(OnlineBankingService);
-    infoService = TestBed.get(InfoService);
+    onlineBankingService = TestBed.inject(OnlineBankingService);
+    infoService = TestBed.inject(InfoService);
     fixture.detectChanges();
   });
 
@@ -38,7 +52,7 @@ describe('ConsentsComponent', () => {
     expect(component).toBeTruthy();
   });*/
 
-    /*it('should call the consent if enabled', () => {
+  /*it('should call the consent if enabled', () => {
         let mockConsent: ObaAisConsent= {
             aisAccountConsent: {
                 consentStatus : 'VALID'
@@ -58,7 +72,7 @@ describe('ConsentsComponent', () => {
         expect(result).toBe(true);
     });*/
 
-    /*it('should copied the Consent', () => {
+  /*it('should copied the Consent', () => {
         let openSpy = spyOn(infoService, 'openFeedback').and.returnValue(of('copied encrypted consent to clipboard', { severity: 'info' }));
         component.copiedConsentSuccessful();
         expect(openSpy).toHaveBeenCalled();

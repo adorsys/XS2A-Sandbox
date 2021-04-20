@@ -45,12 +45,12 @@ describe('LoginComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
-    pisService = TestBed.get(PisService);
-    customizeService = TestBed.get(CustomizeService);
-    shareDataService = TestBed.get(ShareDataService);
-    infoService = TestBed.get(InfoService);
-    router = TestBed.get(Router);
-    route = TestBed.get(ActivatedRoute);
+    pisService = TestBed.inject(PisService);
+    customizeService = TestBed.inject(CustomizeService);
+    shareDataService = TestBed.inject(ShareDataService);
+    infoService = TestBed.inject(InfoService);
+    router = TestBed.inject(Router);
+    route = TestBed.inject(ActivatedRoute);
     fixture.detectChanges();
   });
 
@@ -119,7 +119,7 @@ describe('LoginComponent', () => {
         'uzf7d5PJiuoui78owirhJHGVSgueif98200293uwpgofowbOUIGb39845zt0',
       redirectId: 'owirhJHGVSgueif98200293uwpgofowbOUIGb39845zt0',
       headers: {
-        get: param => {
+        get: (param) => {
           return 'auth_token';
         },
       },

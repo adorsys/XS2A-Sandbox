@@ -33,7 +33,7 @@ describe('LoginComponent', () => {
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    authService = TestBed.get(AuthService);
+    authService = TestBed.inject(AuthService);
   });
 
   it('should create', () => {

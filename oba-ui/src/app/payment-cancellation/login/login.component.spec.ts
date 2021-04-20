@@ -43,13 +43,13 @@ describe('LoginComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
-    shareDataService = TestBed.get(ShareDataService);
-    customizeService = TestBed.get(CustomizeService);
-    pisService = TestBed.get(PisService);
-    infoService = TestBed.get(InfoService);
-    router = TestBed.get(Router);
-    route = TestBed.get(ActivatedRoute);
-    pisCancellationService = TestBed.get(PisCancellationService);
+    shareDataService = TestBed.inject(ShareDataService);
+    customizeService = TestBed.inject(CustomizeService);
+    pisService = TestBed.inject(PisService);
+    infoService = TestBed.inject(InfoService);
+    router = TestBed.inject(Router);
+    route = TestBed.inject(ActivatedRoute);
+    pisCancellationService = TestBed.inject(PisCancellationService);
     fixture.detectChanges();
   });
 

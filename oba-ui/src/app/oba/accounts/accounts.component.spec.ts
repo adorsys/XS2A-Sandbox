@@ -30,7 +30,7 @@ describe('AccountsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AccountsComponent);
     component = fixture.componentInstance;
-    onlineBankingService = TestBed.get(OnlineBankingService);
+    onlineBankingService = TestBed.inject(OnlineBankingService);
     fixture.detectChanges();
   });
 
@@ -39,7 +39,7 @@ describe('AccountsComponent', () => {
   });
 
   it('should get the accounts list', () => {
-    let mockAccounts = [
+    const mockAccounts = [
       {
         id: '123456',
         iban: 'DE35653635635663',
@@ -59,7 +59,7 @@ describe('AccountsComponent', () => {
         balances: [],
       },
     ];
-    let accountsSpy = spyOn(
+    const accountsSpy = spyOn(
       onlineBankingService,
       'getAccounts'
     ).and.returnValue(

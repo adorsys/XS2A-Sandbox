@@ -371,3 +371,16 @@ th {
     font-weight: var(--h3FontWeight1024px);
   }
 }
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+.modal-body {
+  padding: 10rem;
+  text-align: center;
+}

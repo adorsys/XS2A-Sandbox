@@ -42,10 +42,10 @@ describe('TanConfirmationComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TanConfirmationComponent);
     component = fixture.componentInstance;
-    shareDataService = TestBed.get(ShareDataService);
-    pisService = TestBed.get(PisService);
-    router = TestBed.get(Router);
-    route = TestBed.get(ActivatedRoute);
+    shareDataService = TestBed.inject(ShareDataService);
+    pisService = TestBed.inject(PisService);
+    router = TestBed.inject(Router);
+    route = TestBed.inject(ActivatedRoute);
     fixture.detectChanges();
   });
 

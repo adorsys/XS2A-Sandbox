@@ -9,20 +9,13 @@ import { CustomizeService } from 'src/app/common/services/customize.service';
 })
 export class VerifyEmailComponent implements OnInit {
   constructor(
-    private _router: Router,
+    private router: Router,
     public customizeService: CustomizeService
   ) {}
 
   ngOnInit(): void {}
 
-  /**
-   * Check if the router url contains the specified route
-   *
-   * @param {string} route
-   * @returns
-   * @memberof VerifyEmailComponent
-   */
   hasRoute(route: string) {
-    return this._router.url.includes(route);
+    return this.router.url.includes(route);
   }
 }

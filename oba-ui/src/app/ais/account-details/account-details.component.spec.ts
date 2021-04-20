@@ -6,15 +6,17 @@ describe('AccountDetailsComponent', () => {
   let component: AccountDetailsComponent;
   let fixture: ComponentFixture<AccountDetailsComponent>;
   let shareDataService: ShareDataService;
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [AccountDetailsComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [AccountDetailsComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AccountDetailsComponent);
-    shareDataService = TestBed.get(ShareDataService);
+    shareDataService = TestBed.inject(ShareDataService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

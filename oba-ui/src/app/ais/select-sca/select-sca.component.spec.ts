@@ -27,28 +27,30 @@ describe('SelectScaComponent', () => {
   let aisService: AisService;
   let router: Router;
   let route: ActivatedRoute;
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ReactiveFormsModule],
-      declarations: [SelectScaComponent, AccountDetailsComponent],
-      providers: [
-        ShareDataService,
-        AisService,
-        CustomizeService,
-        { provide: Router, useValue: mockRouter },
-        { provide: ActivatedRoute, useValue: mockActivatedRoute },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule, ReactiveFormsModule],
+        declarations: [SelectScaComponent, AccountDetailsComponent],
+        providers: [
+          ShareDataService,
+          AisService,
+          CustomizeService,
+          { provide: Router, useValue: mockRouter },
+          { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SelectScaComponent);
     component = fixture.componentInstance;
-    shareDataService = TestBed.get(ShareDataService);
-    aisService = TestBed.get(AisService);
-    customizeService = TestBed.get(CustomizeService);
-    router = TestBed.get(Router);
-    route = TestBed.get(ActivatedRoute);
+    shareDataService = TestBed.inject(ShareDataService);
+    aisService = TestBed.inject(AisService);
+    customizeService = TestBed.inject(CustomizeService);
+    router = TestBed.inject(Router);
+    route = TestBed.inject(ActivatedRoute);
     fixture.detectChanges();
   });
 

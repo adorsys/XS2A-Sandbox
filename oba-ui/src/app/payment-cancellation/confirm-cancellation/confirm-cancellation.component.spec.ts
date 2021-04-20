@@ -22,24 +22,26 @@ describe('ConfirmCancellationComponent', () => {
   let router: Router;
   let route: ActivatedRoute;
   let shareDataService: ShareDataService;
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [ConfirmCancellationComponent, PaymentDetailsComponent],
-      providers: [
-        ShareDataService,
-        { provide: Router, useValue: mockRouter },
-        { provide: ActivatedRoute, useValue: mockActivatedRoute },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule],
+        declarations: [ConfirmCancellationComponent, PaymentDetailsComponent],
+        providers: [
+          ShareDataService,
+          { provide: Router, useValue: mockRouter },
+          { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfirmCancellationComponent);
     component = fixture.componentInstance;
-    router = TestBed.get(Router);
-    route = TestBed.get(ActivatedRoute);
-    shareDataService = TestBed.get(ShareDataService);
+    router = TestBed.inject(Router);
+    route = TestBed.inject(ActivatedRoute);
+    shareDataService = TestBed.inject(ShareDataService);
     fixture.detectChanges();
   });
 

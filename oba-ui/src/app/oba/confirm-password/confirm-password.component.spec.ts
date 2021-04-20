@@ -43,11 +43,11 @@ describe('ConfirmPasswordComponent', () => {
     fixture = TestBed.createComponent(ConfirmPasswordComponent);
     component = fixture.componentInstance;
     authService = fixture.debugElement.injector.get(AuthService);
-    customizeService = TestBed.get(CustomizeService);
+    customizeService = TestBed.inject(CustomizeService);
     de = fixture.debugElement.query(By.css('form'));
     el = de.nativeElement;
     fixture.detectChanges();
-    router = TestBed.get(Router);
+    router = TestBed.inject(Router);
     router.initialNavigation();
     component.ngOnInit();
   });
@@ -114,7 +114,9 @@ describe('ConfirmPasswordComponent', () => {
   it('should call the valid form on Submit ', () => {
     component.confirmNewPasswordForm.get('newPassword').setValue('12345');
     component.confirmNewPasswordForm.get('code').setValue('1234');
-    let resetSpy = spyOn(authService, 'resetPassword').and.returnValue(of({}));
+    const resetSpy = spyOn(authService, 'resetPassword').and.returnValue(
+      of({})
+    );
     component.onSubmit();
     expect(resetSpy).toHaveBeenCalled();
   });

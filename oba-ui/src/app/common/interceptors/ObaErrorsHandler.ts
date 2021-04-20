@@ -6,11 +6,7 @@ import { InfoService } from '../info/info.service';
 
 @Injectable()
 export class ObaErrorsHandler implements ErrorHandler {
-
-  constructor(
-    private zone: NgZone,
-    private injector: Injector) {
-  }
+  constructor(private zone: NgZone, private injector: Injector) {}
 
   public get router(): Router {
     return this.injector.get(Router);
@@ -24,22 +20,22 @@ export class ObaErrorsHandler implements ErrorHandler {
     return this.injector.get(ActivatedRoute);
   }
   public handleError(errorObj) {
-      console.error("OBA UI error handler: ", errorObj);
-      if (errorObj instanceof HttpErrorResponse) {
-          this.zone.run(() => {
-              let error = errorObj.error;
-              let errorMessage = error ? error.message : error.statusText;
-              this.infoService.openFeedback(errorMessage, {
-                  severity: 'error'
-              });
-          });
-      } else {
-          this.zone.run(() => {
-              let errorMessage = errorObj.message;
-              this.infoService.openFeedback(errorMessage, {
-                  severity: 'info'
-              });
-          });
-      }
+    console.error('OBA UI error handler: ', errorObj);
+    if (errorObj instanceof HttpErrorResponse) {
+      this.zone.run(() => {
+        const error = errorObj.error;
+        const errorMessage = error ? error.message : error.statusText;
+        this.infoService.openFeedback(errorMessage, {
+          severity: 'error',
+        });
+      });
+    } else {
+      this.zone.run(() => {
+        const errorMessage = errorObj.message;
+        this.infoService.openFeedback(errorMessage, {
+          severity: 'info',
+        });
+      });
+    }
   }
 }
