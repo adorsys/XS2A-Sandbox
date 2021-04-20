@@ -88,13 +88,15 @@ public class TppAdminController implements TppAdminRestApi {
     @Override
     public ResponseEntity<Void> removeAllTestData() {
         long start = System.currentTimeMillis();
-        List<UserExtendedTO> content = adminRestClient.users(null, null, null, null, UserRoleTO.STAFF, null, 0, 9999)
-                                           .getBody().getContent();
-        List<UserExtendedTO> collect = content.stream().filter(u -> u.getLogin().matches("[0-9]+")).collect(Collectors.toList());
-        Set<String> ids = collect.stream().map(UserTO::getId).collect(Collectors.toSet());
+        ResponseEntity<CustomPageImpl<UserExtendedTO>> response = adminRestClient.users(null, null, null, null, UserRoleTO.STAFF, null, 0, 9999);
+        if (response != null && response.getBody() != null) {
+            List<UserExtendedTO> content = response.getBody().getContent(); //NOSONAR
+            List<UserExtendedTO> collect = content.stream().filter(u -> u.getLogin().matches("[0-9]+")).collect(Collectors.toList());
+            Set<String> ids = collect.stream().map(UserTO::getId).collect(Collectors.toSet());
 
-        ids.forEach(this::remove);
-        log.info("Deletion of test TPPs is completed: {} items, in {}ms", ids.size(), System.currentTimeMillis() - start);
+            ids.forEach(this::remove);
+            log.info("Deletion of test TPPs is completed: {} items, in {}ms", ids.size(), System.currentTimeMillis() - start);
+        }
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

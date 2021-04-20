@@ -246,6 +246,20 @@ class TppAdminControllerTest {
     }
 
     @Test
+    void removeAllTestData_responseIsNull() throws Exception {
+        when(adminRestClient.users(null, null, null, null, UserRoleTO.STAFF, null, 0, 9999))
+            .thenReturn(null);
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/tpp/admin/test/data")
+                            .contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andDo(print())
+            .andExpect(status().isNoContent())
+            .andExpect(content().bytes(EMPTY_BODY));
+
+        verifyNoInteractions(dataRestClient, userMgmtStaffRestClient, cmsDbNativeService);
+    }
+
+    @Test
     void updatePassword() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.put("/tpp/admin/password")
                             .param("tppId", TPP_ID)
