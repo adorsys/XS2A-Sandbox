@@ -104,11 +104,11 @@ export class UserUpdateComponent implements OnInit {
     if (this.admin === 'true') {
       this.tppManagementService
         .updateUserDetails(updatedUser, this.tppId)
-        .subscribe(() => this.router.navigate(['/users/all']));
+        .subscribe(() => this.router.navigate(['/users/' + `${this.userId}`]));
     } else if (this.admin === 'false') {
       this.userService
         .updateUserDetails(updatedUser)
-        .subscribe(() => this.router.navigate(['/users/all']));
+        .subscribe(() => this.router.navigate(['/users/' + `${this.userId}`]));
     }
   }
 

@@ -35,7 +35,7 @@ label {
 
 .header {
   &__title {
-    font-size: 2.5rem;
+    font-size: 1.5rem;
   }
 }
 
@@ -473,7 +473,6 @@ input {
 }
 
 .profile-icon {
-  //display: inline-block;
   content: '';
   background-image: url('assets/icons/profile.svg');
   background-repeat: no-repeat;
