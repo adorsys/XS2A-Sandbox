@@ -6,19 +6,25 @@ import de.adorsys.ledgers.middleware.api.domain.um.UserRoleTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
 import de.adorsys.ledgers.middleware.client.rest.AdminRestClient;
 import de.adorsys.ledgers.middleware.client.rest.DataRestClient;
+import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
 import de.adorsys.ledgers.util.domain.CustomPageImpl;
+import de.adorsys.psd2.sandbox.tpp.cms.api.service.CmsDbNativeService;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.User;
 import de.adorsys.psd2.sandbox.tpp.rest.api.resource.TppAdminRestApi;
 import de.adorsys.psd2.sandbox.tpp.rest.server.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-import static org.springframework.http.HttpStatus.CREATED;
-
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(TppAdminRestApi.BASE_PATH)
@@ -26,6 +32,8 @@ public class TppAdminController implements TppAdminRestApi {
     private final UserMapper userMapper;
     private final DataRestClient dataRestClient;
     private final AdminRestClient adminRestClient;
+    private final UserMgmtStaffRestClient userMgmtStaffRestClient;
+    private final CmsDbNativeService cmsDbNativeService;
 
     @Override
     public ResponseEntity<CustomPageImpl<UserExtendedTO>> users(String countryCode, String tppId, String tppLogin, String userLogin, UserRoleTO role, Boolean blocked, int page, int size) {
@@ -49,7 +57,7 @@ public class TppAdminController implements TppAdminRestApi {
             userTO.setBranch(tppId);
         }
         adminRestClient.register(userTO);
-        return ResponseEntity.status(CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @Override
@@ -57,7 +65,7 @@ public class TppAdminController implements TppAdminRestApi {
         UserTO userTO = userMapper.toUserTO(user);
         userTO.setUserRoles(Collections.singletonList(UserRoleTO.SYSTEM));
         adminRestClient.register(userTO);
-        return ResponseEntity.status(CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @Override
@@ -67,7 +75,27 @@ public class TppAdminController implements TppAdminRestApi {
 
     @Override
     public ResponseEntity<Void> remove(String tppId) {
-        return dataRestClient.branch(tppId);
+        ResponseEntity<List<String>> loginsByBranchIdResponse = userMgmtStaffRestClient.getBranchUserLoginsByBranchId(tppId);
+        List<String> logins = loginsByBranchIdResponse.getBody();
+        dataRestClient.branch(tppId);
+        log.debug("User data for login [{}] was removed from Ledgers.", tppId);
+        cmsDbNativeService.deleteConsentsByUserIds(logins);
+        log.debug("User data for login [{}] was removed from CMS.", logins);
+        log.info("TPP [{}] was removed.", tppId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @Override
+    public ResponseEntity<Void> removeAllTestData() {
+        long start = System.currentTimeMillis();
+        List<UserExtendedTO> content = adminRestClient.users(null, null, null, null, UserRoleTO.STAFF, null, 0, 9999)
+                                           .getBody().getContent();
+        List<UserExtendedTO> collect = content.stream().filter(u -> u.getLogin().matches("[0-9]+")).collect(Collectors.toList());
+        Set<String> ids = collect.stream().map(UserTO::getId).collect(Collectors.toSet());
+
+        ids.forEach(this::remove);
+        log.info("Deletion of test TPPs is completed: {} items, in {}ms", ids.size(), System.currentTimeMillis() - start);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @Override

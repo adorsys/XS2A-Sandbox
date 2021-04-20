@@ -1,20 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { TppManagementService } from '../../services/tpp-management.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {
-  PageConfig,
-  PaginationConfigModel,
-} from '../../models/pagination-config.model';
-import { AccountService } from '../../services/account.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { PageNavigationService } from '../../services/page-navigation.service';
-import { debounceTime, map, tap } from 'rxjs/operators';
-import { User } from '../../models/user.model';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CountryService } from '../../services/country.service';
-import { TppQueryParams } from '../../models/tpp-management.model';
-import { InfoService } from '../../commons/info/info.service';
-import {TppUserService} from "../../services/tpp.user.service";
+import {Component, OnInit} from '@angular/core';
+import {TppManagementService} from '../../services/tpp-management.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {PageConfig, PaginationConfigModel,} from '../../models/pagination-config.model';
+import {AccountService} from '../../services/account.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {PageNavigationService} from '../../services/page-navigation.service';
+import {debounceTime, map, tap} from 'rxjs/operators';
+import {User} from '../../models/user.model';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {CountryService} from '../../services/country.service';
+import {TppQueryParams} from '../../models/tpp-management.model';
+import {InfoService} from '../../commons/info/info.service';
+import {TppUserService} from '../../services/tpp.user.service';
+import {ADMIN_KEY} from '../../commons/constant/constant';
 
 @Component({
   selector: 'app-tpps',
@@ -24,6 +22,7 @@ import {TppUserService} from "../../services/tpp.user.service";
 // TODO Merge UsersComponent, TppsComponent and AccountListComponent into one single component https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/-/issues/713
 export class TppsComponent implements OnInit {
   tpps: User[] = [];
+  admin;
   statusBlock: string;
   countries: Array<string>;
   countriesList: Array<object> = [];
@@ -54,10 +53,12 @@ export class TppsComponent implements OnInit {
     private countryService: CountryService,
     private modalService: NgbModal,
     private route: ActivatedRoute,
-    private tppUserService: TppUserService
+    private tppUserService: TppUserService,
+    private tppService: TppManagementService
   ) {}
 
   ngOnInit() {
+    this.admin = sessionStorage.getItem(ADMIN_KEY);
     this.getTpps(this.config.currentPageNumber, this.config.itemsPerPage, {});
     this.getCountries();
     this.getPageConfigs();
@@ -80,6 +81,26 @@ export class TppsComponent implements OnInit {
 
   changePageSize(num: number): void {
     this.config.itemsPerPage = this.config.itemsPerPage + num;
+  }
+
+  deleteTestData() {
+    if (this.admin) {
+      this.tppService.deleteTestData().subscribe(() => {
+        this.infoService.openFeedback(
+          'TPP test data was successfully deleted!',
+          {
+            severity: 'info',
+          }
+        );
+        this.getTpps(1, this.config.itemsPerPage, {
+          userLogin: this.searchForm.get('userLogin').value,
+          tppId: this.searchForm.get('tppId').value,
+          tppLogin: this.searchForm.get('tppLogin').value,
+          country: this.searchForm.get('country').value,
+          blocked: this.searchForm.get('blocked').value,
+        });
+      });
+    }
   }
 
   createLastVisitedPageLink(id: string): string {
@@ -159,16 +180,21 @@ export class TppsComponent implements OnInit {
         this.infoService.openFeedback('TPP was successfully unblocked!', {
           severity: 'info',
         });
-        this.getTpps(this.config.currentPageNumber, this.config.itemsPerPage, {});
+        this.getTpps(
+          this.config.currentPageNumber,
+          this.config.itemsPerPage,
+          {}
+        );
       }
       this.getTpps(this.config.currentPageNumber, this.config.itemsPerPage, {});
-    }); if (this.statusBlock === 'unblock') {
+    });
+    if (this.statusBlock === 'unblock') {
       this.infoService.openFeedback('TPP was successfully blocked!', {
         severity: 'info',
       });
       this.getTpps(this.config.currentPageNumber, this.config.itemsPerPage, {});
     }
-    }
+  }
 
   private delete(tppId: string) {
     this.tppManagementService.deleteTpp(tppId).subscribe(() => {
@@ -228,9 +254,12 @@ export class TppsComponent implements OnInit {
 
   resetPasswordViaEmail(login: string) {
     this.tppUserService.resetPasswordViaEmail(login).subscribe(() => {
-      this.infoService.openFeedback('Link for password reset was sent, check email.', {
-        severity: 'info',
-      });
+      this.infoService.openFeedback(
+        'Link for password reset was sent, check email.',
+        {
+          severity: 'info',
+        }
+      );
     });
   }
 }

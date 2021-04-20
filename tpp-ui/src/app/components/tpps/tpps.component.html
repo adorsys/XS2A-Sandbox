@@ -26,6 +26,14 @@
             >
               Create TPP
             </button>
+            <button
+              class="btn btn-primary btn-block"
+              (click)="deleteTestData()"
+              *ngIf="admin"
+              type="button"
+            >
+              Remove test data
+            </button>
           </div>
         </div>
       </div>
@@ -178,9 +186,11 @@
                 >
                   {{ tpp.blocked ? 'Unblock TPP' : 'Block TPP' }}
                 </button>
-                <button class="btn btn-primary mr-4 ml-3"
-                        (click)=resetPasswordViaEmail(tpp.login)
-                        type="button">
+                <button
+                  class="btn btn-primary mr-4 ml-3"
+                  (click)="resetPasswordViaEmail(tpp.login)"
+                  type="button"
+                >
                   Send password update link
                 </button>
                 <button

@@ -15,3 +15,4 @@ Current version consists of following components:
 -   Adjusted email confirmation flow
 -   Navigation while Granting Access is fixed
 -   Security vulnerability: set guava version 30.1.1-jre
+-   Added endpoint for deleting test data DELETE `/tpp/admin/test/data`. TPPs with digital names are removed with derivative data.
