@@ -157,7 +157,9 @@
               <td>{{ account.blocked ? 'Blocked' : 'Active' }}</td>
               <td class="action d-flex">
                 <button
-                  class="btn btn-outline-danger btn-sm wd-120 mr-2"
+                  mat-fab
+                  aria-label="Delete the account"
+                  class="btn btn-outline-danger mr-2"
                   (click)="
                     openConfirmation(
                       deleteConfirmationModal,
@@ -166,10 +168,12 @@
                     )
                   "
                 >
-                  Delete
+                  <mat-icon>delete</mat-icon>
                 </button>
                 <button
-                  class="btn btn-table-btn btn-sm wd-120 mr-2"
+                  mat-fab
+                  aria-label="Block the account"
+                  class="btn btn-table-btn mr-2"
                   (click)="
                     openConfirmation(
                       blockConfirmation,
@@ -178,7 +182,8 @@
                     )
                   "
                 >
-                  {{ account.blocked ? 'Unblock Account' : 'Block Account' }}
+                  <mat-icon *ngIf="!account.blocked">lock</mat-icon>
+                  <mat-icon *ngIf="account.blocked">lock_open</mat-icon>
                 </button>
 
                 <ng-template #deleteConfirmationModal let-modal>
@@ -251,12 +256,14 @@
                   </div>
                 </ng-template>
                 <button
+                  aria-label="Deposit Cash"
+                  mat-fab
                   *ngIf="!account.blocked"
                   class="btn btn-table-btn"
                   [disabled]="!isAccountEnabled(account)"
                   (click)="goToDepositCash(account)"
                 >
-                  Deposit Cash
+                  <mat-icon>account_balance</mat-icon>
                 </button>
               </td>
             </tr>

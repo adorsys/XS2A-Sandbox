@@ -6,9 +6,11 @@
         <div class="col-12 col-md-4">
           <div class="header__button">
             <button
+              mat-raised-button
               class="btn btn-primary btn-block mb-4"
-              routerLink="/admin/create">
-              New Administrator
+              routerLink="/admin/create"
+            >
+              <mat-icon>person_add</mat-icon> New Administrator
             </button>
           </div>
         </div>
@@ -31,118 +33,132 @@
         </div>
         <table class="table">
           <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Admin Login</th>
-            <th scope="col">Email</th>
-            <th scope="col">Actions</th>
-          </tr>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Admin Login</th>
+              <th scope="col">Email</th>
+              <th scope="col">Actions</th>
+            </tr>
           </thead>
           <tbody>
-          <tr
-            *ngFor="let user of users; index as i"
-            [ngClass]="{ 'disabled-text': user.blocked }">
-            <th scope="row">
-              {{
-              (config.currentPageNumber - 1) * config.itemsPerPage + i + 1
-              }}
-            </th>
-            <td>{{ user.login }}</td>
-            <td>{{ user.email }}</td>
-            <td class="actions d-flex">
+            <tr
+              *ngFor="let user of users; index as i"
+              [ngClass]="{ 'disabled-text': user.blocked }"
+            >
+              <th scope="row">
+                {{
+                  (config.currentPageNumber - 1) * config.itemsPerPage + i + 1
+                }}
+              </th>
+              <td>{{ user.login }}</td>
+              <td>{{ user.email }}</td>
+              <td class="actions d-flex">
+                <button
+                  class="btn btn-table-btn btn-sm wd-120 mr-3"
+                  [routerLink]="['/edit/' + user.id]"
+                  [queryParams]="{ admin: config.totalItems }"
+                >
+                  Edit
+                </button>
 
-              <button class="btn btn-table-btn btn-sm wd-120 mr-3" [routerLink]="['/edit/' + user.id]" [queryParams]="{admin: config.totalItems}">
-                Edit
-              </button>
+                <button
+                  class="btn btn-table-btn btn-sm wd-120 mr-3"
+                  (click)="openConfirmation(changePinModal, user.id, 'pin')"
+                >
+                  Change PIN
+                </button>
 
-              <button class="btn btn-table-btn btn-sm wd-120 mr-3" (click)="openConfirmation(changePinModal, user.id, 'pin')">
-                Change PIN
-              </button>
+                <button
+                  (click)="
+                    openConfirmation(deleteConfirmationModal, user.id, 'delete')
+                  "
+                  class="btn btn-outline-danger btn-sm wd-120"
+                >
+                  Delete
+                </button>
 
-              <button (click)="openConfirmation(deleteConfirmationModal, user.id, 'delete')"
-                      class="btn btn-outline-danger btn-sm wd-120">
-                Delete
-              </button>
-
-              <ng-template   #deleteConfirmationModal let-modal>
-                <div class="modal-header">
-                  <h4 class="modal-title" id="modal-basic-title">
-                    Admin deletion
-                  </h4>
-                  <button
-                    type="button"
-                    class="close"
-                    aria-label="Close"
-                    (click)="modal.dismiss('Cross click')"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  Are you sure you want to delete this Admin?
-                </div>
-                <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-outline-secondary"
-                    (click)="modal.dismiss('cancel click')"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-danger"
-                    (click)="modal.close('Ok click')"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </ng-template>
-              <ng-template #changePinModal let-modal>
-                <div class="modal-header">
-                  <h4 class="modal-title" id="modal-basic-title-2">
-                    Change PIN for Admin
-                  </h4>
-                  <button
-                    type="button"
-                    class="close"
-                    aria-label="Close"
-                    (click)="modal.dismiss('Cross click')"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <input
-                    class="form-control"
-                    [(ngModel)]="newPin"
-                    [ngClass]="{ 'is-invalid': !newPin || newPin === '' }"
-                    [ngModelOptions]="{ standalone: true }"
-                    type="password"
-                  />
-                  <div class="invalid-feedback" *ngIf="!newPin || newPin === ''">
-                    Please, enter any PIN for Admin, PIN cannot be empty
+                <ng-template #deleteConfirmationModal let-modal>
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="modal-basic-title">
+                      Admin deletion
+                    </h4>
+                    <button
+                      type="button"
+                      class="close"
+                      aria-label="Close"
+                      (click)="modal.dismiss('Cross click')"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
                   </div>
-                </div>
-                <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-outline-secondary"
-                    (click)="modal.dismiss('cancel click')"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-primary"
-                    (click)="modal.close('Ok click')"
-                  >
-                    Change PIN
-                  </button>
-                </div>
-              </ng-template>
-            </td>
-          </tr>
+                  <div class="modal-body">
+                    Are you sure you want to delete this Admin?
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-outline-secondary"
+                      (click)="modal.dismiss('cancel click')"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-danger"
+                      (click)="modal.close('Ok click')"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </ng-template>
+                <ng-template #changePinModal let-modal>
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="modal-basic-title-2">
+                      Change PIN for Admin
+                    </h4>
+                    <button
+                      type="button"
+                      class="close"
+                      aria-label="Close"
+                      (click)="modal.dismiss('Cross click')"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <input
+                      class="form-control"
+                      [(ngModel)]="newPin"
+                      [ngClass]="{ 'is-invalid': !newPin || newPin === '' }"
+                      [ngModelOptions]="{ standalone: true }"
+                      type="password"
+                    />
+                    <div
+                      class="invalid-feedback"
+                      *ngIf="!newPin || newPin === ''"
+                    >
+                      Please, enter any PIN for Admin, PIN cannot be empty
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-outline-secondary"
+                      (click)="modal.dismiss('cancel click')"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      (click)="modal.close('Ok click')"
+                    >
+                      Change PIN
+                    </button>
+                  </div>
+                </ng-template>
+              </td>
+            </tr>
           </tbody>
         </table>
 
