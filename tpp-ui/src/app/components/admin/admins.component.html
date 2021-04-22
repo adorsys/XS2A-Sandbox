@@ -54,27 +54,30 @@
               <td>{{ user.email }}</td>
               <td class="actions d-flex">
                 <button
+                  mat-fab
                   class="btn btn-table-btn btn-sm wd-120 mr-3"
                   [routerLink]="['/edit/' + user.id]"
                   [queryParams]="{ admin: config.totalItems }"
                 >
-                  Edit
+                  <mat-icon>edit</mat-icon>
                 </button>
 
                 <button
+                  mat-fab
                   class="btn btn-table-btn btn-sm wd-120 mr-3"
                   (click)="openConfirmation(changePinModal, user.id, 'pin')"
                 >
-                  Change PIN
+                  <mat-icon>pin</mat-icon>
                 </button>
 
                 <button
+                  mat-fab
                   (click)="
                     openConfirmation(deleteConfirmationModal, user.id, 'delete')
                   "
                   class="btn btn-outline-danger btn-sm wd-120"
                 >
-                  Delete
+                  <mat-icon>delete</mat-icon>
                 </button>
 
                 <ng-template #deleteConfirmationModal let-modal>

@@ -204,16 +204,16 @@
                 </ul>
               </td>
               <td class="action d-flex">
-                <button
+                <a
+                  aria-label="Create Deposit Account"
                   mat-fab
-                  aria-label="Delete the user"
-                  class="btn btn-outline-danger mr-2"
-                  (click)="
-                    openConfirmation(deleteConfirmationModal, user.id, 'delete')
-                  "
+                  class="btn btn-table-btn mr-2"
+                  routerLink="/users/{{ user.id }}/create-deposit-account"
+                  [queryParams]="{ tppId: user.branch, userId: user.id }"
+                  *ngIf="!user.blocked"
                 >
-                  <mat-icon>delete</mat-icon>
-                </button>
+                  <mat-icon>account_balance</mat-icon>
+                </a>
                 <button
                   mat-fab
                   aria-label="Block the user"
@@ -299,17 +299,16 @@
                     </button>
                   </div>
                 </ng-template>
-
-                <a
-                  aria-label="Create Deposit Account"
+                <button
                   mat-fab
-                  class="btn btn-table-btn"
-                  routerLink="/users/{{ user.id }}/create-deposit-account"
-                  [queryParams]="{ tppId: user.branch, userId: user.id }"
-                  *ngIf="!user.blocked"
+                  aria-label="Delete the user"
+                  class="btn btn-outline-danger mr-2"
+                  (click)="
+                    openConfirmation(deleteConfirmationModal, user.id, 'delete')
+                  "
                 >
-                  <mat-icon>account_balance</mat-icon>
-                </a>
+                  <mat-icon>delete</mat-icon>
+                </button>
               </td>
             </tr>
           </tbody>
