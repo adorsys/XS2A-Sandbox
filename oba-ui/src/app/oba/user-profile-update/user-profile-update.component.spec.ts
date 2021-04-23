@@ -10,20 +10,22 @@ import { OverlayModule } from '@angular/cdk/overlay';
 describe('UserProfileEditComponent', () => {
   let component: UserProfileUpdateComponent;
   let fixture: ComponentFixture<UserProfileUpdateComponent>;
-  let mockObaService = OnlineBankingService;
+  let mockObaService: OnlineBankingService;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [UserProfileUpdateComponent],
-      imports: [ReactiveFormsModule, RouterTestingModule, OverlayModule],
-      providers: [OnlineBankingAccountInformationService, InfoService],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [UserProfileUpdateComponent],
+        imports: [ReactiveFormsModule, RouterTestingModule, OverlayModule],
+        providers: [OnlineBankingAccountInformationService, InfoService],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserProfileUpdateComponent);
     component = fixture.componentInstance;
-    mockObaService = TestBed.get(OnlineBankingService);
+    mockObaService = TestBed.inject(OnlineBankingService);
     fixture.detectChanges();
   });
 

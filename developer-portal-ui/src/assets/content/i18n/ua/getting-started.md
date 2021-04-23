@@ -97,17 +97,17 @@
 
 # Посилання на середовища
 
-| Сервіс                    |          Локальне середовище           |                                                                        Демо-середовище |
-| ------------------------- | :------------------------------------: | -------------------------------------------------------------------------------------: |
-| Інтерфейс XS2A Swagger    | http://localhost:8089/swagger-ui.html  |                                     https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/ |
-| Портал розробника         |         http://localhost:4206          |                        https://demo-dynamicsandbox-developerportalui.cloud.adorsys.de/ |
-| Consent management system | http://localhost:38080/swagger-ui.html |                                       https://demo-dynamicsandbox-cms.cloud.adorsys.de |
-| Ledgers                   | http://localhost:8088/swagger-ui.html  |                                   https://demo-dynamicsandbox-ledgers.cloud.adorsys.de |
-| ASPSP-профіль Swagger     | http://localhost:48080/swagger-ui.html |                              https://demo-dynamicsandbox-aspspprofile.cloud.adorsys.de |
-| Інтерфейс TPP             |         http://localhost:4205          |                               https://demo-dynamicsandbox-tppui.cloud.adorsys.de/login |
-| Онлайн-банкінг            |         http://localhost:4400          |                          https://demo-dynamicsandbox-onlinebankingui.cloud.adorsys.de/ |
-| Сервер онлайн-банкінгу    | http://localhost:8090/swagger-ui.html  |             https://demo-dynamicsandbox-onlinebanking.cloud.adorsys.de/swagger-ui.html |
-| Генератор сертифікатів    | http://localhost:8092/swagger-ui.html  |      https://demo-dynamicsandbox-certificategenerator.cloud.adorsys.de/swagger-ui.html |
+| Сервіс                    |                                                         Демо-середовище |
+| ------------------------- | ----------------------------------------------------------------------: |
+| Інтерфейс XS2A Swagger    |        <a href="#" id="XS2AInterfaceSwagger">Інтерфейс XS2A Swagger</a> |
+| Портал розробника         |                  <a href="#" id="developerPortal">Портал розробника</a> |
+| Consent management system | <a href="#" id="consentManagementSystem" >Consent management system</a> |
+| Ledgers                   |                                   <a href="#" id="ledgers" >Ledgers</a> |
+| ASPSP-профіль Swagger     |         <a href="#" id="ASPSPProfileSwagger" >ASPSP-профіль Swagger</a> |
+| Інтерфейс TPP             |                    <a href="#" id="TPPUserInterface" >Інтерфейс TPP</a> |
+| Онлайн-банкінг            |                    <a href="#" id="onlineBankingUI" >Онлайн-банкінг</a> |
+| Сервер онлайн-банкінгу    |       <a href="#" id="onlineBankingBackend" >Сервер онлайн-банкінгу</a> |
+| Генератор сертифікатів    |       <a href="#" id="certificateGenerator" >Генератор сертифікатів</a> |
 
 <div class="divider">
 </div>

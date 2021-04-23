@@ -37,8 +37,8 @@ describe('AccountDetailsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AccountDetailsComponent);
     component = fixture.componentInstance;
-    authService = TestBed.get(AuthService);
-    onlineBankingService = TestBed.get(OnlineBankingService);
+    authService = TestBed.inject(AuthService);
+    onlineBankingService = TestBed.inject(OnlineBankingService);
     fixture.detectChanges();
   });
 

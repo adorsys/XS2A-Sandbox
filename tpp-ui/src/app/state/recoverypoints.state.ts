@@ -4,6 +4,7 @@ import {
   AddRecoveryPoint,
   DeleteRecoveryPoint,
   GetRecoveryPoint,
+  RollbackRecoveryPoint,
 } from '../components/actions/revertpoints.action';
 import { ResetLedgersService } from '../services/reset-ledgers.service';
 import { tap } from 'rxjs/operators';
@@ -71,6 +72,25 @@ export class RecoveryPointState {
         const state = getState();
         const filteredArray = state.recoveryPoints.filter(
           (item) => item.id !== id
+        );
+        setState({
+          ...state,
+          recoveryPoints: filteredArray,
+        });
+      })
+    );
+  }
+
+  @Action(RollbackRecoveryPoint)
+  rollbackRecoveryPoint(
+    { getState, setState }: StateContext<RecoveryPointStateModel>,
+    { id }: RollbackRecoveryPoint
+  ) {
+    return this.resetLedgersService.rollBackPointsById(id).pipe(
+      tap(() => {
+        const state = getState();
+        const filteredArray = state.recoveryPoints.filter(
+          (item) => item.id !== id.recoveryPointId
         );
         setState({
           ...state,

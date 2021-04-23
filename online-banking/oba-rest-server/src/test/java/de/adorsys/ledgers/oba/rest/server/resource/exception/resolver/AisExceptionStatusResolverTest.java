@@ -16,7 +16,7 @@ class AisExceptionStatusResolverTest {
     @MethodSource("testCases")
     void resolveHttpStatusByCode(ObaErrorCode errorCode, HttpStatus expected) {
         assertEquals(expected, AisExceptionStatusResolver.resolveHttpStatusByCode(errorCode));
-        assertEquals(8, ObaErrorCode.values().length, "If fail add new test case.");
+        assertEquals(9, ObaErrorCode.values().length, "If fail add new test case.");
     }
 
     private static Stream<Arguments> testCases() {
@@ -34,7 +34,8 @@ class AisExceptionStatusResolverTest {
             Arguments.arguments(ObaErrorCode.CONVERSION_EXCEPTION, HttpStatus.INTERNAL_SERVER_ERROR),
 
             Arguments.arguments(ObaErrorCode.AUTH_EXPIRED, HttpStatus.UNAUTHORIZED),
-            Arguments.arguments(ObaErrorCode.LOGIN_FAILED, HttpStatus.UNAUTHORIZED)
+            Arguments.arguments(ObaErrorCode.LOGIN_FAILED, HttpStatus.UNAUTHORIZED),
+            Arguments.arguments(ObaErrorCode.RESOURCE_EXPIRED, HttpStatus.GONE)
         );
     }
 }

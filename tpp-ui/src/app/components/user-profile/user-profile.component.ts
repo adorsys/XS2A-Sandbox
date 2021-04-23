@@ -19,6 +19,7 @@ import { Select, Store } from '@ngxs/store';
 import {
   DeleteRecoveryPoint,
   GetRecoveryPoint,
+  RollbackRecoveryPoint,
 } from '../actions/revertpoints.action';
 import { Observable } from 'rxjs';
 import { RecoveryPointState } from '../../state/recoverypoints.state';
@@ -126,6 +127,9 @@ export class UserProfileComponent implements OnInit {
     } else {
       this.tppService.deleteSelf().subscribe(() => {
         sessionStorage.removeItem('access_token');
+        sessionStorage.removeItem(
+          this.pageNavigationService.getLastVisitedPage()
+        );
         this.authService.logout();
         this.router.navigateByUrl('/login');
       });
@@ -173,9 +177,8 @@ export class UserProfileComponent implements OnInit {
       branchId: this.tppUser.branch,
       recoveryPointId: pointID,
     };
-    this.ledgersService.rollBackPointsById(revertData).subscribe((point) => {
-      this.infoService.openFeedback('Ledgers successfully reverted');
-    });
+    this.store.dispatch(new RollbackRecoveryPoint(revertData));
+    this.infoService.openFeedback('Ledgers successfully reverted');
   }
 
   openModalWithComponent() {

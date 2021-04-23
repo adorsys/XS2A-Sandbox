@@ -6,17 +6,19 @@ describe('PaymentDetailsComponent', () => {
   let component: PaymentDetailsComponent;
   let fixture: ComponentFixture<PaymentDetailsComponent>;
   let shareDataService: ShareDataService;
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [PaymentDetailsComponent],
-      providers: [ShareDataService],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [PaymentDetailsComponent],
+        providers: [ShareDataService],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PaymentDetailsComponent);
     component = fixture.componentInstance;
-    shareDataService = TestBed.get(ShareDataService);
+    shareDataService = TestBed.inject(ShareDataService);
     fixture.detectChanges();
   });
 

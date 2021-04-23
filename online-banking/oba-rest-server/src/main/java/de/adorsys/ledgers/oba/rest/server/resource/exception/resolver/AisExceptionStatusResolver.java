@@ -27,6 +27,7 @@ public class AisExceptionStatusResolver {
 
         container.put(AUTH_EXPIRED, HttpStatus.UNAUTHORIZED);
         container.put(LOGIN_FAILED, HttpStatus.UNAUTHORIZED);
+        container.put(RESOURCE_EXPIRED, HttpStatus.GONE);
     }
 
     private AisExceptionStatusResolver() {

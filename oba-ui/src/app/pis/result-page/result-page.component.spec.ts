@@ -15,20 +15,22 @@ describe('ResultPageComponent', () => {
   let settingsService: SettingsService;
   let pisService: PisService;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [ResultPageComponent],
-      providers: [ShareDataService, PisService, SettingsService],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule],
+        declarations: [ResultPageComponent],
+        providers: [ShareDataService, PisService, SettingsService],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ResultPageComponent);
     component = fixture.componentInstance;
-    shareDataService = TestBed.get(ShareDataService);
-    settingsService = TestBed.get(SettingsService);
-    pisService = TestBed.get(PisService);
+    shareDataService = TestBed.inject(ShareDataService);
+    settingsService = TestBed.inject(SettingsService);
+    pisService = TestBed.inject(PisService);
     fixture.detectChanges();
   });
 

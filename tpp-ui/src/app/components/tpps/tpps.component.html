@@ -26,6 +26,14 @@
             >
               Create TPP
             </button>
+            <button
+              class="btn btn-primary btn-block"
+              (click)="deleteTestData()"
+              *ngIf="admin"
+              type="button"
+            >
+              Remove test data
+            </button>
           </div>
         </div>
       </div>
@@ -51,7 +59,7 @@
                     <div class="filter">
                       <input
                         class="form-control"
-                        placeholder="Search by TPP login..."
+                        placeholder="Search by TPP login"
                         formControlName="tppLogin"
                         type="text"
                       />
@@ -70,7 +78,8 @@
                         <option
                           *ngFor="let country of countriesList"
                           [ngValue]="country.code"
-                          >{{ country.name }}
+                        >
+                          {{ country.name }}
                         </option>
                       </select>
                     </div>
@@ -167,6 +176,8 @@
               </td>
               <td class="actions d-flex">
                 <button
+                  mat-fab
+                  aria-label="Block TPP"
                   class="btn btn-table-btn btn-sm wd-120"
                   (click)="
                     openConfirmation(
@@ -176,20 +187,26 @@
                     )
                   "
                 >
-                  {{ tpp.blocked ? 'Unblock TPP' : 'Block TPP' }}
-                </button>
-                <button class="btn btn-primary mr-4 ml-3"
-                        (click)=resetPasswordViaEmail(tpp.login)
-                        type="button">
-                  Send password update link
+                  <mat-icon *ngIf="!tpp.blocked">lock</mat-icon>
+                  <mat-icon *ngIf="tpp.blocked">lock_open</mat-icon>
                 </button>
                 <button
+                  mat-fab
+                  aria-label="Send password update link"
+                  class="btn btn-primary mr-4 ml-3"
+                  (click)="resetPasswordViaEmail(tpp.login)"
+                  type="button"
+                >
+                  <mat-icon>send</mat-icon>
+                </button>
+                <button
+                  mat-fab
                   (click)="
                     openConfirmation(deleteConfirmationModal, tpp.id, 'delete')
                   "
                   class="btn btn-outline-danger btn-sm wd-120"
                 >
-                  Delete
+                  <mat-icon>delete</mat-icon>
                 </button>
 
                 <ng-template #deleteConfirmationModal let-modal>

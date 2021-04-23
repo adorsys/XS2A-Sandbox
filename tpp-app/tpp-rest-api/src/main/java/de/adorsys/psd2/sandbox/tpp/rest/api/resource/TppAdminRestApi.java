@@ -71,6 +71,10 @@ public interface TppAdminRestApi {
     @DeleteMapping()
     ResponseEntity<Void> remove(String tppId);
 
+    @ApiOperation(value = "Remove test Tpps (with digit names)", authorizations = @Authorization(value = "apiKey"))
+    @DeleteMapping("/test/data")
+    ResponseEntity<Void> removeAllTestData() throws InterruptedException;
+
     @ApiOperation(value = "Set password for Tpp",
         notes = "Changes password for given Tpp",
         authorizations = @Authorization(value = "apiKey"))

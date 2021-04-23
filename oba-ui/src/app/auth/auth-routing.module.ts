@@ -1,8 +1,8 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {RoutingPath} from "../common/models/routing-path.model";
-import {NotFoundComponent} from "../not-found/not-found.component";
-import {AuthorizeComponent} from "./authorize/authorize.component";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { RoutingPath } from '../common/models/routing-path.model';
+import { NotFoundComponent } from '../not-found/not-found.component';
+import { AuthorizeComponent } from './authorize/authorize.component';
 
 const routes: Routes = [
   {
@@ -11,14 +11,12 @@ const routes: Routes = [
   },
   {
     path: '**',
-    component: NotFoundComponent
-  }
-
+    component: NotFoundComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AuthRoutingModule {
-}
+export class AuthRoutingModule {}

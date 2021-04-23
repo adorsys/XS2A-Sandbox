@@ -60,7 +60,8 @@
                         <option
                           *ngFor="let country of countries"
                           [ngValue]="country.code"
-                          >{{ country.name }}
+                        >
+                          {{ country.name }}
                         </option>
                       </select>
                     </div>
@@ -156,19 +157,20 @@
               <td>{{ account.blocked ? 'Blocked' : 'Active' }}</td>
               <td class="action d-flex">
                 <button
-                  class="btn btn-outline-danger btn-sm wd-120 mr-2"
-                  (click)="
-                    openConfirmation(
-                      deleteConfirmationModal,
-                      account.id,
-                      'delete'
-                    )
-                  "
+                  aria-label="Deposit Cash"
+                  mat-fab
+                  *ngIf="!account.blocked"
+                  class="btn btn-table-btn mr-2"
+                  [disabled]="!isAccountEnabled(account)"
+                  (click)="goToDepositCash(account)"
                 >
-                  Delete
+                  <mat-icon>account_balance</mat-icon>
                 </button>
+
                 <button
-                  class="btn btn-table-btn btn-sm wd-120 mr-2"
+                  mat-fab
+                  aria-label="Block the account"
+                  class="btn btn-table-btn mr-2"
                   (click)="
                     openConfirmation(
                       blockConfirmation,
@@ -177,7 +179,8 @@
                     )
                   "
                 >
-                  {{ account.blocked ? 'Unblock Account' : 'Block Account' }}
+                  <mat-icon *ngIf="!account.blocked">lock</mat-icon>
+                  <mat-icon *ngIf="account.blocked">lock_open</mat-icon>
                 </button>
 
                 <ng-template #deleteConfirmationModal let-modal>
@@ -195,7 +198,7 @@
                     </button>
                   </div>
                   <div class="modal-body">
-                    Are you sure you want to delete this User?
+                    Are you sure you want to delete this Account?
                   </div>
                   <div class="modal-footer">
                     <button
@@ -250,12 +253,18 @@
                   </div>
                 </ng-template>
                 <button
-                  *ngIf="!account.blocked"
-                  class="btn btn-table-btn"
-                  [disabled]="!isAccountEnabled(account)"
-                  (click)="goToDepositCash(account)"
+                  mat-fab
+                  aria-label="Delete the account"
+                  class="btn btn-outline-danger mr-2"
+                  (click)="
+                    openConfirmation(
+                      deleteConfirmationModal,
+                      account.id,
+                      'delete'
+                    )
+                  "
                 >
-                  Deposit Cash
+                  <mat-icon>delete</mat-icon>
                 </button>
               </td>
             </tr>

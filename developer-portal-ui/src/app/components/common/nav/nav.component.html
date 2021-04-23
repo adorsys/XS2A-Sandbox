@@ -18,6 +18,7 @@
           <a
             *ngFor="let navItem of navigation"
             class="header-item"
+            [routerLink]="createRouterLinks(navItem)"
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: false }"
             (click)="navigationService.navigateTo(navItem)"

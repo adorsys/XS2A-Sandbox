@@ -282,11 +282,20 @@ export class PlayWthDataComponent implements OnInit {
             map((result) => {
               const now = new Date();
               const monthToBeAdded = 7;
-              const copy = {
-                ...result,
-                startDate: formatDate(now, 'yyyy-MM-dd', this.locale),
-                endDate: formatDate(new Date(now.getFullYear(), now.getMonth() + monthToBeAdded, now.getDay()), 'yyyy-MM-dd', this.locale),
-              };
+              let copy;
+              if (this.paymentService === 'payments' || this.paymentService === 'bulk-payments') {
+                copy = { ...result };
+              } else if (this.paymentService === 'periodic-payments') {
+                copy = {
+                  ...result,
+                  startDate: formatDate(now, 'yyyy-MM-dd', this.locale),
+                  endDate: formatDate(
+                    new Date(now.getFullYear(), now.getMonth() + monthToBeAdded, now.getDay()),
+                    'yyyy-MM-dd',
+                    this.locale
+                  ),
+                };
+              }
               return copy;
             })
           )

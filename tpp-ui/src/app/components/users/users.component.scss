@@ -1,4 +1,4 @@
-@import "~src/assets/themes/table";
+@import '~src/assets/themes/table';
 
 .has-search .form-control {
   padding-left: 2.375rem;
@@ -16,7 +16,6 @@
   pointer-events: none;
   color: $dark-80;
 }
-
 
 @media (min-width: 768px) and (max-width: 1420px) {
   .header {

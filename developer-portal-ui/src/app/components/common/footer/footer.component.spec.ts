@@ -8,6 +8,7 @@ import { MarkdownModule } from 'ngx-markdown';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../../../services/language.service';
 import { HttpClient } from '@angular/common/http';
+import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
 
 describe('FooterComponent', () => {
   let component: FooterComponent;
@@ -93,7 +94,7 @@ describe('FooterComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [FooterComponent, TranslatePipe],
+        declarations: [FooterComponent, TranslatePipe, SanitizeHtmlPipe],
         imports: [
           HttpClientTestingModule,
           MarkdownModule.forRoot(),
@@ -113,7 +114,6 @@ describe('FooterComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FooterComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

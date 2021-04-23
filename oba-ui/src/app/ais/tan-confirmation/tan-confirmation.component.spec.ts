@@ -48,11 +48,11 @@ describe('TanConfirmationComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TanConfirmationComponent);
     component = fixture.componentInstance;
-    shareDataService = TestBed.get(ShareDataService);
-    customizeService = TestBed.get(CustomizeService);
-    aisService = TestBed.get(AisService);
-    router = TestBed.get(Router);
-    route = TestBed.get(ActivatedRoute);
+    shareDataService = TestBed.inject(ShareDataService);
+    customizeService = TestBed.inject(CustomizeService);
+    aisService = TestBed.inject(AisService);
+    router = TestBed.inject(Router);
+    route = TestBed.inject(ActivatedRoute);
     fixture.detectChanges();
   });
 
@@ -68,16 +68,16 @@ describe('TanConfirmationComponent', () => {
   });
 
   it('should call the on submit', () => {
-    let mockResponse = {
+    const mockResponse = {
       encryptedPaymentId: 'owirhJHGVSgueif98200293uwpgofowbOUIGb39845zt0',
       authorisationId: 'uwpgofowbOUIGb39845zt0owirhJHGVSgueif98200293',
     };
     component.authResponse = mockResponse;
     component.tanForm.get('authCode').setValue('izsugfHZVblizdwru79348z0');
-    let pisAuthSpy = spyOn(aisService, 'authrizedConsent').and.returnValue(
+    const pisAuthSpy = spyOn(aisService, 'authrizedConsent').and.returnValue(
       of(mockResponse)
     );
-    let navigateSpy = spyOn(router, 'navigate').and.returnValue(
+    const navigateSpy = spyOn(router, 'navigate').and.returnValue(
       of(undefined).toPromise()
     );
     component.onSubmit();
@@ -95,7 +95,7 @@ describe('TanConfirmationComponent', () => {
   });
 
   it('should call the on submit and return to result page when you set a wrong TAN', () => {
-    let mockResponse = {
+    const mockResponse = {
       encryptedConsentId: 'owirhJHGVSgueif98200293uwpgofowbOUIGb39845zt0',
       authorisationId: 'uwpgofowbOUIGb39845zt0owirhJHGVSgueif98200293',
     };
@@ -104,12 +104,12 @@ describe('TanConfirmationComponent', () => {
       .get('authCode')
       .setValue('izsugfHZVblizdwru79348z0fHZVblizdwru793');
     component.invalidTanCount = 3;
-    let pisAuthSpy = spyOn(aisService, 'authrizedConsent').and.returnValue(
+    const pisAuthSpy = spyOn(aisService, 'authrizedConsent').and.returnValue(
       throwError(mockResponse)
     );
     const error = of(undefined).toPromise();
     const errorSpy = spyOn(error, 'then');
-    let navigateSpy = spyOn(router, 'navigate').and.returnValue(error);
+    const navigateSpy = spyOn(router, 'navigate').and.returnValue(error);
     component.onSubmit();
     expect(navigateSpy).toHaveBeenCalledWith(
       [`${RoutingPath.ACCOUNT_INFORMATION}/${RoutingPath.RESULT}`],
@@ -126,15 +126,15 @@ describe('TanConfirmationComponent', () => {
   });
 
   it('should cancel and redirect to result page', () => {
-    let mockResponse = {
+    const mockResponse = {
       encryptedConsentId: 'owirhJHGVSgueif98200293uwpgofowbOUIGb39845zt0',
       authorisationId: 'uwpgofowbOUIGb39845zt0owirhJHGVSgueif98200293',
     };
     component.authResponse = mockResponse;
-    let revokeSpy = spyOn(aisService, 'revokeConsent').and.returnValue(
+    const revokeSpy = spyOn(aisService, 'revokeConsent').and.returnValue(
       of(mockResponse)
     );
-    let navigateSpy = spyOn(router, 'navigate').and.returnValue(
+    const navigateSpy = spyOn(router, 'navigate').and.returnValue(
       of(undefined).toPromise()
     );
     component.onCancel();

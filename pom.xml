@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.adorsys.psd2.sandbox</groupId>
     <artifactId>psd2-dynamic-sandbox</artifactId>
-    <version>5.9</version>
+    <version>5.10</version>
     <packaging>pom</packaging>
 
     <name>PSD2 Dynamic Sandbox</name>
@@ -96,13 +96,13 @@
         <java.version>11</java.version>
         <pmd.plugin.version>3.13.0</pmd.plugin.version>
         <!-- xs2a version -->
-        <xs2a.version>11.1</xs2a.version>
-        <connector.version>11.1</connector.version>
-        <ledgers.version>4.10</ledgers.version>
+        <xs2a.version>11.2</xs2a.version>
+        <connector.version>11.2</connector.version>
+        <ledgers.version>4.11</ledgers.version>
         <!-- other properties -->
-        <spring-boot-dependencies.version>2.2.4.RELEASE</spring-boot-dependencies.version>
+        <spring-boot-dependencies.version>2.3.1.RELEASE</spring-boot-dependencies.version>
         <spring-cloud-dependencies.version>Hoxton.SR9</spring-cloud-dependencies.version>
-        <spring-test-dependencies.version>5.1.6.RELEASE</spring-test-dependencies.version>
+        <spring-test-dependencies.version>5.2.7.RELEASE</spring-test-dependencies.version>
         <jetbrains.annotations.version>15.0</jetbrains.annotations.version>
         <org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
         <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
@@ -110,14 +110,16 @@
         <nimbus-jose-jwt.version>7.9</nimbus-jose-jwt.version>
         <lombok.version>1.18.4</lombok.version>
         <commons-io.version>2.6</commons-io.version>
-        <junit-jupiter.version>5.5.2</junit-jupiter.version>
+        <junit-jupiter.version>5.6.2</junit-jupiter.version>
         <mockito.version>3.2.4</mockito.version>
+        <hamcrest-library.version>2.2</hamcrest-library.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <fasterxml.version>2.12.2</fasterxml.version>
         <fasterxml-data-format.version>2.12.2</fasterxml-data-format.version>
         <opencsv.version>4.5</opencsv.version>
         <!--iban4j-version>3.2.1</iban4j-version-->
         <commons-validator.version>1.6</commons-validator.version>
+        <guava.version>30.1.1-jre</guava.version>
         <!--Sonar -->
         <sonar.core.coveragePlugin>jacoco</sonar.core.coveragePlugin>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
@@ -294,6 +296,12 @@
                 <version>${fasterxml-data-format.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
             <!-- Quickfix Iban4j -->
             <!--dependency>
                 <groupId>org.iban4j</groupId>
@@ -335,6 +343,13 @@
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-junit-jupiter</artifactId>
                 <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-library</artifactId>
+                <version>${hamcrest-library.version}</version>
                 <scope>test</scope>
             </dependency>
 

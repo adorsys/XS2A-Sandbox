@@ -15,8 +15,8 @@ describe('OauthService', () => {
       imports: [HttpClientTestingModule],
       providers: [OauthService, OnlineBankingOauthAuthorizationService],
     });
-    service = TestBed.get(OauthService);
-    onlineBankingOauthAuthorizationService = TestBed.get(
+    service = TestBed.inject(OauthService);
+    onlineBankingOauthAuthorizationService = TestBed.inject(
       OnlineBankingOauthAuthorizationService
     );
   });
@@ -37,7 +37,7 @@ describe('OauthService', () => {
   });
 
   it('should call onlineBankingOauthAuthorizationService', () => {
-    let obaOauthSpy = spyOn(
+    const obaOauthSpy = spyOn(
       onlineBankingOauthAuthorizationService,
       'oauthCodeUsingPOST'
     ).and.returnValue(of<any>('expected result'));
@@ -47,7 +47,7 @@ describe('OauthService', () => {
 
   it('should authorize', () => {
     const expectedResult = of<any>('expected result');
-    let obaOauthSpy = spyOn(
+    const obaOauthSpy = spyOn(
       onlineBankingOauthAuthorizationService,
       'oauthCodeUsingPOST'
     ).and.returnValue(expectedResult);

@@ -53,7 +53,7 @@ export class ResultPageComponent implements OnInit, OnDestroy {
           this.scaStatus = this.authResponse.scaStatus;
           const payment = this.authResponse.payment;
 
-          if (payment && payment.transactionStatus == 'PATC') {
+          if (payment && payment.transactionStatus === 'PATC') {
             this.multilevelSca = true;
           }
 

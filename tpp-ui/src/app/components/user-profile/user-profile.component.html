@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-body--large">
       <div class="header__title">
-        <span class="profile-icon"> &nbsp; &nbsp; &nbsp;</span>
+        <mat-icon>account_circle</mat-icon>
         {{ tppUser?.userRoles.includes('SYSTEM') ? 'Admin' : 'TPP' }} User
         Details
       </div>
@@ -70,9 +70,11 @@
             Edit
           </button>
 
-          <button class="btn btn-primary mr-4 ml-3"
-                  (click)=resetPasswordViaEmail(tppUser.login)
-                  type="button">
+          <button
+            class="btn btn-primary mr-4 ml-3"
+            (click)="resetPasswordViaEmail(tppUser.login)"
+            type="button"
+          >
             Send password update link
           </button>
 

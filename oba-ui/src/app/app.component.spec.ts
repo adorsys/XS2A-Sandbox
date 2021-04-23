@@ -15,7 +15,6 @@ describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
   let customizeService: CustomizeService;
-  let shareDataService: ShareDataService;
   let titleService: Title;
   const CustomizeServiceStub = {
     isCustom: () => false,
@@ -51,13 +50,13 @@ describe('AppComponent', () => {
       })
         .compileComponents()
         .then(() => {
-          customizeService = TestBed.get(CustomizeService);
+          customizeService = TestBed.inject(CustomizeService);
         });
     })
   );
   beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent);
-    titleService = TestBed.get(Title);
+    titleService = TestBed.inject(Title);
     component = fixture.componentInstance;
   });
 
@@ -89,13 +88,13 @@ describe('AppComponent', () => {
   });
 
   it('should check the Url', () => {
-    let mockUrl = '/login';
+    const mockUrl = '/login';
     component.checkUrl();
     expect(mockUrl).toEqual('/login');
   });
 
   it('should check the Url Bank', () => {
-    let mockUrl = '/bank-offered';
+    const mockUrl = '/bank-offered';
     component.checkUrlbank();
     expect(mockUrl).toEqual('/bank-offered');
   });

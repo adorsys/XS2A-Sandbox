@@ -6,15 +6,15 @@
 
   <div>
 
-[<span class="footer-item"> Home </span>](https://dev-modelbank-devportal.cloud.adorsys.de/home)
+<a href="#" class="footer-item" id="footerLogo">Home</a>
 
-[<span class="footer-item">Erste Schritte</span>](https://dev-modelbank-devportal.cloud.adorsys.de/getting-started)
+<a href="#" class="footer-item" id="gettingStarted">Erste Schritte</a>
 
-[<span class="footer-item">Testfälle</span>](https://dev-modelbank-devportal.cloud.adorsys.de/test-cases/redirect)
+<a href="#" class="footer-item" id="testCase">Testfälle</a>
 
-[<span class="footer-item">FAQs</span>](https://dev-modelbank-devportal.cloud.adorsys.de/page/faq)
+<a href="#" class="footer-item" id="faq">FAQs</a>
 
-[<span class="footer-item">Kontakt</span>](https://dev-modelbank-devportal.cloud.adorsys.de/page)
+<a href="#" class="footer-item" id="contacts">Kontakt</a>
 
   </div>
   </div>

@@ -19,7 +19,7 @@ export class SelectScaComponent implements OnInit, OnDestroy {
   public authResponse: PaymentAuthorizeResponse;
   public selectedScaMethod: ScaUserDataTO;
   public scaForm: FormGroup;
-  public isScaMethodNotAvailable: boolean = false;
+  public isScaMethodNotAvailable = false;
   public devPortalLink: string;
 
   public subscriptions: Subscription[] = [];

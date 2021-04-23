@@ -58,6 +58,8 @@ import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { RecoveryPointState } from './state/recoverypoints.state';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 export function app_Init(settingsHttpService: SettingsHttpService) {
   return () => settingsHttpService.initializeApp();
@@ -118,6 +120,8 @@ export function app_Init(settingsHttpService: SettingsHttpService) {
     NgxsModule.forRoot([RecoveryPointState]),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot(),
+    MatIconModule,
+    MatButtonModule,
   ],
   providers: [
     AutoLogoutService,

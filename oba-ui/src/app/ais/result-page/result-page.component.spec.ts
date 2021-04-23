@@ -14,20 +14,22 @@ describe('ResultPageComponent', () => {
   let shareDataService: ShareDataService;
   let settingsService: SettingsService;
   let aisService: AisService;
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [ResultPageComponent],
-      providers: [SettingsService, ShareDataService, AisService],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule],
+        declarations: [ResultPageComponent],
+        providers: [SettingsService, ShareDataService, AisService],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ResultPageComponent);
     component = fixture.componentInstance;
-    shareDataService = TestBed.get(ShareDataService);
-    settingsService = TestBed.get(SettingsService);
-    aisService = TestBed.get(AisService);
+    shareDataService = TestBed.inject(ShareDataService);
+    settingsService = TestBed.inject(SettingsService);
+    aisService = TestBed.inject(AisService);
     fixture.detectChanges();
   });
 

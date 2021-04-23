@@ -5,18 +5,13 @@ import { UserService } from '../../../services/user.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router} from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { User } from '../../../models/user.model';
 import { EmailVerificationService } from '../../../services/email-verification.service';
 import { InfoService } from '../../../commons/info/info.service';
 import { InfoModule } from '../../../commons/info/info.module';
-import { Account } from '../../../models/account.model';
-import {
-  AccountStatus,
-  AccountType,
-  UsageType,
-} from '../../../models/account.model';
+import {ScaUserData} from "../../../models/sca-user-data.model";
 
 describe('UserDetailsComponent', () => {
   let component: UserDetailsComponent;
@@ -80,26 +75,32 @@ describe('UserDetailsComponent', () => {
   });
 
   it('should show confirmation letter feedback on successful confirm email', () => {
-    const email = 'foo@foo.de';
+    const mockUserData: ScaUserData = {
+      decoupled: false, id: "",methodValue: 'foo@foo.de', scaMethod: "", staticTan: "", usesStaticTan: false, valid: false
+
+    };
     const getEmailSpy = spyOn(
       emailVerificationService,
       'sendEmailForVerification'
     ).and.returnValue(of(''));
     const infoServiceOpenFeedbackSpy = spyOn(infoService, 'openFeedback');
-    component.confirmEmail(`${email}`);
+    component.confirmEmail(mockUserData);
     expect(infoServiceOpenFeedbackSpy).toHaveBeenCalledWith(
-      `Confirmation letter has been sent to your email ${email}!`
+      `Confirmation letter has been sent to your email ${mockUserData.methodValue}!`
     );
   });
 
   it('should show failure message on unsuccessful confirm email ', () => {
-    const email = 'foo@foo.de';
+    const mockUserData: ScaUserData = {
+      decoupled: false, id: "",methodValue: 'foo@foo.de', scaMethod: "", staticTan: "", usesStaticTan: false, valid: false
+
+    };
     const getEmailSpy = spyOn(
       emailVerificationService,
       'sendEmailForVerification'
     ).and.returnValue(throwError(''));
     const infoServiceOpenFeedbackSpy = spyOn(infoService, 'openFeedback');
-    component.confirmEmail(`${email}`);
+    component.confirmEmail(mockUserData);
     expect(infoServiceOpenFeedbackSpy).toHaveBeenCalledWith(
       `Sorry, something went wrong during the process of sending the confirmation!`
     );
@@ -139,6 +140,10 @@ describe('UserDetailsComponent', () => {
   });
 
   it('should confirm the email', () => {
-    component.confirmEmail('tpp@tpp.de');
+    const mockUserData: ScaUserData = {
+      decoupled: false, id: "",methodValue: 'foo@foo.de', scaMethod: "", staticTan: "", usesStaticTan: false, valid: false
+
+    };
+    component.confirmEmail(mockUserData);
   });
 });

@@ -24,26 +24,28 @@ describe('SelectScaComponent', () => {
   let shareDataService: ShareDataService;
   let router: Router;
   let route: ActivatedRoute;
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ReactiveFormsModule],
-      declarations: [SelectScaComponent, PaymentDetailsComponent],
-      providers: [
-        ShareDataService,
-        PisService,
-        { provide: Router, useValue: mockRouter },
-        { provide: ActivatedRoute, useValue: mockActivatedRoute },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule, ReactiveFormsModule],
+        declarations: [SelectScaComponent, PaymentDetailsComponent],
+        providers: [
+          ShareDataService,
+          PisService,
+          { provide: Router, useValue: mockRouter },
+          { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SelectScaComponent);
     component = fixture.componentInstance;
-    pisService = TestBed.get(PisService);
-    shareDataService = TestBed.get(ShareDataService);
-    router = TestBed.get(Router);
-    route = TestBed.get(ActivatedRoute);
+    pisService = TestBed.inject(PisService);
+    shareDataService = TestBed.inject(ShareDataService);
+    router = TestBed.inject(Router);
+    route = TestBed.inject(ActivatedRoute);
     fixture.detectChanges();
   });
 

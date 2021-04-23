@@ -13,6 +13,7 @@ import { NavComponent } from './components/common/nav/nav.component';
 import { FooterComponent } from './components/common/footer/footer.component';
 import { of } from 'rxjs';
 import { MarkdownModule, MarkdownService } from 'ngx-markdown';
+import { SanitizeHtmlPipe } from './pipes/sanitize-html.pipe';
 
 describe('AppComponent', () => {
   let comp: AppComponent;
@@ -110,7 +111,7 @@ describe('AppComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [AppComponent, TranslatePipe, NavComponent, FooterComponent],
+        declarations: [AppComponent, TranslatePipe, NavComponent, FooterComponent, SanitizeHtmlPipe],
         imports: [
           MarkdownModule.forRoot(),
           RouterTestingModule,
@@ -139,7 +140,6 @@ describe('AppComponent', () => {
     waitForAsync(() => {
       fixture = TestBed.createComponent(AppComponent);
       comp = fixture.componentInstance;
-      fixture.detectChanges();
     })
   );
 

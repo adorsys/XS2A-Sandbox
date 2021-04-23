@@ -17,6 +17,7 @@ import de.adorsys.ledgers.oba.service.api.domain.AuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentType;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentWorkflow;
+import de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.api.service.AuthorizationService;
 import de.adorsys.ledgers.oba.service.api.service.RedirectConsentService;
@@ -256,7 +257,17 @@ public class AISController implements AISApi {
 
     private void updatePSUIdentification(ConsentWorkflow workflow, String psuId) {
         PsuIdData psuIdData = new PsuIdData(psuId, null, null, null, null);
+      try {
         cmsPsuAisClient.updatePsuDataInConsent(workflow.consentId(), workflow.authId(), DEFAULT_SERVICE_INSTANCE_ID, psuIdData);
+      }catch (FeignException e){
+          if(e.status()!= 408){
+              throw e ;
+          }
+              throw ObaException.builder()
+                  .obaErrorCode(ObaErrorCode.RESOURCE_EXPIRED)
+                  .devMessage("Authorisation is expired")
+                  .build();
+      }
     }
 
     /*

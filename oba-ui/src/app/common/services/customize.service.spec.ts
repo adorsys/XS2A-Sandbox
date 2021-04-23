@@ -49,8 +49,8 @@ describe('CustomizeService', () => {
       imports: [HttpClientTestingModule],
       providers: [CustomizeService],
     });
-    service = TestBed.get(CustomizeService);
-    httpTestingController = TestBed.get(HttpTestingController);
+    service = TestBed.inject(CustomizeService);
+    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {
@@ -62,7 +62,7 @@ describe('CustomizeService', () => {
   });
 
   it('should get JSON theme', async () => {
-    service.getJSON().subscribe(res => {
+    service.getJSON().subscribe((res) => {
       if (!service.isCustom()) {
         expect(res).toEqual(defTheme);
       } else {
@@ -84,7 +84,7 @@ describe('CustomizeService', () => {
   describe('getJson', () => {
     let http: HttpClient;
     beforeEach(() => {
-      http = TestBed.get(HttpClient);
+      http = TestBed.inject(HttpClient);
     });
     it('should return custom theme', () => {
       const httpSpy = spyOn(http, 'get').and.returnValue(of(theme));
@@ -121,7 +121,7 @@ describe('CustomizeService', () => {
   });
 
   it('getDefaultTheme should return default theme, default theme should be valid', () => {
-    service.getDefaultTheme().then(res => {
+    service.getDefaultTheme().then((res) => {
       expect(res).not.toBeUndefined();
       expect(service.validateTheme(res).length).toEqual(0);
       expect(res).toEqual(defTheme);
@@ -143,7 +143,7 @@ describe('CustomizeService', () => {
     expect(typeof service.getLogo()).toBe('string');
   });
 
-  it('should change font', async done => {
+  it('should change font', async (done) => {
     service.setUserTheme({
       ...defTheme,
       globalSettings: {
@@ -162,7 +162,7 @@ describe('CustomizeService', () => {
     }, 100);
   });
 
-  it('should left default', async done => {
+  it('should left default', async (done) => {
     document.documentElement.removeAttribute('style');
     service.setUserTheme(defTheme);
     setTimeout(() => {

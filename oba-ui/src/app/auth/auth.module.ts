@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthorizeComponent } from './authorize/authorize.component';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {NotFoundModule} from "../not-found/not-found.module";
-import {AuthRoutingModule} from "./auth-routing.module";
-
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NotFoundModule } from '../not-found/not-found.module';
+import { AuthRoutingModule } from './auth-routing.module';
 
 @NgModule({
   declarations: [AuthorizeComponent],
@@ -14,7 +12,7 @@ import {AuthRoutingModule} from "./auth-routing.module";
     ReactiveFormsModule,
     FormsModule,
     AuthRoutingModule,
-    NotFoundModule
-  ]
+    NotFoundModule,
+  ],
 })
-export class AuthModule { }
+export class AuthModule {}

@@ -35,7 +35,7 @@ label {
 
 .header {
   &__title {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 }
 
@@ -473,7 +473,6 @@ input {
 }
 
 .profile-icon {
-  display: inline-block;
   content: '';
   background-image: url('assets/icons/profile.svg');
   background-repeat: no-repeat;
@@ -482,4 +481,16 @@ input {
   .va-m {
     align-items: center !important;
   }
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+.modal-body {
+  text-align: center;
 }

@@ -21,10 +21,11 @@
         <div class="col-12 col-md-4">
           <div class="header__button">
             <button
+              mat-raised-button
               class="btn btn-primary btn-block"
               routerLink="/users/create"
             >
-              Create New User
+              <mat-icon>person_add</mat-icon> Create New User
             </button>
           </div>
         </div>
@@ -203,16 +204,20 @@
                 </ul>
               </td>
               <td class="action d-flex">
-                <button
-                  class="btn btn-outline-danger btn-sm wd-120 mr-2"
-                  (click)="
-                    openConfirmation(deleteConfirmationModal, user.id, 'delete')
-                  "
+                <a
+                  aria-label="Create Deposit Account"
+                  mat-fab
+                  class="btn btn-table-btn mr-2"
+                  routerLink="/users/{{ user.id }}/create-deposit-account"
+                  [queryParams]="{ tppId: user.branch, userId: user.id }"
+                  *ngIf="!user.blocked"
                 >
-                  Delete
-                </button>
+                  <mat-icon>account_balance</mat-icon>
+                </a>
                 <button
-                  class="btn btn-table-btn btn-sm wd-120 mr-2"
+                  mat-fab
+                  aria-label="Block the user"
+                  class="btn btn-table-btn mr-2"
                   (click)="
                     openConfirmation(
                       blockConfirmation,
@@ -221,7 +226,8 @@
                     )
                   "
                 >
-                  {{ user.blocked ? 'Unblock User' : 'Block User' }}
+                  <mat-icon *ngIf="!user.blocked">lock</mat-icon>
+                  <mat-icon *ngIf="user.blocked">lock_open</mat-icon>
                 </button>
 
                 <ng-template #deleteConfirmationModal let-modal>
@@ -293,15 +299,16 @@
                     </button>
                   </div>
                 </ng-template>
-
-                <a
-                  class="btn btn-table-btn"
-                  routerLink="/users/{{ user.id }}/create-deposit-account"
-                  [queryParams]="{ tppId: user.branch, userId: user.id }"
-                  *ngIf="!user.blocked"
+                <button
+                  mat-fab
+                  aria-label="Delete the user"
+                  class="btn btn-outline-danger mr-2"
+                  (click)="
+                    openConfirmation(deleteConfirmationModal, user.id, 'delete')
+                  "
                 >
-                  Create Deposit Account
-                </a>
+                  <mat-icon>delete</mat-icon>
+                </button>
               </td>
             </tr>
           </tbody>

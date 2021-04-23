@@ -11,10 +11,9 @@ import { ShareDataService } from '../../common/services/share-data.service';
 @Component({
   selector: 'app-confirm-payment',
   templateUrl: './confirm-payment.component.html',
-  styleUrls: ['./confirm-payment.component.scss']
+  styleUrls: ['./confirm-payment.component.scss'],
 })
 export class ConfirmPaymentComponent implements OnInit, OnDestroy {
-
   public payAuthResponse: PaymentAuthorizeResponse;
   public authResponse: ConsentAuthorizeResponse;
   public encryptedConsentId: string;
@@ -25,7 +24,8 @@ export class ConfirmPaymentComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private shareService: ShareDataService) {}
+    private shareService: ShareDataService
+  ) {}
 
   get accounts(): Array<AccountDetailsTO> {
     return this.authResponse ? this.authResponse.accounts : [];
@@ -33,53 +33,60 @@ export class ConfirmPaymentComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.subscriptions.push(
-      this.shareService.currentData.subscribe(data => {
+      this.shareService.currentData.subscribe((data) => {
         if (data) {
-          this.shareService.currentData.subscribe(authResponse => {
+          this.shareService.currentData.subscribe((authResponse) => {
             this.authResponse = authResponse;
           });
         }
-      }),
+      })
     );
-      this.shareService.currentData.subscribe(data => {
-          if (data) {
-              this.shareService.currentData.subscribe(payAuthResponse => {
-                  this.payAuthResponse = payAuthResponse;
-                  this.transactionStatus = this.payAuthResponse.payment.transactionStatus
-              });
-          }
-      });
-      // fetch oauth param value
-      this.shareService.oauthParam.subscribe((oauth2: boolean) => {
-          this.oauth2Param = oauth2;
-      });
-}
-
-  public onConfirm() {
-      if (this.transactionStatus === "ACSP") {
-          this.router.navigate([`${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.RESULT}`], {
-              queryParams: {
-                  encryptedConsentId: this.payAuthResponse.encryptedConsentId,
-                  authorisationId: this.payAuthResponse.authorisationId,
-                  oauth2: this.oauth2Param
-              }
-          })
-      } else {
-          this.router.navigate([`${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.SELECT_SCA}`]);
+    this.shareService.currentData.subscribe((data) => {
+      if (data) {
+        this.shareService.currentData.subscribe((payAuthResponse) => {
+          this.payAuthResponse = payAuthResponse;
+          this.transactionStatus = this.payAuthResponse.payment.transactionStatus;
+        });
       }
-  }
-
-  public onCancel(): void {
-    this.router.navigate([`${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.RESULT}`], {
-      queryParams: {
-        encryptedConsentId: this.authResponse.encryptedConsentId,
-        authorisationId: this.authResponse.authorisationId
-      }
+    });
+    // fetch oauth param value
+    this.shareService.oauthParam.subscribe((oauth2: boolean) => {
+      this.oauth2Param = oauth2;
     });
   }
 
-  ngOnDestroy(): void {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+  public onConfirm() {
+    if (this.transactionStatus === 'ACSP') {
+      this.router.navigate(
+        [`${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.RESULT}`],
+        {
+          queryParams: {
+            encryptedConsentId: this.payAuthResponse.encryptedConsentId,
+            authorisationId: this.payAuthResponse.authorisationId,
+            oauth2: this.oauth2Param,
+          },
+        }
+      );
+    } else {
+      this.router.navigate([
+        `${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.SELECT_SCA}`,
+      ]);
+    }
   }
 
+  public onCancel(): void {
+    this.router.navigate(
+      [`${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.RESULT}`],
+      {
+        queryParams: {
+          encryptedConsentId: this.authResponse.encryptedConsentId,
+          authorisationId: this.authResponse.authorisationId,
+        },
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
+  }
 }

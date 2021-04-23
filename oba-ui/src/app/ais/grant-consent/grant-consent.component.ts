@@ -1,22 +1,21 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Subscription} from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
-import {AccountDetailsTO} from '../../api/models/account-details-to';
-import {ConsentAuthorizeResponse} from '../../api/models/consent-authorize-response';
-import {RoutingPath} from '../../common/models/routing-path.model';
-import {AisService} from '../../common/services/ais.service';
-import {CustomizeService} from '../../common/services/customize.service';
-import {ShareDataService} from '../../common/services/share-data.service';
+import { AccountDetailsTO } from '../../api/models/account-details-to';
+import { ConsentAuthorizeResponse } from '../../api/models/consent-authorize-response';
+import { RoutingPath } from '../../common/models/routing-path.model';
+import { AisService } from '../../common/services/ais.service';
+import { CustomizeService } from '../../common/services/customize.service';
+import { ShareDataService } from '../../common/services/share-data.service';
 
 @Component({
   selector: 'app-grant-consent',
   templateUrl: './grant-consent.component.html',
-  styleUrls: ['./grant-consent.component.scss']
+  styleUrls: ['./grant-consent.component.scss'],
 })
 export class GrantConsentComponent implements OnInit, OnDestroy {
-
   public authResponse: ConsentAuthorizeResponse;
   public encryptedConsentId: string;
   public authorisationId: string;
@@ -32,7 +31,8 @@ export class GrantConsentComponent implements OnInit, OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private aisService: AisService,
-    private shareService: ShareDataService) {
+    private shareService: ShareDataService
+  ) {
     this.bankOfferedForm = this.formBuilder.group({});
   }
 
@@ -53,23 +53,30 @@ export class GrantConsentComponent implements OnInit, OnDestroy {
   }
 
   get bankOfferedConsentFormValid(): boolean {
-    return this.consentAccounts.length > 0 || this.consentBalances.length > 0 || this.consentTransactions.length > 0
+    return (
+      this.consentAccounts.length > 0 ||
+      this.consentBalances.length > 0 ||
+      this.consentTransactions.length > 0
+    );
   }
 
   public ngOnInit(): void {
     this.subscriptions.push(
-      this.shareService.currentData.subscribe(data => {
+      this.shareService.currentData.subscribe((data) => {
         if (data) {
-          this.shareService.currentData.subscribe(authResponse => {
+          this.shareService.currentData.subscribe((authResponse) => {
             this.authResponse = authResponse;
             this.bankOffered = this.isBankOfferedConsent();
           });
         }
-      }));
+      })
+    );
 
-    this.subscriptions.push(this.shareService.oauthParam.subscribe((oauth2: boolean) => {
-      this.oauth2Param = oauth2;
-    }));
+    this.subscriptions.push(
+      this.shareService.oauthParam.subscribe((oauth2: boolean) => {
+        this.oauth2Param = oauth2;
+      })
+    );
   }
 
   public onSubmit() {
@@ -78,60 +85,75 @@ export class GrantConsentComponent implements OnInit, OnDestroy {
       return;
     }
     this.subscriptions.push(
-      this.aisService.startConsentAuth({
-        encryptedConsentId: this.authResponse.encryptedConsentId,
-        authorisationId: this.authResponse.authorisationId,
-        aisConsent: this.authResponse.consent,
-      }).subscribe(authResponse => {
-        this.authResponse = authResponse;
-        this.shareService.changeData(this.authResponse);
-        this.router.navigate([`${RoutingPath.ACCOUNT_INFORMATION}/${RoutingPath.SELECT_SCA}`]);
-      })
+      this.aisService
+        .startConsentAuth({
+          encryptedConsentId: this.authResponse.encryptedConsentId,
+          authorisationId: this.authResponse.authorisationId,
+          aisConsent: this.authResponse.consent,
+        })
+        .subscribe((authResponse) => {
+          this.authResponse = authResponse;
+          this.shareService.changeData(this.authResponse);
+          this.router.navigate([
+            `${RoutingPath.ACCOUNT_INFORMATION}/${RoutingPath.SELECT_SCA}`,
+          ]);
+        })
     );
   }
 
   public onCancel(): void {
     this.subscriptions.push(
-      this.aisService.revokeConsent({
-        encryptedConsentId: this.authResponse.encryptedConsentId,
-        authorisationId: this.authResponse.authorisationId
-      }).subscribe(authResponse => {
-        this.router.navigate([`${RoutingPath.ACCOUNT_INFORMATION}/${RoutingPath.RESULT}`], {
-          queryParams: {
-            encryptedConsentId: this.authResponse.encryptedConsentId,
-            authorisationId: this.authResponse.authorisationId
-          }
-        }).then(() => {
-          this.authResponse = authResponse;
-          this.shareService.changeData(this.authResponse);
-        });
-      })
+      this.aisService
+        .revokeConsent({
+          encryptedConsentId: this.authResponse.encryptedConsentId,
+          authorisationId: this.authResponse.authorisationId,
+        })
+        .subscribe((authResponse) => {
+          this.router
+            .navigate(
+              [`${RoutingPath.ACCOUNT_INFORMATION}/${RoutingPath.RESULT}`],
+              {
+                queryParams: {
+                  encryptedConsentId: this.authResponse.encryptedConsentId,
+                  authorisationId: this.authResponse.authorisationId,
+                },
+              }
+            )
+            .then(() => {
+              this.authResponse = authResponse;
+              this.shareService.changeData(this.authResponse);
+            });
+        })
     );
   }
 
   public backToTpp() {
     this.subscriptions.push(
-      this.aisService.revokeConsent({
-        encryptedConsentId: this.authResponse.encryptedConsentId,
-        authorisationId: this.authResponse.authorisationId
-      }).subscribe(() => {
-        window.location.href = `/oba-proxy/ais/${this.authResponse.encryptedConsentId}/authorisation/${this.authResponse.authorisationId}` +
-          `/done?backToTpp=true&forgetConsent=true&oauth2=${this.oauth2Param}`;
-      })
+      this.aisService
+        .revokeConsent({
+          encryptedConsentId: this.authResponse.encryptedConsentId,
+          authorisationId: this.authResponse.authorisationId,
+        })
+        .subscribe(() => {
+          window.location.href =
+            `/oba-proxy/ais/${this.authResponse.encryptedConsentId}/authorisation/${this.authResponse.authorisationId}` +
+            `/done?backToTpp=true&forgetConsent=true&oauth2=${this.oauth2Param}`;
+        })
     );
   }
 
   handleObjectSelectedEvent(value, container): void {
     const idx = container.indexOf(value);
-    if (idx > -1) { // is currently selected
+    if (idx > -1) {
+      // is currently selected
       container.splice(idx, 1);
-    } else { // is newly selected
+    } else {
+      // is newly selected
       container.push(value);
     }
   }
 
   handleIbanCheckbox(value): void {
-
     // accounts
     this.handleSplice(this.consentAccounts, value, true);
 
@@ -143,7 +165,7 @@ export class GrantConsentComponent implements OnInit, OnDestroy {
   }
 
   public accountsChecked(account): boolean {
-    return this.authResponse.consent.access.accounts.indexOf(account.iban) > -1
+    return this.authResponse.consent.access.accounts.indexOf(account.iban) > -1;
   }
 
   public balancesChecked(account): boolean {
@@ -151,39 +173,56 @@ export class GrantConsentComponent implements OnInit, OnDestroy {
   }
 
   public transactionsChecked(account): boolean {
-    return this.authResponse.consent.access.transactions.indexOf(account.iban) > -1;
+    return (
+      this.authResponse.consent.access.transactions.indexOf(account.iban) > -1
+    );
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 
-  private handleSplice(consentArray: string[], value: string, isConsent: boolean): void {
+  private handleSplice(
+    consentArray: string[],
+    value: string,
+    isConsent: boolean
+  ): void {
     const idx = consentArray.indexOf(value);
-    if (idx > -1) { // is currently selected
+    if (idx > -1) {
+      // is currently selected
       consentArray.splice(idx, 1);
-    } else if (isConsent) { // is newly selected
+    } else if (isConsent) {
+      // is newly selected
       this.consentAccounts.push(value);
     }
   }
 
   private isBankOfferedConsent() {
-    return this.isEmptyAccountAccess() && this.isEmptyBalancesAccess() && this.isEmptyTransactionsAccess();
+    return (
+      this.isEmptyAccountAccess() &&
+      this.isEmptyBalancesAccess() &&
+      this.isEmptyTransactionsAccess()
+    );
   }
 
   private isEmptyAccountAccess(): boolean {
-    return this.authResponse.consent.access.accounts == null ||
-      this.authResponse.consent.access.accounts.length == 0;
+    return (
+      this.authResponse.consent.access.accounts === null ||
+      this.authResponse.consent.access.accounts.length === 0
+    );
   }
 
   private isEmptyBalancesAccess(): boolean {
-    return this.authResponse.consent.access.balances == null ||
-      this.authResponse.consent.access.balances.length == 0;
+    return (
+      this.authResponse.consent.access.balances === null ||
+      this.authResponse.consent.access.balances.length === 0
+    );
   }
 
   private isEmptyTransactionsAccess(): boolean {
-    return this.authResponse.consent.access.transactions == null ||
-      this.authResponse.consent.access.transactions.length == 0;
+    return (
+      this.authResponse.consent.access.transactions === null ||
+      this.authResponse.consent.access.transactions.length === 0
+    );
   }
-
 }

@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 import { PaginationResponse } from '../models/pagination-reponse';
 import { map } from 'rxjs/operators';
 import { User, UserResponse } from '../models/user.model';
 import { TppQueryParams, TppResponse } from '../models/tpp-management.model';
 import { AccountResponse } from '../models/account.model';
-import {GrantAccountAccess} from '../models/grant-account-access.model';
+import { GrantAccountAccess } from '../models/grant-account-access.model';
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +32,10 @@ export class TppManagementService {
   }
 
   blockAccount(accountId: string) {
-    return this.http.post(`${this.url}/accounts/status?accountId=${accountId}`, accountId);
+    return this.http.post(
+      `${this.url}/accounts/status?accountId=${accountId}`,
+      accountId
+    );
   }
 
   deleteTpp(tppId: string) {
@@ -44,7 +47,7 @@ export class TppManagementService {
   }
 
   deleteAccount(accountId: string) {
-      return this.http.delete(this.url + `/account/${accountId}`);
+    return this.http.delete(this.url + `/account/${accountId}`);
   }
 
   updateUserDetails(user: User, tppId: string): Observable<any> {
@@ -63,6 +66,10 @@ export class TppManagementService {
     return this.http.delete(this.url + '/self');
   }
 
+  deleteTestData() {
+    return this.http.delete(this.url + '/admin/test/data');
+  }
+
   deleteAccountTransactions(accountId: string) {
     return this.http.delete(this.url + '/transactions/' + accountId);
   }
@@ -70,7 +77,6 @@ export class TppManagementService {
   updateAccountAccessForUser(accountAccess: GrantAccountAccess) {
     return this.http.put(this.url + '/accounts/access', accountAccess);
   }
-
 
   getUsersForTpp(tppId: string): Observable<User[]> {
     return this.getAllUsers(0, 100, { tppId: tppId }).pipe(
@@ -182,9 +188,9 @@ export class TppManagementService {
 
   getAdminById(id, size): Observable<any> {
     return this.getAllAdmins(0, size).pipe(
-      map(data => {
+      map((data) => {
         if (data.users) {
-          return data.users.find(u => u.id === id);
+          return data.users.find((u) => u.id === id);
         }
         return undefined;
       })
@@ -195,14 +201,17 @@ export class TppManagementService {
     let params = new HttpParams();
     params = params.set('page', number.toLocaleString());
     params = params.set('size', size.toLocaleString());
-    return this.http.get<PaginationResponse<User[]>>(
-      `${this.url}/admin/admins`,
-      { params: params }
-    ).pipe(map((resp) => {
-      return {
-        users: resp.content,
-        totalElements: resp.totalElements,
-      };
-    }));
+    return this.http
+      .get<PaginationResponse<User[]>>(`${this.url}/admin/admins`, {
+        params: params,
+      })
+      .pipe(
+        map((resp) => {
+          return {
+            users: resp.content,
+            totalElements: resp.totalElements,
+          };
+        })
+      );
   }
 }

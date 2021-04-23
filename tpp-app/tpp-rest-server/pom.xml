@@ -5,7 +5,7 @@
     <parent>
         <artifactId>tpp-app</artifactId>
         <groupId>de.adorsys.psd2.sandbox</groupId>
-        <version>5.9</version>
+        <version>5.10</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -157,6 +157,12 @@
         <dependency>
             <groupId>commons-validator</groupId>
             <artifactId>commons-validator</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
             <scope>test</scope>
         </dependency>
 

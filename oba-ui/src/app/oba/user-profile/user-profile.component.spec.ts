@@ -42,7 +42,7 @@ describe('UserProfileComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UserProfileComponent);
     component = fixture.componentInstance;
-    mockObaService = TestBed.get(CurrentUserService);
+    mockObaService = TestBed.inject(CurrentUserService);
     fixture.detectChanges();
   });
 

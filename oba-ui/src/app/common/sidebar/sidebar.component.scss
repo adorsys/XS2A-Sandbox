@@ -1,7 +1,8 @@
 .nav-link {
-  color: #2C2E2F;
+  color: #2c2e2f;
 
   &.active {
-    color: #0F62A4;
+    color: #13bf9f;
+    border-right: 3px solid #13bf9f;
   }
 }
