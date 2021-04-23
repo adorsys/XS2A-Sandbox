@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import de.adorsys.ledgers.middleware.api.domain.um.ScaUserDataTO;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.ScaUserDataMixedIn;
+import feign.Request;
 import feign.codec.Encoder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Configuration
@@ -29,4 +32,12 @@ public class TppUiBeFeignConfiguration {
         ObjectFactory<HttpMessageConverters> objectFactory = () -> new HttpMessageConverters(jacksonConverter);
         return new SpringEncoder(objectFactory);
     }
+
+    @Bean
+    public Request.Options options() {
+        return new Request.Options(10, TimeUnit.SECONDS,
+                                   60, TimeUnit.SECONDS,
+                                   false);
+    }
+
 }

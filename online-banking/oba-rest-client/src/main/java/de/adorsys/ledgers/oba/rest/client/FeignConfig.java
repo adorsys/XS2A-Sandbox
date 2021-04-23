@@ -1,5 +1,6 @@
 package de.adorsys.ledgers.oba.rest.client;
 
+import feign.Request;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.cloud.openfeign.support.ResponseEntityDecoder;
@@ -16,9 +17,11 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import de.adorsys.ledgers.oba.rest.utils.NullHeaderInterceptor;
 import feign.codec.Decoder;
 
+import java.util.concurrent.TimeUnit;
+
 @Configuration
 public class FeignConfig {
-	
+
 	@Bean
 	public Decoder feignDecoder() {
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -28,9 +31,16 @@ public class FeignConfig {
 		ObjectFactory<HttpMessageConverters> objectFactory = () -> new HttpMessageConverters(jacksonConverter);
 		return new ResponseEntityDecoder(new SpringDecoder(objectFactory));
 	}
-	
+
 	@Bean
 	public NullHeaderInterceptor nullHeaderInterceptor() {
 		return new NullHeaderInterceptor();
 	}
+
+    @Bean
+    public Request.Options options() {
+        return new Request.Options(10, TimeUnit.SECONDS,
+                                   60, TimeUnit.SECONDS,
+                                   false);
+    }
 }
