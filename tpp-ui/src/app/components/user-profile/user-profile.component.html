@@ -56,6 +56,7 @@
       >
         <div class="mr-3">
           <button
+            mat-raised-button
             class="btn btn-sm btn-outline-secondary"
             [routerLink]="[pageNavigationService.getLastVisitedPage()]"
             queryParamsHandling="preserve"
@@ -63,6 +64,7 @@
             < Back
           </button>
           <button
+            mat-raised-button
             class="btn btn-primary mr-2 ml-3"
             [routerLink]="['/edit/' + tppUser?.id]"
             type="button"
@@ -71,6 +73,7 @@
           </button>
 
           <button
+            mat-raised-button
             class="btn btn-primary mr-4 ml-3"
             (click)="resetPasswordViaEmail(tppUser.login)"
             type="button"
@@ -79,6 +82,7 @@
           </button>
 
           <button
+            mat-raised-button
             class="btn btn-primary mr-2"
             type="button"
             (click)="openModalWithComponent()"
@@ -88,6 +92,7 @@
           </button>
 
           <button
+            mat-raised-button
             class="btn btn-outline-danger mr-2 ml-1"
             (click)="openConfirmation(blockConfirmation, 'block')"
             *ngIf="admin"
@@ -100,6 +105,7 @@
             <div class="modal-header">
               <h4 class="modal-title" id="modal-basic-title-1">TPP blocking</h4>
               <button
+                mat-raised-button
                 type="button"
                 class="close"
                 aria-label="Close"
@@ -114,13 +120,15 @@
             </div>
             <div class="modal-footer">
               <button
+                mat-raised-button
                 type="button"
-                class="btn btn-outline-secondary"
+                class="btn btn-outline-secondary mr-2"
                 (click)="modal.dismiss('cancel click')"
               >
                 Cancel
               </button>
               <button
+                mat-raised-button
                 type="button"
                 class="btn btn-danger"
                 (click)="modal.close('Ok click')"
@@ -132,16 +140,21 @@
         </div>
 
         <button
+          mat-raised-button
+          matTooltip="Delete TPP"
+          [matTooltipPosition]="position.value"
+          aria-label="Delete TPP"
           (click)="openConfirmation(deleteConfirmationModal, 'delete')"
           class="btn btn-danger mr-3"
         >
-          Delete TPP
+          <mat-icon>delete</mat-icon>
         </button>
 
         <ng-template #deleteConfirmationModal let-modal>
           <div class="modal-header">
             <h4 class="modal-title" id="modal-basic-title">TPP deletion</h4>
             <button
+              mat-raised-button
               type="button"
               class="close"
               aria-label="Close"
@@ -155,13 +168,15 @@
           </div>
           <div class="modal-footer">
             <button
+              mat-raised-button
               type="button"
-              class="btn btn-outline-secondary"
+              class="btn btn-outline-secondary mr-2"
               (click)="modal.dismiss('cancel click')"
             >
               Cancel
             </button>
             <button
+              mat-raised-button
               type="button"
               class="btn btn-danger"
               (click)="modal.close('Ok click')"
@@ -191,12 +206,14 @@
             </td>
             <td class="flex va-m">
               <button
+                mat-raised-button
                 class="btn btn-primary mr-2"
                 (click)="rollbackRecoveryPointById(point?.id)"
               >
                 Rollback State
               </button>
               <button
+                mat-raised-button
                 class="btn btn-danger"
                 (click)="deleteRecoveryPointById(point?.id)"
               >

@@ -205,6 +205,8 @@
               </td>
               <td class="action d-flex">
                 <a
+                  matTooltip="Create Deposit Account"
+                  [matTooltipPosition]="position.value"
                   aria-label="Create Deposit Account"
                   mat-fab
                   class="btn btn-table-btn mr-2"
@@ -216,6 +218,10 @@
                 </a>
                 <button
                   mat-fab
+                  [matTooltip]="
+                    !user.blocked ? 'Block the user' : 'Unblock the user'
+                  "
+                  [matTooltipPosition]="position.value"
                   aria-label="Block the user"
                   class="btn btn-table-btn mr-2"
                   (click)="
@@ -249,13 +255,15 @@
                   </div>
                   <div class="modal-footer">
                     <button
+                      mat-raised-button
                       type="button"
-                      class="btn btn-outline-secondary"
+                      class="btn btn-outline-secondary mr-2"
                       (click)="modal.dismiss('cancel click')"
                     >
                       Cancel
                     </button>
                     <button
+                      mat-raised-button
                       type="button"
                       class="btn btn-danger"
                       (click)="modal.close('Ok click')"
@@ -284,13 +292,15 @@
                   </div>
                   <div class="modal-footer">
                     <button
+                      mat-raised-button
                       type="button"
-                      class="btn btn-outline-secondary"
+                      class="btn btn-outline-secondary mr-2"
                       (click)="modal.dismiss('cancel click')"
                     >
                       Cancel
                     </button>
                     <button
+                      mat-raised-button
                       type="button"
                       class="btn btn-danger"
                       (click)="modal.close('Ok click')"
@@ -301,6 +311,8 @@
                 </ng-template>
                 <button
                   mat-fab
+                  matTooltip="Delete the user"
+                  [matTooltipPosition]="position.value"
                   aria-label="Delete the user"
                   class="btn btn-outline-danger mr-2"
                   (click)="

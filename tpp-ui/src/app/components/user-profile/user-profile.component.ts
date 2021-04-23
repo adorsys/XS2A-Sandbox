@@ -11,7 +11,7 @@ import { AccountAccess } from '../../models/account-access.model';
 import { InfoService } from '../../commons/info/info.service';
 import { ResetLedgersService } from '../../services/reset-ledgers.service';
 import { RecoveryPoint } from '../../models/recovery-point.models';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { ADMIN_KEY } from '../../commons/constant/constant';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ModalComponent } from '../modal/modal.component';
@@ -24,6 +24,7 @@ import {
 import { Observable } from 'rxjs';
 import { RecoveryPointState } from '../../state/recoverypoints.state';
 import { AuthService } from '../../services/auth.service';
+import { TooltipPosition } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-user-profile',
@@ -40,6 +41,15 @@ export class UserProfileComponent implements OnInit {
   countries;
   userAmount = 0;
   private newPin = 'pin';
+  positionOptions: TooltipPosition[] = [
+    'above',
+    'before',
+    'after',
+    'below',
+    'left',
+    'right',
+  ];
+  position = new FormControl(this.positionOptions[0]);
 
   constructor(
     public pageNavigationService: PageNavigationService,
@@ -162,7 +172,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   getRecoveryPoints() {
-    if (this.admin === 'false') {
+    if (this.admin === false) {
       this.store.dispatch(new GetRecoveryPoint());
     }
   }
@@ -177,7 +187,11 @@ export class UserProfileComponent implements OnInit {
       branchId: this.tppUser.branch,
       recoveryPointId: pointID,
     };
-    this.store.dispatch(new RollbackRecoveryPoint(revertData));
+    this.ledgersService.rollBackPointsById(revertData).subscribe(() => {
+      this.getRecoveryPoints();
+      this.infoService.openFeedback('Ledgers successfully reverted');
+    });
+
     this.infoService.openFeedback('Ledgers successfully reverted');
   }
 

@@ -21,12 +21,14 @@
         <div class="col-12 col-md-4">
           <div class="header__button">
             <button
+              mat-raised-button
               class="btn btn-primary btn-block"
               [routerLink]="['/create']"
             >
               Create TPP
             </button>
             <button
+              mat-raised-button
               class="btn btn-primary btn-block"
               (click)="deleteTestData()"
               *ngIf="admin"
@@ -177,6 +179,10 @@
               <td class="actions d-flex">
                 <button
                   mat-fab
+                  [matTooltip]="
+                    !tpp.blocked ? 'Block the TPP' : 'Unblock the TPP'
+                  "
+                  [matTooltipPosition]="position.value"
                   aria-label="Block TPP"
                   class="btn btn-table-btn btn-sm wd-120"
                   (click)="
@@ -192,6 +198,8 @@
                 </button>
                 <button
                   mat-fab
+                  matTooltip="Send Password Update Link"
+                  [matTooltipPosition]="position.value"
                   aria-label="Send password update link"
                   class="btn btn-primary mr-4 ml-3"
                   (click)="resetPasswordViaEmail(tpp.login)"
@@ -201,6 +209,8 @@
                 </button>
                 <button
                   mat-fab
+                  matTooltip="Delete TPP"
+                  [matTooltipPosition]="position.value"
                   (click)="
                     openConfirmation(deleteConfirmationModal, tpp.id, 'delete')
                   "

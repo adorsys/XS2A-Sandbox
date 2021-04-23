@@ -60,6 +60,7 @@ import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { RecoveryPointState } from './state/recoverypoints.state';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 export function app_Init(settingsHttpService: SettingsHttpService) {
   return () => settingsHttpService.initializeApp();
@@ -122,6 +123,7 @@ export function app_Init(settingsHttpService: SettingsHttpService) {
     NgxsLoggerPluginModule.forRoot(),
     MatIconModule,
     MatButtonModule,
+    MatTooltipModule,
   ],
   providers: [
     AutoLogoutService,

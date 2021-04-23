@@ -159,6 +159,8 @@
                 <button
                   aria-label="Deposit Cash"
                   mat-fab
+                  matTooltip="Deposit Cash"
+                  [matTooltipPosition]="position.value"
                   *ngIf="!account.blocked"
                   class="btn btn-table-btn mr-2"
                   [disabled]="!isAccountEnabled(account)"
@@ -169,6 +171,12 @@
 
                 <button
                   mat-fab
+                  [matTooltip]="
+                    !account.blocked
+                      ? 'Block the account'
+                      : 'Unblock the account'
+                  "
+                  [matTooltipPosition]="position.value"
                   aria-label="Block the account"
                   class="btn btn-table-btn mr-2"
                   (click)="
@@ -202,13 +210,15 @@
                   </div>
                   <div class="modal-footer">
                     <button
+                      mat-raised-button
                       type="button"
-                      class="btn btn-outline-secondary"
+                      class="btn btn-outline-secondary mr-2"
                       (click)="modal.dismiss('cancel click')"
                     >
                       Cancel
                     </button>
                     <button
+                      mat-raised-button
                       type="button"
                       class="btn btn-danger"
                       (click)="modal.close('Ok click')"
@@ -237,13 +247,15 @@
                   </div>
                   <div class="modal-footer">
                     <button
+                      mat-raised-button
                       type="button"
-                      class="btn btn-outline-secondary"
+                      class="btn btn-outline-secondary mr-2"
                       (click)="modal.dismiss('cancel click')"
                     >
                       Cancel
                     </button>
                     <button
+                      mat-raised-button
                       type="button"
                       class="btn btn-danger"
                       (click)="modal.close('Ok click')"
@@ -254,6 +266,8 @@
                 </ng-template>
                 <button
                   mat-fab
+                  matTooltip="Delete the account"
+                  [matTooltipPosition]="position.value"
                   aria-label="Delete the account"
                   class="btn btn-outline-danger mr-2"
                   (click)="

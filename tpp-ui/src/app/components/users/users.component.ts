@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+} from '@angular/forms';
 import { debounceTime, map, tap } from 'rxjs/operators';
 import { User, UserResponse } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
@@ -16,6 +21,7 @@ import { CountryService } from '../../services/country.service';
 import { ADMIN_KEY } from '../../commons/constant/constant';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { InfoService } from '../../commons/info/info.service';
+import { TooltipPosition } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-users',
@@ -34,7 +40,15 @@ export class UsersComponent implements OnInit {
     currentPageNumber: 1,
     totalItems: 0,
   };
-
+  positionOptions: TooltipPosition[] = [
+    'above',
+    'before',
+    'after',
+    'below',
+    'left',
+    'right',
+  ];
+  position = new FormControl(this.positionOptions[0]);
   searchForm: FormGroup = this.formBuilder.group({
     userLogin: '',
     tppId: '',
