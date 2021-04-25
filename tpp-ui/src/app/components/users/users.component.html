@@ -158,21 +158,21 @@
               >
                 {{ user.email }}
               </td>
-              <td>
+              <td [routerLink]="['/users/' + user.id]">
                 <ul>
                   <li *ngFor="let accountAccess of user?.accountAccesses">
                     {{ accountAccess.iban }}
                   </li>
                 </ul>
               </td>
-              <td>
+              <td [routerLink]="['/users/' + user.id]">
                 <ul>
                   <li *ngFor="let accountAccess of user?.accountAccesses">
                     {{ accountAccess.currency }}
                   </li>
                 </ul>
               </td>
-              <td *ngIf="admin === 'true'" class="nowrap">
+              <td *ngIf="admin === 'true'" class="nowrap" [routerLink]="['/users/' + user.id]">
                 {{ user?.branchLogin }}
               </td>
               <td *ngIf="admin === 'true'">
@@ -183,7 +183,7 @@
                   >{{ user.branch }}
                 </a>
               </td>
-              <td>
+              <td [routerLink]="['/users/' + user.id]">
                 <ul>
                   <li
                     *ngFor="
