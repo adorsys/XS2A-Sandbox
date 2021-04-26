@@ -9,6 +9,7 @@ import { LoginComponent } from './login.component';
 import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 fdescribe('LoginComponent', () => {
   let component: LoginComponent;
@@ -18,14 +19,21 @@ fdescribe('LoginComponent', () => {
   let de: DebugElement;
   let el: HTMLElement;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, RouterTestingModule, HttpClientModule],
-      providers: [AuthService],
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          ReactiveFormsModule,
+          RouterTestingModule,
+          HttpClientModule,
+          MatSnackBarModule,
+        ],
+        providers: [AuthService],
 
-      declarations: [LoginComponent],
-    }).compileComponents();
-  }));
+        declarations: [LoginComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);

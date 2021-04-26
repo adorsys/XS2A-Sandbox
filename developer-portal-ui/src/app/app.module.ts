@@ -33,6 +33,7 @@ import { SettingsHttpService } from './services/settings-http.service';
 import { UrlLoadService } from './services/url-load.service';
 import { UrlService } from './services/url.service';
 import { SanitizeHtmlPipe } from './pipes/sanitize-html.pipe';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 export function app_Init(settingsHttpService: SettingsHttpService) {
   return () => settingsHttpService.initializeApp();
@@ -81,6 +82,7 @@ export function url_Init(urlLoadService: UrlLoadService) {
     MarkdownModule.forRoot({
       sanitize: SecurityContext.NONE,
     }),
+    MatSnackBarModule,
   ],
   exports: [],
   providers: [

@@ -9,6 +9,7 @@ import { HttpLoaderFactory, LanguageService } from '../../services/language.serv
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -86,6 +87,7 @@ describe('HomeComponent', () => {
         imports: [
           MarkdownModule.forRoot(),
           HttpClientTestingModule,
+          MatSnackBarModule,
           TranslateModule.forRoot({
             loader: {
               provide: TranslateLoader,

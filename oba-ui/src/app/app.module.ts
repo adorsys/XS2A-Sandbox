@@ -17,44 +17,47 @@ import { SettingsHttpService } from './common/services/settings-http.service';
 import { ShareDataService } from './common/services/share-data.service';
 import { InternalServerErrorComponent } from './internal-server-error/internal-server-error.component';
 import { ObaModule } from './oba/oba.module';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 export function app_Init(settingsHttpService: SettingsHttpService) {
-    return () => settingsHttpService.initializeApp();
+  return () => settingsHttpService.initializeApp();
 }
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        InternalServerErrorComponent,
-    ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        InfoModule,
-        ReactiveFormsModule,
-        FormsModule,
-        HttpClientModule,
-        ApiModule.forRoot({rootUrl: '/oba-proxy'}),
-        NgHttpLoaderModule.forRoot(),
-        ObaModule
-    ],
-    providers: [
-        AisService,
-        ShareDataService,
-        AuthGuard,
-        { provide: APP_INITIALIZER, useFactory: app_Init, deps: [SettingsHttpService], multi: true },
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: AuthInterceptor,
-            multi: true
-        },
-        {
-            provide: ErrorHandler,
-            useClass: ObaErrorsHandler
-        }
-    ],
-    bootstrap: [AppComponent]
+  declarations: [AppComponent, InternalServerErrorComponent],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    InfoModule,
+    ReactiveFormsModule,
+    FormsModule,
+    HttpClientModule,
+    ApiModule.forRoot({ rootUrl: '/oba-proxy' }),
+    NgHttpLoaderModule.forRoot(),
+    ObaModule,
+    MatSnackBarModule,
+  ],
+  providers: [
+    AisService,
+    ShareDataService,
+    AuthGuard,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: app_Init,
+      deps: [SettingsHttpService],
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+    {
+      provide: ErrorHandler,
+      useClass: ObaErrorsHandler,
+    },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule {
-}
+export class AppModule {}

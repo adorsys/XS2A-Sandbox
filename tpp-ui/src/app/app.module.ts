@@ -61,6 +61,7 @@ import { RecoveryPointState } from './state/recoverypoints.state';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 export function app_Init(settingsHttpService: SettingsHttpService) {
   return () => settingsHttpService.initializeApp();
@@ -124,6 +125,7 @@ export function app_Init(settingsHttpService: SettingsHttpService) {
     MatIconModule,
     MatButtonModule,
     MatTooltipModule,
+    MatSnackBarModule,
   ],
   providers: [
     AutoLogoutService,

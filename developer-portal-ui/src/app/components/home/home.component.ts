@@ -3,6 +3,8 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { CustomizeService } from '../../services/customize.service';
 import { ContactInfo, Theme } from '../../models/theme.model';
 import { LanguageService } from '../../services/language.service';
+import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, MatSnackBar } from '@angular/material/snack-bar';
+import browser from 'browser-detect';
 
 @Component({
   selector: 'app-home',
@@ -98,8 +100,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
   showSlider: boolean;
 
   private carouselInterval = 3000;
+  horizontalPosition: MatSnackBarHorizontalPosition = 'right';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+  durationInSeconds = 4000;
 
-  constructor(private languageService: LanguageService, private customizeService: CustomizeService) {
+  constructor(private languageService: LanguageService, private customizeService: CustomizeService, private _snackBar: MatSnackBar) {
     if (this.customizeService.currentTheme) {
       this.customizeService.currentTheme.subscribe((theme: Theme) => {
         if (theme.pagesSettings) {
@@ -116,6 +121,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    const result = browser();
+    if (result.name !== 'chrome' && result.name !== 'edge' && result.name !== 'safari' && result.name !== 'firefox') {
+      this._snackBar.open('You are using an old browser. This can lead to broken views.', 'Close', {
+        horizontalPosition: this.horizontalPosition,
+        verticalPosition: this.verticalPosition,
+        duration: this.durationInSeconds,
+      });
+    }
     this.languageService.currentLanguage.subscribe((data) => {
       this.pathToFile = `${this.customizeService.currentLanguageFolder}/${data}/home.md`;
     });
