@@ -141,7 +141,7 @@
               *ngFor="let user of users; index as i"
               [ngClass]="{ 'disabled-text': user.blocked }"
             >
-              <th scope="row">
+              <th scope="row" [routerLink]="['/users/' + user.id]">
                 {{
                   (config.currentPageNumber - 1) * config.itemsPerPage + i + 1
                 }}
