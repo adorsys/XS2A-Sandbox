@@ -58,7 +58,7 @@
           <button
             mat-raised-button
             class="btn btn-sm btn-outline-secondary"
-            [routerLink]="[pageNavigationService.getLastVisitedPage()]"
+            (click)="handleBackNavigation()"
             queryParamsHandling="preserve"
           >
             < Back
