@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       result.name !== 'firefox'
     ) {
       this._snackBar.open(
-        'You are using an old browser. This can lead to broken views.',
+        `Unfortunately, you are using an outdated browser. Our website may not look quite right in it. Please consider updating your browser to enjoy an optimal experience.`,
         'Close',
         {
           horizontalPosition: this.horizontalPosition,

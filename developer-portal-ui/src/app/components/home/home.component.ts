@@ -102,7 +102,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   private carouselInterval = 3000;
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
-  durationInSeconds = 4000;
+  durationInSeconds = 5000;
 
   constructor(private languageService: LanguageService, private customizeService: CustomizeService, private _snackBar: MatSnackBar) {
     if (this.customizeService.currentTheme) {
@@ -123,11 +123,15 @@ export class HomeComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     const result = browser();
     if (result.name !== 'chrome' && result.name !== 'edge' && result.name !== 'safari' && result.name !== 'firefox') {
-      this._snackBar.open('You are using an old browser. This can lead to broken views.', 'Close', {
-        horizontalPosition: this.horizontalPosition,
-        verticalPosition: this.verticalPosition,
-        duration: this.durationInSeconds,
-      });
+      this._snackBar.open(
+        `Unfortunately, you are using an outdated browser. Our website may not look quite right in it. Please consider updating your browser to enjoy an optimal experience.`,
+        'Close',
+        {
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+          duration: this.durationInSeconds,
+        }
+      );
     }
     this.languageService.currentLanguage.subscribe((data) => {
       this.pathToFile = `${this.customizeService.currentLanguageFolder}/${data}/home.md`;
