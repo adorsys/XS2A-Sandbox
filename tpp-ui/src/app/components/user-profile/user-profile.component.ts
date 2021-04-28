@@ -67,8 +67,10 @@ export class UserProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.store.dispatch(new GetRecoveryPoint());
     this.admin = sessionStorage.getItem(ADMIN_KEY);
+    if (this.admin === false) {
+      this.store.dispatch(new GetRecoveryPoint());
+    }
     this.setUpCountries();
     this.setUpCurrentUser();
     const tppId = this.route.snapshot.params['id'];
