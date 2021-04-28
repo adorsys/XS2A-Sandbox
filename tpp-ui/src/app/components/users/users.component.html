@@ -53,7 +53,7 @@
                     <div class="filter">
                       <input
                         class="form-control"
-                        placeholder="Search by TPP login..."
+                        placeholder="Search by TPP login"
                         formControlName="tppLogin"
                         type="text"
                       />
@@ -64,7 +64,7 @@
                     <div class="filter">
                       <input
                         class="form-control"
-                        placeholder="Search by TPP ID..."
+                        placeholder="Search by TPP ID"
                         formControlName="tppId"
                         type="text"
                       />
@@ -93,6 +93,7 @@
 
                 <div class="row d-flex justify-content-end">
                   <button
+                    mat-raised-button
                     class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
                     (click)="setBlocked(false)"
                     [ngClass]="{
@@ -102,6 +103,7 @@
                     Active
                   </button>
                   <button
+                    mat-raised-button
                     class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
                     (click)="setBlocked(true)"
                     [ngClass]="{
@@ -111,6 +113,7 @@
                     Blocked
                   </button>
                   <button
+                    mat-raised-button
                     class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
                     (click)="showAllTpps()"
                     [ngClass]="{ active: isSearchFormEmpty() }"
@@ -172,7 +175,11 @@
                   </li>
                 </ul>
               </td>
-              <td *ngIf="admin === 'true'" class="nowrap" [routerLink]="['/users/' + user.id]">
+              <td
+                *ngIf="admin === 'true'"
+                class="nowrap"
+                [routerLink]="['/users/' + user.id]"
+              >
                 {{ user?.branchLogin }}
               </td>
               <td *ngIf="admin === 'true'">

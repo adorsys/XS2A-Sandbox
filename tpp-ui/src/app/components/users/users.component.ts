@@ -31,7 +31,7 @@ import { TooltipPosition } from '@angular/material/tooltip';
 
 // TODO Merge UsersComponent, TppsComponent and AccountListComponent into one single component https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/-/issues/713
 export class UsersComponent implements OnInit {
-  admin: string;
+  admin;
   statusBlock: string;
   users: User[] = [];
   countries: Array<object> = [];
@@ -156,25 +156,27 @@ export class UsersComponent implements OnInit {
   }
 
   listUsers(page: number, size: number, params: TppQueryParams) {
-    if (this.admin === 'true') {
+    if (this.admin) {
       this.tppManagementService
         .getAllUsers(page - 1, size, params)
         .subscribe((response: UserResponse) => {
           if (typeof response.users !== 'undefined') {
             this.users = response.users;
             this.users.reverse();
+          } else if (typeof response.users === 'undefined') {
+            this.users = response.users;
           }
           this.config.totalItems = response.totalElements;
         });
-    } else if (this.admin === 'false') {
+    } else if (!this.admin) {
       this.userService
         .listUsers(page - 1, size, params.userLogin)
         .subscribe((response: UserResponse) => {
           if (typeof response.users !== 'undefined') {
             this.users = response.users;
             this.users.reverse();
+            this.config.totalItems = response.totalElements;
           }
-          this.config.totalItems = response.totalElements;
         });
     }
   }
