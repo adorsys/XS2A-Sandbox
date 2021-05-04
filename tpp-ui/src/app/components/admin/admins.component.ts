@@ -107,34 +107,43 @@ export class AdminsComponent implements OnInit {
   }
 
   openConfirmation(content, userId: string, type: string) {
-    this.modalService.open(content).result.then(() => {
-      this.userInfoService.getUserInfo().subscribe(
-        (user: User) => {
-          if (type === 'delete') {
-            this.tppManagementService.deleteUser(userId).subscribe(() => {
-              if (userId === user.id) {
-                sessionStorage.removeItem('access_token');
-                this.router.navigateByUrl('/login');
-              } else {
-                this.getAdmins();
-              }
-              this.infoService.openFeedback('Admin was successfully deleted!', {
-                severity: 'info',
+    this.modalService.open(content).result.then(
+      () => {
+        this.userInfoService.getUserInfo().subscribe(
+          (user: User) => {
+            if (type === 'delete') {
+              this.tppManagementService.deleteUser(userId).subscribe(() => {
+                if (userId === user.id) {
+                  sessionStorage.removeItem('access_token');
+                  this.router.navigateByUrl('/login');
+                } else {
+                  this.getAdmins();
+                }
+                this.infoService.openFeedback(
+                  'Admin was successfully deleted!',
+                  {
+                    severity: 'info',
+                  }
+                );
               });
-            });
-          } else if (type === 'pin' && this.newPin === this.confirmNewPin) {
-            this.tppManagementService
-              .changePin(userId, this.newPin)
-              .subscribe(() => {
-                this.getAdmins();
-                this.infoService.openFeedback('Pin was successfully changed!', {
-                  severity: 'info',
+            } else if (type === 'pin' && this.newPin === this.confirmNewPin) {
+              this.tppManagementService
+                .changePin(userId, this.newPin)
+                .subscribe(() => {
+                  this.getAdmins();
+                  this.infoService.openFeedback(
+                    'Pin was successfully changed!',
+                    {
+                      severity: 'info',
+                    }
+                  );
                 });
-              });
-          }
-        },
-        () => {}
-      );
-    });
+            }
+          },
+          () => {}
+        );
+      },
+      () => {}
+    );
   }
 }
