@@ -91,14 +91,6 @@
                     <h4 class="modal-title" id="modal-basic-title">
                       Admin deletion
                     </h4>
-                    <button
-                      type="button"
-                      class="close"
-                      aria-label="Close"
-                      (click)="modal.dismiss('Cross click')"
-                    >
-                      <span aria-hidden="true">&times;</span>
-                    </button>
                   </div>
                   <div class="modal-body">
                     Are you sure you want to delete this Admin?
@@ -127,28 +119,49 @@
                     <h4 class="modal-title" id="modal-basic-title-2">
                       Change PIN for Admin
                     </h4>
-                    <button
-                      type="button"
-                      class="close"
-                      aria-label="Close"
-                      (click)="modal.dismiss('Cross click')"
-                    >
-                      <span aria-hidden="true">&times;</span>
-                    </button>
                   </div>
                   <div class="modal-body">
-                    <input
-                      class="form-control"
-                      [(ngModel)]="newPin"
-                      [ngClass]="{ 'is-invalid': !newPin || newPin === '' }"
-                      [ngModelOptions]="{ standalone: true }"
-                      type="password"
-                    />
-                    <div
-                      class="invalid-feedback"
-                      *ngIf="!newPin || newPin === ''"
-                    >
-                      Please, enter any PIN for Admin, PIN cannot be empty
+                    <div class="form-group">
+                      <input
+                        class="form-control"
+                        [(ngModel)]="newPin"
+                        [ngClass]="{ 'is-invalid': !newPin || newPin === '' }"
+                        [ngModelOptions]="{ standalone: true }"
+                        type="password"
+                        placeholder="Please enter the PIN"
+                      />
+                      <div
+                        class="invalid-feedback"
+                        *ngIf="!newPin || newPin === ''"
+                      >
+                        Please, enter any PIN for Admin, PIN cannot be empty
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <input
+                        class="form-control"
+                        [(ngModel)]="confirmNewPin"
+                        [ngClass]="{
+                          'is-invalid': !confirmNewPin || confirmNewPin === '',
+                          'is-invalid': newPin !== confirmNewPin
+                        }"
+                        [ngModelOptions]="{ standalone: true }"
+                        type="password"
+                        placeholder="Please enter the Confirm PIN"
+                      />
+                      <div
+                        class="invalid-feedback"
+                        *ngIf="!confirmNewPin || confirmNewPin === ''"
+                      >
+                        ConfirmPIN cannot be empty.
+                      </div>
+                      <div
+                        class="invalid-feedback"
+                        *ngIf="newPin !== confirmNewPin"
+                      >
+                        PIN and ConfirmPIN must match.
+                      </div>
                     </div>
                   </div>
                   <div class="modal-footer">

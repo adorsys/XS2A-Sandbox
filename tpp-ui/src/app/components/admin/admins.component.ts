@@ -38,7 +38,8 @@ export class AdminsComponent implements OnInit {
   searchForm: FormGroup = this.formBuilder.group({
     itemsPerPage: [this.config.itemsPerPage, Validators.required],
   });
-  newPin: any;
+  newPin: string;
+  confirmNewPin: string;
   positionOptions: TooltipPosition[] = [
     'above',
     'before',
@@ -121,7 +122,7 @@ export class AdminsComponent implements OnInit {
                 severity: 'info',
               });
             });
-          } else if (type === 'pin') {
+          } else if (type === 'pin' && this.newPin === this.confirmNewPin) {
             this.tppManagementService
               .changePin(userId, this.newPin)
               .subscribe(() => {
