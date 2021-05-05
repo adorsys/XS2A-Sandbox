@@ -38,6 +38,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserModule } from '@angular/platform-browser';
 import { CertificateService } from '../../services/certificate.service';
 import { FundsConfirmationComponent } from './components/api-endpoints/funds-confirmation/funds-confirmation.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -83,6 +86,9 @@ import { FundsConfirmationComponent } from './components/api-endpoints/funds-con
     NgxImageZoomModule,
     MarkdownModule.forRoot(),
     NgbModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
   ],
   providers: [CertificateService],
   exports: [LineCommandComponent, PlayWthDataComponent, CodeAreaComponent],
