@@ -50,7 +50,7 @@ Después de incrustar el QWAC en la solicitud XS2A real, el rol y la firma se va
 
 Los desarrolladores de TPP pueden registrarse en el sistema, obtener un certificado descargar datos de prueba para su aplicación TPP utilizando el certificado generado y los datos preparados en la interfaz de usuario de TPP.
 
-## Cómo crear una cuenta para TPP:
+## Cómo crear una cuenta para TPP?
 
 1. Abra la página de inicio de sesión de TPP UI
 
@@ -60,7 +60,7 @@ Los desarrolladores de TPP pueden registrarse en el sistema, obtener un certific
 
 4. Puede generar un certificado QWAC de prueba para usarlo con la interfaz XS2A si es necesario
 
-## Cómo crear usuarios:
+## Cómo crear usuarios?
 
 Los usuarios pueden crearse manualmente o cargando el archivo .yaml
 
@@ -148,6 +148,9 @@ Verifique la cantidad de memoria asignada a Docker (Abra Docker Desktop -> Prefe
 Descargue el proyecto directamente desde GitHub o use el comando:
 
 _git clone https://github.com/adorsys/XS2A-Sandbox_
+
+**Note:**
+Siempre haz una extracción desde GitHub
 
 ## Construye y ejecuta ModelBank
 

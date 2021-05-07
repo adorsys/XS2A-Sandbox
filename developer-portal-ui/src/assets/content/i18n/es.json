@@ -359,9 +359,9 @@
         "PART_46": ", y ahora necesita ingresar estos datos y ejecutar el comando PUT. La respuesta debe ser"
       },
       "EMB_CANS_GET": {
-        "PART_1": "12. Pruebe  GET endpoint",
+        "PART_1": "1. Pruebe  GET endpoint",
         "PART_2": "para verificar el estado actual de la autorización de cancelación.",
-        "PART_3": "13. Pruebe GET endpoint",
+        "PART_3": "2. Pruebe GET endpoint",
         "PART_4": "para obtener el estado de pago actual (en debe ser `CANC`, cancelado)."
       },
       "EMB_CONS_AUTH": {
