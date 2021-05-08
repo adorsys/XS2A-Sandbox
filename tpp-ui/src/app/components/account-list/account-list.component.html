@@ -121,7 +121,10 @@
               *ngFor="let account of accounts; index as i"
               [ngClass]="{ 'disabled-text': account.blocked }"
             >
-              <th scope="row">
+              <th
+                scope="row"
+                [routerLink]="[createAccountDetailsLink(account.id)]"
+              >
                 {{
                   (config.currentPageNumber - 1) * config.itemsPerPage + i + 1
                 }}
@@ -152,9 +155,15 @@
                   >{{ account.branch }}
                 </a>
               </td>
-              <td>{{ account.accountType }}</td>
-              <td>{{ account.usageType }}</td>
-              <td>{{ account.blocked ? 'Blocked' : 'Active' }}</td>
+              <td [routerLink]="[createAccountDetailsLink(account.id)]">
+                {{ account.accountType }}
+              </td>
+              <td [routerLink]="[createAccountDetailsLink(account.id)]">
+                {{ account.usageType }}
+              </td>
+              <td [routerLink]="[createAccountDetailsLink(account.id)]">
+                {{ account.blocked ? 'Blocked' : 'Active' }}
+              </td>
               <td class="action d-flex">
                 <button
                   aria-label="Deposit Cash"
