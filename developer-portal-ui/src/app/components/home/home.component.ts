@@ -18,42 +18,42 @@ export class HomeComponent implements OnInit, AfterViewInit {
     {
       title: 'HOME.FEATURES.SLIDES.SLIDE_1.TITLE',
       description: 'HOME.FEATURES.SLIDES.SLIDE_1.CONTENT',
-      photoUrl: '../../assets/icons/plug&play.png',
+      photoUrl: '../../assets/icons/plug&play.svg',
     },
     {
       title: 'HOME.FEATURES.SLIDES.SLIDE_2.TITLE',
       description: 'HOME.FEATURES.SLIDES.SLIDE_2.CONTENT',
-      photoUrl: '../../assets/icons/developer.png',
+      photoUrl: '../../assets/icons/developer.svg',
     },
     {
       title: 'HOME.FEATURES.SLIDES.SLIDE_3.TITLE',
       description: 'HOME.FEATURES.SLIDES.SLIDE_3.CONTENT',
-      photoUrl: '../../assets/icons/tested.png',
+      photoUrl: '../../assets/icons/tested.svg',
     },
     {
       title: 'HOME.FEATURES.SLIDES.SLIDE_4.TITLE',
       description: 'HOME.FEATURES.SLIDES.SLIDE_4.CONTENT',
-      photoUrl: '../../assets/icons/customized.png',
+      photoUrl: '../../assets/icons/customized.svg',
     },
     {
       title: 'HOME.FEATURES.SLIDES.SLIDE_5.TITLE',
       description: 'HOME.FEATURES.SLIDES.SLIDE_5.CONTENT',
-      photoUrl: '../../assets/icons/user-centered.png',
+      photoUrl: '../../assets/icons/user-centered.svg',
     },
     {
       title: 'HOME.FEATURES.SLIDES.SLIDE_6.TITLE',
       description: 'HOME.FEATURES.SLIDES.SLIDE_6.CONTENT',
-      photoUrl: '../../assets/icons/prototyp.png',
+      photoUrl: '../../assets/icons/prototyp.svg',
     },
     {
       title: 'HOME.FEATURES.SLIDES.SLIDE_7.TITLE',
       description: 'HOME.FEATURES.SLIDES.SLIDE_7.CONTENT',
-      photoUrl: '../../assets/icons/service.png',
+      photoUrl: '../../assets/icons/service.svg',
     },
     {
       title: 'HOME.FEATURES.SLIDES.SLIDE_8.TITLE',
       description: 'HOME.FEATURES.SLIDES.SLIDE_8.CONTENT',
-      photoUrl: '../../assets/icons/open_source.png',
+      photoUrl: '../../assets/icons/open_source.svg',
     },
   ];
   productHistory = [

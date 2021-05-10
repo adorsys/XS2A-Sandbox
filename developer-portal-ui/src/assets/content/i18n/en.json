@@ -282,10 +282,10 @@
         "PART_30": "flow.",
         "PART_31": "If the option is set to",
         "PART_32": ", pay attention to the amount of SCA methods user has: if user has no\n SCA methods, test payment initiation with the flow described below in",
-        "BOLD_2": "Payment cancellation authorisation for user with no SCA methods",
-        "PART_33": ". For user with single SCA method check",
-        "BOLD_3": "Payment cancellation authorisation for user with single SCA method",
-        "PART_34": ", and for user with multiple SCA methods check",
+        "BOLD_2": "Payment cancellation authorisation for user with no SCA methods.",
+        "PART_33": "For user with single SCA method check",
+        "BOLD_3": "Payment cancellation authorisation for user with single SCA method,",
+        "PART_34": " and for user with multiple SCA methods check",
         "BOLD_4": "Payment cancellation authorisation for user with multiple SCA methods"
       },
       "EMB_CANS_DELETE": {
