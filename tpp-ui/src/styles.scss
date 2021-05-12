@@ -314,6 +314,10 @@ a {
   &--small {
     max-width: 500px;
   }
+
+  &--medium {
+    max-width: 50%;
+  }
 }
 
 .form-inline {
