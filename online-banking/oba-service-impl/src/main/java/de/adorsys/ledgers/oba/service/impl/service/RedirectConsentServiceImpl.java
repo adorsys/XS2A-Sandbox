@@ -46,7 +46,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static de.adorsys.psd2.consent.aspsp.api.config.CmsPsuApiDefaultValue.DEFAULT_SERVICE_INSTANCE_ID;
-import static de.adorsys.psd2.xs2a.core.consent.AisConsentRequestType.*;
+import static de.adorsys.psd2.xs2a.core.consent.AisConsentRequestType.ALL_AVAILABLE_ACCOUNTS;
+import static de.adorsys.psd2.xs2a.core.consent.AisConsentRequestType.BANK_OFFERED;
+import static de.adorsys.psd2.xs2a.core.consent.AisConsentRequestType.DEDICATED_ACCOUNTS;
+import static de.adorsys.psd2.xs2a.core.consent.AisConsentRequestType.GLOBAL;
 import static java.util.Objects.requireNonNull;
 
 @Slf4j
@@ -154,6 +157,8 @@ public class RedirectConsentServiceImpl implements RedirectConsentService {
             if (e.status() == 400 || e.status() == 404) { //TODO This is a workaround! Should be fixed with separate OBA controller set!
                 cmsPsuPiisV2Client.updateAuthorisationStatus(workflow.consentId(), status, workflow.authId(), psuId, null, null, null, DEFAULT_SERVICE_INSTANCE_ID, new AuthenticationDataHolder(null, workflow.getScaResponse().getAuthConfirmationCode()));
             }
+
+
         }
     }
 
@@ -192,15 +197,12 @@ public class RedirectConsentServiceImpl implements RedirectConsentService {
      * These two information are both available in the XMLHTTPRequest sent to this endpoint and in the
      * consent cookie stored with this request.
      *
-     * Request will only be processed if both url and cookie data match.
-     *
      * The consent is then load and stored in the response object. If consent is not found, redirect
      * PSU to TPP.
      */
     @Override
-    public ConsentWorkflow identifyConsent(String encryptedConsentId, String authorizationId, boolean strict, String consentCookieString, BearerTokenTO bearerToken) {
-        // Parse and verify the consent cookie.
-        ConsentReference consentReference = referencePolicy.fromRequest(encryptedConsentId, authorizationId, consentCookieString, strict);
+    public ConsentWorkflow identifyConsent(String encryptedConsentId, String authorizationId, BearerTokenTO bearerToken) {
+        ConsentReference consentReference = referencePolicy.fromRequest(encryptedConsentId, authorizationId);
 
         CmsAisConsentResponse cmsConsentResponse = loadConsentByRedirectId(consentReference);
 

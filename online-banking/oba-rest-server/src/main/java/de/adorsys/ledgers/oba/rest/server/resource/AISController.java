@@ -4,18 +4,14 @@ import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
-import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisAccountAccessInfoTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisConsentTO;
-import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.AccountRestClient;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.middleware.client.rest.OauthRestClient;
 import de.adorsys.ledgers.oba.rest.api.resource.AISApi;
 import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
-import de.adorsys.ledgers.oba.service.api.domain.AuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentAuthorizeResponse;
-import de.adorsys.ledgers.oba.service.api.domain.ConsentType;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentWorkflow;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
@@ -30,7 +26,6 @@ import de.adorsys.psd2.xs2a.core.sca.AuthenticationDataHolder;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import feign.FeignException;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient;
@@ -48,7 +43,11 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
 
-import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.*;
+import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.EXEMPTED;
+import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.FINALISED;
+import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.PSUAUTHENTICATED;
+import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.PSUIDENTIFIED;
+import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.SCAMETHODSELECTED;
 import static de.adorsys.psd2.consent.aspsp.api.config.CmsPsuApiDefaultValue.DEFAULT_SERVICE_INSTANCE_ID;
 import static de.adorsys.psd2.xs2a.core.consent.ConsentStatus.PARTIALLY_AUTHORISED;
 import static de.adorsys.psd2.xs2a.core.consent.ConsentStatus.VALID;
@@ -75,22 +74,13 @@ public class AISController implements AISApi {
     private final TokenAuthenticationService authenticationService;
 
     @Override
-    @ApiOperation(value = "Entry point for authenticating ais consent requests.")
-    public ResponseEntity<AuthorizeResponse> aisAuth(String redirectId, String encryptedConsentId, String token) {
-        return xisService.auth(redirectId, ConsentType.AIS, encryptedConsentId, response);
-    }
-
-    @Override
-    public ResponseEntity<ConsentAuthorizeResponse> login(String encryptedConsentId, String authorisationId, String login, String pin, String consentCookieString) {
-        String consentCookie = responseUtils.consentCookie(consentCookieString);
-        ConsentWorkflow workflow = redirectConsentService.identifyConsent(encryptedConsentId, authorisationId, false, consentCookie, null);
+    public ResponseEntity<ConsentAuthorizeResponse> login(String encryptedConsentId, String authorisationId, String login, String pin) {
+        ConsentWorkflow workflow = redirectConsentService.identifyConsent(encryptedConsentId, authorisationId, null);
         xisService.checkFailedCount(encryptedConsentId);
 
         // Authorize
         try {
-            GlobalScaResponseTO ledgersResponse = consentCookieString.contains("ACCESS_TOKEN") //TODO Think of moving this to FE
-                                                      ? authenticationService.loginWithCookie(consentCookieString)
-                                                      : authenticationService.login(login, pin, authorisationId);
+            GlobalScaResponseTO ledgersResponse = authenticationService.login(login, pin, authorisationId);
             workflow.storeSCAResponse(ledgersResponse);
             AuthUtils.checkIfUserInitiatedOperation(ledgersResponse, workflow.getConsentResponse().getAccountConsent().getPsuIdDataList());
         } catch (FeignException | ObaException e) {
@@ -105,10 +95,9 @@ public class AISController implements AISApi {
     }
 
     @Override
-    public ResponseEntity<ConsentAuthorizeResponse> startConsentAuth(String encryptedConsentId, String authorisationId, String consentAndAccessTokenCookieString, AisConsentTO aisConsent) {
+    public ResponseEntity<ConsentAuthorizeResponse> startConsentAuth(String encryptedConsentId, String authorisationId, AisConsentTO aisConsent) {
         String psuId = AuthUtils.psuId(middlewareAuth);
-        String consentCookie = responseUtils.consentCookie(consentAndAccessTokenCookieString);
-        ConsentWorkflow workflow = redirectConsentService.identifyConsent(encryptedConsentId, authorisationId, false, consentCookie, middlewareAuth.getBearerToken());
+        ConsentWorkflow workflow = redirectConsentService.identifyConsent(encryptedConsentId, authorisationId, middlewareAuth.getBearerToken());
         List<AccountDetailsTO> listOfAccounts = listOfAccounts(workflow);
         redirectConsentService.startConsent(workflow, aisConsent, listOfAccounts);
         redirectConsentService.updateScaStatusAndConsentData(psuId, workflow);
@@ -116,11 +105,10 @@ public class AISController implements AISApi {
     }
 
     @Override
-    public ResponseEntity<ConsentAuthorizeResponse> authrizedConsent(String encryptedConsentId, String authorisationId, String consentAndAccessTokenCookieString, String authCode) {
+    public ResponseEntity<ConsentAuthorizeResponse> authrizedConsent(String encryptedConsentId, String authorisationId, String authCode) {
         String psuId = AuthUtils.psuId(middlewareAuth);
 
-        String consentCookie = responseUtils.consentCookie(consentAndAccessTokenCookieString);
-        ConsentWorkflow workflow = redirectConsentService.identifyConsent(encryptedConsentId, authorisationId, true, consentCookie, middlewareAuth.getBearerToken());
+        ConsentWorkflow workflow = redirectConsentService.identifyConsent(encryptedConsentId, authorisationId, middlewareAuth.getBearerToken());
 
         workflow = redirectConsentService.authorizeConsent(workflow, authCode);
 
@@ -133,53 +121,34 @@ public class AISController implements AISApi {
         }
         redirectConsentService.updateScaStatusAndConsentData(psuId, workflow);
 
-        // if consent is partially authorized the access token is null
-        Optional<BearerTokenTO> token = Optional.ofNullable(workflow.bearerToken());
-        String tokenString = token.map(BearerTokenTO::getAccess_token).orElse("");
-        AccessTokenTO tokenTO = token.map(BearerTokenTO::getAccessTokenObject).orElse(null);
-        responseUtils.setCookies(response, workflow.getConsentReference(), tokenString, tokenTO);
         log.info("Confirmation code: {}", workflow.getAuthResponse().getAuthConfirmationCode());
         return ResponseEntity.ok(workflow.getAuthResponse());
     }
 
     @Override
-    public ResponseEntity<ConsentAuthorizeResponse> selectMethod(String encryptedConsentId, String authorisationId, String scaMethodId, String consentAndAccessTokenCookieString) {
+    public ResponseEntity<ConsentAuthorizeResponse> selectMethod(String encryptedConsentId, String authorisationId, String scaMethodId) {
         String psuId = AuthUtils.psuId(middlewareAuth);
-        String consentCookie = responseUtils.consentCookie(consentAndAccessTokenCookieString);
-        ConsentWorkflow workflow = redirectConsentService.identifyConsent(encryptedConsentId, authorisationId, true, consentCookie, middlewareAuth.getBearerToken());
+        ConsentWorkflow workflow = redirectConsentService.identifyConsent(encryptedConsentId, authorisationId, middlewareAuth.getBearerToken());
         redirectConsentService.selectScaMethod(scaMethodId, encryptedConsentId, workflow);
         redirectConsentService.updateScaStatusAndConsentData(psuId, workflow);
-        responseUtils.setCookies(response, workflow.getConsentReference(), workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
-
+        responseUtils.addAccessTokenHeader(response, workflow.bearerToken().getAccess_token());
         return ResponseEntity.ok(workflow.getAuthResponse());
     }
 
-    @Override
-    public ResponseEntity<List<AccountDetailsTO>> getListOfAccounts(String accessTokenCookieString) {
-        try {
-            // Set access token
-            authInterceptor.setAccessToken(middlewareAuth.getBearerToken().getAccess_token());
-            ResponseEntity<List<AccountDetailsTO>> listOfAccounts = accountRestClient.getListOfAccounts();
-            return ResponseEntity.ok(requireNonNull(listOfAccounts.getBody()));
-        } finally {
-            authInterceptor.setAccessToken(null);
-        }
-    }
 
     @Override
-    public ResponseEntity<ConsentAuthorizeResponse> aisDone(String encryptedConsentId, String authorisationId, String cookie, boolean isOauth2Integrated, String authConfirmationCode) {
-        String consentCookie = responseUtils.consentCookie(cookie);
-        ConsentWorkflow workflow = redirectConsentService.identifyConsent(encryptedConsentId, authorisationId, true, consentCookie, middlewareAuth.getBearerToken());
+    public ResponseEntity<ConsentAuthorizeResponse> aisDone(String encryptedConsentId, String authorisationId, boolean isOauth2Integrated, String authConfirmationCode) {
+        ConsentWorkflow workflow = redirectConsentService.identifyConsent(encryptedConsentId, authorisationId, middlewareAuth.getBearerToken());
 
         ConsentStatus consentStatus = workflow.getConsentResponse().getAccountConsent().getConsentStatus();
         CmsAisConsentResponse consentResponse = workflow.getConsentResponse();
         authInterceptor.setAccessToken(workflow.getScaResponse().getBearerToken().getAccess_token());
         String tppOkRedirectUri = isOauth2Integrated
-                                      ? requireNonNull(oauthRestClient.oauthCode(consentResponse.getTppOkRedirectUri()).getBody()).getRedirectUri()
-                                      : authService.resolveAuthConfirmationCodeRedirectUri(consentResponse.getTppOkRedirectUri(), authConfirmationCode);
+            ? requireNonNull(oauthRestClient.oauthCode(consentResponse.getTppOkRedirectUri()).getBody()).getRedirectUri()
+            : authService.resolveAuthConfirmationCodeRedirectUri(consentResponse.getTppOkRedirectUri(), authConfirmationCode);
         String tppNokRedirectUri = Optional.ofNullable(consentResponse.getTppNokRedirectUri())
-                                       .filter(StringUtils::isNotBlank)
-                                       .orElse(consentResponse.getTppOkRedirectUri());
+            .filter(StringUtils::isNotBlank)
+            .orElse(consentResponse.getTppOkRedirectUri());
 
         String redirectURL = EnumSet.of(VALID, ConsentStatus.RECEIVED, PARTIALLY_AUTHORISED).contains(consentStatus) && isNotFailedAuthorizationList(consentResponse)
                                  ? tppOkRedirectUri
@@ -195,9 +164,8 @@ public class AISController implements AISApi {
     }
 
     @Override
-    public ResponseEntity<ConsentAuthorizeResponse> revokeConsent(@NotNull String encryptedConsentId, @NotNull String authorisationId, String cookieString) {
-        String consentCookie = responseUtils.consentCookie(cookieString);
-        ConsentWorkflow workflow = redirectConsentService.identifyConsent(encryptedConsentId, authorisationId, true, consentCookie, middlewareAuth.getBearerToken());
+    public ResponseEntity<ConsentAuthorizeResponse> revokeConsent(@NotNull String encryptedConsentId, @NotNull String authorisationId) {
+        ConsentWorkflow workflow = redirectConsentService.identifyConsent(encryptedConsentId, authorisationId, middlewareAuth.getBearerToken());
         authInterceptor.setAccessToken(middlewareAuth.getBearerToken().getAccess_token());
 
         String psuId = AuthUtils.psuId(middlewareAuth);
@@ -211,8 +179,7 @@ public class AISController implements AISApi {
     private ResponseEntity<ConsentAuthorizeResponse> resolveResponseByScaStatus(ConsentWorkflow workflow, boolean isLoginOperation) {
         ScaStatusTO scaStatusTO = workflow.scaStatus();
         if (scaStatusTO == EXEMPTED) {// Bad request
-            // failed Message. No repeat. Delete cookies.
-            responseUtils.removeCookies(response);
+            // failed Message. No repeat.
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         } else if (EnumSet.of(PSUIDENTIFIED, FINALISED, PSUAUTHENTICATED, SCAMETHODSELECTED).contains(scaStatusTO)) {
             List<AccountDetailsTO> listOfAccounts = listOfAccounts(workflow);
@@ -221,10 +188,10 @@ public class AISController implements AISApi {
                 // update consent accounts, transactions and balances if global consent flag is set
                 redirectConsentService.updateAccessByConsentType(workflow, listOfAccounts);
             }
-            responseUtils.setCookies(response, workflow.getConsentReference(), workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
+            responseUtils.addAccessTokenHeader(response, workflow.bearerToken().getAccess_token());
             return ResponseEntity.ok(workflow.getAuthResponse());
-        }// failed Message. No repeat. Delete cookies.
-        responseUtils.removeCookies(response);
+        }// failed Message. No repeat.
+
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
@@ -260,13 +227,15 @@ public class AISController implements AISApi {
       try {
         cmsPsuAisClient.updatePsuDataInConsent(workflow.consentId(), workflow.authId(), DEFAULT_SERVICE_INSTANCE_ID, psuIdData);
       }catch (FeignException e){
-          if(e.status()!= 408){
-              throw e ;
-          }
+          if (e.status() == HttpStatus.REQUEST_TIMEOUT.value()) {
               throw ObaException.builder()
                   .obaErrorCode(ObaErrorCode.RESOURCE_EXPIRED)
                   .devMessage("Authorisation is expired")
                   .build();
+
+          } else {
+              throw e;
+          }
       }
     }
 
@@ -284,4 +253,6 @@ public class AISController implements AISApi {
             authInterceptor.setAccessToken(null);
         }
     }
+
+
 }

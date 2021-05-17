@@ -50,10 +50,14 @@ import java.util.List;
 
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class RedirectConsentServiceImplTest {
@@ -155,13 +159,13 @@ class RedirectConsentServiceImplTest {
     @Test
     void identifyConsent() {
         // Given
-        when(referencePolicy.fromRequest(any(), any(), any(), anyBoolean())).thenReturn(getConsentReference());
+        when(referencePolicy.fromRequest(any(), any())).thenReturn(getConsentReference());
         when(cmsPsuAisClient.getConsentIdByRedirectId(any(), any())).thenReturn(ResponseEntity.ok(getCmsAisConsentResponse(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE)));
         when(consentMapper.toTo(any())).thenReturn(getAisConsentTO());
         when(dataService.mapToGlobalResponse(any(), any())).thenReturn(getSCAResponseTO());
 
         // When
-        ConsentWorkflow workflow = redirectConsentService.identifyConsent(ENCRYPTED_CONSENT_ID, AUTHORIZATION_ID, false, "consentCookieString", getBearerTokenTO());
+        ConsentWorkflow workflow = redirectConsentService.identifyConsent(ENCRYPTED_CONSENT_ID, AUTHORIZATION_ID, getBearerTokenTO());
 
         // Then
         assertNotNull(workflow);
@@ -172,12 +176,12 @@ class RedirectConsentServiceImplTest {
     @Test
     void identifyConsent_bearerTokenNull() {
         // Given
-        when(referencePolicy.fromRequest(any(), any(), any(), anyBoolean())).thenReturn(getConsentReference());
+        when(referencePolicy.fromRequest(any(), any())).thenReturn(getConsentReference());
         when(cmsPsuAisClient.getConsentIdByRedirectId(any(), any())).thenReturn(ResponseEntity.ok(getCmsAisConsentResponse(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE)));
         when(consentMapper.toTo(any())).thenReturn(getAisConsentTO());
 
         // When
-        ConsentWorkflow workflow = redirectConsentService.identifyConsent(ENCRYPTED_CONSENT_ID, AUTHORIZATION_ID, false, "consentCookieString", null);
+        ConsentWorkflow workflow = redirectConsentService.identifyConsent(ENCRYPTED_CONSENT_ID, AUTHORIZATION_ID, null);
 
         // Then
         assertNotNull(workflow);

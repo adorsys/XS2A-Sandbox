@@ -9,8 +9,6 @@ public interface TokenAuthenticationService {
 
     GlobalScaResponseTO login(String login, String pin);
 
-    GlobalScaResponseTO loginWithCookie(String tokenCookie);
-
     UserAuthentication getAuthentication(String accessToken);
 
 }

@@ -48,7 +48,8 @@ import static de.adorsys.psd2.xs2a.core.pis.TransactionStatus.CANC;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -57,7 +58,6 @@ class CommonPaymentServiceImplTest {
     private static final String ENCRYPTED_ID = "ENC_123";
     private static final String AUTH_ID = "AUTH_1";
     private static final String METHOD_ID = "SCA_1";
-    private static final String COOKIE = "COOKIE";
     private static final String PSU_ID = "PSU_1";
     private static final String PAYMENT_ID = "PAYMENT_1";
     private static final String OK_REDIRECT_URI = "www.ok.ua";
@@ -92,12 +92,12 @@ class CommonPaymentServiceImplTest {
     void selectScaForPayment() throws RedirectUrlIsExpiredException {
         // Given
         when(paymentMapper.toAbstractPayment(anyString(), anyString(), anyString())).thenReturn(getPaymentTO(ACCP));
-        when(referencePolicy.fromRequest(anyString(), anyString(), anyString(), anyBoolean())).thenReturn(getConsentReference());
+        when(referencePolicy.fromRequest(anyString(), anyString())).thenReturn(getConsentReference());
         when(cmsPsuPisService.checkRedirectAndGetPayment(anyString(), anyString())).thenReturn(getCmsPaymentResponse());
         when(redirectScaClient.startSca(any())).thenReturn(ResponseEntity.ok(new GlobalScaResponseTO()));
         when(redirectScaClient.selectMethod(any(), any())).thenReturn(ResponseEntity.ok(getSelectMethodResponse()));
         // When
-        PaymentWorkflow result = service.selectScaForPayment(ENCRYPTED_ID, AUTH_ID, METHOD_ID, COOKIE, PSU_ID, new BearerTokenTO());
+        PaymentWorkflow result = service.selectScaForPayment(ENCRYPTED_ID, AUTH_ID, METHOD_ID, PSU_ID, new BearerTokenTO());
 
         // Then
         assertThat(result).isEqualToComparingFieldByFieldRecursively(getExpectedWorkflow(TransactionStatus.ACCP.name()));
@@ -106,12 +106,12 @@ class CommonPaymentServiceImplTest {
     @Test
     void identifyPayment() throws RedirectUrlIsExpiredException {
         // Given
-        when(referencePolicy.fromRequest(anyString(), anyString(), anyString(), anyBoolean())).thenReturn(getConsentReference());
+        when(referencePolicy.fromRequest(anyString(), anyString())).thenReturn(getConsentReference());
         when(cmsPsuPisService.checkRedirectAndGetPayment(anyString(), anyString())).thenReturn(getCmsPaymentResponse());
         when(paymentMapper.toAbstractPayment(anyString(), anyString(), anyString())).thenReturn(getPaymentTO(ACCP));
 
         // When
-        PaymentWorkflow result = service.identifyPayment(ENCRYPTED_ID, AUTH_ID, false, COOKIE, new BearerTokenTO());
+        PaymentWorkflow result = service.identifyPayment(ENCRYPTED_ID, AUTH_ID, new BearerTokenTO());
 
         // Then
         assertThat(result).isEqualToComparingFieldByFieldRecursively(getExpectedIdentifyWorkflow(TransactionStatus.ACCP.name()));
@@ -120,24 +120,23 @@ class CommonPaymentServiceImplTest {
     @Test
     void identifyPayment_fail() throws RedirectUrlIsExpiredException {
         // Given
-        when(referencePolicy.fromRequest(anyString(), anyString(), anyString(), anyBoolean())).thenReturn(getConsentReference());
-        when(cmsPsuPisService.checkRedirectAndGetPayment(anyString(), anyString())).thenThrow(RedirectUrlIsExpiredException.class);
+        when(referencePolicy.fromRequest(anyString(), anyString())).thenReturn(getConsentReference());
         BearerTokenTO token = new BearerTokenTO();
         // Then
-        assertThrows(ObaException.class, () -> service.identifyPayment(ENCRYPTED_ID, AUTH_ID, false, COOKIE, token));
+        assertThrows(ObaException.class, () -> service.identifyPayment(ENCRYPTED_ID, AUTH_ID, token));
     }
 
     @Test
     void resolveRedirectUrl() throws RedirectUrlIsExpiredException {
         // Given
-        when(referencePolicy.fromRequest(anyString(), anyString(), anyString(), anyBoolean())).thenReturn(getConsentReference());
+        when(referencePolicy.fromRequest(anyString(), anyString())).thenReturn(getConsentReference());
         when(cmsPsuPisService.checkRedirectAndGetPayment(anyString(), anyString())).thenReturn(getCmsPaymentResponse());
         when(paymentMapper.toAbstractPayment(anyString(), anyString(), anyString())).thenReturn(getPaymentTO(ACCP));
         when(cmsPsuPisService.getAuthorisationByAuthorisationId(anyString(), anyString())).thenReturn(geCmsPsuAuth(ScaStatus.FINALISED));
         when(authService.resolveAuthConfirmationCodeRedirectUri(anyString(), anyString())).thenReturn("www.ok.ua");
 
         // When
-        String result = service.resolveRedirectUrl(ENCRYPTED_ID, AUTH_ID, COOKIE, false, PSU_ID, new BearerTokenTO(), "");
+        String result = service.resolveRedirectUrl(ENCRYPTED_ID, AUTH_ID, false, PSU_ID, new BearerTokenTO(), "");
 
         // Then
         assertEquals(OK_REDIRECT_URI, result);
@@ -146,27 +145,27 @@ class CommonPaymentServiceImplTest {
     @Test
     void resolveRedirectUrl_fail() throws RedirectUrlIsExpiredException {
         // Given
-        when(referencePolicy.fromRequest(anyString(), anyString(), anyString(), anyBoolean())).thenReturn(getConsentReference());
+        when(referencePolicy.fromRequest(anyString(), anyString())).thenReturn(getConsentReference());
         when(cmsPsuPisService.checkRedirectAndGetPayment(anyString(), anyString())).thenReturn(getCmsPaymentResponse());
         when(paymentMapper.toAbstractPayment(anyString(), anyString(), anyString())).thenReturn(getPaymentTO(ACCP));
         when(cmsPsuPisService.getAuthorisationByAuthorisationId(anyString(), anyString())).thenReturn(Optional.empty());
         when(authService.resolveAuthConfirmationCodeRedirectUri(anyString(), anyString())).thenReturn("www.ok.ua");
         BearerTokenTO token = new BearerTokenTO();
         // Then
-        assertThrows(ObaException.class, () -> service.resolveRedirectUrl(ENCRYPTED_ID, AUTH_ID, COOKIE, false, PSU_ID, token, ""));
+        assertThrows(ObaException.class, () -> service.resolveRedirectUrl(ENCRYPTED_ID, AUTH_ID, false, PSU_ID, token, ""));
     }
 
     @Test
     void resolveRedirectUrl_not_final_status() throws RedirectUrlIsExpiredException {
         // Given
-        when(referencePolicy.fromRequest(anyString(), anyString(), anyString(), anyBoolean())).thenReturn(getConsentReference());
+        when(referencePolicy.fromRequest(anyString(), anyString())).thenReturn(getConsentReference());
         when(cmsPsuPisService.checkRedirectAndGetPayment(anyString(), anyString())).thenReturn(getCmsPaymentResponse());
         when(paymentMapper.toAbstractPayment(anyString(), anyString(), anyString())).thenReturn(getPaymentTO(ACCP));
         when(cmsPsuPisService.getAuthorisationByAuthorisationId(anyString(), anyString())).thenReturn(geCmsPsuAuth(ScaStatus.SCAMETHODSELECTED));
         when(authService.resolveAuthConfirmationCodeRedirectUri(anyString(), anyString())).thenReturn("www.ok.ua");
 
         // When
-        String result = service.resolveRedirectUrl(ENCRYPTED_ID, AUTH_ID, COOKIE, false, PSU_ID, new BearerTokenTO(), "");
+        String result = service.resolveRedirectUrl(ENCRYPTED_ID, AUTH_ID, false, PSU_ID, new BearerTokenTO(), "");
 
         // Then
         assertEquals(NOK_REDIRECT_URI, result);
@@ -308,7 +307,6 @@ class CommonPaymentServiceImplTest {
         cr.setRedirectId(AUTH_ID);
         cr.setEncryptedConsentId(ENCRYPTED_ID);
         cr.setAuthorizationId(AUTH_ID);
-        cr.setCookieString(null);
         return cr;
     }
 

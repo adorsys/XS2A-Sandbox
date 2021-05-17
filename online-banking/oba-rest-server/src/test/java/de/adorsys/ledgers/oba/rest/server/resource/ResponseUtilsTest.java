@@ -21,7 +21,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -35,44 +39,11 @@ class ResponseUtilsTest {
     @Mock
     private CookieConfigProperties cookieConfigProperties;
 
-    @Test
-    void setCookies() {
-        // Given
-        HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
-        when(cookieConfigProperties.getMaxAge()).thenReturn(300);
-        when(cookieConfigProperties.getPath()).thenReturn("somePath");
-
-        // Then
-        assertThatCode(() -> responseUtils.setCookies(response, getConsentReference(null), "accessTokenString", getAccessTokenTO())).doesNotThrowAnyException();
-    }
-
-    @Test
-    void setCookies_accessTokenNull() {
-        // Given
-        HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
-        when(cookieConfigProperties.getMaxAge()).thenReturn(300);
-        when(cookieConfigProperties.getPath()).thenReturn("somePath");
-
-        // Then
-        assertThatCode(() -> responseUtils.setCookies(response, getConsentReference("someCookie"), null, getAccessTokenTO())).doesNotThrowAnyException();
-    }
-
-    @Test
-    void removeCookies() {
-        // Given
-        HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
-        when(cookieConfigProperties.getPath()).thenReturn("somePath");
-
-        // Then
-        assertThatCode(() -> responseUtils.removeCookies(response)).doesNotThrowAnyException();
-    }
 
     @Test
     void redirect() {
         // Given
         HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
-        when(cookieConfigProperties.getPath()).thenReturn("somePath");
-
         // When
         ResponseEntity<OnlineBankingResponse> responseResponseEntity = responseUtils.redirect("locationURI", response);
 
@@ -85,7 +56,6 @@ class ResponseUtilsTest {
     void redirect_relative_url() {
         // Given
         HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
-        when(cookieConfigProperties.getPath()).thenReturn("somePath");
 
         // When
         ResponseEntity<OnlineBankingResponse> responseResponseEntity = responseUtils.redirect("www.google.com", response);
@@ -100,7 +70,6 @@ class ResponseUtilsTest {
     void redirect_absolute_url() {
         // Given
         HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
-        when(cookieConfigProperties.getPath()).thenReturn("somePath");
 
         // When
         ResponseEntity<OnlineBankingResponse> responseResponseEntity = responseUtils.redirect("http://www.google.com", response);
@@ -111,60 +80,4 @@ class ResponseUtilsTest {
         assertEquals("http://www.google.com", responseResponseEntity.getHeaders().get("Location").get(0));
     }
 
-    @Test
-    void consentCookie() {
-        // When
-        String cookie = responseUtils.consentCookie("CONSENT=mklrfkwrj3i4jrhugui3i4htvou34d");
-
-        // Then
-        assertFalse(StringUtils.isEmpty(cookie));
-        assertFalse(StringUtils.isBlank(cookie));
-    }
-
-    @Test
-    void consentCookie_contentWithPrefix() {
-        // When
-        String cookie = responseUtils.consentCookie("PREFIX_CONSENT=mklrfkwrj3i4jrhugui3i4htvou34d");
-
-        // Then
-        assertFalse(StringUtils.isEmpty(cookie));
-        assertFalse(StringUtils.isBlank(cookie));
-    }
-
-    @Test
-    void consentCookie_corruptedCookie() {
-        try {
-            responseUtils.consentCookie("CORRUPTED_COOKIE");
-            fail();
-        } catch (ObaException e) {
-            assertEquals(ObaErrorCode.COOKIE_ERROR, e.getObaErrorCode());
-            assertEquals("Cookie is corrupted, deleting cookie. Please try again!", e.getDevMessage());
-        }
-    }
-
-    @Test
-    void consentCookie_cookieNull() {
-        // When
-        String cookie = responseUtils.consentCookie(null);
-
-        // Then
-        assertTrue(StringUtils.isEmpty(cookie));
-    }
-
-    private ConsentReference getConsentReference(String cookie) {
-        ConsentReference cr = new ConsentReference();
-        cr.setConsentType(ConsentType.AIS);
-        cr.setRedirectId(AUTH_ID);
-        cr.setEncryptedConsentId(ENCRYPTED_ID);
-        cr.setAuthorizationId(AUTH_ID);
-        cr.setCookieString(cookie);
-        return cr;
-    }
-
-    private AccessTokenTO getAccessTokenTO() {
-        AccessTokenTO tokenTO = new AccessTokenTO();
-        tokenTO.setLogin(LOGIN);
-        tokenTO.setExp(new Date());
-        return tokenTO;
-    }
 }

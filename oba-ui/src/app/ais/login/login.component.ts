@@ -13,6 +13,7 @@ import { RoutingPath } from '../../common/models/routing-path.model';
 import { AisService } from '../../common/services/ais.service';
 import { CustomizeService } from '../../common/services/customize.service';
 import { ShareDataService } from '../../common/services/share-data.service';
+import { AuthService } from '../../common/services/auth.service';
 import LoginUsingPOSTParams = PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.LoginUsingPOSTParams;
 import AisAuthUsingGETParams = PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.AisAuthUsingGETParams;
 
@@ -39,6 +40,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private shareService: ShareDataService,
     private onlineBankingOauthAuthorizationService: OnlineBankingOauthAuthorizationService,
     private aisService: AisService,
+    private authService: AuthService,
     private PSUAISService: PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService
   ) {}
 
@@ -111,23 +113,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         redirectId: this.redirectId,
         ...(params.token && { Authorization: 'Bearer ' + params.token }),
       };
-
-      this.subscriptions.push(
-        this.aisService.aisAuthCode(aisAuthCodeParams).subscribe(
-          (authCodeResponse) => {
-            this.shareService.changeData(authCodeResponse.body);
-            if (authCodeResponse.headers.get('Authorization')) {
-              this.aisAuthorise({
-                encryptedConsentId: this.encryptedConsentId,
-                authorisationId: this.redirectId,
-              });
-            }
-          },
-          (error) => {
-            console.log(error);
-          }
-        )
-      );
     });
   }
 

@@ -41,7 +41,6 @@ abstract class AbstractAuthFilter extends GenericFilterBean {
 
     protected boolean authenticationIsRequired() {
         Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
-
         return isNotAuthenticated(existingAuth) || isNotMiddlewareAuthentication(existingAuth);
     }
 

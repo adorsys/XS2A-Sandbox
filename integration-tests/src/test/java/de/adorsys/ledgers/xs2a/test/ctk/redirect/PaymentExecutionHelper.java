@@ -4,7 +4,6 @@ import de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.um.ScaUserDataTO;
 import de.adorsys.ledgers.oba.rest.client.ObaPisApiClient;
-import de.adorsys.ledgers.oba.service.api.domain.AuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
 import de.adorsys.ledgers.xs2a.client.PaymentApiClient;
 import de.adorsys.psd2.model.PaymentInitationRequestResponse201;
@@ -15,8 +14,6 @@ import org.junit.Assert;
 import org.springframework.http.ResponseEntity;
 
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.util.List;
 import java.util.UUID;
 
 import static de.adorsys.ledgers.xs2a.test.ctk.embedded.LinkResolver.getLink;
@@ -46,7 +43,6 @@ public class PaymentExecutionHelper {
     private final String paymentService;
     private final String paymentProduct;
 
-    private final CookiesUtils cu = new CookiesUtils();
 
     public PaymentExecutionHelper(PaymentApiClient paymentApi, ObaPisApiClient pisApiClient, PaymentCase paymentCase,
                                   String paymentService, String paymentProduct) {
@@ -107,24 +103,11 @@ public class PaymentExecutionHelper {
         String encryptedPaymentId = initiatedPayment.getPaymentId();
         String redirectId = QuerryParser.param(scaRedirectLink, "redirectId");
         String encryptedPaymentIdFromOnlineBanking = QuerryParser.param(scaRedirectLink, "paymentId");
-
         Assert.assertEquals(encryptedPaymentId, encryptedPaymentIdFromOnlineBanking);
-
-        ResponseEntity<AuthorizeResponse> pisAuth = pisApiClient.pisAuth(redirectId, encryptedPaymentId, null);
-        URI location = pisAuth.getHeaders().getLocation();
-        String authorisationId = QuerryParser.param(location.toString(), "authorisationId");
-        List<String> cookieStrings = pisAuth.getHeaders().get("Set-Cookie");
-        String consentCookieString = cu.readCookie(cookieStrings, "CONSENT");
-        ResponseEntity<PaymentAuthorizeResponse> loginResponse = pisApiClient.login(encryptedPaymentId, authorisationId, paymentCase.getPsuId(), "12345", cu.resetCookies(cookieStrings));
-
+        String authorisationId = redirectId;
+        ResponseEntity<PaymentAuthorizeResponse> loginResponse = pisApiClient.login(encryptedPaymentId, authorisationId, paymentCase.getPsuId(), "12345");
         Assert.assertNotNull(loginResponse);
         Assert.assertTrue(loginResponse.getStatusCode().is2xxSuccessful());
-        cookieStrings = loginResponse.getHeaders().get("Set-Cookie");
-        consentCookieString = cu.readCookie(cookieStrings, "CONSENT");
-        Assert.assertNotNull(consentCookieString);
-        String accessTokenCookieString = cu.readCookie(cookieStrings, "ACCESS_TOKEN");
-        Assert.assertNotNull(accessTokenCookieString);
-
         return loginResponse;
     }
 
@@ -145,48 +128,23 @@ public class PaymentExecutionHelper {
     public ResponseEntity<PaymentAuthorizeResponse> authCode(ResponseEntity<PaymentAuthorizeResponse> paymentResponse) {
         Assert.assertNotNull(paymentResponse);
         Assert.assertTrue(paymentResponse.getStatusCode().is2xxSuccessful());
-        List<String> cookieStrings = paymentResponse.getHeaders().get("Set-Cookie");
-        String consentCookieString = cu.readCookie(cookieStrings, "CONSENT");
-        Assert.assertNotNull(consentCookieString);
-        String accessTokenCookieString = cu.readCookie(cookieStrings, "ACCESS_TOKEN");
-        Assert.assertNotNull(accessTokenCookieString);
-
         PaymentAuthorizeResponse paymentAuthorizeResponse = paymentResponse.getBody();
         ResponseEntity<PaymentAuthorizeResponse> authrizedPaymentResponse =
-            pisApiClient.authrizedPayment(paymentAuthorizeResponse.getEncryptedConsentId(), paymentAuthorizeResponse.getAuthorisationId(),
-                cu.resetCookies(cookieStrings), "123456");
+            pisApiClient.authrizedPayment(paymentAuthorizeResponse.getEncryptedConsentId(), paymentAuthorizeResponse.getAuthorisationId(), "123456");
         Assert.assertNotNull(authrizedPaymentResponse);
         Assert.assertTrue(authrizedPaymentResponse.getStatusCode().is2xxSuccessful());
-        cookieStrings = authrizedPaymentResponse.getHeaders().get("Set-Cookie");
-        consentCookieString = cu.readCookie(cookieStrings, "CONSENT");
-        Assert.assertNotNull(consentCookieString);
-        accessTokenCookieString = cu.readCookie(cookieStrings, "ACCESS_TOKEN");
-        Assert.assertNotNull(accessTokenCookieString);
-
         return authrizedPaymentResponse;
     }
 
     public ResponseEntity<PaymentAuthorizeResponse> choseScaMethod(ResponseEntity<PaymentAuthorizeResponse> paymentResponse) {
         Assert.assertNotNull(paymentResponse);
         Assert.assertTrue(paymentResponse.getStatusCode().is2xxSuccessful());
-        List<String> cookieStrings = paymentResponse.getHeaders().get("Set-Cookie");
-        String consentCookieString = cu.readCookie(cookieStrings, "CONSENT");
-        Assert.assertNotNull(consentCookieString);
-        String accessTokenCookieString = cu.readCookie(cookieStrings, "ACCESS_TOKEN");
-        Assert.assertNotNull(accessTokenCookieString);
-
         PaymentAuthorizeResponse paymentAuthorizeResponse = paymentResponse.getBody();
         ScaUserDataTO scaUserDataTO = paymentAuthorizeResponse.getScaMethods().iterator().next();
         ResponseEntity<PaymentAuthorizeResponse> authrizedPaymentResponse = pisApiClient.selectMethod(paymentAuthorizeResponse.getEncryptedConsentId(), paymentAuthorizeResponse.getAuthorisationId(),
-            scaUserDataTO.getId(), cu.resetCookies(cookieStrings));
+            scaUserDataTO.getId());
         Assert.assertNotNull(authrizedPaymentResponse);
         Assert.assertTrue(authrizedPaymentResponse.getStatusCode().is2xxSuccessful());
-        cookieStrings = authrizedPaymentResponse.getHeaders().get("Set-Cookie");
-        consentCookieString = cu.readCookie(cookieStrings, "CONSENT");
-        Assert.assertNotNull(consentCookieString);
-        accessTokenCookieString = cu.readCookie(cookieStrings, "ACCESS_TOKEN");
-        Assert.assertNotNull(accessTokenCookieString);
-
         return authrizedPaymentResponse;
     }
 

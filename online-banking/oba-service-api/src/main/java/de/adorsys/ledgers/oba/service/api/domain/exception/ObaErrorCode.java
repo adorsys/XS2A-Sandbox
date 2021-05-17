@@ -8,6 +8,5 @@ public enum ObaErrorCode {
     AUTH_EXPIRED,
     LOGIN_FAILED,
     ACCESS_FORBIDDEN,
-    COOKIE_ERROR,
     RESOURCE_EXPIRED
 }

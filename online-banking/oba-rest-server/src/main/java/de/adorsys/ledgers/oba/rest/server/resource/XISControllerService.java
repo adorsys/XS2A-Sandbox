@@ -1,17 +1,16 @@
 package de.adorsys.ledgers.oba.rest.server.resource;
 
-import de.adorsys.ledgers.keycloak.client.api.KeycloakTokenService;
 import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
-import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
-import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
-import de.adorsys.ledgers.oba.service.api.domain.*;
+import de.adorsys.ledgers.oba.service.api.domain.AuthorizeResponse;
+import de.adorsys.ledgers.oba.service.api.domain.ConsentType;
+import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
+import de.adorsys.ledgers.oba.service.api.domain.PaymentWorkflow;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.api.service.CmsAspspConsentDataService;
 import de.adorsys.ledgers.oba.service.api.service.CommonPaymentService;
-import de.adorsys.ledgers.oba.service.api.service.ConsentReferencePolicy;
 import de.adorsys.psd2.xs2a.core.sca.AuthenticationDataHolder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,16 +32,13 @@ import java.util.Optional;
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.*;
 import static de.adorsys.ledgers.oba.rest.server.auth.oba.SecurityConstant.BEARER_TOKEN_PREFIX;
 import static de.adorsys.psd2.consent.aspsp.api.config.CmsPsuApiDefaultValue.DEFAULT_SERVICE_INSTANCE_ID;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class XISControllerService {
     private final HttpServletRequest request;
     private final HttpServletResponse response;
-    private final ConsentReferencePolicy referencePolicy;
     private final ResponseUtils responseUtils;
-    private final KeycloakTokenService tokenService;
     private final CommonPaymentService paymentService;
     private final ObaMiddlewareAuthentication middlewareAuth;
     private final CmsAspspConsentDataService consentDataService;
@@ -76,21 +72,14 @@ public class XISControllerService {
         // We would like the user agent to return with both information so we can match them again the
         // one we stored in the consent cookie.
         AuthorizeResponse authResponse = new AuthorizeResponse();
-
         // 1. Store redirect link in a cookie
-        ConsentReference consentReference = referencePolicy.fromURL(redirectId, consentType, encryptedConsentId);
         authResponse.setEncryptedConsentId(encryptedConsentId);
         authResponse.setAuthorisationId(redirectId);
         String token = Optional.ofNullable(request.getHeader(HttpHeaders.AUTHORIZATION))
                            .filter(t -> StringUtils.startsWithIgnoreCase(t, BEARER_TOKEN_PREFIX))
                            .map(t -> StringUtils.substringAfter(t, BEARER_TOKEN_PREFIX))
                            .orElse(null);
-        // 2. Set cookies
-        AccessTokenTO tokenTO = Optional.ofNullable(token).map(tokenService::validate)
-                                    .map(BearerTokenTO::getAccessTokenObject)
-                                    .orElse(null);
-        responseUtils.removeCookies(response);
-        responseUtils.setCookies(response, consentReference, token, tokenTO);
+
         if (StringUtils.isNotBlank(token)) {
             response.addHeader(HttpHeaders.AUTHORIZATION, token);
         }
@@ -110,26 +99,24 @@ public class XISControllerService {
     public ResponseEntity<PaymentAuthorizeResponse> resolvePaymentWorkflow(PaymentWorkflow workflow) {
         ScaStatusTO scaStatusTO = workflow.scaStatus();
         if (EnumSet.of(PSUIDENTIFIED, FINALISED, EXEMPTED, PSUAUTHENTICATED, SCAMETHODSELECTED).contains(scaStatusTO)) {
-            responseUtils.setCookies(response, workflow.getConsentReference(), workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
+            responseUtils.addAccessTokenHeader(response, workflow.bearerToken().getAccess_token());
             return ResponseEntity.ok(workflow.getAuthResponse());
-        }// failed Message. No repeat. Delete cookies.
-        responseUtils.removeCookies(response);
+        }// failed Message. No repeat.
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
-    public ResponseEntity<PaymentAuthorizeResponse> selectScaMethod(String encryptedPaymentId, String authorisationId, String scaMethodId, String consentAndaccessTokenCookieString) {
-        String consentCookie = responseUtils.consentCookie(consentAndaccessTokenCookieString);
-        PaymentWorkflow workflow = paymentService.selectScaForPayment(encryptedPaymentId, authorisationId, scaMethodId, consentCookie, AuthUtils.psuId(middlewareAuth), middlewareAuth.getBearerToken());
-        responseUtils.setCookies(response, workflow.getConsentReference(), workflow.bearerToken().getAccess_token(), workflow.bearerToken().getAccessTokenObject());
+    public ResponseEntity<PaymentAuthorizeResponse> selectScaMethod(String encryptedPaymentId, String authorisationId, String scaMethodId) {
+        PaymentWorkflow workflow = paymentService.selectScaForPayment(encryptedPaymentId, authorisationId, scaMethodId, AuthUtils.psuId(middlewareAuth), middlewareAuth.getBearerToken());
+        responseUtils.addAccessTokenHeader(response, workflow.bearerToken().getAccess_token());
         return ResponseEntity.ok(workflow.getAuthResponse());
     }
 
     public void checkFailedCount(String encryptedId) {
         if (consentDataService.isFailedLogin(encryptedId)) {
             throw ObaException.builder()
-                      .devMessage("You have exceeded maximum login attempts for current Authorization!")
-                      .obaErrorCode(ObaErrorCode.AUTH_EXPIRED)
-                      .build();
+                .devMessage("You have exceeded maximum login attempts for current Authorization!")
+                .obaErrorCode(ObaErrorCode.AUTH_EXPIRED)
+                .build();
         }
     }
 
@@ -141,7 +128,6 @@ public class XISControllerService {
             } else {
                 failPaymentAuthorisation(id, login, authId);
             }
-            responseUtils.removeCookies(this.response);
         }
         String msg = attemptsLeft > 0
                          ? String.format("You have %s attempts left", attemptsLeft)

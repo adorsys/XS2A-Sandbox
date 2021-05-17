@@ -41,14 +41,13 @@ public class PisCancellationController implements PisCancellationApi {
 
     @Override
     @ApiOperation(value = "Identifies the user by login an pin. Return sca methods information")
-    public ResponseEntity<PaymentAuthorizeResponse> login(String encryptedPaymentId, String authorisationId, String login, String pin, String consentCookieString) {
-        String consentCookie = responseUtils.consentCookie(consentCookieString);
-        PaymentWorkflow workflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, false, consentCookie, null);
+    public ResponseEntity<PaymentAuthorizeResponse> login(String encryptedPaymentId, String authorisationId, String login, String pin) {
+        PaymentWorkflow workflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, null);
         if (workflow.getPaymentStatus().equals(TransactionStatusTO.RCVD.name())) {
             throw ObaException.builder()
-                      .devMessage(String.format("Cancellation of Payment id: %s is not possible thought OnlineBanking as it's status is RECEIVED, cancellation of this payment is only possible though EMBEDDED route", encryptedPaymentId))
-                      .obaErrorCode(ObaErrorCode.LOGIN_FAILED)
-                      .build();
+                .devMessage(String.format("Cancellation of Payment id: %s is not possible thought OnlineBanking as it's status is RECEIVED, cancellation of this payment is only possible though EMBEDDED route", encryptedPaymentId))
+                .obaErrorCode(ObaErrorCode.LOGIN_FAILED)
+                .build();
         }
         xisService.checkFailedCount(encryptedPaymentId);
 
@@ -65,22 +64,18 @@ public class PisCancellationController implements PisCancellationApi {
     }
 
     @Override
-    public ResponseEntity<PaymentAuthorizeResponse> selectMethod(String encryptedPaymentId, String authorisationId, String scaMethodId, String consentAndAccessTokenCookieString) {
-        return xisService.selectScaMethod(encryptedPaymentId, authorisationId, scaMethodId, consentAndAccessTokenCookieString);
+    public ResponseEntity<PaymentAuthorizeResponse> selectMethod(String encryptedPaymentId, String authorisationId, String scaMethodId) {
+        return xisService.selectScaMethod(encryptedPaymentId, authorisationId, scaMethodId);
     }
 
     @Override
-    public ResponseEntity<PaymentAuthorizeResponse> authorisePayment(String encryptedPaymentId, String authorisationId,
-                                                                     String consentAndAccessTokenCookieString, String authCode) {
+    public ResponseEntity<PaymentAuthorizeResponse> authorisePayment(String encryptedPaymentId, String authorisationId, String authCode) {
 
         String psuId = AuthUtils.psuId(middlewareAuth);
         try {
-            String consentCookie = responseUtils.consentCookie(consentAndAccessTokenCookieString);
-
-            PaymentWorkflow identifyPaymentWorkflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, true, consentCookie, middlewareAuth.getBearerToken());
+            PaymentWorkflow identifyPaymentWorkflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, middlewareAuth.getBearerToken());
             PaymentWorkflow authorizeCancelPaymentWorkflow = paymentService.authorizePaymentOpr(identifyPaymentWorkflow, psuId, authCode, OpTypeTO.CANCEL_PAYMENT);
 
-            responseUtils.setCookies(response, authorizeCancelPaymentWorkflow.getConsentReference(), authorizeCancelPaymentWorkflow.bearerToken().getAccess_token(), authorizeCancelPaymentWorkflow.bearerToken().getAccessTokenObject());
             log.info("Confirmation code: {}", authorizeCancelPaymentWorkflow.getAuthResponse().getAuthConfirmationCode());
             return ResponseEntity.ok(authorizeCancelPaymentWorkflow.getAuthResponse());
         } finally {
@@ -89,11 +84,9 @@ public class PisCancellationController implements PisCancellationApi {
     }
 
     @Override
-    public ResponseEntity<PaymentAuthorizeResponse> pisDone(String encryptedPaymentId, String authorisationId,
-                                                            String consentAndAccessTokenCookieString, boolean isOauth2Integrated, String authConfirmationCode) {
+    public ResponseEntity<PaymentAuthorizeResponse> pisDone(String encryptedPaymentId, String authorisationId, boolean isOauth2Integrated, String authConfirmationCode) {
         String psuId = AuthUtils.psuId(middlewareAuth);
-        String consentCookie = responseUtils.consentCookie(consentAndAccessTokenCookieString);
-        String redirectUrl = paymentService.resolveRedirectUrl(encryptedPaymentId, authorisationId, consentCookie, isOauth2Integrated, psuId, middlewareAuth.getBearerToken(), authConfirmationCode);
+        String redirectUrl = paymentService.resolveRedirectUrl(encryptedPaymentId, authorisationId, isOauth2Integrated, psuId, middlewareAuth.getBearerToken(), authConfirmationCode);
         return responseUtils.redirect(redirectUrl, response);
     }
 }

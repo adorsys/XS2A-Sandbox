@@ -1,14 +1,22 @@
 package de.adorsys.ledgers.oba.rest.server.resource;
 
 import de.adorsys.ledgers.middleware.api.domain.account.AccountReferenceTO;
-import de.adorsys.ledgers.middleware.api.domain.payment.*;
+import de.adorsys.ledgers.middleware.api.domain.payment.AmountTO;
+import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTO;
+import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTargetTO;
+import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTypeTO;
+import de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
-import de.adorsys.ledgers.oba.service.api.domain.*;
+import de.adorsys.ledgers.oba.service.api.domain.AuthorizeResponse;
+import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
+import de.adorsys.ledgers.oba.service.api.domain.ConsentType;
+import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
+import de.adorsys.ledgers.oba.service.api.domain.PaymentWorkflow;
 import de.adorsys.ledgers.oba.service.api.service.CommonPaymentService;
 import de.adorsys.ledgers.oba.service.api.service.TokenAuthenticationService;
 import de.adorsys.psd2.consent.api.pis.CmsCommonPayment;
@@ -27,9 +35,13 @@ import java.util.Collections;
 import java.util.Currency;
 import java.util.HashSet;
 
-import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.*;
+import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.FAILED;
+import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.FINALISED;
+import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.PSUIDENTIFIED;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -43,7 +55,6 @@ class PISControllerTest {
     private static final String TOKEN = "TOKEN";
     private static final String OK_URI = "OK_URI";
     private static final String NOK_URI = "NOK_URI";
-    private static final String REDIRECT_ID = "12345";
     private static final String ASPSP_ACC_ID = "ASPSP_ACC_ID";
     private static final String IBAN = "DE123456789";
     private static final Currency EUR = Currency.getInstance("EUR");
@@ -66,29 +77,17 @@ class PISControllerTest {
     @Mock
     private TokenAuthenticationService authenticationService;
 
-    @Test
-    void pisAuth() {
-        // Given
-        when(xisService.auth(any(), any(), any(), any())).thenReturn(getAuthResponse());
-
-        // When
-        ResponseEntity<AuthorizeResponse> result = controller.pisAuth(REDIRECT_ID, ENCRYPTED_ID, TOKEN);
-
-        // Then
-        assertEquals(getAuthResponse(), result);
-    }
 
     @Test
     void login() {
         // Given
-        when(responseUtils.consentCookie(any())).thenReturn(COOKIE);
-        when(paymentService.identifyPayment(anyString(), anyString(), anyBoolean(), anyString(), any())).thenReturn(getPaymentWorkflow(PSUIDENTIFIED));
+        when(paymentService.identifyPayment(anyString(), anyString(), any())).thenReturn(getPaymentWorkflow(PSUIDENTIFIED));
         when(authenticationService.login(anyString(), anyString(), anyString())).thenReturn(getScaLoginResponse());
         when(paymentService.initiatePaymentOpr(any(), anyString(), any())).thenReturn(getPaymentWorkflow(PSUIDENTIFIED));
         when(xisService.resolvePaymentWorkflow(any())).thenReturn(ResponseEntity.ok(getPaymentAuthorizeResponse(true, true, PSUIDENTIFIED)));
 
         // When
-        ResponseEntity<PaymentAuthorizeResponse> result = controller.login(ENCRYPTED_ID, AUTH_ID, LOGIN, PIN, COOKIE);
+        ResponseEntity<PaymentAuthorizeResponse> result = controller.login(ENCRYPTED_ID, AUTH_ID, LOGIN, PIN);
 
         // Then
         assertEquals(ResponseEntity.ok(getPaymentAuthorizeResponse(true, true, PSUIDENTIFIED)), result);
@@ -103,7 +102,7 @@ class PISControllerTest {
         when(paymentService.initiatePayment(any(), anyString())).thenReturn(getPaymentWorkflow(PSUIDENTIFIED));
 
         // When
-        ResponseEntity<PaymentAuthorizeResponse> result = controller.initiatePayment(ENCRYPTED_ID, AUTH_ID, COOKIE);
+        ResponseEntity<PaymentAuthorizeResponse> result = controller.initiatePayment(ENCRYPTED_ID, AUTH_ID);
 
         // Then
         assertEquals(ResponseEntity.ok(getPaymentAuthorizeResponse(true, true, PSUIDENTIFIED)), result);
@@ -113,12 +112,11 @@ class PISControllerTest {
     void authrizedPayment() throws NoSuchFieldException {
         // Given
         FieldSetter.setField(controller, controller.getClass().getDeclaredField("middlewareAuth"), new ObaMiddlewareAuthentication(null, getBearerToken()));
-        when(responseUtils.consentCookie(any())).thenReturn(COOKIE);
-        when(paymentService.identifyPayment(anyString(), anyString(), anyBoolean(), anyString(), any())).thenReturn(getPaymentWorkflow(PSUIDENTIFIED));
+        when(paymentService.identifyPayment(anyString(), anyString(), any())).thenReturn(getPaymentWorkflow(PSUIDENTIFIED));
         when(paymentService.authorizePaymentOpr(any(), anyString(), anyString(), any())).thenReturn(getPaymentWorkflow(FINALISED));
 
         // When
-        ResponseEntity<PaymentAuthorizeResponse> result = controller.authrizedPayment(ENCRYPTED_ID, AUTH_ID, METHOD_ID, COOKIE);
+        ResponseEntity<PaymentAuthorizeResponse> result = controller.authrizedPayment(ENCRYPTED_ID, AUTH_ID, METHOD_ID);
 
         // Then
         assertEquals(ResponseEntity.ok(getPaymentAuthorizeResponse(true, true, FINALISED)), result);
@@ -128,11 +126,10 @@ class PISControllerTest {
     void failPaymentAuthorisation() throws NoSuchFieldException {
         // Given
         FieldSetter.setField(controller, controller.getClass().getDeclaredField("middlewareAuth"), new ObaMiddlewareAuthentication(null, getBearerToken()));
-        when(responseUtils.consentCookie(any())).thenReturn(COOKIE);
-        when(paymentService.identifyPayment(anyString(), anyString(), anyBoolean(), anyString(), any())).thenReturn(getPaymentWorkflow(FAILED));
+        when(paymentService.identifyPayment(anyString(), anyString(), any())).thenReturn(getPaymentWorkflow(FAILED));
 
         // When
-        ResponseEntity<PaymentAuthorizeResponse> result = controller.failPaymentAuthorisation(ENCRYPTED_ID, AUTH_ID, COOKIE);
+        ResponseEntity<PaymentAuthorizeResponse> result = controller.failPaymentAuthorisation(ENCRYPTED_ID, AUTH_ID);
 
         // Then
         assertEquals(ResponseEntity.ok(getPaymentAuthorizeResponse(true, true, FAILED)), result);
@@ -142,12 +139,11 @@ class PISControllerTest {
     void pisDone() throws NoSuchFieldException {
         // Given
         FieldSetter.setField(controller, controller.getClass().getDeclaredField("middlewareAuth"), new ObaMiddlewareAuthentication(null, getBearerToken()));
-        when(responseUtils.consentCookie(any())).thenReturn(COOKIE);
-        when(paymentService.resolveRedirectUrl(anyString(), anyString(), anyString(), anyBoolean(), anyString(), any(), anyString())).thenReturn(NOK_URI);
+        when(paymentService.resolveRedirectUrl(anyString(), anyString(), anyBoolean(), anyString(), any(), anyString())).thenReturn(NOK_URI);
         when(responseUtils.redirect(anyString(), any())).thenReturn(ResponseEntity.ok(getPaymentAuthorizeResponse(false, false, FAILED)));
 
         // When
-        ResponseEntity<PaymentAuthorizeResponse> result = controller.pisDone(ENCRYPTED_ID, AUTH_ID, COOKIE, false, "code");
+        ResponseEntity<PaymentAuthorizeResponse> result = controller.pisDone(ENCRYPTED_ID, AUTH_ID, false, "code");
 
         // Then
         assertEquals(ResponseEntity.ok(getPaymentAuthorizeResponse(true, true, FAILED)), result);
@@ -235,7 +231,6 @@ class PISControllerTest {
         ConsentReference ref = new ConsentReference();
         ref.setAuthorizationId(AUTH_ID);
         ref.setConsentType(ConsentType.AIS);
-        ref.setCookieString(COOKIE);
         ref.setEncryptedConsentId(ENCRYPTED_ID);
         ref.setRedirectId(AUTH_ID);
         return ref;

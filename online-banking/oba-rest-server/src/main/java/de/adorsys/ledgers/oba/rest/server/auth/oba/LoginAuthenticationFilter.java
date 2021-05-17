@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static de.adorsys.ledgers.oba.rest.server.auth.oba.SecurityConstant.*;
+import static de.adorsys.ledgers.oba.rest.server.auth.oba.SecurityConstant.USER_PIN;
+import static de.adorsys.ledgers.oba.rest.server.auth.oba.SecurityConstant.USER_LOGIN;
+import static de.adorsys.ledgers.oba.rest.server.auth.oba.SecurityConstant.ACCESS_TOKEN;
 
 @RequiredArgsConstructor
 public class LoginAuthenticationFilter extends AbstractAuthFilter {

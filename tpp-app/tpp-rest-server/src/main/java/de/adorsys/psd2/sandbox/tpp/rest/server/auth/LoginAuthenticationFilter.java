@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.EnumSet;
-
 import static de.adorsys.psd2.sandbox.tpp.rest.server.auth.SecurityConstant.*;
+
 
 @RequiredArgsConstructor
 public class LoginAuthenticationFilter extends AbstractAuthFilter {

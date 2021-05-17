@@ -1,7 +1,11 @@
 package de.adorsys.ledgers.oba.rest.server.resource;
 
 import de.adorsys.ledgers.middleware.api.domain.account.AccountReferenceTO;
-import de.adorsys.ledgers.middleware.api.domain.payment.*;
+import de.adorsys.ledgers.middleware.api.domain.payment.AmountTO;
+import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTO;
+import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTargetTO;
+import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTypeTO;
+import de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
@@ -33,10 +37,14 @@ import java.util.HashSet;
 
 import static de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO.ACSP;
 import static de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO.RCVD;
-import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.*;
+import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.FAILED;
+import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.FINALISED;
+import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.PSUIDENTIFIED;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -46,7 +54,6 @@ class PisCancellationControllerTest {
     private static final String ENCRYPTED_ID = "ENC_123";
     private static final String AUTH_ID = "AUTH_1";
     private static final String METHOD_ID = "SCA_1";
-    private static final String COOKIE = "COOKIE";
     private static final String TOKEN = "TOKEN";
     private static final String OK_URI = "OK_URI";
     private static final String NOK_URI = "NOK_URI";
@@ -76,13 +83,12 @@ class PisCancellationControllerTest {
     @Test
     void login() {
         // Given
-        when(responseUtils.consentCookie(any())).thenReturn(COOKIE);
-        when(paymentService.identifyPayment(anyString(), anyString(), anyBoolean(), anyString(), any())).thenReturn(getPaymentWorkflow(PSUIDENTIFIED, ACSP));
+        when(paymentService.identifyPayment(anyString(), anyString(), any())).thenReturn(getPaymentWorkflow(PSUIDENTIFIED, ACSP));
         when(authenticationService.login(anyString(), anyString(), anyString())).thenReturn(getScaLoginResponse());
         when(xisService.resolvePaymentWorkflow(any())).thenReturn(ResponseEntity.ok(getPaymentAuthorizeResponse(true, true, PSUIDENTIFIED)));
 
         // When
-        ResponseEntity<PaymentAuthorizeResponse> result = controller.login(ENCRYPTED_ID, AUTH_ID, LOGIN, PIN, COOKIE);
+        ResponseEntity<PaymentAuthorizeResponse> result = controller.login(ENCRYPTED_ID, AUTH_ID, LOGIN, PIN);
 
         // Then
         assertEquals(ResponseEntity.ok(getPaymentAuthorizeResponse(true, true, PSUIDENTIFIED)), result);
@@ -90,11 +96,10 @@ class PisCancellationControllerTest {
 
     @Test
     void login_failure() {
-        when(responseUtils.consentCookie(any())).thenReturn(COOKIE);
-        when(paymentService.identifyPayment(anyString(), anyString(), anyBoolean(), anyString(), any())).thenReturn(getPaymentWorkflow(PSUIDENTIFIED, RCVD));
+        when(paymentService.identifyPayment(anyString(), anyString(), any())).thenReturn(getPaymentWorkflow(PSUIDENTIFIED, RCVD));
 
         // Then
-        assertThrows(ObaException.class, () -> controller.login(ENCRYPTED_ID, AUTH_ID, LOGIN, PIN, COOKIE));
+        assertThrows(ObaException.class, () -> controller.login(ENCRYPTED_ID, AUTH_ID, LOGIN, PIN));
     }
 
 
@@ -103,12 +108,11 @@ class PisCancellationControllerTest {
         // Given
         FieldSetter.setField(controller, controller.getClass().getDeclaredField("middlewareAuth"), new ObaMiddlewareAuthentication(null, getBearerToken()));
 
-        when(responseUtils.consentCookie(any())).thenReturn(COOKIE);
-        when(paymentService.identifyPayment(anyString(), anyString(), anyBoolean(), anyString(), any())).thenReturn(getPaymentWorkflow(PSUIDENTIFIED, ACSP));
+        when(paymentService.identifyPayment(anyString(), anyString(), any())).thenReturn(getPaymentWorkflow(PSUIDENTIFIED, ACSP));
         when(paymentService.authorizePaymentOpr(any(), anyString(), anyString(), any())).thenReturn(getPaymentWorkflow(FINALISED, ACSP));
 
         // When
-        ResponseEntity<PaymentAuthorizeResponse> result = controller.authorisePayment(ENCRYPTED_ID, AUTH_ID, METHOD_ID, COOKIE);
+        ResponseEntity<PaymentAuthorizeResponse> result = controller.authorisePayment(ENCRYPTED_ID, AUTH_ID, METHOD_ID);
 
         // Then
         assertEquals(ResponseEntity.ok(getPaymentAuthorizeResponse(true, true, FINALISED)), result);
@@ -119,12 +123,11 @@ class PisCancellationControllerTest {
         // Given
         FieldSetter.setField(controller, controller.getClass().getDeclaredField("middlewareAuth"), new ObaMiddlewareAuthentication(null, getBearerToken()));
 
-        when(responseUtils.consentCookie(any())).thenReturn(COOKIE);
-        when(paymentService.resolveRedirectUrl(anyString(), anyString(), anyString(), anyBoolean(), anyString(), any(), anyString())).thenReturn(NOK_URI);
+        when(paymentService.resolveRedirectUrl(anyString(), anyString(), anyBoolean(), anyString(), any(), anyString())).thenReturn(NOK_URI);
         when(responseUtils.redirect(anyString(), any())).thenReturn(ResponseEntity.ok(getPaymentAuthorizeResponse(false, false, FAILED)));
 
         // When
-        ResponseEntity<PaymentAuthorizeResponse> result = controller.pisDone(ENCRYPTED_ID, AUTH_ID, COOKIE, false, "code");
+        ResponseEntity<PaymentAuthorizeResponse> result = controller.pisDone(ENCRYPTED_ID, AUTH_ID, false, "code");
 
         // Then
         assertEquals(ResponseEntity.ok(getPaymentAuthorizeResponse(true, true, FAILED)), result);
@@ -203,7 +206,6 @@ class PisCancellationControllerTest {
         ConsentReference ref = new ConsentReference();
         ref.setAuthorizationId(AUTH_ID);
         ref.setConsentType(ConsentType.AIS);
-        ref.setCookieString(COOKIE);
         ref.setEncryptedConsentId(ENCRYPTED_ID);
         ref.setRedirectId(AUTH_ID);
         return ref;

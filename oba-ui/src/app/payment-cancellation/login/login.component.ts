@@ -8,11 +8,9 @@ import { InfoService } from '../../common/info/info.service';
 import { RoutingPath } from '../../common/models/routing-path.model';
 import { CustomizeService } from '../../common/services/customize.service';
 import { PisCancellationService } from '../../common/services/pis-cancellation.service';
-import { PisService } from '../../common/services/pis.service';
 import { ShareDataService } from '../../common/services/share-data.service';
-
-import LoginUsingPOST2Params = PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService.LoginUsingPOST2Params;
 import { PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService } from '../../api/services/psupiscancellation-provides-access-to-online-banking-payment-functionality.service';
+import LoginUsingPOST2Params = PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService.LoginUsingPOST2Params;
 
 @Component({
   selector: 'app-login',
@@ -36,8 +34,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private pisCancellationService: PisCancellationService,
-    private shareService: ShareDataService,
-    private pisService: PisService
+    private shareService: ShareDataService
   ) {}
 
   ngOnInit() {
@@ -102,22 +99,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       params.oauth2
         ? this.shareService.setOauthParam(true)
         : this.shareService.setOauthParam(false);
-
-      this.subscriptions.push(
-        this.pisService
-          .pisAuthCode({
-            encryptedPaymentId: this.encryptedPaymentId,
-            redirectId: this.redirectId,
-          })
-          .subscribe(
-            (authCodeResponse) => {
-              this.shareService.changeData(authCodeResponse.body);
-            },
-            (error) => {
-              console.log(error);
-            }
-          )
-      );
     });
   }
 
