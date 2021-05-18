@@ -20,7 +20,6 @@ public class DefaultConsentReferencePolicy implements ConsentReferencePolicy {
         return cr;
     }
 
-
     @Override
     public ConsentReference fromRequest(String encryptedConsentId, String authorizationId) {
         return consentReference(encryptedConsentId, authorizationId, ConsentType.AIS, authorizationId);

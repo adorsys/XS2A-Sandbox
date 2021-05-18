@@ -2,13 +2,13 @@ package de.adorsys.ledgers.oba.service.impl.service;
 
 import de.adorsys.ledgers.keycloak.client.api.KeycloakTokenService;
 import de.adorsys.ledgers.middleware.api.domain.Constants;
+import de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
-import de.adorsys.ledgers.middleware.api.domain.sca.SCAPaymentResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
-import de.adorsys.ledgers.middleware.client.rest.PaymentRestClient;
+import de.adorsys.ledgers.middleware.client.rest.OperationInitiationRestClient;
 import de.adorsys.ledgers.middleware.client.rest.RedirectScaRestClient;
 import de.adorsys.ledgers.oba.service.api.domain.DecoupledConfRequest;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
@@ -43,7 +43,7 @@ class DecoupledServiceImplTest {
     @Mock
     private AuthRequestInterceptor authInterceptor;
     @Mock
-    private PaymentRestClient paymentRestClient;
+    private OperationInitiationRestClient operationInitiationRestClient;
     @Mock
     private RedirectScaRestClient redirectScaClient;
     @Mock
@@ -61,7 +61,7 @@ class DecoupledServiceImplTest {
 
         when(tokenService.exchangeToken("login_token", request.getAuthorizationTTL(), Constants.SCOPE_SCA)).thenReturn(getToken("sca_token"));
         when(redirectScaClient.validateScaCode(request.getAuthorizationId(), "TAN")).thenReturn(getResponse());
-        when(paymentRestClient.executePayment(request.getObjId())).thenReturn(ResponseEntity.ok(getScaPaymentResponse()));
+        when(operationInitiationRestClient.execution(OpTypeTO.PAYMENT, request.getObjId())).thenReturn(ResponseEntity.ok(getGlobalScaResponse()));
 
         boolean result = service.executeDecoupledOpr(request, "login_token");
         assertTrue(result);
@@ -69,7 +69,7 @@ class DecoupledServiceImplTest {
         verify(authInterceptor, times(1)).setAccessToken("sca_token");
         verify(redirectScaClient, times(1)).validateScaCode(request.getAuthorizationId(), "TAN");
         verify(authInterceptor, times(1)).setAccessToken("full_token");
-        verify(paymentRestClient, times(1)).executePayment(request.getObjId());
+        verify(operationInitiationRestClient, times(1)).execution(OpTypeTO.PAYMENT, request.getObjId());
         verify(cmsPsuPisService, times(1)).updateAuthorisationStatus(any(), any(), any(), any(), any(), any());
         verify(cmsPsuPisService, times(1)).updatePaymentStatus(any(), any(), any());
         verify(aspspConsentDataClient, times(1)).updateAspspConsentData(any(), any());
@@ -82,7 +82,7 @@ class DecoupledServiceImplTest {
 
         when(tokenService.exchangeToken("login_token", request.getAuthorizationTTL(), Constants.SCOPE_SCA)).thenReturn(getToken("sca_token"));
         when(redirectScaClient.validateScaCode(request.getAuthorizationId(), "TAN")).thenReturn(getResponse());
-        when(paymentRestClient.executeCancelPayment(request.getObjId())).thenReturn(ResponseEntity.ok(getScaPaymentResponse()));
+        when(operationInitiationRestClient.execution(OpTypeTO.CANCEL_PAYMENT, request.getObjId())).thenReturn(ResponseEntity.ok(getGlobalScaResponse()));
 
         boolean result = service.executeDecoupledOpr(request, "login_token");
         assertTrue(result);
@@ -90,7 +90,7 @@ class DecoupledServiceImplTest {
         verify(authInterceptor, times(1)).setAccessToken("sca_token");
         verify(redirectScaClient, times(1)).validateScaCode(request.getAuthorizationId(), "TAN");
         verify(authInterceptor, times(1)).setAccessToken("full_token");
-        verify(paymentRestClient, times(1)).executeCancelPayment(request.getObjId());
+        verify(operationInitiationRestClient, times(1)).execution(OpTypeTO.CANCEL_PAYMENT, request.getObjId());
         verify(cmsPsuPisService, times(1)).updateAuthorisationStatus(any(), any(), any(), any(), any(), any());
         verify(cmsPsuPisService, times(1)).updatePaymentStatus(any(), any(), any());
         verify(aspspConsentDataClient, times(1)).updateAspspConsentData(any(), any());
@@ -104,7 +104,7 @@ class DecoupledServiceImplTest {
 
         when(tokenService.exchangeToken("login_token", request.getAuthorizationTTL(), Constants.SCOPE_SCA)).thenReturn(getToken("sca_token"));
         when(redirectScaClient.validateScaCode(request.getAuthorizationId(), "TAN")).thenReturn(getResponse());
-        when(paymentRestClient.executeCancelPayment(request.getObjId())).thenReturn(ResponseEntity.ok(getScaPaymentResponse()));
+        when(operationInitiationRestClient.execution(OpTypeTO.PAYMENT, request.getObjId())).thenReturn(ResponseEntity.ok(getGlobalScaResponse()));
 
         boolean result = service.executeDecoupledOpr(request, "login_token");
         assertTrue(result);
@@ -112,7 +112,7 @@ class DecoupledServiceImplTest {
         verify(authInterceptor, times(1)).setAccessToken("sca_token");
         verify(redirectScaClient, times(1)).validateScaCode(request.getAuthorizationId(), "TAN");
         verify(authInterceptor, times(1)).setAccessToken("full_token");
-        verify(paymentRestClient, times(1)).executeCancelPayment(request.getObjId());
+        verify(operationInitiationRestClient, times(1)).execution(OpTypeTO.PAYMENT, request.getObjId());
         verify(cmsPsuPisService, times(1)).updateAuthorisationStatus(any(), any(), any(), any(), any(), any());
         verify(cmsPsuPisService, times(1)).updatePaymentStatus(any(), any(), any());
         verify(aspspConsentDataClient, times(1)).updateAspspConsentData(any(), any());
@@ -125,7 +125,7 @@ class DecoupledServiceImplTest {
 
         when(tokenService.exchangeToken("login_token", request.getAuthorizationTTL(), Constants.SCOPE_SCA)).thenReturn(getToken("sca_token"));
         when(redirectScaClient.validateScaCode(request.getAuthorizationId(), "TAN")).thenReturn(getResponse());
-        when(paymentRestClient.executePayment(request.getObjId())).thenReturn(ResponseEntity.ok(getScaPaymentResponse()));
+        when(operationInitiationRestClient.execution(OpTypeTO.PAYMENT, request.getObjId())).thenReturn(ResponseEntity.ok(getGlobalScaResponse()));
         doThrow(AuthorisationIsExpiredException.class).when(cmsPsuPisService).updateAuthorisationStatus(any(), any(), any(), any(), any(), any());
 
         ObaException exception = assertThrows(ObaException.class, () -> service.executeDecoupledOpr(request, "login_token"));
@@ -135,7 +135,7 @@ class DecoupledServiceImplTest {
         verify(authInterceptor, times(1)).setAccessToken("sca_token");
         verify(redirectScaClient, times(1)).validateScaCode(request.getAuthorizationId(), "TAN");
         verify(authInterceptor, times(1)).setAccessToken("full_token");
-        verify(paymentRestClient, times(1)).executePayment(request.getObjId());
+        verify(operationInitiationRestClient, times(1)).execution(OpTypeTO.PAYMENT, request.getObjId());
         verify(cmsPsuPisService, times(1)).updateAuthorisationStatus(any(), any(), any(), any(), any(), any());
         verify(authInterceptor, times(1)).setAccessToken(null);
     }
@@ -184,8 +184,11 @@ class DecoupledServiceImplTest {
         verify(authInterceptor, times(1)).setAccessToken(null);
     }
 
-    private SCAPaymentResponseTO getScaPaymentResponse() {
-        return new SCAPaymentResponseTO("opId", "ACCC", "SINGLE", null);
+    private GlobalScaResponseTO getGlobalScaResponse() {
+        GlobalScaResponseTO globalScaResponseTO = new GlobalScaResponseTO();
+        globalScaResponseTO.setOperationObjectId("opId");
+        globalScaResponseTO.setTransactionStatus(TransactionStatusTO.ACCC);
+        return globalScaResponseTO;
     }
 
     @NotNull

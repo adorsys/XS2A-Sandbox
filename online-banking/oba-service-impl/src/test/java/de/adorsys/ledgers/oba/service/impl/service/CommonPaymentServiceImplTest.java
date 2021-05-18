@@ -5,14 +5,13 @@ import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
-import de.adorsys.ledgers.middleware.api.domain.sca.SCAPaymentResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.client.mappers.PaymentMapperTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.middleware.client.rest.OauthRestClient;
-import de.adorsys.ledgers.middleware.client.rest.PaymentRestClient;
+import de.adorsys.ledgers.middleware.client.rest.OperationInitiationRestClient;
 import de.adorsys.ledgers.middleware.client.rest.RedirectScaRestClient;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentType;
@@ -74,7 +73,7 @@ class CommonPaymentServiceImplTest {
     @Mock
     private CmsPsuPisService cmsPsuPisService;
     @Mock
-    private PaymentRestClient paymentRestClient;
+    private OperationInitiationRestClient operationInitiationRestClient;
     @Mock
     private AspspConsentDataClient aspspConsentDataClient;
     @Mock
@@ -174,23 +173,24 @@ class CommonPaymentServiceImplTest {
     @Test
     void initiatePayment() {
         // Given
-        when(paymentRestClient.initiatePayment(any())).thenReturn(ResponseEntity.ok(getSelectMethodResponse(TransactionStatus.ACCP.name())));
-        when(dataService.mapToGlobalResponse(any(), any())).thenReturn(getSelectMethodResponse());
+        PaymentWorkflow workflow = getExpectedWorkflow(null);
+
+        when(operationInitiationRestClient.initiatePayment(workflow.paymentType(), workflow.getAuthResponse().getPayment())).thenReturn(ResponseEntity.ok(getSelectMethodResponse(TransactionStatus.ACCP.name())));
 
         // When
-        PaymentWorkflow result = service.initiatePaymentOpr(getExpectedWorkflow(null), PSU_ID, OpTypeTO.PAYMENT);
+        PaymentWorkflow result = service.initiatePaymentOpr(workflow, PSU_ID, OpTypeTO.PAYMENT);
 
         // Then
-        assertThat(result).isEqualToComparingFieldByFieldRecursively(getExpectedWorkflow(TransactionStatus.ACCP.name()));
+        assertThat(result).isEqualTo(workflow);
     }
 
     @Test
     void initiatePayment_fail() throws AuthorisationIsExpiredException {
         // Given
-        when(paymentRestClient.initiatePayment(any())).thenReturn(ResponseEntity.ok(getSelectMethodResponse(TransactionStatus.ACCP.name())));
-        when(dataService.mapToGlobalResponse(any(), any())).thenReturn(getSelectMethodResponse());
-        when(cmsPsuPisService.updateAuthorisationStatus(any(), anyString(), anyString(), any(), anyString(), any())).thenThrow(AuthorisationIsExpiredException.class);
         PaymentWorkflow workflow = getExpectedWorkflow(null);
+
+        when(operationInitiationRestClient.initiatePayment(workflow.paymentType(), workflow.getAuthResponse().getPayment())).thenReturn(ResponseEntity.ok(getSelectMethodResponse(TransactionStatus.ACCP.name())));
+        when(cmsPsuPisService.updateAuthorisationStatus(any(), anyString(), anyString(), any(), anyString(), any())).thenThrow(AuthorisationIsExpiredException.class);
         // Then
         assertThrows(ObaException.class, () -> service.initiatePaymentOpr(workflow, PSU_ID, OpTypeTO.PAYMENT));
     }
@@ -198,23 +198,26 @@ class CommonPaymentServiceImplTest {
     @Test
     void initiateCancelPayment() {
         // Given
-        when(paymentRestClient.initiatePmtCancellation(anyString())).thenReturn(ResponseEntity.ok(getSelectMethodResponse(TransactionStatus.ACCP.name())));
-        when(dataService.mapToGlobalResponse(any(), any())).thenReturn(getSelectMethodResponse());
+        PaymentWorkflow workflow = getExpectedWorkflow(null);
+
+        when(operationInitiationRestClient.initiatePmtCancellation(workflow.paymentId())).thenReturn(ResponseEntity.ok(getSelectMethodResponse(TransactionStatus.ACCP.name())));
         // When
-        PaymentWorkflow result = service.initiatePaymentOpr(getExpectedWorkflow(null), PSU_ID, OpTypeTO.CANCEL_PAYMENT);
+        PaymentWorkflow result = service.initiatePaymentOpr(workflow, PSU_ID, OpTypeTO.CANCEL_PAYMENT);
 
         // Then
-        assertThat(result).isEqualToComparingFieldByFieldRecursively(getExpectedWorkflow(TransactionStatus.ACCP.name()));
+        assertThat(result).isEqualTo(workflow);
     }
 
     @Test
     void authorizePayment() {
         // Given
-        when(paymentRestClient.executePayment(anyString())).thenReturn(ResponseEntity.ok(getSelectMethodResponse(ACSC.name())));
+        PaymentWorkflow workflow = getExpectedWorkflow(null);
+
+        when(operationInitiationRestClient.execution(OpTypeTO.PAYMENT, workflow.paymentId())).thenReturn(ResponseEntity.ok(getSelectMethodResponse(ACSC.name())));
         when(redirectScaClient.validateScaCode(any(), any())).thenReturn(ResponseEntity.ok(getSelectMethodResponse()));
 
         // When
-        PaymentWorkflow result = service.authorizePaymentOpr(getExpectedWorkflow(null), PSU_ID, AUTH_CODE, OpTypeTO.PAYMENT);
+        PaymentWorkflow result = service.authorizePaymentOpr(workflow, PSU_ID, AUTH_CODE, OpTypeTO.PAYMENT);
 
         // Then
         assertThat(result).isEqualToComparingFieldByFieldRecursively(getExpectedWorkflow(ACSC.name()));
@@ -223,11 +226,13 @@ class CommonPaymentServiceImplTest {
     @Test
     void authorizeCancelPayment() {
         // Given
-        when(paymentRestClient.executeCancelPayment(anyString())).thenReturn(ResponseEntity.ok(getSelectMethodResponse(ACSC.name())));
+        PaymentWorkflow workflow = getExpectedWorkflow(null);
+
+        when(operationInitiationRestClient.execution(OpTypeTO.CANCEL_PAYMENT, workflow.paymentId())).thenReturn(ResponseEntity.ok(getSelectMethodResponse(ACSC.name())));
         when(redirectScaClient.validateScaCode(any(), any())).thenReturn(ResponseEntity.ok(getSelectMethodResponse()));
 
         // When
-        PaymentWorkflow result = service.authorizePaymentOpr(getExpectedWorkflow(null), PSU_ID, AUTH_CODE, OpTypeTO.CANCEL_PAYMENT);
+        PaymentWorkflow result = service.authorizePaymentOpr(workflow, PSU_ID, AUTH_CODE, OpTypeTO.CANCEL_PAYMENT);
 
         // Then
         assertThat(result).isEqualToComparingFieldByFieldRecursively(getExpectedWorkflow(CANC.name()));
@@ -258,8 +263,8 @@ class CommonPaymentServiceImplTest {
         return new PaymentAuthorizeResponse(getPaymentTO(status));
     }
 
-    private SCAPaymentResponseTO getSelectMethodResponse(String status) {
-        SCAPaymentResponseTO response = new SCAPaymentResponseTO();
+    private GlobalScaResponseTO getSelectMethodResponse(String status) {
+        GlobalScaResponseTO response = new GlobalScaResponseTO();
         Optional.ofNullable(status).map(TransactionStatusTO::valueOf).ifPresent(response::setTransactionStatus);
         response.setScaStatus(ScaStatusTO.SCAMETHODSELECTED);
         response.setBearerToken(getBearer());

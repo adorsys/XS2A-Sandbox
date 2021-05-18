@@ -4,11 +4,10 @@ import de.adorsys.ledgers.keycloak.client.api.KeycloakTokenService;
 import de.adorsys.ledgers.middleware.api.domain.Constants;
 import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
-import de.adorsys.ledgers.middleware.api.domain.sca.SCAPaymentResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
-import de.adorsys.ledgers.middleware.client.rest.PaymentRestClient;
+import de.adorsys.ledgers.middleware.client.rest.OperationInitiationRestClient;
 import de.adorsys.ledgers.middleware.client.rest.RedirectScaRestClient;
 import de.adorsys.ledgers.oba.service.api.domain.DecoupledConfRequest;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
@@ -39,7 +38,7 @@ import static de.adorsys.psd2.consent.aspsp.api.config.CmsPsuApiDefaultValue.DEF
 public class DecoupledServiceImpl implements DecoupledService {
     private final KeycloakTokenService tokenService;
     private final AuthRequestInterceptor authInterceptor;
-    private final PaymentRestClient paymentRestClient;
+    private final OperationInitiationRestClient operationInitiationRestClient;
     private final RedirectScaRestClient redirectScaClient;
     private final CmsPsuPisService cmsPsuPisService;
     private final CmsPsuAisClient cmsPsuAisClient;
@@ -69,17 +68,15 @@ public class DecoupledServiceImpl implements DecoupledService {
     }
 
     private String executePaymentOperation(DecoupledConfRequest request, GlobalScaResponseTO response) {
-        SCAPaymentResponseTO executionResponse = request.isConfirmed() && request.getOpType() == OpTypeTO.PAYMENT
-                                                     ? paymentRestClient.executePayment(request.getObjId()).getBody()
-                                                     : paymentRestClient.executeCancelPayment(request.getObjId()).getBody();
+        GlobalScaResponseTO globalScaResponseTO = operationInitiationRestClient.execution(request.getOpType(), request.getObjId()).getBody();
 
         if (!request.isConfirmed()) {
             response.setScaStatus(ScaStatusTO.FAILED);
             response.setBearerToken(null);
         }
 
-        return Optional.ofNullable(executionResponse)
-                   .map(SCAPaymentResponseTO::getTransactionStatus)
+        return Optional.ofNullable(globalScaResponseTO)
+                   .map(GlobalScaResponseTO::getTransactionStatus)
                    .map(Enum::name)
                    .orElse(null);
     }

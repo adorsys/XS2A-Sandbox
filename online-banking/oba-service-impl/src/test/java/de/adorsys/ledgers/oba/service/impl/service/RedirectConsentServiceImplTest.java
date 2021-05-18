@@ -5,14 +5,13 @@ import de.adorsys.ledgers.middleware.api.domain.account.AccountStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.account.AccountTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.account.UsageTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
-import de.adorsys.ledgers.middleware.api.domain.sca.SCAConsentResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisAccountAccessInfoTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisConsentTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
-import de.adorsys.ledgers.middleware.client.rest.ConsentRestClient;
+import de.adorsys.ledgers.middleware.client.rest.OperationInitiationRestClient;
 import de.adorsys.ledgers.middleware.client.rest.RedirectScaRestClient;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
@@ -77,7 +76,7 @@ class RedirectConsentServiceImplTest {
     @Mock
     private CmsPsuAisClient cmsPsuAisClient;
     @Mock
-    private ConsentRestClient consentRestClient;
+    private OperationInitiationRestClient operationInitiationRestClient;
     @Mock
     private AuthRequestInterceptor authInterceptor;
     @Mock
@@ -144,13 +143,14 @@ class RedirectConsentServiceImplTest {
     @Test
     void startConsent() {
         // Given
+        AisConsentTO aisConsentTO = getAisConsentTO();
         when(consentMapper.accountAccess(any(), any())).thenReturn(getAisAccountAccess(IBAN_DE));
         when(cmsPsuAisClient.putAccountAccessInConsent(any(), any(), any())).thenReturn(ResponseEntity.ok().build());
-        when(consentMapper.toTo(any())).thenReturn(getAisConsentTO());
-        when(consentRestClient.initiateAisConsent(any(), any())).thenReturn(ResponseEntity.ok(getSCAConsentResponseTO()));
+        when(consentMapper.toTo(any())).thenReturn(aisConsentTO);
+        when(operationInitiationRestClient.initiateAisConsent(aisConsentTO)).thenReturn(ResponseEntity.ok(getGlobalScaResponseTO()));
 
         // When
-        redirectConsentService.startConsent(getConsentWorkflow(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE), getAisConsentTO(), singletonList(getAccountDetails()));
+        redirectConsentService.startConsent(getConsentWorkflow(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE), aisConsentTO, singletonList(getAccountDetails()));
 
         // Then
         verify(consentMapper, times(1)).toTo(getCmsAisAccountConsent(AisConsentRequestType.DEDICATED_ACCOUNTS, IBAN_DE));
@@ -263,9 +263,9 @@ class RedirectConsentServiceImplTest {
         return reference;
     }
 
-    private SCAConsentResponseTO getSCAConsentResponseTO() {
-        SCAConsentResponseTO response = new SCAConsentResponseTO();
-        response.setConsentId(CONSENT_ID);
+    private GlobalScaResponseTO getGlobalScaResponseTO() {
+        GlobalScaResponseTO response = new GlobalScaResponseTO();
+        response.setOperationObjectId(CONSENT_ID);
         response.setAuthorisationId(AUTHORIZATION_ID);
         response.setScaStatus(ScaStatusTO.FINALISED);
         response.setScaMethods(Collections.emptyList());

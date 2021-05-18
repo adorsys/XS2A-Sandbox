@@ -9,3 +9,4 @@ Current version consists of following components:
 5. **XS2A Connector-Examples v.11.3**
 
 -   removed CONSENT and ACCESS_TOKEN cookies from ais and pis sca process
+-   Migrated OBA to use OperationInitiationResource

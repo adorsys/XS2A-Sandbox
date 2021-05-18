@@ -2,13 +2,13 @@ package de.adorsys.ledgers.oba.rest.server.resource.oba;
 
 import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
-import de.adorsys.ledgers.middleware.api.domain.sca.SCAPaymentResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.StartScaOprTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
-import de.adorsys.ledgers.middleware.client.rest.PaymentRestClient;
+import de.adorsys.ledgers.middleware.client.rest.OperationInitiationRestClient;
 import de.adorsys.ledgers.middleware.client.rest.RedirectScaRestClient;
 import de.adorsys.ledgers.oba.rest.api.resource.oba.ObaCancellationApi;
 import de.adorsys.psd2.consent.psu.api.CmsPsuPisService;
+import de.adorsys.psd2.xs2a.core.pis.TransactionStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,64 +21,44 @@ import java.util.EnumSet;
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.EXEMPTED;
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.FINALISED;
 import static de.adorsys.psd2.consent.psu.api.config.CmsPsuApiDefaultValue.DEFAULT_SERVICE_INSTANCE_ID;
-import static de.adorsys.psd2.xs2a.core.pis.TransactionStatus.CANC;
 import static java.util.Objects.requireNonNull;
 
 @Slf4j
 @RestController
 @RequestMapping(ObaCancellationApi.BASE_PATH)
-@SuppressWarnings({"PMD.TooManyStaticImports"})
 @RequiredArgsConstructor
 public class ObaCancellationController implements ObaCancellationApi {
     private final CmsPsuPisService cmsPsuPisService;
-    private final PaymentRestClient paymentRestClient;
+    private final OperationInitiationRestClient operationInitiationRestClient;
     private final RedirectScaRestClient redirectScaRestClient;
     private final AuthRequestInterceptor auth;
 
     @Override
-    public ResponseEntity<SCAPaymentResponseTO> initCancellation(String paymentId) {
-        SCAPaymentResponseTO response = paymentRestClient.initiatePmtCancellation(paymentId).getBody();
+    public ResponseEntity<GlobalScaResponseTO> initCancellation(String paymentId) {
+        GlobalScaResponseTO response = operationInitiationRestClient.initiatePmtCancellation(paymentId).getBody();
         HttpStatus status = resolveStatus(paymentId, requireNonNull(response));
         return new ResponseEntity<>(response, status);
     }
 
     @Override
-    public ResponseEntity<SCAPaymentResponseTO> selectSca(String paymentId, String cancellationId, String scaMethodId) {
+    public ResponseEntity<GlobalScaResponseTO> selectSca(String paymentId, String cancellationId, String scaMethodId) {
         StartScaOprTO opr = new StartScaOprTO(paymentId, null, cancellationId, OpTypeTO.CANCEL_PAYMENT);
         redirectScaRestClient.startSca(opr);
-        return ResponseEntity.ok(mapToPaymentResponse(requireNonNull(redirectScaRestClient.selectMethod(cancellationId, scaMethodId).getBody())));
-    }
-
-    private SCAPaymentResponseTO mapToPaymentResponse(GlobalScaResponseTO source) {
-        SCAPaymentResponseTO target = new SCAPaymentResponseTO();
-        //target.setTransactionStatus(null); target.setPaymentProduct(null);target.setPaymentType(null);target.setChosenScaMethod(null); This are missed as irrelevant
-        target.setPaymentId(source.getOperationObjectId());
-        target.setScaStatus(source.getScaStatus());
-        target.setAuthorisationId(source.getAuthorisationId());
-        target.setScaMethods(source.getScaMethods());
-        target.setChallengeData(source.getChallengeData());
-        target.setPsuMessage(source.getPsuMessage());
-        target.setStatusDate(source.getStatusDate());
-        target.setExpiresInSeconds(source.getExpiresInSeconds());
-        target.setMultilevelScaRequired(source.isMultilevelScaRequired());
-        target.setAuthConfirmationCode(source.getAuthConfirmationCode());
-        target.setBearerToken(source.getBearerToken());
-        target.setObjectType(source.getOpType().name());
-        return target;
+        return ResponseEntity.ok(requireNonNull(redirectScaRestClient.selectMethod(cancellationId, scaMethodId).getBody()));
     }
 
     @Override
     public ResponseEntity<Void> validateTAN(String paymentId, String cancellationId, String authCode) {
         GlobalScaResponseTO validateScaCode = redirectScaRestClient.validateScaCode(cancellationId, authCode).getBody();
         auth.setAccessToken(requireNonNull(validateScaCode).getBearerToken().getAccess_token());
-        SCAPaymentResponseTO response = paymentRestClient.executeCancelPayment(paymentId).getBody();
+        GlobalScaResponseTO response = operationInitiationRestClient.execution(OpTypeTO.CANCEL_PAYMENT, paymentId).getBody();
         HttpStatus status = resolveStatus(paymentId, requireNonNull(response));
         return new ResponseEntity<>(status);
     }
 
-    private HttpStatus resolveStatus(String paymentId, SCAPaymentResponseTO response) {
-        if (EnumSet.of(EXEMPTED, FINALISED).contains(response.getScaStatus())) {
-            return cmsPsuPisService.updatePaymentStatus(paymentId, CANC, DEFAULT_SERVICE_INSTANCE_ID)
+    private HttpStatus resolveStatus(String paymentId, GlobalScaResponseTO globalScaResponseTO) {
+        if (EnumSet.of(EXEMPTED, FINALISED).contains(globalScaResponseTO.getScaStatus())) {
+            return cmsPsuPisService.updatePaymentStatus(paymentId, TransactionStatus.CANC, DEFAULT_SERVICE_INSTANCE_ID)
                        ? HttpStatus.NO_CONTENT
                        : HttpStatus.BAD_REQUEST;
         }

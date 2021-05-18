@@ -9,7 +9,7 @@ import de.adorsys.ledgers.middleware.api.domain.um.AisAccountAccessInfoTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisConsentTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
-import de.adorsys.ledgers.middleware.client.rest.ConsentRestClient;
+import de.adorsys.ledgers.middleware.client.rest.OperationInitiationRestClient;
 import de.adorsys.ledgers.middleware.client.rest.RedirectScaRestClient;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
@@ -46,10 +46,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static de.adorsys.psd2.consent.aspsp.api.config.CmsPsuApiDefaultValue.DEFAULT_SERVICE_INSTANCE_ID;
-import static de.adorsys.psd2.xs2a.core.consent.AisConsentRequestType.ALL_AVAILABLE_ACCOUNTS;
-import static de.adorsys.psd2.xs2a.core.consent.AisConsentRequestType.BANK_OFFERED;
-import static de.adorsys.psd2.xs2a.core.consent.AisConsentRequestType.DEDICATED_ACCOUNTS;
-import static de.adorsys.psd2.xs2a.core.consent.AisConsentRequestType.GLOBAL;
+import static de.adorsys.psd2.xs2a.core.consent.AisConsentRequestType.*;
 import static java.util.Objects.requireNonNull;
 
 @Slf4j
@@ -58,7 +55,7 @@ import static java.util.Objects.requireNonNull;
 public class RedirectConsentServiceImpl implements RedirectConsentService {
     private final CmsPsuAisClient cmsPsuAisClient;
     private final CmsPsuPiisV2Client cmsPsuPiisV2Client;
-    private final ConsentRestClient consentRestClient;
+    private final OperationInitiationRestClient operationInitiationRestClient;
     private final AuthRequestInterceptor authInterceptor;
     private final ObaAisConsentMapper consentMapper;
     private final ConsentReferencePolicy referencePolicy;
@@ -183,9 +180,8 @@ public class RedirectConsentServiceImpl implements RedirectConsentService {
         workflow.getAuthResponse().setConsent(consent);
 
         authInterceptor.setAccessToken(workflow.bearerToken().getAccess_token());
-        SCAConsentResponseTO initResponse = consentRestClient.initiateAisConsent(workflow.consentId(), consent).getBody();
-        GlobalScaResponseTO map = dataService.mapToGlobalResponse(requireNonNull(initResponse), OpTypeTO.CONSENT);
-        workflow.storeSCAResponse(map);
+        GlobalScaResponseTO globalScaResponseTO = operationInitiationRestClient.initiateAisConsent(consent).getBody();
+        workflow.storeSCAResponse(globalScaResponseTO);
     }
 
     /*

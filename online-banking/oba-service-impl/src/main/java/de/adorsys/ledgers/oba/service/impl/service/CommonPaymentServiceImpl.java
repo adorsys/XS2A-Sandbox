@@ -4,14 +4,13 @@ import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTO;
 import de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
-import de.adorsys.ledgers.middleware.api.domain.sca.SCAPaymentResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.StartScaOprTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.client.mappers.PaymentMapperTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.middleware.client.rest.OauthRestClient;
-import de.adorsys.ledgers.middleware.client.rest.PaymentRestClient;
+import de.adorsys.ledgers.middleware.client.rest.OperationInitiationRestClient;
 import de.adorsys.ledgers.middleware.client.rest.RedirectScaRestClient;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
@@ -53,7 +52,7 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
     private final ConsentReferencePolicy referencePolicy;
     private final AuthRequestInterceptor authInterceptor;
     private final CmsPsuPisService cmsPsuPisService;
-    private final PaymentRestClient paymentRestClient;
+    private final OperationInitiationRestClient operationInitiationRestClient;
     private final AspspConsentDataClient aspspConsentDataClient;
     private final CmsAspspConsentDataService dataService;
     private final PaymentMapperTO paymentMapper;
@@ -117,13 +116,14 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
     public PaymentWorkflow initiatePaymentOpr(PaymentWorkflow paymentWorkflow, String psuId, OpTypeTO opType) {
         authInterceptor.setAccessToken(paymentWorkflow.bearerToken().getAccess_token());
 
-        SCAPaymentResponseTO paymentResponseTO = opType == OpTypeTO.PAYMENT
-                                                     ? paymentRestClient.initiatePayment(paymentWorkflow.getAuthResponse().getPayment()).getBody()
-                                                     : paymentRestClient.initiatePmtCancellation(paymentWorkflow.paymentId()).getBody();
-        GlobalScaResponseTO response = dataService.mapToGlobalResponse(requireNonNull(paymentResponseTO), opType);
+        GlobalScaResponseTO globalScaResponseTO = opType == OpTypeTO.PAYMENT
+                                                      ? operationInitiationRestClient.initiatePayment(paymentWorkflow.paymentType(), paymentWorkflow.getAuthResponse().getPayment()).getBody()
+                                                      : operationInitiationRestClient.initiatePmtCancellation(paymentWorkflow.paymentId()).getBody();
 
-        paymentWorkflow.processSCAResponse(response);
-        paymentWorkflow.setPaymentStatus(paymentResponseTO.getTransactionStatus().name());
+        if (globalScaResponseTO != null) {
+            paymentWorkflow.processSCAResponse(globalScaResponseTO);
+            paymentWorkflow.setPaymentStatus(globalScaResponseTO.getTransactionStatus().name());
+        }
 
         doUpdateAuthData(psuId, paymentWorkflow);
 
@@ -136,13 +136,11 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
         GlobalScaResponseTO response = redirectScaClient.validateScaCode(paymentWorkflow.authId(), authCode).getBody();
 
         authInterceptor.setAccessToken(requireNonNull(response).getBearerToken().getAccess_token());
-        SCAPaymentResponseTO scaPaymentResponse = opType == OpTypeTO.PAYMENT
-                                                      ? paymentRestClient.executePayment(paymentWorkflow.paymentId()).getBody()
-                                                      : paymentRestClient.executeCancelPayment(paymentWorkflow.paymentId()).getBody();
+        GlobalScaResponseTO globalScaResponseTO = operationInitiationRestClient.execution(opType, paymentWorkflow.paymentId()).getBody();
 
         paymentWorkflow.processSCAResponse(response);
         paymentWorkflow.setPaymentStatus(opType == OpTypeTO.PAYMENT
-                                             ? requireNonNull(scaPaymentResponse).getTransactionStatus().name()
+                                             ? requireNonNull(globalScaResponseTO).getTransactionStatus().name()
                                              : TransactionStatusTO.CANC.toString());
         doUpdateAuthData(psuId, paymentWorkflow);
         return paymentWorkflow;
