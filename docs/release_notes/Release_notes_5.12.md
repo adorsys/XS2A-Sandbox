@@ -10,3 +10,4 @@ Current version consists of following components:
 
 -   Security vulnerability: set commons-io version 2.8.0
 -   Use pair of tokens (access and refresh) for session
+-   Used `OkHttpClient` as a feign client to avoid 302 redirect error

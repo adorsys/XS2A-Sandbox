@@ -14,7 +14,6 @@
     <properties>
         <ruleset.basedir>../..</ruleset.basedir>
         <ci.build.number>&#8203;</ci.build.number>
-        <feign.version>10.10.1</feign.version>
     </properties>
 
     <artifactId>tpp-rest-server</artifactId>
@@ -101,7 +100,6 @@
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-okhttp</artifactId>
-            <version>${feign.version}</version>
         </dependency>
 
         <!-- Other dependencies -->

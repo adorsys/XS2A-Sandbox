@@ -81,6 +81,8 @@ online-banking.sca:
   jwt.hs256.secret: 6VFX8YFQG5DLFKZIMNLGH9P406XR1SY4
 
 feign:
+  okhttp:
+    enabled: true
   client:
     config:
       default:

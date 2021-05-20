@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-public class TppUiBeFeignConfiguration {
+public class TppFeignConfig {
     private final ObjectMapper objectMapper;
 
     @Bean

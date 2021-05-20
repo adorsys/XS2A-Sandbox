@@ -118,6 +118,7 @@
         <fasterxml.version>2.12.2</fasterxml.version>
         <fasterxml-data-format.version>2.12.2</fasterxml-data-format.version>
         <opencsv.version>4.5</opencsv.version>
+        <feign.version>10.10.1</feign.version>
         <!--iban4j-version>3.2.1</iban4j-version-->
         <commons-validator.version>1.6</commons-validator.version>
         <guava.version>30.1.1-jre</guava.version>
@@ -245,6 +246,12 @@
                 <artifactId>annotations</artifactId>
                 <version>${jetbrains.annotations.version}</version>
                 <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.openfeign</groupId>
+                <artifactId>feign-okhttp</artifactId>
+                <version>${feign.version}</version>
             </dependency>
 
             <dependency>
