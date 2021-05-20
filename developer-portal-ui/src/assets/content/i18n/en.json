@@ -154,7 +154,7 @@
         "PART_10": "4. Hit ",
         "ITALIC_SPAN": "\"Execute\"",
         "PART_11": "button and get 200\n HTTP code and related information.",
-        "TITLE_2": "STEP 3: Authorise payment",
+        "TITLE_2": "STEP 3: Authorise Cancellation",
         "PART_12": "1. Start with the authorisation process for cancellation. Follow",
         "PART_13": "link to the online banking page."
       },
@@ -282,10 +282,10 @@
         "PART_30": "flow.",
         "PART_31": "If the option is set to",
         "PART_32": ", pay attention to the amount of SCA methods user has: if user has no\n SCA methods, test payment initiation with the flow described below in",
-        "BOLD_2": "Payment cancellation authorisation for user with no SCA methods",
-        "PART_33": ". For user with single SCA method check",
-        "BOLD_3": "Payment cancellation authorisation for user with single SCA method",
-        "PART_34": ", and for user with multiple SCA methods check",
+        "BOLD_2": "Payment cancellation authorisation for user with no SCA methods.",
+        "PART_33": "For user with single SCA method check",
+        "BOLD_3": "Payment cancellation authorisation for user with single SCA method,",
+        "PART_34": " and for user with multiple SCA methods check",
         "BOLD_4": "Payment cancellation authorisation for user with multiple SCA methods"
       },
       "EMB_CANS_DELETE": {
@@ -359,9 +359,9 @@
         "PART_46": "was sent to the user mail (mobile authorisation is not possible for now), and now you need to enter this data and execute\n PUT command. The response should be"
       },
       "EMB_CANS_GET": {
-        "PART_1": "12. Try GET endpoint",
+        "PART_1": "1. Try GET endpoint",
         "PART_2": "to check current status of the cancellation authorisation.",
-        "PART_3": "13. Try GET endpoint",
+        "PART_3": "2. Try GET endpoint",
         "PART_4": "to get current payment status (it should be `CANC`, cancelled)."
       },
       "EMB_CONS_AUTH": {

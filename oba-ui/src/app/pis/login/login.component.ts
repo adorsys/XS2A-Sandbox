@@ -10,9 +10,9 @@ import { CustomizeService } from '../../common/services/customize.service';
 import { PisService } from '../../common/services/pis.service';
 import { ShareDataService } from '../../common/services/share-data.service';
 import { OnlineBankingOauthAuthorizationService } from '../../api/services/online-banking-oauth-authorization.service';
+import { PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService } from '../../api/services/psupisprovides-access-to-online-banking-payment-functionality.service';
 import LoginUsingPOST3Params = PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService.LoginUsingPOST3Params;
 import PisAuthUsingGETParams = PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService.PisAuthUsingGETParams;
-import { PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService } from '../../api/services/psupisprovides-access-to-online-banking-payment-functionality.service';
 
 @Component({
   selector: 'app-login',
@@ -110,24 +110,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         redirectId: this.redirectId,
         ...(params.token && { Authorization: 'Bearer ' + params.token }),
       };
-
-      this.subscriptions.push(
-        this.pisService.pisAuthCode(pisAuthCodeParams).subscribe(
-          (authCodeResponse) => {
-            console.log(authCodeResponse.body);
-            this.shareService.changeData(authCodeResponse.body);
-            if (authCodeResponse.headers.get('Authorization')) {
-              this.pisAuthorise({
-                encryptedPaymentId: this.encryptedPaymentId,
-                authorisationId: this.redirectId,
-              });
-            }
-          },
-          (error) => {
-            console.log(error);
-          }
-        )
-      );
     });
   }
 

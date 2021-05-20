@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+} from '@angular/forms';
 import { debounceTime, tap } from 'rxjs/operators';
 import { User, UserResponse } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
@@ -14,6 +19,7 @@ import { ADMIN_KEY } from '../../commons/constant/constant';
 import { InfoService } from '../../commons/info/info.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TppUserService } from '../../services/tpp.user.service';
+import { TooltipPosition } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-admins',
@@ -32,7 +38,17 @@ export class AdminsComponent implements OnInit {
   searchForm: FormGroup = this.formBuilder.group({
     itemsPerPage: [this.config.itemsPerPage, Validators.required],
   });
-  newPin: any;
+  newPin: string;
+  confirmNewPin: string;
+  positionOptions: TooltipPosition[] = [
+    'above',
+    'before',
+    'after',
+    'below',
+    'left',
+    'right',
+  ];
+  position = new FormControl(this.positionOptions[0]);
 
   constructor(
     private userService: UserService,
@@ -91,34 +107,43 @@ export class AdminsComponent implements OnInit {
   }
 
   openConfirmation(content, userId: string, type: string) {
-    this.modalService.open(content).result.then(() => {
-      this.userInfoService.getUserInfo().subscribe(
-        (user: User) => {
-          if (type === 'delete') {
-            this.tppManagementService.deleteUser(userId).subscribe(() => {
-              if (userId === user.id) {
-                sessionStorage.removeItem('access_token');
-                this.router.navigateByUrl('/login');
-              } else {
-                this.getAdmins();
-              }
-              this.infoService.openFeedback('Admin was successfully deleted!', {
-                severity: 'info',
+    this.modalService.open(content).result.then(
+      () => {
+        this.userInfoService.getUserInfo().subscribe(
+          (user: User) => {
+            if (type === 'delete') {
+              this.tppManagementService.deleteUser(userId).subscribe(() => {
+                if (userId === user.id) {
+                  sessionStorage.removeItem('access_token');
+                  this.router.navigateByUrl('/login');
+                } else {
+                  this.getAdmins();
+                }
+                this.infoService.openFeedback(
+                  'Admin was successfully deleted!',
+                  {
+                    severity: 'info',
+                  }
+                );
               });
-            });
-          } else if (type === 'pin') {
-            this.tppManagementService
-              .changePin(userId, this.newPin)
-              .subscribe(() => {
-                this.getAdmins();
-                this.infoService.openFeedback('Pin was successfully changed!', {
-                  severity: 'info',
+            } else if (type === 'pin' && this.newPin === this.confirmNewPin) {
+              this.tppManagementService
+                .changePin(userId, this.newPin)
+                .subscribe(() => {
+                  this.getAdmins();
+                  this.infoService.openFeedback(
+                    'Pin was successfully changed!',
+                    {
+                      severity: 'info',
+                    }
+                  );
                 });
-              });
-          }
-        },
-        () => {}
-      );
-    });
+            }
+          },
+          () => {}
+        );
+      },
+      () => {}
+    );
   }
 }

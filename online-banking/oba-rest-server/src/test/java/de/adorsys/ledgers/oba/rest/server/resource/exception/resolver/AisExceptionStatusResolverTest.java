@@ -16,7 +16,7 @@ class AisExceptionStatusResolverTest {
     @MethodSource("testCases")
     void resolveHttpStatusByCode(ObaErrorCode errorCode, HttpStatus expected) {
         assertEquals(expected, AisExceptionStatusResolver.resolveHttpStatusByCode(errorCode));
-        assertEquals(9, ObaErrorCode.values().length, "If fail add new test case.");
+        assertEquals(8, ObaErrorCode.values().length, "If fail add new test case.");
     }
 
     private static Stream<Arguments> testCases() {
@@ -24,7 +24,6 @@ class AisExceptionStatusResolverTest {
             Arguments.arguments(null, null),
 
             Arguments.arguments(ObaErrorCode.AIS_BAD_REQUEST, HttpStatus.BAD_REQUEST),
-            Arguments.arguments(ObaErrorCode.COOKIE_ERROR, HttpStatus.BAD_REQUEST),
 
             Arguments.arguments(ObaErrorCode.ACCESS_FORBIDDEN, HttpStatus.FORBIDDEN),
 

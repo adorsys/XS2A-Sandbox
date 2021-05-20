@@ -9,6 +9,12 @@ import { CustomizeService } from '../../common/services/customize.service';
 
 import LoginUsingPOST1Params = OnlineBankingAuthorizationProvidesAccessToOnlineBankingService.LoginUsingPOST1Params;
 import { OnlineBankingAuthorizationProvidesAccessToOnlineBankingService } from '../../api/services/online-banking-authorization-provides-access-to-online-banking.service';
+import {
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+  MatSnackBar,
+} from '@angular/material/snack-bar';
+import browser from 'browser-detect';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +24,9 @@ import { OnlineBankingAuthorizationProvidesAccessToOnlineBankingService } from '
 export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   errorMessage: string;
+  horizontalPosition: MatSnackBarHorizontalPosition = 'right';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+  durationInSeconds = 4;
 
   private subscriptions: Subscription[] = [];
 
@@ -25,13 +34,31 @@ export class LoginComponent implements OnInit, OnDestroy {
     public customizeService: CustomizeService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
+    const result = browser();
+    if (
+      result.name !== 'chrome' &&
+      result.name !== 'edge' &&
+      result.name !== 'safari' &&
+      result.name !== 'firefox'
+    ) {
+      this._snackBar.open(
+        `Unfortunately, you are using an outdated browser. Our website may not look quite right in it. Please consider updating your browser to enjoy an optimal experience.`,
+        'Close',
+        {
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+          duration: this.durationInSeconds * 1000,
+        }
+      );
+    }
     this.initLoginForm();
 
-    this.loginForm.valueChanges.subscribe(val => {
+    this.loginForm.valueChanges.subscribe((val) => {
       this.errorMessage = null;
     });
   }
@@ -41,12 +68,12 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.authService
         .login({ ...this.loginForm.value } as LoginUsingPOST1Params)
         .subscribe(
-          success => {
+          (success) => {
             if (success) {
               this.router.navigate([`${RoutingPath.ACCOUNTS}`]);
             }
           },
-          error => {
+          (error) => {
             if (error.status === 401) {
               this.errorMessage = 'Invalid credentials';
             } else {
@@ -61,7 +88,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 
   private initLoginForm(): void {

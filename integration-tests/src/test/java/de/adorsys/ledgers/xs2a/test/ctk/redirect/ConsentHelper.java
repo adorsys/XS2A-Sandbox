@@ -4,24 +4,39 @@ import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisConsentTO;
 import de.adorsys.ledgers.middleware.api.domain.um.ScaUserDataTO;
 import de.adorsys.ledgers.oba.rest.client.ObaAisApiClient;
-import de.adorsys.ledgers.oba.service.api.domain.AuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentAuthorizeResponse;
 import de.adorsys.ledgers.xs2a.client.AccountApiClient;
 import de.adorsys.ledgers.xs2a.client.ConsentApiClient;
-import de.adorsys.psd2.model.*;
+import de.adorsys.psd2.model.AccountAccess;
 import de.adorsys.psd2.model.AccountAccess.AllPsd2Enum;
+import de.adorsys.psd2.model.AccountDetails;
+import de.adorsys.psd2.model.AccountList;
+import de.adorsys.psd2.model.AccountReference;
+import de.adorsys.psd2.model.AccountReport;
+import de.adorsys.psd2.model.ConsentStatus;
+import de.adorsys.psd2.model.ConsentStatusResponse200;
+import de.adorsys.psd2.model.Consents;
+import de.adorsys.psd2.model.ConsentsResponse201;
+import de.adorsys.psd2.model.ScaStatus;
+import de.adorsys.psd2.model.ScaStatusResponse;
+import de.adorsys.psd2.model.TransactionList;
+import de.adorsys.psd2.model.TransactionsResponse200Json;
 import org.junit.Assert;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.net.URI;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import static de.adorsys.ledgers.xs2a.test.ctk.embedded.LinkResolver.getLink;
 
 public class ConsentHelper {
 
+    private static final String ACCESS_TOKEN_HEADER = "access_token";
     private final String digest = null;
     private final String signature = null;
     private final byte[] tpPSignatureCertificate = null;
@@ -38,9 +53,6 @@ public class ConsentHelper {
     private final String psUHttpMethod = null;
     private final UUID psUDeviceID = UUID.randomUUID();
     private final String psUGeoLocation = null;
-
-    private final CookiesUtils cu = new CookiesUtils();
-
     private final String PSU_ID;
     private final String iban;
     private final ConsentApiClient consentApi;
@@ -112,24 +124,14 @@ public class ConsentHelper {
         String encryptedConsentId = consentsResponse201.getConsentId();
         String redirectId = QuerryParser.param(scaRedirectLink, "redirectId");
         String encryptedConsentIdFromOnlineBanking = QuerryParser.param(scaRedirectLink, "encryptedConsentId");
-
         Assert.assertEquals(encryptedConsentId, encryptedConsentIdFromOnlineBanking);
-
-        ResponseEntity<AuthorizeResponse> aisAuth = obaAisApiClient.aisAuth(redirectId, encryptedConsentId, null);
-        URI location = aisAuth.getHeaders().getLocation();
-        String authorisationId = QuerryParser.param(location.toString(), "authorisationId");
-        List<String> cookieStrings = aisAuth.getHeaders().get("Set-Cookie");
-        String consentCookieString = cu.readCookie(cookieStrings, "CONSENT");
         ResponseEntity<ConsentAuthorizeResponse> loginResponse = obaAisApiClient.login(encryptedConsentId,
-            authorisationId, PSU_ID, psuPassword, cu.resetCookies(cookieStrings));
+            redirectId, PSU_ID, psuPassword);
 
         Assert.assertNotNull(loginResponse);
         Assert.assertTrue(loginResponse.getStatusCode().is2xxSuccessful());
-        cookieStrings = loginResponse.getHeaders().get("Set-Cookie");
-        consentCookieString = cu.readCookie(cookieStrings, "CONSENT");
-        Assert.assertNotNull(consentCookieString);
-        String accessTokenCookieString = cu.readCookie(cookieStrings, "ACCESS_TOKEN");
-        Assert.assertNotNull(accessTokenCookieString);
+        String access_token = loginResponse.getHeaders().getFirst(ACCESS_TOKEN_HEADER);
+        Assert.assertNotNull(access_token);
 
         return loginResponse;
     }
@@ -162,11 +164,6 @@ public class ConsentHelper {
                                                              boolean account, boolean balance, boolean transaction) {
         Assert.assertNotNull(authResponseWrapper);
         Assert.assertTrue(authResponseWrapper.getStatusCode().is2xxSuccessful());
-        List<String> cookieStrings = authResponseWrapper.getHeaders().get("Set-Cookie");
-        String consentCookieString = cu.readCookie(cookieStrings, "CONSENT");
-        Assert.assertNotNull(consentCookieString);
-        String accessTokenCookieString = cu.readCookie(cookieStrings, "ACCESS_TOKEN");
-        Assert.assertNotNull(accessTokenCookieString);
 
         ConsentAuthorizeResponse authResponse = authResponseWrapper.getBody();
 
@@ -180,16 +177,10 @@ public class ConsentHelper {
         if (transaction) {
             authResponse.getConsent().getAccess().setTransactions(Arrays.asList(iban));
         }
-        ResponseEntity<ConsentAuthorizeResponse> startConsentAuthWrapper = obaAisApiClient.startConsentAuth(authResponse.getEncryptedConsentId(), authResponse.getAuthorisationId(),
-            cu.resetCookies(cookieStrings), aisConsent);
+        ResponseEntity<ConsentAuthorizeResponse> startConsentAuthWrapper = obaAisApiClient.startConsentAuth(authResponse.getEncryptedConsentId(), authResponse.getAuthorisationId(), aisConsent);
 
         Assert.assertNotNull(startConsentAuthWrapper);
         Assert.assertTrue(startConsentAuthWrapper.getStatusCode().is2xxSuccessful());
-        cookieStrings = startConsentAuthWrapper.getHeaders().get("Set-Cookie");
-        consentCookieString = cu.readCookie(cookieStrings, "CONSENT");
-        Assert.assertNotNull(consentCookieString);
-        accessTokenCookieString = cu.readCookie(cookieStrings, "ACCESS_TOKEN");
-        Assert.assertNotNull(accessTokenCookieString);
 
         return startConsentAuthWrapper;
     }
@@ -197,24 +188,13 @@ public class ConsentHelper {
     public ResponseEntity<ConsentAuthorizeResponse> authCode(ResponseEntity<ConsentAuthorizeResponse> authResponseWrapper) {
         Assert.assertNotNull(authResponseWrapper);
         Assert.assertTrue(authResponseWrapper.getStatusCode().is2xxSuccessful());
-        List<String> cookieStrings = authResponseWrapper.getHeaders().get("Set-Cookie");
-        String consentCookieString = cu.readCookie(cookieStrings, "CONSENT");
-        Assert.assertNotNull(consentCookieString);
-        String accessTokenCookieString = cu.readCookie(cookieStrings, "ACCESS_TOKEN");
-        Assert.assertNotNull(accessTokenCookieString);
 
         ConsentAuthorizeResponse authResponse = authResponseWrapper.getBody();
 
-        ResponseEntity<ConsentAuthorizeResponse> authrizedConsentResponseWrapper = obaAisApiClient.authrizedConsent(authResponse.getEncryptedConsentId(), authResponse.getAuthorisationId(),
-            cu.resetCookies(cookieStrings), PSU_TAN);
+        ResponseEntity<ConsentAuthorizeResponse> authrizedConsentResponseWrapper = obaAisApiClient.authrizedConsent(authResponse.getEncryptedConsentId(), authResponse.getAuthorisationId(), PSU_TAN);
 
         Assert.assertNotNull(authrizedConsentResponseWrapper);
         Assert.assertTrue(authrizedConsentResponseWrapper.getStatusCode().is2xxSuccessful());
-        cookieStrings = authrizedConsentResponseWrapper.getHeaders().get("Set-Cookie");
-        consentCookieString = cu.readCookie(cookieStrings, "CONSENT");
-        Assert.assertNotNull(consentCookieString);
-        accessTokenCookieString = cu.readCookie(cookieStrings, "ACCESS_TOKEN");
-        Assert.assertNotNull(accessTokenCookieString);
 
         return authrizedConsentResponseWrapper;
     }
@@ -223,24 +203,14 @@ public class ConsentHelper {
         ResponseEntity<ConsentAuthorizeResponse> authResponseWrapper) {
         Assert.assertNotNull(authResponseWrapper);
         Assert.assertTrue(authResponseWrapper.getStatusCode().is2xxSuccessful());
-        List<String> cookieStrings = authResponseWrapper.getHeaders().get("Set-Cookie");
-        String consentCookieString = cu.readCookie(cookieStrings, "CONSENT");
-        Assert.assertNotNull(consentCookieString);
-        String accessTokenCookieString = cu.readCookie(cookieStrings, "ACCESS_TOKEN");
-        Assert.assertNotNull(accessTokenCookieString);
 
         ConsentAuthorizeResponse consentAuthorizeResponse = authResponseWrapper.getBody();
         ScaUserDataTO scaUserDataTO = consentAuthorizeResponse.getScaMethods().iterator().next();
         ResponseEntity<ConsentAuthorizeResponse> selectMethodResponseWrapper = obaAisApiClient.selectMethod(consentAuthorizeResponse.getEncryptedConsentId(),
-            consentAuthorizeResponse.getAuthorisationId(), scaUserDataTO.getId(), cu.resetCookies(cookieStrings));
+            consentAuthorizeResponse.getAuthorisationId(), scaUserDataTO.getId());
 
         Assert.assertNotNull(selectMethodResponseWrapper);
         Assert.assertTrue(selectMethodResponseWrapper.getStatusCode().is2xxSuccessful());
-        cookieStrings = selectMethodResponseWrapper.getHeaders().get("Set-Cookie");
-        consentCookieString = cu.readCookie(cookieStrings, "CONSENT");
-        Assert.assertNotNull(consentCookieString);
-        accessTokenCookieString = cu.readCookie(cookieStrings, "ACCESS_TOKEN");
-        Assert.assertNotNull(accessTokenCookieString);
 
         return selectMethodResponseWrapper;
     }

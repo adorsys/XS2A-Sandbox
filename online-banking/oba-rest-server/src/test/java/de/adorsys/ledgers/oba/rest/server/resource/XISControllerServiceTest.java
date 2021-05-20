@@ -2,13 +2,21 @@ package de.adorsys.ledgers.oba.rest.server.resource;
 
 import de.adorsys.ledgers.keycloak.client.api.KeycloakTokenService;
 import de.adorsys.ledgers.middleware.api.domain.account.AccountReferenceTO;
-import de.adorsys.ledgers.middleware.api.domain.payment.*;
+import de.adorsys.ledgers.middleware.api.domain.payment.AmountTO;
+import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTO;
+import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTargetTO;
+import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTypeTO;
+import de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
-import de.adorsys.ledgers.oba.service.api.domain.*;
+import de.adorsys.ledgers.oba.service.api.domain.AuthorizeResponse;
+import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
+import de.adorsys.ledgers.oba.service.api.domain.ConsentType;
+import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
+import de.adorsys.ledgers.oba.service.api.domain.PaymentWorkflow;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.api.service.CmsAspspConsentDataService;
@@ -37,10 +45,14 @@ import java.util.HashSet;
 
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.FINALISED;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class XISControllerServiceTest {
@@ -52,7 +64,6 @@ class XISControllerServiceTest {
     private static final String TOKEN = "TOKEN";
     private static final String OK_URI = "OK_URI";
     private static final String NOK_URI = "NOK_URI";
-    private static final String CONSENT_ID = "12345";
     private static final String ASPSP_ACC_ID = "ASPSP_ACC_ID";
     private static final String IBAN = "DE123456789";
     private static final Currency EUR = Currency.getInstance("EUR");
@@ -90,7 +101,6 @@ class XISControllerServiceTest {
         // Given
         FieldSetter.setField(service, service.getClass().getDeclaredField("response"), new MockHttpServletResponse());
         FieldSetter.setField(service, service.getClass().getDeclaredField("loginPage"), "www.loginPage.html");
-        when(referencePolicy.fromURL(anyString(), any(), anyString())).thenReturn(getConsentReference());
 
         // When
         ResponseEntity<AuthorizeResponse> result = service.auth(AUTH_ID, ConsentType.AIS, ENCRYPTED_ID, response);
@@ -112,7 +122,6 @@ class XISControllerServiceTest {
         ConsentReference ref = new ConsentReference();
         ref.setAuthorizationId(AUTH_ID);
         ref.setConsentType(ConsentType.AIS);
-        ref.setCookieString(COOKIE);
         ref.setEncryptedConsentId(ENCRYPTED_ID);
         ref.setRedirectId(REDIRECT_ID);
         return ref;
@@ -188,11 +197,10 @@ class XISControllerServiceTest {
 
     @Test
     void selectScaMethod() {
-        when(responseUtils.consentCookie(any())).thenReturn("cookie");
-        when(paymentService.selectScaForPayment(any(), any(), any(), any(), any(), any())).thenReturn(getPaymentWorkflow());
+        when(paymentService.selectScaForPayment(any(), any(), any(), any(), any())).thenReturn(getPaymentWorkflow());
         when(middlewareAuth.getBearerToken()).thenReturn(getBearerToken());
-        ResponseEntity<PaymentAuthorizeResponse> result = service.selectScaMethod(ENCRYPTED_ID, AUTH_ID, "method", "cookie");
-        verify(responseUtils, times(1)).setCookies(any(), any(), any(), any());
+        ResponseEntity<PaymentAuthorizeResponse> result = service.selectScaMethod(ENCRYPTED_ID, AUTH_ID, "method");
+        verify(responseUtils, times(1)).addAccessTokenHeader(any(), any());
         //More  validation seems senseless
     }
 
@@ -225,6 +233,5 @@ class XISControllerServiceTest {
         assertEquals(ObaErrorCode.LOGIN_FAILED, obaException.getObaErrorCode());
         assertEquals("Login Failed!\n You've exceeded login attempts limit for current session. Please open new Authorization session", obaException.getDevMessage());
         verify(cmsPsuAisClient, times(1)).updateAuthorisationStatus(any(), any(), any(), any(), any(), any(), any(), any(), any());
-        verify(responseUtils, times(1)).removeCookies(any());
     }
 }

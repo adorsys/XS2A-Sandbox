@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { DataService } from '../../services/data.service';
 import { CustomizeService } from '../../services/customize.service';
 import { AspspService } from '../../services/aspsp.service';
 import { LanguageService } from '../../services/language.service';
 import { Theme } from '../../models/theme.model';
+import { MatAccordion } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-test-cases',
@@ -23,6 +24,9 @@ export class TestCasesComponent implements OnInit {
   fundsConfirmationSupported = true;
 
   pathToHeadTestCases = `./assets/content/i18n/en/test-cases/headTestCases.md`;
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  panelOpenState = false;
+  step = 0;
 
   constructor(
     public dataService: DataService,
@@ -101,5 +105,16 @@ export class TestCasesComponent implements OnInit {
         }
       }
     });
+  }
+  setStep(index: number) {
+    this.step = index;
+  }
+
+  nextStep() {
+    this.step++;
+  }
+
+  prevStep() {
+    this.step--;
   }
 }

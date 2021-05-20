@@ -53,7 +53,7 @@
                     <div class="filter">
                       <input
                         class="form-control"
-                        placeholder="Search by TPP login..."
+                        placeholder="Search by TPP login"
                         formControlName="tppLogin"
                         type="text"
                       />
@@ -64,7 +64,7 @@
                     <div class="filter">
                       <input
                         class="form-control"
-                        placeholder="Search by TPP ID..."
+                        placeholder="Search by TPP ID"
                         formControlName="tppId"
                         type="text"
                       />
@@ -93,6 +93,7 @@
 
                 <div class="row d-flex justify-content-end">
                   <button
+                    mat-raised-button
                     class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
                     (click)="setBlocked(false)"
                     [ngClass]="{
@@ -102,6 +103,7 @@
                     Active
                   </button>
                   <button
+                    mat-raised-button
                     class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
                     (click)="setBlocked(true)"
                     [ngClass]="{
@@ -111,6 +113,7 @@
                     Blocked
                   </button>
                   <button
+                    mat-raised-button
                     class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
                     (click)="showAllTpps()"
                     [ngClass]="{ active: isSearchFormEmpty() }"
@@ -141,7 +144,7 @@
               *ngFor="let user of users; index as i"
               [ngClass]="{ 'disabled-text': user.blocked }"
             >
-              <th scope="row">
+              <th scope="row" [routerLink]="['/users/' + user.id]">
                 {{
                   (config.currentPageNumber - 1) * config.itemsPerPage + i + 1
                 }}
@@ -158,21 +161,25 @@
               >
                 {{ user.email }}
               </td>
-              <td>
+              <td [routerLink]="['/users/' + user.id]">
                 <ul>
                   <li *ngFor="let accountAccess of user?.accountAccesses">
                     {{ accountAccess.iban }}
                   </li>
                 </ul>
               </td>
-              <td>
+              <td [routerLink]="['/users/' + user.id]">
                 <ul>
                   <li *ngFor="let accountAccess of user?.accountAccesses">
                     {{ accountAccess.currency }}
                   </li>
                 </ul>
               </td>
-              <td *ngIf="admin === 'true'" class="nowrap">
+              <td
+                *ngIf="admin === 'true'"
+                class="nowrap"
+                [routerLink]="['/users/' + user.id]"
+              >
                 {{ user?.branchLogin }}
               </td>
               <td *ngIf="admin === 'true'">
@@ -183,7 +190,7 @@
                   >{{ user.branch }}
                 </a>
               </td>
-              <td>
+              <td [routerLink]="['/users/' + user.id]">
                 <ul>
                   <li
                     *ngFor="
@@ -205,6 +212,8 @@
               </td>
               <td class="action d-flex">
                 <a
+                  matTooltip="Create Deposit Account"
+                  [matTooltipPosition]="position.value"
                   aria-label="Create Deposit Account"
                   mat-fab
                   class="btn btn-table-btn mr-2"
@@ -216,6 +225,10 @@
                 </a>
                 <button
                   mat-fab
+                  [matTooltip]="
+                    !user.blocked ? 'Block the user' : 'Unblock the user'
+                  "
+                  [matTooltipPosition]="position.value"
                   aria-label="Block the user"
                   class="btn btn-table-btn mr-2"
                   (click)="
@@ -249,13 +262,15 @@
                   </div>
                   <div class="modal-footer">
                     <button
+                      mat-raised-button
                       type="button"
-                      class="btn btn-outline-secondary"
+                      class="btn btn-outline-secondary mr-2"
                       (click)="modal.dismiss('cancel click')"
                     >
                       Cancel
                     </button>
                     <button
+                      mat-raised-button
                       type="button"
                       class="btn btn-danger"
                       (click)="modal.close('Ok click')"
@@ -284,13 +299,15 @@
                   </div>
                   <div class="modal-footer">
                     <button
+                      mat-raised-button
                       type="button"
-                      class="btn btn-outline-secondary"
+                      class="btn btn-outline-secondary mr-2"
                       (click)="modal.dismiss('cancel click')"
                     >
                       Cancel
                     </button>
                     <button
+                      mat-raised-button
                       type="button"
                       class="btn btn-danger"
                       (click)="modal.close('Ok click')"
@@ -301,6 +318,8 @@
                 </ng-template>
                 <button
                   mat-fab
+                  matTooltip="Delete the user"
+                  [matTooltipPosition]="position.value"
                   aria-label="Delete the user"
                   class="btn btn-outline-danger mr-2"
                   (click)="

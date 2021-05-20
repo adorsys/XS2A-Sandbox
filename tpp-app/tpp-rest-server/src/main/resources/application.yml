@@ -61,6 +61,8 @@ ledgers.url: http://localhost:8088
 license.url: https://github.com/adorsys/xs2a/blob/master/LICENSE.md
 
 feign:
+  okhttp:
+    enabled: true
   client:
     config:
       default:

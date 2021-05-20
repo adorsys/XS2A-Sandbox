@@ -8,5 +8,4 @@ public class ConsentReference {
     private String redirectId;
     private ConsentType consentType;
     private String encryptedConsentId;
-    private String cookieString;
 }

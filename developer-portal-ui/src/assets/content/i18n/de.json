@@ -154,7 +154,7 @@
         "PART_10": "4. Drücken Sie ",
         "ITALIC_SPAN": "\"Execute\"",
         "PART_11": ". Es wird Ihnen Code 200 und weitere Informationen ausgegeben.",
-        "TITLE_2": "SCHRITT 3: Autorisieren der Zahlung",
+        "TITLE_2": "SCHRITT 3: Autorisieren der Stornierung",
         "PART_12": "1. Beginnen Sie mit dem Autorisierungsprozess, folgen Sie hierfür dem",
         "PART_13": "Link zu der Online Banking Website."
       },
@@ -359,9 +359,9 @@
         "PART_46": "Diese TAN wird nun in der Json für den auszuführenden PUT Befehl angegeben. Als Antwort sollten Sie erneu"
       },
       "EMB_CANS_GET": {
-        "PART_1": "12. Nutzen Sie den GET Endpunkt",
+        "PART_1": "1. Nutzen Sie den GET Endpunkt",
         "PART_2": ", um den aktuellen Status der Stornierung zu erhalten.",
-        "PART_3": "13. Nutzen Sie den GET Endpunkt",
+        "PART_3": "2. Nutzen Sie den GET Endpunkt",
         "PART_4": ", um den aktuellen Status der Zahlung zu erhalten. Der Status sollte nach erfolgreichen stornieren CANC sein (CANC steht für „cancelled“)."
       },
       "EMB_CONS_AUTH": {

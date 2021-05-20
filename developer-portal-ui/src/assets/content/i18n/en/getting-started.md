@@ -50,7 +50,7 @@ After embedding the QWAC in the actual XS2A request, the role and the signature 
 
 TPP developers can register themselves into the system, obtain certificate and download test data for their TPP application using generated certificate and prepared data in TPP UI.
 
-## How to create an account for TPP:
+## How to create an account for TPP?
 
 1. Open TPP UI login page.
 
@@ -60,7 +60,7 @@ TPP developers can register themselves into the system, obtain certificate and d
 
 4. You can generate test QWAC certificate for using it with XS2A Interface if needed.
 
-## How to create users:
+## How to create users?
 
 Users could be created manually or via uploading .yaml file.
 
@@ -154,6 +154,9 @@ Download the project directly from GitHub or use command:
 
 _git clone https://github.com/adorsys/XS2A-Sandbox_
 
+**Note2:**
+Always make a pull from GitHub
+
 ## Build and run ModelBank
 
 After downloading the project go to the project directory:
@@ -162,7 +165,7 @@ _cd XS2A-Sandbox_
 
 ---
 
-**Note2:**
+**Note3:**
 If you cloned master branch or tag version of ModelBank you should run service with commands like `docker-compose up` or `make run`.
 
 ---

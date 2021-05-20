@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import de.adorsys.ledgers.middleware.api.domain.um.ScaUserDataTO;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.ScaUserDataMixedIn;
+import feign.Client;
 import feign.codec.Encoder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Configuration
@@ -28,5 +31,22 @@ public class TppUiBeFeignConfiguration {
         HttpMessageConverter<?> jacksonConverter = new MappingJackson2HttpMessageConverter(objectMapper);
         ObjectFactory<HttpMessageConverters> objectFactory = () -> new HttpMessageConverters(jacksonConverter);
         return new SpringEncoder(objectFactory);
+    }
+
+    @Bean
+    public Client feignClient(okhttp3.OkHttpClient client) {
+        return new feign.okhttp.OkHttpClient(client);
+    }
+
+    @Bean
+    public okhttp3.OkHttpClient okHttpClient() {
+        return new okhttp3.OkHttpClient.Builder()
+                   .connectTimeout(60, TimeUnit.SECONDS)
+                   .readTimeout(60, TimeUnit.SECONDS)
+                   .writeTimeout(60, TimeUnit.SECONDS)
+                   .followRedirects(false)
+                   .followSslRedirects(false)
+                   .retryOnConnectionFailure(true)
+                   .build();
     }
 }

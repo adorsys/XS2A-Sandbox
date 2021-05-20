@@ -7,6 +7,7 @@ import { AuthService } from '../../common/services/auth.service';
 import { of, throwError } from 'rxjs';
 import { RoutingPath } from 'src/app/common/models/routing-path.model';
 import { AccountDetailsComponent } from '../accounts/account-details/account-details.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -17,6 +18,7 @@ describe('LoginComponent', () => {
       TestBed.configureTestingModule({
         imports: [
           ReactiveFormsModule,
+          MatSnackBarModule,
           RouterTestingModule.withRoutes([
             { path: RoutingPath.LOGIN, component: LoginComponent },
             { path: RoutingPath.ACCOUNTS, component: AccountDetailsComponent },

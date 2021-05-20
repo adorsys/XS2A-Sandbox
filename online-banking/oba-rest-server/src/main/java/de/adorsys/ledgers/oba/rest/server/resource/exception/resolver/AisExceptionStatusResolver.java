@@ -14,7 +14,6 @@ public class AisExceptionStatusResolver {
     static {
         //400 Block
         container.put(AIS_BAD_REQUEST, HttpStatus.BAD_REQUEST);
-        container.put(COOKIE_ERROR, HttpStatus.BAD_REQUEST);
 
         //401 Block
         container.put(ACCESS_FORBIDDEN, HttpStatus.FORBIDDEN);

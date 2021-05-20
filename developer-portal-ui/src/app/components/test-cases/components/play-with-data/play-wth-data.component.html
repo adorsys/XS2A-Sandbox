@@ -165,16 +165,17 @@
     </select>
 
     <ng-template #regularInput>
-      <input
-        [(ngModel)]="headers[item.key]"
-        type="text"
-        [id]="item.key"
-        class="mr-1"
-        [disabled]="item.key === 'TPP-QWAC-Certificate' && default"
-      />
-
+      <div class="input-group mb-3">
+        <input
+          [(ngModel)]="headers[item.key]"
+          type="text"
+          [id]="item.key"
+          class="form-control"
+          [disabled]="item.key === 'TPP-QWAC-Certificate' && default"
+        />
+      </div>
       <app-pop-up
-        class="ml-1"
+        class="ml-1 pb-3"
         [default]="default"
         *ngIf="item.key === 'TPP-QWAC-Certificate'"
         [certificate]="headers['TPP-QWAC-Certificate']"
@@ -188,9 +189,11 @@
 
     <div class="play-with-data-table bg" *ngIf="consentTypeFlag">
       <span>Select consent type</span>
-      <select id="consentTypeSelector" [(ngModel)]="selectedConsentType" (ngModelChange)="handleConsentSelected($event)">
-        <option *ngFor="let consent of consentTypes | keyvalue; let i = index" [value]="consent.key">{{ consent.key }}</option>
-      </select>
+      <mat-form-field appearance="fill" style="width: 24vw">
+        <mat-select id="consentTypeSelector" [(ngModel)]="selectedConsentType" (ngModelChange)="handleConsentSelected($event)">
+          <mat-option *ngFor="let consent of consentTypes | keyvalue; let i = index" [value]="consent.key">{{ consent.key }}</mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
 
     <textarea name="" id="textAreaXml" cols="30" rows="10" *ngIf="body && xml" [value]="body"></textarea>
@@ -199,7 +202,7 @@
 
   <ng-container *ngIf="response">
     <div *ngIf="response.status || response.statusText" class="response-status">
-      <button class="clear-button" (click)="onClear()">Clear</button> <span class="status-style">Status</span>
+      <button mat-button-raised class="clear-button" (click)="onClear()">Clear</button> <span class="status-style">Status</span>
       <div class="response-status-wrapper">
         <span>{{ response.status }}</span> <span>{{ getStatusText(response.status) }}</span>
       </div>

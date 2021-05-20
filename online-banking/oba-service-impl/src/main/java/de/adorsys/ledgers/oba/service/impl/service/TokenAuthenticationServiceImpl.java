@@ -16,8 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-
 import static java.util.Objects.requireNonNull;
 
 @Slf4j
@@ -28,7 +26,6 @@ public class TokenAuthenticationServiceImpl implements TokenAuthenticationServic
     private final UserMgmtRestClient ledgersUserMgmt;
     private final AuthRequestInterceptor authInterceptor;
     private final KeycloakTokenService tokenService;
-
     @Override
     public UserAuthentication getAuthentication(String accessToken) {
         if (StringUtils.isBlank(accessToken)) {
@@ -78,18 +75,6 @@ public class TokenAuthenticationServiceImpl implements TokenAuthenticationServic
         }
     }
 
-    @Override
-    public GlobalScaResponseTO loginWithCookie(String tokenCookie) {
-        try {
-            String token = Arrays.stream(tokenCookie.split(";"))
-                               .filter(s -> s.contains("ACCESS_TOKEN=")).findFirst()
-                               .map(s -> s.replace("ACCESS_TOKEN=", ""))
-                               .orElse("");
-            return getScaResponseTO(token);
-        } catch (Exception e) {
-            throw throwException(e);
-        }
-    }
 
     private GlobalScaResponseTO getScaResponseTO(String tokenString) {
         BearerTokenTO token = tokenService.validate(tokenString);

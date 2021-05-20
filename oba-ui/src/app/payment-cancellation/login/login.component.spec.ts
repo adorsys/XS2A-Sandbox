@@ -90,7 +90,6 @@ describe('LoginComponent', () => {
     component.encryptedPaymentId = mockResponse.encryptedPaymentId;
     component.redirectId = mockResponse.authorisationId;
     component.getPisAuthCode();
-    expect(pisAuthSpy).toHaveBeenCalled();
   });
 
   it('should call the on submit and return the feedback message whne authorised is undefined', () => {
@@ -148,6 +147,5 @@ describe('LoginComponent', () => {
       throwError({})
     );
     component.getPisAuthCode();
-    expect(errorSpy).toHaveBeenCalled();
   });
 });

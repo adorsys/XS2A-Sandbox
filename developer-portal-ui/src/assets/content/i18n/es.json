@@ -282,10 +282,10 @@
         "PART_30": "",
         "PART_31": "Si la opción se establece en",
         "PART_32": ", preste atención a la cantidad de métodos SCA que tiene el usuario: si el usuario no tiene métodos SCA, inicie la prueba de pago con el flujo que se describe a continuación en",
-        "BOLD_2": "Autorización de cancelación de pago para usuarios sin métodos SCA",
-        "PART_33": ". Para usuarios con un solo método SCA, consulte",
-        "BOLD_3": "la autorización de cancelación de pago para usuarios con un solo método SCA",
-        "PART_34": ", y para usuarios con múltiples métodos SCA consulte la",
+        "BOLD_2": "Autorización de cancelación de pago para usuarios sin métodos SCA.",
+        "PART_33": "Para usuarios con un solo método SCA, consulte",
+        "BOLD_3": "la autorización de cancelación de pago para usuarios con un solo método SCA,",
+        "PART_34": "y para usuarios con múltiples métodos SCA consulte la",
         "BOLD_4": "autorización de cancelación de pagos para usuarios con varios métodos SCA"
       },
       "EMB_CANS_DELETE": {
@@ -359,9 +359,9 @@
         "PART_46": ", y ahora necesita ingresar estos datos y ejecutar el comando PUT. La respuesta debe ser"
       },
       "EMB_CANS_GET": {
-        "PART_1": "12. Pruebe  GET endpoint",
+        "PART_1": "1. Pruebe  GET endpoint",
         "PART_2": "para verificar el estado actual de la autorización de cancelación.",
-        "PART_3": "13. Pruebe GET endpoint",
+        "PART_3": "2. Pruebe GET endpoint",
         "PART_4": "para obtener el estado de pago actual (en debe ser `CANC`, cancelado)."
       },
       "EMB_CONS_AUTH": {

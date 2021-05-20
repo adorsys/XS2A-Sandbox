@@ -44,7 +44,7 @@ Nach der Einbettung des QWAC in die eigentliche XS2A-Anfrage werden sowohl die R
 
 TPP - Entwickler können sich im System registrieren und somit ein Zertifikat erhalten . Mit diesem Zertifikat und den vorgegeben Daten in der TPP Benutzeroberfläche können Sie Test - Daten für ihre TPP - Anwendung herunterladen
 
-## Wie legt man ein Benutzerkonto für den TPP an:
+## Wie legt man ein Benutzerkonto für den TPP an?
 
 1. Öffnen Sie die Login - Seite in der TPP Benutzeroberfläche.
 
@@ -54,7 +54,7 @@ TPP - Entwickler können sich im System registrieren und somit ein Zertifikat er
 
 4. Bei Bedarf können Sie ein QWAC Testzertifikat zum Testen der XS2A Schnittstelle generieren.
 
-## Wie werden Benutzer angelegt:
+## Wie werden Benutzer angelegt?
 
 Benutzer können manuell angelegt werden oder über das Hochladen einer .yaml Datei.
 
@@ -144,6 +144,9 @@ _docker-compose rm -s -f -v_
 Laden Sie das Projekt direkt von GitHub herunter oder nutzen Sie folgenden Befehl:
 
 _git clone https://github.com/adorsys/XS2A-Sandbox_
+
+**Note:**
+Ziehen Sie immer an GitHub
 
 ## Starten der ModelBank
 

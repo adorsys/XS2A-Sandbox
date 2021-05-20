@@ -19,7 +19,6 @@ public interface PisCancellationApi {
      * @param authorisationId     the auth id
      * @param login               the login
      * @param pin                 the password
-     * @param consentCookieString the consent cookie
      * @return PaymentAuthorizeResponse
      */
     @PostMapping(path = "/{encryptedPaymentId}/authorisation/{authorisationId}/login")
@@ -28,8 +27,7 @@ public interface PisCancellationApi {
         @PathVariable("encryptedPaymentId") String encryptedPaymentId,
         @PathVariable("authorisationId") String authorisationId,
         @RequestParam(value = "login", required = false) String login,
-        @RequestParam(value = "pin", required = false) String pin,
-        @RequestHeader(name = "Cookie", required = false) String consentCookieString);
+        @RequestParam(value = "pin", required = false) String pin);
 
     /**
      * Selects the SCA Method for use.
@@ -37,7 +35,6 @@ public interface PisCancellationApi {
      * @param encryptedPaymentId                the sca id
      * @param authorisationId                   the auth id
      * @param scaMethodId                       sca
-     * @param consentAndaccessTokenCookieString the consent cookie
      * @return PaymentAuthorizeResponse
      */
     @PostMapping("/{encryptedPaymentId}/authorisation/{authorisationId}/methods/{scaMethodId}")
@@ -45,15 +42,13 @@ public interface PisCancellationApi {
     ResponseEntity<PaymentAuthorizeResponse> selectMethod(
         @PathVariable("encryptedPaymentId") String encryptedPaymentId,
         @PathVariable("authorisationId") String authorisationId,
-        @PathVariable("scaMethodId") String scaMethodId,
-        @RequestHeader(name = "Cookie", required = false) String consentAndaccessTokenCookieString);
+        @PathVariable("scaMethodId") String scaMethodId);
 
     /**
      * Provides a TAN for the validation of an authorization
      *
      * @param encryptedPaymentId                the sca id
      * @param authorisationId                   the auth id
-     * @param consentAndaccessTokenCookieString the cosent cookie
      * @param authCode                          the auth code
      * @return PaymentAuthorizeResponse
      */
@@ -62,14 +57,13 @@ public interface PisCancellationApi {
     ResponseEntity<PaymentAuthorizeResponse> authorisePayment(
         @PathVariable("encryptedPaymentId") String encryptedPaymentId,
         @PathVariable("authorisationId") String authorisationId,
-        @RequestHeader(name = "Cookie", required = false) String consentAndaccessTokenCookieString,
         @RequestParam("authCode") String authCode);
 
     /**
      * This call provides the server with the opportunity to close this session and
      * redirect the PSU to the TPP or close the application window.
      * <p>
-     * In any case, the session of the user will be closed and cookies will be deleted.
+     * In any case, the session of the user will be closed.
      *
      * @param encryptedPaymentId ID of Payment
      * @param authorisationId    ID of related Payment Authorisation
@@ -82,7 +76,6 @@ public interface PisCancellationApi {
     ResponseEntity<PaymentAuthorizeResponse> pisDone(
         @PathVariable("encryptedPaymentId") String encryptedPaymentId,
         @PathVariable("authorisationId") String authorisationId,
-        @RequestHeader(name = "Cookie", required = false) String consentAndAccessTokenCookieString,
         @RequestParam(name = "oauth2", required = false, defaultValue = "false") boolean isOauth2Integrated,
         @RequestParam(name = "authConfirmationCode", required = false) String authConfirmationCode);
 

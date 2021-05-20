@@ -8,7 +8,12 @@ import {
   PageConfig,
   PaginationConfigModel,
 } from '../../models/pagination-config.model';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormControl,
+} from '@angular/forms';
 import { PageNavigationService } from '../../services/page-navigation.service';
 import { TppManagementService } from '../../services/tpp-management.service';
 import { User } from '../../models/user.model';
@@ -18,6 +23,7 @@ import { TppQueryParams } from '../../models/tpp-management.model';
 import { ADMIN_KEY } from '../../commons/constant/constant';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { InfoService } from '../../commons/info/info.service';
+import { TooltipPosition } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-account-list',
@@ -37,7 +43,15 @@ export class AccountListComponent implements OnInit, OnDestroy {
     currentPageNumber: 1,
     totalItems: 0,
   };
-
+  positionOptions: TooltipPosition[] = [
+    'above',
+    'before',
+    'after',
+    'below',
+    'left',
+    'right',
+  ];
+  position = new FormControl(this.positionOptions[0]);
   searchForm: FormGroup = this.formBuilder.group({
     ibanParam: '',
     tppId: '',

@@ -1,6 +1,6 @@
 package de.adorsys.ledgers.oba.rest.api.resource.oba;
 
-import de.adorsys.ledgers.middleware.api.domain.sca.SCAPaymentResponseTO;
+import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
@@ -15,11 +15,11 @@ public interface ObaCancellationApi {
 
     @PostMapping
     @ApiOperation(value = "Initiate payment cancellation process", authorizations = @Authorization(value = "apiKey"))
-    ResponseEntity<SCAPaymentResponseTO> initCancellation(@RequestParam String paymentId);
+    ResponseEntity<GlobalScaResponseTO> initCancellation(@RequestParam String paymentId);
 
     @PostMapping("/sca")
     @ApiOperation(value = "Select Sca Method for payment cancellation", authorizations = @Authorization(value = "apiKey"))
-    ResponseEntity<SCAPaymentResponseTO> selectSca(@RequestParam String paymentId, @RequestParam String cancellationId, @RequestParam String scaMethodId);
+    ResponseEntity<GlobalScaResponseTO> selectSca(@RequestParam String paymentId, @RequestParam String cancellationId, @RequestParam String scaMethodId);
 
     @PutMapping("/confirmation")
     @ApiOperation(value = "Confirm payment cancellation with TAN", authorizations = @Authorization(value = "apiKey"))

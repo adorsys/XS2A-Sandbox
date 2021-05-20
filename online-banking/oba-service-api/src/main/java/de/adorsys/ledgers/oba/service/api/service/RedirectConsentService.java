@@ -16,7 +16,7 @@ public interface RedirectConsentService {
 
     void startConsent(final ConsentWorkflow workflow, AisConsentTO aisConsent, List<AccountDetailsTO> listOfAccounts);
 
-    ConsentWorkflow identifyConsent(String encryptedConsentId, String authorizationId, boolean strict, String consentCookieString, BearerTokenTO bearerToken);
+    ConsentWorkflow identifyConsent(String encryptedConsentId, String authorizationId, BearerTokenTO bearerToken);
 
     void updateScaStatusAndConsentData(String psuId, ConsentWorkflow workflow);
 }

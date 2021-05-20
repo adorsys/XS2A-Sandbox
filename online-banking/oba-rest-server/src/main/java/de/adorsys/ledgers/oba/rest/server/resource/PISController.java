@@ -6,8 +6,6 @@ import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.oba.rest.api.resource.PISApi;
 import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
-import de.adorsys.ledgers.oba.service.api.domain.AuthorizeResponse;
-import de.adorsys.ledgers.oba.service.api.domain.ConsentType;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentWorkflow;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
@@ -40,16 +38,11 @@ public class PISController implements PISApi {
     private final AuthRequestInterceptor authInterceptor;
     private final TokenAuthenticationService authenticationService;
 
-    @Override
-    public ResponseEntity<AuthorizeResponse> pisAuth(String redirectId, String encryptedPaymentId, String token) {
-        return xisService.auth(redirectId, ConsentType.PIS, encryptedPaymentId, response);
-    }
 
     @Override
     @ApiOperation(value = "Identifies the user by login an pin. Return sca methods information")
-    public ResponseEntity<PaymentAuthorizeResponse> login(String encryptedPaymentId, String authorisationId, String login, String pin, String consentCookieString) {
-        String consentCookie = responseUtils.consentCookie(consentCookieString);
-        PaymentWorkflow workflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, false, consentCookie, null);
+    public ResponseEntity<PaymentAuthorizeResponse> login(String encryptedPaymentId, String authorisationId, String login, String pin) {
+        PaymentWorkflow workflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, null);
         xisService.checkFailedCount(encryptedPaymentId);
 
         // Authorize
@@ -67,56 +60,52 @@ public class PISController implements PISApi {
 
     @Override
     public ResponseEntity<PaymentAuthorizeResponse> initiatePayment( //TODO Seems to be unused!!! Subject to removal!
-                                                                     String encryptedPaymentId, String authorisationId, String consentAndaccessTokenCookieString) {
+                                                                     String encryptedPaymentId, String authorisationId) {
 
-            String psuId = AuthUtils.psuId(middlewareAuth);
-            // Identity the link and load the workflow.
-            String consentCookie = responseUtils.consentCookie(consentAndaccessTokenCookieString);
-            PaymentWorkflow identifyPaymentWorkflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, true, consentCookie, middlewareAuth.getBearerToken());
+        String psuId = AuthUtils.psuId(middlewareAuth);
+        // Identity the link and load the workflow.
+        PaymentWorkflow identifyPaymentWorkflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, middlewareAuth.getBearerToken());
 
-            // Update status
-            identifyPaymentWorkflow.getScaResponse().setScaStatus(ScaStatusTO.PSUAUTHENTICATED);
+        // Update status
+        identifyPaymentWorkflow.getScaResponse().setScaStatus(ScaStatusTO.PSUAUTHENTICATED);
 
-            PaymentWorkflow initiatePaymentWorkflow = paymentService.initiatePaymentOpr(identifyPaymentWorkflow, psuId, OpTypeTO.PAYMENT);
+        PaymentWorkflow initiatePaymentWorkflow = paymentService.initiatePaymentOpr(identifyPaymentWorkflow, psuId, OpTypeTO.PAYMENT);
 
-            // Store result in token.
-            responseUtils.setCookies(response, initiatePaymentWorkflow.getConsentReference(), initiatePaymentWorkflow.bearerToken().getAccess_token(), initiatePaymentWorkflow.bearerToken().getAccessTokenObject());
-            return ResponseEntity.ok(initiatePaymentWorkflow.getAuthResponse());
+        // Store result in token.
+        responseUtils.addAccessTokenHeader(response, initiatePaymentWorkflow.bearerToken().getAccess_token());
+        return ResponseEntity.ok(initiatePaymentWorkflow.getAuthResponse());
     }
 
     @Override
-    public ResponseEntity<PaymentAuthorizeResponse> selectMethod(String encryptedPaymentId, String authorisationId, String scaMethodId, String consentAndaccessTokenCookieString) {
-        return xisService.selectScaMethod(encryptedPaymentId, authorisationId, scaMethodId, consentAndaccessTokenCookieString);
+    public ResponseEntity<PaymentAuthorizeResponse> selectMethod(String encryptedPaymentId, String authorisationId, String scaMethodId) {
+        return xisService.selectScaMethod(encryptedPaymentId, authorisationId, scaMethodId);
     }
 
     @Override
-    public ResponseEntity<PaymentAuthorizeResponse> authrizedPayment(String encryptedPaymentId, String authorisationId, String consentAndaccessTokenCookieString, String authCode) {
+    public ResponseEntity<PaymentAuthorizeResponse> authrizedPayment(String encryptedPaymentId, String authorisationId, String authCode) {
         String psuId = AuthUtils.psuId(middlewareAuth);
         try {
-            String consentCookie = responseUtils.consentCookie(consentAndaccessTokenCookieString);
-            PaymentWorkflow identifyPaymentWorkflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, true, consentCookie, middlewareAuth.getBearerToken());
+            PaymentWorkflow identifyPaymentWorkflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, middlewareAuth.getBearerToken());
             PaymentWorkflow authorizePaymentWorkflow = paymentService.authorizePaymentOpr(identifyPaymentWorkflow, psuId, authCode, OpTypeTO.PAYMENT);
 
-            responseUtils.setCookies(response, authorizePaymentWorkflow.getConsentReference(), authorizePaymentWorkflow.bearerToken().getAccess_token(), authorizePaymentWorkflow.bearerToken().getAccessTokenObject());
+            responseUtils.addAccessTokenHeader(response, authorizePaymentWorkflow.bearerToken().getAccess_token());
             log.info("Confirmation code: {}", authorizePaymentWorkflow.getAuthResponse().getAuthConfirmationCode());
             return ResponseEntity.ok(authorizePaymentWorkflow.getAuthResponse());
-        }  finally {
+        } finally {
             authInterceptor.setAccessToken(null);
         }
     }
 
     @Override
-    public ResponseEntity<PaymentAuthorizeResponse> failPaymentAuthorisation(String encryptedPaymentId, String authorisationId, String cookieString) {
+    public ResponseEntity<PaymentAuthorizeResponse> failPaymentAuthorisation(String encryptedPaymentId, String authorisationId) {
         try {
-            String consentCookie = responseUtils.consentCookie(cookieString);
-            PaymentWorkflow workflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, true, consentCookie, middlewareAuth.getBearerToken());
+            PaymentWorkflow workflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, middlewareAuth.getBearerToken());
 
             authInterceptor.setAccessToken(workflow.bearerToken().getAccess_token());
 
             workflow.getScaResponse().setScaStatus(ScaStatusTO.FAILED);
             paymentService.updateAspspConsentData(workflow);
 
-            responseUtils.removeCookies(response);
             return ResponseEntity.ok(workflow.getAuthResponse());
         } finally {
             authInterceptor.setAccessToken(null);
@@ -124,11 +113,9 @@ public class PISController implements PISApi {
     }
 
     @Override
-    public ResponseEntity<PaymentAuthorizeResponse> pisDone(String encryptedPaymentId, String authorisationId,
-                                                            String consentAndAccessTokenCookieString, boolean isOauth2Integrated, String authConfirmationCode) {
+    public ResponseEntity<PaymentAuthorizeResponse> pisDone(String encryptedPaymentId, String authorisationId, boolean isOauth2Integrated, String authConfirmationCode) {
         String psuId = AuthUtils.psuId(middlewareAuth);
-        String consentCookie = responseUtils.consentCookie(consentAndAccessTokenCookieString);
-        String redirectUrl = paymentService.resolveRedirectUrl(encryptedPaymentId, authorisationId, consentCookie, isOauth2Integrated, psuId, middlewareAuth.getBearerToken(), authConfirmationCode);
+        String redirectUrl = paymentService.resolveRedirectUrl(encryptedPaymentId, authorisationId, isOauth2Integrated, psuId, middlewareAuth.getBearerToken(), authConfirmationCode);
         return responseUtils.redirect(redirectUrl, response);
     }
 }
