@@ -2,7 +2,7 @@ package de.adorsys.ledgers.oba.rest.server.resource;
 
 import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
-import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
+import de.adorsys.psd2.sandbox.auth.MiddlewareAuthentication;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
@@ -15,7 +15,7 @@ public class AuthUtils {
     private AuthUtils() {
     }
 
-    public static String psuId(ObaMiddlewareAuthentication auth) {
+    public static String psuId(MiddlewareAuthentication auth) {
         if (auth == null) {
             return null;
         }

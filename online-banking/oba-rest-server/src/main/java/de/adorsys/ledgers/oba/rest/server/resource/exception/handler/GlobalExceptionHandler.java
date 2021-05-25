@@ -2,9 +2,9 @@ package de.adorsys.ledgers.oba.rest.server.resource.exception.handler;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.adorsys.ledgers.oba.rest.server.auth.oba.ErrorResponse;
 import de.adorsys.ledgers.oba.rest.server.resource.exception.resolver.AisExceptionStatusResolver;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
+import de.adorsys.psd2.sandbox.auth.ErrorResponse;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

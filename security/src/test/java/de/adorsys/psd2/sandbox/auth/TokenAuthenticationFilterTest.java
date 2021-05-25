@@ -1,4 +1,4 @@
-package de.adorsys.psd2.sandbox.tpp.rest.server.auth;
+package de.adorsys.psd2.sandbox.auth;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -6,7 +6,7 @@ import de.adorsys.ledgers.keycloak.client.api.KeycloakTokenService;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
-import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
+import de.adorsys.psd2.sandbox.auth.filter.TokenAuthenticationFilter;
 import feign.FeignException;
 import feign.Request;
 import feign.Response;
@@ -15,7 +15,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -99,12 +98,12 @@ class TokenAuthenticationFilterTest {
 
     private Response getResponse() throws JsonProcessingException {
         return Response.builder()
-                   .request(Request.create(Request.HttpMethod.POST, "", new HashMap<>(), null, Charset.defaultCharset()))
-                   .reason("Msg")
-                   .headers(new HashMap<>())
-                   .status(401)
-                   .body(mapper.writeValueAsBytes(Map.of("devMessage", "Msg")))
-                   .build();
+            .request(Request.create(Request.HttpMethod.POST, "", new HashMap<>(), null, Charset.defaultCharset()))
+            .reason("Msg")
+            .headers(new HashMap<>())
+            .status(401)
+            .body(mapper.writeValueAsBytes(Map.of("devMessage", "Msg")))
+            .build();
     }
 
     private BearerTokenTO getBearer() {

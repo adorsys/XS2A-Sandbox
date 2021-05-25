@@ -1,4 +1,5 @@
 import {
+  HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
@@ -38,6 +39,11 @@ export class AuthInterceptor implements HttpInterceptor {
         }
       }),
       catchError((errors) => {
+        if (errors instanceof HttpErrorResponse) {
+          if (errors.status === 401 && this.authService.isLoggedIn()) {
+            this.authService.logout();
+          }
+        }
         return throwError(errors);
       })
     );

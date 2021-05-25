@@ -1,13 +1,15 @@
-package de.adorsys.psd2.sandbox.tpp.rest.server.auth;
+package de.adorsys.psd2.sandbox.auth;
 
 import de.adorsys.ledgers.keycloak.client.api.KeycloakTokenService;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserRoleTO;
+import de.adorsys.psd2.sandbox.auth.filter.LoginAuthenticationFilter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -26,6 +28,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class LoginAuthenticationFilterTest {
 
+    @Spy
     @InjectMocks
     private LoginAuthenticationFilter filter;
 
@@ -37,6 +40,9 @@ class LoginAuthenticationFilterTest {
     private FilterChain chain;
 
     @Mock
+    private LoginAuthorization loginAuthorization;
+
+    @Mock
     private KeycloakTokenService tokenService;
 
     @Test
@@ -45,14 +51,19 @@ class LoginAuthenticationFilterTest {
         SecurityContextHolder.clearContext();
         when(request.getHeader("login")).thenReturn("anton.brueckner");
         when(request.getHeader("pin")).thenReturn("12345");
+        when(loginAuthorization.canLogin(any())).thenReturn(true);
         when(tokenService.login(any(), any())).thenReturn(getBearerToken(UserRoleTO.SYSTEM));
         when(tokenService.validate(any())).thenReturn(getBearerToken(UserRoleTO.SYSTEM));
+        doReturn(120L).when(filter).expiredTimeInSec(null);
+        doReturn("").when(filter).jwtId(null);
 
         // When
         filter.doFilter(request, response, chain);
 
         // Then
         verify(tokenService, times(1)).login(any(), any());
+        verify(filter, times(1)).addRefreshTokenCookie(response, "", null, false);
+
     }
 
     private BearerTokenTO getBearerToken(UserRoleTO role) {

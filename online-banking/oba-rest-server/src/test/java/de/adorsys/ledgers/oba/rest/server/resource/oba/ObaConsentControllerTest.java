@@ -3,7 +3,7 @@ package de.adorsys.ledgers.oba.rest.server.resource.oba;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisConsentTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
-import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
+import de.adorsys.psd2.sandbox.auth.MiddlewareAuthentication;
 import de.adorsys.ledgers.oba.service.api.domain.CreatePiisConsentRequestTO;
 import de.adorsys.ledgers.oba.service.api.domain.ObaAisConsent;
 import de.adorsys.ledgers.oba.service.api.domain.TppInfoTO;
@@ -41,7 +41,7 @@ class ObaConsentControllerTest {
     @Mock
     private ConsentService consentService;
     @Mock
-    private ObaMiddlewareAuthentication auth;
+    private MiddlewareAuthentication auth;
     @Mock
     private TppInfoCmsService tppInfoCmsService;
 
@@ -85,7 +85,7 @@ class ObaConsentControllerTest {
     @Test
     void createPiis() throws NoSuchFieldException {
         // Given
-        FieldSetter.setField(controller, controller.getClass().getDeclaredField("auth"), new ObaMiddlewareAuthentication(null, new BearerTokenTO(TOKEN, null, 999, null, getAccessTokenTO(), new HashSet<>())));
+        FieldSetter.setField(controller, controller.getClass().getDeclaredField("auth"), new MiddlewareAuthentication(null, new BearerTokenTO(TOKEN, null, 999, null, getAccessTokenTO(), new HashSet<>())));
 
         // When
         ResponseEntity<Void> response = controller.createPiis(new CreatePiisConsentRequestTO());

@@ -33,6 +33,7 @@
         <module>integration-tests</module>
         <module>tpp-app</module>
         <module>xs2a-cms-starter</module>
+        <module>security</module>
     </modules>
 
     <url>https://github.com/adorsys/psd2-dynamic-sandbox</url>
@@ -98,7 +99,7 @@
         <!-- xs2a version -->
         <xs2a.version>11.4</xs2a.version>
         <connector.version>11.4</connector.version>
-        <ledgers.version>4.12</ledgers.version>
+        <ledgers.version>4.13-SNAPSHOT</ledgers.version>
         <!-- other properties -->
         <spring-boot-dependencies.version>2.3.1.RELEASE</spring-boot-dependencies.version>
         <spring-cloud-dependencies.version>Hoxton.SR9</spring-cloud-dependencies.version>

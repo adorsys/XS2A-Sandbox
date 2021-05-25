@@ -1,4 +1,4 @@
-package de.adorsys.psd2.sandbox.tpp.rest.server.auth;
+package de.adorsys.psd2.sandbox.auth.filter;
 
 import de.adorsys.ledgers.keycloak.client.api.KeycloakTokenService;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
@@ -6,18 +6,14 @@ import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.access.AccessDeniedException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
-
-import static de.adorsys.psd2.sandbox.tpp.rest.server.auth.SecurityConstant.AUTHORIZATION_HEADER;
-import static de.adorsys.psd2.sandbox.tpp.rest.server.auth.SecurityConstant.BEARER_TOKEN_PREFIX;
 
 @RequiredArgsConstructor
 public class TokenAuthenticationFilter extends AbstractAuthFilter {
@@ -25,9 +21,7 @@ public class TokenAuthenticationFilter extends AbstractAuthFilter {
     private final KeycloakTokenService tokenService;
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest request = (HttpServletRequest) servletRequest;
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
+    public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
 
         authInterceptor.setAccessToken(null);
         String bearerToken = resolveBearerToken(request);
@@ -44,10 +38,10 @@ public class TokenAuthenticationFilter extends AbstractAuthFilter {
                 BearerTokenTO validateResponse = tokenService.validate(bearerToken);
 
                 BearerTokenTO token = Optional.ofNullable(validateResponse)
-                                          .orElseThrow(() -> new RestException("Couldn't get bearer token"));
+                    .orElseThrow(() -> new AccessDeniedException("Invalid token !"));
 
                 fillSecurityContext(token);
-            } catch (FeignException | RestException e) {
+            } catch (FeignException | AccessDeniedException e) {
                 handleAuthenticationFailure(response, e);
                 return;
             }
@@ -55,11 +49,4 @@ public class TokenAuthenticationFilter extends AbstractAuthFilter {
         chain.doFilter(request, response);
     }
 
-    private String resolveBearerToken(HttpServletRequest request) {
-        return Optional.ofNullable(obtainFromHeader(request, AUTHORIZATION_HEADER))
-                   .filter(StringUtils::isNotBlank)
-                   .filter(t -> StringUtils.startsWithIgnoreCase(t, BEARER_TOKEN_PREFIX))
-                   .map(t -> StringUtils.substringAfter(t, BEARER_TOKEN_PREFIX))
-                   .orElse(null);
-    }
 }

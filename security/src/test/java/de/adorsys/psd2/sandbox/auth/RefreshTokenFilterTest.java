@@ -1,76 +1,68 @@
-package de.adorsys.ledgers.oba.rest.server.auth.oba;
+package de.adorsys.psd2.sandbox.auth;
 
 import de.adorsys.ledgers.keycloak.client.api.KeycloakTokenService;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.UserRoleTO;
+import de.adorsys.psd2.sandbox.auth.filter.RefreshTokenFilter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpHeaders;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.HashSet;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class LoginAuthenticationFilterTest {
-
+public class RefreshTokenFilterTest {
+    public static final String TOKEN_ID = "token_id";
+    @Spy
     @InjectMocks
-    private LoginAuthenticationFilter filter;
-
+    RefreshTokenFilter filter;
     @Mock
-    private HttpServletRequest request = new MockHttpServletRequest();
+    private HttpServletRequest request = Mockito.mock(MockHttpServletRequest.class);
     @Mock
     private HttpServletResponse response = new MockHttpServletResponse();
+
     @Mock
     private FilterChain chain;
 
     @Mock
     private KeycloakTokenService tokenService;
 
+
     @Test
-    void doFilter() throws IOException, ServletException {
+    public void doFilterInternal() throws Exception {
         // Given
         SecurityContextHolder.clearContext();
-        when(request.getHeader("login")).thenReturn("anton.brueckner");
-        when(request.getHeader("pin")).thenReturn("12345");
-        when(tokenService.login(anyString(), anyString())).thenReturn(getBearer());
-        when(tokenService.validate(any())).thenReturn(getBearer());
+        BearerTokenTO bearer = getBearer();
+        when(request.getHeader(HttpHeaders.AUTHORIZATION)).thenReturn(SecurityConstant.BEARER_TOKEN_PREFIX + bearer.getAccess_token());
+        doReturn(120L).when(filter).expiredTimeInSec(anyString());
+        doReturn(TOKEN_ID).when(filter).jwtId(anyString());
+        doReturn(bearer.getRefresh_token()).when(filter).getCookieValue(request, SecurityConstant.REFRESH_TOKEN_COOKIE_PREFIX + TOKEN_ID);
+        doReturn(true, false).when(filter).isExpiredToken(anyString());
+        when(tokenService.refreshToken(anyString())).thenReturn(bearer);
+        filter.doFilterInternal(request, response, chain);
+        verify(tokenService, times(1)).refreshToken(anyString());
 
-        // When
-        filter.doFilter(request, response, chain);
-
-        // Then
-        verify(tokenService, times(1)).login(anyString(), anyString());
     }
+
 
     private BearerTokenTO getBearer() {
         AccessTokenTO token = new AccessTokenTO();
         token.setRole(UserRoleTO.CUSTOMER);
-        return new BearerTokenTO(null, null, 600, null, token, new HashSet<>());
-    }
-
-    @Test
-    void doFilter_null_bearer() throws IOException, ServletException {
-        // Given
-        SecurityContextHolder.clearContext();
-
-        // When
-        filter.doFilter(request, response, chain);
-
-        // Then
-        verify(tokenService, times(0)).validate(anyString());
-        verify(chain, times(1)).doFilter(any(), any());
+        return new BearerTokenTO("access_token", null, 600, "refresh_token", token, new HashSet<>());
     }
 }
+

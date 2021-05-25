@@ -5,7 +5,7 @@ import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.oba.rest.api.resource.PISApi;
-import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
+import de.adorsys.psd2.sandbox.auth.MiddlewareAuthentication;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentWorkflow;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
@@ -34,7 +34,7 @@ public class PISController implements PISApi {
     private final XISControllerService xisService;
     private final HttpServletResponse response;
     private final ResponseUtils responseUtils;
-    private final ObaMiddlewareAuthentication middlewareAuth;
+    private final MiddlewareAuthentication middlewareAuth;
     private final AuthRequestInterceptor authInterceptor;
     private final TokenAuthenticationService authenticationService;
 

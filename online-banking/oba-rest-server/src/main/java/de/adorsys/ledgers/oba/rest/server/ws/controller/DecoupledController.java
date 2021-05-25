@@ -1,7 +1,7 @@
 package de.adorsys.ledgers.oba.rest.server.ws.controller;
 
 import de.adorsys.ledgers.oba.rest.api.resource.oba.ObaDecoupledAPI;
-import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
+import de.adorsys.psd2.sandbox.auth.MiddlewareAuthentication;
 import de.adorsys.ledgers.oba.rest.server.ws.domain.DecoupledContext;
 import de.adorsys.ledgers.oba.service.api.domain.DecoupledConfRequest;
 import de.adorsys.ledgers.oba.service.api.service.DecoupledService;
@@ -23,7 +23,7 @@ import static de.adorsys.ledgers.oba.rest.server.ws.WebSocketConstants.WS_SUBSCR
 public class DecoupledController implements ObaDecoupledAPI {
     private final SimpMessagingTemplate template;
     private final DecoupledContext context;
-    private final ObaMiddlewareAuthentication authentication;
+    private final MiddlewareAuthentication authentication;
     private final DecoupledService decoupledService;
 
     @Override

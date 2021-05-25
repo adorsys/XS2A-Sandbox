@@ -14,7 +14,7 @@ import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.AccountRestClient;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.middleware.client.rest.OauthRestClient;
-import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
+import de.adorsys.psd2.sandbox.auth.MiddlewareAuthentication;
 import de.adorsys.ledgers.oba.service.api.domain.AuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
@@ -62,7 +62,6 @@ import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.SCAMETHOD
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
@@ -105,7 +104,7 @@ class AISControllerTest {
     @Mock
     private ResponseUtils responseUtils;
     @Mock
-    private ObaMiddlewareAuthentication middlewareAuth;
+    private MiddlewareAuthentication middlewareAuth;
     @Mock
     private AuthorizationService authService;
     @Mock
@@ -163,7 +162,7 @@ class AISControllerTest {
     @Test
     void startConsentAuth() throws NoSuchFieldException {
         // Given
-        FieldSetter.setField(controller, controller.getClass().getDeclaredField("middlewareAuth"), new ObaMiddlewareAuthentication(null, getBearer(TOKEN)));
+        FieldSetter.setField(controller, controller.getClass().getDeclaredField("middlewareAuth"), new MiddlewareAuthentication(null, getBearer(TOKEN)));
 
         when(redirectConsentService.identifyConsent(anyString(), anyString(), any())).thenReturn(getConsentWorkflow(PSUIDENTIFIED, ConsentStatus.RECEIVED));
         when(accountRestClient.getListOfAccounts()).thenReturn(ResponseEntity.ok(new ArrayList<>()));
@@ -178,7 +177,7 @@ class AISControllerTest {
     @Test
     void startConsentAuth_exempted() throws NoSuchFieldException {
         // Given
-        FieldSetter.setField(controller, controller.getClass().getDeclaredField("middlewareAuth"), new ObaMiddlewareAuthentication(null, getBearer(TOKEN)));
+        FieldSetter.setField(controller, controller.getClass().getDeclaredField("middlewareAuth"), new MiddlewareAuthentication(null, getBearer(TOKEN)));
         when(redirectConsentService.identifyConsent(anyString(), anyString(), any())).thenReturn(getConsentWorkflow(EXEMPTED, ConsentStatus.RECEIVED));
         when(accountRestClient.getListOfAccounts()).thenReturn(ResponseEntity.ok(new ArrayList<>()));
 
@@ -192,7 +191,7 @@ class AISControllerTest {
     @Test
     void startConsentAuth_received() throws NoSuchFieldException {
         // Given
-        FieldSetter.setField(controller, controller.getClass().getDeclaredField("middlewareAuth"), new ObaMiddlewareAuthentication(null, getBearer(TOKEN)));
+        FieldSetter.setField(controller, controller.getClass().getDeclaredField("middlewareAuth"), new MiddlewareAuthentication(null, getBearer(TOKEN)));
         when(redirectConsentService.identifyConsent(anyString(), anyString(), any())).thenReturn(getConsentWorkflow(RECEIVED, ConsentStatus.RECEIVED));
         when(accountRestClient.getListOfAccounts()).thenReturn(ResponseEntity.ok(new ArrayList<>()));
 
@@ -211,7 +210,7 @@ class AISControllerTest {
     @Test
     void authrizedConsent() throws NoSuchFieldException {
         // Given
-        FieldSetter.setField(controller, controller.getClass().getDeclaredField("middlewareAuth"), new ObaMiddlewareAuthentication(null, getBearerToken()));
+        FieldSetter.setField(controller, controller.getClass().getDeclaredField("middlewareAuth"), new MiddlewareAuthentication(null, getBearerToken()));
         when(redirectConsentService.identifyConsent(anyString(), anyString(), any())).thenReturn(getConsentWorkflow(FINALISED, ConsentStatus.RECEIVED));
         when(redirectConsentService.authorizeConsent(any(), any())).thenReturn(getConsentWorkflow(FINALISED, ConsentStatus.VALID));
         when(cmsPsuAisClient.confirmConsent(any(), any())).thenReturn(ResponseEntity.ok(true));
@@ -225,7 +224,7 @@ class AISControllerTest {
     @Test
     void selectMethod() throws NoSuchFieldException {
         // Given
-        FieldSetter.setField(controller, controller.getClass().getDeclaredField("middlewareAuth"), new ObaMiddlewareAuthentication(null, getBearerToken()));
+        FieldSetter.setField(controller, controller.getClass().getDeclaredField("middlewareAuth"), new MiddlewareAuthentication(null, getBearerToken()));
         when(redirectConsentService.identifyConsent(anyString(), anyString(), any())).thenReturn(getConsentWorkflow(SCAMETHODSELECTED, ConsentStatus.RECEIVED));
 
         // When
@@ -291,7 +290,7 @@ class AISControllerTest {
         // Given
         when(redirectConsentService.identifyConsent(anyString(), anyString(), any())).thenReturn(getConsentWorkflow(FINALISED, ConsentStatus.RECEIVED));
 
-        FieldSetter.setField(controller, controller.getClass().getDeclaredField("middlewareAuth"), new ObaMiddlewareAuthentication(null, getBearerToken()));
+        FieldSetter.setField(controller, controller.getClass().getDeclaredField("middlewareAuth"), new MiddlewareAuthentication(null, getBearerToken()));
 
         when(cmsPsuAisClient.updateAuthorisationStatus(anyString(), anyString(), anyString(), anyString(), ArgumentMatchers.nullable(String.class), ArgumentMatchers.nullable(String.class), ArgumentMatchers.nullable(String.class), anyString(), any())).thenReturn(ResponseEntity.ok(null));
 

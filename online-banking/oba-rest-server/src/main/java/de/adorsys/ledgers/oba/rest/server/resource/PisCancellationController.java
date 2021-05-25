@@ -5,7 +5,7 @@ import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.oba.rest.api.resource.PisCancellationApi;
-import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
+import de.adorsys.psd2.sandbox.auth.MiddlewareAuthentication;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentWorkflow;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode;
@@ -35,7 +35,7 @@ public class PisCancellationController implements PisCancellationApi {
     private final XISControllerService xisService;
     private final HttpServletResponse response;
     private final ResponseUtils responseUtils;
-    private final ObaMiddlewareAuthentication middlewareAuth;
+    private final MiddlewareAuthentication middlewareAuth;
     private final AuthRequestInterceptor authInterceptor;
     private final TokenAuthenticationService authenticationService;
 

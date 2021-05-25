@@ -46,16 +46,17 @@
             <artifactId>ledgers-middleware-rest-client</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>de.adorsys.ledgers</groupId>
-            <artifactId>keycloak-client</artifactId>
-            <version>${ledgers.version}</version>
-        </dependency>
-
         <!-- CMS embedded mode -->
         <dependency>
             <groupId>de.adorsys.psd2.sandbox</groupId>
             <artifactId>tpp-cms-impl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- auth-commons -->
+        <dependency>
+            <groupId>de.adorsys.psd2.sandbox</groupId>
+            <artifactId>auth-commons</artifactId>
             <version>${project.version}</version>
         </dependency>
 

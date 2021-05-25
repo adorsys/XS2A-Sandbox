@@ -5,20 +5,18 @@ import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.oba.service.api.domain.UserAuthentication;
 import de.adorsys.ledgers.oba.service.api.service.TokenAuthenticationService;
+import de.adorsys.psd2.sandbox.auth.MiddlewareAuthentication;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.util.WebUtils;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -32,7 +30,6 @@ import java.util.Optional;
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
     private static final List<String> EXCLUDED_URLS = Arrays.asList("/**/auth", "/**/login");
     private static final AntPathMatcher matcher = new AntPathMatcher();
-    private static final String ACCESS_TOKEN_COOKIE = "ACCESS_TOKEN";
 
     private final TokenAuthenticationService tokenAuthenticationService;
     private final AuthRequestInterceptor authInterceptor;
@@ -45,14 +42,11 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         authInterceptor.setAccessToken(null);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
-            String tokenCookie = readAccessTokenCookie(request);
-            UserAuthentication userAuthentication = tokenAuthenticationService.getAuthentication(StringUtils.isBlank(tokenCookie)
-                                                                                                     ? readAccessTokenHeader(request)
-                                                                                                     : tokenCookie);
+            UserAuthentication userAuthentication = tokenAuthenticationService.getAuthentication(readAccessTokenHeader(request));
             if (userAuthentication != null) {
                 BearerTokenTO bearerToken = userAuthentication.getBearerToken();
                 AccessTokenTO token = bearerToken.getAccessTokenObject();
-                SecurityContextHolder.getContext().setAuthentication(new ObaMiddlewareAuthentication(token.getSub(), bearerToken, buildAuthorities(token)));
+                SecurityContextHolder.getContext().setAuthentication(new MiddlewareAuthentication(token.getSub(), bearerToken, buildAuthorities(token)));
             }
         }
 
@@ -69,11 +63,6 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
                    .anyMatch(p -> matcher.match(p, request.getServletPath()));
     }
 
-    private String readAccessTokenCookie(HttpServletRequest request) {
-        Cookie cookie = WebUtils.getCookie(request, ACCESS_TOKEN_COOKIE);
-        return cookie != null ? cookie.getValue()
-                   : null;
-    }
 
     private String readAccessTokenHeader(HttpServletRequest request) {
         return Optional.ofNullable(request.getHeader("authorization"))

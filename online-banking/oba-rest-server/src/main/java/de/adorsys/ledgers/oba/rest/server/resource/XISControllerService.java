@@ -2,7 +2,7 @@ package de.adorsys.ledgers.oba.rest.server.resource;
 
 import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
-import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
+import de.adorsys.psd2.sandbox.auth.MiddlewareAuthentication;
 import de.adorsys.ledgers.oba.service.api.domain.AuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentType;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
@@ -11,6 +11,7 @@ import de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.api.service.CmsAspspConsentDataService;
 import de.adorsys.ledgers.oba.service.api.service.CommonPaymentService;
+import de.adorsys.psd2.sandbox.auth.SecurityConstant;
 import de.adorsys.psd2.xs2a.core.sca.AuthenticationDataHolder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +31,6 @@ import java.util.EnumSet;
 import java.util.Optional;
 
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.*;
-import static de.adorsys.ledgers.oba.rest.server.auth.oba.SecurityConstant.BEARER_TOKEN_PREFIX;
 import static de.adorsys.psd2.consent.aspsp.api.config.CmsPsuApiDefaultValue.DEFAULT_SERVICE_INSTANCE_ID;
 @Slf4j
 @Service
@@ -40,7 +40,7 @@ public class XISControllerService {
     private final HttpServletResponse response;
     private final ResponseUtils responseUtils;
     private final CommonPaymentService paymentService;
-    private final ObaMiddlewareAuthentication middlewareAuth;
+    private final MiddlewareAuthentication middlewareAuth;
     private final CmsAspspConsentDataService consentDataService;
     private final CmsPsuAisClient cmsPsuAisClient;
     private final CmsPsuPisClient cmsPsuPisClient;
@@ -76,8 +76,8 @@ public class XISControllerService {
         authResponse.setEncryptedConsentId(encryptedConsentId);
         authResponse.setAuthorisationId(redirectId);
         String token = Optional.ofNullable(request.getHeader(HttpHeaders.AUTHORIZATION))
-                           .filter(t -> StringUtils.startsWithIgnoreCase(t, BEARER_TOKEN_PREFIX))
-                           .map(t -> StringUtils.substringAfter(t, BEARER_TOKEN_PREFIX))
+            .filter(t -> StringUtils.startsWithIgnoreCase(t, SecurityConstant.BEARER_TOKEN_PREFIX))
+            .map(t -> StringUtils.substringAfter(t, SecurityConstant.BEARER_TOKEN_PREFIX))
                            .orElse(null);
 
         if (StringUtils.isNotBlank(token)) {

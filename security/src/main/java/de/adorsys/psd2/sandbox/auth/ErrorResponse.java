@@ -1,4 +1,4 @@
-package de.adorsys.ledgers.oba.rest.server.auth.oba;
+package de.adorsys.psd2.sandbox.auth;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;

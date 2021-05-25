@@ -9,3 +9,4 @@ Current version consists of following components:
 5. **XS2A Connector-Examples v.11.4**
 
 -   Security vulnerability: set commons-io version 2.8.0
+-   Use pair of tokens (access and refresh) for session

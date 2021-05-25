@@ -11,7 +11,7 @@ import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
-import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
+import de.adorsys.psd2.sandbox.auth.MiddlewareAuthentication;
 import de.adorsys.ledgers.oba.service.api.domain.AuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
 import de.adorsys.ledgers.oba.service.api.domain.ConsentType;
@@ -49,7 +49,6 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -88,7 +87,7 @@ class XISControllerServiceTest {
     @Mock
     private CommonPaymentService paymentService;
     @Mock
-    private ObaMiddlewareAuthentication middlewareAuth;
+    private MiddlewareAuthentication middlewareAuth;
     @Mock
     private CmsAspspConsentDataService consentDataService;
     @Mock

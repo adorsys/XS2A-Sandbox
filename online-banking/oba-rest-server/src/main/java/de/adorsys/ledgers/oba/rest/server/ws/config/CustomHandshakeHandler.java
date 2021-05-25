@@ -1,6 +1,6 @@
 package de.adorsys.ledgers.oba.rest.server.ws.config;
 
-import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
+import de.adorsys.psd2.sandbox.auth.MiddlewareAuthentication;
 import de.adorsys.ledgers.oba.rest.server.ws.domain.StompPrincipal;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +22,7 @@ public class CustomHandshakeHandler extends DefaultHandshakeHandler {
 
     @Override
     protected Principal determineUser(@NotNull ServerHttpRequest request, @NotNull WebSocketHandler wsHandler, @NotNull Map<String, Object> attributes) {
-        String login = ((ObaMiddlewareAuthentication) auth).getBearerToken().getAccessTokenObject().getLogin();
+        String login = ((MiddlewareAuthentication) auth).getBearerToken().getAccessTokenObject().getLogin();
         log.info("HandShaking with {}", login);
         return new StompPrincipal(login);
     }
