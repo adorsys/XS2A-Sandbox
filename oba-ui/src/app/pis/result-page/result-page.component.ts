@@ -5,6 +5,8 @@ import { PaymentAuthorizeResponse } from '../../api/models/payment-authorize-res
 import { SettingsService } from '../../common/services/settings.service';
 import { ShareDataService } from '../../common/services/share-data.service';
 import { PisService } from '../../common/services/pis.service';
+import { PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService } from '../../api/services/psupisprovides-access-to-online-banking-payment-functionality.service';
+import { AuthService } from '../../common/services/auth.service';
 
 @Component({
   selector: 'app-result-page',
@@ -14,7 +16,7 @@ import { PisService } from '../../common/services/pis.service';
 export class ResultPageComponent implements OnInit, OnDestroy {
   public authResponse: PaymentAuthorizeResponse;
   public scaStatus: string;
-  public ref: string;
+  public pisDoneRequest: PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService.PisDoneUsingGET1Params;
   public devPortalLink: string;
   public multilevelSca = false;
 
@@ -23,7 +25,8 @@ export class ResultPageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private settingService: SettingsService,
     private pisService: PisService,
-    private shareService: ShareDataService
+    private shareService: ShareDataService,
+    private authService: AuthService
   ) {}
 
   public ngOnInit(): void {
@@ -40,9 +43,12 @@ export class ResultPageComponent implements OnInit, OnDestroy {
         oauth2 = false;
       }
 
-      this.ref =
-        `/oba-proxy/pis/${params.encryptedConsentId}/authorisation/${params.authorisationId}` +
-        `/done?oauth2=${oauth2}`;
+      this.pisDoneRequest = {
+        encryptedPaymentId: params.encryptedConsentId,
+        authorisationId: params.authorisationId,
+        oauth2: oauth2,
+        authConfirmationCode: null,
+      };
     });
 
     // get consent data from shared service
@@ -58,11 +64,26 @@ export class ResultPageComponent implements OnInit, OnDestroy {
           }
 
           if (authResponse.authConfirmationCode) {
-            this.ref =
-              this.ref +
-              `&authConfirmationCode=${authResponse.authConfirmationCode}`;
+            this.pisDoneRequest.encryptedPaymentId =
+              authResponse.authConfirmationCode;
           }
         });
+      }
+    });
+  }
+
+  redirectToDevPortal() {
+    if (this.devPortalLink) {
+      this.authService.clearSession();
+      window.location.href = this.devPortalLink;
+    }
+  }
+
+  redirectToTpp() {
+    this.pisService.pisDone(this.pisDoneRequest).subscribe((resp) => {
+      if (resp.redirectUrl) {
+        this.authService.clearSession();
+        window.location.href = resp.redirectUrl;
       }
     });
   }

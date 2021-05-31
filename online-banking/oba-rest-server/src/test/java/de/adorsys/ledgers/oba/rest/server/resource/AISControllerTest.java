@@ -36,7 +36,6 @@ import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -60,6 +59,7 @@ import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.PSUIDENTI
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.RECEIVED;
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.SCAMETHODSELECTED;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -239,50 +239,45 @@ class AISControllerTest {
     void aisDone() {
         // Given
         when(redirectConsentService.identifyConsent(anyString(), anyString(), any())).thenReturn(getConsentWorkflow(FINALISED, ConsentStatus.VALID));
-        when(responseUtils.redirect(anyString(), any())).thenReturn(ResponseEntity.ok(getConsentAuthorizeResponse(true, true, false, FINALISED)));
         when(authService.resolveAuthConfirmationCodeRedirectUri(anyString(), anyString())).thenReturn(OK_URI);
 
         // When
         ResponseEntity<ConsentAuthorizeResponse> result = controller.aisDone(ENCRYPTED_ID, AUTH_ID, false, "code");
 
         // Then
-        assertEquals(ResponseEntity.ok(getConsentAuthorizeResponse(true, true, false, FINALISED)), result);
-        ArgumentCaptor<String> urlCaptor = ArgumentCaptor.forClass(String.class);
-        verify(responseUtils).redirect(urlCaptor.capture(), any());
-        assertEquals(OK_URI, urlCaptor.getValue());
+        ConsentAuthorizeResponse consentAuthorizeResponse = getConsentAuthorizeResponse(true, true, false, FINALISED);
+        consentAuthorizeResponse.setRedirectUrl(OK_URI);
+        assertEquals(ResponseEntity.ok(consentAuthorizeResponse), result);
     }
 
     @Test
     void aisDone_nok() {
         // Given
-        when(redirectConsentService.identifyConsent(anyString(), anyString(), any())).thenReturn(getConsentWorkflow(RECEIVED, ConsentStatus.REJECTED));
-        when(responseUtils.redirect(anyString(), any())).thenReturn(ResponseEntity.ok(getConsentAuthorizeResponse(true, true, false, FINALISED)));
+        when(redirectConsentService.identifyConsent(anyString(), anyString(), any())).thenReturn(getConsentWorkflow(FINALISED, ConsentStatus.REJECTED));
         when(authService.resolveAuthConfirmationCodeRedirectUri(anyString(), anyString())).thenReturn("");
 
         // When
         ResponseEntity<ConsentAuthorizeResponse> result = controller.aisDone(ENCRYPTED_ID, AUTH_ID, false, "code");
 
         // Then
-        assertEquals(ResponseEntity.ok(getConsentAuthorizeResponse(true, true, false, FINALISED)), result);
-
-        ArgumentCaptor<String> urlCaptor = ArgumentCaptor.forClass(String.class);
-
-        verify(responseUtils).redirect(urlCaptor.capture(), any());
-        assertEquals(NOK_URI, urlCaptor.getValue());
+        ConsentAuthorizeResponse consentAuthorizeResponse = getConsentAuthorizeResponse(true, true, false, FINALISED);
+        consentAuthorizeResponse.setRedirectUrl(NOK_URI);
+        assertEquals(ResponseEntity.ok(consentAuthorizeResponse), result);
     }
 
     @Test
     void aisDone_oauth2_integrated() {
         // Given
-        when(redirectConsentService.identifyConsent(anyString(), anyString(), any())).thenReturn(getConsentWorkflow(FINALISED, ConsentStatus.RECEIVED));
-        when(responseUtils.redirect(anyString(), any())).thenReturn(ResponseEntity.ok(getConsentAuthorizeResponse(true, true, false, FINALISED)));
+        when(redirectConsentService.identifyConsent(anyString(), anyString(), any())).thenReturn(getConsentWorkflow(FINALISED, ConsentStatus.VALID));
         when(oauthRestClient.oauthCode(any())).thenReturn(ResponseEntity.ok(new OauthCodeResponseTO(OK_URI, "code")));
 
         // When
         ResponseEntity<ConsentAuthorizeResponse> result = controller.aisDone(ENCRYPTED_ID, AUTH_ID, true, "code");
 
         // Then
-        assertEquals(ResponseEntity.ok(getConsentAuthorizeResponse(true, true, false, FINALISED)), result);
+        ConsentAuthorizeResponse consentAuthorizeResponse = getConsentAuthorizeResponse(true, true, false, FINALISED);
+        consentAuthorizeResponse.setRedirectUrl(OK_URI + "?code=code");
+        assertEquals(ResponseEntity.ok(consentAuthorizeResponse), result);
     }
 
     @Test

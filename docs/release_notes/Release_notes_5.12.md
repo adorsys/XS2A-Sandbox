@@ -12,3 +12,4 @@ Current version consists of following components:
 -   Use pair of tokens (access and refresh) for session
 -   Used `OkHttpClient` as a feign client to avoid 302 redirect error
 -   TPP-UI. Show specific account details depending on backend
+-   Fix OBA: "Back to TPP page" button 403 error

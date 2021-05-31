@@ -2,10 +2,8 @@
   <div class="col">
     <div class="d-md-flex align-items-center h-100 p-4 justify-content-center">
       <div class="d-md-flex align-items-center">
-
         <div class="card w-100">
           <div class="card-body">
-
             <ng-template [ngIf]="scaStatus" [ngIfElse]="scaStatusEmpty">
               <div [ngSwitch]="scaStatus">
                 <div *ngSwitchCase="'finalised'">
@@ -41,16 +39,21 @@
             </ng-template>
 
             <div class="form-group my-3 d-flex justify-content-between">
-              <a class="flex-fill btn btn-secondary button-icon d-flex align-items-center mr-2" [href]="devPortalLink">
+              <a
+                class="flex-fill btn btn-secondary button-icon d-flex align-items-center mr-2"
+                (click)="(redirectToDevPortal)"
+              >
                 <span class="mx-auto">To Developer portal</span>
               </a>
-              <a class="flex-fill btn btn-primary button-icon d-flex align-items-center" [href]="ref">
+              <a
+                class="flex-fill btn btn-primary button-icon d-flex align-items-center"
+                (click)="redirectToTpp()"
+              >
                 <span class="mx-auto">Back to TPP page</span>
               </a>
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>

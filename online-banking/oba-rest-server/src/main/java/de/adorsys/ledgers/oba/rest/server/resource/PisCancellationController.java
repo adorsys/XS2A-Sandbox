@@ -85,9 +85,12 @@ public class PisCancellationController implements PisCancellationApi {
 
     @Override
     public ResponseEntity<PaymentAuthorizeResponse> pisDone(String encryptedPaymentId, String authorisationId, boolean isOauth2Integrated, String authConfirmationCode) {
+        PaymentWorkflow workflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, middlewareAuth.getBearerToken());
         String psuId = AuthUtils.psuId(middlewareAuth);
         String redirectUrl = paymentService.resolveRedirectUrl(encryptedPaymentId, authorisationId, isOauth2Integrated, psuId, middlewareAuth.getBearerToken(), authConfirmationCode);
-        return responseUtils.redirect(redirectUrl, response);
+        PaymentAuthorizeResponse authResponse = workflow.getAuthResponse();
+        authResponse.setRedirectUrl(redirectUrl);
+        return ResponseEntity.ok(authResponse);
     }
 }
 

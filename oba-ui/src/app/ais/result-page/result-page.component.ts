@@ -5,6 +5,8 @@ import { ConsentAuthorizeResponse } from '../../api/models/consent-authorize-res
 import { AisService } from '../../common/services/ais.service';
 import { SettingsService } from '../../common/services/settings.service';
 import { ShareDataService } from '../../common/services/share-data.service';
+import { PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService } from '../../api/services/psuaisprovides-access-to-online-banking-account-functionality.service';
+import { AuthService } from '../../common/services/auth.service';
 
 @Component({
   selector: 'app-result-page',
@@ -14,7 +16,7 @@ import { ShareDataService } from '../../common/services/share-data.service';
 export class ResultPageComponent implements OnInit, OnDestroy {
   public authResponse: ConsentAuthorizeResponse;
   public scaStatus: string;
-  public ref: string;
+  public aisDoneRequest: PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.AisDoneUsingGETParams;
   public devPortalLink: string;
 
   constructor(
@@ -22,7 +24,8 @@ export class ResultPageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private aisService: AisService,
     private settingService: SettingsService,
-    private shareService: ShareDataService
+    private shareService: ShareDataService,
+    private authService: AuthService
   ) {}
 
   public ngOnInit(): void {
@@ -38,9 +41,12 @@ export class ResultPageComponent implements OnInit, OnDestroy {
         oauth2 = false;
       }
 
-      this.ref =
-        `/oba-proxy/ais/${params.encryptedConsentId}/authorisation/${params.authorisationId}` +
-        `/done?oauth2=${oauth2}`;
+      this.aisDoneRequest = {
+        encryptedConsentId: params.encryptedConsentId,
+        authorisationId: params.authorisationId,
+        oauth2: oauth2,
+        authConfirmationCode: null,
+      };
     });
 
     // get consent data from shared service
@@ -50,11 +56,26 @@ export class ResultPageComponent implements OnInit, OnDestroy {
           this.authResponse = authResponse;
           this.scaStatus = this.authResponse.scaStatus;
           if (authResponse.authConfirmationCode) {
-            this.ref =
-              this.ref +
-              `&authConfirmationCode=${authResponse.authConfirmationCode}`;
+            this.aisDoneRequest.authConfirmationCode =
+              authResponse.authConfirmationCode;
           }
         });
+      }
+    });
+  }
+
+  redirectToDevPortal() {
+    if (this.devPortalLink) {
+      this.authService.clearSession();
+      window.location.href = this.devPortalLink;
+    }
+  }
+
+  redirectToTpp() {
+    this.aisService.aisDone(this.aisDoneRequest).subscribe((resp) => {
+      if (resp.redirectUrl) {
+        this.authService.clearSession();
+        window.location.href = resp.redirectUrl;
       }
     });
   }

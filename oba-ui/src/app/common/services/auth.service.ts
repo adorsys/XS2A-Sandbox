@@ -68,7 +68,7 @@ export class AuthService {
 
   logout() {
     this.autoLogoutService.resetMonitoringConfig();
-    sessionStorage.removeItem(this.authTokenStorageKey);
+    this.clearSession();
     this.router.navigate(['/logout']);
   }
 
@@ -88,6 +88,10 @@ export class AuthService {
 
   setAuthToken(newToken: string) {
     sessionStorage.setItem(this.authTokenStorageKey, newToken);
+  }
+
+  clearSession() {
+    sessionStorage.removeItem(this.authTokenStorageKey);
   }
 
   requestCodeToResetPassword(

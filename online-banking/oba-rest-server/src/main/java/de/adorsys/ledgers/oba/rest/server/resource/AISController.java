@@ -151,10 +151,11 @@ public class AISController implements AISApi {
             .orElse(consentResponse.getTppOkRedirectUri());
 
         String redirectURL = EnumSet.of(VALID, ConsentStatus.RECEIVED, PARTIALLY_AUTHORISED).contains(consentStatus) && isNotFailedAuthorizationList(consentResponse)
-                                 ? tppOkRedirectUri
-                                 : tppNokRedirectUri;
-
-        return responseUtils.redirect(redirectURL, response);
+            ? tppOkRedirectUri
+            : tppNokRedirectUri;
+        ConsentAuthorizeResponse consentAuthorizeResponse = workflow.getAuthResponse();
+        consentAuthorizeResponse.setRedirectUrl(redirectURL);
+        return ResponseEntity.ok(consentAuthorizeResponse);
     }
 
     private boolean isNotFailedAuthorizationList(CmsAisConsentResponse consentResponse) {
