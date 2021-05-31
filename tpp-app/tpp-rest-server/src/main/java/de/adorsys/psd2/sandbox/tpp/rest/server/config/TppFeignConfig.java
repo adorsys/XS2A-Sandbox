@@ -8,14 +8,18 @@ import feign.Client;
 import feign.codec.Encoder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.Interceptor;
+import okhttp3.Response;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.cloud.openfeign.support.SpringEncoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -47,6 +51,19 @@ public class TppFeignConfig {
                    .followRedirects(false)
                    .followSslRedirects(false)
                    .retryOnConnectionFailure(true)
+                   .addInterceptor(new RedirectInterceptor())
                    .build();
+    }
+
+    static class RedirectInterceptor implements Interceptor {
+        @Override
+        public Response intercept(Interceptor.Chain chain) throws IOException {
+            var request = chain.request();
+            var response = chain.proceed(request);
+            if (HttpStatus.FOUND.value() == response.code()) {
+                return response.newBuilder().code(HttpStatus.OK.value()).build();
+            }
+            return response;
+        }
     }
 }
