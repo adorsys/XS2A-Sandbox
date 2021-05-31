@@ -13,3 +13,4 @@ Current version consists of following components:
 -   Used `OkHttpClient` as a feign client to avoid 302 redirect error
 -   TPP-UI. Show specific account details depending on backend
 -   Fix OBA: "Back to TPP page" button 403 error
+-   Upgraded commons-validator version to 1.7

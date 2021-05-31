@@ -120,7 +120,7 @@
         <opencsv.version>4.5</opencsv.version>
         <feign.version>10.10.1</feign.version>
         <!--iban4j-version>3.2.1</iban4j-version-->
-        <commons-validator.version>1.6</commons-validator.version>
+        <commons-validator.version>1.7</commons-validator.version>
         <guava.version>30.1.1-jre</guava.version>
         <!--Sonar -->
         <sonar.core.coveragePlugin>jacoco</sonar.core.coveragePlugin>
