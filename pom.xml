@@ -121,7 +121,7 @@
         <fasterxml-data-format.version>2.9.8</fasterxml-data-format.version>
         <opencsv.version>4.5</opencsv.version>
         <!--iban4j-version>3.2.1</iban4j-version-->
-        <commons-validator.version>1.6</commons-validator.version>
+        <commons-validator.version>1.7</commons-validator.version>
         <bcpkix.jdk15on.version>1.60</bcpkix.jdk15on.version>
         <!--Sonar -->
         <sonar.core.coveragePlugin>jacoco</sonar.core.coveragePlugin>

@@ -9,3 +9,4 @@ Current version consists of following components:
 5. **XS2A Connector-Examples v.8.13**
 
 -   Security vulnerability: set commons-io version 2.8.0
+-   Upgraded commons-validator version to 1.7
