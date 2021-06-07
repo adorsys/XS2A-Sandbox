@@ -14,7 +14,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger.web.SecurityConfiguration;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import static de.adorsys.psd2.sandbox.tpp.rest.server.auth.SecurityConstant.AUTHORIZATION_HEADER;
+import static de.adorsys.psd2.sandbox.auth.SecurityConstant.AUTHORIZATION_HEADER;
 import static java.util.Collections.singletonList;
 import static springfox.documentation.swagger.web.SecurityConfigurationBuilder.builder;
 

@@ -63,12 +63,12 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    return !this.jwtHelperService.isTokenExpired(this.getAuthorizationToken());
+    return this.getAuthorizationToken() != null;
   }
 
   logout() {
     this.autoLogoutService.resetMonitoringConfig();
-    sessionStorage.removeItem(this.authTokenStorageKey);
+    this.clearSession();
     this.router.navigate(['/logout']);
   }
 
@@ -88,6 +88,10 @@ export class AuthService {
 
   setAuthToken(newToken: string) {
     sessionStorage.setItem(this.authTokenStorageKey, newToken);
+  }
+
+  clearSession() {
+    sessionStorage.removeItem(this.authTokenStorageKey);
   }
 
   requestCodeToResetPassword(

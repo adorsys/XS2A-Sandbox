@@ -100,6 +100,7 @@ describe('AccountComponent', () => {
           scaWeight: 4,
         },
       ],
+      multilevelScaEnabled: false,
     };
     const deleteSpy = spyOn(
       tppService,
@@ -145,6 +146,7 @@ describe('AccountComponent', () => {
           scaWeight: 4,
         },
       ],
+      multilevelScaEnabled: false,
     };
     const infoServiceOpenFeedbackSpy = spyOn(infoService, 'openFeedback');
     component.goToAccountDetail();
@@ -184,6 +186,7 @@ describe('AccountComponent', () => {
           scaWeight: 4,
         },
       ],
+      multilevelScaEnabled: false,
     };
     component.isAccountDeleted;
   });
@@ -216,6 +219,7 @@ describe('AccountComponent', () => {
           scaWeight: 4,
         },
       ],
+      multilevelScaEnabled: false,
     };
 
     spyOn(accountService, 'getAccountReport').and.returnValue(

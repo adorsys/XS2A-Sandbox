@@ -150,7 +150,7 @@ public class ConsentServiceImpl implements ConsentService {
         //Create piis at Ledgers
         String consentId = Optional.ofNullable(cmsConsent).orElseGet(() -> new CreatePiisConsentResponse(null)).getConsentId();
         AisConsentTO pisConsent = new AisConsentTO(consentId, psuId, piisConsentRequest.getTppAuthorisationNumber(), 100, buildAccountAccess(piisConsentRequest.getAccount().getIban()), piisConsentRequest.getValidUntil(), true);
-        SCAConsentResponseTO ledgersCreateConsentResponse = consentRestClient.grantPIISConsent(pisConsent).getBody();
+        SCAConsentResponseTO ledgersCreateConsentResponse = consentRestClient.initiatePiisConsent(pisConsent).getBody();
         //Update Aspsp consent data at CMS
         updateAspspConsentDataForConsent(consentId, ledgersCreateConsentResponse);
     }

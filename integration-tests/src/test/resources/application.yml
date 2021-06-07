@@ -1,4 +1,6 @@
 feign:
+  okhttp:
+    enabled: true
   client:
     config:
       default:
@@ -8,6 +10,6 @@ feign:
 
 # logging.level.root: WARN
 # logging.level.org.springframework.boot: WARN
-# logging.level.de.adorsys: WARN        
-logging.level.de.adorsys.ledgers.xs2a: DEBUG        
+# logging.level.de.adorsys: WARN
+logging.level.de.adorsys.ledgers.xs2a: DEBUG
 logging.level.de.adorsys.ledgers.oba.rest: DEBUG

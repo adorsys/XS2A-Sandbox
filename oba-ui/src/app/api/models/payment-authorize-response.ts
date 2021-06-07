@@ -10,5 +10,15 @@ export interface PaymentAuthorizeResponse {
   payment?: PaymentTO;
   psuMessages?: Array<PsuMessage>;
   scaMethods?: Array<ScaUserDataTO>;
-  scaStatus?: 'received' | 'psuIdentified' | 'psuAuthenticated' | 'scaMethodSelected' | 'started' | 'finalised' | 'failed' | 'exempted' | 'unconfirmed';
+  scaStatus?:
+    | 'received'
+    | 'psuIdentified'
+    | 'psuAuthenticated'
+    | 'scaMethodSelected'
+    | 'started'
+    | 'finalised'
+    | 'failed'
+    | 'exempted'
+    | 'unconfirmed';
+  redirectUrl?: string;
 }

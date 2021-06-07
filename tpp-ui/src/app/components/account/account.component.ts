@@ -1,18 +1,18 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {map} from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { map } from 'rxjs/operators';
 
-import {InfoService} from '../../commons/info/info.service';
-import {Account} from '../../models/account.model';
-import {AccountReport} from '../../models/account-report';
-import {UserAccess} from '../../models/user-access';
-import {AccountService} from '../../services/account.service';
-import {PageNavigationService} from '../../services/page-navigation.service';
-import {TppManagementService} from '../../services/tpp-management.service';
-import {User} from '../../models/user.model';
-import {TppUserService} from '../../services/tpp.user.service';
-import {ExtendedBalance} from "../../models/extendedBalance";
+import { InfoService } from '../../commons/info/info.service';
+import { Account } from '../../models/account.model';
+import { AccountReport } from '../../models/account-report';
+import { UserAccess } from '../../models/user-access';
+import { AccountService } from '../../services/account.service';
+import { PageNavigationService } from '../../services/page-navigation.service';
+import { TppManagementService } from '../../services/tpp-management.service';
+import { User } from '../../models/user.model';
+import { TppUserService } from '../../services/tpp.user.service';
+import { ExtendedBalance } from '../../models/extendedBalance';
 
 @Component({
   selector: 'app-account',
@@ -34,25 +34,23 @@ export class AccountComponent implements OnInit {
     private router: Router,
     private modalService: NgbModal,
     public pageNavigationService: PageNavigationService
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
-    this.tppUserService.currentTppUser.subscribe(
-      (user: User) => {
-        this.admin = user && user.userRoles.includes('SYSTEM');
+    this.tppUserService.currentTppUser.subscribe((user: User) => {
+      this.admin = user && user.userRoles.includes('SYSTEM');
 
-        this.activatedRoute.params
-          .pipe(
-            map(response => {
-              return response.id;
-            })
-          )
-          .subscribe((accountID: string) => {
-            this.accountID = accountID;
-            this.getAccountReport();
-          });
-      });
+      this.activatedRoute.params
+        .pipe(
+          map((response) => {
+            return response.id;
+          })
+        )
+        .subscribe((accountID: string) => {
+          this.accountID = accountID;
+          this.getAccountReport();
+        });
+    });
   }
 
   public goToAccountDetail() {
@@ -75,17 +73,15 @@ export class AccountComponent implements OnInit {
   }
 
   deleteAccountTransactions() {
-    this.tppService
-      .deleteAccountTransactions(this.account.id)
-      .subscribe(() => {
-        this.getAccountReport();
-        this.infoService.openFeedback(
-          `Transactions of ${this.account.iban} successfully deleted`,
-          {
-            severity: 'info',
-          }
-        );
-      });
+    this.tppService.deleteAccountTransactions(this.account.id).subscribe(() => {
+      this.getAccountReport();
+      this.infoService.openFeedback(
+        `Transactions of ${this.account.iban} successfully deleted`,
+        {
+          severity: 'info',
+        }
+      );
+    });
   }
 
   openDeleteConfirmation(content) {
@@ -93,8 +89,7 @@ export class AccountComponent implements OnInit {
       () => {
         this.deleteAccountTransactions();
       },
-      () => {
-      }
+      () => {}
     );
   }
 
@@ -104,8 +99,7 @@ export class AccountComponent implements OnInit {
         console.log(this.account.creditLimit);
         this.setCreditLimit();
       },
-      () => {
-      }
+      () => {}
     );
   }
 
@@ -123,6 +117,10 @@ export class AccountComponent implements OnInit {
     return this.accountReport ? this.accountReport.details : null;
   }
 
+  get multilevelScaEnabled(): boolean {
+    return this.accountReport.multilevelScaEnabled;
+  }
+
   get accesses(): UserAccess[] {
     return this.accountReport ? this.accountReport.accesses : null;
   }
@@ -132,7 +130,7 @@ export class AccountComponent implements OnInit {
       .getAccountReport(this.accountID)
       .subscribe((report: AccountReport) => {
         this.accountReport = report;
-        this.balance = new ExtendedBalance(report.details)
+        this.balance = new ExtendedBalance(report.details);
       });
   }
 
@@ -141,7 +139,8 @@ export class AccountComponent implements OnInit {
   }
 
   private setCreditLimit() {
-    this.accountService.setCreditLimit(this.account.id, this.account.creditLimit)
+    this.accountService
+      .setCreditLimit(this.account.id, this.account.creditLimit)
       .subscribe(() => this.getAccountReport());
   }
 }

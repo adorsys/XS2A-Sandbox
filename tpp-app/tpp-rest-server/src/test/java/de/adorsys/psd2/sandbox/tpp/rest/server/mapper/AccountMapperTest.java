@@ -62,7 +62,7 @@ class AccountMapperTest {
     @Test
     void toAccountReport() {
         // Given
-        AccountReport expected = new AccountReport(getDetails(), Arrays.asList(new UserAccess("LOGIN1", SCA_WEIGHT, OWNER), new UserAccess("LOGIN2", SCA_WEIGHT, OWNER)));
+        AccountReport expected = new AccountReport(getDetails(), Arrays.asList(new UserAccess("LOGIN1", SCA_WEIGHT, OWNER), new UserAccess("LOGIN2", SCA_WEIGHT, OWNER)), false);
 
         // When
         AccountReport result = accountMapper.toAccountReport(getReportTO());
@@ -72,7 +72,7 @@ class AccountMapperTest {
     }
 
     private AccountReportTO getReportTO() {
-        return new AccountReportTO(getDetails(), Arrays.asList(getUser("LOGIN1"), getUser("LOGIN2")));
+        return new AccountReportTO(getDetails(), Arrays.asList(getUser("LOGIN1"), getUser("LOGIN2")), false);
     }
 
     private UserTO getUser(String login) {

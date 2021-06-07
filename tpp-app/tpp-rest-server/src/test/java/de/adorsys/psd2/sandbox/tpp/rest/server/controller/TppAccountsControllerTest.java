@@ -168,7 +168,7 @@ class TppAccountsControllerTest {
     }
 
     private AccountReportTO getAccountReportTO() {
-        return new AccountReportTO(getAccountDetailsTO(), Collections.singletonList(getUserTO()));
+        return new AccountReportTO(getAccountDetailsTO(), Collections.singletonList(getUserTO()), false);
     }
 
     private UserTO getUserTO() {
@@ -176,7 +176,7 @@ class TppAccountsControllerTest {
     }
 
     private AccountReport getAccountReport() {
-        return new AccountReport(getAccountDetailsTO(), Collections.singletonList(getUserAccess()));
+        return new AccountReport(getAccountDetailsTO(), Collections.singletonList(getUserAccess()), false);
     }
 
     private UserAccess getUserAccess() {

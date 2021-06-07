@@ -5,7 +5,7 @@
     <parent>
         <artifactId>tpp-app</artifactId>
         <groupId>de.adorsys.psd2.sandbox</groupId>
-        <version>5.11</version>
+        <version>5.12</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -14,7 +14,6 @@
     <properties>
         <ruleset.basedir>../..</ruleset.basedir>
         <ci.build.number>&#8203;</ci.build.number>
-        <feign.version>10.10.1</feign.version>
     </properties>
 
     <artifactId>tpp-rest-server</artifactId>
@@ -46,16 +45,17 @@
             <artifactId>ledgers-middleware-rest-client</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>de.adorsys.ledgers</groupId>
-            <artifactId>keycloak-client</artifactId>
-            <version>${ledgers.version}</version>
-        </dependency>
-
         <!-- CMS embedded mode -->
         <dependency>
             <groupId>de.adorsys.psd2.sandbox</groupId>
             <artifactId>tpp-cms-impl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- auth-commons -->
+        <dependency>
+            <groupId>de.adorsys.psd2.sandbox</groupId>
+            <artifactId>auth-commons</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -100,7 +100,6 @@
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-okhttp</artifactId>
-            <version>${feign.version}</version>
         </dependency>
 
         <!-- Other dependencies -->

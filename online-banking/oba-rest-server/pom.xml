@@ -5,7 +5,7 @@
     <parent>
         <artifactId>online-banking</artifactId>
         <groupId>de.adorsys.psd2.sandbox</groupId>
-        <version>5.11</version>
+        <version>5.12</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -34,12 +34,12 @@
             <version>${project.version}</version>
         </dependency>
 
+        <!-- auth-commons -->
         <dependency>
-            <groupId>de.adorsys.ledgers</groupId>
-            <artifactId>keycloak-client</artifactId>
-            <version>${ledgers.version}</version>
+            <groupId>de.adorsys.psd2.sandbox</groupId>
+            <artifactId>auth-commons</artifactId>
+            <version>${project.version}</version>
         </dependency>
-
         <dependency>
             <groupId>de.adorsys.psd2.sandbox</groupId>
             <artifactId>consent-psu-rest-client</artifactId>
@@ -56,7 +56,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>nimbus-jose-jwt</artifactId>
+        </dependency>
         <!-- test dependencies -->
 
         <dependency>

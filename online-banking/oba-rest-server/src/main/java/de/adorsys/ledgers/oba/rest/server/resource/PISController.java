@@ -5,7 +5,7 @@ import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.oba.rest.api.resource.PISApi;
-import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
+import de.adorsys.psd2.sandbox.auth.MiddlewareAuthentication;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentWorkflow;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
@@ -34,7 +34,7 @@ public class PISController implements PISApi {
     private final XISControllerService xisService;
     private final HttpServletResponse response;
     private final ResponseUtils responseUtils;
-    private final ObaMiddlewareAuthentication middlewareAuth;
+    private final MiddlewareAuthentication middlewareAuth;
     private final AuthRequestInterceptor authInterceptor;
     private final TokenAuthenticationService authenticationService;
 
@@ -114,8 +114,12 @@ public class PISController implements PISApi {
 
     @Override
     public ResponseEntity<PaymentAuthorizeResponse> pisDone(String encryptedPaymentId, String authorisationId, boolean isOauth2Integrated, String authConfirmationCode) {
+        PaymentWorkflow workflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, middlewareAuth.getBearerToken());
+
         String psuId = AuthUtils.psuId(middlewareAuth);
         String redirectUrl = paymentService.resolveRedirectUrl(encryptedPaymentId, authorisationId, isOauth2Integrated, psuId, middlewareAuth.getBearerToken(), authConfirmationCode);
-        return responseUtils.redirect(redirectUrl, response);
+        PaymentAuthorizeResponse authResponse = workflow.getAuthResponse();
+        authResponse.setRedirectUrl(redirectUrl);
+        return ResponseEntity.ok(authResponse);
     }
 }

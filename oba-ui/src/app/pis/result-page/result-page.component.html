@@ -90,13 +90,13 @@
             <div class="form-group my-3 d-flex">
               <a
                 class="btn btn-secondary button-icon d-flex align-items-center mr-2"
-                [href]="devPortalLink"
+                (click)="redirectToDevPortal()"
               >
                 <span>To Developer portal</span>
               </a>
               <a
                 class="btn btn-primary button-icon d-flex align-items-center"
-                [href]="ref"
+                (click)="redirectToTpp()"
               >
                 <span>Back to TPP page</span>
               </a>

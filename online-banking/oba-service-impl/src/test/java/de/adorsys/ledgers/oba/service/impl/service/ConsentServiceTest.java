@@ -185,7 +185,7 @@ class ConsentServiceTest {
         FieldSetter.setField(consentService, consentService.getClass().getDeclaredField("createPiisConsentRequestMapper"), Mappers.getMapper(CreatePiisConsentRequestMapper.class));
 
         when(cmsAspspPiisClient.createConsent(any(), anyString(), nullable(String.class), nullable(String.class), nullable(String.class), any())).thenReturn(getCreatePiisConsentResponse());
-        when(consentRestClient.grantPIISConsent(any())).thenReturn(ResponseEntity.ok(getSCAConsentResponseTO()));
+        when(consentRestClient.initiatePiisConsent(any())).thenReturn(ResponseEntity.ok(getSCAConsentResponseTO()));
         when(consentDataClient.updateAspspConsentData(anyString(), any())).thenReturn(ResponseEntity.ok().build());
         when(objectMapper.writeValueAsBytes(any())).thenReturn(getByteArray());
 

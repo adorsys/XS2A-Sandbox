@@ -1,7 +1,7 @@
 package de.adorsys.ledgers.oba.rest.server.resource.oba;
 
 import de.adorsys.ledgers.oba.rest.api.resource.oba.ObaConsentApi;
-import de.adorsys.ledgers.oba.rest.server.auth.ObaMiddlewareAuthentication;
+import de.adorsys.psd2.sandbox.auth.MiddlewareAuthentication;
 import de.adorsys.ledgers.oba.rest.server.resource.AuthUtils;
 import de.adorsys.ledgers.oba.service.api.domain.CreatePiisConsentRequestTO;
 import de.adorsys.ledgers.oba.service.api.domain.ObaAisConsent;
@@ -27,7 +27,7 @@ import static org.springframework.http.HttpStatus.ACCEPTED;
 @RequiredArgsConstructor
 public class ObaConsentController implements ObaConsentApi {
     private final ConsentService consentService;
-    private final ObaMiddlewareAuthentication auth;
+    private final MiddlewareAuthentication auth;
     private final TppInfoCmsService tppInfoCmsService;
 
     @Override

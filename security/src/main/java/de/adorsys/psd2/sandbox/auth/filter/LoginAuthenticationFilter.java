@@ -1,34 +1,29 @@
-package de.adorsys.psd2.sandbox.tpp.rest.server.auth;
+package de.adorsys.psd2.sandbox.auth.filter;
 
 import de.adorsys.ledgers.keycloak.client.api.KeycloakTokenService;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
-import de.adorsys.ledgers.middleware.api.domain.um.UserRoleTO;
+import de.adorsys.psd2.sandbox.auth.LoginAuthorization;
+import de.adorsys.psd2.sandbox.auth.SecurityConstant;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.EnumSet;
-import static de.adorsys.psd2.sandbox.tpp.rest.server.auth.SecurityConstant.*;
-
 
 @RequiredArgsConstructor
 public class LoginAuthenticationFilter extends AbstractAuthFilter {
     private final KeycloakTokenService tokenService;
+    private final LoginAuthorization loginAuthorization;
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest request = (HttpServletRequest) servletRequest;
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
+    public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
 
-        String login = obtainFromHeader(request, USER_LOGIN);
-        String pin = obtainFromHeader(request, USER_PIN);
+        String login = obtainFromHeader(request, SecurityConstant.USER_LOGIN);
+        String pin = obtainFromHeader(request, SecurityConstant.USER_PIN);
 
         if (StringUtils.isBlank(login) || StringUtils.isBlank(pin)) {
             chain.doFilter(request, response);
@@ -38,14 +33,15 @@ public class LoginAuthenticationFilter extends AbstractAuthFilter {
         if (authenticationIsRequired()) {
             try {
                 BearerTokenTO bearerTokenTO = tokenService.login(login, pin);
+                addRefreshTokenCookie(response, jwtId(bearerTokenTO.getAccess_token()), bearerTokenTO.getRefresh_token(), request.isSecure());
                 bearerTokenTO = tokenService.validate(bearerTokenTO.getAccess_token());
-                if (!EnumSet.of(UserRoleTO.SYSTEM, UserRoleTO.STAFF).contains(bearerTokenTO.getAccessTokenObject().getRole())) {
+                if (!loginAuthorization.canLogin(bearerTokenTO)) {
                     handleAuthenticationFailure(response, new IllegalAccessException(String.format("User %s is missing required Role to login", login)));
                     return;
                 }
                 fillSecurityContext(bearerTokenTO);
                 addBearerTokenHeader(bearerTokenTO.getAccess_token(), response);
-            } catch (FeignException | RestException e) {
+            } catch (FeignException e) {
                 handleAuthenticationFailure(response, e);
                 return;
             }
@@ -53,8 +49,6 @@ public class LoginAuthenticationFilter extends AbstractAuthFilter {
         chain.doFilter(request, response);
     }
 
-    private void addBearerTokenHeader(String token, HttpServletResponse response) {
-        response.setHeader(ACCESS_TOKEN, token);
-    }
+
 }
 

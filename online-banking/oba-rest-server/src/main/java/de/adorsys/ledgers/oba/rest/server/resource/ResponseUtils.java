@@ -1,7 +1,7 @@
 package de.adorsys.ledgers.oba.rest.server.resource;
 
-import de.adorsys.ledgers.oba.rest.server.auth.oba.SecurityConstant;
 import de.adorsys.ledgers.oba.service.api.domain.OnlineBankingResponse;
+import de.adorsys.psd2.sandbox.auth.SecurityConstant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
