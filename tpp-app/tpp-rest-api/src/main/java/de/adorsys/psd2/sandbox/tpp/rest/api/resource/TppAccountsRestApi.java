@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.util.List;
 
+import static de.adorsys.ledgers.middleware.rest.utils.Constants.WITH_BALANCE_QUERY_PARAM;
+
 @Api(tags = "TPP Accounts management")
 public interface TppAccountsRestApi {
 
@@ -61,7 +63,8 @@ public interface TppAccountsRestApi {
     ResponseEntity<CustomPageImpl<AccountDetailsTO>> getAllAccounts(
         @RequestParam(value = "queryParam", required = false, defaultValue = "") String queryParam,
         @RequestParam(value = "page", required = false, defaultValue = "0") int page,
-        @RequestParam(value = "size", required = false, defaultValue = "25") int size);
+        @RequestParam(value = "size", required = false, defaultValue = "25") int size,
+        @RequestParam(value = "withBalance", required = false, defaultValue = "false") boolean withBalance);
 
     /**
      * Returns a single account by its ID if it belong to the same branch as STAFF user.

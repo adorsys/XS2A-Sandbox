@@ -108,6 +108,7 @@
             <tr>
               <th scope="col">#</th>
               <th scope="col">IBAN</th>
+              <th scope="col">Balance</th>
               <th scope="col">Currency</th>
               <th scope="col" *ngIf="admin === 'true'">TPP ID</th>
               <th scope="col">Account Type</th>
@@ -138,6 +139,21 @@
               >
                 {{ account.iban }}
               </td>
+
+              <td
+                [routerLink]="[createAccountDetailsLink(account.id)]"
+                [queryParams]="{
+                  page: config.currentPageNumber,
+                  tppId: account.branch
+                }"
+              >
+                {{
+                  account.balances?.length >= 0
+                    ? account.balances[0].amount?.amount
+                    : ''
+                }}
+              </td>
+
               <td
                 [routerLink]="[createAccountDetailsLink(account.id)]"
                 [queryParams]="{
