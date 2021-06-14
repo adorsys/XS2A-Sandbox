@@ -150,10 +150,42 @@ export class PeriodicPaymentsComponent implements OnInit {
     );
   }
 
+  mapTransactionStatus(status: string) {
+    switch (status) {
+      case 'ACCC':
+      case 'ACCP':
+      case 'ACSC':
+      case 'ACSP':
+      case 'ACTC':
+      case 'ACWC':
+      case 'ACWP':
+      case 'ACFC':
+        return 'Accepted';
+      case 'RCVD':
+        return 'Received';
+      case 'PDNG':
+        return 'Pending';
+      case 'RJCT':
+        return 'Rejected';
+      case 'CANC':
+        return 'Cancelled';
+      case 'PATC':
+      case 'PART':
+        return 'PartiallyAccepted';
+      default:
+        return '';
+    }
+  }
+
+  isCancellable(status: string) {
+    return this.mapTransactionStatus(status) === 'PartiallyAccepted';
+  }
+
   startSca(contentTan, contentDeleted) {
     return this.onlineBankingService
       .startScaNselectMethod(
-        this.cancellationResponse.paymentId,
+        //  this.cancellationResponse.paymentId,
+        this.targetedPayment.paymentId,
         this.cancellationResponse.chosenScaMethod.id,
         this.makeString()
       )
@@ -182,7 +214,8 @@ export class PeriodicPaymentsComponent implements OnInit {
   validateNcancel(contentDeleted) {
     return this.onlineBankingService
       .validateTanAndExecuteCancellation(
-        this.cancellationResponse.paymentId,
+        // this.cancellationResponse.paymentId,
+        this.targetedPayment.paymentId,
         this.cancellationResponse.authConfirmationCode,
         this.cancellationResponse.authorisationId
       )

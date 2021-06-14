@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
-
-import static de.adorsys.ledgers.middleware.rest.utils.Constants.WITH_BALANCE_QUERY_PARAM;
-
 @Api(tags = "TPP Accounts management")
 public interface TppAccountsRestApi {
 
