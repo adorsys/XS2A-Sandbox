@@ -96,10 +96,10 @@ class TppAccountsControllerTest {
     @Test
     void getAllAccountsPaged() {
         // Given
-        when(accountMgmtStaffRestClient.getListOfAccountsPaged(any(), anyInt(), anyInt())).thenAnswer(i -> ResponseEntity.ok(getCustomPageImpl()));
+        when(accountMgmtStaffRestClient.getListOfAccountsPaged(any(), anyInt(), anyInt(), eq(false))).thenAnswer(i -> ResponseEntity.ok(getCustomPageImpl()));
 
         // When
-        ResponseEntity<CustomPageImpl<AccountDetailsTO>> response = accountsController.getAllAccounts(IBAN, 0, 25);
+        ResponseEntity<CustomPageImpl<AccountDetailsTO>> response = accountsController.getAllAccounts(IBAN, 0, 25, false);
 
         // Then
         assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();

@@ -170,7 +170,11 @@ public class CommonPaymentServiceImpl implements CommonPaymentService {
         String authorisationId = workflow.getPaymentResponse().getAuthorisationId();
         String status = workflow.getAuthResponse().getScaStatus().name();
         try {
-            cmsPsuPisService.updateAuthorisationStatus(new PsuIdData(psuId, null, null, null, null),
+            PsuIdData psuIdData = new PsuIdData(psuId, null, null, null, null);
+             if(ScaStatusTO.PSUAUTHENTICATED.name().equals(status)){
+                 cmsPsuPisService.updatePsuInPayment(psuIdData, authorisationId, DEFAULT_SERVICE_INSTANCE_ID);
+             }
+            cmsPsuPisService.updateAuthorisationStatus(psuIdData,
                                                        paymentId, authorisationId, ScaStatus.valueOf(status), DEFAULT_SERVICE_INSTANCE_ID, new AuthenticationDataHolder(null, workflow.getScaResponse().getAuthConfirmationCode()));
         } catch (AuthorisationIsExpiredException e) {
             log.error("Authorization for your payment has expired!");

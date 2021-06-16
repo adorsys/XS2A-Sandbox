@@ -41,6 +41,7 @@
               <th scope="col">Start Date</th>
               <th scope="col">End Date</th>
               <th scope="col">Frequency</th>
+              <th scope="col">Status</th>
             </tr>
           </thead>
           <tbody>
@@ -73,8 +74,10 @@
               <td>{{ payment.startDate }}</td>
               <td>{{ payment.endDate }}</td>
               <td>{{ payment.frequency }}</td>
+              <td>{{ mapTransactionStatus(payment.transactionStatus) }}</td>
               <td>
                 <button
+                  *ngIf="isCancellable(payment.transactionStatus)"
                   class="btn btn-primary ml-3"
                   (click)="
                     openCancelPaymentModal(

@@ -67,8 +67,17 @@ public interface ObaAisApi {
     /**
      * @return List of pending periodic payments
      */
-    @GetMapping(path = "/payments")
+    @GetMapping(path = "/payments/pending")
     @ApiOperation(value = "Load Pending Periodic Payments", authorizations = @Authorization(value = "apiKey"))
     ResponseEntity<CustomPageImpl<PaymentTO>> getPendingPeriodicPayments(@RequestParam(required = false, defaultValue = "0") int page,
                                                                          @RequestParam(required = false, defaultValue = "25") int size);
+
+
+    /**
+     * @return List of pending periodic payments
+     */
+    @GetMapping(path = "/payments")
+    @ApiOperation(value = "Load All Payments", authorizations = @Authorization(value = "apiKey"))
+    ResponseEntity<CustomPageImpl<PaymentTO>> getAllPayments(@RequestParam(required = false, defaultValue = "0") int page,
+                                                             @RequestParam(required = false, defaultValue = "25") int size);
 }
