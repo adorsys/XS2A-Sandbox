@@ -218,6 +218,18 @@ Lint:TPP_backend:
     - echo "Run TPP backend lint"
     - make lint-tpp-rest-server
 
+Lint:Admin_backend:
+  image: debian:stretch-slim
+  stage: "Lint"
+  except:
+    - schedules
+    - develop
+    - master
+  script:
+    - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
+    - echo "Run Admin backend lint"
+    - make lint-admin-rest-server
+
 Lint:Docker_compose:
   image: maven:3.6-jdk-11-slim
   stage: "Lint"
