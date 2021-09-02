@@ -40,7 +40,7 @@ public class Xs2aCmsAutoConfiguration {
                              "de.adorsys.psd2.event",
                              "de.adorsys.psd2.consent",
                              "de.adorsys.psd2.sandbox.cms.starter",
-                             "de.adorsys.psd2.sandbox.tpp.cms",
+                             "de.adorsys.psd2.sandbox.cms.connector",
                              "de.adorsys.psd2.core.mapper");
 
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();

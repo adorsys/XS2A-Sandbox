@@ -25,6 +25,12 @@ services:
       context: tpp-app/tpp-rest-server
       dockerfile: Dockerfile
 
+  # ADMIN-REST-SERVER
+  xs2a-admin-rest-server:
+    build:
+      context: admin-app/admin-rest-server
+      dockerfile: Dockerfile
+
   # Developer portal ui
   developer-portal-ui:
     build:

@@ -8,6 +8,7 @@ volumes:
   xs2a-fakesmtp-data:
   xs2a-ledgers-data:
   xs2a-tpp-rest-server-data:
+  xs2a-admin-rest-server-data:
 
 services:
   # Xs2a connector example
@@ -222,6 +223,30 @@ services:
       - xs2a-consent-management-db
     volumes:
       - xs2a-tpp-rest-server-data:/var/lib/data
+
+  # ADMIN-REST-SERVER
+  xs2a-admin-rest-server:
+    image: adorsys/xs2a-admin-rest-server:${SANDBOX_VERSION}
+    restart: on-failure
+    environment:
+      KEYCLOAK_AUTH_SERVER_URL: "http://ledgers-keycloak:8080/auth"
+      LEDGERS_URL: "http://ledgers:8088"
+      SPRING_DATASOURCE_HIKARI_JDBCURL: "jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=consent"
+      SPRING_DATASOURCE_HIKARI_USERNAME: "cms"
+      SPRING_DATASOURCE_HIKARI_PASSWORD: "cms"
+      SPRING_CONSENT_DATASOURCE_HIKARI_JDBCURL: "jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=consent"
+      SPRING_CONSENT_DATASOURCE_HIKARI_USERNAME: "cms"
+      SPRING_CONSENT_DATASOURCE_HIKARI_PASSWORD: "cms"
+    ports:
+      - "8094:8094"
+      - "5006:5006"
+    networks:
+      - xs2a-net
+    depends_on:
+      - ledgers
+      - xs2a-consent-management-db
+    volumes:
+      - xs2a-admin-rest-server-data:/var/lib/data
 
   # Developer portal ui
   developer-portal-ui:

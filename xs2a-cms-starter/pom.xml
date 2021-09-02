@@ -65,7 +65,7 @@
 
         <dependency>
             <groupId>de.adorsys.psd2.sandbox</groupId>
-            <artifactId>tpp-cms-api</artifactId>
+            <artifactId>cms-connector-api</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

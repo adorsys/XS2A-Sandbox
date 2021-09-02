@@ -19,7 +19,7 @@ import de.adorsys.ledgers.middleware.client.mappers.PaymentMapperTO;
 import de.adorsys.ledgers.middleware.client.rest.DataRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtRestClient;
 import de.adorsys.ledgers.middleware.client.rest.UserMgmtStaffRestClient;
-import de.adorsys.psd2.sandbox.tpp.cms.api.service.CmsDbNativeService;
+import de.adorsys.psd2.sandbox.cms.connector.api.service.CmsDbNativeService;
 import de.adorsys.psd2.sandbox.tpp.rest.server.mapper.BalanceMapper;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.AccountBalance;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.DataPayload;

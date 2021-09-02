@@ -18,7 +18,6 @@
         <module>tpp-rest-api</module>
         <module>tpp-rest-client</module>
         <module>tpp-rest-server</module>
-        <module>tpp-cms</module>
         <module>tpp-db</module>
     </modules>
 </project>

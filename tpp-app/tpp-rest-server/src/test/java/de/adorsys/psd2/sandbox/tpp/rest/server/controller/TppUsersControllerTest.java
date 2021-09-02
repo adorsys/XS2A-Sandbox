@@ -147,6 +147,8 @@ class TppUsersControllerTest {
     }
 
     private CustomPageImpl<UserTO> getCustomPageImplUserTO() {
-        return new CustomPageImpl<>();
+        CustomPageImpl<UserTO> users = new CustomPageImpl<>();
+        users.setContent(Collections.singletonList(new UserTO()));
+        return users;
     }
 }

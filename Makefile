@@ -35,13 +35,14 @@ install-for-MacOS:
 
 # Lint section
 
-lint-all: lint-dockerfiles lint-tpp-ui lint-oba-ui lint-developer-portal-ui lint-tpp-rest-server lint-online-banking lint-docker-compose lint-pmd-cpd-report #lint all services
+lint-all: lint-dockerfiles lint-tpp-ui lint-oba-ui lint-developer-portal-ui lint-tpp-rest-server lint-admin-rest-server lint-online-banking lint-docker-compose lint-pmd-cpd-report #lint all services
 
 lint-dockerfiles:
 	docker run --rm -i hadolint/hadolint < tpp-ui/Dockerfile
 	docker run --rm -i hadolint/hadolint < oba-ui/Dockerfile
 	docker run --rm -i hadolint/hadolint < developer-portal-ui/Dockerfile
 	docker run --rm -i hadolint/hadolint < tpp-app/tpp-rest-server/Dockerfile
+	docker run --rm -i hadolint/hadolint < admin-app/admin-rest-server/Dockerfile
 	docker run --rm -i hadolint/hadolint < online-banking/online-banking-app/Dockerfile
 
 lint-tpp-ui:
@@ -73,6 +74,11 @@ lint-tpp-rest-server:
 	find tpp-app -type f -name "*.json" -exec jsonlint -q {} \; # lint all json
 	find tpp-app -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
 	find tpp-app -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
+
+lint-admin-rest-server:
+	find admin-app -type f -name "*.json" -exec jsonlint -q {} \; # lint all json
+	find admin-app -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
+	find admin-app -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
 
 lint-online-banking:
 	find online-banking -type f -name "*.json" -exec jsonlint -q {} \; # lint all json

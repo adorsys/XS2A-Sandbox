@@ -32,6 +32,7 @@ variables:
   DOCKER_IMAGE_NAME_XS2A_TPP_UI: "xs2a-bank-tpp-ui"
   DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI: "xs2a-bank-devportal"
   DOCKER_IMAGE_NAME_XS2A_TPP_REST_SERVER: "xs2a-tpp-rest-server"
+  DOCKER_IMAGE_NAME_XS2A_ADMIN_REST_SERVER: "xs2a-admin-rest-server"
 
   ###########################
   # Public Dockerhub Images #
@@ -78,6 +79,7 @@ variables:
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${DOCKER_TAG}" online-banking/online-banking-app
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:${DOCKER_TAG}" oba-ui
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_REST_SERVER}:${DOCKER_TAG}" tpp-app/tpp-rest-server
+    - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ADMIN_REST_SERVER}:${DOCKER_TAG}" admin-app/admin-rest-server
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${DOCKER_TAG}" tpp-ui
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:${DOCKER_TAG}" developer-portal-ui
 
@@ -86,6 +88,7 @@ variables:
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${DOCKER_TAG}" online-banking/online-banking-app
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:${DOCKER_TAG}" oba-ui
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_REST_SERVER}:${DOCKER_TAG}" tpp-app/tpp-rest-server
+    - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ADMIN_REST_SERVER}:${DOCKER_TAG}" admin-app/admin-rest-server
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${DOCKER_TAG}" tpp-ui
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:${DOCKER_TAG}" developer-portal-ui
 
@@ -93,6 +96,7 @@ variables:
     - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${DOCKER_TAG}"
     - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:${DOCKER_TAG}"
     - docker push  "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_REST_SERVER}:${DOCKER_TAG}"
+    - docker push  "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ADMIN_REST_SERVER}:${DOCKER_TAG}"
     - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${DOCKER_TAG}"
     - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:${DOCKER_TAG}"
     - docker logout
@@ -115,6 +119,11 @@ variables:
       --dest-creds=openshift:${OPENSHIFT_TOKEN}
       "docker://${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_REST_SERVER}:${DOCKER_TAG}"
       "docker://${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_REST_SERVER}:latest"
+    - >-
+      skopeo copy
+      --dest-creds=openshift:${OPENSHIFT_TOKEN}
+      "docker://${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ADMIN_REST_SERVER}:${DOCKER_TAG}"
+      "docker://${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ADMIN_REST_SERVER}:latest"
     - >-
       skopeo copy
       --dest-creds=openshift:${OPENSHIFT_TOKEN}
@@ -301,6 +310,7 @@ Build:Java11:
       - "online-banking/online-banking-app/target/online-banking-app.jar"
       - "certificate-generator/target/certificate-generator.jar"
       - "tpp-app/tpp-rest-server/target/tpp-rest-server.jar"
+      - "admin-app/admin-rest-server/target/admin-rest-server.jar"
     name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}"
     expire_in: "1 day"
 

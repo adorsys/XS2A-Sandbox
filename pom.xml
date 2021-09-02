@@ -32,8 +32,10 @@
         <module>online-banking</module>
         <module>integration-tests</module>
         <module>tpp-app</module>
+        <module>admin-app</module>
         <module>xs2a-cms-starter</module>
         <module>security</module>
+        <module>cms-connector</module>
     </modules>
 
     <url>https://github.com/adorsys/psd2-dynamic-sandbox</url>

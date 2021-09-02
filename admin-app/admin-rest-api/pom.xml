@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>admin-app</artifactId>
+        <groupId>de.adorsys.psd2.sandbox</groupId>
+        <version>5.15-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>admin-rest-api</artifactId>
+
+    <properties>
+        <ruleset.basedir>../..</ruleset.basedir>
+    </properties>
+
+    <dependencies>
+        <!-- Lombok -->
+        <dependency>
+            <groupId>de.adorsys.ledgers</groupId>
+            <artifactId>ledgers-middleware-rest-api</artifactId>
+            <version>${ledgers.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <!-- Swagger -->
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+        </dependency>
+
+        <!-- Spring -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
+        <!--User defined dependencies-->
+        <dependency>
+            <groupId>de.adorsys.ledgers</groupId>
+            <artifactId>ledgers-middleware-service-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+        </dependency>
+
+        <!-- Quickfix Iban4j -->
+        <dependency>
+            <groupId>org.iban4j</groupId>
+            <artifactId>iban4j</artifactId>
+            <version>3.2.2-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/iban4j-3.2.2-SNAPSHOT.jar</systemPath>
+        </dependency>
+    </dependencies>
+
+</project>

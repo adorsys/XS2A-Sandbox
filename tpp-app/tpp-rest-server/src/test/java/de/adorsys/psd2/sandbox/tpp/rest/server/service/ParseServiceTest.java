@@ -1,7 +1,7 @@
 package de.adorsys.psd2.sandbox.tpp.rest.server.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import de.adorsys.psd2.sandbox.tpp.cms.api.domain.AisConsent;
+import de.adorsys.psd2.sandbox.cms.connector.api.domain.AisConsent;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.UserTransaction;
 import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
 import de.adorsys.psd2.sandbox.tpp.rest.server.model.DataPayload;
