@@ -23,8 +23,6 @@ stages:
 # ------------------------------------------------------------------
 
 variables:
-  SONAR_HOST: "https://psd2-quality.cloud.adorsys.de"
-
   GIT_SUBMODULE_STRATEGY: normal
   # Online banking
   DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING: "xs2a-online-banking"
@@ -437,20 +435,6 @@ Postman Tests:
     expire_in: "10 day"
 
 # develop
-
-Sonarcube Tests:
-  stage: "Test"
-  except:
-    - schedules
-  only:
-    - develop
-  needs: []
-  script:
-    - jabba use system@1.11
-    - cat /sys/fs/cgroup/memory/memory.limit_in_bytes
-    - java -XX:+PrintFlagsFinal -version | grep -Ei "maxheapsize|maxram"
-    - mvn -ntp --fail-at-end clean install
-    - mvn sonar:sonar -Dsonar.host.url=${SONAR_HOST} -Dsonar.login=${SONAR_TOKEN}
 
 build_dockerhub_image_develop:
   stage: "Package"
