@@ -1,0 +1,25 @@
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-body--large">
+      <div class="header__title">
+        <mat-icon>account_circle</mat-icon>
+        Admin User Details
+      </div>
+      <div class="row">
+        <div class="col-4 col-md-3">Login</div>
+        <div class="col-8 col-md-9 text-muted">{{ tppUser?.login }}</div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-md-3">Email</div>
+        <div class="col-12 col-md-9 text-muted">{{ tppUser?.email }}</div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-3">State</div>
+        <div class="col-12 col-md-9 text-muted">
+          {{ tppUser?.blocked ? "Blocked" : "Active" }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

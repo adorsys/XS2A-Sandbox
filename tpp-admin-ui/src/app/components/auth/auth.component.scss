@@ -1,0 +1,56 @@
+@import "src/assets/themes/variables";
+
+form {
+  font-weight: 100;
+}
+
+.container-fluid {
+  padding: 0;
+}
+
+.sticky-top {
+  z-index: 1000;
+}
+.card {
+  border: none;
+
+  &-title {
+    font-size: 2rem;
+  }
+  &__headline {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &__subtitle {
+    font-size: 1.1rem;
+    color: $light-grey;
+  }
+
+  .card__subtitle {
+    margin-bottom: 1.5rem;
+  }
+}
+
+.text-light-grey a {
+  color: $light-grey;
+}
+.text-light-green a {
+  color: $green;
+}
+.text-light-grey p {
+  color: $light-grey;
+}
+
+.btn {
+  width: 100%;
+
+  &:disabled {
+    opacity: 1;
+    background: var(--buttonBGDisabled);
+    color: var(--buttonColorTextDisabled);
+  }
+}
+.flip-vertical {
+  transform: scaleY(-1);
+}

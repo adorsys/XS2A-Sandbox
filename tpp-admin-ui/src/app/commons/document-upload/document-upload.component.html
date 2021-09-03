@@ -1,0 +1,64 @@
+<div *ngIf="uploader.queue.length === 0">
+  <label
+    (fileOver)="fileOverBase($event)"
+    [uploader]="uploader"
+    class="drop-zone d-flex justify-content-center"
+    [for]="id"
+    ng2FileDrop
+  >
+    <span class="drop-text">
+      <span class="icon">
+        <app-icon inline="true" svgIcon="upload"></app-icon>
+      </span>
+      <span class="d-block">Drop file or click here</span>
+    </span>
+  </label>
+  <input
+    class="fileInput"
+    [accept]="acceptedMimes"
+    [uploader]="uploader"
+    [id]="id"
+    ng2FileSelect
+    type="file"
+  />
+</div>
+
+<div class="col-12">
+  <table *ngIf="uploader.queue.length > 0" class="table">
+    <thead>
+      <tr>
+        <th class="col-4">Filename</th>
+        <th class="col-4">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of uploader.queue">
+        <!-- Image -->
+        <td class="col-4">
+          <small
+            ><strong>{{ item?.file?.name }}</strong></small
+          >
+        </td>
+        <!-- Actions -->
+        <td nowrap>
+          <button
+            (click)="item.upload()"
+            *ngIf="uploader.queue.length === 1"
+            [disabled]="item.isUploading || item.isSuccess"
+            class="btn btn-primary mr-1"
+          >
+            <i class="fa fa-upload"></i>
+            <span>Upload</span>
+          </button>
+          <button (click)="item.remove()" class="btn btn-danger">
+            <i class="fa fa-remove"></i>
+            <span>Remove</span>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="uploader.queue.length > 0">
+    <div class="form-group"></div>
+  </div>
+</div>

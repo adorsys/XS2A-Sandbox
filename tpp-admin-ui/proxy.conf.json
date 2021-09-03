@@ -1,0 +1,41 @@
+{
+  "/ledgers/*": {
+    "target": "http://localhost:8088",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/ledgers": ""
+    }
+  },
+
+  "/certgen/*": {
+    "target": "http://localhost:8092",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/certgen": ""
+    }
+  },
+
+  "/tpp/*": {
+    "target": "http://localhost:8093",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/tpp": "/tpp"
+    }
+  },
+
+  "/admin/*": {
+    "target": "http://localhost:8094",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/admin": "/admin"
+    }
+  }
+}

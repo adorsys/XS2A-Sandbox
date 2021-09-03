@@ -29,6 +29,12 @@ springdoc:
     enabled: false
 
 spring:
+  liquibase:
+    enabled: true
+    change-log: classpath:liquibase-master-changelog.xml
+    default-schema: tpp
+  jpa:
+    open-in-view: false
   servlet:
     multipart:
       enabled: true
@@ -41,6 +47,10 @@ spring:
   devtools:
     remote:
       secret: fractal
+
+spring.datasource.hikari.jdbc-url: jdbc:postgresql://localhost:5432/consent?currentSchema=consent
+spring.datasource.hikari.username: cms
+spring.datasource.hikari.password: cms
 
 ledgers.url: http://localhost:8088
 

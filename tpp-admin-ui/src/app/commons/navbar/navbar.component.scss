@@ -1,0 +1,19 @@
+.flex {
+  display: flex;
+}
+
+.nav {
+  -webkit-box-shadow: 0 9px 10px 0 rgba(248, 248, 248, 1);
+  box-shadow: 0 9px 10px 0 rgba(248, 248, 248, 1);
+}
+
+.dropped-menu {
+  left: -1.5rem;
+  position: absolute;
+  top: 1.2rem;
+  z-index: 2;
+}
+
+.dropdown-item {
+  padding: 0 1.5rem;
+}

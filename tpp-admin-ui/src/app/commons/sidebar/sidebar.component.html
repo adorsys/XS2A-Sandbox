@@ -1,0 +1,64 @@
+<div>
+  <ul class="nav flex-md-column">
+    <li class="nav-item">
+      <a
+        [routerLinkActive]="['active']"
+        [routerLink]="['/admin/all']"
+        class="nav-link"
+      >
+        <div class="icon__container">
+          <app-icon
+            svgIcon="user"
+            inline="true"
+            class="icon--medium"
+          ></app-icon>
+        </div>
+        <span class="nav__title">Administrators List</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+        [routerLinkActive]="['active']"
+        [routerLink]="['/management']"
+        class="nav-link"
+      >
+        <div class="icon__container">
+          <app-icon
+            svgIcon="user"
+            inline="true"
+            class="icon--medium"
+          ></app-icon>
+        </div>
+        <span class="nav__title">TPP Management</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+        [routerLinkActive]="['active']"
+        [routerLink]="['/users/all']"
+        class="nav-link"
+      >
+        <div class="icon__container">
+          <app-icon
+            svgIcon="user"
+            inline="true"
+            class="icon--medium"
+          ></app-icon>
+        </div>
+        <span class="nav__title">Users List</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+        [routerLinkActive]="['active']"
+        [routerLink]="['/accounts']"
+        class="nav-link"
+      >
+        <div class="icon__container">
+          <app-icon svgIcon="euro" inline="true"></app-icon>
+        </div>
+        <span class="nav__title">Users Accounts</span>
+      </a>
+    </li>
+  </ul>
+</div>

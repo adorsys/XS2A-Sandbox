@@ -1,0 +1,89 @@
+<div class="container-fluid" *ngIf="user">
+  <div class="card">
+    <div class="card-body--large">
+      <a href="javascript:void(0);" (click)="handleClickOnBackButton()">
+        <button class="btn btn-sm btn-outline-secondary mb-4">&lt; Back</button>
+      </a>
+
+      <div class="header__title">User details</div>
+
+      <div class="row">
+        <div class="col-12 col-md-3">TPP</div>
+        <div class="col-12 col-md-9 text-muted">
+          <a [routerLink]="[createLastVisitedPageLink(user.branch, user.id)]">{{
+            user.branch
+          }}</a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-3">Login</div>
+        <div class="col-12 col-md-9 text-muted">{{ user.login }}</div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-3">Email</div>
+        <div class="col-12 col-md-9 text-muted">{{ user.email }}</div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-3">Accounts</div>
+        <div class="col-12 col-md-9 text-muted">
+          <div *ngFor="let accountAccess of user?.accountAccesses">
+            <a
+              href="javascript:void(0);"
+              class="iban"
+              (click)="handleClickOnIBAN(accountAccess.accountId)"
+            >
+              {{ accountAccess.iban }}
+            </a>
+            {{ accountAccess.currency }}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-12">Authentication:</div>
+      </div>
+      <div
+        class="row"
+        *ngFor="let scaItem of user?.scaUserData; index as i; last as isLast"
+        [ngClass]="{ 'mb-2': !isLast }"
+      >
+        <div class="col-12 col-md-9 text-muted">
+          {{ scaItem.methodValue }}
+          <div *ngIf="scaItem.scaMethod">
+            Sca Method: {{ scaItem.scaMethod }}
+          </div>
+          <div *ngIf="scaItem.usesStaticTan">
+            Static TAN: {{ scaItem.staticTan }}
+          </div>
+          <div *ngIf="scaItem.scaMethod === 'EMAIL' && scaItem.methodValue">
+            <span
+              [ngClass]="{
+                confirmed: scaItem.valid,
+                unconfirmed: !scaItem.valid
+              }"
+            >
+              {{ scaItem.valid ? "Confirmed" : "Unconfirmed" }}
+            </span>
+          </div>
+        </div>
+        <div class="col-12 col-md-3 p-0">
+          <button
+            *ngIf="scaItem.scaMethod === 'EMAIL' && scaItem.methodValue"
+            (click)="confirmEmail(scaItem)"
+            class="btn btn-sm btn-outline-secondary"
+          >
+            Confirm email
+          </button>
+        </div>
+      </div>
+      <div class="form-group d-flex flex-row justify-content-lg-between">
+        <button
+          routerLink="/users/{{ user.id }}/update-user-details"
+          class="btn btn-primary"
+          type="submit"
+        >
+          Edit
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

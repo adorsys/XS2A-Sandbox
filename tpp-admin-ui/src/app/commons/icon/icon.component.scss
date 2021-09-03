@@ -1,0 +1,16 @@
+$icon-size: 24px !default;
+
+.app-icon {
+  background-repeat: no-repeat;
+  display: inline-block;
+  fill: currentColor;
+  height: $icon-size;
+  width: $icon-size;
+
+  &--inline {
+    font-size: inherit;
+    height: inherit;
+    line-height: inherit;
+    width: inherit;
+  }
+}

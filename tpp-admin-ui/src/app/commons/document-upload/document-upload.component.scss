@@ -1,0 +1,51 @@
+@import "~src/assets/themes/variables";
+/************************************+
+  DROP-ZONE
+*************************************/
+.drop-zone {
+  color: $light-grey;
+  height: 200px;
+  font-size: 1.5rem;
+  text-align: center;
+  width: 100%;
+  background-color: $light-grey-10;
+}
+
+.fileInput {
+  display: none;
+}
+
+/************************************+
+  TABLE
+*************************************/
+th {
+  text-align: left;
+}
+
+button {
+}
+
+.my-drop-zone {
+  border: dotted 3px $light-grey;
+}
+.nv-file-over {
+  border: dotted 3px red;
+} /* Default class applied to drop zones on over */
+.another-file-over-class {
+  border: dotted 3px green;
+}
+
+.drop-text {
+  margin-top: 10px;
+  // margin-top: 10vh;
+  .icon {
+    display: block;
+    width: 4rem;
+    height: 4rem;
+    margin: 25px auto 25px auto;
+  }
+}
+
+label {
+  border: 2px dashed $light-grey;
+}

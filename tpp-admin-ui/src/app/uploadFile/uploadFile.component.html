@@ -1,0 +1,14 @@
+<div class="container-fluid">
+  <div class="card mb-4" *ngFor="let uploadDataConfig of uploadDataConfigs">
+    <div class="card-body--large">
+      <div class="header__title mb-4">{{ uploadDataConfig.title }}</div>
+      <app-document-upload [options]="uploadDataConfig"></app-document-upload>
+      <button
+        (click)="generateFileExample(uploadDataConfig)"
+        class="btn btn-primary mb-0 mt-3"
+      >
+        Download template
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,202 @@
+<div class="container-fluid">
+  <div class="row header">
+    <div class="col-12 col-md-4 header__title">Administrator</div>
+    <div class="col-12 col-md-8 right">
+      <div class="row flex-end">
+        <div class="col-12 col-md-4">
+          <div class="header__button">
+            <button
+              mat-raised-button
+              class="btn btn-primary btn-block mb-4"
+              routerLink="/admin/create"
+            >
+              <mat-icon>person_add</mat-icon> New Administrator
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="table-responsive">
+        <div class="container-fluid configs-container">
+          <div class="row d-flex justify-content-between configs">
+            <div class="paginator">
+              <app-pagination-container
+                [paginationConfig]="config"
+                (pageDataConfig)="pageChange($event)"
+              ></app-pagination-container>
+            </div>
+          </div>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Admin Login</th>
+              <th scope="col">Email</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let user of users; index as i"
+              [ngClass]="{ 'disabled-text': user.blocked }"
+            >
+              <th scope="row">
+                {{
+                  (config.currentPageNumber - 1) * config.itemsPerPage + i + 1
+                }}
+              </th>
+              <td>{{ user.login }}</td>
+              <td>{{ user.email }}</td>
+              <td class="actions d-flex">
+                <button
+                  mat-fab
+                  matTooltip="Edit"
+                  [matTooltipPosition]="position.value"
+                  class="btn btn-table-btn btn-sm wd-120 mr-3"
+                  [routerLink]="['/edit/' + user.id]"
+                  [queryParams]="{ admin: config.totalItems }"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+
+                <button
+                  mat-fab
+                  matTooltip="Change PIN"
+                  [matTooltipPosition]="position.value"
+                  class="btn btn-table-btn btn-sm wd-120 mr-3"
+                  (click)="openConfirmation(changePinModal, user.id, 'pin')"
+                >
+                  <mat-icon>pin</mat-icon>
+                </button>
+
+                <button
+                  mat-fab
+                  matTooltip="Delete the admin"
+                  [matTooltipPosition]="position.value"
+                  (click)="
+                    openConfirmation(deleteConfirmationModal, user.id, 'delete')
+                  "
+                  class="btn btn-outline-danger btn-sm wd-120"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+
+                <ng-template #deleteConfirmationModal let-modal>
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="modal-basic-title">
+                      Admin deletion
+                    </h4>
+                  </div>
+                  <div class="modal-body">
+                    Are you sure you want to delete this Admin?
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      mat-raised-button
+                      type="button"
+                      class="btn btn-outline-secondary mr-2"
+                      (click)="modal.dismiss('cancel click')"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      mat-raised-button
+                      type="button"
+                      class="btn btn-danger"
+                      (click)="modal.close('Ok click')"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </ng-template>
+                <ng-template #changePinModal let-modal>
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="modal-basic-title-2">
+                      Change PIN for Admin
+                    </h4>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <input
+                        class="form-control"
+                        [(ngModel)]="newPin"
+                        [ngClass]="{ 'is-invalid': !newPin || newPin === '' }"
+                        [ngModelOptions]="{ standalone: true }"
+                        type="password"
+                        placeholder="Please enter the PIN"
+                      />
+                      <div
+                        class="invalid-feedback"
+                        *ngIf="!newPin || newPin === ''"
+                      >
+                        Please, enter any PIN for Admin, PIN cannot be empty
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <input
+                        class="form-control"
+                        [(ngModel)]="confirmNewPin"
+                        [ngClass]="{
+                          'is-invalid': !confirmNewPin || confirmNewPin === '',
+                          'is-invalid': newPin !== confirmNewPin
+                        }"
+                        [ngModelOptions]="{ standalone: true }"
+                        type="password"
+                        placeholder="Please enter the Confirm PIN"
+                      />
+                      <div
+                        class="invalid-feedback"
+                        *ngIf="!confirmNewPin || confirmNewPin === ''"
+                      >
+                        ConfirmPIN cannot be empty.
+                      </div>
+                      <div
+                        class="invalid-feedback"
+                        *ngIf="newPin !== confirmNewPin"
+                      >
+                        PIN and ConfirmPIN must match.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      mat-raised-button
+                      type="button"
+                      class="btn btn-outline-secondary mr-2"
+                      (click)="modal.dismiss('cancel click')"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      mat-raised-button
+                      type="button"
+                      class="btn btn-primary"
+                      (click)="modal.close('Ok click')"
+                    >
+                      Change PIN
+                    </button>
+                  </div>
+                </ng-template>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="container-fluid">
+          <div class="row d-flex justify-content-start">
+            <app-pagination-container
+              [paginationConfig]="config"
+              (pageDataConfig)="pageChange($event)"
+            ></app-pagination-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,158 @@
+// Overwrite bootstrap variables
+@import "src/assets/themes/bootstrap-overrides";
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
+$light-grey: #a0a0a0;
+$light-grey-10: #f8f8f8;
+$btn-text-color: #f6f6f6;
+$dark-80: #2c2e2f;
+$green: #059c85;
+
+/*
+ * CSS Variables: Used for whitelabel customization
+ */
+:root {
+  /* Fonts */
+
+  --fontFamily: "Verdana", sans-serif;
+
+  --textFontSize: 1rem;
+  --textFontWeight: bold;
+  --textFontSize768px: 1rem;
+  --textFontWeight768px: bold;
+  --textFontSize1024px: 1rem;
+  --textFontWeight1024px: bold;
+
+  --h1FontSize: 2rem;
+  --h1FontWeight: bold;
+
+  --h2FontSize: 1.8rem;
+  --h2FontWeight: 700;
+
+  --h3FontSize: 1rem;
+  --h3FontWeight: normal;
+
+  --h1FontSize768px: 2rem;
+  --h1FontWeight768px: bold;
+  --h1FontSize1024px: 2rem;
+  --h1FontWeight1024px: bold;
+
+  --h2FontSize768px: 1.5rem;
+  --h2FontWeight768px: bold;
+  --h2FontSize1024px: 1.5rem;
+  --h2FontWeight1024px: bold;
+
+  --h3FontSize768px: 1rem;
+  --h3FontWeight768px: normal;
+  --h3FontSize1024px: 1rem;
+  --h3FontWeight1024px: normal;
+
+  /* Colors */
+  --colorPrimary: #{$primary};
+  --colorSecondary: #{$primary};
+  --tr-color: #000000;
+
+  /* Body */
+  --bodyBG: #fff;
+  --bodyFontColor: #212529;
+
+  /* Main */
+  --mainBG: #{$light-grey-10};
+  --menuItemHovered: white;
+
+  /* Header */
+  --headerBG: #ffffff;
+  --headerFontColor: #000000;
+  --headerBorderTop: 0px;
+
+  /* Footer */
+  --footerBG: #054f72;
+  --footerFontColor: #ffffff;
+
+  /* Anchor */
+  --anchorFontColor: #{$link-color};
+  --anchorFontColorHover: #{$link-hover-color};
+
+  /* Buttons */
+  --button-heigh: 50px;
+
+  /* Primary */
+
+  --buttonTextColor: #fff;
+  --buttonBorderRadius: 3px;
+  --buttonColorTextDisabled: #fff;
+  --buttonBGDisabled: linear-gradient(
+    129.54deg,
+    var(--buttonBgGradient1) 0%,
+    var(--buttonBgGradient2) 100%
+  );
+  --button-opacity: 0.65;
+  --button-heigh: 56px;
+  --btn-padding: 15px 12px;
+
+  --buttonBgGradient1: #13b4bf;
+  --buttonBgGradient2: #0a8f70;
+  --buttonBG: linear-gradient(
+    129.54deg,
+    var(--buttonBgGradient1) 0%,
+    var(--buttonBgGradient2) 100%
+  );
+
+  --buttonHoveredGradient1: #059c85;
+  --buttonHoveredGradient2: #0a8f70;
+  --buttonHovered: linear-gradient(
+    129.54deg,
+    var(--buttonHoveredGradient1) 0%,
+    var(--buttonHoveredGradient2) 100%
+  );
+
+  --buttonClickedGradient1: #13b4bf;
+  --buttonClickedGradient2: #008073;
+  --buttonClicked: linear-gradient(
+    129.54deg,
+    var(--buttonClickedGradient1) 0%,
+    var(--buttonClickedGradient2) 100%
+  );
+
+  /* Secondary */
+  --secondaryButtonTextColor: #{$danger};
+  --secondaryButtonBG: white;
+
+  --secondaryButtonHoveredTextColor: white;
+  --secondaryButtonHovered: #{$danger};
+
+  --secondaryButtonClickedTextColor: white;
+  --secondaryButtonClicked: #{$danger};
+
+  --secondaryButtonBorderStyle: 1px solid #{$danger};
+
+  /* Inputs */
+  --inputBG: white;
+  --inputBorderStyleLeft: 1px solid #a0a0a0;
+  --inputBorderStyleRight: 1px solid #a0a0a0;
+  --inputBorderStyleBottom: 1px solid #a0a0a0;
+  --inputBorderStyleTop: 1px solid #a0a0a0;
+  --inputBorderRadius: 0.25rem;
+
+  /* Selects */
+  --selectBG: white;
+  --selectColor: #3b4151;
+  --selectBorderStyleLeft: none;
+  --selectBorderStyleRight: none;
+  --selectBorderStyleBottom: none;
+  --selectBorderStyleTop: none;
+  --selectBorderRadius: none;
+
+  /* Form */
+  --margin-form-group: 0 0 4rem 0;
+  --form-group-height: 3.5rem;
+  --border-bottom: none;
+
+  /* Margins */
+  --margin-top-icon: 6px;
+
+  /* Image URL */
+  --arrow-url: url("/assets/icons/arrow-down.svg");
+}
