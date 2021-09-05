@@ -28,6 +28,7 @@ variables:
   DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING: "xs2a-online-banking"
   DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI: "xs2a-online-banking-ui"
   DOCKER_IMAGE_NAME_XS2A_TPP_UI: "xs2a-bank-tpp-ui"
+  DOCKER_IMAGE_NAME_XS2A_ADMIN_UI: "xs2a-bank-admin-ui"
   DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI: "xs2a-bank-devportal"
   DOCKER_IMAGE_NAME_XS2A_TPP_REST_SERVER: "xs2a-tpp-rest-server"
   DOCKER_IMAGE_NAME_XS2A_ADMIN_REST_SERVER: "xs2a-admin-rest-server"
@@ -79,6 +80,7 @@ variables:
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_REST_SERVER}:${DOCKER_TAG}" tpp-app/tpp-rest-server
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ADMIN_REST_SERVER}:${DOCKER_TAG}" admin-app/admin-rest-server
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${DOCKER_TAG}" tpp-ui
+    - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ADMIN_UI}:${DOCKER_TAG}" admin-ui
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:${DOCKER_TAG}" developer-portal-ui
 
 .push_dockerhub_images: &push_dockerhub_images
@@ -88,6 +90,7 @@ variables:
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_REST_SERVER}:${DOCKER_TAG}" tpp-app/tpp-rest-server
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ADMIN_REST_SERVER}:${DOCKER_TAG}" admin-app/admin-rest-server
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${DOCKER_TAG}" tpp-ui
+    - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ADMIN_UI}:${DOCKER_TAG}" admin-ui
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:${DOCKER_TAG}" developer-portal-ui
 
     - docker login -u $DOCKER_HUB_LOGIN -p $DOCKER_HUB_PASS
@@ -96,6 +99,7 @@ variables:
     - docker push  "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_REST_SERVER}:${DOCKER_TAG}"
     - docker push  "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ADMIN_REST_SERVER}:${DOCKER_TAG}"
     - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${DOCKER_TAG}"
+    - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ADMIN_UI}:${DOCKER_TAG}"
     - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:${DOCKER_TAG}"
     - docker logout
 
@@ -127,6 +131,11 @@ variables:
       --dest-creds=openshift:${OPENSHIFT_TOKEN}
       "docker://${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${DOCKER_TAG}"
       "docker://${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:latest"
+    - >-
+      skopeo copy
+      --dest-creds=openshift:${OPENSHIFT_TOKEN}
+      "docker://${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ADMIN_UI}:${DOCKER_TAG}"
+      "docker://${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ADMIN_UI}:latest"
     - >-
       skopeo copy
       --dest-creds=openshift:${OPENSHIFT_TOKEN}
@@ -181,6 +190,18 @@ Lint:TPP_frontend:
     - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
     - echo "Run TPP lint"
     - make lint-tpp-ui
+
+Lint:Admin_frontend:
+  image: node:12.16.2-stretch-slim
+  stage: "Lint"
+  except:
+    - schedules
+    - develop
+    - master
+  script:
+    - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
+    - echo "Run Admin lint"
+    - make lint-admin-ui
 
 Lint:Devportal_frontend:
   image: node:12.16.2-stretch-slim
@@ -281,6 +302,27 @@ Build:TPP_frontend:
     paths:
       - "tpp-ui/dist"
       - "tpp-ui/info.json"
+    name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}"
+    expire_in: "1 day"
+
+Build:Admin_frontend:
+  image: node:12.16.2-stretch-slim
+  stage: "Compile"
+  except:
+    - schedules
+  script:
+    - apt-get update && apt-get install make jq libxml2-utils -yq
+    - echo "Update info.json"
+    - VERSION=$(xmllint --xpath "//*[local-name()='project']/*[local-name()='version']/text()" pom.xml)
+    - jq --arg VERSION "$VERSION"  --arg BUILD_ID "$CI_PIPELINE_ID" '.version = $VERSION | .build_number = $BUILD_ID' admin-ui/info.json >> info.json
+    - mv info.json oba-ui/info.json
+    - echo "Run Admin frontend Build"
+    - make npm-install-admin-ui
+  cache: {}
+  artifacts:
+    paths:
+      - "admin-ui/dist"
+      - "admin-ui/info.json"
     name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}"
     expire_in: "1 day"
 
@@ -421,6 +463,7 @@ Test:Build_docker_images:
     [
       "Build:OBA_frontend",
       "Build:TPP_frontend",
+      "Build:Admin_frontend",
       "Build:Devportal_frontend",
       "Build:Java11",
     ]

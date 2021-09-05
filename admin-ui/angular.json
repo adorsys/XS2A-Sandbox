@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "tpp-admin-ui": {
+    "admin-ui": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/tpp-admin-ui",
+            "outputPath": "dist/admin-ui",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -63,18 +63,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "tpp-admin-ui:build"
+            "browserTarget": "admin-ui:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "tpp-admin-ui:build:production"
+              "browserTarget": "admin-ui:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "tpp-admin-ui:build"
+            "browserTarget": "admin-ui:build"
           }
         },
         "test": {
@@ -100,18 +100,18 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "tpp-admin-ui:serve"
+            "devServerTarget": "admin-ui:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "tpp-admin-ui:serve:production"
+              "devServerTarget": "admin-ui:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "tpp-admin-ui",
+  "defaultProject": "admin-ui",
   "cli": {
     "analytics": false
   }

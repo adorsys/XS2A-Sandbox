@@ -35,10 +35,11 @@ install-for-MacOS:
 
 # Lint section
 
-lint-all: lint-dockerfiles lint-tpp-ui lint-oba-ui lint-developer-portal-ui lint-tpp-rest-server lint-admin-rest-server lint-online-banking lint-docker-compose lint-pmd-cpd-report #lint all services
+lint-all: lint-dockerfiles lint-tpp-ui lint-admin-ui lint-oba-ui lint-developer-portal-ui lint-tpp-rest-server lint-admin-rest-server lint-online-banking lint-docker-compose lint-pmd-cpd-report #lint all services
 
 lint-dockerfiles:
 	docker run --rm -i hadolint/hadolint < tpp-ui/Dockerfile
+	docker run --rm -i hadolint/hadolint < admin-ui/Dockerfile
 	docker run --rm -i hadolint/hadolint < oba-ui/Dockerfile
 	docker run --rm -i hadolint/hadolint < developer-portal-ui/Dockerfile
 	docker run --rm -i hadolint/hadolint < tpp-app/tpp-rest-server/Dockerfile
@@ -52,6 +53,14 @@ lint-tpp-ui:
 	#cd tpp-ui && npm ci && npm install
 	#cd tpp-ui && npm run lint
 	#cd tpp-ui && npm run prettier-check
+
+lint-admin-ui:
+	find admin-ui -type f -name "*.json" -not -path "admin-ui/node_modules/*" -exec jsonlint -q {} \; # lint all json
+	find admin-ui -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
+	find admin-ui -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
+	#cd admin-ui && npm ci && npm install
+	#cd admin-ui && npm run lint
+	#cd admin-ui && npm run prettier-check
 
 lint-oba-ui:
 	cd oba-ui
@@ -106,10 +115,13 @@ all: lint-all build-ui-services build-java-services unit-tests-all-frontend unit
 build-java-services: ## Build java services
 	mvn -ntp --settings scripts/mvn-release-settings.xml -DskipTests clean package -Dci.build.number=Build\:${CI_PIPELINE_ID}
 
-build-ui-services: npm-install-tpp-ui npm-install-oba-ui npm-install-developer-portal-ui ## Build ui services
+build-ui-services: npm-install-tpp-ui npm-install-admin-ui npm-install-oba-ui npm-install-developer-portal-ui ## Build ui services
 
 npm-install-tpp-ui: tpp-ui/package.json tpp-ui/package-lock.json ## Install TPP-UI NPM dependencies
 	cd tpp-ui && npm ci && npm install && npm run build
+
+npm-install-admin-ui: admin-ui/package.json admin-ui/package-lock.json ## Install Admin-UI NPM dependencies
+	cd admin-ui && npm ci && npm install && npm run build
 
 npm-install-oba-ui: oba-ui/package.json oba-ui/package-lock.json ## Install OBA-UI NPM dependencies
 	cd oba-ui && npm ci && npm install && npm run build
@@ -146,6 +158,7 @@ clean-java-services: ## Clean services temp files
 
 clean-ui-services: ## Clean UI temp files
 	cd tpp-ui && rm -rf dist
+	cd admin-ui && rm -rf dist
 	cd oba-ui && rm -rf dist
 	cd developer-portal-ui && rm -rf dist
 
