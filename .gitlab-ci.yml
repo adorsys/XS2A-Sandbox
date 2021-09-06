@@ -93,7 +93,8 @@ variables:
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ADMIN_UI}:${DOCKER_TAG}" admin-ui
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:${DOCKER_TAG}" developer-portal-ui
 
-    - docker login -u $DOCKER_HUB_LOGIN -p $DOCKER_HUB_PASS
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
     - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${DOCKER_TAG}"
     - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:${DOCKER_TAG}"
     - docker push  "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_REST_SERVER}:${DOCKER_TAG}"
@@ -106,6 +107,7 @@ variables:
 # Copy Dockerhub images to Openshift (depending on ${DOCKER_TAG})
 .deploy_openshift: &deploy_openshift
   script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - >-
       skopeo copy
       --dest-creds=openshift:${OPENSHIFT_TOKEN}
@@ -499,6 +501,8 @@ build_dockerhub_image_develop:
     - develop
   variables:
     DOCKER_TAG: develop
+    DOCKERHUB_REGISTRY: gitlab-registry.adorsys.de
+    DOCKERHUB_NAMESPACE: "adorsys/xs2a/psd2-dynamic-sandbox"
   <<: *push_dockerhub_images
 
 ##########
@@ -513,6 +517,8 @@ deploy_openshift_develop:
     - develop
   variables:
     DOCKER_TAG: develop # Dockerhub source tag
+    DOCKERHUB_REGISTRY: gitlab-registry.adorsys.de
+    DOCKERHUB_NAMESPACE: "adorsys/xs2a/psd2-dynamic-sandbox"
     OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_ADORSYS_MODELBANK_DEV} # Openshift target namespace
   <<: *deploy_openshift
 
@@ -539,6 +545,8 @@ build_dockerhub_image_master:
     - master
   variables:
     DOCKER_TAG: latest
+    DOCKERHUB_REGISTRY: gitlab-registry.adorsys.de
+    DOCKERHUB_NAMESPACE: "adorsys/xs2a/psd2-dynamic-sandbox"
   <<: *push_dockerhub_images
 
 ########
@@ -551,4 +559,6 @@ build_dockerhub_images_from_tag:
     - tags
   variables:
     DOCKER_TAG: ${CI_COMMIT_TAG}
+    DOCKERHUB_REGISTRY: gitlab-registry.adorsys.de
+    DOCKERHUB_NAMESPACE: "adorsys/xs2a/psd2-dynamic-sandbox"
   <<: *push_dockerhub_images
