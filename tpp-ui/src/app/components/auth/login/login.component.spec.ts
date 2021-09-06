@@ -10,6 +10,7 @@ import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { InfoService } from '../../../commons/info/info.service';
 
 fdescribe('LoginComponent', () => {
   let component: LoginComponent;
@@ -28,7 +29,7 @@ fdescribe('LoginComponent', () => {
           HttpClientModule,
           MatSnackBarModule,
         ],
-        providers: [AuthService],
+        providers: [AuthService, InfoService],
 
         declarations: [LoginComponent],
       }).compileComponents();

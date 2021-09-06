@@ -45,7 +45,7 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    let authorizationToken = this.getAuthorizationToken();
+    const authorizationToken = this.getAuthorizationToken();
     return authorizationToken != null;
   }
 

@@ -6,11 +6,8 @@ import { AuthService } from '../../../services/auth.service';
 import { CustomizeService } from '../../../services/customize.service';
 import { ADMIN_KEY } from 'src/app/commons/constant/constant';
 import browser from 'browser-detect';
-import {
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
-  MatSnackBar,
-} from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, } from '@angular/material/snack-bar';
+import { InfoService } from '../../../commons/info/info.service';
 
 @Component({
   selector: 'app-login',
@@ -29,8 +26,10 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     public customizeService: CustomizeService,
-    private _snackBar: MatSnackBar
-  ) {}
+    private _snackBar: MatSnackBar,
+    private infoService: InfoService
+  ) {
+  }
 
   ngOnInit() {
     const result = browser();
@@ -78,7 +77,10 @@ export class LoginComponent implements OnInit {
 
   navigateOnLogin() {
     if (sessionStorage.getItem(ADMIN_KEY) === 'true') {
-      this.router.navigate(['/management']);
+      this.authService.logout();
+      this.infoService.openFeedback('Admin doesn\'t have access to this system', {
+        severity: 'error'
+      });
     } else {
       this.router.navigate(['/']);
     }

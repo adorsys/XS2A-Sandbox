@@ -90,7 +90,13 @@
                 <div class="row d-flex justify-content-end">
                   <button
                     mat-raised-button
-                    class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
+                    class="
+                      btn btn-outline-primary btn-sm
+                      mt-2
+                      mb-3
+                      mr-1
+                      filter-button
+                    "
                     (click)="setBlocked(false)"
                     [ngClass]="{
                       active: searchForm.controls.blocked.value === false
@@ -100,7 +106,12 @@
                   </button>
                   <button
                     mat-raised-button
-                    class="btn btn-outline-primary btn-sm mt-2 mb-3 filter-button"
+                    class="
+                      btn btn-outline-primary btn-sm
+                      mt-2
+                      mb-3
+                      filter-button
+                    "
                     (click)="setBlocked(true)"
                     [ngClass]="{
                       active: searchForm.controls.blocked.value === true
@@ -110,7 +121,13 @@
                   </button>
                   <button
                     mat-raised-button
-                    class="btn btn-outline-primary btn-sm mt-2 mb-3 ml-1 filter-button"
+                    class="
+                      btn btn-outline-primary btn-sm
+                      mt-2
+                      mb-3
+                      ml-1
+                      filter-button
+                    "
                     (click)="showAllTpps()"
                     [ngClass]="{ active: isSearchFormEmpty() }"
                   >

@@ -131,10 +131,6 @@ const routes: Routes = [
     component: ConfirmNewPasswordComponent,
   },
   {
-    path: 'register',
-    component: RegisterComponent,
-  },
-  {
     path: 'logout',
     redirectTo: 'login',
   },
