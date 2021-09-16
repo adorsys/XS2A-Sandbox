@@ -7,31 +7,10 @@
 .deployment-view
 image::../images/deployment-view.svg[Deployment View, 100%, align="center"]
 
-The ModelBank consists of 10 deployments, united into one docker-compose file. The _modelbank_ itself provides the XS2A API and a 3 web applications (and its API): developer portal, online banking and TPP UI.
-XS2A API is hosted on port `:8080`, TPP UI is hosted on port `:4205`, online banking is hosted on port  `:4400` and the _developer portal_ is hosted on port `:4206` (all ports can be configured).
+The ModelBank consists of 12 deployments, united into one docker-compose file. The _modelbank_ itself provides the XS2A API and a 4 web applications (and their API's): developer portal, online banking, TPP UI and Admin UI.
+XS2A API is hosted on port `:8080`, TPP UI is hosted on port `:4205`, Admin UI is hosted on port `:4207`, online banking is hosted on port  `:4400` and the _developer portal_ is hosted on port `:4206` (all ports can be configured).
 XS2A needs access to a database to persist the Consent Management state.
-The configuration for the _modelbank_ is completely externalized (see <<Configuration>>).
-
-=== Release Artifacts
-
-We use https://github.com/adorsys/XS2A-Sandbox to publish our release notes and source code.
-
-Docker Images are released to https://hub.docker.com/u/adorsys[adorsys DockerHub account].
-
-[options="header"]
-|=======
-| Artifact  | Image Name
-| xs2a-connector-examples |  adorsys/xs2a-connector-example
-| xs2a-aspsp-profile | adorsys/xs2a-aspsp-profile
-| xs2a-consent-management| adorsys/xs2a-consent-management
-| ledgers | adorsys/ledgers
-|=======
-
-[subs=attributes+]
-[source,shell]
-----
-$ docker-compose up
-----
+The configuration for the _modelbank_ is completely externalized.
 
 === Configuration
 
@@ -112,6 +91,7 @@ include::../../../bank-profile/bank_profile_ledgers.yml[]
   ** Oracle 11g+
   ** MariaDB 10+
 - _ssl-proxy_ needs 128 - 512 MiB RAM *(don't use in prod!)*
+- in case of using the Docker Image be sure, that Docker allocated RAM size is at least 6 GB
 - the DB schema needs enough disk space because consents are persisted here (grows over time) *(monitor this!)*
 
 ==== Recommended Hardware Requirements
