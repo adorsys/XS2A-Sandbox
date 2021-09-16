@@ -6,7 +6,7 @@
 === Whitebox Overall System
 
 .whitebox-overall-lvl1
-image::../images/writebox.png[Whitebox Overall System Level 1, 60%, title="Whitebox Overall System Level 1", align="center"]
+image::../images/whitebox.svg[Whitebox Overall System Level 1, 60%, title="Whitebox Overall System Level 1", align="center"]
 
 Motivation::
 
