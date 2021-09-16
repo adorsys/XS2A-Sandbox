@@ -153,8 +153,16 @@ http://localhost:4400
 ### TPP UI
 
 TPP UI is an Angular application, which provides a user interface to TPP and allows to register, get test certificate and
-manage users and accounts.
+manage users and accounts. Admins have no access to this application.
 
 ```
 http://localhost:4205
+```
+
+### Admin UI
+
+Admin UI is an Angular application, which provides a user interface to manage administrators of the Modelbank, its users and TPPs. Please note, that TPPs cannot login to this application.
+
+```
+http://localhost:4207
 ```

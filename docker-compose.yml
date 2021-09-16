@@ -224,6 +224,22 @@ services:
     volumes:
       - xs2a-tpp-rest-server-data:/var/lib/data
 
+  # Admin-UI
+  xs2a-admin-ui:
+    image: adorsys/xs2a-bank-admin-ui:${SANDBOX_VERSION}
+    restart: on-failure
+    environment:
+      - ADMIN_REST_SERVER_URL=http://xs2a-admin-rest-server:8094
+      - CERT_GEN_URL=http://certificate-generator:8092
+      - CERT_GEN_ENABLED=true
+    ports:
+      - "4207:4207"
+    networks:
+      - xs2a-net
+    depends_on:
+      - certificate-generator
+      - xs2a-admin-rest-server
+
   # ADMIN-REST-SERVER
   xs2a-admin-rest-server:
     image: adorsys/xs2a-admin-rest-server:${SANDBOX_VERSION}

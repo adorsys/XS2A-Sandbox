@@ -19,6 +19,12 @@ services:
       context: tpp-ui
       dockerfile: Dockerfile
 
+  # Admin-UI
+  xs2a-admin-ui:
+    build:
+      context: admin-ui
+      dockerfile: Dockerfile
+
   # TPP-REST-SERVER
   xs2a-tpp-rest-server:
     build:

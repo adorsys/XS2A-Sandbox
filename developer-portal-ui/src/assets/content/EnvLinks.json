@@ -18,6 +18,9 @@
     "TPPUserInterface": {
       "environmentLink": "http://localhost:4205/"
     },
+    "AdminUserInterface": {
+      "environmentLink": "http://localhost:4207/"
+    },
     "onlineBankingUI": {
       "environmentLink": "http://localhost:4400/"
     },

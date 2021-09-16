@@ -6,7 +6,7 @@
 === Whitebox Overall System
 
 .whitebox-overall-lvl1
-image::writebox.svg[Whitebox Overall System Level 1, 60%, title="Whitebox Overall System Level 1", align="center"]
+image::../images/writebox.png[Whitebox Overall System Level 1, 60%, title="Whitebox Overall System Level 1", align="center"]
 
 Motivation::
 
@@ -32,6 +32,10 @@ Contained Building Blocks::
 | tpp-ui
 | TPP user interface that helps to log a TPP in, create certificate for TPP, upload and manage test test data (users, bank accounts, transactions etc). This module is Angular application.
 
+| admin-ui
+|Admin interface is provided to manage system administrators and TPP accounts with users. This interface provides a possibility to create other administrators except the default one, provided out of box.
+This module is Angular application.
+
 | online-banking              | Provides backend functionality for online banking UI. This module is a Java application.
 | bank-profile | This module consists of 1 .yaml file with ASPSP-specific information (bank profile). The file can be configured depending on ASPSP features and restrictions.
 |===
@@ -43,7 +47,7 @@ ModelBank depends on XS2A (consent-management, aspsp-profile, XS2A interface) an
 ==== White Box _xs2a_
 
 .whitebox-xs2a-lvl2
-image::generated/whitebox-2-xs2a.png[Whitebox xs2a Level 2, 60%, title="Whitebox xs2a Level 2", align="center"]
+image::../images/generated/whitebox-2-xs2a.png[Whitebox xs2a Level 2, 60%, title="Whitebox xs2a Level 2", align="center"]
 
 [cols="1,2" options="header"]
 |===

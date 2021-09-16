@@ -89,6 +89,45 @@ To create test payments, you have to generate test payment data on tab "Generate
 <div class="divider">
 </div>
 
+# Admin Interface
+
+Admin interface is provided to manage system administrators, TPPs and users with their accounts. This interface provides a possibility to create other administrators except the default one, provided out of box.
+
+## How to create a new administrator?
+
+1. Open Admin UI login page.
+
+2. Login as "admin" with password "admin123".
+
+3. Open the "Administrators List" and push "New Administrator" button.
+
+4. Provide email, your administrator login and the password. Then press "Submit".
+
+5. You will see the "New Admin has been successfully registered." popup, then administrator will be available in the list. You may login to Admin UI with this new administrator. Please note, that this user won't be able to login to TPP UI.
+
+## How to create users?
+
+Users process creation is the same as in TPP UI.
+
+### To create user manually:
+
+1. Go to “Users list” and click on “Create New User”.
+
+2. Select TPP for this user, then enter email, login and pin for a new user.
+
+3. Choose authentication method (only email is valid for now) and enter a valid email. If you choose option "Use Static TAN in ModelBank", mock static TAN would be used for testing. Then you have to enter your mock TAN also. You can add multiple SCA methods to every user.
+
+### To create accounts manually:
+
+1. Choose a user in your list of users and click "Create deposit account" icon.
+
+2. Select account type, usage and account status. IBAN could be generated automatically. Please note, that only valid IBANs are accepted by XS2A Interface.
+
+3. After account is created, you can use function "Deposit cash" to add any amount to the balances for testing purposes. All the created accounts are available in "Users accounts" tab.
+
+<div class="divider">
+</div>
+
 # Online banking
 
 In case of REDIRECT SCA approach a user wants to provide consent for using their account information or for payment confirmation/cancellation. Online banking is a user interface to provide consent to a bank. Links for a consent confirmation and payment confirmation or cancellation are provided in the response of the corresponding endpoints.
@@ -106,6 +145,7 @@ In case of REDIRECT SCA approach a user wants to provide consent for using their
 | Ledgers                   |                                   <a href="#" id="ledgers" >Ledgers</a> |
 | ASPSP-Profile Swagger     |         <a href="#" id="ASPSPProfileSwagger" >ASPSP-Profile Swagger</a> |
 | TPP User Interface        |               <a href="#" id="TPPUserInterface" >TPP User Interface</a> |
+| Admin Interface           |                <a href="#" id="AdminUserInterface" >Admin Interface</a> |
 | Online banking UI         |                 <a href="#" id="onlineBankingUI" >Online banking UI</a> |
 | Online banking backend    |       <a href="#" id="onlineBankingBackend" >Online banking backend</a> |
 | Certificate Generator     |        <a href="#" id="certificateGenerator" >Certificate Generator</a> |

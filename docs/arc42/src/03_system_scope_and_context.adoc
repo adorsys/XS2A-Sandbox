@@ -3,7 +3,7 @@
 
 === Business Context
 
-image::businesscontex.svg[Business Context Diagram, title="Business Context Diagram" align="center"]
+image::../images/businesscontex.svg[Business Context Diagram, title="Business Context Diagram" align="center"]
 
 [options="header"]
 |===
