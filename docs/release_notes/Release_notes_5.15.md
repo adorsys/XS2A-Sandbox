@@ -2,7 +2,7 @@
 
 Current version consists of following components:
 
-1. **Ledgers v.4.14**
+1. **Ledgers v.4.15**
 2. **XS2A v.11.7**
 3. **ASPSP-Profile v.11.7**
 4. **Consent-Management v.11.7**
@@ -14,3 +14,4 @@ Current version consists of following components:
     -   `cms-connector` - common functionality for `admin-app` and `tpp-app` for accessing CMS DB
 -   Updated and fixed documentation
 -   Refactored TPP-UI and TPP backend application (admin functionality was moved to new modules).
+-   Fixed Postman tests in Developer portal.
