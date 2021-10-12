@@ -7,6 +7,7 @@ import de.adorsys.psd2.sandbox.auth.SecurityConstant;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpStatus;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -36,13 +37,13 @@ public class LoginAuthenticationFilter extends AbstractAuthFilter {
                 addRefreshTokenCookie(response, jwtId(bearerTokenTO.getAccess_token()), bearerTokenTO.getRefresh_token(), request.isSecure());
                 bearerTokenTO = tokenService.validate(bearerTokenTO.getAccess_token());
                 if (!loginAuthorization.canLogin(bearerTokenTO)) {
-                    handleAuthenticationFailure(response, new IllegalAccessException(String.format("User %s is missing required Role to login", login)));
+                    handleAuthenticationFailure(response, new IllegalAccessException(String.format("User %s is missing required Role to login", login)), HttpStatus.FORBIDDEN);
                     return;
                 }
                 fillSecurityContext(bearerTokenTO);
                 addBearerTokenHeader(bearerTokenTO.getAccess_token(), response);
             } catch (FeignException e) {
-                handleAuthenticationFailure(response, e);
+                handleAuthenticationFailure(response, e, HttpStatus.UNAUTHORIZED);
                 return;
             }
         }

@@ -11,6 +11,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
@@ -33,6 +34,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static de.adorsys.psd2.sandbox.auth.SecurityConstant.*;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @SuppressWarnings("PMD.TooManyStaticImports")
@@ -41,12 +43,12 @@ abstract class AbstractAuthFilter extends OncePerRequestFilter {
     private final ObjectMapper objectMapper = new ObjectMapper();
     public static final String INVALID_REFRESH_TOKEN = "invalid refresh token";
 
-    protected void handleAuthenticationFailure(HttpServletResponse response, Exception e) throws IOException {
+    protected void handleAuthenticationFailure(HttpServletResponse response, Exception e, HttpStatus status) throws IOException {
         log.error(e.getMessage());
 
         Map<String, String> data = new ErrorResponse()
-            .buildContent(UNAUTHORIZED.value(), UNAUTHORIZED.getReasonPhrase());
-        response.setStatus(UNAUTHORIZED.value());
+            .buildContent(status.value(), status.getReasonPhrase());
+        response.setStatus(status.value());
         response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         response.getOutputStream().println(objectMapper.writeValueAsString(data));
     }

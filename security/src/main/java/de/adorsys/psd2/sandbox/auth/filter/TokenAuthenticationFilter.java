@@ -6,6 +6,7 @@ import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 
 import javax.servlet.FilterChain;
@@ -42,7 +43,7 @@ public class TokenAuthenticationFilter extends AbstractAuthFilter {
 
                 fillSecurityContext(token);
             } catch (FeignException | AccessDeniedException e) {
-                handleAuthenticationFailure(response, e);
+                handleAuthenticationFailure(response, e, HttpStatus.UNAUTHORIZED);
                 return;
             }
         }

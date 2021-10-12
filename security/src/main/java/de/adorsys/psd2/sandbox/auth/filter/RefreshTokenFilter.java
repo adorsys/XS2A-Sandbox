@@ -6,6 +6,7 @@ import de.adorsys.psd2.sandbox.auth.SecurityConstant;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
@@ -35,7 +36,7 @@ public class RefreshTokenFilter extends AbstractAuthFilter {
                 chain.doFilter(request, response);
             }
         } catch (FeignException | AccessDeniedException e) {
-            handleAuthenticationFailure(response, e);
+            handleAuthenticationFailure(response, e, HttpStatus.UNAUTHORIZED);
         }
     }
 
