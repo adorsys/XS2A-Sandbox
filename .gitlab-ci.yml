@@ -16,7 +16,7 @@ stages:
   - "Test" # run tests and code quality checks
   - "Package" # dockerize jar and push to docker registry
   - "Deploy" # push to openshift registry
-  - "release" # release
+  - "Release" # release
 
 # ------------------------------------------------------------------
 # variables
@@ -37,9 +37,9 @@ variables:
   # Public Dockerhub Images #
   ###########################
 
-  DOCKERHUB_REGISTRY: "docker.io"
+  DOCKERHUB_REGISTRY: "gitlab-registry.adorsys.de"
 
-  DOCKERHUB_NAMESPACE: "adorsys"
+  DOCKERHUB_NAMESPACE: "adorsys/xs2a/psd2-dynamic-sandbox"
 
   ############################
   # Private Openshift Images #
@@ -72,8 +72,20 @@ variables:
     paths:
       - /builds/adorsys/xs2a/psd2-dynamic-sandbox/.m2/repository
 
+.release_java_private: &release_java_private
+  stage: "Release"
+  script:
+    - jabba use $BUILD_JAVA_VERSION
+    - cat /sys/fs/cgroup/memory/memory.limit_in_bytes
+    - java -XX:+PrintFlagsFinal -version | grep -Ei "maxheapsize|maxram"
+    - mvn -ntp --settings scripts/mvn-release-settings.xml -Pgitlab-maven -DskipTests -U deploy
+  cache:
+    key: "Java_${CI_COMMIT_REF_SLUG}"
+    paths:
+      - /builds/adorsys/xs2a/psd2-dynamic-sandbox/.m2/repository
+
 # Build docker images and put them to DOCKER HUB repo
-.build_docker_images: &build_docker_images
+.build_docker_images_private: &build_docker_images_private
   script:
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${DOCKER_TAG}" online-banking/online-banking-app
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:${DOCKER_TAG}" oba-ui
@@ -83,7 +95,7 @@ variables:
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ADMIN_UI}:${DOCKER_TAG}" admin-ui
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:${DOCKER_TAG}" developer-portal-ui
 
-.push_dockerhub_images: &push_dockerhub_images
+.push_dockerhub_images_private: &push_dockerhub_images_private
   script:
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${DOCKER_TAG}" online-banking/online-banking-app
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:${DOCKER_TAG}" oba-ui
@@ -95,13 +107,13 @@ variables:
 
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
-    #    - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${DOCKER_TAG}"
-    #    - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:${DOCKER_TAG}"
-    #    - docker push  "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_REST_SERVER}:${DOCKER_TAG}"
-    #    - docker push  "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ADMIN_REST_SERVER}:${DOCKER_TAG}"
-    #    - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${DOCKER_TAG}"
-    #    - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ADMIN_UI}:${DOCKER_TAG}"
-    #    - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:${DOCKER_TAG}"
+    - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${DOCKER_TAG}"
+    - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:${DOCKER_TAG}"
+    - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_REST_SERVER}:${DOCKER_TAG}"
+    - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ADMIN_REST_SERVER}:${DOCKER_TAG}"
+    - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${DOCKER_TAG}"
+    - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ADMIN_UI}:${DOCKER_TAG}"
+    - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:${DOCKER_TAG}"
     - docker logout
 
 # Copy Dockerhub images to Openshift (depending on ${DOCKER_TAG})
@@ -471,7 +483,7 @@ Test:Build_docker_images:
     ]
   variables:
     DOCKER_TAG: test
-  <<: *build_docker_images
+  <<: *build_docker_images_private
 
 Postman Tests:
   stage: "Test"
@@ -493,7 +505,7 @@ Postman Tests:
 
 # develop
 
-build_dockerhub_image_develop:
+build_dockerhub_image_develop_private:
   stage: "Package"
   except:
     - schedules
@@ -503,7 +515,7 @@ build_dockerhub_image_develop:
     DOCKER_TAG: develop
     DOCKERHUB_REGISTRY: gitlab-registry.adorsys.de
     DOCKERHUB_NAMESPACE: "adorsys/xs2a/psd2-dynamic-sandbox"
-  <<: *push_dockerhub_images
+  <<: *push_dockerhub_images_private
 
 ##########
 # deploy #
@@ -547,13 +559,13 @@ build_dockerhub_image_master:
     DOCKER_TAG: latest
     DOCKERHUB_REGISTRY: gitlab-registry.adorsys.de
     DOCKERHUB_NAMESPACE: "adorsys/xs2a/psd2-dynamic-sandbox"
-  <<: *push_dockerhub_images
+  <<: *push_dockerhub_images_private
 
 ########
 # tags #
 ########
 
-build_dockerhub_images_from_tag:
+build_dockerhub_images_from_tag_private:
   stage: "Package"
   only:
     - tags
@@ -561,4 +573,33 @@ build_dockerhub_images_from_tag:
     DOCKER_TAG: ${CI_COMMIT_TAG}
     DOCKERHUB_REGISTRY: gitlab-registry.adorsys.de
     DOCKERHUB_NAMESPACE: "adorsys/xs2a/psd2-dynamic-sandbox"
-  <<: *push_dockerhub_images
+  <<: *push_dockerhub_images_private
+
+
+###########
+# Release #
+###########
+
+release_snapshot_artifacts_private:
+  stage: "Release"
+  except:
+    - schedules
+  cache: {}
+  variables:
+    BUILD_JAVA_VERSION: system@1.11
+    JAVA_TOOL_OPTIONS: "-Djavax.net.ssl.trustStorePassword=changeit -XX:MaxRAM=3G"
+  only:
+    - develop
+  <<: *release_java_private
+
+release_artifacts_private:
+  stage: "Release"
+  except:
+    - schedules
+  cache: {}
+  variables:
+    BUILD_JAVA_VERSION: system@1.11
+    JAVA_TOOL_OPTIONS: "-Djavax.net.ssl.trustStorePassword=changeit -XX:MaxRAM=3G"
+  only:
+    - tags
+  <<: *release_java_private

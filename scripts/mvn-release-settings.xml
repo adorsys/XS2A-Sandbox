@@ -31,6 +31,18 @@
             <username>${env.NEXUS_LOCAL_USERNAME}</username>
             <password>${env.NEXUS_LOCAL_PASSWORD}</password>
         </server>
+        <server>
+            <!-- Nexus local ledgers-->
+            <id>gitlab-maven</id>
+            <configuration>
+                <httpHeaders>
+                <property>
+                    <name>Deploy-Token</name>
+                    <value>${GITLAB_MAVEN_DEPLOY_TOKEN}</value>
+                </property>
+                </httpHeaders>
+            </configuration>
+        </server>
     </servers>
     <profiles>
         <profile>
