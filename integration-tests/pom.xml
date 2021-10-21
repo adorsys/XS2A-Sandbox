@@ -27,7 +27,7 @@
         <!-- CMS embedded mode -->
         <dependency>
             <groupId>de.adorsys.psd2.sandbox</groupId>
-            <artifactId>tpp-cms-impl</artifactId>
+            <artifactId>cms-connector-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
 
