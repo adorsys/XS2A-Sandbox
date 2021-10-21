@@ -24,8 +24,8 @@ server {
         alias /usr/share/nginx/html/info.json;
   }
 
-  location /tpp/ {
-        proxy_pass <%= ENV['TPP_REST_SERVER_URL'] %>;
+  location /admin/ {
+        proxy_pass <%= ENV['ADMIN_REST_SERVER_URL'] %>;
 
         proxy_set_header          Host            $host;
         proxy_set_header          X-Real-IP       $remote_addr;

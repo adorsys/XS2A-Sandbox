@@ -1,5 +1,5 @@
 {
-  "name": "tpp-ui",
+  "name": "admin-ui",
   "version": "4.3.0",
   "scripts": {
     "ng": "ng",
