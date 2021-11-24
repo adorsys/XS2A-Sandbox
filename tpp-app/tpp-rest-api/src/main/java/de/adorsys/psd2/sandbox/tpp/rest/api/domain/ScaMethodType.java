@@ -1,7 +1,7 @@
 package de.adorsys.psd2.sandbox.tpp.rest.api.domain;
 
 public enum ScaMethodType {
-    EMAIL,
+    SMTP_OTP,
     MOBILE,
     CHIP_OTP,
     PHOTO_OTP,

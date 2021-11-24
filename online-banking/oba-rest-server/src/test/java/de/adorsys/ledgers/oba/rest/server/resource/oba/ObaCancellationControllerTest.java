@@ -158,6 +158,6 @@ class ObaCancellationControllerTest {
     }
 
     private ScaUserDataTO getScaMethod() {
-        return new ScaUserDataTO(METHOD_ID, ScaMethodTypeTO.EMAIL, "anton.brueckner@adorsys.de", null, false, null, false, false);
+        return new ScaUserDataTO(METHOD_ID, ScaMethodTypeTO.SMTP_OTP, "anton.brueckner@adorsys.de", null, false, null, false, false);
     }
 }

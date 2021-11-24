@@ -5,7 +5,7 @@ users:
     email: "test@mail.de"
     pin: "12345"
     scaUserData:
-      - scaMethod: "EMAIL"
+      - scaMethod: "SMTP_OTP"
         methodValue: "test@mail.de"
         usesStaticTan: true #Field can be removed if not required
         staticTan: "QWERTY" #Field can be removed if not required
@@ -35,35 +35,23 @@ payments:
     paymentProduct: "instant-sepa-credit-transfers" #if changed to another product will not be executed straight away
     requestedExecutionDate: 2020-12-12 #optional field can be omitted in case of instant payment is ignored
     requestedExecutionTime: 12:00:00 #optional field can be omitted in case of instant payment is ignored
-    debtorAccount:
-      {
-        iban: DE12345,
-        currency: EUR
-      }
+    debtorAccount: { iban: DE12345, currency: EUR }
     transactionStatus: RCVD #Should be RCVD for payment starting
     targets:
       - {
-        paymentId: myPaymentId,
-        endToEndIdentification: IDENTIFIER BY TPP,
-        instructedAmount:
-          {
-            currency: EUR,
-            amount: 999.99
-          },
-        creditorAccount:
-          {
-            iban: DE12345,
-            currency: EUR
-          },
-        creditorAgent: AGENT NAME,
-        creditorName: CREDITORS NAME,
-        creditorAddress:
-          {
-            street: Buhaker str,
-            buildingNumber: 123,
-            city: Nurnberg,
-            postalCode: 04310,
-            country: Germany
-          },
-        remittanceInformationUnstructured: Some payment info
-      }
+          paymentId: myPaymentId,
+          endToEndIdentification: IDENTIFIER BY TPP,
+          instructedAmount: { currency: EUR, amount: 999.99 },
+          creditorAccount: { iban: DE12345, currency: EUR },
+          creditorAgent: AGENT NAME,
+          creditorName: CREDITORS NAME,
+          creditorAddress:
+            {
+              street: Buhaker str,
+              buildingNumber: 123,
+              city: Nurnberg,
+              postalCode: 04310,
+              country: Germany,
+            },
+          remittanceInformationUnstructured: Some payment info,
+        }
