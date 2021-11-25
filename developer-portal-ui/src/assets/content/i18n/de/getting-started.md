@@ -25,7 +25,7 @@ Abbildung 1.1: Komponenten der ModelBank
 
 # XS2A-Schnittstelle
 
-Der Zentrale Bestandteil der **ModelBank** ist die XS2A-Schnittstelle, die gemäß der Spezifikation der Berlin Group [NextGenPSD2](https://www.berlin-group.org/psd2-access-to-bank-accounts) (Version 1.3) implementiert wurde und auf Testdaten basiert. Mehr Details finden Sie in unsere [XS2A Swagger UI](https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/) und der [OpenSource XS2A Schnittstelle auf Github](https://github.com/adorsys/xs2a).
+Der Zentrale Bestandteil der **ModelBank** ist die XS2A-Schnittstelle, die gemäß der Spezifikation der Berlin Group [NextGenPSD2](https://www.berlin-group.org/psd2-access-to-bank-accounts) (Version 1.3.9) implementiert wurde und auf Testdaten basiert. Mehr Details finden Sie in unsere [XS2A Swagger UI](https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/) und der [OpenSource XS2A Schnittstelle auf Github](https://github.com/adorsys/xs2a).
 
 # ASPSP-Profile
 

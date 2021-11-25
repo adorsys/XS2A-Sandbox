@@ -11,10 +11,10 @@
   "pagesSettings": {
     "contactPageSettings": {
       "contactInfo": {
-        "img": "Rene.png",
-        "name": "René Pongratz",
-        "position": "Software Architect & Expert for API Management",
-        "email": "psd2@adorsys.de"
+        "img": "Andre.png",
+        "name": "Andre Achtstaetter",
+        "position": "Vice President International Division",
+        "email": "sales@adorsys.com"
       },
       "officesInfo": [
         {
@@ -36,10 +36,10 @@
     },
     "homePageSettings": {
       "contactInfo": {
-        "img": "Rene.png",
-        "name": "René Pongratz",
-        "position": "Software Architect & Expert for API Management",
-        "email": "psd2@adorsys.de"
+        "img": "Andre.png",
+        "name": "Andre Achtstaetter",
+        "position": "Vice President International Division",
+        "email": "sales@adorsys.com"
       },
       "showProductHistory": true,
       "showSlider": true

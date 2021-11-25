@@ -25,7 +25,7 @@ Figure 1.1: Components of the ModelBank
 
 # XS2A Interface
 
-Central component of the **ModelBank** is the XS2A interface which meets the requirements of the Berlin Group's specification [NextGenPSD2](https://www.berlin-group.org/psd2-access-to-bank-accounts) (Version 1.3) and is based on test data. You can visit our [XS2A Swagger UI](https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/) or find full [OpenSource XS2A Interface on Github](https://github.com/adorsys/xs2a).
+Central component of the **ModelBank** is the XS2A interface which meets the requirements of the Berlin Group's specification [NextGenPSD2](https://www.berlin-group.org/psd2-access-to-bank-accounts) (Version 1.3.9) and is based on test data. You can visit our [XS2A Swagger UI](https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/) or find full [OpenSource XS2A Interface on Github](https://github.com/adorsys/xs2a).
 
 <div class="divider">
 </div>
