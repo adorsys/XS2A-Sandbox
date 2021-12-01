@@ -6,7 +6,7 @@
 // configure EN settings for asciidoc
 include::src/config.adoc[]
 
-= image:logo_xas2a_sandbox.svg[ModelBank, 120] Architecture Documentation
+= image:logo_xs2a_modelbank.png[ModelBank, 50] Architecture Documentation
 ModelBank Team <psd2-sandbox@adorsys.de>
 {acc-version}, {docdate}
 
