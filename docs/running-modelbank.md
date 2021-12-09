@@ -103,11 +103,21 @@ Once you have built the project you can run it without build next time - command
 
 Remember that after you update the project you should rebuild it - command **make** or **make all** from Makefile.
 
-4.Open [Developer Portal](http://localhost:4206) and follow the manual to start working with ModelBank.
+4.Open [Developer Portal](http://localhost:4206) and follow the manual to try XS2A endpoints. Using Developer Portal you can try the Payment flow and Consent flow in Redirect mode. This means you will be redirected to Online Banking application to process your payments and consents. Developer Portal is provided for supporting the convenient way to send requests to XS2A system with testing purposes. To test the main flows, you may use out-of-box bank customers which are listed below.
 
-5.Stop running containers in terminal with key combination **Control + C**.
+5.By opening [TPP UI](http://localhost:4205) you can register your own TPP and manage its users and their accounts. Before using TPP UI functionality, you need to create your own TPP and then login with its credentials.
 
-6.Afterwards you can remove all the ModelBank containers from Docker with the following command:
+6.Opening [Online Banking](http://localhost:4400) allows you to login as a bank customer. Default users are provided out-of-box, their logins are:
+
+-   marion.mueller (no SCA methods)
+-   anton.brueckner (1 SCA method)
+-   max.musterman (several SCA methods)
+
+with the password `12345` for all those users.
+
+7.Stop running containers in terminal with key combination **Control + C**. Please note, that it takes some time to stop all the modules, so be patient and do not kill them with `-force` key.
+
+8.Afterwards you can remove all the ModelBank containers from Docker with the following command:
 
 ```sh
 > docker-compose rm -s -f -v
