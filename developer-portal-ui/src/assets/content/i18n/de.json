@@ -137,7 +137,8 @@
         "PART_24": "5. Drücken Sie „Execute“. Es wird Ihnen Code 201 und weitere Informationen ausgegeben.",
         "TITLE_2": "SCHRITT 2: Autorisieren der Zahlung",
         "PART_25": "Beginnen Sie mit dem Autorisierungsprozess, folgen Sie hierfür dem",
-        "PART_26": " Link zu der Online Banking Website."
+        "PART_26": " Link zu der Online Banking Website.",
+        "PART_27": "(\"frequency\" kann von \"Monthly\" bis \"Daily\", \"Weekly\", \"EveryTwoWeeks\", \"EveryTwoMonths\", \"Quarterly\", \"SemiAnnual\" oder \"Annual\" geändert werden)"
       },
       "RDCT_PAY_DELETE": {
         "TITLE_1": "SCHRITT 1: Zahlung erstellen",

@@ -137,7 +137,8 @@
         "PART_24": "5. Ejecutar y obtener respuesta con el código 201 e información relacionada.",
         "TITLE_2": "PASO 2: Autorizar el pago",
         "PART_25": "Comience con el proceso de autorización. Siga el enlace",
-        "PART_26": " a la página de online banking."
+        "PART_26": " a la página de online banking.",
+        "PART_27": "(La \"frequency\" se puede cambiar de \"Monthly\" a\n \"Daily\", \"Weekly\", \"EveryTwoWeeks\", \"EveryTwoMonths\", \"Quarterly\", \"SemiAnnual\" o \"Annual\")"
       },
       "RDCT_PAY_DELETE": {
         "TITLE_1": "Paso 2: Cancelar el pago",

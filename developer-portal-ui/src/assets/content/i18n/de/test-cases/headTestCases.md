@@ -5,3 +5,6 @@ Nachdem das System die Testdaten geladen hat, können Sie die ModelBank Endpunkt
 Der Abschnitt Postman tests befasst sich mit der Postman-Nutzung für Tests und dem Herunterladen von erstellten Postman Tests mit Testdaten.
 
 Beide oben erwähnte Abschnitte enthalten Tests für den REDIRECT Strong Customer Authorisation (SCA)-Ansatz und den EMBEDDED SCA-Ansatz für Payment Initiation Service (PIS), Account Information Service (AIS) und Payment Instrument Issuer Service (PIIS).
+
+Die Modelbank-Funktionalität unterstützt alle obligatorischen Dienste von XS2A.
+Optionale Dienste unterstützen teilweise über UI sein und können vollständig über die XS2A-Schnittstelle getestet werden.

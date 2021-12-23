@@ -36,6 +36,7 @@ the European Union has forced Banking Market to open the Banking Services to Thi
 The 'Berlin Group' is a pan-European payments interoperability standards and harmonisation initiative. Based on the PSD2 and EBA RTS requirements, Berlin Group NextGenPSD2 has worked on a detailed [Access to Account (XS2A) Framework](https://www.berlin-group.org/psd2-access-to-bank-accounts) with data model (at conceptual, logical and physical data levels) and associated messaging.
 
 ModelBank is a dynamic sandbox environment that allows to emulate and test ASPSP's OpenAPI PSD2 services.
+Modelbank functionality supports all mandatory services of XS2A. Optional services are partially supported via UI interfaces, but fully supported and can be tested through XS2A interface.
 
 ModelBank is based on [XS2A Service](https://github.com/adorsys/xs2a), [XS2A-connector-examples](https://github.com/adorsys/xs2a-connector-examples) and [Ledgers](https://github.com/adorsys/ledgers).
 
@@ -157,11 +158,11 @@ under their existing license.
 **What open-source products from Adorsys are affected by the licensing change?**
 The following products are affected:
 
-- XS2A Core,
-- XS2A Sandbox and ModelBank,
-- Open Banking Gateway incl. XS2A Adapters,
-- SmartAnalytics,
-- Datasafe.
+-   XS2A Core,
+-   XS2A Sandbox and ModelBank,
+-   Open Banking Gateway incl. XS2A Adapters,
+-   SmartAnalytics,
+-   Datasafe.
 
 **I’m using one of these products indirectly via some software integrator. How does the licensing
 change affect me?**

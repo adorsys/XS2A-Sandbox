@@ -5,3 +5,6 @@ Después de cargar los datos de prueba en el sistema, el desarrollador de TPP pu
 En la sección de pruebas de Postman puede encontrar información sobre el uso de Postman para las pruebas y descargar pruebas preparadas de Postman con datos de pruebas.
 
 Ambas secciones proporcionan pruebas para el enfoque de REDIRECT Strong Authorization (SCA) y EMBEDDED SCA Approach for Payment Initiation Service (PIS), Account Information Service (AIS) y Payment Instrument Issuer Service (PIIS).
+
+La funcionalidad de Modelbank admite todos los servicios obligatorios de XS2A.
+Los servicios opcionales se admiten parcialmente a través UI, pero son totalmente compatibles y se pueden probar a través de la interfaz XS2A.
