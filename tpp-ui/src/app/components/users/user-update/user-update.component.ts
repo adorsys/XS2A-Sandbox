@@ -152,7 +152,7 @@ export class UserUpdateComponent implements OnInit {
       });
 
     scaData.get('scaMethod').valueChanges.subscribe((value) => {
-      if (value === ScaMethods.EMAIL) {
+      if (value === ScaMethods.SMTP_OTP) {
         scaData.get('methodValue').setValidators(emailValidators);
       } else if (value === ScaMethods.MOBILE) {
         scaData
@@ -170,7 +170,7 @@ export class UserUpdateComponent implements OnInit {
       }
       scaData.get('methodValue').updateValueAndValidity();
     });
-    scaData.get('scaMethod').setValue('EMAIL');
+    scaData.get('scaMethod').setValue('SMTP_OTP');
     return scaData;
   }
 

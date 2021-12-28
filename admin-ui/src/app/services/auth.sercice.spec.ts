@@ -117,7 +117,7 @@ describe('AuthService', () => {
         scaUserData: [
           {
             id: 'HeJDea8LQE8rdLiJ6eKfhY',
-            scaMethod: 'EMAIL',
+            scaMethod: 'SMTP_OTP',
             methodValue: 'foo@fool.de',
           },
         ],

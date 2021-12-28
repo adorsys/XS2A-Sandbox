@@ -1,5 +1,5 @@
 export enum ScaMethods {
-  EMAIL = 'EMAIL',
+  SMTP_OTP = 'SMTP_OTP',
   MOBILE = 'MOBILE',
   CHIP_OTP = 'CHIP_OTP',
   PHOTO_OTP = 'PHOTO_OTP',

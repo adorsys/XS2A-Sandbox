@@ -34,19 +34,21 @@ describe('UserUpdateComponent', () => {
     accountAccesses: [],
   };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        InfoModule,
-        RouterTestingModule.withRoutes([]),
-        HttpClientTestingModule,
-        IconModule,
-      ],
-      providers: [UserService, InfoService],
-      declarations: [UserUpdateComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          ReactiveFormsModule,
+          InfoModule,
+          RouterTestingModule.withRoutes([]),
+          HttpClientTestingModule,
+          IconModule,
+        ],
+        providers: [UserService, InfoService],
+        declarations: [UserUpdateComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserUpdateComponent);
@@ -264,7 +266,7 @@ describe('UserUpdateComponent', () => {
   it('should defined getMethodsValues', () => {
     component.getMethodsValues();
     expect(component.methods).toEqual([
-      'EMAIL',
+      'SMTP_OTP',
       'MOBILE',
       'CHIP_OTP',
       'PHOTO_OTP',

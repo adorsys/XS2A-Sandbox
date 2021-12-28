@@ -266,7 +266,7 @@ describe('UserUpdateComponent', () => {
   it('should defined getMethodsValues', () => {
     component.getMethodsValues();
     expect(component.methods).toEqual([
-      'EMAIL',
+      'SMTP_OTP',
       'MOBILE',
       'CHIP_OTP',
       'PHOTO_OTP',

@@ -120,7 +120,7 @@ export class UserCreateComponent implements OnInit {
       });
 
     scaData.get('staticTan').valueChanges.subscribe((value) => {
-      if (value === ScaMethods.EMAIL) {
+      if (value === ScaMethods.SMTP_OTP) {
         scaData.get('staticTan').setValidators(emailValidators);
       } else if (value === ScaMethods.MOBILE) {
         scaData
@@ -137,7 +137,7 @@ export class UserCreateComponent implements OnInit {
     });
 
     scaData.get('scaMethod').valueChanges.subscribe((value) => {
-      if (value === ScaMethods.EMAIL) {
+      if (value === ScaMethods.SMTP_OTP) {
         scaData.get('methodValue').setValidators(emailValidators);
       } else if (value === ScaMethods.MOBILE) {
         scaData

@@ -22,19 +22,21 @@ describe('UserCreateComponent', () => {
   let de: DebugElement;
   let el: HTMLElement;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        InfoModule,
-        RouterTestingModule.withRoutes([]),
-        HttpClientTestingModule,
-        IconModule,
-      ],
-      providers: [UserService, InfoService],
-      declarations: [UserCreateComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          ReactiveFormsModule,
+          InfoModule,
+          RouterTestingModule.withRoutes([]),
+          HttpClientTestingModule,
+          IconModule,
+        ],
+        providers: [UserService, InfoService],
+        declarations: [UserCreateComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserCreateComponent);
@@ -192,7 +194,7 @@ describe('UserCreateComponent', () => {
     ].setValue(true);
     component.userForm.controls['scaUserData']['controls'][0].controls[
       'scaMethod'
-    ].setValue(ScaMethods.EMAIL);
+    ].setValue(ScaMethods.SMTP_OTP);
 
     // create spies and fake call function
     const sampleResponse = { value: 'sample response' };

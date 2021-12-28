@@ -95,7 +95,7 @@ services:
 
   # Xs2a online banking backend
   xs2a-online-banking:
-    image: adorsys/xs2a-online-banking:${SANDBOX_VERSION}
+    image: gitlab-registry.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/xs2a-online-banking:${SANDBOX_VERSION}
     container_name: xs2a-online-banking
     restart: on-failure
     ports:
@@ -168,7 +168,7 @@ services:
 
   # Xs2a online banking frontend
   xs2a-online-banking-ui:
-    image: adorsys/xs2a-online-banking-ui:${SANDBOX_VERSION}
+    image: gitlab-registry.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/xs2a-online-banking-ui:${SANDBOX_VERSION}
     restart: on-failure
     ports:
       - "4400:4400"
@@ -183,7 +183,7 @@ services:
 
   # TPP-UI
   xs2a-tpp-ui:
-    image: adorsys/xs2a-bank-tpp-ui:${SANDBOX_VERSION}
+    image: gitlab-registry.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/xs2a-bank-tpp-ui:${SANDBOX_VERSION}
     restart: on-failure
     environment:
       - TPP_REST_SERVER_URL=http://xs2a-tpp-rest-server:8093
@@ -199,7 +199,7 @@ services:
 
   # TPP-REST-SERVER
   xs2a-tpp-rest-server:
-    image: adorsys/xs2a-tpp-rest-server:${SANDBOX_VERSION}
+    image: gitlab-registry.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/xs2a-tpp-rest-server:${SANDBOX_VERSION}
     restart: on-failure
     environment:
       KEYCLOAK_AUTH_SERVER_URL: "http://ledgers-keycloak:8080/auth"
@@ -226,7 +226,7 @@ services:
 
   # Admin-UI
   xs2a-admin-ui:
-    image: adorsys/xs2a-bank-admin-ui:${SANDBOX_VERSION}
+    image: gitlab-registry.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/xs2a-bank-admin-ui:${SANDBOX_VERSION}
     restart: on-failure
     environment:
       - ADMIN_REST_SERVER_URL=http://xs2a-admin-rest-server:8094
@@ -242,7 +242,7 @@ services:
 
   # ADMIN-REST-SERVER
   xs2a-admin-rest-server:
-    image: adorsys/xs2a-admin-rest-server:${SANDBOX_VERSION}
+    image: gitlab-registry.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/xs2a-admin-rest-server:${SANDBOX_VERSION}
     restart: on-failure
     environment:
       KEYCLOAK_AUTH_SERVER_URL: "http://ledgers-keycloak:8080/auth"
@@ -266,7 +266,7 @@ services:
 
   # Developer portal ui
   developer-portal-ui:
-    image: adorsys/xs2a-bank-devportal:${SANDBOX_VERSION}
+    image: gitlab-registry.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/xs2a-bank-devportal:${SANDBOX_VERSION}
     restart: on-failure
     ports:
       - "4206:4206"

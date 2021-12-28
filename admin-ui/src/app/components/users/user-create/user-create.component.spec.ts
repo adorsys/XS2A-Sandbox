@@ -194,7 +194,7 @@ describe('UserCreateComponent', () => {
     ].setValue(true);
     component.userForm.controls['scaUserData']['controls'][0].controls[
       'scaMethod'
-    ].setValue(ScaMethods.EMAIL);
+    ].setValue(ScaMethods.SMTP_OTP);
 
     // create spies and fake call function
     const sampleResponse = { value: 'sample response' };
