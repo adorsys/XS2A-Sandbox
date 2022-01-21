@@ -16,7 +16,7 @@ Este portal de desarrolladores se crea para ayudar a los desarrolladores de TPP 
 
 Los componentes de ModelBank con sus conexiones entre sí se muestran en la Figura 1.1.
 
-![Figure 1.1](../../assets/images/Graphic_XS2A_Sandbox.jpg)
+![Figure 1.1](../../assets/images/Graphic_XS2A_Sandbox.png)
 
 Figura 1.1: Componentes de la ModelBank
 

@@ -16,7 +16,7 @@ This developer portal is created to help TPP developers start working with Model
 
 Components of ModelBank with their connections to each other are shown in Figure 1.1.
 
-![Figure 1.1](../../assets/images/Graphic_XS2A_Sandbox.jpg)
+![Figure 1.1](../../assets/images/Graphic_XS2A_Sandbox.png)
 
 Figure 1.1: Components of the ModelBank
 

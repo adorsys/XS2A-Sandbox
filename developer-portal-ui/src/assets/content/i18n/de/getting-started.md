@@ -16,7 +16,7 @@ Ziel des Developer-Portals ist es TPP-Entwicklern bei der Arbeit mit unserer Mod
 
 Die ModelBank setzt sich aus ihren Komponenten wie in Abbildung 1.1 zusammen.
 
-![Abbildung 1.1](../../assets/images/Graphic_XS2A_Sandbox.jpg)
+![Abbildung 1.1](../../assets/images/Graphic_XS2A_Sandbox.png)
 
 Abbildung 1.1: Komponenten der ModelBank
 

@@ -16,7 +16,7 @@
 
 Компоненти ModelBank з їх зв'язками показані на рисунку 1.1.
 
-![Figure 1.1](../../assets/images/Graphic_XS2A_Sandbox.jpg)
+![Figure 1.1](../../assets/images/Graphic_XS2A_Sandbox.png)
 Рисунок 1.1: Компоненти ModelBank
 
 <div class="divider">
