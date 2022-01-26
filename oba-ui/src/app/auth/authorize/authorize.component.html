@@ -1,8 +1,26 @@
+<!--
+  ~ Copyright 2018-2022 adorsys GmbH & Co KG
+  ~
+  ~ This program is free software: you can redistribute it and/or modify it
+  ~ under the terms of the GNU Affero General Public License as published
+  ~ by the Free Software Foundation, either version 3 of the License, or (at
+  ~ your option) any later version. This program is distributed in the hope that
+  ~ it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  ~ See the GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program. If not, see https://www.gnu.org/licenses/.
+  ~
+  ~ This project is also available under a separate commercial license. You can
+  ~ contact us at psd2@adorsys.com.
+  -->
+
 <div class="bg-sm-light sticky-top">
   <div class="container-fluid">
     <nav class="navbar navbar-light text-primary py-3">
       <a class="navbar-brand" href="#">
-        <img class="logo" [src]="customizeService.getLogo()"/>
+        <img class="logo" [src]="customizeService.getLogo()" />
       </a>
     </nav>
   </div>
@@ -12,57 +30,87 @@
   <div class="col">
     <div class="d-md-flex align-items-center h-100 p-4 justify-content-center">
       <div class="d-md-flex align-items-center">
-        <form [formGroup]="authorizeForm" (ngSubmit)="authorizeForm.valid && onSubmit()">
-
+        <form
+          [formGroup]="authorizeForm"
+          (ngSubmit)="authorizeForm.valid && onSubmit()"
+        >
           <div class="card">
             <div class="card-body">
-              <h2 class="card-title text-center font-weight-bold"><span
-                *ngIf="!customizeService.isCustom()">adorsys </span>Online banking</h2>
-              <div class="font-weight-light my-4 text-muted">Please log in with your bank account username.</div>
+              <h2 class="card-title text-center font-weight-bold">
+                <span *ngIf="!customizeService.isCustom()">adorsys </span>Online
+                banking
+              </h2>
+              <div class="font-weight-light my-4 text-muted">
+                Please log in with your bank account username.
+              </div>
 
               <div class="form-group">
-                <label for="login" class="text-muted">Your login:</label><br>
-                <input type="text"
-                       id="login"
-                       name="login"
-                       formControlName="login"
-                       placeholder="Enter your login"
-                       [ngClass]="{ 'is-invalid': authorizeForm.controls['login'].touched && authorizeForm.controls['login'].errors }"
-                       class="form-control">
-                <div class="invalid-feedback"
-                     *ngIf="authorizeForm.controls['login'].touched && authorizeForm.controls['login'].hasError('required')">
+                <label for="login" class="text-muted">Your login:</label><br />
+                <input
+                  type="text"
+                  id="login"
+                  name="login"
+                  formControlName="login"
+                  placeholder="Enter your login"
+                  [ngClass]="{
+                    'is-invalid':
+                      authorizeForm.controls['login'].touched &&
+                      authorizeForm.controls['login'].errors
+                  }"
+                  class="form-control"
+                />
+                <div
+                  class="invalid-feedback"
+                  *ngIf="
+                    authorizeForm.controls['login'].touched &&
+                    authorizeForm.controls['login'].hasError('required')
+                  "
+                >
                   Login is required
                 </div>
               </div>
 
               <div class="form-group">
-                <label for="pin" class="text-muted">Pin:</label><br>
-                <input type="password"
-                       id="pin"
-                       name="pin"
-                       formControlName="pin"
-                       placeholder="Enter your pin"
-                       [ngClass]="{ 'is-invalid': authorizeForm.controls['pin'].touched && authorizeForm.controls['pin'].errors }"
-                       class="form-control">
-                <div class="invalid-feedback"
-                     *ngIf="authorizeForm.controls['pin'].touched && authorizeForm.controls['pin'].hasError('required')">
-                  Pin is
-                  required
+                <label for="pin" class="text-muted">Pin:</label><br />
+                <input
+                  type="password"
+                  id="pin"
+                  name="pin"
+                  formControlName="pin"
+                  placeholder="Enter your pin"
+                  [ngClass]="{
+                    'is-invalid':
+                      authorizeForm.controls['pin'].touched &&
+                      authorizeForm.controls['pin'].errors
+                  }"
+                  class="form-control"
+                />
+                <div
+                  class="invalid-feedback"
+                  *ngIf="
+                    authorizeForm.controls['pin'].touched &&
+                    authorizeForm.controls['pin'].hasError('required')
+                  "
+                >
+                  Pin is required
                 </div>
               </div>
-
             </div>
 
             <div class="card-footer no-bg-color">
               <div class="row my-3">
                 <div class="col">
-                  <button type="submit" class="btn btn-primary btn-block" [disabled]="authorizeForm.invalid">Authorize
+                  <button
+                    type="submit"
+                    class="btn btn-primary btn-block"
+                    [disabled]="authorizeForm.invalid"
+                  >
+                    Authorize
                   </button>
                 </div>
               </div>
             </div>
           </div>
-
         </form>
       </div>
     </div>

@@ -1,25 +1,43 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
-import {combineLatest, Subject} from 'rxjs';
+/*
+ * Copyright 2018-2022 adorsys GmbH & Co KG
+ *
+ * This program is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or (at
+ * your option) any later version. This program is distributed in the hope that
+ * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see https://www.gnu.org/licenses/.
+ *
+ * This project is also available under a separate commercial license. You can
+ * contact us at psd2@adorsys.com.
+ */
 
-import {InfoService} from '../../../commons/info/info.service';
-import {AuthService} from '../../../services/auth.service';
-import {CustomizeService} from '../../../services/customize.service';
-import {SettingsService} from '../../../services/settings.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { combineLatest, Subject } from 'rxjs';
+
+import { InfoService } from '../../../commons/info/info.service';
+import { AuthService } from '../../../services/auth.service';
+import { CustomizeService } from '../../../services/customize.service';
+import { SettingsService } from '../../../services/settings.service';
 import {
   TppIdPatterns,
   TppIdStructure,
   TppIdType,
 } from '../../../models/tpp-id-structure.model';
-import {CountryService} from '../../../services/country.service';
-import {User} from '../../../models/user.model';
-import {TppUserService} from '../../../services/tpp.user.service';
-import {PageNavigationService} from '../../../services/page-navigation.service';
-import {TestDataGenerationService} from '../../../services/test.data.generation.service';
-import {CertificateDownloadService} from '../../../services/certificate/certificate-download.service';
-import {CertificateGenerationService} from '../../../services/certificate/certificate-generation.service';
-import {takeUntil} from 'rxjs/operators';
+import { CountryService } from '../../../services/country.service';
+import { User } from '../../../models/user.model';
+import { TppUserService } from '../../../services/tpp.user.service';
+import { PageNavigationService } from '../../../services/page-navigation.service';
+import { TestDataGenerationService } from '../../../services/test.data.generation.service';
+import { CertificateDownloadService } from '../../../services/certificate/certificate-download.service';
+import { CertificateGenerationService } from '../../../services/certificate/certificate-generation.service';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-register',
@@ -59,8 +77,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private pageNavigationService: PageNavigationService,
     private countryService: CountryService,
     private tppUserService: TppUserService
-  ) {
-  }
+  ) {}
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();
@@ -75,7 +92,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
       document.getElementById('emptySelect').remove();
     }
 
-    this.service.getTppIdStructure(this.selectedCountry)
+    this.service
+      .getTppIdStructure(this.selectedCountry)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(
         (data) => {
@@ -84,7 +102,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
           this.userForm.enable();
           this.showTppStructureMessage = true;
         },
-        () => this.infoService.openFeedback('Could not get TPP ID structure for this country!')
+        () =>
+          this.infoService.openFeedback(
+            'Could not get TPP ID structure for this country!'
+          )
       );
   }
 
@@ -104,7 +125,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   initializeCountryList() {
-    this.countryService.getCountryList()
+    this.countryService
+      .getCountryList()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(
         (data) => {
@@ -118,7 +140,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.tppUserService.currentTppUser
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((user: User) => (this.admin = user && user.userRoles.includes('SYSTEM')));
+      .subscribe(
+        (user: User) => (this.admin = user && user.userRoles.includes('SYSTEM'))
+      );
     this.initializeCountryList();
     this.initializeRegisterForm();
   }
@@ -145,16 +169,23 @@ export class RegisterComponent implements OnInit, OnDestroy {
       combineLatest([
         this.service.register(this.userForm.value, this.selectedCountry),
         this.certificateGenerationService.generate(this.certificateValue),
-      ]).pipe(takeUntil(this.unsubscribe$))
+      ])
+        .pipe(takeUntil(this.unsubscribe$))
         .subscribe(
           (combinedData: any) => {
             const encodedCert = combinedData[1].encodedCert;
             const privateKey = combinedData[1].privateKey;
 
-            this.certificateDownloadService.createZipUrl(encodedCert, privateKey).then((url) => {
-              message = `${messageBeginning} been successfully registered and certificate generated. The download will start automatically within the 2 seconds`;
-              this.certificateDownloadService.navigateAndGiveFeedback({navigateUrl: navigateUrl, url: url, message: message});
-            });
+            this.certificateDownloadService
+              .createZipUrl(encodedCert, privateKey)
+              .then((url) => {
+                message = `${messageBeginning} been successfully registered and certificate generated. The download will start automatically within the 2 seconds`;
+                this.certificateDownloadService.navigateAndGiveFeedback({
+                  navigateUrl: navigateUrl,
+                  url: url,
+                  message: message,
+                });
+              });
           },
           (data) => {
             this.userForm.reset();
@@ -162,12 +193,16 @@ export class RegisterComponent implements OnInit, OnDestroy {
           }
         );
     } else {
-      this.service.register(this.userForm.value, this.selectedCountry)
+      this.service
+        .register(this.userForm.value, this.selectedCountry)
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe(
           () => {
             message = `${messageBeginning} been successfully registered.`;
-            this.certificateDownloadService.navigateAndGiveFeedback({navigateUrl: navigateUrl, message: message});
+            this.certificateDownloadService.navigateAndGiveFeedback({
+              navigateUrl: navigateUrl,
+              message: message,
+            });
           },
           (data) => {
             this.userForm.reset();
@@ -179,7 +214,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   generateTppId(countryCode: string) {
     if (countryCode) {
-      return this.generationService.generateTppId(countryCode)
+      return this.generationService
+        .generateTppId(countryCode)
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe((data) => {
           this.userForm.get('id').setValue(data);
@@ -198,7 +234,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.userForm = this.formBuilder.group({
       id: '',
       login: ['', Validators.required],
-      email: ['',
+      email: [
+        '',
         [
           Validators.required,
           Validators.pattern(

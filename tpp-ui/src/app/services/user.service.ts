@@ -1,31 +1,55 @@
-import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+/*
+ * Copyright 2018-2022 adorsys GmbH & Co KG
+ *
+ * This program is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or (at
+ * your option) any later version. This program is distributed in the hope that
+ * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see https://www.gnu.org/licenses/.
+ *
+ * This project is also available under a separate commercial license. You can
+ * contact us at psd2@adorsys.com.
+ */
 
-import {environment} from '../../environments/environment';
-import {PaginationResponse} from '../models/pagination-reponse';
-import {User, UserResponse} from '../models/user.model';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+import { environment } from '../../environments/environment';
+import { PaginationResponse } from '../models/pagination-reponse';
+import { User, UserResponse } from '../models/user.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-
   public url = `${environment.tppBackend}`;
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
-  listUsers(page: number = 0, size: number = 25, queryParam: string = ''): Observable<UserResponse> {
-    return this.http.get<PaginationResponse<User[]>>(`${this.url}/users?page=${page}&size=${size}&queryParam=${queryParam}`).pipe(
-      map((resp) => {
-        return {
-          users: resp.content,
-          totalElements: resp.totalElements
-        };
-      })
-    );
+  listUsers(
+    page: number = 0,
+    size: number = 25,
+    queryParam: string = ''
+  ): Observable<UserResponse> {
+    return this.http
+      .get<PaginationResponse<User[]>>(
+        `${this.url}/users?page=${page}&size=${size}&queryParam=${queryParam}`
+      )
+      .pipe(
+        map((resp) => {
+          return {
+            users: resp.content,
+            totalElements: resp.totalElements,
+          };
+        })
+      );
   }
 
   getUser(userId: string): Observable<User> {
@@ -51,5 +75,4 @@ export class UserService {
   public resetPasswordViaEmail(login: string): Observable<any> {
     return this.http.post(`${this.url}'/users/reset/password/` + login, null);
   }
-
 }

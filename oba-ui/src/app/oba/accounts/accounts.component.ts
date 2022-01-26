@@ -1,3 +1,21 @@
+/*
+ * Copyright 2018-2022 adorsys GmbH & Co KG
+ *
+ * This program is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or (at
+ * your option) any later version. This program is distributed in the hope that
+ * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see https://www.gnu.org/licenses/.
+ *
+ * This project is also available under a separate commercial license. You can
+ * contact us at psd2@adorsys.com.
+ */
+
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
@@ -5,31 +23,31 @@ import { AccountDetailsTO } from '../../api/models/account-details-to';
 import { OnlineBankingService } from '../../common/services/online-banking.service';
 
 @Component({
-    selector: 'app-accounts',
-    templateUrl: './accounts.component.html',
-    styleUrls: ['./accounts.component.scss']
+  selector: 'app-accounts',
+  templateUrl: './accounts.component.html',
+  styleUrls: ['./accounts.component.scss'],
 })
 export class AccountsComponent implements OnInit, OnDestroy {
-    accounts: AccountDetailsTO[];
-    subscription = new Subscription();
+  accounts: AccountDetailsTO[];
+  subscription = new Subscription();
 
-    constructor(private onlineBankingService: OnlineBankingService) {
-    }
+  constructor(private onlineBankingService: OnlineBankingService) {}
 
-    ngOnInit() {
-        this.getAccounts();
-    }
+  ngOnInit() {
+    this.getAccounts();
+  }
 
-    getAccounts(): void {
-        this.subscription.add(
-            this.onlineBankingService.getAccounts()
-                .subscribe((accounts: AccountDetailsTO[]) => {
-                    this.accounts = accounts;
-                }));
-    }
+  getAccounts(): void {
+    this.subscription.add(
+      this.onlineBankingService
+        .getAccounts()
+        .subscribe((accounts: AccountDetailsTO[]) => {
+          this.accounts = accounts;
+        })
+    );
+  }
 
-    ngOnDestroy(): void {
-        this.subscription.unsubscribe();
-    }
-
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 }

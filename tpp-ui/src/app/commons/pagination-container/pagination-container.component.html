@@ -1,10 +1,42 @@
-<div *ngIf="paginationConfig?.totalItems" class="d-flex align-items-center justify-content-center p-2">
-    <ngb-pagination (pageChange)="pageChange($event)" [(page)]="paginationConfig.currentPageNumber"
-                    [collectionSize]="paginationConfig.totalItems"
-                    [pageSize]="paginationConfig.itemsPerPage"></ngb-pagination>
+<!--
+  ~ Copyright 2018-2022 adorsys GmbH & Co KG
+  ~
+  ~ This program is free software: you can redistribute it and/or modify it
+  ~ under the terms of the GNU Affero General Public License as published
+  ~ by the Free Software Foundation, either version 3 of the License, or (at
+  ~ your option) any later version. This program is distributed in the hope that
+  ~ it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  ~ See the GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program. If not, see https://www.gnu.org/licenses/.
+  ~
+  ~ This project is also available under a separate commercial license. You can
+  ~ contact us at psd2@adorsys.com.
+  -->
 
-    <select (change)="pageSizeChange($event.target.value)"
-            class="custom-select custom-select-sm ml-4 mb-3 w-auto" [(ngModel)]="paginationConfig.itemsPerPage">
-        <option  *ngFor="let number of [10, 20, 40, 60, 100]; let i = index;" [value]="number">{{number}}</option>
-    </select>
+<div
+  *ngIf="paginationConfig?.totalItems"
+  class="d-flex align-items-center justify-content-center p-2"
+>
+  <ngb-pagination
+    (pageChange)="pageChange($event)"
+    [(page)]="paginationConfig.currentPageNumber"
+    [collectionSize]="paginationConfig.totalItems"
+    [pageSize]="paginationConfig.itemsPerPage"
+  ></ngb-pagination>
+
+  <select
+    (change)="pageSizeChange($event.target.value)"
+    class="custom-select custom-select-sm ml-4 mb-3 w-auto"
+    [(ngModel)]="paginationConfig.itemsPerPage"
+  >
+    <option
+      *ngFor="let number of [10, 20, 40, 60, 100]; let i = index"
+      [value]="number"
+    >
+      {{ number }}
+    </option>
+  </select>
 </div>

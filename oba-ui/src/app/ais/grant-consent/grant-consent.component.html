@@ -1,3 +1,21 @@
+<!--
+  ~ Copyright 2018-2022 adorsys GmbH & Co KG
+  ~
+  ~ This program is free software: you can redistribute it and/or modify it
+  ~ under the terms of the GNU Affero General Public License as published
+  ~ by the Free Software Foundation, either version 3 of the License, or (at
+  ~ your option) any later version. This program is distributed in the hope that
+  ~ it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  ~ See the GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program. If not, see https://www.gnu.org/licenses/.
+  ~
+  ~ This project is also available under a separate commercial license. You can
+  ~ contact us at psd2@adorsys.com.
+  -->
+
 <div class="d-md-flex align-items-center h-100 align-items-stretch">
   <!-- First-->
   <div class="col-md-4 p-0 bg-light">
@@ -8,75 +26,122 @@
 
   <!--&lt;!&ndash; Second 1/4 &ndash;&gt;-->
   <div class="col-md-8 bg-white h-md-100">
-    <div *ngIf="accounts.length > 0 else sorry" class="d-md-flex align-items-center h-100 p-4 justify-content-center">
-      <form [formGroup]="bankOfferedForm" (ngSubmit)="bankOfferedForm.valid && onSubmit()">
+    <div
+      *ngIf="accounts.length > 0; else sorry"
+      class="d-md-flex align-items-center h-100 p-4 justify-content-center"
+    >
+      <form
+        [formGroup]="bankOfferedForm"
+        (ngSubmit)="bankOfferedForm.valid && onSubmit()"
+      >
         <div class="card">
           <div class="card-body">
-            <div *ngIf="bankOffered else dedicated">
-              <h2 class="card-title font-weight-bold">Select ibans and account accesses</h2>
+            <div *ngIf="bankOffered; else dedicated">
+              <h2 class="card-title font-weight-bold">
+                Select ibans and account accesses
+              </h2>
 
-              <div class="font-weight-light my-4 text-muted">Please select ibans and types of accesses you are granting
-                to the TPP,
-                then
-                confirm with "Next". Account access would be selected
-                by default for every iban of your choice.
+              <div class="font-weight-light my-4 text-muted">
+                Please select ibans and types of accesses you are granting to
+                the TPP, then confirm with "Next". Account access would be
+                selected by default for every iban of your choice.
               </div>
 
-              <div class="col-12 font-weight-light" *ngFor="let account of accounts, let i = index">
-
+              <div
+                class="col-12 font-weight-light"
+                *ngFor="let account of accounts; let i = index"
+              >
                 <div class="form-check">
-                  <input class="form-check-input" id="iban_{{i}}" name="ibans"
-                         [value]="account.iban"
-                         (change)="handleIbanCheckbox(account.iban)"
-                         [checked]="accountsChecked(account)"
-                         type="checkbox">
+                  <input
+                    class="form-check-input"
+                    id="iban_{{ i }}"
+                    name="ibans"
+                    [value]="account.iban"
+                    (change)="handleIbanCheckbox(account.iban)"
+                    [checked]="accountsChecked(account)"
+                    type="checkbox"
+                  />
 
-                  <label class="form-check-label" for="iban_{{i}}"> {{account.iban}} </label><br>
+                  <label class="form-check-label" for="iban_{{ i }}">
+                    {{ account.iban }} </label
+                  ><br />
 
                   <div class="form-check">
-                    <input class="form-check-input" id="account_{{i}}" name="accounts"
-                           [value]="account.iban"
-                           (change)="handleIbanCheckbox(account.iban)"
-                           [checked]="accountsChecked(account)"
-                           type="checkbox"
-                           [disabled]="!accountsChecked(account)">
-                    <label class="form-check-label font-weight-bold"
-                           for="account_{{i}}"> Accounts </label><br>
+                    <input
+                      class="form-check-input"
+                      id="account_{{ i }}"
+                      name="accounts"
+                      [value]="account.iban"
+                      (change)="handleIbanCheckbox(account.iban)"
+                      [checked]="accountsChecked(account)"
+                      type="checkbox"
+                      [disabled]="!accountsChecked(account)"
+                    />
+                    <label
+                      class="form-check-label font-weight-bold"
+                      for="account_{{ i }}"
+                    >
+                      Accounts </label
+                    ><br />
                   </div>
 
                   <div class="form-check">
-                    <input class="form-check-input" id="balance_{{i}}" name="balances"
-                           [value]="account.iban"
-                           (change)="handleObjectSelectedEvent(account.iban, consentBalances)"
-                           [checked]="accountsChecked(account) && balancesChecked(account)"
-                           type="checkbox"
-                           [disabled]="!accountsChecked(account)">
-                    <label class="form-check-label font-weight-bold"
-                           for="balance_{{i}}"> Balances </label><br>
+                    <input
+                      class="form-check-input"
+                      id="balance_{{ i }}"
+                      name="balances"
+                      [value]="account.iban"
+                      (change)="
+                        handleObjectSelectedEvent(account.iban, consentBalances)
+                      "
+                      [checked]="
+                        accountsChecked(account) && balancesChecked(account)
+                      "
+                      type="checkbox"
+                      [disabled]="!accountsChecked(account)"
+                    />
+                    <label
+                      class="form-check-label font-weight-bold"
+                      for="balance_{{ i }}"
+                    >
+                      Balances </label
+                    ><br />
                   </div>
 
                   <div class="form-check">
-                    <input class="form-check-input" id="transation_{{i}}" name="transactions"
-                           [value]="account.iban"
-                           (change)="handleObjectSelectedEvent(account.iban, consentTransactions)"
-                           [checked]="accountsChecked(account) && transactionsChecked(account)"
-                           type="checkbox"
-                           [disabled]="!accountsChecked(account)">
-                    <label class="form-check-label font-weight-bold"
-                           for="transation_{{i}}"> Transactions </label><br>
+                    <input
+                      class="form-check-input"
+                      id="transation_{{ i }}"
+                      name="transactions"
+                      [value]="account.iban"
+                      (change)="
+                        handleObjectSelectedEvent(
+                          account.iban,
+                          consentTransactions
+                        )
+                      "
+                      [checked]="
+                        accountsChecked(account) && transactionsChecked(account)
+                      "
+                      type="checkbox"
+                      [disabled]="!accountsChecked(account)"
+                    />
+                    <label
+                      class="form-check-label font-weight-bold"
+                      for="transation_{{ i }}"
+                    >
+                      Transactions </label
+                    ><br />
                   </div>
-
                 </div>
-
               </div>
             </div>
 
             <ng-template #dedicated>
               <h2 class="card-title font-weight-bold">Confirm your consent</h2>
-              <div class="font-weight-light my-4 text-muted">Please check ibans and types of accesses you are granting
-                to the TPP,
-                then
-                confirm with "Next".
+              <div class="font-weight-light my-4 text-muted">
+                Please check ibans and types of accesses you are granting to the
+                TPP, then confirm with "Next".
               </div>
             </ng-template>
           </div>
@@ -84,38 +149,51 @@
           <div class="card-footer no-bg-color">
             <div class="row my-3">
               <div class="col-12 col-sm-6 pr-sm-2">
-                <button type="button" class="btn btn-outline-secondary btn-block" (click)="onCancel()">Cancel
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary btn-block"
+                  (click)="onCancel()"
+                >
+                  Cancel
                 </button>
               </div>
               <div class="col-12 col-sm-6 pl-sm-2">
-                <button type="submit" class="btn btn-primary btn-block" [disabled]="!bankOfferedConsentFormValid">Next
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-block"
+                  [disabled]="!bankOfferedConsentFormValid"
+                >
+                  Next
                 </button>
               </div>
             </div>
           </div>
         </div>
-
       </form>
     </div>
 
     <ng-template #sorry>
-      <div class="d-md-flex align-items-center h-100 p-4 justify-content-center">
+      <div
+        class="d-md-flex align-items-center h-100 p-4 justify-content-center"
+      >
         <div class="card">
           <div class="card-body">
             <h2 class="card-title font-weight-bold">Sorry</h2>
-            <div class="font-weight-light my-4 text-muted">There are no bank accounts for current user!</div>
+            <div class="font-weight-light my-4 text-muted">
+              There are no bank accounts for current user!
+            </div>
             <div class="card-footer no-bg-color">
-              <button type="button" class="btn btn-primary col-12" (click)="backToTpp()">
+              <button
+                type="button"
+                class="btn btn-primary col-12"
+                (click)="backToTpp()"
+              >
                 <span class="mx-auto text-light">Back to TPP page</span>
               </button>
             </div>
           </div>
-
         </div>
       </div>
     </ng-template>
   </div>
-
 </div>
-
-

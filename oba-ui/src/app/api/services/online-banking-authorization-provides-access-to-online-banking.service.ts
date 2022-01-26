@@ -1,17 +1,40 @@
-/* tslint:disable */
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpRequest, HttpResponse,} from '@angular/common/http';
-import {BaseService as __BaseService} from '../base-service';
-import {ApiConfiguration as __Configuration} from '../api-configuration';
-import {StrictHttpResponse as __StrictHttpResponse} from '../strict-http-response';
-import {Observable, Observable as __Observable} from 'rxjs';
-import {filter as __filter, map as __map} from 'rxjs/operators';
+/*
+ * Copyright 2018-2022 adorsys GmbH & Co KG
+ *
+ * This program is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or (at
+ * your option) any later version. This program is distributed in the hope that
+ * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see https://www.gnu.org/licenses/.
+ *
+ * This project is also available under a separate commercial license. You can
+ * contact us at psd2@adorsys.com.
+ */
 
-import {SendCode} from '../models/send-code';
-import {ResetPassword} from '../models/reset-password';
-import {UpdatePassword} from '../models/update-password';
-import {UserTO} from '../models/user-to';
-import {UpdatedUserDetails} from '../models/updated-user-details';
+/* tslint:disable */
+import { Injectable } from '@angular/core';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpRequest,
+  HttpResponse,
+} from '@angular/common/http';
+import { BaseService as __BaseService } from '../base-service';
+import { ApiConfiguration as __Configuration } from '../api-configuration';
+import { StrictHttpResponse as __StrictHttpResponse } from '../strict-http-response';
+import { Observable, Observable as __Observable } from 'rxjs';
+import { filter as __filter, map as __map } from 'rxjs/operators';
+
+import { SendCode } from '../models/send-code';
+import { ResetPassword } from '../models/reset-password';
+import { UpdatePassword } from '../models/update-password';
+import { UserTO } from '../models/user-to';
+import { UpdatedUserDetails } from '../models/updated-user-details';
 
 /**
  * Oba Authorization Api Controller
@@ -185,7 +208,10 @@ class OnlineBankingAuthorizationProvidesAccessToOnlineBankingService extends __B
   }
 
   public resetPasswordViaEmail(login: string): Observable<any> {
-    return this.http.post(this.rootUrl + '/api/v1/users/reset/password/' + login, null);
+    return this.http.post(
+      this.rootUrl + '/api/v1/users/reset/password/' + login,
+      null
+    );
   }
 }
 
