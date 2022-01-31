@@ -14,7 +14,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 fdescribe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
-  let authService: AuthService;
+  let authService: Partial<AuthService>;
   let router: Router;
   let de: DebugElement;
   let el: HTMLElement;
@@ -28,7 +28,12 @@ fdescribe('LoginComponent', () => {
           HttpClientModule,
           MatSnackBarModule,
         ],
-        providers: [AuthService],
+        providers: [
+          {
+            provide: AuthService,
+            useValue: {},
+          },
+        ],
 
         declarations: [LoginComponent],
       }).compileComponents();
@@ -38,8 +43,8 @@ fdescribe('LoginComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
-    router = TestBed.get(Router);
-    authService = fixture.debugElement.injector.get(AuthService);
+    router = TestBed.inject(Router);
+    authService = TestBed.inject(AuthService);
 
     de = fixture.debugElement.query(By.css('form'));
     el = de.nativeElement;

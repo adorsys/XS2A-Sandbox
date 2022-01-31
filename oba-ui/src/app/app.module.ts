@@ -18,6 +18,7 @@ import { ShareDataService } from './common/services/share-data.service';
 import { InternalServerErrorComponent } from './internal-server-error/internal-server-error.component';
 import { ObaModule } from './oba/oba.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 export function app_Init(settingsHttpService: SettingsHttpService) {
   return () => settingsHttpService.initializeApp();
@@ -37,6 +38,7 @@ export function app_Init(settingsHttpService: SettingsHttpService) {
     NgHttpLoaderModule.forRoot(),
     ObaModule,
     MatSnackBarModule,
+    NgMultiSelectDropDownModule.forRoot(),
   ],
   providers: [
     AisService,

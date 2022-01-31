@@ -6,7 +6,7 @@
         <div class="col-12 col-md-8 p-md-0">
           <div class="form-group has-search">
             <span class="form-control-feedback">
-              <img src="./assets/icons/search.svg" />
+              <img src="./assets/icons/search.svg" alt="search logo" />
             </span>
             <div>
               <input
@@ -94,13 +94,7 @@
                 <div class="row d-flex justify-content-end">
                   <button
                     mat-raised-button
-                    class="
-                      btn btn-outline-primary btn-sm
-                      mt-2
-                      mb-3
-                      mr-1
-                      filter-button
-                    "
+                    class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
                     (click)="setBlocked(false)"
                     [ngClass]="{
                       active: searchForm.controls.blocked.value === false
@@ -110,13 +104,7 @@
                   </button>
                   <button
                     mat-raised-button
-                    class="
-                      btn btn-outline-primary btn-sm
-                      mt-2
-                      mb-3
-                      mr-1
-                      filter-button
-                    "
+                    class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
                     (click)="setBlocked(true)"
                     [ngClass]="{
                       active: searchForm.controls.blocked.value === true
@@ -126,13 +114,7 @@
                   </button>
                   <button
                     mat-raised-button
-                    class="
-                      btn btn-outline-primary btn-sm
-                      mt-2
-                      mb-3
-                      mr-1
-                      filter-button
-                    "
+                    class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
                     (click)="showAllTpps()"
                     [ngClass]="{ active: isSearchFormEmpty() }"
                   >
@@ -242,6 +224,9 @@
                   [matTooltip]="
                     !user.blocked ? 'Block the user' : 'Unblock the user'
                   "
+                  [title]="
+                    !user.blocked ? 'Block the user' : 'Unblock the user'
+                  "
                   [matTooltipPosition]="position.value"
                   aria-label="Block the user"
                   class="btn btn-table-btn mr-2"
@@ -333,6 +318,7 @@
                 <button
                   mat-fab
                   matTooltip="Delete the user"
+                  title="Delete the user"
                   [matTooltipPosition]="position.value"
                   aria-label="Delete the user"
                   class="btn btn-outline-danger mr-2"

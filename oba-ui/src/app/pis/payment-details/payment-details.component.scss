@@ -1,0 +1,8 @@
+.payment__dropdown
+  ::ng-deep
+  .multiselect-dropdown
+  .dropdown-btn
+  .selected-item-container
+  .selected-item {
+  max-width: unset !important;
+}

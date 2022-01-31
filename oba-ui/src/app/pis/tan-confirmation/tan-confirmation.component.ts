@@ -7,9 +7,9 @@ import { PaymentAuthorizeResponse } from '../../api/models';
 import { RoutingPath } from '../../common/models/routing-path.model';
 import { PisService } from '../../common/services/pis.service';
 import { ShareDataService } from '../../common/services/share-data.service';
-
-import AuthorisePaymentUsingPOSTParams = PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService.AuthorisePaymentUsingPOSTParams;
 import { PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService } from '../../api/services/psupiscancellation-provides-access-to-online-banking-payment-functionality.service';
+import { PsupisprovidesGetPsuAccsService } from '../../api/services/psupisprovides-get-psu-accs.service';
+import AuthorisePaymentUsingPOSTParams = PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService.AuthorisePaymentUsingPOSTParams;
 
 @Component({
   selector: 'app-tan-confirmation',
@@ -30,7 +30,8 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private pisService: PisService,
-    private shareService: ShareDataService
+    private shareService: ShareDataService,
+    private pisAccServices: PsupisprovidesGetPsuAccsService
   ) {}
 
   public ngOnInit(): void {
@@ -74,6 +75,7 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
         .subscribe(
           (authResponse) => {
             console.log(authResponse);
+            this.pisAccServices.choseIbanAndCurrency = null;
             this.router
               .navigate(
                 [`${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.RESULT}`],

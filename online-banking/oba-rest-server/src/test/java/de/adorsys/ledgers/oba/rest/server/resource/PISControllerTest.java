@@ -83,7 +83,6 @@ class PISControllerTest {
         // Given
         when(paymentService.identifyPayment(anyString(), anyString(), any())).thenReturn(getPaymentWorkflow(PSUIDENTIFIED));
         when(authenticationService.login(anyString(), anyString(), anyString())).thenReturn(getScaLoginResponse());
-        when(paymentService.initiatePaymentOpr(any(), anyString(), any())).thenReturn(getPaymentWorkflow(PSUIDENTIFIED));
         when(xisService.resolvePaymentWorkflow(any())).thenReturn(ResponseEntity.ok(getPaymentAuthorizeResponse(true, true, PSUIDENTIFIED)));
 
         // When

@@ -10,6 +10,7 @@ import { PisRoutingModule } from './pis-routing.module';
 import { ResultPageComponent } from './result-page/result-page.component';
 import { SelectScaComponent } from './select-sca/select-sca.component';
 import { TanConfirmationComponent } from './tan-confirmation/tan-confirmation.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [
@@ -18,15 +19,15 @@ import { TanConfirmationComponent } from './tan-confirmation/tan-confirmation.co
     ResultPageComponent,
     SelectScaComponent,
     PaymentDetailsComponent,
-    ConfirmPaymentComponent
+    ConfirmPaymentComponent,
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
     PisRoutingModule,
-    NotFoundModule
-  ]
+    NotFoundModule,
+    NgMultiSelectDropDownModule,
+  ],
 })
-export class PisModule {
-}
+export class PisModule {}

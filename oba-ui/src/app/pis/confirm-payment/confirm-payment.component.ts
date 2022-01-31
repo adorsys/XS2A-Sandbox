@@ -7,6 +7,7 @@ import { AccountDetailsTO } from '../../api/models/account-details-to';
 import { ConsentAuthorizeResponse } from '../../api/models/consent-authorize-response';
 import { RoutingPath } from '../../common/models/routing-path.model';
 import { ShareDataService } from '../../common/services/share-data.service';
+import { PsupisprovidesGetPsuAccsService } from '../../api/services/psupisprovides-get-psu-accs.service';
 
 @Component({
   selector: 'app-confirm-payment',
@@ -21,10 +22,13 @@ export class ConfirmPaymentComponent implements OnInit, OnDestroy {
   public transactionStatus: string;
   private subscriptions: Subscription[] = [];
   private oauth2Param: boolean;
+  isDisabled = true;
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private shareService: ShareDataService
+    private shareService: ShareDataService,
+    private getPsuAccsService: PsupisprovidesGetPsuAccsService
   ) {}
 
   get accounts(): Array<AccountDetailsTO> {
@@ -32,6 +36,10 @@ export class ConfirmPaymentComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    this.getPsuAccsService.choseIbanAndCurrencyObservable().subscribe((res) => {
+      this.isDisabled = !!res;
+    });
+
     this.subscriptions.push(
       this.shareService.currentData.subscribe((data) => {
         if (data) {

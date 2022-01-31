@@ -130,11 +130,4 @@ describe('LoginComponent', () => {
     );
     component.getAisAuthCode();
   });
-
-  it('pis AuthCode should throw error ', () => {
-    const errorSpy = spyOn(aisService, 'aisAuthCode').and.returnValue(
-      throwError({})
-    );
-    component.getAisAuthCode();
-  });
 });

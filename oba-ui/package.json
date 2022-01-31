@@ -39,6 +39,7 @@
     "http-status-codes": "^2.1.4",
     "material-icons": "^0.3.1",
     "ng-http-loader": "9.1.0",
+    "ng-multiselect-dropdown": "^0.3.7",
     "ngx-clipboard": "^12.3.0",
     "rxjs": "^6.6.3",
     "tslib": "^2.0.0",

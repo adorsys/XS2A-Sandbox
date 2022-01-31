@@ -13,6 +13,8 @@ import { OnlineBankingOauthAuthorizationService } from '../../api/services/onlin
 import { PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService } from '../../api/services/psupisprovides-access-to-online-banking-payment-functionality.service';
 import LoginUsingPOST3Params = PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService.LoginUsingPOST3Params;
 import PisAuthUsingGETParams = PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService.PisAuthUsingGETParams;
+import { PsupisprovidesGetPsuAccsService } from '../../api/services/psupisprovides-get-psu-accs.service';
+import { PaymentAuthorizeResponse } from '../../api/models/payment-authorize-response';
 
 @Component({
   selector: 'app-login',
@@ -37,7 +39,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private shareService: ShareDataService,
     private onlineBankingOauthAuthorizationService: OnlineBankingOauthAuthorizationService,
-    private pisService: PisService
+    private pisService: PisService,
+    private pisAccServices: PsupisprovidesGetPsuAccsService
   ) {}
 
   ngOnInit() {
@@ -59,11 +62,21 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.pisService.pisLogin(params).subscribe(
         (authorisationResponse) => {
-          console.log(authorisationResponse);
           this.shareService.changePaymentData(authorisationResponse);
-          this.router.navigate([
-            `${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.CONFIRM_PAYMENT}`,
-          ]);
+          if (authorisationResponse.payment.debtorAccount) {
+            this.isExistedDebtorAccFromResponse(authorisationResponse);
+          }
+          this.router.navigate(
+            [
+              `${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.CONFIRM_PAYMENT}`,
+            ],
+            {
+              queryParams: {
+                encryptedPaymentId: this.encryptedPaymentId,
+                authorisationId: this.redirectId,
+              },
+            }
+          );
         },
         (error: HttpErrorResponse) => {
           // if paymentId or redirectId is missing
@@ -96,15 +109,29 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 
+  isExistedDebtorAccFromResponse(data): void {
+    const { currency, iban } = data.payment.debtorAccount;
+    this.subscriptions.push(
+      this.pisAccServices
+        .sendPisInitiate(
+          { currency, iban },
+          {
+            encryptedPaymentId: this.encryptedPaymentId,
+            authorisationId: this.redirectId,
+          }
+        )
+        .subscribe((res) => {})
+    );
+  }
+
   public getPisAuthCode(): void {
     this.activatedRoute.queryParams.subscribe((params) => {
       this.encryptedPaymentId = params.paymentId;
       this.redirectId = params.redirectId;
 
       // set oauth2 param in shared service
-      params.oauth2
-        ? this.shareService.setOauthParam(true)
-        : this.shareService.setOauthParam(false);
+      this.shareService.setOauthParam(!!params.oauth2);
+
       const pisAuthCodeParams: PisAuthUsingGETParams = {
         encryptedPaymentId: this.encryptedPaymentId,
         redirectId: this.redirectId,

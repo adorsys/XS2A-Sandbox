@@ -1,26 +1,31 @@
 package de.adorsys.ledgers.oba.rest.server.resource;
 
+import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
+import de.adorsys.ledgers.middleware.api.domain.account.AccountReferenceTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO;
+import de.adorsys.ledgers.middleware.client.rest.AccountRestClient;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.oba.rest.api.resource.PISApi;
-import de.adorsys.psd2.sandbox.auth.MiddlewareAuthentication;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentWorkflow;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.api.service.CommonPaymentService;
 import de.adorsys.ledgers.oba.service.api.service.TokenAuthenticationService;
+import de.adorsys.psd2.sandbox.auth.MiddlewareAuthentication;
 import feign.FeignException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 import static de.adorsys.ledgers.oba.rest.api.resource.PISApi.BASE_PATH;
 
@@ -37,7 +42,7 @@ public class PISController implements PISApi {
     private final MiddlewareAuthentication middlewareAuth;
     private final AuthRequestInterceptor authInterceptor;
     private final TokenAuthenticationService authenticationService;
-
+    private final AccountRestClient accountRestClient;
 
     @Override
     @ApiOperation(value = "Identifies the user by login an pin. Return sca methods information")
@@ -54,20 +59,19 @@ public class PISController implements PISApi {
             xisService.resolveFailedLoginAttempt(encryptedPaymentId, workflow.paymentId(), login, workflow.authId(), OpTypeTO.PAYMENT);
         }
 
-        workflow = paymentService.initiatePaymentOpr(workflow, workflow.bearerToken().getAccessTokenObject().getLogin(), OpTypeTO.PAYMENT);
         return xisService.resolvePaymentWorkflow(workflow);
     }
 
     @Override
-    public ResponseEntity<PaymentAuthorizeResponse> initiatePayment( //TODO Seems to be unused!!! Subject to removal!
-                                                                     String encryptedPaymentId, String authorisationId) {
+    public ResponseEntity<PaymentAuthorizeResponse> initiatePayment(String encryptedPaymentId, String authorisationId, AccountReferenceTO accountReference) {
 
         String psuId = AuthUtils.psuId(middlewareAuth);
         // Identity the link and load the workflow.
         PaymentWorkflow identifyPaymentWorkflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, middlewareAuth.getBearerToken());
 
-        // Update status
-        identifyPaymentWorkflow.getScaResponse().setScaStatus(ScaStatusTO.PSUAUTHENTICATED);
+        if (StringUtils.isNotBlank(accountReference.getIban())) {
+            identifyPaymentWorkflow.getAuthResponse().getPayment().setDebtorAccount(accountReference);
+        }
 
         PaymentWorkflow initiatePaymentWorkflow = paymentService.initiatePaymentOpr(identifyPaymentWorkflow, psuId, OpTypeTO.PAYMENT);
 
@@ -122,4 +126,19 @@ public class PISController implements PISApi {
         authResponse.setRedirectUrl(redirectUrl);
         return ResponseEntity.ok(authResponse);
     }
+
+    @Override
+    public ResponseEntity<List<AccountDetailsTO>> getAccountList() {
+        return ResponseEntity.ok(getListOfAccounts());
+    }
+
+    private List<AccountDetailsTO> getListOfAccounts() {
+        try {
+            authInterceptor.setAccessToken(middlewareAuth.getBearerToken().getAccess_token());
+            return accountRestClient.getListOfAccounts().getBody();
+        } finally {
+            authInterceptor.setAccessToken(null);
+        }
+    }
+
 }

@@ -56,6 +56,7 @@
                 <button
                   mat-fab
                   matTooltip="Edit"
+                  title="Edit"
                   [matTooltipPosition]="position.value"
                   class="btn btn-table-btn btn-sm wd-120 mr-3"
                   [routerLink]="['/edit/' + user.id]"
@@ -67,6 +68,7 @@
                 <button
                   mat-fab
                   matTooltip="Change PIN"
+                  title="Change PIN"
                   [matTooltipPosition]="position.value"
                   class="btn btn-table-btn btn-sm wd-120 mr-3"
                   (click)="openConfirmation(changePinModal, user.id, 'pin')"
@@ -77,6 +79,7 @@
                 <button
                   mat-fab
                   matTooltip="Delete the admin"
+                  title="Delete the admin"
                   [matTooltipPosition]="position.value"
                   (click)="
                     openConfirmation(deleteConfirmationModal, user.id, 'delete')

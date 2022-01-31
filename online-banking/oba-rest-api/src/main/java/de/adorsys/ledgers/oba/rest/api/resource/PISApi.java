@@ -1,15 +1,15 @@
 package de.adorsys.ledgers.oba.rest.api.resource;
 
+import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
+import de.adorsys.ledgers.middleware.api.domain.account.AccountReferenceTO;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Api(value = PISApi.BASE_PATH, tags = "PSU PIS. Provides access to online banking payment functionality")
 public interface PISApi {
@@ -17,12 +17,15 @@ public interface PISApi {
 
 
     /**
-     * Identifies the user by login an pin. Return sca methods information
+     * Identifies the user by login an pin. Return authorisation information.
+     * <p>
+     * Note: this method doesn't launch payment initiation directly, for this purpose use the
+     * 'initiatePayment' method.
      *
-     * @param encryptedPaymentId  the encryptedPaymentId
-     * @param authorisationId     the auth id
-     * @param login               the login
-     * @param pin                 the password
+     * @param encryptedPaymentId encrypted payment ID
+     * @param authorisationId    authorisation ID
+     * @param login              the login
+     * @param pin                the password
      * @return PaymentAuthorizeResponse
      */
     @PostMapping(path = "/{encryptedPaymentId}/authorisation/{authorisationId}/login")
@@ -34,10 +37,11 @@ public interface PISApi {
         @RequestParam(value = "pin", required = false) String pin);
 
     /**
-     * Calls the consent validation page.
+     * Starts payment initiation in ledgers.
      *
-     * @param encryptedPaymentId                the sca id
-     * @param authorisationId                   the auth id
+     * @param encryptedPaymentId encrypted payment ID
+     * @param authorisationId    authorisation ID
+     * @param accountReference   selected account reference from the frontend in case of empty debtor account
      * @return PaymentAuthorizeResponse
      */
     @PostMapping(path = "/{encryptedPaymentId}/authorisation/{authorisationId}/initiate")
@@ -45,14 +49,15 @@ public interface PISApi {
         authorizations = @Authorization(value = "apiKey"))
     ResponseEntity<PaymentAuthorizeResponse> initiatePayment(
         @PathVariable("encryptedPaymentId") String encryptedPaymentId,
-        @PathVariable("authorisationId") String authorisationId);
+        @PathVariable("authorisationId") String authorisationId,
+        @RequestBody AccountReferenceTO accountReference);
 
     /**
      * Selects the SCA Method for use.
      *
-     * @param encryptedPaymentId                the sca id
-     * @param authorisationId                   the auth id
-     * @param scaMethodId                       sca
+     * @param encryptedPaymentId encrypted payment ID
+     * @param authorisationId    authorisation ID
+     * @param scaMethodId        ID of chosen SCA method
      * @return PaymentAuthorizeResponse
      */
     @PostMapping("/{encryptedPaymentId}/authorisation/{authorisationId}/methods/{scaMethodId}")
@@ -65,9 +70,9 @@ public interface PISApi {
     /**
      * Provides a TAN for the validation of an authorization
      *
-     * @param encryptedPaymentId                the sca id
-     * @param authorisationId                   the auth id
-     * @param authCode                          the auth code
+     * @param encryptedPaymentId encrypted payment ID
+     * @param authorisationId    authorisation ID
+     * @param authCode           the auth code (TAN)
      * @return PaymentAuthorizeResponse
      */
     @PostMapping(path = "/{encryptedPaymentId}/authorisation/{authorisationId}/authCode", params = {"authCode"})
@@ -86,7 +91,7 @@ public interface PISApi {
     @DeleteMapping(path = "/{encryptedPaymentId}/{authorisationId}")
     @ApiOperation(value = "Fail payment authorisation", authorizations = @Authorization(value = "apiKey"),
         notes = "This call provides the server with the opportunity to close this session and "
-            + "revoke consent.")
+                    + "revoke consent.")
     ResponseEntity<PaymentAuthorizeResponse> failPaymentAuthorisation(@PathVariable("encryptedPaymentId") String encryptedPaymentId,
                                                                       @PathVariable("authorisationId") String authorisationId);
 
@@ -94,7 +99,7 @@ public interface PISApi {
      * This call provides the server with the opportunity to close this session and
      * redirect the PSU to the TPP or close the application window.
      * <p>
-     * In any case, the session of the user will be closed .
+     * In any case, the session of the user will be closed.
      *
      * @param encryptedPaymentId ID of Payment
      * @param authorisationId    ID of related Payment Authorisation
@@ -109,4 +114,17 @@ public interface PISApi {
         @PathVariable("authorisationId") String authorisationId,
         @RequestParam(name = "oauth2", required = false, defaultValue = "false") boolean isOauth2Integrated,
         @RequestParam(name = "authConfirmationCode", required = false) String authConfirmationCode);
+
+    /**
+     * This call allows to get all accounts for given PSU.
+     * <p>
+     * Token authorisation is required.
+     *
+     * @return list of bank accounts for given PSU.
+     */
+    @GetMapping(path = "/accounts")
+    @ApiOperation(value = "Read account list for given PSU", authorizations = @Authorization(value = "apiKey"),
+        notes = "This call allows to get all accounts for given PSU.")
+    ResponseEntity<List<AccountDetailsTO>> getAccountList();
+
 }

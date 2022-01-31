@@ -6,7 +6,7 @@
         <div class="col-12 col-md-12 p-md-0">
           <div class="form-group has-search">
             <span class="form-control-feedback">
-              <img src="./assets/icons/search.svg" />
+              <img src="./assets/icons/search.svg" alt="search logo" />
             </span>
             <div>
               <input
@@ -70,13 +70,7 @@
 
                 <div class="row d-flex justify-content-end">
                   <button
-                    class="
-                      btn btn-outline-primary btn-sm
-                      mt-2
-                      mb-3
-                      mr-1
-                      filter-button
-                    "
+                    class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
                     (click)="setBlocked(false)"
                     [ngClass]="{
                       active: searchForm.controls.blocked.value === false
@@ -85,13 +79,7 @@
                     Active
                   </button>
                   <button
-                    class="
-                      btn btn-outline-primary btn-sm
-                      mt-2
-                      mb-3
-                      mr-1
-                      filter-button
-                    "
+                    class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
                     (click)="setBlocked(true)"
                     [ngClass]="{
                       active: searchForm.controls.blocked.value === true
@@ -100,13 +88,7 @@
                     Blocked
                   </button>
                   <button
-                    class="
-                      btn btn-outline-primary btn-sm
-                      mt-2
-                      mb-3
-                      mr-1
-                      filter-button
-                    "
+                    class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
                     (click)="showAllTpps()"
                     [ngClass]="{ active: isSearchFormEmpty() }"
                   >
@@ -200,6 +182,7 @@
                   aria-label="Deposit Cash"
                   mat-fab
                   matTooltip="Deposit Cash"
+                  title="Deposit Cash"
                   [matTooltipPosition]="position.value"
                   *ngIf="!account.blocked"
                   class="btn btn-table-btn mr-2"
@@ -212,6 +195,11 @@
                 <button
                   mat-fab
                   [matTooltip]="
+                    !account.blocked
+                      ? 'Block the account'
+                      : 'Unblock the account'
+                  "
+                  [title]="
                     !account.blocked
                       ? 'Block the account'
                       : 'Unblock the account'
@@ -307,6 +295,7 @@
                 <button
                   mat-fab
                   matTooltip="Delete the account"
+                  title="Delete the account"
                   [matTooltipPosition]="position.value"
                   aria-label="Delete the account"
                   class="btn btn-outline-danger mr-2"
