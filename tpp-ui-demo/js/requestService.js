@@ -1,3 +1,21 @@
+/*
+ * Copyright 2018-2022 adorsys GmbH & Co KG
+ *
+ * This program is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or (at
+ * your option) any later version. This program is distributed in the hope that
+ * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see https://www.gnu.org/licenses/.
+ *
+ * This project is also available under a separate commercial license. You can
+ * contact us at psd2@adorsys.com.
+ */
+
 function sendPaymentRequestAndGetResponse(productNumber) {
     var paymentResponse = {};
 
@@ -6,7 +24,6 @@ function sendPaymentRequestAndGetResponse(productNumber) {
         .done(function (resp) {
             console.log("complete : " + JSON.stringify(resp));
             paymentResponse = resp;
-
         })
         .fail(function (e) {
             console.log("ERROR: ", e);
@@ -22,15 +39,14 @@ function getPaymentAjaxSettings(productNumber) {
     var xs2aUrl = configs.localhost;
 
     return {
-        "async": false,
-        "crossDomain": true,
-        "url": xs2aUrl,
-        "method": "POST",
-        "headers": headers,
-        "processData": false,
-        "data": paymentReqJson
+        async: false,
+        crossDomain: true,
+        url: xs2aUrl,
+        method: "POST",
+        headers: headers,
+        processData: false,
+        data: paymentReqJson,
     };
-
 }
 
 function getPaymentInitiationRequestJson(productNumber) {
@@ -56,7 +72,9 @@ function getPaymentInitiationRequestJson(productNumber) {
     formObject.ultimateDebtor = $("#debtorName").val();
     formObject.creditorName = $("#creditorName").val();
     formObject.ultimateCreditor = $("#creditorName").val();
-    formObject.remittanceInformationUnstructured = $("#productName"+ productNumber).val();
+    formObject.remittanceInformationUnstructured = $(
+        "#productName" + productNumber
+    ).val();
 
     var dateTime = new Date();
     dateTime.setDate(dateTime.getDate() + 1);
@@ -71,7 +89,6 @@ function getPaymentInitiationRequestJson(productNumber) {
 }
 
 function getRequestHeaders() {
-
     var headers = {};
 
     headers["PSU-ID"] = "anton.brueckner";

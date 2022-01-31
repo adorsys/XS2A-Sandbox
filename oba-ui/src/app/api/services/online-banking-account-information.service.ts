@@ -1,3 +1,21 @@
+/*
+ * Copyright 2018-2022 adorsys GmbH & Co KG
+ *
+ * This program is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or (at
+ * your option) any later version. This program is distributed in the hope that
+ * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see https://www.gnu.org/licenses/.
+ *
+ * This project is also available under a separate commercial license. You can
+ * contact us at psd2@adorsys.com.
+ */
+
 /* tslint:disable */
 import { Injectable } from '@angular/core';
 import {
@@ -17,10 +35,10 @@ import { PaymentTO } from '../models/payment-to';
 import { TransactionTO } from '../models/transaction-to';
 import { CustomPageImplTransactionTO } from '../models/custom-page-impl-transaction-to';
 import { UserTO } from '../models/user-to';
-import {CustomPageImplObaAisConsent} from "../models/custom-page-impl-ais-consents";
-import {ObaAisConsent} from "../models/oba-ais-consent";
-import {OnlineBankingConsentsService} from "./online-banking-consents.service";
-import {CustomPageImplPaymentTO} from "../models/custom-page-impl-paayment-to";
+import { CustomPageImplObaAisConsent } from '../models/custom-page-impl-ais-consents';
+import { ObaAisConsent } from '../models/oba-ais-consent';
+import { OnlineBankingConsentsService } from './online-banking-consents.service';
+import { CustomPageImplPaymentTO } from '../models/custom-page-impl-paayment-to';
 
 /**
  * Oba Ais Controller
@@ -123,9 +141,12 @@ class OnlineBankingAccountInformationService extends __BaseService {
   /**
    * @return OK
    */
-  getPendingPeriodicPaymentsUsingGET(userLogin: string,  params: OnlineBankingConsentsService.PagedUsingGetParams): __Observable<CustomPageImplPaymentTO> {
+  getPendingPeriodicPaymentsUsingGET(
+    userLogin: string,
+    params: OnlineBankingConsentsService.PagedUsingGetParams
+  ): __Observable<CustomPageImplPaymentTO> {
     return this.periodicPaymentsPagedUsingGETResponse(userLogin, params).pipe(
-      __map(_r => _r.body as CustomPageImplPaymentTO)
+      __map((_r) => _r.body as CustomPageImplPaymentTO)
     );
   }
 
@@ -133,7 +154,10 @@ class OnlineBankingAccountInformationService extends __BaseService {
    * @param userLogin userLogin
    * @return OK
    */
-  periodicPaymentsPagedUsingGETResponse(userLogin: string, params: OnlineBankingConsentsService.PagedUsingGetParams): __Observable<__StrictHttpResponse<CustomPageImplPaymentTO>> {
+  periodicPaymentsPagedUsingGETResponse(
+    userLogin: string,
+    params: OnlineBankingConsentsService.PagedUsingGetParams
+  ): __Observable<__StrictHttpResponse<CustomPageImplPaymentTO>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -150,11 +174,12 @@ class OnlineBankingAccountInformationService extends __BaseService {
       {
         headers: __headers,
         params: __params,
-        responseType: 'json'
-      });
+        responseType: 'json',
+      }
+    );
 
     return this.http.request<any>(req).pipe(
-      __filter(_r => _r instanceof HttpResponse),
+      __filter((_r) => _r instanceof HttpResponse),
       __map((_r) => {
         return _r as __StrictHttpResponse<CustomPageImplPaymentTO>;
       })

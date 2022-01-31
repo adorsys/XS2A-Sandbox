@@ -1,3 +1,21 @@
+/*
+ * Copyright 2018-2022 adorsys GmbH & Co KG
+ *
+ * This program is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or (at
+ * your option) any later version. This program is distributed in the hope that
+ * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see https://www.gnu.org/licenses/.
+ *
+ * This project is also available under a separate commercial license. You can
+ * contact us at psd2@adorsys.com.
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -5,7 +23,7 @@ import {
   ViewEncapsulation,
   ElementRef,
   SimpleChanges,
-  OnChanges
+  OnChanges,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { take } from 'rxjs/operators';
@@ -17,10 +35,10 @@ import { IconRegistry } from './icon-registry';
   styleUrls: ['./icon.component.scss'],
   host: {
     class: 'app-icon',
-    '[class.app-icon--inline]': 'inline'
+    '[class.app-icon--inline]': 'inline',
   },
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IconComponent implements OnChanges {
   /**
@@ -39,11 +57,21 @@ export class IconComponent implements OnChanges {
     private _iconRegistry: IconRegistry,
     private _sanitizer: DomSanitizer
   ) {
-    const icons = ['user', 'account', 'upload', 'euro', 'add', 'generate_test_data', 'settings'];
-    icons.forEach(val => {
+    const icons = [
+      'user',
+      'account',
+      'upload',
+      'euro',
+      'add',
+      'generate_test_data',
+      'settings',
+    ];
+    icons.forEach((val) => {
       _iconRegistry.addSvgIcon(
-          val,
-          _sanitizer.bypassSecurityTrustResourceUrl('assets/icons/' + val + '.svg')
+        val,
+        _sanitizer.bypassSecurityTrustResourceUrl(
+          'assets/icons/' + val + '.svg'
+        )
       );
     });
   }
@@ -73,8 +101,9 @@ export class IconComponent implements OnChanges {
           .getNamedSvgIcon(iconName, namespace)
           .pipe(take(1))
           .subscribe(
-            svg => this._setSvgElement(svg),
-            (err: Error) => console.error(`Error retrieving icon: ${err.message}`)
+            (svg) => this._setSvgElement(svg),
+            (err: Error) =>
+              console.error(`Error retrieving icon: ${err.message}`)
           );
       } else {
         this._clearSvgElement();
@@ -88,7 +117,9 @@ export class IconComponent implements OnChanges {
     // Workaround for IE11 and Edge ignoring `style` tags inside dynamically-created SVGs.
     // See: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/10898469/
     // Do this before inserting the element into the DOM, in order to avoid a style recalculation.
-    const styleTags = svg.querySelectorAll('style') as NodeListOf<HTMLStyleElement>;
+    const styleTags = svg.querySelectorAll(
+      'style'
+    ) as NodeListOf<HTMLStyleElement>;
 
     for (let i = 0; i < styleTags.length; i++) {
       styleTags[i].textContent += ' ';

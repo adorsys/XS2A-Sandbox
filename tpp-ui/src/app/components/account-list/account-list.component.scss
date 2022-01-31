@@ -1,31 +1,49 @@
-@import "~src/assets/themes/table";
-@import "~src/assets/themes/variables";
+/*!
+ * Copyright 2018-2022 adorsys GmbH & Co KG
+ *
+ * This program is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or (at
+ * your option) any later version. This program is distributed in the hope that
+ * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see https://www.gnu.org/licenses/.
+ *
+ * This project is also available under a separate commercial license. You can
+ * contact us at psd2@adorsys.com.
+ */
+
+@import '~src/assets/themes/table';
+@import '~src/assets/themes/variables';
 
 .justify-space-between {
   justify-content: space-between;
 }
 .flex {
-   display: flex;
+  display: flex;
 }
 .p-md-0 {
-    padding-right: 15px !important;
-    padding-left: 35px !important;
+  padding-right: 15px !important;
+  padding-left: 35px !important;
 }
 
 .has-search .form-control {
-    padding-left: 2.375rem;
+  padding-left: 2.375rem;
 }
 
 .has-search .form-control-feedback {
-    position: absolute;
-    margin-top: var(--margin-top-icon);
-    align-items: inherit;
-    z-index: 2;
-    display: block;
-    width: 2.375rem;
-    height: 2.375rem;
-    line-height: 2.375rem;
-    text-align: center;
-    pointer-events: none;
-    color: $dark-80;
+  position: absolute;
+  margin-top: var(--margin-top-icon);
+  align-items: inherit;
+  z-index: 2;
+  display: block;
+  width: 2.375rem;
+  height: 2.375rem;
+  line-height: 2.375rem;
+  text-align: center;
+  pointer-events: none;
+  color: $dark-80;
 }

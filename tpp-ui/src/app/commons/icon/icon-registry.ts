@@ -1,3 +1,21 @@
+/*
+ * Copyright 2018-2022 adorsys GmbH & Co KG
+ *
+ * This program is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or (at
+ * your option) any later version. This program is distributed in the hope that
+ * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see https://www.gnu.org/licenses/.
+ *
+ * This project is also available under a separate commercial license. You can
+ * contact us at psd2@adorsys.com.
+ */
+
 import { DOCUMENT } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
@@ -7,10 +25,14 @@ import {
   Optional,
   SecurityContext,
   SkipSelf,
-  OnDestroy
+  OnDestroy,
 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { Observable, of as observableOf, throwError as observableThrow } from 'rxjs';
+import {
+  Observable,
+  of as observableOf,
+  throwError as observableThrow,
+} from 'rxjs';
 import { finalize, map, share, tap } from 'rxjs/operators';
 
 /**
@@ -115,7 +137,11 @@ export class IconRegistry implements OnDestroy {
    * @param iconName Name under which the icon should be registered.
    * @param url
    */
-  addSvgIconInNamespace(namespace: string, iconName: string, url: SafeResourceUrl): this {
+  addSvgIconInNamespace(
+    namespace: string,
+    iconName: string,
+    url: SafeResourceUrl
+  ): this {
     return this._addSvgIconConfig(namespace, iconName, new SvgIconConfig(url));
   }
 
@@ -142,8 +168,8 @@ export class IconRegistry implements OnDestroy {
 
     return this._loadSvgIconFromConfig(new SvgIconConfig(safeUrl)).pipe(
       // tslint:disable-next-line:no-non-null-assertion
-      tap(svg => this._cachedIconsByUrl.set(url!, svg)),
-      map(svg => cloneSvg(svg))
+      tap((svg) => this._cachedIconsByUrl.set(url!, svg)),
+      map((svg) => cloneSvg(svg))
     );
   }
 
@@ -155,7 +181,10 @@ export class IconRegistry implements OnDestroy {
    * @param name Name of the icon to be retrieved.
    * @param namespace Namespace in which to look for the icon.
    */
-  getNamedSvgIcon(name: string, namespace: string = ''): Observable<SVGElement> {
+  getNamedSvgIcon(
+    name: string,
+    namespace: string = ''
+  ): Observable<SVGElement> {
     // Return (copy of) cached icon if possible.
     const key = iconKey(namespace, name);
     const config = this._svgIconConfigs.get(key);
@@ -182,8 +211,8 @@ export class IconRegistry implements OnDestroy {
     } else {
       // Fetch the icon from the config's URL, cache it, and return a copy.
       return this._loadSvgIconFromConfig(config).pipe(
-        tap(svg => (config.svgElement = svg)),
-        map(svg => cloneSvg(svg))
+        tap((svg) => (config.svgElement = svg)),
+        map((svg) => cloneSvg(svg))
       );
     }
   }
@@ -192,9 +221,11 @@ export class IconRegistry implements OnDestroy {
    * Loads the content of the icon URL specified in the SvgIconConfig and creates an SVG element
    * from it.
    */
-  private _loadSvgIconFromConfig(config: SvgIconConfig): Observable<SVGElement> {
+  private _loadSvgIconFromConfig(
+    config: SvgIconConfig
+  ): Observable<SVGElement> {
     return this._fetchUrl(config.url).pipe(
-      map(svgText => this._createSvgElementForSingleIcon(svgText))
+      map((svgText) => this._createSvgElementForSingleIcon(svgText))
     );
   }
 
@@ -279,7 +310,11 @@ export class IconRegistry implements OnDestroy {
    * @param iconName Name under which to register the config.
    * @param config Config to be registered.
    */
-  private _addSvgIconConfig(namespace: string, iconName: string, config: SvgIconConfig): this {
+  private _addSvgIconConfig(
+    namespace: string,
+    iconName: string,
+    config: SvgIconConfig
+  ): this {
     this._svgIconConfigs.set(iconKey(namespace, iconName), config);
     return this;
   }
@@ -303,9 +338,9 @@ export const ICON_REGISTRY_PROVIDER = {
     [new Optional(), new SkipSelf(), IconRegistry],
     [new Optional(), HttpClient],
     DomSanitizer,
-    [new Optional(), DOCUMENT as InjectionToken<any>]
+    [new Optional(), DOCUMENT as InjectionToken<any>],
   ],
-  useFactory: ICON_REGISTRY_PROVIDER_FACTORY
+  useFactory: ICON_REGISTRY_PROVIDER_FACTORY,
 };
 
 /** Clones an SVGElement while preserving type information. */

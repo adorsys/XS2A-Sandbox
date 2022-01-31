@@ -1,3 +1,21 @@
+<!--
+  ~ Copyright 2018-2022 adorsys GmbH & Co KG
+  ~
+  ~ This program is free software: you can redistribute it and/or modify it
+  ~ under the terms of the GNU Affero General Public License as published
+  ~ by the Free Software Foundation, either version 3 of the License, or (at
+  ~ your option) any later version. This program is distributed in the hope that
+  ~ it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  ~ See the GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program. If not, see https://www.gnu.org/licenses/.
+  ~
+  ~ This project is also available under a separate commercial license. You can
+  ~ contact us at psd2@adorsys.com.
+  -->
+
 <div class="d-md-flex align-items-center h-100 align-items-stretch">
   <!-- First-->
   <div class="col-md-4 p-0 bg-light">
@@ -7,12 +25,14 @@
   </div>
   <!-- Second 1/4 -->
   <div class="col-md-8 bg-white h-md-100 row justify-content-md-center">
-    <div class="h-100 col-md-auto d-flex align-items-center confirm-payment-block">
+    <div
+      class="h-100 col-md-auto d-flex align-items-center confirm-payment-block"
+    >
       <div class="card text-center">
         <div class="card-body">
           <h2 class="card-title font-weight-bold">Confirm your payment</h2>
-          <div class="font-weight-light my-4 text-muted">Please check your payment information you about to execute,
-            then
+          <div class="font-weight-light my-4 text-muted">
+            Please check your payment information you about to execute, then
             confirm with "Next".
           </div>
         </div>
@@ -20,11 +40,21 @@
         <div class="card-footer no-bg-color">
           <div class="row my-3">
             <div class="col-12 col-sm-6 pr-sm-2 pb-2">
-              <button type="button" class="btn btn-outline-secondary btn-block" (click)="onCancel()">Cancel
+              <button
+                type="button"
+                class="btn btn-outline-secondary btn-block"
+                (click)="onCancel()"
+              >
+                Cancel
               </button>
             </div>
             <div class="col-12 col-sm-6 pl-sm-2 pb-2">
-              <button type="submit" (click)="onConfirm()" class="btn btn-primary btn-block">Next
+              <button
+                type="submit"
+                (click)="onConfirm()"
+                class="btn btn-primary btn-block"
+              >
+                Next
               </button>
             </div>
           </div>
@@ -33,5 +63,3 @@
     </div>
   </div>
 </div>
-
-

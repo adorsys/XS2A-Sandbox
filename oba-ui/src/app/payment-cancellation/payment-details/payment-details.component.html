@@ -1,46 +1,98 @@
+<!--
+  ~ Copyright 2018-2022 adorsys GmbH & Co KG
+  ~
+  ~ This program is free software: you can redistribute it and/or modify it
+  ~ under the terms of the GNU Affero General Public License as published
+  ~ by the Free Software Foundation, either version 3 of the License, or (at
+  ~ your option) any later version. This program is distributed in the hope that
+  ~ it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  ~ See the GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program. If not, see https://www.gnu.org/licenses/.
+  ~
+  ~ This project is also available under a separate commercial license. You can
+  ~ contact us at psd2@adorsys.com.
+  -->
+
 <div class="card bg-light">
   <div *ngIf="authResponse" class="card-body">
     <div *ngIf="authResponse.payment">
       <div id="fixed">
         <h2><strong>Debtor account</strong></h2>
-        <strong><p>{{authResponse.payment.debtorAccount.iban}} {{authResponse.payment.debtorAccount.currency}}</p></strong>
-        <hr>
+        <strong
+          ><p>
+            {{ authResponse.payment.debtorAccount.iban }}
+            {{ authResponse.payment.debtorAccount.currency }}
+          </p></strong
+        >
+        <hr />
         <h5>Total amount</h5>
-        <strong><p>{{totalAmount}} {{authResponse.payment.targets[0].instructedAmount.currency}}</p></strong>
-        <hr>
+        <strong
+          ><p>
+            {{ totalAmount }}
+            {{ authResponse.payment.targets[0].instructedAmount.currency }}
+          </p></strong
+        >
+        <hr />
       </div>
       <div *ngFor="let payment of authResponse.payment.targets; index as i">
-        <h4><strong><span *ngIf="authResponse.payment.targets.length > 1">{{ i + 1 }}- </span> Creditor account</strong></h4>
-        <strong><p>{{payment.creditorAccount.iban}} {{payment.creditorAccount.currency}}</p></strong>
-        <hr>
+        <h4>
+          <strong
+            ><span *ngIf="authResponse.payment.targets.length > 1"
+              >{{ i + 1 }}-
+            </span>
+            Creditor account</strong
+          >
+        </h4>
+        <strong
+          ><p>
+            {{ payment.creditorAccount.iban }}
+            {{ payment.creditorAccount.currency }}
+          </p></strong
+        >
+        <hr />
 
         <h4>Creditor name</h4>
-        <strong><p>{{payment.creditorName}}</p></strong>
-        <hr>
+        <strong
+          ><p>{{ payment.creditorName }}</p></strong
+        >
+        <hr />
 
         <h4>Payment amount</h4>
-        <strong><p>{{payment.instructedAmount.amount}} {{payment.instructedAmount.currency}}</p></strong>
-        <hr>
+        <strong
+          ><p>
+            {{ payment.instructedAmount.amount }}
+            {{ payment.instructedAmount.currency }}
+          </p></strong
+        >
+        <hr />
       </div>
 
       <div *ngIf="authResponse.payment.startDate">
         <h4>Payment start date</h4>
-        <strong><p>{{authResponse.payment.startDate}}</p></strong>
-        <hr>
+        <strong
+          ><p>{{ authResponse.payment.startDate }}</p></strong
+        >
+        <hr />
       </div>
 
       <div *ngIf="authResponse.payment.executionRule">
         <h4>Payment execution rule</h4>
-        <strong><p>{{authResponse.payment.executionRule}}</p></strong>
-        <hr>
+        <strong
+          ><p>{{ authResponse.payment.executionRule }}</p></strong
+        >
+        <hr />
       </div>
 
       <div *ngIf="authResponse.payment.endDate">
         <h4>Payment end date</h4>
-        <strong><p>{{authResponse.payment.endDate}}</p></strong>
-        <hr>
+        <strong
+          ><p>{{ authResponse.payment.endDate }}</p></strong
+        >
+        <hr />
       </div>
     </div>
-
   </div>
 </div>
