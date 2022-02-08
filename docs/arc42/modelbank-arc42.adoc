@@ -29,55 +29,55 @@ endif::basebackend-html[]
 // numbering from here on
 :numbered:
 
-<<<<
+<<<
 // 1. Introduction and Goals
 include::src/01_introduction_and_goals.adoc[Introduction and goals]
 
-<<<<
+<<<
 // 2. Architecture Constraints
-include::src/02_architecture_constraints.adoc[Architecture constraint]
+//include::src/02_architecture_constraints.adoc[Architecture constraint]
 
-<<<<
+<<<
 // 3. System Scope and Context
 include::src/03_system_scope_and_context.adoc[System scope and context]
 
-<<<<
+<<<
 // 4. Solution Strategy
 include::src/04_solution_strategy.adoc[Solution strategy]
 
-<<<<
+<<<
 // 5. Building Block View
 include::src/05_building_block_view.adoc[Building block view]
 
-<<<<
+<<<
 // 6. Deployment View
 include::src/06_deployment_view.adoc[Deployment view]
 
-<<<<
+<<<
 // 6_1. Deploy on Linux
 include::src/06_1_deploy_on_linux_platform.adoc[Deploy on linux platform]
 
-<<<<
+<<<
 // 7. Concepts
 include::src/07_concepts.adoc[Concepts]
 
-<<<<
+<<<
 // 8. Design Decisions
 include::src/08_design_decisions.adoc[Design decisions]
 
-<<<<
+<<<
 // 9. Glossary
 include::src/09_glossary.adoc[Glossary]
 
-<<<<
+<<<
 // 10. Meta
 include::src/10_meta.adoc[Meta]
 
-<<<<
+<<<
 // 11. oAuth 2.0 pre-steps
 include::src/11_oauth2_presteps.adoc[Oauth2 presteps]
 
-<<<<
+<<<
 // 12. oAuth integrated and pre-step consent
 include::src/12_oauth_integrated_prestep_consent.adoc[Oauth integrated prestep consent]
 

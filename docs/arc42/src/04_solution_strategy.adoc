@@ -10,7 +10,7 @@ A short summary and explanation of the fundamental decisions and solution strate
 * technology decisions
 * decisions about the top-level decomposition of the system, e.g. usage of an architectural pattern or design pattern
 * decisions on how to achieve key quality goals
-* relevant organizational decisions, e.g. selecting a development process or delegating certain tasks to third parties.
+* relevant organizational decisions, e.g. selecting a development process or delegating certain tasks to third parties
 
 .Motivation
 These decisions form the cornerstones for your architecture. They are the basis for many other detailed decisions or implementation rules.
@@ -23,7 +23,7 @@ based upon your problem statement, the quality goals and key constraints.
 Refer to details in the following sections.
 ****
 
-image::../images/modelbank.svg[High-level Architecture ModelBank, 80%, title="High-level Architecture ModelBank", align="center"]
+image::../images/graphic_xs2a_sandbox.png[High-level Architecture ModelBank, 80%, title="High-level Architecture ModelBank", align="center"]
 
 The project bundles one top-level component: the _modelbank_. The _modelbank_ contains the XS2A API (with XS2A Interface, ASPSP-profile and Consent-management system), does the certificate handling, provides TPP UI, Online Banking UI and documentation in the developer portal.
 

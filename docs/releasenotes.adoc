@@ -1,0 +1,65 @@
+== Release notes
+
+On this page release notes for each version released are published.
+
+For upcoming versions see our xref:roadmap.adoc[Roadmap].
+
+=== Mainline 7.x (Development. Planned to be released xx.xx.2022 as 8.0 Stable version)
+
+* xref:release_notes/Release_notes_7.1.md[Version 7.1 (release date: 20.12.2021)]
+* xref:release_notes/Release_notes_7.0.md[Version 7.0 (release date: 21.10.2021)]
+
+=== Mainline 6.x (Stable. Supported minimum till xx.xx.2022)
+
+* xref:release_notes/Release_notes_6.1.md[Version 6.1 (release date: 20.12.2021)]
+* xref:release_notes/Release_notes_6.0.md[Version 6.0 (release date: 21.10.2021)]
+
+=== Mainline 5.x (Stable. Supported till xx.xx.xxxx)
+
+* xref:release_notes/Release_notes_5.14.md[Version 5.14 (release date: 01.07.2021)]
+* xref:release_notes/Release_notes_5.13.md[Version 5.13 (release date: 18.06.2021)]
+* xref:release_notes/Release_notes_5.12.md[Version 5.12 (release date: 04.06.2021)]
+* xref:release_notes/Release_notes_5.11.md[Version 5.11 (release date: 20.05.2021)]
+* xref:release_notes/Release_notes_5.10.md[Version 5.10 (release date: 23.04.2021)]
+* xref:release_notes/Release_notes_5.9.md[Version 5.9 (release date: 09.04.2021)]
+* xref:release_notes/Release_notes_5.8.1.md[Version 5.8.1 (release date: 29.03.2021)]
+* xref:release_notes/Release_notes_5.8.md[Version 5.8 (release date: 26.03.2021)]
+* xref:release_notes/Release_notes_5.7.md[Version 5.7 (release date: 11.03.2021)]
+* xref:release_notes/Release_notes_5.6.1.md[Version 5.6.1 (release date: 04.03.2021)]
+* xref:release_notes/Release_notes_5.6.md[Version 5.6 (release date: 11.02.2021)]
+* xref:release_notes/Release_notes_5.5.md[Version 5.5 (release date: 28.01.2021)]
+* xref:release_notes/Release_notes_5.4.md[Version 5.4 (release date: 31.12.2020)]
+* xref:release_notes/Release_notes_5.2.md[Version 5.2 (release date: 21.12.2020)]
+* xref:release_notes/Release_notes_5.1.md[Version 5.1 (release date: 03.12.2020)]
+* xref:release_notes/Release_notes_5.0.md[Version 5.0 (release date: 04.11.2020)]
+
+=== Mainline 4.x(Stable. Supported till xx.xx.xxxx)
+
+* xref:release_notes/Release_notes_4.11.md[Version 4.11 (release date: 04.06.2021)]
+* xref:release_notes/Release_notes_4.10.md[Version 4.10 (release date: 20.05.2021)]
+* xref:release_notes/Release_notes_4.09.md[Version 4.9 (release date: 23.04.2021)]
+* xref:release_notes/Release_notes_4.9.md[Version 4.9 (release date: 26.03.2021)]
+* xref:release_notes/Release_notes_4.8.md[Version 4.8 (release date: 11.03.2021)]
+* xref:release_notes/Release_notes_4.7.md[Version 4.7 (release date: 11.02.2021)]
+* xref:release_notes/Release_notes_4.6.md[Version 4.6 (release date: 21.12.2020)]
+* xref:release_notes/Release_notes_4.5.md[Version 4.5 (release date: 22.10.2020)]
+
+=== Mainline 4.x
+
+* xref:release_notes/Release_notes_4.4.1.md[Version 4.4.1 (release date: 30.09.2020)]
+* xref:release_notes/Release_notes_4.4.md[Version 4.4 (release date: 03.08.2020)]
+* xref:release_notes/Release_notes_4.3.1.md[Version 4.3.1 (release date: 23.07.2020)]
+* xref:release_notes/Release_notes_4.3.md[Version 4.3 (release date: 10.07.2020)]
+* xref:release_notes/Release_notes_4.2.md[Version 4.2 (release date: 30.06.2020)]
+* xref:release_notes/Release_notes_4.1.md[Version 4.1 (release date: 16.06.2020)]
+* xref:release_notes/Release_notes_4.0.md[Version 4.0 (release date: 26.05.2020)]
+
+=== Mainline 3.x
+
+* xref:release_notes/Release_notes_3.7.md[Version 3.7 (release date: 14.05.2020)]
+* xref:release_notes/Release_notes_3.6.md[Version 3.6 (release date: 05.05.2020)]
+* xref:release_notes/Release_notes_3.5.md[Version 3.5 (release date: 21.04.2020)]
+* xref:release_notes/Release_notes_3.4.md[Version 3.4 (release date: 07.04.2020)]
+* xref:release_notes/Release_notes_3.3.md[Version 3.3 (release date: 26.03.2020)]
+* xref:release_notes/Release_notes_3.2.md[Version 3.2 (release date: 12.03.2020)]
+* xref:release_notes/Release_notes_3.1.md[Version 3.1 (release date: 03.03.2020)]

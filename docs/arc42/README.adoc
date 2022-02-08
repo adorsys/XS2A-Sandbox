@@ -23,9 +23,8 @@ $ make docs/arc42/modelbank-arc42.html
 
 == Tools Used for Diagrams
 
-We use https://plantuml.com/[PlantUML] for simple diagrams. This allow us to put the plain text
-diagram sources under source control. PlantUML diagrams are put into the `diagrams` folder and
-are named `*.puml`. At build time we generate PNGs from them and put them in the ignored folder
-`images/generated`.
+We use https://plantuml.com/[PlantUML] for simple diagrams. This allows us to put the plain text
+diagram sources under the source control. PlantUML diagrams are put into the `diagrams` folder and
+are named `*.puml`.
 
 More complex diagrams (like the diagram in Deployment View) are created with https://draw.io, which is now completely free and even offers a https://about.draw.io/integrations[desktop app]. _draw.io_ diagrams are saved as XML, also put in the `images` folder.

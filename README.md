@@ -6,7 +6,7 @@
 
 ## Licensing model change to dual license: AGPL v.3 or commercial license
 
-**Attention: This open-source project will change its licensing model as of 01.01.2022!**
+**Attention: This open-source project has changed its licensing model since 01.01.2022!**
 
 Constantly evolving and extending scope, production traffic and support in open banking
 world call for high maintenance and service investments on our part.
@@ -45,8 +45,6 @@ With ModelBank [TPP UI](https://github.com/adorsys/XS2A-Sandbox/tree/master/tpp-
 [Developer Portal](https://github.com/adorsys/XS2A-Sandbox/tree/master/developer-portal-ui) contains testing instructions and all of the necessary documentation. Also, there is a possibility to send requests to XS2A system to proceed basic Payment and Consent flows available in test cases inside Developer Portal.
 
 All four SCA approaches are supported: REDIRECT, OAUTH, EMBEDDED, DECOUPLED. Two of them (REDIRECT, EMBEDDED) are directly testable on Developer portal. For the Redirect SCA Approach an [Online Banking UI](https://github.com/adorsys/XS2A-Sandbox/tree/master/oba-ui) is used for authorisation.
-
-![ModelBank structure](https://github.com/adorsys/XS2A-Sandbox/blob/master/XS2ASandbox.png)
 
 ## Project documentation
 

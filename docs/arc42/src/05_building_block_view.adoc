@@ -47,7 +47,7 @@ ModelBank depends on XS2A (consent-management, aspsp-profile, XS2A interface) an
 ==== White Box _xs2a_
 
 .whitebox-xs2a-lvl2
-image::../images/generated/whitebox-2-xs2a.png[Whitebox xs2a Level 2, 60%, title="Whitebox xs2a Level 2", align="center"]
+image::../images/whitebox_2_xs2a.png[Whitebox xs2a Level 2, 60%, title="Whitebox xs2a Level 2", align="center"]
 
 [cols="1,2" options="header"]
 |===

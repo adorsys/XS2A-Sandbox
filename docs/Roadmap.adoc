@@ -1,0 +1,44 @@
+= Roadmap
+
+//Starting ===== 13th of September 2021 XS2A-core Team===== is providing development within two branches:
+
+*Stable branch 6.x*
+
+
+*Development branch 7.x*
+
+
+
+== Release plan and future roadmap
+[options="header",cols="2,1,1,8"]
+|====
+| Release date | Stable version number | Development version number | Improvements / new features
+| 21.10.2021   | 6.0	               |    7.0
+a| * Added new modules:
+admin-app - backend module for Admin UI
+admin-ui - UI component for managing administrators, TPPs and users
+cms-connector - common functionality for "admin-app" and "tpp-app" for accessing CMS DB
+* Updated and fixed documentation
+* Refactored TPP-UI and TPP backend application (admin functionality was moved to new modules)
+| 20.12.2021	|6.1	|7.1
+a| * Updated and fixed documentation
+* Ledgers v.4.17
+* Renamed EMAIL SCA method to SMTP_OTP
+* Added ability to create payments without endToEndIdentification
+| Further development | |
+
+a| * Payment initiation without debtor IBAN with further IBAN selection via Online Banking App
+* Support of PIIS ASPSP consent management in TPP-UI and Online Banking App
+* The field fundsAvailable should be supported in the response for Payment Initiation Status Request
+* Support of PIIS consent in TPP-UI (Frontend)
+* The field fundsAvailable should be supported in the response for Payment Initiation Status Request
+* Support List of Trusted Beneficiaries in Ledgers
+* Developer Portal. Add explanation for date transfers
+* Developer Portal. Enlarge FAQs section
+* Developer Portal. Update product history
+* Developer Portal. Add explanation for date transfers
+* Developer Portal. Add different types of body for authorisation in Embedded SCA
+* SFTI ModelBank
+* Signing Basket emulation.
+* Single Card Account.
+|====

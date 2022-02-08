@@ -16,10 +16,31 @@ customers know and can handle.
 +
 Right now we use:
 
-* Java 11 / Spring Boot 2
-* Angular 11
-* PostgreSQL
-* Docker
+* Base technologies:
+- Java 11
+- Spring Boot, Spring Data, Spring WebMVC
+- Hibernate
+- Mapstruct
+- Jackson
+- Maven
+- Gitlab/Github
+- PostgreSQL
+- Liquibase
+- Lombok
+- Open Feign
+- JWT
+- Keycloak
+- Angular 11
+- Docker
+- Postman
+
+* Tests:
+- Mockito
+- AssertJ
+
+* Other:
+- PMD Checkstyle
+- SonarLint
 
 Continuous development & update::
 All projects included into ModelBank are continuously developed and updated to latest BerlinGroup PSD2 Specification and

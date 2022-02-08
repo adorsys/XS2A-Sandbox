@@ -17,7 +17,7 @@ The Berlin-Group Initiative https://www.berlin-group.org/[NextGenPSD2] joint for
 
 ==== ModelBank Project
 
-image::../images/modelbank.svg[High-level Architecture ModelBank, 80%, title="High-level Architecture ModelBank", align="center"]
+image::../images/graphic_xs2a_sandbox.png[High-level Architecture ModelBank, 80%, title="High-level Architecture ModelBank", align="center"]
 
 According to the law every European bank must provide a sandbox so that TPPs can begin integrating against it. The adorsys ModelBank is a full implementation of this sandbox. It provides an XS2A API which is compliant to the Berlin Group XS2A spec (Version 1.3).
 
@@ -55,44 +55,18 @@ The ModelBank should be easy to deploy in enterprise contexts. This requires a s
 
 === Stakeholders
 
-[cols="1,2,3,4", options="header"]
+[cols="1,2,3", options="header"]
 |===
-| Name              | Role                               | Contact        | Expectation
-| Denys Golubiev    | Software Architect PSD2            | dgo@adorsys.de
-a|
-- get feedback about XS2A (quality, design)
-- maybe move work to us (mockbank)
-| Francis Pouatcha  | Software Architect PSD2, Sales     | fpo@adorsys.de
-a|
-- needs some sort of roadmap and progress reported from us
-- needs to collaborate with us so we can properly align the backlog with vision/sales
-| Michael Guss       | Portfolio Manager PSD2             | mgu@adorsys.de
-a|
-- expects us to work in short iterations to get features out of the door quickly so we can provide fast feedback to him
-- needs to be kept up to date if we (plan to) change stuff that impacts our customers
-- needs some sort of roadmap and progress reported from us
-| Rene Pongratz     | Sales       | rpo@adorsys.de
-a|
-- needs some sort of roadmap and progress reported from us
-- needs to collaborate with us so we can properly align the backlog with vision/sales
-| Stefan Hamm       | Sales        | sha@adorsys.de
-a|
-- needs some sort of roadmap and progress reported from us
-- needs to collaborate with us so we can properly align the backlog with vision/sales
-|===
+| Name                | Role              | Contact
 
+|Thilo Rottach        | CEO               | thilo.rottach@adorsys.com
 
-=== Product Team
+| Denys Golubiev      | Architect         | denys.golubiev@adorsys.com
 
-[options="header"]
-|===
-| Name              | Role                    | Contact
-| Francis Pouatcha  | Developer, business analyst, Architect | fpo@adorsys.de
-| Dmytro Storozhyk  | Product owner           | dst@adorsys.com.ua
-| Petro Rudenko     | Developer               | pru@adorsys.com.ua
-| Dmytro Mishchuk   | Developer               | dmi@adorsys.com.ua
-| Mariia Polikarpova| Developer               | mpo@adorsys.com.ua
-| Vladimir Nechai   | Developer               | vne@adorsys.de
-| Nicole Wesemeyer  | Business analyst        | nwe@adorsys.de
-| Julia Kantorski   | Designer                | jka@adorsys.de
+| Gatis Kalnins       | Product Manager   | gatis.kalnins@adorsys.com
+
+| Andre Achtstaetter  | Sales             | andre.achtstaetter@adorsys.com
+
+| Maisoora Bichoo     | Delivery Manager  | maisoora.bichoo@adorsys.com
+
 |===
