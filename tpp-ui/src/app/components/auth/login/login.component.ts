@@ -1,3 +1,21 @@
+/*
+ * Copyright 2018-2022 adorsys GmbH & Co KG
+ *
+ * This program is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or (at
+ * your option) any later version. This program is distributed in the hope that
+ * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see https://www.gnu.org/licenses/.
+ *
+ * This project is also available under a separate commercial license. You can
+ * contact us at psd2@adorsys.com.
+ */
+
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -6,7 +24,11 @@ import { AuthService } from '../../../services/auth.service';
 import { CustomizeService } from '../../../services/customize.service';
 import { ADMIN_KEY } from 'src/app/commons/constant/constant';
 import browser from 'browser-detect';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, } from '@angular/material/snack-bar';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 import { InfoService } from '../../../commons/info/info.service';
 
 @Component({
@@ -28,8 +50,7 @@ export class LoginComponent implements OnInit {
     public customizeService: CustomizeService,
     private _snackBar: MatSnackBar,
     private infoService: InfoService
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     const result = browser();
@@ -78,9 +99,12 @@ export class LoginComponent implements OnInit {
   navigateOnLogin() {
     if (sessionStorage.getItem(ADMIN_KEY) === 'true') {
       this.authService.logout();
-      this.infoService.openFeedback('Admin doesn\'t have access to this system', {
-        severity: 'error'
-      });
+      this.infoService.openFeedback(
+        "Admin doesn't have access to this system",
+        {
+          severity: 'error',
+        }
+      );
     } else {
       this.router.navigate(['/']);
     }

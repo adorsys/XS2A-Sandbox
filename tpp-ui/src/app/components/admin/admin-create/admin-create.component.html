@@ -1,72 +1,142 @@
-<div class="container-fluid">
+<!--
+  ~ Copyright 2018-2022 adorsys GmbH & Co KG
+  ~
+  ~ This program is free software: you can redistribute it and/or modify it
+  ~ under the terms of the GNU Affero General Public License as published
+  ~ by the Free Software Foundation, either version 3 of the License, or (at
+  ~ your option) any later version. This program is distributed in the hope that
+  ~ it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  ~ See the GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program. If not, see https://www.gnu.org/licenses/.
+  ~
+  ~ This project is also available under a separate commercial license. You can
+  ~ contact us at psd2@adorsys.com.
+  -->
 
+<div class="container-fluid">
   <div class="header__title mb-4">Create new administrator</div>
 
   <div class="card card--medium">
-    <form novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()" autocomplete="off">
+    <form
+      novalidate
+      [formGroup]="userForm"
+      (ngSubmit)="onSubmit()"
+      autocomplete="off"
+    >
       <div class="card-body">
         <div class="mb-4">
           <label for="email">Email</label>
           <input
-            [ngClass]="{ 'is-invalid': (formControl['email'].touched || submitted) && formControl['email'].errors }"
+            [ngClass]="{
+              'is-invalid':
+                (formControl['email'].touched || submitted) &&
+                formControl['email'].errors
+            }"
             aria-describedby="emailHelp"
             autocomplete="off"
             class="form-control"
             formControlName="email"
             id="email"
             placeholder="Enter email"
-            type="email">
-          <div *ngIf="(formControl['email'].touched || submitted) && formControl['email'].hasError('required')"
-               class="invalid-feedback">
+            type="email"
+          />
+          <div
+            *ngIf="
+              (formControl['email'].touched || submitted) &&
+              formControl['email'].hasError('required')
+            "
+            class="invalid-feedback"
+          >
             Email is required
           </div>
-          <div *ngIf="(formControl['email'].touched || submitted) && formControl['email'].hasError('email')"
-               class="invalid-feedback">
+          <div
+            *ngIf="
+              (formControl['email'].touched || submitted) &&
+              formControl['email'].hasError('email')
+            "
+            class="invalid-feedback"
+          >
             Email is invalid
           </div>
         </div>
         <div class="mb-4">
           <label class="control-label" for="login">Login</label>
           <input
-            [ngClass]="{ 'is-invalid': (formControl['login'].touched || submitted) && formControl['login'].errors }"
+            [ngClass]="{
+              'is-invalid':
+                (formControl['login'].touched || submitted) &&
+                formControl['login'].errors
+            }"
             aria-describedby="emailHelp"
             autocomplete="off"
             class="form-control"
             formControlName="login"
             id="login"
             placeholder="Enter your login"
-            type="text">
-          <div *ngIf="(formControl['login'].touched || submitted) && formControl['login'].hasError('required')"
-               class="invalid-feedback">
+            type="text"
+          />
+          <div
+            *ngIf="
+              (formControl['login'].touched || submitted) &&
+              formControl['login'].hasError('required')
+            "
+            class="invalid-feedback"
+          >
             Login is required
           </div>
         </div>
         <div class="mb-4">
           <label class="control-label" for="pin">PIN</label>
           <input
-            [ngClass]="{ 'is-invalid': (formControl['pin'].touched || submitted) && formControl['pin'].errors }"
+            [ngClass]="{
+              'is-invalid':
+                (formControl['pin'].touched || submitted) &&
+                formControl['pin'].errors
+            }"
             aria-describedby="pinHelp"
             autocomplete="new-password"
             class="form-control"
             formControlName="pin"
             id="pin"
             placeholder="Enter PIN"
-            type="password">
-          <div *ngIf="(formControl['pin'].touched || submitted) && formControl['pin'].hasError('required')"
-               class="invalid-feedback">
+            type="password"
+          />
+          <div
+            *ngIf="
+              (formControl['pin'].touched || submitted) &&
+              formControl['pin'].hasError('required')
+            "
+            class="invalid-feedback"
+          >
             PIN is required
           </div>
-          <div *ngIf="(formControl['pin'].touched || submitted) && formControl['pin'].hasError('minlength')"
-               class="invalid-feedback">
+          <div
+            *ngIf="
+              (formControl['pin'].touched || submitted) &&
+              formControl['pin'].hasError('minlength')
+            "
+            class="invalid-feedback"
+          >
             PIN must contain at least 5 characters
           </div>
         </div>
         <div class="d-flex justify-content-between">
-          <button class="btn btn-outline-danger" type="button" (click)="location.back()">
+          <button
+            class="btn btn-outline-danger"
+            type="button"
+            (click)="location.back()"
+          >
             Cancel
           </button>
 
-          <button [disabled]="userForm.invalid" class="btn btn-primary" type="submit">
+          <button
+            [disabled]="userForm.invalid"
+            class="btn btn-primary"
+            type="submit"
+          >
             Submit
           </button>
         </div>

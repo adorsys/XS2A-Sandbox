@@ -1,17 +1,21 @@
-# Copyright 2018-2018 adorsys GmbH & Co KG
 #
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
+# Copyright 2018-2022 adorsys GmbH & Co KG
 #
-# http://www.apache.org/licenses/LICENSE-2.0
+# This program is free software: you can redistribute it and/or modify it
+# under the terms of the GNU Affero General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or (at
+# your option) any later version. This program is distributed in the hope that
+# it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+# warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Affero General Public License for more details.
 #
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# You should have received a copy of the GNU Affero General Public License
+# along with this program. If not, see https://www.gnu.org/licenses/.
 #
+# This project is also available under a separate commercial license. You can
+# contact us at psd2@adorsys.com.
+#
+
 server:
   # Authorization HTTP header requires to enlarge max header size.
   max-http-header-size: 65000
@@ -41,7 +45,7 @@ license.url: https://github.com/adorsys/xs2a/blob/master/LICENSE.md
 
 skip.ssl.certificate.verification: true
 
-# For now this must be the same as the property configured in 
+# For now this must be the same as the property configured in
 # user-service.jwt.hs256.secret from /ledgers-app/src/main/resources/application.yml
 online-banking.sca:
   jwt.hs256.secret: 6VFX8YFQG5DLFKZIMNLGH9P406XR1SY4
@@ -51,13 +55,13 @@ online-banking.sca:
 # endpoints:
 #  cors:
 #    allow-credentials: false
-    # Comma-separated list of origins to allow. '*' allows all origins. When not set, CORS support is disabled.
+# Comma-separated list of origins to allow. '*' allows all origins. When not set, CORS support is disabled.
 #    allowed-origins: '*'
-    # Comma-separated list of headers to include in a response.
+# Comma-separated list of headers to include in a response.
 #    allowed-headers: '*'
-    # Comma-separated list of methods to allow. '*' allows all methods. When not set, defaults to GET.
+# Comma-separated list of methods to allow. '*' allows all methods. When not set, defaults to GET.
 #    allowed-methods: DELETE,GET,OPTIONS,PATCH,POST,PUT
-    # How long, in seconds, the response from a pre-flight request can be cached by clients
+# How long, in seconds, the response from a pre-flight request can be cached by clients
 #    max-age: 3600
 
 feign:
@@ -66,4 +70,4 @@ feign:
       default:
         loggerLevel: HEADERS
 
-logging.level.de.adorsys.ledgers.middleware: DEBUG        
+logging.level.de.adorsys.ledgers.middleware: DEBUG

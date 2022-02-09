@@ -1,3 +1,21 @@
+/*
+ * Copyright 2018-2022 adorsys GmbH & Co KG
+ *
+ * This program is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or (at
+ * your option) any later version. This program is distributed in the hope that
+ * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see https://www.gnu.org/licenses/.
+ *
+ * This project is also available under a separate commercial license. You can
+ * contact us at psd2@adorsys.com.
+ */
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import cssVars from 'css-vars-ponyfill';
@@ -28,7 +46,7 @@ export class CustomizeService {
 
   public getJSON(): Observable<Theme> {
     return this.http.get('../assets/UI/defaultTheme.json').pipe(
-      map(data => {
+      map((data) => {
         let theme = data;
         this.IS_CUSTOM = true;
         try {
@@ -46,7 +64,7 @@ export class CustomizeService {
         }
         return theme as Theme;
       }),
-      catchError(e => {
+      catchError((e) => {
         console.log(e);
         this.IS_CUSTOM = false;
         return this.getDefaultTheme();
@@ -70,7 +88,7 @@ export class CustomizeService {
     return this.http
       .get('../assets/UI/defaultTheme.json')
       .toPromise()
-      .then(data => {
+      .then((data) => {
         return data as Theme;
       });
   }

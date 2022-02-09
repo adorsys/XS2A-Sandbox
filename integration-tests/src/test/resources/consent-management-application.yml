@@ -1,18 +1,21 @@
 #
-# Copyright 2018-2018 adorsys GmbH & Co KG
+# Copyright 2018-2022 adorsys GmbH & Co KG
 #
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
+# This program is free software: you can redistribute it and/or modify it
+# under the terms of the GNU Affero General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or (at
+# your option) any later version. This program is distributed in the hope that
+# it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+# warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Affero General Public License for more details.
 #
-# http://www.apache.org/licenses/LICENSE-2.0
+# You should have received a copy of the GNU Affero General Public License
+# along with this program. If not, see https://www.gnu.org/licenses/.
 #
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# This project is also available under a separate commercial license. You can
+# contact us at psd2@adorsys.com.
 #
+
 server:
   # Authorization HTTP header requires to enlarge max header size.
   max-http-header-size: 1048576
@@ -40,7 +43,6 @@ spring:
       write_dates_as_timestamps: false
       wrap-root-value: true
 
-
 # the top of every hour of every day
 stoplist.cron.expression: 0 0 * * * *
 
@@ -54,7 +56,6 @@ used-non-recurring-consent-expiration.cron.expression: 0 0 * * * *
 
 consent.cron.expression: 0 0 1 * * ?
 scheduler.pool.size: 30
-
 
 server_key: test123
 
@@ -81,9 +82,9 @@ xs2a:
     cors:
       allow-credentials: false
       # Comma-separated list of origins to allow. '*' allows all origins. When not set, CORS support is disabled.
-      allowed-origins: '*'
+      allowed-origins: "*"
       # Comma-separated list of headers to include in a response.
-      allowed-headers: '*'
+      allowed-headers: "*"
       # Comma-separated list of methods to allow. '*' allows all methods. When not set, defaults to GET.
       allowed-methods: DELETE,GET,OPTIONS,PATCH,POST,PUT
       # How long, in seconds, the response from a pre-flight request can be cached by clients
@@ -101,7 +102,7 @@ spring:
       hibernate.default_schema: public
   # SpringBoot 2.x react to this liquibase proprty
   liquibase:
-    enabled: true 
+    enabled: true
     change-log: classpath:/master.xml
 db:
   user: sa
@@ -110,7 +111,7 @@ db:
 
 # SpringBoot 1.x react to this liquibase property
 liquibase:
-  enabled: true 
+  enabled: true
   change-log: classpath:/master.xml
 ---
 spring:
@@ -121,7 +122,7 @@ spring:
   # SpringBoot 2.x react to this liquibase property
   liquibase:
     default-schema: consent
-    enabled: true 
+    enabled: true
     change-log: classpath:/master.xml
 db:
   host: localhost
@@ -130,11 +131,11 @@ db:
   database: consent
   port: 5432
   url: jdbc:postgresql://${db.host}:${db.port}/${db.database}?currentSchema=consent
-  
+
 # SpringBoot 1.x react to this liquibase property
 liquibase:
   default-schema: consent
-  enabled: true 
+  enabled: true
   change-log: classpath:/master.xml
 
 ---
@@ -148,4 +149,3 @@ logging.level.org.springframework: INFO
 
 management.endpoints.web.exposure.include: "*"
 management.endpoints.web.exposure.exclude: env,beans
-

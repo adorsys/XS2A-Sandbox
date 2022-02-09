@@ -1,49 +1,92 @@
+<!--
+  ~ Copyright 2018-2022 adorsys GmbH & Co KG
+  ~
+  ~ This program is free software: you can redistribute it and/or modify it
+  ~ under the terms of the GNU Affero General Public License as published
+  ~ by the Free Software Foundation, either version 3 of the License, or (at
+  ~ your option) any later version. This program is distributed in the hope that
+  ~ it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  ~ See the GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program. If not, see https://www.gnu.org/licenses/.
+  ~
+  ~ This project is also available under a separate commercial license. You can
+  ~ contact us at psd2@adorsys.com.
+  -->
+
 <div class="container-fluid">
-    <div class="header__title">Deposit cash</div>
+  <div class="header__title">Deposit cash</div>
 
-    <div class="card card--small">
-        <div class="card-body--large">
-            <form (ngSubmit)="onSubmit()" [formGroup]="cashDepositForm">
-                <div *ngIf="errorMessage" class="alert alert-danger">
-                    {{errorMessage}}
-                </div>
-
-                <div class="form-group">
-                    <label for="amount">Amount</label>
-                    <input [ngClass]="{'is-invalid': cashDepositForm.get('amount')?.errors && cashDepositForm.get('amount')?.touched
-                    || submitted && cashDepositForm.get('amount')?.errors}"
-                           class="form-control"
-                           formControlName="amount"
-                           id="amount"
-                           placeholder="0"
-                           type="number">
-
-                    <div *ngIf="cashDepositForm.get('amount')?.errors?.required" class="invalid-feedback">
-                        Amount is required
-                    </div>
-                    <div *ngIf="cashDepositForm.get('amount')?.errors?.min" class="invalid-feedback">
-                        The amount should be more than 0
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="currency">Currency</label>
-                    <input [ngClass]="{'is-invalid':  cashDepositForm.get('currency')?.errors && cashDepositForm.get('currency')?.touched
-                    || submitted && cashDepositForm.get('currency')?.errors}"
-                           class="form-control"
-                           formControlName="currency"
-                           id="currency"
-                           type="text">
-                    <div *ngIf="cashDepositForm.get('currency')?.errors?.required"
-                         class="invalid-feedback">
-                        Currency is required
-                    </div>
-                </div>
-                <div class="form-group d-flex flex-row justify-content-lg-between">
-                    <button class="btn  mr-sm-2 mr-md-3 btn-outline-danger" (click)="onCancel()">Cancel</button>
-                    <button class="btn  btn-primary" type="submit">Deposit</button>
-                </div>
-            </form>
+  <div class="card card--small">
+    <div class="card-body--large">
+      <form (ngSubmit)="onSubmit()" [formGroup]="cashDepositForm">
+        <div *ngIf="errorMessage" class="alert alert-danger">
+          {{ errorMessage }}
         </div>
+
+        <div class="form-group">
+          <label for="amount">Amount</label>
+          <input
+            [ngClass]="{
+              'is-invalid':
+                (cashDepositForm.get('amount')?.errors &&
+                  cashDepositForm.get('amount')?.touched) ||
+                (submitted && cashDepositForm.get('amount')?.errors)
+            }"
+            class="form-control"
+            formControlName="amount"
+            id="amount"
+            placeholder="0"
+            type="number"
+          />
+
+          <div
+            *ngIf="cashDepositForm.get('amount')?.errors?.required"
+            class="invalid-feedback"
+          >
+            Amount is required
+          </div>
+          <div
+            *ngIf="cashDepositForm.get('amount')?.errors?.min"
+            class="invalid-feedback"
+          >
+            The amount should be more than 0
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="currency">Currency</label>
+          <input
+            [ngClass]="{
+              'is-invalid':
+                (cashDepositForm.get('currency')?.errors &&
+                  cashDepositForm.get('currency')?.touched) ||
+                (submitted && cashDepositForm.get('currency')?.errors)
+            }"
+            class="form-control"
+            formControlName="currency"
+            id="currency"
+            type="text"
+          />
+          <div
+            *ngIf="cashDepositForm.get('currency')?.errors?.required"
+            class="invalid-feedback"
+          >
+            Currency is required
+          </div>
+        </div>
+        <div class="form-group d-flex flex-row justify-content-lg-between">
+          <button
+            class="btn mr-sm-2 mr-md-3 btn-outline-danger"
+            (click)="onCancel()"
+          >
+            Cancel
+          </button>
+          <button class="btn btn-primary" type="submit">Deposit</button>
+        </div>
+      </form>
     </div>
+  </div>
 </div>
