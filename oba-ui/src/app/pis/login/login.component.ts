@@ -129,19 +129,21 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public getPisAuthCode(): void {
-    this.activatedRoute.queryParams.subscribe((params) => {
-      this.encryptedPaymentId = params.paymentId;
-      this.redirectId = params.redirectId;
+    this.activatedRoute.queryParams
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((params) => {
+        this.encryptedPaymentId = params.paymentId;
+        this.redirectId = params.redirectId;
 
-      // set oauth2 param in shared service
-      this.shareService.setOauthParam(!!params.oauth2);
+        // set oauth2 param in shared service
+        this.shareService.setOauthParam(!!params.oauth2);
 
-      const pisAuthCodeParams: PisAuthUsingGETParams = {
-        encryptedPaymentId: this.encryptedPaymentId,
-        redirectId: this.redirectId,
-        ...(params.token && { Authorization: 'Bearer ' + params.token }),
-      };
-    });
+        const pisAuthCodeParams: PisAuthUsingGETParams = {
+          encryptedPaymentId: this.encryptedPaymentId,
+          redirectId: this.redirectId,
+          ...(params.token && { Authorization: 'Bearer ' + params.token }),
+        };
+      });
   }
 
   private initLoginForm(): void {
