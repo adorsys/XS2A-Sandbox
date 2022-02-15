@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { InfoService } from '../../common/info/info.service';
 import { RoutingPath } from '../../common/models/routing-path.model';
@@ -11,10 +11,10 @@ import { PisService } from '../../common/services/pis.service';
 import { ShareDataService } from '../../common/services/share-data.service';
 import { OnlineBankingOauthAuthorizationService } from '../../api/services/online-banking-oauth-authorization.service';
 import { PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService } from '../../api/services/psupisprovides-access-to-online-banking-payment-functionality.service';
+import { PsupisprovidesGetPsuAccsService } from '../../api/services/psupisprovides-get-psu-accs.service';
+import { takeUntil } from 'rxjs/operators';
 import LoginUsingPOST3Params = PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService.LoginUsingPOST3Params;
 import PisAuthUsingGETParams = PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService.PisAuthUsingGETParams;
-import { PsupisprovidesGetPsuAccsService } from '../../api/services/psupisprovides-get-psu-accs.service';
-import { PaymentAuthorizeResponse } from '../../api/models/payment-authorize-response';
 
 @Component({
   selector: 'app-login',
@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private encryptedPaymentId: string;
   private redirectId: string;
 
-  private subscriptions: Subscription[] = [];
+  private ngUnsubscribe = new Subject<void>();
 
   constructor(
     public customizeService: CustomizeService,
@@ -59,12 +59,18 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public pisAuthorise(params: LoginUsingPOST3Params) {
-    this.subscriptions.push(
-      this.pisService.pisLogin(params).subscribe(
+    this.pisService
+      .pisLogin(params)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(
         (authorisationResponse) => {
           this.shareService.changePaymentData(authorisationResponse);
-          if (authorisationResponse.payment.debtorAccount) {
-            this.isExistedDebtorAccFromResponse(authorisationResponse);
+          const {
+            currency,
+            iban,
+          } = authorisationResponse.payment.debtorAccount;
+          if (Boolean(currency) && Boolean(iban)) {
+            this.isExistedDebtorAccFromResponse(currency, iban);
           }
           this.router.navigate(
             [
@@ -101,27 +107,25 @@ export class LoginComponent implements OnInit, OnDestroy {
             throw new HttpErrorResponse(error);
           }
         }
-      )
-    );
+      );
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach((sub) => sub.unsubscribe());
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
-  isExistedDebtorAccFromResponse(data): void {
-    const { currency, iban } = data.payment.debtorAccount;
-    this.subscriptions.push(
-      this.pisAccServices
-        .sendPisInitiate(
-          { currency, iban },
-          {
-            encryptedPaymentId: this.encryptedPaymentId,
-            authorisationId: this.redirectId,
-          }
-        )
-        .subscribe((res) => {})
-    );
+  isExistedDebtorAccFromResponse(currency, iban): void {
+    this.pisAccServices
+      .sendPisInitiate(
+        { currency, iban },
+        {
+          encryptedPaymentId: this.encryptedPaymentId,
+          authorisationId: this.redirectId,
+        }
+      )
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((res) => {});
   }
 
   public getPisAuthCode(): void {
