@@ -65,6 +65,10 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
             currency: this.authResponse.payment.debtorAccount.currency,
             iban: this.authResponse.payment.debtorAccount.iban,
           };
+          this.sendPisInitiate([
+            this.authResponse.payment.debtorAccount.iban,
+            this.authResponse.payment.debtorAccount.currency,
+          ]);
         } else if (
           !this.authResponse.payment.debtorAccount &&
           this.pisAccServices.choseIbanAndCurrency
@@ -126,7 +130,10 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  sendSelectedIban(): void {
+  sendSelectedIban(text?): void {
+    console.log('text', text);
+    console.log('dropdown', this.selectedItems[0].textInDropdown);
+    console.log('debtorAcc', this.authResponse.payment.debtorAccount);
     if (!this.selectedItems[0]) {
       this.error = 'Choose Iban';
       return;
@@ -134,7 +141,9 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
 
     this.error = '';
 
-    const data = this.getDataForInitiate(this.selectedItems[0].textInDropdown);
+    const data = this.getDataForInitiate(
+      !!text ? text : this.selectedItems[0].textInDropdown
+    );
 
     this.sendPisInitiate(data);
 
