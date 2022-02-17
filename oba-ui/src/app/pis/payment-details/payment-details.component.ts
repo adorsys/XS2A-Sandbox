@@ -16,7 +16,7 @@
  * contact us at psd2@adorsys.com.
  */
 
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 
 import { PaymentAuthorizeResponse } from '../../api/models';
@@ -31,8 +31,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './payment-details.component.html',
   styleUrls: ['./payment-details.component.scss'],
 })
-export class PaymentDetailsComponent
-  implements OnInit, OnDestroy, AfterViewInit {
+export class PaymentDetailsComponent implements OnInit, OnDestroy {
   private unsubscribe = new Subject();
   dropdownConf: IDropdownSettings = {
     allowSearchFilter: true,
@@ -44,7 +43,6 @@ export class PaymentDetailsComponent
   dropdownList = [];
   selectedItems = [];
   isSubmitted = false;
-  routerParams = null;
 
   error = '';
 
@@ -57,51 +55,20 @@ export class PaymentDetailsComponent
   ) {}
 
   ngOnInit() {
-    this.pisAccServices
-      .getIsSubmitted()
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((res) => (this.isSubmitted = res));
-    this.route.queryParams
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((route) => {
-        this.routerParams = route;
-      });
     this.sharedService.currentData
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((authResponse: PaymentAuthorizeResponse) => {
+      .subscribe((authResponse) => {
         this.authResponse = authResponse;
-
-        if (this.authResponse.payment.debtorAccount) {
+        if (this.pisAccServices.choseIbanAndCurrency) {
+          this.authResponse.payment.debtorAccount = this.pisAccServices.choseIbanAndCurrency;
+        } else {
           this.pisAccServices.choseIbanAndCurrency = {
             currency: this.authResponse.payment.debtorAccount.currency,
             iban: this.authResponse.payment.debtorAccount.iban,
           };
-
-          // if (!this.isSubmitted) {
-          //   this.sendPisInitiate([
-          //     authResponse.payment.debtorAccount.iban,
-          //     authResponse.payment.debtorAccount.currency,
-          //   ]);
-          // }
-        } else if (
-          !this.authResponse.payment.debtorAccount &&
-          this.pisAccServices.choseIbanAndCurrency
-        ) {
-          this.authResponse.payment.debtorAccount = this.pisAccServices.choseIbanAndCurrency;
-        } else {
-          console.log('iban is null');
         }
       });
     this.setDropdownList();
-  }
-
-  ngAfterViewInit() {
-    if (this.authResponse.payment.debtorAccount && !this.isSubmitted) {
-      this.sendPisInitiate([
-        this.authResponse.payment.debtorAccount.iban,
-        this.authResponse.payment.debtorAccount.currency,
-      ]);
-    }
   }
 
   ngOnDestroy() {
@@ -141,7 +108,7 @@ export class PaymentDetailsComponent
     });
   }
 
-  sendSelectedIban(text?): void {
+  sendSelectedIban(): void {
     if (!this.selectedItems[0]) {
       this.error = 'Choose Iban';
       return;
@@ -149,11 +116,11 @@ export class PaymentDetailsComponent
 
     this.error = '';
 
-    const data = this.getDataForInitiate(
-      !!text ? text : this.selectedItems[0].textInDropdown
-    );
+    const data = this.getDataForInitiate(this.selectedItems[0].textInDropdown);
 
     this.sendPisInitiate(data);
+
+    this.isSubmitted = true;
   }
 
   getDataForInitiate(val: string): string[] {
@@ -163,11 +130,10 @@ export class PaymentDetailsComponent
   sendPisInitiate(data) {
     const debtorAccInfo = { currency: data[1], iban: data[0] };
     this.pisAccServices
-      .sendPisInitiate(debtorAccInfo, this.routerParams)
+      .sendPisInitiate(debtorAccInfo, this.route.snapshot.queryParams)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((res) => {
         this.pisAccServices.choseIbanAndCurrency = debtorAccInfo;
-        this.pisAccServices.setIsSubmitted = true;
       });
   }
 }
