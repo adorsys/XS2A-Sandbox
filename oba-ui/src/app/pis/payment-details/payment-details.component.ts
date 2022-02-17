@@ -61,6 +61,11 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
         this.authResponse = authResponse;
         if (this.pisAccServices.choseIbanAndCurrency) {
           this.authResponse.payment.debtorAccount = this.pisAccServices.choseIbanAndCurrency;
+        } else {
+          this.pisAccServices.choseIbanAndCurrency = {
+            currency: this.authResponse.payment.debtorAccount.currency,
+            iban: this.authResponse.payment.debtorAccount.iban,
+          };
         }
       });
     this.setDropdownList();
