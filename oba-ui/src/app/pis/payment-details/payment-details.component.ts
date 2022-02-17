@@ -57,16 +57,34 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.sharedService.currentData
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((authResponse) => {
+      .subscribe((authResponse: PaymentAuthorizeResponse) => {
         this.authResponse = authResponse;
-        if (this.pisAccServices.choseIbanAndCurrency) {
-          this.authResponse.payment.debtorAccount = this.pisAccServices.choseIbanAndCurrency;
-        } else {
+
+        if (this.authResponse.payment.debtorAccount) {
           this.pisAccServices.choseIbanAndCurrency = {
             currency: this.authResponse.payment.debtorAccount.currency,
             iban: this.authResponse.payment.debtorAccount.iban,
           };
+        } else if (
+          !this.authResponse.payment.debtorAccount &&
+          this.pisAccServices.choseIbanAndCurrency
+        ) {
+          this.authResponse.payment.debtorAccount = this.pisAccServices.choseIbanAndCurrency;
+        } else {
+          console.log('iban is null');
         }
+
+        // if (!this.authResponse.payment.debtorAccount && this.pisAccServices.choseIbanAndCurrency) {
+        //   this.authResponse.payment.debtorAccount = this.pisAccServices.choseIbanAndCurrency;
+        // } else if (this.authResponse.payment.debtorAccount) {
+        //   this.pisAccServices.choseIbanAndCurrency = {
+        //     currency: this.authResponse.payment.debtorAccount.currency,
+        //     iban: this.authResponse.payment.debtorAccount.iban,
+        //   };
+        // } else {
+        //
+        // }
+        //
       });
     this.setDropdownList();
   }
