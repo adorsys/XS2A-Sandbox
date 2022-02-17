@@ -22,7 +22,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
   NgbDatepickerModule,
-  NgbModule,
   NgbPaginationModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { ClipboardModule } from 'ngx-clipboard';
@@ -42,6 +41,9 @@ import { ConvertBalancePipe } from '../pipes/convertBalance.pipe';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserProfileUpdateComponent } from './user-profile-update/user-profile-update.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
+import {MatButtonModule} from '@angular/material/button';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -69,6 +71,9 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
     NgbDatepickerModule,
     NgbPaginationModule,
     NotFoundModule,
+    MatButtonModule,
+    MatTooltipModule,
+    MatIconModule,
   ],
 })
 export class ObaModule {}
