@@ -83,16 +83,15 @@ export class LoginComponent implements OnInit, OnDestroy {
       .subscribe(
         (authorisationResponse) => {
           this.shareService.changePaymentData(authorisationResponse);
-
-          if (authorisationResponse.payment.debtorAccount) {
-            const {
-              currency,
-              iban,
-            } = authorisationResponse.payment.debtorAccount;
-            if (Boolean(currency) && Boolean(iban)) {
-              this.isExistedDebtorAccFromResponse(currency, iban);
-            }
-          }
+          // if (authorisationResponse.payment.debtorAccount) {
+          //   const {
+          //     currency,
+          //     iban,
+          //   } = authorisationResponse.payment.debtorAccount;
+          //   if (Boolean(currency) && Boolean(iban)) {
+          //     this.isExistedDebtorAccFromResponse(currency, iban);
+          //   }
+          // }
           this.router.navigate(
             [
               `${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.CONFIRM_PAYMENT}`,
