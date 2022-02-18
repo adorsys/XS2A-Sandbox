@@ -94,10 +94,8 @@
                       : 'Revoke'"
                       aria-label="Revoke"
                       class="btn btn-table-btn mr-2"
-
                       (click)="revokeConsent(consent)">
-                <mat-icon *ngIf="!isConsentEnabled(consent)">repeat</mat-icon>
-                <mat-icon *ngIf="isConsentEnabled(consent)">undo</mat-icon>
+                <mat-icon>undo</mat-icon>
               </button>
             </td>
           </tr>

@@ -29,6 +29,9 @@ import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { InfoService } from '../../../commons/info/info.service';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+
+
 
 fdescribe('LoginComponent', () => {
   let component: LoginComponent;
@@ -47,7 +50,8 @@ fdescribe('LoginComponent', () => {
           HttpClientModule,
           MatSnackBarModule,
         ],
-        providers: [AuthService, InfoService],
+        providers: [AuthService, InfoService,
+          { provide: MatDialog, useValue: {}}],
 
         declarations: [LoginComponent],
       }).compileComponents();

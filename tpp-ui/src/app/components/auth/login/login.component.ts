@@ -16,20 +16,22 @@
  * contact us at psd2@adorsys.com.
  */
 
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
 
-import { AuthService } from '../../../services/auth.service';
-import { CustomizeService } from '../../../services/customize.service';
-import { ADMIN_KEY } from 'src/app/commons/constant/constant';
+import {AuthService} from '../../../services/auth.service';
+import {CustomizeService} from '../../../services/customize.service';
+import {ADMIN_KEY} from 'src/app/commons/constant/constant';
 import browser from 'browser-detect';
 import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
-import { InfoService } from '../../../commons/info/info.service';
+import {InfoService} from '../../../commons/info/info.service';
+import {MatDialog} from '@angular/material/dialog';
+import {ErrorDialogComponent} from '../../../commons/dialog/error-dialog.component';
 
 @Component({
   selector: 'app-login',
@@ -49,8 +51,10 @@ export class LoginComponent implements OnInit {
     private router: Router,
     public customizeService: CustomizeService,
     private _snackBar: MatSnackBar,
-    private infoService: InfoService
-  ) {}
+    private infoService: InfoService,
+    private dialog: MatDialog
+  ) {
+  }
 
   ngOnInit() {
     const result = browser();
@@ -90,17 +94,29 @@ export class LoginComponent implements OnInit {
       },
       (data) => {
         if (data.status === 401) {
-          this.errorMessage = 'Invalid credentials';
+          this.dialog.open(ErrorDialogComponent, {
+            height: '200px',
+            width: '350px',
+            data: {heading: 'Wrong credentials', description: 'You have entered wrong credentials.'},
+          });
+        }
+        if (data.status === 403) {
+          this.dialog.open(ErrorDialogComponent, {
+            height: '200px',
+            width: '350px',
+            data: {heading: 'Wrong roles', description: 'You have the wrong role.'},
+          });
         }
       }
-    );
+    )
+    ;
   }
 
   navigateOnLogin() {
     if (sessionStorage.getItem(ADMIN_KEY) === 'true') {
       this.authService.logout();
       this.infoService.openFeedback(
-        "Admin doesn't have access to this system",
+        'Admin doesn\'t have access to this system',
         {
           severity: 'error',
         }
