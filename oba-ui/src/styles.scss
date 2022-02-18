@@ -298,6 +298,33 @@ th {
     &:active {
       background-color: inherit;
     }
+
+
+  }
+  &-table-btn {
+    color: var(--buttonTextColor);
+    background: var(--buttonBG);
+    border: none;
+
+    &:hover {
+      background: var(--buttonHovered);
+      color: var(--buttonTextColor);
+    }
+
+    &:disabled {
+      opacity: var(--button-opacity);
+      background: var(--buttonBGDisabled);
+      color: var(--buttonColorTextDisabled);
+    }
+
+    &:focus {
+      outline: none;
+      background: var(--buttonClicked);
+    }
+
+    &:active {
+      background-color: inherit;
+    }
   }
 
   &-general {
