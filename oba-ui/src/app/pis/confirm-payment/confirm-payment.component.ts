@@ -66,6 +66,7 @@ export class ConfirmPaymentComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((data) => {
         if (data) {
+          console.log('69 string confirm payment');
           this.authResponse = data;
         }
       });
@@ -74,7 +75,7 @@ export class ConfirmPaymentComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((data) => {
         if (data) {
-          console.log('78 string');
+          console.log('78 string confirm payment');
           this.payAuthResponse = data;
           this.transactionStatus = this.payAuthResponse.payment.transactionStatus;
         }
