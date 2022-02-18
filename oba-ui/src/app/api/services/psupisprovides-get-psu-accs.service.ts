@@ -32,6 +32,8 @@ export class PsupisprovidesGetPsuAccsService {
     iban: string;
   }>(null);
 
+  private isSubmitted = new BehaviorSubject<boolean>(false);
+
   constructor(private config: ApiConfiguration, private http: HttpClient) {}
 
   getAllIban(): Observable<any> {
@@ -54,6 +56,14 @@ export class PsupisprovidesGetPsuAccsService {
     iban: string;
   }> {
     return this.ibanAndCurrency.asObservable();
+  }
+
+  getIsSubmitted(): Observable<boolean> {
+    return this.isSubmitted.asObservable();
+  }
+
+  set setIsSubmitted(bool: boolean) {
+    this.isSubmitted.next(bool);
   }
 
   // tslint:disable-next-line:adjacent-overload-signatures
