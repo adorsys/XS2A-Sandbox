@@ -24,7 +24,13 @@ import { ShareDataService } from '../../common/services/share-data.service';
 import { PaymentDetailsComponent } from '../payment-details/payment-details.component';
 import { ConfirmPaymentComponent } from './confirm-payment.component';
 import { ConsentAuthorizeResponse } from '../../api/models/consent-authorize-response';
-import { of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import {
+  ICurrencyAndIban,
+  PsupisprovidesGetPsuAccsService,
+} from '../../api/services/psupisprovides-get-psu-accs.service';
+import { PaymentAuthorizeResponse } from '../../api/models/payment-authorize-response';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 const mockRouter = {
   navigate: (url: string) => {},
@@ -40,26 +46,49 @@ describe('ConfirmPaymentComponent', () => {
   let router: Router;
   let route: ActivatedRoute;
   let shareDataService: ShareDataService;
-
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule],
-        declarations: [ConfirmPaymentComponent, PaymentDetailsComponent],
-        providers: [
-          ShareDataService,
-          { provide: Router, useValue: mockRouter },
-          { provide: ActivatedRoute, useValue: mockActivatedRoute },
-        ],
-      }).compileComponents();
-    })
-  );
+  let psiService: PsupisprovidesGetPsuAccsService;
+  let shareDataServiceStub: Partial<ShareDataService>;
+  let psiServiceStub: Partial<PsupisprovidesGetPsuAccsService>;
 
   beforeEach(() => {
+    shareDataServiceStub = {
+      get oauthParam(): Observable<boolean> {
+        const subjectMock = new BehaviorSubject<boolean>(null);
+        return subjectMock.asObservable();
+      },
+      get currentData(): Observable<
+        ConsentAuthorizeResponse | PaymentAuthorizeResponse
+      > {
+        const subjectMock = new BehaviorSubject<
+          ConsentAuthorizeResponse | PaymentAuthorizeResponse
+        >(null);
+        return subjectMock.asObservable();
+      },
+    };
+    psiServiceStub = {
+      choseIbanAndCurrencyObservable(): Observable<ICurrencyAndIban> {
+        const subjectMock = new BehaviorSubject<ICurrencyAndIban>(null);
+        return subjectMock.asObservable();
+      },
+    };
+
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
+      declarations: [ConfirmPaymentComponent],
+      providers: [
+        { provide: ShareDataService, useValue: shareDataServiceStub },
+        { provide: PsupisprovidesGetPsuAccsService, useValue: psiServiceStub },
+        { provide: Router, useValue: mockRouter },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(ConfirmPaymentComponent);
     router = TestBed.inject(Router);
     route = TestBed.inject(ActivatedRoute);
     shareDataService = TestBed.inject(ShareDataService);
+    psiService = TestBed.inject(PsupisprovidesGetPsuAccsService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

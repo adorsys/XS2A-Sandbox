@@ -21,20 +21,24 @@ import { ApiConfiguration } from '../api-configuration';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 
+export interface ICurrencyAndIban {
+  currency: string;
+  iban: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class PsupisprovidesGetPsuAccsService {
   private readonly getPisAccounts = '/pis/accounts';
 
-  private ibanAndCurrency = new BehaviorSubject<{
-    currency: string;
-    iban: string;
-  }>(null);
+  private ibanAndCurrency = new BehaviorSubject<ICurrencyAndIban>(null);
+
+  private isSubmitted = new BehaviorSubject<boolean>(false);
 
   constructor(private config: ApiConfiguration, private http: HttpClient) {}
 
-  getAllIban(): Observable<any> {
+  getAllIban(): Observable<unknown> {
     return this.http.get(`${this.config.rootUrl}${this.getPisAccounts}`);
   }
 
@@ -45,15 +49,20 @@ export class PsupisprovidesGetPsuAccsService {
     );
   }
 
-  get choseIbanAndCurrency(): { currency: string; iban: string } {
+  get choseIbanAndCurrency(): ICurrencyAndIban {
     return this.ibanAndCurrency.getValue();
   }
 
-  choseIbanAndCurrencyObservable(): Observable<{
-    currency: string;
-    iban: string;
-  }> {
+  choseIbanAndCurrencyObservable(): Observable<ICurrencyAndIban> {
     return this.ibanAndCurrency.asObservable();
+  }
+
+  getIsSubmitted(): Observable<boolean> {
+    return this.isSubmitted.asObservable();
+  }
+
+  set setIsSubmitted(bool: boolean) {
+    this.isSubmitted.next(bool);
   }
 
   // tslint:disable-next-line:adjacent-overload-signatures

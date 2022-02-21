@@ -75,7 +75,7 @@
                   <button
                     type="submit"
                     class="btn btn-primary btn-block"
-                    [disabled]="tanForm.invalid"
+                    [disabled]="tanForm.invalid && !authResponse"
                   >
                     Next
                   </button>

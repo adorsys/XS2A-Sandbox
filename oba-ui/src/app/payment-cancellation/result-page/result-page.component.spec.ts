@@ -63,7 +63,7 @@ describe('ResultPageComponent', () => {
     const mockPaymentAuthorization: PaymentAuthorizeResponse = {
       scaStatus: 'received',
     };
-    shareDataService.currentData = of(mockPaymentAuthorization);
+    shareDataService.changePaymentData(mockPaymentAuthorization);
     component.authResponse = mockResponse;
     component.ngOnInit();
     expect(component.scaStatus).toEqual(mockPaymentAuthorization.scaStatus);

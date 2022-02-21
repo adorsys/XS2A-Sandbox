@@ -16,27 +16,37 @@
  * contact us at psd2@adorsys.com.
  */
 
-import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
 
 import { PaymentAuthorizeResponse } from '../../api/models/payment-authorize-response';
 import { ShareDataService } from '../../common/services/share-data.service';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-payment-details',
   templateUrl: './payment-details.component.html',
   styleUrls: ['./payment-details.component.scss'],
 })
-export class PaymentDetailsComponent implements OnInit {
+export class PaymentDetailsComponent implements OnInit, OnDestroy {
   public authResponse: PaymentAuthorizeResponse;
-  private subscriptions: Subscription[] = [];
+  private unsubscribe = new Subject<void>();
 
   constructor(private sharedService: ShareDataService) {}
 
   ngOnInit() {
-    this.sharedService.currentData.subscribe(
-      (authResponse) => (this.authResponse = authResponse)
-    );
+    this.sharedService.currentData
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((authResponse) => {
+        if (authResponse) {
+          this.authResponse = authResponse;
+        }
+      });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
   get totalAmount(): number {
