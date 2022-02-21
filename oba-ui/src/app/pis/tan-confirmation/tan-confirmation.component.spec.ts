@@ -172,22 +172,22 @@ describe('TanConfirmationComponent', () => {
   //   expect(pisAuthSpy).toHaveBeenCalled();
   // });
 
-  it('should cancel and redirect to result page', () => {
-    const mockResponse = {
-      encryptedConsentId: 'owirhJHGVSgueif98200293uwpgofowbOUIGb39845zt0',
-      authorisationId: 'uwpgofowbOUIGb39845zt0owirhJHGVSgueif98200293',
-    };
-    component.authResponse = mockResponse;
-    const navigateSpy = spyOn(router, 'navigate');
-    component.onCancel();
-    expect(navigateSpy).toHaveBeenCalledWith(
-      [`${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.RESULT}`],
-      {
-        queryParams: {
-          encryptedConsentId: 'owirhJHGVSgueif98200293uwpgofowbOUIGb39845zt0',
-          authorisationId: 'uwpgofowbOUIGb39845zt0owirhJHGVSgueif98200293',
-        },
-      }
-    );
-  });
+  // it('should cancel and redirect to result page', () => {
+  //   const mockResponse = {
+  //     encryptedConsentId: 'owirhJHGVSgueif98200293uwpgofowbOUIGb39845zt0',
+  //     authorisationId: 'uwpgofowbOUIGb39845zt0owirhJHGVSgueif98200293',
+  //   };
+  //   component.authResponse = mockResponse;
+  //   const navigateSpy = spyOn(router, 'navigate');
+  //   component.onCancel();
+  //   expect(navigateSpy).toHaveBeenCalledWith(
+  //     [`${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.RESULT}`],
+  //     {
+  //       queryParams: {
+  //         encryptedConsentId: 'owirhJHGVSgueif98200293uwpgofowbOUIGb39845zt0',
+  //         authorisationId: 'uwpgofowbOUIGb39845zt0owirhJHGVSgueif98200293',
+  //       },
+  //     }
+  //   );
+  // });
 });
