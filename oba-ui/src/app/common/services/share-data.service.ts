@@ -17,7 +17,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import {
   ConsentAuthorizeResponse,
   PaymentAuthorizeResponse,
@@ -33,18 +33,16 @@ export class ShareDataService {
   currentUser = this.user.asObservable();
 
   // response data
+  // todo do 2 method instead of 1
   private data = new BehaviorSubject<
     ConsentAuthorizeResponse | PaymentAuthorizeResponse
   >(null);
-  currentData = this.data.asObservable();
 
   // oauth2 param
   private oauth = new BehaviorSubject<boolean>(null);
-  oauthParam = this.oauth.asObservable();
 
   // operation type
   private operationType = new BehaviorSubject<string>(null);
-  currentOperation = this.operationType.asObservable();
 
   // encrypted Consent ID
   private encryptedConsentId = new BehaviorSubject<string>(null);
@@ -59,6 +57,20 @@ export class ShareDataService {
   currentAuthorisationId = this.authorisationId.asObservable();
 
   constructor() {}
+
+  get currentOperation(): Observable<string> {
+    return this.operationType.asObservable();
+  }
+
+  get oauthParam(): Observable<boolean> {
+    return this.oauth.asObservable();
+  }
+
+  get currentData(): Observable<
+    ConsentAuthorizeResponse | PaymentAuthorizeResponse
+  > {
+    return this.data.asObservable();
+  }
 
   updateUserDetails(data) {
     this.user.next(data);

@@ -19,15 +19,25 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 
-import { PaymentAuthorizeResponse } from '../../api/models';
+import {
+  ConsentAuthorizeResponse,
+  PaymentAuthorizeResponse,
+} from '../../api/models';
 import { RoutingPath } from '../../common/models/routing-path.model';
 import { PisService } from '../../common/services/pis.service';
 import { ShareDataService } from '../../common/services/share-data.service';
-import { PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService } from '../../api/services/psupiscancellation-provides-access-to-online-banking-payment-functionality.service';
 import { PsupisprovidesGetPsuAccsService } from '../../api/services/psupisprovides-get-psu-accs.service';
-import AuthorisePaymentUsingPOSTParams = PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService.AuthorisePaymentUsingPOSTParams;
+import { takeUntil } from 'rxjs/operators';
+
+// todo this interface is located into PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService but this is so ugly
+interface IAuthorisePayment {
+  encryptedPaymentId: string;
+  authorisationId: string;
+  authCode: string;
+  Cookie?: string;
+}
 
 @Component({
   selector: 'app-tan-confirmation',
@@ -35,11 +45,11 @@ import AuthorisePaymentUsingPOSTParams = PSUPISCancellationProvidesAccessToOnlin
   styleUrls: ['./tan-confirmation.component.scss'],
 })
 export class TanConfirmationComponent implements OnInit, OnDestroy {
-  public authResponse: PaymentAuthorizeResponse;
+  public authResponse: PaymentAuthorizeResponse | ConsentAuthorizeResponse;
   public tanForm: FormGroup;
   public invalidTanCount = 0;
 
-  private subscriptions: Subscription[] = [];
+  private unsubscribe = new Subject<void>();
   private operation: string;
   private oauth2Param: boolean;
 
@@ -55,45 +65,70 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.initTanForm();
 
-    this.shareService.currentOperation.subscribe((operation: string) => {
-      this.operation = operation;
-    });
+    this.shareService.currentOperation
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((operation: string) => {
+        this.operation = operation;
+      });
 
-    this.shareService.currentData.subscribe((data) => {
-      if (data) {
-        console.log('response object: ', data);
-        this.shareService.currentData.subscribe(
-          (authResponse) => (this.authResponse = authResponse)
-        );
-      }
-    });
+    this.shareService.currentData
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((data) => {
+        if (data) {
+          console.log('response object: ', data);
+          this.authResponse = data;
+        }
+      });
 
-    this.shareService.oauthParam.subscribe((oauth2: boolean) => {
-      this.oauth2Param = oauth2;
-    });
+    this.shareService.oauthParam
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((oauth2: boolean) => {
+        this.oauth2Param = oauth2;
+      });
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach((sub) => sub.unsubscribe());
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
   public onSubmit(): void {
-    if (!this.authResponse) {
-      return;
-    }
+    // if (!this.authResponse) {
+    //   return;
+    // }
     console.log('TAN: ' + this.tanForm.value);
 
-    this.subscriptions.push(
-      this.pisService
-        .authorizePayment({
-          ...this.tanForm.value,
-          encryptedPaymentId: this.authResponse.encryptedConsentId,
-          authorisationId: this.authResponse.authorisationId,
-        } as AuthorisePaymentUsingPOSTParams)
-        .subscribe(
-          (authResponse) => {
-            console.log(authResponse);
-            this.pisAccServices.choseIbanAndCurrency = null;
+    this.pisService
+      .authorizePayment({
+        ...this.tanForm.value,
+        encryptedPaymentId: this.authResponse.encryptedConsentId,
+        authorisationId: this.authResponse.authorisationId,
+      })
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(
+        (authResponse) => {
+          console.log(authResponse);
+          this.pisAccServices.choseIbanAndCurrency = null;
+          this.router
+            .navigate(
+              [`${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.RESULT}`],
+              {
+                queryParams: {
+                  encryptedConsentId: this.authResponse.encryptedConsentId,
+                  authorisationId: this.authResponse.authorisationId,
+                  oauth2: this.oauth2Param,
+                },
+              }
+            )
+            .then(() => {
+              this.authResponse = authResponse;
+              this.shareService.changeData(this.authResponse);
+            });
+        },
+        (error) => {
+          this.invalidTanCount++;
+
+          if (this.invalidTanCount >= 3) {
             this.router
               .navigate(
                 [`${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.RESULT}`],
@@ -106,32 +141,11 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
                 }
               )
               .then(() => {
-                this.authResponse = authResponse;
-                this.shareService.changeData(this.authResponse);
+                throw error;
               });
-          },
-          (error) => {
-            this.invalidTanCount++;
-
-            if (this.invalidTanCount >= 3) {
-              this.router
-                .navigate(
-                  [`${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.RESULT}`],
-                  {
-                    queryParams: {
-                      encryptedConsentId: this.authResponse.encryptedConsentId,
-                      authorisationId: this.authResponse.authorisationId,
-                      oauth2: this.oauth2Param,
-                    },
-                  }
-                )
-                .then(() => {
-                  throw error;
-                });
-            }
           }
-        )
-    );
+        }
+      );
   }
 
   public onCancel(): void {

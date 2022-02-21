@@ -64,7 +64,7 @@ describe('ResultPageComponent', () => {
     const mockConsentAuthorization: ConsentAuthorizeResponse = {
       scaStatus: 'received',
     };
-    shareDataService.currentData = of(mockConsentAuthorization);
+    shareDataService.changeData(mockConsentAuthorization);
     component.authResponse = mockResponse;
     component.ngOnInit();
     expect(component.scaStatus).toEqual(mockConsentAuthorization.scaStatus);

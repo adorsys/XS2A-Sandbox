@@ -19,7 +19,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 import { ConsentAuthorizeResponse } from '../../api/models/consent-authorize-response';
 import { RoutingPath } from '../../common/models/routing-path.model';
@@ -29,6 +29,8 @@ import { ShareDataService } from '../../common/services/share-data.service';
 
 import AuthrizedConsentUsingPOSTParams = PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.AuthrizedConsentUsingPOSTParams;
 import { PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService } from '../../api/services/psuaisprovides-access-to-online-banking-account-functionality.service';
+import { takeUntil } from 'rxjs/operators';
+
 @Component({
   selector: 'app-tan-confirmation',
   templateUrl: './tan-confirmation.component.html',
@@ -39,7 +41,7 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
   public tanForm: FormGroup;
   public invalidTanCount = 0;
 
-  private subscriptions: Subscription[] = [];
+  private unsubscribe = new Subject<void>();
   private operation: string;
   private oauth2Param: boolean;
 
@@ -55,42 +57,67 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.initTanForm();
 
-    this.shareService.currentOperation.subscribe((operation: string) => {
-      this.operation = operation;
-    });
+    this.shareService.currentOperation
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((operation: string) => {
+        this.operation = operation;
+      });
 
-    this.shareService.currentData.subscribe((data) => {
-      if (data) {
-        console.log('response object: ', data);
-        this.shareService.currentData.subscribe(
-          (authResponse) => (this.authResponse = authResponse)
-        );
-      }
-    });
+    this.shareService.currentData
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((data) => {
+        if (data) {
+          console.log('response object: ', data);
+          this.authResponse = data;
+        }
+      });
 
-    this.shareService.oauthParam.subscribe((oauth2: boolean) => {
-      this.oauth2Param = oauth2;
-    });
+    this.shareService.oauthParam
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((oauth2: boolean) => {
+        this.oauth2Param = oauth2;
+      });
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach((sub) => sub.unsubscribe());
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
   public onSubmit(): void {
-    if (!this.authResponse) {
-      return;
-    }
+    // if (!this.authResponse) {
+    //   return;
+    // }
 
-    this.subscriptions.push(
-      this.aisService
-        .authrizedConsent({
-          ...this.tanForm.value,
-          encryptedConsentId: this.authResponse.encryptedConsentId,
-          authorisationId: this.authResponse.authorisationId,
-        } as AuthrizedConsentUsingPOSTParams)
-        .subscribe(
-          (authResponse) => {
+    this.aisService
+      .authrizedConsent({
+        ...this.tanForm.value,
+        encryptedConsentId: this.authResponse.encryptedConsentId,
+        authorisationId: this.authResponse.authorisationId,
+      })
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(
+        (authResponse) => {
+          this.router
+            .navigate(
+              [`${RoutingPath.ACCOUNT_INFORMATION}/${RoutingPath.RESULT}`],
+              {
+                queryParams: {
+                  encryptedConsentId: this.authResponse.encryptedConsentId,
+                  authorisationId: this.authResponse.authorisationId,
+                  oauth2: this.oauth2Param,
+                },
+              }
+            )
+            .then(() => {
+              this.authResponse = authResponse;
+              this.shareService.changeData(this.authResponse);
+            });
+        },
+        (error) => {
+          this.invalidTanCount++;
+
+          if (this.invalidTanCount >= 3) {
             this.router
               .navigate(
                 [`${RoutingPath.ACCOUNT_INFORMATION}/${RoutingPath.RESULT}`],
@@ -103,32 +130,11 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
                 }
               )
               .then(() => {
-                this.authResponse = authResponse;
-                this.shareService.changeData(this.authResponse);
+                throw error;
               });
-          },
-          (error) => {
-            this.invalidTanCount++;
-
-            if (this.invalidTanCount >= 3) {
-              this.router
-                .navigate(
-                  [`${RoutingPath.ACCOUNT_INFORMATION}/${RoutingPath.RESULT}`],
-                  {
-                    queryParams: {
-                      encryptedConsentId: this.authResponse.encryptedConsentId,
-                      authorisationId: this.authResponse.authorisationId,
-                      oauth2: this.oauth2Param,
-                    },
-                  }
-                )
-                .then(() => {
-                  throw error;
-                });
-            }
           }
-        )
-    );
+        }
+      );
   }
 
   public onCancel(): void {
