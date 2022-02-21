@@ -36,10 +36,6 @@ export class PsupisprovidesGetPsuAccsService {
 
   private isSubmitted = new BehaviorSubject<boolean>(false);
 
-  private isSubmitted = new BehaviorSubject<boolean>(false);
-
-  private isSubmitted = new BehaviorSubject<boolean>(false);
-
   constructor(private config: ApiConfiguration, private http: HttpClient) {}
 
   getAllIban(): Observable<unknown> {
