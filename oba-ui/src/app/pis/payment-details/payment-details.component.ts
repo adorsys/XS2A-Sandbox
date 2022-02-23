@@ -16,17 +16,14 @@
  * contact us at psd2@adorsys.com.
  */
 
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 
 import { PaymentAuthorizeResponse } from '../../api/models';
 import { ShareDataService } from '../../common/services/share-data.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { takeUntil } from 'rxjs/operators';
-import {
-  ICurrencyAndIban,
-  PsupisprovidesGetPsuAccsService,
-} from '../../api/services/psupisprovides-get-psu-accs.service';
+import { PsupisprovidesGetPsuAccsService } from '../../api/services/psupisprovides-get-psu-accs.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -34,8 +31,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './payment-details.component.html',
   styleUrls: ['./payment-details.component.scss'],
 })
-export class PaymentDetailsComponent
-  implements OnInit, OnDestroy, AfterViewInit {
+export class PaymentDetailsComponent implements OnInit, OnDestroy {
   private unsubscribe = new Subject();
   dropdownConf: IDropdownSettings = {
     allowSearchFilter: true,
@@ -85,27 +81,10 @@ export class PaymentDetailsComponent
               authResponse.payment.debtorAccount.currency,
             ]);
           }
-        } else if (
-          !this.authResponse &&
-          !this.authResponse.payment.debtorAccount &&
-          Object.prototype.hasOwnProperty.call(
-            this.pisAccServices.choseIbanAndCurrency,
-            'currency'
-          ) &&
-          Object.prototype.hasOwnProperty.call(
-            this.pisAccServices.choseIbanAndCurrency,
-            'iban'
-          )
-        ) {
-          this.authResponse = {
-            ...this.authResponse,
-            payment: {
-              debtorAccount: this.pisAccServices.choseIbanAndCurrency,
-            },
-          };
-          // this.authResponse.payment.debtorAccount = this.pisAccServices.choseIbanAndCurrency;
+        } else if (this.pisAccServices.choseIbanAndCurrency !== null) {
+          this.authResponse.payment.debtorAccount = this.pisAccServices.choseIbanAndCurrency;
         } else {
-          console.log('iban is null');
+          console.log('both iban and authResponse are null');
         }
       },
       (err) => {
@@ -113,15 +92,6 @@ export class PaymentDetailsComponent
       }
     );
     this.setDropdownList();
-  }
-
-  ngAfterViewInit() {
-    // if (this.authResponse.payment.debtorAccount && !this.isSubmitted) {
-    //   this.sendPisInitiate([
-    //     this.authResponse.payment.debtorAccount.iban,
-    //     this.authResponse.payment.debtorAccount.currency,
-    //   ]);
-    // }
   }
 
   ngOnDestroy() {
