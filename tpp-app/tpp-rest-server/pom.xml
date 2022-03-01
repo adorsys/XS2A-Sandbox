@@ -48,6 +48,12 @@
 
         <dependency>
             <groupId>de.adorsys.psd2.sandbox</groupId>
+            <artifactId>consent-psu-rest-client</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.adorsys.psd2.sandbox</groupId>
             <artifactId>tpp-db-api</artifactId>
             <version>${project.version}</version>
         </dependency>
