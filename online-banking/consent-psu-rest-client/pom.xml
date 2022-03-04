@@ -62,7 +62,13 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>de.adorsys.psd2</groupId>
+            <artifactId>consent-core-api</artifactId>
+            <version>13.3</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<plugins>

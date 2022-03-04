@@ -1,30 +1,59 @@
-/*
- * Copyright 2018-2022 adorsys GmbH & Co KG
- *
- * This program is free software: you can redistribute it and/or modify it
- * under the terms of the GNU Affero General Public License as published
- * by the Free Software Foundation, either version 3 of the License, or (at
- * your option) any later version. This program is distributed in the hope that
- * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see https://www.gnu.org/licenses/.
- *
- * This project is also available under a separate commercial license. You can
- * contact us at psd2@adorsys.com.
- */
+import { Component } from '@angular/core';
+import { FlatTreeControl } from '@angular/cdk/tree';
+import {
+  MatTreeFlatDataSource,
+  MatTreeFlattener,
+} from '@angular/material/tree';
 
-import { Component, OnInit } from '@angular/core';
+interface FoodNode {
+  name: string;
+  children?: FoodNode[];
+}
+
+const TREE_DATA: FoodNode[] = [
+  {
+    name: 'Consents',
+    children: [{ name: 'ais' }, { name: 'piis' }],
+  },
+];
+
+interface ExampleFlatNode {
+  expandable: boolean;
+  name: string;
+  level: number;
+}
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
 })
-export class SidebarComponent implements OnInit {
-  constructor() {}
+export class SidebarComponent {
+  private _transformer = (node: FoodNode, level: number) => {
+    return {
+      expandable: !!node.children && node.children.length > 0,
+      name: node.name,
+      level,
+    };
+  };
 
-  ngOnInit() {}
+  treeControl = new FlatTreeControl<ExampleFlatNode>(
+    (node) => node.level,
+    (node) => node.expandable
+  );
+
+  treeFlattener = new MatTreeFlattener(
+    this._transformer,
+    (node) => node.level,
+    (node) => node.expandable,
+    (node) => node.children
+  );
+
+  dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+
+  constructor() {
+    this.dataSource.data = TREE_DATA;
+  }
+
+  hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
 }

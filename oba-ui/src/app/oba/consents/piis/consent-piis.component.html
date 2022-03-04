@@ -1,0 +1,94 @@
+<form class="container-fluid" [formGroup]="formModel">
+  <div class="header__title">PIIS consents</div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="table-responsive">
+        <div
+          *ngIf="config && consents && consents.length > 0; let i = index"
+          class="d-flex align-items-center p-2"
+        >
+          <ngb-pagination
+            [collectionSize]="config.totalItems"
+            [(page)]="config.currentPage"
+            [boundaryLinks]="true"
+            [pageSize]="config.itemsPerPage"
+            [maxSize]="config.maxSize"
+            [rotate]="true"
+            (pageChange)="pageChange($event)"
+          ></ngb-pagination>
+          <select
+            class="custom-select custom-select-sm ml-4 mb-4"
+            style="width: auto"
+            formControlName="itemsPerPage"
+          >
+            <option [value]="10">10</option>
+            <option [value]="20">20</option>
+            <option [value]="40">40</option>
+            <option [value]="50">50</option>
+            <option [value]="60">60</option>
+            <option [value]="100">100</option>
+          </select>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">IBAN</th>
+              <th scope="col">Currency</th>
+              <th scope="col">Status</th>
+              <th scope="col">Last Action</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let consent of consents; index as idx">
+              <th scope="row">
+                {{ (config.currentPage - 1) * config.itemsPerPage + idx + 1 }}
+              </th>
+              <td>{{ consent.cmsPiisConsent.account.iban }}</td>
+              <td>{{ consent.cmsPiisConsent.account.currency }}</td>
+              <td>{{ consent.cmsPiisConsent.consentStatus }}</td>
+              <td>{{ consent.cmsPiisConsent.lastActionDate }}</td>
+              <td>
+                <button
+                  class="btn btn-primary mr-2"
+                  [disabled]="!isConsentEnabled(consent)"
+                  (click)="revokeConsent(consent)"
+                >
+                  Revoke
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div
+          *ngIf="config && consents && consents.length > 0; let i = index"
+          class="d-flex align-items-center p-2"
+        >
+          <ngb-pagination
+            [collectionSize]="config.totalItems"
+            [(page)]="config.currentPage"
+            [boundaryLinks]="true"
+            [pageSize]="config.itemsPerPage"
+            [maxSize]="config.maxSize"
+            [rotate]="true"
+            (pageChange)="pageChange($event)"
+          ></ngb-pagination>
+          <select
+            class="custom-select custom-select-sm ml-4 mb-4"
+            style="width: auto"
+            formControlName="itemsPerPage"
+          >
+            <option [value]="10">10</option>
+            <option [value]="20">20</option>
+            <option [value]="40">40</option>
+            <option [value]="50">50</option>
+            <option [value]="60">60</option>
+            <option [value]="100">100</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

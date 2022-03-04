@@ -58,6 +58,12 @@
             <artifactId>ledgers-utils</artifactId>
             <version>${ledgers.version}</version>
         </dependency>
+        <dependency>
+            <groupId>de.adorsys.psd2</groupId>
+            <artifactId>xs2a-core</artifactId>
+            <version>13.3</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
 </project>

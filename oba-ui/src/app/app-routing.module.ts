@@ -31,6 +31,8 @@ import { PeriodicPaymentsComponent } from './oba/periodic-payments/periodic-paym
 import { UserProfileComponent } from './oba/user-profile/user-profile.component';
 import { UserProfileUpdateComponent } from './oba/user-profile-update/user-profile-update.component';
 import { VerifyEmailComponent } from './oba/verify-email/verify-email.component';
+import { ConsentAisComponent } from './oba/consents/ais/consent-ais.component';
+import { ConsentPiisComponent } from './oba/consents/piis/consent-piis.component';
 
 const externalUrlProvider = new InjectionToken('externalUrlRedirectResolver');
 
@@ -73,6 +75,16 @@ export const routes: Routes = [
       {
         path: 'consents',
         component: ConsentsComponent,
+        children: [
+          {
+            path: 'ais',
+            component: ConsentAisComponent,
+          },
+          {
+            path: 'piis',
+            component: ConsentPiisComponent,
+          },
+        ],
       },
       {
         path: 'accounts',

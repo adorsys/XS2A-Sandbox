@@ -16,7 +16,6 @@
  * contact us at psd2@adorsys.com.
  */
 
-/* tslint:disable */
 import { AisAccountAccess } from './ais-account-access';
 import { AuthorisationTemplate } from './authorisation-template';
 import { AisAccountConsentAuthorisation } from './ais-account-consent-authorisation';

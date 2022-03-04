@@ -167,10 +167,21 @@ class OnlineBankingConsentsService extends __BaseService {
     let __headers = new HttpHeaders();
     let __body: any = null;
 
+    // todo as an option for replace below strings
+    // const param = ['size', 'page'];
+    // for(let i=0; i< param.length; i++) {
+    //   if(params[param[i]] != null) {
+    //     __params = __params.set(param[i], params[param[i]].toString())
+    //   }
+    // }
+
     if (params.size != null)
       __params = __params.set('size', params.size.toString());
     if (params.page != null)
       __params = __params.set('page', params.page.toString());
+
+    // todo as an option for replace below strings
+    // return this.http.get(this.rootUrl + `/api/v1/consents/${userLogin}/paged`, __body)
 
     let req = new HttpRequest<any>(
       'GET',

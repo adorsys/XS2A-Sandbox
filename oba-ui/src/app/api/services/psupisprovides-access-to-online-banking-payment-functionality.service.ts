@@ -20,18 +20,24 @@
 import { Injectable } from '@angular/core';
 import {
   HttpClient,
+  HttpHeaders,
   HttpRequest,
   HttpResponse,
-  HttpHeaders,
 } from '@angular/common/http';
 import { BaseService as __BaseService } from '../base-service';
 import { ApiConfiguration as __Configuration } from '../api-configuration';
 import { StrictHttpResponse as __StrictHttpResponse } from '../strict-http-response';
-import { Observable as __Observable } from 'rxjs';
-import { map as __map, filter as __filter } from 'rxjs/operators';
+import { Observable, Observable as __Observable } from 'rxjs';
+import { filter as __filter, map as __map, map } from 'rxjs/operators';
 
 import { AuthorizeResponse } from '../models/authorize-response';
 import { PaymentAuthorizeResponse } from '../models/payment-authorize-response';
+import { IPaginatorInterface } from '../../common/interfaces/paginator.interface';
+import { AuthService } from '../../common/services/auth.service';
+import {
+  IPiisConsent,
+  IPiisConsentContent,
+} from '../../common/interfaces/piisConsent.interface';
 
 /**
  * PIS Controller
@@ -54,8 +60,91 @@ class PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService extends __B
   static readonly failPaymentAuthorisationUsingDELETEPath =
     '/pis/{encryptedPaymentId}/{authorisationId}';
 
-  constructor(config: __Configuration, http: HttpClient) {
+  constructor(
+    config: __Configuration,
+    http: HttpClient,
+    private authService: AuthService
+  ) {
     super(config, http);
+  }
+
+  getPiisConsents(
+    config: Partial<IPaginatorInterface>
+  ): Observable<IPiisConsent> {
+    const login = this.authService.getAuthorizedUser();
+    // todo mockDate must be deleted
+    const mockData: IPiisConsentContent = {
+      cmsPiisConsent: {
+        account: {
+          aspspAccountId: '123-DEDE89370400440532013000-EUR',
+          bban: 89370400440532010000,
+          cashAccountType: 'string',
+          currency: 'EUR',
+          iban: 'DE89370400440532013000',
+          maskedPan: '2356xxxxxx1234',
+          msisdn: '+49(0)911 360698-0',
+          other: '30-163033-7',
+          pan: '2356 5746 3217 1234',
+          resourceId: 'string',
+        },
+        cardExpiryDate: 'string',
+        cardInformation: 'string',
+        cardNumber: 'string',
+        consentStatus: 'RECEIVED',
+        creationTimestamp: '2022-03-03T10:33:14.238Z',
+        expireDate: 'string',
+        id: 'string',
+        instanceId: 'string',
+        lastActionDate: 'string',
+        psuData: {
+          additionalPsuIdData: {
+            psuAccept: 'string',
+            psuAcceptCharset: 'string',
+            psuAcceptEncoding: 'string',
+            psuAcceptLanguage: 'string',
+            psuDeviceId: 'string',
+            psuGeoLocation: 'string',
+            psuHttpMethod: 'string',
+            psuIpPort: 'string',
+            psuUserAgent: 'string',
+          },
+          psuCorporateId: 'string',
+          psuCorporateIdType: 'string',
+          psuId: 'string',
+          psuIdType: 'string',
+          psuIpAddress: 'string',
+        },
+        recurringIndicator: true,
+        registrationInformation: 'string',
+        requestDateTime: '2022-03-03T10:33:14.238Z',
+        statusChangeTimestamp: '2022-03-03T10:33:14.238Z',
+        tppAuthorisationNumber: 'string',
+      },
+      encryptedConsent: 'string',
+    };
+
+    return this.http
+      .get<IPiisConsent>(
+        this.rootUrl +
+          `/api/v1/piis-consents/${login}/paged?size=${config.itemsPerPage}&page=${config.currentPage}`
+      )
+      .pipe(
+        map((item) => {
+          if (item.content.length <= 0) {
+            item.content.push(mockData);
+          }
+          return item;
+        })
+      );
+  }
+
+  revokePiisConsents(consentId: string) {
+    const login = this.authService.getAuthorizedUser();
+    const body = null;
+    return this.http.put(
+      this.rootUrl + `/api/v1/piis-consents/${login}/${consentId}/revoke`,
+      body
+    );
   }
 
   /**
@@ -100,6 +189,7 @@ class PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService extends __B
       })
     );
   }
+
   /**
    * @param params The `PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService.PisAuthUsingGETParams` containing the following parameters:
    *
@@ -162,6 +252,7 @@ class PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService extends __B
       })
     );
   }
+
   /**
    * @param params The `PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService.AuthrizedPaymentUsingPOSTParams` containing the following parameters:
    *
@@ -234,6 +325,7 @@ class PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService extends __B
       })
     );
   }
+
   /**
    * This call provides the server with the opportunity to close this session and redirect the PSU to the TPP or close the application window.
    * @param params The `PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService.PisDoneUsingGET1Params` containing the following parameters:
@@ -297,6 +389,7 @@ class PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService extends __B
       })
     );
   }
+
   /**
    * @param params The `PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService.InitiatePaymentUsingPOSTParams` containing the following parameters:
    *
@@ -363,6 +456,7 @@ class PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService extends __B
       })
     );
   }
+
   /**
    * @param params The `PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService.LoginUsingPOST3Params` containing the following parameters:
    *
@@ -427,6 +521,7 @@ class PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService extends __B
       })
     );
   }
+
   /**
    * @param params The `PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService.SelectMethodUsingPOST2Params` containing the following parameters:
    *
@@ -488,6 +583,7 @@ class PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService extends __B
       })
     );
   }
+
   /**
    * This call provides the server with the opportunity to close this session and revoke consent.
    * @param params The `PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService.FailPaymentAuthorisationUsingDELETEParams` containing the following parameters:

@@ -1,21 +1,3 @@
-/*
- * Copyright 2018-2022 adorsys GmbH & Co KG
- *
- * This program is free software: you can redistribute it and/or modify it
- * under the terms of the GNU Affero General Public License as published
- * by the Free Software Foundation, either version 3 of the License, or (at
- * your option) any later version. This program is distributed in the hope that
- * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see https://www.gnu.org/licenses/.
- *
- * This project is also available under a separate commercial license. You can
- * contact us at psd2@adorsys.com.
- */
-
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -41,9 +23,11 @@ import { ConvertBalancePipe } from '../pipes/convertBalance.pipe';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserProfileUpdateComponent } from './user-profile-update/user-profile-update.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
-import {MatButtonModule} from '@angular/material/button';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatIconModule} from '@angular/material/icon';
+import { MatTreeModule } from '@angular/material/tree';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { ConsentPiisComponent } from './consents/piis/consent-piis.component';
+import { ConsentAisComponent } from './consents/ais/consent-ais.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +45,8 @@ import {MatIconModule} from '@angular/material/icon';
     UserProfileComponent,
     UserProfileUpdateComponent,
     VerifyEmailComponent,
+    ConsentPiisComponent,
+    ConsentAisComponent,
   ],
   imports: [
     CommonModule,
@@ -71,9 +57,9 @@ import {MatIconModule} from '@angular/material/icon';
     NgbDatepickerModule,
     NgbPaginationModule,
     NotFoundModule,
-    MatButtonModule,
-    MatTooltipModule,
+    MatTreeModule,
     MatIconModule,
+    MatButtonModule,
   ],
 })
 export class ObaModule {}
