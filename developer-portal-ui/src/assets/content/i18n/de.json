@@ -122,7 +122,7 @@
         "PART_9": "3. Nachdem Sie payment-service und payment-product angegeben haben, Füllen Sie die benötigten Felder mit folgenden Daten aus:",
         "PART_10": "Anstelle von ",
         "PART_11": "geben Sie den Namen des ausgewählten Nutzers an mit dem Sie sich eingeloggt haben. (Sie können Nutzer und deren Daten in der TPP-UI einsehen).",
-        "PART_12": "4. Wenn Sie sich durch den",
+        "PART_12": "Wenn Sie sich durch den",
         "PART_13": "",
         "PART_14": "für eine einfache Zahlung entscheiden, fügen Sie bitte folgenden Json Code in das Anforderungsfeld ein.",
         "PART_15": "Wenn Sie sich durch den",
@@ -138,7 +138,11 @@
         "TITLE_2": "SCHRITT 2: Autorisieren der Zahlung",
         "PART_25": "Beginnen Sie mit dem Autorisierungsprozess, folgen Sie hierfür dem",
         "PART_26": " Link zu der Online Banking Website.",
-        "PART_27": "(\"frequency\" kann von \"Monthly\" bis \"Daily\", \"Weekly\", \"EveryTwoWeeks\", \"EveryTwoMonths\", \"Quarterly\", \"SemiAnnual\" oder \"Annual\" geändert werden)"
+        "PART_27": "(\"frequency\" kann von \"Monthly\" bis \"Daily\", \"Weekly\", \"EveryTwoWeeks\", \"EveryTwoMonths\", \"Quarterly\", \"SemiAnnual\" oder \"Annual\" geändert werden)",
+        "PART_28": "Wenn Sie eine Zahlung ohne Debitorkonto erstellen möchten (für die weitere Konten Auswahl während des Zahlungsautorisierungsprozesses), ",
+        "PART_29": "Setzen Sie zunächst den Wert \"debtorAccountOptionalInInitialRequest\" des ASPSP-Profils auf \"true\", und entfernen Sie dann den Block \"debtor account\" aus dem Requestbody: ",
+        "DEBTOR_ACC": "\"debtorAccount\": {\n        \"currency\": \"EUR\",\n        \"iban\": \"DE80760700240271232400\"\n    },",
+        "NOTE": "NOTIZ:"
       },
       "RDCT_PAY_DELETE": {
         "TITLE_1": "SCHRITT 1: Zahlung erstellen",

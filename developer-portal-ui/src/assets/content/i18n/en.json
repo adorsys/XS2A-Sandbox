@@ -122,7 +122,7 @@
         "PART_9": "3. After choosing payment service and payment product, fill the header\n fields with the following values:",
         "PART_10": "Put in ",
         "PART_11": "the name of the\n user you chose (you can view users and their information in TPP-UI).",
-        "PART_12": "4. If you chose to create single payment by setting",
+        "PART_12": "If you chose to create single payment by setting",
         "PART_13": " to",
         "PART_14": ", insert into\n request body the following json:",
         "PART_15": "If you chose to create periodic payment by setting",
@@ -138,7 +138,11 @@
         "TITLE_2": "STEP 2: Authorise payment",
         "PART_25": "Start with the authorisation process. Follow",
         "PART_26": " link to the\n online banking page.",
-        "PART_27": "(\"frequency\" can be changed from \"Monthly\" to\n \"Daily\", \"Weekly\", \"EveryTwoWeeks\", \"EveryTwoMonths\", \"Quarterly\", \"SemiAnnual\" or \"Annual\")"
+        "PART_27": "(\"frequency\" can be changed from \"Monthly\" to\n \"Daily\", \"Weekly\", \"EveryTwoWeeks\", \"EveryTwoMonths\", \"Quarterly\", \"SemiAnnual\" or \"Annual\")",
+        "PART_28": "If you want to create payment without a debtor account (for further account selection during the payment authorisation process), ",
+        "PART_29": "first set the ASPSP profile \"debtorAccountOptionalInInitialRequest\" value to \"true\", then remove from request body debtor account block: ",
+        "DEBTOR_ACC": "\"debtorAccount\": {\n        \"currency\": \"EUR\",\n        \"iban\": \"DE80760700240271232400\"\n    },",
+        "NOTE": "NOTE:"
       },
       "RDCT_PAY_DELETE": {
         "TITLE_1": "STEP 2: Cancel payment",
