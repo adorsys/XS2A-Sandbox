@@ -6,6 +6,9 @@
     "XS2AInterfaceSwagger": {
       "environmentLink": "http://localhost:8089/swagger-ui.html"
     },
+    "XS2AInterfaceSwagger2": {
+      "environmentLink": "http://localhost:8089/swagger-ui.html"
+    },
     "developerPortal": {
       "environmentLink": "http://localhost:4206/"
     },
