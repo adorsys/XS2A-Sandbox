@@ -1,5 +1,5 @@
 # Stage SERVE
-FROM nginx:1.17.3
+FROM nginx:stable
 LABEL maintainer="https://github.com/adorsys/xs2a"
 
 ENV NGINX_ACCESS_LOG_DEBUG combined
