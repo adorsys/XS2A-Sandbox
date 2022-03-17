@@ -33,7 +33,7 @@
     "@ng-bootstrap/ng-bootstrap": "9.0.2",
     "bootstrap": "^4.6.0",
     "browser-detect": "^0.2.28",
-    "core-js": "^3.8.3",
+    "core-js": "^3.21.1",
     "css-vars-ponyfill": "^2.4.3",
     "date-fns": "^2.17.0",
     "http-status-codes": "^2.1.4",
