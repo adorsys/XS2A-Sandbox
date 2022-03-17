@@ -24,7 +24,7 @@
 
 # Інтерфейс XS2A
 
-Центральним компонентом **ModelBank** є інтерфейс XS2A, який відповідає вимогам специфікації [NextGenPSD2](<(https://www.berlin-group.org/psd2-access-to-bank-accounts)>) (версія 1.3.11) від Berlin Group і базується на тестових даних. Ви можете відвідати наш <a href="#" id="XS2AInterfaceSwagger2">XS2A Swagger UI</a> або ознайомитись з [опенсорсною імплементацією інтерфейсу XS2A на Github](https://github.com/adorsys/xs2a).
+Центральним компонентом **ModelBank** є інтерфейс XS2A, який відповідає вимогам специфікації [NextGenPSD2](<(https://www.berlin-group.org/psd2-access-to-bank-accounts)>) (версія 1.3.9) від Berlin Group і базується на тестових даних. Ви можете відвідати наш <a href="#" id="XS2AInterfaceSwagger">XS2A Swagger UI</a> або ознайомитись з [опенсорсною імплементацією інтерфейсу XS2A на Github](https://github.com/adorsys/xs2a).
 
 <div class="divider">
 </div>
@@ -99,12 +99,13 @@
 
 | Сервіс                    |                                                         Демо-середовище |
 | ------------------------- | ----------------------------------------------------------------------: |
-| Інтерфейс XS2A Swagger    |        <a href="#" id="XS2AInterfaceSwagger">Інтерфейс XS2A Swagger</a> |
+| Інтерфейс XS2A Swagger    |       <a href="#" id="XS2AInterfaceSwagger2">Інтерфейс XS2A Swagger</a> |
 | Портал розробника         |                  <a href="#" id="developerPortal">Портал розробника</a> |
 | Consent management system | <a href="#" id="consentManagementSystem" >Consent management system</a> |
 | Ledgers                   |                                   <a href="#" id="ledgers" >Ledgers</a> |
 | ASPSP-профіль Swagger     |         <a href="#" id="ASPSPProfileSwagger" >ASPSP-профіль Swagger</a> |
 | Інтерфейс TPP             |                    <a href="#" id="TPPUserInterface" >Інтерфейс TPP</a> |
+| Інтерфейс адміністратора  |                <a href="#" id="AdminUserInterface" >Admin Interface</a> |
 | Онлайн-банкінг            |                    <a href="#" id="onlineBankingUI" >Онлайн-банкінг</a> |
 | Сервер онлайн-банкінгу    |       <a href="#" id="onlineBankingBackend" >Сервер онлайн-банкінгу</a> |
 | Генератор сертифікатів    |       <a href="#" id="certificateGenerator" >Генератор сертифікатів</a> |

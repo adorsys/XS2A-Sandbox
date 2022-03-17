@@ -25,7 +25,7 @@ Abbildung 1.1: Komponenten der ModelBank
 
 # XS2A-Schnittstelle
 
-Der Zentrale Bestandteil der **ModelBank** ist die XS2A-Schnittstelle, die gemäß der Spezifikation der Berlin Group [NextGenPSD2](https://www.berlin-group.org/psd2-access-to-bank-accounts) (Version 1.3.11) implementiert wurde und auf Testdaten basiert. Mehr Details finden Sie in unsere <a href="#" id="XS2AInterfaceSwagger2">XS2A Swagger UI</a> und der [OpenSource XS2A Schnittstelle auf Github](https://github.com/adorsys/xs2a).
+Der Zentrale Bestandteil der **ModelBank** ist die XS2A-Schnittstelle, die gemäß der Spezifikation der Berlin Group [NextGenPSD2](https://www.berlin-group.org/psd2-access-to-bank-accounts) (Version 1.3.9) implementiert wurde und auf Testdaten basiert. Mehr Details finden Sie in unsere <a href="#" id="XS2AInterfaceSwagger">XS2A Swagger UI</a> und der [OpenSource XS2A Schnittstelle auf Github](https://github.com/adorsys/xs2a).
 
 # ASPSP-Profile
 
@@ -94,12 +94,13 @@ Im Falle des REDIRECT SCA-Ansatzes möchte ein Nutzer seine Zustimmung zur Verwe
 
 | Service                   |                                                        Demo environment |
 | ------------------------- | ----------------------------------------------------------------------: |
-| XS2A Interface Swagger    |        <a href="#" id="XS2AInterfaceSwagger">XS2A Interface Swagger</a> |
+| XS2A Interface Swagger    |       <a href="#" id="XS2AInterfaceSwagger2">XS2A Interface Swagger</a> |
 | Developer portal          |                   <a href="#" id="developerPortal">Developer Portal</a> |
 | Consent management system | <a href="#" id="consentManagementSystem" >Consent management system</a> |
 | Ledgers                   |                                   <a href="#" id="ledgers" >Ledgers</a> |
 | ASPSP-Profile Swagger     |         <a href="#" id="ASPSPProfileSwagger" >ASPSP-Profile Swagger</a> |
 | TPP User Interface        |               <a href="#" id="TPPUserInterface" >TPP User Interface</a> |
+| Admin Interface           |                <a href="#" id="AdminUserInterface" >Admin Interface</a> |
 | Online banking UI         |                 <a href="#" id="onlineBankingUI" >Online banking UI</a> |
 | Online banking backend    |       <a href="#" id="onlineBankingBackend" >Online banking backend</a> |
 | Certificate Generator     |        <a href="#" id="certificateGenerator" >Certificate Generator</a> |

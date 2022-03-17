@@ -25,7 +25,7 @@ Figure 1.1: Components of the ModelBank
 
 # XS2A Interface
 
-Central component of the **ModelBank** is the XS2A interface which meets the requirements of the Berlin Group's specification [NextGenPSD2](https://www.berlin-group.org/psd2-access-to-bank-accounts) (Version 1.3.11) and is based on test data. You can visit our <a href="#" id="XS2AInterfaceSwagger2">XS2A Swagger UI</a> or find full [OpenSource XS2A Interface on Github](https://github.com/adorsys/xs2a).
+Central component of the **ModelBank** is the XS2A interface which meets the requirements of the Berlin Group's specification [NextGenPSD2](https://www.berlin-group.org/psd2-access-to-bank-accounts) (Version 1.3.9) and is based on test data. You can visit our <a href="#" id="XS2AInterfaceSwagger">XS2A Swagger UI</a> or find full [OpenSource XS2A Interface on Github](https://github.com/adorsys/xs2a).
 
 <div class="divider">
 </div>
@@ -139,7 +139,7 @@ In case of REDIRECT SCA approach a user wants to provide consent for using their
 
 | Service                   |                                                        Demo environment |
 | ------------------------- | ----------------------------------------------------------------------: |
-| XS2A Interface Swagger    |        <a href="#" id="XS2AInterfaceSwagger">XS2A Interface Swagger</a> |
+| XS2A Interface Swagger    |       <a href="#" id="XS2AInterfaceSwagger2">XS2A Interface Swagger</a> |
 | Developer portal          |                   <a href="#" id="developerPortal">Developer Portal</a> |
 | Consent management system | <a href="#" id="consentManagementSystem" >Consent management system</a> |
 | Ledgers                   |                                   <a href="#" id="ledgers" >Ledgers</a> |
