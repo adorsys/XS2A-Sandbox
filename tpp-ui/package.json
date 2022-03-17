@@ -31,7 +31,7 @@
     "@ngxs/store": "3.7.1",
     "bootstrap": "^4.6.0",
     "browser-detect": "^0.2.28",
-    "core-js": "^3.8.3",
+    "core-js": "^3.21.1",
     "css-vars-ponyfill": "^2.4.3",
     "custom-event-polyfill": "^1.0.7",
     "font-awesome": "^4.7.0",
