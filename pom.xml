@@ -109,7 +109,7 @@
         <jetbrains.annotations.version>15.0</jetbrains.annotations.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
         <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
-        <swagger-annotations.version>1.5.20</swagger-annotations.version>
+        <swagger-annotations.version>1.6.5</swagger-annotations.version>
         <nimbus-jose-jwt.version>7.9</nimbus-jose-jwt.version>
         <lombok.version>1.18.4</lombok.version>
         <commons-io.version>2.11.0</commons-io.version>
