@@ -17,19 +17,11 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  FormControl,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { debounceTime, map, tap } from 'rxjs/operators';
 import { User, UserResponse } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
-import {
-  PageConfig,
-  PaginationConfigModel,
-} from '../../models/pagination-config.model';
+import { PageConfig, PaginationConfigModel } from '../../models/pagination-config.model';
 import { TppUserService } from '../../services/tpp.user.service';
 import { TppManagementService } from '../../services/tpp-management.service';
 import { PageNavigationService } from '../../services/page-navigation.service';
@@ -58,14 +50,7 @@ export class UsersComponent implements OnInit {
     currentPageNumber: 1,
     totalItems: 0,
   };
-  positionOptions: TooltipPosition[] = [
-    'above',
-    'before',
-    'after',
-    'below',
-    'left',
-    'right',
-  ];
+  positionOptions: TooltipPosition[] = ['above', 'before', 'after', 'below', 'left', 'right'];
   position = new FormControl(this.positionOptions[0]);
   searchForm: FormGroup = this.formBuilder.group({
     userLogin: '',
@@ -116,11 +101,7 @@ export class UsersComponent implements OnInit {
         blocked: this.searchForm.get('blocked').value,
       });
     } else {
-      this.listUsers(
-        pageConfig.pageNumber,
-        pageConfig.pageSize,
-        this.searchForm.get('userLogin').value
-      );
+      this.listUsers(pageConfig.pageNumber, pageConfig.pageSize, this.searchForm.get('userLogin').value);
     }
   }
 
@@ -175,27 +156,23 @@ export class UsersComponent implements OnInit {
 
   listUsers(page: number, size: number, params: TppQueryParams) {
     if (this.admin === 'true') {
-      this.tppManagementService
-        .getAllUsers(page - 1, size, params)
-        .subscribe((response: UserResponse) => {
-          if (typeof response.users !== 'undefined') {
-            this.users = response.users;
-            this.users.reverse();
-          } else if (typeof response.users === 'undefined') {
-            this.users = response.users;
-          }
-          this.config.totalItems = response.totalElements;
-        });
+      this.tppManagementService.getAllUsers(page - 1, size, params).subscribe((response: UserResponse) => {
+        if (typeof response.users !== 'undefined') {
+          this.users = response.users;
+          this.users.reverse();
+        } else if (typeof response.users === 'undefined') {
+          this.users = response.users;
+        }
+        this.config.totalItems = response.totalElements;
+      });
     } else if (this.admin === 'false') {
-      this.userService
-        .listUsers(page - 1, size, params.userLogin)
-        .subscribe((response: UserResponse) => {
-          if (typeof response.users !== 'undefined') {
-            this.users = response.users;
-            this.users.reverse();
-            this.config.totalItems = response.totalElements;
-          }
-        });
+      this.userService.listUsers(page - 1, size, params.userLogin).subscribe((response: UserResponse) => {
+        if (typeof response.users !== 'undefined') {
+          this.users = response.users;
+          this.users.reverse();
+          this.config.totalItems = response.totalElements;
+        }
+      });
     }
   }
 
@@ -247,11 +224,7 @@ export class UsersComponent implements OnInit {
             severity: 'info',
           });
         }
-        this.listUsers(
-          this.config.currentPageNumber,
-          this.config.itemsPerPage,
-          {}
-        );
+        this.listUsers(this.config.currentPageNumber, this.config.itemsPerPage, {});
       });
       if (this.statusBlock === 'unblock') {
         this.infoService.openFeedback('User was successfully blocked!', {
@@ -263,11 +236,7 @@ export class UsersComponent implements OnInit {
         this.infoService.openFeedback('User was successfully blocked!', {
           severity: 'info',
         });
-        this.listUsers(
-          this.config.currentPageNumber,
-          this.config.itemsPerPage,
-          {}
-        );
+        this.listUsers(this.config.currentPageNumber, this.config.itemsPerPage, {});
       });
     }
   }
@@ -278,22 +247,14 @@ export class UsersComponent implements OnInit {
         this.infoService.openFeedback('User was successfully deleted!', {
           severity: 'info',
         });
-        this.listUsers(
-          this.config.currentPageNumber,
-          this.config.itemsPerPage,
-          {}
-        );
+        this.listUsers(this.config.currentPageNumber, this.config.itemsPerPage, {});
       });
     } else if (this.admin === 'false') {
       this.userService.deleteUser(userId).subscribe(() => {
         this.infoService.openFeedback('User was successfully deleted!', {
           severity: 'info',
         });
-        this.listUsers(
-          this.config.currentPageNumber,
-          this.config.itemsPerPage,
-          {}
-        );
+        this.listUsers(this.config.currentPageNumber, this.config.itemsPerPage, {});
       });
     }
   }

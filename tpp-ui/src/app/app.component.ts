@@ -18,11 +18,7 @@
 
 import { Component, OnInit } from '@angular/core';
 
-import {
-  CustomizeService,
-  Theme,
-  GlobalSettings,
-} from './services/customize.service';
+import { CustomizeService, Theme, GlobalSettings } from './services/customize.service';
 import { Title } from '@angular/platform-browser';
 import { CountryService } from './services/country.service';
 
@@ -35,11 +31,7 @@ export class AppComponent implements OnInit {
   title = 'app';
   globalSettings: GlobalSettings;
 
-  constructor(
-    private customizeService: CustomizeService,
-    private countryService: CountryService,
-    private titleService: Title
-  ) {}
+  constructor(private customizeService: CustomizeService, private countryService: CountryService, private titleService: Title) {}
 
   ngOnInit() {
     this.countryService.loadCountries();
@@ -48,19 +40,11 @@ export class AppComponent implements OnInit {
       theme = data;
       this.globalSettings = theme.globalSettings;
       if (theme.globalSettings.logo.indexOf('/') === -1) {
-        theme.globalSettings.logo =
-          '../assets/UI' +
-          (this.customizeService.isCustom() ? '/custom/' : '/') +
-          theme.globalSettings.logo;
+        theme.globalSettings.logo = '../assets/UI' + (this.customizeService.isCustom() ? '/custom/' : '/') + theme.globalSettings.logo;
       }
-      if (
-        theme.globalSettings.favicon &&
-        theme.globalSettings.favicon.href.indexOf('/') === -1
-      ) {
+      if (theme.globalSettings.favicon && theme.globalSettings.favicon.href.indexOf('/') === -1) {
         theme.globalSettings.favicon.href =
-          '../assets/UI' +
-          (this.customizeService.isCustom() ? '/custom/' : '/') +
-          theme.globalSettings.favicon.href;
+          '../assets/UI' + (this.customizeService.isCustom() ? '/custom/' : '/') + theme.globalSettings.favicon.href;
       }
 
       const title = theme.globalSettings.title;

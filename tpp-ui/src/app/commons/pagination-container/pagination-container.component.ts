@@ -18,10 +18,7 @@
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
-import {
-  PaginationConfigModel,
-  PageConfig,
-} from '../../models/pagination-config.model';
+import { PaginationConfigModel, PageConfig } from '../../models/pagination-config.model';
 
 @Component({
   selector: 'app-pagination-container',

@@ -18,12 +18,7 @@
 
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { RecoveryPoint } from '../models/recovery-point.models';
-import {
-  AddRecoveryPoint,
-  DeleteRecoveryPoint,
-  GetRecoveryPoint,
-  RollbackRecoveryPoint,
-} from '../components/actions/revertpoints.action';
+import { AddRecoveryPoint, DeleteRecoveryPoint, GetRecoveryPoint, RollbackRecoveryPoint } from '../components/actions/revertpoints.action';
 import { ResetLedgersService } from '../services/reset-ledgers.service';
 import { tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
@@ -50,10 +45,7 @@ export class RecoveryPointState {
   }
 
   @Action(GetRecoveryPoint)
-  getRecoveryPoint({
-    getState,
-    setState,
-  }: StateContext<RecoveryPointStateModel>) {
+  getRecoveryPoint({ getState, setState }: StateContext<RecoveryPointStateModel>) {
     return this.resetLedgersService.getAllRecoveryPoints().pipe(
       tap((result) => {
         const state = getState();
@@ -66,10 +58,7 @@ export class RecoveryPointState {
   }
 
   @Action(AddRecoveryPoint)
-  addRecoveryPoint(
-    { getState, patchState }: StateContext<RecoveryPointStateModel>,
-    { payload }: AddRecoveryPoint
-  ) {
+  addRecoveryPoint({ getState, patchState }: StateContext<RecoveryPointStateModel>, { payload }: AddRecoveryPoint) {
     return this.resetLedgersService.createRecoveryPoints(payload).pipe(
       tap((result) => {
         const state = getState();
@@ -81,16 +70,11 @@ export class RecoveryPointState {
   }
 
   @Action(DeleteRecoveryPoint)
-  deleteRecoveryPoint(
-    { getState, setState }: StateContext<RecoveryPointStateModel>,
-    { id }: DeleteRecoveryPoint
-  ) {
+  deleteRecoveryPoint({ getState, setState }: StateContext<RecoveryPointStateModel>, { id }: DeleteRecoveryPoint) {
     return this.resetLedgersService.deleteRecoveryPoints(id).pipe(
       tap(() => {
         const state = getState();
-        const filteredArray = state.recoveryPoints.filter(
-          (item) => item.id !== id
-        );
+        const filteredArray = state.recoveryPoints.filter((item) => item.id !== id);
         setState({
           ...state,
           recoveryPoints: filteredArray,
@@ -100,16 +84,11 @@ export class RecoveryPointState {
   }
 
   @Action(RollbackRecoveryPoint)
-  rollbackRecoveryPoint(
-    { getState, setState }: StateContext<RecoveryPointStateModel>,
-    { id }: RollbackRecoveryPoint
-  ) {
+  rollbackRecoveryPoint({ getState, setState }: StateContext<RecoveryPointStateModel>, { id }: RollbackRecoveryPoint) {
     return this.resetLedgersService.rollBackPointsById(id).pipe(
       tap(() => {
         const state = getState();
-        const filteredArray = state.recoveryPoints.filter(
-          (item) => item.id !== id.recoveryPointId
-        );
+        const filteredArray = state.recoveryPoints.filter((item) => item.id !== id.recoveryPointId);
         setState({
           ...state,
           recoveryPoints: filteredArray,

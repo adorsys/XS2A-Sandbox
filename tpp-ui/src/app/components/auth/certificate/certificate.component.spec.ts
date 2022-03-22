@@ -27,14 +27,12 @@ describe('CertificateComponent', () => {
   let component: CertificateComponent;
   let fixture: ComponentFixture<CertificateComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, RouterTestingModule, HttpClientModule],
-        declarations: [CertificateComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, RouterTestingModule, HttpClientModule],
+      declarations: [CertificateComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CertificateComponent);
@@ -59,8 +57,7 @@ describe('CertificateComponent', () => {
 
   it('authorizationNumber field validity', () => {
     let errors = {};
-    const authorizationNumber =
-      component.certificateFormGroup.controls['authorizationNumber'];
+    const authorizationNumber = component.certificateFormGroup.controls['authorizationNumber'];
     expect(authorizationNumber.valid).toBeTruthy();
 
     // authorizationNumber field is required
@@ -75,8 +72,7 @@ describe('CertificateComponent', () => {
 
   it('organizationName field validity', () => {
     let errors = {};
-    const organizationName =
-      component.certificateFormGroup.controls['organizationName'];
+    const organizationName = component.certificateFormGroup.controls['organizationName'];
     expect(organizationName.valid).toBeTruthy();
 
     // organizationName field is required
@@ -121,8 +117,7 @@ describe('CertificateComponent', () => {
 
   it('domainComponent field validity', () => {
     let errors = {};
-    const domainComponent =
-      component.certificateFormGroup.controls['domainComponent'];
+    const domainComponent = component.certificateFormGroup.controls['domainComponent'];
     expect(domainComponent.valid).toBeTruthy();
 
     // domainComponent field is required
@@ -137,8 +132,7 @@ describe('CertificateComponent', () => {
 
   it('localityName field validity', () => {
     let errors = {};
-    const localityName =
-      component.certificateFormGroup.controls['localityName'];
+    const localityName = component.certificateFormGroup.controls['localityName'];
     expect(localityName.valid).toBeTruthy();
 
     // localityName field is required
@@ -153,8 +147,7 @@ describe('CertificateComponent', () => {
 
   it('organizationUnit field validity', () => {
     let errors = {};
-    const organizationUnit =
-      component.certificateFormGroup.controls['organizationUnit'];
+    const organizationUnit = component.certificateFormGroup.controls['organizationUnit'];
     expect(organizationUnit.valid).toBeTruthy();
 
     // organizationUnit field is required
@@ -169,8 +162,7 @@ describe('CertificateComponent', () => {
 
   it('stateOrProvinceName field validity', () => {
     let errors = {};
-    const stateOrProvinceName =
-      component.certificateFormGroup.controls['stateOrProvinceName'];
+    const stateOrProvinceName = component.certificateFormGroup.controls['stateOrProvinceName'];
     expect(stateOrProvinceName.valid).toBeTruthy();
 
     // stateOrProvinceName field is required

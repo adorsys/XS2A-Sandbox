@@ -16,15 +16,7 @@
  * contact us at psd2@adorsys.com.
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  ViewEncapsulation,
-  ElementRef,
-  SimpleChanges,
-  OnChanges,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation, ElementRef, SimpleChanges, OnChanges } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { take } from 'rxjs/operators';
 import { IconRegistry } from './icon-registry';
@@ -52,27 +44,10 @@ export class IconComponent implements OnChanges {
   @Input()
   svgIcon: string;
 
-  constructor(
-    private _elementRef: ElementRef<HTMLElement>,
-    private _iconRegistry: IconRegistry,
-    private _sanitizer: DomSanitizer
-  ) {
-    const icons = [
-      'user',
-      'account',
-      'upload',
-      'euro',
-      'add',
-      'generate_test_data',
-      'settings',
-    ];
+  constructor(private _elementRef: ElementRef<HTMLElement>, private _iconRegistry: IconRegistry, private _sanitizer: DomSanitizer) {
+    const icons = ['user', 'account', 'upload', 'euro', 'add', 'generate_test_data', 'settings'];
     icons.forEach((val) => {
-      _iconRegistry.addSvgIcon(
-        val,
-        _sanitizer.bypassSecurityTrustResourceUrl(
-          'assets/icons/' + val + '.svg'
-        )
-      );
+      _iconRegistry.addSvgIcon(val, _sanitizer.bypassSecurityTrustResourceUrl('assets/icons/' + val + '.svg'));
     });
   }
 
@@ -102,8 +77,7 @@ export class IconComponent implements OnChanges {
           .pipe(take(1))
           .subscribe(
             (svg) => this._setSvgElement(svg),
-            (err: Error) =>
-              console.error(`Error retrieving icon: ${err.message}`)
+            (err: Error) => console.error(`Error retrieving icon: ${err.message}`)
           );
       } else {
         this._clearSvgElement();
@@ -117,9 +91,7 @@ export class IconComponent implements OnChanges {
     // Workaround for IE11 and Edge ignoring `style` tags inside dynamically-created SVGs.
     // See: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/10898469/
     // Do this before inserting the element into the DOM, in order to avoid a style recalculation.
-    const styleTags = svg.querySelectorAll(
-      'style'
-    ) as NodeListOf<HTMLStyleElement>;
+    const styleTags = svg.querySelectorAll('style') as NodeListOf<HTMLStyleElement>;
 
     for (let i = 0; i < styleTags.length; i++) {
       styleTags[i].textContent += ' ';

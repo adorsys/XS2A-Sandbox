@@ -32,4 +32,5 @@ public class PiisConsent {
     private AccountAccess access;
     private String tppAuthorisationNumber;
     private LocalDate validUntil;
+    private ConsentStatus consentStatus;
 }

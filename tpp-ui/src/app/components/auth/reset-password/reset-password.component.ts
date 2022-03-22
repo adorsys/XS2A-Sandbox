@@ -57,16 +57,11 @@ export class ResetPasswordComponent implements OnInit {
       return;
     }
 
-    this.tppUserService
-      .resetPasswordViaEmail(this.resetPasswordForm.value.login)
-      .subscribe(() => {
-        this.infoService.openFeedback(
-          'Link for password reset was sent, check email.',
-          {
-            severity: 'info',
-          }
-        );
-        this.router.navigate(['/logout']);
+    this.tppUserService.resetPasswordViaEmail(this.resetPasswordForm.value.login).subscribe(() => {
+      this.infoService.openFeedback('Link for password reset was sent, check email.', {
+        severity: 'info',
       });
+      this.router.navigate(['/logout']);
+    });
   }
 }

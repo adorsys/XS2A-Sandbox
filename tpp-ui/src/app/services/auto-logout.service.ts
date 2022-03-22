@@ -41,9 +41,7 @@ export class AutoLogoutService {
   initializeTokenMonitoring(): void {
     if (!this.tokenMonitoringInitialized) {
       this.timerSubject = new BehaviorSubject('👌🏼');
-      this.subscriptions = this.timer.subscribe((time) =>
-        this.timerSubject.next(time + ' 🙈')
-      );
+      this.subscriptions = this.timer.subscribe((time) => this.timerSubject.next(time + ' 🙈'));
       this.tokenMonitoringInitialized = true;
     }
   }

@@ -36,11 +36,9 @@ describe('PageNavigationService', () => {
       return storage[key] || null;
     });
 
-    spyOn(sessionStorage, 'setItem').and.callFake(
-      (key: string, value: string): string => {
-        return (storage[key] = value as string);
-      }
-    );
+    spyOn(sessionStorage, 'setItem').and.callFake((key: string, value: string): string => {
+      return (storage[key] = value as string);
+    });
   });
 
   it('should be created', () => {

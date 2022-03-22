@@ -93,11 +93,7 @@ export class TestDataGenerationComponent implements OnInit, OnDestroy {
           this.currencyList = data;
           this.spinner.hide();
         },
-        () =>
-          this.infoService.openFeedback(
-            'Currencies list cannot be initialized',
-            { severity: 'error' }
-          )
+        () => this.infoService.openFeedback('Currencies list cannot be initialized', { severity: 'error' })
       );
   }
 
@@ -107,12 +103,8 @@ export class TestDataGenerationComponent implements OnInit, OnDestroy {
 
   generateCertificate() {
     if (this.certificate) {
-      const message =
-        'Certificate was successfully generated. The download will start automatically within the 2 seconds';
-      this.certificateDownloadService.generateAndDownloadCertificate(
-        this.certificate,
-        message
-      );
+      const message = 'Certificate was successfully generated. The download will start automatically within the 2 seconds';
+      this.certificateDownloadService.generateAndDownloadCertificate(this.certificate, message);
     }
   }
 }

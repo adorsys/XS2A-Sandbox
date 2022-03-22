@@ -18,10 +18,7 @@
 
 import { inject, TestBed } from '@angular/core/testing';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 import { AuthService } from './auth.service';
 import { environment } from '../../environments/environment';
@@ -55,9 +52,7 @@ describe('AuthService', () => {
   }));
 
   it('should delete token on logout', () => {
-    let navigateSpy = spyOn(router, 'navigate').and.callFake(() =>
-      Promise.resolve(true)
-    );
+    let navigateSpy = spyOn(router, 'navigate').and.callFake(() => Promise.resolve(true));
     authService.logout();
 
     expect(sessionStorage.getItem('token')).toBeNull();
@@ -65,10 +60,7 @@ describe('AuthService', () => {
   });
 
   it('should call authorize when login', () => {
-    let getAuthorizationTokenSpy = spyOn(
-      authService,
-      'authorize'
-    ).and.callThrough();
+    let getAuthorizationTokenSpy = spyOn(authService, 'authorize').and.callThrough();
     let credentialsMock = { login: 's', pin: 'q' };
     authService.login(credentialsMock);
     expect(getAuthorizationTokenSpy).toHaveBeenCalled();
@@ -100,11 +92,9 @@ describe('AuthService', () => {
       pin: '123456',
     };
 
-    authService
-      .register(credentialsMock as TppInfo, 'DE')
-      .subscribe((response) => {
-        expect(response.email).toBe('test@test.de');
-      });
+    authService.register(credentialsMock as TppInfo, 'DE').subscribe((response) => {
+      expect(response.email).toBe('test@test.de');
+    });
 
     let req = httpTestingController.expectOne(url + '/register');
     expect(req.cancelled).toBeFalsy();

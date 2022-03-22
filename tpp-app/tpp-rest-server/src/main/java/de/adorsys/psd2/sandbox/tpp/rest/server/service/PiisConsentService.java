@@ -33,6 +33,7 @@ import de.adorsys.psd2.consent.api.piis.v1.CmsPiisConsent;
 import de.adorsys.psd2.consent.aspsp.api.piis.CreatePiisConsentRequest;
 import de.adorsys.psd2.consent.aspsp.api.piis.CreatePiisConsentResponse;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.AccountAccess;
+import de.adorsys.psd2.sandbox.tpp.rest.api.domain.ConsentStatus;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.PiisConsent;
 import de.adorsys.psd2.sandbox.tpp.rest.server.exception.TppException;
 import de.adorsys.psd2.sandbox.tpp.rest.server.mapper.TppPiisConsentMapper;
@@ -42,7 +43,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.adorsys.ledgers.consent.aspsp.rest.client.CmsAspspPiisClient;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuPiisClient;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -73,6 +73,14 @@ public class PiisConsentService {
      * @return SCAConsentResponseTO object
      */
     public SCAConsentResponseTO createPiisConsent(String userLogin, String password, PiisConsent piisConsent) {
+
+        BearerTokenTO token;
+        try {
+            token = keycloakTokenService.login(userLogin, password);
+        } catch (FeignException e) {
+            throw new TppException("Invalid password for user", 401);
+        }
+
         CreatePiisConsentRequest request = tppPiisConsentMapper.toPiisConsentRequest(piisConsent);
         ResponseEntity<CreatePiisConsentResponse> response;
         try {
@@ -86,8 +94,6 @@ public class PiisConsentService {
         if (responseBody != null) {
             String consentId = responseBody.getConsentId();
             log.info("ASPSP PIIS consent was created in CMS, its ID: " + consentId);
-
-            BearerTokenTO token = keycloakTokenService.login(userLogin, password);
 
             UserTO user = Optional.ofNullable(userMgmtRestClient.getUser().getBody())
                               .orElseThrow(() -> new TppException("User with login: " + userLogin + " not found in Ledgers", 400));
@@ -134,14 +140,27 @@ public class PiisConsentService {
      * @param consentId the identifier of PIIS consent
      * @return PIIS consent information
      */
-    public PiisConsent getPiisConsent(String consentId) {
+    public PiisConsent getPiisConsent(String userLogin, String consentId) {
         try {
-            Optional<PiisConsent> responseOptional = Optional.ofNullable(cmsPsuPiisClient.getConsent(consentId, null, null, null, null, DEFAULT_SERVICE_INSTANCE_ID))
+            Optional<PiisConsent> responseOptional = Optional.ofNullable(cmsPsuPiisClient.getConsent(consentId, userLogin, null, null, null, DEFAULT_SERVICE_INSTANCE_ID))
                                                          .map(ResponseEntity::getBody)
                                                          .map(tppPiisConsentMapper::toPiisConsent);
             return responseOptional.orElse(null);
         } catch (FeignException e) {
             throw new TppException(String.format("Error while getting ASPSP PIIS consent with ID: %s from CMS", consentId), 400);
+        }
+    }
+
+    /**
+     * Changes the given consent status to 'TERMINATED_BY_ASPSP'.
+     *
+     * @param consentId the identifier of PIIS consent
+     */
+    public void terminatePiisConsent(String consentId) {
+        try {
+            cmsAspspPiisClient.terminateConsent(consentId, DEFAULT_SERVICE_INSTANCE_ID);
+        } catch (FeignException e) {
+            throw new TppException(String.format("Error while terminating ASPSP PIIS consent with ID: %s in CMS", consentId), 400);
         }
     }
 
@@ -164,7 +183,7 @@ public class PiisConsentService {
 
     private List<PiisConsent> toPiisConsent(Collection<CmsPiisConsent> aisAccountConsents) {
         return aisAccountConsents.stream()
-                   .map(a -> new PiisConsent(a.getId(), getAccountAccess(a.getAccount()), a.getTppAuthorisationNumber(), a.getExpireDate()))
+                   .map(a -> new PiisConsent(a.getId(), getAccountAccess(a.getAccount()), a.getTppAuthorisationNumber(), a.getExpireDate(), ConsentStatus.getByName(a.getConsentStatus().name()).orElse(null)))
                    .collect(Collectors.toList());
     }
 

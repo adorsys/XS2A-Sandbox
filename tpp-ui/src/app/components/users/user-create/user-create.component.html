@@ -29,18 +29,9 @@
         </ng-template>
       </div>
     </div>
-    <form
-      novalidate
-      [formGroup]="userForm"
-      (ngSubmit)="onSubmit()"
-      autocomplete="off"
-    >
+    <form novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()" autocomplete="off">
       <div class="card-body">
-        <div
-          class="form-group required col-md-6 pd-0"
-          for="tppId"
-          *ngIf="admin === 'true'"
-        >
+        <div class="form-group required col-md-6 pd-0" for="tppId" *ngIf="admin === 'true'">
           <label class="control-label">Type TPP ID</label>
           <input
             [(ngModel)]="asyncSelected"
@@ -61,9 +52,7 @@
               <label class="control-label" for="email">Email</label>
               <input
                 [ngClass]="{
-                  'is-invalid':
-                    (formControl['email'].touched || submitted) &&
-                    formControl['email'].errors
+                  'is-invalid': (formControl['email'].touched || submitted) && formControl['email'].errors
                 }"
                 aria-describedby="emailHelp"
                 autocomplete="off"
@@ -74,21 +63,12 @@
                 type="email"
               />
               <div
-                *ngIf="
-                  (formControl['email'].touched || submitted) &&
-                  formControl['email'].hasError('required')
-                "
+                *ngIf="(formControl['email'].touched || submitted) && formControl['email'].hasError('required')"
                 class="invalid-feedback"
               >
                 Email is required
               </div>
-              <div
-                *ngIf="
-                  (formControl['email'].touched || submitted) &&
-                  formControl['email'].hasError('email')
-                "
-                class="invalid-feedback"
-              >
+              <div *ngIf="(formControl['email'].touched || submitted) && formControl['email'].hasError('email')" class="invalid-feedback">
                 Email is invalid
               </div>
             </div>
@@ -98,9 +78,7 @@
                   <label class="control-label" for="login">Login</label>
                   <input
                     [ngClass]="{
-                      'is-invalid':
-                        (formControl['login'].touched || submitted) &&
-                        formControl['login'].errors
+                      'is-invalid': (formControl['login'].touched || submitted) && formControl['login'].errors
                     }"
                     aria-describedby="emailHelp"
                     autocomplete="off"
@@ -111,19 +89,13 @@
                     type="text"
                   />
                   <div
-                    *ngIf="
-                      (formControl['login'].touched || submitted) &&
-                      formControl['login'].hasError('required')
-                    "
+                    *ngIf="(formControl['login'].touched || submitted) && formControl['login'].hasError('required')"
                     class="invalid-feedback"
                   >
                     Login is required
                   </div>
                   <div
-                    *ngIf="
-                      (formControl['login'].touched || submitted) &&
-                      formControl['login'].hasError('minlength')
-                    "
+                    *ngIf="(formControl['login'].touched || submitted) && formControl['login'].hasError('minlength')"
                     class="invalid-feedback"
                   >
                     Login should be equal to or more than 5 characters
@@ -133,9 +105,7 @@
                   <label class="control-label" for="pin">PIN</label>
                   <input
                     [ngClass]="{
-                      'is-invalid':
-                        (formControl['pin'].touched || submitted) &&
-                        formControl['pin'].errors
+                      'is-invalid': (formControl['pin'].touched || submitted) && formControl['pin'].errors
                     }"
                     aria-describedby="pinHelp"
                     autocomplete="new-password"
@@ -146,19 +116,13 @@
                     type="password"
                   />
                   <div
-                    *ngIf="
-                      (formControl['pin'].touched || submitted) &&
-                      formControl['pin'].hasError('required')
-                    "
+                    *ngIf="(formControl['pin'].touched || submitted) && formControl['pin'].hasError('required')"
                     class="invalid-feedback"
                   >
                     PIN is required
                   </div>
                   <div
-                    *ngIf="
-                      (formControl['pin'].touched || submitted) &&
-                      formControl['pin'].hasError('minlength')
-                    "
+                    *ngIf="(formControl['pin'].touched || submitted) && formControl['pin'].hasError('minlength')"
                     class="invalid-feedback"
                   >
                     PIN must contain at least 5 characters
@@ -175,11 +139,7 @@
             <h2 class="d-inline">User authentication Information</h2>
             <div class="">
               <div class="d-flex">
-                <button
-                  mat-raised-button
-                  (click)="addScaDataItem()"
-                  class="btn btn-primary"
-                >
+                <button mat-raised-button (click)="addScaDataItem()" class="btn btn-primary">
                   <mat-icon>add_circle_outline</mat-icon> Add SCA method
                 </button>
               </div>
@@ -188,13 +148,7 @@
         </div>
         <div class="border-bottom">
           <div class="card-body">
-            <div
-              *ngFor="
-                let scaDataItem of formControl['scaUserData']['controls'];
-                let i = index
-              "
-              class="box mb-4"
-            >
+            <div *ngFor="let scaDataItem of formControl['scaUserData']['controls']; let i = index" class="box mb-4">
               <button
                 (click)="removeScaDataItem(i)"
                 *ngIf="userForm.controls['scaUserData']['controls'].length"
@@ -207,28 +161,21 @@
               <div class="row">
                 <div class="col-12 col-md-8">
                   <div [formGroupName]="i" class="form-group">
-                    <label class="control-label" for="scaData"
-                      >Method Value</label
-                    >
+                    <label class="control-label" for="scaData">Method Value</label>
                     <select
                       formControlName="pushMethod"
                       class="form-control push-select"
                       *ngIf="scaDataItem.get('scaMethod').value === 'PUSH_OTP'"
                     >
-                      <option
-                        *ngFor="let httpMethod of httpMethods"
-                        [selected]="httpMethod == 'POST'"
-                      >
+                      <option *ngFor="let httpMethod of httpMethods" [selected]="httpMethod == 'POST'">
                         {{ httpMethod }}
                       </option>
                     </select>
 
                     <input
                       [ngClass]="{
-                        'is-invalid':
-                          scaDataItem.controls['methodValue'].errors,
-                        'input-method':
-                          scaDataItem.get('scaMethod').value === 'PUSH_OTP'
+                        'is-invalid': scaDataItem.controls['methodValue'].errors,
+                        'input-method': scaDataItem.get('scaMethod').value === 'PUSH_OTP'
                       }"
                       aria-describedby="scaDataHelp"
                       class="form-control"
@@ -241,18 +188,8 @@
                       "
                       type="text"
                     />
-                    <div
-                      *ngIf="scaDataItem.get('methodValue')?.errors?.required"
-                      class="invalid-feedback"
-                    >
-                      SCA value is required
-                    </div>
-                    <div
-                      *ngIf="
-                        scaDataItem.get('methodValue')?.hasError('pattern')
-                      "
-                      class="invalid-feedback"
-                    >
+                    <div *ngIf="scaDataItem.get('methodValue')?.errors?.required" class="invalid-feedback">SCA value is required</div>
+                    <div *ngIf="scaDataItem.get('methodValue')?.hasError('pattern')" class="invalid-feedback">
                       SCA value has an incorrect format
                     </div>
                   </div>
@@ -267,28 +204,16 @@
                       </option>
                     </select>
                   </div>
-                  <div
-                    *ngIf="
-                      submitted && scaDataItem.controls['scaMethod'].errors
-                    "
-                    class="invalid-feedback"
-                  >
-                    <div *ngIf="scaDataItem.controls['scaMethod'].errors">
-                      Method Value is required
-                    </div>
+                  <div *ngIf="submitted && scaDataItem.controls['scaMethod'].errors" class="invalid-feedback">
+                    <div *ngIf="scaDataItem.controls['scaMethod'].errors">Method Value is required</div>
                   </div>
                 </div>
                 <div class="col-12 col-md-8">
                   <div [formGroupName]="i" class="form-group">
-                    <label class="control-label" for="scaData"
-                      >Static TAN</label
-                    >
+                    <label class="control-label" for="scaData">Static TAN</label>
                     <input
                       [ngClass]="{
-                        'is-invalid':
-                          (scaDataItem.controls['staticTan'].touched ||
-                            submitted) &&
-                          scaDataItem.controls['staticTan'].errors
+                        'is-invalid': (scaDataItem.controls['staticTan'].touched || submitted) && scaDataItem.controls['staticTan'].errors
                       }"
                       aria-describedby="scaDataHelp"
                       class="form-control"
@@ -298,9 +223,7 @@
                     />
                     <div
                       *ngIf="
-                        (scaDataItem.controls['staticTan'].touched ||
-                          submitted) &&
-                        scaDataItem.controls['staticTan'].hasError('required')
+                        (scaDataItem.controls['staticTan'].touched || submitted) && scaDataItem.controls['staticTan'].hasError('required')
                       "
                       class="invalid-feedback"
                     >
@@ -319,12 +242,7 @@
                           type="checkbox"
                           value="false"
                         />
-                        <label
-                          class="form-check-label"
-                          for="scaUserDataUsesStaticTan{{ i }}"
-                        >
-                          Use Static TAN in ModelBank
-                        </label>
+                        <label class="form-check-label" for="scaUserDataUsesStaticTan{{ i }}"> Use Static TAN in ModelBank </label>
                       </div>
                     </div>
                   </div>
@@ -335,16 +253,8 @@
         </div>
 
         <div class="form-group2 d-flex flex-row justify-content-lg-between">
-          <button class="btn btn-outline-danger" (click)="onCancel()">
-            Cancel
-          </button>
-          <button
-            [disabled]="userForm.invalid"
-            class="btn btn-primary"
-            type="submit"
-          >
-            Submit
-          </button>
+          <button class="btn btn-outline-danger" (click)="onCancel()">Cancel</button>
+          <button [disabled]="userForm.invalid" class="btn btn-primary" type="submit">Submit</button>
         </div>
       </div>
     </form>

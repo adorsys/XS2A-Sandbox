@@ -36,8 +36,7 @@ import { SettingsService } from '../../../services/settings.service';
   styleUrls: ['./user-create.component.scss'],
 })
 export class UserCreateComponent implements OnInit {
-  public url =
-    `${this.settingsService.settings.tppBackendBasePath}` + '/tpp/push/tan';
+  public url = `${this.settingsService.settings.tppBackendBasePath}` + '/tpp/push/tan';
   public error: string;
   id: string;
   users: User[];
@@ -136,21 +135,19 @@ export class UserCreateComponent implements OnInit {
       usesStaticTan: [false],
     });
 
-    scaData
-      .get('usesStaticTan')
-      .valueChanges.subscribe((bool: boolean = true) => {
-        if (bool) {
-          scaData.get('staticTan').setValidators(Validators.required);
-          scaData.get('methodValue').setValidators(Validators.required);
-          scaData.get('staticTan').enable();
-        } else {
-          scaData.get('staticTan').clearValidators();
-          scaData.get('staticTan').disable();
-          scaData.get('staticTan').setValue('');
-        }
-        scaData.get('staticTan').updateValueAndValidity();
-        scaData.get('methodValue').updateValueAndValidity();
-      });
+    scaData.get('usesStaticTan').valueChanges.subscribe((bool: boolean = true) => {
+      if (bool) {
+        scaData.get('staticTan').setValidators(Validators.required);
+        scaData.get('methodValue').setValidators(Validators.required);
+        scaData.get('staticTan').enable();
+      } else {
+        scaData.get('staticTan').clearValidators();
+        scaData.get('staticTan').disable();
+        scaData.get('staticTan').setValue('');
+      }
+      scaData.get('staticTan').updateValueAndValidity();
+      scaData.get('methodValue').updateValueAndValidity();
+    });
 
     scaData.get('staticTan').valueChanges.subscribe((value) => {
       if (value === ScaMethods.SMTP_OTP) {
@@ -158,12 +155,7 @@ export class UserCreateComponent implements OnInit {
       } else if (value === ScaMethods.MOBILE) {
         scaData
           .get('staticTan')
-          .setValidators([
-            Validators.required,
-            Validators.pattern(
-              new RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/)
-            ),
-          ]);
+          .setValidators([Validators.required, Validators.pattern(new RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/))]);
       } else {
         scaData.get('scaMethod').setValidators([Validators.required]);
       }
@@ -175,12 +167,7 @@ export class UserCreateComponent implements OnInit {
       } else if (value === ScaMethods.MOBILE) {
         scaData
           .get('methodValue')
-          .setValidators([
-            Validators.required,
-            Validators.pattern(
-              new RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/)
-            ),
-          ]);
+          .setValidators([Validators.required, Validators.pattern(new RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/))]);
       } else if (value === ScaMethods.PUSH_OTP) {
         scaData.get('methodValue').clearValidators();
       } else {
@@ -226,26 +213,21 @@ export class UserCreateComponent implements OnInit {
     }
     const body = this.updateValue();
     if (this.admin === 'true') {
-      this.tppManagementService
-        .createUser(body, this.userForm.get('tppId').value)
-        .subscribe(() => {
-          this.infoService.openFeedback('User was successfully created!', {
-            severity: 'info',
-          });
-          this.router.navigate(['/users/all']);
+      this.tppManagementService.createUser(body, this.userForm.get('tppId').value).subscribe(() => {
+        this.infoService.openFeedback('User was successfully created!', {
+          severity: 'info',
         });
+        this.router.navigate(['/users/all']);
+      });
     } else if (this.admin === 'false') {
       this.userService.createUser(body).subscribe(
         () => {
           this.router.navigateByUrl('/users/all');
         },
         () => {
-          this.infoService.openFeedback(
-            'Provided Login or Email are already taken',
-            {
-              severity: 'error',
-            }
-          );
+          this.infoService.openFeedback('Provided Login or Email are already taken', {
+            severity: 'error',
+          });
         }
       );
     }

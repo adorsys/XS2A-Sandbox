@@ -77,15 +77,7 @@ export class CertificateComponent implements OnInit {
       organizationUnit: ['IT department', Validators.required],
       stateOrProvinceName: ['Bayern', Validators.required],
       commonName: ['XS2A Sandbox', Validators.required],
-      validity: [
-        '365',
-        [
-          Validators.required,
-          Validators.pattern('^[0-9]*$'),
-          Validators.min(1),
-          Validators.max(999),
-        ],
-      ],
+      validity: ['365', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.min(1), Validators.max(999)]],
       roles: this.addCheckboxControls(),
     });
   }

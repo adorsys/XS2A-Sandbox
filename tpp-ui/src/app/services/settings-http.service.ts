@@ -25,10 +25,7 @@ import { SettingsService } from './settings.service';
 
 @Injectable({ providedIn: 'root' })
 export class SettingsHttpService {
-  constructor(
-    private http: HttpClient,
-    private settingsService: SettingsService
-  ) {}
+  constructor(private http: HttpClient, private settingsService: SettingsService) {}
 
   initializeApp(): Promise<any> {
     return new Promise<void>((resolve) => {
@@ -37,11 +34,8 @@ export class SettingsHttpService {
         .toPromise()
         .then((response: Settings) => {
           this.settingsService.settings = response;
-          this.settingsService.settings.certGenEnabled = coerceBooleanProperty(
-            response.certGenEnabled
-          );
-          this.settingsService.settings.tppBackendBasePath =
-            response.tppBackendBasePath;
+          this.settingsService.settings.certGenEnabled = coerceBooleanProperty(response.certGenEnabled);
+          this.settingsService.settings.tppBackendBasePath = response.tppBackendBasePath;
           resolve();
         });
     });

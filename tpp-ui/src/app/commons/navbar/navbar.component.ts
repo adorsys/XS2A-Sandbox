@@ -33,11 +33,7 @@ export class NavbarComponent implements DoCheck, OnInit {
   public title: string;
   public openDropdownMenu = false;
 
-  constructor(
-    private authService: AuthService,
-    public customizeService: CustomizeService,
-    private tppUserService: TppUserService
-  ) {}
+  constructor(private authService: AuthService, public customizeService: CustomizeService, private tppUserService: TppUserService) {}
 
   ngDoCheck(): void {
     if (!this.authService.isLoggedIn()) {

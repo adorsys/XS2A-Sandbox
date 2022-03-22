@@ -83,38 +83,22 @@ $green: #059c85;
   --buttonTextColor: #fff;
   --buttonBorderRadius: 3px;
   --buttonColorTextDisabled: #fff;
-  --buttonBGDisabled: linear-gradient(
-    129.54deg,
-    var(--buttonBgGradient1) 0%,
-    var(--buttonBgGradient2) 100%
-  );
+  --buttonBGDisabled: linear-gradient(129.54deg, var(--buttonBgGradient1) 0%, var(--buttonBgGradient2) 100%);
   --button-opacity: 0.65;
   --button-heigh: 56px;
   --btn-padding: 15px 12px;
 
   --buttonBgGradient1: #13b4bf;
   --buttonBgGradient2: #0a8f70;
-  --buttonBG: linear-gradient(
-    129.54deg,
-    var(--buttonBgGradient1) 0%,
-    var(--buttonBgGradient2) 100%
-  );
+  --buttonBG: linear-gradient(129.54deg, var(--buttonBgGradient1) 0%, var(--buttonBgGradient2) 100%);
 
   --buttonHoveredGradient1: #059c85;
   --buttonHoveredGradient2: #0a8f70;
-  --buttonHovered: linear-gradient(
-    129.54deg,
-    var(--buttonHoveredGradient1) 0%,
-    var(--buttonHoveredGradient2) 100%
-  );
+  --buttonHovered: linear-gradient(129.54deg, var(--buttonHoveredGradient1) 0%, var(--buttonHoveredGradient2) 100%);
 
   --buttonClickedGradient1: #13b4bf;
   --buttonClickedGradient2: #008073;
-  --buttonClicked: linear-gradient(
-    129.54deg,
-    var(--buttonClickedGradient1) 0%,
-    var(--buttonClickedGradient2) 100%
-  );
+  --buttonClicked: linear-gradient(129.54deg, var(--buttonClickedGradient1) 0%, var(--buttonClickedGradient2) 100%);
 
   /* Secondary */
   --secondaryButtonTextColor: #{$danger};

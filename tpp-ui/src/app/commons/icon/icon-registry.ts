@@ -18,21 +18,9 @@
 
 import { DOCUMENT } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import {
-  Inject,
-  Injectable,
-  InjectionToken,
-  Optional,
-  SecurityContext,
-  SkipSelf,
-  OnDestroy,
-} from '@angular/core';
+import { Inject, Injectable, InjectionToken, Optional, SecurityContext, SkipSelf, OnDestroy } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import {
-  Observable,
-  of as observableOf,
-  throwError as observableThrow,
-} from 'rxjs';
+import { Observable, of as observableOf, throwError as observableThrow } from 'rxjs';
 import { finalize, map, share, tap } from 'rxjs/operators';
 
 /**
@@ -51,9 +39,7 @@ export function getIconNameNotFoundError(iconName: string): Error {
  */
 export function getIconNoHttpProviderError(): Error {
   return Error(
-    'Could not find HttpClient provider. ' +
-      'Please include the HttpClientModule from @angular/common/http in your ' +
-      'app imports.'
+    'Could not find HttpClient provider. ' + 'Please include the HttpClientModule from @angular/common/http in your ' + 'app imports.'
   );
 }
 
@@ -64,8 +50,7 @@ export function getIconNoHttpProviderError(): Error {
  */
 export function getIconFailedToSanitizeUrlError(url: SafeResourceUrl): Error {
   return Error(
-    `The URL provided to KbnIconRegistry was not trusted as a resource URL ` +
-      `via Angular's DomSanitizer. Attempted URL was "${url}".`
+    `The URL provided to KbnIconRegistry was not trusted as a resource URL ` + `via Angular's DomSanitizer. Attempted URL was "${url}".`
   );
 }
 
@@ -137,11 +122,7 @@ export class IconRegistry implements OnDestroy {
    * @param iconName Name under which the icon should be registered.
    * @param url
    */
-  addSvgIconInNamespace(
-    namespace: string,
-    iconName: string,
-    url: SafeResourceUrl
-  ): this {
+  addSvgIconInNamespace(namespace: string, iconName: string, url: SafeResourceUrl): this {
     return this._addSvgIconConfig(namespace, iconName, new SvgIconConfig(url));
   }
 
@@ -181,10 +162,7 @@ export class IconRegistry implements OnDestroy {
    * @param name Name of the icon to be retrieved.
    * @param namespace Namespace in which to look for the icon.
    */
-  getNamedSvgIcon(
-    name: string,
-    namespace: string = ''
-  ): Observable<SVGElement> {
+  getNamedSvgIcon(name: string, namespace: string = ''): Observable<SVGElement> {
     // Return (copy of) cached icon if possible.
     const key = iconKey(namespace, name);
     const config = this._svgIconConfigs.get(key);
@@ -221,12 +199,8 @@ export class IconRegistry implements OnDestroy {
    * Loads the content of the icon URL specified in the SvgIconConfig and creates an SVG element
    * from it.
    */
-  private _loadSvgIconFromConfig(
-    config: SvgIconConfig
-  ): Observable<SVGElement> {
-    return this._fetchUrl(config.url).pipe(
-      map((svgText) => this._createSvgElementForSingleIcon(svgText))
-    );
+  private _loadSvgIconFromConfig(config: SvgIconConfig): Observable<SVGElement> {
+    return this._fetchUrl(config.url).pipe(map((svgText) => this._createSvgElementForSingleIcon(svgText)));
   }
 
   /**
@@ -310,11 +284,7 @@ export class IconRegistry implements OnDestroy {
    * @param iconName Name under which to register the config.
    * @param config Config to be registered.
    */
-  private _addSvgIconConfig(
-    namespace: string,
-    iconName: string,
-    config: SvgIconConfig
-  ): this {
+  private _addSvgIconConfig(namespace: string, iconName: string, config: SvgIconConfig): this {
     this._svgIconConfigs.set(iconKey(namespace, iconName), config);
     return this;
   }

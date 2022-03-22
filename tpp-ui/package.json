@@ -11,7 +11,9 @@
     "test-ci": "ng test --browsers ChromeHeadless --watch=false",
     "test-coverage": "ng test --code-coverage",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "prettier": "find . -name '*.js' -or -name '*.ts' -or -name '*.html' -or -name '*.css' -or -name '*.scss'| grep -v build | grep -v \"assets/lib\" | grep -v node_modules | grep -v dist | xargs prettier --write",
+    "prettier-check": "find . -name '*.js' -or -name '*.ts' -or -name '*.html' -or -name '*.css' -or -name '*.scss'| grep -v build | grep -v \"assets/lib\" | grep -v node_modules | grep -v dist | xargs prettier-check"
   },
   "private": true,
   "dependencies": {
@@ -67,6 +69,7 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
     "popper.js": "^1.16.1",
+    "prettier": "^2.6.0",
     "protractor": "~7.0.0",
     "sass": "^1.32.8",
     "ts-node": "~9.1.1",

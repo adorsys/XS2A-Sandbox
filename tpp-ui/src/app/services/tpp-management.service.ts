@@ -39,10 +39,7 @@ export class TppManagementService {
   constructor(private http: HttpClient) {}
 
   changePin(tppId: string, newPin: string) {
-    return this.http.put(
-      `${this.url}/admin/password?tppId=${tppId}&pin=${newPin}`,
-      null
-    );
+    return this.http.put(`${this.url}/admin/password?tppId=${tppId}&pin=${newPin}`, null);
   }
 
   blockUser(userId: string) {
@@ -50,10 +47,7 @@ export class TppManagementService {
   }
 
   blockAccount(accountId: string) {
-    return this.http.post(
-      `${this.url}/accounts/status?accountId=${accountId}`,
-      accountId
-    );
+    return this.http.post(`${this.url}/accounts/status?accountId=${accountId}`, accountId);
   }
 
   deleteTpp(tppId: string) {
@@ -116,11 +110,7 @@ export class TppManagementService {
     );
   }
 
-  getTpps(
-    page: number,
-    size: number,
-    queryParams?: TppQueryParams
-  ): Observable<TppResponse> {
+  getTpps(page: number, size: number, queryParams?: TppQueryParams): Observable<TppResponse> {
     return this.getData(page, size, this.staffRole, false, queryParams).pipe(
       map((resp) => {
         return {
@@ -131,11 +121,7 @@ export class TppManagementService {
     );
   }
 
-  getAllUsers(
-    page: number,
-    size: number,
-    queryParams?: TppQueryParams
-  ): Observable<UserResponse> {
+  getAllUsers(page: number, size: number, queryParams?: TppQueryParams): Observable<UserResponse> {
     return this.getData(page, size, this.customerRole, false, queryParams).pipe(
       map((resp) => {
         return {
@@ -146,11 +132,7 @@ export class TppManagementService {
     );
   }
 
-  getAllAccounts(
-    page: number,
-    size: number,
-    queryParams?: TppQueryParams
-  ): Observable<AccountResponse> {
+  getAllAccounts(page: number, size: number, queryParams?: TppQueryParams): Observable<AccountResponse> {
     return this.getData(page, size, this.customerRole, true, queryParams).pipe(
       map((resp) => {
         return {
@@ -161,13 +143,7 @@ export class TppManagementService {
     );
   }
 
-  private getData(
-    page: number,
-    size: number,
-    role: string,
-    accounts: boolean,
-    queryParams?: TppQueryParams
-  ): Observable<any> {
+  private getData(page: number, size: number, role: string, accounts: boolean, queryParams?: TppQueryParams): Observable<any> {
     let params = new HttpParams();
     params = params.set('page', page.toLocaleString());
     params = params.set('size', size.toLocaleString());
@@ -198,10 +174,7 @@ export class TppManagementService {
     }
 
     const endpoint = accounts ? 'account' : 'users';
-    return this.http.get<PaginationResponse<User[]>>(
-      `${this.url}/admin/${endpoint}`,
-      { params: params }
-    );
+    return this.http.get<PaginationResponse<User[]>>(`${this.url}/admin/${endpoint}`, { params: params });
   }
 
   getAdminById(id, size): Observable<any> {

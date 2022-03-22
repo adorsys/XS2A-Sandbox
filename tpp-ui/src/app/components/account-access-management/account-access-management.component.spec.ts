@@ -28,12 +28,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { InfoModule } from '../../commons/info/info.module';
 import { InfoService } from '../../commons/info/info.service';
 import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
-import {
-  Account,
-  AccountStatus,
-  AccountType,
-  UsageType,
-} from '../../models/account.model';
+import { Account, AccountStatus, AccountType, UsageType } from '../../models/account.model';
 import { of } from 'rxjs';
 import get = Reflect.get;
 
@@ -54,26 +49,18 @@ describe('AccountAccessManagementComponent', () => {
   let infoService: InfoService;
   let router: Router;
   let route: ActivatedRoute;
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          HttpClientTestingModule,
-          NgbTypeaheadModule,
-          InfoModule,
-          FormsModule,
-        ],
-        declarations: [AccountAccessManagementComponent],
-        providers: [
-          AccountService,
-          InfoService,
-          { provide: Router, useValue: mockRouter },
-          { provide: ActivatedRoute, useValue: mockActivatedRoute },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, HttpClientTestingModule, NgbTypeaheadModule, InfoModule, FormsModule],
+      declarations: [AccountAccessManagementComponent],
+      providers: [
+        AccountService,
+        InfoService,
+        { provide: Router, useValue: mockRouter },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AccountAccessManagementComponent);
@@ -113,18 +100,12 @@ describe('AccountAccessManagementComponent', () => {
     component.accountAccessForm.get('id').setValue('12345');
     component.accountAccessForm.get('scaWeight').setValue(20);
     component.accountAccessForm.get('accessType').setValue('READ');
-    let getAccountSpy = spyOn(
-      accountService,
-      'updateAccountAccessForUser'
-    ).and.returnValue(of(undefined));
+    let getAccountSpy = spyOn(accountService, 'updateAccountAccessForUser').and.returnValue(of(undefined));
     let infoSpy = spyOn(infoService, 'openFeedback');
     component.onSubmit();
     expect(component.accountAccessForm.invalid).toBeFalsy();
     expect(getAccountSpy).toHaveBeenCalled();
-    expect(infoSpy).toHaveBeenCalledWith(
-      'Access to account ' + mockAccount.iban + ' successfully granted',
-      { duration: 3000 }
-    );
+    expect(infoSpy).toHaveBeenCalledWith('Access to account ' + mockAccount.iban + ' successfully granted', { duration: 3000 });
   });
 
   it('submitted should false', () => {

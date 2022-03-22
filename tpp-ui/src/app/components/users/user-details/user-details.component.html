@@ -28,9 +28,7 @@
       <div class="row" *ngIf="admin">
         <div class="col-12 col-md-3">TPP</div>
         <div class="col-12 col-md-9 text-muted">
-          <a [routerLink]="[createLastVisitedPageLink(user.branch, user.id)]">{{
-            user.branch
-          }}</a>
+          <a [routerLink]="[createLastVisitedPageLink(user.branch, user.id)]">{{ user.branch }}</a>
         </div>
       </div>
       <div class="row">
@@ -45,33 +43,32 @@
         <div class="col-12 col-md-3">Accounts</div>
         <div class="col-12 col-md-9 text-muted">
           <div *ngFor="let accountAccess of user?.accountAccesses">
-            <a
-              href="javascript:void(0);"
-              class="iban"
-              (click)="handleClickOnIBAN(accountAccess.accountId)"
-            >
+            <a href="javascript:void(0);" class="link" (click)="handleClickOnIBAN(accountAccess.accountId)">
               {{ accountAccess.iban }}
             </a>
             {{ accountAccess.currency }}
           </div>
         </div>
       </div>
+      <div *ngIf="piisConsents?.length != 0" class="row">
+        <div class="col-12 col-md-3">List of valid ASPSP funds confirmation consents</div>
+        <div class="col-12 col-md-9 text-muted">
+          <div *ngFor="let piisConsent of piisConsents">
+            {{ piisConsent.validUntil | date: 'dd.MM.yyyy' }} <br />
+            <a class="link" (click)="handleClickOnPiisConsent(piisConsent.consentId)">{{ piisConsent.access.iban }}</a>
+            {{ piisConsent.access.currency }}
+            <br />
+          </div>
+        </div>
+      </div>
       <div class="row">
         <div class="col-12 col-md-12">Authentication:</div>
       </div>
-      <div
-        class="row"
-        *ngFor="let scaItem of user?.scaUserData; index as i; last as isLast"
-        [ngClass]="{ 'mb-2': !isLast }"
-      >
+      <div class="row" *ngFor="let scaItem of user?.scaUserData; index as i; last as isLast" [ngClass]="{ 'mb-2': !isLast }">
         <div class="col-12 col-md-9 text-muted">
           {{ scaItem.methodValue }}
-          <div *ngIf="scaItem.scaMethod">
-            Sca Method: {{ scaItem.scaMethod }}
-          </div>
-          <div *ngIf="scaItem.usesStaticTan">
-            Static TAN: {{ scaItem.staticTan }}
-          </div>
+          <div *ngIf="scaItem.scaMethod">Sca Method: {{ scaItem.scaMethod }}</div>
+          <div *ngIf="scaItem.usesStaticTan">Static TAN: {{ scaItem.staticTan }}</div>
           <div *ngIf="scaItem.scaMethod === 'EMAIL' && scaItem.methodValue">
             <span
               [ngClass]="{
@@ -93,14 +90,9 @@
           </button>
         </div>
       </div>
-      <div class="form-group d-flex flex-row justify-content-lg-between">
-        <button
-          routerLink="/users/{{ user.id }}/update-user-details"
-          class="btn btn-primary"
-          type="submit"
-        >
-          Edit
-        </button>
+      <div class="form-group d-flex flex-row">
+        <button routerLink="/users/{{ user.id }}/update-user-details" class="btn btn-primary mr-2" type="submit">Edit</button>
+        <button routerLink="/users/{{ user.id }}/update-create-funds" class="btn btn-primary">Create funds confirmation consent</button>
       </div>
     </div>
   </div>

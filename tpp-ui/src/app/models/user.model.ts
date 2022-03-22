@@ -30,6 +30,26 @@ export class User {
   userRoles?: Array<string>;
   blocked?: string;
   branchLogin?: string;
+  piisConsent?: PiisConsent[];
+}
+
+export class PiisConsent {
+  consentId: string;
+  access: AccountAccess;
+  tppAuthorisationNumber: string;
+  validUntil: Date;
+  consentStatus: ConsentStatus;
+}
+
+export enum ConsentStatus {
+  RECEIVED = 'TERMINATED_BY_ASPSP',
+  REJECTED = 'REJECTED',
+  VALID = 'VALID',
+  REVOKED_BY_PSU = 'REVOKED_BY_PSU',
+  EXPIRED = 'EXPIRED',
+  TERMINATED_BY_TPP = 'TERMINATED_BY_TPP',
+  TERMINATED_BY_ASPSP = 'TERMINATED_BY_ASPSP',
+  PARTIALLY_AUTHORISED = 'PARTIALLY_AUTHORISED',
 }
 
 export interface UserResponse {

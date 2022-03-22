@@ -35,23 +35,21 @@ describe('UsersComponent', () => {
   let fixture: ComponentFixture<UsersComponent>;
   let usersService: UserService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          FormsModule,
-          FilterPipeModule,
-          RouterTestingModule,
-          HttpClientTestingModule,
-          NgbPaginationModule,
-          NgbPaginationModule,
-        ],
-        declarations: [UsersComponent, PaginationContainerComponent],
-        providers: [UserService],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        FormsModule,
+        FilterPipeModule,
+        RouterTestingModule,
+        HttpClientTestingModule,
+        NgbPaginationModule,
+        NgbPaginationModule,
+      ],
+      declarations: [UsersComponent, PaginationContainerComponent],
+      providers: [UserService],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UsersComponent);
@@ -79,9 +77,7 @@ describe('UsersComponent', () => {
       },
     ];
 
-    const getUsersSpy = spyOn(usersService, 'listUsers').and.returnValue(
-      of({ users: mockUsers, totalElements: mockUsers.length })
-    );
+    const getUsersSpy = spyOn(usersService, 'listUsers').and.returnValue(of({ users: mockUsers, totalElements: mockUsers.length }));
 
     component.ngOnInit();
 
@@ -102,9 +98,7 @@ describe('UsersComponent', () => {
         branchLogin: 'branchLogin',
       },
     ];
-    const getUsersSpy = spyOn(usersService, 'listUsers').and.returnValue(
-      of({ users: mockUsers, totalElements: mockUsers.length })
-    );
+    const getUsersSpy = spyOn(usersService, 'listUsers').and.returnValue(of({ users: mockUsers, totalElements: mockUsers.length }));
 
     component.listUsers(5, 10, {});
 

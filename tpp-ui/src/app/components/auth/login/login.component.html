@@ -20,13 +20,9 @@
   <div class="col-2"></div>
   <div class="col-3 bg-white pt-5">
     <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
-      <a class="navbar-brand" href="#">
-        <img class="logo" [src]="customizeService.getLogo()" /> </a
-      ><br />
+      <a class="navbar-brand" href="#"> <img class="logo" [src]="customizeService.getLogo()" /> </a><br />
       <h2 class="card-title font-weight-bold">
-        <p *ngIf="!customizeService.isCustom()">
-          Welcome to <br />adorsys TPP UI
-        </p>
+        <p *ngIf="!customizeService.isCustom()">Welcome to <br />adorsys TPP UI</p>
       </h2>
 
       <p class="card-text">Please log in with your bank account user name</p>
@@ -35,13 +31,10 @@
       </div>
       <div class="mrb-3 mrt">
         <div class="form-group">
-          <label class="p-2" for="login" *ngIf="!customizeService.isCustom()"
-            >Username</label
-          >
+          <label class="p-2" for="login" *ngIf="!customizeService.isCustom()">Username</label>
           <input
             [ngClass]="{
-              'is-invalid':
-                loginForm.get('login')?.errors && loginForm.get('login')?.dirty
+              'is-invalid': loginForm.get('login')?.errors && loginForm.get('login')?.dirty
             }"
             autocomplete="off"
             class="form-control"
@@ -50,25 +43,16 @@
             placeholder="Enter your login"
             type="text"
           />
-          <div
-            *ngIf="
-              loginForm.get('login')?.errors?.required &&
-              loginForm.get('login')?.dirty
-            "
-            class="invalid-feedback"
-          >
+          <div *ngIf="loginForm.get('login')?.errors?.required && loginForm.get('login')?.dirty" class="invalid-feedback">
             Login is Required
           </div>
         </div>
 
         <div class="form-group">
-          <label class="p-2" for="pin" *ngIf="!customizeService.isCustom()"
-            >Password</label
-          >
+          <label class="p-2" for="pin" *ngIf="!customizeService.isCustom()">Password</label>
           <input
             [ngClass]="{
-              'is-invalid':
-                loginForm.get('pin')?.errors && loginForm.get('pin')?.dirty
+              'is-invalid': loginForm.get('pin')?.errors && loginForm.get('pin')?.dirty
             }"
             autocomplete="new-password"
             class="form-control"
@@ -77,33 +61,14 @@
             placeholder="Enter your pin"
             type="password"
           />
-          <div
-            *ngIf="
-              loginForm.get('pin')?.errors?.required &&
-              loginForm.get('pin')?.dirty
-            "
-            class="invalid-feedback"
-          >
-            Pin is Required
-          </div>
+          <div *ngIf="loginForm.get('pin')?.errors?.required && loginForm.get('pin')?.dirty" class="invalid-feedback">Pin is Required</div>
           <div>
-            <a routerLink="/reset-password" class="link-color"
-              ><small>Forgot PIN?</small></a
-            >
+            <a routerLink="/reset-password" class="link-color"><small>Forgot PIN?</small></a>
           </div>
         </div>
       </div>
-      <button
-        class="btn btn-primary btn-block mb-3"
-        type="submit"
-        [disabled]="loginForm.invalid"
-      >
-        Login
-      </button>
-      <div
-        class="text-center text-light-green"
-        *ngIf="customizeService.showRegister()"
-      >
+      <button class="btn btn-primary btn-block mb-3" type="submit" [disabled]="loginForm.invalid">Login</button>
+      <div class="text-center text-light-green" *ngIf="customizeService.showRegister()">
         <a routerLink="/register">Create new account</a>
       </div>
     </form>
@@ -116,16 +81,10 @@
   </div>
   <div class="col-1"></div>
   <div class="col bg-light d-flex flex-column">
-    <img
-      src="../../../../assets/UI/dots-left.svg"
-      class="image-fluid w-50 h-25 align-self-start flip-vertical"
-    /><img
+    <img src="../../../../assets/UI/dots-left.svg" class="image-fluid w-50 h-25 align-self-start flip-vertical" /><img
       src="../../../../assets/UI/modelbank-illustration.svg"
       class="image-fluid h-50 w-50 align-self-center"
     />
-    <img
-      src="../../../../assets/UI/dots-right.svg"
-      class="image-fluid h-25 w-50 align-self-end"
-    />
+    <img src="../../../../assets/UI/dots-right.svg" class="image-fluid h-25 w-50 align-self-end" />
   </div>
 </div>

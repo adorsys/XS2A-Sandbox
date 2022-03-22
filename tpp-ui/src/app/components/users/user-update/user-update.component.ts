@@ -37,8 +37,7 @@ import { SettingsService } from '../../../services/settings.service';
   styleUrls: ['./user-update.component.scss'],
 })
 export class UserUpdateComponent implements OnInit {
-  public url =
-    `${this.settingsService.settings.tppBackendBasePath}` + '/tpp/push/tan';
+  public url = `${this.settingsService.settings.tppBackendBasePath}` + '/tpp/push/tan';
   admin: string;
   tppId: string;
   user: User;
@@ -87,9 +86,7 @@ export class UserUpdateComponent implements OnInit {
   }
 
   getUserById() {
-    this.userService
-      .getUser(this.userId)
-      .subscribe((user: User) => (this.user = user));
+    this.userService.getUser(this.userId).subscribe((user: User) => (this.user = user));
   }
 
   setupUserFormControl(): void {
@@ -124,9 +121,7 @@ export class UserUpdateComponent implements OnInit {
         .updateUserDetails(updatedUser, this.tppId)
         .subscribe(() => this.router.navigate(['/users/' + `${this.userId}`]));
     } else if (this.admin === 'false') {
-      this.userService
-        .updateUserDetails(updatedUser)
-        .subscribe(() => this.router.navigate(['/users/' + `${this.userId}`]));
+      this.userService.updateUserDetails(updatedUser).subscribe(() => this.router.navigate(['/users/' + `${this.userId}`]));
     }
   }
 
@@ -150,24 +145,17 @@ export class UserUpdateComponent implements OnInit {
       pushMethod: [''],
     });
 
-    scaData
-      .get('usesStaticTan')
-      .valueChanges.subscribe((bool: boolean = true) => {
-        if (bool) {
-          scaData
-            .get('staticTan')
-            .setValidators([
-              Validators.required,
-              Validators.pattern(new RegExp(/\d{6}/)),
-            ]);
-          scaData.get('staticTan').enable();
-        } else {
-          scaData.get('staticTan').clearValidators();
-          scaData.get('staticTan').disable();
-          scaData.get('staticTan').setValue('');
-        }
-        scaData.get('staticTan').updateValueAndValidity();
-      });
+    scaData.get('usesStaticTan').valueChanges.subscribe((bool: boolean = true) => {
+      if (bool) {
+        scaData.get('staticTan').setValidators([Validators.required, Validators.pattern(new RegExp(/\d{6}/))]);
+        scaData.get('staticTan').enable();
+      } else {
+        scaData.get('staticTan').clearValidators();
+        scaData.get('staticTan').disable();
+        scaData.get('staticTan').setValue('');
+      }
+      scaData.get('staticTan').updateValueAndValidity();
+    });
 
     scaData.get('scaMethod').valueChanges.subscribe((value) => {
       if (value === ScaMethods.SMTP_OTP) {
@@ -175,12 +163,7 @@ export class UserUpdateComponent implements OnInit {
       } else if (value === ScaMethods.MOBILE) {
         scaData
           .get('methodValue')
-          .setValidators([
-            Validators.required,
-            Validators.pattern(
-              new RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/)
-            ),
-          ]);
+          .setValidators([Validators.required, Validators.pattern(new RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/))]);
       } else if (value === ScaMethods.PUSH_OTP) {
         scaData.get('methodValue').clearValidators();
       } else {
@@ -256,12 +239,9 @@ export class UserUpdateComponent implements OnInit {
 
   resetPasswordViaEmail(login: string) {
     this.tppUserService.resetPasswordViaEmail(login).subscribe(() => {
-      this.infoService.openFeedback(
-        'Link for password reset was sent, check email.',
-        {
-          severity: 'info',
-        }
-      );
+      this.infoService.openFeedback('Link for password reset was sent, check email.', {
+        severity: 'info',
+      });
     });
   }
 }

@@ -27,12 +27,7 @@
               <img src="./assets/icons/search.svg" />
             </span>
             <div>
-              <input
-                class="form-control w-100"
-                placeholder="Search by IBAN"
-                formControlName="ibanParam"
-                type="text"
-              />
+              <input class="form-control w-100" placeholder="Search by IBAN" formControlName="ibanParam" type="text" />
             </div>
           </div>
         </div>
@@ -45,10 +40,7 @@
         <div class="container-fluid" [ngClass]="{ 'configs-container': admin }">
           <div class="row d-flex justify-content-between configs fixed-width">
             <div class="paginator">
-              <app-pagination-container
-                [paginationConfig]="config"
-                (pageDataConfig)="pageChange($event)"
-              ></app-pagination-container>
+              <app-pagination-container [paginationConfig]="config" (pageDataConfig)="pageChange($event)"></app-pagination-container>
             </div>
 
             <div *ngIf="admin" class="tpp-filters">
@@ -57,28 +49,15 @@
                   <div class="mr-2" *ngIf="admin === 'true'">
                     <label for="country">TPP ID:</label>
                     <div class="filter">
-                      <input
-                        class="form-control"
-                        placeholder="Search by TPP ID..."
-                        formControlName="tppId"
-                        type="text"
-                      />
+                      <input class="form-control" placeholder="Search by TPP ID..." formControlName="tppId" type="text" />
                     </div>
                   </div>
                   <div class="select" *ngIf="admin === 'true'">
                     <label for="country">Country:</label>
                     <div class="select-filter">
-                      <select
-                        name="country"
-                        class="form-control"
-                        formControlName="country"
-                        id="country"
-                      >
+                      <select name="country" class="form-control" formControlName="country" id="country">
                         <option id="emptySelect" [ngValue]="" selected></option>
-                        <option
-                          *ngFor="let country of countries"
-                          [ngValue]="country.code"
-                        >
+                        <option *ngFor="let country of countries" [ngValue]="country.code">
                           {{ country.name }}
                         </option>
                       </select>
@@ -86,10 +65,7 @@
                   </div>
                 </div>
 
-                <div
-                  class="row d-flex justify-content-end"
-                  *ngIf="admin === 'true'"
-                >
+                <div class="row d-flex justify-content-end" *ngIf="admin === 'true'">
                   <button
                     class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
                     (click)="setBlocked(false)"
@@ -136,17 +112,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr
-              *ngFor="let account of accounts; index as i"
-              [ngClass]="{ 'disabled-text': account.blocked }"
-            >
-              <th
-                scope="row"
-                [routerLink]="[createAccountDetailsLink(account.id)]"
-              >
-                {{
-                  (config.currentPageNumber - 1) * config.itemsPerPage + i + 1
-                }}
+            <tr *ngFor="let account of accounts; index as i" [ngClass]="{ 'disabled-text': account.blocked }">
+              <th scope="row" [routerLink]="[createAccountDetailsLink(account.id)]">
+                {{ (config.currentPageNumber - 1) * config.itemsPerPage + i + 1 }}
               </th>
               <td
                 [routerLink]="[createAccountDetailsLink(account.id)]"
@@ -165,11 +133,7 @@
                   tppId: account.branch
                 }"
               >
-                {{
-                  account.balances?.length >= 0
-                    ? account.balances[0].amount?.amount
-                    : ''
-                }}
+                {{ account.balances?.length >= 0 ? account.balances[0].amount?.amount : '' }}
               </td>
 
               <td
@@ -214,21 +178,11 @@
 
                 <button
                   mat-fab
-                  [matTooltip]="
-                    !account.blocked
-                      ? 'Block the account'
-                      : 'Unblock the account'
-                  "
+                  [matTooltip]="!account.blocked ? 'Block the account' : 'Unblock the account'"
                   [matTooltipPosition]="position.value"
                   aria-label="Block the account"
                   class="btn btn-table-btn mr-2"
-                  (click)="
-                    openConfirmation(
-                      blockConfirmation,
-                      account.id,
-                      account.blocked ? 'block' : 'unblock'
-                    )
-                  "
+                  (click)="openConfirmation(blockConfirmation, account.id, account.blocked ? 'block' : 'unblock')"
                 >
                   <mat-icon *ngIf="!account.blocked">lock</mat-icon>
                   <mat-icon *ngIf="account.blocked">lock_open</mat-icon>
@@ -236,51 +190,23 @@
 
                 <ng-template #deleteConfirmationModal let-modal>
                   <div class="modal-header">
-                    <h4 class="modal-title" id="modal-basic-title">
-                      TPP deletion
-                    </h4>
-                    <button
-                      type="button"
-                      class="close"
-                      aria-label="Close"
-                      (click)="modal.dismiss('Cross click')"
-                    >
+                    <h4 class="modal-title" id="modal-basic-title">TPP deletion</h4>
+                    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
-                  <div class="modal-body">
-                    Are you sure you want to delete this Account?
-                  </div>
+                  <div class="modal-body">Are you sure you want to delete this Account?</div>
                   <div class="modal-footer">
-                    <button
-                      mat-raised-button
-                      type="button"
-                      class="btn btn-outline-secondary mr-2"
-                      (click)="modal.dismiss('cancel click')"
-                    >
+                    <button mat-raised-button type="button" class="btn btn-outline-secondary mr-2" (click)="modal.dismiss('cancel click')">
                       Cancel
                     </button>
-                    <button
-                      mat-raised-button
-                      type="button"
-                      class="btn btn-danger"
-                      (click)="modal.close('Ok click')"
-                    >
-                      Delete
-                    </button>
+                    <button mat-raised-button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Delete</button>
                   </div>
                 </ng-template>
                 <ng-template #blockConfirmation let-modal>
                   <div class="modal-header">
-                    <h4 class="modal-title" id="modal-basic-title-1">
-                      Account {{ account.blocked ? 'unblocking' : 'blocking' }}
-                    </h4>
-                    <button
-                      type="button"
-                      class="close"
-                      aria-label="Close"
-                      (click)="modal.dismiss('Cross click')"
-                    >
+                    <h4 class="modal-title" id="modal-basic-title-1">Account {{ account.blocked ? 'unblocking' : 'blocking' }}</h4>
+                    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
@@ -289,20 +215,10 @@
                     {{ account.blocked ? 'Unblock' : 'Block' }} this Account?
                   </div>
                   <div class="modal-footer">
-                    <button
-                      mat-raised-button
-                      type="button"
-                      class="btn btn-outline-secondary mr-2"
-                      (click)="modal.dismiss('cancel click')"
-                    >
+                    <button mat-raised-button type="button" class="btn btn-outline-secondary mr-2" (click)="modal.dismiss('cancel click')">
                       Cancel
                     </button>
-                    <button
-                      mat-raised-button
-                      type="button"
-                      class="btn btn-danger"
-                      (click)="modal.close('Ok click')"
-                    >
+                    <button mat-raised-button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">
                       {{ account.blocked ? 'Unblock' : 'Block' }}
                     </button>
                   </div>
@@ -313,13 +229,7 @@
                   [matTooltipPosition]="position.value"
                   aria-label="Delete the account"
                   class="btn btn-outline-danger mr-2"
-                  (click)="
-                    openConfirmation(
-                      deleteConfirmationModal,
-                      account.id,
-                      'delete'
-                    )
-                  "
+                  (click)="openConfirmation(deleteConfirmationModal, account.id, 'delete')"
                 >
                   <mat-icon>delete</mat-icon>
                 </button>
@@ -330,10 +240,7 @@
 
         <div class="container-fluid">
           <div class="row d-flex justify-content-start">
-            <app-pagination-container
-              [paginationConfig]="config"
-              (pageDataConfig)="pageChange($event)"
-            ></app-pagination-container>
+            <app-pagination-container [paginationConfig]="config" (pageDataConfig)="pageChange($event)"></app-pagination-container>
           </div>
         </div>
       </div>

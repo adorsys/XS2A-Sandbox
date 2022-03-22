@@ -36,6 +36,7 @@ import de.adorsys.psd2.consent.aspsp.api.piis.CreatePiisConsentResponse;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.AccountAccess;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.PiisConsent;
 import de.adorsys.psd2.sandbox.tpp.rest.server.mapper.TppPiisConsentMapper;
+import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
 import de.adorsys.psd2.xs2a.core.profile.AccountReference;
 import org.adorsys.ledgers.consent.aspsp.rest.client.CmsAspspPiisClient;
 import org.junit.jupiter.api.Test;
@@ -52,7 +53,8 @@ import java.util.HashSet;
 import java.util.List;
 
 import static de.adorsys.psd2.consent.psu.api.config.CmsPsuApiDefaultValue.DEFAULT_SERVICE_INSTANCE_ID;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -154,6 +156,7 @@ class PiisConsentServiceTest {
         piisConsent.setAccount(new AccountReference());
         piisConsent.setTppAuthorisationNumber(TPP_AUTHORISATION_NUMBER);
         piisConsent.setExpireDate(LocalDate.now().plusMonths(1));
+        piisConsent.setConsentStatus(ConsentStatus.VALID);
 
         return piisConsent;
     }

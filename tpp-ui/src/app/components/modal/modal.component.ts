@@ -22,10 +22,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { ResetLedgersService } from '../../services/reset-ledgers.service';
 import { InfoService } from '../../commons/info/info.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import {
-  AddRecoveryPoint,
-  GetRecoveryPoint,
-} from '../actions/revertpoints.action';
+import { AddRecoveryPoint, GetRecoveryPoint } from '../actions/revertpoints.action';
 import { Select, Store } from '@ngxs/store';
 import { RecoveryPointState } from '../../state/recoverypoints.state';
 import { Observable } from 'rxjs';
@@ -73,9 +70,7 @@ export class ModalComponent implements OnInit {
       rollBackTime: '',
       branchId: '',
     };
-    this.store
-      .dispatch(new AddRecoveryPoint(createRecoveryPoint))
-      .subscribe(() => this.getRecoveryPoints());
+    this.store.dispatch(new AddRecoveryPoint(createRecoveryPoint)).subscribe(() => this.getRecoveryPoints());
     this.infoService.openFeedback('State successfully created');
     this.close();
   }

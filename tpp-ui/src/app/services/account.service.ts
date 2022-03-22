@@ -35,15 +35,9 @@ export class AccountService {
 
   constructor(private http: HttpClient) {}
 
-  getAccounts(
-    page: number = 0,
-    size: number = 25,
-    queryParam: string = ''
-  ): Observable<{ accounts: Account[]; totalElements: number }> {
+  getAccounts(page: number = 0, size: number = 25, queryParam: string = ''): Observable<{ accounts: Account[]; totalElements: number }> {
     return this.http
-      .get<PaginationResponse<Account[]>>(
-        `${this.url}/accounts/page?page=${page}&size=${size}&queryParam=${queryParam}&withBalance=true`
-      )
+      .get<PaginationResponse<Account[]>>(`${this.url}/accounts/page?page=${page}&size=${size}&queryParam=${queryParam}&withBalance=true`)
       .pipe(
         map((resp) => {
           return {
@@ -69,10 +63,7 @@ export class AccountService {
   }
 
   depositCash(accountId: string, amount: Amount) {
-    return this.http.post(
-      this.url + '/accounts/' + accountId + '/deposit-cash',
-      amount
-    );
+    return this.http.post(this.url + '/accounts/' + accountId + '/deposit-cash', amount);
   }
 
   updateAccountAccessForUser(accountAccess: GrantAccountAccess) {
@@ -84,10 +75,7 @@ export class AccountService {
   }
 
   blockAccount(accountId: string) {
-    return this.http.post(
-      this.url + `/accounts/status?accountId=${accountId}`,
-      accountId
-    );
+    return this.http.post(this.url + `/accounts/status?accountId=${accountId}`, accountId);
   }
 
   deleteAccount(accountId: string) {

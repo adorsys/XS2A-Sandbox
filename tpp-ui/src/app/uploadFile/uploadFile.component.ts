@@ -32,10 +32,7 @@ export class UploadFileComponent implements OnInit {
   private url = `${environment.tppBackend}`;
   private message = 'Test data has been successfully generated.';
 
-  constructor(
-    private generationService: TestDataGenerationService,
-    private infoService: InfoService
-  ) {}
+  constructor(private generationService: TestDataGenerationService, private infoService: InfoService) {}
 
   public ngOnInit(): void {
     this.uploadDataConfigs = [
@@ -64,16 +61,14 @@ export class UploadFileComponent implements OnInit {
   }
 
   generateFileExample(uploadDataConfig) {
-    return this.generationService
-      .generateExampleTestData(uploadDataConfig.exampleFileUrl)
-      .subscribe((data) => {
-        this.infoService.openFeedback(this.message);
-        const blob = new Blob([data], { type: 'plain/text' });
-        let link = document.createElement('a');
-        link.setAttribute('href', window.URL.createObjectURL(blob));
-        link.setAttribute('download', uploadDataConfig.exampleFileName);
-        document.body.appendChild(link);
-        link.click();
-      });
+    return this.generationService.generateExampleTestData(uploadDataConfig.exampleFileUrl).subscribe((data) => {
+      this.infoService.openFeedback(this.message);
+      const blob = new Blob([data], { type: 'plain/text' });
+      let link = document.createElement('a');
+      link.setAttribute('href', window.URL.createObjectURL(blob));
+      link.setAttribute('download', uploadDataConfig.exampleFileName);
+      document.body.appendChild(link);
+      link.click();
+    });
   }
 }

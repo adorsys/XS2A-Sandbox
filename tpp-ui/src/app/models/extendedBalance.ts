@@ -33,15 +33,11 @@ export class ExtendedBalance {
 
       this.isCreditEnabled = details.creditLimit > 0;
       this.limit = `${limit} ${currency}`;
-      this.balance = `${
-        this.isCreditEnabled ? balance + limit : balance
-      } ${currency}`;
+      this.balance = `${this.isCreditEnabled ? balance + limit : balance} ${currency}`;
 
       if (this.isCreditEnabled) {
         this.personal = `${balance < 0 ? 0 : balance} ${currency}`;
-        this.creditLeft = `${
-          balance < 0 ? limit + balance : limit
-        } ${currency}`;
+        this.creditLeft = `${balance < 0 ? limit + balance : limit} ${currency}`;
       }
     }
   }

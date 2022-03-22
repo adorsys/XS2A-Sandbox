@@ -18,10 +18,7 @@
 
 import { HttpClientModule } from '@angular/common/http';
 import { TestBed, inject } from '@angular/core/testing';
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TppUserService } from './tpp.user.service';
 import { environment } from '../../environments/environment';
 import { User } from '../models/user.model';

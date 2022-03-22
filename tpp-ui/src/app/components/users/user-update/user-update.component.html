@@ -29,12 +29,7 @@
         </ng-template>
       </div>
     </div>
-    <form
-      novalidate
-      [formGroup]="updateUserForm"
-      (ngSubmit)="onSubmit()"
-      autocomplete="off"
-    >
+    <form novalidate [formGroup]="updateUserForm" (ngSubmit)="onSubmit()" autocomplete="off">
       <div class="card-body pb-0">
         <h5>Update user Information</h5>
       </div>
@@ -45,9 +40,7 @@
               <label class="control-label" for="email">Email</label>
               <input
                 [ngClass]="{
-                  'is-invalid':
-                    (formControl['email'].touched || submitted) &&
-                    formControl['email'].errors
+                  'is-invalid': (formControl['email'].touched || submitted) && formControl['email'].errors
                 }"
                 aria-describedby="emailHelp"
                 autocomplete="off"
@@ -58,21 +51,12 @@
                 type="email"
               />
               <div
-                *ngIf="
-                  (formControl['email'].touched || submitted) &&
-                  formControl['email'].hasError('required')
-                "
+                *ngIf="(formControl['email'].touched || submitted) && formControl['email'].hasError('required')"
                 class="invalid-feedback"
               >
                 Email is required
               </div>
-              <div
-                *ngIf="
-                  (formControl['email'].touched || submitted) &&
-                  formControl['email'].hasError('email')
-                "
-                class="invalid-feedback"
-              >
+              <div *ngIf="(formControl['email'].touched || submitted) && formControl['email'].hasError('email')" class="invalid-feedback">
                 Email is invalid
               </div>
             </div>
@@ -82,9 +66,7 @@
                   <label class="control-label" for="login">Login</label>
                   <input
                     [ngClass]="{
-                      'is-invalid':
-                        (formControl['login'].touched || submitted) &&
-                        formControl['login'].errors
+                      'is-invalid': (formControl['login'].touched || submitted) && formControl['login'].errors
                     }"
                     aria-describedby="emailHelp"
                     autocomplete="off"
@@ -95,10 +77,7 @@
                     type="text"
                   />
                   <div
-                    *ngIf="
-                      (formControl['login'].touched || submitted) &&
-                      formControl['login'].hasError('required')
-                    "
+                    *ngIf="(formControl['login'].touched || submitted) && formControl['login'].hasError('required')"
                     class="invalid-feedback"
                   >
                     Login is required
@@ -106,11 +85,7 @@
                 </div>
               </div>
               <div class="row">
-                <button
-                  class="btn btn-primary mr-4 ml-3"
-                  (click)="resetPasswordViaEmail(user.login)"
-                  type="button"
-                >
+                <button class="btn btn-primary mr-4 ml-3" (click)="resetPasswordViaEmail(user.login)" type="button">
                   Send password update link
                 </button>
               </div>
@@ -124,11 +99,7 @@
             <h2 class="d-inline">Update authentication Information</h2>
             <div class="">
               <div class="d-flex">
-                <button
-                  mat-raised-button
-                  (click)="addScaDataItem()"
-                  class="btn btn-primary"
-                >
+                <button mat-raised-button (click)="addScaDataItem()" class="btn btn-primary">
                   <mat-icon>add_circle_outline</mat-icon> Add SCA method
                 </button>
               </div>
@@ -137,13 +108,7 @@
         </div>
         <div class="border-bottom">
           <div class="card-body">
-            <div
-              *ngFor="
-                let scaDataItem of formControl['scaUserData']['controls'];
-                let i = index
-              "
-              class="box mb-4"
-            >
+            <div *ngFor="let scaDataItem of formControl['scaUserData']['controls']; let i = index" class="box mb-4">
               <button
                 (click)="removeScaDataItem(i)"
                 *ngIf="updateUserForm.controls['scaUserData'].length"
@@ -156,34 +121,22 @@
               <div class="row">
                 <div class="col-12 col-md-8">
                   <div [formGroupName]="i" class="form-group">
-                    <label class="control-label" for="scaData{{ i }}"
-                      >Method Value</label
-                    >
+                    <label class="control-label" for="scaData{{ i }}">Method Value</label>
                     <div class="custom-row">
                       <select
                         formControlName="pushMethod"
                         class="form-control push-select"
-                        *ngIf="
-                          scaDataItem.get('scaMethod').value === 'PUSH_OTP'
-                        "
+                        *ngIf="scaDataItem.get('scaMethod').value === 'PUSH_OTP'"
                       >
-                        <option
-                          *ngFor="let httpMethod of httpMethods"
-                          [selected]="
-                            httpMethod == scaDataItem.get('pushMethod').value
-                          "
-                        >
+                        <option *ngFor="let httpMethod of httpMethods" [selected]="httpMethod == scaDataItem.get('pushMethod').value">
                           {{ httpMethod }}
                         </option>
                       </select>
                       <input
                         [ngClass]="{
                           'is-invalid':
-                            (scaDataItem.controls['methodValue'].touched ||
-                              submitted) &&
-                            scaDataItem.controls['methodValue'].errors,
-                          'input-method':
-                            scaDataItem.get('scaMethod').value === 'PUSH_OTP'
+                            (scaDataItem.controls['methodValue'].touched || submitted) && scaDataItem.controls['methodValue'].errors,
+                          'input-method': scaDataItem.get('scaMethod').value === 'PUSH_OTP'
                         }"
                         aria-describedby="scaDataHelp"
                         class="form-control"
@@ -197,18 +150,10 @@
                         type="text"
                       />
                     </div>
-                    <div
-                      *ngIf="scaDataItem.get('methodValue')?.errors?.required"
-                      class="invalid-feedback"
-                    >
+                    <div *ngIf="scaDataItem.get('methodValue')?.errors?.required" class="invalid-feedback">
                       The value of the method is required
                     </div>
-                    <div
-                      *ngIf="
-                        scaDataItem.get('methodValue')?.hasError('pattern')
-                      "
-                      class="invalid-feedback"
-                    >
+                    <div *ngIf="scaDataItem.get('methodValue')?.hasError('pattern')" class="invalid-feedback">
                       The method value has an incorrect format
                     </div>
                   </div>
@@ -217,12 +162,7 @@
                   <label class="control-label">SCA Method</label>
                   <div [formGroupName]="i">
                     <select formControlName="scaMethod" class="form-control">
-                      <option
-                        *ngFor="let method of methods"
-                        [selected]="
-                          method == scaDataItem.get('scaMethod').value
-                        "
-                      >
+                      <option *ngFor="let method of methods" [selected]="method == scaDataItem.get('scaMethod').value">
                         {{ method }}
                       </option>
                     </select>
@@ -230,15 +170,10 @@
                 </div>
                 <div class="col-12 col-md-8">
                   <div [formGroupName]="i" class="form-group">
-                    <label class="control-label" for="scaData{{ i }}"
-                      >Static TAN</label
-                    >
+                    <label class="control-label" for="scaData{{ i }}">Static TAN</label>
                     <input
                       [ngClass]="{
-                        'is-invalid':
-                          (scaDataItem.controls['staticTan'].touched ||
-                            submitted) &&
-                          scaDataItem.controls['staticTan'].errors
+                        'is-invalid': (scaDataItem.controls['staticTan'].touched || submitted) && scaDataItem.controls['staticTan'].errors
                       }"
                       aria-describedby="scaDataHelp"
                       class="form-control"
@@ -248,9 +183,7 @@
                     />
                     <div
                       *ngIf="
-                        (scaDataItem.controls['staticTan'].touched ||
-                          submitted) &&
-                        scaDataItem.controls['staticTan'].hasError('required')
+                        (scaDataItem.controls['staticTan'].touched || submitted) && scaDataItem.controls['staticTan'].hasError('required')
                       "
                       class="invalid-feedback"
                     >
@@ -258,9 +191,7 @@
                     </div>
                     <div
                       *ngIf="
-                        (scaDataItem.controls['staticTan'].touched ||
-                          submitted) &&
-                        scaDataItem.controls['staticTan'].hasError('pattern')
+                        (scaDataItem.controls['staticTan'].touched || submitted) && scaDataItem.controls['staticTan'].hasError('pattern')
                       "
                       class="invalid-feedback"
                     >
@@ -279,12 +210,7 @@
                           type="checkbox"
                           value="false"
                         />
-                        <label
-                          class="form-check-label"
-                          for="scaUserDataUsesStaticTan{{ i }}"
-                        >
-                          Use Static TAN in ModelBank
-                        </label>
+                        <label class="form-check-label" for="scaUserDataUsesStaticTan{{ i }}"> Use Static TAN in ModelBank </label>
                       </div>
                     </div>
                   </div>
@@ -295,19 +221,8 @@
         </div>
 
         <div class="form-group2 d-flex flex-row justify-content-lg-between">
-          <button
-            class="btn mr-sm-2 mr-md-3 btn-outline-danger"
-            (click)="onCancel()"
-          >
-            Cancel
-          </button>
-          <button
-            [disabled]="updateUserForm.invalid"
-            class="btn btn-primary"
-            type="submit"
-          >
-            Update
-          </button>
+          <button class="btn mr-sm-2 mr-md-3 btn-outline-danger" (click)="onCancel()">Cancel</button>
+          <button [disabled]="updateUserForm.invalid" class="btn btn-primary" type="submit">Update</button>
         </div>
       </div>
     </form>

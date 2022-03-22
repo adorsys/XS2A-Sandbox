@@ -65,7 +65,7 @@
         <dependency>
             <groupId>de.adorsys.psd2</groupId>
             <artifactId>consent-core-api</artifactId>
-            <version>13.3</version>
+            <version>${xs2a.version}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

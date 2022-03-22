@@ -68,23 +68,21 @@ describe('UserProfileUpdateComponent', () => {
     params: of({ id: '12345' }),
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, HttpClientTestingModule],
-        providers: [
-          TppUserService,
-          AuthService,
-          TppManagementService,
-          NgbModal,
-          { provide: AuthService, useValue: mockAuthUserService },
-          { provide: TppUserService, useValue: mockinfoService },
-          { provide: Router, useValue: mockRouter },
-        ],
-        declarations: [UserProfileUpdateComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, HttpClientTestingModule],
+      providers: [
+        TppUserService,
+        AuthService,
+        TppManagementService,
+        NgbModal,
+        { provide: AuthService, useValue: mockAuthUserService },
+        { provide: TppUserService, useValue: mockinfoService },
+        { provide: Router, useValue: mockRouter },
+      ],
+      declarations: [UserProfileUpdateComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserProfileUpdateComponent);
@@ -119,9 +117,7 @@ describe('UserProfileUpdateComponent', () => {
   });
 
   it('should load the update users info', () => {
-    let infoSpy = spyOn(userInfoService, 'updateUserInfo').and.returnValue(
-      of({ mockUser })
-    );
+    let infoSpy = spyOn(userInfoService, 'updateUserInfo').and.returnValue(of({ mockUser }));
     component.user = mockUser;
     component.userForm.get('email').setValue('dart.vader@dark-side.com');
     component.userForm.get('username').setValue('dart.vader');

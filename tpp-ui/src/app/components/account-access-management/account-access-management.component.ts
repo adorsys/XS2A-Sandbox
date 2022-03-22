@@ -16,13 +16,7 @@
  * contact us at psd2@adorsys.com.
  */
 
-import {
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-  ViewEncapsulation,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Account } from '../../models/account.model';
 import { User } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
@@ -31,12 +25,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from '../../services/account.service';
 import { InfoService } from '../../commons/info/info.service';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  filter,
-  map,
-} from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { ADMIN_KEY } from '../../commons/constant/constant';
 import { TppManagementService } from '../../services/tpp-management.service';
@@ -71,11 +60,9 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
     private location: Location
   ) {
     this.route.params.subscribe((params) => {
-      this.accountService
-        .getAccount(params.id)
-        .subscribe((account: Account) => {
-          this.account = account;
-        });
+      this.accountService.getAccount(params.id).subscribe((account: Account) => {
+        this.account = account;
+      });
     });
   }
 
@@ -93,10 +80,7 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
       iban: [''],
       currency: [''],
       id: ['', Validators.required],
-      scaWeight: [
-        0,
-        [Validators.required, Validators.min(0), Validators.max(100)],
-      ],
+      scaWeight: [0, [Validators.required, Validators.min(0), Validators.max(100)]],
       accessType: ['READ', [Validators.required]],
       accountId: [''],
     });
@@ -124,28 +108,20 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
     this.accountAccessForm.get('accountId').setValue(this.account.id);
     if (this.admin === 'true') {
       this.tppManagementService.getTppById(this.tppId).subscribe((response) => {
-        this.infoService.openFeedback(
-          'Access to account ' + this.account.iban + ' successfully granted',
-          { duration: 3000 }
-        );
+        this.infoService.openFeedback('Access to account ' + this.account.iban + ' successfully granted', { duration: 3000 });
 
         setTimeout(() => {
           this.location.back();
         }, 3000);
       });
     } else if (this.admin === 'false') {
-      this.accountService
-        .updateAccountAccessForUser(this.accountAccessForm.getRawValue())
-        .subscribe((response) => {
-          this.infoService.openFeedback(
-            'Access to account ' + this.account.iban + ' successfully granted',
-            { duration: 3000 }
-          );
+      this.accountService.updateAccountAccessForUser(this.accountAccessForm.getRawValue()).subscribe((response) => {
+        this.infoService.openFeedback('Access to account ' + this.account.iban + ' successfully granted', { duration: 3000 });
 
-          setTimeout(() => {
-            this.location.back();
-          }, 3000);
-        });
+        setTimeout(() => {
+          this.location.back();
+        }, 3000);
+      });
     }
   }
 
@@ -153,25 +129,13 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
   focus$ = new Subject<User[]>();
   click$ = new Subject<User[]>();
 
-  search: (obs: Observable<string>) => Observable<User[]> = (
-    text$: Observable<string>
-  ) => {
-    const debouncedText$ = text$.pipe(
-      debounceTime(200),
-      distinctUntilChanged()
-    );
-    const clicksWithClosedPopup$ = this.click$.pipe(
-      filter(() => !this.instance.isPopupOpen())
-    );
+  search: (obs: Observable<string>) => Observable<User[]> = (text$: Observable<string>) => {
+    const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+    const clicksWithClosedPopup$ = this.click$.pipe(filter(() => !this.instance.isPopupOpen()));
     const inputFocus$ = this.focus$;
     return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
       map((searchText: string) =>
-        searchText === ''
-          ? this.users
-          : this.users.filter(
-              (user) =>
-                user.login.toLowerCase().indexOf(searchText.toLowerCase()) > -1
-            )
+        searchText === '' ? this.users : this.users.filter((user) => user.login.toLowerCase().indexOf(searchText.toLowerCase()) > -1)
       )
     );
   };

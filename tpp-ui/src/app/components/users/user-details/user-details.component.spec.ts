@@ -40,25 +40,13 @@ describe('UserDetailsComponent', () => {
   let router: Router;
   let infoService: InfoService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          RouterTestingModule.withRoutes([]),
-          ReactiveFormsModule,
-          InfoModule,
-          HttpClientTestingModule,
-        ],
-        declarations: [UserDetailsComponent],
-        providers: [
-          UserService,
-          AccountService,
-          EmailVerificationService,
-          InfoService,
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule.withRoutes([]), ReactiveFormsModule, InfoModule, HttpClientTestingModule],
+      declarations: [UserDetailsComponent],
+      providers: [UserService, AccountService, EmailVerificationService, InfoService],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserDetailsComponent);
@@ -86,9 +74,7 @@ describe('UserDetailsComponent', () => {
       accountAccesses: {},
       branchLogin: 'branchLogin',
     } as User;
-    let getUserSpy = spyOn(userService, 'getUser').and.returnValue(
-      of(mockUser)
-    );
+    let getUserSpy = spyOn(userService, 'getUser').and.returnValue(of(mockUser));
     component.getUserById();
     expect(getUserSpy).toHaveBeenCalled();
     expect(component.user).toEqual(mockUser);
@@ -104,15 +90,10 @@ describe('UserDetailsComponent', () => {
       usesStaticTan: false,
       valid: false,
     };
-    const getEmailSpy = spyOn(
-      emailVerificationService,
-      'sendEmailForVerification'
-    ).and.returnValue(of(''));
+    const getEmailSpy = spyOn(emailVerificationService, 'sendEmailForVerification').and.returnValue(of(''));
     const infoServiceOpenFeedbackSpy = spyOn(infoService, 'openFeedback');
     component.confirmEmail(mockUserData);
-    expect(infoServiceOpenFeedbackSpy).toHaveBeenCalledWith(
-      `Confirmation letter has been sent to your email ${mockUserData.methodValue}!`
-    );
+    expect(infoServiceOpenFeedbackSpy).toHaveBeenCalledWith(`Confirmation letter has been sent to your email ${mockUserData.methodValue}!`);
   });
 
   it('should show failure message on unsuccessful confirm email ', () => {
@@ -125,15 +106,10 @@ describe('UserDetailsComponent', () => {
       usesStaticTan: false,
       valid: false,
     };
-    const getEmailSpy = spyOn(
-      emailVerificationService,
-      'sendEmailForVerification'
-    ).and.returnValue(throwError(''));
+    const getEmailSpy = spyOn(emailVerificationService, 'sendEmailForVerification').and.returnValue(throwError(''));
     const infoServiceOpenFeedbackSpy = spyOn(infoService, 'openFeedback');
     component.confirmEmail(mockUserData);
-    expect(infoServiceOpenFeedbackSpy).toHaveBeenCalledWith(
-      `Sorry, something went wrong during the process of sending the confirmation!`
-    );
+    expect(infoServiceOpenFeedbackSpy).toHaveBeenCalledWith(`Sorry, something went wrong during the process of sending the confirmation!`);
   });
 
   it('should load users on NgOnInit', () => {
@@ -147,9 +123,7 @@ describe('UserDetailsComponent', () => {
       accountAccesses: {},
       branchLogin: 'branchLogin',
     } as User;
-    let getUserSpy = spyOn(userService, 'getUser').and.returnValue(
-      of(mockUser)
-    );
+    let getUserSpy = spyOn(userService, 'getUser').and.returnValue(of(mockUser));
 
     component.ngOnInit();
 
@@ -159,9 +133,7 @@ describe('UserDetailsComponent', () => {
 
   it('should handle Click Iban', () => {
     const accountId = 'abc232';
-    let getAccountSpy = spyOn(accountService, 'getAccount').and.returnValue(
-      of({ id: accountId })
-    );
+    let getAccountSpy = spyOn(accountService, 'getAccount').and.returnValue(of({ id: accountId }));
     let navigateSpy = spyOn(router, 'navigate');
     const clickEvent = { target: { innerHTML: 'DE980000000001' } };
     component.handleClickOnIBAN(accountId);

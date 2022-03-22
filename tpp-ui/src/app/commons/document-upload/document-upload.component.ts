@@ -45,16 +45,10 @@ export class DocumentUploadComponent implements OnInit {
 
   hasBaseDropZoneOver: boolean = true;
 
-  constructor(
-    private uploadService: UploadService,
-    private spinner: SpinnerVisibilityService,
-    private infoService: InfoService
-  ) {}
+  constructor(private uploadService: UploadService, private spinner: SpinnerVisibilityService, private infoService: InfoService) {}
 
   public get acceptedMimes(): string {
-    return this.options && this.options.allowedMimeType
-      ? this.options.allowedMimeType.join(',')
-      : null;
+    return this.options && this.options.allowedMimeType ? this.options.allowedMimeType.join(',') : null;
   }
 
   public ngOnInit(): void {
@@ -71,22 +65,12 @@ export class DocumentUploadComponent implements OnInit {
       this.spinner.hide();
     });
 
-    this.uploader.onCompleteItem = (
-      item: FileItem,
-      response: string,
-      status,
-      headers
-    ) => {
-      if (
-        this.options.methodAfterSuccess &&
-        typeof this.options.methodAfterSuccess === 'function'
-      ) {
+    this.uploader.onCompleteItem = (item: FileItem, response: string, status, headers) => {
+      if (this.options.methodAfterSuccess && typeof this.options.methodAfterSuccess === 'function') {
         this.options.methodAfterSuccess(item, response);
       }
       if (status != 200 && status != 201) {
-        this.infoService.openFeedback(
-          'File was not uploaded. Check your file, please!'
-        );
+        this.infoService.openFeedback('File was not uploaded. Check your file, please!');
       } else {
         this.infoService.openFeedback('File successfully uploaded');
       }

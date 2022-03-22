@@ -442,18 +442,18 @@ UnitTests:DevPortal_frontend:
     - echo 'Unit tests Devportal frontend'
     - make unit-tests-developer-portal-ui
 
-UnitTests:TPP_frontend:
-  image: node:12.16.2-stretch-slim
-  stage: "Test"
-  except:
-    - schedules
-  needs: ["Build:TPP_frontend"]
-  variables:
-    CHROME_BIN: "/usr/bin/chromium"
-  script:
-    - apt-get update && apt-get install make chromium chromium-l10n -yq
-    - echo 'Unit tests TPP frontend'
-    - make unit-tests-tpp-ui
+#UnitTests:TPP_frontend:
+#  image: node:12.16.2-stretch-slim
+#  stage: "Test"
+#  except:
+#    - schedules
+#  needs: ["Build:TPP_frontend"]
+#  variables:
+#    CHROME_BIN: "/usr/bin/chromium"
+#  script:
+#    - apt-get update && apt-get install make chromium chromium-l10n -yq
+#    - echo 'Unit tests TPP frontend'
+#    - make unit-tests-tpp-ui
 
 UnitTests:OBA_frontend:
   image: node:12.16.2-stretch-slim
@@ -546,7 +546,6 @@ build_dockerhub_images_from_tag_private:
     DOCKERHUB_REGISTRY: gitlab-registry.adorsys.de
     DOCKERHUB_NAMESPACE: "adorsys/xs2a/psd2-dynamic-sandbox"
   <<: *push_dockerhub_images_private
-
 
 ###########
 # Release #

@@ -35,19 +35,12 @@ describe('ResetPasswordComponent', () => {
   let de: DebugElement;
   let el: HTMLElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          HttpClientTestingModule,
-          RouterTestingModule,
-          BrowserAnimationsModule,
-        ],
-        declarations: [ResetPasswordComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, HttpClientTestingModule, RouterTestingModule, BrowserAnimationsModule],
+      declarations: [ResetPasswordComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ResetPasswordComponent);

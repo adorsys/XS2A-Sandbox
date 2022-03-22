@@ -154,6 +154,8 @@ export class PlayWthDataComponent implements OnInit {
 
   handleConsentSelected(consentType: string) {
     this.body = this.consentTypes[consentType];
+    const element = document.getElementById('consentTypeSelector');
+    element.classList.remove('highlighted');
   }
 
   ngOnInit() {
@@ -426,5 +428,17 @@ export class PlayWthDataComponent implements OnInit {
         }
       }
     }
+  }
+
+  checkIfValueIsHighlighted(item) {
+    if (item.key.toLowerCase() === 'psu-id' || item.key.toLowerCase() === 'consent-id') {
+      return true;
+    }
+    return false;
+  }
+
+  onWrite(item) {
+    const element = document.getElementById(item.key);
+    element.classList.remove('highlighted');
   }
 }

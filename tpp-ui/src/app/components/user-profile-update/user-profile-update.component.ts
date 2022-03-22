@@ -110,10 +110,7 @@ export class UserProfileUpdateComponent implements OnInit, OnDestroy {
 
     let restCall;
     if (this.admin === 'true') {
-      restCall = this.tppManagementService.updateUserDetails(
-        updatedUser,
-        this.tppId
-      );
+      restCall = this.tppManagementService.updateUserDetails(updatedUser, this.tppId);
     } else {
       restCall = this.userInfoService.updateUserInfo(updatedUser);
     }
@@ -121,9 +118,7 @@ export class UserProfileUpdateComponent implements OnInit, OnDestroy {
     restCall.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
       this.getUserDetails();
       this.location.back();
-      this.infoService.openFeedback(
-        'The information has been successfully updated'
-      );
+      this.infoService.openFeedback('The information has been successfully updated');
 
       if (this.currentLogin === this.user.login) {
         this.authService.logout();
@@ -132,17 +127,13 @@ export class UserProfileUpdateComponent implements OnInit, OnDestroy {
   }
 
   private getCurrentUserLogin() {
-    this.userInfoService.currentTppUser
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((user) => {
-        this.currentLogin = user.login;
-      });
+    this.userInfoService.currentTppUser.pipe(takeUntil(this.unsubscribe$)).subscribe((user) => {
+      this.currentLogin = user.login;
+    });
   }
 
   private getUserInfoForAdmin(tppId: string, adminSize?) {
-    const restCall = adminSize
-      ? this.tppManagementService.getAdminById(tppId, adminSize)
-      : this.tppManagementService.getTppById(tppId);
+    const restCall = adminSize ? this.tppManagementService.getAdminById(tppId, adminSize) : this.tppManagementService.getTppById(tppId);
     restCall.pipe(takeUntil(this.unsubscribe$)).subscribe((user: User) => {
       if (user) {
         this.user = user;
@@ -165,12 +156,9 @@ export class UserProfileUpdateComponent implements OnInit, OnDestroy {
 
   resetPasswordViaEmail(login: string) {
     this.userInfoService.resetPasswordViaEmail(login).subscribe(() => {
-      this.infoService.openFeedback(
-        'Link for password reset was sent, check email.',
-        {
-          severity: 'info',
-        }
-      );
+      this.infoService.openFeedback('Link for password reset was sent, check email.', {
+        severity: 'info',
+      });
     });
   }
 }

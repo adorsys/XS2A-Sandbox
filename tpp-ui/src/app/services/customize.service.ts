@@ -101,10 +101,7 @@ export class CustomizeService {
       CustomizeService.removeExternalLinkElements();
     }
     if (this.USER_THEME.globalSettings.favicon) {
-      this.setFavicon(
-        this.USER_THEME.globalSettings.favicon.type,
-        this.USER_THEME.globalSettings.favicon.href
-      );
+      this.setFavicon(this.USER_THEME.globalSettings.favicon.type, this.USER_THEME.globalSettings.favicon.href);
     }
     this.NEW_THEME_WAS_SET = true;
     this.STATUS_WAS_CHANGED = !this.STATUS_WAS_CHANGED;
@@ -170,9 +167,7 @@ export class CustomizeService {
   }
 
   private static removeFavicon(): void {
-    const linkElement = document.head.querySelector(
-      '#customize-service-injected-node'
-    );
+    const linkElement = document.head.querySelector('#customize-service-injected-node');
     if (linkElement) {
       document.head.removeChild(linkElement);
     }

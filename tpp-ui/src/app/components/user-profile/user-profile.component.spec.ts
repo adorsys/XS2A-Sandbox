@@ -58,27 +58,20 @@ describe('UserProfileComponent', () => {
     },
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          HttpClientTestingModule,
-          RouterTestingModule,
-          RouterTestingModule.withRoutes([]),
-        ],
-        providers: [
-          TppManagementService,
-          NgbModal,
-          AuthService,
-          TppUserService,
-          { provide: AuthService, useValue: mockAuthUserService },
-          { provide: TppUserService, useValue: mockTppUserService },
-        ],
-        declarations: [UserProfileComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, HttpClientTestingModule, RouterTestingModule, RouterTestingModule.withRoutes([])],
+      providers: [
+        TppManagementService,
+        NgbModal,
+        AuthService,
+        TppUserService,
+        { provide: AuthService, useValue: mockAuthUserService },
+        { provide: TppUserService, useValue: mockTppUserService },
+      ],
+      declarations: [UserProfileComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserProfileComponent);

@@ -23,11 +23,7 @@
   (@feedbackAnimation.done)="animationDone()"
 >
   <span class="message">{{ message }}</span>
-  <button
-    class="close-button"
-    (click)="animateClose()"
-    *ngIf="options?.closable"
-  >
+  <button class="close-button" (click)="animateClose()" *ngIf="options?.closable">
     <i class="material-icons">close</i>
   </button>
 </div>

@@ -35,20 +35,13 @@ describe('ConfirmNewPasswordComponent', () => {
   let de: DebugElement;
   let el: HTMLElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          HttpClientTestingModule,
-          RouterTestingModule,
-          BrowserAnimationsModule,
-        ],
-        providers: [AuthService],
-        declarations: [ConfirmNewPasswordComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, HttpClientTestingModule, RouterTestingModule, BrowserAnimationsModule],
+      providers: [AuthService],
+      declarations: [ConfirmNewPasswordComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfirmNewPasswordComponent);
@@ -89,8 +82,7 @@ describe('ConfirmNewPasswordComponent', () => {
 
   it('New password field validity', () => {
     let errors = {};
-    const confirmNewPassword =
-      component.confirmNewPasswordForm.controls['newPassword'];
+    const confirmNewPassword = component.confirmNewPasswordForm.controls['newPassword'];
     expect(confirmNewPassword.valid).toBeFalsy();
 
     // confirmNewPassword field is required

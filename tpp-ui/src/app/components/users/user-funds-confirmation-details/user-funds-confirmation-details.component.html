@@ -1,0 +1,44 @@
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-body--large mb-4">
+      <button
+        class="btn btn-sm btn-outline-secondary mb-4"
+        [routerLink]="[pageNavigationService.getLastVisitedPage()]"
+        queryParamsHandling="preserve"
+      >
+        &lt; Back
+      </button>
+      <div class="header__title mb-4">Funds confirmation consent details</div>
+
+      <div class="row">
+        <div class="col-12 col-md-3">Consent ID</div>
+        <div class="col-12 col-md-9 text-muted">
+          {{ piisConsent?.consentId }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-3">Account Access</div>
+        <div class="col-12 col-md-9 text-muted">
+          {{ piisConsent?.access?.iban }}
+          {{ piisConsent?.access?.currency }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-3">TPP Authorisation Number</div>
+        <div class="col-12 col-md-9 text-muted">
+          {{ piisConsent?.tppAuthorisationNumber }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-3">Valid until</div>
+        <div class="col-12 col-md-9 text-muted">
+          {{ piisConsent?.validUntil | date: 'dd.MM.yyyy' }}
+        </div>
+      </div>
+
+      <div class="form-group d-flex flex-row">
+        <button (click)="terminate()" type="button" class="btn btn-outline-danger">Terminate</button>
+      </div>
+    </div>
+  </div>
+</div>

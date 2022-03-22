@@ -42,7 +42,8 @@ import { AuthGuard } from './guards/auth.guard';
 import { UploadFileComponent } from './uploadFile/uploadFile.component';
 import { TppsComponent } from './components/tpps/tpps.component';
 import { AdminCreateComponent } from './components/admin/admin-create/admin-create.component';
-
+import { UserCreateFundsConfirmationComponent } from './components/users/user-create-funds-confirmation/user-create-funds-confirmation.component';
+import { UserFundsConfirmationDetailsComponent } from './components/users/user-funds-confirmation-details/user-funds-confirmation-details.component';
 const routes: Routes = [
   {
     path: '',
@@ -97,6 +98,14 @@ const routes: Routes = [
       {
         path: 'users/:id/update-user-details',
         component: UserUpdateComponent,
+      },
+      {
+        path: 'users/:id/update-create-funds',
+        component: UserCreateFundsConfirmationComponent,
+      },
+      {
+        path: 'confirmation-consent/:userLogin/:id/details',
+        component: UserFundsConfirmationDetailsComponent,
       },
       {
         path: 'users/:id/create-deposit-account',

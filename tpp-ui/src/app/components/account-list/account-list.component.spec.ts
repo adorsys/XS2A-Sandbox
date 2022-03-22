@@ -25,12 +25,7 @@ import { of } from 'rxjs';
 import { IconModule } from '../../commons/icon/icon.module';
 import { InfoModule } from '../../commons/info/info.module';
 import { InfoService } from '../../commons/info/info.service';
-import {
-  Account,
-  AccountStatus,
-  AccountType,
-  UsageType,
-} from '../../models/account.model';
+import { Account, AccountStatus, AccountType, UsageType } from '../../models/account.model';
 import { AccountService } from '../../services/account.service';
 import { AccountListComponent } from './account-list.component';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
@@ -46,25 +41,23 @@ describe('AccountListComponent', () => {
   let infoService: InfoService;
   let router: Router;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          RouterTestingModule,
-          ReactiveFormsModule,
-          HttpClientTestingModule,
-          InfoModule,
-          RouterTestingModule,
-          FilterPipeModule,
-          IconModule,
-          NgbPaginationModule,
-          FormsModule,
-        ],
-        declarations: [AccountListComponent, PaginationContainerComponent],
-        providers: [AccountService, InfoService],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule,
+        ReactiveFormsModule,
+        HttpClientTestingModule,
+        InfoModule,
+        RouterTestingModule,
+        FilterPipeModule,
+        IconModule,
+        NgbPaginationModule,
+        FormsModule,
+      ],
+      declarations: [AccountListComponent, PaginationContainerComponent],
+      providers: [AccountService, InfoService],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AccountListComponent);

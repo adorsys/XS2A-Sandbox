@@ -52,21 +52,13 @@ describe('UserUpdateComponent', () => {
     accountAccesses: [],
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          InfoModule,
-          RouterTestingModule.withRoutes([]),
-          HttpClientTestingModule,
-          IconModule,
-        ],
-        providers: [UserService, InfoService],
-        declarations: [UserUpdateComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, InfoModule, RouterTestingModule.withRoutes([]), HttpClientTestingModule, IconModule],
+      providers: [UserService, InfoService],
+      declarations: [UserUpdateComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserUpdateComponent);
@@ -147,19 +139,15 @@ describe('UserUpdateComponent', () => {
   });
 
   it('validate addScaData method', () => {
-    const length = (<FormArray>component.updateUserForm.controls['scaUserData'])
-      .length;
+    const length = (<FormArray>component.updateUserForm.controls['scaUserData']).length;
     component.addScaDataItem();
-    const newLength = (<FormArray>(
-      component.updateUserForm.controls['scaUserData']
-    )).length;
+    const newLength = (<FormArray>component.updateUserForm.controls['scaUserData']).length;
     expect(newLength).toEqual(length + 1);
   });
 
   it('validate removeScaDataItem method', () => {
     component.removeScaDataItem(0);
-    const length = (<FormArray>component.updateUserForm.controls['scaUserData'])
-      .length;
+    const length = (<FormArray>component.updateUserForm.controls['scaUserData']).length;
     expect(length).toEqual(0);
   });
 
@@ -227,9 +215,7 @@ describe('UserUpdateComponent', () => {
     } as User;
     spyOn(userService, 'getUser').and.returnValue(of(mockUser));
     component.getUserDetails();
-    const scaUserDataGroups = <FormArray>(
-      component.updateUserForm.get('scaUserData')
-    );
+    const scaUserDataGroups = <FormArray>component.updateUserForm.get('scaUserData');
     const length = scaUserDataGroups.length;
     expect(length).toBe(2);
   });
@@ -250,9 +236,7 @@ describe('UserUpdateComponent', () => {
       ],
     } as User;
 
-    let getUserSpy = spyOn(userService, 'getUser').and.returnValue(
-      of(mockUser)
-    );
+    let getUserSpy = spyOn(userService, 'getUser').and.returnValue(of(mockUser));
 
     component.ngOnInit();
     expect(component.submitted).toBeFalsy();
@@ -265,10 +249,7 @@ describe('UserUpdateComponent', () => {
     component.updateUserForm.get('pin').setValue('12345678');
 
     const sampleResponse = { value: 'sample response' };
-    const updateUserDetail = spyOn(
-      userService,
-      'updateUserDetails'
-    ).and.callFake(() => of(sampleResponse));
+    const updateUserDetail = spyOn(userService, 'updateUserDetails').and.callFake(() => of(sampleResponse));
     const navigateSpy = spyOn(router, 'navigate');
     component.onSubmit();
     const submittedUser = updateUserDetail.calls.argsFor(0)[0] as User;
@@ -283,15 +264,7 @@ describe('UserUpdateComponent', () => {
 
   it('should defined getMethodsValues', () => {
     component.getMethodsValues();
-    expect(component.methods).toEqual([
-      'SMTP_OTP',
-      'MOBILE',
-      'CHIP_OTP',
-      'PHOTO_OTP',
-      'PUSH_OTP',
-      'SMS_OTP',
-      'APP_OTP',
-    ]);
+    expect(component.methods).toEqual(['SMTP_OTP', 'MOBILE', 'CHIP_OTP', 'PHOTO_OTP', 'PUSH_OTP', 'SMS_OTP', 'APP_OTP']);
   });
 
   it('should back to users', () => {

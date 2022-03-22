@@ -36,11 +36,7 @@ export class AuthService {
   private authTokenStorageKey = 'access_token';
   private jwtHelperService = new JwtHelperService();
 
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-    private autoLogoutService: AutoLogoutService
-  ) {}
+  constructor(private http: HttpClient, private router: Router, private autoLogoutService: AutoLogoutService) {}
 
   authorize(credentials: Credentials): Observable<string> {
     return this.http
@@ -55,11 +51,7 @@ export class AuthService {
           observe: 'response',
         }
       )
-      .pipe(
-        map((loginResponse) =>
-          loginResponse.headers.get(this.authTokenStorageKey)
-        )
-      );
+      .pipe(map((loginResponse) => loginResponse.headers.get(this.authTokenStorageKey)));
   }
 
   isLoggedIn(): boolean {

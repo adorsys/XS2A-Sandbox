@@ -44,9 +44,7 @@ export class CertificateDownloadService {
               this.navigateAndGiveFeedback({ message: message, url: url });
             });
           } else {
-            this.infoService.openFeedback(
-              'No certificate was generated, try again.'
-            );
+            this.infoService.openFeedback('No certificate was generated, try again.');
           }
         },
         (error) => {
@@ -63,23 +61,14 @@ export class CertificateDownloadService {
     const blobKey = new Blob([privateKey], {
       type: 'text/plain',
     });
-    return CertificateDownloadService.generateZipFile(blobCert, blobKey).then(
-      (zip) => {
-        return CertificateDownloadService.createObjectUrl(zip, window);
-      }
-    );
+    return CertificateDownloadService.generateZipFile(blobCert, blobKey).then((zip) => {
+      return CertificateDownloadService.createObjectUrl(zip, window);
+    });
   }
 
-  navigateAndGiveFeedback(options: {
-    navigateUrl?: string;
-    message?: string;
-    url?: string;
-  }) {
+  navigateAndGiveFeedback(options: { navigateUrl?: string; message?: string; url?: string }) {
     this.infoService.openFeedback(options.message);
-    setTimeout(
-      () => CertificateDownloadService.downloadFile(options.url),
-      2000
-    );
+    setTimeout(() => CertificateDownloadService.downloadFile(options.url), 2000);
 
     if (options.navigateUrl) {
       this.router.navigate([options.navigateUrl]);

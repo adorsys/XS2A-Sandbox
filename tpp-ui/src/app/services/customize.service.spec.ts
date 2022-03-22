@@ -19,10 +19,7 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { of, throwError } from 'rxjs';
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { CustomizeService, Theme } from './customize.service';
 
 describe('CustomizeService', () => {
@@ -93,9 +90,7 @@ describe('CustomizeService', () => {
       }
     });
 
-    const req = httpTestingController.expectOne(
-      '../assets/UI/custom/UITheme.json'
-    );
+    const req = httpTestingController.expectOne('../assets/UI/custom/UITheme.json');
     expect(req.request.method).toEqual('GET');
   });
 
@@ -145,9 +140,7 @@ describe('CustomizeService', () => {
       expect(res).toEqual(defTheme);
     });
 
-    const req = httpTestingController.expectOne(
-      '../assets/UI/defaultTheme.json'
-    );
+    const req = httpTestingController.expectOne('../assets/UI/defaultTheme.json');
     expect(req.request.method).toEqual('GET');
   });
 
@@ -172,9 +165,7 @@ describe('CustomizeService', () => {
       },
     });
     setTimeout(() => {
-      const tmp = getComputedStyle(document.body).getPropertyValue(
-        '--fontFamily'
-      );
+      const tmp = getComputedStyle(document.body).getPropertyValue('--fontFamily');
       expect(tmp).toEqual('Helvetica, Arial, sans-serif');
       done();
     }, 100);
@@ -184,9 +175,7 @@ describe('CustomizeService', () => {
     document.documentElement.removeAttribute('style');
     service.setUserTheme(defTheme);
     setTimeout(() => {
-      const tmp = getComputedStyle(document.body).getPropertyValue(
-        '--fontFamily'
-      );
+      const tmp = getComputedStyle(document.body).getPropertyValue('--fontFamily');
       expect(tmp).toEqual(' "Verdana", sans-serif');
       done();
     }, 100);

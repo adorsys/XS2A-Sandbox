@@ -189,6 +189,8 @@
           type="text"
           [id]="item.key"
           class="form-control"
+          [ngClass]="{ highlighted: checkIfValueIsHighlighted(item) }"
+          (keydown)="onWrite(item)"
           [disabled]="item.key === 'TPP-QWAC-Certificate' && default"
         />
       </div>
@@ -208,7 +210,12 @@
     <div class="play-with-data-table bg" *ngIf="consentTypeFlag">
       <span>Select consent type</span>
       <mat-form-field appearance="fill" style="width: 24vw">
-        <mat-select id="consentTypeSelector" [(ngModel)]="selectedConsentType" (ngModelChange)="handleConsentSelected($event)">
+        <mat-select
+          class="highlighted"
+          id="consentTypeSelector"
+          [(ngModel)]="selectedConsentType"
+          (ngModelChange)="handleConsentSelected($event)"
+        >
           <mat-option *ngFor="let consent of consentTypes | keyvalue; let i = index" [value]="consent.key">{{ consent.key }}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -220,7 +227,8 @@
 
   <ng-container *ngIf="response">
     <div *ngIf="response.status || response.statusText" class="response-status">
-      <button mat-button-raised class="clear-button" (click)="onClear()">Clear</button> <span class="status-style">Status</span>
+      <button mat-button-raised class="clear-button" (click)="onClear()">Clear</button>
+      <span class="status-style">Status</span>
       <div class="response-status-wrapper">
         <span>{{ response.status }}</span> <span>{{ getStatusText(response.status) }}</span>
       </div>
@@ -248,7 +256,9 @@
             <td class="copy-field">
               <input type="text" [value]="copyService.getCopyValue(i, fieldsToCopy, response, paymentId)" [id]="'input-' + i" />
             </td>
-            <td><button class="copy-btn" (click)="copyService.copyThis(i, fieldsToCopy)">Copy</button></td>
+            <td>
+              <button class="copy-btn" (click)="copyService.copyThis(i, fieldsToCopy)">Copy</button>
+            </td>
           </div>
         </tr>
 
@@ -258,7 +268,9 @@
               <label [for]="'input-' + i">resourceId {{ i + 1 }}</label>
             </td>
             <td class="copy-field"><input type="text" [value]="resourceId" [id]="'input-' + i" /></td>
-            <td><button class="copy-btn" (click)="copyService.copyThis(i, resourceIds, 'resourceId ' + (i + 1))">Copy</button></td>
+            <td>
+              <button class="copy-btn" (click)="copyService.copyThis(i, resourceIds, 'resourceId ' + (i + 1))">Copy</button>
+            </td>
           </div>
         </tr>
       </table>

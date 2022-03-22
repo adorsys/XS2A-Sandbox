@@ -22,16 +22,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Account, AccountResponse } from '../../models/account.model';
 import { Subscription } from 'rxjs';
 import { map, tap, debounceTime } from 'rxjs/operators';
-import {
-  PageConfig,
-  PaginationConfigModel,
-} from '../../models/pagination-config.model';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormControl,
-} from '@angular/forms';
+import { PageConfig, PaginationConfigModel } from '../../models/pagination-config.model';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { PageNavigationService } from '../../services/page-navigation.service';
 import { TppManagementService } from '../../services/tpp-management.service';
 import { User } from '../../models/user.model';
@@ -61,14 +53,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
     currentPageNumber: 1,
     totalItems: 0,
   };
-  positionOptions: TooltipPosition[] = [
-    'above',
-    'before',
-    'after',
-    'below',
-    'left',
-    'right',
-  ];
+  positionOptions: TooltipPosition[] = ['above', 'before', 'after', 'below', 'left', 'right'];
   position = new FormControl(this.positionOptions[0]);
   searchForm: FormGroup = this.formBuilder.group({
     ibanParam: '',
@@ -102,19 +87,15 @@ export class AccountListComponent implements OnInit, OnDestroy {
 
   getAccounts(page: number, size: number, params: TppQueryParams) {
     if (this.admin === 'true') {
-      this.tppManagementService
-        .getAllAccounts(page - 1, size, params)
-        .subscribe((response: AccountResponse) => {
-          this.accounts = response.accounts;
-          this.config.totalItems = response.totalElements;
-        });
+      this.tppManagementService.getAllAccounts(page - 1, size, params).subscribe((response: AccountResponse) => {
+        this.accounts = response.accounts;
+        this.config.totalItems = response.totalElements;
+      });
     } else if (this.admin === 'false') {
-      this.accountService
-        .getAccounts(page - 1, size, params.ibanParam)
-        .subscribe((response: AccountResponse) => {
-          this.accounts = response.accounts;
-          this.config.totalItems = response.totalElements;
-        });
+      this.accountService.getAccounts(page - 1, size, params.ibanParam).subscribe((response: AccountResponse) => {
+        this.accounts = response.accounts;
+        this.config.totalItems = response.totalElements;
+      });
     }
   }
 
@@ -255,21 +236,13 @@ export class AccountListComponent implements OnInit, OnDestroy {
           severity: 'info',
         });
       }
-      this.getAccounts(
-        this.config.currentPageNumber,
-        this.config.itemsPerPage,
-        {}
-      );
+      this.getAccounts(this.config.currentPageNumber, this.config.itemsPerPage, {});
     });
     if (this.statusBlock === 'unblock') {
       this.infoService.openFeedback('Account was successfully blocked!', {
         severity: 'info',
       });
-      this.getAccounts(
-        this.config.currentPageNumber,
-        this.config.itemsPerPage,
-        {}
-      );
+      this.getAccounts(this.config.currentPageNumber, this.config.itemsPerPage, {});
     }
   }
 
@@ -279,22 +252,14 @@ export class AccountListComponent implements OnInit, OnDestroy {
         this.infoService.openFeedback('Account was successfully deleted!', {
           severity: 'info',
         });
-        this.getAccounts(
-          this.config.currentPageNumber,
-          this.config.itemsPerPage,
-          {}
-        );
+        this.getAccounts(this.config.currentPageNumber, this.config.itemsPerPage, {});
       });
     } else if (this.admin === 'false') {
       this.accountService.deleteAccount(accountId).subscribe(() => {
         this.infoService.openFeedback('Account was successfully blocked!', {
           severity: 'info',
         });
-        this.getAccounts(
-          this.config.currentPageNumber,
-          this.config.itemsPerPage,
-          {}
-        );
+        this.getAccounts(this.config.currentPageNumber, this.config.itemsPerPage, {});
       });
     }
   }

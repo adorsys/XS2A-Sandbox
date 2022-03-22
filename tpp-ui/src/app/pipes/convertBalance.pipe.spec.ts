@@ -30,13 +30,11 @@ export class ConvertBalancePipeHostComponent {
 }
 
 describe('ConvertBalancePipe inside a Component', () => {
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [ConvertBalancePipe, ConvertBalancePipeHostComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ConvertBalancePipe, ConvertBalancePipeHostComponent],
+    }).compileComponents();
+  }));
 
   let fixture: ComponentFixture<ConvertBalancePipeHostComponent>;
   let debugElement: DebugElement;

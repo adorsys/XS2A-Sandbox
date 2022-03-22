@@ -40,21 +40,13 @@ describe('UserCreateComponent', () => {
   let de: DebugElement;
   let el: HTMLElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          InfoModule,
-          RouterTestingModule.withRoutes([]),
-          HttpClientTestingModule,
-          IconModule,
-        ],
-        providers: [UserService, InfoService],
-        declarations: [UserCreateComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, InfoModule, RouterTestingModule.withRoutes([]), HttpClientTestingModule, IconModule],
+      providers: [UserService, InfoService],
+      declarations: [UserCreateComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserCreateComponent);
@@ -135,10 +127,7 @@ describe('UserCreateComponent', () => {
 
   it('SCA validity', () => {
     let errors = {};
-    const sca =
-      component.userForm.controls['scaUserData']['controls'][0].controls[
-        'methodValue'
-      ];
+    const sca = component.userForm.controls['scaUserData']['controls'][0].controls['methodValue'];
     expect(sca.valid).toBeTruthy();
 
     // pin field is required
@@ -167,18 +156,15 @@ describe('UserCreateComponent', () => {
   });
 
   it('validate addScaData method', () => {
-    const length = (<FormArray>component.userForm.controls['scaUserData'])
-      .length;
+    const length = (<FormArray>component.userForm.controls['scaUserData']).length;
     component.addScaDataItem();
-    const newLength = (<FormArray>component.userForm.controls['scaUserData'])
-      .length;
+    const newLength = (<FormArray>component.userForm.controls['scaUserData']).length;
     expect(newLength).toEqual(length + 1);
   });
 
   it('validate removeScaDataItem method', () => {
     component.removeScaDataItem(0);
-    const length = (<FormArray>component.userForm.controls['scaUserData'])
-      .length;
+    const length = (<FormArray>component.userForm.controls['scaUserData']).length;
     expect(length).toEqual(0);
   });
 
@@ -201,24 +187,14 @@ describe('UserCreateComponent', () => {
     component.userForm.controls['email'].setValue('dart.vader@dark-side.com');
     component.userForm.controls['login'].setValue('dart.vader');
     component.userForm.controls['pin'].setValue('12345678');
-    component.userForm.controls['scaUserData']['controls'][0].controls[
-      'methodValue'
-    ].setValue('dart.vader@dark-side.com');
-    component.userForm.controls['scaUserData']['controls'][0].controls[
-      'staticTan'
-    ].setValue('12345');
-    component.userForm.controls['scaUserData']['controls'][0].controls[
-      'usesStaticTan'
-    ].setValue(true);
-    component.userForm.controls['scaUserData']['controls'][0].controls[
-      'scaMethod'
-    ].setValue(ScaMethods.SMTP_OTP);
+    component.userForm.controls['scaUserData']['controls'][0].controls['methodValue'].setValue('dart.vader@dark-side.com');
+    component.userForm.controls['scaUserData']['controls'][0].controls['staticTan'].setValue('12345');
+    component.userForm.controls['scaUserData']['controls'][0].controls['usesStaticTan'].setValue(true);
+    component.userForm.controls['scaUserData']['controls'][0].controls['scaMethod'].setValue(ScaMethods.SMTP_OTP);
 
     // create spies and fake call function
     const sampleResponse = { value: 'sample response' };
-    let createUserSpy = spyOn(userService, 'createUser').and.callFake(() =>
-      of(sampleResponse)
-    );
+    let createUserSpy = spyOn(userService, 'createUser').and.callFake(() => of(sampleResponse));
     let navigateSpy = spyOn(router, 'navigateByUrl');
     component.onSubmit();
     expect(component.submitted).toBeTruthy();

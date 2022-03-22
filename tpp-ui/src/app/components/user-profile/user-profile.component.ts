@@ -34,11 +34,7 @@ import { ADMIN_KEY } from '../../commons/constant/constant';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ModalComponent } from '../modal/modal.component';
 import { Select, Store } from '@ngxs/store';
-import {
-  DeleteRecoveryPoint,
-  GetRecoveryPoint,
-  RollbackRecoveryPoint,
-} from '../actions/revertpoints.action';
+import { DeleteRecoveryPoint, GetRecoveryPoint, RollbackRecoveryPoint } from '../actions/revertpoints.action';
 import { Observable } from 'rxjs';
 import { RecoveryPointState } from '../../state/recoverypoints.state';
 import { AuthService } from '../../services/auth.service';
@@ -59,14 +55,7 @@ export class UserProfileComponent implements OnInit {
   countries;
   userAmount = 0;
   private newPin = 'pin';
-  positionOptions: TooltipPosition[] = [
-    'above',
-    'before',
-    'after',
-    'below',
-    'left',
-    'right',
-  ];
+  positionOptions: TooltipPosition[] = ['above', 'before', 'after', 'below', 'left', 'right'];
   position = new FormControl(this.positionOptions[0]);
 
   constructor(
@@ -157,9 +146,7 @@ export class UserProfileComponent implements OnInit {
     } else {
       this.tppService.deleteSelf().subscribe(() => {
         sessionStorage.removeItem('access_token');
-        sessionStorage.removeItem(
-          this.pageNavigationService.getLastVisitedPage()
-        );
+        sessionStorage.removeItem(this.pageNavigationService.getLastVisitedPage());
         this.authService.logout();
         this.router.navigateByUrl('/login');
       });
@@ -224,12 +211,9 @@ export class UserProfileComponent implements OnInit {
 
   resetPasswordViaEmail(login: string) {
     this.userInfoService.resetPasswordViaEmail(login).subscribe(() => {
-      this.infoService.openFeedback(
-        'Link for password reset was sent, check email.',
-        {
-          severity: 'info',
-        }
-      );
+      this.infoService.openFeedback('Link for password reset was sent, check email.', {
+        severity: 'info',
+      });
     });
   }
   handleBackNavigation() {

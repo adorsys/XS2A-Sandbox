@@ -28,9 +28,7 @@ describe('EmailVerificationService', () => {
     })
   );
   it('should be created', () => {
-    const service: EmailVerificationService = TestBed.get(
-      EmailVerificationService
-    );
+    const service: EmailVerificationService = TestBed.get(EmailVerificationService);
     expect(service).toBeTruthy();
   });
 });

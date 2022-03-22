@@ -18,10 +18,7 @@
 
 import { HttpClientModule } from '@angular/common/http';
 import { TestBed, inject } from '@angular/core/testing';
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { environment } from '../../environments/environment';
 import { Amount } from '../models/amount.model';
 import { GrantAccountAccess } from '../models/grant-account-access.model';
@@ -84,9 +81,7 @@ describe('AccountService', () => {
       expect(resp.accounts[0].iban).toEqual('DE12 1234 5678 9012 3456 00');
       expect(resp.totalElements).toEqual(Object.keys(mockAccounts).length);
     });
-    const req = httpMock.expectOne(
-      `${url}/accounts/page?page=${0}&size=${25}&queryParam=${''}`
-    );
+    const req = httpMock.expectOne(`${url}/accounts/page?page=${0}&size=${25}&queryParam=${''}`);
     expect(req.cancelled).toBeFalsy();
     expect(req.request.responseType).toEqual('json');
     expect(req.request.method).toEqual('GET');
@@ -113,11 +108,9 @@ describe('AccountService', () => {
       iban: 'DE12 1234 5678 9012 3456 00',
       scaWeight: 50,
     };
-    accountService
-      .updateAccountAccessForUser(mockAccountAccess)
-      .subscribe((data: any) => {
-        expect(data.iban).toBe('DE12 1234 5678 9012 3456 00');
-      });
+    accountService.updateAccountAccessForUser(mockAccountAccess).subscribe((data: any) => {
+      expect(data.iban).toBe('DE12 1234 5678 9012 3456 00');
+    });
     const req = httpMock.expectOne(url + '/accounts/access');
     expect(req.request.method).toBe('PUT');
     req.flush({ iban: 'DE12 1234 5678 9012 3456 00' });
@@ -129,14 +122,10 @@ describe('AccountService', () => {
       currency: 'EUR',
       amount: 100,
     };
-    accountService
-      .depositCash('accountId', mockAmount)
-      .subscribe((data: any) => {
-        expect(data.amount).toBe(100);
-      });
-    const req = httpMock.expectOne(
-      url + '/accounts/' + 'accountId' + '/deposit-cash'
-    );
+    accountService.depositCash('accountId', mockAmount).subscribe((data: any) => {
+      expect(data.amount).toBe(100);
+    });
+    const req = httpMock.expectOne(url + '/accounts/' + 'accountId' + '/deposit-cash');
     expect(req.request.method).toBe('POST');
     req.flush({ amount: 100 });
     httpMock.verify();
@@ -163,10 +152,8 @@ describe('AccountService', () => {
       balances: [],
       creditLimit: undefined,
     };
-    accountService
-      .createAccount('accountId', mockAccount)
-      .subscribe((data: any) => {
-        expect(data.iban).toBe('DE12 1234 5678 9012 3456 00');
-      });
+    accountService.createAccount('accountId', mockAccount).subscribe((data: any) => {
+      expect(data.iban).toBe('DE12 1234 5678 9012 3456 00');
+    });
   });
 });

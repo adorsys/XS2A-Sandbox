@@ -18,10 +18,7 @@
 
 import { HttpClientModule } from '@angular/common/http';
 import { TestBed, inject } from '@angular/core/testing';
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestDataGenerationService } from './test.data.generation.service';
 import { environment } from '../../environments/environment';
 
@@ -50,11 +47,9 @@ describe('TestDataGenerationService', () => {
   });
 
   it('should generate the example Test Data', () => {
-    testDataGenerationService
-      .generateExampleTestData('accountId')
-      .subscribe((data: any) => {
-        expect(data).toBe('accountId');
-      });
+    testDataGenerationService.generateExampleTestData('accountId').subscribe((data: any) => {
+      expect(data).toBe('accountId');
+    });
     const req = httpMock.expectOne(url + 'accountId');
     expect(req.request.method).toBe('GET');
     req.flush('accountId');

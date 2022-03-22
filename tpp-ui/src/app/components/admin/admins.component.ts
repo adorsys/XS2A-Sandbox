@@ -17,19 +17,11 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  FormControl,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { debounceTime, tap } from 'rxjs/operators';
 import { User, UserResponse } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
-import {
-  PageConfig,
-  PaginationConfigModel,
-} from '../../models/pagination-config.model';
+import { PageConfig, PaginationConfigModel } from '../../models/pagination-config.model';
 import { TppManagementService } from '../../services/tpp-management.service';
 import { PageNavigationService } from '../../services/page-navigation.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -58,14 +50,7 @@ export class AdminsComponent implements OnInit {
   });
   newPin: string;
   confirmNewPin: string;
-  positionOptions: TooltipPosition[] = [
-    'above',
-    'before',
-    'after',
-    'below',
-    'left',
-    'right',
-  ];
+  positionOptions: TooltipPosition[] = ['above', 'before', 'after', 'below', 'left', 'right'];
   position = new FormControl(this.positionOptions[0]);
 
   constructor(
@@ -113,15 +98,13 @@ export class AdminsComponent implements OnInit {
   }
 
   listAdmins(page: number, size: number) {
-    this.tppManagementService
-      .getAllAdmins(page - 1, size)
-      .subscribe((response: UserResponse) => {
-        if (typeof response.users !== 'undefined') {
-          this.users = response.users;
-          this.users.reverse();
-        }
-        this.config.totalItems = response.totalElements;
-      });
+    this.tppManagementService.getAllAdmins(page - 1, size).subscribe((response: UserResponse) => {
+      if (typeof response.users !== 'undefined') {
+        this.users = response.users;
+        this.users.reverse();
+      }
+      this.config.totalItems = response.totalElements;
+    });
   }
 
   openConfirmation(content, userId: string, type: string) {
@@ -137,25 +120,17 @@ export class AdminsComponent implements OnInit {
                 } else {
                   this.getAdmins();
                 }
-                this.infoService.openFeedback(
-                  'Admin was successfully deleted!',
-                  {
-                    severity: 'info',
-                  }
-                );
+                this.infoService.openFeedback('Admin was successfully deleted!', {
+                  severity: 'info',
+                });
               });
             } else if (type === 'pin' && this.newPin === this.confirmNewPin) {
-              this.tppManagementService
-                .changePin(userId, this.newPin)
-                .subscribe(() => {
-                  this.getAdmins();
-                  this.infoService.openFeedback(
-                    'Pin was successfully changed!',
-                    {
-                      severity: 'info',
-                    }
-                  );
+              this.tppManagementService.changePin(userId, this.newPin).subscribe(() => {
+                this.getAdmins();
+                this.infoService.openFeedback('Pin was successfully changed!', {
+                  severity: 'info',
                 });
+              });
             }
           },
           () => {}

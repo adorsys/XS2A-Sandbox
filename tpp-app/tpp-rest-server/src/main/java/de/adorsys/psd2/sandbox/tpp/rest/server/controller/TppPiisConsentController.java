@@ -28,6 +28,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static org.springframework.http.HttpStatus.OK;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(TppPiisConsentRestApi.BASE_PATH)
@@ -48,9 +50,15 @@ public class TppPiisConsentController implements TppPiisConsentRestApi {
     }
 
     @Override
-    public ResponseEntity<PiisConsent> getPiisConsent(String consentId) {
-        PiisConsent consent = piisConsentService.getPiisConsent(consentId);
+    public ResponseEntity<PiisConsent> getPiisConsent(String userLogin, String consentId) {
+        PiisConsent consent = piisConsentService.getPiisConsent(userLogin, consentId);
         return ResponseEntity.ok(consent);
+    }
+
+    @Override
+    public ResponseEntity<Void> terminatePiisConsent(String consentId) {
+        piisConsentService.terminatePiisConsent(consentId);
+        return ResponseEntity.status(OK).build();
     }
 
 }

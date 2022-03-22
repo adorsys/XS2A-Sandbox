@@ -48,21 +48,17 @@ describe('AppComponent', () => {
     getLogo: () => '../assets/UI/Logo_XS2ASandbox.png',
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [NgHttpLoaderModule, RouterTestingModule],
-        declarations: [AppComponent],
-        providers: [
-          { provide: CustomizeService, useValue: CustomizeServiceStub },
-        ],
-      })
-        .compileComponents()
-        .then(() => {
-          customizeService = TestBed.get(CustomizeService);
-        });
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [NgHttpLoaderModule, RouterTestingModule],
+      declarations: [AppComponent],
+      providers: [{ provide: CustomizeService, useValue: CustomizeServiceStub }],
     })
-  );
+      .compileComponents()
+      .then(() => {
+        customizeService = TestBed.get(CustomizeService);
+      });
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent);
@@ -75,10 +71,7 @@ describe('AppComponent', () => {
   });
 
   it('should set global settings in ngOnInit', () => {
-    const getGlobalSettingsSpy = spyOn(
-      customizeService,
-      'getJSON'
-    ).and.callThrough();
+    const getGlobalSettingsSpy = spyOn(customizeService, 'getJSON').and.callThrough();
 
     component.ngOnInit();
 

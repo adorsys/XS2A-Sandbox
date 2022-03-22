@@ -39,25 +39,13 @@ describe('UploadFileComponent', () => {
   let spinnerService: SpinnerVisibilityService;
 
   let url = `${environment.tppBackend}`;
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          FileUploadModule,
-          RouterTestingModule,
-          HttpClientModule,
-          InfoModule,
-          IconModule,
-        ],
-        declarations: [UploadFileComponent, DocumentUploadComponent],
-        providers: [
-          InfoService,
-          SpinnerVisibilityService,
-          TestDataGenerationService,
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [FileUploadModule, RouterTestingModule, HttpClientModule, InfoModule, IconModule],
+      declarations: [UploadFileComponent, DocumentUploadComponent],
+      providers: [InfoService, SpinnerVisibilityService, TestDataGenerationService],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UploadFileComponent);
@@ -108,14 +96,9 @@ describe('UploadFileComponent', () => {
       url: url + '/data/upload',
       exampleFileUrl: '/accounts/example',
     };
-    let generateSpy = spyOn(
-      testDataGenerationService,
-      'generateExampleTestData'
-    ).and.returnValue(of(mockUploadConfig.exampleFileUrl));
+    let generateSpy = spyOn(testDataGenerationService, 'generateExampleTestData').and.returnValue(of(mockUploadConfig.exampleFileUrl));
     let infoSpy = spyOn(infoService, 'openFeedback');
     component.generateFileExample(mockUploadConfig);
-    expect(infoSpy).toHaveBeenCalledWith(
-      'Test data has been successfully generated.'
-    );
+    expect(infoSpy).toHaveBeenCalledWith('Test data has been successfully generated.');
   });
 });

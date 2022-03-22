@@ -17,10 +17,7 @@
  */
 
 import { HttpClientModule } from '@angular/common/http';
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { User } from '../models/user.model';
 import { environment } from '../../environments/environment';
@@ -94,9 +91,7 @@ describe('UserService', () => {
       expect(resp.users[0].login).toEqual('test');
       expect(resp.totalElements).toEqual(mockUsers.length);
     });
-    const req = httpMock.expectOne(
-      `${url}?page=${0}&size=${25}&queryParam=${''}`
-    );
+    const req = httpMock.expectOne(`${url}?page=${0}&size=${25}&queryParam=${''}`);
     expect(req.cancelled).toBeFalsy();
     expect(req.request.responseType).toEqual('json');
     expect(req.request.method).toEqual('GET');
@@ -105,9 +100,7 @@ describe('UserService', () => {
 
   it('should get a User', () => {
     userService.getUser('J4tdJUEPQhglZAFgvo9aJc').subscribe((data: any) => {
-      expect(data.pin).toBe(
-        '$2a$10$hi7Cd4j9gd/ZBw7w.kbNVOzDNUgIEXUtG5ZJYvjjTGLjUwOR0qibu'
-      );
+      expect(data.pin).toBe('$2a$10$hi7Cd4j9gd/ZBw7w.kbNVOzDNUgIEXUtG5ZJYvjjTGLjUwOR0qibu');
     });
     const req = httpMock.expectOne(url + '/J4tdJUEPQhglZAFgvo9aJc');
     expect(req.request.method).toBe('GET');

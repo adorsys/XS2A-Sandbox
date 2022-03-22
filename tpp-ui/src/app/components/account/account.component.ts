@@ -73,12 +73,9 @@ export class AccountComponent implements OnInit {
 
   public goToAccountDetail() {
     if (this.isAccountDeleted) {
-      this.infoService.openFeedback(
-        'You can not Grant Accesses to a Deleted/Blocked account',
-        {
-          severity: 'error',
-        }
-      );
+      this.infoService.openFeedback('You can not Grant Accesses to a Deleted/Blocked account', {
+        severity: 'error',
+      });
     } else {
       this.router.navigate(['/accounts/' + this.account.id + '/access']);
     }
@@ -93,12 +90,9 @@ export class AccountComponent implements OnInit {
   deleteAccountTransactions() {
     this.tppService.deleteAccountTransactions(this.account.id).subscribe(() => {
       this.getAccountReport();
-      this.infoService.openFeedback(
-        `Transactions of ${this.account.iban} successfully deleted`,
-        {
-          severity: 'info',
-        }
-      );
+      this.infoService.openFeedback(`Transactions of ${this.account.iban} successfully deleted`, {
+        severity: 'info',
+      });
     });
   }
 
@@ -123,10 +117,7 @@ export class AccountComponent implements OnInit {
 
   get isAccountDeleted(): boolean {
     if (this.account) {
-      return (
-        this.account.accountStatus === 'DELETED' ||
-        this.account.accountStatus === 'BLOCKED'
-      );
+      return this.account.accountStatus === 'DELETED' || this.account.accountStatus === 'BLOCKED';
     }
     return false;
   }
@@ -144,12 +135,10 @@ export class AccountComponent implements OnInit {
   }
 
   getAccountReport() {
-    this.accountService
-      .getAccountReport(this.accountID)
-      .subscribe((report: AccountReport) => {
-        this.accountReport = report;
-        this.balance = new ExtendedBalance(report.details);
-      });
+    this.accountService.getAccountReport(this.accountID).subscribe((report: AccountReport) => {
+      this.accountReport = report;
+      this.balance = new ExtendedBalance(report.details);
+    });
   }
 
   getValue(data) {
@@ -157,8 +146,6 @@ export class AccountComponent implements OnInit {
   }
 
   private setCreditLimit() {
-    this.accountService
-      .setCreditLimit(this.account.id, this.account.creditLimit)
-      .subscribe(() => this.getAccountReport());
+    this.accountService.setCreditLimit(this.account.id, this.account.creditLimit).subscribe(() => this.getAccountReport());
   }
 }

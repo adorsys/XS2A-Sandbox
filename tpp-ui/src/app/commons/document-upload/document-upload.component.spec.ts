@@ -28,19 +28,12 @@ describe('DocumentUploadComponent', () => {
   let component: DocumentUploadComponent;
   let fixture: ComponentFixture<DocumentUploadComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          FileUploadModule,
-          RouterTestingModule,
-          HttpClientModule,
-          IconModule,
-        ],
-        declarations: [DocumentUploadComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [FileUploadModule, RouterTestingModule, HttpClientModule, IconModule],
+      declarations: [DocumentUploadComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DocumentUploadComponent);

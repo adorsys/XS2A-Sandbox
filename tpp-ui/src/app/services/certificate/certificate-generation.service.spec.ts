@@ -19,10 +19,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { CertificateGenerationService } from './certificate-generation.service';
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { environment } from '../../../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { inject } from '@angular/core';

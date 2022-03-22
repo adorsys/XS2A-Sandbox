@@ -24,6 +24,7 @@ import de.adorsys.ledgers.middleware.api.domain.um.UserTO;
 import de.adorsys.psd2.consent.api.piis.v1.CmsPiisConsent;
 import de.adorsys.psd2.consent.aspsp.api.piis.CreatePiisConsentRequest;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.AccountAccess;
+import de.adorsys.psd2.sandbox.tpp.rest.api.domain.ConsentStatus;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.PiisConsent;
 import de.adorsys.psd2.xs2a.core.profile.AccountReference;
 import org.springframework.stereotype.Service;
@@ -69,6 +70,7 @@ public class TppPiisConsentMapper {
         tppPiisConsent.setConsentId(piisConsent.getId());
         tppPiisConsent.setTppAuthorisationNumber(piisConsent.getTppAuthorisationNumber());
         tppPiisConsent.setValidUntil(piisConsent.getExpireDate());
+        tppPiisConsent.setConsentStatus(ConsentStatus.getByName(piisConsent.getConsentStatus().name()).orElse(null));
 
         return tppPiisConsent;
     }

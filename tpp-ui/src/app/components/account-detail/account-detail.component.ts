@@ -18,11 +18,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import {
-  AccountStatus,
-  AccountType,
-  UsageType,
-} from '../../models/account.model';
+import { AccountStatus, AccountType, UsageType } from '../../models/account.model';
 import { AccountService } from '../../services/account.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TestDataGenerationService } from '../../services/test.data.generation.service';
@@ -103,18 +99,14 @@ export class AccountDetailComponent implements OnInit {
     if (this.accountForm.invalid) {
       return;
     }
-    this.accountService
-      .createAccount(this.userId, this.accountForm.getRawValue())
-      .subscribe(() => this.router.navigate(['/accounts']));
+    this.accountService.createAccount(this.userId, this.accountForm.getRawValue()).subscribe(() => this.router.navigate(['/accounts']));
   }
 
   generateIban() {
-    return this.generationService
-      .generateIban(this.userBranch)
-      .subscribe((data) => {
-        this.accountForm.get('iban').setValue(data);
-        this.infoService.openFeedback('IBAN has been successfully generated');
-      });
+    return this.generationService.generateIban(this.userBranch).subscribe((data) => {
+      this.accountForm.get('iban').setValue(data);
+      this.infoService.openFeedback('IBAN has been successfully generated');
+    });
   }
 
   onCancel() {

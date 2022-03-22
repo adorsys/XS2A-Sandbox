@@ -32,20 +32,13 @@ describe('CashDepositComponent', () => {
   let accountService: AccountService;
   let router: Router;
   let activate: ActivatedRoute;
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          RouterTestingModule,
-          HttpClientTestingModule,
-          RouterTestingModule.withRoutes([]),
-        ],
-        providers: [AccountService],
-        declarations: [CashDepositComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, RouterTestingModule, HttpClientTestingModule, RouterTestingModule.withRoutes([])],
+      providers: [AccountService],
+      declarations: [CashDepositComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CashDepositComponent);
@@ -89,9 +82,7 @@ describe('CashDepositComponent', () => {
 
     // cashDepositForm submit
     const sampleResponse = { value: 'sample response' };
-    let depositCashSpy = spyOn(accountService, 'depositCash').and.callFake(() =>
-      of(sampleResponse)
-    );
+    let depositCashSpy = spyOn(accountService, 'depositCash').and.callFake(() => of(sampleResponse));
     let navigateSpy = spyOn(router, 'navigate');
     component.onSubmit();
     expect(component.submitted).toBeTruthy();
@@ -101,9 +92,7 @@ describe('CashDepositComponent', () => {
   });
 
   it('should throw error onSubmit', () => {
-    let depositCashSpy = spyOn(accountService, 'depositCash').and.returnValue(
-      throwError({ status: 404 })
-    );
+    let depositCashSpy = spyOn(accountService, 'depositCash').and.returnValue(throwError({ status: 404 }));
 
     // set valid values for cashDepositForm
     component.cashDepositForm.controls['currency'].setValue('EUR');

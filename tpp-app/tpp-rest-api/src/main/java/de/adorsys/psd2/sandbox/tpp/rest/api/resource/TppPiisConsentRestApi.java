@@ -53,6 +53,13 @@ public interface TppPiisConsentRestApi {
         authorizations = @Authorization(value = "apiKey"))
     @GetMapping("/{consentId}")
     ResponseEntity<PiisConsent> getPiisConsent(
+        @RequestParam("userLogin") String userLogin,
         @PathVariable(value = "consentId") String consentId);
+
+    @ApiOperation(value = "Terminate the given PIIS consent",
+        notes = "Changes the definite PIIS consent status to TERMINATED_BY_ASPSP",
+        authorizations = @Authorization(value = "apiKey"))
+    @PutMapping("/{consentId}/terminate")
+    ResponseEntity<Void> terminatePiisConsent(@PathVariable(value = "consentId") String consentId);
 
 }

@@ -54,8 +54,6 @@ export class ConfirmNewPasswordComponent implements OnInit {
       return;
     }
 
-    this.authService
-      .changePassword(this.confirmNewPasswordForm.value)
-      .subscribe(() => this.router.navigate(['/login']));
+    this.authService.changePassword(this.confirmNewPasswordForm.value).subscribe(() => this.router.navigate(['/login']));
   }
 }

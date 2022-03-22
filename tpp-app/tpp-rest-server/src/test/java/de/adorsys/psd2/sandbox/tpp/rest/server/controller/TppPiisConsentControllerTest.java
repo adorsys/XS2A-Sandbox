@@ -45,6 +45,7 @@ class TppPiisConsentControllerTest {
     private static final String IBAN = "FR7630002005500000000000130";
     private static final String CURRENCY = "EUR";
     private static final String TPP_AUTHORISATION_NUMBER = "PSD2-FAKENCA-12345";
+    private static final String PIIS_CONSENT_ID = "1234567890";
 
     @InjectMocks
     private TppPiisConsentController tppController;
@@ -72,6 +73,16 @@ class TppPiisConsentControllerTest {
 
         // When
         ResponseEntity<CustomPageImpl<PiisConsent>> actual = tppController.getPiisConsents(LOGIN, 0, 10);
+
+        // Then
+        assertNotNull(actual);
+        assertEquals(200, actual.getStatusCodeValue());
+    }
+
+    @Test
+    void terminatePiisConsent() {
+        // When
+        ResponseEntity<Void> actual = tppController.terminatePiisConsent(PIIS_CONSENT_ID);
 
         // Then
         assertNotNull(actual);

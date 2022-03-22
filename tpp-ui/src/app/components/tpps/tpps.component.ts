@@ -18,16 +18,8 @@
 
 import { Component, OnInit } from '@angular/core';
 import { TppManagementService } from '../../services/tpp-management.service';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  FormControl,
-} from '@angular/forms';
-import {
-  PageConfig,
-  PaginationConfigModel,
-} from '../../models/pagination-config.model';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { PageConfig, PaginationConfigModel } from '../../models/pagination-config.model';
 import { AccountService } from '../../services/account.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageNavigationService } from '../../services/page-navigation.service';
@@ -54,14 +46,7 @@ export class TppsComponent implements OnInit {
   countries: Array<string>;
   countriesList: Array<object> = [];
   newPin = 'pin';
-  positionOptions: TooltipPosition[] = [
-    'above',
-    'before',
-    'after',
-    'below',
-    'left',
-    'right',
-  ];
+  positionOptions: TooltipPosition[] = ['above', 'before', 'after', 'below', 'left', 'right'];
   position = new FormControl(this.positionOptions[0]);
 
   config: PaginationConfigModel = {
@@ -122,12 +107,9 @@ export class TppsComponent implements OnInit {
   deleteTestData() {
     if (this.admin) {
       this.tppService.deleteTestData().subscribe(() => {
-        this.infoService.openFeedback(
-          'TPP test data was successfully deleted!',
-          {
-            severity: 'info',
-          }
-        );
+        this.infoService.openFeedback('TPP test data was successfully deleted!', {
+          severity: 'info',
+        });
         this.getTpps(1, this.config.itemsPerPage, {
           userLogin: this.searchForm.get('userLogin').value,
           tppId: this.searchForm.get('tppId').value,
@@ -182,12 +164,10 @@ export class TppsComponent implements OnInit {
   }
 
   private getTpps(page: number, size: number, queryParams: TppQueryParams) {
-    this.tppManagementService
-      .getTpps(page - 1, size, queryParams)
-      .subscribe((response) => {
-        this.tpps = response.tpps;
-        this.config.totalItems = response.totalElements;
-      });
+    this.tppManagementService.getTpps(page - 1, size, queryParams).subscribe((response) => {
+      this.tpps = response.tpps;
+      this.config.totalItems = response.totalElements;
+    });
   }
 
   private onQueryUsers() {
@@ -216,11 +196,7 @@ export class TppsComponent implements OnInit {
         this.infoService.openFeedback('TPP was successfully unblocked!', {
           severity: 'info',
         });
-        this.getTpps(
-          this.config.currentPageNumber,
-          this.config.itemsPerPage,
-          {}
-        );
+        this.getTpps(this.config.currentPageNumber, this.config.itemsPerPage, {});
       }
       this.getTpps(this.config.currentPageNumber, this.config.itemsPerPage, {});
     });
@@ -277,25 +253,20 @@ export class TppsComponent implements OnInit {
   }
 
   private getPageConfigs() {
-    this.route.queryParams
-      .pipe(map((params) => params.page))
-      .subscribe((param) => {
-        if (param) {
-          this.config.currentPageNumber = param;
-        } else {
-          this.config.currentPageNumber = 1;
-        }
-      });
+    this.route.queryParams.pipe(map((params) => params.page)).subscribe((param) => {
+      if (param) {
+        this.config.currentPageNumber = param;
+      } else {
+        this.config.currentPageNumber = 1;
+      }
+    });
   }
 
   resetPasswordViaEmail(login: string) {
     this.tppUserService.resetPasswordViaEmail(login).subscribe(() => {
-      this.infoService.openFeedback(
-        'Link for password reset was sent, check email.',
-        {
-          severity: 'info',
-        }
-      );
+      this.infoService.openFeedback('Link for password reset was sent, check email.', {
+        severity: 'info',
+      });
     });
   }
 }

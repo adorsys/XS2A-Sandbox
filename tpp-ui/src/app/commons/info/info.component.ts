@@ -17,13 +17,7 @@
  */
 
 import { Component, ViewEncapsulation } from '@angular/core';
-import {
-  trigger,
-  state,
-  style,
-  transition,
-  animate,
-} from '@angular/animations';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Subject } from 'rxjs';
 
 import { InfoOptions } from './info-options';

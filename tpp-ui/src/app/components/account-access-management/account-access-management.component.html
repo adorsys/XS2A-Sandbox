@@ -32,9 +32,7 @@
             [ngClass]="{
               'is-invalid':
                 accountAccessForm.get('id')?.errors &&
-                (accountAccessForm.get('id').dirty ||
-                  accountAccessForm.get('id').touched ||
-                  submitted)
+                (accountAccessForm.get('id').dirty || accountAccessForm.get('id').touched || submitted)
             }"
             class="form-control arrow"
             id="id"
@@ -45,12 +43,7 @@
             [resultFormatter]="resultFormatterValue"
             #instance="ngbTypeahead"
           />
-          <div
-            *ngIf="accountAccessForm.get('id')?.errors?.required"
-            class="invalid-feedback"
-          >
-            Login name is Required
-          </div>
+          <div *ngIf="accountAccessForm.get('id')?.errors?.required" class="invalid-feedback">Login name is Required</div>
         </div>
 
         <div class="form-group">
@@ -58,8 +51,7 @@
           <input
             [ngClass]="{
               'is-invalid':
-                (accountAccessForm.get('scaWeight')?.errors &&
-                  accountAccessForm.get('scaWeight')?.touched) ||
+                (accountAccessForm.get('scaWeight')?.errors && accountAccessForm.get('scaWeight')?.touched) ||
                 (submitted && accountAccessForm.get('scaWeight')?.errors)
             }"
             class="form-control"
@@ -68,17 +60,9 @@
             placeholder="0"
             type="number"
           />
+          <div *ngIf="accountAccessForm.get('scaWeight')?.errors?.required" class="invalid-feedback">SCA weight is required</div>
           <div
-            *ngIf="accountAccessForm.get('scaWeight')?.errors?.required"
-            class="invalid-feedback"
-          >
-            SCA weight is required
-          </div>
-          <div
-            *ngIf="
-              accountAccessForm.get('scaWeight')?.errors?.min ||
-              accountAccessForm.get('scaWeight')?.errors?.max
-            "
+            *ngIf="accountAccessForm.get('scaWeight')?.errors?.min || accountAccessForm.get('scaWeight')?.errors?.max"
             class="invalid-feedback"
           >
             The SCA weight must be between 0 and 100
@@ -91,9 +75,7 @@
             [ngClass]="{
               'is-invalid':
                 accountAccessForm.get('accessType')?.errors &&
-                (accountAccessForm.get('accessType').dirty ||
-                  accountAccessForm.get('accessType').touched ||
-                  submitted)
+                (accountAccessForm.get('accessType').dirty || accountAccessForm.get('accessType').touched || submitted)
             }"
             class="form-control"
             formControlName="accessType"
@@ -103,21 +85,12 @@
               {{ accessType }}
             </option>
           </select>
-          <div
-            *ngIf="accountAccessForm.get('accessType')?.errors?.required"
-            class="invalid-feedback"
-          >
-            Role is required
-          </div>
+          <div *ngIf="accountAccessForm.get('accessType')?.errors?.required" class="invalid-feedback">Role is required</div>
         </div>
 
         <div class="d-flex justify-content-between">
-          <button class="btn btn-outline-danger" (click)="cancel()">
-            Cancel
-          </button>
-          <button class="btn btn-primary" type="submit" (click)="onSubmit()">
-            Grant access
-          </button>
+          <button class="btn btn-outline-danger" (click)="cancel()">Cancel</button>
+          <button class="btn btn-primary" type="submit" (click)="onSubmit()">Grant access</button>
         </div>
       </form>
     </div>

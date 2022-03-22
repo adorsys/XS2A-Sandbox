@@ -24,12 +24,7 @@
       <div class="form-group">
         <label for="currency">Desired currency*</label>
 
-        <select
-          [(ngModel)]="selectedCurrency"
-          name="currency"
-          class="form-control"
-          id="currency"
-        >
+        <select [(ngModel)]="selectedCurrency" name="currency" class="form-control" id="currency">
           <option *ngFor="let currency of currencyList" [ngValue]="currency">
             {{ currency }}
           </option>
@@ -45,33 +40,17 @@
             (change)="generatePaymentsFlag = !generatePaymentsFlag"
             id="generatePayments"
           />
-          <label class="form-check-label" for="generatePayments">
-            Generate Payment Data
-          </label>
+          <label class="form-check-label" for="generatePayments"> Generate Payment Data </label>
         </div>
-        <button
-          [disabled]="selectedCurrency == undefined"
-          (click)="generate()"
-          class="btn btn-primary my-0"
-        >
-          Generate and Download
-        </button>
+        <button [disabled]="selectedCurrency == undefined" (click)="generate()" class="btn btn-primary my-0">Generate and Download</button>
       </form>
     </div>
   </div>
 
   <div class="card card--medium mt-4">
     <div class="card-body">
-      <app-certificate
-        (certificateValue)="saveCertificateValue($event)"
-      ></app-certificate>
-      <button
-        class="btn btn-primary mb-4 mt-4"
-        [disabled]="!certificate"
-        (click)="generateCertificate()"
-      >
-        Generate and Download
-      </button>
+      <app-certificate (certificateValue)="saveCertificateValue($event)"></app-certificate>
+      <button class="btn btn-primary mb-4 mt-4" [disabled]="!certificate" (click)="generateCertificate()">Generate and Download</button>
     </div>
   </div>
 </div>

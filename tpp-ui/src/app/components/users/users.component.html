@@ -27,22 +27,13 @@
               <img src="./assets/icons/search.svg" />
             </span>
             <div>
-              <input
-                class="form-control w-100"
-                placeholder="Search by user login"
-                formControlName="userLogin"
-                type="text"
-              />
+              <input class="form-control w-100" placeholder="Search by user login" formControlName="userLogin" type="text" />
             </div>
           </div>
         </div>
         <div class="col-12 col-md-4">
           <div class="header__button">
-            <button
-              mat-raised-button
-              class="btn btn-primary btn-block"
-              routerLink="/users/create"
-            >
+            <button mat-raised-button class="btn btn-primary btn-block" routerLink="/users/create">
               <mat-icon>person_add</mat-icon> Create New User
             </button>
           </div>
@@ -57,10 +48,7 @@
         <div class="container-fluid" [ngClass]="{ 'configs-container': admin }">
           <div class="row d-flex justify-content-between configs fixed-width">
             <div class="paginator">
-              <app-pagination-container
-                [paginationConfig]="config"
-                (pageDataConfig)="pageChange($event)"
-              ></app-pagination-container>
+              <app-pagination-container [paginationConfig]="config" (pageDataConfig)="pageChange($event)"></app-pagination-container>
             </div>
 
             <div *ngIf="admin === 'true'" class="tpp-filters">
@@ -69,39 +57,21 @@
                   <div class="mr-2">
                     <label for="country">TPP login:</label>
                     <div class="filter">
-                      <input
-                        class="form-control"
-                        placeholder="Search by TPP login"
-                        formControlName="tppLogin"
-                        type="text"
-                      />
+                      <input class="form-control" placeholder="Search by TPP login" formControlName="tppLogin" type="text" />
                     </div>
                   </div>
                   <div class="mr-2">
                     <label for="country">TPP ID:</label>
                     <div class="filter">
-                      <input
-                        class="form-control"
-                        placeholder="Search by TPP ID"
-                        formControlName="tppId"
-                        type="text"
-                      />
+                      <input class="form-control" placeholder="Search by TPP ID" formControlName="tppId" type="text" />
                     </div>
                   </div>
                   <div class="select" *ngIf="admin === 'true'">
                     <label for="country">Country:</label>
                     <div class="select-filter">
-                      <select
-                        name="country"
-                        class="form-control"
-                        formControlName="country"
-                        id="country"
-                      >
+                      <select name="country" class="form-control" formControlName="country" id="country">
                         <option id="emptySelect" [ngValue]="" selected></option>
-                        <option
-                          *ngFor="let country of countries"
-                          [ngValue]="country.code"
-                        >
+                        <option *ngFor="let country of countries" [ngValue]="country.code">
                           {{ country.name }}
                         </option>
                       </select>
@@ -158,25 +128,14 @@
             </tr>
           </thead>
           <tbody>
-            <tr
-              *ngFor="let user of users; index as i"
-              [ngClass]="{ 'disabled-text': user.blocked }"
-            >
+            <tr *ngFor="let user of users; index as i" [ngClass]="{ 'disabled-text': user.blocked }">
               <th scope="row" [routerLink]="['/users/' + user.id]">
-                {{
-                  (config.currentPageNumber - 1) * config.itemsPerPage + i + 1
-                }}
+                {{ (config.currentPageNumber - 1) * config.itemsPerPage + i + 1 }}
               </th>
-              <td
-                [routerLink]="['/users/' + user.id]"
-                [queryParams]="{ page: config.currentPageNumber }"
-              >
+              <td [routerLink]="['/users/' + user.id]" [queryParams]="{ page: config.currentPageNumber }">
                 {{ user.login }}
               </td>
-              <td
-                [routerLink]="['/users/' + user.id]"
-                [queryParams]="{ page: config.currentPageNumber }"
-              >
+              <td [routerLink]="['/users/' + user.id]" [queryParams]="{ page: config.currentPageNumber }">
                 {{ user.email }}
               </td>
               <td [routerLink]="['/users/' + user.id]">
@@ -193,11 +152,7 @@
                   </li>
                 </ul>
               </td>
-              <td
-                *ngIf="admin === 'true'"
-                class="nowrap"
-                [routerLink]="['/users/' + user.id]"
-              >
+              <td *ngIf="admin === 'true'" class="nowrap" [routerLink]="['/users/' + user.id]">
                 {{ user?.branchLogin }}
               </td>
               <td *ngIf="admin === 'true'">
@@ -210,21 +165,10 @@
               </td>
               <td [routerLink]="['/users/' + user.id]">
                 <ul>
-                  <li
-                    *ngFor="
-                      let scaItem of user?.scaUserData;
-                      index as i;
-                      last as isLast
-                    "
-                    [ngClass]="{ 'mb-2': !isLast }"
-                  >
+                  <li *ngFor="let scaItem of user?.scaUserData; index as i; last as isLast" [ngClass]="{ 'mb-2': !isLast }">
                     {{ scaItem.methodValue }}
-                    <div *ngIf="scaItem.scaMethod">
-                      Sca Method: {{ scaItem.scaMethod }}
-                    </div>
-                    <div *ngIf="scaItem.usesStaticTan">
-                      Static TAN: {{ scaItem.staticTan }}
-                    </div>
+                    <div *ngIf="scaItem.scaMethod">Sca Method: {{ scaItem.scaMethod }}</div>
+                    <div *ngIf="scaItem.usesStaticTan">Static TAN: {{ scaItem.staticTan }}</div>
                   </li>
                 </ul>
               </td>
@@ -243,19 +187,11 @@
                 </a>
                 <button
                   mat-fab
-                  [matTooltip]="
-                    !user.blocked ? 'Block the user' : 'Unblock the user'
-                  "
+                  [matTooltip]="!user.blocked ? 'Block the user' : 'Unblock the user'"
                   [matTooltipPosition]="position.value"
                   aria-label="Block the user"
                   class="btn btn-table-btn mr-2"
-                  (click)="
-                    openConfirmation(
-                      blockConfirmation,
-                      user.id,
-                      user.blocked ? 'block' : 'unblock'
-                    )
-                  "
+                  (click)="openConfirmation(blockConfirmation, user.id, user.blocked ? 'block' : 'unblock')"
                 >
                   <mat-icon *ngIf="!user.blocked">lock</mat-icon>
                   <mat-icon *ngIf="user.blocked">lock_open</mat-icon>
@@ -263,51 +199,23 @@
 
                 <ng-template #deleteConfirmationModal let-modal>
                   <div class="modal-header">
-                    <h4 class="modal-title" id="modal-basic-title">
-                      User deletion
-                    </h4>
-                    <button
-                      type="button"
-                      class="close"
-                      aria-label="Close"
-                      (click)="modal.dismiss('Cross click')"
-                    >
+                    <h4 class="modal-title" id="modal-basic-title">User deletion</h4>
+                    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
-                  <div class="modal-body">
-                    Are you sure you want to delete this User?
-                  </div>
+                  <div class="modal-body">Are you sure you want to delete this User?</div>
                   <div class="modal-footer">
-                    <button
-                      mat-raised-button
-                      type="button"
-                      class="btn btn-outline-secondary mr-2"
-                      (click)="modal.dismiss('cancel click')"
-                    >
+                    <button mat-raised-button type="button" class="btn btn-outline-secondary mr-2" (click)="modal.dismiss('cancel click')">
                       Cancel
                     </button>
-                    <button
-                      mat-raised-button
-                      type="button"
-                      class="btn btn-danger"
-                      (click)="modal.close('Ok click')"
-                    >
-                      Delete
-                    </button>
+                    <button mat-raised-button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Delete</button>
                   </div>
                 </ng-template>
                 <ng-template #blockConfirmation let-modal>
                   <div class="modal-header">
-                    <h4 class="modal-title" id="modal-basic-title-1">
-                      User {{ user.blocked ? 'unblocking' : 'blocking' }}
-                    </h4>
-                    <button
-                      type="button"
-                      class="close"
-                      aria-label="Close"
-                      (click)="modal.dismiss('Cross click')"
-                    >
+                    <h4 class="modal-title" id="modal-basic-title-1">User {{ user.blocked ? 'unblocking' : 'blocking' }}</h4>
+                    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
@@ -316,20 +224,10 @@
                     {{ user.blocked ? 'Unblock' : 'Block' }} this User?
                   </div>
                   <div class="modal-footer">
-                    <button
-                      mat-raised-button
-                      type="button"
-                      class="btn btn-outline-secondary mr-2"
-                      (click)="modal.dismiss('cancel click')"
-                    >
+                    <button mat-raised-button type="button" class="btn btn-outline-secondary mr-2" (click)="modal.dismiss('cancel click')">
                       Cancel
                     </button>
-                    <button
-                      mat-raised-button
-                      type="button"
-                      class="btn btn-danger"
-                      (click)="modal.close('Ok click')"
-                    >
+                    <button mat-raised-button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">
                       {{ user.blocked ? 'Unblock' : 'Block' }}
                     </button>
                   </div>
@@ -340,9 +238,7 @@
                   [matTooltipPosition]="position.value"
                   aria-label="Delete the user"
                   class="btn btn-outline-danger mr-2"
-                  (click)="
-                    openConfirmation(deleteConfirmationModal, user.id, 'delete')
-                  "
+                  (click)="openConfirmation(deleteConfirmationModal, user.id, 'delete')"
                 >
                   <mat-icon>delete</mat-icon>
                 </button>
@@ -353,10 +249,7 @@
 
         <div class="container-fluid">
           <div class="row d-flex justify-content-start">
-            <app-pagination-container
-              [paginationConfig]="config"
-              (pageDataConfig)="pageChange($event)"
-            ></app-pagination-container>
+            <app-pagination-container [paginationConfig]="config" (pageDataConfig)="pageChange($event)"></app-pagination-container>
           </div>
         </div>
       </div>

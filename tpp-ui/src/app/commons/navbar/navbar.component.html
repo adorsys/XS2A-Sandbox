@@ -21,10 +21,7 @@
     <a class="navbar-brand text-primary mr-4" routerLink="/">
       <img class="logo" [src]="customizeService.getLogo()" />
     </a>
-    <span class="navbar-brand ml-3"
-      ><span *ngIf="!customizeService.isCustom()">adorsys&nbsp;</span
-      >{{ title }}</span
-    >
+    <span class="navbar-brand ml-3"><span *ngIf="!customizeService.isCustom()">adorsys&nbsp;</span>{{ title }}</span>
   </div>
   <ul class="nav">
     <li class="dropdown ml-auto">
@@ -44,11 +41,7 @@
             <span> Profile</span>
           </div>
         </a>
-        <a
-          (click)="onLogout()"
-          [routerLinkActive]="['active']"
-          class="dropdown-item clickable pb-2"
-        >
+        <a (click)="onLogout()" [routerLinkActive]="['active']" class="dropdown-item clickable pb-2">
           <div>
             <img src="./assets/icons/sign_out.svg" />
             <span class="nav__title"> Sign out</span>

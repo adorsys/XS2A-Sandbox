@@ -24,12 +24,7 @@ import { of, throwError } from 'rxjs';
 
 import { InfoModule } from '../../commons/info/info.module';
 import { InfoService } from '../../commons/info/info.service';
-import {
-  Account,
-  AccountStatus,
-  AccountType,
-  UsageType,
-} from '../../models/account.model';
+import { Account, AccountStatus, AccountType, UsageType } from '../../models/account.model';
 import { AccountService } from '../../services/account.service';
 import { AccountComponent } from '../account/account.component';
 import { AccountDetailComponent } from './account-detail.component';
@@ -42,27 +37,19 @@ describe('AccountDetailComponent', () => {
   let accountService: AccountService;
   let testDataGenerationService: TestDataGenerationService;
   let infoService: InfoService;
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          RouterTestingModule.withRoutes([
-            { path: 'accounts', component: AccountComponent },
-          ]),
-          ReactiveFormsModule,
-          HttpClientTestingModule,
-          InfoModule,
-          FormsModule,
-        ],
-        declarations: [
-          AccountDetailComponent,
-          AccountComponent,
-          ConvertBalancePipe,
-        ],
-        providers: [AccountService, InfoService, TestDataGenerationService],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule.withRoutes([{ path: 'accounts', component: AccountComponent }]),
+        ReactiveFormsModule,
+        HttpClientTestingModule,
+        InfoModule,
+        FormsModule,
+      ],
+      declarations: [AccountDetailComponent, AccountComponent, ConvertBalancePipe],
+      providers: [AccountService, InfoService, TestDataGenerationService],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AccountDetailComponent);
@@ -106,10 +93,7 @@ describe('AccountDetailComponent', () => {
     expect(component.accountForm.valid).toBeTruthy();
 
     // mock http call
-    let createAccountSpy = spyOn(
-      accountService,
-      'createAccount'
-    ).and.returnValue(of(mockAccount));
+    let createAccountSpy = spyOn(accountService, 'createAccount').and.returnValue(of(mockAccount));
     component.onSubmit();
 
     expect(component.submitted).toBeTruthy();
@@ -118,9 +102,7 @@ describe('AccountDetailComponent', () => {
 
   it('should initiale the currencies List', () => {
     let data = {};
-    let currenciesSpy = spyOn(accountService, 'getCurrencies').and.returnValue(
-      of({ currencies: data })
-    );
+    let currenciesSpy = spyOn(accountService, 'getCurrencies').and.returnValue(of({ currencies: data }));
     component.initializeCurrenciesList();
     expect(currenciesSpy).toHaveBeenCalled();
   });
@@ -130,16 +112,11 @@ describe('AccountDetailComponent', () => {
     let infoSpy = spyOn(infoService, 'openFeedback');
     //let generateSpy = spyOn(testDataGenerationService, 'generateIban').and.returnValue(of({data: infoSpy}));
     component.generateIban();
-    expect(infoSpy).toHaveBeenCalledWith(
-      'IBAN has been successfully generated'
-    );
+    expect(infoSpy).toHaveBeenCalledWith('IBAN has been successfully generated');
   });
 
   it('should initialize a currencies List', () => {
-    const currenciesSpy = spyOn(
-      accountService,
-      'getCurrencies'
-    ).and.returnValue(throwError(''));
+    const currenciesSpy = spyOn(accountService, 'getCurrencies').and.returnValue(throwError(''));
     component.initializeCurrenciesList();
   });
 });

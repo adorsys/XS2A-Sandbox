@@ -31,8 +31,7 @@
           <input
             [ngClass]="{
               'is-invalid':
-                (cashDepositForm.get('amount')?.errors &&
-                  cashDepositForm.get('amount')?.touched) ||
+                (cashDepositForm.get('amount')?.errors && cashDepositForm.get('amount')?.touched) ||
                 (submitted && cashDepositForm.get('amount')?.errors)
             }"
             class="form-control"
@@ -42,18 +41,8 @@
             type="number"
           />
 
-          <div
-            *ngIf="cashDepositForm.get('amount')?.errors?.required"
-            class="invalid-feedback"
-          >
-            Amount is required
-          </div>
-          <div
-            *ngIf="cashDepositForm.get('amount')?.errors?.min"
-            class="invalid-feedback"
-          >
-            The amount should be more than 0
-          </div>
+          <div *ngIf="cashDepositForm.get('amount')?.errors?.required" class="invalid-feedback">Amount is required</div>
+          <div *ngIf="cashDepositForm.get('amount')?.errors?.min" class="invalid-feedback">The amount should be more than 0</div>
         </div>
 
         <div class="form-group">
@@ -61,8 +50,7 @@
           <input
             [ngClass]="{
               'is-invalid':
-                (cashDepositForm.get('currency')?.errors &&
-                  cashDepositForm.get('currency')?.touched) ||
+                (cashDepositForm.get('currency')?.errors && cashDepositForm.get('currency')?.touched) ||
                 (submitted && cashDepositForm.get('currency')?.errors)
             }"
             class="form-control"
@@ -70,20 +58,10 @@
             id="currency"
             type="text"
           />
-          <div
-            *ngIf="cashDepositForm.get('currency')?.errors?.required"
-            class="invalid-feedback"
-          >
-            Currency is required
-          </div>
+          <div *ngIf="cashDepositForm.get('currency')?.errors?.required" class="invalid-feedback">Currency is required</div>
         </div>
         <div class="form-group d-flex flex-row justify-content-lg-between">
-          <button
-            class="btn mr-sm-2 mr-md-3 btn-outline-danger"
-            (click)="onCancel()"
-          >
-            Cancel
-          </button>
+          <button class="btn mr-sm-2 mr-md-3 btn-outline-danger" (click)="onCancel()">Cancel</button>
           <button class="btn btn-primary" type="submit">Deposit</button>
         </div>
       </form>

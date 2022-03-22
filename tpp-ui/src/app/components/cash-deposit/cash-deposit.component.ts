@@ -46,11 +46,7 @@ export class CashDepositComponent implements OnInit {
       currency: [{ value: '', disabled: true }, Validators.required],
       amount: ['', [Validators.required, Validators.min(0)]],
     });
-    this.accountService
-      .getAccount(this.accountId)
-      .subscribe((data) =>
-        this.cashDepositForm.get('currency').setValue(data['currency'])
-      );
+    this.accountService.getAccount(this.accountId).subscribe((data) => this.cashDepositForm.get('currency').setValue(data['currency']));
   }
 
   onSubmit() {
@@ -59,23 +55,16 @@ export class CashDepositComponent implements OnInit {
       return;
     }
 
-    this.accountService
-      .depositCash(this.accountId, this.cashDepositForm.getRawValue())
-      .subscribe(
-        () => this.router.navigate(['/accounts']),
-        (error) => {
-          if (typeof error.error === 'object') {
-            this.errorMessage =
-              error.error.status +
-              ' ' +
-              error.error.error +
-              ': ' +
-              error.error.message;
-          } else {
-            this.errorMessage = error.status + ' ' + error.error;
-          }
+    this.accountService.depositCash(this.accountId, this.cashDepositForm.getRawValue()).subscribe(
+      () => this.router.navigate(['/accounts']),
+      (error) => {
+        if (typeof error.error === 'object') {
+          this.errorMessage = error.error.status + ' ' + error.error.error + ': ' + error.error.message;
+        } else {
+          this.errorMessage = error.status + ' ' + error.error;
         }
-      );
+      }
+    );
   }
 
   onCancel() {

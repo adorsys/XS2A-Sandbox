@@ -31,8 +31,6 @@ export class SidebarComponent implements OnInit {
   constructor(private tppUserService: TppUserService) {}
 
   ngOnInit() {
-    this.tppUserService.currentTppUser.subscribe(
-      (user: User) => (this.admin = user && user.userRoles.includes('SYSTEM'))
-    );
+    this.tppUserService.currentTppUser.subscribe((user: User) => (this.admin = user && user.userRoles.includes('SYSTEM')));
   }
 }

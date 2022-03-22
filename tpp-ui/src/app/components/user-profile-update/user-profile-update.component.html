@@ -21,19 +21,12 @@
 
   <div class="card card--small">
     <div class="card-body--large">
-      <form
-        novalidate
-        [formGroup]="userForm"
-        (ngSubmit)="onSubmit()"
-        autocomplete="off"
-      >
+      <form novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()" autocomplete="off">
         <div class="mb-4">
           <label for="username">Login</label>
           <input
             [ngClass]="{
-              'is-invalid':
-                (formControl['username'].touched || submitted) &&
-                formControl['username'].errors
+              'is-invalid': (formControl['username'].touched || submitted) && formControl['username'].errors
             }"
             autocomplete="off"
             class="form-control"
@@ -43,10 +36,7 @@
             formControlName="username"
           />
           <div
-            *ngIf="
-              (formControl['username'].touched || submitted) &&
-              formControl['username'].hasError('required')
-            "
+            *ngIf="(formControl['username'].touched || submitted) && formControl['username'].hasError('required')"
             class="invalid-feedback"
           >
             Username is required
@@ -56,9 +46,7 @@
           <label for="email">Email</label>
           <input
             [ngClass]="{
-              'is-invalid':
-                (formControl['email'].touched || submitted) &&
-                formControl['email'].errors
+              'is-invalid': (formControl['email'].touched || submitted) && formControl['email'].errors
             }"
             autocomplete="off"
             class="form-control"
@@ -67,51 +55,21 @@
             type="email"
             formControlName="email"
           />
-          <div
-            *ngIf="
-              (formControl['email'].touched || submitted) &&
-              formControl['email'].hasError('required')
-            "
-            class="invalid-feedback"
-          >
+          <div *ngIf="(formControl['email'].touched || submitted) && formControl['email'].hasError('required')" class="invalid-feedback">
             Email is required
           </div>
-          <div
-            *ngIf="
-              (formControl['email'].touched || submitted) &&
-              formControl['email'].hasError('email')
-            "
-            class="invalid-feedback"
-          >
+          <div *ngIf="(formControl['email'].touched || submitted) && formControl['email'].hasError('email')" class="invalid-feedback">
             Email is invalid
           </div>
         </div>
         <div class="mb-4">
-          <button
-            class="btn btn-primary"
-            (click)="resetPasswordViaEmail(user.login)"
-            type="button"
-          >
-            Send password update link
-          </button>
+          <button class="btn btn-primary" (click)="resetPasswordViaEmail(user.login)" type="button">Send password update link</button>
         </div>
 
         <div class="d-flex justify-content-between">
-          <button
-            class="btn btn-outline-danger"
-            type="button"
-            (click)="location.back()"
-          >
-            Cancel
-          </button>
+          <button class="btn btn-outline-danger" type="button" (click)="location.back()">Cancel</button>
 
-          <button
-            class="btn btn-primary"
-            type="submit"
-            [disabled]="userForm.invalid"
-          >
-            Submit
-          </button>
+          <button class="btn btn-primary" type="submit" [disabled]="userForm.invalid">Submit</button>
         </div>
       </form>
     </div>

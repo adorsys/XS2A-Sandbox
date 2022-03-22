@@ -32,12 +32,7 @@ describe('CertificateDownloadService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientModule,
-        HttpClientTestingModule,
-        RouterTestingModule,
-        InfoModule,
-      ],
+      imports: [HttpClientModule, HttpClientTestingModule, RouterTestingModule, InfoModule],
       providers: [CertificateGenerationService, CertificateDownloadService],
     });
     service = TestBed.get(CertificateGenerationService);
@@ -50,12 +45,8 @@ describe('CertificateDownloadService', () => {
   it('should create a zip Url', (done) => {
     const encodedCert = 'encodedCert';
     const privateKey = 'privateKey';
-    spyOn(CertificateDownloadService, 'generateZipFile').and.returnValue(
-      of({}).toPromise()
-    );
-    spyOn(CertificateDownloadService, 'createObjectUrl').and.returnValue(
-      'dummy-obj-val'
-    );
+    spyOn(CertificateDownloadService, 'generateZipFile').and.returnValue(of({}).toPromise());
+    spyOn(CertificateDownloadService, 'createObjectUrl').and.returnValue('dummy-obj-val');
     service.createZipUrl(encodedCert, privateKey).then((r) => {
       expect(r).toBe('dummy-obj-val');
       done();
@@ -77,11 +68,9 @@ describe('CertificateDownloadService', () => {
     const certBlob = 'certBlob';
     const keyBlob = 'keyBlob';
     const mockZip: JSZip = ['Blob'];
-    CertificateDownloadService.generateZipFile(certBlob, keyBlob).then(
-      (r: any) => {
-        expect(r).toBeTruthy();
-        done();
-      }
-    );
+    CertificateDownloadService.generateZipFile(certBlob, keyBlob).then((r: any) => {
+      expect(r).toBeTruthy();
+      done();
+    });
   });
 });

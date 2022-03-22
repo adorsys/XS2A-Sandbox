@@ -16,22 +16,18 @@
  * contact us at psd2@adorsys.com.
  */
 
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
-import {AuthService} from '../../../services/auth.service';
-import {CustomizeService} from '../../../services/customize.service';
-import {ADMIN_KEY} from 'src/app/commons/constant/constant';
+import { AuthService } from '../../../services/auth.service';
+import { CustomizeService } from '../../../services/customize.service';
+import { ADMIN_KEY } from 'src/app/commons/constant/constant';
 import browser from 'browser-detect';
-import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
-} from '@angular/material/snack-bar';
-import {InfoService} from '../../../commons/info/info.service';
-import {MatDialog} from '@angular/material/dialog';
-import {ErrorDialogComponent} from '../../../commons/dialog/error-dialog.component';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { InfoService } from '../../../commons/info/info.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ErrorDialogComponent } from '../../../commons/dialog/error-dialog.component';
 
 @Component({
   selector: 'app-login',
@@ -53,17 +49,11 @@ export class LoginComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private infoService: InfoService,
     private dialog: MatDialog
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     const result = browser();
-    if (
-      result.name !== 'chrome' &&
-      result.name !== 'edge' &&
-      result.name !== 'safari' &&
-      result.name !== 'firefox'
-    ) {
+    if (result.name !== 'chrome' && result.name !== 'edge' && result.name !== 'safari' && result.name !== 'firefox') {
       this._snackBar.open(
         `Unfortunately, you are using an outdated browser. Our website may not look quite right in it. Please consider updating your browser to enjoy an optimal experience.`,
         'Close',
@@ -97,30 +87,26 @@ export class LoginComponent implements OnInit {
           this.dialog.open(ErrorDialogComponent, {
             height: '200px',
             width: '350px',
-            data: {heading: 'Wrong credentials', description: 'You have entered wrong credentials.'},
+            data: { heading: 'Wrong credentials', description: 'You have entered wrong credentials.' },
           });
         }
         if (data.status === 403) {
           this.dialog.open(ErrorDialogComponent, {
             height: '200px',
             width: '350px',
-            data: {heading: 'Wrong roles', description: 'You have the wrong role.'},
+            data: { heading: 'Wrong roles', description: 'You have the wrong role.' },
           });
         }
       }
-    )
-    ;
+    );
   }
 
   navigateOnLogin() {
     if (sessionStorage.getItem(ADMIN_KEY) === 'true') {
       this.authService.logout();
-      this.infoService.openFeedback(
-        'Admin doesn\'t have access to this system',
-        {
-          severity: 'error',
-        }
-      );
+      this.infoService.openFeedback("Admin doesn't have access to this system", {
+        severity: 'error',
+      });
     } else {
       this.router.navigate(['/']);
     }

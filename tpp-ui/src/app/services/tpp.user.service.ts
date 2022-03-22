@@ -36,9 +36,7 @@ export class TppUserService {
   constructor(private http: HttpClient) {}
 
   public getUserInfo() {
-    return this.http
-      .get<User>(`${this.url}/users/me`)
-      .pipe(tap((user) => this.tppUser.next(user)));
+    return this.http.get<User>(`${this.url}/users/me`).pipe(tap((user) => this.tppUser.next(user)));
   }
 
   public resetPasswordViaEmail(login: string): Observable<any> {
