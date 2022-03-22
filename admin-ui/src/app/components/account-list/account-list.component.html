@@ -19,14 +19,15 @@
 <div class="container-fluid" [formGroup]="searchForm">
   <div class="row header">
     <div class="col-12 col-md-3 header__title">Accounts</div>
-    <div class="col-12 col-md-9">
+    <div class="col-12 col-md-12 mt-3">
       <div class="row">
-        <div class="col-12 col-md-12 p-md-0">
-          <div class="form-group has-search">
-            <span class="form-control-feedback">
-              <img src="./assets/icons/search.svg" alt="search logo" />
-            </span>
-            <div>
+        <div class="col-sm">
+          <div class="mr-2">
+            <div class="form-group has-search">
+              <label>IBAN:</label>
+              <span class="form-control-feedback">
+                <img src="./assets/icons/search.svg" alt="search logo" />
+              </span>
               <input
                 class="form-control w-100"
                 placeholder="Search by IBAN"
@@ -36,6 +37,53 @@
             </div>
           </div>
         </div>
+        <div class="col-sm mr-2">
+          <div class="form-group has-search">
+            <label>TPP ID:</label>
+            <span class="form-control-feedback">
+              <img src="./assets/icons/search.svg" alt="search logo" />
+            </span>
+            <input
+              class="form-control w-100"
+              placeholder="Search by TPP ID"
+              formControlName="tppId"
+              type="text"
+            />
+          </div>
+        </div>
+        <div class="col-sm">
+          <div class="select mr-2">
+            <label for="country">Country:</label>
+            <select
+              name="country"
+              class="form-control"
+              formControlName="country"
+              id="country"
+            >
+              <option id="emptySelect" [ngValue]="" selected></option>
+              <option
+                *ngFor="let country of countries"
+                [ngValue]="country.code"
+              >
+                {{ country.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm">
+          <label for="filter">Filter: </label>
+          <select
+            name="filter"
+            class="form-control"
+            formControlName="filter"
+            (change)="onChangeFilterSelection()"
+            id="filter"
+          >
+            <option selected>No Filters</option>
+            <option>Active</option>
+            <option>Blocked</option>
+          </select>
+        </div>
       </div>
     </div>
   </div>
@@ -43,77 +91,12 @@
     <div class="card-body">
       <div class="table-responsive">
         <div class="container-fluid configs-container">
-          <div class="row d-flex justify-content-between configs fixed-width">
+          <div class="row d-flex justify-cosntent-between configs fixed-width">
             <div class="paginator">
               <app-pagination-container
                 [paginationConfig]="config"
                 (pageDataConfig)="pageChange($event)"
               ></app-pagination-container>
-            </div>
-
-            <div class="tpp-filters">
-              <div class="container-fluid">
-                <div class="row d-flex justify-content-end">
-                  <div class="mr-2">
-                    <label for="country">TPP ID:</label>
-                    <div class="filter">
-                      <input
-                        class="form-control"
-                        placeholder="Search by TPP ID..."
-                        formControlName="tppId"
-                        type="text"
-                      />
-                    </div>
-                  </div>
-                  <div class="select">
-                    <label for="country">Country:</label>
-                    <div class="select-filter">
-                      <select
-                        name="country"
-                        class="form-control"
-                        formControlName="country"
-                        id="country"
-                      >
-                        <option id="emptySelect" [ngValue]="" selected></option>
-                        <option
-                          *ngFor="let country of countries"
-                          [ngValue]="country.code"
-                        >
-                          {{ country.name }}
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row d-flex justify-content-end">
-                  <button
-                    class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
-                    (click)="setBlocked(false)"
-                    [ngClass]="{
-                      active: searchForm.controls.blocked.value === false
-                    }"
-                  >
-                    Active
-                  </button>
-                  <button
-                    class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
-                    (click)="setBlocked(true)"
-                    [ngClass]="{
-                      active: searchForm.controls.blocked.value === true
-                    }"
-                  >
-                    Blocked
-                  </button>
-                  <button
-                    class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
-                    (click)="showAllTpps()"
-                    [ngClass]="{ active: isSearchFormEmpty() }"
-                  >
-                    Reset Filters
-                  </button>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -331,6 +314,9 @@
             </tr>
           </tbody>
         </table>
+        <p *ngIf="accounts.length > 1" class="text-center font-weight-bold">
+          No suitable user account available
+        </p>
 
         <div class="container-fluid">
           <div class="row d-flex justify-content-start">

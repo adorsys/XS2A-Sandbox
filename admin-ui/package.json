@@ -36,6 +36,7 @@
     "font-awesome": "^4.7.0",
     "jasmine": "^3.6.4",
     "jszip": "^3.6.0",
+    "karma-coverage": "^2.2.0",
     "material-icons": "^0.5.3",
     "ng-http-loader": "9.1.0",
     "ng2-file-upload": "1.4.0",

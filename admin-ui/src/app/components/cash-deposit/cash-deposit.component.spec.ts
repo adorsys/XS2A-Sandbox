@@ -89,10 +89,9 @@ describe('CashDepositComponent', () => {
 
     // cashDepositForm submit
     const sampleResponse = { value: 'sample response' };
-    const depositCashSpy = spyOn(
-      accountService,
-      'depositCash'
-    ).and.callFake(() => of(sampleResponse));
+    const depositCashSpy = spyOn(accountService, 'depositCash').and.callFake(
+      () => of(sampleResponse)
+    );
     const navigateSpy = spyOn(router, 'navigate');
     component.onSubmit();
     expect(component.submitted).toBeTruthy();

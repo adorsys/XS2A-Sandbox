@@ -74,6 +74,7 @@ export class TppsComponent implements OnInit, OnDestroy {
     tppLogin: '',
     country: '',
     blocked: '',
+    filter: '',
     itemsPerPage: [this.config.itemsPerPage, Validators.required],
   });
 
@@ -330,5 +331,17 @@ export class TppsComponent implements OnInit, OnDestroy {
         }
       );
     });
+  }
+
+  onChangeFilterSelection() {
+    const filterValue = this.searchForm.get('filter').value;
+    console.log(filterValue);
+    if (filterValue.match('Active')) {
+      this.setBlocked(false);
+    } else if (filterValue.match('Blocked')) {
+      this.setBlocked(true);
+    } else {
+      this.showAllTpps();
+    }
   }
 }

@@ -18,346 +18,331 @@
 
 <div class="container-fluid" [formGroup]="searchForm">
   <div class="row header">
-    <div class="col-12 col-md-4 header__title">List of users</div>
-    <div class="col-12 col-md-8 right">
-      <div class="row">
-        <div class="col-12 col-md-8 p-md-0">
-          <div class="form-group has-search">
-            <span class="form-control-feedback">
-              <img src="./assets/icons/search.svg" alt="search logo" />
-            </span>
-            <div>
-              <input
-                class="form-control w-100"
-                placeholder="Search by user login"
-                formControlName="userLogin"
-                type="text"
-              />
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-md-4">
-          <div class="header__button">
-            <button
-              mat-raised-button
-              class="btn btn-primary btn-block"
-              routerLink="/users/create"
-            >
-              <mat-icon>person_add</mat-icon> Create New User
-            </button>
-          </div>
-        </div>
+    <div class="col-3 col-md-10 header__title">List of users</div>
+    <div class="col-12 col-md-2 right">
+      <div class="row flex-end">
+        <button
+          mat-raised-button
+          class="btn btn-primary btn-block"
+          routerLink="/users/create"
+        >
+          <mat-icon>person_add</mat-icon>
+          Create a New User
+        </button>
       </div>
     </div>
-  </div>
-
-  <div class="card">
-    <div class="card-body">
-      <div class="table-responsive">
-        <div class="container-fluid configs-container">
-          <div class="row d-flex justify-content-between configs fixed-width">
-            <div class="paginator">
-              <app-pagination-container
-                [paginationConfig]="config"
-                (pageDataConfig)="pageChange($event)"
-              ></app-pagination-container>
-            </div>
-
-            <div class="tpp-filters">
-              <div class="container-fluid">
-                <div class="row d-flex justify-content-end">
-                  <div class="mr-2">
-                    <label for="country">TPP login:</label>
-                    <div class="filter">
-                      <input
-                        class="form-control"
-                        placeholder="Search by TPP login"
-                        formControlName="tppLogin"
-                        type="text"
-                      />
-                    </div>
-                  </div>
-                  <div class="mr-2">
-                    <label for="country">TPP ID:</label>
-                    <div class="filter">
-                      <input
-                        class="form-control"
-                        placeholder="Search by TPP ID"
-                        formControlName="tppId"
-                        type="text"
-                      />
-                    </div>
-                  </div>
-                  <div class="select">
-                    <label for="country">Country:</label>
-                    <div class="select-filter">
-                      <select
-                        name="country"
-                        class="form-control"
-                        formControlName="country"
-                        id="country"
-                      >
-                        <option id="emptySelect" [ngValue]="" selected></option>
-                        <option
-                          *ngFor="let country of countries"
-                          [ngValue]="country.code"
-                        >
-                          {{ country.name }}
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row d-flex justify-content-end">
-                  <button
-                    mat-raised-button
-                    class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
-                    (click)="setBlocked(false)"
-                    [ngClass]="{
-                      active: searchForm.controls.blocked.value === false
-                    }"
-                  >
-                    Active
-                  </button>
-                  <button
-                    mat-raised-button
-                    class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
-                    (click)="setBlocked(true)"
-                    [ngClass]="{
-                      active: searchForm.controls.blocked.value === true
-                    }"
-                  >
-                    Blocked
-                  </button>
-                  <button
-                    mat-raised-button
-                    class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
-                    (click)="showAllTpps()"
-                    [ngClass]="{ active: isSearchFormEmpty() }"
-                  >
-                    Reset Filters
-                  </button>
-                </div>
+    <div class="col-9 col-md-12 mt-3">
+      <div class="row">
+        <div class="col-sm">
+          <label for="country">User login:</label>
+          <div class="filter">
+            <div class="form-group has-search">
+              <span class="form-control-feedback">
+                <img src="./assets/icons/search.svg" alt="search logo" />
+              </span>
+              <div>
+                <input
+                  class="form-control w-100"
+                  placeholder="Search by user login"
+                  formControlName="userLogin"
+                  type="text"
+                />
               </div>
             </div>
           </div>
         </div>
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">User Login</th>
-              <th scope="col">Email</th>
-              <th scope="col">Accounts</th>
-              <th scope="col">Currencies</th>
-              <th scope="col">TPP login</th>
-              <th scope="col">TPP ID</th>
-              <th scope="col">Authentication methods</th>
-              <th scope="col">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              *ngFor="let user of users; index as i"
-              [ngClass]="{ 'disabled-text': user.blocked }"
+        <div class="col-sm mr-2">
+          <label for="country">TPP login:</label>
+          <div class="form-group has-search">
+            <span class="form-control-feedback">
+              <img src="./assets/icons/search.svg" alt="search logo" />
+            </span>
+            <input
+              class="form-control w-100"
+              placeholder="Search by TPP login"
+              formControlName="tppLogin"
+              type="text"
+            />
+          </div>
+        </div>
+        <div class="col-sm mr-2">
+          <div class="form-group has-search">
+            <label>TPP ID:</label>
+            <span class="form-control-feedback">
+              <img src="./assets/icons/search.svg" alt="search logo" />
+            </span>
+            <input
+              class="form-control w-100"
+              placeholder="Search by TPP ID"
+              formControlName="tppId"
+              type="text"
+            />
+          </div>
+        </div>
+        <div class="col-sm">
+          <label for="country">Country:</label>
+          <div class="select-filter">
+            <select
+              name="country"
+              class="form-control"
+              formControlName="country"
+              id="country"
             >
-              <th scope="row" [routerLink]="['/users/' + user.id]">
-                {{
-                  (config.currentPageNumber - 1) * config.itemsPerPage + i + 1
-                }}
-              </th>
-              <td
-                [routerLink]="['/users/' + user.id]"
-                [queryParams]="{ page: config.currentPageNumber }"
+              <option id="emptySelect" [ngValue]="" selected></option>
+              <option
+                *ngFor="let country of countries"
+                [ngValue]="country.code"
               >
-                {{ user.login }}
-              </td>
-              <td
-                [routerLink]="['/users/' + user.id]"
-                [queryParams]="{ page: config.currentPageNumber }"
-              >
-                {{ user.email }}
-              </td>
-              <td [routerLink]="['/users/' + user.id]">
-                <ul>
-                  <li *ngFor="let accountAccess of user?.accountAccesses">
-                    {{ accountAccess.iban }}
-                  </li>
-                </ul>
-              </td>
-              <td [routerLink]="['/users/' + user.id]">
-                <ul>
-                  <li *ngFor="let accountAccess of user?.accountAccesses">
-                    {{ accountAccess.currency }}
-                  </li>
-                </ul>
-              </td>
-              <td class="nowrap" [routerLink]="['/users/' + user.id]">
-                {{ user?.branchLogin }}
-              </td>
-              <td>
-                <a
-                  [routerLink]="[createLastVisitedPageLink(user.branch)]"
-                  [queryParams]="{ page: config.currentPageNumber }"
-                  [ngClass]="{ 'disabled-text': user.blocked }"
-                  >{{ user.branch }}
-                </a>
-              </td>
-              <td [routerLink]="['/users/' + user.id]">
-                <ul>
-                  <li
-                    *ngFor="
-                      let scaItem of user?.scaUserData;
-                      index as i;
-                      last as isLast
-                    "
-                    [ngClass]="{ 'mb-2': !isLast }"
-                  >
-                    {{ scaItem.methodValue }}
-                    <div *ngIf="scaItem.scaMethod">
-                      Sca Method: {{ scaItem.scaMethod }}
-                    </div>
-                    <div *ngIf="scaItem.usesStaticTan">
-                      Static TAN: {{ scaItem.staticTan }}
-                    </div>
-                  </li>
-                </ul>
-              </td>
-              <td class="action d-flex">
-                <a
-                  matTooltip="Create Deposit Account"
-                  [matTooltipPosition]="position.value"
-                  aria-label="Create Deposit Account"
-                  mat-fab
-                  class="btn btn-table-btn mr-2"
-                  routerLink="/users/{{ user.id }}/create-deposit-account"
-                  [queryParams]="{ tppId: user.branch, userId: user.id }"
-                  *ngIf="!user.blocked"
-                >
-                  <mat-icon>account_balance</mat-icon>
-                </a>
-                <button
-                  mat-fab
-                  [matTooltip]="
-                    !user.blocked ? 'Block the user' : 'Unblock the user'
-                  "
-                  [title]="
-                    !user.blocked ? 'Block the user' : 'Unblock the user'
-                  "
-                  [matTooltipPosition]="position.value"
-                  aria-label="Block the user"
-                  class="btn btn-table-btn mr-2"
-                  (click)="
-                    openConfirmation(
-                      blockConfirmation,
-                      user.id,
-                      user.blocked ? 'block' : 'unblock'
-                    )
-                  "
-                >
-                  <mat-icon *ngIf="!user.blocked">lock</mat-icon>
-                  <mat-icon *ngIf="user.blocked">lock_open</mat-icon>
-                </button>
+                {{ country.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm">
+          <label for="filter">Filter: </label>
+          <select
+            name="filter"
+            class="form-control"
+            formControlName="filter"
+            (change)="onChangeFilterSelection()"
+            id="filter"
+          >
+            <option selected>No Filters</option>
+            <option>Active</option>
+            <option>Blocked</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-                <ng-template #deleteConfirmationModal let-modal>
-                  <div class="modal-header">
-                    <h4 class="modal-title" id="modal-basic-title">
-                      User deletion
-                    </h4>
-                    <button
-                      type="button"
-                      class="close"
-                      aria-label="Close"
-                      (click)="modal.dismiss('Cross click')"
-                    >
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    Are you sure you want to delete this User?
-                  </div>
-                  <div class="modal-footer">
-                    <button
-                      mat-raised-button
-                      type="button"
-                      class="btn btn-outline-secondary mr-2"
-                      (click)="modal.dismiss('cancel click')"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      mat-raised-button
-                      type="button"
-                      class="btn btn-danger"
-                      (click)="modal.close('Ok click')"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </ng-template>
-                <ng-template #blockConfirmation let-modal>
-                  <div class="modal-header">
-                    <h4 class="modal-title" id="modal-basic-title-1">
-                      User {{ user.blocked ? "unblocking" : "blocking" }}
-                    </h4>
-                    <button
-                      type="button"
-                      class="close"
-                      aria-label="Close"
-                      (click)="modal.dismiss('Cross click')"
-                    >
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    Are you sure you want to
-                    {{ user.blocked ? "Unblock" : "Block" }} this User?
-                  </div>
-                  <div class="modal-footer">
-                    <button
-                      mat-raised-button
-                      type="button"
-                      class="btn btn-outline-secondary mr-2"
-                      (click)="modal.dismiss('cancel click')"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      mat-raised-button
-                      type="button"
-                      class="btn btn-danger"
-                      (click)="modal.close('Ok click')"
-                    >
-                      {{ user.blocked ? "Unblock" : "Block" }}
-                    </button>
-                  </div>
-                </ng-template>
-                <button
-                  mat-fab
-                  matTooltip="Delete the user"
-                  title="Delete the user"
-                  [matTooltipPosition]="position.value"
-                  aria-label="Delete the user"
-                  class="btn btn-outline-danger mr-2"
-                  (click)="
-                    openConfirmation(deleteConfirmationModal, user.id, 'delete')
-                  "
-                >
-                  <mat-icon>delete</mat-icon>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div class="container-fluid">
-          <div class="row d-flex justify-content-start">
+<div class="card">
+  <div class="card-body">
+    <div class="table-responsive">
+      <div class="container-fluid configs-container">
+        <div class="row d-flex justify-content-between configs fixed-width">
+          <div class="paginator">
             <app-pagination-container
               [paginationConfig]="config"
               (pageDataConfig)="pageChange($event)"
             ></app-pagination-container>
           </div>
+        </div>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">User Login</th>
+            <th scope="col">Email</th>
+            <th scope="col">Accounts</th>
+            <th scope="col">Currencies</th>
+            <th scope="col">TPP login</th>
+            <th scope="col">TPP ID</th>
+            <th scope="col">Authentication methods</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let user of users; index as i"
+            [ngClass]="{ 'disabled-text': user.blocked }"
+          >
+            <th scope="row" [routerLink]="['/users/' + user.id]">
+              {{ (config.currentPageNumber - 1) * config.itemsPerPage + i + 1 }}
+            </th>
+            <td
+              [routerLink]="['/users/' + user.id]"
+              [queryParams]="{ page: config.currentPageNumber }"
+            >
+              {{ user.login }}
+            </td>
+            <td
+              [routerLink]="['/users/' + user.id]"
+              [queryParams]="{ page: config.currentPageNumber }"
+            >
+              {{ user.email }}
+            </td>
+            <td [routerLink]="['/users/' + user.id]">
+              <ul>
+                <li *ngFor="let accountAccess of user?.accountAccesses">
+                  {{ accountAccess.iban }}
+                </li>
+              </ul>
+            </td>
+            <td [routerLink]="['/users/' + user.id]">
+              <ul>
+                <li *ngFor="let accountAccess of user?.accountAccesses">
+                  {{ accountAccess.currency }}
+                </li>
+              </ul>
+            </td>
+            <td class="nowrap" [routerLink]="['/users/' + user.id]">
+              {{ user?.branchLogin }}
+            </td>
+            <td>
+              <a
+                [routerLink]="[createLastVisitedPageLink(user.branch)]"
+                [queryParams]="{ page: config.currentPageNumber }"
+                [ngClass]="{ 'disabled-text': user.blocked }"
+                >{{ user.branch }}
+              </a>
+            </td>
+            <td [routerLink]="['/users/' + user.id]">
+              <ul>
+                <li
+                  *ngFor="
+                    let scaItem of user?.scaUserData;
+                    index as i;
+                    last as isLast
+                  "
+                  [ngClass]="{ 'mb-2': !isLast }"
+                >
+                  {{ scaItem.methodValue }}
+                  <div *ngIf="scaItem.scaMethod">
+                    Sca Method: {{ scaItem.scaMethod }}
+                  </div>
+                  <div *ngIf="scaItem.usesStaticTan">
+                    Static TAN: {{ scaItem.staticTan }}
+                  </div>
+                </li>
+              </ul>
+            </td>
+            <td class="action d-flex">
+              <a
+                matTooltip="Create Deposit Account"
+                [matTooltipPosition]="position.value"
+                aria-label="Create Deposit Account"
+                mat-fab
+                class="btn btn-table-btn mr-2"
+                routerLink="/users/{{ user.id }}/create-deposit-account"
+                [queryParams]="{ tppId: user.branch, userId: user.id }"
+                *ngIf="!user.blocked"
+              >
+                <mat-icon>account_balance</mat-icon>
+              </a>
+              <button
+                mat-fab
+                [matTooltip]="
+                  !user.blocked ? 'Block the user' : 'Unblock the user'
+                "
+                [title]="!user.blocked ? 'Block the user' : 'Unblock the user'"
+                [matTooltipPosition]="position.value"
+                aria-label="Block the user"
+                class="btn btn-table-btn mr-2"
+                (click)="
+                  openConfirmation(
+                    blockConfirmation,
+                    user.id,
+                    user.blocked ? 'block' : 'unblock'
+                  )
+                "
+              >
+                <mat-icon *ngIf="!user.blocked">lock</mat-icon>
+                <mat-icon *ngIf="user.blocked">lock_open</mat-icon>
+              </button>
+
+              <ng-template #deleteConfirmationModal let-modal>
+                <div class="modal-header">
+                  <h4 class="modal-title" id="modal-basic-title">
+                    User deletion
+                  </h4>
+                  <button
+                    type="button"
+                    class="close"
+                    aria-label="Close"
+                    (click)="modal.dismiss('Cross click')"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  Are you sure you want to delete this User?
+                </div>
+                <div class="modal-footer">
+                  <button
+                    mat-raised-button
+                    type="button"
+                    class="btn btn-outline-secondary mr-2"
+                    (click)="modal.dismiss('cancel click')"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    mat-raised-button
+                    type="button"
+                    class="btn btn-danger"
+                    (click)="modal.close('Ok click')"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </ng-template>
+              <ng-template #blockConfirmation let-modal>
+                <div class="modal-header">
+                  <h4 class="modal-title" id="modal-basic-title-1">
+                    User {{ user.blocked ? "unblocking" : "blocking" }}
+                  </h4>
+                  <button
+                    type="button"
+                    class="close"
+                    aria-label="Close"
+                    (click)="modal.dismiss('Cross click')"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  Are you sure you want to
+                  {{ user.blocked ? "Unblock" : "Block" }} this User?
+                </div>
+                <div class="modal-footer">
+                  <button
+                    mat-raised-button
+                    type="button"
+                    class="btn btn-outline-secondary mr-2"
+                    (click)="modal.dismiss('cancel click')"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    mat-raised-button
+                    type="button"
+                    class="btn btn-danger"
+                    (click)="modal.close('Ok click')"
+                  >
+                    {{ user.blocked ? "Unblock" : "Block" }}
+                  </button>
+                </div>
+              </ng-template>
+              <button
+                mat-fab
+                matTooltip="Delete the user"
+                title="Delete the user"
+                [matTooltipPosition]="position.value"
+                aria-label="Delete the user"
+                class="btn btn-outline-danger mr-2"
+                (click)="
+                  openConfirmation(deleteConfirmationModal, user.id, 'delete')
+                "
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p *ngIf="users.length > 1" class="text-center font-weight-bold">
+        No suitable user is available
+      </p>
+
+      <div class="container-fluid">
+        <div class="row d-flex justify-content-start">
+          <app-pagination-container
+            [paginationConfig]="config"
+            (pageDataConfig)="pageChange($event)"
+          ></app-pagination-container>
         </div>
       </div>
     </div>

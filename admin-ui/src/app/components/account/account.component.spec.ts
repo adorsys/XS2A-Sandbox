@@ -34,6 +34,7 @@ import { ConvertBalancePipe } from '../../pipes/convertBalance.pipe';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { TppManagementService } from '../../services/tpp-management.service';
+import {BigInteger} from "@angular/compiler/src/i18n/big_integer";
 
 describe('AccountComponent', () => {
   let component: AccountComponent;
@@ -168,9 +169,7 @@ describe('AccountComponent', () => {
     };
     const infoServiceOpenFeedbackSpy = spyOn(infoService, 'openFeedback');
     component.goToAccountDetail();
-    expect(
-      infoServiceOpenFeedbackSpy
-    ).toHaveBeenCalledWith(
+    expect(infoServiceOpenFeedbackSpy).toHaveBeenCalledWith(
       'You can not Grant Accesses to a Deleted/Blocked account',
       { severity: 'error' }
     );
@@ -229,7 +228,7 @@ describe('AccountComponent', () => {
         details: '',
         linkedAccounts: '',
         balances: [],
-        creditLimit: BigInt(9080809898098),
+        creditLimit: Number(9080809898098),
       },
       accesses: [
         {
