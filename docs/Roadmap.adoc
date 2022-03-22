@@ -25,10 +25,13 @@ a| * Updated and fixed documentation
 * Ledgers v.4.17
 * Renamed EMAIL SCA method to SMTP_OTP
 * Added ability to create payments without endToEndIdentification
+| 22.03.2022	|6.2	|7.2
+a| * Updated and fixed documentation
+* Payment initiation without debtor IBAN with further IBAN selection via Online Banking App
+* Support of PIIS ASPSP consent management in TPP-UI and Online Banking App
+
 | Further development | |
 
-a| * Payment initiation without debtor IBAN with further IBAN selection via Online Banking App
-* Support of PIIS ASPSP consent management in TPP-UI and Online Banking App
 * The field fundsAvailable should be supported in the response for Payment Initiation Status Request
 * Support of PIIS consent in TPP-UI (Frontend)
 * The field fundsAvailable should be supported in the response for Payment Initiation Status Request
