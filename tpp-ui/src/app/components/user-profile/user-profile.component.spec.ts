@@ -28,6 +28,11 @@ import { Router } from '@angular/router';
 import { User } from '../../models/user.model';
 import { of } from 'rxjs';
 import { TppManagementService } from '../../services/tpp-management.service';
+import { InfoService } from '../../commons/info/info.service';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { Store } from '@ngxs/store';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
@@ -46,9 +51,11 @@ describe('UserProfileComponent', () => {
     scaUserData: [],
     accountAccesses: [],
     branchLogin: 'branchLogin',
+    userRoles: ['SYSTEM'],
   };
 
   const mockTppUserService = {
+    currentTppUser: of(mockUser),
     getUserInfo: () => of(mockUser),
   };
 
@@ -60,12 +67,22 @@ describe('UserProfileComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, HttpClientTestingModule, RouterTestingModule, RouterTestingModule.withRoutes([])],
+      imports: [
+        ReactiveFormsModule,
+        HttpClientTestingModule,
+        OverlayModule,
+        RouterTestingModule,
+        RouterTestingModule.withRoutes([]),
+        BrowserAnimationsModule,
+        NoopAnimationsModule,
+      ],
       providers: [
-        TppManagementService,
         NgbModal,
         AuthService,
         TppUserService,
+        InfoService,
+        { provide: Store, useValue: {} },
+        { provide: BsModalService, useValue: {} },
         { provide: AuthService, useValue: mockAuthUserService },
         { provide: TppUserService, useValue: mockTppUserService },
       ],

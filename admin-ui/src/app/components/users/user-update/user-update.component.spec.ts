@@ -30,11 +30,13 @@ import { User } from '../../../models/user.model';
 import { RouterTestingModule } from '@angular/router/testing';
 import { IconModule } from '../../../commons/icon/icon.module';
 import { ScaMethods } from '../../../models/scaMethods';
+import { TppManagementService } from '../../../services/tpp-management.service';
 
 describe('UserUpdateComponent', () => {
   let component: UserUpdateComponent;
   let fixture: ComponentFixture<UserUpdateComponent>;
   let userService: UserService;
+  let tppManagementService: TppManagementService;
   let infoService: InfoService;
   let activate: ActivatedRoute;
   let router: Router;
@@ -62,7 +64,7 @@ describe('UserUpdateComponent', () => {
           HttpClientTestingModule,
           IconModule,
         ],
-        providers: [UserService, InfoService],
+        providers: [UserService, InfoService, TppManagementService],
         declarations: [UserUpdateComponent],
       }).compileComponents();
     })
@@ -71,10 +73,11 @@ describe('UserUpdateComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UserUpdateComponent);
     component = fixture.componentInstance;
-    userService = TestBed.get(UserService);
-    infoService = TestBed.get(InfoService);
-    router = TestBed.get(Router);
-    activate = TestBed.get(ActivatedRoute);
+    userService = TestBed.inject(UserService);
+    tppManagementService = TestBed.inject(TppManagementService);
+    infoService = TestBed.inject(InfoService);
+    router = TestBed.inject(Router);
+    activate = TestBed.inject(ActivatedRoute);
     fixture.detectChanges();
   });
 
@@ -122,27 +125,6 @@ describe('UserUpdateComponent', () => {
     // set login to something correct
     login.setValue('test@test.de');
     errors = login.errors || {};
-    expect(errors['required']).toBeFalsy();
-  });
-
-  it('pin field validity', () => {
-    let errors = {};
-    const pin = component.updateUserForm.controls['pin'];
-    expect(pin.valid).toBeFalsy();
-
-    // pin field is required
-    errors = pin.errors || {};
-    expect(errors['required']).toBeTruthy();
-
-    // pin should have at least 5 characters
-    pin.setValue('1234');
-    errors = pin.errors || {};
-    expect(errors['required']).toBeFalsy();
-    expect(errors['minlength']).toBeTruthy();
-
-    // set pin to something correct
-    pin.setValue('12345678');
-    errors = pin.errors || {};
     expect(errors['required']).toBeFalsy();
   });
 
@@ -235,7 +217,7 @@ describe('UserUpdateComponent', () => {
   });
 
   it('should load actual user and update its details', () => {
-    const mockUser: User = {
+    let mockUser: User = {
       id: 'XXXXXX',
       email: 'tes@adorsys.de',
       login: 'bob',
@@ -250,7 +232,7 @@ describe('UserUpdateComponent', () => {
       ],
     } as User;
 
-    const getUserSpy = spyOn(userService, 'getUser').and.returnValue(
+    let getUserSpy = spyOn(userService, 'getUser').and.returnValue(
       of(mockUser)
     );
 
@@ -260,13 +242,13 @@ describe('UserUpdateComponent', () => {
 
     const scaUserData = <FormArray>component.updateUserForm.get('scaUserData');
     component.user = mockUser;
+    component.userId = 'all';
     component.updateUserForm.get('email').setValue('dart.vader@dark-side.com');
     component.updateUserForm.get('login').setValue('dart.vader');
-    component.updateUserForm.get('pin').setValue('12345678');
 
     const sampleResponse = { value: 'sample response' };
     const updateUserDetail = spyOn(
-      userService,
+      tppManagementService,
       'updateUserDetails'
     ).and.callFake(() => of(sampleResponse));
     const navigateSpy = spyOn(router, 'navigate');
@@ -296,7 +278,8 @@ describe('UserUpdateComponent', () => {
 
   it('should back to users', () => {
     const navigateSpy = spyOn(router, 'navigate');
+    component.userId = '123456';
     component.onCancel();
-    expect(navigateSpy).toHaveBeenCalledWith(['/users/all']);
+    expect(navigateSpy).toHaveBeenCalledWith(['/users/' + component.userId]);
   });
 });

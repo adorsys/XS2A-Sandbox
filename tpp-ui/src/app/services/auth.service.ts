@@ -56,7 +56,11 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     const authorizationToken = this.getAuthorizationToken();
-    return authorizationToken != null;
+    if (authorizationToken && authorizationToken != 'null' && authorizationToken != null) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   logout() {
@@ -97,7 +101,7 @@ export class AuthService {
 
   private setUsersAccessRights(loginResponse): void {
     let admin = false;
-    if (loginResponse['realm_access']['roles'].includes('SYSTEM')) {
+    if (loginResponse != null && loginResponse['realm_access']['roles'].includes('SYSTEM')) {
       admin = true;
     }
     sessionStorage.setItem(ADMIN_KEY, admin ? 'true' : 'false');
@@ -106,7 +110,7 @@ export class AuthService {
   public login(credentials: any) {
     return this.authorize(credentials).pipe(
       map((jwt) => {
-        if (jwt === undefined) {
+        if (jwt === undefined || jwt == null) {
           return false;
         }
         this.setAuthorisationToken(jwt);

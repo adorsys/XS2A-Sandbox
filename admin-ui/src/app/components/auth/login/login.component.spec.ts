@@ -28,11 +28,12 @@ import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ADMIN_KEY } from '@commons/constant/constant';
 
-fdescribe('LoginComponent', () => {
+describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
-  let authService: Partial<AuthService>;
+  let authService: AuthService;
   let router: Router;
   let de: DebugElement;
   let el: HTMLElement;
@@ -46,12 +47,7 @@ fdescribe('LoginComponent', () => {
           HttpClientModule,
           MatSnackBarModule,
         ],
-        providers: [
-          {
-            provide: AuthService,
-            useValue: {},
-          },
-        ],
+        providers: [AuthService],
 
         declarations: [LoginComponent],
       }).compileComponents();
@@ -61,8 +57,8 @@ fdescribe('LoginComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
-    router = TestBed.inject(Router);
-    authService = TestBed.inject(AuthService);
+    router = TestBed.get(Router);
+    authService = fixture.debugElement.injector.get(AuthService);
 
     de = fixture.debugElement.query(By.css('form'));
     el = de.nativeElement;
@@ -112,11 +108,12 @@ fdescribe('LoginComponent', () => {
   it('should login and go to the next page', () => {
     component.loginForm.get('login').setValue('foo');
     component.loginForm.get('pin').setValue('12345');
+
     const logSpy = spyOn(authService, 'login').and.returnValue(of(true));
     const navigateSpy = spyOn(router, 'navigate');
     component.onSubmit();
     expect(logSpy).toHaveBeenCalled();
-    expect(navigateSpy).toHaveBeenCalledWith(['/']);
+    expect(navigateSpy).toHaveBeenCalledWith(['/management']);
   });
 
   it('should throw a error message', () => {

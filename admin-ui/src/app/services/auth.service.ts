@@ -64,7 +64,15 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     const authorizationToken = this.getAuthorizationToken();
-    return authorizationToken != null;
+    if (
+      authorizationToken &&
+      authorizationToken != 'null' &&
+      authorizationToken != null
+    ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   logout() {
@@ -105,7 +113,7 @@ export class AuthService {
   public login(credentials: any) {
     return this.authorize(credentials).pipe(
       map((jwt) => {
-        if (jwt === undefined) {
+        if (jwt === undefined || jwt == null) {
           return false;
         }
         this.setAuthorisationToken(jwt);

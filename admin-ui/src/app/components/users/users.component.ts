@@ -74,9 +74,7 @@ export class UsersComponent implements OnInit {
   });
 
   constructor(
-    private userService: UserService,
     private infoService: InfoService,
-    private tppUserService: TppUserService,
     private countryService: CountryService,
     private pageNavigationService: PageNavigationService,
     private tppManagementService: TppManagementService,

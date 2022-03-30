@@ -60,9 +60,11 @@ describe('NavbarComponent', () => {
 
   it('should logout the tpp user', () => {
     component.onLogout();
+    expect(authServiceSpy.logout).toHaveBeenCalled();
   });
 
   it('should throw error when the user is not logged in', () => {
     component.ngDoCheck();
+    expect(authServiceSpy.logout).toHaveBeenCalled();
   });
 });

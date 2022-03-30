@@ -13,8 +13,6 @@ import { PiisConsent, User } from '../../../models/user.model';
 import { UserService } from '../../../services/user.service';
 import { CurrencyService } from 'src/app/services/currency.service';
 import { SpinnerVisibilityService } from 'ng-http-loader';
-import { InfoService } from 'src/app/commons/info/info.service';
-import { InfoOptions } from 'src/app/commons/info/info-options';
 
 describe('UserCreateFundsConfirmationConsentComponent', () => {
   let component: UserCreateFundsConfirmationComponent;
@@ -24,10 +22,6 @@ describe('UserCreateFundsConfirmationConsentComponent', () => {
   let spinnerVisibilityService: SpinnerVisibilityService;
   let router: Router;
   let de: DebugElement;
-
-  let mockInfoService = {
-    openFeedback(message: string, options?: Partial<InfoOptions>) {},
-  };
 
   let mockPiisConsentService = {
     createPiisConsent(piisConsent: PiisConsent, userLogin: string, password: string): Observable<any> {

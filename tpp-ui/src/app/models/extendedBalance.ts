@@ -26,10 +26,10 @@ export class ExtendedBalance {
   balance?: string;
 
   constructor(details: Account) {
-    if (details && details.balances) {
-      const balance = details.balances[0].amount.amount;
-      const currency = details.balances[0].amount.currency;
-      const limit = Number(details.creditLimit);
+    if (details && details.balances && details.balances.length > 1) {
+      const balance = details.balances[0]?.amount?.amount;
+      const currency = details.balances[0]?.amount?.currency;
+      const limit = Number(details?.creditLimit);
 
       this.isCreditEnabled = details.creditLimit > 0;
       this.limit = `${limit} ${currency}`;

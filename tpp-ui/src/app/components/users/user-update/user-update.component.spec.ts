@@ -117,27 +117,6 @@ describe('UserUpdateComponent', () => {
     expect(errors['required']).toBeFalsy();
   });
 
-  it('pin field validity', () => {
-    let errors = {};
-    const pin = component.updateUserForm.controls['pin'];
-    expect(pin.valid).toBeFalsy();
-
-    // pin field is required
-    errors = pin.errors || {};
-    expect(errors['required']).toBeTruthy();
-
-    // pin should have at least 5 characters
-    pin.setValue('1234');
-    errors = pin.errors || {};
-    expect(errors['required']).toBeFalsy();
-    expect(errors['minlength']).toBeTruthy();
-
-    // set pin to something correct
-    pin.setValue('12345678');
-    errors = pin.errors || {};
-    expect(errors['required']).toBeFalsy();
-  });
-
   it('validate addScaData method', () => {
     const length = (<FormArray>component.updateUserForm.controls['scaUserData']).length;
     component.addScaDataItem();
@@ -244,9 +223,10 @@ describe('UserUpdateComponent', () => {
 
     const scaUserData = <FormArray>component.updateUserForm.get('scaUserData');
     component.user = mockUser;
+    component.admin = 'false';
+    component.userId = 'all';
     component.updateUserForm.get('email').setValue('dart.vader@dark-side.com');
     component.updateUserForm.get('login').setValue('dart.vader');
-    component.updateUserForm.get('pin').setValue('12345678');
 
     const sampleResponse = { value: 'sample response' };
     const updateUserDetail = spyOn(userService, 'updateUserDetails').and.callFake(() => of(sampleResponse));
@@ -268,6 +248,7 @@ describe('UserUpdateComponent', () => {
   });
 
   it('should back to users', () => {
+    component.userId = 'all';
     const navigateSpy = spyOn(router, 'navigate');
     component.onCancel();
     expect(navigateSpy).toHaveBeenCalledWith(['/users/all']);

@@ -33,6 +33,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilterPipeModule } from 'ngx-filter-pipe';
 import { PaginationContainerComponent } from '../../commons/pagination-container/pagination-container.component';
 import { PaginationConfigModel } from '../../models/pagination-config.model';
+import { ADMIN_KEY } from '../../commons/constant/constant';
 
 describe('AccountListComponent', () => {
   let component: AccountListComponent;
@@ -62,10 +63,10 @@ describe('AccountListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AccountListComponent);
     component = fixture.componentInstance;
-    infoService = TestBed.get(InfoService);
-    router = TestBed.get(Router);
+    infoService = TestBed.inject(InfoService);
+    router = TestBed.inject(Router);
+    accountService = TestBed.inject(AccountService);
     fixture.detectChanges();
-    accountService = TestBed.get(AccountService);
   });
 
   it('should create', () => {
@@ -93,6 +94,8 @@ describe('AccountListComponent', () => {
         balances: [],
       } as Account,
     ];
+
+    sessionStorage.setItem(ADMIN_KEY, 'false');
     let getAccountsSpy = spyOn(accountService, 'getAccounts').and.returnValue(
       of({
         accounts: mockAccounts,
@@ -102,7 +105,7 @@ describe('AccountListComponent', () => {
 
     component.ngOnInit();
 
-    expect(getAccountsSpy).toHaveBeenCalled();
+    expect(getAccountsSpy).toHaveBeenCalledTimes(1);
     expect(component.accounts).toEqual(mockAccounts);
   });
 
@@ -112,12 +115,22 @@ describe('AccountListComponent', () => {
       pageSize: 5,
     };
     component.searchForm.setValue({
-      query: 'foo',
       itemsPerPage: 15,
+      ibanParam: 'asdfa',
+      tppId: 'asdfa',
+      tppLogin: 'asdfa',
+      country: 'Germany',
+      blocked: false,
     });
     const getAccountsSpy = spyOn(component, 'getAccounts');
     component.pageChange(mockPageConfig);
-    expect(getAccountsSpy).toHaveBeenCalledWith(10, 5, null);
+    expect(getAccountsSpy).toHaveBeenCalledWith(10, 5, {
+      ibanParam: 'asdfa',
+      tppId: 'asdfa',
+      tppLogin: 'asdfa',
+      country: 'Germany',
+      blocked: false,
+    });
   });
 
   it('should load accounts', () => {

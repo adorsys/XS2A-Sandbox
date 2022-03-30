@@ -21,7 +21,7 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { environment } from '@environment/environment';
+import { environment } from '../../environments/environment';
 import { TppManagementService } from './tpp-management.service';
 
 describe('TppService', () => {
@@ -38,14 +38,15 @@ describe('TppService', () => {
   });
 
   it('should delete the Tpp user', () => {
-    tppService.deleteSelf();
+    console.log(tppService.deleteSelf());
   });
 
   it('should delete the accountTransations ', () => {
     tppService.deleteAccountTransactions('accountId').subscribe((data: any) => {
       expect(data).toBe('accountId');
     });
-    const req = httpMock.expectOne(url + /account/ + 'accountId');
+    const req = httpMock.expectOne(url + /transactions/ + 'accountId');
+    expect(req.request.url).toBe(url + /transactions/ + 'accountId');
     expect(req.request.method).toBe('DELETE');
     req.flush('accountId');
     httpMock.verify();

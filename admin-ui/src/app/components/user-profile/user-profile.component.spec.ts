@@ -28,6 +28,13 @@ import { Router } from '@angular/router';
 import { User } from '../../models/user.model';
 import { of } from 'rxjs';
 import { TppManagementService } from '../../services/tpp-management.service';
+import { OverlayModule } from '@angular/cdk/overlay';
+import {
+  BrowserAnimationsModule,
+  NoopAnimationsModule,
+} from '@angular/platform-browser/animations';
+import { InfoService } from '@commons/info/info.service';
+import { BsModalService } from 'ngx-bootstrap/modal';
 
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
@@ -46,9 +53,11 @@ describe('UserProfileComponent', () => {
     scaUserData: [],
     accountAccesses: [],
     branchLogin: 'branchLogin',
+    userRoles: ['SYSTEM'],
   };
 
   const mockTppUserService = {
+    currentTppUser: of(mockUser),
     getUserInfo: () => of(mockUser),
   };
 
@@ -64,14 +73,18 @@ describe('UserProfileComponent', () => {
         imports: [
           ReactiveFormsModule,
           HttpClientTestingModule,
+          OverlayModule,
           RouterTestingModule,
           RouterTestingModule.withRoutes([]),
+          BrowserAnimationsModule,
+          NoopAnimationsModule,
         ],
         providers: [
-          TppManagementService,
           NgbModal,
           AuthService,
           TppUserService,
+          InfoService,
+          { provide: BsModalService, useValue: {} },
           { provide: AuthService, useValue: mockAuthUserService },
           { provide: TppUserService, useValue: mockTppUserService },
         ],
@@ -83,10 +96,10 @@ describe('UserProfileComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UserProfileComponent);
     component = fixture.componentInstance;
-    tppUserService = TestBed.get(TppUserService);
-    tppService = TestBed.get(TppManagementService);
-    authService = TestBed.get(AuthService);
-    router = TestBed.get(Router);
+    tppUserService = TestBed.inject(TppUserService);
+    tppService = TestBed.inject(TppManagementService);
+    authService = TestBed.inject(AuthService);
+    router = TestBed.inject(Router);
     fixture.detectChanges();
   });
 

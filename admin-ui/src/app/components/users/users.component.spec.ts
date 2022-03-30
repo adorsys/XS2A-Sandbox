@@ -29,11 +29,15 @@ import { UserService } from '../../services/user.service';
 import { UsersComponent } from './users.component';
 import { PaginationContainerComponent } from '../../commons/pagination-container/pagination-container.component';
 import { PaginationConfigModel } from '../../models/pagination-config.model';
+import { InfoService } from '../../commons/info/info.service';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { ADMIN_KEY } from '../../commons/constant/constant';
+import { TppManagementService } from '../../services/tpp-management.service';
 
 describe('UsersComponent', () => {
   let component: UsersComponent;
   let fixture: ComponentFixture<UsersComponent>;
-  let usersService: UserService;
+  let tppManagementService: TppManagementService;
 
   beforeEach(
     waitForAsync(() => {
@@ -46,9 +50,10 @@ describe('UsersComponent', () => {
           HttpClientTestingModule,
           NgbPaginationModule,
           NgbPaginationModule,
+          OverlayModule,
         ],
         declarations: [UsersComponent, PaginationContainerComponent],
-        providers: [UserService],
+        providers: [TppManagementService, InfoService],
       }).compileComponents();
     })
   );
@@ -56,8 +61,8 @@ describe('UsersComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UsersComponent);
     component = fixture.componentInstance;
+    tppManagementService = TestBed.inject(TppManagementService);
     fixture.detectChanges();
-    usersService = TestBed.get(UserService);
   });
 
   it('should create', () => {
@@ -65,6 +70,7 @@ describe('UsersComponent', () => {
   });
 
   it('should load users on NgOnInit', () => {
+    sessionStorage.setItem(ADMIN_KEY, 'false');
     component.ngOnInit();
     const mockUsers: User[] = [
       {
@@ -78,8 +84,10 @@ describe('UsersComponent', () => {
         branchLogin: 'branchLogin',
       },
     ];
-
-    const getUsersSpy = spyOn(usersService, 'listUsers').and.returnValue(
+    const getUsersSpy = spyOn(
+      tppManagementService,
+      'getAllUsers'
+    ).and.returnValue(
       of({ users: mockUsers, totalElements: mockUsers.length })
     );
 
@@ -102,7 +110,11 @@ describe('UsersComponent', () => {
         branchLogin: 'branchLogin',
       },
     ];
-    const getUsersSpy = spyOn(usersService, 'listUsers').and.returnValue(
+
+    const getUsersSpy = spyOn(
+      tppManagementService,
+      'getAllUsers'
+    ).and.returnValue(
       of({ users: mockUsers, totalElements: mockUsers.length })
     );
 
@@ -119,12 +131,27 @@ describe('UsersComponent', () => {
       pageSize: 5,
     };
     component.searchForm.setValue({
-      query: 'foo',
+      userLogin: 'foo',
+      tppId: 'foo',
+      tppLogin: 'foo',
+      country: 'foo',
+      blocked: 'foo',
       itemsPerPage: 15,
+      filter: '',
     });
     const listUsersSpy = spyOn(component, 'listUsers');
     component.pageChange(mockPageConfig);
-    expect(listUsersSpy).toHaveBeenCalledWith(10, 5, null);
+    expect(listUsersSpy).toHaveBeenCalledWith(
+      10,
+      5,
+      Object({
+        userLogin: 'foo',
+        tppId: 'foo',
+        tppLogin: 'foo',
+        country: 'foo',
+        blocked: 'foo',
+      })
+    );
   });
 
   it('should change the page size', () => {

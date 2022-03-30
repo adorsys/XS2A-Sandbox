@@ -19,9 +19,18 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ResetLedgersService } from './reset-ledgers.service';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { PiisConsentService } from './piis-consent.service';
+import { UserFundsConfirmationDetailsComponent } from '../components/users/user-funds-confirmation-details/user-funds-confirmation-details.component';
 
 describe('ResetLedgersService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [RouterTestingModule.withRoutes([]), HttpClientTestingModule],
+      declarations: [UserFundsConfirmationDetailsComponent],
+    }).compileComponents();
+  });
 
   it('should be created', () => {
     const service: ResetLedgersService = TestBed.get(ResetLedgersService);

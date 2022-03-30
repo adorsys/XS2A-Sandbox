@@ -17,7 +17,6 @@
  */
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AccountService } from '../../services/account.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Account, AccountResponse } from '../../models/account.model';
 import { Subject } from 'rxjs';
@@ -79,7 +78,6 @@ export class AccountListComponent implements OnInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
   constructor(
-    private accountService: AccountService,
     private formBuilder: FormBuilder,
     public router: Router,
     private countryService: CountryService,

@@ -23,6 +23,7 @@ import { of } from 'rxjs';
 
 import { AppComponent } from './app.component';
 import { CustomizeService } from './services/customize.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -51,7 +52,11 @@ describe('AppComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [NgHttpLoaderModule, RouterTestingModule],
+        imports: [
+          NgHttpLoaderModule,
+          RouterTestingModule,
+          HttpClientTestingModule,
+        ],
         declarations: [AppComponent],
         providers: [
           { provide: CustomizeService, useValue: CustomizeServiceStub },

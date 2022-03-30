@@ -181,7 +181,7 @@ describe('RegisterComponent', () => {
     );
     component.onSubmit();
     expect(registerSpy).toHaveBeenCalled();
-    expect(navigateSpy).toHaveBeenCalledWith(['/login']);
+    expect(navigateSpy).toHaveBeenCalledWith(['/management']);
   });
 
   it('on Submit should be invalid ', () => {
@@ -264,7 +264,7 @@ describe('RegisterComponent', () => {
   it('should call the on submit and call the url with message', fakeAsync(() => {
     const fakeUrl = 'http://fake.url';
     const message =
-      'You have been successfully registered and your certificate generated. The download will start automatically within the 2 seconds';
+      'New TPP has  been successfully registered and certificate generated. The download will start automatically within the 2 seconds';
     spyOn(authService, 'register').and.returnValue(of({}));
     spyOn(certificateGenerationService, 'generate').and.returnValue(
       of({
@@ -288,7 +288,8 @@ describe('RegisterComponent', () => {
     component.onSubmit();
     tick(2000);
     expect(navigationSpy).toHaveBeenCalledWith({
-      navigateUrl: fakeUrl,
+      navigateUrl: '/management',
+      url: fakeUrl,
       message: message,
     });
   }));

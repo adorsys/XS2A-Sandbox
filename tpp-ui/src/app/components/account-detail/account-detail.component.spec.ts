@@ -108,11 +108,13 @@ describe('AccountDetailComponent', () => {
   });
 
   it('should generate Iban', () => {
-    let data = {};
-    let infoSpy = spyOn(infoService, 'openFeedback');
-    //let generateSpy = spyOn(testDataGenerationService, 'generateIban').and.returnValue(of({data: infoSpy}));
+    const infoSpy = spyOn(infoService, 'openFeedback').and.returnValue();
+    let generateSpy = spyOn(testDataGenerationService, 'generateIban').and.returnValue(of("DE75512108001245126199"));
     component.generateIban();
-    expect(infoSpy).toHaveBeenCalledWith('IBAN has been successfully generated');
+    expect(infoSpy).toHaveBeenCalledWith(
+      'IBAN has been successfully generated'
+    );
+    expect(generateSpy).toHaveBeenCalled();
   });
 
   it('should initialize a currencies List', () => {

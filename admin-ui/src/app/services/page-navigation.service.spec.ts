@@ -48,6 +48,7 @@ describe('PageNavigationService', () => {
   });
 
   it('should return null for item that was not put in storage', () => {
+    service.setLastVisitedPage(null);
     expect(service.getLastVisitedPage()).toBeNull();
   });
 

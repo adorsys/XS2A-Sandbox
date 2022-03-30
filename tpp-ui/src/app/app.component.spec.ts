@@ -23,11 +23,32 @@ import { of } from 'rxjs';
 
 import { AppComponent } from './app.component';
 import { CustomizeService } from './services/customize.service';
+import { AccountComponent } from './components/account/account.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { InfoModule } from './commons/info/info.module';
+import { AccountDetailComponent } from './components/account-detail/account-detail.component';
+import { ConvertBalancePipe } from './pipes/convertBalance.pipe';
+import { AccountService } from './services/account.service';
+import { InfoService } from './commons/info/info.service';
+import { TestDataGenerationService } from './services/test.data.generation.service';
 
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
   let customizeService: CustomizeService;
+
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule.withRoutes([{ path: 'accounts', component: AccountComponent }]),
+        ReactiveFormsModule,
+        HttpClientTestingModule,
+        InfoModule,
+        FormsModule,
+      ],
+    }).compileComponents();
+  }));
 
   const CustomizeServiceStub = {
     isCustom: () => false,

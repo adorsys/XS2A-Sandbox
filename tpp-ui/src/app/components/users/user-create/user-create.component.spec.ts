@@ -17,7 +17,6 @@
  */
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormArray, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -37,8 +36,6 @@ describe('UserCreateComponent', () => {
   let userService: UserService;
   let infoService: InfoService;
   let router: Router;
-  let de: DebugElement;
-  let el: HTMLElement;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -54,6 +51,9 @@ describe('UserCreateComponent', () => {
     userService = TestBed.get(UserService);
     infoService = TestBed.get(InfoService);
     router = TestBed.get(Router);
+
+    component.admin = 'false';
+    component.setupUserFormControl();
     fixture.detectChanges();
   });
 
@@ -168,11 +168,12 @@ describe('UserCreateComponent', () => {
     expect(length).toEqual(0);
   });
 
-  it('validate iniScaData method', () => {
+  it('validate initScaData method', () => {
     const formGroup = component.initScaData();
     const data = {
       scaMethod: '',
       methodValue: '',
+      pushMethod: '',
       usesStaticTan: false,
     };
     expect(formGroup.value).toEqual(data);
@@ -180,6 +181,7 @@ describe('UserCreateComponent', () => {
 
   it('should call user service when form is valid and submitted', () => {
     component.ngOnInit();
+    component.admin = 'false';
     expect(component.submitted).toBeFalsy();
     expect(component.userForm.valid).toBeFalsy();
 

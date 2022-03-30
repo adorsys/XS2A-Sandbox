@@ -20,7 +20,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 
 import { InfoModule } from '@commons/info/info.module';
 import { InfoService } from '@commons/info/info.service';
@@ -67,10 +67,10 @@ describe('AccountDetailComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AccountDetailComponent);
     component = fixture.componentInstance;
+    accountService = TestBed.inject(AccountService);
+    testDataGenerationService = TestBed.inject(TestDataGenerationService);
+    infoService = TestBed.inject(InfoService);
     fixture.detectChanges();
-    accountService = TestBed.get(AccountService);
-    testDataGenerationService = TestBed.get(TestDataGenerationService);
-    infoService = TestBed.get(InfoService);
   });
 
   it('should create', () => {
@@ -127,13 +127,17 @@ describe('AccountDetailComponent', () => {
   });
 
   it('should generate Iban', () => {
-    const data = {};
-    const infoSpy = spyOn(infoService, 'openFeedback');
-    // let generateSpy = spyOn(testDataGenerationService, 'generateIban').and.returnValue(of({data: infoSpy}));
+    const infoSpy = spyOn(infoService, 'openFeedback').and.returnValue();
+    let generateSpy = spyOn(
+      testDataGenerationService,
+      'generateIban'
+    ).and.returnValue(of('DE75512108001245126199'));
     component.generateIban();
     expect(infoSpy).toHaveBeenCalledWith(
       'IBAN has been successfully generated'
     );
+
+    expect(generateSpy).toHaveBeenCalled();
   });
 
   it('should initialize a currencies List', () => {

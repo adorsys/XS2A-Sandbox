@@ -133,11 +133,8 @@ describe('UserDetailsComponent', () => {
 
   it('should handle Click Iban', () => {
     const accountId = 'abc232';
-    let getAccountSpy = spyOn(accountService, 'getAccount').and.returnValue(of({ id: accountId }));
-    let navigateSpy = spyOn(router, 'navigate');
-    const clickEvent = { target: { innerHTML: 'DE980000000001' } };
+    const navigateSpy = spyOn(router, 'navigate');
     component.handleClickOnIBAN(accountId);
-    expect(getAccountSpy).toHaveBeenCalledTimes(1);
     expect(navigateSpy).toHaveBeenCalledWith(['/accounts/', accountId]);
   });
 

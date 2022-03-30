@@ -17,7 +17,6 @@
  */
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormArray, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -30,15 +29,15 @@ import { UserService } from '../../../services/user.service';
 import { UserCreateComponent } from './user-create.component';
 import { ScaMethods } from '../../../models/scaMethods';
 import { of, throwError } from 'rxjs';
+import { TppManagementService } from '../../../services/tpp-management.service';
 
 describe('UserCreateComponent', () => {
   let component: UserCreateComponent;
   let fixture: ComponentFixture<UserCreateComponent>;
   let userService: UserService;
   let infoService: InfoService;
+  let tppManagementService: TppManagementService;
   let router: Router;
-  let de: DebugElement;
-  let el: HTMLElement;
 
   beforeEach(
     waitForAsync(() => {
@@ -50,7 +49,7 @@ describe('UserCreateComponent', () => {
           HttpClientTestingModule,
           IconModule,
         ],
-        providers: [UserService, InfoService],
+        providers: [UserService, InfoService, TppManagementService],
         declarations: [UserCreateComponent],
       }).compileComponents();
     })
@@ -59,9 +58,12 @@ describe('UserCreateComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UserCreateComponent);
     component = fixture.componentInstance;
-    userService = TestBed.get(UserService);
-    infoService = TestBed.get(InfoService);
-    router = TestBed.get(Router);
+    userService = TestBed.inject(UserService);
+    infoService = TestBed.inject(InfoService);
+    tppManagementService = TestBed.inject(TppManagementService);
+    router = TestBed.inject(Router);
+
+    component.setupUserFormControl();
     fixture.detectChanges();
   });
 
@@ -182,22 +184,24 @@ describe('UserCreateComponent', () => {
     expect(length).toEqual(0);
   });
 
-  it('validate iniScaData method', () => {
+  it('validate initScaData method', () => {
     const formGroup = component.initScaData();
     const data = {
       scaMethod: '',
       methodValue: '',
+      pushMethod: '',
       usesStaticTan: false,
     };
     expect(formGroup.value).toEqual(data);
   });
 
-  it('should call user service when form is valid and submitted', () => {
+  it('should call TPP Management service when form is valid and submitted', () => {
     component.ngOnInit();
     expect(component.submitted).toBeFalsy();
     expect(component.userForm.valid).toBeFalsy();
 
     // populate form
+    component.userForm.controls['tppId'].setValue('asdfasdf');
     component.userForm.controls['email'].setValue('dart.vader@dark-side.com');
     component.userForm.controls['login'].setValue('dart.vader');
     component.userForm.controls['pin'].setValue('12345678');
@@ -216,15 +220,17 @@ describe('UserCreateComponent', () => {
 
     // create spies and fake call function
     const sampleResponse = { value: 'sample response' };
-    const createUserSpy = spyOn(userService, 'createUser').and.callFake(() =>
-      of(sampleResponse)
+    let createUserSpy = spyOn(tppManagementService, 'createUser').and.callFake(
+      () => of(sampleResponse)
     );
-    const navigateSpy = spyOn(router, 'navigateByUrl');
+    let navigateSpy = spyOn(router, 'navigate');
+    let infoServiceSpy = spyOn(infoService, 'openFeedback');
     component.onSubmit();
     expect(component.submitted).toBeTruthy();
     expect(component.userForm.valid).toBeTruthy();
     expect(createUserSpy).toHaveBeenCalled();
-    expect(navigateSpy).toHaveBeenCalledWith('/users/all');
+    expect(infoServiceSpy).toHaveBeenCalled();
+    expect(navigateSpy).toHaveBeenCalledWith(['/users/all']);
   });
 
   it('should back to users', () => {

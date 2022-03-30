@@ -181,7 +181,7 @@ describe('AccountComponent', () => {
       ],
       multilevelScaEnabled: false,
     };
-    component.isAccountDeleted;
+    expect(component.isAccountDeleted).toEqual(true);
   });
 
   it('should assign account-report after server call', () => {

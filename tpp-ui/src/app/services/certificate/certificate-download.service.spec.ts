@@ -35,7 +35,7 @@ describe('CertificateDownloadService', () => {
       imports: [HttpClientModule, HttpClientTestingModule, RouterTestingModule, InfoModule],
       providers: [CertificateGenerationService, CertificateDownloadService],
     });
-    service = TestBed.get(CertificateGenerationService);
+    service = TestBed.inject(CertificateDownloadService);
   });
 
   it('should be created', () => {

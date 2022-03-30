@@ -39,8 +39,8 @@ describe('AccountService', () => {
       imports: [HttpClientTestingModule],
       providers: [AccountService],
     });
-    accountService = TestBed.get(AccountService);
-    httpMock = TestBed.get(HttpTestingController);
+    accountService = TestBed.inject(AccountService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   it('should be created', () => {
@@ -81,11 +81,12 @@ describe('AccountService', () => {
     };
 
     accountService.getAccounts(0, 25, '').subscribe((resp) => {
-      expect(resp.accounts[0].iban).toEqual('DE12 1234 5678 9012 3456 00');
+      const account: any = resp.accounts;
+      expect(account.iban).toEqual('DE12 1234 5678 9012 3456 00');
       expect(resp.totalElements).toEqual(Object.keys(mockAccounts).length);
     });
     const req = httpMock.expectOne(
-      `${url}/accounts/page?page=${0}&size=${25}&queryParam=${''}`
+      `${url}/accounts/page?page=${0}&size=${25}&queryParam=${''}&withBalance=true`
     );
     expect(req.cancelled).toBeFalsy();
     expect(req.request.responseType).toEqual('json');

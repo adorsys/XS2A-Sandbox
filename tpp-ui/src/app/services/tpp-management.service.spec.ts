@@ -42,7 +42,7 @@ describe('TppService', () => {
     tppService.deleteAccountTransactions('accountId').subscribe((data: any) => {
       expect(data).toBe('accountId');
     });
-    const req = httpMock.expectOne(url + /account/ + 'accountId');
+    const req = httpMock.expectOne(url + /transactions/ + 'accountId');
     expect(req.request.method).toBe('DELETE');
     req.flush('accountId');
     httpMock.verify();

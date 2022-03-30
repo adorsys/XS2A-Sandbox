@@ -17,7 +17,7 @@
  */
 
 import { HttpClientModule } from '@angular/common/http';
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed, inject, ComponentFixture } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { environment } from '../../environments/environment';
 import { Amount } from '../models/amount.model';
@@ -25,23 +25,48 @@ import { GrantAccountAccess } from '../models/grant-account-access.model';
 import { Account } from '../models/account.model';
 import { AccountService } from './account.service';
 import { AccountStatus, AccountType, UsageType } from '../models/account.model';
+import { EMPTY, Observable } from 'rxjs';
+import { UsersComponent } from '../components/users/users.component';
 
 describe('AccountService', () => {
   let httpMock: HttpTestingController;
   let accountService: AccountService;
+  const mockAccount: Account[] = [
+    {
+      branch: 'branch',
+      id: 'id',
+      iban: 'DE12 1234 5678 9012 3456 00',
+      bban: 'bban',
+      pan: 'pan',
+      maskedPan: 'maskedPan',
+      msisdn: 'msisdn',
+      currency: 'EUR',
+      name: 'name',
+      product: 'product',
+      accountType: AccountType.CACC,
+      accountStatus: AccountStatus.BLOCKED,
+      bic: 'bic',
+      linkedAccounts: 'linkedAccounts',
+      usageType: UsageType.ORGA,
+      details: 'details',
+      balances: [],
+      creditLimit: undefined,
+    },
+  ];
+
   const url = `${environment.tppBackend}`;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [AccountService],
+      imports: [HttpClientTestingModule, HttpClientModule],
+      providers: [{ provide: AccountService, use: {} }],
     });
-    accountService = TestBed.get(AccountService);
-    httpMock = TestBed.get(HttpTestingController);
+
+    accountService = TestBed.inject(AccountService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   it('should be created', () => {
-    const accountService: AccountService = TestBed.get(AccountService);
     expect(accountService).toBeTruthy();
   });
 
@@ -78,10 +103,11 @@ describe('AccountService', () => {
     };
 
     accountService.getAccounts(0, 25, '').subscribe((resp) => {
-      expect(resp.accounts[0].iban).toEqual('DE12 1234 5678 9012 3456 00');
+      const account: any = resp.accounts;
+      expect(account.iban).toEqual('DE12 1234 5678 9012 3456 00');
       expect(resp.totalElements).toEqual(Object.keys(mockAccounts).length);
     });
-    const req = httpMock.expectOne(`${url}/accounts/page?page=${0}&size=${25}&queryParam=${''}`);
+    const req = httpMock.expectOne(`${url}/accounts/page?page=${0}&size=${25}&queryParam=${''}&withBalance=true`);
     expect(req.cancelled).toBeFalsy();
     expect(req.request.responseType).toEqual('json');
     expect(req.request.method).toEqual('GET');

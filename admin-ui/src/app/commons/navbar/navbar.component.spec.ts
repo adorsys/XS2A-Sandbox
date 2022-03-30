@@ -64,8 +64,8 @@ describe('NavbarComponent', () => {
     component = fixture.componentInstance;
     authServiceSpy.isLoggedIn.and.returnValue(true);
     fixture.detectChanges();
-    router = TestBed.get(Router);
-    authService = TestBed.get(AuthService);
+    router = TestBed.inject(Router);
+    authService = TestBed.inject(AuthService);
   });
 
   it('should call loggedIn', () => {
@@ -75,9 +75,12 @@ describe('NavbarComponent', () => {
 
   it('should logout the tpp user', () => {
     component.onLogout();
+    expect(authServiceSpy.logout).toHaveBeenCalled();
   });
 
   it('should throw error when the user is not logged in', () => {
+    sessionStorage.setItem('access_token', null);
     component.ngDoCheck();
+    expect(authServiceSpy.isLoggedIn).toHaveBeenCalled();
   });
 });

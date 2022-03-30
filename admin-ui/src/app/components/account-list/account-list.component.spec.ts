@@ -38,11 +38,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilterPipeModule } from 'ngx-filter-pipe';
 import { PaginationContainerComponent } from '../../commons/pagination-container/pagination-container.component';
 import { PaginationConfigModel } from '../../models/pagination-config.model';
+import { ADMIN_KEY } from '@commons/constant/constant';
+import { TppManagementService } from '../../services/tpp-management.service';
 
 describe('AccountListComponent', () => {
   let component: AccountListComponent;
   let fixture: ComponentFixture<AccountListComponent>;
-  let accountService: AccountService;
+  let tppManagementService: TppManagementService;
   let infoService: InfoService;
   let router: Router;
 
@@ -61,7 +63,7 @@ describe('AccountListComponent', () => {
           FormsModule,
         ],
         declarations: [AccountListComponent, PaginationContainerComponent],
-        providers: [AccountService, InfoService],
+        providers: [TppManagementService, InfoService],
       }).compileComponents();
     })
   );
@@ -69,10 +71,10 @@ describe('AccountListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AccountListComponent);
     component = fixture.componentInstance;
-    infoService = TestBed.get(InfoService);
-    router = TestBed.get(Router);
+    infoService = TestBed.inject(InfoService);
+    router = TestBed.inject(Router);
+    tppManagementService = TestBed.inject(TppManagementService);
     fixture.detectChanges();
-    accountService = TestBed.get(AccountService);
   });
 
   it('should create', () => {
@@ -80,7 +82,7 @@ describe('AccountListComponent', () => {
   });
 
   it('should load accounts on NgOnInit', () => {
-    const mockAccounts: Account[] = [
+    let mockAccounts: Account[] = [
       {
         id: 'XXXXXX',
         iban: 'DE35653635635663',
@@ -100,7 +102,11 @@ describe('AccountListComponent', () => {
         balances: [],
       } as Account,
     ];
-    const getAccountsSpy = spyOn(accountService, 'getAccounts').and.returnValue(
+    sessionStorage.setItem(ADMIN_KEY, 'false');
+    let getAccountsSpy = spyOn(
+      tppManagementService,
+      'getAllAccounts'
+    ).and.returnValue(
       of({
         accounts: mockAccounts,
         totalElements: mockAccounts.length,
@@ -109,7 +115,7 @@ describe('AccountListComponent', () => {
 
     component.ngOnInit();
 
-    expect(getAccountsSpy).toHaveBeenCalled();
+    expect(getAccountsSpy).toHaveBeenCalledTimes(1);
     expect(component.accounts).toEqual(mockAccounts);
   });
 
@@ -119,16 +125,27 @@ describe('AccountListComponent', () => {
       pageSize: 5,
     };
     component.searchForm.setValue({
-      query: 'foo',
       itemsPerPage: 15,
+      ibanParam: 'asdfa',
+      tppId: 'asdfa',
+      tppLogin: 'asdfa',
+      country: 'Germany',
+      blocked: false,
+      filter: '',
     });
     const getAccountsSpy = spyOn(component, 'getAccounts');
     component.pageChange(mockPageConfig);
-    expect(getAccountsSpy).toHaveBeenCalledWith(10, 5, null);
+    expect(getAccountsSpy).toHaveBeenCalledWith(10, 5, {
+      ibanParam: 'asdfa',
+      tppId: 'asdfa',
+      tppLogin: 'asdfa',
+      country: 'Germany',
+      blocked: false,
+    });
   });
 
   it('should load accounts', () => {
-    const mockAccounts: Account[] = [
+    let mockAccounts: Account[] = [
       {
         id: 'XXXXXX',
         iban: 'DE35653635635663',
@@ -148,7 +165,10 @@ describe('AccountListComponent', () => {
         balances: [],
       } as Account,
     ];
-    const getAccountsSpy = spyOn(accountService, 'getAccounts').and.returnValue(
+    const getAccountsSpy = spyOn(
+      tppManagementService,
+      'getAllAccounts'
+    ).and.returnValue(
       of({ accounts: mockAccounts, totalElements: mockAccounts.length })
     );
     component.getAccounts(5, 10, {});
@@ -158,18 +178,17 @@ describe('AccountListComponent', () => {
   });
 
   it('should change the page size', () => {
-    const paginationConfigModel: PaginationConfigModel = {
+    component.config = {
       itemsPerPage: 0,
       currentPageNumber: 0,
       totalItems: 0,
     };
-    component.config = paginationConfigModel;
     component.changePageSize(10);
     expect(component.config.itemsPerPage).toEqual(10);
   });
 
   it('should return false if account is not set', () => {
-    const mockAccount: Account = {
+    let mockAccount: Account = {
       id: '123456',
       iban: 'DE35653635635663',
       bban: 'BBBAN',

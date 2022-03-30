@@ -16,11 +16,18 @@
  * contact us at psd2@adorsys.com.
  */
 
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 
 import { CountryService } from './country.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('CountryService', () => {
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+    }).compileComponents();
+  }));
+
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {

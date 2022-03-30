@@ -138,6 +138,8 @@ unit-tests-tpp-ui:
 	cd tpp-ui && npm ci && npm install && npm run test-ci
 unit-tests-developer-portal-ui:
 	cd developer-portal-ui && npm ci && npm install && npm run test-ci
+unit-tests-admin-ui:
+	cd admin-ui && npm ci && npm install && npm run test-ci
 
 unit-tests-backend:
 	mvn -ntp --settings scripts/mvn-release-settings.xml -DskipITs --fail-at-end clean install

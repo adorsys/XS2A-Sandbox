@@ -26,12 +26,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
 import { AuthService } from '../../../services/auth.service';
 import { DebugElement } from '@angular/core';
+import { InfoService } from '@commons/info/info.service';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 describe('ResetPasswordComponent', () => {
   let component: ResetPasswordComponent;
   let fixture: ComponentFixture<ResetPasswordComponent>;
   let authService: AuthService;
-  let authServiceSpy;
   let de: DebugElement;
   let el: HTMLElement;
 
@@ -43,7 +44,9 @@ describe('ResetPasswordComponent', () => {
           HttpClientTestingModule,
           RouterTestingModule,
           BrowserAnimationsModule,
+          OverlayModule,
         ],
+        providers: [InfoService],
         declarations: [ResetPasswordComponent],
       }).compileComponents();
     })
@@ -68,21 +71,6 @@ describe('ResetPasswordComponent', () => {
     expect(component.resetPasswordForm.valid).toBeFalsy();
   });
 
-  it('email field validity', () => {
-    let errors = {};
-    const email = component.resetPasswordForm.controls['email'];
-    expect(email.valid).toBeFalsy();
-
-    // email field is required
-    errors = email.errors || {};
-    expect(errors['required']).toBeTruthy();
-
-    // set email to something correct
-    email.setValue('test@test.de');
-    errors = email.errors || {};
-    expect(errors['required']).toBeFalsy();
-  });
-
   it('login field validity', () => {
     let errors = {};
     const login = component.resetPasswordForm.controls['login'];
@@ -100,6 +88,6 @@ describe('ResetPasswordComponent', () => {
 
   it('Should set error message', () => {
     component.onSubmit();
-    expect(component.errorMessage).toEqual('Please enter your credentials');
+    expect(component.errorMessage).toEqual('Please enter valid email');
   });
 });

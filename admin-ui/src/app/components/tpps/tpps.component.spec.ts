@@ -19,14 +19,43 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { TppsComponent } from './tpps.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { InfoService } from '@commons/info/info.service';
+import { AccountService } from '../../services/account.service';
+import { TppManagementService } from '../../services/tpp-management.service';
+import { TppUserService } from '../../services/tpp.user.service';
+import { PageNavigationService } from '../../services/page-navigation.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { ActivatedRoute, Router } from '@angular/router';
+import { of } from 'rxjs';
 
 describe('TppsComponent', () => {
   let component: TppsComponent;
   let fixture: ComponentFixture<TppsComponent>;
+  let mockRoute = {
+    params: of({ id: '12345' }),
+    queryParams: of({}),
+  };
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
+        imports: [
+          HttpClientTestingModule,
+          FormsModule,
+          ReactiveFormsModule,
+          OverlayModule,
+        ],
+        providers: [
+          InfoService,
+          AccountService,
+          TppManagementService,
+          TppUserService,
+          PageNavigationService,
+          { provide: Router, useValue: {} },
+          { provide: ActivatedRoute, useValue: mockRoute },
+        ],
         declarations: [TppsComponent],
       }).compileComponents();
     })

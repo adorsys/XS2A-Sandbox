@@ -16,24 +16,25 @@
  * contact us at psd2@adorsys.com.
  */
 
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { DebugElement } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { DebugElement } from '@angular/core';
+import { By } from '@angular/platform-browser';
+
+import { AuthService } from '../../../services/auth.service';
+import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { InfoService } from '../../../commons/info/info.service';
-import { InfoModule } from '../../../commons/info/info.module';
-import { AuthService } from '../../../services/auth.service';
-import { CertificateComponent } from '../certificate/certificate.component';
 import { RegisterComponent } from './register.component';
-import { TppIdStructure, TppIdType } from '../../../models/tpp-id-structure.model';
 import { CountryService } from '../../../services/country.service';
-import { CertificateGenerationService } from '../../../services/certificate/certificate-generation.service';
 import { CertificateDownloadService } from '../../../services/certificate/certificate-download.service';
+import { CertificateGenerationService } from '../../../services/certificate/certificate-generation.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { InfoModule } from '../../../commons/info/info.module';
+import { CertificateComponent } from '../certificate/certificate.component';
+import { TppIdStructure, TppIdType } from '../../../models/tpp-id-structure.model';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -47,6 +48,11 @@ describe('RegisterComponent', () => {
   let de: DebugElement;
   let el: HTMLElement;
 
+  const testTppStructure: TppIdStructure = {
+    length: 8,
+    type: TppIdType.n,
+  };
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, HttpClientTestingModule, RouterTestingModule, BrowserAnimationsModule, InfoModule, FormsModule],
@@ -58,12 +64,12 @@ describe('RegisterComponent', () => {
   beforeEach(() => {
     registerFixture = TestBed.createComponent(RegisterComponent);
     component = registerFixture.componentInstance;
-    authService = TestBed.get(AuthService);
-    infoService = TestBed.get(InfoService);
-    countryService = TestBed.get(CountryService);
-    certificateGenerationService = TestBed.get(CertificateGenerationService);
-    certificateDownloadService = TestBed.get(CertificateDownloadService);
-    router = TestBed.get(Router);
+    authService = TestBed.inject(AuthService);
+    infoService = TestBed.inject(InfoService);
+    countryService = TestBed.inject(CountryService);
+    certificateGenerationService = TestBed.inject(CertificateGenerationService);
+    certificateDownloadService = TestBed.inject(CertificateDownloadService);
+    router = TestBed.inject(Router);
     de = registerFixture.debugElement.query(By.css('form'));
     el = de.nativeElement;
     registerFixture.detectChanges();
@@ -72,11 +78,6 @@ describe('RegisterComponent', () => {
     component.userForm.enable();
     component.tppIdStructure = testTppStructure;
   });
-
-  const testTppStructure: TppIdStructure = {
-    length: 8,
-    type: TppIdType.n,
-  };
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -163,9 +164,9 @@ describe('RegisterComponent', () => {
 
   it('should initialize a country List', () => {
     const mockData = [];
-    const getCountryCodesSpy = spyOn(countryService, 'getCountryCodes').and.returnValue(of({ mockData }));
+    const getCountryCodesSpy = spyOn(countryService, 'getCountryList').and.returnValue(of(mockData));
     component.initializeCountryList();
-    expect(getCountryCodesSpy).toHaveBeenCalled();
+    expect(getCountryCodesSpy).toHaveBeenCalledTimes(1);
   });
 
   it('select Country should be disabled', () => {
@@ -205,7 +206,7 @@ describe('RegisterComponent', () => {
   });
 
   it('should initialize a country and call a feedback message when error', () => {
-    const getCountryCodesSpy = spyOn(countryService, 'getCountryCodes').and.returnValue(throwError({}));
+    const getCountryCodesSpy = spyOn(countryService, 'getCountryList').and.returnValue(throwError({}));
     const infoSpy = spyOn(infoService, 'openFeedback');
     component.initializeCountryList();
     expect(getCountryCodesSpy).toHaveBeenCalled();
@@ -221,7 +222,7 @@ describe('RegisterComponent', () => {
   it('should call the on submit and call the url with message', fakeAsync(() => {
     const fakeUrl = 'http://fake.url';
     const message =
-      'You have been successfully registered and your certificate generated. The download will start automatically within the 2 seconds';
+      'You have been successfully registered and certificate generated. The download will start automatically within the 2 seconds';
     spyOn(authService, 'register').and.returnValue(of({}));
     spyOn(certificateGenerationService, 'generate').and.returnValue(
       of({
@@ -240,7 +241,8 @@ describe('RegisterComponent', () => {
     component.onSubmit();
     tick(2000);
     expect(navigationSpy).toHaveBeenCalledWith({
-      navigateUrl: fakeUrl,
+      navigateUrl: '/login',
+      url: fakeUrl,
       message: message,
     });
   }));

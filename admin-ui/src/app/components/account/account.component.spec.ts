@@ -34,7 +34,7 @@ import { ConvertBalancePipe } from '../../pipes/convertBalance.pipe';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { TppManagementService } from '../../services/tpp-management.service';
-import {BigInteger} from "@angular/compiler/src/i18n/big_integer";
+import { TppUserService } from '../../services/tpp.user.service';
 
 describe('AccountComponent', () => {
   let component: AccountComponent;
@@ -42,6 +42,7 @@ describe('AccountComponent', () => {
   let accountService: AccountService;
   let infoService: InfoService;
   let tppService: TppManagementService;
+  let tppUserService: TppUserService;
   let modalService: NgbModal;
   let router: Router;
 
@@ -60,6 +61,7 @@ describe('AccountComponent', () => {
           NgbModal,
           TppManagementService,
           InfoService,
+          TppUserService,
         ],
       }).compileComponents();
     })
@@ -68,27 +70,26 @@ describe('AccountComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AccountComponent);
     component = fixture.componentInstance;
+    infoService = TestBed.inject(InfoService);
+    accountService = TestBed.inject(AccountService);
+    router = TestBed.inject(Router);
+    tppService = TestBed.inject(TppManagementService);
+    modalService = TestBed.inject(NgbModal);
+    tppUserService = TestBed.inject(TppUserService);
     fixture.detectChanges();
-    infoService = TestBed.get(InfoService);
-    accountService = TestBed.get(AccountService);
-    router = TestBed.get(Router);
-    tppService = TestBed.get(TppManagementService);
-    modalService = TestBed.get(NgbModal);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call getAccountReport on ngOnInit', () => {
-    const getAccountSpy = spyOn(
-      accountService,
-      'getAccountReport'
+  it('should call getUserInfo on ngOnInit', () => {
+    let getTppUserServiceSpy = spyOn(
+      tppUserService,
+      'getUserInfo'
     ).and.callThrough();
-
     component.ngOnInit();
-
-    expect(getAccountSpy).toHaveBeenCalled();
+    expect(getTppUserServiceSpy).toHaveBeenCalled();
   });
 
   it('should check if account is deleted', () => {
@@ -205,7 +206,7 @@ describe('AccountComponent', () => {
       ],
       multilevelScaEnabled: false,
     };
-    component.isAccountDeleted;
+    expect(component.isAccountDeleted).toEqual(true);
   });
 
   it('should assign account-report after server call', () => {
@@ -228,7 +229,7 @@ describe('AccountComponent', () => {
         details: '',
         linkedAccounts: '',
         balances: [],
-        creditLimit: Number(9080809898098),
+        creditLimit: undefined,
       },
       accesses: [
         {

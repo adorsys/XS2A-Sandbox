@@ -29,6 +29,9 @@ import { UserService } from '../../services/user.service';
 import { UsersComponent } from './users.component';
 import { PaginationContainerComponent } from '../../commons/pagination-container/pagination-container.component';
 import { PaginationConfigModel } from '../../models/pagination-config.model';
+import { InfoService } from '../../commons/info/info.service';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { ADMIN_KEY } from '../../commons/constant/constant';
 
 describe('UsersComponent', () => {
   let component: UsersComponent;
@@ -45,9 +48,10 @@ describe('UsersComponent', () => {
         HttpClientTestingModule,
         NgbPaginationModule,
         NgbPaginationModule,
+        OverlayModule,
       ],
       declarations: [UsersComponent, PaginationContainerComponent],
-      providers: [UserService],
+      providers: [UserService, InfoService],
     }).compileComponents();
   }));
 
@@ -63,6 +67,7 @@ describe('UsersComponent', () => {
   });
 
   it('should load users on NgOnInit', () => {
+    sessionStorage.setItem(ADMIN_KEY, 'false');
     component.ngOnInit();
     const mockUsers: User[] = [
       {
@@ -76,7 +81,6 @@ describe('UsersComponent', () => {
         branchLogin: 'branchLogin',
       },
     ];
-
     const getUsersSpy = spyOn(usersService, 'listUsers').and.returnValue(of({ users: mockUsers, totalElements: mockUsers.length }));
 
     component.ngOnInit();
@@ -86,6 +90,7 @@ describe('UsersComponent', () => {
   });
 
   it('should load users', () => {
+    component.admin = 'false';
     const mockUsers: User[] = [
       {
         id: 'USERID',
@@ -98,6 +103,7 @@ describe('UsersComponent', () => {
         branchLogin: 'branchLogin',
       },
     ];
+
     const getUsersSpy = spyOn(usersService, 'listUsers').and.returnValue(of({ users: mockUsers, totalElements: mockUsers.length }));
 
     component.listUsers(5, 10, {});
@@ -113,12 +119,26 @@ describe('UsersComponent', () => {
       pageSize: 5,
     };
     component.searchForm.setValue({
-      query: 'foo',
+      userLogin: 'foo',
+      tppId: 'foo',
+      tppLogin: 'foo',
+      country: 'foo',
+      blocked: 'foo',
       itemsPerPage: 15,
     });
     const listUsersSpy = spyOn(component, 'listUsers');
     component.pageChange(mockPageConfig);
-    expect(listUsersSpy).toHaveBeenCalledWith(10, 5, null);
+    expect(listUsersSpy).toHaveBeenCalledWith(
+      10,
+      5,
+      Object({
+        userLogin: 'foo',
+        tppId: 'foo',
+        tppLogin: 'foo',
+        country: 'foo',
+        blocked: 'foo',
+      })
+    );
   });
 
   it('should change the page size', () => {

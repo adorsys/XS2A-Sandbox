@@ -76,6 +76,7 @@ describe('AuthService', () => {
 
   it('should test login method', () => {
     // isLoggedin() is false by default
+    sessionStorage.setItem('access_token', null)
     expect(authService.isLoggedIn()).toBeFalsy();
 
     // login credential is not correct

@@ -38,9 +38,9 @@ describe('AuthService', () => {
       providers: [AuthService, JwtHelperService],
     });
 
-    httpTestingController = TestBed.get(HttpTestingController);
-    authService = TestBed.get(AuthService);
-    router = TestBed.get(Router);
+    httpTestingController = TestBed.inject(HttpTestingController);
+    authService = TestBed.inject(AuthService);
+    router = TestBed.inject(Router);
   });
 
   afterEach(() => {
@@ -68,12 +68,13 @@ describe('AuthService', () => {
 
   it('should test login method', () => {
     // isLoggedin() is false by default
+    sessionStorage.setItem('access_token', null);
     expect(authService.isLoggedIn()).toBeFalsy();
 
     // login credential is not correct
-    let credentialsMock = { login: 'q', pin: 'q' };
+    let credentialsMock = { login: 'q', pin: 'q', jwt: undefined };
     authService.login(credentialsMock).subscribe((response) => {
-      console.log(response);
+      console.log("JUST LOG" +response);
       expect(response).toBeFalsy();
     });
 
@@ -100,49 +101,5 @@ describe('AuthService', () => {
     expect(req.cancelled).toBeFalsy();
     expect(req.request.method).toEqual('POST');
     req.flush(credentialsMock);
-  });
-
-  it('should return expected list of users (HttpClient called once)', () => {
-    const mockUsers = [
-      {
-        accountAccesses: [
-          {
-            id: 'bNrPhmm3SC0vwm2Tf4KknM',
-            iban: 'DE51250400903312345678',
-            accessType: 'OWNER',
-          },
-          {
-            id: 'lcyeJaTxQrIhtuNQl-kF4E',
-            iban: 'ME66929958485327905358',
-            accessType: 'OWNER',
-          },
-        ],
-        branch: 'fdf',
-        email: 'foo@foo.de',
-        id: 'J4tdJUEPQhglZAFgvo9aJc',
-        login: 'test',
-        pin: '$2a$10$hi7Cd4j9gd/ZBw7w.kbNVOzDNUgIEXUtG5ZJYvjjTGLjUwOR0qibu',
-        scaUserData: [
-          {
-            id: 'HeJDea8LQE8rdLiJ6eKfhY',
-            scaMethod: 'SMTP_OTP',
-            methodValue: 'foo@fool.de',
-          },
-        ],
-        userRoles: ['CUSTOMER'],
-      },
-    ];
-
-    /* userService.listUsers().subscribe(user => {
-             expect(user[0].login).toEqual('test');
-             expect(user[0].email).toEqual('foo@foo.de');
-         });
-
-         const req = httpTestingController.expectOne(url);
-         expect(req.cancelled).toBeFalsy();
-         expect(req.request.responseType).toEqual('json');
-         expect(req.request.method).toEqual('GET');
-
-         req.flush(mockUsers);*/
   });
 });
