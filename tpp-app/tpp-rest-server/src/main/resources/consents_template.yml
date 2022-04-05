@@ -1,6 +1,7 @@
 ---
+# AIS consent template
 - psuInfo:
-    psuId: "PSU-ID"
+    psuId: "upload_generated_user"
     psuIdType: "PSU-ID-TYPE"
     psuCorporateId: "PSU-CORPORATE-ID"
     psuCorporateIdType: "PSU-CORPORATE-ID-TYPE"
@@ -29,37 +30,37 @@
     accounts:
       - resourceId: "RES1ACC"
         aspspAccountId: "ZTD12345"
-        accountIdentifier: "DE12345"
+        accountIdentifier: "DE98253667540000000100"
         currency: "EUR"
         accountType: "IBAN"
       - resourceId: "RES2ACC"
         aspspAccountId: "ZTD54321"
-        accountIdentifier: "DE54321"
+        accountIdentifier: "DE71253667540000000101"
         currency: "EUR"
         accountType: "IBAN"
     balances:
       - resourceId: "RES1ACC"
         aspspAccountId: "ZTD12345"
-        accountIdentifier: "DE12345"
+        accountIdentifier: "DE98253667540000000100"
         currency: "EUR"
         accountType: "IBAN"
       - resourceId: "RES2ACC"
         aspspAccountId: "ZTD54321"
-        accountIdentifier: "DE54321"
+        accountIdentifier: "DE71253667540000000101"
         currency: "EUR"
         accountType: "IBAN"
     transactions:
       - resourceId: "RES1ACC"
         aspspAccountId: "ZTD12345"
-        accountIdentifier: "DE12345"
+        accountIdentifier: "DE98253667540000000100"
         currency: "EUR"
         accountType: "IBAN"
       - resourceId: "RES2ACC"
         aspspAccountId: "ZTD54321"
-        accountIdentifier: "DE54321"
+        accountIdentifier: "DE71253667540000000101"
         currency: "EUR"
         accountType: "IBAN"
-  validUntil: "2020-10-10"
+  validUntil: "2025-10-10"
   recurringIndicator: true
   tppRedirectPreferred: true
   combinedServiceIndicator: true

@@ -39,13 +39,15 @@ describe('UploadFileComponent', () => {
   let spinnerService: SpinnerVisibilityService;
 
   let url = `${environment.tppBackend}`;
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [FileUploadModule, RouterTestingModule, HttpClientModule, InfoModule, IconModule],
-      declarations: [UploadFileComponent, DocumentUploadComponent],
-      providers: [InfoService, SpinnerVisibilityService, TestDataGenerationService],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [FileUploadModule, RouterTestingModule, HttpClientModule, InfoModule, IconModule],
+        declarations: [UploadFileComponent, DocumentUploadComponent],
+        providers: [InfoService, SpinnerVisibilityService, TestDataGenerationService],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UploadFileComponent);
@@ -71,7 +73,7 @@ describe('UploadFileComponent', () => {
       },
       {
         exampleFileName: 'Consents-Example.yml',
-        title: 'Upload Consents',
+        title: 'Upload AIS Consents',
         method: 'PUT',
         url: url + '/consent',
         exampleFileUrl: '/consent/example',

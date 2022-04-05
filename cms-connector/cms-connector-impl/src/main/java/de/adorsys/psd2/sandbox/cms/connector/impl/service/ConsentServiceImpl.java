@@ -37,6 +37,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static de.adorsys.psd2.consent.aspsp.api.config.CmsPsuApiDefaultValue.DEFAULT_SERVICE_INSTANCE_ID;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -59,6 +61,7 @@ public class ConsentServiceImpl implements ConsentService {
 
     @SneakyThrows
     private CmsResponse<CmsCreateConsentResponse> doCreateConsent(CmsConsent cmsConsent) {
+        cmsConsent.setInstanceId(DEFAULT_SERVICE_INSTANCE_ID);
         return consentServiceInternal.createConsent(cmsConsent);
     }
 

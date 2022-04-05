@@ -77,7 +77,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserCreateFundsConfirmationComponent } from './components/users/user-create-funds-confirmation/user-create-funds-confirmation.component';
-
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ErrorDialogComponent } from './commons/dialog/error-dialog.component';
 import { UserFundsConfirmationDetailsComponent } from './components/users/user-funds-confirmation-details/user-funds-confirmation-details.component';
@@ -149,6 +149,7 @@ export function app_Init(settingsHttpService: SettingsHttpService) {
     MatTooltipModule,
     MatSnackBarModule,
     MatDialogModule,
+    MatExpansionModule
   ],
   providers: [
     AutoLogoutService,

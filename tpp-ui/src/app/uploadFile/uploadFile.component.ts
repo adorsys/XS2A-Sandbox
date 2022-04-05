@@ -31,6 +31,7 @@ export class UploadFileComponent implements OnInit {
   uploadDataConfigs: UploadOptions[];
   private url = `${environment.tppBackend}`;
   private message = 'Test data has been successfully generated.';
+  panelOpenState: boolean;
 
   constructor(private generationService: TestDataGenerationService, private infoService: InfoService) {}
 
@@ -45,7 +46,7 @@ export class UploadFileComponent implements OnInit {
       },
       {
         exampleFileName: 'Consents-Example.yml',
-        title: 'Upload Consents',
+        title: 'Upload AIS Consents',
         method: 'PUT',
         url: this.url + '/consent',
         exampleFileUrl: '/consent/example',

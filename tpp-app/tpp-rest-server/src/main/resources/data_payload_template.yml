@@ -1,23 +1,27 @@
 ---
 users:
-  - id: "001"
-    login: "test"
-    email: "test@mail.de"
+  - id: "001" # Should be unique for every user of this TPP, otherwise will be overwritten
+    login: "upload_generated_user"
+    email: "upload_generated_user@mail.de"
     pin: "12345"
     scaUserData:
       - scaMethod: "SMTP_OTP"
-        methodValue: "test@mail.de"
-        usesStaticTan: true #Field can be removed if not required
-        staticTan: "QWERTY" #Field can be removed if not required
+        methodValue: "upload_generated_user@mail.de"
+        usesStaticTan: true
+        staticTan: "123456"
     accountAccesses:
-      - iban: "DE12345"
+      - iban: "DE98253667540000000100" #IBAN should be generated and valid
         accessType: "OWNER"
         scaWeight: 100
         currency: "EUR"
+      - iban: "DE71253667540000000101" #IBAN should be generated and valid
+        accessType: "OWNER"
+        scaWeight: 100
+        currency: "USD"
     userRoles:
       - "CUSTOMER"
 accounts:
-  - iban: "DE12345"
+  - iban: "DE98253667540000000100"
     currency: "EUR"
     name: "test1"
     product: "Cash24"
@@ -25,24 +29,33 @@ accounts:
     accountStatus: "ENABLED"
     usageType: "PRIV"
     details: "Some details"
+  - iban: "DE71253667540000000101"
+    currency: "USD"
+    name: "test2"
+    product: "Cash24"
+    accountType: "CASH"
+    accountStatus: "ENABLED"
+    usageType: "PRIV"
+    details: "Some details"
 balancesList:
-  - iban: "DE12345"
+  - iban: "DE98253667540000000100"
     currency: "EUR"
-    amount: 100000.00
+    amount: 1111111.00
+  - iban: "DE71253667540000000101"
+    currency: "USD"
+    amount: 999999.00
 payments:
-  - paymentId: PAYMENT-ID #Id to be set in Ledgers DB, leave empty if not required
-    paymentType: SINGLE
-    paymentProduct: "instant-sepa-credit-transfers" #if changed to another product will not be executed straight away
-    requestedExecutionDate: 2020-12-12 #optional field can be omitted in case of instant payment is ignored
+  - paymentType: SINGLE
+    paymentProduct: "instant-sepa-credit-transfers" #if changed to another product will be executed with delay
+    requestedExecutionDate: 2025-12-12 #optional field can be omitted in case of instant payment is ignored
     requestedExecutionTime: 12:00:00 #optional field can be omitted in case of instant payment is ignored
-    debtorAccount: { iban: DE12345, currency: EUR }
+    debtorAccount: { iban: DE98253667540000000100, currency: EUR }
     transactionStatus: RCVD #Should be RCVD for payment starting
     targets:
       - {
-          paymentId: myPaymentId,
           endToEndIdentification: IDENTIFIER BY TPP,
           instructedAmount: { currency: EUR, amount: 999.99 },
-          creditorAccount: { iban: DE12345, currency: EUR },
+          creditorAccount: { iban: DE33760320000000000003, currency: EUR },
           creditorAgent: AGENT NAME,
           creditorName: CREDITORS NAME,
           creditorAddress:

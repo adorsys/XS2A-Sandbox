@@ -17,6 +17,35 @@
   -->
 
 <div class="container-fluid">
+  <div class="mb-4">
+    <mat-accordion class="mb-4">
+      <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <div class="font-weight-bold">
+              <mat-icon aria-hidden="false" aria-label="Info Icon">info</mat-icon> NOTE: All IBANs for new users should be valid
+            </div>
+          </mat-panel-title>
+          <mat-panel-description>
+            {{ panelOpenState ? 'Close' : 'Open' }} for {{ panelOpenState ? 'less' : 'more' }} infos
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        All IBANs which are used for consents, payments and transactions uploading should belong to existing users. <br />
+        Here you can find a <a href="http://randomiban.com/?country=Germany" class="link-color"> random iban generator</a>.<br /><br />
+        <p>Examples of existing IBANs possible to be used for transactions and payments:</p>
+
+        <ul class="ml-4">
+          <li>PSU-ID: marion.mueller, IBAN: DE69760700240340283600</li>
+          <li>PSU-ID: anton.brueckner, IBAN: DE80760700240271232400</li>
+          <li>PSU-ID: max.musterman, IBAN: DE38760700240320465700</li>
+          <li>PSU-ID: carl.schwarz, IBAN: DE87760320000000000001</li>
+          <li>PSU-ID: carl.schwarz, IBAN: DE60760320000000000002</li>
+          <li>PSU-ID: carl.schwarz, IBAN: DE33760320000000000003</li>
+        </ul>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+
   <div class="card mb-4" *ngFor="let uploadDataConfig of uploadDataConfigs">
     <div class="card-body--large">
       <div class="header__title mb-4">{{ uploadDataConfig.title }}</div>
