@@ -16,7 +16,6 @@
  * contact us at psd2@adorsys.com.
  */
 
-/* tslint:disable */
 import { Injectable } from '@angular/core';
 import {
   HttpClient,
@@ -61,14 +60,14 @@ class OnlineBankingAuthorizationProvidesAccessToOnlineBankingService extends __B
   loginUsingPOST1Response(
     params: OnlineBankingAuthorizationProvidesAccessToOnlineBankingService.LoginUsingPOST1Params
   ): __Observable<__StrictHttpResponse<null>> {
-    let __params = this.newParams();
+    const __params = this.newParams();
     let __headers = new HttpHeaders();
-    let __body: any = null;
+    const __body: any = null;
     if (params.pin != null)
       __headers = __headers.set('pin', params.pin.toString());
     if (params.login != null)
       __headers = __headers.set('login', params.login.toString());
-    let req = new HttpRequest<any>(
+    const req = new HttpRequest<any>(
       'POST',
       this.rootUrl + `/api/v1/login`,
       __body,
@@ -108,11 +107,11 @@ class OnlineBankingAuthorizationProvidesAccessToOnlineBankingService extends __B
   sendCodeUsingPOSTResponse(
     resetPassword: ResetPassword
   ): __Observable<__StrictHttpResponse<SendCode>> {
-    let __params = this.newParams();
-    let __headers = new HttpHeaders();
+    const __params = this.newParams();
+    const __headers = new HttpHeaders();
     let __body: any = null;
     __body = resetPassword;
-    let req = new HttpRequest<any>(
+    const req = new HttpRequest<any>(
       'POST',
       this.rootUrl + `/api/v1/password`,
       __body,
@@ -147,11 +146,11 @@ class OnlineBankingAuthorizationProvidesAccessToOnlineBankingService extends __B
   updatePasswordUsingPUTResponse(
     resetPassword: ResetPassword
   ): __Observable<__StrictHttpResponse<UpdatePassword>> {
-    let __params = this.newParams();
-    let __headers = new HttpHeaders();
+    const __params = this.newParams();
+    const __headers = new HttpHeaders();
     let __body: any = null;
     __body = resetPassword;
-    let req = new HttpRequest<any>(
+    const req = new HttpRequest<any>(
       'PUT',
       this.rootUrl + `/api/v1/password`,
       __body,
@@ -184,15 +183,20 @@ class OnlineBankingAuthorizationProvidesAccessToOnlineBankingService extends __B
   updateUserDetailsUsingPUTResponse(
     User: UserTO
   ): __Observable<__StrictHttpResponse<UpdatedUserDetails>> {
-    let __params = this.newParams();
-    let __headers = new HttpHeaders();
+    const __params = this.newParams();
+    const __headers = new HttpHeaders();
     let __body: any = null;
     __body = User;
-    let req = new HttpRequest<any>('PUT', this.rootUrl + `/api/v1/me`, __body, {
-      headers: __headers,
-      params: __params,
-      responseType: 'json',
-    });
+    const req = new HttpRequest<any>(
+      'PUT',
+      this.rootUrl + `/api/v1/me`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json',
+      }
+    );
 
     return this.http.request<any>(req).pipe(
       __filter((_r) => _r instanceof HttpResponse),
@@ -215,7 +219,7 @@ class OnlineBankingAuthorizationProvidesAccessToOnlineBankingService extends __B
   }
 }
 
-module OnlineBankingAuthorizationProvidesAccessToOnlineBankingService {
+namespace OnlineBankingAuthorizationProvidesAccessToOnlineBankingService {
   /**
    * Parameters for loginUsingPOST1
    */

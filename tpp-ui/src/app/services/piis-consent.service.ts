@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { PiisConsent, User } from '../models/user.model';
-import { AccountAccess } from '../models/account-access.model';
+import { PiisConsent } from '../models/user.model';
 import 'rxjs-compat/add/observable/of';
 import { PaginationResponse } from '../models/pagination-reponse';
-import { Account } from '../models/account.model';
 
 @Injectable({
   providedIn: 'root',

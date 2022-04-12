@@ -121,21 +121,19 @@ export class UserCreateComponent implements OnInit {
       usesStaticTan: [false],
     });
 
-    scaData
-      .get('usesStaticTan')
-      .valueChanges.subscribe((bool: boolean = true) => {
-        if (bool) {
-          scaData.get('staticTan').setValidators(Validators.required);
-          scaData.get('methodValue').setValidators(Validators.required);
-          scaData.get('staticTan').enable();
-        } else {
-          scaData.get('staticTan').clearValidators();
-          scaData.get('staticTan').disable();
-          scaData.get('staticTan').setValue('');
-        }
-        scaData.get('staticTan').updateValueAndValidity();
-        scaData.get('methodValue').updateValueAndValidity();
-      });
+    scaData.get('usesStaticTan').valueChanges.subscribe((bool = true) => {
+      if (bool) {
+        scaData.get('staticTan').setValidators(Validators.required);
+        scaData.get('methodValue').setValidators(Validators.required);
+        scaData.get('staticTan').enable();
+      } else {
+        scaData.get('staticTan').clearValidators();
+        scaData.get('staticTan').disable();
+        scaData.get('staticTan').setValue('');
+      }
+      scaData.get('staticTan').updateValueAndValidity();
+      scaData.get('methodValue').updateValueAndValidity();
+    });
 
     scaData.get('staticTan').valueChanges.subscribe((value) => {
       if (value === ScaMethods.SMTP_OTP) {

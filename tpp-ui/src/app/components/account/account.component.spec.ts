@@ -28,7 +28,6 @@ import { AccountService } from '../../services/account.service';
 import { AccountComponent } from './account.component';
 import { ConvertBalancePipe } from '../../pipes/convertBalance.pipe';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
 import { TppManagementService } from '../../services/tpp-management.service';
 
 describe('AccountComponent', () => {
@@ -37,8 +36,6 @@ describe('AccountComponent', () => {
   let accountService: AccountService;
   let infoService: InfoService;
   let tppService: TppManagementService;
-  let modalService: NgbModal;
-  let router: Router;
 
   beforeEach(
     waitForAsync(() => {
@@ -56,9 +53,7 @@ describe('AccountComponent', () => {
     fixture.detectChanges();
     infoService = TestBed.inject(InfoService);
     accountService = TestBed.inject(AccountService);
-    router = TestBed.inject(Router);
     tppService = TestBed.inject(TppManagementService);
-    modalService = TestBed.inject(NgbModal);
   });
 
   it('should create', () => {

@@ -36,9 +36,9 @@ export class AccountService {
   constructor(private http: HttpClient) {}
 
   getAccounts(
-    page: number = 0,
-    size: number = 25,
-    queryParam: string = ''
+    page = 0,
+    size = 25,
+    queryParam = ''
   ): Observable<{ accounts: Account[]; totalElements: number }> {
     return this.http
       .get<PaginationResponse<Account[]>>(

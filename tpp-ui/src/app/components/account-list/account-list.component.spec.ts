@@ -18,7 +18,6 @@
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
@@ -39,8 +38,6 @@ describe('AccountListComponent', () => {
   let component: AccountListComponent;
   let fixture: ComponentFixture<AccountListComponent>;
   let accountService: AccountService;
-  let infoService: InfoService;
-  let router: Router;
 
   beforeEach(
     waitForAsync(() => {
@@ -65,8 +62,6 @@ describe('AccountListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AccountListComponent);
     component = fixture.componentInstance;
-    infoService = TestBed.inject(InfoService);
-    router = TestBed.inject(Router);
     accountService = TestBed.inject(AccountService);
     fixture.detectChanges();
   });

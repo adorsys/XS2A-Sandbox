@@ -16,7 +16,6 @@
  * contact us at psd2@adorsys.com.
  */
 
-/* tslint:disable */
 import { BearerTokenTO } from './bearer-token-to';
 import { ChallengeDataTO } from './challenge-data-to';
 import { ScaUserDataTO } from './sca-user-data-to';

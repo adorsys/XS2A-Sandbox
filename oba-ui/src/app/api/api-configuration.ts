@@ -16,7 +16,6 @@
  * contact us at psd2@adorsys.com.
  */
 
-/* tslint:disable */
 import { Injectable } from '@angular/core';
 
 /**
@@ -26,7 +25,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class ApiConfiguration {
-  rootUrl: string = '//localhost:8090';
+  rootUrl = '//localhost:8090';
 }
 
 export interface ApiConfigurationInterface {

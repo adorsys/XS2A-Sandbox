@@ -110,7 +110,7 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
     this.accountAccessForm.get('currency').setValue(this.account.currency);
     this.accountAccessForm.get('accountId').setValue(this.account.id);
     if (this.admin === 'true') {
-      this.tppManagementService.getTppById(this.tppId).subscribe((response) => {
+      this.tppManagementService.getTppById(this.tppId).subscribe(() => {
         this.infoService.openFeedback('Access to account ' + this.account.iban + ' successfully granted', { duration: 3000 });
 
         setTimeout(() => {
@@ -118,7 +118,7 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
         }, 3000);
       });
     } else if (this.admin === 'false') {
-      this.accountService.updateAccountAccessForUser(this.accountAccessForm.getRawValue()).subscribe((response) => {
+      this.accountService.updateAccountAccessForUser(this.accountAccessForm.getRawValue()).subscribe(() => {
         this.infoService.openFeedback('Access to account ' + this.account.iban + ' successfully granted', { duration: 3000 });
 
         setTimeout(() => {

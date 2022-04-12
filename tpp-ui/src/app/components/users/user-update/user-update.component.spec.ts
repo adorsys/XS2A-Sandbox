@@ -17,10 +17,9 @@
  */
 
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { DebugElement } from '@angular/core';
 import { UserUpdateComponent } from './user-update.component';
 import { UserService } from '../../../services/user.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { InfoModule } from '../../../commons/info/info.module';
 import { FormArray, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -29,14 +28,11 @@ import { InfoService } from '../../../commons/info/info.service';
 import { User } from '../../../models/user.model';
 import { RouterTestingModule } from '@angular/router/testing';
 import { IconModule } from '../../../commons/icon/icon.module';
-import { ScaMethods } from '../../../models/scaMethods';
 
 describe('UserUpdateComponent', () => {
   let component: UserUpdateComponent;
   let fixture: ComponentFixture<UserUpdateComponent>;
   let userService: UserService;
-  let infoService: InfoService;
-  let activate: ActivatedRoute;
   let router: Router;
 
   beforeEach(
@@ -53,9 +49,7 @@ describe('UserUpdateComponent', () => {
     fixture = TestBed.createComponent(UserUpdateComponent);
     component = fixture.componentInstance;
     userService = TestBed.inject(UserService);
-    infoService = TestBed.inject(InfoService);
     router = TestBed.inject(Router);
-    activate = TestBed.inject(ActivatedRoute);
     fixture.detectChanges();
   });
 
@@ -210,7 +204,6 @@ describe('UserUpdateComponent', () => {
     expect(component.submitted).toBeFalsy();
     expect(component.updateUserForm.valid).toBeTruthy();
 
-    const scaUserData = <FormArray>component.updateUserForm.get('scaUserData');
     component.user = mockUser;
     component.admin = 'false';
     component.userId = 'all';

@@ -23,17 +23,12 @@ import { TppUserService } from '../../services/tpp.user.service';
 import { AuthService } from '../../services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DebugElement } from '@angular/core';
 import { User } from '../../models/user.model';
 import { UserProfileUpdateComponent } from './user-profile-update.component';
 import { of } from 'rxjs';
 import { TppManagementService } from '../../services/tpp-management.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { InfoModule } from '../../commons/info/info.module';
-import { UserDetailsComponent } from '../users/user-details/user-details.component';
-import { UserService } from '../../services/user.service';
-import { AccountService } from '../../services/account.service';
-import { EmailVerificationService } from '../../services/email-verification.service';
 import { InfoService } from '../../commons/info/info.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -41,7 +36,6 @@ describe('UserProfileUpdateComponent', () => {
   let component: UserProfileUpdateComponent;
   let fixture: ComponentFixture<UserProfileUpdateComponent>;
   let userInfoService: TppUserService;
-  let router: Router;
 
   const mockRoute = {
     snapshot: { params: of({ id: '12345' }) },
@@ -64,7 +58,7 @@ describe('UserProfileUpdateComponent', () => {
   const mockTppUserService = {
     currentTppUser: of(mockUser),
     getUserInfo: () => of(mockUser),
-    updateUserInfo: (user: User) => of({}),
+    updateUserInfo: () => of({}),
   };
 
   const mockRouter = {
@@ -98,7 +92,6 @@ describe('UserProfileUpdateComponent', () => {
     fixture = TestBed.createComponent(UserProfileUpdateComponent);
     component = fixture.componentInstance;
     userInfoService = TestBed.inject(TppUserService);
-    router = TestBed.inject(Router);
     fixture.detectChanges();
   });
 

@@ -17,10 +17,7 @@
  */
 
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  PaginationConfigModel,
-  PageConfig,
-} from '../../models/pagination-config.model';
+import { PaginationConfigModel } from '../../models/pagination-config.model';
 import { PaginationContainerComponent } from './pagination-container.component';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';

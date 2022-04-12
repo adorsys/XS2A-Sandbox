@@ -21,7 +21,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import {
   ConsentAuthorizeResponse,
   PaymentAuthorizeResponse,
-  UserTO,
 } from '../../api/models';
 
 @Injectable({
@@ -55,8 +54,6 @@ export class ShareDataService {
   // encrypted Payment ID
   private authorisationId = new BehaviorSubject<string>(null);
   currentAuthorisationId = this.authorisationId.asObservable();
-
-  constructor() {}
 
   get currentOperation(): Observable<string> {
     return this.operationType.asObservable();

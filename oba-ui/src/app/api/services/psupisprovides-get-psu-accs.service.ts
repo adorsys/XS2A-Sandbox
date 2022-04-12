@@ -65,7 +65,7 @@ export class PsupisprovidesGetPsuAccsService {
     this.isSubmitted.next(bool);
   }
 
-  // tslint:disable-next-line:adjacent-overload-signatures
+  // eslint-disable-next-line @typescript-eslint/adjacent-overload-signatures
   set choseIbanAndCurrency(obj) {
     this.ibanAndCurrency.next(obj);
   }

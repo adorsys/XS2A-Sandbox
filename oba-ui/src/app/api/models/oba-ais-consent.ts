@@ -16,7 +16,6 @@
  * contact us at psd2@adorsys.com.
  */
 
-/* tslint:disable */
 import { CmsAisAccountConsent } from './cms-ais-account-consent';
 export interface ObaAisConsent {
   aisAccountConsent?: CmsAisAccountConsent;

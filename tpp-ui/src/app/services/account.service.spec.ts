@@ -17,7 +17,7 @@
  */
 
 import { HttpClientModule } from '@angular/common/http';
-import { TestBed, inject, ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { environment } from '../../environments/environment';
 import { Amount } from '../models/amount.model';
@@ -25,8 +25,6 @@ import { GrantAccountAccess } from '../models/grant-account-access.model';
 import { Account } from '../models/account.model';
 import { AccountService } from './account.service';
 import { AccountStatus, AccountType, UsageType } from '../models/account.model';
-import { EMPTY, Observable } from 'rxjs';
-import { UsersComponent } from '../components/users/users.component';
 
 describe('AccountService', () => {
   let httpMock: HttpTestingController;

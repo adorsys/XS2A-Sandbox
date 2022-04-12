@@ -21,14 +21,14 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { FileUploadModule } from 'ng2-file-upload';
 import { UploadOptions } from '../services/upload.service';
-import { DocumentUploadComponent } from '../commons/document-upload/document-upload.component';
-import { IconModule } from '../commons/icon/icon.module';
+import { DocumentUploadComponent } from '@commons/document-upload/document-upload.component';
+import { IconModule } from '@commons/icon/icon.module';
 import { UploadFileComponent } from './uploadFile.component';
 import { TestDataGenerationService } from '../services/test.data.generation.service';
-import { InfoService } from '../commons/info/info.service';
+import { InfoService } from '@commons/info/info.service';
 import { SpinnerVisibilityService } from 'ng-http-loader';
-import { InfoModule } from '../commons/info/info.module';
-import { environment } from '../../environments/environment';
+import { InfoModule } from '@commons/info/info.module';
+import { environment } from '@environment/environment';
 import { of } from 'rxjs';
 
 describe('UploadFileComponent', () => {
@@ -36,7 +36,6 @@ describe('UploadFileComponent', () => {
   let fixture: ComponentFixture<UploadFileComponent>;
   let infoService: InfoService;
   let testDataGenerationService: TestDataGenerationService;
-  let spinnerService: SpinnerVisibilityService;
 
   const url = `${environment.tppBackend}`;
   beforeEach(
@@ -65,7 +64,6 @@ describe('UploadFileComponent', () => {
     fixture.detectChanges();
     infoService = TestBed.inject(InfoService);
     testDataGenerationService = TestBed.inject(TestDataGenerationService);
-    spinnerService = TestBed.inject(SpinnerVisibilityService);
   });
 
   it('should create', () => {
@@ -108,10 +106,9 @@ describe('UploadFileComponent', () => {
       url: url + '/data/upload',
       exampleFileUrl: '/accounts/example',
     };
-    const generateSpy = spyOn(
-      testDataGenerationService,
-      'generateExampleTestData'
-    ).and.returnValue(of(mockUploadConfig.exampleFileUrl));
+    spyOn(testDataGenerationService, 'generateExampleTestData').and.returnValue(
+      of(mockUploadConfig.exampleFileUrl)
+    );
     const infoSpy = spyOn(infoService, 'openFeedback');
     component.generateFileExample(mockUploadConfig);
     expect(infoSpy).toHaveBeenCalledWith(

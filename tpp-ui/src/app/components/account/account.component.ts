@@ -97,22 +97,16 @@ export class AccountComponent implements OnInit {
   }
 
   openDeleteConfirmation(content) {
-    this.modalService.open(content).result.then(
-      () => {
-        this.deleteAccountTransactions();
-      },
-      () => {}
-    );
+    this.modalService.open(content).result.then(() => {
+      this.deleteAccountTransactions();
+    });
   }
 
   openSetCreditLimitConfirmation(limit) {
-    this.modalService.open(limit).result.then(
-      () => {
-        console.log(this.account.creditLimit);
-        this.setCreditLimit();
-      },
-      () => {}
-    );
+    this.modalService.open(limit).result.then(() => {
+      console.log(this.account.creditLimit);
+      this.setCreditLimit();
+    });
   }
 
   get isAccountDeleted(): boolean {

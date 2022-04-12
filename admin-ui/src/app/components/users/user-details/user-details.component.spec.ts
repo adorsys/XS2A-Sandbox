@@ -36,7 +36,6 @@ describe('UserDetailsComponent', () => {
   let component: UserDetailsComponent;
   let fixture: ComponentFixture<UserDetailsComponent>;
   let userService: UserService;
-  let accountService: AccountService;
   let emailVerificationService: EmailVerificationService;
   let router: Router;
   let infoService: InfoService;
@@ -67,7 +66,6 @@ describe('UserDetailsComponent', () => {
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
     userService = TestBed.inject(UserService);
-    accountService = TestBed.inject(AccountService);
     infoService = TestBed.inject(InfoService);
     emailVerificationService = TestBed.inject(EmailVerificationService);
     fixture.detectChanges();

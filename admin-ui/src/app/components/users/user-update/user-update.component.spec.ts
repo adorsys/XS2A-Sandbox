@@ -19,7 +19,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UserUpdateComponent } from './user-update.component';
 import { UserService } from '../../../services/user.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormArray, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
@@ -34,10 +34,8 @@ import { OverlayModule } from '@angular/cdk/overlay';
 describe('UserUpdateComponent', () => {
   let component: UserUpdateComponent;
   let fixture: ComponentFixture<UserUpdateComponent>;
-  let infoService: InfoService;
   let userService: UserService;
   let tppManagementService: TppManagementService;
-  let activate: ActivatedRoute;
   let router: Router;
 
   beforeEach(
@@ -61,10 +59,8 @@ describe('UserUpdateComponent', () => {
     fixture = TestBed.createComponent(UserUpdateComponent);
     component = fixture.componentInstance;
     userService = TestBed.inject(UserService);
-    infoService = TestBed.inject(InfoService);
     tppManagementService = TestBed.inject(TppManagementService);
     router = TestBed.inject(Router);
-    activate = TestBed.inject(ActivatedRoute);
     fixture.detectChanges();
   });
 
@@ -226,8 +222,6 @@ describe('UserUpdateComponent', () => {
     component.ngOnInit();
     expect(component.submitted).toBeFalsy();
     expect(component.updateUserForm.valid).toBeTruthy();
-
-    const scaUserData = <FormArray>component.updateUserForm.get('scaUserData');
     component.user = mockUser;
     component.userId = 'all';
     component.updateUserForm.get('email').setValue('dart.vader@dark-side.com');

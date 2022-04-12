@@ -129,20 +129,17 @@ export class TppsComponent implements OnInit {
 
   openConfirmation(content, tppId: string, type: string) {
     this.statusBlock = type;
-    this.modalService.open(content).result.then(
-      () => {
-        if (type === 'block') {
-          this.blockTpp(tppId);
-        } else if (type === 'unblock') {
-          this.blockTpp(tppId);
-        } else if (type === 'delete') {
-          this.delete(tppId);
-        } else {
-          this.changePin(tppId);
-        }
-      },
-      () => {}
-    );
+    this.modalService.open(content).result.then(() => {
+      if (type === 'block') {
+        this.blockTpp(tppId);
+      } else if (type === 'unblock') {
+        this.blockTpp(tppId);
+      } else if (type === 'delete') {
+        this.delete(tppId);
+      } else {
+        this.changePin(tppId);
+      }
+    });
   }
 
   showAllTpps() {

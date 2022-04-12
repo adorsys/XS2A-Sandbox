@@ -1,9 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PageNavigationService } from '../../../services/page-navigation.service';
 import { PiisConsent, User } from '../../../models/user.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../../services/user.service';
-import { map, takeUntil } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AccountAccess } from '../../../models/account-access.model';
 import { PiisConsentService } from '../../../services/piis-consent.service';
@@ -20,7 +20,7 @@ export class UserCreateFundsConfirmationComponent implements OnInit {
   userId: string;
   iban: any;
   createFundsFormGroup: FormGroup;
-  ibanList?: String[];
+  ibanList?: string[];
   private unsubscribe$ = new Subject<void>();
   todayString: string;
   errorMessage: string;
@@ -88,7 +88,7 @@ export class UserCreateFundsConfirmationComponent implements OnInit {
 
     if (new Date(piisConsent.validUntil) >= new Date()) {
       this.piisService.createPiisConsent(piisConsent, this.user.login, password).subscribe(
-        (res) => {
+        () => {
           this.handleClickOnBackButton();
         },
         (error: HttpErrorResponse) => {

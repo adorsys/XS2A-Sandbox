@@ -16,7 +16,6 @@
  * contact us at psd2@adorsys.com.
  */
 
-/* tslint:disable */
 import {
   HttpClient,
   HttpParameterCodec,
@@ -53,7 +52,7 @@ const PARAMETER_CODEC = new ParameterCodec();
 export class BaseService {
   constructor(protected config: ApiConfiguration, protected http: HttpClient) {}
 
-  private _rootUrl: string = '';
+  private _rootUrl = '';
 
   /**
    * Returns the root url for API operations. If not set directly in this

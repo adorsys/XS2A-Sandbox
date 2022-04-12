@@ -25,13 +25,12 @@ import { FilterPipeModule } from 'ngx-filter-pipe';
 import { of } from 'rxjs';
 
 import { User } from '../../models/user.model';
-import { UserService } from '../../services/user.service';
 import { UsersComponent } from './users.component';
-import { PaginationContainerComponent } from '../../commons/pagination-container/pagination-container.component';
+import { PaginationContainerComponent } from '@commons/pagination-container/pagination-container.component';
 import { PaginationConfigModel } from '../../models/pagination-config.model';
-import { InfoService } from '../../commons/info/info.service';
+import { InfoService } from '@commons/info/info.service';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { ADMIN_KEY } from '../../commons/constant/constant';
+import { ADMIN_KEY } from '@commons/constant/constant';
 import { TppManagementService } from '../../services/tpp-management.service';
 
 describe('UsersComponent', () => {

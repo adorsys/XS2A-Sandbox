@@ -120,7 +120,7 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
     this.accountAccessForm.get('iban').setValue(this.account.iban);
     this.accountAccessForm.get('currency').setValue(this.account.currency);
     this.accountAccessForm.get('accountId').setValue(this.account.id);
-    this.tppManagementService.getTppById(this.tppId).subscribe((response) => {
+    this.tppManagementService.getTppById(this.tppId).subscribe(() => {
       this.infoService.openFeedback(
         'Access to account ' + this.account.iban + ' successfully granted',
         { duration: 3000 }

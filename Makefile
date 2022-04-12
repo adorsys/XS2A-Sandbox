@@ -67,9 +67,9 @@ lint-oba-ui:
 	find oba-ui -type f -name "*.json" -not -path "oba-ui/node_modules/*" -exec jsonlint -q {} \; # lint all json
 	find oba-ui -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
 	find oba-ui -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
-	#cd oba-ui && npm ci && npm install
-	#cd oba-ui && npm run lint
-	#cd oba-ui && npm run prettier-check
+	cd oba-ui && npm ci && npm install
+	cd oba-ui && npm run lint
+	cd oba-ui && npm run prettier-check
 
 lint-developer-portal-ui:
 	find developer-portal-ui -type f -name "*.json" -not -path "developer-portal-ui/node_modules/*" -exec jsonlint -q {} \; # lint all json

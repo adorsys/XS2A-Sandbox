@@ -228,18 +228,15 @@ export class AccountListComponent implements OnInit, OnDestroy {
 
   openConfirmation(content, tppId: string, type: string) {
     this.statusBlock = type;
-    this.modalService.open(content).result.then(
-      () => {
-        if (type === 'block') {
-          this.blockAccount(tppId);
-        } else if (type === 'unblock') {
-          this.blockAccount(tppId);
-        } else if (type === 'delete') {
-          this.delete(tppId);
-        }
-      },
-      () => {}
-    );
+    this.modalService.open(content).result.then(() => {
+      if (type === 'block') {
+        this.blockAccount(tppId);
+      } else if (type === 'unblock') {
+        this.blockAccount(tppId);
+      } else if (type === 'delete') {
+        this.delete(tppId);
+      }
+    });
   }
 
   private blockAccount(accountId: string) {

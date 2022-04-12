@@ -29,7 +29,12 @@ interface ExampleFlatNode {
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent {
-  private _transformer = (node: FoodNode, level: number) => {
+  treeControl = new FlatTreeControl<ExampleFlatNode>(
+    (node) => node.level,
+    (node) => node.expandable
+  );
+
+  private transformer = (node: FoodNode, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
       name: node.name,
@@ -37,13 +42,8 @@ export class SidebarComponent {
     };
   };
 
-  treeControl = new FlatTreeControl<ExampleFlatNode>(
-    (node) => node.level,
-    (node) => node.expandable
-  );
-
   treeFlattener = new MatTreeFlattener(
-    this._transformer,
+    this.transformer,
     (node) => node.level,
     (node) => node.expandable,
     (node) => node.children

@@ -16,7 +16,7 @@
  * contact us at psd2@adorsys.com.
  */
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
 import { PaginationConfigModel, PageConfig } from '../../models/pagination-config.model';
 
@@ -25,7 +25,7 @@ import { PaginationConfigModel, PageConfig } from '../../models/pagination-confi
   templateUrl: './pagination-container.component.html',
   styleUrls: ['./pagination-container.component.scss'],
 })
-export class PaginationContainerComponent implements OnInit {
+export class PaginationContainerComponent {
   @Output() pageDataConfig = new EventEmitter<PageConfig>();
   @Input() collectionSize: number;
   @Input() paginationConfig: PaginationConfigModel;
@@ -36,8 +36,6 @@ export class PaginationContainerComponent implements OnInit {
     config.boundaryLinks = true;
     config.maxSize = 7;
   }
-
-  ngOnInit() {}
 
   pageChange(pageNumber: number) {
     this.paginationConfig.currentPageNumber = pageNumber;

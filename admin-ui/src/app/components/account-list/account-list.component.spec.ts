@@ -18,26 +18,23 @@
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
-import { IconModule } from '../../commons/icon/icon.module';
-import { InfoModule } from '../../commons/info/info.module';
-import { InfoService } from '../../commons/info/info.service';
+import { IconModule } from '@commons/icon/icon.module';
+import { InfoModule } from '@commons/info/info.module';
+import { InfoService } from '@commons/info/info.service';
 import {
   Account,
   AccountStatus,
   AccountType,
   UsageType,
 } from '../../models/account.model';
-import { AccountService } from '../../services/account.service';
 import { AccountListComponent } from './account-list.component';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilterPipeModule } from 'ngx-filter-pipe';
-import { PaginationContainerComponent } from '../../commons/pagination-container/pagination-container.component';
-import { PaginationConfigModel } from '../../models/pagination-config.model';
+import { PaginationContainerComponent } from '@commons/pagination-container/pagination-container.component';
 import { ADMIN_KEY } from '@commons/constant/constant';
 import { TppManagementService } from '../../services/tpp-management.service';
 
@@ -45,8 +42,6 @@ describe('AccountListComponent', () => {
   let component: AccountListComponent;
   let fixture: ComponentFixture<AccountListComponent>;
   let tppManagementService: TppManagementService;
-  let infoService: InfoService;
-  let router: Router;
 
   beforeEach(
     waitForAsync(() => {
@@ -71,8 +66,6 @@ describe('AccountListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AccountListComponent);
     component = fixture.componentInstance;
-    infoService = TestBed.inject(InfoService);
-    router = TestBed.inject(Router);
     tppManagementService = TestBed.inject(TppManagementService);
     fixture.detectChanges();
   });

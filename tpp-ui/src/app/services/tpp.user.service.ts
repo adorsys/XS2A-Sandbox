@@ -44,7 +44,7 @@ export class TppUserService {
   }
 
   public loadUserInfo(): void {
-    this.getUserInfo().subscribe(() => {});
+    this.getUserInfo().subscribe();
   }
 
   public updateUserInfo(user: User): Observable<any> {

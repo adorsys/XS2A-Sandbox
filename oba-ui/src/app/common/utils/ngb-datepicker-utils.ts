@@ -39,7 +39,7 @@ export class CustomNgbDateAdapter extends NgbDateAdapter<Date> {
   }
 }
 
-export function stringToNgbDate(value: string, format: string = 'yyyy-MM-dd') {
+export function stringToNgbDate(value: string, format = 'yyyy-MM-dd') {
   if (!value) {
     return null;
   }
@@ -59,7 +59,7 @@ export function stringToNgbDate(value: string, format: string = 'yyyy-MM-dd') {
 
 export function ngbDateToString(
   date: NgbDateStruct,
-  format: string = 'yyyy-MM-dd'
+  format = 'yyyy-MM-dd'
 ): string {
   if (!date) {
     return '';

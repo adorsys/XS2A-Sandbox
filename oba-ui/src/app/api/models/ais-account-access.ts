@@ -16,7 +16,6 @@
  * contact us at psd2@adorsys.com.
  */
 
-/* tslint:disable */
 import { AdditionalInformationAccess } from './additional-information-access';
 import { AccountReference } from './account-reference';
 export interface AisAccountAccess {

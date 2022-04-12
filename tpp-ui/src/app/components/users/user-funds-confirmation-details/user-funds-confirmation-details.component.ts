@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PiisConsent } from '../../../models/user.model';
 import { PageNavigationService } from '../../../services/page-navigation.service';
-import { AccountAccess } from '../../../models/account-access.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { PiisConsentService } from '../../../services/piis-consent.service';

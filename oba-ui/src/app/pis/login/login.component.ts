@@ -14,7 +14,6 @@ import { PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService } from '
 import { PsupisprovidesGetPsuAccsService } from '../../api/services/psupisprovides-get-psu-accs.service';
 import { takeUntil } from 'rxjs/operators';
 import LoginUsingPOST3Params = PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService.LoginUsingPOST3Params;
-import PisAuthUsingGETParams = PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService.PisAuthUsingGETParams;
 
 @Component({
   selector: 'app-login',
@@ -100,7 +99,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             );
           } else {
             if (error.status === 401) {
-              this.errorMessage = `You don\'t have access to this account.`;
+              this.errorMessage = `You don not have access to this account.`;
             } else {
               this.errorMessage = error.error
                 ? error.error.message
@@ -127,7 +126,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
       )
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((res) => {});
+      .subscribe();
   }
 
   public getPisAuthCode(): void {
@@ -139,12 +138,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
         // set oauth2 param in shared service
         this.shareService.setOauthParam(!!params.oauth2);
-
-        const pisAuthCodeParams: PisAuthUsingGETParams = {
-          encryptedPaymentId: this.encryptedPaymentId,
-          redirectId: this.redirectId,
-          ...(params.token && { Authorization: 'Bearer ' + params.token }),
-        };
       });
   }
 

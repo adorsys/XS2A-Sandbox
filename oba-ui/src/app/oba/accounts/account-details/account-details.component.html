@@ -118,11 +118,13 @@
         </div>
         <div class="col-2">
           <label>&nbsp;</label>
-          <button mat-fab
-                  matTooltip="Refresh"
-                  aria-label="Refresh"
-                  class="btn btn-table-btn mt-4"
-                  (click)="refreshTransactions()">
+          <button
+            mat-fab
+            matTooltip="Refresh"
+            aria-label="Refresh"
+            class="btn btn-table-btn mt-4"
+            (click)="refreshTransactions()"
+          >
             <mat-icon>refresh</mat-icon>
           </button>
         </div>
@@ -156,39 +158,39 @@
       <div class="table-responsive">
         <table class="table">
           <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Debtor Name</th>
-            <th scope="col">Debtor Account</th>
-            <th scope="col">Booking date</th>
-            <th scope="col">Amount</th>
-            <th scope="col">Value Date</th>
-            <th scope="col">Creditor Name</th>
-            <th scope="col">Creditor Account</th>
-            <th scope="col">Remittance</th>
-            <th scope="col">transactionId</th>
-            <th scope="col">endToEndId</th>
-          </tr>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Debtor Name</th>
+              <th scope="col">Debtor Account</th>
+              <th scope="col">Booking date</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Value Date</th>
+              <th scope="col">Creditor Name</th>
+              <th scope="col">Creditor Account</th>
+              <th scope="col">Remittance</th>
+              <th scope="col">transactionId</th>
+              <th scope="col">endToEndId</th>
+            </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let transaction of transactions; index as i">
-            <th scope="row">
-              {{ (config.currentPage - 1) * config.itemsPerPage + i + 1 }}
-            </th>
-            <td>{{ transaction?.debtorName }}</td>
-            <td>{{ transaction.debtorAccount?.iban }}</td>
-            <td>{{ transaction.bookingDate }}</td>
-            <td>
-              {{ transaction.amount?.amount }}
-              {{ transaction.amount?.currency }}
-            </td>
-            <td>{{ transaction.valueDate }}</td>
-            <td>{{ transaction?.creditorName }}</td>
-            <td>{{ transaction.creditorAccount?.iban }}</td>
-            <td>{{ transaction.remittanceInformationUnstructured }}</td>
-            <td>{{ transaction.transactionId }}</td>
-            <td>{{ transaction.endToEndId }}</td>
-          </tr>
+            <tr *ngFor="let transaction of transactions; index as i">
+              <th scope="row">
+                {{ (config.currentPage - 1) * config.itemsPerPage + i + 1 }}
+              </th>
+              <td>{{ transaction?.debtorName }}</td>
+              <td>{{ transaction.debtorAccount?.iban }}</td>
+              <td>{{ transaction.bookingDate }}</td>
+              <td>
+                {{ transaction.amount?.amount }}
+                {{ transaction.amount?.currency }}
+              </td>
+              <td>{{ transaction.valueDate }}</td>
+              <td>{{ transaction?.creditorName }}</td>
+              <td>{{ transaction.creditorAccount?.iban }}</td>
+              <td>{{ transaction.remittanceInformationUnstructured }}</td>
+              <td>{{ transaction.transactionId }}</td>
+              <td>{{ transaction.endToEndId }}</td>
+            </tr>
           </tbody>
         </table>
       </div>

@@ -31,7 +31,6 @@ import {
   TppIdType,
 } from '../../../models/tpp-id-structure.model';
 import { CountryService } from '../../../services/country.service';
-import { TppUserService } from '../../../services/tpp.user.service';
 import { PageNavigationService } from '../../../services/page-navigation.service';
 import { TestDataGenerationService } from '../../../services/test.data.generation.service';
 import { CertificateDownloadService } from '../../../services/certificate/certificate-download.service';

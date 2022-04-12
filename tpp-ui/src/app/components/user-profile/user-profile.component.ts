@@ -34,7 +34,7 @@ import { ADMIN_KEY } from '../../commons/constant/constant';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ModalComponent } from '../modal/modal.component';
 import { Select, Store } from '@ngxs/store';
-import { DeleteRecoveryPoint, GetRecoveryPoint, RollbackRecoveryPoint } from '../actions/revertpoints.action';
+import { DeleteRecoveryPoint, GetRecoveryPoint } from '../actions/revertpoints.action';
 import { Observable } from 'rxjs';
 import { RecoveryPointState } from '../../state/recoverypoints.state';
 import { AuthService } from '../../services/auth.service';
@@ -113,18 +113,15 @@ export class UserProfileComponent implements OnInit {
   }
 
   openConfirmation(content, type: string) {
-    this.modalService.open(content).result.then(
-      () => {
-        if (type === 'block') {
-          this.blockTpp();
-        } else if (type === 'delete') {
-          this.delete();
-        } else {
-          this.changePin();
-        }
-      },
-      () => {}
-    );
+    this.modalService.open(content).result.then(() => {
+      if (type === 'block') {
+        this.blockTpp();
+      } else if (type === 'delete') {
+        this.delete();
+      } else {
+        this.changePin();
+      }
+    });
   }
 
   private blockTpp() {

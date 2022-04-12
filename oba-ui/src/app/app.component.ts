@@ -50,7 +50,15 @@ export class AppComponent implements OnInit {
     this.customizeService.getJSON().subscribe((data) => {
       theme = data;
       this.globalSettings = theme.globalSettings;
-      if (theme.globalSettings.logo.indexOf('/') === -1) {
+
+      if (theme.globalSettings !== null) {
+        return;
+      }
+
+      if (
+        theme.globalSettings.logo &&
+        theme.globalSettings.logo.indexOf('/') === -1
+      ) {
         theme.globalSettings.logo =
           '../assets/UI' +
           (this.customizeService.isCustom() ? '/custom/' : '/') +

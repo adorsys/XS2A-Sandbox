@@ -18,14 +18,14 @@
 
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { debounceTime, map, tap } from 'rxjs/operators';
+import { debounceTime, tap } from 'rxjs/operators';
 import { User, UserResponse } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
 import { PageConfig, PaginationConfigModel } from '../../models/pagination-config.model';
 import { TppUserService } from '../../services/tpp.user.service';
 import { TppManagementService } from '../../services/tpp-management.service';
 import { PageNavigationService } from '../../services/page-navigation.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { TppQueryParams } from '../../models/tpp-management.model';
 import { CountryService } from '../../services/country.service';
 import { ADMIN_KEY } from '../../commons/constant/constant';
@@ -203,18 +203,15 @@ export class UsersComponent implements OnInit {
 
   openConfirmation(content, userId: string, type: string) {
     this.statusBlock = type;
-    this.modalService.open(content).result.then(
-      () => {
-        if (type === 'block') {
-          this.blockUser(userId);
-        } else if (type === 'unblock') {
-          this.blockUser(userId);
-        } else if (type === 'delete') {
-          this.delete(userId);
-        }
-      },
-      () => {}
-    );
+    this.modalService.open(content).result.then(() => {
+      if (type === 'block') {
+        this.blockUser(userId);
+      } else if (type === 'unblock') {
+        this.blockUser(userId);
+      } else if (type === 'delete') {
+        this.delete(userId);
+      }
+    });
   }
 
   private blockUser(userId: string) {

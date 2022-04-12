@@ -16,7 +16,6 @@
  * contact us at psd2@adorsys.com.
  */
 
-/* tslint:disable */
 import { PaymentTO } from './payment-to';
 
 export interface CustomPageImplPaymentTO {

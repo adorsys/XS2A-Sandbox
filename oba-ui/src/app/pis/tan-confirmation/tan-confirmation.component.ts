@@ -31,14 +31,6 @@ import { ShareDataService } from '../../common/services/share-data.service';
 import { PsupisprovidesGetPsuAccsService } from '../../api/services/psupisprovides-get-psu-accs.service';
 import { takeUntil } from 'rxjs/operators';
 
-// todo this interface is located into PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService but this is so ugly
-interface IAuthorisePayment {
-  encryptedPaymentId: string;
-  authorisationId: string;
-  authCode: string;
-  Cookie?: string;
-}
-
 @Component({
   selector: 'app-tan-confirmation',
   templateUrl: './tan-confirmation.component.html',

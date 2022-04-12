@@ -83,7 +83,7 @@ class SvgIconConfig {
   constructor(data: SafeResourceUrl | SVGElement) {
     // Note that we can't use `instanceof SVGElement` here,
     // because it'll break during server-side rendering.
-    if (!!(data as any).nodeName) {
+    if ((data as any).nodeName) {
       this.svgElement = data as SVGElement;
     } else {
       this.url = data as SafeResourceUrl;
@@ -167,8 +167,7 @@ export class IconRegistry implements OnDestroy {
     }
 
     return this._loadSvgIconFromConfig(new SvgIconConfig(safeUrl)).pipe(
-      // tslint:disable-next-line:no-non-null-assertion
-      tap((svg) => this._cachedIconsByUrl.set(url!, svg)),
+      tap((svg) => this._cachedIconsByUrl.set(url, svg)),
       map((svg) => cloneSvg(svg))
     );
   }
@@ -181,10 +180,7 @@ export class IconRegistry implements OnDestroy {
    * @param name Name of the icon to be retrieved.
    * @param namespace Namespace in which to look for the icon.
    */
-  getNamedSvgIcon(
-    name: string,
-    namespace: string = ''
-  ): Observable<SVGElement> {
+  getNamedSvgIcon(name: string, namespace = ''): Observable<SVGElement> {
     // Return (copy of) cached icon if possible.
     const key = iconKey(namespace, name);
     const config = this._svgIconConfigs.get(key);

@@ -16,7 +16,6 @@
  * contact us at psd2@adorsys.com.
  */
 
-/* tslint:disable */
 import { Injectable } from '@angular/core';
 import {
   HttpClient,
@@ -70,13 +69,13 @@ class PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService
   ): __Observable<__StrictHttpResponse<PaymentAuthorizeResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
-    let __body: any = null;
+    const __body: any = null;
 
     if (params.authCode != null)
       __params = __params.set('authCode', params.authCode.toString());
     if (params.Cookie != null)
       __headers = __headers.set('Cookie', params.Cookie.toString());
-    let req = new HttpRequest<any>(
+    const req = new HttpRequest<any>(
       'POST',
       this.rootUrl +
         `/pis-cancellation/${params.encryptedPaymentId}/authorisation/${params.authorisationId}/authCode`,
@@ -137,7 +136,7 @@ class PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService
   ): __Observable<__StrictHttpResponse<PaymentAuthorizeResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
-    let __body: any = null;
+    const __body: any = null;
 
     if (params.oauth2 != null)
       __params = __params.set('oauth2', params.oauth2.toString());
@@ -148,7 +147,7 @@ class PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService
       );
     if (params.Cookie != null)
       __headers = __headers.set('Cookie', params.Cookie.toString());
-    let req = new HttpRequest<any>(
+    const req = new HttpRequest<any>(
       'GET',
       this.rootUrl +
         `/pis-cancellation/${params.encryptedPaymentId}/authorisation/${params.authorisationId}/done`,
@@ -211,7 +210,7 @@ class PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService
   ): __Observable<__StrictHttpResponse<PaymentAuthorizeResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
-    let __body: any = null;
+    const __body: any = null;
 
     if (params.pin != null)
       __params = __params.set('pin', params.pin.toString());
@@ -219,7 +218,7 @@ class PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService
       __params = __params.set('login', params.login.toString());
     if (params.Cookie != null)
       __headers = __headers.set('Cookie', params.Cookie.toString());
-    let req = new HttpRequest<any>(
+    const req = new HttpRequest<any>(
       'POST',
       this.rootUrl +
         `/pis-cancellation/${params.encryptedPaymentId}/authorisation/${params.authorisationId}/login`,
@@ -277,13 +276,13 @@ class PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService
   selectMethodUsingPOST1Response(
     params: PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService.SelectMethodUsingPOST1Params
   ): __Observable<__StrictHttpResponse<PaymentAuthorizeResponse>> {
-    let __params = this.newParams();
+    const __params = this.newParams();
     let __headers = new HttpHeaders();
-    let __body: any = null;
+    const __body: any = null;
 
     if (params.Cookie != null)
       __headers = __headers.set('Cookie', params.Cookie.toString());
-    let req = new HttpRequest<any>(
+    const req = new HttpRequest<any>(
       'POST',
       this.rootUrl +
         `/pis-cancellation/${params.encryptedPaymentId}/authorisation/${params.authorisationId}/methods/${params.scaMethodId}`,
@@ -324,7 +323,7 @@ class PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService
   }
 }
 
-module PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService {
+namespace PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService {
   /**
    * Parameters for authorisePaymentUsingPOST
    */

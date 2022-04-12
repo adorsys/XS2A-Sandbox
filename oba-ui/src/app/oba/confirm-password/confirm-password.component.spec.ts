@@ -39,6 +39,9 @@ describe('ConfirmPasswordComponent', () => {
   let de: DebugElement;
   let el: HTMLElement;
   let router: Router;
+  const newPassword = 'newPassword';
+  const code = 'code';
+  const required = 'required';
 
   beforeEach(
     waitForAsync(() => {
@@ -78,8 +81,8 @@ describe('ConfirmPasswordComponent', () => {
     authServiceSpy = spyOn(authService, 'resetPassword').and.callThrough();
 
     const form = component.confirmNewPasswordForm;
-    form.controls['newPassword'].setValue('12345');
-    form.controls['code'].setValue('12345678');
+    form.controls[newPassword].setValue('12345');
+    form.controls[code].setValue('12345678');
     fixture.detectChanges();
 
     el = fixture.debugElement.query(By.css('button')).nativeElement;
@@ -99,39 +102,39 @@ describe('ConfirmPasswordComponent', () => {
   it('New password field validity', () => {
     let errors = {};
     const confirmNewPassword =
-      component.confirmNewPasswordForm.controls['newPassword'];
+      component.confirmNewPasswordForm.controls[newPassword];
     expect(confirmNewPassword.valid).toBeFalsy();
 
     // confirmNewPassword field is required
     errors = confirmNewPassword.errors || {};
-    expect(errors['required']).toBeTruthy();
+    expect(errors[required]).toBeTruthy();
     fixture.detectChanges();
 
     // set confirmNewPassword to something correct
     confirmNewPassword.setValue('123345');
     errors = confirmNewPassword.errors || {};
-    expect(errors['required']).toBeFalsy();
+    expect(errors[required]).toBeFalsy();
   });
 
   it('code field validity', () => {
     let errors = {};
-    const code = component.confirmNewPasswordForm.controls['code'];
-    expect(code.valid).toBeFalsy();
+    const codeForm = component.confirmNewPasswordForm.controls[code];
+    expect(codeForm.valid).toBeFalsy();
 
     // code field is required
-    errors = code.errors || {};
-    expect(errors['required']).toBeTruthy();
+    errors = codeForm.errors || {};
+    expect(errors[required]).toBeTruthy();
 
     // set code to something correct
-    code.setValue('12345678');
-    errors = code.errors || {};
+    codeForm.setValue('12345678');
+    errors = codeForm.errors || {};
     fixture.detectChanges();
-    expect(errors['required']).toBeFalsy();
+    expect(errors[required]).toBeFalsy();
   });
 
   it('should call the valid form on Submit ', () => {
-    component.confirmNewPasswordForm.get('newPassword').setValue('12345');
-    component.confirmNewPasswordForm.get('code').setValue('1234');
+    component.confirmNewPasswordForm.get(newPassword).setValue('12345');
+    component.confirmNewPasswordForm.get(code).setValue('1234');
     const resetSpy = spyOn(authService, 'resetPassword').and.returnValue(
       of({})
     );

@@ -34,7 +34,6 @@ describe('UserCreateComponent', () => {
   let component: UserCreateComponent;
   let fixture: ComponentFixture<UserCreateComponent>;
   let userService: UserService;
-  let infoService: InfoService;
   let router: Router;
 
   beforeEach(
@@ -51,7 +50,6 @@ describe('UserCreateComponent', () => {
     fixture = TestBed.createComponent(UserCreateComponent);
     component = fixture.componentInstance;
     userService = TestBed.inject(UserService);
-    infoService = TestBed.inject(InfoService);
     router = TestBed.inject(Router);
 
     component.admin = 'false';

@@ -135,7 +135,7 @@ export class UserCreateComponent implements OnInit {
       usesStaticTan: [false],
     });
 
-    scaData.get('usesStaticTan').valueChanges.subscribe((bool: boolean = true) => {
+    scaData.get('usesStaticTan').valueChanges.subscribe((bool = true) => {
       if (bool) {
         scaData.get('staticTan').setValidators(Validators.required);
         scaData.get('methodValue').setValidators(Validators.required);

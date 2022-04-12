@@ -28,7 +28,6 @@ import { of, throwError } from 'rxjs';
 import { User } from '../../../models/user.model';
 import { EmailVerificationService } from '../../../services/email-verification.service';
 import { InfoService } from '../../../commons/info/info.service';
-import { InfoModule } from '../../../commons/info/info.module';
 import { ScaUserData } from '../../../models/sca-user-data.model';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OverlayModule } from '@angular/cdk/overlay';
@@ -37,7 +36,6 @@ describe('UserDetailsComponent', () => {
   let component: UserDetailsComponent;
   let fixture: ComponentFixture<UserDetailsComponent>;
   let userService: UserService;
-  let accountService: AccountService;
   let emailVerificationService: EmailVerificationService;
   let router: Router;
   let infoService: InfoService;
@@ -57,7 +55,6 @@ describe('UserDetailsComponent', () => {
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
     userService = TestBed.inject(UserService);
-    accountService = TestBed.inject(AccountService);
     infoService = TestBed.inject(InfoService);
     emailVerificationService = TestBed.inject(EmailVerificationService);
     fixture.detectChanges();
@@ -94,7 +91,7 @@ describe('UserDetailsComponent', () => {
       usesStaticTan: false,
       valid: false,
     };
-    const getEmailSpy = spyOn(emailVerificationService, 'sendEmailForVerification').and.returnValue(of(''));
+    spyOn(emailVerificationService, 'sendEmailForVerification').and.returnValue(of(''));
     const infoServiceOpenFeedbackSpy = spyOn(infoService, 'openFeedback');
     component.confirmEmail(mockUserData);
     expect(infoServiceOpenFeedbackSpy).toHaveBeenCalledWith(`Confirmation letter has been sent to your email ${mockUserData.methodValue}!`);
@@ -110,7 +107,7 @@ describe('UserDetailsComponent', () => {
       usesStaticTan: false,
       valid: false,
     };
-    const getEmailSpy = spyOn(emailVerificationService, 'sendEmailForVerification').and.returnValue(throwError(''));
+    spyOn(emailVerificationService, 'sendEmailForVerification').and.returnValue(throwError(''));
     const infoServiceOpenFeedbackSpy = spyOn(infoService, 'openFeedback');
     component.confirmEmail(mockUserData);
     expect(infoServiceOpenFeedbackSpy).toHaveBeenCalledWith(`Sorry, something went wrong during the process of sending the confirmation!`);

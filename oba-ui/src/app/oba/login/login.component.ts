@@ -18,7 +18,7 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Subscription, throwError } from 'rxjs';
 
 import { RoutingPath } from '../../common/models/routing-path.model';
@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    private _snackBar: MatSnackBar
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       result.name !== 'safari' &&
       result.name !== 'firefox'
     ) {
-      this._snackBar.open(
+      this.snackBar.open(
         `Unfortunately, you are using an outdated browser. Our website may not look quite right in it. Please consider updating your browser to enjoy an optimal experience.`,
         'Close',
         {
@@ -76,7 +76,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
     this.initLoginForm();
 
-    this.loginForm.valueChanges.subscribe((val) => {
+    this.loginForm.valueChanges.subscribe(() => {
       this.errorMessage = null;
     });
   }

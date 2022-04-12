@@ -19,14 +19,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from '@environment/environment';
-import { catchError, map } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Credentials } from '../models/credentials.model';
 import { Router } from '@angular/router';
 import { AutoLogoutService } from './auto-logout.service';
 import { TppInfo } from '../models/tpp-info.model';
-import { ADMIN_KEY } from '@commons/constant/constant';
 
 @Injectable({
   providedIn: 'root',

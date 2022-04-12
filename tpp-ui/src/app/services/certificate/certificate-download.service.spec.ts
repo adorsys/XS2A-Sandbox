@@ -17,7 +17,6 @@
  */
 
 import { TestBed } from '@angular/core/testing';
-import JSZip from 'jszip';
 
 import { CertificateDownloadService } from './certificate-download.service';
 import { of } from 'rxjs';
@@ -67,7 +66,6 @@ describe('CertificateDownloadService', () => {
   it('should generate a Zip file', (done) => {
     const certBlob = 'certBlob';
     const keyBlob = 'keyBlob';
-    const mockZip: JSZip = ['Blob'];
     CertificateDownloadService.generateZipFile(certBlob, keyBlob).then((r: any) => {
       expect(r).toBeTruthy();
       done();

@@ -20,8 +20,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { DebugElement } from '@angular/core';
-import { By } from '@angular/platform-browser';
 
 import { LoginComponent } from './login.component';
 import { AuthService } from '../../../services/auth.service';
@@ -36,8 +34,6 @@ describe('LoginComponent', () => {
   let fixture: ComponentFixture<LoginComponent>;
   let authService: AuthService;
   let router: Router;
-  let de: DebugElement;
-  let el: HTMLElement;
 
   beforeEach(
     waitForAsync(() => {
@@ -55,9 +51,6 @@ describe('LoginComponent', () => {
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
     authService = fixture.debugElement.injector.get(AuthService);
-
-    de = fixture.debugElement.query(By.css('form'));
-    el = de.nativeElement;
 
     fixture.detectChanges();
     component.ngOnInit();

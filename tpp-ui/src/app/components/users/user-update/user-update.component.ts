@@ -77,7 +77,7 @@ export class UserUpdateComponent implements OnInit {
         this.getUserDetails();
       });
 
-    this.tppUserService.currentTppUser.subscribe((user: User) => {
+    this.tppUserService.currentTppUser.subscribe(() => {
       this.activatedRoute.params.subscribe((param) => {
         this.userId = param['id'];
       });
@@ -145,7 +145,7 @@ export class UserUpdateComponent implements OnInit {
       pushMethod: [''],
     });
 
-    scaData.get('usesStaticTan').valueChanges.subscribe((bool: boolean = true) => {
+    scaData.get('usesStaticTan').valueChanges.subscribe((bool = true) => {
       if (bool) {
         scaData.get('staticTan').setValidators([Validators.required, Validators.pattern(new RegExp(/\d{6}/))]);
         scaData.get('staticTan').enable();

@@ -28,7 +28,6 @@ import { UserAccess } from '../../models/user-access';
 import { AccountService } from '../../services/account.service';
 import { PageNavigationService } from '../../services/page-navigation.service';
 import { TppManagementService } from '../../services/tpp-management.service';
-import { User } from '../../models/user.model';
 import { TppUserService } from '../../services/tpp.user.service';
 import { ExtendedBalance } from '../../models/extendedBalance';
 
@@ -54,7 +53,7 @@ export class AccountComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.tppUserService.getUserInfo().subscribe((user: User) => {
+    this.tppUserService.getUserInfo().subscribe(() => {
       this.activatedRoute.params
         .pipe(
           map((response) => {
@@ -100,22 +99,16 @@ export class AccountComponent implements OnInit {
   }
 
   openDeleteConfirmation(content) {
-    this.modalService.open(content).result.then(
-      () => {
-        this.deleteAccountTransactions();
-      },
-      () => {}
-    );
+    this.modalService.open(content).result.then(() => {
+      this.deleteAccountTransactions();
+    });
   }
 
   openSetCreditLimitConfirmation(limit) {
-    this.modalService.open(limit).result.then(
-      () => {
-        console.log(this.account.creditLimit);
-        this.setCreditLimit();
-      },
-      () => {}
-    );
+    this.modalService.open(limit).result.then(() => {
+      console.log(this.account.creditLimit);
+      this.setCreditLimit();
+    });
   }
 
   get isAccountDeleted(): boolean {

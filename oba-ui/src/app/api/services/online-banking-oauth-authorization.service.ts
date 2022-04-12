@@ -16,7 +16,6 @@
  * contact us at psd2@adorsys.com.
  */
 
-/* tslint:disable */
 import { Injectable } from '@angular/core';
 import {
   HttpClient,
@@ -65,14 +64,14 @@ class OnlineBankingOauthAuthorizationService extends __BaseService {
   ): __Observable<__StrictHttpResponse<OauthCodeResponseTO>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
-    let __body: any = null;
+    const __body: any = null;
     if (params.redirectUri != null)
       __params = __params.set('redirect_uri', params.redirectUri.toString());
     if (params.pin != null)
       __headers = __headers.set('pin', params.pin.toString());
     if (params.login != null)
       __headers = __headers.set('login', params.login.toString());
-    let req = new HttpRequest<any>(
+    const req = new HttpRequest<any>(
       'POST',
       this.rootUrl + `/oauth/authorise`,
       __body,
@@ -126,8 +125,8 @@ class OnlineBankingOauthAuthorizationService extends __BaseService {
     params: OnlineBankingOauthAuthorizationService.OauthServerInfoUsingGETParams
   ): __Observable<__StrictHttpResponse<OauthServerInfoTO>> {
     let __params = this.newParams();
-    let __headers = new HttpHeaders();
-    let __body: any = null;
+    const __headers = new HttpHeaders();
+    const __body: any = null;
     if (params.redirectId != null)
       __params = __params.set('redirectId', params.redirectId.toString());
     if (params.paymentId != null)
@@ -139,7 +138,7 @@ class OnlineBankingOauthAuthorizationService extends __BaseService {
         'cancellationId',
         params.cancellationId.toString()
       );
-    let req = new HttpRequest<any>(
+    const req = new HttpRequest<any>(
       'GET',
       this.rootUrl + `/oauth/authorization-server`,
       __body,
@@ -186,10 +185,10 @@ class OnlineBankingOauthAuthorizationService extends __BaseService {
     code: string
   ): __Observable<__StrictHttpResponse<BearerTokenTO>> {
     let __params = this.newParams();
-    let __headers = new HttpHeaders();
-    let __body: any = null;
+    const __headers = new HttpHeaders();
+    const __body: any = null;
     if (code != null) __params = __params.set('code', code.toString());
-    let req = new HttpRequest<any>(
+    const req = new HttpRequest<any>(
       'POST',
       this.rootUrl + `/oauth/token`,
       __body,
@@ -218,7 +217,7 @@ class OnlineBankingOauthAuthorizationService extends __BaseService {
   }
 }
 
-module OnlineBankingOauthAuthorizationService {
+namespace OnlineBankingOauthAuthorizationService {
   /**
    * Parameters for oauthCodeUsingPOST
    */

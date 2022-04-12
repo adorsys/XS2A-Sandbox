@@ -16,7 +16,6 @@
  * contact us at psd2@adorsys.com.
  */
 
-/* tslint:disable */
 import { AisConsentRequest } from './ais-consent-request';
 import { PsuMessage } from './psu-message';
 export interface PIISConsentCreateResponse {

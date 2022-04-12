@@ -20,7 +20,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 
 import { InfoModule } from '../../commons/info/info.module';
 import { InfoService } from '../../commons/info/info.service';
@@ -95,7 +95,7 @@ describe('AccountDetailComponent', () => {
     expect(component.accountForm.valid).toBeTruthy();
 
     // mock http call
-    const createAccountSpy = spyOn(accountService, 'createAccount').and.returnValue(of(mockAccount));
+    spyOn(accountService, 'createAccount').and.returnValue(of(mockAccount));
     component.onSubmit();
 
     expect(component.submitted).toBeTruthy();

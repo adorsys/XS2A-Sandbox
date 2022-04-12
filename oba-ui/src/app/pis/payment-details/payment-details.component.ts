@@ -140,7 +140,7 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
     this.error = '';
 
     const data = this.getDataForInitiate(
-      !!text ? text : this.selectedItems[0].textInDropdown
+      text ? text : this.selectedItems[0].textInDropdown
     );
 
     this.sendPisInitiate(data);
@@ -155,7 +155,7 @@ export class PaymentDetailsComponent implements OnInit, OnDestroy {
     this.pisAccServices
       .sendPisInitiate(debtorAccInfo, this.routerParams)
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((res) => {
+      .subscribe(() => {
         this.pisAccServices.choseIbanAndCurrency = debtorAccInfo;
         this.pisAccServices.setIsSubmitted = true;
       });

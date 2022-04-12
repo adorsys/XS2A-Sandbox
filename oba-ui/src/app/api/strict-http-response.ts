@@ -16,7 +16,6 @@
  * contact us at psd2@adorsys.com.
  */
 
-/* tslint:disable */
 import { HttpResponse } from '@angular/common/http';
 
 /**

@@ -16,15 +16,12 @@
  * contact us at psd2@adorsys.com.
  */
 
-/* tslint:disable */
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { BaseService as __BaseService } from '../base-service';
 import { ApiConfiguration as __Configuration } from '../api-configuration';
 import { Observable } from 'rxjs';
-import { filter as __filter, map, map as __map } from 'rxjs/operators';
 import { SCAPaymentResponseTO } from '../models/scapayment-response-to';
-import { StrictHttpResponse } from '../strict-http-response';
 
 /**
  * Oba Pis Controller
@@ -47,7 +44,7 @@ class OnlineBankingPaymentCancService extends __BaseService {
   initiatePaymentCancellation(
     paymentId: string
   ): Observable<SCAPaymentResponseTO> {
-    let params = this.newParams().append('paymentId', paymentId);
+    const params = this.newParams().append('paymentId', paymentId);
     return this.http.post(
       this.rootUrl + OnlineBankingPaymentCancService.cancellationBase,
       null,
@@ -66,7 +63,7 @@ class OnlineBankingPaymentCancService extends __BaseService {
     scaMethodId: string,
     cancellationId?: string
   ): Observable<SCAPaymentResponseTO> {
-    let params = this.newParams()
+    const params = this.newParams()
       .append('paymentId', paymentId)
       .append('scaMethodId', scaMethodId)
       .append('cancellationId', cancellationId);
@@ -89,7 +86,7 @@ class OnlineBankingPaymentCancService extends __BaseService {
     authCode: string,
     cancellationId: string
   ): Observable<any> {
-    let params = this.newParams()
+    const params = this.newParams()
       .append('paymentId', paymentId)
       .append('authCode', authCode)
       .append('cancellationId', cancellationId);

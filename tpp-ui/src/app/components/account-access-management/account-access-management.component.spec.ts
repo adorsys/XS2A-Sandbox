@@ -17,23 +17,18 @@
  */
 
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { User, UserResponse } from '../../models/user.model';
+import { User } from '../../models/user.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountAccessManagementComponent } from './account-access-management.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AccountService } from '../../services/account.service';
-import { UserService } from '../../services/user.service';
-import { RouterTestingModule } from '@angular/router/testing';
 import { InfoModule } from '../../commons/info/info.module';
 import { InfoService } from '../../commons/info/info.service';
 import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { Account, AccountStatus, AccountType, UsageType } from '../../models/account.model';
 import { Observable, of } from 'rxjs';
-import get = Reflect.get;
 import { TppManagementService } from '../../services/tpp-management.service';
-import { TppQueryParams } from '../../models/tpp-management.model';
-
 const mockRouter = {
   navigate: (url: string) => {
     console.log('mocknavigation', url);
@@ -45,7 +40,7 @@ const mockActivatedRoute = {
 };
 
 const tppManagementServiceMock = {
-  getAllUsers: function (page: number, size: number, queryParams?: TppQueryParams): Observable<any> {
+  getAllUsers: function (): Observable<any> {
     const mockUsers: User[] = [
       {
         id: 'USERID',
@@ -67,11 +62,6 @@ const tppManagementServiceMock = {
 describe('AccountAccessManagementComponent', () => {
   let component: AccountAccessManagementComponent;
   let fixture: ComponentFixture<AccountAccessManagementComponent>;
-  let accountService: AccountService;
-  let userService: UserService;
-  let infoService: InfoService;
-  let router: Router;
-  let route: ActivatedRoute;
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -88,11 +78,6 @@ describe('AccountAccessManagementComponent', () => {
 
       fixture = TestBed.createComponent(AccountAccessManagementComponent);
       component = fixture.componentInstance;
-      accountService = TestBed.inject(AccountService);
-      userService = TestBed.inject(UserService);
-      infoService = TestBed.inject(InfoService);
-      router = TestBed.inject(Router);
-      route = TestBed.inject(ActivatedRoute);
 
       component.ngOnInit();
     })

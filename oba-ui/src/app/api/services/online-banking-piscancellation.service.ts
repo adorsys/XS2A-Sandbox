@@ -16,7 +16,6 @@
  * contact us at psd2@adorsys.com.
  */
 
-/* tslint:disable */
 import { Injectable } from '@angular/core';
 import {
   HttpClient,
@@ -57,11 +56,11 @@ class OnlineBankingPISCancellationService extends __BaseService {
     paymentId: string
   ): __Observable<__StrictHttpResponse<SCAPaymentResponseTO>> {
     let __params = this.newParams();
-    let __headers = new HttpHeaders();
-    let __body: any = null;
+    const __headers = new HttpHeaders();
+    const __body: any = null;
     if (paymentId != null)
       __params = __params.set('paymentId', paymentId.toString());
-    let req = new HttpRequest<any>(
+    const req = new HttpRequest<any>(
       'POST',
       this.rootUrl + `/api/v1/payment/cancellation`,
       __body,
@@ -104,8 +103,8 @@ class OnlineBankingPISCancellationService extends __BaseService {
     params: OnlineBankingPISCancellationService.ValidateTANUsingPUTParams
   ): __Observable<__StrictHttpResponse<null>> {
     let __params = this.newParams();
-    let __headers = new HttpHeaders();
-    let __body: any = null;
+    const __headers = new HttpHeaders();
+    const __body: any = null;
     if (params.paymentId != null)
       __params = __params.set('paymentId', params.paymentId.toString());
     if (params.cancellationId != null)
@@ -115,7 +114,7 @@ class OnlineBankingPISCancellationService extends __BaseService {
       );
     if (params.authCode != null)
       __params = __params.set('authCode', params.authCode.toString());
-    let req = new HttpRequest<any>(
+    const req = new HttpRequest<any>(
       'PUT',
       this.rootUrl + `/api/v1/payment/cancellation/confirmation`,
       __body,
@@ -165,8 +164,8 @@ class OnlineBankingPISCancellationService extends __BaseService {
     params: OnlineBankingPISCancellationService.SelectScaUsingPOSTParams
   ): __Observable<__StrictHttpResponse<SCAPaymentResponseTO>> {
     let __params = this.newParams();
-    let __headers = new HttpHeaders();
-    let __body: any = null;
+    const __headers = new HttpHeaders();
+    const __body: any = null;
     if (params.scaMethodId != null)
       __params = __params.set('scaMethodId', params.scaMethodId.toString());
     if (params.paymentId != null)
@@ -176,7 +175,7 @@ class OnlineBankingPISCancellationService extends __BaseService {
         'cancellationId',
         params.cancellationId.toString()
       );
-    let req = new HttpRequest<any>(
+    const req = new HttpRequest<any>(
       'POST',
       this.rootUrl + `/api/v1/payment/cancellation/sca`,
       __body,
@@ -214,7 +213,7 @@ class OnlineBankingPISCancellationService extends __BaseService {
   }
 }
 
-module OnlineBankingPISCancellationService {
+namespace OnlineBankingPISCancellationService {
   /**
    * Parameters for validateTANUsingPUT
    */

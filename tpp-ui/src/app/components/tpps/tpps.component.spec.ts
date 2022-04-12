@@ -20,14 +20,13 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { TppsComponent } from './tpps.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InfoService } from '../../commons/info/info.service';
 import { AccountService } from '../../services/account.service';
 import { TppManagementService } from '../../services/tpp-management.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageNavigationService } from '../../services/page-navigation.service';
 import { CountryService } from '../../services/country.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TppUserService } from '../../services/tpp.user.service';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { of } from 'rxjs';
@@ -35,7 +34,6 @@ import { of } from 'rxjs';
 describe('TppsComponent', () => {
   let component: TppsComponent;
   let fixture: ComponentFixture<TppsComponent>;
-  let route: ActivatedRoute;
 
   const mockRoute = {
     params: of({ id: '12345' }),
@@ -63,7 +61,6 @@ describe('TppsComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TppsComponent);
-    route = TestBed.inject(ActivatedRoute);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

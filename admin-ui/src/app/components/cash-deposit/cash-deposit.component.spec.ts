@@ -25,7 +25,6 @@ import { of, throwError } from 'rxjs';
 
 import { AccountService } from '../../services/account.service';
 import { CashDepositComponent } from './cash-deposit.component';
-import { AuthService } from '../../services/auth.service';
 
 describe('CashDepositComponent', () => {
   let component: CashDepositComponent;
@@ -68,16 +67,7 @@ describe('CashDepositComponent', () => {
       currency: 'EUR',
       amount: '50',
     });
-    let accountSpy: jasmine.Spy<
-      AccountService[keyof AccountService] extends jasmine.Func
-        ? AccountService[keyof AccountService]
-        : AccountService[keyof AccountService] extends new (
-            ...args: infer A
-          ) => infer V
-        ? (...args: A) => V
-        : never
-    >;
-    accountSpy = spyOn(accountService, 'getAccount').and.returnValue(
+    const accountSpy = spyOn(accountService, 'getAccount').and.returnValue(
       of<any>({
         data: component.cashDepositForm.controls['currency'].setValue('EUR'),
       })

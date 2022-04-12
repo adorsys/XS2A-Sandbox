@@ -16,7 +16,7 @@
  * contact us at psd2@adorsys.com.
  */
 
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CustomizeService } from 'src/app/common/services/customize.service';
 
@@ -25,13 +25,11 @@ import { CustomizeService } from 'src/app/common/services/customize.service';
   templateUrl: './verify-email.component.html',
   styleUrls: ['./verify-email.component.scss'],
 })
-export class VerifyEmailComponent implements OnInit {
+export class VerifyEmailComponent {
   constructor(
     private router: Router,
     public customizeService: CustomizeService
   ) {}
-
-  ngOnInit(): void {}
 
   hasRoute(route: string) {
     return this.router.url.includes(route);

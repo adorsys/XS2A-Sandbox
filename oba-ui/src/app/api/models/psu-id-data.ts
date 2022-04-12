@@ -16,7 +16,6 @@
  * contact us at psd2@adorsys.com.
  */
 
-/* tslint:disable */
 import { AdditionalPsuIdData } from './additional-psu-id-data';
 export interface PsuIdData {
   additionalPsuIdData?: AdditionalPsuIdData;

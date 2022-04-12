@@ -16,6 +16,7 @@
  * contact us at psd2@adorsys.com.
  */
 
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgHttpLoaderModule } from 'ng-http-loader';
@@ -27,11 +28,6 @@ import { AccountComponent } from './components/account/account.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { InfoModule } from './commons/info/info.module';
-import { AccountDetailComponent } from './components/account-detail/account-detail.component';
-import { ConvertBalancePipe } from './pipes/convertBalance.pipe';
-import { AccountService } from './services/account.service';
-import { InfoService } from './commons/info/info.service';
-import { TestDataGenerationService } from './services/test.data.generation.service';
 
 describe('AppComponent', () => {
   let component: AppComponent;

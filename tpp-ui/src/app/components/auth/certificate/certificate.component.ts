@@ -28,7 +28,7 @@ export class CertificateComponent implements OnInit {
   @Output() certificateValue = new EventEmitter();
 
   certificateFormGroup: FormGroup;
-  rolesOptionsError: Boolean = false;
+  rolesOptionsError = false;
 
   public roles: Array<string> = ['PIISP', 'PISP', 'AISP'];
   selectedOptions = ['PIISP', 'PISP', 'AISP'];

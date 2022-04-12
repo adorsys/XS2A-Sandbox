@@ -55,9 +55,9 @@ export class DocumentUploadComponent implements OnInit {
     this.uploader = this.uploadService.createInstanceFileUploader(this.options);
 
     /* Ensure again that the number of up-to-load file is always one and get the image path for preview */
-    this.uploader.onAfterAddingFile = (item) => this.onAfterAddingFile(item);
+    this.uploader.onAfterAddingFile = () => this.onAfterAddingFile();
 
-    this.uploader.onProgressAll = (progress) => {
+    this.uploader.onProgressAll = () => {
       this.spinner.show();
     };
 
@@ -65,7 +65,7 @@ export class DocumentUploadComponent implements OnInit {
       this.spinner.hide();
     });
 
-    this.uploader.onCompleteItem = (item: FileItem, response: string, status, headers) => {
+    this.uploader.onCompleteItem = (item: FileItem, response: string, status) => {
       if (this.options.methodAfterSuccess && typeof this.options.methodAfterSuccess === 'function') {
         this.options.methodAfterSuccess(item, response);
       }
@@ -76,7 +76,7 @@ export class DocumentUploadComponent implements OnInit {
       }
     };
 
-    this.uploader.onWhenAddingFileFailed = (item, filter, options) => {
+    this.uploader.onWhenAddingFileFailed = (item, filter) => {
       if (filter.name === 'mimeType' || filter.name === 'fileSize') {
         let extensions = '';
         if (this.options.allowedMimeType) {
@@ -84,10 +84,6 @@ export class DocumentUploadComponent implements OnInit {
             extensions = extensions + extension.split('/').pop() + ', ';
           });
         }
-        const params: any = {
-          file: item.name,
-          extensions: extensions,
-        };
         const message: string = 'ERROR UPLOAD' + filter.name;
         this.infoService.openFeedback(message, { severity: 'error' });
       }
@@ -98,7 +94,7 @@ export class DocumentUploadComponent implements OnInit {
     this.hasBaseDropZoneOver = e;
   }
 
-  onAfterAddingFile(item: FileItem): void {
+  onAfterAddingFile(): void {
     if (this.options.queueLimit === 1) {
       if (this.uploader.queue.length > 1) {
         this.uploader.removeFromQueue(this.uploader.queue[0]);

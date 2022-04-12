@@ -22,19 +22,18 @@ import { FormArray, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { IconModule } from '../../../commons/icon/icon.module';
-import { InfoModule } from '../../../commons/info/info.module';
-import { InfoService } from '../../../commons/info/info.service';
+import { IconModule } from '@commons/icon/icon.module';
+import { InfoModule } from '@commons/info/info.module';
+import { InfoService } from '@commons/info/info.service';
 import { UserService } from '../../../services/user.service';
 import { UserCreateComponent } from './user-create.component';
 import { ScaMethods } from '../../../models/scaMethods';
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 import { TppManagementService } from '../../../services/tpp-management.service';
 
 describe('UserCreateComponent', () => {
   let component: UserCreateComponent;
   let fixture: ComponentFixture<UserCreateComponent>;
-  let userService: UserService;
   let infoService: InfoService;
   let tppManagementService: TppManagementService;
   let router: Router;
@@ -58,7 +57,6 @@ describe('UserCreateComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UserCreateComponent);
     component = fixture.componentInstance;
-    userService = TestBed.inject(UserService);
     infoService = TestBed.inject(InfoService);
     tppManagementService = TestBed.inject(TppManagementService);
     router = TestBed.inject(Router);

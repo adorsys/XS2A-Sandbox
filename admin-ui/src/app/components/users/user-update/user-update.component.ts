@@ -75,7 +75,7 @@ export class UserUpdateComponent implements OnInit {
         this.getUserDetails();
       });
 
-    this.tppUserService.getUserInfo().subscribe((user: User) => {
+    this.tppUserService.getUserInfo().subscribe(() => {
       this.activatedRoute.params.subscribe((param) => {
         this.userId = param['id'];
       });
@@ -141,24 +141,22 @@ export class UserUpdateComponent implements OnInit {
       pushMethod: [''],
     });
 
-    scaData
-      .get('usesStaticTan')
-      .valueChanges.subscribe((bool: boolean = true) => {
-        if (bool) {
-          scaData
-            .get('staticTan')
-            .setValidators([
-              Validators.required,
-              Validators.pattern(new RegExp(/\d{6}/)),
-            ]);
-          scaData.get('staticTan').enable();
-        } else {
-          scaData.get('staticTan').clearValidators();
-          scaData.get('staticTan').disable();
-          scaData.get('staticTan').setValue('');
-        }
-        scaData.get('staticTan').updateValueAndValidity();
-      });
+    scaData.get('usesStaticTan').valueChanges.subscribe((bool = true) => {
+      if (bool) {
+        scaData
+          .get('staticTan')
+          .setValidators([
+            Validators.required,
+            Validators.pattern(new RegExp(/\d{6}/)),
+          ]);
+        scaData.get('staticTan').enable();
+      } else {
+        scaData.get('staticTan').clearValidators();
+        scaData.get('staticTan').disable();
+        scaData.get('staticTan').setValue('');
+      }
+      scaData.get('staticTan').updateValueAndValidity();
+    });
 
     scaData.get('scaMethod').valueChanges.subscribe((value) => {
       if (value === ScaMethods.SMTP_OTP) {

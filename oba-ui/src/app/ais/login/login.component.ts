@@ -33,7 +33,6 @@ import { CustomizeService } from '../../common/services/customize.service';
 import { ShareDataService } from '../../common/services/share-data.service';
 import { AuthService } from '../../common/services/auth.service';
 import LoginUsingPOSTParams = PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.LoginUsingPOSTParams;
-import AisAuthUsingGETParams = PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.AisAuthUsingGETParams;
 
 @Component({
   selector: 'app-login',
@@ -126,11 +125,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       params.oauth2
         ? this.shareService.setOauthParam(true)
         : this.shareService.setOauthParam(false);
-      const aisAuthCodeParams: AisAuthUsingGETParams = {
-        encryptedConsentId: this.encryptedConsentId,
-        redirectId: this.redirectId,
-        ...(params.token && { Authorization: 'Bearer ' + params.token }),
-      };
     });
   }
 

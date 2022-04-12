@@ -10,7 +10,8 @@
     "test": "ng test",
     "test-ci": "ng test --browsers ChromeHeadless --watch=false",
     "test-coverage": "ng test --code-coverage",
-    "lint": "ng lint",
+    "lint": "npx eslint src/app/. ",
+    "lint:fix": "npx eslint src/app/. --fix",
     "e2e": "ng e2e",
     "prettier": "prettier --write .",
     "prettier-check": "prettier --check .",
@@ -71,7 +72,12 @@
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
+    "@typescript-eslint/eslint-plugin": "^5.19.0",
+    "@typescript-eslint/parser": "^5.19.0",
     "codelyzer": "^6.0.1",
+    "eslint": "^8.13.0",
+    "eslint-plugin-angular": "^4.1.0",
+    "eslint-plugin-autofix": "^1.1.0",
     "husky": "^7.0.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
@@ -86,7 +92,6 @@
     "protractor": "~7.0.0",
     "sass": "^1.32.8",
     "ts-node": "~9.1.1",
-    "tslint": "~6.1.3",
-    "typescript": "~4.1.3"
+    "typescript": "^4.1.6"
   }
 }

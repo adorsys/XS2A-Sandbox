@@ -21,7 +21,7 @@ import { AccountService } from '../../services/account.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Account, AccountResponse } from '../../models/account.model';
 import { Subscription } from 'rxjs';
-import { map, tap, debounceTime } from 'rxjs/operators';
+import { tap, debounceTime } from 'rxjs/operators';
 import { PageConfig, PaginationConfigModel } from '../../models/pagination-config.model';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { PageNavigationService } from '../../services/page-navigation.service';
@@ -216,18 +216,15 @@ export class AccountListComponent implements OnInit, OnDestroy {
 
   openConfirmation(content, tppId: string, type: string) {
     this.statusBlock = type;
-    this.modalService.open(content).result.then(
-      () => {
-        if (type === 'block') {
-          this.blockAccount(tppId);
-        } else if (type === 'unblock') {
-          this.blockAccount(tppId);
-        } else if (type === 'delete') {
-          this.delete(tppId);
-        }
-      },
-      () => {}
-    );
+    this.modalService.open(content).result.then(() => {
+      if (type === 'block') {
+        this.blockAccount(tppId);
+      } else if (type === 'unblock') {
+        this.blockAccount(tppId);
+      } else if (type === 'delete') {
+        this.delete(tppId);
+      }
+    });
   }
 
   private blockAccount(accountId: string) {

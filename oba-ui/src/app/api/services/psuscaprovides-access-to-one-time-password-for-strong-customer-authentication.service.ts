@@ -16,7 +16,6 @@
  * contact us at psd2@adorsys.com.
  */
 
-/* tslint:disable */
 import { Injectable } from '@angular/core';
 import {
   HttpClient,
@@ -62,13 +61,13 @@ class PSUSCAProvidesAccessToOneTimePasswordForStrongCustomerAuthenticationServic
     params: PSUSCAProvidesAccessToOneTimePasswordForStrongCustomerAuthenticationService.LoginUsingPOST4Params
   ): __Observable<__StrictHttpResponse<AuthorizeResponse>> {
     let __params = this.newParams();
-    let __headers = new HttpHeaders();
-    let __body: any = null;
+    const __headers = new HttpHeaders();
+    const __body: any = null;
     if (params.pin != null)
       __params = __params.set('pin', params.pin.toString());
     if (params.login != null)
       __params = __params.set('login', params.login.toString());
-    let req = new HttpRequest<any>(
+    const req = new HttpRequest<any>(
       'POST',
       this.rootUrl + `/sca/login`,
       __body,
@@ -121,13 +120,13 @@ class PSUSCAProvidesAccessToOneTimePasswordForStrongCustomerAuthenticationServic
   ): __Observable<__StrictHttpResponse<AuthorizeResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
-    let __body: any = null;
+    const __body: any = null;
 
     if (params.authCode != null)
       __params = __params.set('authCode', params.authCode.toString());
     if (params.Cookie != null)
       __headers = __headers.set('Cookie', params.Cookie.toString());
-    let req = new HttpRequest<any>(
+    const req = new HttpRequest<any>(
       'POST',
       this.rootUrl +
         `/sca/${params.scaId}/authorisation/${params.authorisationId}/authCode`,
@@ -183,13 +182,13 @@ class PSUSCAProvidesAccessToOneTimePasswordForStrongCustomerAuthenticationServic
   selectMethodUsingPOST3Response(
     params: PSUSCAProvidesAccessToOneTimePasswordForStrongCustomerAuthenticationService.SelectMethodUsingPOST3Params
   ): __Observable<__StrictHttpResponse<AuthorizeResponse>> {
-    let __params = this.newParams();
+    const __params = this.newParams();
     let __headers = new HttpHeaders();
-    let __body: any = null;
+    const __body: any = null;
 
     if (params.Cookie != null)
       __headers = __headers.set('Cookie', params.Cookie.toString());
-    let req = new HttpRequest<any>(
+    const req = new HttpRequest<any>(
       'POST',
       this.rootUrl +
         `/sca/${params.scaId}/authorisation/${params.authorisationId}/methods/${params.methodId}`,
@@ -230,7 +229,7 @@ class PSUSCAProvidesAccessToOneTimePasswordForStrongCustomerAuthenticationServic
   }
 }
 
-module PSUSCAProvidesAccessToOneTimePasswordForStrongCustomerAuthenticationService {
+namespace PSUSCAProvidesAccessToOneTimePasswordForStrongCustomerAuthenticationService {
   /**
    * Parameters for loginUsingPOST4
    */

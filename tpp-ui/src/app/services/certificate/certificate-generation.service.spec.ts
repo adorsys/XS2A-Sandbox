@@ -22,7 +22,6 @@ import { CertificateGenerationService } from './certificate-generation.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { environment } from '../../../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
-import { inject } from '@angular/core';
 
 describe('CertificateGenerationService', () => {
   let httpMock: HttpTestingController;

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UserCreateFundsConfirmationComponent } from './user-create-funds-confirmation.component';
@@ -127,7 +129,6 @@ describe('UserCreateFundsConfirmationConsentComponent', () => {
   });
 
   it('create confirmation consent should be created', () => {
-    de = fixture.debugElement.query(By.css('form'));
     fixture.detectChanges();
     const button = fixture.nativeElement.querySelector('button');
     component.createFundsFormGroup.get('password').setValue('foo');

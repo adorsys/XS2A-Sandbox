@@ -23,18 +23,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { By } from '@angular/platform-browser';
-import { AuthService } from '../../../services/auth.service';
-import { DebugElement } from '@angular/core';
 import { InfoService } from '@commons/info/info.service';
 import { OverlayModule } from '@angular/cdk/overlay';
 
 describe('ResetPasswordComponent', () => {
   let component: ResetPasswordComponent;
   let fixture: ComponentFixture<ResetPasswordComponent>;
-  let authService: AuthService;
-  let de: DebugElement;
-  let el: HTMLElement;
 
   beforeEach(
     waitForAsync(() => {
@@ -55,11 +49,6 @@ describe('ResetPasswordComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ResetPasswordComponent);
     component = fixture.componentInstance;
-    authService = fixture.debugElement.injector.get(AuthService);
-
-    de = fixture.debugElement.query(By.css('form'));
-    el = de.nativeElement;
-
     fixture.detectChanges();
     component.ngOnInit();
   });

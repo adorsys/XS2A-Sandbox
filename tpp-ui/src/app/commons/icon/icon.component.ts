@@ -16,21 +16,11 @@
  * contact us at psd2@adorsys.com.
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  ViewEncapsulation,
-  ElementRef,
-  SimpleChanges,
-  OnChanges,
-  HostBinding,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation, ElementRef, SimpleChanges, OnChanges } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { take } from 'rxjs/operators';
 import { IconRegistry } from './icon-registry';
 
-/* tslint:disable no-host-metadata-property */
 @Component({
   selector: 'app-icon',
   template: '<ng-content></ng-content>',

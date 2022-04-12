@@ -16,7 +16,6 @@
  * contact us at psd2@adorsys.com.
  */
 
-/* tslint:disable */
 import { Injectable } from '@angular/core';
 import {
   HttpClient,
@@ -31,12 +30,9 @@ import { Observable as __Observable } from 'rxjs';
 import { map as __map, filter as __filter } from 'rxjs/operators';
 
 import { AccountDetailsTO } from '../models/account-details-to';
-import { PaymentTO } from '../models/payment-to';
 import { TransactionTO } from '../models/transaction-to';
 import { CustomPageImplTransactionTO } from '../models/custom-page-impl-transaction-to';
 import { UserTO } from '../models/user-to';
-import { CustomPageImplObaAisConsent } from '../models/custom-page-impl-ais-consents';
-import { ObaAisConsent } from '../models/oba-ais-consent';
 import { OnlineBankingConsentsService } from './online-banking-consents.service';
 import { CustomPageImplPaymentTO } from '../models/custom-page-impl-paayment-to';
 
@@ -67,11 +63,11 @@ class OnlineBankingAccountInformationService extends __BaseService {
   accountUsingGETResponse(
     accountId: string
   ): __Observable<__StrictHttpResponse<AccountDetailsTO>> {
-    let __params = this.newParams();
-    let __headers = new HttpHeaders();
-    let __body: any = null;
+    const __params = this.newParams();
+    const __headers = new HttpHeaders();
+    const __body: any = null;
 
-    let req = new HttpRequest<any>(
+    const req = new HttpRequest<any>(
       'GET',
       this.rootUrl + `/api/v1/ais/account/${accountId}`,
       __body,
@@ -106,11 +102,11 @@ class OnlineBankingAccountInformationService extends __BaseService {
   accountsUsingGETResponse(
     userLogin: string
   ): __Observable<__StrictHttpResponse<Array<AccountDetailsTO>>> {
-    let __params = this.newParams();
-    let __headers = new HttpHeaders();
-    let __body: any = null;
+    const __params = this.newParams();
+    const __headers = new HttpHeaders();
+    const __body: any = null;
 
-    let req = new HttpRequest<any>(
+    const req = new HttpRequest<any>(
       'GET',
       this.rootUrl + `/api/v1/ais/accounts/${userLogin}`,
       __body,
@@ -159,15 +155,15 @@ class OnlineBankingAccountInformationService extends __BaseService {
     params: OnlineBankingConsentsService.PagedUsingGetParams
   ): __Observable<__StrictHttpResponse<CustomPageImplPaymentTO>> {
     let __params = this.newParams();
-    let __headers = new HttpHeaders();
-    let __body: any = null;
+    const __headers = new HttpHeaders();
+    const __body: any = null;
 
     if (params.size != null)
       __params = __params.set('size', params.size.toString());
     if (params.page != null)
       __params = __params.set('page', params.page.toString());
 
-    let req = new HttpRequest<any>(
+    const req = new HttpRequest<any>(
       'GET',
       this.rootUrl + `/api/v1/ais/payments`,
       __body,
@@ -201,14 +197,14 @@ class OnlineBankingAccountInformationService extends __BaseService {
     params: OnlineBankingAccountInformationService.TransactionsUsingGET1Params
   ): __Observable<__StrictHttpResponse<Array<TransactionTO>>> {
     let __params = this.newParams();
-    let __headers = new HttpHeaders();
-    let __body: any = null;
+    const __headers = new HttpHeaders();
+    const __body: any = null;
 
     if (params.dateTo != null)
       __params = __params.set('dateTo', params.dateTo.toString());
     if (params.dateFrom != null)
       __params = __params.set('dateFrom', params.dateFrom.toString());
-    let req = new HttpRequest<any>(
+    const req = new HttpRequest<any>(
       'GET',
       this.rootUrl + `/api/v1/ais/transactions/${params.accountId}`,
       __body,
@@ -264,8 +260,8 @@ class OnlineBankingAccountInformationService extends __BaseService {
     params: OnlineBankingAccountInformationService.TransactionsUsingGETParams
   ): __Observable<__StrictHttpResponse<CustomPageImplTransactionTO>> {
     let __params = this.newParams();
-    let __headers = new HttpHeaders();
-    let __body: any = null;
+    const __headers = new HttpHeaders();
+    const __body: any = null;
 
     if (params.size != null)
       __params = __params.set('size', params.size.toString());
@@ -275,7 +271,7 @@ class OnlineBankingAccountInformationService extends __BaseService {
       __params = __params.set('dateTo', params.dateTo.toString());
     if (params.dateFrom != null)
       __params = __params.set('dateFrom', params.dateFrom.toString());
-    let req = new HttpRequest<any>(
+    const req = new HttpRequest<any>(
       'GET',
       this.rootUrl + `/api/v1/ais/transactions/${params.accountId}/page`,
       __body,
@@ -317,15 +313,20 @@ class OnlineBankingAccountInformationService extends __BaseService {
   }
 
   getCurrentAccountInfo() {
-    let __params = this.newParams();
-    let __headers = new HttpHeaders();
-    let __body: any = null;
+    const __params = this.newParams();
+    const __headers = new HttpHeaders();
+    const __body: any = null;
 
-    let req = new HttpRequest<any>('GET', this.rootUrl + `/api/v1/me`, __body, {
-      headers: __headers,
-      params: __params,
-      responseType: 'json',
-    });
+    const req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/v1/me`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json',
+      }
+    );
 
     return this.http.request<any>(req).pipe(
       __filter((_r) => _r instanceof HttpResponse),
@@ -336,7 +337,7 @@ class OnlineBankingAccountInformationService extends __BaseService {
   }
 }
 
-module OnlineBankingAccountInformationService {
+namespace OnlineBankingAccountInformationService {
   /**
    * Parameters for transactionsUsingGET1
    */

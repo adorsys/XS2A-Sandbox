@@ -16,7 +16,6 @@
  * contact us at psd2@adorsys.com.
  */
 
-/* tslint:disable */
 import { AccountBalanceTO } from './account-balance-to';
 export interface AccountDetailsTO {
   id?: string;

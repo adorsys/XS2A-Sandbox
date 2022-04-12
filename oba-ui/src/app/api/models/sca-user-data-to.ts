@@ -16,7 +16,6 @@
  * contact us at psd2@adorsys.com.
  */
 
-/* tslint:disable */
 import { UserTO } from './user-to';
 export interface ScaUserDataTO {
   decoupled?: boolean;

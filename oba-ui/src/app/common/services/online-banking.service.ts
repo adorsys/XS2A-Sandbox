@@ -29,10 +29,6 @@ import { CustomPageImplObaAisConsent } from '../../api/models/custom-page-impl-a
 import { CustomPageImplPaymentTO } from '../../api/models/custom-page-impl-paayment-to';
 import { SCAPaymentResponseTO } from '../../api/models/scapayment-response-to';
 import { OnlineBankingPaymentCancService } from '../../api/services/online-banking-payment-canc.service';
-import { map as __map } from 'rxjs/internal/operators/map';
-import { AuthorizeResponse } from '../../api/models/authorize-response';
-import { HttpResponse } from '@angular/common/http';
-
 @Injectable({
   providedIn: 'root',
 })

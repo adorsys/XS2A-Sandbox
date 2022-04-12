@@ -123,17 +123,14 @@ export class PeriodicPaymentsComponent implements OnInit {
     payment: PaymentTO
   ) {
     this.targetedPayment = payment;
-    this.modalService.open(content).result.then(
-      () => {
-        this.initCancel(
-          contentSelect,
-          contentTan,
-          contentDeleted,
-          this.targetedPayment.paymentId
-        );
-      },
-      () => {}
-    );
+    this.modalService.open(content).result.then(() => {
+      this.initCancel(
+        contentSelect,
+        contentTan,
+        contentDeleted,
+        this.targetedPayment.paymentId
+      );
+    });
   }
 
   initCancel(contentSelect, contentTan, contentDeleted, paymentId: string) {
@@ -160,12 +157,9 @@ export class PeriodicPaymentsComponent implements OnInit {
   }
 
   openSelectMethodModal(contentSelect, contentTan, contentDeleted) {
-    this.modalService.open(contentSelect).result.then(
-      () => {
-        return this.startSca(contentTan, contentDeleted);
-      },
-      () => {}
-    );
+    this.modalService.open(contentSelect).result.then(() => {
+      return this.startSca(contentTan, contentDeleted);
+    });
   }
 
   mapTransactionStatus(status: string) {
@@ -221,12 +215,9 @@ export class PeriodicPaymentsComponent implements OnInit {
   }
 
   openTanModal(contentTan, contentDeleted) {
-    this.modalService.open(contentTan).result.then(
-      () => {
-        return this.validateNcancel(contentDeleted);
-      },
-      () => {}
-    );
+    this.modalService.open(contentTan).result.then(() => {
+      return this.validateNcancel(contentDeleted);
+    });
   }
 
   validateNcancel(contentDeleted) {
@@ -251,12 +242,9 @@ export class PeriodicPaymentsComponent implements OnInit {
   }
 
   openDeletedModal(contentDeleted) {
-    this.modalService.open(contentDeleted).result.then(
-      () => {
-        this.refreshPeriodicPayments();
-      },
-      () => {}
-    );
+    this.modalService.open(contentDeleted).result.then(() => {
+      this.refreshPeriodicPayments();
+    });
   }
 
   makeString(): string {

@@ -54,21 +54,6 @@ describe('TppUserService', () => {
   });
 
   it('should load user info', () => {
-    const mockUser: User = {
-      id: '12345',
-      email: 'tes@adorsys.de',
-      login: 'bob',
-      branch: '34256',
-      branchLogin: 'branchLogin',
-      pin: '12345',
-      scaUserData: [],
-      accountAccesses: [
-        {
-          accessType: 'OWNER',
-          iban: 'FR87760700254556545403',
-        },
-      ],
-    } as User;
     tppUserService.getUserInfo().subscribe((data: User) => {
       expect(data.pin).toBe('12345');
     });

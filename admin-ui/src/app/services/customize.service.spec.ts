@@ -18,7 +18,7 @@
 
 import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -105,21 +105,21 @@ describe('CustomizeService', () => {
       http = TestBed.inject(HttpClient);
     });
     it('should return custom theme', () => {
-      const httpSpy = spyOn(http, 'get').and.returnValue(of(theme));
+      spyOn(http, 'get').and.returnValue(of(theme));
       service.getJSON().subscribe();
       expect(service.isCustom()).toBeTruthy();
     });
 
     it('should return default theme when custom theme is invalid', () => {
       const invalidJsonTheme = undefined;
-      const httpSpy = spyOn(http, 'get').and.returnValue(of(invalidJsonTheme));
+      spyOn(http, 'get').and.returnValue(of(invalidJsonTheme));
       service.getJSON().subscribe();
       expect(service.isCustom()).toBeFalsy();
     });
 
     it('should return default theme when custom theme has validations error', () => {
       const invalidTheme = {};
-      const httpSpy = spyOn(http, 'get').and.returnValue(of(invalidTheme));
+      spyOn(http, 'get').and.returnValue(of(invalidTheme));
       service.getJSON().subscribe();
       expect(service.isCustom()).toBeFalsy();
     });

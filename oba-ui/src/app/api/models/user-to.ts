@@ -16,7 +16,6 @@
  * contact us at psd2@adorsys.com.
  */
 
-/* tslint:disable */
 import { AccountAccessTO } from './account-access-to';
 import { ScaUserDataTO } from './sca-user-data-to';
 export interface UserTO {

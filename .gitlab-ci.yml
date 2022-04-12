@@ -178,22 +178,19 @@ Lint:Dockerfiles:
     - make lint-dockerfiles
 
 Lint:OBA_frontend:
-  image: node:12.16.2-stretch-slim
+  image: node:12.22.0-stretch-slim
   stage: "Lint"
   except:
     - schedules
     - support-6.x
     - master
   script:
-    - >-
-      apt-get update && apt-get install
-      jsonlint yamllint libxml2-utils
-      make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
+    - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
     - echo "Run OBA lint"
     - make lint-oba-ui
 
 Lint:TPP_frontend:
-  image: node:12.16.2-stretch-slim
+  image: node:12.22.0-stretch-slim
   stage: "Lint"
   except:
     - schedules
@@ -205,7 +202,7 @@ Lint:TPP_frontend:
     - make lint-tpp-ui
 
 Lint:Admin_frontend:
-  image: node:12.16.2-stretch-slim
+  image: node:12.22.0-stretch-slim
   stage: "Lint"
   except:
     - schedules

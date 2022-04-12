@@ -16,7 +16,6 @@
  * contact us at psd2@adorsys.com.
  */
 
-/* tslint:disable */
 import { AddressTO } from './address-to';
 import { AccountReferenceTO } from './account-reference-to';
 import { AmountTO } from './amount-to';

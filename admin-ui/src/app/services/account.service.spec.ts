@@ -162,9 +162,7 @@ describe('AccountService', () => {
       balances: [],
       creditLimit: undefined,
     };
-    accountService
-      .createAccount('1234', mockAccount)
-      .subscribe((data: any) => {});
+    accountService.createAccount('1234', mockAccount).subscribe();
 
     const req = httpMock.expectOne(url + '/accounts?userId=1234');
     expect(req.request.method).toBe('POST');

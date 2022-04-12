@@ -24,10 +24,8 @@ import { TppUserService } from '../../services/tpp.user.service';
 import { AuthService } from '../../services/auth.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
 import { User } from '../../models/user.model';
 import { of } from 'rxjs';
-import { TppManagementService } from '../../services/tpp-management.service';
 import { OverlayModule } from '@angular/cdk/overlay';
 import {
   BrowserAnimationsModule,
@@ -39,11 +37,6 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
   let fixture: ComponentFixture<UserProfileComponent>;
-  let tppUserService: TppUserService;
-  let tppService: TppManagementService;
-  let authService: AuthService;
-  let router: Router;
-
   const mockUser: User = {
     id: 'id',
     email: 'email',
@@ -96,10 +89,6 @@ describe('UserProfileComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UserProfileComponent);
     component = fixture.componentInstance;
-    tppUserService = TestBed.inject(TppUserService);
-    tppService = TestBed.inject(TppManagementService);
-    authService = TestBed.inject(AuthService);
-    router = TestBed.inject(Router);
     fixture.detectChanges();
   });
 

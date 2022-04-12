@@ -16,7 +16,6 @@
  * contact us at psd2@adorsys.com.
  */
 
-/* tslint:disable */
 import { AccountReferenceTO } from './account-reference-to';
 import { LocalTime } from './local-time';
 import { PaymentTargetTO } from './payment-target-to';

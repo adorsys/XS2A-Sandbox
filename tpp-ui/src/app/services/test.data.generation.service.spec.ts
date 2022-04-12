@@ -16,7 +16,7 @@
  * contact us at psd2@adorsys.com.
  */
 
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestDataGenerationService } from './test.data.generation.service';
 import { environment } from '../../environments/environment';

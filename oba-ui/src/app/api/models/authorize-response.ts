@@ -16,7 +16,6 @@
  * contact us at psd2@adorsys.com.
  */
 
-/* tslint:disable */
 import { PsuMessage } from './psu-message';
 import { ScaUserDataTO } from './sca-user-data-to';
 export interface AuthorizeResponse {

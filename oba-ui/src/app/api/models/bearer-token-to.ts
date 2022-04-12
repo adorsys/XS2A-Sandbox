@@ -16,7 +16,6 @@
  * contact us at psd2@adorsys.com.
  */
 
-/* tslint:disable */
 import { AccessTokenTO } from './access-token-to';
 export interface BearerTokenTO {
   accessTokenObject?: AccessTokenTO;

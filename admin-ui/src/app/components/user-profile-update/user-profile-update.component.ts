@@ -23,7 +23,6 @@ import { AuthService } from '../../services/auth.service';
 import { TppUserService } from '../../services/tpp.user.service';
 import { TppManagementService } from '../../services/tpp-management.service';
 import { User } from '../../models/user.model';
-import { ADMIN_KEY } from '@commons/constant/constant';
 import { InfoService } from '@commons/info/info.service';
 import { Location } from '@angular/common';
 import { Subject } from 'rxjs';
@@ -105,8 +104,7 @@ export class UserProfileUpdateComponent implements OnInit, OnDestroy {
       login: this.userForm.get('username').value,
     };
 
-    let restCall;
-    restCall = this.tppManagementService.updateUserDetails(
+    const restCall = this.tppManagementService.updateUserDetails(
       updatedUser,
       this.tppId
     );

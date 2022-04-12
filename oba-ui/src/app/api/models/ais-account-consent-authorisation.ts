@@ -16,7 +16,6 @@
  * contact us at psd2@adorsys.com.
  */
 
-/* tslint:disable */
 import { PsuIdData } from './psu-id-data';
 export interface AisAccountConsentAuthorisation {
   id?: string;

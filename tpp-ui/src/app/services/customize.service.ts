@@ -16,6 +16,7 @@
  * contact us at psd2@adorsys.com.
  */
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import cssVars from 'css-vars-ponyfill';
@@ -75,7 +76,7 @@ export class CustomizeService {
         }
         return theme as Theme;
       }),
-      catchError((e) => {
+      catchError(() => {
         this.IS_CUSTOM = false;
         return this.getDefaultTheme();
       })
@@ -184,7 +185,6 @@ export class CustomizeService {
       onlyLegacy: true,
       watch: true,
       variables,
-      onComplete(cssText, styleNode, cssVariables) {},
     });
     // If you decide to drop ie11, edge < 14 support in future, use this as implementation to set variables
     // Object.keys(variables).forEach(variableName => {

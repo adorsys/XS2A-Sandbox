@@ -23,7 +23,6 @@ import { TppUserService } from '../../services/tpp.user.service';
 import { AuthService } from '../../services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DebugElement } from '@angular/core';
 import { User } from '../../models/user.model';
 import { UserProfileUpdateComponent } from './user-profile-update.component';
 import { of } from 'rxjs';
@@ -37,7 +36,6 @@ describe('UserProfileUpdateComponent', () => {
   let component: UserProfileUpdateComponent;
   let fixture: ComponentFixture<UserProfileUpdateComponent>;
   let tppManagementService: TppManagementService;
-  let router: Router;
 
   const mockRoute = {
     snapshot: { params: of({ id: '12345' }) },
@@ -60,7 +58,6 @@ describe('UserProfileUpdateComponent', () => {
   const mockTppUserService = {
     currentTppUser: of(mockUser),
     getUserInfo: () => of(mockUser),
-    updateUserInfo: (user: User) => of({}),
   };
 
   const mockRouter = {
@@ -100,7 +97,6 @@ describe('UserProfileUpdateComponent', () => {
     fixture = TestBed.createComponent(UserProfileUpdateComponent);
     component = fixture.componentInstance;
     tppManagementService = TestBed.inject(TppManagementService);
-    router = TestBed.inject(Router);
     fixture.detectChanges();
   });
 

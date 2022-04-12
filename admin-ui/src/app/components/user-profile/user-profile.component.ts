@@ -100,18 +100,15 @@ export class UserProfileComponent implements OnInit {
   }
 
   openConfirmation(content, type: string) {
-    this.modalService.open(content).result.then(
-      () => {
-        if (type === 'block') {
-          this.blockTpp();
-        } else if (type === 'delete') {
-          this.delete();
-        } else {
-          this.changePin();
-        }
-      },
-      () => {}
-    );
+    this.modalService.open(content).result.then(() => {
+      if (type === 'block') {
+        this.blockTpp();
+      } else if (type === 'delete') {
+        this.delete();
+      } else {
+        this.changePin();
+      }
+    });
   }
 
   private blockTpp() {
@@ -156,7 +153,7 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
-  deleteRecoveryPointById(pointID: string) {
+  deleteRecoveryPointById() {
     this.infoService.openFeedback('Point successfully deleted');
   }
 

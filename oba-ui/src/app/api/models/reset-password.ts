@@ -16,7 +16,6 @@
  * contact us at psd2@adorsys.com.
  */
 
-/* tslint:disable */
 export interface ResetPassword {
   code?: string;
   email?: string;
