@@ -26,6 +26,9 @@ import { catchError, map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class CustomizeService {
+  constructor(private http: HttpClient) {
+    this.updateCSS();
+  }
   private NEW_THEME_WAS_SET = false;
   private STATUS_WAS_CHANGED = false;
   private IS_CUSTOM = false;
@@ -40,8 +43,18 @@ export class CustomizeService {
     },
   };
 
-  constructor(private http: HttpClient) {
-    this.updateCSS();
+  private static removeExternalLinkElements(): void {
+    const linkElements = document.querySelectorAll('link[rel ~= "icon"]');
+    for (const linkElement of Array.from(linkElements)) {
+      linkElement.parentNode.removeChild(linkElement);
+    }
+  }
+
+  private static removeFavicon(): void {
+    const linkElement = document.head.querySelector('#customize-service-injected-node');
+    if (linkElement) {
+      document.head.removeChild(linkElement);
+    }
   }
 
   public getJSON(): Observable<Theme> {
@@ -150,13 +163,6 @@ export class CustomizeService {
     return errors;
   }
 
-  private static removeExternalLinkElements(): void {
-    const linkElements = document.querySelectorAll('link[rel ~= "icon"]');
-    for (const linkElement of Array.from(linkElements)) {
-      linkElement.parentNode.removeChild(linkElement);
-    }
-  }
-
   public addFavicon(type: string, href: string): void {
     const linkElement = document.createElement('link');
     linkElement.setAttribute('id', 'customize-service-injected-node');
@@ -164,13 +170,6 @@ export class CustomizeService {
     linkElement.setAttribute('type', type);
     linkElement.setAttribute('href', href);
     document.head.appendChild(linkElement);
-  }
-
-  private static removeFavicon(): void {
-    const linkElement = document.head.querySelector('#customize-service-injected-node');
-    if (linkElement) {
-      document.head.removeChild(linkElement);
-    }
   }
 
   public setFavicon(type: string, href: string): void {

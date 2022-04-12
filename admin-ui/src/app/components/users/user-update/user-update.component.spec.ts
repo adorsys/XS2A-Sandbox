@@ -17,54 +17,41 @@
  */
 
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { DebugElement } from '@angular/core';
 import { UserUpdateComponent } from './user-update.component';
 import { UserService } from '../../../services/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { InfoModule } from '../../../commons/info/info.module';
 import { FormArray, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
-import { InfoService } from '../../../commons/info/info.service';
 import { User } from '../../../models/user.model';
 import { RouterTestingModule } from '@angular/router/testing';
-import { IconModule } from '../../../commons/icon/icon.module';
-import { ScaMethods } from '../../../models/scaMethods';
+import { IconModule } from '@commons/icon/icon.module';
 import { TppManagementService } from '../../../services/tpp-management.service';
+import { InfoService } from '@commons/info/info.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 describe('UserUpdateComponent', () => {
   let component: UserUpdateComponent;
   let fixture: ComponentFixture<UserUpdateComponent>;
+  let infoService: InfoService;
   let userService: UserService;
   let tppManagementService: TppManagementService;
-  let infoService: InfoService;
   let activate: ActivatedRoute;
   let router: Router;
-  let de: DebugElement;
-  let el: HTMLElement;
-
-  const mockUser: User = {
-    id: 'id',
-    email: 'email',
-    login: 'login',
-    branch: 'branch',
-    branchLogin: 'branchLogin',
-    pin: 'pin',
-    scaUserData: [],
-    accountAccesses: [],
-  };
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [
           ReactiveFormsModule,
-          InfoModule,
           RouterTestingModule.withRoutes([]),
           HttpClientTestingModule,
           IconModule,
+          BrowserAnimationsModule,
+          OverlayModule,
         ],
-        providers: [UserService, InfoService, TppManagementService],
+        providers: [UserService, TppManagementService, InfoService],
         declarations: [UserUpdateComponent],
       }).compileComponents();
     })
@@ -74,8 +61,8 @@ describe('UserUpdateComponent', () => {
     fixture = TestBed.createComponent(UserUpdateComponent);
     component = fixture.componentInstance;
     userService = TestBed.inject(UserService);
-    tppManagementService = TestBed.inject(TppManagementService);
     infoService = TestBed.inject(InfoService);
+    tppManagementService = TestBed.inject(TppManagementService);
     router = TestBed.inject(Router);
     activate = TestBed.inject(ActivatedRoute);
     fixture.detectChanges();
@@ -217,7 +204,7 @@ describe('UserUpdateComponent', () => {
   });
 
   it('should load actual user and update its details', () => {
-    let mockUser: User = {
+    const mockUser: User = {
       id: 'XXXXXX',
       email: 'tes@adorsys.de',
       login: 'bob',
@@ -232,7 +219,7 @@ describe('UserUpdateComponent', () => {
       ],
     } as User;
 
-    let getUserSpy = spyOn(userService, 'getUser').and.returnValue(
+    const getUserSpy = spyOn(userService, 'getUser').and.returnValue(
       of(mockUser)
     );
 

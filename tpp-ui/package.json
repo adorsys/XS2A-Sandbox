@@ -12,8 +12,8 @@
     "test-coverage": "ng test --code-coverage",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "prettier": "find . -name '*.js' -or -name '*.ts' -or -name '*.html' -or -name '*.css' -or -name '*.scss'| grep -v build | grep -v \"assets/lib\" | grep -v node_modules | grep -v dist | xargs prettier --write",
-    "prettier-check": "find . -name '*.js' -or -name '*.ts' -or -name '*.html' -or -name '*.css' -or -name '*.scss'| grep -v build | grep -v \"assets/lib\" | grep -v node_modules | grep -v dist | xargs prettier-check",
+    "prettier": "prettier --write .",
+    "prettier-check": "prettier --check .",
     "prepare": "husky install"
   },
   "lint-staged": {

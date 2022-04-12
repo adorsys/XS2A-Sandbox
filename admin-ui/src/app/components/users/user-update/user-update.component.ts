@@ -211,8 +211,8 @@ export class UserUpdateComponent implements OnInit {
 
   updateValue(user: User) {
     user.scaUserData.forEach((d) => {
-      if (d.scaMethod == 'PUSH_OTP') {
-        if (d.pushMethod === '' || d.pushMethod == undefined) {
+      if (d.scaMethod === 'PUSH_OTP') {
+        if (d.pushMethod === '' || d.pushMethod === undefined) {
           d.pushMethod = 'POST';
         }
         if (d.methodValue === '' || d.methodValue === undefined) {

@@ -42,23 +42,25 @@ describe('AccountListComponent', () => {
   let infoService: InfoService;
   let router: Router;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        ReactiveFormsModule,
-        HttpClientTestingModule,
-        InfoModule,
-        RouterTestingModule,
-        FilterPipeModule,
-        IconModule,
-        NgbPaginationModule,
-        FormsModule,
-      ],
-      declarations: [AccountListComponent, PaginationContainerComponent],
-      providers: [AccountService, InfoService],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          RouterTestingModule,
+          ReactiveFormsModule,
+          HttpClientTestingModule,
+          InfoModule,
+          RouterTestingModule,
+          FilterPipeModule,
+          IconModule,
+          NgbPaginationModule,
+          FormsModule,
+        ],
+        declarations: [AccountListComponent, PaginationContainerComponent],
+        providers: [AccountService, InfoService],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AccountListComponent);
@@ -74,7 +76,7 @@ describe('AccountListComponent', () => {
   });
 
   it('should load accounts on NgOnInit', () => {
-    let mockAccounts: Account[] = [
+    const mockAccounts: Account[] = [
       {
         id: 'XXXXXX',
         iban: 'DE35653635635663',
@@ -96,7 +98,7 @@ describe('AccountListComponent', () => {
     ];
 
     sessionStorage.setItem(ADMIN_KEY, 'false');
-    let getAccountsSpy = spyOn(accountService, 'getAccounts').and.returnValue(
+    const getAccountsSpy = spyOn(accountService, 'getAccounts').and.returnValue(
       of({
         accounts: mockAccounts,
         totalElements: mockAccounts.length,
@@ -134,7 +136,7 @@ describe('AccountListComponent', () => {
   });
 
   it('should load accounts', () => {
-    let mockAccounts: Account[] = [
+    const mockAccounts: Account[] = [
       {
         id: 'XXXXXX',
         iban: 'DE35653635635663',
@@ -175,7 +177,7 @@ describe('AccountListComponent', () => {
   });
 
   it('should return false if account is not set', () => {
-    let mockAccount: Account = {
+    const mockAccount: Account = {
       id: '123456',
       iban: 'DE35653635635663',
       bban: 'BBBAN',

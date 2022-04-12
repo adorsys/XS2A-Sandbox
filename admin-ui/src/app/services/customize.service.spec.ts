@@ -67,8 +67,8 @@ describe('CustomizeService', () => {
       imports: [HttpClientTestingModule],
       providers: [CustomizeService],
     });
-    service = TestBed.get(CustomizeService);
-    httpTestingController = TestBed.get(HttpTestingController);
+    service = TestBed.inject(CustomizeService);
+    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {
@@ -102,7 +102,7 @@ describe('CustomizeService', () => {
   describe('getJson', () => {
     let http: HttpClient;
     beforeEach(() => {
-      http = TestBed.get(HttpClient);
+      http = TestBed.inject(HttpClient);
     });
     it('should return custom theme', () => {
       const httpSpy = spyOn(http, 'get').and.returnValue(of(theme));
@@ -202,9 +202,13 @@ describe('CustomizeService', () => {
 
   it('should add favicon', () => {
     service.addFavicon('type', 'href');
+    const link = document.documentElement.getElementsByTagName('link');
+    expect(link).not.toEqual(null);
   });
 
   it('should set favicon', () => {
     service.setFavicon('type', 'href');
+    const link = document.documentElement.getElementsByTagName('link');
+    expect(link).not.toEqual(null);
   });
 });

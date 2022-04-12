@@ -33,7 +33,7 @@ import { of } from 'rxjs';
 describe('TppsComponent', () => {
   let component: TppsComponent;
   let fixture: ComponentFixture<TppsComponent>;
-  let mockRoute = {
+  const mockRoute = {
     params: of({ id: '12345' }),
     queryParams: of({}),
   };

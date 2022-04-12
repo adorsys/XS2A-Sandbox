@@ -19,8 +19,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { catchError, map } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Credentials } from '../models/credentials.model';
 import { Router } from '@angular/router';
@@ -56,7 +56,7 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     const authorizationToken = this.getAuthorizationToken();
-    if (authorizationToken && authorizationToken != 'null' && authorizationToken != null) {
+    if (authorizationToken && authorizationToken !== 'null' && authorizationToken !== null) {
       return true;
     } else {
       return false;

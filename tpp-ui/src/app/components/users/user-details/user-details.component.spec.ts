@@ -30,6 +30,8 @@ import { EmailVerificationService } from '../../../services/email-verification.s
 import { InfoService } from '../../../commons/info/info.service';
 import { InfoModule } from '../../../commons/info/info.module';
 import { ScaUserData } from '../../../models/sca-user-data.model';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 describe('UserDetailsComponent', () => {
   let component: UserDetailsComponent;
@@ -40,22 +42,24 @@ describe('UserDetailsComponent', () => {
   let router: Router;
   let infoService: InfoService;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([]), ReactiveFormsModule, InfoModule, HttpClientTestingModule],
-      declarations: [UserDetailsComponent],
-      providers: [UserService, AccountService, EmailVerificationService, InfoService],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule.withRoutes([]), ReactiveFormsModule, HttpClientTestingModule, BrowserAnimationsModule, OverlayModule],
+        declarations: [UserDetailsComponent],
+        providers: [UserService, AccountService, EmailVerificationService, InfoService],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserDetailsComponent);
     component = fixture.componentInstance;
-    router = TestBed.get(Router);
-    userService = TestBed.get(UserService);
-    accountService = TestBed.get(AccountService);
-    infoService = TestBed.get(InfoService);
-    emailVerificationService = TestBed.get(EmailVerificationService);
+    router = TestBed.inject(Router);
+    userService = TestBed.inject(UserService);
+    accountService = TestBed.inject(AccountService);
+    infoService = TestBed.inject(InfoService);
+    emailVerificationService = TestBed.inject(EmailVerificationService);
     fixture.detectChanges();
   });
 
@@ -64,7 +68,7 @@ describe('UserDetailsComponent', () => {
   });
 
   it('should get user by Id', () => {
-    let mockUser: User = {
+    const mockUser: User = {
       id: 'XXXXXX',
       email: 'tes@adorsys.de',
       login: 'bob',
@@ -74,7 +78,7 @@ describe('UserDetailsComponent', () => {
       accountAccesses: {},
       branchLogin: 'branchLogin',
     } as User;
-    let getUserSpy = spyOn(userService, 'getUser').and.returnValue(of(mockUser));
+    const getUserSpy = spyOn(userService, 'getUser').and.returnValue(of(mockUser));
     component.getUserById();
     expect(getUserSpy).toHaveBeenCalled();
     expect(component.user).toEqual(mockUser);
@@ -113,7 +117,7 @@ describe('UserDetailsComponent', () => {
   });
 
   it('should load users on NgOnInit', () => {
-    let mockUser: User = {
+    const mockUser: User = {
       id: 'XXXXXX',
       email: 'tes@adorsys.de',
       login: 'bob',
@@ -123,7 +127,7 @@ describe('UserDetailsComponent', () => {
       accountAccesses: {},
       branchLogin: 'branchLogin',
     } as User;
-    let getUserSpy = spyOn(userService, 'getUser').and.returnValue(of(mockUser));
+    const getUserSpy = spyOn(userService, 'getUser').and.returnValue(of(mockUser));
 
     component.ngOnInit();
 
@@ -148,6 +152,8 @@ describe('UserDetailsComponent', () => {
       usesStaticTan: false,
       valid: false,
     };
+    const emailVerificationServiceSpy = spyOn(emailVerificationService, 'sendEmailForVerification').and.returnValue(of(''));
     component.confirmEmail(mockUserData);
+    expect(emailVerificationServiceSpy).toHaveBeenCalledWith('foo@foo.de');
   });
 });

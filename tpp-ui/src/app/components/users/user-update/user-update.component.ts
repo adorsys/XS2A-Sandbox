@@ -195,7 +195,7 @@ export class UserUpdateComponent implements OnInit {
 
   extractScaData(data: ScaUserData) {
     if (data.scaMethod === 'PUSH_OTP') {
-      let strings = data.methodValue.split(',');
+      const strings = data.methodValue.split(',');
       data.pushMethod = strings[0];
       data.methodValue = strings[1];
     }
@@ -203,8 +203,8 @@ export class UserUpdateComponent implements OnInit {
 
   updateValue(user: User) {
     user.scaUserData.forEach((d) => {
-      if (d.scaMethod == 'PUSH_OTP') {
-        if (d.pushMethod === '' || d.pushMethod == undefined) {
+      if (d.scaMethod === 'PUSH_OTP') {
+        if (d.pushMethod === '' || d.pushMethod === undefined) {
           d.pushMethod = 'POST';
         }
         if (d.methodValue === '' || d.methodValue === undefined) {

@@ -37,27 +37,29 @@ describe('AccountDetailComponent', () => {
   let accountService: AccountService;
   let testDataGenerationService: TestDataGenerationService;
   let infoService: InfoService;
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule.withRoutes([{ path: 'accounts', component: AccountComponent }]),
-        ReactiveFormsModule,
-        HttpClientTestingModule,
-        InfoModule,
-        FormsModule,
-      ],
-      declarations: [AccountDetailComponent, AccountComponent, ConvertBalancePipe],
-      providers: [AccountService, InfoService, TestDataGenerationService],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          RouterTestingModule.withRoutes([{ path: 'accounts', component: AccountComponent }]),
+          ReactiveFormsModule,
+          HttpClientTestingModule,
+          InfoModule,
+          FormsModule,
+        ],
+        declarations: [AccountDetailComponent, AccountComponent, ConvertBalancePipe],
+        providers: [AccountService, InfoService, TestDataGenerationService],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AccountDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    accountService = TestBed.get(AccountService);
-    testDataGenerationService = TestBed.get(TestDataGenerationService);
-    infoService = TestBed.get(InfoService);
+    accountService = TestBed.inject(AccountService);
+    testDataGenerationService = TestBed.inject(TestDataGenerationService);
+    infoService = TestBed.inject(InfoService);
   });
 
   it('should create', () => {
@@ -65,7 +67,7 @@ describe('AccountDetailComponent', () => {
   });
 
   it('create account when form submitted', () => {
-    let mockAccount: Account = {
+    const mockAccount: Account = {
       id: 'XXXXXX',
       iban: 'DE35653635635663',
       bban: 'BBBAN',
@@ -93,7 +95,7 @@ describe('AccountDetailComponent', () => {
     expect(component.accountForm.valid).toBeTruthy();
 
     // mock http call
-    let createAccountSpy = spyOn(accountService, 'createAccount').and.returnValue(of(mockAccount));
+    const createAccountSpy = spyOn(accountService, 'createAccount').and.returnValue(of(mockAccount));
     component.onSubmit();
 
     expect(component.submitted).toBeTruthy();
@@ -101,24 +103,17 @@ describe('AccountDetailComponent', () => {
   });
 
   it('should initiale the currencies List', () => {
-    let data = {};
-    let currenciesSpy = spyOn(accountService, 'getCurrencies').and.returnValue(of({ currencies: data }));
+    const data = {};
+    const currenciesSpy = spyOn(accountService, 'getCurrencies').and.returnValue(of({ currencies: data }));
     component.initializeCurrenciesList();
     expect(currenciesSpy).toHaveBeenCalled();
   });
 
   it('should generate Iban', () => {
     const infoSpy = spyOn(infoService, 'openFeedback').and.returnValue();
-    let generateSpy = spyOn(testDataGenerationService, 'generateIban').and.returnValue(of("DE75512108001245126199"));
+    const generateSpy = spyOn(testDataGenerationService, 'generateIban').and.returnValue(of('DE75512108001245126199'));
     component.generateIban();
-    expect(infoSpy).toHaveBeenCalledWith(
-      'IBAN has been successfully generated'
-    );
+    expect(infoSpy).toHaveBeenCalledWith('IBAN has been successfully generated');
     expect(generateSpy).toHaveBeenCalled();
-  });
-
-  it('should initialize a currencies List', () => {
-    const currenciesSpy = spyOn(accountService, 'getCurrencies').and.returnValue(throwError(''));
-    component.initializeCurrenciesList();
   });
 });

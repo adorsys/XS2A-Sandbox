@@ -128,7 +128,7 @@ describe('AccountDetailComponent', () => {
 
   it('should generate Iban', () => {
     const infoSpy = spyOn(infoService, 'openFeedback').and.returnValue();
-    let generateSpy = spyOn(
+    const generateSpy = spyOn(
       testDataGenerationService,
       'generateIban'
     ).and.returnValue(of('DE75512108001245126199'));
@@ -138,13 +138,5 @@ describe('AccountDetailComponent', () => {
     );
 
     expect(generateSpy).toHaveBeenCalled();
-  });
-
-  it('should initialize a currencies List', () => {
-    const currenciesSpy = spyOn(
-      accountService,
-      'getCurrencies'
-    ).and.returnValue(throwError(''));
-    component.initializeCurrenciesList();
   });
 });

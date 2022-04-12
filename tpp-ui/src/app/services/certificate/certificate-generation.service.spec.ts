@@ -34,8 +34,8 @@ describe('CertificateGenerationService', () => {
       imports: [HttpClientModule, HttpClientTestingModule],
       providers: [CertificateGenerationService],
     });
-    httpMock = TestBed.get(HttpTestingController);
-    certGenerationService = TestBed.get(CertificateGenerationService);
+    httpMock = TestBed.inject(HttpTestingController);
+    certGenerationService = TestBed.inject(CertificateGenerationService);
   });
 
   it('should be created', () => {
@@ -43,7 +43,7 @@ describe('CertificateGenerationService', () => {
   });
 
   it('should load the generate', () => {
-    let mockCertData: any = {};
+    const mockCertData: any = {};
     certGenerationService.generate(mockCertData).subscribe((data: any) => {
       expect(data).toBe('');
     });

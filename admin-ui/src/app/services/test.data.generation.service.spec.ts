@@ -35,17 +35,23 @@ describe('TestDataGenerationService', () => {
       imports: [HttpClientTestingModule],
       providers: [TestDataGenerationService],
     });
-    testDataGenerationService = TestBed.get(TestDataGenerationService);
-    httpMock = TestBed.get(HttpTestingController);
+    testDataGenerationService = TestBed.inject(TestDataGenerationService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
+
+  afterEach(() => {
+    httpMock.verify();
+  });
+
   it('should be created', () => {
-    const service = TestBed.get(TestDataGenerationService);
+    const service = TestBed.inject(TestDataGenerationService);
     expect(service).toBeTruthy();
   });
 
   it('should get a generate Iban', () => {
-    testDataGenerationService.generateIban(userBranch);
-    httpMock.verify();
+    testDataGenerationService.generateIban(userBranch).subscribe();
+    const req = httpMock.expectOne(url + '/data/generate/iban?tppId=');
+    expect(req.request.method).toBe('GET');
   });
 
   it('should generate the example Test Data', () => {
@@ -57,11 +63,13 @@ describe('TestDataGenerationService', () => {
     const req = httpMock.expectOne(url + 'accountId');
     expect(req.request.method).toBe('GET');
     req.flush('accountId');
-    httpMock.verify();
   });
 
   it('should generate the Test Data', () => {
-    testDataGenerationService.generateTestData('EUR', true);
-    httpMock.verify();
+    testDataGenerationService.generateTestData('EUR', true).subscribe();
+    const req = httpMock.expectOne(
+      url + '/data/generate/EUR?generatePayments=true'
+    );
+    expect(req.request.method).toBe('GET');
   });
 });

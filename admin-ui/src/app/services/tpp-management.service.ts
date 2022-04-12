@@ -172,7 +172,7 @@ export class TppManagementService {
     params = params.set('size', size.toLocaleString());
     params = params.set('role', role);
 
-    for (let prop in queryParams) {
+    for (const prop in queryParams) {
       if (queryParams[prop] !== '') {
         params = params.set(prop, queryParams[prop]);
       }

@@ -30,7 +30,7 @@ describe('PageNavigationService', () => {
       providers: [PageNavigationService],
     });
 
-    service = TestBed.get(PageNavigationService);
+    service = TestBed.inject(PageNavigationService);
 
     spyOn(sessionStorage, 'getItem').and.callFake((key: string): string => {
       return storage[key] || null;

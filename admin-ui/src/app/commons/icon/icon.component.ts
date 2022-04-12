@@ -29,6 +29,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { take } from 'rxjs/operators';
 import { IconRegistry } from './icon-registry';
 
+/* tslint:disable no-host-metadata-property */
 @Component({
   selector: 'app-icon',
   template: '<ng-content></ng-content>',

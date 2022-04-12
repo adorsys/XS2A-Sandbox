@@ -40,7 +40,8 @@ import { TooltipPosition } from '@angular/material/tooltip';
   templateUrl: './account-list.component.html',
   styleUrls: ['./account-list.component.scss'],
 })
-// TODO Merge UsersComponent, TppsComponent and AccountListComponent into one single component https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/-/issues/713
+// TODO Merge UsersComponent, TppsComponent and AccountListComponent into one single component
+//  https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/-/issues/713
 export class AccountListComponent implements OnInit, OnDestroy {
   admin: string;
   users: User[] = [];

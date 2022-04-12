@@ -27,9 +27,10 @@ import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { User } from '../../../models/user.model';
 import { EmailVerificationService } from '../../../services/email-verification.service';
-import { InfoService } from '../../../commons/info/info.service';
-import { InfoModule } from '../../../commons/info/info.module';
+import { InfoService } from '@commons/info/info.service';
 import { ScaUserData } from '../../../models/sca-user-data.model';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('UserDetailsComponent', () => {
   let component: UserDetailsComponent;
@@ -46,8 +47,9 @@ describe('UserDetailsComponent', () => {
         imports: [
           RouterTestingModule.withRoutes([]),
           ReactiveFormsModule,
-          InfoModule,
           HttpClientTestingModule,
+          BrowserAnimationsModule,
+          OverlayModule,
         ],
         declarations: [UserDetailsComponent],
         providers: [
@@ -63,11 +65,11 @@ describe('UserDetailsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UserDetailsComponent);
     component = fixture.componentInstance;
-    router = TestBed.get(Router);
-    userService = TestBed.get(UserService);
-    accountService = TestBed.get(AccountService);
-    infoService = TestBed.get(InfoService);
-    emailVerificationService = TestBed.get(EmailVerificationService);
+    router = TestBed.inject(Router);
+    userService = TestBed.inject(UserService);
+    accountService = TestBed.inject(AccountService);
+    infoService = TestBed.inject(InfoService);
+    emailVerificationService = TestBed.inject(EmailVerificationService);
     fixture.detectChanges();
   });
 
@@ -104,10 +106,9 @@ describe('UserDetailsComponent', () => {
       usesStaticTan: false,
       valid: false,
     };
-    const getEmailSpy = spyOn(
-      emailVerificationService,
-      'sendEmailForVerification'
-    ).and.returnValue(of(''));
+    spyOn(emailVerificationService, 'sendEmailForVerification').and.returnValue(
+      of('')
+    );
     const infoServiceOpenFeedbackSpy = spyOn(infoService, 'openFeedback');
     component.confirmEmail(mockUserData);
     expect(infoServiceOpenFeedbackSpy).toHaveBeenCalledWith(
@@ -125,10 +126,9 @@ describe('UserDetailsComponent', () => {
       usesStaticTan: false,
       valid: false,
     };
-    const getEmailSpy = spyOn(
-      emailVerificationService,
-      'sendEmailForVerification'
-    ).and.returnValue(throwError(''));
+    spyOn(emailVerificationService, 'sendEmailForVerification').and.returnValue(
+      throwError('')
+    );
     const infoServiceOpenFeedbackSpy = spyOn(infoService, 'openFeedback');
     component.confirmEmail(mockUserData);
     expect(infoServiceOpenFeedbackSpy).toHaveBeenCalledWith(
@@ -174,6 +174,11 @@ describe('UserDetailsComponent', () => {
       usesStaticTan: false,
       valid: false,
     };
+    const emailVerificationServiceSpy = spyOn(
+      emailVerificationService,
+      'sendEmailForVerification'
+    ).and.returnValue(of(''));
     component.confirmEmail(mockUserData);
+    expect(emailVerificationServiceSpy).toHaveBeenCalledWith('foo@foo.de');
   });
 });

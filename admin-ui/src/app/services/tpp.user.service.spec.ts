@@ -17,13 +17,13 @@
  */
 
 import { HttpClientModule } from '@angular/common/http';
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TppUserService } from './tpp.user.service';
-import { environment } from '../../environments/environment';
+import { environment } from '@environment/environment';
 import { User } from '../models/user.model';
 
 describe('TppUserService', () => {
@@ -36,17 +36,21 @@ describe('TppUserService', () => {
       imports: [HttpClientModule, HttpClientTestingModule],
       providers: [TppUserService],
     });
-    tppUserService = TestBed.get(TppUserService);
-    httpMock = TestBed.get(HttpTestingController);
+    tppUserService = TestBed.inject(TppUserService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   it('should be created', () => {
-    const service: TppUserService = TestBed.get(TppUserService);
+    const service: TppUserService = TestBed.inject(TppUserService);
     expect(service).toBeTruthy();
   });
 
   it('should load User info', () => {
-    tppUserService.getUserInfo();
+    tppUserService.getUserInfo().subscribe();
+    const req = httpMock.expectOne(url + '/users/me');
+    expect(req.request.method).toBe('GET');
+    req.flush({ pin: '12345' });
+    httpMock.verify();
   });
 
   it('should load user info', () => {

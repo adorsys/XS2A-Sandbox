@@ -65,7 +65,7 @@ const tppManagementServiceMock = {
         branchLogin: 'branchLogin',
       },
     ];
-    let userResponse = { users: mockUsers };
+    const userResponse = { users: mockUsers };
     return of(userResponse);
   },
 };
@@ -76,7 +76,6 @@ describe('AccountAccessManagementComponent', () => {
   let accountService: AccountService;
   let userService: UserService;
   let infoService: InfoService;
-  let tppManagementService: TppManagementService;
   let router: Router;
   let route: ActivatedRoute;
   beforeEach(
@@ -116,7 +115,7 @@ describe('AccountAccessManagementComponent', () => {
   });
 
   it('should set the validform of accountAccessForm in OnSumbit', () => {
-    let mockAccount: Account = {
+    const mockAccount: Account = {
       id: 'XXXXXX',
       iban: 'DE35653635635663',
       bban: 'BBBAN',
@@ -162,7 +161,7 @@ describe('AccountAccessManagementComponent', () => {
   });
 
   it('should call the inputFormatterValue', () => {
-    let mockUser: User = {
+    const mockUser: User = {
       id: 'USERID',
       email: 'user@gmail.com',
       login: 'user',
@@ -177,7 +176,7 @@ describe('AccountAccessManagementComponent', () => {
   });
 
   it('should return a inputFormatterValue ', () => {
-    let mockUser: User = {
+    const mockUser: User = {
       id: 'USERID',
       email: 'user@gmail.com',
       login: '',
@@ -187,12 +186,12 @@ describe('AccountAccessManagementComponent', () => {
       accountAccesses: [],
       branchLogin: 'branchLogin',
     };
-    component.inputFormatterValue(null);
-    expect(mockUser);
+    component.inputFormatterValue(mockUser);
+    expect(component.inputFormatterValue(mockUser)).toBe(mockUser.login);
   });
 
-  it('should call the resultFormatterValue', () => {
-    let mockUser: User = {
+  it('should return a resultFormatterValue ', () => {
+    const mockUser: User = {
       id: 'USERID',
       email: 'user@gmail.com',
       login: 'user',
@@ -204,20 +203,5 @@ describe('AccountAccessManagementComponent', () => {
     };
     component.resultFormatterValue(mockUser);
     expect(mockUser.login).toEqual('user');
-  });
-
-  it('should return a resultFormatterValue ', () => {
-    let mockUser: User = {
-      id: 'USERID',
-      email: 'user@gmail.com',
-      login: '',
-      branch: 'branch',
-      pin: '12345',
-      scaUserData: [],
-      accountAccesses: [],
-      branchLogin: 'branchLogin',
-    };
-    component.resultFormatterValue(null);
-    expect(mockUser);
   });
 });

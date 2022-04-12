@@ -28,22 +28,25 @@ import { environment } from '../../environments/environment';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import { TppInfo } from '../models/tpp-info.model';
+import { UserService } from './user.service';
 
 describe('AuthService', () => {
   let httpTestingController: HttpTestingController;
   let authService: AuthService;
+  let userService: UserService;
   let router: Router;
   const url = `${environment.tppAdminBackend}`;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, HttpClientTestingModule],
-      providers: [AuthService, JwtHelperService],
+      providers: [AuthService, JwtHelperService, UserService],
     });
 
-    httpTestingController = TestBed.get(HttpTestingController);
-    authService = TestBed.get(AuthService);
-    router = TestBed.get(Router);
+    httpTestingController = TestBed.inject(HttpTestingController);
+    authService = TestBed.inject(AuthService);
+    userService = TestBed.inject(UserService);
+    router = TestBed.inject(Router);
   });
 
   afterEach(() => {
@@ -76,7 +79,7 @@ describe('AuthService', () => {
 
   it('should test login method', () => {
     // isLoggedin() is false by default
-    sessionStorage.setItem('access_token', null)
+    sessionStorage.setItem('access_token', null);
     expect(authService.isLoggedIn()).toBeFalsy();
 
     // login credential is not correct
@@ -144,16 +147,15 @@ describe('AuthService', () => {
       },
     ];
 
-    /* userService.listUsers().subscribe(user => {
-             expect(user[0].login).toEqual('test');
-             expect(user[0].email).toEqual('foo@foo.de');
-         });
+    userService.listUsers().subscribe();
 
-         const req = httpTestingController.expectOne(url);
-         expect(req.cancelled).toBeFalsy();
-         expect(req.request.responseType).toEqual('json');
-         expect(req.request.method).toEqual('GET');
+    const req = httpTestingController.expectOne(
+      url + '/users?page=0&size=25&queryParam='
+    );
+    expect(req.cancelled).toBeFalsy();
+    expect(req.request.responseType).toEqual('json');
+    expect(req.request.method).toEqual('GET');
 
-         req.flush(mockUsers);*/
+    req.flush(mockUsers);
   });
 });

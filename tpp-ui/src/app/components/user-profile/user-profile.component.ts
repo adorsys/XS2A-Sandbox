@@ -169,7 +169,7 @@ export class UserProfileComponent implements OnInit {
         .getUsersForTpp(tppId)
         .toPromise()
         .then((users) => {
-          let userSet = new Set<string>();
+          const userSet = new Set<string>();
           users.forEach((value) => {
             userSet.add(value.id);
           });

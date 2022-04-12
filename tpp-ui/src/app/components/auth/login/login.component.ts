@@ -104,7 +104,7 @@ export class LoginComponent implements OnInit {
   navigateOnLogin() {
     if (sessionStorage.getItem(ADMIN_KEY) === 'true') {
       this.authService.logout();
-      this.infoService.openFeedback("Admin doesn't have access to this system", {
+      this.infoService.openFeedback('Admin doe not have access to this system', {
         severity: 'error',
       });
     } else {

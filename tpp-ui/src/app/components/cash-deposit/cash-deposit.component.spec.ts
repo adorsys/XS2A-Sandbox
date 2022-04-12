@@ -32,20 +32,22 @@ describe('CashDepositComponent', () => {
   let accountService: AccountService;
   let router: Router;
   let activate: ActivatedRoute;
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, RouterTestingModule, HttpClientTestingModule, RouterTestingModule.withRoutes([])],
-      providers: [AccountService],
-      declarations: [CashDepositComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [ReactiveFormsModule, RouterTestingModule, HttpClientTestingModule, RouterTestingModule.withRoutes([])],
+        providers: [AccountService],
+        declarations: [CashDepositComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CashDepositComponent);
     component = fixture.componentInstance;
-    accountService = TestBed.get(AccountService);
-    router = TestBed.get(Router);
-    activate = TestBed.get(ActivatedRoute);
+    accountService = TestBed.inject(AccountService);
+    router = TestBed.inject(Router);
+    activate = TestBed.inject(ActivatedRoute);
     fixture.detectChanges();
   });
 
@@ -60,15 +62,22 @@ describe('CashDepositComponent', () => {
       currency: 'EUR',
       amount: '50',
     });
-    let accountSpy = spyOn(accountService, 'getAccounts').and.returnValue(
+    let accountSpy: jasmine.Spy<
+      AccountService[keyof AccountService] extends jasmine.Func
+        ? AccountService[keyof AccountService]
+        : AccountService[keyof AccountService] extends new (...args: infer A) => infer V
+        ? (...args: A) => V
+        : never
+    >;
+    accountSpy = spyOn(accountService, 'getAccount').and.returnValue(
       of<any>({
         data: component.cashDepositForm.controls['currency'].setValue('EUR'),
       })
     );
     component.ngOnInit();
 
-    expect(spyRoute).toHaveBeenCalled;
-    expect(accountSpy).toHaveBeenCalled;
+    expect(spyRoute).toHaveBeenCalled();
+    expect(accountSpy).toHaveBeenCalled();
   });
 
   it('should deposit cash when cashDepositForm is valid and submitted', () => {
@@ -82,8 +91,8 @@ describe('CashDepositComponent', () => {
 
     // cashDepositForm submit
     const sampleResponse = { value: 'sample response' };
-    let depositCashSpy = spyOn(accountService, 'depositCash').and.callFake(() => of(sampleResponse));
-    let navigateSpy = spyOn(router, 'navigate');
+    const depositCashSpy = spyOn(accountService, 'depositCash').and.callFake(() => of(sampleResponse));
+    const navigateSpy = spyOn(router, 'navigate');
     component.onSubmit();
     expect(component.submitted).toBeTruthy();
     expect(component.cashDepositForm.valid).toBeTruthy();
@@ -92,7 +101,7 @@ describe('CashDepositComponent', () => {
   });
 
   it('should throw error onSubmit', () => {
-    let depositCashSpy = spyOn(accountService, 'depositCash').and.returnValue(throwError({ status: 404 }));
+    const depositCashSpy = spyOn(accountService, 'depositCash').and.returnValue(throwError({ status: 404 }));
 
     // set valid values for cashDepositForm
     component.cashDepositForm.controls['currency'].setValue('EUR');

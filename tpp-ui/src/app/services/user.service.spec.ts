@@ -35,8 +35,8 @@ describe('UserService', () => {
       providers: [UserService],
     });
 
-    httpMock = TestBed.get(HttpTestingController);
-    userService = TestBed.get(UserService);
+    httpMock = TestBed.inject(HttpTestingController);
+    userService = TestBed.inject(UserService);
   });
 
   afterEach(() => {
@@ -111,7 +111,7 @@ describe('UserService', () => {
   });
 
   it('should create a User', () => {
-    let mockUser: User = {
+    const mockUser: User = {
       accountAccesses: [
         {
           id: 'bNrPhmm3SC0vwm2Tf4KknM',
@@ -158,7 +158,7 @@ describe('UserService', () => {
   });
 
   it('should updateUserDetails', () => {
-    let mockUser: User = {
+    const mockUser: User = {
       accountAccesses: [
         {
           id: 'bNrPhmm3SC0vwm2Tf4KknM',

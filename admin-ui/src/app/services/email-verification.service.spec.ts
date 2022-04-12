@@ -28,7 +28,7 @@ describe('EmailVerificationService', () => {
     })
   );
   it('should be created', () => {
-    const service: EmailVerificationService = TestBed.get(
+    const service: EmailVerificationService = TestBed.inject(
       EmailVerificationService
     );
     expect(service).toBeTruthy();

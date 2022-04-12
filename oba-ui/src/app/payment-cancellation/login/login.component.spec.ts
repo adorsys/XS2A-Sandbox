@@ -92,9 +92,9 @@ describe('LoginComponent', () => {
     const navigateSpy = spyOn(router, 'navigate');
     component.onSubmit();
     expect(pisCancelSpy).toHaveBeenCalled();
-    // expect(navigateSpy).toHaveBeenCalledWith([
-    //   `${RoutingPath.PAYMENT_CANCELLATION}/${RoutingPath.CONFIRM_CANCELLATION}`,
-    // ]);
+    expect(navigateSpy).toHaveBeenCalledWith([
+      `${RoutingPath.PAYMENT_CANCELLATION}/${RoutingPath.CONFIRM_CANCELLATION}`,
+    ]);
   });
 
   it('should get the PIS AuthCode', () => {
@@ -158,5 +158,12 @@ describe('LoginComponent', () => {
         severity: 'error',
       }
     );
+  });
+
+  it('pis AuthCode should throw error ', () => {
+    const errorSpy = spyOn(pisService, 'pisAuthCode').and.returnValue(
+      throwError({})
+    );
+    component.getPisAuthCode();
   });
 });

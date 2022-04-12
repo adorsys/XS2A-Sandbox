@@ -31,7 +31,6 @@ import { of, throwError } from 'rxjs';
 describe('NavbarComponent', () => {
   let component: NavbarComponent;
   let fixture: ComponentFixture<NavbarComponent>;
-  let tppUserService: TppUserService;
   let router: Router;
   let authService: AuthService;
   const authServiceSpy = jasmine.createSpyObj('AuthService', [

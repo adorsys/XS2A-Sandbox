@@ -38,7 +38,8 @@ import { TooltipPosition } from '@angular/material/tooltip';
   templateUrl: './tpps.component.html',
   styleUrls: ['./tpps.component.scss'],
 })
-// TODO Merge UsersComponent, TppsComponent and AccountListComponent into one single component https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/-/issues/713
+// TODO Merge UsersComponent, TppsComponent and AccountListComponent into one single component
+//  https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/-/issues/713
 export class TppsComponent implements OnInit {
   tpps: User[] = [];
   admin;

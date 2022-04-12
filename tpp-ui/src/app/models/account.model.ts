@@ -51,7 +51,8 @@ export enum AccountType {
   CHAR = 'Charges', // Account used for charges if different from the account for payment
   CISH = 'Cash Income', // Account used for payment of income if different from the current cash account
   COMM = 'Commission', // Account used for commission if different from the account for payment
-  CPAC = 'Clearing Participant Settlement Account', // Account used to post settlement debit and credit entries on behalf of a designated Clearing Participant
+  // Account used to post settlement debit and credit entries on behalf of a designated Clearing Participant
+  CPAC = 'Clearing Participant Settlement Account',
   LLSV = 'Limited Liquidity Savings Account', // Account used for savings with special interest and withdrawal terms
   LOAN = 'Loan', // Account used for loans
   MGLD = 'Marginal Lending', // Account used for a marginal lending facility
@@ -60,11 +61,16 @@ export enum AccountType {
   ODFT = 'Overdraft', // Account is used for overdrafts
   ONDP = 'Overnight Deposit', // Account used for overnight deposits
   OTHR = 'Other Account', // Account not otherwise specified
-  SACC = 'Settlement', // Account used to post debit and credit entries, as a result of transactions cleared and settled through a specific clearing and settlement system
+  // Account used to post debit and credit entries, as a result of transactions cleared
+  // and settled through a specific clearing and settlement system
+  SACC = 'Settlement',
   SLRY = 'Salary', // Accounts used for salary payments
   SVGS = 'Savings', // Account used for savings
   TAXE = 'Tax', // Account used for taxes if different from the account for payment
-  TRAN = 'Transacting Account', // A transacting account is the most basic type of bank account that you can get. The main difference between transaction and cheque accounts is that you usually do not get a cheque book with your transacting account and neither are you offered an overdraft facility
+  // A transacting account is the most basic type of bank account that you can get.
+  // The main difference between transaction and cheque accounts is that you usually do not get a cheque book with your
+  // transacting account and neither are you offered an overdraft facility
+  TRAN = 'Transacting Account',
   TRAS = 'Cash Trading', // Account used for trading if different from the current cash account
 }
 

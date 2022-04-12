@@ -7,6 +7,7 @@ import { PiisConsentService } from '../../../services/piis-consent.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { PiisConsent } from '../../../models/user.model';
 import { EMPTY, Observable } from 'rxjs';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('UserFundsConfirmationDetailsComponent', () => {
   let component: UserFundsConfirmationDetailsComponent;
@@ -14,7 +15,7 @@ describe('UserFundsConfirmationDetailsComponent', () => {
   let router: Router;
   let activate: ActivatedRoute;
 
-  let mockPiisConsentService = {
+  const mockPiisConsentService = {
     getPiisConsent(consentId: string, userLogin: string): Observable<PiisConsent> {
       return EMPTY;
     },
@@ -25,7 +26,7 @@ describe('UserFundsConfirmationDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([]), HttpClientTestingModule],
+      imports: [RouterTestingModule.withRoutes([]), HttpClientTestingModule, BrowserAnimationsModule],
       providers: [{ provide: PiisConsentService, useValue: mockPiisConsentService }],
       declarations: [UserFundsConfirmationDetailsComponent],
     }).compileComponents();

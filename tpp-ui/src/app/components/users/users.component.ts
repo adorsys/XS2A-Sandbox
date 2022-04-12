@@ -39,7 +39,8 @@ import { TooltipPosition } from '@angular/material/tooltip';
   styleUrls: ['./users.component.scss'],
 })
 
-// TODO Merge UsersComponent, TppsComponent and AccountListComponent into one single component https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/-/issues/713
+// TODO Merge UsersComponent, TppsComponent and AccountListComponent into one single component
+//  https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/-/issues/713
 export class UsersComponent implements OnInit {
   admin: string;
   statusBlock: string;

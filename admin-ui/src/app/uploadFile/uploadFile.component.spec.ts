@@ -63,9 +63,9 @@ describe('UploadFileComponent', () => {
     fixture = TestBed.createComponent(UploadFileComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    infoService = TestBed.get(InfoService);
-    testDataGenerationService = TestBed.get(TestDataGenerationService);
-    spinnerService = TestBed.get(SpinnerVisibilityService);
+    infoService = TestBed.inject(InfoService);
+    testDataGenerationService = TestBed.inject(TestDataGenerationService);
+    spinnerService = TestBed.inject(SpinnerVisibilityService);
   });
 
   it('should create', () => {

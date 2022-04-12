@@ -20,7 +20,10 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  BrowserAnimationsModule,
+  NoopAnimationsModule,
+} from '@angular/platform-browser/animations';
 import {
   NgbModalModule,
   NgbPaginationModule,
@@ -121,6 +124,7 @@ export function app_Init(settingsHttpService: SettingsHttpService) {
     IconModule,
     InfoModule,
     BrowserAnimationsModule,
+    NoopAnimationsModule,
     AppRoutingModule,
     FileUploadModule,
     FilterPipeModule,

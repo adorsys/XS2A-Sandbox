@@ -66,8 +66,8 @@ export class AuthService {
     const authorizationToken = this.getAuthorizationToken();
     if (
       authorizationToken &&
-      authorizationToken != 'null' &&
-      authorizationToken != null
+      authorizationToken !== 'null' &&
+      authorizationToken !== null
     ) {
       return true;
     } else {

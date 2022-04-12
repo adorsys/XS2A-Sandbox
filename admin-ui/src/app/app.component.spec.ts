@@ -24,6 +24,10 @@ import { of } from 'rxjs';
 import { AppComponent } from './app.component';
 import { CustomizeService } from './services/customize.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  BrowserAnimationsModule,
+  NoopAnimationsModule,
+} from '@angular/platform-browser/animations';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -56,6 +60,8 @@ describe('AppComponent', () => {
           NgHttpLoaderModule,
           RouterTestingModule,
           HttpClientTestingModule,
+          BrowserAnimationsModule,
+          NoopAnimationsModule,
         ],
         declarations: [AppComponent],
         providers: [
@@ -64,7 +70,7 @@ describe('AppComponent', () => {
       })
         .compileComponents()
         .then(() => {
-          customizeService = TestBed.get(CustomizeService);
+          customizeService = TestBed.inject(CustomizeService);
         });
     })
   );

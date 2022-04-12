@@ -32,7 +32,7 @@ import { InfoService } from '../../commons/info/info.service';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { Store } from '@ngxs/store';
-import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
@@ -40,6 +40,7 @@ describe('UserProfileComponent', () => {
   let tppUserService: TppUserService;
   let tppService: TppManagementService;
   let authService: AuthService;
+  let infoService: InfoService;
   let router: Router;
 
   const mockUser: User = {
@@ -65,38 +66,40 @@ describe('UserProfileComponent', () => {
     },
   };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        HttpClientTestingModule,
-        OverlayModule,
-        RouterTestingModule,
-        RouterTestingModule.withRoutes([]),
-        BrowserAnimationsModule,
-        NoopAnimationsModule,
-      ],
-      providers: [
-        NgbModal,
-        AuthService,
-        TppUserService,
-        InfoService,
-        { provide: Store, useValue: {} },
-        { provide: BsModalService, useValue: {} },
-        { provide: AuthService, useValue: mockAuthUserService },
-        { provide: TppUserService, useValue: mockTppUserService },
-      ],
-      declarations: [UserProfileComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          ReactiveFormsModule,
+          HttpClientTestingModule,
+          OverlayModule,
+          RouterTestingModule,
+          RouterTestingModule.withRoutes([]),
+          BrowserAnimationsModule,
+        ],
+        providers: [
+          NgbModal,
+          AuthService,
+          TppUserService,
+          InfoService,
+          { provide: Store, useValue: {} },
+          { provide: BsModalService, useValue: {} },
+          { provide: AuthService, useValue: mockAuthUserService },
+          { provide: TppUserService, useValue: mockTppUserService },
+        ],
+        declarations: [UserProfileComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserProfileComponent);
     component = fixture.componentInstance;
-    tppUserService = TestBed.get(TppUserService);
-    tppService = TestBed.get(TppManagementService);
-    authService = TestBed.get(AuthService);
-    router = TestBed.get(Router);
+    tppUserService = TestBed.inject(TppUserService);
+    tppService = TestBed.inject(TppManagementService);
+    authService = TestBed.inject(AuthService);
+    router = TestBed.inject(Router);
+    infoService = TestBed.inject(InfoService);
     fixture.detectChanges();
   });
 

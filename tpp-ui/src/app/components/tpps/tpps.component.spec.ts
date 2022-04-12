@@ -37,27 +37,29 @@ describe('TppsComponent', () => {
   let fixture: ComponentFixture<TppsComponent>;
   let route: ActivatedRoute;
 
-  let mockRoute = {
+  const mockRoute = {
     params: of({ id: '12345' }),
     queryParams: of({}),
   };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, FormsModule, ReactiveFormsModule, OverlayModule],
-      providers: [
-        InfoService,
-        AccountService,
-        TppManagementService,
-        TppUserService,
-        PageNavigationService,
-        CountryService,
-        { provide: Router, useValue: {} },
-        { provide: ActivatedRoute, useValue: mockRoute },
-      ],
-      declarations: [TppsComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [HttpClientTestingModule, FormsModule, ReactiveFormsModule, OverlayModule],
+        providers: [
+          InfoService,
+          AccountService,
+          TppManagementService,
+          TppUserService,
+          PageNavigationService,
+          CountryService,
+          { provide: Router, useValue: {} },
+          { provide: ActivatedRoute, useValue: mockRoute },
+        ],
+        declarations: [TppsComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TppsComponent);

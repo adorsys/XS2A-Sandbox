@@ -149,7 +149,7 @@ export function app_Init(settingsHttpService: SettingsHttpService) {
     MatTooltipModule,
     MatSnackBarModule,
     MatDialogModule,
-    MatExpansionModule
+    MatExpansionModule,
   ],
   providers: [
     AutoLogoutService,

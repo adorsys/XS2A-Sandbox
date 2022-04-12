@@ -83,7 +83,7 @@ export class DocumentUploadComponent implements OnInit {
       ) {
         this.options.methodAfterSuccess(item, response);
       }
-      if (status != 200 && status != 201) {
+      if (status !== 200 && status !== 201) {
         this.infoService.openFeedback(
           'File was not uploaded. Check your file, please!'
         );

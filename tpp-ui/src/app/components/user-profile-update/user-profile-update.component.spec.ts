@@ -42,10 +42,8 @@ describe('UserProfileUpdateComponent', () => {
   let fixture: ComponentFixture<UserProfileUpdateComponent>;
   let userInfoService: TppUserService;
   let router: Router;
-  let de: DebugElement;
-  let el: HTMLElement;
 
-  let mockRoute = {
+  const mockRoute = {
     snapshot: { params: of({ id: '12345' }) },
     params: of({ id: '12345' }),
     queryParams: of({}),
@@ -75,24 +73,26 @@ describe('UserProfileUpdateComponent', () => {
     },
   };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([]), ReactiveFormsModule, InfoModule, HttpClientTestingModule, BrowserAnimationsModule],
-      providers: [
-        {
-          provide: InfoService,
-          TppUserService,
-          AuthService,
-          TppManagementService,
-          NgbModal,
-        },
-        { provide: ActivatedRoute, useValue: mockRoute },
-        { provide: TppUserService, useValue: mockTppUserService },
-        { provide: Router, useValue: mockRouter },
-      ],
-      declarations: [UserProfileUpdateComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule.withRoutes([]), ReactiveFormsModule, InfoModule, HttpClientTestingModule, BrowserAnimationsModule],
+        providers: [
+          {
+            provide: InfoService,
+            TppUserService,
+            AuthService,
+            TppManagementService,
+            NgbModal,
+          },
+          { provide: ActivatedRoute, useValue: mockRoute },
+          { provide: TppUserService, useValue: mockTppUserService },
+          { provide: Router, useValue: mockRouter },
+        ],
+        declarations: [UserProfileUpdateComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserProfileUpdateComponent);
@@ -127,7 +127,7 @@ describe('UserProfileUpdateComponent', () => {
   });
 
   it('should load the update users info', () => {
-    let infoSpy = spyOn(userInfoService, 'updateUserInfo').and.returnValue(of({ mockUser }));
+    const infoSpy = spyOn(userInfoService, 'updateUserInfo').and.returnValue(of({ mockUser }));
     component.user = mockUser;
     component.userForm.get('email').setValue('dart.vader@gmail.com');
     component.userForm.get('username').setValue('dart.vader');

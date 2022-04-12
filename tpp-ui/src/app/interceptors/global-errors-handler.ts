@@ -42,15 +42,15 @@ export class GlobalErrorsHandler implements ErrorHandler {
 
     if (errorObj instanceof HttpErrorResponse) {
       this.zone.run(() => {
-        let error = errorObj.error;
-        let errorMessage = error ? error.message : error.statusText;
+        const error = errorObj.error;
+        const errorMessage = error ? error.message : error.statusText;
         this.infoService.openFeedback(errorMessage, {
           severity: 'error',
         });
       });
     } else {
       this.zone.run(() => {
-        let errorMessage = errorObj.message;
+        const errorMessage = errorObj.message;
         this.infoService.openFeedback(errorMessage, {
           severity: 'info',
         });

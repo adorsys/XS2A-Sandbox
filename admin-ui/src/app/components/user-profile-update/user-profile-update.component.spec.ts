@@ -38,10 +38,8 @@ describe('UserProfileUpdateComponent', () => {
   let fixture: ComponentFixture<UserProfileUpdateComponent>;
   let tppManagementService: TppManagementService;
   let router: Router;
-  let de: DebugElement;
-  let el: HTMLElement;
 
-  let mockRoute = {
+  const mockRoute = {
     snapshot: { params: of({ id: '12345' }) },
     params: of({ id: '12345' }),
     queryParams: of({}),
@@ -131,7 +129,7 @@ describe('UserProfileUpdateComponent', () => {
   });
 
   it('should load the update users detail info', () => {
-    let infoSpy = spyOn(
+    const infoSpy = spyOn(
       tppManagementService,
       'updateUserDetails'
     ).and.returnValue(of({ mockUser }));

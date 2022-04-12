@@ -16,8 +16,7 @@
  * contact us at psd2@adorsys.com.
  */
 
-import { HttpClientModule } from '@angular/common/http';
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -44,7 +43,6 @@ describe('AccountService', () => {
   });
 
   it('should be created', () => {
-    const accountService: AccountService = TestBed.get(AccountService);
     expect(accountService).toBeTruthy();
   });
 
@@ -165,9 +163,12 @@ describe('AccountService', () => {
       creditLimit: undefined,
     };
     accountService
-      .createAccount('accountId', mockAccount)
-      .subscribe((data: any) => {
-        expect(data.iban).toBe('DE12 1234 5678 9012 3456 00');
-      });
+      .createAccount('1234', mockAccount)
+      .subscribe((data: any) => {});
+
+    const req = httpMock.expectOne(url + '/accounts?userId=1234');
+    expect(req.request.method).toBe('POST');
+    req.flush(mockAccount);
+    httpMock.verify();
   });
 });

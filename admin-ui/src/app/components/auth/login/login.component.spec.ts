@@ -57,7 +57,7 @@ describe('LoginComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
-    router = TestBed.get(Router);
+    router = TestBed.inject(Router);
     authService = fixture.debugElement.injector.get(AuthService);
 
     de = fixture.debugElement.query(By.css('form'));

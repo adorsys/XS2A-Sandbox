@@ -23,7 +23,7 @@ describe('UserCreateFundsConfirmationConsentComponent', () => {
   let router: Router;
   let de: DebugElement;
 
-  let mockPiisConsentService = {
+  const mockPiisConsentService = {
     createPiisConsent(piisConsent: PiisConsent, userLogin: string, password: string): Observable<any> {
       return EMPTY;
     },
@@ -48,7 +48,7 @@ describe('UserCreateFundsConfirmationConsentComponent', () => {
     spinnerVisibilityService = TestBed.inject(SpinnerVisibilityService);
     piisConsentService = TestBed.inject(PiisConsentService);
 
-    let mockUser: User = {
+    const mockUser: User = {
       id: 'XXXXXX',
       email: 'tes@adorsys.de',
       login: 'bob',
@@ -58,7 +58,7 @@ describe('UserCreateFundsConfirmationConsentComponent', () => {
       accountAccesses: {},
       branchLogin: 'branchLogin',
     } as User;
-    let getUserSpy = spyOn(userService, 'getUser').and.returnValue(of(mockUser));
+    const getUserSpy = spyOn(userService, 'getUser').and.returnValue(of(mockUser));
 
     component.getUserDetails();
     expect(getUserSpy).toHaveBeenCalled();
@@ -67,7 +67,7 @@ describe('UserCreateFundsConfirmationConsentComponent', () => {
   });
 
   it('user should be equal', () => {
-    let mockUser: User = {
+    const mockUser: User = {
       id: 'XXXXXX',
       email: 'tes@adorsys.de',
       login: 'bob',
@@ -120,8 +120,8 @@ describe('UserCreateFundsConfirmationConsentComponent', () => {
   });
 
   it('button should be disabled', () => {
-    let object = fixture.debugElement.nativeElement;
-    let button = object.querySelector('button');
+    const object = fixture.debugElement.nativeElement;
+    const button = object.querySelector('button');
     fixture.detectChanges();
     expect(button.disabled).toBeFalse();
   });
@@ -129,7 +129,7 @@ describe('UserCreateFundsConfirmationConsentComponent', () => {
   it('create confirmation consent should be created', () => {
     de = fixture.debugElement.query(By.css('form'));
     fixture.detectChanges();
-    let button = fixture.nativeElement.querySelector('button');
+    const button = fixture.nativeElement.querySelector('button');
     component.createFundsFormGroup.get('password').setValue('foo');
     component.createFundsFormGroup.get('iban').setValue('234234234');
     component.createFundsFormGroup.get('validUntil').setValue('2022-02-25');

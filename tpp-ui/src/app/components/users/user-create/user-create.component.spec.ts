@@ -28,7 +28,7 @@ import { InfoService } from '../../../commons/info/info.service';
 import { UserService } from '../../../services/user.service';
 import { UserCreateComponent } from './user-create.component';
 import { ScaMethods } from '../../../models/scaMethods';
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 
 describe('UserCreateComponent', () => {
   let component: UserCreateComponent;
@@ -37,20 +37,22 @@ describe('UserCreateComponent', () => {
   let infoService: InfoService;
   let router: Router;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, InfoModule, RouterTestingModule.withRoutes([]), HttpClientTestingModule, IconModule],
-      providers: [UserService, InfoService],
-      declarations: [UserCreateComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [ReactiveFormsModule, InfoModule, RouterTestingModule.withRoutes([]), HttpClientTestingModule, IconModule],
+        providers: [UserService, InfoService],
+        declarations: [UserCreateComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserCreateComponent);
     component = fixture.componentInstance;
-    userService = TestBed.get(UserService);
-    infoService = TestBed.get(InfoService);
-    router = TestBed.get(Router);
+    userService = TestBed.inject(UserService);
+    infoService = TestBed.inject(InfoService);
+    router = TestBed.inject(Router);
 
     component.admin = 'false';
     component.setupUserFormControl();
@@ -196,8 +198,8 @@ describe('UserCreateComponent', () => {
 
     // create spies and fake call function
     const sampleResponse = { value: 'sample response' };
-    let createUserSpy = spyOn(userService, 'createUser').and.callFake(() => of(sampleResponse));
-    let navigateSpy = spyOn(router, 'navigateByUrl');
+    const createUserSpy = spyOn(userService, 'createUser').and.callFake(() => of(sampleResponse));
+    const navigateSpy = spyOn(router, 'navigateByUrl');
     component.onSubmit();
     expect(component.submitted).toBeTruthy();
     expect(component.userForm.valid).toBeTruthy();

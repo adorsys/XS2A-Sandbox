@@ -33,38 +33,24 @@ describe('TppUserService', () => {
       imports: [HttpClientModule, HttpClientTestingModule],
       providers: [TppUserService],
     });
-    tppUserService = TestBed.get(TppUserService);
-    httpMock = TestBed.get(HttpTestingController);
+    tppUserService = TestBed.inject(TppUserService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   it('should be created', () => {
-    const service: TppUserService = TestBed.get(TppUserService);
-    expect(service).toBeTruthy();
+    expect(tppUserService).toBeTruthy();
   });
 
   it('should load User info', () => {
-    tppUserService.loadUserInfo();
+    tppUserService.getUserInfo().subscribe();
+    const req = httpMock.expectOne(url + '/users/me');
+    expect(req.request.method).toBe('GET');
+    req.flush({ pin: '12345' });
+    httpMock.verify();
   });
 
-  it('should load user info', () => {
-    let mockUser: User = {
-      id: '12345',
-      email: 'tes@adorsys.de',
-      login: 'bob',
-      branch: '34256',
-      branchLogin: 'branchLogin',
-      pin: '12345',
-      scaUserData: [],
-      accountAccesses: [
-        {
-          accessType: 'OWNER',
-          iban: 'FR87760700254556545403',
-        },
-      ],
-    } as User;
-    tppUserService.getUserInfo().subscribe((data: User) => {
-      expect(data.pin).toBe('12345');
-    });
+  it('should load User info', () => {
+    tppUserService.getUserInfo().subscribe();
     const req = httpMock.expectOne(url + '/users/me');
     expect(req.request.method).toBe('GET');
     req.flush({ pin: '12345' });
@@ -72,7 +58,7 @@ describe('TppUserService', () => {
   });
 
   it('should update User Info', () => {
-    let mockUser: User = {
+    const mockUser: User = {
       id: 'XXXXXX',
       email: 'tes@adorsys.de',
       login: 'bob',

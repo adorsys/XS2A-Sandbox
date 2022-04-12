@@ -65,7 +65,7 @@ export class UploadFileComponent implements OnInit {
     return this.generationService.generateExampleTestData(uploadDataConfig.exampleFileUrl).subscribe((data) => {
       this.infoService.openFeedback(this.message);
       const blob = new Blob([data], { type: 'plain/text' });
-      let link = document.createElement('a');
+      const link = document.createElement('a');
       link.setAttribute('href', window.URL.createObjectURL(blob));
       link.setAttribute('download', uploadDataConfig.exampleFileName);
       document.body.appendChild(link);

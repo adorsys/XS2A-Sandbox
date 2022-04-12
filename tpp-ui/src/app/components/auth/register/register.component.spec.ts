@@ -53,13 +53,15 @@ describe('RegisterComponent', () => {
     type: TppIdType.n,
   };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, HttpClientTestingModule, RouterTestingModule, BrowserAnimationsModule, InfoModule, FormsModule],
-      providers: [AuthService, CountryService, InfoService, CertificateGenerationService, CertificateDownloadService],
-      declarations: [RegisterComponent, CertificateComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [ReactiveFormsModule, HttpClientTestingModule, RouterTestingModule, BrowserAnimationsModule, InfoModule, FormsModule],
+        providers: [AuthService, CountryService, InfoService, CertificateGenerationService, CertificateDownloadService],
+        declarations: [RegisterComponent, CertificateComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     registerFixture = TestBed.createComponent(RegisterComponent);
@@ -113,7 +115,7 @@ describe('RegisterComponent', () => {
     const email = component.userForm.controls['email'];
 
     email.setValue('test@test.de');
-    let errors = email.errors || {};
+    const errors = email.errors || {};
     expect(errors['email']).toBeFalsy();
   });
 
@@ -149,8 +151,8 @@ describe('RegisterComponent', () => {
     expect(component.generateCertificate).toBeFalsy();
     expect(component.userForm.valid).toBeTruthy();
 
-    let registerSpy = spyOn(authService, 'register').and.callFake(() => of({ value: 'sample response' }));
-    let navigateSpy = spyOn(router, 'navigate').and.callFake(() => Promise.resolve(true));
+    const registerSpy = spyOn(authService, 'register').and.callFake(() => of({ value: 'sample response' }));
+    const navigateSpy = spyOn(router, 'navigate').and.callFake(() => Promise.resolve(true));
     component.onSubmit();
     expect(registerSpy).toHaveBeenCalled();
     expect(navigateSpy).toHaveBeenCalledWith(['/login']);
@@ -183,10 +185,6 @@ describe('RegisterComponent', () => {
   });
 
   it('should get tpp id type Name', () => {
-    const testTppStructure: TppIdStructure = {
-      length: 8,
-      type: TppIdType.n,
-    };
     component.getTppIdTypeName();
     expect(testTppStructure.length).toEqual(8);
   });

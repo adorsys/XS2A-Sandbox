@@ -38,17 +38,6 @@ import { Location } from '@angular/common';
   encapsulation: ViewEncapsulation.None,
 })
 export class AccountAccessManagementComponent implements OnInit, OnDestroy {
-  admin: string;
-  users: User[];
-  account: Account;
-  subscription = new Subscription();
-  tppId: string;
-  accountAccessForm: FormGroup;
-
-  submitted = false;
-  errorMessage = null;
-  accessTypes = ['OWNER', 'READ', 'DISPOSE'];
-
   constructor(
     private userService: UserService,
     private accountService: AccountService,
@@ -65,6 +54,20 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
       });
     });
   }
+  admin: string;
+  users: User[];
+  account: Account;
+  subscription = new Subscription();
+  tppId: string;
+  accountAccessForm: FormGroup;
+
+  submitted = false;
+  errorMessage = null;
+  accessTypes = ['OWNER', 'READ', 'DISPOSE'];
+
+  @ViewChild('instance', { static: true }) instance: NgbTypeahead;
+  focus$ = new Subject<User[]>();
+  click$ = new Subject<User[]>();
 
   ngOnInit() {
     this.admin = sessionStorage.getItem(ADMIN_KEY);
@@ -124,10 +127,6 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
       });
     }
   }
-
-  @ViewChild('instance', { static: true }) instance: NgbTypeahead;
-  focus$ = new Subject<User[]>();
-  click$ = new Subject<User[]>();
 
   search: (obs: Observable<string>) => Observable<User[]> = (text$: Observable<string>) => {
     const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());

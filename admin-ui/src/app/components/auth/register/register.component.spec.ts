@@ -56,6 +56,11 @@ describe('RegisterComponent', () => {
   let de: DebugElement;
   let el: HTMLElement;
 
+  const testTppStructure: TppIdStructure = {
+    length: 8,
+    type: TppIdType.n,
+  };
+
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -82,12 +87,12 @@ describe('RegisterComponent', () => {
   beforeEach(() => {
     registerFixture = TestBed.createComponent(RegisterComponent);
     component = registerFixture.componentInstance;
-    authService = TestBed.get(AuthService);
-    infoService = TestBed.get(InfoService);
-    countryService = TestBed.get(CountryService);
-    certificateGenerationService = TestBed.get(CertificateGenerationService);
-    certificateDownloadService = TestBed.get(CertificateDownloadService);
-    router = TestBed.get(Router);
+    authService = TestBed.inject(AuthService);
+    infoService = TestBed.inject(InfoService);
+    countryService = TestBed.inject(CountryService);
+    certificateGenerationService = TestBed.inject(CertificateGenerationService);
+    certificateDownloadService = TestBed.inject(CertificateDownloadService);
+    router = TestBed.inject(Router);
     de = registerFixture.debugElement.query(By.css('form'));
     el = de.nativeElement;
     registerFixture.detectChanges();
@@ -96,11 +101,6 @@ describe('RegisterComponent', () => {
     component.userForm.enable();
     component.tppIdStructure = testTppStructure;
   });
-
-  const testTppStructure: TppIdStructure = {
-    length: 8,
-    type: TppIdType.n,
-  };
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -217,10 +217,6 @@ describe('RegisterComponent', () => {
   });
 
   it('should get tpp id type Name', () => {
-    const testTppStructure: TppIdStructure = {
-      length: 8,
-      type: TppIdType.n,
-    };
     component.getTppIdTypeName();
     expect(testTppStructure.length).toEqual(8);
   });

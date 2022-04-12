@@ -33,7 +33,7 @@ describe('ResetLedgersService', () => {
   });
 
   it('should be created', () => {
-    const service: ResetLedgersService = TestBed.get(ResetLedgersService);
+    const service: ResetLedgersService = TestBed.inject(ResetLedgersService);
     expect(service).toBeTruthy();
   });
 });

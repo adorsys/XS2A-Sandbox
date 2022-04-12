@@ -31,29 +31,6 @@ import { UsersComponent } from '../components/users/users.component';
 describe('AccountService', () => {
   let httpMock: HttpTestingController;
   let accountService: AccountService;
-  const mockAccount: Account[] = [
-    {
-      branch: 'branch',
-      id: 'id',
-      iban: 'DE12 1234 5678 9012 3456 00',
-      bban: 'bban',
-      pan: 'pan',
-      maskedPan: 'maskedPan',
-      msisdn: 'msisdn',
-      currency: 'EUR',
-      name: 'name',
-      product: 'product',
-      accountType: AccountType.CACC,
-      accountStatus: AccountStatus.BLOCKED,
-      bic: 'bic',
-      linkedAccounts: 'linkedAccounts',
-      usageType: UsageType.ORGA,
-      details: 'details',
-      balances: [],
-      creditLimit: undefined,
-    },
-  ];
-
   const url = `${environment.tppBackend}`;
 
   beforeEach(() => {
@@ -178,8 +155,11 @@ describe('AccountService', () => {
       balances: [],
       creditLimit: undefined,
     };
-    accountService.createAccount('accountId', mockAccount).subscribe((data: any) => {
-      expect(data.iban).toBe('DE12 1234 5678 9012 3456 00');
-    });
+    accountService.createAccount('1234', mockAccount).subscribe();
+
+    const req = httpMock.expectOne(url + '/accounts?userId=1234');
+    expect(req.request.method).toBe('POST');
+    req.flush(mockAccount);
+    httpMock.verify();
   });
 });

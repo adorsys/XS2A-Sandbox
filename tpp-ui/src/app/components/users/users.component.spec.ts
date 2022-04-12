@@ -38,28 +38,30 @@ describe('UsersComponent', () => {
   let fixture: ComponentFixture<UsersComponent>;
   let usersService: UserService;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        FormsModule,
-        FilterPipeModule,
-        RouterTestingModule,
-        HttpClientTestingModule,
-        NgbPaginationModule,
-        NgbPaginationModule,
-        OverlayModule,
-      ],
-      declarations: [UsersComponent, PaginationContainerComponent],
-      providers: [UserService, InfoService],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          ReactiveFormsModule,
+          FormsModule,
+          FilterPipeModule,
+          RouterTestingModule,
+          HttpClientTestingModule,
+          NgbPaginationModule,
+          NgbPaginationModule,
+          OverlayModule,
+        ],
+        declarations: [UsersComponent, PaginationContainerComponent],
+        providers: [UserService, InfoService],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UsersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    usersService = TestBed.get(UserService);
+    usersService = TestBed.inject(UserService);
   });
 
   it('should create', () => {

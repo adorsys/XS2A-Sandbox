@@ -21,7 +21,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { environment } from '../../environments/environment';
 import { TppManagementService } from './tpp-management.service';
 
-describe('TppService', () => {
+describe('TppManagementService', () => {
   let httpMock: HttpTestingController;
   let tppService: TppManagementService;
   const url = `${environment.tppBackend}`;
@@ -30,12 +30,15 @@ describe('TppService', () => {
       imports: [HttpClientTestingModule],
       providers: [TppManagementService],
     });
-    tppService = TestBed.get(TppManagementService);
-    httpMock = TestBed.get(HttpTestingController);
+    tppService = TestBed.inject(TppManagementService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   it('should delete the Tpp user', () => {
-    tppService.deleteSelf();
+    tppService.deleteSelf().subscribe();
+    const req = httpMock.expectOne(url + '/self');
+    expect(req.request.method).toBe('DELETE');
+    httpMock.verify();
   });
 
   it('should delete the accountTransations ', () => {

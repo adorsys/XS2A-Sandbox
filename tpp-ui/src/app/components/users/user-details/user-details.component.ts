@@ -73,7 +73,7 @@ export class UserDetailsComponent implements OnInit {
       this.piisConsentService.getPiisConsents(this.user.login).subscribe((paginationResponse: PaginationResponse<PiisConsent[]>) => {
         this.piisConsents = paginationResponse.content;
         this.piisConsents = this.piisConsents.filter(
-          (consent) => consent.consentStatus != ConsentStatus.TERMINATED_BY_ASPSP || consent.validUntil >= new Date()
+          (consent) => consent.consentStatus !== ConsentStatus.TERMINATED_BY_ASPSP || consent.validUntil >= new Date()
         );
         this.piisConsents.sort((p1, p2) => {
           if (p1.validUntil > p2.validUntil) {
@@ -104,7 +104,7 @@ export class UserDetailsComponent implements OnInit {
   }
 
   confirmEmail(scaItem: ScaUserData) {
-    let email = scaItem.methodValue;
+    const email = scaItem.methodValue;
     scaItem.valid = false;
     this.emailVerificationService.sendEmailForVerification(email).subscribe(
       () => this.infoService.openFeedback(`Confirmation letter has been sent to your email ${email}!`),

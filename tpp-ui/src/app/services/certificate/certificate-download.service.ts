@@ -32,6 +32,27 @@ export class CertificateDownloadService {
     private infoService: InfoService
   ) {}
 
+  static createObjectUrl(zip: any, window: any): string {
+    return window.URL.createObjectURL(zip);
+  }
+
+  static generateZipFile(certBlob, keyBlob): Promise<any> {
+    const zip = new JSZip();
+    zip.file('certificate.pem', certBlob);
+    zip.file('private.key', keyBlob);
+    return zip.generateAsync({ type: 'blob' });
+  }
+
+  static downloadFile(url: string) {
+    const element = document.createElement('a');
+    element.setAttribute('href', url);
+    element.setAttribute('download', 'tpp_cert.zip');
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
+
   generateAndDownloadCertificate(certificate, message: string) {
     if (certificate) {
       this.certificateGenerationService.generate(certificate).subscribe(
@@ -73,26 +94,5 @@ export class CertificateDownloadService {
     if (options.navigateUrl) {
       this.router.navigate([options.navigateUrl]);
     }
-  }
-
-  static createObjectUrl(zip: any, window: any): string {
-    return window.URL.createObjectURL(zip);
-  }
-
-  static generateZipFile(certBlob, keyBlob): Promise<any> {
-    const zip = new JSZip();
-    zip.file('certificate.pem', certBlob);
-    zip.file('private.key', keyBlob);
-    return zip.generateAsync({ type: 'blob' });
-  }
-
-  static downloadFile(url: string) {
-    const element = document.createElement('a');
-    element.setAttribute('href', url);
-    element.setAttribute('download', 'tpp_cert.zip');
-    element.style.display = 'none';
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
   }
 }

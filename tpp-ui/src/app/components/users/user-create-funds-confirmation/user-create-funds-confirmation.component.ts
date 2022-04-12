@@ -26,7 +26,7 @@ export class UserCreateFundsConfirmationComponent implements OnInit {
   errorMessage: string;
   private errorText = 'Invalid password for user';
   private errorTextNoDepositAccount = 'Please create an Deposit Account. You are only able to create a consent for the existing account.';
-  showCreateDepositAccountButton: boolean = false;
+  showCreateDepositAccountButton = false;
 
   constructor(
     public pageNavigationService: PageNavigationService,

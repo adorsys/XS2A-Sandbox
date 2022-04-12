@@ -22,7 +22,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { InfoModule } from '../../common/info/info.module';
 import { LoginComponent } from './login.component';
 import { AuthService } from '../../common/services/auth.service';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { RoutingPath } from 'src/app/common/models/routing-path.model';
 import { AccountDetailsComponent } from '../accounts/account-details/account-details.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -31,7 +31,6 @@ describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let authService: AuthService;
-  let authServiceStub: Partial<AuthService>;
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -45,7 +44,7 @@ describe('LoginComponent', () => {
           InfoModule,
         ],
         declarations: [LoginComponent],
-        providers: [{ provide: AuthService, useValue: authServiceStub }],
+        providers: [AuthService],
       }).compileComponents();
     })
   );
@@ -55,12 +54,23 @@ describe('LoginComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     authService = TestBed.inject(AuthService);
-    authServiceStub = {
-      login: () => of(true),
-    };
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  /* it('should call the on submit', () => {
+    const loginSpy = spyOn(authService, 'login').and.returnValue(of(true));
+    component.onSubmit();
+    expect(loginSpy).toHaveBeenCalled();
+  }); */
+
+  it('should throw error 401', () => {
+    const errorSpy = spyOn(authService, 'login').and.returnValue(
+      of<any>({ success: false })
+    );
+    component.onSubmit();
+    expect(errorSpy).toHaveBeenCalled();
   });
 });

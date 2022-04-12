@@ -38,35 +38,24 @@ describe('UserUpdateComponent', () => {
   let infoService: InfoService;
   let activate: ActivatedRoute;
   let router: Router;
-  let de: DebugElement;
-  let el: HTMLElement;
 
-  const mockUser: User = {
-    id: 'id',
-    email: 'email',
-    login: 'login',
-    branch: 'branch',
-    branchLogin: 'branchLogin',
-    pin: 'pin',
-    scaUserData: [],
-    accountAccesses: [],
-  };
-
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, InfoModule, RouterTestingModule.withRoutes([]), HttpClientTestingModule, IconModule],
-      providers: [UserService, InfoService],
-      declarations: [UserUpdateComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [ReactiveFormsModule, InfoModule, RouterTestingModule.withRoutes([]), HttpClientTestingModule, IconModule],
+        providers: [UserService, InfoService],
+        declarations: [UserUpdateComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserUpdateComponent);
     component = fixture.componentInstance;
-    userService = TestBed.get(UserService);
-    infoService = TestBed.get(InfoService);
-    router = TestBed.get(Router);
-    activate = TestBed.get(ActivatedRoute);
+    userService = TestBed.inject(UserService);
+    infoService = TestBed.inject(InfoService);
+    router = TestBed.inject(Router);
+    activate = TestBed.inject(ActivatedRoute);
     fixture.detectChanges();
   });
 
@@ -165,7 +154,7 @@ describe('UserUpdateComponent', () => {
 
   it('should init scaUserDataFrom when user has saved scaUserData', () => {
     component.setupUserFormControl();
-    let mockUser: User = {
+    const mockUser: User = {
       id: 'XXXXXX',
       email: 'tes@adorsys.de',
       login: 'bob',
@@ -200,7 +189,7 @@ describe('UserUpdateComponent', () => {
   });
 
   it('should load actual user and update its details', () => {
-    let mockUser: User = {
+    const mockUser: User = {
       id: 'XXXXXX',
       email: 'tes@adorsys.de',
       login: 'bob',
@@ -215,7 +204,7 @@ describe('UserUpdateComponent', () => {
       ],
     } as User;
 
-    let getUserSpy = spyOn(userService, 'getUser').and.returnValue(of(mockUser));
+    const getUserSpy = spyOn(userService, 'getUser').and.returnValue(of(mockUser));
 
     component.ngOnInit();
     expect(component.submitted).toBeFalsy();

@@ -38,17 +38,19 @@ describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
   let customizeService: CustomizeService;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule.withRoutes([{ path: 'accounts', component: AccountComponent }]),
-        ReactiveFormsModule,
-        HttpClientTestingModule,
-        InfoModule,
-        FormsModule,
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          RouterTestingModule.withRoutes([{ path: 'accounts', component: AccountComponent }]),
+          ReactiveFormsModule,
+          HttpClientTestingModule,
+          InfoModule,
+          FormsModule,
+        ],
+      }).compileComponents();
+    })
+  );
 
   const CustomizeServiceStub = {
     isCustom: () => false,
@@ -69,17 +71,19 @@ describe('AppComponent', () => {
     getLogo: () => '../assets/UI/Logo_XS2ASandbox.png',
   };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [NgHttpLoaderModule, RouterTestingModule],
-      declarations: [AppComponent],
-      providers: [{ provide: CustomizeService, useValue: CustomizeServiceStub }],
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [NgHttpLoaderModule, RouterTestingModule],
+        declarations: [AppComponent],
+        providers: [{ provide: CustomizeService, useValue: CustomizeServiceStub }],
+      })
+        .compileComponents()
+        .then(() => {
+          customizeService = TestBed.inject(CustomizeService);
+        });
     })
-      .compileComponents()
-      .then(() => {
-        customizeService = TestBed.get(CustomizeService);
-      });
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent);

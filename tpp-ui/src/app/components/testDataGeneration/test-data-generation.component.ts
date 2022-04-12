@@ -29,7 +29,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-  selector: 'test-data-generation',
+  selector: 'app-test-data-generation',
   templateUrl: './test-data-generation.component.html',
   styleUrls: ['./test-data-generation.component.scss'],
 })
@@ -72,7 +72,7 @@ export class TestDataGenerationComponent implements OnInit, OnDestroy {
 
         setTimeout(() => {
           const blob = new Blob([data], { type: 'plain/text' });
-          let link = document.createElement('a');
+          const link = document.createElement('a');
           link.setAttribute('href', window.URL.createObjectURL(blob));
           link.setAttribute('download', 'NISP-Test-Data.yml');
           document.body.appendChild(link);

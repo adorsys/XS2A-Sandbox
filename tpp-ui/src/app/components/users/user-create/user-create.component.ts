@@ -192,7 +192,7 @@ export class UserCreateComponent implements OnInit {
     const body = this.userForm.value as User;
     body.scaUserData.forEach((d) => {
       if (d.scaMethod === 'PUSH_OTP') {
-        if (d.pushMethod == '' || d.pushMethod == undefined) {
+        if (d.pushMethod === '' || d.pushMethod === undefined) {
           d.pushMethod = 'POST';
         }
         if (d.methodValue === '' || d.methodValue === undefined) {

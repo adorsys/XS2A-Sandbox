@@ -83,7 +83,7 @@ export class UserProfileUpdateComponent implements OnInit, OnDestroy {
           this.userForm.patchValue({
             email: this.user.email,
             username: this.user.login,
-            //pin: this.user.pin,
+            // pin: this.user.pin,
           });
         });
     }
@@ -93,7 +93,7 @@ export class UserProfileUpdateComponent implements OnInit, OnDestroy {
     this.userForm = this.formBuilder.group({
       username: ['', Validators.required],
       email: ['', [Validators.email, Validators.required]],
-      //pin: ['', [Validators.minLength(5), Validators.required]],
+      // pin: ['', [Validators.minLength(5), Validators.required]],
     });
   }
 

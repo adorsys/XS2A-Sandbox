@@ -29,7 +29,7 @@ import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { InfoService } from '../../../commons/info/info.service';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -39,19 +39,21 @@ describe('LoginComponent', () => {
   let de: DebugElement;
   let el: HTMLElement;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, RouterTestingModule, HttpClientModule, MatSnackBarModule],
-      providers: [AuthService, InfoService, { provide: MatDialog, useValue: {} }],
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [ReactiveFormsModule, RouterTestingModule, HttpClientModule, MatSnackBarModule],
+        providers: [AuthService, InfoService, { provide: MatDialog, useValue: {} }],
 
-      declarations: [LoginComponent],
-    }).compileComponents();
-  }));
+        declarations: [LoginComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
-    router = TestBed.get(Router);
+    router = TestBed.inject(Router);
     authService = fixture.debugElement.injector.get(AuthService);
 
     de = fixture.debugElement.query(By.css('form'));
@@ -60,6 +62,7 @@ describe('LoginComponent', () => {
     fixture.detectChanges();
     component.ngOnInit();
   });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });

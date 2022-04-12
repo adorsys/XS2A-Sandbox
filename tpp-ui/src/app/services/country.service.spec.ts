@@ -22,16 +22,18 @@ import { CountryService } from './country.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('CountryService', () => {
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [HttpClientTestingModule],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: CountryService = TestBed.get(CountryService);
+    const service: CountryService = TestBed.inject(CountryService);
     expect(service).toBeTruthy();
   });
 });

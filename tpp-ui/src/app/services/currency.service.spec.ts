@@ -32,8 +32,8 @@ describe('CurrencyService', () => {
       imports: [HttpClientTestingModule],
       providers: [CurrencyService],
     });
-    currencyService = TestBed.get(CurrencyService);
-    httpMock = TestBed.get(HttpTestingController);
+    currencyService = TestBed.inject(CurrencyService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {
@@ -41,12 +41,14 @@ describe('CurrencyService', () => {
   });
 
   it('should be created', () => {
-    const currencyService: CurrencyService = TestBed.get(CurrencyService);
     expect(currencyService).toBeTruthy();
   });
 
   it('should get supported Currencies', () => {
-    currencyService.getSupportedCurrencies();
-    httpMock.verify();
+    currencyService.getSupportedCurrencies().subscribe();
+    const req = httpMock.expectOne(url + '/currencies');
+    expect(req.cancelled).toBeFalsy();
+    expect(req.request.method).toEqual('GET');
+    req.flush(httpMock);
   });
 });

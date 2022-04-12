@@ -220,11 +220,12 @@ describe('UserCreateComponent', () => {
 
     // create spies and fake call function
     const sampleResponse = { value: 'sample response' };
-    let createUserSpy = spyOn(tppManagementService, 'createUser').and.callFake(
-      () => of(sampleResponse)
-    );
-    let navigateSpy = spyOn(router, 'navigate');
-    let infoServiceSpy = spyOn(infoService, 'openFeedback');
+    const createUserSpy = spyOn(
+      tppManagementService,
+      'createUser'
+    ).and.callFake(() => of(sampleResponse));
+    const navigateSpy = spyOn(router, 'navigate');
+    const infoServiceSpy = spyOn(infoService, 'openFeedback');
     component.onSubmit();
     expect(component.submitted).toBeTruthy();
     expect(component.userForm.valid).toBeTruthy();

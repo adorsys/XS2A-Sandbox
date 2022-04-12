@@ -16,7 +16,6 @@
  * contact us at psd2@adorsys.com.
  */
 
-import { HttpClientModule } from '@angular/common/http';
 import { TestBed, inject } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestDataGenerationService } from './test.data.generation.service';
@@ -25,25 +24,30 @@ import { environment } from '../../environments/environment';
 describe('TestDataGenerationService', () => {
   let httpMock: HttpTestingController;
   let testDataGenerationService: TestDataGenerationService;
-  let url = `${environment.tppBackend}`;
-  let userBranch = '';
+  const url = `${environment.tppBackend}`;
+  const userBranch = '';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [TestDataGenerationService],
     });
-    testDataGenerationService = TestBed.get(TestDataGenerationService);
-    httpMock = TestBed.get(HttpTestingController);
+    testDataGenerationService = TestBed.inject(TestDataGenerationService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
+
+  afterEach(() => {
+    httpMock.verify();
+  });
+
   it('should be created', () => {
-    const service = TestBed.get(TestDataGenerationService);
-    expect(service).toBeTruthy();
+    expect(testDataGenerationService).toBeTruthy();
   });
 
   it('should get a generate Iban', () => {
-    testDataGenerationService.generateIban(userBranch);
-    httpMock.verify();
+    testDataGenerationService.generateIban(userBranch).subscribe();
+    const req = httpMock.expectOne(url + '/data/generate/iban?tppId=');
+    expect(req.request.method).toBe('GET');
   });
 
   it('should generate the example Test Data', () => {
@@ -57,7 +61,8 @@ describe('TestDataGenerationService', () => {
   });
 
   it('should generate the Test Data', () => {
-    testDataGenerationService.generateTestData('EUR', true);
-    httpMock.verify();
+    testDataGenerationService.generateTestData('EUR', true).subscribe();
+    const req = httpMock.expectOne(url + '/data/generate/EUR?generatePayments=true');
+    expect(req.request.method).toBe('GET');
   });
 });
