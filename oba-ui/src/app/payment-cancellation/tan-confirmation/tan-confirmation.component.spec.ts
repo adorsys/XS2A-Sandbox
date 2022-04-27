@@ -28,6 +28,7 @@ import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ConsentAuthorizeResponse } from '../../api/models/consent-authorize-response';
 import { PaymentAuthorizeResponse } from '../../api/models/payment-authorize-response';
+import { MatDialog } from '@angular/material/dialog';
 
 const mockRouter = {
   navigate: (url: string) => {},
@@ -81,6 +82,7 @@ describe('TanConfirmationComponent', () => {
           provide: PisCancellationService,
           useValue: pisCancellationServiceStub,
         },
+        { provide: MatDialog, useValue: {} },
         { provide: Router, useValue: mockRouter },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
       ],

@@ -507,3 +507,12 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.mat-fab.mat-accent:hover {
+  background-color: red;
+}
+
+.mat-fab.mat-accent {
+  background-color: #ff4081;
+  color: white;
+}

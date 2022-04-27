@@ -29,6 +29,8 @@ import { ShareDataService } from '../../common/services/share-data.service';
 import AuthorisePaymentUsingPOSTParams = PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService.AuthorisePaymentUsingPOSTParams;
 import { PSUPISCancellationProvidesAccessToOnlineBankingPaymentFunctionalityService } from '../../api/services/psupiscancellation-provides-access-to-online-banking-payment-functionality.service';
 import { takeUntil } from 'rxjs/operators';
+import { ErrorDialogComponent } from '../../common/dialog/error-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-tan-confirmation',
@@ -49,7 +51,8 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private pisCancellationService: PisCancellationService,
-    private shareService: ShareDataService
+    private shareService: ShareDataService,
+    private dialog: MatDialog
   ) {}
 
   public ngOnInit(): void {
@@ -116,20 +119,17 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
           this.invalidTanCount++;
 
           if (this.invalidTanCount >= 3) {
-            this.router
-              .navigate(
-                [`${RoutingPath.PAYMENT_CANCELLATION}/${RoutingPath.RESULT}`],
-                {
-                  queryParams: {
-                    encryptedConsentId: this.authResponse.encryptedConsentId,
-                    authorisationId: this.authResponse.authorisationId,
-                    oauth2: this.oauth2Param,
-                  },
-                }
-              )
-              .then(() => {
-                throw error;
-              });
+            this.tanForm.disable();
+
+            this.dialog.open(ErrorDialogComponent, {
+              height: '200px',
+              width: '350px',
+              data: {
+                heading: 'Wrong Tan',
+                description:
+                  'Incorrect TAN was entered 3 times. Your authorisation is failed, please start a new one.',
+              },
+            });
           }
         }
       );

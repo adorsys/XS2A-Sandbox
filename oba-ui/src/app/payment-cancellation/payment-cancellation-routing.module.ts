@@ -30,7 +30,7 @@ import { TanConfirmationComponent } from './tan-confirmation/tan-confirmation.co
 const routes: Routes = [
   {
     path: RoutingPath.LOGIN,
-    component: LoginComponent,
+    component: TanConfirmationComponent,
   },
   {
     path: RoutingPath.CONFIRM_CANCELLATION,

@@ -37,13 +37,20 @@ import { InternalServerErrorComponent } from './internal-server-error/internal-s
 import { ObaModule } from './oba/oba.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { ErrorDialogComponent } from './common/dialog/error-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 
 export function app_Init(settingsHttpService: SettingsHttpService) {
   return () => settingsHttpService.initializeApp();
 }
 
 @NgModule({
-  declarations: [AppComponent, InternalServerErrorComponent],
+  declarations: [
+    AppComponent,
+    InternalServerErrorComponent,
+    ErrorDialogComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -57,6 +64,8 @@ export function app_Init(settingsHttpService: SettingsHttpService) {
     ObaModule,
     MatSnackBarModule,
     NgMultiSelectDropDownModule.forRoot(),
+    MatDialogModule,
+    MatIconModule,
   ],
   providers: [
     AisService,

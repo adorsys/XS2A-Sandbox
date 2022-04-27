@@ -53,13 +53,13 @@
         </div>
         <div>
           <a
-            matTooltip="Create Deposit Account"
-            aria-label="Create Deposit Account"
+            matTooltip="Create Account"
+            aria-label="Create Account"
             class="btn btn-table-btn mr-2 mb-3"
             routerLink="/users/{{ user.id }}/create-deposit-account"
             [queryParams]="{ tppId: user.branch, userId: user.id }"
             *ngIf="!user.blocked && showCreateDepositAccountButton"
-            >Create Deposit Account</a
+            >Create Account</a
           >
         </div>
 

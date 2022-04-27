@@ -33,13 +33,14 @@ import { UserProfileUpdateComponent } from './oba/user-profile-update/user-profi
 import { VerifyEmailComponent } from './oba/verify-email/verify-email.component';
 import { ConsentAisComponent } from './oba/consents/ais/consent-ais.component';
 import { ConsentPiisComponent } from './oba/consents/piis/consent-piis.component';
+import { TanConfirmationComponent } from './payment-cancellation/tan-confirmation/tan-confirmation.component';
 
 const externalUrlProvider = new InjectionToken('externalUrlRedirectResolver');
 
 export const routes: Routes = [
   {
     path: 'login',
-    component: LoginComponent,
+    component: TanConfirmationComponent,
   },
   {
     path: 'reset-password',
