@@ -15,6 +15,7 @@
  * This project is also available under a separate commercial license. You can
  * contact us at psd2@adorsys.com.
  */
+/* eslint-disable @typescript-eslint/no-empty-function */
 
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -27,7 +28,7 @@ import { ConsentAuthorizeResponse } from '../../api/models/consent-authorize-res
 import { of } from 'rxjs';
 
 const mockRouter = {
-  navigate: (url: string) => {},
+  navigate: () => {},
 };
 
 const mockActivatedRoute = {
@@ -38,7 +39,6 @@ describe('ConfirmCancellationComponent', () => {
   let component: ConfirmCancellationComponent;
   let fixture: ComponentFixture<ConfirmCancellationComponent>;
   let router: Router;
-  let route: ActivatedRoute;
   let shareDataService: ShareDataService;
   beforeEach(
     waitForAsync(() => {
@@ -58,7 +58,6 @@ describe('ConfirmCancellationComponent', () => {
     fixture = TestBed.createComponent(ConfirmCancellationComponent);
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
-    route = TestBed.inject(ActivatedRoute);
     shareDataService = TestBed.inject(ShareDataService);
     fixture.detectChanges();
   });

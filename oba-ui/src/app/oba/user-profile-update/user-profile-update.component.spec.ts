@@ -21,14 +21,12 @@ import { UserProfileUpdateComponent } from './user-profile-update.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { OnlineBankingAccountInformationService } from '../../api/services';
-import { OnlineBankingService } from '../../common/services/online-banking.service';
 import { InfoService } from '../../common/info/info.service';
 import { OverlayModule } from '@angular/cdk/overlay';
 
 describe('UserProfileEditComponent', () => {
   let component: UserProfileUpdateComponent;
   let fixture: ComponentFixture<UserProfileUpdateComponent>;
-  let mockObaService: OnlineBankingService;
 
   beforeEach(
     waitForAsync(() => {
@@ -43,7 +41,6 @@ describe('UserProfileEditComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UserProfileUpdateComponent);
     component = fixture.componentInstance;
-    mockObaService = TestBed.inject(OnlineBankingService);
     fixture.detectChanges();
   });
 

@@ -95,9 +95,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             if (error.status === 401) {
               this.errorMessage = 'Invalid credentials';
             } else {
-              this.errorMessage = error.error
-                ? error.error.message
-                : error.message;
+              this.errorMessage = 'Something went wrong while trying to login';
             }
             return throwError(error);
           }

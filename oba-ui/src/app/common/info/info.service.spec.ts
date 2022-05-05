@@ -1,4 +1,4 @@
-/*!
+/*
  * Copyright 2018-2022 adorsys GmbH & Co KG
  *
  * This program is free software: you can redistribute it and/or modify it
@@ -16,12 +16,21 @@
  * contact us at psd2@adorsys.com.
  */
 
-@import '~src/assets/themes/table';
+import { inject, TestBed } from '@angular/core/testing';
+import { InfoService } from './info.service';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { OverlayModule } from '@angular/cdk/overlay';
 
-.table {
-  white-space: nowrap;
-}
+describe('Infoservice', () => {
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, RouterTestingModule, OverlayModule],
+      providers: [InfoService],
+    });
+  });
 
-.btn {
-  height: unset !important;
-}
+  it('should be created', inject([InfoService], (service: InfoService) => {
+    expect(service).toBeTruthy();
+  }));
+});

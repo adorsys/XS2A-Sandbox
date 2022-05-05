@@ -21,14 +21,12 @@ import { ShareDataService } from './share-data.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('ShareDataService', () => {
-  let shareDataService: ShareDataService;
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [HttpClientTestingModule],
         providers: [ShareDataService],
       });
-      shareDataService = TestBed.inject(ShareDataService);
     })
   );
 

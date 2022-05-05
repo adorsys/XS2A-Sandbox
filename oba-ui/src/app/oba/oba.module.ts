@@ -14,7 +14,6 @@ import { NotFoundModule } from '../not-found/not-found.module';
 import { AccountDetailsComponent } from './accounts/account-details/account-details.component';
 import { AccountsComponent } from './accounts/accounts.component';
 import { ConfirmPasswordComponent } from './confirm-password/confirm-password.component';
-import { ConsentsComponent } from './consents/consents.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
@@ -35,7 +34,6 @@ import { ConsentAisComponent } from './consents/ais/consent-ais.component';
     DashboardComponent,
     NavbarComponent,
     SidebarComponent,
-    ConsentsComponent,
     AccountsComponent,
     AccountDetailsComponent,
     ResetPasswordComponent,

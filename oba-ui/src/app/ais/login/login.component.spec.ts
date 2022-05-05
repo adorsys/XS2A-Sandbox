@@ -15,47 +15,50 @@
  * This project is also available under a separate commercial license. You can
  * contact us at psd2@adorsys.com.
  */
+/* eslint-disable @typescript-eslint/no-empty-function */
 
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { AisService } from '../../common/services/ais.service';
-import { CustomizeService } from '../../common/services/customize.service';
-import { ShareDataService } from '../../common/services/share-data.service';
 import { LoginComponent } from './login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { InfoModule } from '../../common/info/info.module';
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 import { InfoService } from '../../common/info/info.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RoutingPath } from '../../common/models/routing-path.model';
+import { AuthService } from '../../common/services/auth.service';
+import { HttpClientModule } from '@angular/common/http';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 const mockRouter = {
-  navigate: (url: string) => {},
+  navigate: () => {},
 };
 
 const mockActivatedRoute = {
-  params: of({ id: '12345' }),
+  params: of({ id: '12345', redirectId: 'asdfa', encryptedConsentId: '23948' }),
+  queryParams: of({ redirectId: 'asdfa', encryptedConsentId: '23948' }),
 };
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
-  let aisService: AisService;
-  let infoService: InfoService;
-  let customizeService: CustomizeService;
-  let shareDataService: ShareDataService;
+  let authService: AuthService;
   let router: Router;
-  let route: ActivatedRoute;
+
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, RouterTestingModule, InfoModule],
-        declarations: [LoginComponent],
-        providers: [
-          AisService,
-          ShareDataService,
-          CustomizeService,
-          InfoService,
+        imports: [
+          ReactiveFormsModule,
+          RouterTestingModule,
+          HttpClientModule,
+          MatSnackBarModule,
         ],
+        providers: [
+          AuthService,
+          InfoService,
+          { provide: Router, useValue: mockRouter },
+          { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        ],
+
+        declarations: [LoginComponent],
       }).compileComponents();
     })
   );
@@ -63,96 +66,67 @@ describe('LoginComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
-    aisService = TestBed.inject(AisService);
-    infoService = TestBed.inject(InfoService);
     router = TestBed.inject(Router);
-    router.initialNavigation();
-    route = TestBed.inject(ActivatedRoute);
-    customizeService = TestBed.inject(CustomizeService);
-    shareDataService = TestBed.inject(ShareDataService);
-    fixture.detectChanges();
-  });
+    authService = TestBed.inject(AuthService);
 
+    fixture.detectChanges();
+    component.ngOnInit();
+  });
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call the on Submit', () => {
-    const mockResponse = {
-      encryptedConsentId:
-        'uzf7d5PJiuoui78owirhJHGVSgueif98200293uwpgofowbOUIGb39845zt0',
-      authorisationId: 'owirhJHGVSgueif98200293uwpgofowbOUIGb39845zt0',
-      login: 'foo',
-      pin: '12345',
-    };
-    const aisSpy = spyOn(component, 'aisAuthorise');
+  it('loginForm should be invalid when at least one field is empty', () => {
+    expect(component.loginForm.valid).toBeFalsy();
+  });
+
+  it('login field validity', () => {
+    let errors = {};
+    const login = component.loginForm.controls['login'];
+    expect(login.valid).toBeFalsy();
+
+    errors = login.errors || {};
+    expect(errors['required']).toBeTruthy();
+
+    login.setValue('test@test.de');
+    errors = login.errors || {};
+    expect(errors['required']).toBeFalsy();
+  });
+
+  it('pin field validity', () => {
+    let errors = {};
+    const pin = component.loginForm.controls['pin'];
+    expect(pin.valid).toBeFalsy();
+
+    errors = pin.errors || {};
+    expect(errors['required']).toBeTruthy();
+
+    pin.setValue('12345678');
+    errors = pin.errors || {};
+    expect(errors['required']).toBeFalsy();
+  });
+
+  it('Should set error message', () => {
     component.onSubmit();
-    expect(aisSpy).toHaveBeenCalled();
+    expect(component.errorMessage).toEqual('Please enter your credentials');
   });
 
-  it('should get the AIS Authorize', () => {
-    const loginUsingPOSTParams = {
-      encryptedConsentId:
-        'uzf7d5PJiuoui78owirhJHGVSgueif98200293uwpgofowbOUIGb39845zt0',
-      authorisationId: 'owirhJHGVSgueif98200293uwpgofowbOUIGb39845zt0',
-      login: 'foo',
-      pin: '12345',
-    };
-    spyOn(component, 'getAisAuthCode').and.callFake(() => {});
-    const aisAuthSpy = spyOn(aisService, 'aisAuthorise').and.returnValue(
-      of(loginUsingPOSTParams)
-    );
-    const navigateSpy = spyOn(router, 'navigate');
-    component.aisAuthorise(loginUsingPOSTParams);
-    expect(aisAuthSpy).toHaveBeenCalled();
-    expect(navigateSpy).toHaveBeenCalledWith([
-      `${RoutingPath.ACCOUNT_INFORMATION}/${RoutingPath.GRANT_CONSENT}`,
-    ]);
-  });
+  it('should login and go to the next page', () => {
+    component.loginForm.get('login').setValue('foo');
+    component.loginForm.get('pin').setValue('12345');
+    const logSpy = spyOn(authService, 'login').and.returnValue(of(true));
+    spyOn(router, 'navigate');
+    const authoriseSpy = spyOn(component, 'aisAuthorise').and.callFake(logSpy);
+    component.onSubmit();
 
-  it('should call the ais Authorize and return the feedback message when encryptedConsentId is undefined', () => {
-    const loginUsingPOSTParams = {
-      encryptedConsentId: undefined,
-      authorisationId: 'owirhJHGVSgueif98200293uwpgofowbOUIGb39845zt0',
-      login: 'foo',
-      pin: '12345',
-    };
-    spyOn(component, 'getAisAuthCode').and.callFake(() => {});
-    const aisAuthSpy = spyOn(aisService, 'aisAuthorise').and.returnValue(
-      throwError({})
+    expect(authoriseSpy).toHaveBeenCalledWith(
+      Object({
+        pin: '12345',
+        login: 'foo',
+        encryptedConsentId: '23948',
+        authorisationId: 'asdfa',
+      })
     );
-    const infoSpy = spyOn(infoService, 'openFeedback');
-    component.aisAuthorise(loginUsingPOSTParams);
-    //  expect(aisAuthSpy).toHaveBeenCalled();
-    expect(infoSpy).toHaveBeenCalledWith(
-      'Consent data is missing. Please create consent prior to login',
-      {
-        severity: 'error',
-      }
-    );
-  });
-
-  it('should get the aisAuthCode', () => {
-    const mockAuthCodeResponse = {
-      encryptedConsentId:
-        'uzf7d5PJiuoui78owirhJHGVSgueif98200293uwpgofowbOUIGb39845zt0',
-      redirectId: 'owirhJHGVSgueif98200293uwpgofowbOUIGb39845zt0',
-      headers: {
-        get: (param) => {
-          return 'auth_token';
-        },
-      },
-    };
-    const codeSpy = spyOn(aisService, 'aisAuthCode').and.returnValue(
-      of<any>(mockAuthCodeResponse)
-    );
-    component.getAisAuthCode();
-  });
-
-  it('pis AuthCode should throw error ', () => {
-    const errorSpy = spyOn(aisService, 'aisAuthCode').and.returnValue(
-      throwError({})
-    );
-    component.getAisAuthCode();
+    expect(logSpy).toHaveBeenCalled();
   });
 });

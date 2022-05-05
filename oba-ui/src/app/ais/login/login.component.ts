@@ -31,7 +31,6 @@ import { RoutingPath } from '../../common/models/routing-path.model';
 import { AisService } from '../../common/services/ais.service';
 import { CustomizeService } from '../../common/services/customize.service';
 import { ShareDataService } from '../../common/services/share-data.service';
-import { AuthService } from '../../common/services/auth.service';
 import LoginUsingPOSTParams = PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService.LoginUsingPOSTParams;
 
 @Component({
@@ -42,7 +41,6 @@ import LoginUsingPOSTParams = PSUAISProvidesAccessToOnlineBankingAccountFunction
 export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   errorMessage: string;
-  invalidCredentials: boolean;
 
   private encryptedConsentId: string;
   private redirectId: string;
@@ -56,9 +54,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private shareService: ShareDataService,
     private onlineBankingOauthAuthorizationService: OnlineBankingOauthAuthorizationService,
-    private aisService: AisService,
-    private authService: AuthService,
-    private PSUAISService: PSUAISProvidesAccessToOnlineBankingAccountFunctionalityService
+    private aisService: AisService
   ) {}
 
   ngOnInit() {
@@ -68,6 +64,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public onSubmit(): void {
+    if (this.loginForm.invalid) {
+      this.errorMessage = 'Please enter your credentials';
+      return;
+    }
+
     this.aisAuthorise({
       pin: this.loginForm.get('pin').value,
       login: this.loginForm.get('login').value,
@@ -90,6 +91,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           ]);
         },
         (error: HttpErrorResponse) => {
+          console.log('TEST');
           if (
             this.encryptedConsentId === undefined ||
             this.redirectId === undefined

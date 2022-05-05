@@ -23,7 +23,6 @@ import { AuthGuard } from './common/guards/auth.guard';
 import { AccountDetailsComponent } from './oba/accounts/account-details/account-details.component';
 import { AccountsComponent } from './oba/accounts/accounts.component';
 import { ConfirmPasswordComponent } from './oba/confirm-password/confirm-password.component';
-import { ConsentsComponent } from './oba/consents/consents.component';
 import { DashboardComponent } from './oba/dashboard/dashboard.component';
 import { LoginComponent } from './oba/login/login.component';
 import { ResetPasswordComponent } from './oba/reset-password/reset-password.component';
@@ -33,14 +32,13 @@ import { UserProfileUpdateComponent } from './oba/user-profile-update/user-profi
 import { VerifyEmailComponent } from './oba/verify-email/verify-email.component';
 import { ConsentAisComponent } from './oba/consents/ais/consent-ais.component';
 import { ConsentPiisComponent } from './oba/consents/piis/consent-piis.component';
-import { TanConfirmationComponent } from './payment-cancellation/tan-confirmation/tan-confirmation.component';
 
 const externalUrlProvider = new InjectionToken('externalUrlRedirectResolver');
 
 export const routes: Routes = [
   {
     path: 'login',
-    component: TanConfirmationComponent,
+    component: LoginComponent,
   },
   {
     path: 'reset-password',
@@ -75,7 +73,6 @@ export const routes: Routes = [
       },
       {
         path: 'consents',
-        component: ConsentsComponent,
         children: [
           {
             path: 'ais',

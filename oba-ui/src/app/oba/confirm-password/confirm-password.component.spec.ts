@@ -34,7 +34,6 @@ describe('ConfirmPasswordComponent', () => {
   let component: ConfirmPasswordComponent;
   let fixture: ComponentFixture<ConfirmPasswordComponent>;
   let authService: AuthService;
-  let customizeService: CustomizeService;
   let authServiceSpy;
   let de: DebugElement;
   let el: HTMLElement;
@@ -64,7 +63,6 @@ describe('ConfirmPasswordComponent', () => {
     fixture = TestBed.createComponent(ConfirmPasswordComponent);
     component = fixture.componentInstance;
     authService = fixture.debugElement.injector.get(AuthService);
-    customizeService = TestBed.inject(CustomizeService);
     de = fixture.debugElement.query(By.css('form'));
     el = de.nativeElement;
     fixture.detectChanges();

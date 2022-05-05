@@ -16,13 +16,13 @@
  * contact us at psd2@adorsys.com.
  */
 
+import { TestBed } from '@angular/core/testing';
+import { HttpClient } from '@angular/common/http';
+import { of } from 'rxjs';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
-import { HttpClient } from '@angular/common/http';
-import { of, throwError } from 'rxjs';
 import { CustomizeService, Theme } from './customize.service';
 
 describe('CustomizeService', () => {
@@ -98,28 +98,27 @@ describe('CustomizeService', () => {
     );
     expect(req.request.method).toEqual('GET');
   });
-
   describe('getJson', () => {
     let http: HttpClient;
     beforeEach(() => {
       http = TestBed.inject(HttpClient);
     });
     it('should return custom theme', () => {
-      const httpSpy = spyOn(http, 'get').and.returnValue(of(theme));
+      spyOn(http, 'get').and.returnValue(of(theme));
       service.getJSON().subscribe();
       expect(service.isCustom()).toBeTruthy();
     });
 
     it('should return default theme when custom theme is invalid', () => {
-      const invalidJsonTheme = {};
-      const httpSpy = spyOn(http, 'get').and.returnValue(of(invalidJsonTheme));
+      const invalidJsonTheme = undefined;
+      spyOn(http, 'get').and.returnValue(of(invalidJsonTheme));
       service.getJSON().subscribe();
       expect(service.isCustom()).toBeFalsy();
     });
 
     it('should return default theme when custom theme has validations error', () => {
       const invalidTheme = {};
-      const httpSpy = spyOn(http, 'get').and.returnValue(of(invalidTheme));
+      spyOn(http, 'get').and.returnValue(of(invalidTheme));
       service.getJSON().subscribe();
       expect(service.isCustom()).toBeFalsy();
     });
@@ -202,9 +201,13 @@ describe('CustomizeService', () => {
 
   it('should add favicon', () => {
     service.addFavicon('type', 'href');
+    const link = document.documentElement.getElementsByTagName('link');
+    expect(link).not.toEqual(null);
   });
 
   it('should set favicon', () => {
     service.setFavicon('type', 'href');
+    const link = document.documentElement.getElementsByTagName('link');
+    expect(link).not.toEqual(null);
   });
 });

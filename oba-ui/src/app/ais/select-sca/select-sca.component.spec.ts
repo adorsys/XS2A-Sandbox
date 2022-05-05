@@ -15,6 +15,7 @@
  * This project is also available under a separate commercial license. You can
  * contact us at psd2@adorsys.com.
  */
+/* eslint-disable @typescript-eslint/no-empty-function */
 
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AisService } from '../../common/services/ais.service';
@@ -30,7 +31,7 @@ import { RoutingPath } from '../../common/models/routing-path.model';
 import { of } from 'rxjs';
 
 const mockRouter = {
-  navigate: (url: string) => {},
+  navigate: () => {},
 };
 
 const mockActivatedRoute = {
@@ -40,11 +41,8 @@ const mockActivatedRoute = {
 describe('SelectScaComponent', () => {
   let component: SelectScaComponent;
   let fixture: ComponentFixture<SelectScaComponent>;
-  let shareDataService: ShareDataService;
-  let customizeService: CustomizeService;
   let aisService: AisService;
   let router: Router;
-  let route: ActivatedRoute;
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -64,11 +62,8 @@ describe('SelectScaComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SelectScaComponent);
     component = fixture.componentInstance;
-    shareDataService = TestBed.inject(ShareDataService);
     aisService = TestBed.inject(AisService);
-    customizeService = TestBed.inject(CustomizeService);
     router = TestBed.inject(Router);
-    route = TestBed.inject(ActivatedRoute);
     fixture.detectChanges();
   });
 
@@ -110,9 +105,7 @@ describe('SelectScaComponent', () => {
       authorisationId: 'uwpgofowbOUIGb39845zt0owirhJHGVSgueif98200293',
     };
     component.authResponse = mockResponse;
-    const aisCancelSpy = spyOn(aisService, 'revokeConsent').and.returnValue(
-      of(mockResponse)
-    );
+    spyOn(aisService, 'revokeConsent').and.returnValue(of(mockResponse));
     const navigateSpy = spyOn(router, 'navigate').and.returnValue(
       of(undefined).toPromise()
     );

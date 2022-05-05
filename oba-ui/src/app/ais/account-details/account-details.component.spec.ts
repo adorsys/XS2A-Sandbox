@@ -17,13 +17,11 @@
  */
 
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ShareDataService } from '../../common/services/share-data.service';
 import { AccountDetailsComponent } from './account-details.component';
 
 describe('AccountDetailsComponent', () => {
   let component: AccountDetailsComponent;
   let fixture: ComponentFixture<AccountDetailsComponent>;
-  let shareDataService: ShareDataService;
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -34,7 +32,6 @@ describe('AccountDetailsComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AccountDetailsComponent);
-    shareDataService = TestBed.inject(ShareDataService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

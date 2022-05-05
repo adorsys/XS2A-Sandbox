@@ -115,7 +115,7 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
               this.shareService.changeData(this.authResponse);
             });
         },
-        (error) => {
+        () => {
           this.invalidTanCount++;
 
           if (this.invalidTanCount >= 3) {

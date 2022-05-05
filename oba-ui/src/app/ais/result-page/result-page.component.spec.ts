@@ -20,7 +20,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ResultPageComponent } from './result-page.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs';
 import { SettingsService } from '../../common/services/settings.service';
 import { ShareDataService } from '../../common/services/share-data.service';
 import { AisService } from '../../common/services/ais.service';
@@ -30,8 +29,6 @@ describe('ResultPageComponent', () => {
   let component: ResultPageComponent;
   let fixture: ComponentFixture<ResultPageComponent>;
   let shareDataService: ShareDataService;
-  let settingsService: SettingsService;
-  let aisService: AisService;
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -46,8 +43,6 @@ describe('ResultPageComponent', () => {
     fixture = TestBed.createComponent(ResultPageComponent);
     component = fixture.componentInstance;
     shareDataService = TestBed.inject(ShareDataService);
-    settingsService = TestBed.inject(SettingsService);
-    aisService = TestBed.inject(AisService);
     fixture.detectChanges();
   });
 

@@ -15,6 +15,7 @@
  * This project is also available under a separate commercial license. You can
  * contact us at psd2@adorsys.com.
  */
+/* eslint-disable @typescript-eslint/no-empty-function */
 
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -29,7 +30,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 
 const mockRouter = {
-  navigate: (url: string) => {},
+  navigate: () => {},
 };
 
 const mockActivatedRoute = {
@@ -39,10 +40,8 @@ const mockActivatedRoute = {
 describe('SelectScaComponent', () => {
   let component: SelectScaComponent;
   let fixture: ComponentFixture<SelectScaComponent>;
-  let shareDataService: ShareDataService;
   let pisCancellationService: PisCancellationService;
   let router: Router;
-  let route: ActivatedRoute;
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -61,10 +60,8 @@ describe('SelectScaComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SelectScaComponent);
     component = fixture.componentInstance;
-    shareDataService = TestBed.inject(ShareDataService);
     pisCancellationService = TestBed.inject(PisCancellationService);
     router = TestBed.inject(Router);
-    route = TestBed.inject(ActivatedRoute);
     fixture.detectChanges();
   });
 

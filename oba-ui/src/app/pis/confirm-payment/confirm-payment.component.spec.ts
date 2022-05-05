@@ -15,13 +15,14 @@
  * This project is also available under a separate commercial license. You can
  * contact us at psd2@adorsys.com.
  */
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoutingPath } from '../../common/models/routing-path.model';
 import { ShareDataService } from '../../common/services/share-data.service';
-import { PaymentDetailsComponent } from '../payment-details/payment-details.component';
 import { ConfirmPaymentComponent } from './confirm-payment.component';
 import { ConsentAuthorizeResponse } from '../../api/models/consent-authorize-response';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -33,7 +34,7 @@ import { PaymentAuthorizeResponse } from '../../api/models/payment-authorize-res
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 const mockRouter = {
-  navigate: (url: string) => {},
+  navigate: () => {},
 };
 
 const mockActivatedRoute = {
@@ -44,9 +45,6 @@ describe('ConfirmPaymentComponent', () => {
   let component: ConfirmPaymentComponent;
   let fixture: ComponentFixture<ConfirmPaymentComponent>;
   let router: Router;
-  let route: ActivatedRoute;
-  let shareDataService: ShareDataService;
-  let psiService: PsupisprovidesGetPsuAccsService;
   let shareDataServiceStub: Partial<ShareDataService>;
   let psiServiceStub: Partial<PsupisprovidesGetPsuAccsService>;
 
@@ -63,6 +61,12 @@ describe('ConfirmPaymentComponent', () => {
           ConsentAuthorizeResponse | PaymentAuthorizeResponse
         >(null);
         return subjectMock.asObservable();
+      },
+
+      changeData(data: ConsentAuthorizeResponse) {
+        if (data) {
+          this.data?.next(data);
+        }
       },
     };
     psiServiceStub = {
@@ -86,9 +90,6 @@ describe('ConfirmPaymentComponent', () => {
 
     fixture = TestBed.createComponent(ConfirmPaymentComponent);
     router = TestBed.inject(Router);
-    route = TestBed.inject(ActivatedRoute);
-    shareDataService = TestBed.inject(ShareDataService);
-    psiService = TestBed.inject(PsupisprovidesGetPsuAccsService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -15,7 +15,7 @@
  * This project is also available under a separate commercial license. You can
  * contact us at psd2@adorsys.com.
  */
-
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterOutlet } from '@angular/router';
@@ -33,7 +33,6 @@ describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
   let customizeService: CustomizeService;
-  let titleService: Title;
   const CustomizeServiceStub = {
     isCustom: () => false,
     setUserTheme: () => {},
@@ -74,7 +73,6 @@ describe('AppComponent', () => {
   );
   beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent);
-    titleService = TestBed.inject(Title);
     component = fixture.componentInstance;
   });
 

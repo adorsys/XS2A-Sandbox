@@ -15,8 +15,9 @@
  * This project is also available under a separate commercial license. You can
  * contact us at psd2@adorsys.com.
  */
-
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ShareDataService } from '../../common/services/share-data.service';
 import { PaymentDetailsComponent } from './payment-details.component';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -26,7 +27,6 @@ import { PaymentAuthorizeResponse } from '../../api/models/payment-authorize-res
 describe('PaymentDetailsComponent', () => {
   let component: PaymentDetailsComponent;
   let fixture: ComponentFixture<PaymentDetailsComponent>;
-  let shareDataService: ShareDataService;
   let shareDataServiceStub: Partial<ShareDataService>;
 
   beforeEach(() => {
@@ -39,6 +39,8 @@ describe('PaymentDetailsComponent', () => {
         >(null);
         return subjectMock.asObservable();
       },
+
+      changeData(data: ConsentAuthorizeResponse) {},
     };
     TestBed.configureTestingModule({
       declarations: [PaymentDetailsComponent],
@@ -49,7 +51,6 @@ describe('PaymentDetailsComponent', () => {
 
     fixture = TestBed.createComponent(PaymentDetailsComponent);
     component = fixture.componentInstance;
-    shareDataService = TestBed.inject(ShareDataService);
     fixture.detectChanges();
   });
 

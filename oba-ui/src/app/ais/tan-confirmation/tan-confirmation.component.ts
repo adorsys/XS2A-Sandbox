@@ -28,6 +28,8 @@ import { CustomizeService } from '../../common/services/customize.service';
 import { ShareDataService } from '../../common/services/share-data.service';
 
 import { takeUntil } from 'rxjs/operators';
+import { ErrorDialogComponent } from '../../common/dialog/error-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-tan-confirmation',
@@ -49,7 +51,8 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private aisService: AisService,
-    private shareService: ShareDataService
+    private shareService: ShareDataService,
+    private dialog: MatDialog
   ) {}
 
   public ngOnInit(): void {
@@ -112,24 +115,21 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
               this.shareService.changeData(this.authResponse);
             });
         },
-        (error) => {
+        () => {
           this.invalidTanCount++;
 
           if (this.invalidTanCount >= 3) {
-            this.router
-              .navigate(
-                [`${RoutingPath.ACCOUNT_INFORMATION}/${RoutingPath.RESULT}`],
-                {
-                  queryParams: {
-                    encryptedConsentId: this.authResponse.encryptedConsentId,
-                    authorisationId: this.authResponse.authorisationId,
-                    oauth2: this.oauth2Param,
-                  },
-                }
-              )
-              .then(() => {
-                throw error;
-              });
+            this.tanForm.disable();
+
+            this.dialog.open(ErrorDialogComponent, {
+              height: '200px',
+              width: '350px',
+              data: {
+                heading: 'Wrong Tan',
+                description:
+                  'Incorrect TAN was entered 3 times. Your authorisation is failed, please start a new one.',
+              },
+            });
           }
         }
       );

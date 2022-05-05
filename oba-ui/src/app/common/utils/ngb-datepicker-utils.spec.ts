@@ -16,7 +16,6 @@
  * contact us at psd2@adorsys.com.
  */
 
-import { TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { ngbDateToString, stringToNgbDate } from './ngb-datepicker-utils';
 

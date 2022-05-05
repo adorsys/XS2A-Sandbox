@@ -23,15 +23,12 @@ import { ResultPageComponent } from './result-page.component';
 import { ShareDataService } from '../../common/services/share-data.service';
 import { PisService } from '../../common/services/pis.service';
 import { SettingsService } from '../../common/services/settings.service';
-import { of } from 'rxjs';
 import { ConsentAuthorizeResponse } from '../../api/models/consent-authorize-response';
 
 describe('ResultPageComponent', () => {
   let component: ResultPageComponent;
   let fixture: ComponentFixture<ResultPageComponent>;
   let shareDataService: ShareDataService;
-  let settingsService: SettingsService;
-  let pisService: PisService;
 
   beforeEach(
     waitForAsync(() => {
@@ -47,8 +44,6 @@ describe('ResultPageComponent', () => {
     fixture = TestBed.createComponent(ResultPageComponent);
     component = fixture.componentInstance;
     shareDataService = TestBed.inject(ShareDataService);
-    settingsService = TestBed.inject(SettingsService);
-    pisService = TestBed.inject(PisService);
     fixture.detectChanges();
   });
 

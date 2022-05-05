@@ -54,6 +54,6 @@ describe('PageNavigationService', () => {
 
   it('should set and get previous page to Session Storage', () => {
     service.setLastVisitedPage(pageLink);
-    expect(service.getLastVisitedPage()).toBe(pageLink);
+    expect(service.getLastVisitedPage()).toEqual(pageLink);
   });
 });

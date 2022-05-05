@@ -9,7 +9,6 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  ignorePatterns: '*.spec.ts',
   plugins: ['@typescript-eslint', 'autofix', 'angular'],
   rules: {
     '@typescript-eslint/no-explicit-any': 'off',

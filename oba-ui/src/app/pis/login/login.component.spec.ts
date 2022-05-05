@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -8,24 +10,14 @@ import { InfoModule } from '../../common/info/info.module';
 import { LoginComponent } from './login.component';
 import { InfoService } from '../../common/info/info.service';
 import { of, throwError } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
-import { RoutingPath } from '../../common/models/routing-path.model';
+import { Router } from '@angular/router';
 
-const mockRouter = {
-  navigate: (url: string) => {},
-};
-
-const mockActivatedRoute = {
-  params: of({ id: '12345' }),
-};
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let shareDataService: ShareDataService;
   let pisService: PisService;
-  let customizeService: CustomizeService;
   let router: Router;
-  let route: ActivatedRoute;
   let infoService: InfoService;
   beforeEach(
     waitForAsync(() => {
@@ -46,11 +38,9 @@ describe('LoginComponent', () => {
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
     pisService = TestBed.inject(PisService);
-    customizeService = TestBed.inject(CustomizeService);
     shareDataService = TestBed.inject(ShareDataService);
     infoService = TestBed.inject(InfoService);
     router = TestBed.inject(Router);
-    route = TestBed.inject(ActivatedRoute);
     fixture.detectChanges();
   });
 
@@ -59,13 +49,6 @@ describe('LoginComponent', () => {
   });
 
   it('should call the on Submit', () => {
-    const mockResponse = {
-      encryptedPaymentId:
-        'uzf7d5PJiuoui78owirhJHGVSgueif98200293uwpgofowbOUIGb39845zt0',
-      authorisationId: 'owirhJHGVSgueif98200293uwpgofowbOUIGb39845zt0',
-      login: 'foo',
-      pin: '12345',
-    };
     const pisSpy = spyOn(component, 'pisAuthorise');
     component.onSubmit();
     expect(pisSpy).toHaveBeenCalled();
@@ -87,10 +70,6 @@ describe('LoginComponent', () => {
     spyOn(router, 'navigate');
     component.pisAuthorise(loginUsingPOSTParams);
     expect(pisAuthSpy).toHaveBeenCalled();
-    // expect(router.navigate).toHaveBeenCalledWith( [
-    //     `${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.CONFIRM_PAYMENT}`,
-    //   ]
-    //   );
   });
 
   it('should call the pis Authorize and return the feedback message when encryptedConsentId is undefined', () => {
@@ -116,19 +95,8 @@ describe('LoginComponent', () => {
   });
 
   it('should get the pisAuthCode', () => {
-    const mockAuthCodeResponse = {
-      encryptedPaymentId:
-        'uzf7d5PJiuoui78owirhJHGVSgueif98200293uwpgofowbOUIGb39845zt0',
-      redirectId: 'owirhJHGVSgueif98200293uwpgofowbOUIGb39845zt0',
-      headers: {
-        get: (param) => {
-          return 'auth_token';
-        },
-      },
-    };
-    const codeSpy = spyOn(pisService, 'pisAuthCode').and.returnValue(
-      of<any>(mockAuthCodeResponse)
-    );
+    const codeSpy = spyOn(shareDataService, 'setOauthParam');
     component.getPisAuthCode();
+    expect(codeSpy).toHaveBeenCalled();
   });
 });
