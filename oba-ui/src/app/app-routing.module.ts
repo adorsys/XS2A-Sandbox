@@ -130,6 +130,7 @@ export const routes: Routes = [
     canActivate: [externalUrlProvider],
     component: LoginComponent,
   },
+
   {
     path: '**',
     redirectTo: '/login',

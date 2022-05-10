@@ -32,6 +32,7 @@ import { PsupisprovidesGetPsuAccsService } from '../../api/services/psupisprovid
 import { takeUntil } from 'rxjs/operators';
 import { ErrorDialogComponent } from '../../common/dialog/error-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { AuthService } from '../../common/services/auth.service';
 
 @Component({
   selector: 'app-tan-confirmation',
@@ -54,7 +55,8 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
     private pisService: PisService,
     private shareService: ShareDataService,
     private pisAccServices: PsupisprovidesGetPsuAccsService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private authService: AuthService
   ) {}
 
   public ngOnInit(): void {
@@ -132,7 +134,7 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
               data: {
                 heading: 'Wrong Tan',
                 description:
-                  'Incorrect TAN was entered 3 times. Your authorisation is failed, please start a new one.',
+                  'Incorrect TAN was entered 3 times. Your authorisation is failed, please start a new one. After pushing Cancel button you will be logged out. Please restart your authorisation.',
               },
             });
           }
@@ -141,15 +143,19 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
   }
 
   public onCancel(): void {
-    this.router.navigate(
-      [`${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.RESULT}`],
-      {
-        queryParams: {
-          encryptedConsentId: this.authResponse.encryptedConsentId,
-          authorisationId: this.authResponse.authorisationId,
-        },
-      }
-    );
+    if (this.invalidTanCount >= 3) {
+      this.authService.logout();
+    } else {
+      this.router.navigate(
+        [`${RoutingPath.PAYMENT_INITIATION}/${RoutingPath.RESULT}`],
+        {
+          queryParams: {
+            encryptedConsentId: this.authResponse.encryptedConsentId,
+            authorisationId: this.authResponse.authorisationId,
+          },
+        }
+      );
+    }
   }
 
   private initTanForm(): void {
