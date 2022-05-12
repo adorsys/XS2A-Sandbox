@@ -40,6 +40,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ErrorDialogComponent } from './common/dialog/error-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 export function app_Init(settingsHttpService: SettingsHttpService) {
   return () => settingsHttpService.initializeApp();
@@ -66,6 +67,7 @@ export function app_Init(settingsHttpService: SettingsHttpService) {
     NgMultiSelectDropDownModule.forRoot(),
     MatDialogModule,
     MatIconModule,
+    MatButtonModule,
   ],
   providers: [
     AisService,

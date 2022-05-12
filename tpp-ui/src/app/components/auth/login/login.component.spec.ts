@@ -28,17 +28,20 @@ import { of, throwError } from 'rxjs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { InfoService } from '../../../commons/info/info.service';
 import { MatDialog } from '@angular/material/dialog';
+import { ERROR_MESSAGE } from '../../../commons/constant/constant';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let authService: AuthService;
+  let infoService: InfoService;
   let router: Router;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, RouterTestingModule, HttpClientModule, MatSnackBarModule],
+        imports: [ReactiveFormsModule, RouterTestingModule, HttpClientModule, MatSnackBarModule, BrowserAnimationsModule],
         providers: [AuthService, InfoService, { provide: MatDialog, useValue: {} }],
 
         declarations: [LoginComponent],
@@ -51,7 +54,7 @@ describe('LoginComponent', () => {
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
     authService = fixture.debugElement.injector.get(AuthService);
-
+    infoService = TestBed.inject(InfoService);
     fixture.detectChanges();
     component.ngOnInit();
   });
@@ -112,5 +115,22 @@ describe('LoginComponent', () => {
     const logSpy = spyOn(authService, 'login').and.returnValue(throwError({ success: false }));
     component.onSubmit();
     expect(logSpy).toHaveBeenCalled();
+  });
+
+  it('should show error when session-error is set', () => {
+    const errorMessage = 'Logout because of timeout';
+    sessionStorage.setItem(ERROR_MESSAGE, errorMessage);
+    const feedBackSpy = spyOn(infoService, 'openFeedback');
+    component.ngOnInit();
+    expect(feedBackSpy).toHaveBeenCalledWith(errorMessage, {
+      severity: 'error',
+    });
+  });
+
+  it('should show no error-message', () => {
+    sessionStorage.setItem(ERROR_MESSAGE, null);
+    component.ngOnInit();
+    const feedBackSpy = spyOn(infoService, 'openFeedback');
+    expect(feedBackSpy).toHaveBeenCalledTimes(0);
   });
 });

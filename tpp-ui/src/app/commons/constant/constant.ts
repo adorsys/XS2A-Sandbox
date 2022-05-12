@@ -17,3 +17,4 @@
  */
 
 export const ADMIN_KEY = 'admin_key';
+export const ERROR_MESSAGE = 'error_message';

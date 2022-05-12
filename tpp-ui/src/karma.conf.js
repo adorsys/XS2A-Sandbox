@@ -29,7 +29,6 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Firefox', 'ChromeHeadless'],
     customLaunchers: {
       ChromeHeadless: {
         base: 'Chrome',
@@ -41,5 +40,6 @@ module.exports = function (config) {
       },
     },
     singleRun: false,
+    restartOnFileChange: true,
   });
 };

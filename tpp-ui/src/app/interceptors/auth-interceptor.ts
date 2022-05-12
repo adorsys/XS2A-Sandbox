@@ -17,15 +17,17 @@
  */
 
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
-import { Observable, throwError as observableThrowError } from 'rxjs';
+import { EMPTY, Observable, throwError as observableThrowError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { fromPromise } from 'rxjs/internal-compatibility';
 import { Injectable } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { ERROR_MESSAGE } from '../commons/constant/constant';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService) {}
+
   private errorText = 'Invalid password for user';
   private authTokenStorageKey = 'access_token';
 
@@ -38,7 +40,13 @@ export class AuthInterceptor implements HttpInterceptor {
       }),
       catchError((errors) => {
         if (errors instanceof HttpErrorResponse) {
-          if (errors.status === 401 && this.authService.isLoggedIn() && !errors.error.message.match(this.errorText)) {
+          if (errors.status === 401 && this.authService.isLoggedIn() && !errors.error?.message.match(this.errorText)) {
+            if (errors.status === 401 && errors.statusText?.match('Unauthorized')) {
+              errors.error.message = 'You have been logged out due to inactivity.';
+              this.authService.logout();
+              sessionStorage.setItem(ERROR_MESSAGE, errors.error.message);
+              return EMPTY;
+            }
             this.authService.logout();
           }
         }

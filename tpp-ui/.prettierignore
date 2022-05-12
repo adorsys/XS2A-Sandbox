@@ -12,3 +12,4 @@ package-lock.json
 package.json
 yarn.lock
 src/app/components/cash-deposit/cash-deposit.component.spec.ts
+src/app/components/auth/login/login.component.spec.ts

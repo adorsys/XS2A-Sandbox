@@ -1,7 +1,10 @@
 <div>
-  <h2><mat-icon class="error-icon mb-2 mr-2" aria-hidden="false" aria-label="Warning icon">warning</mat-icon> {{ data.heading }}</h2>
+  <h2>
+    <mat-icon class="error-icon mb-2 mr-2" aria-hidden="false" aria-label="Warning icon">warning</mat-icon>
+    {{ data.heading }}
+  </h2>
 </div>
 <p>{{ data.description }}</p>
-<mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Okay</button>
+<mat-dialog-actions align="center">
+  <button mat-button [mat-dialog-close]="true">Okay</button>
 </mat-dialog-actions>

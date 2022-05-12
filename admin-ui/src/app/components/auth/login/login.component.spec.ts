@@ -26,11 +26,16 @@ import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { InfoService } from '../../../commons/info/info.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ERROR_MESSAGE } from '../../../commons/constant/constant';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let authService: AuthService;
+  let infoService: InfoService;
   let router: Router;
 
   beforeEach(
@@ -41,8 +46,13 @@ describe('LoginComponent', () => {
           RouterTestingModule,
           HttpClientModule,
           MatSnackBarModule,
+          BrowserAnimationsModule,
         ],
-        providers: [AuthService],
+        providers: [
+          AuthService,
+          InfoService,
+          { provide: MatDialog, useValue: {} },
+        ],
 
         declarations: [LoginComponent],
       }).compileComponents();
@@ -54,10 +64,11 @@ describe('LoginComponent', () => {
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
     authService = fixture.debugElement.injector.get(AuthService);
-
+    infoService = TestBed.inject(InfoService);
     fixture.detectChanges();
     component.ngOnInit();
   });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -100,7 +111,6 @@ describe('LoginComponent', () => {
   it('should login and go to the next page', () => {
     component.loginForm.get('login').setValue('foo');
     component.loginForm.get('pin').setValue('12345');
-
     const logSpy = spyOn(authService, 'login').and.returnValue(of(true));
     const navigateSpy = spyOn(router, 'navigate');
     component.onSubmit();
@@ -116,5 +126,22 @@ describe('LoginComponent', () => {
     );
     component.onSubmit();
     expect(logSpy).toHaveBeenCalled();
+  });
+
+  it('should show error when session-error is set', () => {
+    const errorMessage = 'Logout because of timeout';
+    sessionStorage.setItem(ERROR_MESSAGE, errorMessage);
+    const feedBackSpy = spyOn(infoService, 'openFeedback');
+    component.ngOnInit();
+    expect(feedBackSpy).toHaveBeenCalledWith(errorMessage, {
+      severity: 'error',
+    });
+  });
+
+  it('should show no error-message', () => {
+    sessionStorage.setItem(ERROR_MESSAGE, null);
+    const feedBackSpy = spyOn(infoService, 'openFeedback');
+    component.ngOnInit();
+    expect(feedBackSpy).toHaveBeenCalledTimes(0);
   });
 });

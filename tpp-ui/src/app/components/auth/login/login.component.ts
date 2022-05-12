@@ -18,11 +18,11 @@
 
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { AuthService } from '../../../services/auth.service';
 import { CustomizeService } from '../../../services/customize.service';
-import { ADMIN_KEY } from 'src/app/commons/constant/constant';
+import { ADMIN_KEY, ERROR_MESSAGE } from 'src/app/commons/constant/constant';
 import browser from 'browser-detect';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { InfoService } from '../../../commons/info/info.service';
@@ -44,6 +44,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
     private router: Router,
     public customizeService: CustomizeService,
     private _snackBar: MatSnackBar,
@@ -68,6 +69,8 @@ export class LoginComponent implements OnInit {
       login: ['', Validators.required],
       pin: ['', Validators.required],
     });
+
+    this.showErrorMessageIfLoggedOutByTimeout();
   }
 
   onSubmit() {
@@ -99,6 +102,17 @@ export class LoginComponent implements OnInit {
         }
       }
     );
+    this.showErrorMessageIfLoggedOutByTimeout();
+  }
+
+  private showErrorMessageIfLoggedOutByTimeout() {
+    const message = sessionStorage.getItem(ERROR_MESSAGE);
+    if (message != null && message != 'null') {
+      this.infoService.openFeedback(sessionStorage.getItem(ERROR_MESSAGE), {
+        severity: 'error',
+      });
+      sessionStorage.setItem(ERROR_MESSAGE, null);
+    }
   }
 
   navigateOnLogin() {

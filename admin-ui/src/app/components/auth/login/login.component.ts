@@ -28,6 +28,8 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { ERROR_MESSAGE } from '@commons/constant/constant';
+import { InfoService } from '@commons/info/info.service';
 
 @Component({
   selector: 'app-login',
@@ -46,7 +48,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     public customizeService: CustomizeService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private infoService: InfoService
   ) {}
 
   ngOnInit() {
@@ -71,6 +74,8 @@ export class LoginComponent implements OnInit {
       login: ['', Validators.required],
       pin: ['', Validators.required],
     });
+
+    this.showErrorMessageIfLoggedOutByTimeout();
   }
 
   onSubmit() {
@@ -95,5 +100,15 @@ export class LoginComponent implements OnInit {
 
   navigateOnLogin() {
     this.router.navigate(['/management']);
+  }
+
+  private showErrorMessageIfLoggedOutByTimeout() {
+    const message = sessionStorage.getItem(ERROR_MESSAGE);
+    if (message != null && message != 'null') {
+      this.infoService.openFeedback(sessionStorage.getItem(ERROR_MESSAGE), {
+        severity: 'error',
+      });
+      sessionStorage.setItem(ERROR_MESSAGE, null);
+    }
   }
 }

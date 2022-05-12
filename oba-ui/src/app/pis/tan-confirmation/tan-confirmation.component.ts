@@ -129,7 +129,7 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
             this.tanForm.disable();
 
             this.dialog.open(ErrorDialogComponent, {
-              height: '200px',
+              height: '300px',
               width: '350px',
               data: {
                 heading: 'Wrong Tan',
