@@ -56,7 +56,7 @@ export class CashDepositComponent implements OnInit {
     }
 
     this.accountService.depositCash(this.accountId, this.cashDepositForm.getRawValue()).subscribe(
-      () => this.router.navigate(['/accounts']),
+      () => this.router.navigate(['/accounts/' + this.accountId]),
       (error) => {
         if (typeof error.error === 'object') {
           this.errorMessage = error.error.status + ' ' + error.error.error + ': ' + error.error.message;

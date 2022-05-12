@@ -19,8 +19,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Router, ActivatedRoute, convertToParamMap } from '@angular/router';
 import { of, throwError } from 'rxjs';
 
 import { AccountService } from '../../services/account.service';
@@ -32,16 +31,26 @@ describe('CashDepositComponent', () => {
   let accountService: AccountService;
   let router: Router;
   let activate: ActivatedRoute;
+
+  const mockRouter = {
+    navigate: (url: string) => {
+      console.log('mocknavigation', url);
+    },
+  };
+  const mockActivatedRoute = {
+    snapshot: { paramMap: convertToParamMap({ id: '12345' }) },
+    params: of({ id: '12345' }),
+  };
+
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          RouterTestingModule,
-          HttpClientTestingModule,
-          RouterTestingModule.withRoutes([]),
+        imports: [ReactiveFormsModule, HttpClientTestingModule],
+        providers: [
+          AccountService,
+          { provide: Router, useValue: mockRouter },
+          { provide: ActivatedRoute, useValue: mockActivatedRoute },
         ],
-        providers: [AccountService],
         declarations: [CashDepositComponent],
       }).compileComponents();
     })
@@ -98,7 +107,7 @@ describe('CashDepositComponent', () => {
     expect(component.submitted).toBeTruthy();
     expect(component.cashDepositForm.valid).toBeTruthy();
     expect(depositCashSpy).toHaveBeenCalled();
-    expect(navigateSpy).toHaveBeenCalledWith(['/accounts']);
+    expect(navigateSpy).toHaveBeenCalledWith(['/accounts/12345']);
   });
 
   it('should throw error onSubmit', () => {

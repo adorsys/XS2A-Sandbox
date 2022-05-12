@@ -83,12 +83,13 @@
         <div class="col-12 col-md-9 text-muted">{{ balance?.creditLeft }}</div>
       </div>
 
-      <button class="btn btn-primary mt-2" (click)="goToAccountDetail()">Access management</button>
-      <button class="btn btn-primary ml-3 mt-2" (click)="openSetCreditLimitConfirmation(setCreditLimitModal)">Set Credit Limit</button>
-      <button class="btn btn-primary ml-3 mt-2" [disabled]="isAccountDeleted" (click)="goToDepositCash()">Deposit cash</button>
-      <button class="btn btn-outline-danger ml-3 mt-2" (click)="openDeleteConfirmation(deleteConfirmationModal)">
+      <button class="btn btn-primary mt-2 mr-2" (click)="goToAccountDetail()">Access management</button>
+      <button class="btn btn-primary mt-2 mr-2" (click)="openSetCreditLimitConfirmation(setCreditLimitModal)">Set Credit Limit</button>
+      <button class="btn btn-primary mr-2 mt-2" [disabled]="isAccountDeleted" (click)="goToDepositCash()">Deposit cash</button>
+      <button class="btn btn-outline-danger mt-2 mr-2" (click)="openDeleteConfirmation(deleteConfirmationModal)">
         Delete transactions
       </button>
+      <button class="btn btn-outline-danger mt-2" (click)="openDeleteAccount(deleteAccountConfirmationModal)">Delete Account</button>
     </div>
   </div>
 </div>
@@ -129,5 +130,19 @@
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
     <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Set Credit Limit</button>
+  </div>
+</ng-template>
+
+<ng-template #deleteAccountConfirmationModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Delete Account</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">Are you sure you want to delete this Account with IBAN: {{ account.iban }}?</div>
+  <div class="modal-footer">
+    <button mat-raised-button type="button" class="btn btn-outline-secondary mr-2" (click)="modal.dismiss('cancel click')">Cancel</button>
+    <button mat-raised-button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Delete</button>
   </div>
 </ng-template>

@@ -122,16 +122,16 @@ export class UserDetailsComponent implements OnInit {
     return `/profile/${tppId}`;
   }
 
-  openDeleteAccount(content) {
+  openDeleteUser(content) {
     this.modalService.open(content).result.then(() => {
-      this.deleteAccount();
+      this.deleteUser();
     });
   }
 
-  deleteAccount() {
-    this.accountService.deleteAccount(this.user.id).subscribe(
+  deleteUser() {
+    this.userService.deleteUser(this.user.id).subscribe(
       () => {
-        this.infoService.openFeedback('Account was successfully deleted!', {
+        this.infoService.openFeedback('User was successfully deleted!', {
           severity: 'info',
         });
         this.router.navigate(['/users/all']);

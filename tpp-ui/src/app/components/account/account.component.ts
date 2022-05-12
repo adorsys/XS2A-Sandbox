@@ -142,4 +142,24 @@ export class AccountComponent implements OnInit {
   private setCreditLimit() {
     this.accountService.setCreditLimit(this.account.id, this.account.creditLimit).subscribe(() => this.getAccountReport());
   }
+
+  openDeleteAccount(content) {
+    this.modalService.open(content).result.then(() => {
+      this.deleteAccount();
+    });
+  }
+
+  deleteAccount() {
+    this.accountService.deleteAccount(this.account.id).subscribe(
+      () => {
+        this.infoService.openFeedback('Account was successfully deleted!', {
+          severity: 'info',
+        });
+        this.router.navigate(['/accounts']);
+      },
+      () => {
+        this.infoService.openFeedback('Sorry, something went wrong Account cannot be deleted.');
+      }
+    );
+  }
 }
