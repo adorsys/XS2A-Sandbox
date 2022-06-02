@@ -265,3 +265,11 @@
   overflow: hidden;
   transition: max-height 0.3s ease-out;
 }
+
+button,
+a.redirect-btn,
+.btn,
+.btn-light {
+  background: white !important;
+  color: black;
+}

@@ -52,6 +52,7 @@ import { UrlLoadService } from './services/url-load.service';
 import { UrlService } from './services/url.service';
 import { SanitizeHtmlPipe } from './pipes/sanitize-html.pipe';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { _MatMenuDirectivesModule, MatMenuModule } from '@angular/material/menu';
 
 export function app_Init(settingsHttpService: SettingsHttpService) {
   return () => settingsHttpService.initializeApp();
@@ -101,6 +102,8 @@ export function url_Init(urlLoadService: UrlLoadService) {
       sanitize: SecurityContext.NONE,
     }),
     MatSnackBarModule,
+    _MatMenuDirectivesModule,
+    MatMenuModule,
   ],
   exports: [],
   providers: [

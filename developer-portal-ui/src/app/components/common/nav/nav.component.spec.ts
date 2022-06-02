@@ -29,6 +29,7 @@ import { DataService } from '../../../services/data.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { of } from 'rxjs';
 import { CustomizeService } from '../../../services/customize.service';
+import { MatMenuModule } from '@angular/material/menu';
 
 describe('NavComponent', () => {
   let component: NavComponent;
@@ -123,6 +124,7 @@ describe('NavComponent', () => {
         imports: [
           RouterTestingModule,
           HttpClientTestingModule,
+          MatMenuModule,
           TranslateModule.forRoot({
             loader: {
               provide: TranslateLoader,

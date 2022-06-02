@@ -32,7 +32,7 @@
 
     <div class="nav">
       <div class="nav-content">
-        <div id="navLinks">
+        <div id="navLinks" class="pr-5">
           <a
             *ngFor="let navItem of navigation"
             class="header-item"
@@ -44,6 +44,13 @@
             {{ navItem.navName }}
           </a>
         </div>
+
+        <button mat-button class="m-3 p-1" [matMenuTriggerFor]="menu">UI Links</button>
+        <mat-menu #menu="matMenu">
+          <a href="#" target="_blank" id="onlineBankingUI2" mat-menu-item>Online Banking UI</a>
+          <a href="#" target="_blank" id="TPPUserInterface2" mat-menu-item>TPP UI</a>
+          <a href="#" target="_blank" id="AdminUserInterface2" mat-menu-item>Admin UI</a>
+        </mat-menu>
 
         <a href="javascript:void(0);" class="icon-dropdown" id="dropDownIcon" (click)="toggleDropdown()">&#9776;</a>
       </div>

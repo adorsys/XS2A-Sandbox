@@ -13,6 +13,9 @@ module.exports = function (config) {
       require('@angular-devkit/build-angular/plugins/karma'),
     ],
     client: {
+      jasmine: {
+        random: false,
+      },
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
     },
     coverageIstanbulReporter: {
@@ -25,7 +28,6 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
     customLaunchers: {
       ChromeCi: {
         base: 'ChromeHeadless',

@@ -39,6 +39,7 @@ export class NavComponent implements OnInit {
   navBarSettings: NavigationSettings;
   @Input() supportedLanguagesDictionary;
   @Input() navigation;
+  menu: any;
 
   constructor(
     private languageService: LanguageService,
