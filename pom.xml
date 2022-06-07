@@ -101,8 +101,8 @@
         <java.version>11</java.version>
         <pmd.plugin.version>3.13.0</pmd.plugin.version>
         <!-- xs2a version -->
-        <xs2a.version>12.3</xs2a.version>
-        <connector.version>12.3</connector.version>
+        <xs2a.version>12.6</xs2a.version>
+        <connector.version>12.6</connector.version>
         <ledgers.version>4.17</ledgers.version>
         <!-- other properties -->
         <spring-boot-dependencies.version>2.3.1.RELEASE</spring-boot-dependencies.version>
@@ -175,6 +175,37 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
+        <repository>
+            <id>gitlab-ledgers</id>
+            <url>https://git.adorsys.de/api/v4/projects/1500/packages/maven</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+		<repository>
+			<id>gitlab-xs2a-impl</id>
+			<url>https://git.adorsys.de/api/v4/projects/1323/packages/maven</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>gitlab-xs2a-connector</id>
+			<url>https://git.adorsys.de/api/v4/projects/1585/packages/maven</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+
     </repositories>
 
     <dependencyManagement>

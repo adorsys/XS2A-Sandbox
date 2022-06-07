@@ -96,7 +96,7 @@ lint-online-banking:
 
 lint-docker-compose:
 	docker-compose -f docker-compose.yml config  -q
-	mvn validate
+	mvn -ntp --settings scripts/mvn-release-settings.xml validate
 	yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" bank-profile/*.yml
 
 lint-pmd-cpd-report:
