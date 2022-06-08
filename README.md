@@ -4,6 +4,27 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=adorsys_XS2A-Sandbox&metric=alert_status)](https://sonarcloud.io/dashboard?id=adorsys_XS2A-Sandbox)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=adorsys_XS2A-Sandbox&metric=coverage)](https://sonarcloud.io/dashboard?id=adorsys_XS2A-Sandbox)
 
+## Changes in ModelBank release policy
+
+For the time being, version 5.14 will be the current try-out version of ModelBank that adorsys publishes on GitHub.
+With XS2A standards and our solutions having grown to maturity in production, our continuous investment in development
+and maintenance of our XS2A solutions forces us to focus on our commercial engagements.
+We are committed to continuous active development of our XS2A solutions to ensure constant adherence to the latest Berlin Group
+specifications and to support OpenFinance initiatives.
+Existing published versions will remain available under their respective open-source licenses.
+If you are a user of our XS2A solutions and would like to either start or extend cooperation with us, we would be glad
+to provide you with the latest versions of ModelBank and support you in its implementation.
+For that or any other inquiries please contact us under psd2@adorsys.com.
+
+**Note that our commercial release of ModelBank has the following improvements:**
+
+| Module                           | ModelBank commercial version features                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| TPP-UI, Admin-UI                 | <ul><li> **1.** Refactored TPP-UI and TPP backend application (admin functionality was moved to new modules), updated documentation on Developer Portal.<li> **2.** Added new modules:<ul><li>`admin-app` - backend module for Admin UI <li>`admin-ui` - frontend component for managing administrators, TPPs and users<li>`cms-connector` - common functionality for `admin-app` and `tpp-app` for accessing CMS DB</li></ul></ul>The above changes by separating TPP-UI and Admin-UI were made in architecture to improve the security of ModelBank. |
+| Ledgers                          | <ul><li>**3.** Ledgers updates:<ul><li>added logs during startup <li>renamed `EMAIL` SCA method to `SMTP_OTP` <li> added ability to create payments without `endToEndIdentification` <li> added new fields to payments and transactions data models</ul>                                                                                                                                                                                                                                                                                               |
+| Online Banking App (OBA), TPP-UI | <ul><li>**4.** New features: <ul><li> payment initiation without IBAN with further IBAN selection via Online Banking App <li>support of PIIS ASPSP consent in TPP-UI and Online Banking App</ul></ul>                                                                                                                                                                                                                                                                                                                                                  |
+| Misc.                            | <ul><li>**5.** Numerous UI improvements and bug fixes across all applications. </ul>                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+
 ## Licensing model change to dual license: AGPL v.3 or commercial license
 
 **Attention: This open-source project will change its licensing model as of 01.01.2022!**
@@ -67,10 +88,6 @@ In general ModelBank Team follows [SemVer](https://semver.org/) for versioning. 
 -   B - is the minor version, pointing out the next release in the mainline.
 
 -   C - is the hotfix version, used to deliver patches between releases when needed. If omitted, version 4.5 will be considered equal to 4.5.0.
-
-We support one release version at the moment.
-
-New version is released on a regular basis every 3 to 6 months.
 
 ## Development and contributing
 
@@ -157,11 +174,11 @@ under their existing license.
 **What open-source products from Adorsys are affected by the licensing change?**
 The following products are affected:
 
-- XS2A Core,
-- XS2A Sandbox and ModelBank,
-- Open Banking Gateway incl. XS2A Adapters,
-- SmartAnalytics,
-- Datasafe.
+-   XS2A Core,
+-   XS2A Sandbox and ModelBank,
+-   Open Banking Gateway incl. XS2A Adapters,
+-   SmartAnalytics,
+-   Datasafe.
 
 **I’m using one of these products indirectly via some software integrator. How does the licensing
 change affect me?**
