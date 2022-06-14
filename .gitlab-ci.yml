@@ -610,6 +610,18 @@ change_dependepcies_versions_support6x:
    - XS2A_VERSION=$(cat $CI_PROJECT_DIR/pom.xml | grep "<xs2a.version>" | awk -F"[<>]" '//{print $3}')
    - CONNECTOR_VERSION=$(cat $CI_PROJECT_DIR/pom.xml | grep "<connector.version>" | awk -F"[<>]" '//{print $3}')
    - LEDGERS_VERSION=$(cat $CI_PROJECT_DIR/pom.xml | grep "<ledgers.version>" | awk -F"[<>]" '//{print $3}')
+   - >
+     if [[ "$XS2A_VERSION" =~ "\d{1,2}\.\d{1,2}-SNAPSHOT" ]]; then 
+     XS2A_VERSION=develop;
+     fi
+   - >
+     if [[ "$CONNECTOR_VERSION" =~ "\d{1,2}\.\d{1,2}-SNAPSHOT" ]]; then 
+     CONNECTOR_VERSION=develop;
+     fi
+   - >
+     if [[ "$LEDGERS_VERSION" =~ "\d{1,2}\.\d{1,2}-SNAPSHOT" ]]; then 
+     LEDGERS_VERSION=develop;
+     fi
    - |
      sed -i "s/tag: .*$/tag: \"$XS2A_VERSION\"/" env/adorsys-modelbank-support6x/certificate-generator/env.yaml
      sed -i "s/tag: .*$/tag: \"$LEDGERS_VERSION\"/" env/adorsys-modelbank-support6x/keycloak/env.yaml
