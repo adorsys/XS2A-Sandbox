@@ -4,21 +4,23 @@ On this page release notes for each version released are published.
 
 For upcoming versions see our xref:roadmap.adoc[Roadmap].
 
-=== Mainline 7.x (Development. Planned to be released xx.xx.2022 as 8.0 Stable version)
+=== Mainline 7.x (Development)
 
+* xref:release_notes/Release_notes_7.4.md[Version 7.4 (release date: xx.xx.2022)]
 * xref:release_notes/Release_notes_7.3.md[Version 7.3 (release date: 07.06.2022)]
 * xref:release_notes/Release_notes_7.2.md[Version 7.2 (release date: 22.03.2022)]
 * xref:release_notes/Release_notes_7.1.md[Version 7.1 (release date: 20.12.2021)]
 * xref:release_notes/Release_notes_7.0.md[Version 7.0 (release date: 21.10.2021)]
 
-=== Mainline 6.x (Stable. Supported minimum till xx.xx.2022)
+=== Mainline 6.x (Stable)
 
+* xref:release_notes/Release_notes_6.4.md[Version 6.4 (release date: xx.xx.2022)]
 * xref:release_notes/Release_notes_6.3.md[Version 6.3 (release date: 15.06.2022)]
 * xref:release_notes/Release_notes_6.2.md[Version 6.2 (release date: 22.03.2022)]
 * xref:release_notes/Release_notes_6.1.md[Version 6.1 (release date: 20.12.2021)]
 * xref:release_notes/Release_notes_6.0.md[Version 6.0 (release date: 21.10.2021)]
 
-=== Mainline 5.x (Stable. Supported till xx.xx.xxxx)
+=== Mainline 5.x (Stable)
 
 * xref:release_notes/Release_notes_5.14.md[Version 5.14 (release date: 01.07.2021)]
 * xref:release_notes/Release_notes_5.13.md[Version 5.13 (release date: 18.06.2021)]
@@ -37,7 +39,7 @@ For upcoming versions see our xref:roadmap.adoc[Roadmap].
 * xref:release_notes/Release_notes_5.1.md[Version 5.1 (release date: 03.12.2020)]
 * xref:release_notes/Release_notes_5.0.md[Version 5.0 (release date: 04.11.2020)]
 
-=== Mainline 4.x(Stable. Supported till xx.xx.xxxx)
+=== Mainline 4.x(Stable)
 
 * xref:release_notes/Release_notes_4.11.md[Version 4.11 (release date: 04.06.2021)]
 * xref:release_notes/Release_notes_4.10.md[Version 4.10 (release date: 20.05.2021)]
