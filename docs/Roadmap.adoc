@@ -29,19 +29,31 @@ a| * Updated and fixed documentation
 a| * Updated and fixed documentation
 * Payment initiation without debtor IBAN with further IBAN selection via Online Banking App
 * Support of PIIS ASPSP consent management in TPP-UI and Online Banking App
+| 15.06.2022    | 6.3   |
+a| * Ability to upload a file with Users/Accounts/Balances/Payments
+* Fixing Code formatting issues for OBA-UI, TPP-UI, and Admin-UI
+* Added a quick access toolbar (UI links) in the Developer portal
+* TPP-UI: delete user button, delete account and delete transactions buttons are optimised
+* TPP-UI: completing "Deposit cash" action sends back to "Account details"
+* TPP-UI: added button "Create account" in the "User details" screen
+* OBA UI: Change cancel button action at three times wrong tan
+* Error message is changed for expired login session in all applications
+* UI tests update
 
-| Further development | |
+| 07.06.2022          |         | 7.3
+a| * Keycloak version update and Ledgers (4.19) plugin adaptation
+* Ability to upload a file with Users/Accounts/Balances/Payments
+* Fixing Code formatting issues for OBA-UI, TPP-UI, and Admin-UI
+* Added a quick access toolbar (UI links) in the Developer portal
+* TPP-UI: delete user button, delete account and delete transactions buttons are optimised
+* TPP-UI: completing "Deposit cash" action sends back to "Account details"
+* TPP-UI: added button "Create account" in the "User details" screen
+* OBA UI: Change cancel button action at three times wrong tan
+* Error message is changed for expired login session in all applications
+* UI tests update
 
-* The field fundsAvailable should be supported in the response for Payment Initiation Status Request
-* Support of PIIS consent in TPP-UI (Frontend)
-* The field fundsAvailable should be supported in the response for Payment Initiation Status Request
-* Support List of Trusted Beneficiaries in Ledgers
-* Developer Portal. Add explanation for date transfers
-* Developer Portal. Enlarge FAQs section
-* Developer Portal. Update product history
-* Developer Portal. Add explanation for date transfers
-* Developer Portal. Add different types of body for authorisation in Embedded SCA
-* SFTI ModelBank
-* Signing Basket emulation.
-* Single Card Account.
+| Further development |         |
+a| * Developer Portal. UX improvement in navigation, menu refactoring
+* Ledgers' email settings should be synchronised with Keycloak
+* The field fundsAvailable should be supported in the response to Payment Initiation Status Request
 |====
