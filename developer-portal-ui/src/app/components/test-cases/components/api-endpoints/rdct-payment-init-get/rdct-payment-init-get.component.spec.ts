@@ -18,17 +18,24 @@
 
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { TestingFlowsComponent } from './testing-flows.component';
-import { Pipe, PipeTransform } from '@angular/core';
-import { MarkdownModule } from 'ngx-markdown';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-import { HttpLoaderFactory, LanguageService } from '../../../../services/language.service';
-import { HttpClient } from '@angular/common/http';
+import { RdctPaymentInitGetComponent } from './rdct-payment-init-get.component';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { LineCommandComponent } from '../../../../common/line-command/line-command.component';
 
-describe('TestingFlowsComponent', () => {
-  let component: TestingFlowsComponent;
-  let fixture: ComponentFixture<TestingFlowsComponent>;
+describe('RdctPaymentInitGetComponent', () => {
+  let component: RdctPaymentInitGetComponent;
+  let fixture: ComponentFixture<RdctPaymentInitGetComponent>;
+
+  @Component({
+    selector: 'app-play-wth-data',
+    template: '',
+  })
+  class MockPlayWithDataComponent {
+    @Input() headers: object;
+    @Input() paymentServiceFlag: boolean;
+    @Input() paymentProductFlag: boolean;
+    @Input() paymentIdFlag: boolean;
+  }
 
   @Pipe({ name: 'translate' })
   class TranslatePipe implements PipeTransform {
@@ -41,30 +48,31 @@ describe('TestingFlowsComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [
-          MarkdownModule.forRoot(),
-          HttpClientTestingModule,
-          TranslateModule.forRoot({
-            loader: {
-              provide: TranslateLoader,
-              useFactory: HttpLoaderFactory,
-              deps: [HttpClient],
-            },
-          }),
-        ],
-        providers: [LanguageService, TranslateService],
-        declarations: [TestingFlowsComponent, TranslatePipe],
+        declarations: [RdctPaymentInitGetComponent, MockPlayWithDataComponent, TranslatePipe, LineCommandComponent],
       }).compileComponents();
     })
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TestingFlowsComponent);
+    fixture = TestBed.createComponent(RdctPaymentInitGetComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should change segment', () => {
+    expect(component.activeSegment).toBe('documentation');
+
+    component.changeSegment('play-data');
+    expect(component.activeSegment).toBe('play-data');
+
+    component.changeSegment('documentation');
+    expect(component.activeSegment).toBe('documentation');
+
+    component.changeSegment('wrong-segment');
+    expect(component.activeSegment).not.toBe('wrong-segment');
   });
 });

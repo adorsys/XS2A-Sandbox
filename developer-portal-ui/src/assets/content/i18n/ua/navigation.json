@@ -12,7 +12,7 @@
     },
     {
       "navName": "Сценарії для тестування",
-      "route": "test-cases/redirect",
+      "route": "test-cases",
       "type": "default"
     },
     {

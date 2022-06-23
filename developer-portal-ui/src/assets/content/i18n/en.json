@@ -68,31 +68,67 @@
   },
   "TEST_CASES": {
     "INTRODUCTION": {
-      "TITLE": "INTRODUCTION",
-      "REDIRECT": "Redirect approach",
-      "EMBEDDED": "Embedded approach",
+      "EXP_TEST_CASES": "Explanation of the test cases",
+      "REDIRECT": "Overview of the redirect approach ",
+      "EMBEDDED": "Overview of the embedded approach",
       "TESTING": "Testing flows",
-      "MENU": {
-        "LI_1": "Swagger testing",
-        "SUBMENU": {
-          "LI_0": "Predefined test values for all tests (TAN and PIN)",
-          "LI_1": "Redirect:",
-          "LIST_1": {
-            "LI_1": "Payment Flow",
-            "LI_2": "Payment Cancellation Flow",
-            "LI_3": "Consent Initiation Flow"
-          },
-          "LI_2": "Embedded:",
-          "LI_3": "Account Information:",
-          "LIST_2": {
-            "LI_1": "Read Account List",
-            "LI_2": "Read Account Details",
-            "LI_3": "Read Balance",
-            "LI_4": "Read List of Transactions",
-            "LI_5": "Read Transaction Details"
-          }
+      "TEST_VALUES": "Testing values",
+      "POSTMAN_TESTING": "Postman testing"
+    },
+    "SIDE_NAV": {
+      "PAYMENT": {
+        "PAYMENT_INITATION": "Payment initiation",
+        "REDIRECT": {
+          "REDIRECT_SCA": "Redirect SCA",
+          "INITIATE_PAYMENT": "Initiate Payment",
+          "GET_PAYMENT_STATUS": "Get Payment Status",
+          "GET_PAYMENT_INFORMATION": "Get Payment Information",
+          "DELETE_PAYMENT_DATA": "Delete Payment Data"
         },
-        "LI_2": "Postman testing"
+        "EMBEDDED": {
+          "EMBEDDED_SCA": "Embedded SCA",
+          "INITIATE_PAYMENT": "Initiate Payment",
+          "START_AUTHORISATION_PROCESS": "Start Authorisation Process",
+          "UPDATE_PSU_DATA_WITH_PASSWORD": "Update PSU data with password ",
+          "UPDATE_PSU_WITH_TAN": "Update PSU with TAN",
+          "GET_PAYMENT_STATUS": "Get Payment Status",
+          "GET_PAYMENT_INFORMATION": "Get Payment Information"
+        },
+        "CANCELLATION": {
+          "PAYMENT_CANCELLATION_IN_EMBEDDED_SCA": "Payment cancellation in Embedded SCA",
+          "INITIATE_PAYMENT_CANCELLATION": "Initiate Payment cancellation",
+          "START_CANCELLATION_AUTHORISATION": "Start cancellation authorisation",
+          "UPDATE_PSU_DATA_WITH_PASSWORD": "Update PSU data with password ",
+          "UPDATE_PSU_WITH_TAN": "Update PSU with TAN",
+          "PAYMENT_CANCELLATION_STATUS": "Get Payment status"
+        }
+      },
+      "CONSENT": {
+        "CONSENT_INITIATION": "Consent initiation",
+        "REDIRECT": {
+          "REDIRECT_SCA": "Redirect SCA",
+          "CREATE_CONSENT": "Create consent"
+        },
+        "EMBEDDED": {
+          "EMBEDDED_SCA": "Embedded SCA",
+          "CREATE_CONSENT": "Create consent",
+          "START_AUTHORISATION_PROCESS": "Start Authorisation Process",
+          "UPDATE_PSU_DATA_WITH_PASSWORD": "Update PSU data with password ",
+          "UPDATE_PSU_WITH_TAN": "Update PSU with TAN",
+          "READ_CONSENT_INFORMATION": "Read consent information"
+        }
+      },
+      "ACCOUNT": {
+        "ACCOUNT_INFORMATION": "Account information",
+        "READ_ACCOUNT_LIST": "Read Account List",
+        "READ_ACCOUNT_DETAILS": "Read Account Details",
+        "READ_BALANCE": "Read Balance",
+        "READ_LIST_OF_TRANSACTION": "Read List of Transaction",
+        "READ_TRANSACTION_DETAILS": "Read Transaction Details"
+      },
+      "FUNDS": {
+        "FUNDS_CONFIRMATION": "Funds confirmation",
+        "CONFIRMATION_OF_FUNDS_REQUEST": "Confirmation of funds request"
       }
     },
     "COMPONENTS": {
@@ -260,7 +296,8 @@
         "PART_48": "SCA method was chosen, so generated TAN",
         "PART_49": " was sent to the\n user mail (mobile authorisation is not possible for now), and now you need to enter this data and execute PUT command.",
         "PART_50": "The response should be",
-        "PART_51": " and"
+        "PART_51": " and",
+        "PART_52": " the TAN of\n the user you get."
       },
       "EMB_IN_GET": {
         "PART_1": "1. Try GET endpoint",
@@ -437,7 +474,8 @@
         "PART_47": "SCA method was chosen, so generated TAN",
         "PART_48": "was sent to the user mail (mobile authorisation is not possible for now), and now you need to enter this data and execute\n PUT command.",
         "PART_49": "The response should be",
-        "PART_50": "and"
+        "PART_50": "and",
+        "PART_51": " the TAN from\n the user you get."
       },
       "EMB_CONS_GET": {
         "PART_1": "1. Try GET endpoint",

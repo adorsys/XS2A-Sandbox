@@ -44,6 +44,7 @@ export class JsonService {
     availableAccountsConsentWithBalance: 'availableAccountsConsentWithBalance',
     consent: 'consent',
     psuData: 'psuData',
+    psuDataTan: 'psuDataTan',
     scaAuthenticationData: 'scaAuthenticationData',
     authenticationMethodId: 'authenticationMethodId',
     fundsConfirmation: 'funds-confirmation',

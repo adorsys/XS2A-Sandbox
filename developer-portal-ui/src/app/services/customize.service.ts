@@ -166,7 +166,6 @@ export class CustomizeService {
     const defaultLanguages = {
       en: `${this._defaultContentFolderPath}${this.languagesFolder}/en/united-kingdom.png`,
       de: `${this._defaultContentFolderPath}${this.languagesFolder}/de/germany.png`,
-      es: `${this._defaultContentFolderPath}${this.languagesFolder}/es/spain.png`,
       ua: `${this._defaultContentFolderPath}${this.languagesFolder}/ua/ukraine.png`,
     };
 

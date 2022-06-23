@@ -53,6 +53,10 @@ import { UrlService } from './services/url.service';
 import { SanitizeHtmlPipe } from './pipes/sanitize-html.pipe';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { _MatMenuDirectivesModule, MatMenuModule } from '@angular/material/menu';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 export function app_Init(settingsHttpService: SettingsHttpService) {
   return () => settingsHttpService.initializeApp();
@@ -104,6 +108,10 @@ export function url_Init(urlLoadService: UrlLoadService) {
     MatSnackBarModule,
     _MatMenuDirectivesModule,
     MatMenuModule,
+    MatSidenavModule,
+    MatListModule,
+    MatIconModule,
+    MatToolbarModule,
   ],
   exports: [],
   providers: [

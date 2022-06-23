@@ -49,7 +49,7 @@
       "environmentLink": "http://localhost:4206/getting-started"
     },
     "testCase": {
-      "environmentLink": "http://localhost:4206/test-cases/redirect"
+      "environmentLink": "http://localhost:4206/test-cases"
     },
     "faq": {
       "environmentLink": "http://localhost:4206/page/faq"

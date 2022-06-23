@@ -35,97 +35,8 @@
   font-weight: normal;
   .left-section {
     background-color: var(--testCasesLeftSectionBG);
-    width: 25vw;
-    .introduction {
-      display: flex;
-      flex-direction: column;
-      border-bottom: 1px solid #eeeeee;
-      padding: 2vw;
-      p {
-        color: #000;
-      }
-      span {
-        margin-bottom: 1vw;
-        cursor: pointer;
-        color: var(--testCasesAnchorFontColor);
-        outline: none;
-        &:hover {
-          color: var(--testCasesAnchorFontColorHover);
-          background-color: var(--anchorBGcolorHover);
-        }
-      }
-    }
-    .xs-bank {
-      display: flex;
-      flex-direction: column;
-      //border-bottom: 1px solid #EEEEEE;
-      padding: 2vw;
-      .clickable-item {
-        outline: none;
-        color: var(--testCasesAnchorFontColor);
-        &:hover {
-          color: var(--testCasesAnchorFontColorHover);
-          cursor: pointer;
-          background-color: var(--anchorBGcolorHover);
-        }
-      }
-      p {
-        color: #000;
-      }
-      span {
-        color: #484848;
-        outline: none;
-      }
-      ul {
-        margin-top: 0;
-        margin-bottom: 1vw;
-        color: #484848;
-        outline: none;
-        text-decoration: none;
-        list-style: none;
-        padding: 0;
-        li {
-          margin: 1vw 1vw 1vw 0;
-          ul {
-            padding-left: 1.5vw;
-            li {
-              margin: 0.5vw;
-
-              .minus {
-                margin-left: 0.26vw;
-              }
-
-              ul {
-                li {
-                  margin: 0.4vw;
-                  text-overflow: ellipsis;
-                  overflow: hidden;
-                  ul {
-                    li::before {
-                      content: '•';
-                      text-align: center;
-                      align-items: center;
-                    }
-                    .post::before {
-                      color: #4acb91;
-                    }
-                    .get::before {
-                      color: #007db8;
-                    }
-                    .put::before {
-                      color: #ffa93f;
-                    }
-                    .delete::before {
-                      color: #b22f3f;
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+    width: 30%;
+    min-height: (100vh - 32vh);
   }
 
   .right-section {
@@ -133,20 +44,12 @@
     background-color: var(--testCasesRightSectionBG);
   }
 }
-.example-action-buttons {
-  padding-bottom: 20px;
-}
 
-.example-headers-align .mat-expansion-panel-header-title,
-.example-headers-align .mat-expansion-panel-header-description {
-  flex-basis: 0;
-}
-
-.example-headers-align .mat-expansion-panel-header-description {
-  justify-content: space-between;
-  align-items: center;
-}
-
-.example-headers-align .mat-form-field + .mat-form-field {
-  margin-left: 8px;
+.section-header {
+  background: #d2f4ea;
+  padding-left: 2vw;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-weight: 900;
+  color: var(--colorPrimary);
 }

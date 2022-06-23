@@ -1,4 +1,4 @@
-# Testfälle
+# Erläuterung der Testabläufe
 
 Nachdem das System die Testdaten geladen hat, können Sie die ModelBank Endpunkte mit Swagger oder den Postman Tests testen. Der Abschnitt „Swagger testing“ beinhaltet eine API Dokumentation und Erklärungen bezüglich der Swagger Nutzung, das Vorbereiten von Testdaten (Jsons).
 

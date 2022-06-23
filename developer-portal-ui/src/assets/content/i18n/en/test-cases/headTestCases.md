@@ -1,4 +1,4 @@
-# Test cases
+# Explanation of the Test cases
 
 After loading test data into the system, TPP developer can test ModelBank endpoints with Swagger or Postman tests. In Swagger section you can find information about usage of Swagger, prepared test data (JSONs) for testing and short API documentation.
 

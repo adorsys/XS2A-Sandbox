@@ -39,6 +39,8 @@
   <div class="endpoint-main-content">
     <!-- Documentation -->
     <div class="endpoint-documentation" *ngIf="activeSegment === 'documentation'; else play_with_data">
+      <h1>{{ 'TEST_CASES.SIDE_NAV.PAYMENT.EMBEDDED.GET_PAYMENT_INFORMATION' | translate }}</h1>
+      <br />
       <p>
         {{ 'TEST_CASES.COMPONENTS.EMB_IN_GET.PART_1' | translate }}
         <app-line-command title="/v1/{payment-service}/{payment-product}/{paymentId}"></app-line-command>

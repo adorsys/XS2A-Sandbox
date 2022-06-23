@@ -1,4 +1,4 @@
-# Übersicht REDIRECT Ansatz:
+# Übersicht redirect Ansatz
 
 - Der gesamte SCA-Prozess mit zwei verschiedenen Faktoren (z.B. Benutzername/Passwort als Nachweis der Übereinstimmung und ein Einmalpasswort (TAN) als Nachweis des Eigentümers) wird von der ASPSP bereitgestellt und direkt zwischen PSU und ASPSP durchgeführt.
 - Hierfür muss der PSU vom PISP zum ASPSP umgeleitet werden.

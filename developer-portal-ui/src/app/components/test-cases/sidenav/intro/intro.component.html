@@ -1,0 +1,25 @@
+<div class="introduction">
+  <span routerLink="/test-cases/testing-flows" routerLinkActive="is-active">
+    {{ 'TEST_CASES.INTRODUCTION.TESTING' | translate }}
+  </span>
+
+  <span routerLink="/test-cases/description-testcase" routerLinkActive="is-active">
+    {{ 'TEST_CASES.INTRODUCTION.EXP_TEST_CASES' | translate }}
+  </span>
+
+  <span routerLink="/test-cases/redirect" routerLinkActive="is-active" *ngIf="redirectSupported">
+    {{ 'TEST_CASES.INTRODUCTION.REDIRECT' | translate }}
+  </span>
+
+  <span routerLink="/test-cases/embedded" routerLinkActive="is-active" *ngIf="embeddedSupported">
+    {{ 'TEST_CASES.INTRODUCTION.EMBEDDED' | translate }}
+  </span>
+
+  <span routerLink="/test-cases/test-values" routerLinkActive="is-active">
+    {{ 'TEST_CASES.INTRODUCTION.TEST_VALUES' | translate }}
+  </span>
+
+  <span routerLinkActive="is-active" routerLink="/test-cases/postman-testing">
+    {{ 'TEST_CASES.INTRODUCTION.POSTMAN_TESTING' | translate }}
+  </span>
+</div>

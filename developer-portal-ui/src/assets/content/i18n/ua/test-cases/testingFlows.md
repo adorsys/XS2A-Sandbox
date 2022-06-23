@@ -1,5 +1,7 @@
+# Способи тестування
+
 Ви можете використовувати 3 типових тестових сценарії для REDIRECT і EMBEDDED SCA зі Swagger.
 
 Щоб відкрити сторінку Swagger з ModelBank, потрібно локально запустити всі сервіси командою з Початок роботи Після запуску всіх сервісів перейдіть до вашої [локальної сторінки інтерфейсу XS2A](http://localhost:8089/swagger-ui.html).
 
-Щоб відкрити сторінку Swagger у хмарі, перейдіть за [цим посиланням](https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/).
+Щоб відкрити сторінку Swagger у хмарі, перейдіть за під <a href="#" id="XS2AInterfaceSwagger">XS2A Swagger UI</a> відкритим.

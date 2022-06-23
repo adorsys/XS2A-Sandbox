@@ -68,31 +68,67 @@
   },
   "TEST_CASES": {
     "INTRODUCTION": {
-      "TITLE": "ВСТУП",
-      "REDIRECT": "Короткий огляд підходу REDIRECT",
-      "EMBEDDED": "Короткий огляд підходу EMBEDDED",
+      "REDIRECT": "Короткий огляд підходу redirect",
+      "EMBEDDED": "Короткий огляд підходу embedded",
       "TESTING": "Способи тестування",
-      "MENU": {
-        "LI_1": "Swagger testing",
-        "SUBMENU": {
-          "LI_0": "Визначені тестові значення для всіх тестів (TAN і PIN):",
-          "LI_1": "Redirect:",
-          "LIST_1": {
-            "LI_1": "Робота з платежами",
-            "LI_2": "Скасування платежу",
-            "LI_3": "Ініціація згоди"
-          },
-          "LI_2": "Embedded:",
-          "LI_3": "Інформація про облікові записи користувачів:",
-          "LIST_2": {
-            "LI_1": "Отримати список облікових записів",
-            "LI_2": "Отримати детальну інформацію про обліковий запис",
-            "LI_3": "Отримати баланс",
-            "LI_4": "Отримати список транзакцій",
-            "LI_5": "Отримати детальну інформацію про транзакцію"
-          }
+      "EXP_TEST_CASES": " Пояснення до тестових сценаріїв",
+      "TEST_VALUES": "Тестові дані",
+      "POSTMAN_TESTING": "Тестування в Postman"
+    },
+    "SIDE_NAV": {
+      "PAYMENT": {
+        "PAYMENT_INITATION": "Payment initiation",
+        "REDIRECT": {
+          "REDIRECT_SCA": "Redirect SCA",
+          "INITIATE_PAYMENT": "Initiate Payment",
+          "GET_PAYMENT_STATUS": "Get Payment Status",
+          "GET_PAYMENT_INFORMATION": "Get Payment Information",
+          "DELETE_PAYMENT_DATA": "Delete Payment Data"
         },
-        "LI_2": "Postman тести"
+        "EMBEDDED": {
+          "EMBEDDED_SCA": "Embedded SCA",
+          "INITIATE_PAYMENT": "Initiate Payment",
+          "START_AUTHORISATION_PROCESS": "Start Authorisation Process",
+          "UPDATE_PSU_DATA_WITH_PASSWORD": "Update PSU data with password ",
+          "UPDATE_PSU_WITH_TAN": "Update PSU with TAN",
+          "GET_PAYMENT_STATUS": "Get Payment Status",
+          "GET_PAYMENT_INFORMATION": "Get Payment Information"
+        },
+        "CANCELLATION": {
+          "PAYMENT_CANCELLATION_IN_EMBEDDED_SCA": "Payment cancellation in Embedded SCA",
+          "INITIATE_PAYMENT_CANCELLATION": "Initiate Payment cancellation",
+          "START_CANCELLATION_AUTHORISATION": "Start cancellation authorisation",
+          "UPDATE_PSU_DATA_WITH_PASSWORD": "Update PSU data with password ",
+          "UPDATE_PSU_WITH_TAN": "Update PSU with TAN",
+          "PAYMENT_CANCELLATION_STATUS": "Get Payment status"
+        }
+      },
+      "CONSENT": {
+        "CONSENT_INITIATION": "Consent initiation",
+        "REDIRECT": {
+          "REDIRECT_SCA": "Redirect SCA",
+          "CREATE_CONSENT": "Create consent"
+        },
+        "EMBEDDED": {
+          "EMBEDDED_SCA": "Embedded SCA",
+          "CREATE_CONSENT": "Create consent",
+          "START_AUTHORISATION_PROCESS": "Start Authorisation Process",
+          "UPDATE_PSU_DATA_WITH_PASSWORD": "Update PSU data with password ",
+          "UPDATE_PSU_WITH_TAN": "Update PSU with TAN",
+          "READ_CONSENT_INFORMATION": "Read consent information"
+        }
+      },
+      "ACCOUNT": {
+        "ACCOUNT_INFORMATION": "Account information",
+        "READ_ACCOUNT_LIST": "Read Account List",
+        "READ_ACCOUNT_DETAILS": "Read Account Details",
+        "READ_BALANCE": "Read Balance",
+        "READ_LIST_OF_TRANSACTION": "Read List of Transaction",
+        "READ_TRANSACTION_DETAILS": "Read Transaction Details"
+      },
+      "FUNDS": {
+        "FUNDS_CONFIRMATION": "Funds confirmation",
+        "CONFIRMATION_OF_FUNDS_REQUEST": "Confirmation of funds request"
       }
     },
     "COMPONENTS": {
@@ -259,7 +295,8 @@
         "PART_48": "SCA метод був обраний, тому згенерований ТАН",
         "PART_49": " був надісланий на пошту користувача, і вам потрібно передати ці дані у запиті.",
         "PART_50": "Відповідь повинна мати",
-        "PART_51": " та містити"
+        "PART_51": " та містити",
+        "PART_52": " значення TAN вашого користувача"
       },
       "EMB_IN_GET": {
         "PART_1": "1. Спробуйте зробити запит до ендпоінту GET",
@@ -436,7 +473,8 @@
         "PART_47": "Метод SCA був обраний, тому згенерований TAN",
         "PART_48": "був відправлений користувачеві на пошту (мобільна авторизація поки що неможлива), і тепер потрібно ввести ці дані і виконати команду PUT.",
         "PART_49": "Відповідь має бути",
-        "PART_50": "і мати поле"
+        "PART_50": "і мати поле",
+        "PART_51": "значення TAN вашого користувача"
       },
       "EMB_CONS_GET": {
         "PART_1": "1. Спробуйте зробити запит до ендпоінту GET",

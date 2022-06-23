@@ -89,7 +89,7 @@ describe('AppComponent', () => {
         tppDefaultNokRedirectUrl: 'https://www.google.com',
         tppDefaultRedirectUrl: 'https://adorsys-platform.de/solutions/xs2a-sandbox/',
       },
-      supportedLanguages: ['en', 'ua', 'de', 'es'],
+      supportedLanguages: ['en', 'ua', 'de'],
       pagesSettings: {
         contactPageSettings: {
           showContactCard: true,

@@ -12,7 +12,7 @@
     },
     {
       "navName": "Testfälle",
-      "route": "test-cases/redirect",
+      "route": "test-cases",
       "type": "default"
     },
     {

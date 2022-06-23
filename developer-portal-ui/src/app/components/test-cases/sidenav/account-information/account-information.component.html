@@ -1,0 +1,43 @@
+<mat-list-item (click)="openAccountInformation()">
+  <span class="btn-toggle d-inline-flex align-items-center border-0 collapsed rounded">
+    <mat-icon [ngClass]="{ rotated: accountInformationMenu }" class="menu-button">expand_more</mat-icon>
+    {{ 'TEST_CASES.SIDE_NAV.ACCOUNT.ACCOUNT_INFORMATION' | translate }}</span
+  >
+</mat-list-item>
+<mat-nav-list *ngIf="accountInformationMenu">
+  <mat-list-item
+    class="ml-3 link-dark d-inline-flex text-decoration-none rounded"
+    routerLinkActive="is-active"
+    routerLink="/test-cases/account-information-accounts-get"
+  >
+    {{ 'TEST_CASES.SIDE_NAV.ACCOUNT.READ_ACCOUNT_LIST' | translate }}
+  </mat-list-item>
+  <mat-list-item
+    class="ml-3 link-dark d-inline-flex text-decoration-none rounded"
+    routerLinkActive="is-active"
+    routerLink="/test-cases/account-information-account-get"
+  >
+    {{ 'TEST_CASES.SIDE_NAV.ACCOUNT.READ_ACCOUNT_DETAILS' | translate }}
+  </mat-list-item>
+  <mat-list-item
+    class="ml-3 link-dark d-inline-flex text-decoration-none rounded"
+    routerLinkActive="is-active"
+    routerLink="/test-cases/account-information-balance-get"
+  >
+    {{ 'TEST_CASES.SIDE_NAV.ACCOUNT.READ_BALANCE' | translate }}
+  </mat-list-item>
+  <mat-list-item
+    class="ml-3 link-dark d-inline-flex text-decoration-none rounded"
+    routerLinkActive="is-active"
+    routerLink="/test-cases/account-information-transactions-get"
+  >
+    {{ 'TEST_CASES.SIDE_NAV.ACCOUNT.READ_LIST_OF_TRANSACTION' | translate }}
+  </mat-list-item>
+  <mat-list-item
+    class="ml-3 link-dark d-inline-flex text-decoration-none rounded"
+    routerLinkActive="is-active"
+    routerLink="/test-cases/account-information-transaction-get"
+  >
+    {{ 'TEST_CASES.SIDE_NAV.ACCOUNT.READ_TRANSACTION_DETAILS' | translate }}
+  </mat-list-item>
+</mat-nav-list>

@@ -40,6 +40,7 @@ import { EmbPaymentCancellGetComponent } from './components/api-endpoints/emb-pa
 import { EmbPaymentInitAuthPostComponent } from './components/api-endpoints/emb-payment-init-auth-post/emb-payment-init-auth-post.component';
 import { EmbPaymentInitPutComponent } from './components/api-endpoints/emb-payment-init-put/emb-payment-init-put.component';
 import { EmbPaymentInitGetComponent } from './components/api-endpoints/emb-payment-init-get/emb-payment-init-get.component';
+import { RdctPaymentInitGetComponent } from './components/api-endpoints/rdct-payment-init-get/rdct-payment-init-get.component';
 import { PlayWthDataComponent } from './components/play-with-data/play-wth-data.component';
 import { PrettyJsonPipe } from '../../pipes/pretty-json.pipe';
 import { CommonModule } from '@angular/common';
@@ -55,7 +56,6 @@ import { PopUpComponent } from './components/play-with-data/pop-up/pop-up.compon
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserModule } from '@angular/platform-browser';
 import { CertificateService } from '../../services/certificate.service';
-import { FundsConfirmationComponent } from './components/api-endpoints/funds-confirmation/funds-confirmation.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -67,11 +67,22 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { DescriptionTestcaseComponent } from './components/description-testcase/description-testcase.component';
+import { EmbPaymentStatusGetComponent } from './components/api-endpoints/emb-payment-status-get/emb-payment-status-get.component';
+import { EmbPaymentInitPutTanComponent } from './components/api-endpoints/emb-payment-init-put-tan/emb-payment-init-put-tan.component';
+import { EmbConsentPutTanComponent } from './components/api-endpoints/emb-consent-put-tan/emb-consent-put-component-tan.component';
+import { AccountInformationComponent } from './sidenav/account-information/account-information.component';
+import { ConcentInitationComponent } from './sidenav/concent-initation/concent-initation.component';
+import { PaymentInitationComponent } from './sidenav/payment-initation/payment-initation.component';
+import { IntroComponent } from './sidenav/intro/intro.component';
+import { FundsConfirmationNavComponent } from './sidenav/funds-confirmation/funds-confirmation-nav.component';
+import { FundsConfirmationComponent } from './components/api-endpoints/funds-confirmation/funds-confirmation.component';
 
 @NgModule({
   declarations: [
-    RedirectComponent,
     TestCasesComponent,
+    RedirectComponent,
     EmbeddedComponent,
     TestingFlowsComponent,
     PostmanTestingComponent,
@@ -95,10 +106,20 @@ import { MatListModule } from '@angular/material/list';
     EmbPaymentInitAuthPostComponent,
     EmbPaymentInitPutComponent,
     EmbPaymentInitGetComponent,
+    EmbPaymentStatusGetComponent,
+    EmbPaymentInitPutTanComponent,
+    RdctPaymentInitGetComponent,
     PlayWthDataComponent,
     PrettyJsonPipe,
     PopUpComponent,
     FundsConfirmationComponent,
+    DescriptionTestcaseComponent,
+    EmbConsentPutTanComponent,
+    AccountInformationComponent,
+    ConcentInitationComponent,
+    PaymentInitationComponent,
+    IntroComponent,
+    FundsConfirmationNavComponent,
   ],
   imports: [
     CommonModule,
@@ -123,6 +144,7 @@ import { MatListModule } from '@angular/material/list';
     MatButtonModule,
     MatDividerModule,
     MatListModule,
+    MatSidenavModule,
   ],
   providers: [CertificateService],
   exports: [LineCommandComponent, PlayWthDataComponent, CodeAreaComponent],

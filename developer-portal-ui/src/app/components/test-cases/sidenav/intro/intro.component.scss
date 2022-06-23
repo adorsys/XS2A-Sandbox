@@ -1,0 +1,26 @@
+.is-active {
+  font-weight: 900;
+  font-size: 18pt;
+  color: #0a8f70 !important;
+  border: #1ab394;
+}
+
+.introduction {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #eeeeee;
+  padding: 2vw;
+  p {
+    color: #000;
+  }
+  span {
+    color: rgba(0, 0, 0, 0.65);
+    margin-bottom: 1vw;
+    cursor: pointer;
+    outline: none;
+    &:hover {
+      color: var(--testCasesAnchorFontColorHover);
+      background-color: var(--anchorBGcolorHover);
+    }
+  }
+}

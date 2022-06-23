@@ -21,7 +21,6 @@ import { Router, NavigationEnd } from '@angular/router';
 import { DataService } from '../../services/data.service';
 import { CustomizeService } from '../../services/customize.service';
 import { AspspService } from '../../services/aspsp.service';
-import { LanguageService } from '../../services/language.service';
 import { Theme } from '../../models/theme.model';
 import { MatAccordion } from '@angular/material/expansion';
 
@@ -31,28 +30,32 @@ import { MatAccordion } from '@angular/material/expansion';
   styleUrls: ['./test-cases.component.scss'],
 })
 export class TestCasesComponent implements OnInit {
-  redirectFlag = false;
-  embeddedFlag = false;
-  accountFlag = false;
-  fundsConfirmationFlag = false;
   isViewInitialized = false;
 
   redirectSupported = true;
   embeddedSupported = true;
   fundsConfirmationSupported = true;
 
-  pathToHeadTestCases = `./assets/content/i18n/en/test-cases/headTestCases.md`;
+  subMenu = false;
+  subSubMenu = false;
+  scaApproach = false;
+  embeddedScaApproach = false;
+  consentMenu = false;
+  consentEmbeddedMenu = false;
+  consentRdctMenu = false;
+  accountInformationMenu = false;
+  fundsConfirmationMenu = false;
+
   @ViewChild(MatAccordion) accordion: MatAccordion;
-  panelOpenState = false;
   step = 0;
 
   constructor(
     public dataService: DataService,
     private customizeService: CustomizeService,
     private aspspService: AspspService,
-    private languageService: LanguageService,
     private router: Router
   ) {
+    localStorage.getItem('');
     this.setUpUsedApproaches();
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd && this.isViewInitialized) {
@@ -62,39 +65,21 @@ export class TestCasesComponent implements OnInit {
     });
   }
 
-  onActivate() {}
-
-  collapseThis(collapseId: string): void {
-    if (collapseId === 'redirect' || collapseId === 'embedded' || collapseId === 'account' || collapseId === 'funds-confirmation') {
-      switch (collapseId) {
-        case 'redirect':
-          this.redirectFlag = !this.redirectFlag;
-          break;
-        case 'embedded':
-          this.embeddedFlag = !this.embeddedFlag;
-          break;
-        case 'account':
-          this.accountFlag = !this.accountFlag;
-          break;
-        case 'funds-confirmation':
-          this.fundsConfirmationFlag = !this.fundsConfirmationFlag;
-          break;
-      }
-    }
+  getMenuStatus() {
+    this.subMenu = localStorage.getItem('subMenu') === 'true';
+    this.subSubMenu = localStorage.getItem('subSubMenu') === 'true';
+    this.scaApproach = localStorage.getItem('scaApproach') === 'true';
+    this.embeddedScaApproach = localStorage.getItem('embeddedScaApproach') === 'true';
+    this.consentRdctMenu = localStorage.getItem('consentRdctMenu') === 'true';
+    this.consentEmbeddedMenu = localStorage.getItem('consentEmbeddedMenu') === 'true';
+    this.consentMenu = localStorage.getItem('consentMenu') === 'true';
+    this.accountInformationMenu = localStorage.getItem('accountInformationMenu') === 'true';
+    this.fundsConfirmationMenu = localStorage.getItem('fundsConfirmationMenu') === 'true';
   }
 
   ngOnInit() {
     this.isViewInitialized = true;
-    if (this.dataService.getRouterUrl().includes('account')) {
-      this.collapseThis('account');
-    } else if (this.dataService.getRouterUrl().includes('embedded')) {
-      this.collapseThis('embedded');
-    } else if (this.dataService.getRouterUrl().includes('redirect')) {
-      this.collapseThis('redirect');
-    }
-    this.languageService.currentLanguage.subscribe((data) => {
-      this.pathToHeadTestCases = `${this.customizeService.currentLanguageFolder}/${data}/test-cases/headTestCases.md`;
-    });
+    this.getMenuStatus();
   }
 
   private setUpUsedApproaches() {
@@ -114,6 +99,7 @@ export class TestCasesComponent implements OnInit {
             (scaApproaches: Array<string>) => {
               this.redirectSupported = redirectSupportedInSettings && scaApproaches.includes(redirect.toLocaleUpperCase());
               this.embeddedSupported = embeddedSupportedInSettings && scaApproaches.includes(embedded.toLocaleUpperCase());
+              this.embeddedSupported = true;
             },
             () => {
               this.redirectSupported = redirectSupportedInSettings;
@@ -124,15 +110,49 @@ export class TestCasesComponent implements OnInit {
       }
     });
   }
-  setStep(index: number) {
-    this.step = index;
+
+  openSubMenuPayments() {
+    this.subMenu = !this.subMenu;
+    localStorage.setItem('subMenu', String(this.subMenu));
   }
 
-  nextStep() {
-    this.step++;
+  openSubSubMenuPayments() {
+    this.subSubMenu = !this.subSubMenu;
+    localStorage.setItem('subSubMenu', String(this.subSubMenu));
   }
 
-  prevStep() {
-    this.step--;
+  openScaApproach() {
+    this.scaApproach = !this.scaApproach;
+    localStorage.setItem('scaApproach', String(this.scaApproach));
+  }
+
+  openEmbeddedScaApproach() {
+    this.embeddedScaApproach = !this.embeddedScaApproach;
+    localStorage.setItem('embeddedScaApproach', String(this.embeddedScaApproach));
+  }
+
+  openConsentMenuPayments() {
+    this.consentMenu = !this.consentMenu;
+    localStorage.setItem('consentMenu', String(this.consentMenu));
+  }
+
+  openConsentRdctApproach() {
+    this.consentRdctMenu = !this.consentRdctMenu;
+    localStorage.setItem('consentRdctMenu', String(this.consentRdctMenu));
+  }
+
+  openConsentEmbeddedApproach() {
+    this.consentEmbeddedMenu = !this.consentEmbeddedMenu;
+    localStorage.setItem('consentEmbeddedMenu', String(this.consentEmbeddedMenu));
+  }
+
+  openAccountInformation() {
+    this.accountInformationMenu = !this.accountInformationMenu;
+    localStorage.setItem('accountInformationMenu', String(this.accountInformationMenu));
+  }
+
+  openFundsConfirmation() {
+    this.fundsConfirmationMenu = !this.fundsConfirmationMenu;
+    localStorage.setItem('fundsConfirmationMenu', String(this.fundsConfirmationMenu));
   }
 }

@@ -1,0 +1,70 @@
+<mat-list-item (click)="openConsentMenuPayments()">
+  <span class="btn-toggle d-inline-flex align-items-center border-0 collapsed rounded">
+    <mat-icon [ngClass]="{ rotated: consentMenu }" class="menu-button">expand_more</mat-icon>
+    {{ 'TEST_CASES.SIDE_NAV.CONSENT.CONSENT_INITIATION' | translate }}</span
+  >
+</mat-list-item>
+
+<mat-nav-list *ngIf="consentMenu">
+  <mat-list-item (click)="openConsentRdctApproach()">
+    <span class="btn-toggle d-inline-flex align-items-center border-0 collapsed rounded">
+      <mat-icon [ngClass]="{ rotated: consentRdctMenu }" class="menu-button">expand_more</mat-icon>
+      {{ 'TEST_CASES.SIDE_NAV.CONSENT.REDIRECT.REDIRECT_SCA' | translate }}</span
+    >
+  </mat-list-item>
+
+  <mat-nav-list *ngIf="consentRdctMenu && redirectSupported">
+    <mat-list-item
+      class="ml-5 link-dark d-inline-flex text-decoration-none rounded"
+      routerLinkActive="is-active"
+      routerLink="/test-cases/redirect-consent-post"
+    >
+      {{ 'TEST_CASES.SIDE_NAV.CONSENT.REDIRECT.CREATE_CONSENT' | translate }}
+    </mat-list-item>
+  </mat-nav-list>
+
+  <mat-list-item (click)="openConsentEmbeddedApproach()" *ngIf="embeddedSupported">
+    <span class="btn-toggle d-inline-flex align-items-center border-0 collapsed rounded">
+      <mat-icon [ngClass]="{ rotated: consentEmbeddedMenu }" class="menu-button">expand_more</mat-icon>
+      {{ 'TEST_CASES.SIDE_NAV.CONSENT.EMBEDDED.EMBEDDED_SCA' | translate }}</span
+    >
+  </mat-list-item>
+
+  <mat-nav-list *ngIf="consentEmbeddedMenu && embeddedSupported">
+    <mat-list-item
+      class="ml-5 link-dark d-inline-flex text-decoration-none rounded"
+      routerLinkActive="is-active"
+      routerLink="/test-cases/embedded-consent-create-post"
+    >
+      {{ 'TEST_CASES.SIDE_NAV.CONSENT.EMBEDDED.CREATE_CONSENT' | translate }}
+    </mat-list-item>
+    <mat-list-item
+      class="ml-5 link-dark d-inline-flex text-decoration-none rounded"
+      routerLinkActive="is-active"
+      routerLink="/test-cases/embedded-consent-auth-post"
+    >
+      {{ 'TEST_CASES.SIDE_NAV.CONSENT.EMBEDDED.START_AUTHORISATION_PROCESS' | translate }}
+    </mat-list-item>
+    <mat-list-item
+      class="ml-5 link-dark d-inline-flex text-decoration-none rounded"
+      routerLinkActive="is-active"
+      routerLink="/test-cases/embedded-consent-put"
+    >
+      {{ 'TEST_CASES.SIDE_NAV.CONSENT.EMBEDDED.UPDATE_PSU_DATA_WITH_PASSWORD' | translate }}
+    </mat-list-item>
+    <mat-list-item
+      class="ml-5 link-dark d-inline-flex text-decoration-none rounded"
+      routerLinkActive="is-active"
+      routerLink="/test-cases/embedded-consent-put-tan"
+    >
+      {{ 'TEST_CASES.SIDE_NAV.CONSENT.EMBEDDED.UPDATE_PSU_WITH_TAN' | translate }}
+    </mat-list-item>
+    <mat-list-item
+      class="ml-5 link-dark d-inline-flex text-decoration-none rounded"
+      routerLinkActive="is-active"
+      routerLink="/test-cases/embedded-consent-get"
+    >
+      {{ 'TEST_CASES.SIDE_NAV.CONSENT.EMBEDDED.READ_CONSENT_INFORMATION' | translate }}
+    </mat-list-item>
+  </mat-nav-list>
+</mat-nav-list>

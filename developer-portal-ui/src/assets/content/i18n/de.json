@@ -68,37 +68,73 @@
   },
   "TEST_CASES": {
     "INTRODUCTION": {
-      "TITLE": "EINLEITUNG",
-      "REDIRECT": "Redirect Ansatz",
-      "EMBEDDED": "Embedded Ansatz",
+      "EXP_TEST_CASES": "Erläuterung der Testabläufe",
+      "REDIRECT": "Übersicht redirect Ansatz",
+      "EMBEDDED": "Übersicht embedded Ansatz",
       "TESTING": "Testabläufe",
-      "MENU": {
-        "LI_1": "Swagger testing",
-        "SUBMENU": {
-          "LI_0": "Festgelegte Werte für alle Tests (TAN und PIN)",
-          "LI_1": "Redirect:",
-          "LIST_1": {
-            "LI_1": "Ablauf der Zahlungsinitiierung",
-            "LI_2": "Ablauf der Zahlungsstornierung",
-            "LI_3": "Einwilligungsbestätigung"
-          },
-          "LI_2": "Embedded:",
-          "LI_3": " Kontoinformationen:",
-          "LIST_2": {
-            "LI_1": "Ausgeben der Kontoliste",
-            "LI_2": "Ausgeben der Kontodetails",
-            "LI_3": "Ausgeben des Saldos",
-            "LI_4": "Ausgeben der Transaktionsliste",
-            "LI_5": "Ausgeben der Transaktionsdetails"
-          }
+      "TEST_VALUES": "Werte fürs Testen",
+      "POSTMAN_TESTING": "Postman Tests"
+    },
+    "SIDE_NAV": {
+      "PAYMENT": {
+        "PAYMENT_INITATION": "Payment initiation",
+        "REDIRECT": {
+          "REDIRECT_SCA": "Redirect SCA",
+          "INITIATE_PAYMENT": "Initiate Payment",
+          "GET_PAYMENT_STATUS": "Get Payment Status",
+          "GET_PAYMENT_INFORMATION": "Get Payment Information",
+          "DELETE_PAYMENT_DATA": "Delete Payment Data"
         },
-        "LI_2": "Postman testing"
+        "EMBEDDED": {
+          "EMBEDDED_SCA": "Embedded SCA",
+          "INITIATE_PAYMENT": "Initiate Payment",
+          "START_AUTHORISATION_PROCESS": "Start Authorisation Process",
+          "UPDATE_PSU_DATA_WITH_PASSWORD": "Update PSU data with password ",
+          "UPDATE_PSU_WITH_TAN": "Update PSU with TAN",
+          "GET_PAYMENT_STATUS": "Get Payment Status",
+          "GET_PAYMENT_INFORMATION": "Get Payment Information"
+        },
+        "CANCELLATION": {
+          "PAYMENT_CANCELLATION_IN_EMBEDDED_SCA": "Payment cancellation in Embedded SCA",
+          "INITIATE_PAYMENT_CANCELLATION": "Initiate Payment cancellation",
+          "START_CANCELLATION_AUTHORISATION": "Start cancellation authorisation",
+          "UPDATE_PSU_DATA_WITH_PASSWORD": "Update PSU data with password ",
+          "UPDATE_PSU_WITH_TAN": "Update PSU with TAN",
+          "PAYMENT_CANCELLATION_STATUS": "Get Payment status"
+        }
+      },
+      "CONSENT": {
+        "CONSENT_INITIATION": "Consent initiation",
+        "REDIRECT": {
+          "REDIRECT_SCA": "Redirect SCA",
+          "CREATE_CONSENT": "Create consent"
+        },
+        "EMBEDDED": {
+          "EMBEDDED_SCA": "Embedded SCA",
+          "CREATE_CONSENT": "Create consent",
+          "START_AUTHORISATION_PROCESS": "Start Authorisation Process",
+          "UPDATE_PSU_DATA_WITH_PASSWORD": "Update PSU data with password ",
+          "UPDATE_PSU_WITH_TAN": "Update PSU with TAN",
+          "READ_CONSENT_INFORMATION": "Read consent information"
+        }
+      },
+      "ACCOUNT": {
+        "ACCOUNT_INFORMATION": "Account information",
+        "READ_ACCOUNT_LIST": "Read Account List",
+        "READ_ACCOUNT_DETAILS": "Read Account Details",
+        "READ_BALANCE": "Read Balance",
+        "READ_LIST_OF_TRANSACTION": "Read List of Transaction",
+        "READ_TRANSACTION_DETAILS": "Read Transaction Details"
+      },
+      "FUNDS": {
+        "FUNDS_CONFIRMATION": "Funds confirmation",
+        "CONFIRMATION_OF_FUNDS_REQUEST": "Confirmation of funds request"
       }
     },
     "COMPONENTS": {
       "TABS": {
-        "DOC": "Documentation",
-        "PLAY": "Play with data"
+        "DOC": "Dokumentation",
+        "PLAY": "Spiele mit Daten"
       },
       "TH": {
         "TH_1": "Header",
@@ -260,7 +296,8 @@
         "PART_48": "Da eine Sca-Methode festgelegt wurde, daher wurde die generierte TAN bereits an die angegebene Nutzer-Mail geschickt.",
         "PART_49": "Diese TAN wird nun in der Json für den auszuführenden PUT Befehl angegeben.",
         "PART_50": "Drücken Sie „Execute“. Es wird Ihnen",
-        "PART_51": " und"
+        "PART_51": " und",
+        "PART_52": " den TAN für den User."
       },
       "EMB_IN_GET": {
         "PART_1": "1. Nutzen Sie den GET Endpunkt",
@@ -437,7 +474,8 @@
         "PART_47": "Da eine Sca-Methode festgelegt wurde, daher wurde die generierte TAN bereits an die angegebene Nutzer-Mail geschickt.",
         "PART_48": "Diese TAN wird nun in der Json für den auszuführenden PUT Befehl angegeben.",
         "PART_49": "Als Antwort sollten Sie",
-        "PART_50": "und"
+        "PART_50": "und",
+        "PART_51": " den TAN für den User."
       },
       "EMB_CONS_GET": {
         "PART_1": "1. Nutzen Sie den GET Endpunkt",

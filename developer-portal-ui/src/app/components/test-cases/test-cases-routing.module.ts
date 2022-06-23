@@ -49,12 +49,21 @@ import { AccinfTransactionsGetComponent } from './components/api-endpoints/accin
 import { AccinfTransactionGetComponent } from './components/api-endpoints/accinf-transaction-get/accinf-transaction-get.component';
 import { RdctPaymentStatusGetComponent } from './components/api-endpoints/rdct-payment-status-get/rdct-payment-status-get.component';
 import { FundsConfirmationComponent } from './components/api-endpoints/funds-confirmation/funds-confirmation.component';
+import { DescriptionTestcaseComponent } from './components/description-testcase/description-testcase.component';
+import { RdctPaymentInitGetComponent } from './components/api-endpoints/rdct-payment-init-get/rdct-payment-init-get.component';
+import { EmbPaymentStatusGetComponent } from './components/api-endpoints/emb-payment-status-get/emb-payment-status-get.component';
+import { EmbPaymentInitPutTanComponent } from './components/api-endpoints/emb-payment-init-put-tan/emb-payment-init-put-tan.component';
+import { EmbConsentPutTanComponent } from './components/api-endpoints/emb-consent-put-tan/emb-consent-put-component-tan.component';
 
 const routes: Routes = [
   {
     path: 'test-cases',
     component: TestCasesComponent,
     children: [
+      {
+        path: 'description',
+        component: TestValuesComponent,
+      },
       {
         path: 'test-values',
         component: TestValuesComponent,
@@ -72,12 +81,20 @@ const routes: Routes = [
         component: RedirectComponent,
       },
       {
+        path: 'description-testcase',
+        component: DescriptionTestcaseComponent,
+      },
+      {
         path: 'postman-testing',
         component: PostmanTestingComponent,
       },
       {
         path: 'redirect-consent-post',
         component: RdctConsentPOSTComponent,
+      },
+      {
+        path: 'redirect-payment-init-get',
+        component: RdctPaymentInitGetComponent,
       },
       {
         path: 'redirect-cancellation-post',
@@ -98,6 +115,14 @@ const routes: Routes = [
       {
         path: 'embedded-consent-create-post',
         component: EmbConsentCreatePostComponent,
+      },
+      {
+        path: 'embedded-consent-put-tan',
+        component: EmbConsentPutTanComponent,
+      },
+      {
+        path: 'emb_get_payment_status',
+        component: EmbPaymentStatusGetComponent,
       },
       {
         path: 'embedded-consent-auth-post',
@@ -126,6 +151,10 @@ const routes: Routes = [
       {
         path: 'embedded-payment-cancellation-put',
         component: EmbPaymentCancellPutComponent,
+      },
+      {
+        path: 'embedded-payment-cancellation-put-tan',
+        component: EmbPaymentInitPutTanComponent,
       },
       {
         path: 'embedded-payment-cancellation-get',
@@ -170,6 +199,18 @@ const routes: Routes = [
       {
         path: 'funds-confirmation',
         component: FundsConfirmationComponent,
+      },
+      {
+        path: 'emb-payment-init-get',
+        component: EmbPaymentInitGetComponent,
+      },
+      {
+        path: 'emb-payment-init-put-tan',
+        component: EmbPaymentInitPutTanComponent,
+      },
+      {
+        path: '**',
+        redirectTo: 'testing-flows',
       },
     ],
   },

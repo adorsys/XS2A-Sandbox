@@ -39,7 +39,9 @@
   <div class="endpoint-main-content">
     <!-- Documentation -->
     <div class="endpoint-documentation" *ngIf="activeSegment === 'documentation'; else play_with_data">
-      <h1>{{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.TITLE_1' | translate }}</h1>
+      <h1>{{ 'TEST_CASES.SIDE_NAV.PAYMENT.REDIRECT.DELETE_PAYMENT_DATA' | translate }}</h1>
+      <br />
+      <h2>{{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.TITLE_1' | translate }}</h2>
       <p>
         {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_1' | translate }}
         <app-line-command title="scaRedirect"></app-line-command>
@@ -85,7 +87,7 @@
         <span class="italic-text">{{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.ITALIC_SPAN' | translate }}</span>
         {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_11' | translate }}
       </p>
-      <h1>{{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.TITLE_2' | translate }}</h1>
+      <h2>{{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.TITLE_2' | translate }}</h2>
       <p>
         {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_12' | translate }}
         <app-line-command title="scaRedirect"></app-line-command>

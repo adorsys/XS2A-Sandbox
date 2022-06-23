@@ -1,0 +1,143 @@
+<mat-list-item (click)="openSubMenuPayments()">
+  <span class="btn-toggle d-inline-flex align-items-center border-0 collapsed rounded">
+    <mat-icon [ngClass]="{ rotated: subMenu }" class="menu-button">expand_more</mat-icon>
+    {{ 'TEST_CASES.SIDE_NAV.PAYMENT.PAYMENT_INITATION' | translate }}</span
+  >
+</mat-list-item>
+
+<mat-nav-list *ngIf="subMenu">
+  <mat-list-item (click)="openScaApproach()" *ngIf="redirectSupported">
+    <span class="btn-toggle d-inline-flex align-items-center border-0 collapsed rounded">
+      <mat-icon [ngClass]="{ rotated: scaApproach }" class="menu-button">expand_more</mat-icon>
+      {{ 'TEST_CASES.SIDE_NAV.PAYMENT.REDIRECT.REDIRECT_SCA' | translate }}</span
+    >
+  </mat-list-item>
+
+  <mat-nav-list *ngIf="scaApproach">
+    <mat-list-item
+      class="ml-5 link-dark d-inline-flex text-decoration-none rounded"
+      routerLinkActive="is-active"
+      routerLink="/test-cases/redirect-payment-initiation-post"
+    >
+      {{ 'TEST_CASES.SIDE_NAV.PAYMENT.REDIRECT.INITIATE_PAYMENT' | translate }}
+    </mat-list-item>
+    <mat-list-item
+      class="ml-5 link-dark d-inline-flex text-decoration-none rounded"
+      routerLinkActive="is-active"
+      routerLink="/test-cases/redirect-payment-status-get"
+    >
+      {{ 'TEST_CASES.SIDE_NAV.PAYMENT.REDIRECT.GET_PAYMENT_STATUS' | translate }}
+    </mat-list-item>
+    <mat-list-item
+      class="ml-5 link-dark d-inline-flex text-decoration-none rounded"
+      routerLink="/test-cases/redirect-payment-init-get"
+      routerLinkActive="is-active"
+    >
+      {{ 'TEST_CASES.SIDE_NAV.PAYMENT.REDIRECT.GET_PAYMENT_INFORMATION' | translate }}
+    </mat-list-item>
+    <mat-list-item
+      class="ml-5 link-dark d-inline-flex text-decoration-none rounded"
+      routerLinkActive="is-active"
+      routerLink="/test-cases/redirect-cancellation-delete"
+    >
+      {{ 'TEST_CASES.SIDE_NAV.PAYMENT.REDIRECT.DELETE_PAYMENT_DATA' | translate }}
+    </mat-list-item>
+  </mat-nav-list>
+
+  <mat-list-item (click)="openEmbeddedScaApproach()" *ngIf="embeddedSupported">
+    <span class="btn-toggle d-inline-flex align-items-center border-0 collapsed rounded">
+      <mat-icon [ngClass]="{ rotated: embeddedScaApproach }" class="menu-button">expand_more</mat-icon>
+      Embedded SCA
+    </span>
+  </mat-list-item>
+
+  <mat-nav-list *ngIf="embeddedScaApproach && embeddedSupported">
+    <mat-list-item
+      class="ml-5 link-dark d-inline-flex text-decoration-none rounded"
+      routerLink="/test-cases/embedded-payment-initiation-create-post"
+      routerLinkActive="is-active"
+    >
+      {{ 'TEST_CASES.SIDE_NAV.PAYMENT.EMBEDDED.INITIATE_PAYMENT' | translate }}
+    </mat-list-item>
+    <mat-list-item
+      class="ml-5 link-dark d-inline-flex text-decoration-none rounded"
+      routerLink="/test-cases/embedded-payment-initiation-auth-post"
+      routerLinkActive="is-active"
+    >
+      {{ 'TEST_CASES.SIDE_NAV.PAYMENT.EMBEDDED.START_AUTHORISATION_PROCESS' | translate }}
+    </mat-list-item>
+    <mat-list-item
+      class="ml-5 link-dark d-inline-flex text-decoration-none rounded"
+      routerLink="/test-cases/embedded-payment-initiation-put"
+      routerLinkActive="is-active"
+    >
+      {{ 'TEST_CASES.SIDE_NAV.PAYMENT.EMBEDDED.UPDATE_PSU_DATA_WITH_PASSWORD' | translate }}
+    </mat-list-item>
+    <mat-list-item
+      class="ml-5 link-dark d-inline-flex text-decoration-none rounded"
+      routerLink="/test-cases/emb-payment-init-put-tan"
+      routerLinkActive="is-active"
+    >
+      {{ 'TEST_CASES.SIDE_NAV.PAYMENT.EMBEDDED.UPDATE_PSU_WITH_TAN' | translate }}
+    </mat-list-item>
+    <mat-list-item
+      class="ml-5 link-dark d-inline-flex text-decoration-none rounded"
+      routerLink="/test-cases/emb_get_payment_status"
+      routerLinkActive="is-active"
+    >
+      {{ 'TEST_CASES.SIDE_NAV.PAYMENT.EMBEDDED.GET_PAYMENT_STATUS' | translate }}
+    </mat-list-item>
+    <mat-list-item
+      class="ml-5 link-dark d-inline-flex text-decoration-none rounded"
+      routerLink="/test-cases/emb-payment-init-get"
+      routerLinkActive="is-active"
+    >
+      {{ 'TEST_CASES.SIDE_NAV.PAYMENT.EMBEDDED.GET_PAYMENT_INFORMATION' | translate }}
+    </mat-list-item>
+  </mat-nav-list>
+</mat-nav-list>
+
+<mat-list-item (click)="openSubSubMenuPayments()" *ngIf="embeddedSupported">
+  <span class="btn-toggle d-inline-flex align-items-center border-0 collapsed rounded">
+    <mat-icon [ngClass]="{ rotated: subSubMenu }" class="menu-button">expand_more</mat-icon>
+    {{ 'TEST_CASES.SIDE_NAV.PAYMENT.CANCELLATION.PAYMENT_CANCELLATION_IN_EMBEDDED_SCA' | translate }}</span
+  >
+</mat-list-item>
+
+<mat-nav-list *ngIf="subSubMenu && embeddedSupported">
+  <mat-list-item
+    class="ml-3 link-dark d-inline-flex text-decoration-none rounded"
+    routerLink="/test-cases/embedded-payment-cancellation-delete"
+    routerLinkActive="is-active"
+  >
+    {{ 'TEST_CASES.SIDE_NAV.PAYMENT.CANCELLATION.INITIATE_PAYMENT_CANCELLATION' | translate }}
+  </mat-list-item>
+  <mat-list-item
+    class="ml-3 link-dark d-inline-flex text-decoration-none rounded"
+    routerLink="/test-cases/embedded-payment-cancellation-post-2"
+    routerLinkActive="is-active"
+  >
+    {{ 'TEST_CASES.SIDE_NAV.PAYMENT.CANCELLATION.START_CANCELLATION_AUTHORISATION' | translate }}
+  </mat-list-item>
+  <mat-list-item
+    class="ml-3 link-dark d-inline-flex text-decoration-none rounded"
+    routerLink="/test-cases/embedded-payment-cancellation-put"
+    routerLinkActive="is-active"
+  >
+    {{ 'TEST_CASES.SIDE_NAV.PAYMENT.CANCELLATION.UPDATE_PSU_DATA_WITH_PASSWORD' | translate }}
+  </mat-list-item>
+  <mat-list-item
+    class="ml-3 link-dark d-inline-flex text-decoration-none rounded"
+    routerLink="embedded-payment-cancellation-put-tan"
+    routerLinkActive="is-active"
+  >
+    {{ 'TEST_CASES.SIDE_NAV.PAYMENT.CANCELLATION.UPDATE_PSU_WITH_TAN' | translate }}
+  </mat-list-item>
+  <mat-list-item
+    class="ml-3 link-dark d-inline-flex text-decoration-none rounded"
+    routerLink="/test-cases/redirect-payment-status-get"
+    routerLinkActive="is-active"
+  >
+    {{ 'TEST_CASES.SIDE_NAV.PAYMENT.CANCELLATION.PAYMENT_CANCELLATION_STATUS' | translate }}
+  </mat-list-item>
+</mat-nav-list>

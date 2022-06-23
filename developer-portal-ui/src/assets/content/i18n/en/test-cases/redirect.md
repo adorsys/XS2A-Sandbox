@@ -1,4 +1,4 @@
-# Short overview of REDIRECT approach:
+# Overview of the redirect approach
 
 - The whole SCA process with two different factors (e.g. username/password as proof of knowledge and a one time password (TAN) as proof of possession) is provided by the ASPSP and executed directly between PSU and ASPSP.
 - Therefore, the PSU needs to gets redirected from PISP to ASPSP.

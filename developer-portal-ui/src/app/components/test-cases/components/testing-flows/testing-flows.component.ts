@@ -16,23 +16,38 @@
  * contact us at psd2@adorsys.com.
  */
 
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { LanguageService } from '../../../../services/language.service';
 import { CustomizeService } from '../../../../services/customize.service';
+import { EnvLink } from '../../../../models/envLink.model';
+import { UrlService } from '../../../../services/url.service';
 
 @Component({
   selector: 'app-error',
   templateUrl: './testing-flows.component.html',
   styleUrls: ['./testing-flows.component.scss'],
 })
-export class TestingFlowsComponent implements OnInit {
+export class TestingFlowsComponent implements OnInit, AfterViewChecked {
   pathToTestingFlows = `./assets/content/i18n/en/test-cases/testingFlows.md`;
 
-  constructor(private languageService: LanguageService, private customizeService: CustomizeService) {}
+  constructor(private languageService: LanguageService, private customizeService: CustomizeService, private urlService: UrlService) {}
 
   ngOnInit(): void {
     this.languageService.currentLanguage.subscribe((data) => {
       this.pathToTestingFlows = `${this.customizeService.currentLanguageFolder}/${data}/test-cases/testingFlows.md`;
     });
+  }
+
+  ngAfterViewChecked() {
+    this.urlService.getUrl().subscribe((data: EnvLink) => {
+      Object.keys(data.servicesAvailable).forEach((key) => this.setLink(key, data.servicesAvailable[key].environmentLink));
+    });
+  }
+
+  setLink(id: string, link: string) {
+    const anchorNode = document.getElementById(id);
+    if (anchorNode) {
+      anchorNode.setAttribute('href', link);
+    }
   }
 }
