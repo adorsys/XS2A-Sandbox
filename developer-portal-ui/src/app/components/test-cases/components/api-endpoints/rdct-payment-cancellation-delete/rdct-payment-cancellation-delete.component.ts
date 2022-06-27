@@ -28,7 +28,6 @@ export class RdctPaymentCancellationDeleteComponent implements OnInit {
   activeSegment = 'documentation';
   headers: object = {
     'TPP-Explicit-Authorisation-Preferred': 'false',
-    'PSU-ID': 'YOUR_USER_LOGIN',
     'TPP-Redirect-Preferred': 'true',
     'TPP-Redirect-URI': LocalStorageService.get(TPP_REDIRECT_URL_KEY),
     'TPP-Nok-Redirect-URI': LocalStorageService.get(TPP_NOK_REDIRECT_URL_KEY),

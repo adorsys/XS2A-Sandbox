@@ -17,8 +17,6 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { LocalStorageService } from '../../../../../services/local-storage.service';
-import { TPP_NOK_REDIRECT_URL_KEY, TPP_REDIRECT_URL_KEY } from '../../../../common/constant/constants';
 
 @Component({
   selector: 'app-emb-payment-init-get',
@@ -26,13 +24,7 @@ import { TPP_NOK_REDIRECT_URL_KEY, TPP_REDIRECT_URL_KEY } from '../../../../comm
 })
 export class RdctPaymentInitGetComponent implements OnInit {
   activeSegment = 'documentation';
-  headers: object = {
-    'TPP-Explicit-Authorisation-Preferred': 'false',
-    'PSU-ID': 'YOUR_USER_LOGIN',
-    'TPP-Redirect-Preferred': 'true',
-    'TPP-Redirect-URI': LocalStorageService.get(TPP_REDIRECT_URL_KEY),
-    'TPP-Nok-Redirect-URI': LocalStorageService.get(TPP_NOK_REDIRECT_URL_KEY),
-  };
+  headers: object = {};
   body: object;
 
   constructor() {}

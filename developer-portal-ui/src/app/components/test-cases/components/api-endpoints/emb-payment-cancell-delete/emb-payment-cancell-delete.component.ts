@@ -25,7 +25,7 @@ import { Component, OnInit } from '@angular/core';
 export class EmbPaymentCancellDeleteComponent implements OnInit {
   activeSegment = 'documentation';
   headers: object = {
-    'TPP-Explicit-Authorisation-Preferred': 'false',
+    'TPP-Explicit-Authorisation-Preferred': 'true',
     'PSU-ID': 'YOUR_USER_LOGIN',
   };
 

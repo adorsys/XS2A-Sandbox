@@ -24,11 +24,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EmbPaymentCancellationPostComponent implements OnInit {
   activeSegment = 'documentation';
-  headers: object = {
-    'TPP-Explicit-Authorisation-Preferred': 'false',
-    'TPP-Redirect-Preferred': 'false',
-    'PSU-ID': 'YOUR_USER_LOGIN',
-  };
+  headers: object = {};
 
   constructor() {}
 

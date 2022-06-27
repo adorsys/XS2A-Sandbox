@@ -24,10 +24,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EmbPaymentInitGetComponent implements OnInit {
   activeSegment = 'documentation';
-  headers: object = {
-    'TPP-Explicit-Authorisation-Preferred': 'false',
-    'PSU-ID': 'YOUR_USER_LOGIN',
-  };
+  headers: object = {};
 
   constructor() {}
 

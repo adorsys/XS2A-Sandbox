@@ -29,7 +29,6 @@ export class EmbPaymentCancellPutComponent implements OnInit {
   jsonData2: object;
   jsonData3: object;
   headers: object = {
-    'TPP-Explicit-Authorisation-Preferred': 'false',
     'PSU-ID': 'YOUR_USER_LOGIN',
   };
   body: object;

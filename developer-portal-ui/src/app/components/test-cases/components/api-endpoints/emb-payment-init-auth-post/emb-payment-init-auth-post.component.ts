@@ -26,7 +26,6 @@ import { LocalStorageService } from '../../../../../services/local-storage.servi
 export class EmbPaymentInitAuthPostComponent implements OnInit {
   activeSegment = 'documentation';
   headers: object = {
-    'TPP-Explicit-Authorisation-Preferred': 'false',
     'PSU-ID': 'YOUR_USER_LOGIN',
   };
 

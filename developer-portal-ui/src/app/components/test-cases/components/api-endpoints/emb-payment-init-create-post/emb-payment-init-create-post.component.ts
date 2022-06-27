@@ -31,7 +31,7 @@ export class EmbPaymentInitCreatePostComponent implements OnInit {
   jsonData4: object;
 
   headers: object = {
-    'TPP-Explicit-Authorisation-Preferred': 'false',
+    'TPP-Explicit-Authorisation-Preferred': 'true',
     'PSU-ID': 'YOUR_USER_LOGIN',
   };
   body: object;
