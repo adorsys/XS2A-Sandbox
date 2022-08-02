@@ -178,6 +178,12 @@ h3 {
   font-weight: var(--h3FontWeight);
 }
 
+.subtitle {
+  font-weight: 900;
+  font-size: x-large;
+  color: #0a8f70;
+}
+
 @media screen and (max-width: 768px) {
   h1 {
     font-size: var(--h1FontSize768px);

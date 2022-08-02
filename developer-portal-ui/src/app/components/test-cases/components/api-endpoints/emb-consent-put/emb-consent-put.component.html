@@ -44,8 +44,13 @@
       </h1>
       <br />
       <h2>{{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.TITLE' | translate }}</h2>
-      <span class="bold-text">{{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.SUBTITLE_1' | translate }}</span>
-
+      <br />
+      <span class="subtitle">{{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.SUBTITLE' | translate }}</span
+      ><br />
+      <span class="bold-text">a) {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.SUBTITLE_1' | translate }}</span
+      ><br /><br />
+      {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_1' | translate }}
+      {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_2' | translate }}
       <p>
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_3' | translate }} <span class="bold-text">PUT</span> endpoint
         <app-line-command title="/v1/consents/{consentId}/authorisations/{authorisationId}"></app-line-command>.
@@ -83,7 +88,9 @@
         <app-line-command title="scaStatus: Finalised"></app-line-command>
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_13' | translate }}
       </p>
-      <span class="bold-text">{{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.SUBTITLE_2' | translate }}</span>
+
+      <br /><br />
+      <span class="bold-text">b) {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.SUBTITLE_2' | translate }}</span>
       <p>
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_14' | translate }} <span class="bold-text">PUT</span> endpoint
         <app-line-command title="/v1/consents/{consentId}/authorisations/{authorisationId}"></app-line-command>.
@@ -129,7 +136,9 @@
         <app-line-command title="200 HTTP code"></app-line-command>
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_31' | translate }} <app-line-command title="scaStatus: Finalised"></app-line-command>.
       </p>
-      <span class="bold-text">{{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.SUBTITLE_3' | translate }}</span>
+
+      <br /><br />
+      <span class="bold-text">c) {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.SUBTITLE_3' | translate }}</span>
       <p>
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_32' | translate }} <span class="bold-text">PUT</span> endpoint
         <app-line-command title="/v1/consents/{consentId}/authorisations/{authorisationId}"></app-line-command>.

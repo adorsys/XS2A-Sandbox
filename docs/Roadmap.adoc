@@ -52,8 +52,19 @@ a| * Keycloak version update and Ledgers (4.19) plugin adaptation
 * Error message is changed for expired login session in all applications
 * UI tests update
 
+| 02.08.2022          | 6.4     | 7.4
+a| * DevPortal: UX improvement in navigation, menu collapsing, and structuring
+* DevPortal: reorganise menu for Account information section, Payment Initiation and Cancellation sections, Consent Initiation and Funds Confirmation sections
+* DevPortal: Correct steps description in payment/ payment cancellation/ consent authorisation flow
+* DevPortal: language customization
+* Fix Ledgers start process
+* Bug fix: TPP UI: Can't log in with a newly registered user credentials
+* Bug fix: Generate test data doesn't work in Demo env.
+
+
 | Further development |         |
-a| * Developer Portal. UX improvement in navigation, menu refactoring
-* Ledgers' email settings should be synchronised with Keycloak
-* The field fundsAvailable should be supported in the response to Payment Initiation Status Request
+a| * Ledger's email settings should be synchronised with Keycloak
+* The field "fundsAvailable" should be supported in the response to Payment Initiation Status Request
+* Support List of Trusted Beneficiaries in Ledgers
+
 |====

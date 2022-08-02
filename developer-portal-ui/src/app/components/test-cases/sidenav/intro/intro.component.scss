@@ -19,8 +19,8 @@
     cursor: pointer;
     outline: none;
     &:hover {
-      color: var(--testCasesAnchorFontColorHover);
-      background-color: var(--anchorBGcolorHover);
+      color: rgba(0, 0, 0, 0.85);
+      background-color: #d2f4ea;
     }
   }
 }

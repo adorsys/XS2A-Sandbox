@@ -54,6 +54,7 @@ import { RdctPaymentInitGetComponent } from './components/api-endpoints/rdct-pay
 import { EmbPaymentStatusGetComponent } from './components/api-endpoints/emb-payment-status-get/emb-payment-status-get.component';
 import { EmbPaymentInitPutTanComponent } from './components/api-endpoints/emb-payment-init-put-tan/emb-payment-init-put-tan.component';
 import { EmbConsentPutTanComponent } from './components/api-endpoints/emb-consent-put-tan/emb-consent-put-component-tan.component';
+import { EmbPaymentCancellPutTanComponent } from './components/api-endpoints/emb-payment-cancell-put-tan/emb-payment-cancell-put-component-tan.component';
 
 const routes: Routes = [
   {
@@ -154,7 +155,7 @@ const routes: Routes = [
       },
       {
         path: 'embedded-payment-cancellation-put-tan',
-        component: EmbPaymentInitPutTanComponent,
+        component: EmbPaymentCancellPutTanComponent,
       },
       {
         path: 'embedded-payment-cancellation-get',
@@ -207,6 +208,10 @@ const routes: Routes = [
       {
         path: 'emb-payment-init-put-tan',
         component: EmbPaymentInitPutTanComponent,
+      },
+      {
+        path: 'cancellation-payment-status-get',
+        component: RdctPaymentStatusGetComponent,
       },
       {
         path: '**',

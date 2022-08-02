@@ -39,48 +39,13 @@
   <div class="endpoint-main-content">
     <!-- Documentation -->
     <div class="endpoint-documentation" *ngIf="activeSegment === 'documentation'; else play_with_data">
-      <h1>{{ 'TEST_CASES.SIDE_NAV.PAYMENT.CANCELLATION.UPDATE_PSU_DATA_WITH_PASSWORD' | translate }}</h1>
+      <h1>{{ 'TEST_CASES.SIDE_NAV.PAYMENT.CANCELLATION.UPDATE_PSU_WITH_TAN' | translate }}</h1>
       <br />
-      <span class="subtitle">{{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.SUBTITLE' | translate }}</span
-      ><br /><br />
-      <span class="bold-text">a) {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.SUBTITLE_1' | translate }}</span>
-      <p>
-        {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_1' | translate }} <span class="bold-text">PUT</span> endpoint
-        <app-line-command
-          title="/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{cancellationId}"
-        ></app-line-command>
-        {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_2' | translate }}
-        <app-line-command title="payment-service"></app-line-command>
-        {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_3' | translate }}
-        <app-line-command title="payment-product"></app-line-command>
-        {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_4' | translate }}
-        <span class="bold-text">{{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.STEP' | translate }}</span>
-        {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_5' | translate }}
-      </p>
-      <p>
-        {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_6' | translate }}
-        <span class="bold-text">{{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.STEP' | translate }}</span>
-        {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_7' | translate }}
-        <app-line-command title="paymentId"></app-line-command>
-        {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_8' | translate }}
-        <app-line-command title="cancellationId"></app-line-command>
-        .
-      </p>
-      <p>{{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_9' | translate }}</p>
-      <app-code-area [json]="jsonData1" [id]="'EPCPut-1'"></app-code-area>
-
-      <p>
-        {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_10' | translate }} <span class="bold-text">YOUR_USER_PASSWORD</span>
-        {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_11' | translate }}
-      </p>
-      <p>
-        {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_12' | translate }}
-        <app-line-command title="200 HTTP code"></app-line-command>
-        .
-      </p>
-
+      <h2>{{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.TITLE' | translate }}</h2>
       <br />
-      <span class="bold-text">b) {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.SUBTITLE_2' | translate }}</span>
+      <span class="subtitle">{{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.SUBTITLE_TAN' | translate }}</span
+      ><br />
+      <span class="bold-text">a) {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.SUBTITLE_2' | translate }}</span>
       <p>
         {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_13' | translate }} <span class="bold-text">PUT</span> endpoint
         <app-line-command
@@ -107,8 +72,8 @@
       <app-code-area [json]="jsonData1" [id]="'EPCPut-2'"></app-code-area>
 
       <p>
-        {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_22' | translate }} <span class="bold-text">YOUR_USER_PASSWORD</span>
-        {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_23' | translate }}
+        {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_22' | translate }} <span class="bold-text">YOUR_USER_TAN</span>
+        {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_51' | translate }}
       </p>
       <p>
         {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_24' | translate }}
@@ -123,8 +88,8 @@
         <app-line-command title="200 HTTP code"></app-line-command>.
       </p>
 
-      <br />
-      <span class="bold-text">c) {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.SUBTITLE_3' | translate }}</span>
+      <br /><br />
+      <span class="bold-text">b) {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.SUBTITLE_3' | translate }}</span>
       <p>
         {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_28' | translate }} <span class="bold-text">PUT</span> endpoint
         <app-line-command
@@ -151,8 +116,8 @@
       <app-code-area [json]="jsonData1" [id]="'EPCPut-4'"></app-code-area>
 
       <p>
-        {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_37' | translate }} <span class="bold-text">YOUR_USER_PASSWORD</span>
-        {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_38' | translate }}
+        {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_37' | translate }} <span class="bold-text">YOUR_USER_TAN</span>
+        {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_51' | translate }}
       </p>
       <p>
         {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_39' | translate }}

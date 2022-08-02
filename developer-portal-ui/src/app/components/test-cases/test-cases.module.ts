@@ -78,6 +78,7 @@ import { PaymentInitationComponent } from './sidenav/payment-initation/payment-i
 import { IntroComponent } from './sidenav/intro/intro.component';
 import { FundsConfirmationNavComponent } from './sidenav/funds-confirmation/funds-confirmation-nav.component';
 import { FundsConfirmationComponent } from './components/api-endpoints/funds-confirmation/funds-confirmation.component';
+import { EmbPaymentCancellPutTanComponent } from './components/api-endpoints/emb-payment-cancell-put-tan/emb-payment-cancell-put-component-tan.component';
 
 @NgModule({
   declarations: [
@@ -120,6 +121,7 @@ import { FundsConfirmationComponent } from './components/api-endpoints/funds-con
     PaymentInitationComponent,
     IntroComponent,
     FundsConfirmationNavComponent,
+    EmbPaymentCancellPutTanComponent,
   ],
   imports: [
     CommonModule,

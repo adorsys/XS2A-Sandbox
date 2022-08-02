@@ -99,7 +99,6 @@ export class TestCasesComponent implements OnInit {
             (scaApproaches: Array<string>) => {
               this.redirectSupported = redirectSupportedInSettings && scaApproaches.includes(redirect.toLocaleUpperCase());
               this.embeddedSupported = embeddedSupportedInSettings && scaApproaches.includes(embedded.toLocaleUpperCase());
-              this.embeddedSupported = true;
             },
             () => {
               this.redirectSupported = redirectSupportedInSettings;
@@ -154,5 +153,29 @@ export class TestCasesComponent implements OnInit {
   openFundsConfirmation() {
     this.fundsConfirmationMenu = !this.fundsConfirmationMenu;
     localStorage.setItem('fundsConfirmationMenu', String(this.fundsConfirmationMenu));
+  }
+
+  closeSidenav() {
+    const leftSection = document.getElementById('left-section');
+    leftSection.style.display = 'none';
+    leftSection.style.width = '0%';
+
+    const rightSection = document.getElementById('right-section');
+    rightSection.style.width = '100%';
+
+    const button = document.getElementById('openSideBarButton');
+    button.style.display = 'flex';
+  }
+
+  openSidenav() {
+    const leftSection = document.getElementById('left-section');
+    leftSection.style.display = 'block';
+    leftSection.style.width = '30%';
+
+    const rightSection = document.getElementById('right-section');
+    rightSection.style.width = '70%';
+
+    const button = document.getElementById('openSideBarButton');
+    button.style.display = 'none';
   }
 }

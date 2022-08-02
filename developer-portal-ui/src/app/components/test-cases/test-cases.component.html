@@ -17,10 +17,12 @@
   -->
 
 <div class="test-cases-main">
-  <div class="left-section">
+  <div id="left-section">
+    <button id="closeBtn" (click)="closeSidenav()"><mat-icon class="menu-button">keyboard_arrow_left</mat-icon> Hide Sidebar</button>
+
     <app-intro-component [redirectSupported]="redirectSupported" [embeddedSupported]="embeddedSupported"></app-intro-component>
 
-    <div class="section-header">Test Cases</div>
+    <div class="section-header">{{ 'TEST_CASES.TEST_CASES' | translate }}</div>
 
     <div class="newMenue flex-shrink-0 p-3 bg-white">
       <app-payment-initation-component
@@ -58,7 +60,10 @@
       ></app-funds-confirmation-nav>
     </div>
   </div>
-  <div class="right-section">
+  <div id="right-section">
+    <button id="openSideBarButton" class="openBtn m-3 p-2" (click)="openSidenav()">
+      <mat-icon class="menu-button">keyboard_arrow_right</mat-icon> Open Sidebar
+    </button>
     <router-outlet></router-outlet>
   </div>
 </div>

@@ -20,9 +20,11 @@
 
 .documentation-header-section {
   padding-top: 4vw;
+
   .documentation-header-title {
     color: var(--colorPrimary);
   }
+
   .documentation-header-desc {
     font-weight: 600;
   }
@@ -33,13 +35,15 @@
 .test-cases-main {
   display: flex;
   font-weight: normal;
-  .left-section {
+
+  #left-section {
     background-color: var(--testCasesLeftSectionBG);
     width: 30%;
+    min-width: 25%;
     min-height: (100vh - 32vh);
   }
 
-  .right-section {
+  #right-section {
     width: 70%;
     background-color: var(--testCasesRightSectionBG);
   }
@@ -52,4 +56,16 @@
   padding-bottom: 10px;
   font-weight: 900;
   color: var(--colorPrimary);
+}
+
+.openBtn {
+  display: none;
+  align-items: center;
+}
+
+#closeBtn {
+  display: flex;
+  align-items: center;
+  padding: 10px !important;
+  margin: 20px;
 }

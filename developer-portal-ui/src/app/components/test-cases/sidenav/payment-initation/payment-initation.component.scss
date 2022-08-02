@@ -178,4 +178,8 @@ main {
 .mat-list-base .mat-list-item,
 .mat-list-base .mat-list-option {
   width: 400px;
+  &:hover {
+    color: rgba(0, 0, 0, 0.85);
+    background-color: #d2f4ea;
+  }
 }

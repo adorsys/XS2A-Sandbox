@@ -42,21 +42,22 @@
       <h1>{{ 'TEST_CASES.SIDE_NAV.PAYMENT.CANCELLATION.INITIATE_PAYMENT_CANCELLATION' | translate }}</h1>
       <br />
       <h2>{{ 'TEST_CASES.COMPONENTS.EMB_CANS_DELETE.TITLE' | translate }}</h2>
-
       <p>
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_2_A' | translate }}
+        <a href="./test-cases/embedded-payment-initiation-create-post">Payment Initiation</a>.<br />
         {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_3' | translate }} <span class="bold-text">DELETE</span> endpoint
-        <app-line-command title="/v1/{payment-service}/{payment-product}/{paymentId}"></app-line-command>
+        <app-line-command title="/v1/{payment-service}/{payment-product}/{paymentId}"></app-line-command>.
         {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_4' | translate }}
         <app-line-command title="payment-service"></app-line-command>
         {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_5' | translate }}
         <app-line-command title="payment-product"></app-line-command>
         {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_6' | translate }}
-        <span class="bold-text">{{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.STEP' | translate }}</span> .
+        <span>{{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.STEP' | translate }}</span> .
       </p>
 
       <p>
         {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_7' | translate }}
-        <span class="bold-text">{{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.STEP' | translate }}</span>
+        <span>{{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.STEP' | translate }}</span>
         {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_DELETE.PART_8' | translate }}
         <app-line-command title="paymentId"></app-line-command>
         .
