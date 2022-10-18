@@ -117,7 +117,7 @@
         <mockito.version>3.2.4</mockito.version>
         <hamcrest-library.version>2.2</hamcrest-library.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
-        <fasterxml.version>2.13.4</fasterxml.version>
+        <fasterxml.version>2.13.4.2</fasterxml.version>
         <fasterxml-data-format.version>2.13.2</fasterxml-data-format.version>
         <opencsv.version>4.5</opencsv.version>
         <feign.version>11.7</feign.version>
