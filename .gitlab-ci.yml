@@ -14,10 +14,10 @@ stages:
   - "Lint"
   - "Compile" # build jar and provide as artifact
   - "Test" # run tests and code quality checks
+  - "Version Control" # parse pom.xml and change versions on sandbox project
+  - "Release" # release
   - "Package" # dockerize jar and push to docker registry
   - "Deploy" # push to openshift registry
-  - "Release" # release
-  - "Version Control" # parse pom.xml and change versions on sandbox project
 
 # ------------------------------------------------------------------
 # variables
@@ -589,7 +589,7 @@ release_artifacts_private:
 change_dependepcies_versions_support6x:
   stage: "Version Control"
   image: alpine
-  only: 
+  only:
     refs:
       - support-6.x
     changes:
@@ -607,30 +607,30 @@ change_dependepcies_versions_support6x:
     - git branch -a
     - git checkout master
   script:
-   - XS2A_VERSION=$(cat $CI_PROJECT_DIR/pom.xml | grep "<xs2a.version>" | awk -F"[<>]" '//{print $3}')
-   - CONNECTOR_VERSION=$(cat $CI_PROJECT_DIR/pom.xml | grep "<connector.version>" | awk -F"[<>]" '//{print $3}')
-   - LEDGERS_VERSION=$(cat $CI_PROJECT_DIR/pom.xml | grep "<ledgers.version>" | awk -F"[<>]" '//{print $3}')
-   - >
-     if [[ "$XS2A_VERSION" =~ "\d{1,2}\.\d{1,2}-SNAPSHOT" ]]; then 
-     XS2A_VERSION=develop;
-     fi
-   - >
-     if [[ "$CONNECTOR_VERSION" =~ "\d{1,2}\.\d{1,2}-SNAPSHOT" ]]; then 
-     CONNECTOR_VERSION=develop;
-     fi
-   - >
-     if [[ "$LEDGERS_VERSION" =~ "\d{1,2}\.\d{1,2}-SNAPSHOT" ]]; then 
-     LEDGERS_VERSION=develop;
-     fi
-   - |
-     sed -i "s/tag: .*$/tag: \"$XS2A_VERSION\"/" env/adorsys-modelbank-support6x/certificate-generator/env.yaml
-     sed -i "s/tag: .*$/tag: \"$LEDGERS_VERSION\"/" env/adorsys-modelbank-support6x/keycloak/env.yaml
-     sed -i "s/tag: .*$/tag: \"$LEDGERS_VERSION\"/" env/adorsys-modelbank-support6x/ledgers/env.yaml
-     sed -i "s/tag: .*$/tag: \"$XS2A_VERSION\"/" env/adorsys-modelbank-support6x/xs2a-aspsp-profile/env.yaml
-     sed -i "s/tag: .*$/tag: \"$CONNECTOR_VERSION\"/" env/adorsys-modelbank-support6x/xs2a-connector/env.yaml
-     sed -i "s/tag: .*$/tag: \"$XS2A_VERSION\"/" env/adorsys-modelbank-support6x/xs2a-consent-management/env.yaml
-     sed -i "s/tag: .*$/tag: \"$XS2A_VERSION\"/" env/adorsys-modelbank-support6x/xs2a-embedded/env.yaml
-     
+    - XS2A_VERSION=$(cat $CI_PROJECT_DIR/pom.xml | grep "<xs2a.version>" | awk -F"[<>]" '//{print $3}')
+    - CONNECTOR_VERSION=$(cat $CI_PROJECT_DIR/pom.xml | grep "<connector.version>" | awk -F"[<>]" '//{print $3}')
+    - LEDGERS_VERSION=$(cat $CI_PROJECT_DIR/pom.xml | grep "<ledgers.version>" | awk -F"[<>]" '//{print $3}')
+    - >
+      if [[ "$XS2A_VERSION" =~ "\d{1,2}\.\d{1,2}-SNAPSHOT" ]]; then
+      XS2A_VERSION=support14x;
+      fi
+    - >
+      if [[ "$CONNECTOR_VERSION" =~ "\d{1,2}\.\d{1,2}-SNAPSHOT" ]]; then
+      CONNECTOR_VERSION=support14x;
+      fi
+    - >
+      if [[ "$LEDGERS_VERSION" =~ "\d{1,2}\.\d{1,2}-SNAPSHOT" ]]; then
+      LEDGERS_VERSION=develop;
+      fi
+    - |
+      sed -i "s/tag: .*$/tag: \"$XS2A_VERSION\"/" env/adorsys-modelbank-support6x/certificate-generator/env.yaml
+      sed -i "s/tag: .*$/tag: \"$LEDGERS_VERSION\"/" env/adorsys-modelbank-support6x/keycloak/env.yaml
+      sed -i "s/tag: .*$/tag: \"$LEDGERS_VERSION\"/" env/adorsys-modelbank-support6x/ledgers/env.yaml
+      sed -i "s/tag: .*$/tag: \"$XS2A_VERSION\"/" env/adorsys-modelbank-support6x/xs2a-aspsp-profile/env.yaml
+      sed -i "s/tag: .*$/tag: \"$CONNECTOR_VERSION\"/" env/adorsys-modelbank-support6x/xs2a-connector/env.yaml
+      sed -i "s/tag: .*$/tag: \"$XS2A_VERSION\"/" env/adorsys-modelbank-support6x/xs2a-consent-management/env.yaml
+      sed -i "s/tag: .*$/tag: \"$XS2A_VERSION\"/" env/adorsys-modelbank-support6x/xs2a-embedded/env.yaml
+
   after_script:
     - cd ~/sandbox/sandbox-openshift
     - git status
@@ -638,14 +638,13 @@ change_dependepcies_versions_support6x:
     - git commit -m "change depension versions"
     - git push origin master
 
-
 change_dependepcies_versions_integ:
   stage: "Version Control"
   image: alpine
   rules:
     - if: $CI_COMMIT_TAG =~ /6\..*/
-     # changes:
-       # - "pom.xml"
+      # changes:
+      # - "pom.xml"
     - if: $CI_PIPELINE_SOURCE == "schedule"
       when: never
   before_script:
@@ -659,22 +658,22 @@ change_dependepcies_versions_integ:
     - git branch -a
     - git checkout master
   script:
-   - XS2A_VERSION=$(cat $CI_PROJECT_DIR/pom.xml | grep "<xs2a.version>" | awk -F"[<>]" '//{print $3}')
-   - CONNECTOR_VERSION=$(cat $CI_PROJECT_DIR/pom.xml | grep "<connector.version>" | awk -F"[<>]" '//{print $3}')
-   - LEDGERS_VERSION=$(cat $CI_PROJECT_DIR/pom.xml | grep "<ledgers.version>" | awk -F"[<>]" '//{print $3}')
-   - |
-     sed -i "s/tag: .*$/tag: \"$XS2A_VERSION\"/" env/adorsys-modelbank-demo/certificate-generator/env.yaml
-     sed -i "s/tag: .*$/tag: \"$LEDGERS_VERSION\"/" env/adorsys-modelbank-demo/keycloak/env.yaml
-     sed -i "s/tag: .*$/tag: \"$LEDGERS_VERSION\"/" env/adorsys-modelbank-demo/ledgers/env.yaml
-     sed -i "s/tag: .*$/tag: \"$XS2A_VERSION\"/" env/adorsys-modelbank-demo/xs2a-aspsp-profile/env.yaml
-     sed -i "s/tag: .*$/tag: \"$CONNECTOR_VERSION\"/" env/adorsys-modelbank-demo/xs2a-connector/env.yaml
-     sed -i "s/tag: .*$/tag: \"$XS2A_VERSION\"/" env/adorsys-modelbank-demo/xs2a-consent-management/env.yaml
+    - XS2A_VERSION=$(cat $CI_PROJECT_DIR/pom.xml | grep "<xs2a.version>" | awk -F"[<>]" '//{print $3}')
+    - CONNECTOR_VERSION=$(cat $CI_PROJECT_DIR/pom.xml | grep "<connector.version>" | awk -F"[<>]" '//{print $3}')
+    - LEDGERS_VERSION=$(cat $CI_PROJECT_DIR/pom.xml | grep "<ledgers.version>" | awk -F"[<>]" '//{print $3}')
+    - |
+      sed -i "s/tag: .*$/tag: \"$XS2A_VERSION\"/" env/adorsys-modelbank-demo/certificate-generator/env.yaml
+      sed -i "s/tag: .*$/tag: \"$LEDGERS_VERSION\"/" env/adorsys-modelbank-demo/keycloak/env.yaml
+      sed -i "s/tag: .*$/tag: \"$LEDGERS_VERSION\"/" env/adorsys-modelbank-demo/ledgers/env.yaml
+      sed -i "s/tag: .*$/tag: \"$XS2A_VERSION\"/" env/adorsys-modelbank-demo/xs2a-aspsp-profile/env.yaml
+      sed -i "s/tag: .*$/tag: \"$CONNECTOR_VERSION\"/" env/adorsys-modelbank-demo/xs2a-connector/env.yaml
+      sed -i "s/tag: .*$/tag: \"$XS2A_VERSION\"/" env/adorsys-modelbank-demo/xs2a-consent-management/env.yaml
 
 
-     sed -i "s/tag: .*$/tag: \"$CI_COMMIT_TAG\"/" env/adorsys-modelbank-demo/modelbank-admin/env.yaml
-     sed -i "s/tag: .*$/tag: \"$CI_COMMIT_TAG\"/" env/adorsys-modelbank-demo/modelbank-devportal/env.yaml
-     sed -i "s/tag: .*$/tag: \"$CI_COMMIT_TAG\"/" env/adorsys-modelbank-demo/modelbank-oba/env.yaml
-     sed -i "s/tag: .*$/tag: \"$CI_COMMIT_TAG\"/" env/adorsys-modelbank-demo/modelbank-tpp/env.yaml
+      sed -i "s/tag: .*$/tag: \"$CI_COMMIT_TAG\"/" env/adorsys-modelbank-demo/modelbank-admin/env.yaml
+      sed -i "s/tag: .*$/tag: \"$CI_COMMIT_TAG\"/" env/adorsys-modelbank-demo/modelbank-devportal/env.yaml
+      sed -i "s/tag: .*$/tag: \"$CI_COMMIT_TAG\"/" env/adorsys-modelbank-demo/modelbank-oba/env.yaml
+      sed -i "s/tag: .*$/tag: \"$CI_COMMIT_TAG\"/" env/adorsys-modelbank-demo/modelbank-tpp/env.yaml
   after_script:
     - cd ~/sandbox/sandbox-openshift
     - git status
