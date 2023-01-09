@@ -43,9 +43,22 @@
         </dependency>
 
         <dependency>
+            <groupId>de.adorsys.ledgers</groupId>
+            <artifactId>ledgers-utils</artifactId>
+            <version>${ledgers.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>de.adorsys.psd2</groupId>
             <artifactId>consent-core-api</artifactId>
             <version>${xs2a.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.adorsys.psd2</groupId>
+            <artifactId>xs2a-core</artifactId>
+            <version>${xs2a.version}</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
@@ -53,17 +66,6 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>de.adorsys.ledgers</groupId>
-            <artifactId>ledgers-utils</artifactId>
-            <version>${ledgers.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.adorsys.psd2</groupId>
-            <artifactId>xs2a-core</artifactId>
-            <version>${xs2a.version}</version>
-            <scope>compile</scope>
-        </dependency>
 
     </dependencies>
 </project>

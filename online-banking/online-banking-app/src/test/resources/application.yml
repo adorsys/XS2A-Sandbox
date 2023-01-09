@@ -41,7 +41,7 @@ cms.url: http://localhost:38080
 #LOGGER
 # logging.level.org.springframework.web: DEBUG
 
-license.url: https://github.com/adorsys/xs2a/blob/master/LICENSE.md
+license.url: https://www.gnu.org/licenses/agpl-3.0.html
 
 skip.ssl.certificate.verification: true
 

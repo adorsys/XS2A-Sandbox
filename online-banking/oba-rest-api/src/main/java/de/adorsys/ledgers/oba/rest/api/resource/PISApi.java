@@ -21,15 +21,15 @@ package de.adorsys.ledgers.oba.rest.api.resource;
 import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
 import de.adorsys.ledgers.middleware.api.domain.account.AccountReferenceTO;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Authorization;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(value = PISApi.BASE_PATH, tags = "PSU PIS. Provides access to online banking payment functionality")
+@Tag(name = "PSU PIS. Provides access to online banking payment functionality")
 public interface PISApi {
     String BASE_PATH = "/pis";
 
@@ -47,7 +47,7 @@ public interface PISApi {
      * @return PaymentAuthorizeResponse
      */
     @PostMapping(path = "/{encryptedPaymentId}/authorisation/{authorisationId}/login")
-    @ApiOperation(value = "Identifies the user by login an pin. Return sca methods information")
+    @Operation(summary = "Identifies the user by login an pin. Return sca methods information")
     ResponseEntity<PaymentAuthorizeResponse> login(
         @PathVariable("encryptedPaymentId") String encryptedPaymentId,
         @PathVariable("authorisationId") String authorisationId,
@@ -63,8 +63,8 @@ public interface PISApi {
      * @return PaymentAuthorizeResponse
      */
     @PostMapping(path = "/{encryptedPaymentId}/authorisation/{authorisationId}/initiate")
-    @ApiOperation(value = "Calls the consent validation page.",
-        authorizations = @Authorization(value = "apiKey"))
+    @Operation(summary = "Calls the consent validation page.")
+    @SecurityRequirement(name = "apiKey")
     ResponseEntity<PaymentAuthorizeResponse> initiatePayment(
         @PathVariable("encryptedPaymentId") String encryptedPaymentId,
         @PathVariable("authorisationId") String authorisationId,
@@ -79,7 +79,8 @@ public interface PISApi {
      * @return PaymentAuthorizeResponse
      */
     @PostMapping("/{encryptedPaymentId}/authorisation/{authorisationId}/methods/{scaMethodId}")
-    @ApiOperation(value = "Selects the SCA Method for use.", authorizations = @Authorization(value = "apiKey"))
+    @Operation(summary = "Selects the SCA Method for use.")
+    @SecurityRequirement(name = "apiKey")
     ResponseEntity<PaymentAuthorizeResponse> selectMethod(
         @PathVariable("encryptedPaymentId") String encryptedPaymentId,
         @PathVariable("authorisationId") String authorisationId,
@@ -94,7 +95,8 @@ public interface PISApi {
      * @return PaymentAuthorizeResponse
      */
     @PostMapping(path = "/{encryptedPaymentId}/authorisation/{authorisationId}/authCode", params = {"authCode"})
-    @ApiOperation(value = "Provides a TAN for the validation of an authorization", authorizations = @Authorization(value = "apiKey"))
+    @Operation(summary = "Provides a TAN for the validation of an authorization")
+    @SecurityRequirement(name = "apiKey")
     ResponseEntity<PaymentAuthorizeResponse> authrizedPayment(
         @PathVariable("encryptedPaymentId") String encryptedPaymentId,
         @PathVariable("authorisationId") String authorisationId,
@@ -107,9 +109,9 @@ public interface PISApi {
      * @return <code>true</code> if payment authorisation was found and failed. <code>false</code> otherwise.
      */
     @DeleteMapping(path = "/{encryptedPaymentId}/{authorisationId}")
-    @ApiOperation(value = "Fail payment authorisation", authorizations = @Authorization(value = "apiKey"),
-        notes = "This call provides the server with the opportunity to close this session and "
+    @Operation(summary = "Fail payment authorisation", description = "This call provides the server with the opportunity to close this session and "
                     + "revoke consent.")
+    @SecurityRequirement(name = "apiKey")
     ResponseEntity<PaymentAuthorizeResponse> failPaymentAuthorisation(@PathVariable("encryptedPaymentId") String encryptedPaymentId,
                                                                       @PathVariable("authorisationId") String authorisationId);
 
@@ -124,9 +126,9 @@ public interface PISApi {
      * @return redirect location header with TPP url
      */
     @GetMapping(path = "/{encryptedPaymentId}/authorisation/{authorisationId}/done")
-    @ApiOperation(value = "Close consent session", authorizations = @Authorization(value = "apiKey"),
-        notes = "This call provides the server with the opportunity to close this session and "
+    @Operation(summary = "Close consent session",description = "This call provides the server with the opportunity to close this session and "
                     + "redirect the PSU to the TPP or close the application window.")
+    @SecurityRequirement(name = "apiKey")
     ResponseEntity<PaymentAuthorizeResponse> pisDone(
         @PathVariable("encryptedPaymentId") String encryptedPaymentId,
         @PathVariable("authorisationId") String authorisationId,
@@ -141,8 +143,8 @@ public interface PISApi {
      * @return list of bank accounts for given PSU.
      */
     @GetMapping(path = "/accounts")
-    @ApiOperation(value = "Read account list for given PSU", authorizations = @Authorization(value = "apiKey"),
-        notes = "This call allows to get all accounts for given PSU.")
+    @Operation(summary = "Read account list for given PSU", description = "This call allows to get all accounts for given PSU.")
+    @SecurityRequirement(name = "apiKey")
     ResponseEntity<List<AccountDetailsTO>> getAccountList();
 
 }

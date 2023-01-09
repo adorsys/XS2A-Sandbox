@@ -21,44 +21,40 @@ package de.adorsys.psd2.sandbox.tpp.rest.api.resource;
 import de.adorsys.ledgers.middleware.api.domain.sca.SCAConsentResponseTO;
 import de.adorsys.ledgers.util.domain.CustomPageImpl;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.PiisConsent;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Authorization;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Api(tags = "TPP PIIS consent management")
+@Tag(name = "TPP PIIS consent management")
 public interface TppPiisConsentRestApi {
     String BASE_PATH = "/tpp/piis-consents";
 
-    @ApiOperation(value = "Create PIIS consent",
-        notes = "Endpoint to create PIIS consent for the given PSU",
-        authorizations = @Authorization(value = "apiKey"))
+    @Operation(summary = "Create PIIS consent", description = "Endpoint to create PIIS consent for the given PSU")
+    @SecurityRequirement(name = "apiKey")
     @PostMapping
     ResponseEntity<SCAConsentResponseTO> createPiisConsent(@RequestParam("userLogin") String userLogin,
                                                            @RequestParam("password") String password,
                                                            @RequestBody PiisConsent piisConsent);
 
-    @ApiOperation(value = "Get PIIS consents",
-        notes = "Endpoint to get the list of PIIS consents for the given PSU with pagination",
-        authorizations = @Authorization(value = "apiKey"))
+    @Operation(summary = "Get PIIS consents", description = "Endpoint to get the list of PIIS consents for the given PSU with pagination")
+    @SecurityRequirement(name = "apiKey")
     @GetMapping
     ResponseEntity<CustomPageImpl<PiisConsent>> getPiisConsents(
         @RequestParam(value = "userLogin") String userLogin,
         @RequestParam(value = "page", required = false, defaultValue = "0") int page,
         @RequestParam(value = "size", required = false, defaultValue = "25") int size);
 
-    @ApiOperation(value = "Get PIIS consent details",
-        notes = "Endpoint to get the details of PIIS consent by its ID",
-        authorizations = @Authorization(value = "apiKey"))
+    @Operation(summary = "Get PIIS consent details", description = "Endpoint to get the details of PIIS consent by its ID")
+    @SecurityRequirement(name = "apiKey")
     @GetMapping("/{consentId}")
     ResponseEntity<PiisConsent> getPiisConsent(
         @RequestParam("userLogin") String userLogin,
         @PathVariable(value = "consentId") String consentId);
 
-    @ApiOperation(value = "Terminate the given PIIS consent",
-        notes = "Changes the definite PIIS consent status to TERMINATED_BY_ASPSP",
-        authorizations = @Authorization(value = "apiKey"))
+    @Operation(summary = "Terminate the given PIIS consent", description = "Changes the definite PIIS consent status to TERMINATED_BY_ASPSP")
+    @SecurityRequirement(name = "apiKey")
     @PutMapping("/{consentId}/terminate")
     ResponseEntity<Void> terminatePiisConsent(@PathVariable(value = "consentId") String consentId);
 

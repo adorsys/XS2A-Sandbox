@@ -27,13 +27,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.internal.util.reflection.FieldSetter;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -86,7 +86,7 @@ class ParseServiceTest {
     @Test
     void getDefaultData() throws NoSuchFieldException {
         // Given
-        FieldSetter.setField(parseService, parseService.getClass().getDeclaredField("resourceLoader"), LOCAL_LOADER);
+        ReflectionTestUtils.setField(parseService, "resourceLoader", LOCAL_LOADER);
 
         // When
         Optional<DataPayload> data = parseService.getDefaultData();

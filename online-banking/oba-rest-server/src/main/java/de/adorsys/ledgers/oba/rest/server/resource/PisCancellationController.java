@@ -23,16 +23,14 @@ import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.oba.rest.api.resource.PisCancellationApi;
-import de.adorsys.psd2.sandbox.auth.MiddlewareAuthentication;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
 import de.adorsys.ledgers.oba.service.api.domain.PaymentWorkflow;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.api.service.CommonPaymentService;
 import de.adorsys.ledgers.oba.service.api.service.TokenAuthenticationService;
+import de.adorsys.psd2.sandbox.auth.MiddlewareAuthentication;
 import feign.FeignException;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -47,7 +45,6 @@ import static de.adorsys.ledgers.oba.rest.api.resource.PisCancellationApi.BASE_P
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(BASE_PATH)
-@Api(value = BASE_PATH, tags = "PSU PIS Cancellation. Provides access to online banking payment functionality")
 public class PisCancellationController implements PisCancellationApi {
     private final CommonPaymentService paymentService;
     private final XISControllerService xisService;
@@ -58,7 +55,6 @@ public class PisCancellationController implements PisCancellationApi {
     private final TokenAuthenticationService authenticationService;
 
     @Override
-    @ApiOperation(value = "Identifies the user by login an pin. Return sca methods information")
     public ResponseEntity<PaymentAuthorizeResponse> login(String encryptedPaymentId, String authorisationId, String login, String pin) {
         PaymentWorkflow workflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, null);
         if (workflow.getPaymentStatus().equals(TransactionStatusTO.RCVD.name())) {

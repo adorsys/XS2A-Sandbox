@@ -20,27 +20,30 @@ package de.adorsys.psd2.sandbox.tpp.rest.api.resource;
 
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.OperationInfo;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.OperationType;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Authorization;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(tags = "TPP Operation info management")
+@Tag(name = "TPP Operation info management")
 public interface TppOperationInfoRestApi {
     String BASE_PATH = "/tpp/operation";
 
     @GetMapping
-    @ApiOperation(value = "Retrieves all Operation infos for current TPP", authorizations = @Authorization(value = "apiKey"))
+    @Operation(summary = "Retrieves all Operation infos for current TPP")
+    @SecurityRequirement(name = "apiKey")
     ResponseEntity<List<OperationInfo>> getAllOperations(@RequestParam(value = "operationType", required = false) OperationType operationType);
 
     @PostMapping
-    @ApiOperation(value = "Adds new Operation info to database", authorizations = @Authorization(value = "apiKey"))
+    @Operation(summary = "Adds new Operation info to database")
+    @SecurityRequirement(name = "apiKey")
     ResponseEntity<OperationInfo> addOperationInfo(@RequestBody OperationInfo operationInfo);
 
     @DeleteMapping
-    @ApiOperation(value = "Removes Operation info by id", authorizations = @Authorization(value = "apiKey"))
+    @Operation(summary = "Removes Operation info by id")
+    @SecurityRequirement(name = "apiKey")
     ResponseEntity<Void> deleteOperationInfo(@RequestParam(value = "operationInfoId") Long operationInfoId);
 }

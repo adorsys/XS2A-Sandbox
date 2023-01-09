@@ -23,8 +23,8 @@ public class PermittedResources {
     protected static final String[] SWAGGER_WHITELIST = {
         "/swagger-resources/**",
         "/swagger-resources",
-        "/swagger-ui.html**",
-        "/v2/api-docs",
+        "/swagger-ui/**",
+        "/v3/api-docs/**",
         "/webjars/**",
         "favicon.ico",
         "/error"

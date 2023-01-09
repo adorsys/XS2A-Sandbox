@@ -2,7 +2,7 @@ server:
   port: 8093
 
 keycloak:
-  auth-server-url: http://localhost:8080/auth
+  auth-server-url: http://localhost:8080
   realm: ledgers
   resource: ledgers-client
   public-client: false
@@ -10,15 +10,30 @@ keycloak:
   credentials:
     secret: a61a81cd-7178-40d8-8386-ed02791e6592 #Here should be personal generated secret for client (swap public to 'private?' generate secret, swap to public again)
 
-springdoc:
-  api-docs:
-    enabled: false
+db:
+  host: localhost
+  database: consent
+  user: cms
+  password: cms
+  port: 5432
+  url: jdbc:postgresql://${db.host}:${db.port}/${db.database}
+
+tpp:
+  datasource:
+    jdbc-url: ${db.url}?currentSchema=tpp
+    username: ${db.user}
+    password: ${db.password}
+
+cms:
+  datasource:
+    jdbc-url: ${db.url}?currentSchema=consent
+    username: ${db.user}
+    password: ${db.password}
 
 spring:
   liquibase:
     enabled: true
     change-log: classpath:liquibase-master-changelog.xml
-    default-schema: tpp
   jpa:
     open-in-view: false
   servlet:
@@ -33,19 +48,11 @@ spring:
   devtools:
     remote:
       secret: fractal
-      #DBs Properties
-spring.datasource.hikari.jdbc-url: jdbc:postgresql://localhost:5432/consent?currentSchema=consent
-spring.datasource.hikari.username: cms
-spring.datasource.hikari.password: cms
-
-spring.tpp.datasource.hikari.jdbc-url: jdbc:postgresql://localhost:5432/consent?currentSchema=tpp
-spring.tpp.datasource.hikari.username: cms
-spring.tpp.datasource.hikari.password: cms
 
 ledgers.url: http://localhost:8088
 cms.url: http://localhost:38080
 
-license.url: https://github.com/adorsys/xs2a/blob/master/LICENSE.md
+license.url: https://www.gnu.org/licenses/agpl-3.0.html
 
 feign:
   okhttp:
@@ -65,7 +72,7 @@ management:
     web:
       cors:
         allow-credentials: true
-        allowed-origins: "*"
+        allowed-origin-patterns: "*"
         allowed-headers: "*"
         allowed-methods: GET,POST,PUT,DELETE,OPTIONS,PATCH
         max-age: 3600

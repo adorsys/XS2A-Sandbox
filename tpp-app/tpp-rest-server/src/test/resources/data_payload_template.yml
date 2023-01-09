@@ -53,5 +53,5 @@ payments:
               postalCode: 04310,
               country: Germany,
             },
-          remittanceInformationUnstructured: Some payment info,
+          remittanceInformationUnstructuredArray: [Some payment info],
         }

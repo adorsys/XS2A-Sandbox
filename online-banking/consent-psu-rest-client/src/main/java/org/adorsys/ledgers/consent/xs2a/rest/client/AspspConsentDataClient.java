@@ -18,10 +18,25 @@
 
 package org.adorsys.ledgers.consent.xs2a.rest.client;
 
-import de.adorsys.psd2.consent.psu.api.AspspConsentDataPsuApi;
+import de.adorsys.psd2.consent.api.CmsAspspConsentDataBase64;
 import org.adorsys.ledgers.consent.xs2a.rest.config.FeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@FeignClient(value = "aspspConsentDataClient", url = "${cms.url}", primary = false, configuration = FeignConfig.class)
-public interface AspspConsentDataClient extends AspspConsentDataPsuApi {
+@FeignClient(value = "aspspConsentDataClient", url = "${cms.url}", path = "psu-api/v1/aspsp-consent-data/consents", primary = false, configuration = FeignConfig.class)
+public interface AspspConsentDataClient {
+
+    @GetMapping("/{consent-id}")
+    ResponseEntity<CmsAspspConsentDataBase64> getAspspConsentData(
+        @PathVariable("consent-id") String encryptedConsentId);
+
+    @PutMapping("/{consent-id}")
+    ResponseEntity<Void> updateAspspConsentData(
+        @PathVariable("consent-id") String encryptedConsentId,
+        @RequestBody CmsAspspConsentDataBase64 request);
+
+    @DeleteMapping("/{consent-id}")
+    ResponseEntity<Void> deleteAspspConsentData(
+        @PathVariable("consent-id") String encryptedConsentId);
 }

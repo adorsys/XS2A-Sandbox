@@ -20,21 +20,12 @@ package de.adorsys.ledgers.oba.rest.server.resource;
 
 import de.adorsys.ledgers.keycloak.client.api.KeycloakTokenService;
 import de.adorsys.ledgers.middleware.api.domain.account.AccountReferenceTO;
-import de.adorsys.ledgers.middleware.api.domain.payment.AmountTO;
-import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTO;
-import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTargetTO;
-import de.adorsys.ledgers.middleware.api.domain.payment.PaymentTypeTO;
-import de.adorsys.ledgers.middleware.api.domain.payment.TransactionStatusTO;
+import de.adorsys.ledgers.middleware.api.domain.payment.*;
 import de.adorsys.ledgers.middleware.api.domain.sca.GlobalScaResponseTO;
 import de.adorsys.ledgers.middleware.api.domain.sca.OpTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
-import de.adorsys.psd2.sandbox.auth.MiddlewareAuthentication;
-import de.adorsys.ledgers.oba.service.api.domain.AuthorizeResponse;
-import de.adorsys.ledgers.oba.service.api.domain.ConsentReference;
-import de.adorsys.ledgers.oba.service.api.domain.ConsentType;
-import de.adorsys.ledgers.oba.service.api.domain.PaymentAuthorizeResponse;
-import de.adorsys.ledgers.oba.service.api.domain.PaymentWorkflow;
+import de.adorsys.ledgers.oba.service.api.domain.*;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaErrorCode;
 import de.adorsys.ledgers.oba.service.api.domain.exception.ObaException;
 import de.adorsys.ledgers.oba.service.api.service.CmsAspspConsentDataService;
@@ -42,16 +33,17 @@ import de.adorsys.ledgers.oba.service.api.service.CommonPaymentService;
 import de.adorsys.ledgers.oba.service.api.service.ConsentReferencePolicy;
 import de.adorsys.psd2.consent.api.pis.CmsCommonPayment;
 import de.adorsys.psd2.consent.api.pis.CmsPaymentResponse;
+import de.adorsys.psd2.sandbox.auth.MiddlewareAuthentication;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuAisClient;
 import org.adorsys.ledgers.consent.psu.rest.client.CmsPsuPisClient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.internal.util.reflection.FieldSetter;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -63,13 +55,9 @@ import java.util.HashSet;
 
 import static de.adorsys.ledgers.middleware.api.domain.sca.ScaStatusTO.FINALISED;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class XISControllerServiceTest {
@@ -116,8 +104,8 @@ class XISControllerServiceTest {
     @Test
     void auth() throws NoSuchFieldException {
         // Given
-        FieldSetter.setField(service, service.getClass().getDeclaredField("response"), new MockHttpServletResponse());
-        FieldSetter.setField(service, service.getClass().getDeclaredField("loginPage"), "www.loginPage.html");
+        ReflectionTestUtils.setField(service, "response", new MockHttpServletResponse());
+        ReflectionTestUtils.setField(service, "loginPage", "www.loginPage.html");
 
         // When
         ResponseEntity<AuthorizeResponse> result = service.auth(AUTH_ID, ConsentType.AIS, ENCRYPTED_ID, response);

@@ -32,7 +32,6 @@
 
     <modules>
         <module>online-banking</module>
-        <module>integration-tests</module>
         <module>tpp-app</module>
         <module>admin-app</module>
         <module>xs2a-cms-starter</module>
@@ -86,46 +85,70 @@
             <organization>adorsys GmbH &amp; Co KG</organization>
             <organizationUrl>https://adorsys.de/</organizationUrl>
         </developer>
+        <developer>
+            <name>Hryhorii Hevorkian</name>
+            <email>hhe@adorsys.com.ua</email>
+            <organization>LLC Golden Dimension</organization>
+            <organizationUrl>https://adorsys.com.ua/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Serhii Semenykhin</name>
+            <email>sse@adorsys.com.ua</email>
+            <organization>LLC Golden Dimension</organization>
+            <organizationUrl>https://adorsys.com.ua/</organizationUrl>
+        </developer>
     </developers>
 
     <properties>
         <!-- common properties -->
+        <java.version>11</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <ruleset.basedir>${project.basedir}</ruleset.basedir>
         <dependency.locations.enabled>false</dependency.locations.enabled>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- Maven plugins-->
         <maven-enforcer-plugin.version>3.0.0-M2</maven-enforcer-plugin.version>
-        <maven.surefire.plugin.version>3.0.0-M4</maven.surefire.plugin.version>
-        <java.version>11</java.version>
+        <maven.surefire.plugin.version>3.0.0-M6</maven.surefire.plugin.version>
+        <jacoco-maven-plugin.version>0.8.3</jacoco-maven-plugin.version>
+        <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
+        <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
+        <maven-failsafe-plugin.version>3.0.0-M3</maven-failsafe-plugin.version>
+        <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
+        <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
+        <liquibase-maven-plugin.version>4.9.0</liquibase-maven-plugin.version>
         <pmd.plugin.version>3.13.0</pmd.plugin.version>
+
         <!-- xs2a version -->
-        <xs2a.version>12.6</xs2a.version>
-        <connector.version>12.6</connector.version>
-        <ledgers.version>4.17</ledgers.version>
-        <!-- other properties -->
-        <spring-boot-dependencies.version>2.3.1.RELEASE</spring-boot-dependencies.version>
-        <spring-cloud-dependencies.version>Hoxton.SR9</spring-cloud-dependencies.version>
-        <spring-test-dependencies.version>5.2.7.RELEASE</spring-test-dependencies.version>
+        <xs2a.version>14.5</xs2a.version>
+        <connector.version>14.5</connector.version>
+        <ledgers.version>4.20</ledgers.version>
+
+        <!-- Spring-related versions -->
+        <spring-boot-dependencies.version>2.7.0</spring-boot-dependencies.version>
+        <spring-cloud-dependencies.version>2021.0.5</spring-cloud-dependencies.version>
+        <spring-test.version>5.3.19</spring-test.version>
+
+        <!-- Other versions -->
         <jetbrains.annotations.version>15.0</jetbrains.annotations.version>
         <org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
-        <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
-        <swagger-annotations.version>1.5.20</swagger-annotations.version>
+        <springdoc-openapi-ui.version>1.6.9</springdoc-openapi-ui.version>
+        <swagger-annotations.version>2.2.0</swagger-annotations.version>
         <nimbus-jose-jwt.version>7.9</nimbus-jose-jwt.version>
         <lombok.version>1.18.4</lombok.version>
         <commons-io.version>2.8.0</commons-io.version>
-        <junit-jupiter.version>5.6.2</junit-jupiter.version>
-        <mockito.version>3.2.4</mockito.version>
+        <junit-jupiter.version>5.9.0</junit-jupiter.version>
+        <mockito-junit-jupiter.version>3.11.2</mockito-junit-jupiter.version>
         <hamcrest-library.version>2.2</hamcrest-library.version>
-        <validation-api.version>2.0.1.Final</validation-api.version>
-        <fasterxml.version>2.12.2</fasterxml.version>
-        <fasterxml-data-format.version>2.12.2</fasterxml-data-format.version>
-        <opencsv.version>4.5</opencsv.version>
-        <feign.version>10.10.1</feign.version>
-        <!--iban4j-version>3.2.1</iban4j-version-->
+        <javax.validation-api.version>2.0.1.Final</javax.validation-api.version>
+        <jackson-core.version>2.13.2</jackson-core.version>
+        <opencsv.version>5.6</opencsv.version>
+        <feign-okhttp.version>10.10.1</feign-okhttp.version>
         <commons-validator.version>1.7</commons-validator.version>
         <guava.version>30.1.1-jre</guava.version>
+
         <!--Sonar -->
         <sonar.core.coveragePlugin>jacoco</sonar.core.coveragePlugin>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
@@ -133,10 +156,10 @@
         <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
         <sonar.language>java</sonar.language>
         <sonar.coverage.exclusions>**/*Entity.java,**/*TO.java,**/*BO.java,**/*PO.java,**/*Application.java,**/*Exception.java,**/*Filter.java,
-            **/*Config.java,pom.xml,/integration-tests/**/*,**/oba-rest-api/**/*,**/oba-service-api/**/*,**/tpp-cms-api/**/*,**/tpp-rest-api/**/*,**/tpp-rest-client/**/*,**/online-banking-app/**/*,**/consent-psu-rest-client/**/*,**/*Configuration.java
+            **/*Config.java,pom.xml,**/oba-rest-api/**/*,**/oba-service-api/**/*,**/tpp-cms-api/**/*,**/tpp-rest-api/**/*,**/tpp-rest-client/**/*,**/online-banking-app/**/*,**/consent-psu-rest-client/**/*,**/*Configuration.java
         </sonar.coverage.exclusions>
         <sonar.exclusions>**/*Entity.java,**/*TO.java,**/*BO.java,**/*PO.java,**/*Application.java,**/*Exception.java,**/*Filter.java,
-            **/*Config.java,pom.xml,/integration-tests/**/*,**/oba-rest-api/**/*,**/oba-service-api/**/*,**/tpp-cms-api/**/*,**/tpp-rest-api/**/*,**/tpp-rest-client/**/*,**/online-banking-app/**/*,**/consent-psu-rest-client/**/*,**/*Configuration.java
+            **/*Config.java,pom.xml,**/oba-rest-api/**/*,**/oba-service-api/**/*,**/tpp-cms-api/**/*,**/tpp-rest-api/**/*,**/tpp-rest-client/**/*,**/online-banking-app/**/*,**/consent-psu-rest-client/**/*,**/*Configuration.java
         </sonar.exclusions>
         <sonar.moduleName>${project.artifactId}</sonar.moduleName>
         <skipITs>true</skipITs>
@@ -146,25 +169,14 @@
     <repositories>
 
         <repository>
-            <id>snapshots-repo</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
             <snapshots>
-                <enabled>true</enabled>
+                <enabled>false</enabled>
             </snapshots>
         </repository>
-		<repository>
-			<id>snapshots-nexus-ledgers</id>
-			<url>https://dxc-nexus.cloud.adorsys.de/repository/ledgers-keycloak-snapshot</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
+
 		<repository>
 			<id>gitlab-maven</id>
 			<url>https://git.adorsys.de/api/v4/groups/49/-/packages/maven</url>
@@ -175,6 +187,7 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
+
         <repository>
             <id>gitlab-ledgers</id>
             <url>https://git.adorsys.de/api/v4/projects/1500/packages/maven</url>
@@ -185,6 +198,7 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+
 		<repository>
 			<id>gitlab-xs2a-impl</id>
 			<url>https://git.adorsys.de/api/v4/projects/1323/packages/maven</url>
@@ -195,6 +209,7 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
+
 		<repository>
 			<id>gitlab-xs2a-connector</id>
 			<url>https://git.adorsys.de/api/v4/projects/1585/packages/maven</url>
@@ -244,33 +259,22 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId>
-                <version>${spring-test-dependencies.version}</version>
+                <version>${spring-test.version}</version>
                 <scope>test</scope>
             </dependency>
 
             <!-- swagger -->
 
             <dependency>
-                <groupId>io.swagger</groupId>
+                <groupId>io.swagger.core.v3</groupId>
                 <artifactId>swagger-annotations</artifactId>
                 <version>${swagger-annotations.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger2</artifactId>
-                <version>${springfox-swagger2.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>com.google.guava</groupId>
-                        <artifactId>guava</artifactId>
-                    </exclusion></exclusions>
-            </dependency>
-
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${springfox-swagger2.version}</version>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>${springdoc-openapi-ui.version}</version>
             </dependency>
 
             <!-- other dependencies -->
@@ -296,7 +300,7 @@
             <dependency>
                 <groupId>io.github.openfeign</groupId>
                 <artifactId>feign-okhttp</artifactId>
-                <version>${feign.version}</version>
+                <version>${feign-okhttp.version}</version>
             </dependency>
 
             <dependency>
@@ -314,39 +318,39 @@
             <dependency>
                 <groupId>javax.validation</groupId>
                 <artifactId>validation-api</artifactId>
-                <version>${validation-api.version}</version>
+                <version>${javax.validation-api.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>
-                <version>${fasterxml.version}</version>
+                <version>${jackson-core.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>${fasterxml.version}</version>
+                <version>${jackson-core.version}</version>
                 <scope>compile</scope>
             </dependency>
 
             <dependency>
                 <groupId>com.fasterxml.jackson.datatype</groupId>
                 <artifactId>jackson-datatype-jsr310</artifactId>
-                <version>${fasterxml.version}</version>
+                <version>${jackson-core.version}</version>
                 <scope>compile</scope>
             </dependency>
 
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
-                <version>${fasterxml.version}</version>
+                <version>${jackson-core.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-yaml</artifactId>
-                <version>${fasterxml-data-format.version}</version>
+                <version>${jackson-core.version}</version>
             </dependency>
 
             <dependency>
@@ -354,13 +358,6 @@
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
             </dependency>
-
-            <!-- Quickfix Iban4j -->
-            <!--dependency>
-                <groupId>org.iban4j</groupId>
-                <artifactId>iban4j</artifactId>
-                <version>${iban4j-version}</version>
-            </dependency-->
 
             <!-- Commons -->
             <dependency>
@@ -386,16 +383,9 @@
             </dependency>
 
             <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-api</artifactId>
-                <version>${junit-jupiter.version}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-junit-jupiter</artifactId>
-                <version>${mockito.version}</version>
+                <version>${mockito-junit-jupiter.version}</version>
                 <scope>test</scope>
             </dependency>
 
@@ -415,7 +405,7 @@
                 <plugin>
                     <groupId>org.sonarsource.scanner.maven</groupId>
                     <artifactId>sonar-maven-plugin</artifactId>
-                    <version>3.7.0.1746</version>
+                    <version>${sonar-maven-plugin.version}</version>
                 </plugin>
 
                 <plugin>
@@ -453,7 +443,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
@@ -474,7 +464,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.3</version>
+                <version>${jacoco-maven-plugin.version}</version>
                 <configuration>
                     <destFile>${sonar.jacoco.reportPath}</destFile>
                     <dataFile>${sonar.jacoco.reportPath}</dataFile>
@@ -505,7 +495,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.0.0-M3</version>
+                <version>${maven-failsafe-plugin.version}</version>
                 <configuration>
                     <classpathDependencyScopeExclude>provided</classpathDependencyScopeExclude>
                 </configuration>
@@ -541,21 +531,9 @@
                 <plugins>
 
                     <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.8</version>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <serverId>sonatype</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                        </configuration>
-                    </plugin>
-
-                    <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <version>3.0.1</version>
+                        <version>${maven-source-plugin.version}</version>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
@@ -569,7 +547,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
+                        <version>${maven-gpg-plugin.version}</version>
                         <configuration>
                         </configuration>
                         <executions>
@@ -607,16 +585,6 @@
                     </plugin>
                 </plugins>
             </build>
-            <distributionManagement>
-                <repository>
-                    <id>sonatype</id>
-                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
-                </repository>
-                <snapshotRepository>
-                    <id>sonatype</id>
-                    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-                </snapshotRepository>
-            </distributionManagement>
         </profile>
 
         <profile>
@@ -627,7 +595,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <version>3.0.1</version>
+                        <version>${maven-source-plugin.version}</version>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>

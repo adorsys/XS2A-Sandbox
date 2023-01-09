@@ -85,7 +85,8 @@ For commercial support please contact [adorsys Team](https://adorsys-platform.de
 
 ## License
 
-This project is licensed under the Apache License version 2.0 **(until 01.01.2022)** - see the [LICENSE](https://github.com/adorsys/XS2A-Sandbox/blob/master/LICENSE) file for details.
+This project is licensed under the GNU Affero General Public License 3.0. see the [LICENSE](https://www.gnu.org/licenses/agpl-3.0.html) file for details.
+Please note, that before 01.01.2022 - the license was Apache License version 2.0.
 
 ## FAQ on Licensing Change
 

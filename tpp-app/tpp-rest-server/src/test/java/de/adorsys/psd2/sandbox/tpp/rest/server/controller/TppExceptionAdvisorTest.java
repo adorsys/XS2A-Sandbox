@@ -28,10 +28,10 @@ import feign.Response;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.internal.util.reflection.FieldSetter;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.method.HandlerMethod;
 
 import java.nio.charset.Charset;
@@ -72,7 +72,7 @@ class TppExceptionAdvisorTest {
     @Test
     void handleFeignException() throws NoSuchMethodException, JsonProcessingException, NoSuchFieldException {
         // Given
-        FieldSetter.setField(service, service.getClass().getDeclaredField("objectMapper"), STATIC_MAPPER);
+        ReflectionTestUtils.setField(service, "objectMapper", STATIC_MAPPER);
 
         // When
         ResponseEntity<Map> result = service.handleFeignException(FeignException.errorStatus("method", getResponse()), new HandlerMethod(service, "toString", null));

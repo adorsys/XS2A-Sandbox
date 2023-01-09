@@ -21,12 +21,12 @@ package de.adorsys.ledgers.oba.rest.server.config.security;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.client.rest.AuthRequestInterceptor;
 import de.adorsys.ledgers.oba.rest.server.auth.JWTAuthenticationFilter;
+import de.adorsys.ledgers.oba.service.api.service.TokenAuthenticationService;
 import de.adorsys.psd2.sandbox.auth.EnableSandboxSecurityFilter;
 import de.adorsys.psd2.sandbox.auth.MiddlewareAuthentication;
 import de.adorsys.psd2.sandbox.auth.filter.LoginAuthenticationFilter;
 import de.adorsys.psd2.sandbox.auth.filter.RefreshTokenFilter;
 import de.adorsys.psd2.sandbox.auth.filter.TokenAuthenticationFilter;
-import de.adorsys.ledgers.oba.service.api.service.TokenAuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,10 +39,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.context.annotation.RequestScope;
 
-import static de.adorsys.ledgers.oba.rest.server.config.security.PermittedResources.*;
-
 import java.security.Principal;
 import java.util.Optional;
+
+import static de.adorsys.ledgers.oba.rest.server.config.security.PermittedResources.*;
 
 @SuppressWarnings("PMD.UnusedImports")
 @EnableSandboxSecurityFilter
@@ -115,19 +115,19 @@ public class WebSecurityConfig {
     @Bean
     @RequestScope
     public Principal getPrincipal() {
-        return auth().orElse(null);
+        return authorize().orElse(null);
     }
 
     @Bean
     @RequestScope
     public MiddlewareAuthentication getMiddlewareAuthentication() {
-        return auth().orElse(null);
+        return authorize().orElse(null);
     }
 
     @Bean
     @RequestScope
     public AccessTokenTO getAccessToken() {
-        return auth().map(this::extractToken).orElse(null);
+        return authorize().map(this::extractToken).orElse(null);
     }
 
     /**
@@ -135,7 +135,7 @@ public class WebSecurityConfig {
      *
      * @return
      */
-    private static Optional<MiddlewareAuthentication> auth() {
+    private static Optional<MiddlewareAuthentication> authorize() {
         return SecurityContextHolder.getContext() == null ||
             !(SecurityContextHolder.getContext().getAuthentication() instanceof MiddlewareAuthentication)
             ? Optional.empty()

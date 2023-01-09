@@ -18,11 +18,10 @@
 
 package de.adorsys.ledgers.oba.service.api.domain;
 
-import java.util.Objects;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 
 public class PsuMessage {
 	@JsonProperty("category")
@@ -44,7 +43,7 @@ public class PsuMessage {
 	 *
 	 * @return category
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true)
 	public PsuMessageCategory getCategory() {
 		return category;
 	}
@@ -63,7 +62,7 @@ public class PsuMessage {
 	 *
 	 * @return code
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true)
 	public String getCode() {
 		return code;
 	}
@@ -82,7 +81,7 @@ public class PsuMessage {
 	 *
 	 * @return path
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema
 	public String getPath() {
 		return path;
 	}
@@ -101,7 +100,7 @@ public class PsuMessage {
 	 *
 	 * @return text
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema
 	public String getText() {
 		return text;
 	}

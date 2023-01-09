@@ -18,76 +18,57 @@
 
 package de.adorsys.ledgers.oba.rest.server.config.swagger;
 
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.GroupedOpenApi;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.ApiKey;
-import springfox.documentation.service.Contact;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger.web.SecurityConfiguration;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
-import java.util.ArrayList;
-import java.util.Collections;
-
-import static springfox.documentation.swagger.web.SecurityConfigurationBuilder.builder;
 
 @Configuration
-@EnableSwagger2
 @RequiredArgsConstructor
 public class SwaggerConfig {
+    private static final String API_KEY = "apiKey";
+    private static final String AUTHORIZATION_HEADER = "Authorization";
+
     private final BuildProperties buildProperties;
 
     @Bean
-    public Docket productApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                   .groupName("PSU-API")
-                   .select()
-                   .apis(RequestHandlerSelectors.basePackage("de.adorsys.ledgers.oba.rest"))
-                   .paths(PathSelectors.any())
-                   .build()
-                   .pathMapping("/")
-                   .apiInfo(metaData())
-                   .securitySchemes(Collections.singletonList(apiKey()));
-    }
-
-    private ApiKey apiKey() {
-        return new ApiKey("apiKey", "Authorization", "header");
-    }
-
-
-    @Bean
-    public SecurityConfiguration security() {
-        return builder()
-                   .clientId(null)
-                   .clientSecret(null)
-                   .realm(null)
-                   .appName(null)
-                   .scopeSeparator(",")
-                   .useBasicAuthenticationWithAccessCodeGrant(false)
+    public GroupedOpenApi obaApi() {
+        return GroupedOpenApi.builder()
+                   .group("OBA-API")
+                   .packagesToScan("de.adorsys.ledgers.oba")
                    .build();
     }
 
-    private ApiInfo metaData() {
+    @Bean
+    public OpenAPI metaData() {
 
-        Contact contact = new Contact("Adorsys GmbH", "https://www.adorsys.de",
-                                      "fpo@adorsys.de");
+        Contact contact = new Contact()
+                              .name("Adorsys")
+                              .email("psd2@adorsys.com")
+                              .url("https://www.adorsys.de");
 
-        return new ApiInfo(
-            "Online banking",
-            "Implementation of backend for online banking UI. "
-                + "We have 3 preloaded users in Ledgers: <b>marion.mueller</b>, <b>anton.brueckner</b>, <b>max.musterman</b> all with the PIN <b>12345</b>. "
-                + "You can use the User Login API from Ledgers <b>/users/authorise2</b> endpoint to gain an access token. Then use the access token with the prefix 'Bearer ' to Authorize on this ui.",
-            buildProperties.getVersion() + " " + buildProperties.get("build.number"),
-            "Terms of Service: to be edited...",
-            contact,
-            "GNU Affero General Public License 3.0",
-            "https://www.gnu.org/licenses/agpl-3.0.txt",
-            new ArrayList<>());
+        return new OpenAPI()
+                   .info(new Info()
+                             .title("Online banking")
+                             .description("Implementation of backend for online banking UI. "
+                                              + "We have 3 preloaded users in Ledgers: <b>marion.mueller</b>, <b>anton.brueckner</b>, <b>max.musterman</b> all with the PIN <b>12345</b>. "
+                                              + "You can use the Keycloak API: <b>{keycloak.url}/realms/ledgers/protocol/openid-connect/token</b> to gain an access token. Then use the access token with the prefix 'Bearer ' to authorize on this UI."
+                             )
+                             .contact(contact)
+                             .version(buildProperties.getVersion() + " " + buildProperties.get("build.number"))
+                             .license(new License().name("AGPL version 3.0")
+                                          .url("https://www.gnu.org/licenses/agpl-3.0.txt")))
+                   .components(new Components()
+                                   .addSecuritySchemes(API_KEY, new SecurityScheme()
+                                                                    .type(SecurityScheme.Type.APIKEY)
+                                                                    .in(SecurityScheme.In.HEADER)
+                                                                    .name(AUTHORIZATION_HEADER)));
     }
 }

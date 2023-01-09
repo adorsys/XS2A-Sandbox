@@ -21,20 +21,20 @@ package de.adorsys.ledgers.oba.rest.server.resource.oba;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTokenTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AisConsentTO;
 import de.adorsys.ledgers.middleware.api.domain.um.BearerTokenTO;
-import de.adorsys.psd2.sandbox.auth.MiddlewareAuthentication;
 import de.adorsys.ledgers.oba.service.api.domain.CreatePiisConsentRequestTO;
 import de.adorsys.ledgers.oba.service.api.domain.ObaAisConsent;
 import de.adorsys.ledgers.oba.service.api.domain.TppInfoTO;
 import de.adorsys.ledgers.oba.service.api.service.ConsentService;
 import de.adorsys.ledgers.oba.service.api.service.TppInfoCmsService;
 import de.adorsys.psd2.consent.api.ais.CmsAisAccountConsent;
+import de.adorsys.psd2.sandbox.auth.MiddlewareAuthentication;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.internal.util.reflection.FieldSetter;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -103,7 +103,7 @@ class ObaConsentControllerTest {
     @Test
     void createPiis() throws NoSuchFieldException {
         // Given
-        FieldSetter.setField(controller, controller.getClass().getDeclaredField("auth"), new MiddlewareAuthentication(null, new BearerTokenTO(TOKEN, null, 999, null, getAccessTokenTO(), new HashSet<>())));
+        ReflectionTestUtils.setField(controller, "auth", new MiddlewareAuthentication(null, new BearerTokenTO(TOKEN, null, 999, null, getAccessTokenTO(), new HashSet<>())));
 
         // When
         ResponseEntity<Void> response = controller.createPiis(new CreatePiisConsentRequestTO());

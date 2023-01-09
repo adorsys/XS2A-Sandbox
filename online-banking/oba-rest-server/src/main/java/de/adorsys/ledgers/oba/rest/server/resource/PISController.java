@@ -33,8 +33,6 @@ import de.adorsys.ledgers.oba.service.api.service.CommonPaymentService;
 import de.adorsys.ledgers.oba.service.api.service.TokenAuthenticationService;
 import de.adorsys.psd2.sandbox.auth.MiddlewareAuthentication;
 import feign.FeignException;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -51,7 +49,6 @@ import static de.adorsys.ledgers.oba.rest.api.resource.PISApi.BASE_PATH;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(BASE_PATH)
-@Api(value = BASE_PATH, tags = "PSU PIS. Provides access to online banking payment functionality")
 public class PISController implements PISApi {
     private final CommonPaymentService paymentService;
     private final XISControllerService xisService;
@@ -63,7 +60,6 @@ public class PISController implements PISApi {
     private final AccountRestClient accountRestClient;
 
     @Override
-    @ApiOperation(value = "Identifies the user by login an pin. Return sca methods information")
     public ResponseEntity<PaymentAuthorizeResponse> login(String encryptedPaymentId, String authorisationId, String login, String pin) {
         PaymentWorkflow workflow = paymentService.identifyPayment(encryptedPaymentId, authorisationId, null);
         xisService.checkFailedCount(encryptedPaymentId);

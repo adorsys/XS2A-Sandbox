@@ -18,10 +18,94 @@
 
 package org.adorsys.ledgers.consent.psu.rest.client;
 
-import de.adorsys.psd2.consent.psu.api.CmsPsuPisApi;
+import de.adorsys.psd2.consent.api.CmsConstant;
+import de.adorsys.psd2.consent.api.pis.CmsBasePaymentResponse;
+import de.adorsys.psd2.consent.psu.api.CmsPsuAuthorisation;
+import de.adorsys.psd2.consent.psu.api.pis.CmsPisPsuDataAuthorisation;
+import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
+import de.adorsys.psd2.xs2a.core.sca.AuthenticationDataHolder;
 import org.adorsys.ledgers.consent.xs2a.rest.config.FeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@FeignClient(value = "cmsPsuPis", url = "${cms.url}", primary = false, configuration = FeignConfig.class)
-public interface CmsPsuPisClient extends CmsPsuPisApi {
+import java.util.List;
+
+import static de.adorsys.psd2.consent.psu.api.config.CmsPsuApiDefaultValue.DEFAULT_SERVICE_INSTANCE_ID;
+
+@FeignClient(value = "cmsPsuPis", url = "${cms.url}", path = "psu-api/v1/payment", primary = false, configuration = FeignConfig.class)
+public interface CmsPsuPisClient {
+
+    @PutMapping(path = "/authorisation/{authorisation-id}/psu-data")
+    ResponseEntity<Object> updatePsuInPayment(
+        @PathVariable("authorisation-id") String authorisationId,
+        @RequestHeader(value = "instance-id", required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId,
+        @RequestBody PsuIdData psuIdData);
+
+    @PutMapping(path = "/{payment-service}/{payment-product}/{payment-id}")
+    ResponseEntity<Object> updatePayment(@PathVariable("payment-id") String paymentId,
+
+                                         @PathVariable("payment-service") String paymentService,
+                                         @PathVariable("payment-product") String paymentProduct,
+
+                                         @RequestHeader(value = "instance-id", required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId,
+                                         @RequestBody Object body);
+
+    @GetMapping(path = "/redirect/{redirect-id}")
+    ResponseEntity<Object> getPaymentIdByRedirectId(
+        @PathVariable("redirect-id") String redirectId,
+        @RequestHeader(value = "instance-id", required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId);
+
+    @GetMapping(path = "/{payment-id}")
+    ResponseEntity<CmsBasePaymentResponse> getPaymentByPaymentId(
+        @RequestHeader(value = "psu-id", required = false) String psuId,
+        @RequestHeader(value = "psu-id-type", required = false) String psuIdType,
+        @RequestHeader(value = "psu-corporate-id", required = false) String psuCorporateId,
+        @RequestHeader(value = "psu-corporate-id-type", required = false) String psuCorporateIdType,
+        @PathVariable("payment-id") String paymentId,
+        @RequestHeader(value = "instance-id", required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId);
+
+    @GetMapping(path = "/cancellation/redirect/{redirect-id}")
+    ResponseEntity<Object> getPaymentIdByRedirectIdForCancellation(
+        @PathVariable("redirect-id") String redirectId,
+        @RequestHeader(value = "instance-id", required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId);
+
+    @GetMapping(path = "/cancellation/{payment-id}")
+    ResponseEntity<CmsBasePaymentResponse> getPaymentByPaymentIdForCancellation(
+        @RequestHeader(value = "psu-id", required = false) String psuId,
+        @RequestHeader(value = "psu-id-type", required = false) String psuIdType,
+        @RequestHeader(value = "psu-corporate-id", required = false) String psuCorporateId,
+        @RequestHeader(value = "psu-corporate-id-type", required = false) String psuCorporateIdType,
+        @PathVariable("payment-id") String paymentId,
+        @RequestHeader(value = "instance-id", required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId);
+
+    @GetMapping(path = "authorisation/{authorisation-id}")
+    ResponseEntity<CmsPsuAuthorisation> getAuthorisationByAuthorisationId(
+        @PathVariable("authorisation-id") String authorisationId,
+        @RequestHeader(value = "instance-id", required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId);
+
+    @PutMapping(path = "/{payment-id}/authorisation/{authorisation-id}/status/{status}")
+    ResponseEntity<Object> updateAuthorisationStatus(
+        @RequestHeader(value = "psu-id", required = false) String psuId,
+        @RequestHeader(value = "psu-id-type", required = false) String psuIdType,
+        @RequestHeader(value = "psu-corporate-id", required = false) String psuCorporateId,
+        @RequestHeader(value = "psu-corporate-id-type", required = false) String psuCorporateIdType,
+        @PathVariable("payment-id") String paymentId,
+        @PathVariable("authorisation-id") String authorisationId,
+        @PathVariable("status") String status,
+        @RequestHeader(value = "instance-id", required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId,
+        @RequestBody(required = false) AuthenticationDataHolder authenticationDataHolder);
+
+    @PutMapping(path = "/{payment-id}/status/{status}")
+    ResponseEntity<Void> updatePaymentStatus(
+        @PathVariable("payment-id") String paymentId,
+        @PathVariable("status") String status,
+        @RequestHeader(value = "instance-id", required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId);
+
+    @GetMapping(path = "/{payment-id}/authorisation/psus")
+    ResponseEntity<List<CmsPisPsuDataAuthorisation>> psuAuthorisationStatuses(
+        @PathVariable("payment-id") String paymentId,
+        @RequestHeader(value = "instance-id", required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId,
+        @RequestParam(value = CmsConstant.QUERY.PAGE_INDEX, required = false) Integer pageIndex,
+        @RequestParam(value = CmsConstant.QUERY.ITEMS_PER_PAGE, required = false) Integer itemsPerPage);
 }

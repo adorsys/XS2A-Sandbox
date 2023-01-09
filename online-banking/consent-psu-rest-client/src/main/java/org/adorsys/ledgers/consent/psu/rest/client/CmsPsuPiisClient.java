@@ -18,10 +18,45 @@
 
 package org.adorsys.ledgers.consent.psu.rest.client;
 
-import de.adorsys.psd2.consent.psu.api.CmsPsuPiisApi;
+import de.adorsys.psd2.consent.api.CmsConstant;
+import de.adorsys.psd2.consent.api.piis.v1.CmsPiisConsent;
 import org.adorsys.ledgers.consent.xs2a.rest.config.FeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@FeignClient(value = "cmsPsuPiis", url = "${cms.url}", primary = false, configuration = FeignConfig.class)
-public interface CmsPsuPiisClient extends CmsPsuPiisApi {
+import java.util.List;
+
+import static de.adorsys.psd2.consent.psu.api.config.CmsPsuApiDefaultValue.DEFAULT_SERVICE_INSTANCE_ID;
+
+@FeignClient(value = "cmsPsuPiis", url = "${cms.url}", path = "psu-api/v1/piis/consents", primary = false, configuration = FeignConfig.class)
+public interface CmsPsuPiisClient {
+
+    @GetMapping(path = "/{consent-id}")
+    ResponseEntity<CmsPiisConsent> getConsent(
+        @PathVariable("consent-id") String consentId,
+        @RequestHeader(value = "psu-id", required = false) String psuId,
+        @RequestHeader(value = "psu-id-type", required = false) String psuIdType,
+        @RequestHeader(value = "psu-corporate-id", required = false) String psuCorporateId,
+        @RequestHeader(value = "psu-corporate-id-type", required = false) String psuCorporateIdType,
+        @RequestHeader(value = "instance-id", required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId);
+
+    @GetMapping
+    ResponseEntity<List<CmsPiisConsent>> getConsentsForPsu(
+        @RequestHeader(value = "psu-id", required = false) String psuId,
+        @RequestHeader(value = "psu-id-type", required = false) String psuIdType,
+        @RequestHeader(value = "psu-corporate-id", required = false) String psuCorporateId,
+        @RequestHeader(value = "psu-corporate-id-type", required = false) String psuCorporateIdType,
+        @RequestHeader(value = "instance-id", required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId,
+        @RequestParam(value = CmsConstant.QUERY.PAGE_INDEX, required = false) Integer pageIndex,
+        @RequestParam(value = CmsConstant.QUERY.ITEMS_PER_PAGE, required = false) Integer itemsPerPage);
+
+    @PutMapping(path = "/{consent-id}/revoke-consent")
+    ResponseEntity<Boolean> revokeConsent(
+        @PathVariable("consent-id") String consentId,
+        @RequestHeader(value = "psu-id", required = false) String psuId,
+        @RequestHeader(value = "psu-id-type", required = false) String psuIdType,
+        @RequestHeader(value = "psu-corporate-id", required = false) String psuCorporateId,
+        @RequestHeader(value = "psu-corporate-id-type", required = false) String psuCorporateIdType,
+        @RequestHeader(value = "instance-id", required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId);
 }

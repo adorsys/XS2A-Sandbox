@@ -35,10 +35,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -57,7 +53,7 @@
             <plugin>
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-maven-plugin</artifactId>
-                <version>3.6.2</version>
+                <version>${liquibase-maven-plugin.version}</version>
 
                 <configuration>
                     <propertyFile>liquibase.properties</propertyFile>

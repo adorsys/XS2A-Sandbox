@@ -20,9 +20,9 @@ package de.adorsys.ledgers.oba.rest.api.resource.oba;
 
 import de.adorsys.ledgers.oba.service.api.domain.ObaPiisConsent;
 import de.adorsys.ledgers.util.domain.CustomPageImpl;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Authorization;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@Api(value = ObaPiisConsentApi.BASE_PATH, tags = "Online Banking ASPSP PIIS Consents")
+@Tag(name = "Online Banking ASPSP PIIS Consents")
 public interface ObaPiisConsentApi {
     String BASE_PATH = "/api/v1/piis-consents";
 
@@ -40,7 +40,8 @@ public interface ObaPiisConsentApi {
      * @return List of valid PIIS Consents for user
      */
     @GetMapping(path = "/{userLogin}")
-    @ApiOperation(value = "Get List of valid PIIS Consents", authorizations = @Authorization(value = "apiKey"))
+    @Operation(summary = "Get List of valid PIIS Consents")
+    @SecurityRequirement(name = "apiKey")
     ResponseEntity<List<ObaPiisConsent>> getPiisConsents(@PathVariable("userLogin") String userLogin);
 
     /**
@@ -48,7 +49,8 @@ public interface ObaPiisConsentApi {
      * @return List of valid PIIS Consents for user
      */
     @GetMapping(path = "/{userLogin}/paged")
-    @ApiOperation(value = "Get List of valid AIS Consents", authorizations = @Authorization(value = "apiKey"))
+    @Operation(summary = "Get List of valid AIS Consents")
+    @SecurityRequirement(name = "apiKey")
     ResponseEntity<CustomPageImpl<ObaPiisConsent>> getPiisConsentsPaged(@PathVariable("userLogin") String userLogin,
                                                                        @RequestParam(required = false, defaultValue = "0") int page,
                                                                        @RequestParam(required = false, defaultValue = "25") int size);
@@ -57,7 +59,7 @@ public interface ObaPiisConsentApi {
      * @param consentId identifier of consent
      */
     @PutMapping(path = "/{userLogin}/{consentId}/revoke")
-    @ApiOperation(value = "Revoke consent by ID", authorizations = @Authorization(value = "apiKey"))
+    @Operation(summary = "Revoke consent by ID")
+    @SecurityRequirement(name = "apiKey")
     ResponseEntity<Boolean> revokeConsent(@PathVariable String userLogin, @PathVariable String consentId);
-
 }

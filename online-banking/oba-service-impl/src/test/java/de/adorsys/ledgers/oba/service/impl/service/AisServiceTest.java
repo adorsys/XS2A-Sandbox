@@ -158,6 +158,6 @@ class AisServiceTest {
 
     private AccountDetailsTO getAccount() {
         String IBAN = "DE1263";
-        return new AccountDetailsTO(null, IBAN, null, null, null, null, CURRENCY, null, null, CASH, ENABLED, null, null, UsageTypeTO.PRIV, null, null, false, false, BigDecimal.ZERO, null);
+        return new AccountDetailsTO(null, IBAN, null, null, null, null, CURRENCY, null, null, null, CASH, ENABLED, null, null, UsageTypeTO.PRIV, null, null, false, false, BigDecimal.ZERO, null);
     }
 }

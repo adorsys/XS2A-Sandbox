@@ -47,6 +47,13 @@
         </dependency>
 
         <dependency>
+            <groupId>de.adorsys.psd2</groupId>
+            <artifactId>consent-core-api</artifactId>
+            <version>${xs2a.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
@@ -56,18 +63,11 @@
             <artifactId>feign-okhttp</artifactId>
         </dependency>
 
-		<!-- spring dependencies -->
-
-		<dependency>
+        <!-- spring dependencies -->
+        <dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
-        <dependency>
-            <groupId>de.adorsys.psd2</groupId>
-            <artifactId>consent-core-api</artifactId>
-            <version>${xs2a.version}</version>
-            <scope>compile</scope>
-        </dependency>
     </dependencies>
 
 	<build>

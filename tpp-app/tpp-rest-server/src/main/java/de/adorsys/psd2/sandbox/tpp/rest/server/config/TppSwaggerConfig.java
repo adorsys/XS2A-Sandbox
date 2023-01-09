@@ -18,65 +18,55 @@
 
 package de.adorsys.psd2.sandbox.tpp.rest.server.config;
 
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.GroupedOpenApi;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiKey;
-import springfox.documentation.service.Contact;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger.web.SecurityConfiguration;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
-import static de.adorsys.psd2.sandbox.auth.SecurityConstant.AUTHORIZATION_HEADER;
-import static java.util.Collections.singletonList;
-import static springfox.documentation.swagger.web.SecurityConfigurationBuilder.builder;
 
 @Configuration
-@EnableSwagger2
 @RequiredArgsConstructor
 public class TppSwaggerConfig {
+    private static final String API_KEY = "apiKey";
+    private static final String AUTHORIZATION_HEADER = "Authorization";
+
     private final BuildProperties buildProperties;
 
     @Bean
-    public Docket apiDocklet() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                   .apiInfo(new ApiInfoBuilder()
-                                .title("TPP backend application")
-                                .description("TPP backend application of PSD2 Sandbox Environment")
-                                .contact(new Contact(
-                                    "Adorsys GmbH & Co. KG",
-                                    "https://adorsys.de",
-                                    "fpo@adorsys.de")
-                                )
-                                .version(buildProperties.getVersion() + " " + buildProperties.get("build.number"))
-                                .build())
-                   .groupName("TPP-API")
-                   .select()
-                   .apis(RequestHandlerSelectors
-                             .basePackage("de.adorsys.psd2.sandbox.tpp.rest"))
-                   .paths(PathSelectors.any())
-                   .build()
-                   .securitySchemes(singletonList(securitySchema()));
-    }
-
-    private ApiKey securitySchema() {
-        return new ApiKey("apiKey", AUTHORIZATION_HEADER, "header");
+    public GroupedOpenApi tppApi() {
+        return GroupedOpenApi.builder()
+                   .group("TPP-API")
+                   .packagesToScan("de.adorsys.psd2.sandbox.tpp")
+                   .build();
     }
 
     @Bean
-    public SecurityConfiguration security() {
-        return builder()
-                   .clientId(null)
-                   .clientSecret(null)
-                   .realm(null)
-                   .appName(null)
-                   .scopeSeparator(",")
-                   .useBasicAuthenticationWithAccessCodeGrant(false)
-                   .build();
+    public OpenAPI metaData() {
+
+        Contact contact = new Contact()
+                              .name("Adorsys")
+                              .email("psd2@adorsys.com")
+                              .url("https://www.adorsys.de");
+
+        return new OpenAPI()
+                   .info(new Info()
+                             .title("TPP backend application")
+                             .description("TPP backend application of PSD2 ModelBank Environment")
+                             .contact(contact)
+                             .version(buildProperties.getVersion() + " " + buildProperties.get("build.number"))
+                             .license(new License()
+                                          .name("AGPL version 3.0")
+                                          .url("https://www.gnu.org/licenses/agpl-3.0.txt")))
+                   .components(new Components()
+                                   .addSecuritySchemes(API_KEY, new SecurityScheme()
+                                                                    .type(SecurityScheme.Type.APIKEY)
+                                                                    .in(SecurityScheme.In.HEADER)
+                                                                    .name(AUTHORIZATION_HEADER)));
     }
 }

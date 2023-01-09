@@ -50,7 +50,7 @@ import java.util.HashMap;
     transactionManagerRef = "tppTransactionManager")
 public class PersistenceTppAutoConfiguration {
     @Bean
-    @ConfigurationProperties(prefix = "spring.tpp.datasource.hikari")
+    @ConfigurationProperties(prefix = "tpp.datasource")
     public DataSource tppDataSource() {
         return DataSourceBuilder.create().build();
     }

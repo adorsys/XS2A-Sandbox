@@ -19,31 +19,35 @@
 package de.adorsys.psd2.sandbox.tpp.rest.api.resource;
 
 import de.adorsys.ledgers.middleware.api.domain.general.RecoveryPointTO;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Authorization;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(tags = "TPP Revert Point API")
+@Tag(name = "TPP Revert Point API")
 public interface TppRecoveryPointRestApi {
     String BASE_PATH = "/tpp/recovery";
 
-    @ApiOperation(value = "Get recovery point by id", authorizations = @Authorization(value = "apiKey"))
+    @Operation(summary = "Get recovery point by id")
+    @SecurityRequirement(name = "apiKey")
     @GetMapping("/point/{id}")
     ResponseEntity<RecoveryPointTO> point(@PathVariable("id") Long id);
 
-    @ApiOperation(value = "Get all recovery points for TPP", authorizations = @Authorization(value = "apiKey"))
+    @Operation(summary = "Get all recovery points for TPP")
+    @SecurityRequirement(name = "apiKey")
     @GetMapping("/points")
     ResponseEntity<List<RecoveryPointTO>> points();
 
-    @ApiOperation(value = "Create a new recovery point", authorizations = @Authorization(value = "apiKey"))
+    @Operation(summary = "Create a new recovery point")
+    @SecurityRequirement(name = "apiKey")
     @PostMapping("/point")
     ResponseEntity<Void> createPoint(@RequestBody RecoveryPointTO recoveryPoint);
 
-    @ApiOperation(value = "Remove existing recovery point by id", authorizations = @Authorization(value = "apiKey"))
+    @Operation(summary = "Remove existing recovery point by id")
+    @SecurityRequirement(name = "apiKey")
     @DeleteMapping("/point/{id}")
     ResponseEntity<Void> deletePoint(@PathVariable("id") Long id);
 }

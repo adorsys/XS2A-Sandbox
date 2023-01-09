@@ -46,7 +46,6 @@ import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -214,7 +213,7 @@ class TppAccountsControllerTest {
     }
 
     private AccountDetailsTO getAccountDetailsTO() {
-        return new AccountDetailsTO("id", IBAN, "bban", "pan", "maskedPan", "msisdn", EUR, "name", "product", AccountTypeTO.CASH, AccountStatusTO.ENABLED,
+        return new AccountDetailsTO("id", IBAN, "bban", "pan", "maskedPan", "msisdn", EUR, "name",null, "product", AccountTypeTO.CASH, AccountStatusTO.ENABLED,
                                     "bic", "linkedAccounts", UsageTypeTO.PRIV, "details", Collections.singletonList(new AccountBalanceTO()), false, false, BigDecimal.ZERO, null);
     }
 

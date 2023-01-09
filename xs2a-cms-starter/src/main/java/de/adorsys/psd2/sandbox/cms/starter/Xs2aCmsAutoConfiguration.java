@@ -45,7 +45,7 @@ public class Xs2aCmsAutoConfiguration {
 
     @Primary
     @Bean
-    @ConfigurationProperties(prefix = "spring.datasource.hikari")
+    @ConfigurationProperties(prefix = "cms.datasource")
     public DataSource cmsDataSource() {
         return DataSourceBuilder.create().build();
     }

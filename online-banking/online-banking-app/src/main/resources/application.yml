@@ -29,7 +29,7 @@ server:
         path: /
 
 keycloak:
-  auth-server-url: http://localhost:8080/auth
+  auth-server-url: http://localhost:8080
   realm: ledgers
   resource: ledgers-client
   public-client: false
@@ -37,17 +37,22 @@ keycloak:
   credentials:
     secret: a61a81cd-7178-40d8-8386-ed02791e6592 #Here should be personal generated secret for client (swap public to 'private?' generate secret, swap to public again)
 
-springdoc:
-  api-docs:
-    enabled: false
+db:
+  host: localhost
+  database: consent
+  user: cms
+  password: cms
+  port: 5432
+  url: jdbc:postgresql://${db.host}:${db.port}/${db.database}
+
+cms:
+  datasource:
+    jdbc-url: ${db.url}?currentSchema=consent
+    username: ${db.user}
+    password: ${db.password}
 
 spring:
   application.name: ledgers-xs2a-oba
-  datasource:
-    hikari:
-      jdbc-url: jdbc:postgresql://localhost:5432/consent?currentSchema=consent
-      username: cms
-      password: cms
   jpa:
     open-in-view: false
     generate-ddl: false
@@ -72,10 +77,7 @@ self.url: http://localhost:8090
 
 oba.maxLoginFailedCount: 3
 
-#LOGGER
-# logging.level.org.springframework.web: DEBUG
-
-license.url: https://github.com/adorsys/xs2a/blob/master/LICENSE.md
+license.url: https://www.gnu.org/licenses/agpl-3.0.html
 
 skip.ssl.certificate.verification: true
 
@@ -107,7 +109,7 @@ management:
     web:
       cors:
         allow-credentials: true
-        allowed-origins: "*"
+        allowed-origin-patterns: "*"
         allowed-headers: "*"
         allowed-methods: GET,POST,PUT,DELETE,OPTIONS,PATCH
         max-age: 3600

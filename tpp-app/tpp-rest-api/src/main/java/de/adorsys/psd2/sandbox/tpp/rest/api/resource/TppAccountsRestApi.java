@@ -25,27 +25,32 @@ import de.adorsys.ledgers.util.domain.CustomPageImpl;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.AccountAccess;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.AccountReport;
 import de.adorsys.psd2.sandbox.tpp.rest.api.domain.DepositAccount;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
-@Api(tags = "TPP Accounts management")
+
+@Tag(name = "TPP Accounts management")
 public interface TppAccountsRestApi {
 
     String BASE_PATH = "/tpp/accounts";
 
-    @ApiOperation(value = "Create account for a given user",
-        notes = "Endpoint to a deposit account for a user with given ID",
-        authorizations = @Authorization(value = "apiKey"))
+    @Operation(summary = "Create account for a given user", description = "Endpoint to a deposit account for a user with given ID")
+    @SecurityRequirement(name = "apiKey")
     @PostMapping
     ResponseEntity<Void> createAccount(@RequestParam(value = "userId") String userId, @RequestBody DepositAccount account);
 
-    @ApiOperation(value = "Update Account access for a given user",
-        notes = "Endpoint to update account access with given iban for a user with given ID ",
-        authorizations = @Authorization(value = "apiKey"))
+    @Operation(summary = "Update Account access for a given user", description = "Endpoint to update account access with given iban for a user with given ID ")
+    @SecurityRequirement(name = "apiKey")
     @PutMapping("/access")
     ResponseEntity<Void> updateAccountAccess(@RequestBody AccountAccess accountAccess);
 
@@ -54,11 +59,12 @@ public interface TppAccountsRestApi {
      *
      * @return list of accounts that belongs to the same branch as staff user.
      */
-    @ApiOperation(value = "Get list of Accessible Accounts",
-        notes = "Returns the list of all accounts connected to the given TPP",
-        authorizations = @Authorization(value = "apiKey"))
+    @Operation(summary = "Get list of Accessible Accounts", description = "Returns the list of all accounts connected to the given TPP")
+    @SecurityRequirement(name = "apiKey")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, response = AccountDetailsTO[].class, message = "List of accounts accessible to the TPP.")
+        @ApiResponse(responseCode = "200",
+            content = @Content(schema = @Schema(implementation = AccountDetailsTO[].class)),
+            description = "List of accounts accessible to the TPP.")
     })
     @GetMapping
     ResponseEntity<List<AccountDetailsTO>> getAllAccounts();
@@ -68,11 +74,12 @@ public interface TppAccountsRestApi {
      *
      * @return list of accounts that belongs to the same branch as staff user.
      */
-    @ApiOperation(value = "Get list of Accessible Accounts, paged view",
-        notes = "Returns the list of all accounts connected to the given TPP",
-        authorizations = @Authorization(value = "apiKey"))
+    @Operation(summary = "Get list of Accessible Accounts, paged view", description = "Returns the list of all accounts connected to the given TPP")
+    @SecurityRequirement(name = "apiKey")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, response = AccountDetailsTO[].class, message = "List of accounts accessible to the TPP.")
+        @ApiResponse(responseCode = "200",
+            content = @Content(schema = @Schema(implementation = AccountDetailsTO[].class)),
+            description = "List of accounts accessible to the TPP.")
     })
     @GetMapping("/page")
     ResponseEntity<CustomPageImpl<AccountDetailsTO>> getAllAccounts(
@@ -82,60 +89,61 @@ public interface TppAccountsRestApi {
         @RequestParam(value = "withBalance", required = false, defaultValue = "false") boolean withBalance);
 
     /**
-     * Returns a single account by its ID if it belong to the same branch as STAFF user.
+     * Returns a single account by its ID if it belongs to the same branch as STAFF user.
      *
-     * @return single account by its ID if it belong to the same branch as STAFF user.
+     * @return single account by its ID if it belongs to the same branch as STAFF user.
      */
-    @ApiOperation(value = "Get an account by its ID",
-        notes = "Returns the account by its ID if it belongs to the TPP",
-        authorizations = @Authorization(value = "apiKey"))
+    @Operation(summary = "Get an account by its ID", description = "Returns the account by its ID if it belongs to the TPP")
+    @SecurityRequirement(name = "apiKey")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, response = AccountDetailsTO[].class, message = "Account details by its ID if it is accessible by the TPP")
+        @ApiResponse(responseCode = "200",
+            content = @Content(schema = @Schema(implementation = AccountDetailsTO[].class)),
+            description = "Account details by its ID if it is accessible by the TPP")
     })
     @GetMapping(value = "/{accountId}")
     ResponseEntity<AccountDetailsTO> getSingleAccount(@PathVariable("accountId") String accountId);
 
     /**
-     * Returns an account report by its ID if it belong to the same branch as STAFF user.
+     * Returns an account report by its ID if it belongs to the same branch as STAFF user.
      *
-     * @return single account report by its ID if it belong to the same branch as STAFF user.
+     * @return single account report by its ID if it belongs to the same branch as STAFF user.
      */
-    @ApiOperation(value = "Get an account report by its ID",
-        notes = "Returns the account report by its ID if it belongs to the TPP",
-        authorizations = @Authorization(value = "apiKey"))
+    @Operation(summary = "Get an account report by its ID", description = "Returns the account report by its ID if it belongs to the TPP")
+    @SecurityRequirement(name = "apiKey")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, response = AccountReportTO.class, message = "Account report by its ID if it is accessible by the TPP")
+        @ApiResponse(responseCode = "200",
+            content = @Content(schema = @Schema(implementation = AccountReportTO.class)),
+            description = "Account report by its ID if it is accessible by the TPP")
     })
     @GetMapping(value = "/report/{accountId}")
     ResponseEntity<AccountReport> accountReport(@PathVariable("accountId") String accountId);
 
     /**
-     * Returns a single account by its ID if it belong to the same branch as STAFF user.
+     * Returns a single account by its ID if it belongs to the same branch as STAFF user.
      *
-     * @return single account by its ID if it belong to the same branch as STAFF user.
+     * @return single account by its ID if it belongs to the same branch as STAFF user.
      */
-    @ApiOperation(value = "Deposit cash to an account by its ID",
-        notes = "Deposits cash to the account by its ID if it belongs to the TPP",
-        authorizations = @Authorization(value = "apiKey"))
+    @Operation(summary = "Deposit cash to an account by its ID", description = "Deposits cash to the account by its ID if it belongs to the TPP")
+    @SecurityRequirement(name = "apiKey")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, response = AccountDetailsTO[].class, message = "Deposits cash to the account by its ID")
+        @ApiResponse(responseCode = "200",
+            content = @Content(schema = @Schema(implementation = AccountDetailsTO[].class)),
+            description = "Deposits cash to the account by its ID")
     })
     @PostMapping(value = "/{accountId}/deposit-cash")
     ResponseEntity<Void> depositCash(@PathVariable("accountId") String accountId, @RequestBody AmountTO amount);
 
     @GetMapping("/example")
-    @ApiOperation(value = "Download account template", authorizations = @Authorization(value = "apiKey"))
+    @Operation(summary = "Download account template")
     ResponseEntity<Resource> downloadAccountTemplate();
 
-    @ApiOperation(value = "Block/Unblock Account",
-        notes = "Changes block state for given account, returns status being set to the block",
-        authorizations = @Authorization(value = "apiKey"))
+    @Operation(summary = "Block/Unblock Account", description = "Changes block state for given account, returns status being set to the block")
+    @SecurityRequirement(name = "apiKey")
     @PostMapping("/status")
     ResponseEntity<Boolean> changeStatus(@RequestParam(value = "accountId") String accountId);
 
-    @ApiOperation(value = "Update credit limit for account",
-        notes = "Enables/Disables credit limit for certain account",
-        authorizations = @Authorization(value = "apiKey"))
+    @Operation(summary = "Update credit limit for account",description = "Enables/Disables credit limit for certain account")
+    @SecurityRequirement(name = "apiKey")
     @PutMapping("/credit")
     ResponseEntity<Void> updateCreditLimit(@RequestParam(value = "accountId") String accountId, @RequestBody BigDecimal creditAmount);
 }
