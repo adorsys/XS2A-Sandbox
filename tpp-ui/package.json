@@ -36,7 +36,7 @@
     "custom-event-polyfill": "^1.0.7",
     "font-awesome": "^4.7.0",
     "jasmine": "^3.6.4",
-    "jszip": "^3.6.0",
+    "jszip": "^3.8.0",
     "material-icons": "^0.5.3",
     "ng-http-loader": "9.1.0",
     "ng2-file-upload": "1.4.0",
