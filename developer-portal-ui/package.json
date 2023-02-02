@@ -42,7 +42,7 @@
     "custom-event-polyfill": "^1.0.7",
     "file-saver": "^2.0.2",
     "http-status-codes": "^1.4.0",
-    "jszip": "^3.2.2",
+    "jszip": "^3.8.0",
     "mdn-polyfills": "^5.20.0",
     "ng-http-loader": "9.1.0",
     "ngx-image-zoom": "0.6.0",
