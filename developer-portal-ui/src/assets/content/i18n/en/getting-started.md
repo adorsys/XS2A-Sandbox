@@ -16,7 +16,7 @@ This developer portal is created to help TPP developers start working with Model
 
 Components of ModelBank with their connections to each other are shown in Figure 1.1.
 
-![Figure 1.1](../../assets/images/Graphic_XS2A_Sandbox.png)
+![Figure 1.1](../../../../assets/images/Graphic_XS2A_Sandbox.png)
 
 Figure 1.1: Components of the ModelBank
 
@@ -25,7 +25,7 @@ Figure 1.1: Components of the ModelBank
 
 # XS2A Interface
 
-Central component of the **ModelBank** is the XS2A interface which meets the requirements of the Berlin Group's specification [NextGenPSD2](https://www.berlin-group.org/psd2-access-to-bank-accounts) (Version 1.3.9) and is based on test data. You can visit our <a href="#" id="XS2AInterfaceSwagger">XS2A Swagger UI</a> or find full [OpenSource XS2A Interface on Github](https://github.com/adorsys/xs2a).
+Central component of the **ModelBank** is the XS2A interface which meets the requirements of the Berlin Group's specification [NextGenPSD2](https://www.berlin-group.org/psd2-access-to-bank-accounts) (Version 1.3.11) and is based on test data. You can visit our <a href="#" id="XS2AInterfaceSwagger">XS2A Swagger UI</a> or find full [adorsys XS2A Interface on GitLab](https://git.adorsys.de/adorsys/xs2a/aspsp-xs2a).
 
 <div class="divider">
 </div>
@@ -192,10 +192,10 @@ Check amount of memory given to Docker (Open Docker Desktop -> Preferences -> Ad
 
 Download the project directly from GitHub or use command:
 
-_git clone https://github.com/adorsys/XS2A-Sandbox_
+_git clone https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox.git_
 
 **Note2:**
-Always make a pull from GitHub
+Always make a pull from GitLab
 
 ## Build and run ModelBank
 
@@ -309,7 +309,7 @@ If version is higher than 11.x - change version of NodeJs to earlier one.
 
 Whole flow for TPPs to start their work with ModelBank is displayed in Figure 1.2:
 
-![Figure 1.2](../../assets/images/Flow.png)
+![Figure 1.2](../../../../assets/images/Flow.png)
 
 Figure 1.2: TPP flow step-by-step
 

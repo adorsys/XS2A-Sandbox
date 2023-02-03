@@ -39,7 +39,7 @@
         <module>cms-connector</module>
     </modules>
 
-    <url>https://github.com/adorsys/psd2-dynamic-sandbox</url>
+    <url>https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox</url>
 
     <licenses>
         <license>

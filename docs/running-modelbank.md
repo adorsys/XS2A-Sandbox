@@ -5,7 +5,7 @@ For build and run ModelBank requires GNU Make to be installed on your local mach
 1.Download the project and go to the project directory:
 
 ```sh
-> git clone https://github.com/adorsys/XS2A-Sandbox
+> git clone https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox.git
 > cd XS2A-Sandbox
 ```
 

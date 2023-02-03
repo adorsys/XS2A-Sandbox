@@ -28,7 +28,7 @@ a| File path to the customized `bank_profile.yml`.
 
 Possible values could be `bank_profile.yml` (relative) or `/mnt/my_bank_profile.yml`
 
-This is the actual business configuration reflecting the PSD2 features your bank offers. You can find the relevant documentation for this file at the https://github.com/adorsys/xs2a/blob/1.11/aspsp-profile/README.md[XS2A GitHub Project].
+This is the actual business configuration reflecting the PSD2 features your bank offers. You can find the relevant documentation for this file at the https://git.adorsys.de/adorsys/xs2a/aspsp-xs2a/-/blob/master/aspsp-profile/README.adoc[XS2A GitLab Project].
 
 For an example and the actual default values used in the ModelBank see the <<sample-bank-profile>> below.
 
@@ -70,7 +70,7 @@ Possible values are: _true_ or _false_            | _true_
 | CONSOLE_LOG_PATTERN                            | ModelBank log pattern (note: `logging.pattern.console` if not as ENV) | _[%-5level][%d{HH:mm:ss.SSS}] - %logger: %message%n%xException_
 |=======
 
-WARNING: It is required to enable CORS in the service which serves the customized markdown files for the UI. Otherwise the content can't be loaded and stays empty.
+WARNING: It is required to enable CORS in the service which serves the customized markdown files for the UI. Otherwise, the content can't be loaded and stays empty.
 
 [[sample-bank-profile]]
 .Sample bank_profile.yml

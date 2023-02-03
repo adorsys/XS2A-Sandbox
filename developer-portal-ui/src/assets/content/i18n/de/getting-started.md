@@ -16,7 +16,7 @@ Ziel des Developer-Portals ist es TPP-Entwicklern bei der Arbeit mit unserer Mod
 
 Die ModelBank setzt sich aus ihren Komponenten wie in Abbildung 1.1 zusammen.
 
-![Abbildung 1.1](../../assets/images/Graphic_XS2A_Sandbox.png)
+![Abbildung 1.1](../../../../assets/images/Graphic_XS2A_Sandbox.png)
 
 Abbildung 1.1: Komponenten der ModelBank
 
@@ -25,7 +25,7 @@ Abbildung 1.1: Komponenten der ModelBank
 
 # XS2A-Schnittstelle
 
-Der Zentrale Bestandteil der **ModelBank** ist die XS2A-Schnittstelle, die gemäß der Spezifikation der Berlin Group [NextGenPSD2](https://www.berlin-group.org/psd2-access-to-bank-accounts) (Version 1.3.9) implementiert wurde und auf Testdaten basiert. Mehr Details finden Sie in unsere <a href="#" id="XS2AInterfaceSwagger">XS2A Swagger UI</a> und der [OpenSource XS2A Schnittstelle auf Github](https://github.com/adorsys/xs2a).
+Der Zentrale Bestandteil der **ModelBank** ist die XS2A-Schnittstelle, die gemäß der Spezifikation der Berlin Group [NextGenPSD2](https://www.berlin-group.org/psd2-access-to-bank-accounts) (Version 1.3.11) implementiert wurde und auf Testdaten basiert. Mehr Details finden Sie in unsere <a href="#" id="XS2AInterfaceSwagger">XS2A Swagger UI</a> und der [OpenSource XS2A Schnittstelle auf GitLab](https://git.adorsys.de/adorsys/xs2a/aspsp-xs2a).
 
 # ASPSP-Profile
 
@@ -142,12 +142,12 @@ _docker-compose rm -s -f -v_
 
 ## Download ModelBank
 
-Laden Sie das Projekt direkt von GitHub herunter oder nutzen Sie folgenden Befehl:
+Laden Sie das Projekt direkt von GitLab herunter oder nutzen Sie folgenden Befehl:
 
-_git clone https://github.com/adorsys/XS2A-Sandbox_
+_git clone https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox.git_
 
 **Note:**
-Ziehen Sie immer an GitHub
+Ziehen Sie immer an GitLab
 
 ## Starten der ModelBank
 
@@ -253,7 +253,7 @@ Sollte Ihre NodeJs Version höher als 11.x sein, ändern Sie diese zu einer frü
 4. Laden Sie Ihre Testdaten hoch und starten Sie Ihren Testlauf.
    In Abbildung 1.2 ist der vollständige Ablauf wie man als TPP die Arbeit mit der ModelBank beginnt veranschaulicht:
 
-![Abbildung 1.2](../../assets/images/Flow.png)
+![Abbildung 1.2](../../../../assets/images/Flow.png)
 
 Abbildung 1.2: TPP Ablauf Schritt für Schritt
 

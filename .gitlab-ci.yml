@@ -17,7 +17,6 @@ stages:
   - "Version Control" # parse pom.xml and change versions on sandbox project
   - "Release" # release
   - "Package" # dockerize jar and push to docker registry
-  - "Deploy" # push to openshift registry
 
 # ------------------------------------------------------------------
 # variables
@@ -42,12 +41,6 @@ variables:
 
   DOCKERHUB_NAMESPACE: "adorsys/xs2a/psd2-dynamic-sandbox"
 
-  ############################
-  # Private Openshift Images #
-  ############################
-
-  OPENSHIFT_NAMESPACE_ADORSYS_MODELBANK_SUPPORT6X: "adorsys-modelbank-support6x"
-
   ###########################
   # Build variables         #
   ###########################
@@ -61,10 +54,8 @@ variables:
 # ------------------------------------------------------------------
 
 .build_java: &build_java
-  stage: "Compile"
   script:
     - jabba use $BUILD_JAVA_VERSION
-    - cat /sys/fs/cgroup/memory/memory.limit_in_bytes
     - java -XX:+PrintFlagsFinal -version | grep -Ei "maxheapsize|maxram"
     - make build-java-services
   cache:
@@ -73,10 +64,8 @@ variables:
       - /builds/adorsys/xs2a/psd2-dynamic-sandbox/.m2/repository
 
 .release_java_private: &release_java_private
-  stage: "Release"
   script:
     - jabba use $BUILD_JAVA_VERSION
-    - cat /sys/fs/cgroup/memory/memory.limit_in_bytes
     - java -XX:+PrintFlagsFinal -version | grep -Ei "maxheapsize|maxram"
     - mvn -ntp --settings scripts/mvn-release-settings.xml -Pgitlab-maven -DskipTests -U deploy
   cache:
@@ -85,17 +74,8 @@ variables:
       - /builds/adorsys/xs2a/psd2-dynamic-sandbox/.m2/repository
 
 # Build docker images and put them to DOCKER HUB repo
-.build_docker_images_private: &build_docker_images_private
-  script:
-    - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${DOCKER_TAG}" online-banking/online-banking-app
-    - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:${DOCKER_TAG}" oba-ui
-    - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_REST_SERVER}:${DOCKER_TAG}" tpp-app/tpp-rest-server
-    - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ADMIN_REST_SERVER}:${DOCKER_TAG}" admin-app/admin-rest-server
-    - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${DOCKER_TAG}" tpp-ui
-    - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ADMIN_UI}:${DOCKER_TAG}" admin-ui
-    - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:${DOCKER_TAG}" developer-portal-ui
-
-.push_dockerhub_images_private: &push_dockerhub_images_private
+.build_and_push_dockerhub_images_private:
+  &build_and_push_dockerhub_images_private
   script:
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${DOCKER_TAG}" online-banking/online-banking-app
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:${DOCKER_TAG}" oba-ui
@@ -116,165 +96,153 @@ variables:
     - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:${DOCKER_TAG}"
     - docker logout
 
-# Copy Dockerhub images to Openshift (depending on ${DOCKER_TAG})
-.deploy_openshift: &deploy_openshift
-  script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - >-
-      skopeo copy
-      --dest-creds=openshift:${OPENSHIFT_TOKEN}
-      "docker://${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${DOCKER_TAG}"
-      "docker://${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:latest"
-    - >-
-      skopeo copy
-      --dest-creds=openshift:${OPENSHIFT_TOKEN}
-      "docker://${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:${DOCKER_TAG}"
-      "docker://${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:latest"
-    - >-
-      skopeo copy
-      --dest-creds=openshift:${OPENSHIFT_TOKEN}
-      "docker://${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_REST_SERVER}:${DOCKER_TAG}"
-      "docker://${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_REST_SERVER}:latest"
-    - >-
-      skopeo copy
-      --dest-creds=openshift:${OPENSHIFT_TOKEN}
-      "docker://${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ADMIN_REST_SERVER}:${DOCKER_TAG}"
-      "docker://${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ADMIN_REST_SERVER}:latest"
-    - >-
-      skopeo copy
-      --dest-creds=openshift:${OPENSHIFT_TOKEN}
-      "docker://${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:${DOCKER_TAG}"
-      "docker://${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_UI}:latest"
-    - >-
-      skopeo copy
-      --dest-creds=openshift:${OPENSHIFT_TOKEN}
-      "docker://${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ADMIN_UI}:${DOCKER_TAG}"
-      "docker://${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ADMIN_UI}:latest"
-    - >-
-      skopeo copy
-      --dest-creds=openshift:${OPENSHIFT_TOKEN}
-      "docker://${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:${DOCKER_TAG}"
-      "docker://${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:latest"
-
 # ------------------------------------------------------------------
 # jobs
 # ------------------------------------------------------------------
 
 #-------------------------------------------------------------------
-# lint
+# Lint
 #-------------------------------------------------------------------
 
-Lint:Dockerfiles:
-  image: docker:20.10
+Lint (Dockerfiles):
+  image: docker
   stage: "Lint"
   services:
-    - docker:20.10-dind
+    - docker:dind
   except:
     - schedules
     - support-6.x
-    - master
+    - master-6.x
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
+    DOCKER_DRIVER: overlay2
   script:
     - apk add make
     - echo "Run Dockerfiles lint"
     - make lint-dockerfiles
 
-Lint:OBA_frontend:
+Lint (OBA UI):
   image: node:12.22.0-stretch-slim
   stage: "Lint"
   except:
     - schedules
     - support-6.x
-    - master
+    - master-6.x
   script:
     - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
     - echo "Run OBA lint"
     - make lint-oba-ui
 
-Lint:TPP_frontend:
+Lint (TPP UI):
   image: node:12.22.0-stretch-slim
   stage: "Lint"
   except:
     - schedules
     - support-6.x
-    - master
+    - master-6.x
   script:
     - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
     - echo "Run TPP lint"
     - make lint-tpp-ui
 
-Lint:Admin_frontend:
+Lint (Admin UI):
   image: node:12.22.0-stretch-slim
   stage: "Lint"
   except:
     - schedules
     - support-6.x
-    - master
+    - master-6.x
   script:
     - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
     - echo "Run Admin lint"
     - make lint-admin-ui
 
-Lint:Devportal_frontend:
+Lint (DevPortal UI):
   image: node:12.16.2-stretch-slim
   stage: "Lint"
   except:
     - schedules
     - support-6.x
-    - master
+    - master-6.x
   script:
     - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
-    - echo "Run Devportal frontend lint"
+    - echo "Run Devportal UI lint"
     - make lint-developer-portal-ui
 
-Lint:OBA_backend:
+Lint (OBA Backend):
   image: debian:stretch-slim
   stage: "Lint"
   except:
     - schedules
     - support-6.x
-    - master
+    - master-6.x
   script:
     - apt-get update && apt-get install --no-install-recommends jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
     - echo "Run OBA backend lint"
     - make lint-online-banking
 
-Lint:TPP_backend:
+Lint (TPP Backend):
   image: debian:stretch-slim
   stage: "Lint"
   except:
     - schedules
     - support-6.x
-    - master
+    - master-6.x
   script:
     - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
     - echo "Run TPP backend lint"
     - make lint-tpp-rest-server
 
-Lint:Admin_backend:
+Lint (Admin Backend):
   image: debian:stretch-slim
   stage: "Lint"
   except:
     - schedules
     - support-6.x
-    - master
+    - master-6.x
   script:
     - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
     - echo "Run Admin backend lint"
     - make lint-admin-rest-server
 
-Lint:Docker_compose:
+Lint (Docker Compose):
   image: maven:3.6-jdk-11-slim
   stage: "Lint"
   except:
     - schedules
     - support-6.x
-    - master
+    - master-6.x
   script:
     - apt update && apt install yamllint docker-compose make -yq
     - echo "Run Docker compose lint"
     - make lint-docker-compose
 
-Build:OBA_frontend:
+Lint (PMD CPD):
+  image: maven:3.6-jdk-11-slim
+  stage: "Lint"
+  except:
+    - schedules
+    - support-6.x
+    - master-6.x
+  script:
+    - apt update && apt install make -yq
+    - echo "Test java code for PMD and CPD"
+    - make lint-pmd-cpd-report
+  cache: {}
+  artifacts:
+    paths:
+      - "qa/pmd/pmd-ruleset.xml"
+      - "**/**/*/pmd.html"
+      - "**/*/pmd.xml"
+    name: "${CI_PROJECT_NAME}-${CI_BUILD_REF_NAME#*v}-pmd"
+    expire_in: "10 day"
+
+#-------------------------------------------------------------------
+# Compile
+#-------------------------------------------------------------------
+
+Build (OBA UI):
   image: node:12.16.2-stretch-slim
   stage: "Compile"
   except:
@@ -285,7 +253,7 @@ Build:OBA_frontend:
     - VERSION=$(xmllint --xpath "//*[local-name()='project']/*[local-name()='version']/text()" pom.xml)
     - jq --arg VERSION "$VERSION"  --arg BUILD_ID "$CI_PIPELINE_ID" '.version = $VERSION | .build_number = $BUILD_ID' oba-ui/info.json >> info.json
     - mv info.json oba-ui/info.json
-    - echo "Run OBA frontend  Build"
+    - echo "Run OBA UI  Build"
     - make npm-install-oba-ui
   cache: {}
   artifacts:
@@ -295,7 +263,7 @@ Build:OBA_frontend:
     name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}"
     expire_in: "1 day"
 
-Build:TPP_frontend:
+Build (TPP UI):
   image: node:12.16.2-stretch-slim
   stage: "Compile"
   except:
@@ -306,7 +274,7 @@ Build:TPP_frontend:
     - VERSION=$(xmllint --xpath "//*[local-name()='project']/*[local-name()='version']/text()" pom.xml)
     - jq --arg VERSION "$VERSION"  --arg BUILD_ID "$CI_PIPELINE_ID" '.version = $VERSION | .build_number = $BUILD_ID' tpp-ui/info.json >> info.json
     - mv info.json oba-ui/info.json
-    - echo "Run TPP frontend  Build"
+    - echo "Run TPP UI  Build"
     - make npm-install-tpp-ui
   cache: {}
   artifacts:
@@ -316,7 +284,7 @@ Build:TPP_frontend:
     name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}"
     expire_in: "1 day"
 
-Build:Admin_frontend:
+Build (Admin UI):
   image: node:12.16.2-stretch-slim
   stage: "Compile"
   except:
@@ -327,7 +295,7 @@ Build:Admin_frontend:
     - VERSION=$(xmllint --xpath "//*[local-name()='project']/*[local-name()='version']/text()" pom.xml)
     - jq --arg VERSION "$VERSION"  --arg BUILD_ID "$CI_PIPELINE_ID" '.version = $VERSION | .build_number = $BUILD_ID' admin-ui/info.json >> info.json
     - mv info.json oba-ui/info.json
-    - echo "Run Admin frontend Build"
+    - echo "Run Admin UI Build"
     - make npm-install-admin-ui
   cache: {}
   artifacts:
@@ -337,7 +305,7 @@ Build:Admin_frontend:
     name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}"
     expire_in: "1 day"
 
-Build:Devportal_frontend:
+Build (DevPortal UI):
   image: node:12.16.2-stretch-slim
   stage: "Compile"
   except:
@@ -350,7 +318,7 @@ Build:Devportal_frontend:
     - mv info.json developer-portal-ui/info.json
     - echo "Update postman test files"
     - scripts/.update-postman-test-files.sh
-    - echo "Run Devportal frontend Build"
+    - echo "Run Devportal UI Build"
     - make npm-install-developer-portal-ui
   cache: {}
   artifacts:
@@ -360,8 +328,9 @@ Build:Devportal_frontend:
     name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}"
     expire_in: "1 day"
 
-Build:Java11:
+Build (Modelbank):
   <<: *build_java
+  stage: "Compile"
   except:
     - schedules
   cache: {}
@@ -377,48 +346,29 @@ Build:Java11:
     name: "$CI_PROJECT_NAME-${CI_BUILD_REF_NAME#*v}"
     expire_in: "1 day"
 
-Lint:PMD_CPD_Report:
-  image: maven:3.6-jdk-11-slim
-  stage: "Lint"
-  except:
-    - schedules
-    - support-6.x
-    - master
-  script:
-    - apt update && apt install make -yq
-    - echo "Test java code for PMD and CPD"
-    - make lint-pmd-cpd-report
-  cache: {}
-  artifacts:
-    paths:
-      - "qa/pmd/pmd-ruleset.xml"
-      - "**/**/*/pmd.html"
-      - "**/*/pmd.xml"
-    name: "${CI_PROJECT_NAME}-${CI_BUILD_REF_NAME#*v}-pmd"
-    expire_in: "10 day"
+#-------------------------------------------------------------------
+# Test
+#-------------------------------------------------------------------
 
-Doc Check Java11:
+Test (Javadoc):
   stage: "Test"
   except:
     - schedules
-    - support-6.x
-  needs: ["Build:Java11"]
+  needs: ["Build (Modelbank)"]
   variables:
     JAVA_TOOL_OPTIONS: "-Djavax.net.ssl.trustStorePassword=changeit -XX:MaxRAM=3G"
     JAVA_VERSION: "system@1.11"
   script:
     - jabba use ${JAVA_VERSION}
-    - cat /sys/fs/cgroup/memory/memory.limit_in_bytes
     - java -XX:+PrintFlagsFinal -version | grep -Ei "maxheapsize|maxram"
     - mvn -ntp --settings scripts/mvn-release-settings.xml -Dmaven.test.skip=true -Pjavadoc verify javadoc:javadoc
 
-UnitTests:Java11:
+Test (Unit Tests):
   image: maven:3.6-jdk-11-slim
   stage: "Test"
   except:
     - schedules
-    - support-6.x
-  needs: ["Build:Java11"]
+  needs: ["Build (Modelbank)"]
   variables:
     JAVA_VERSION: "system@1.11"
     JAVA_TOOL_OPTIONS: "-Djavax.net.ssl.trustStorePassword=changeit -XX:MaxRAM=3G"
@@ -427,73 +377,57 @@ UnitTests:Java11:
     - echo "Run unit tests for backend"
     - make unit-tests-backend
 
-UnitTests:DevPortal_frontend:
+Test (DevPortal UI Tests):
   image: node:12.16.2-stretch-slim
   stage: "Test"
   except:
     - schedules
-  needs: ["Build:Devportal_frontend"]
+  needs: ["Build (DevPortal UI)"]
   variables:
     CHROME_BIN: "/usr/bin/chromium"
   script:
     - apt-get update && apt-get install make chromium chromium-l10n -yq
-    - echo 'Unit tests Devportal frontend'
+    - echo 'Unit tests Devportal UI'
     - make unit-tests-developer-portal-ui
 
-UnitTests:TPP_frontend:
+Test (TPP UI Tests):
   image: node:12.16.2-stretch-slim
   stage: "Test"
   except:
     - schedules
-  needs: ["Build:TPP_frontend"]
+  needs: ["Build (TPP UI)"]
   variables:
     CHROME_BIN: "/usr/bin/chromium"
   script:
     - apt-get update && apt-get install make chromium chromium-l10n -yq
-    - echo 'Unit tests TPP frontend'
+    - echo 'Unit tests TPP UI'
     - make unit-tests-tpp-ui
 
-UnitTests:Admin_frontend:
+Test (Admin UI Tests):
   image: node:12.16.2-stretch-slim
   stage: "Test"
   except:
     - schedules
-  needs: ["Build:Admin_frontend"]
+  needs: ["Build (Admin UI)"]
   variables:
     CHROME_BIN: "/usr/bin/chromium"
   script:
     - apt-get update && apt-get install make chromium chromium-l10n -yq
-    - echo 'Unit tests Admin frontend'
+    - echo 'Unit tests Admin UI'
     - make unit-tests-admin-ui
 
-UnitTests:OBA_frontend:
+Test (OBA UI Tests):
   image: node:12.16.2-stretch-slim
   stage: "Test"
   except:
     - schedules
-  needs: ["Build:OBA_frontend"]
+  needs: ["Build (OBA UI)"]
   variables:
     CHROME_BIN: "/usr/bin/chromium"
   script:
     - apt-get update && apt-get install make chromium chromium-l10n -yq
-    - echo 'Unit tests OBA frontend'
+    - echo 'Unit tests OBA UI'
     - make unit-tests-oba-ui
-
-Test:Build_docker_images:
-  stage: "Test"
-  except:
-    - schedules
-  needs:
-    [
-      "Build:OBA_frontend",
-      "Build:TPP_frontend",
-      "Build:Admin_frontend",
-      "Build:Devportal_frontend",
-      "Build:Java11",
-    ]
-  variables:
-    DOCKER_TAG: test
-  <<: *build_docker_images_private
 
 Postman Tests:
   stage: "Test"
@@ -513,80 +447,75 @@ Postman Tests:
       - "postman/postman-tests-report.html"
     expire_in: "10 day"
 
-# support6x
+#-------------------------------------------------------------------
+# Package
+#-------------------------------------------------------------------
 
-build_dockerhub_image_support6x_private:
+Build and push to private repo (support-6x):
   stage: "Package"
   except:
     - schedules
   only:
     - support-6.x
+  services:
+    - docker:dind
   variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
+    DOCKER_DRIVER: overlay2
     DOCKER_TAG: support6x
     DOCKERHUB_REGISTRY: gitlab-registry.adorsys.de
     DOCKERHUB_NAMESPACE: "adorsys/xs2a/psd2-dynamic-sandbox"
-  <<: *push_dockerhub_images_private
+  <<: *build_and_push_dockerhub_images_private
 
-##########
-# deploy #
-##########
-
-deploy_openshift_support6x:
-  stage: "Deploy"
-  except:
-    - schedules
-  only:
-    - support-6.x
-  variables:
-    DOCKER_TAG: support6x # Dockerhub source tag
-    DOCKERHUB_REGISTRY: gitlab-registry.adorsys.de
-    DOCKERHUB_NAMESPACE: "adorsys/xs2a/psd2-dynamic-sandbox"
-    OPENSHIFT_NAMESPACE: ${OPENSHIFT_NAMESPACE_ADORSYS_MODELBANK_SUPPORT6X} # Openshift target namespace
-  <<: *deploy_openshift
-
-########
-# tags #
-########
-
-build_dockerhub_images_from_tag_private:
+Build and push to private repo (tags):
   stage: "Package"
   only:
     - tags
+  services:
+    - docker:dind
   variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
+    DOCKER_DRIVER: overlay2
     DOCKER_TAG: ${CI_COMMIT_TAG}
     DOCKERHUB_REGISTRY: gitlab-registry.adorsys.de
     DOCKERHUB_NAMESPACE: "adorsys/xs2a/psd2-dynamic-sandbox"
-  <<: *push_dockerhub_images_private
+  <<: *build_and_push_dockerhub_images_private
 
-###########
-# Release #
-###########
+#-------------------------------------------------------------------
+# Release
+#-------------------------------------------------------------------
 
-release_snapshot_artifacts_private:
+Release snapshot artifacts (support-6x):
   stage: "Release"
-  except:
-    - schedules
-  cache: {}
-  variables:
-    BUILD_JAVA_VERSION: system@1.11
-    JAVA_TOOL_OPTIONS: "-Djavax.net.ssl.trustStorePassword=changeit -XX:MaxRAM=3G"
   only:
     - support-6.x
-  <<: *release_java_private
-
-release_artifacts_private:
-  stage: "Release"
   except:
     - schedules
   cache: {}
   variables:
     BUILD_JAVA_VERSION: system@1.11
     JAVA_TOOL_OPTIONS: "-Djavax.net.ssl.trustStorePassword=changeit -XX:MaxRAM=3G"
-  only:
-    - tags
   <<: *release_java_private
 
-change_dependepcies_versions_support6x:
+Release snapshot artifacts (tags):
+  stage: "Release"
+  only:
+    - tags
+  except:
+    - schedules
+  cache: {}
+  variables:
+    BUILD_JAVA_VERSION: system@1.11
+    JAVA_TOOL_OPTIONS: "-Djavax.net.ssl.trustStorePassword=changeit -XX:MaxRAM=3G"
+  <<: *release_java_private
+
+#-------------------------------------------------------------------
+# Version Control
+#-------------------------------------------------------------------
+
+Change dependencies versions (support-6.x):
   stage: "Version Control"
   image: alpine
   only:
@@ -635,7 +564,7 @@ change_dependepcies_versions_support6x:
     - cd ~/sandbox/sandbox-openshift
     - git status
     - git add .
-    - git commit -m "change depension versions"
+    - git commit -m "change dependency versions"
     - git push origin master
 
 change_dependepcies_versions_integ:
