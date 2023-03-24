@@ -11,9 +11,9 @@ volumes:
   xs2a-admin-rest-server-data:
 
 services:
-  # Xs2a connector embedded xs2a-connector,cms,aspsp-profile
+  # XS2A connector embedded xs2a-connector,cms,aspsp-profile
   xs2a-connector-embedded:
-    image: adorsys/xs2a-connector-embedded:${XS2A_CONNECTOR_VERSION}
+    image: gitlab-registry.adorsys.de/adorsys/xs2a/xs2a-connector-examples/xs2a-connector-embedded:${XS2A_CONNECTOR_VERSION}
     container_name: xs2a-connector-embedded
     restart: on-failure
     ports:
@@ -45,7 +45,7 @@ services:
       - ledgers
       - xs2a-consent-management-db
 
-  # Xs2a consent management DB
+  # XS2A consent management DB
   xs2a-consent-management-db:
     image: centos/postgresql-95-centos7
     container_name: xs2a-consent-management-db
@@ -65,14 +65,14 @@ services:
       - POSTGRESQL_USER=cms
       - POSTGRESQL_PASSWORD=cms
 
-  # Xs2a online banking backend
+  # XS2A online banking backend
   xs2a-online-banking:
-    image: adorsys/xs2a-online-banking
-    container_name: xs2a-online-banking
-    restart: on-failure
+    image: gitlab-registry.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/xs2a-online-banking:${SANDBOX_VERSION}
     build:
       context: online-banking/online-banking-app
       dockerfile: Dockerfile
+    container_name: xs2a-online-banking
+    restart: on-failure
     ports:
       - "8090:8090"
       - "8190:8000"
@@ -83,6 +83,7 @@ services:
     networks:
       - xs2a-net
     environment:
+      SERVER_KEY: "secret123"
       KEYCLOAK_AUTH_SERVER_URL: "http://ledgers-keycloak:8080"
       XS2A_URL: "http://xs2a-connector-embedded:8089"
       LEDGERS_URL: "http://ledgers:8088"
@@ -92,14 +93,14 @@ services:
       ONLINE_BANKING_SCA_LOGINPAGE: "http://localhost:4400/"
       ONLINE_BANKING_SCA_UIREDIRECT: "true"
       ONLINE-BANKING_URL: "http://xs2a-online-banking:8090/api/v1/consents/confirm/{userLogin}/{consentId}/{authorizationId}/{tan}"
-      CMS_DATASOURCE_URL: "jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=consent"
-      CMS_DATASOURCE_USERNAME: "cms"
-      CMS_DATASOURCE_PASSWORD: "cms"
-      SERVER_KEY: "secret123"
+      DB_HOST: "xs2a-consent-management-db"
+      DB_DATABASE: "consent"
+      DB_USER: "cms"
+      DB_PASSWORD: "cms"
 
   # Ledgers
   ledgers:
-    image: adorsys/ledgers:${LEDGERS_VERSION}
+    image: gitlab-registry.adorsys.de/adorsys/xs2a/ledgers/ledgers:${LEDGERS_VERSION}
     container_name: ledgers
     restart: on-failure
     networks:
@@ -130,7 +131,7 @@ services:
 
   # Keycloak as IDP
   ledgers-keycloak:
-    image: adorsys/ledgers-keycloak:${LEDGERS_VERSION}
+    image: gitlab-registry.adorsys.de/adorsys/xs2a/ledgers/keycloak-and-ledgers-plugin:${LEDGERS_VERSION}
     container_name: ledgers-keycloak
     restart: on-failure
     networks:
@@ -138,16 +139,16 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - KEYCLOAK_USER=admin
-      - KEYCLOAK_PASSWORD=admin
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
 
-  # Xs2a online banking frontend
+  # XS2A online banking frontend
   xs2a-online-banking-ui:
-    image: adorsys/xs2a-online-banking-ui
-    restart: on-failure
+    image: gitlab-registry.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/xs2a-online-banking-ui:${SANDBOX_VERSION}
     build:
       context: oba-ui
       dockerfile: Dockerfile
+    restart: on-failure
     ports:
       - "4400:4400"
     networks:
@@ -161,15 +162,15 @@ services:
 
   # TPP-UI
   xs2a-tpp-ui:
-    image: adorsys/xs2a-bank-tpp-ui
+    image: gitlab-registry.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/xs2a-bank-tpp-ui:${SANDBOX_VERSION}
+    build:
+      context: tpp-ui
+      dockerfile: Dockerfile
     restart: on-failure
     environment:
       - TPP_REST_SERVER_URL=http://xs2a-tpp-rest-server:8093
       - CERT_GEN_URL=http://certificate-generator:8092
       - CERT_GEN_ENABLED=true
-    build:
-      context: tpp-ui
-      dockerfile: Dockerfile
     ports:
       - "4205:4205"
     networks:
@@ -180,20 +181,19 @@ services:
 
   # TPP-REST-SERVER
   xs2a-tpp-rest-server:
-    image: adorsys/xs2a-tpp-rest-server
+    image: gitlab-registry.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/xs2a-tpp-rest-server:${SANDBOX_VERSION}
+    build:
+      context: tpp-app/tpp-rest-server
+      dockerfile: Dockerfile
     restart: on-failure
     environment:
       KEYCLOAK_AUTH_SERVER_URL: "http://ledgers-keycloak:8080"
       LEDGERS_URL: "http://ledgers:8088"
-      CMS_DATASOURCE_JDBCURL: "jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=consent"
-      CMS_DATASOURCE_USERNAME: "cms"
-      CMS_DATASOURCE_PASSWORD: "cms"
-      TPP_DATASOURCE_JDBCURL: "jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=tpp"
-      TPP_DATASOURCE_USERNAME: "cms"
-      TPP_DATASOURCE_PASSWORD: "cms"
-    build:
-      context: tpp-app/tpp-rest-server
-      dockerfile: Dockerfile
+      CMS_URL: "http://xs2a-connector-embedded:8089"
+      DB_HOST: "xs2a-consent-management-db"
+      DB_DATABASE: "consent"
+      DB_USER: "cms"
+      DB_PASSWORD: "cms"
     ports:
       - "8093:8093"
       - "5005:5005"
@@ -207,7 +207,10 @@ services:
 
   # Admin-UI
   xs2a-admin-ui:
-    image: adorsys/xs2a-bank-admin-ui:${SANDBOX_VERSION}
+    image: gitlab-registry.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/xs2a-bank-admin-ui:${SANDBOX_VERSION}
+    build:
+      context: admin-ui
+      dockerfile: Dockerfile
     restart: on-failure
     environment:
       - ADMIN_REST_SERVER_URL=http://xs2a-admin-rest-server:8094
@@ -223,14 +226,18 @@ services:
 
   # ADMIN-REST-SERVER
   xs2a-admin-rest-server:
-    image: adorsys/xs2a-admin-rest-server:${SANDBOX_VERSION}
+    image: gitlab-registry.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/xs2a-admin-rest-server:${SANDBOX_VERSION}
+    build:
+      context: admin-app/admin-rest-server
+      dockerfile: Dockerfile
     restart: on-failure
     environment:
       KEYCLOAK_AUTH_SERVER_URL: "http://ledgers-keycloak:8080"
       LEDGERS_URL: "http://ledgers:8088"
-      CMS_DATASOURCE_JDBCURL: "jdbc:postgresql://xs2a-consent-management-db/consent?currentSchema=consent"
-      CMS_DATASOURCE_USERNAME: "cms"
-      CMS_DATASOURCE_PASSWORD: "cms"
+      DB_HOST: "xs2a-consent-management-db"
+      DB_DATABASE: "consent"
+      DB_USER: "cms"
+      DB_PASSWORD: "cms"
     ports:
       - "8094:8094"
       - "5006:5006"
@@ -244,11 +251,11 @@ services:
 
   # Developer portal ui
   developer-portal-ui:
-    image: adorsys/xs2a-bank-devportal
-    restart: on-failure
+    image: gitlab-registry.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/xs2a-bank-devportal:${SANDBOX_VERSION}
     build:
       context: developer-portal-ui
       dockerfile: Dockerfile
+    restart: on-failure
     ports:
       - "4206:4206"
     networks:
@@ -261,7 +268,7 @@ services:
 
   # Certificate generator
   certificate-generator:
-    image: adorsys/xs2a-certificate-generator
+    image: gitlab-registry.adorsys.de/adorsys/xs2a/aspsp-xs2a/xs2a-certificate-generator:${XS2A_CONSENT_MANAGEMENT_VERSION}
     restart: on-failure
     build:
       context: certificate-generator

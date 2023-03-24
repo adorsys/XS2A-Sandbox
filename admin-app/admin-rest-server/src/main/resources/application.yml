@@ -52,10 +52,6 @@ feign:
       default:
         loggerLevel: full
 
-logging.level.de.adorsys.psd2.sandbox.admin: INFO
-
-logging.level.de.adorsys.ledgers.middleware.client.rest.AdminRestClient: DEBUG
-
 # Cors configuration
 management:
   endpoints:
