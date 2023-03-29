@@ -47,7 +47,7 @@ services:
 
   # XS2A consent management DB
   xs2a-consent-management-db:
-    image: centos/postgresql-95-centos7
+    image: centos/postgresql-12-centos7
     container_name: xs2a-consent-management-db
     restart: on-failure
     volumes:
@@ -128,6 +128,7 @@ services:
     depends_on:
       - fakesmtp
       - ledgers-keycloak
+      - xs2a-consent-management-db
 
   # Keycloak as IDP
   ledgers-keycloak:
@@ -141,6 +142,13 @@ services:
     environment:
       - KEYCLOAK_ADMIN=admin
       - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_DB=postgres
+      - KC_DB_URL_HOST=xs2a-consent-management-db
+      - KC_DB_URL_DATABASE=keycloak
+      - KC_DB_USERNAME=keycloak
+      - KC_DB_PASSWORD=keycloak
+    depends_on:
+      - xs2a-consent-management-db
 
   # XS2A online banking frontend
   xs2a-online-banking-ui:
