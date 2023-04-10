@@ -124,12 +124,12 @@
         <!-- XS2A version -->
         <xs2a.version>14.5</xs2a.version>
         <connector.version>14.5</connector.version>
-        <ledgers.version>4.20</ledgers.version>
+        <ledgers.version>4.21</ledgers.version>
 
         <!-- Spring-related versions -->
-        <spring-boot-dependencies.version>2.7.0</spring-boot-dependencies.version>
-        <spring-cloud-dependencies.version>2021.0.5</spring-cloud-dependencies.version>
-        <spring-test.version>5.3.19</spring-test.version>
+        <spring-boot-dependencies.version>2.7.10</spring-boot-dependencies.version>
+        <spring-cloud-dependencies.version>2021.0.6</spring-cloud-dependencies.version>
+        <spring-test.version>5.3.26</spring-test.version>
 
         <!-- Other versions -->
         <jetbrains.annotations.version>15.0</jetbrains.annotations.version>
