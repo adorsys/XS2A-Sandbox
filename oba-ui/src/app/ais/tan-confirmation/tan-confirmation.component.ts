@@ -59,15 +59,6 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.initTanForm();
-    this.dialog.open(ErrorDialogComponent, {
-      height: '250px',
-      width: '350px',
-      data: {
-        heading: 'Wrong Tan',
-        description:
-          'Incorrect TAN was entered 3 times. Your authorisation is failed, please start a new one. After pushing Cancel button you will be logged out. Please restart your authorisation.',
-      },
-    });
 
     this.shareService.currentOperation
       .pipe(takeUntil(this.unsubscribe))

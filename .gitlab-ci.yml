@@ -109,6 +109,8 @@ Lint (Dockerfiles):
   stage: "Lint"
   services:
     - docker:dind
+  tags:
+    - aws
   except:
     - schedules
     - support-6.x
@@ -123,7 +125,7 @@ Lint (Dockerfiles):
     - make lint-dockerfiles
 
 Lint (OBA UI):
-  image: node:12.22.0-stretch-slim
+  image: node:12.22.12-buster-slim
   stage: "Lint"
   except:
     - schedules
@@ -135,7 +137,7 @@ Lint (OBA UI):
     - make lint-oba-ui
 
 Lint (TPP UI):
-  image: node:12.22.0-stretch-slim
+  image: node:12.22.12-buster-slim
   stage: "Lint"
   except:
     - schedules
@@ -147,7 +149,7 @@ Lint (TPP UI):
     - make lint-tpp-ui
 
 Lint (Admin UI):
-  image: node:12.22.0-stretch-slim
+  image: node:12.22.12-buster-slim
   stage: "Lint"
   except:
     - schedules
@@ -159,7 +161,7 @@ Lint (Admin UI):
     - make lint-admin-ui
 
 Lint (DevPortal UI):
-  image: node:12.16.2-stretch-slim
+  image: node:12.22.12-buster-slim
   stage: "Lint"
   except:
     - schedules
@@ -171,7 +173,7 @@ Lint (DevPortal UI):
     - make lint-developer-portal-ui
 
 Lint (OBA Backend):
-  image: debian:stretch-slim
+  image: debian:stable-slim
   stage: "Lint"
   except:
     - schedules
@@ -183,7 +185,7 @@ Lint (OBA Backend):
     - make lint-online-banking
 
 Lint (TPP Backend):
-  image: debian:stretch-slim
+  image: debian:stable-slim
   stage: "Lint"
   except:
     - schedules
@@ -195,7 +197,7 @@ Lint (TPP Backend):
     - make lint-tpp-rest-server
 
 Lint (Admin Backend):
-  image: debian:stretch-slim
+  image: debian:stable-slim
   stage: "Lint"
   except:
     - schedules
@@ -243,7 +245,7 @@ Lint (PMD CPD):
 #-------------------------------------------------------------------
 
 Build (OBA UI):
-  image: node:12.16.2-stretch-slim
+  image: node:12.22.12-buster-slim
   stage: "Compile"
   except:
     - schedules
@@ -264,7 +266,7 @@ Build (OBA UI):
     expire_in: "1 day"
 
 Build (TPP UI):
-  image: node:12.16.2-stretch-slim
+  image: node:12.22.12-buster-slim
   stage: "Compile"
   except:
     - schedules
@@ -285,7 +287,7 @@ Build (TPP UI):
     expire_in: "1 day"
 
 Build (Admin UI):
-  image: node:12.16.2-stretch-slim
+  image: node:12.22.12-buster-slim
   stage: "Compile"
   except:
     - schedules
@@ -306,7 +308,7 @@ Build (Admin UI):
     expire_in: "1 day"
 
 Build (DevPortal UI):
-  image: node:12.16.2-stretch-slim
+  image: node:12.22.12-buster-slim
   stage: "Compile"
   except:
     - schedules
@@ -378,7 +380,7 @@ Test (Unit Tests):
     - make unit-tests-backend
 
 Test (DevPortal UI Tests):
-  image: node:12.16.2-stretch-slim
+  image: node:12.22.12-buster-slim
   stage: "Test"
   except:
     - schedules
@@ -391,7 +393,7 @@ Test (DevPortal UI Tests):
     - make unit-tests-developer-portal-ui
 
 Test (TPP UI Tests):
-  image: node:12.16.2-stretch-slim
+  image: node:12.22.12-buster-slim
   stage: "Test"
   except:
     - schedules
@@ -404,7 +406,7 @@ Test (TPP UI Tests):
     - make unit-tests-tpp-ui
 
 Test (Admin UI Tests):
-  image: node:12.16.2-stretch-slim
+  image: node:12.22.12-buster-slim
   stage: "Test"
   except:
     - schedules
@@ -417,7 +419,7 @@ Test (Admin UI Tests):
     - make unit-tests-admin-ui
 
 Test (OBA UI Tests):
-  image: node:12.16.2-stretch-slim
+  image: node:12.22.12-buster-slim
   stage: "Test"
   except:
     - schedules
@@ -459,6 +461,8 @@ Build and push to private repo (support-6x):
     - support-6.x
   services:
     - docker:dind
+  tags:
+    - aws
   variables:
     DOCKER_HOST: tcp://docker:2375
     DOCKER_TLS_CERTDIR: ""
@@ -474,6 +478,8 @@ Build and push to private repo (tags):
     - tags
   services:
     - docker:dind
+  tags:
+    - aws
   variables:
     DOCKER_HOST: tcp://docker:2375
     DOCKER_TLS_CERTDIR: ""

@@ -17,6 +17,7 @@
   ~ contact us at psd2@adorsys.com.
   -->
 
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -100,7 +101,7 @@
     </developers>
 
     <properties>
-        <!-- common properties -->
+        <!-- Common properties -->
         <java.version>11</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -124,7 +125,9 @@
         <!-- XS2A version -->
         <xs2a.version>14.5</xs2a.version>
         <connector.version>14.5</connector.version>
-        <ledgers.version>4.21</ledgers.version>
+
+        <!-- Ledgers version -->
+        <ledgers.version>4.22-SNAPSHOT</ledgers.version>
 
         <!-- Spring-related versions -->
         <spring-boot-dependencies.version>2.7.10</spring-boot-dependencies.version>
@@ -167,7 +170,6 @@
     </properties>
 
     <repositories>
-
         <repository>
             <id>spring-milestones</id>
             <name>Spring Milestones</name>
@@ -472,7 +474,6 @@
                     <excludes>
                         <exclude>**/generated-sources/**</exclude>
                         <exclude>**/*Config*.*</exclude>
-
                     </excludes>
 
                 </configuration>
@@ -529,7 +530,6 @@
             <id>release</id>
             <build>
                 <plugins>
-
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
@@ -591,7 +591,6 @@
             <id>gitlab-maven</id>
             <build>
                 <plugins>
-
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>

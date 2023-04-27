@@ -148,9 +148,22 @@ services:
       - LIQUIBASE_ENABLED=true
       - LEDGERS_SCA_MULTILEVEL_ENABLED=false
       - LEDGERS_SCA_AUTHORISATION_CONFIRMATION_ENABLED=false
+      - LEDGERS_SCA_AUTHCODE_APP_OTP_SOCKET_SERVICE_URL=http://xs2a-online-banking:8090/api/v1/decoupled/message
+      # SMTP related settings
       - SPRING_MAIL_HOST=fakesmtp
       - SPRING_MAIL_PORT=25
-      - LEDGERS_SCA_AUTHCODE_APP_OTP_SOCKET_SERVICE_URL=http://xs2a-online-banking:8090/api/v1/decoupled/message
+    #      - SPRING_MAIL_HOST=smtp.gmail.com
+    #      - SPRING_MAIL_PORT=465
+    #      - SPRING_MAIL_USERNAME=modelbank.mail@gmail.com
+    #      - SPRING_MAIL_PASSWORD=password
+    #      - SPRING_MAIL_PROPERTIES_SMTP_AUTH=true
+    #      - SPRING_MAIL_PROPERTIES_SMTP_SSL=true
+    #      - SPRING_MAIL_PROPERTIES_SMTP_START_TLS=false
+    #      - SPRING_MAIL_PROPERTIES_SMTP_FROM=modelbank.mail@gmail.com
+    #      - SPRING_MAIL_PROPERTIES_SMTP_FROM_DISPLAY_NAME=Ledgers
+    #      - SPRING_MAIL_PROPERTIES_SMTP_ENVELOPE_FROM=modelbank.mail@gmail.com
+    #      - SPRING_MAIL_PROPERTIES_SMTP_REPLY_TO=modelbank.mail@gmail.com
+    #      - SPRING_MAIL_PROPERTIES_SMTP_REPLY_TO_DISPLAY_NAME=Ledgers support
     volumes:
       - xs2a-ledgers-data:/var/lib/data
     depends_on:
@@ -175,6 +188,7 @@ services:
       - KC_DB_URL_DATABASE=keycloak
       - KC_DB_USERNAME=keycloak
       - KC_DB_PASSWORD=keycloak
+      - KC_PROXY=edge
     depends_on:
       - xs2a-consent-management-db
 

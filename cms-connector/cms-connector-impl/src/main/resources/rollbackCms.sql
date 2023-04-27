@@ -16,9 +16,6 @@ with psuIds as
      deleteAccountAccess as
          (delete from account_access where consent_id in
                                            (select * from consentIdsFilteredByPsuIds)),
-     deleteAisConsent as
-         (delete from ais_consent where id in
-                                        (select * from consentIdsFilteredByPsuIds)),
 
      consentCommonPsuDataIds as
          (select psu_data_id
