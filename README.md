@@ -17,15 +17,15 @@ The 'Berlin Group' is a pan-European payments interoperability standards and har
 ModelBank is a dynamic sandbox environment that allows to emulate and test ASPSP's OpenAPI PSD2 services.
 Modelbank functionality supports all mandatory services of XS2A. Optional services are partially supported via UI interfaces, but fully supported and can be tested through XS2A interface.
 
-ModelBank is based on [XS2A Service](https://git.adorsys.de/adorsys/xs2a/aspsp-xs2a), [XS2A-connector-examples](https://git.adorsys.de/adorsys/xs2a/xs2a-connector-examples) and [Ledgers](https://git.adorsys.de/adorsys/xs2a/ledgers). ModelBank also uses Keycloak identity provider (IDP) for the security/token issues and for handling the system users.
+ModelBank is based on [XS2A Service](https://github.com/adorsys/xs2a), [XS2A-connector-examples](https://github.com/adorsys/xs2a-connector-examples) and [Ledgers](https://github.com/adorsys/ledgers). ModelBank also uses Keycloak identity provider (IDP) for the security/token issues and for handling the system users.
 
-With ModelBank [TPP UI](https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/-/tree/master/tpp-ui), you as a testing TPP can access banking APIs directly, get TPP certificates and manage testing accounts. Administrators cannot login to TPP UI.
+With ModelBank [TPP UI](tpp-ui/), you as a testing TPP can access banking APIs directly, get TPP certificates and manage testing accounts. Administrators cannot login to TPP UI.
 
-The ModelBank [Admin UI](https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/-/tree/master/admin-ui) provides a user interface to manage administrators of the ModelBank, its users and TPPs. Please note, that TPPs cannot login to this application.
+The ModelBank [Admin UI](admin-ui/) provides a user interface to manage administrators of the ModelBank, its users and TPPs. Please note, that TPPs cannot login to this application.
 
-[Developer Portal](https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/-/tree/master/developer-portal-ui) contains testing instructions and all the necessary documentation. Also, there is a possibility to send requests to XS2A system to proceed basic Payment and Consent flows available in test cases inside Developer Portal.
+[Developer Portal](developer-portal-ui/) contains testing instructions and all the necessary documentation. Also, there is a possibility to send requests to XS2A system to proceed basic Payment and Consent flows available in test cases inside Developer Portal.
 
-All four SCA approaches are supported: REDIRECT, OAUTH, EMBEDDED, DECOUPLED. Two of them (REDIRECT, EMBEDDED) are directly testable on Developer portal. For the Redirect SCA Approach an [Online Banking UI](https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/-/tree/master/oba-ui) is used for authorisation and SCA.
+All four SCA approaches are supported: REDIRECT, OAUTH, EMBEDDED, DECOUPLED. Two of them (REDIRECT, EMBEDDED) are directly testable on Developer portal. For the Redirect SCA Approach an [Online Banking UI](oba-ui/) is used for authorisation and SCA.
 
 ## Project documentation
 
