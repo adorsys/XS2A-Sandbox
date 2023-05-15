@@ -105,7 +105,6 @@ variables:
     - git config --global user.name "$GITHUB_USERNAME"
     - git remote add github https://$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git #Token expires on Sat, 11.05.2024
     - for branch in $(git branch -r | grep -E "origin/.*(release-${GITHUB_PROJECT_CLONE_VERSION}.*|support-${GITHUB_PROJECT_CLONE_VERSION}.x).*"); do
-#        git checkout -- . ;
         branch=${branch#origin/};
         git checkout $branch;
         git push github $branch --force;
