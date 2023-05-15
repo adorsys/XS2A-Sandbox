@@ -635,10 +635,10 @@ Clone to github:
   only:
     - /^.*release-${GITHUB_PROJECT_CLONE_VERSION}.*$/
     - support-${GITHUB_PROJECT_CLONE_VERSION}.x
+    - support-6.x
   except:
     - schedules
   variables:
     GITHUB_USERNAME: adorsys
     GITHUB_REPOSITORY: adorsys/XS2A-Sandbox
     GITHUB_PROJECT_CLONE_VERSION: "6"
-    
