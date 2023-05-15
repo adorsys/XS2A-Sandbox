@@ -632,8 +632,6 @@ Clone to github:
   stage: "Clone to github"
   <<: *sync_changes_github
   image: alpine/git:latest
-  when: manual
-  needs: []
   only:
     - /^.*release-${GITHUB_PROJECT_CLONE_VERSION}.*$/
     - support-${GITHUB_PROJECT_CLONE_VERSION}.x
