@@ -105,7 +105,7 @@ variables:
     - for branch in $(git branch -r | grep -E "origin/.*(release-${GITHUB_PROJECT_CLONE_VERSION}.*|support-${GITHUB_PROJECT_CLONE_VERSION}.x).*"); do
         branch=${branch#origin/};
         git checkout $branch;
-        git push github $branch;
+        git push github $branch --force;
       done
 # ------------------------------------------------------------------
 # jobs
