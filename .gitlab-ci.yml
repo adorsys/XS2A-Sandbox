@@ -99,8 +99,7 @@ variables:
 
 .sync_changes_github: &sync_changes_github
   image: alpine/git
-  artifacts:
-    paths: []
+  dependencies: []
   script:
     - git config --global user.name "$GITHUB_USERNAME"
     - git remote add github https://$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git #Token expires on Sat, 11.05.2024
@@ -633,6 +632,7 @@ Clone to github:
   stage: "Clone to github"
   <<: *sync_changes_github
   image: alpine/git:latest
+  when: manual
   only:
     - /^.*release-${GITHUB_PROJECT_CLONE_VERSION}.*$/
     - support-${GITHUB_PROJECT_CLONE_VERSION}.x
