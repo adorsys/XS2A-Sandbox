@@ -17,6 +17,7 @@ stages:
   - "Version Control" # parse pom.xml and change versions on sandbox project
   - "Release" # release
   - "Package" # dockerize jar and push to docker registry
+  - "Clone to github"
 
 # ------------------------------------------------------------------
 # variables
@@ -96,6 +97,16 @@ variables:
     - docker push "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_DEVPORTAL_UI}:${DOCKER_TAG}"
     - docker logout
 
+.sync_changes_github: &sync_changes_github
+  image: alpine/git
+  script:
+    - git config --global user.name "$GITHUB_USERNAME"
+    - git remote add github https://$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git #Token expires on Sat, 11.05.2024
+    - for branch in $(git branch -r | grep -E "origin/.*(release-${GITHUB_PROJECT_CLONE_VERSION}.*|support-${GITHUB_PROJECT_CLONE_VERSION}.x).*"); do
+        branch=${branch#origin/};
+        git checkout $branch;
+        git push github $branch;
+      done
 # ------------------------------------------------------------------
 # jobs
 # ------------------------------------------------------------------
@@ -615,3 +626,19 @@ Change dependencies versions (demo):
     - git add .
     - git commit -m "changed dependencies versions"
     - git push origin master
+
+Clone to github:
+  stage: "Clone to github"
+  <<: *sync_changes_github
+  image: alpine/git:latest
+  needs: []
+  only:
+    - /^.*release-${GITHUB_PROJECT_CLONE_VERSION}.*$/
+    - support-${GITHUB_PROJECT_CLONE_VERSION}.x
+  except:
+    - schedules
+  variables:
+    GITHUB_USERNAME: adorsys
+    GITHUB_REPOSITORY: adorsys/XS2A-Sandbox
+    GITHUB_PROJECT_CLONE_VERSION: "6"
+    
