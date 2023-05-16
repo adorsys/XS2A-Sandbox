@@ -146,7 +146,7 @@
         <mockito-junit-jupiter.version>3.11.2</mockito-junit-jupiter.version>
         <hamcrest-library.version>2.2</hamcrest-library.version>
         <javax.validation-api.version>2.0.1.Final</javax.validation-api.version>
-        <jackson-core.version>2.13.2</jackson-core.version>
+        <jackson-core.version>2.13.4.2</jackson-core.version>
         <opencsv.version>5.6</opencsv.version>
         <feign-okhttp.version>10.10.1</feign-okhttp.version>
         <commons-validator.version>1.7</commons-validator.version>
