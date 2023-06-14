@@ -28,7 +28,7 @@ a| File path to the customized `bank_profile.yml`.
 
 Possible values could be `bank_profile.yml` (relative) or `/mnt/my_bank_profile.yml`
 
-This is the actual business configuration reflecting the PSD2 features your bank offers. You can find the relevant documentation for this file at the https://git.adorsys.de/adorsys/xs2a/aspsp-xs2a/-/blob/master/aspsp-profile/README.adoc[XS2A GitLab Project].
+This is the actual business configuration reflecting the PSD2 features your bank offers. You can find the relevant documentation for this file at the https://github.com/adorsys/xs2a/blob/support-14.x/aspsp-profile/README.adoc[XS2A GitHub Project].
 
 For an example and the actual default values used in the ModelBank see the <<sample-bank-profile>> below.
 

@@ -5,7 +5,7 @@ For build and run ModelBank requires GNU Make to be installed on your local mach
 1.Download the project and go to the project directory:
 
 ```sh
-> git clone https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox.git
+> git clone https://github.com/adorsys/XS2A-Sandbox.git
 > cd XS2A-Sandbox
 ```
 
@@ -54,13 +54,6 @@ For a fast and painless start of all the services it should be not less than 5 G
 
 ---
 
----
-
-**Note2:**
-If you clone master branch or tag version of ModelBank you should run service with commands like `docker-compose up` or `make run`.
-
----
-
 3.Build and run the project:
 
 You can build and run ModelBank in two ways - with a docker command or with Makefile commands.
@@ -73,7 +66,10 @@ Build all the services with command:
 > make
 ```
 
-After building services you can run ModelBank with a simple docker command:
+After building services you can run ModelBank with a simple docker command.
+
+**Please note:**
+To be able to use adorsys' applications docker images you have to build them on your local first.
 
 ```sh
 > docker-compose up

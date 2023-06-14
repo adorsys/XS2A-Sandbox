@@ -65,16 +65,16 @@ image::../images/whitebox_2_xs2a.png[Whitebox xs2a Level 2, 60%, title="Whitebox
 | aspsp-profile (library)
 | Expose the XS2A configuration via REST API. The actual values come from the top level _config_ module. Is provided by the `profile` library from XS2A and embedded in our ModelBank. Needed by `xs2a-impl` and not directly called by us.
 
-Part of the https://git.adorsys.de/adorsys/xs2a/aspsp-xs2a[adorsys PSD2 XS2A implementation].
+Part of the https://github.com/adorsys/xs2a[adorsys PSD2 XS2A implementation].
 
 | consent-management (library)
 | Handle consents for us. Every payment or account information needs/creates a consent. Is
 provided by the `consent-management` library from XS2A and embedded in our ModelBank.
 
-Part of the https://git.adorsys.de/adorsys/xs2a/aspsp-xs2a[adorsys PSD2 XS2A implementation].
+Part of the https://github.com/adorsys/xs2a[adorsys PSD2 XS2A implementation].
 
 | xs2a-impl (library)
 | Provide the XS2A business implementation (e.g. validation, handling of consents via `consent-management`). Calls our own `AIS`/`PIS`/`PIIS` implementations.
 
-Part of the https://git.adorsys.de/adorsys/xs2a/aspsp-xs2a[adorsys PSD2 XS2A implementation].
+Part of the https://github.com/adorsys/xs2a[adorsys PSD2 XS2A implementation].
 |===

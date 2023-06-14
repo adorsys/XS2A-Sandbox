@@ -24,7 +24,7 @@
 
 # Інтерфейс XS2A
 
-Центральним компонентом **ModelBank** є інтерфейс XS2A, який відповідає вимогам специфікації [NextGenPSD2](https://www.berlin-group.org/psd2-access-to-bank-accounts) (версія 1.3.11) від Berlin Group і базується на тестових даних. Ви можете відвідати наш <a href="#" id="XS2AInterfaceSwagger">XS2A Swagger UI</a> або ознайомитись з [імплементацією інтерфейсу XS2A від adorsys на GitLab](https://git.adorsys.de/adorsys/xs2a/aspsp-xs2a).
+Центральним компонентом **ModelBank** є інтерфейс XS2A, який відповідає вимогам специфікації [NextGenPSD2](https://www.berlin-group.org/psd2-access-to-bank-accounts) (версія 1.3.11) від Berlin Group і базується на тестових даних. Ви можете відвідати наш <a href="#" id="XS2AInterfaceSwagger">XS2A Swagger UI</a> або ознайомитись з [імплементацією інтерфейсу XS2A від adorsys на GitHub](https://github.com/adorsys/xs2a).
 
 <div class="divider">
 </div>
@@ -147,12 +147,12 @@ _docker-compose rm -s -f -v_
 
 ## Завантаження ModelBank
 
-Завантажте проект безпосередньо з GitLab або скористайтеся командою:
+Завантажте проект безпосередньо з GitHub або скористайтеся командою:
 
-_git clone https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox.git_
+_git clone https://github.com/adorsys/XS2A-Sandbox.git_
 
 **Note:**
-Завжди робіть оновлення з GitLab
+Завжди робіть оновлення з GitHub
 
 ## Збірка та запуск ModelBank
 
@@ -168,7 +168,8 @@ _cd XS2A-Sandbox_
 
 _make_
 
-2. Після виконання збірки ви можете запустити ModelBank за допомогою простої docker команди:
+2. Після виконання збірки ви можете запустити ModelBank за допомогою простої docker команди.
+Зверніть увагу, для того, щоб використовувати готові Docker образи програм від adorsys, вам треба їх зібрати локально.
 
 _docker-compose up_
 
