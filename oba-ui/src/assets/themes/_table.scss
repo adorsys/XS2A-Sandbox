@@ -16,11 +16,15 @@
  * contact us at psd2@adorsys.com.
  */
 
-@import "~src/assets/themes/variables";
+@import './variables';
+
+.table-clickable {
+  tr {
+    cursor: pointer;
+  }
+}
 
 tr {
-  cursor: pointer;
-
   &:hover {
     background-color: #f3f3f3;
     transition: 0.4s;

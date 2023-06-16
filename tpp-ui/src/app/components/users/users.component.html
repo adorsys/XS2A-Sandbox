@@ -22,7 +22,7 @@
     <div class="col-12 col-md-8 right">
       <div class="row">
         <div class="col-12 col-md-8 p-md-0">
-          <div class="form-group has-search">
+          <div class="mb-3 has-search">
             <span class="form-control-feedback">
               <img src="./assets/icons/search.svg" />
             </span>
@@ -46,7 +46,7 @@
     <div class="card-body">
       <div class="table-responsive">
         <div class="container-fluid" [ngClass]="{ 'configs-container': admin }">
-          <div class="row d-flex justify-content-between configs fixed-width">
+          <div class="d-flex justify-content-between configs fixed-width">
             <div class="paginator">
               <app-pagination-container [paginationConfig]="config" (pageDataConfig)="pageChange($event)"></app-pagination-container>
             </div>
@@ -54,13 +54,13 @@
             <div *ngIf="admin === 'true'" class="tpp-filters">
               <div class="container-fluid">
                 <div class="row d-flex justify-content-end">
-                  <div class="mr-2">
+                  <div class="me-2">
                     <label for="country">TPP login:</label>
                     <div class="filter">
                       <input class="form-control" placeholder="Search by TPP login" formControlName="tppLogin" type="text" />
                     </div>
                   </div>
-                  <div class="mr-2">
+                  <div class="me-2">
                     <label for="country">TPP ID:</label>
                     <div class="filter">
                       <input class="form-control" placeholder="Search by TPP ID" formControlName="tppId" type="text" />
@@ -82,7 +82,7 @@
                 <div class="row d-flex justify-content-end">
                   <button
                     mat-raised-button
-                    class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
+                    class="btn btn-outline-primary btn-sm mt-2 mb-3 me-1 filter-button"
                     (click)="setBlocked(false)"
                     [ngClass]="{
                       active: searchForm.controls.blocked.value === false
@@ -92,7 +92,7 @@
                   </button>
                   <button
                     mat-raised-button
-                    class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
+                    class="btn btn-outline-primary btn-sm mt-2 mb-3 me-1 filter-button"
                     (click)="setBlocked(true)"
                     [ngClass]="{
                       active: searchForm.controls.blocked.value === true
@@ -102,7 +102,7 @@
                   </button>
                   <button
                     mat-raised-button
-                    class="btn btn-outline-primary btn-sm mt-2 mb-3 mr-1 filter-button"
+                    class="btn btn-outline-primary btn-sm mt-2 mb-3 me-1 filter-button"
                     (click)="showAllTpps()"
                     [ngClass]="{ active: isSearchFormEmpty() }"
                   >
@@ -178,7 +178,7 @@
                   [matTooltipPosition]="position.value"
                   aria-label="Create Deposit Account"
                   mat-fab
-                  class="btn btn-table-btn mr-2"
+                  class="btn btn-table-btn me-2"
                   routerLink="/users/{{ user.id }}/create-deposit-account"
                   [queryParams]="{ tppId: user.branch, userId: user.id }"
                   *ngIf="!user.blocked"
@@ -190,7 +190,7 @@
                   [matTooltip]="!user.blocked ? 'Block the user' : 'Unblock the user'"
                   [matTooltipPosition]="position.value"
                   aria-label="Block the user"
-                  class="btn btn-table-btn mr-2"
+                  class="btn btn-table-btn me-2"
                   (click)="openConfirmation(blockConfirmation, user.id, user.blocked ? 'block' : 'unblock')"
                 >
                   <mat-icon *ngIf="!user.blocked">lock</mat-icon>
@@ -200,34 +200,30 @@
                 <ng-template #deleteConfirmationModal let-modal>
                   <div class="modal-header">
                     <h4 class="modal-title" id="modal-basic-title">User deletion</h4>
-                    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
                   </div>
                   <div class="modal-body">Are you sure you want to delete this User?</div>
                   <div class="modal-footer">
-                    <button mat-raised-button type="button" class="btn btn-outline-secondary mr-2" (click)="modal.dismiss('cancel click')">
+                    <button mat-raised-button type="button" class="btn btn-outline-secondary me-2" (click)="modal.dismiss('cancel click')">
                       Cancel
                     </button>
-                    <button mat-raised-button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Delete</button>
+                    <button mat.mdc-button-theme type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Delete</button>
                   </div>
                 </ng-template>
                 <ng-template #blockConfirmation let-modal>
                   <div class="modal-header">
                     <h4 class="modal-title" id="modal-basic-title-1">User {{ user.blocked ? 'unblocking' : 'blocking' }}</h4>
-                    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
                   </div>
                   <div class="modal-body">
                     Are you sure you want to
                     {{ user.blocked ? 'Unblock' : 'Block' }} this User?
                   </div>
                   <div class="modal-footer">
-                    <button mat-raised-button type="button" class="btn btn-outline-secondary mr-2" (click)="modal.dismiss('cancel click')">
+                    <button mat-raised-button type="button" class="btn btn-outline-secondary me-2" (click)="modal.dismiss('cancel click')">
                       Cancel
                     </button>
-                    <button mat-raised-button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">
+                    <button mat.mdc-button-theme type="button" class="btn btn-danger" (click)="modal.close('Ok click')">
                       {{ user.blocked ? 'Unblock' : 'Block' }}
                     </button>
                   </div>
@@ -237,7 +233,7 @@
                   matTooltip="Delete the user"
                   [matTooltipPosition]="position.value"
                   aria-label="Delete the user"
-                  class="btn btn-outline-danger mr-2"
+                  class="btn btn-outline-danger me-2"
                   (click)="openConfirmation(deleteConfirmationModal, user.id, 'delete')"
                 >
                   <mat-icon>delete</mat-icon>
@@ -248,7 +244,7 @@
         </table>
 
         <div class="container-fluid">
-          <div class="row d-flex justify-content-start">
+          <div class="d-flex justify-content-start">
             <app-pagination-container [paginationConfig]="config" (pageDataConfig)="pageChange($event)"></app-pagination-container>
           </div>
         </div>

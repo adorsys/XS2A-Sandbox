@@ -18,7 +18,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { TppManagementService } from '../../services/tpp-management.service';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, UntypedFormControl } from '@angular/forms';
 import { PageConfig, PaginationConfigModel } from '../../models/pagination-config.model';
 import { AccountService } from '../../services/account.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -48,7 +48,7 @@ export class TppsComponent implements OnInit {
   countriesList: Array<object> = [];
   newPin = 'pin';
   positionOptions: TooltipPosition[] = ['above', 'before', 'after', 'below', 'left', 'right'];
-  position = new FormControl(this.positionOptions[0]);
+  position = new UntypedFormControl(this.positionOptions[0]);
 
   config: PaginationConfigModel = {
     itemsPerPage: 10,
@@ -56,7 +56,7 @@ export class TppsComponent implements OnInit {
     totalItems: 0,
   };
 
-  searchForm: FormGroup = this.formBuilder.group({
+  searchForm: UntypedFormGroup = this.formBuilder.group({
     userLogin: '',
     tppId: '',
     tppLogin: '',
@@ -67,7 +67,7 @@ export class TppsComponent implements OnInit {
 
   constructor(
     private accountService: AccountService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private tppManagementService: TppManagementService,
     private infoService: InfoService,
     public router: Router,

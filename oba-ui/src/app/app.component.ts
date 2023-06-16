@@ -51,7 +51,7 @@ export class AppComponent implements OnInit {
       theme = data;
       this.globalSettings = theme.globalSettings;
 
-      if (theme.globalSettings !== null) {
+      if (!theme.globalSettings) {
         return;
       }
 

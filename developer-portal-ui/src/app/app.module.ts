@@ -52,7 +52,7 @@ import { UrlLoadService } from './services/url-load.service';
 import { UrlService } from './services/url.service';
 import { SanitizeHtmlPipe } from './pipes/sanitize-html.pipe';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { _MatMenuDirectivesModule, MatMenuModule } from '@angular/material/menu';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
@@ -106,7 +106,6 @@ export function url_Init(urlLoadService: UrlLoadService) {
       sanitize: SecurityContext.NONE,
     }),
     MatSnackBarModule,
-    _MatMenuDirectivesModule,
     MatMenuModule,
     MatSidenavModule,
     MatListModule,

@@ -55,7 +55,7 @@
           <a
             matTooltip="Create Account"
             aria-label="Create Account"
-            class="btn btn-table-btn mr-2 mb-3"
+            class="btn btn-table-btn me-2 mb-3"
             routerLink="/users/{{ user.id }}/create-deposit-account"
             [queryParams]="{ tppId: user.branch, userId: user.id }"
             *ngIf="!user.blocked && showCreateDepositAccountButton"
@@ -63,7 +63,7 @@
           >
         </div>
 
-        <div class="form-group d-flex flex-row pt-2 mt-3">
+        <div class="mb-3 d-flex flex-row pt-2 mt-3">
           <button class="btn btn-primary" [disabled]="createFundsFormGroup.invalid" type="submit">Create</button>
         </div>
       </form>

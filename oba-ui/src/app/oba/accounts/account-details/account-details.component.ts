@@ -17,7 +17,11 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { debounceTime, map, tap } from 'rxjs/operators';
 
@@ -40,8 +44,8 @@ export class AccountDetailsComponent implements OnInit {
   balance: ExtendedBalance;
   accountID: string;
   transactions: TransactionTO[];
-  filtersGroup: FormGroup;
-  formModel: FormGroup;
+  filtersGroup: UntypedFormGroup;
+  formModel: UntypedFormGroup;
   config: {
     itemsPerPage: number;
     currentPage: number;
@@ -57,7 +61,7 @@ export class AccountDetailsComponent implements OnInit {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private onlineBankingService: OnlineBankingService
   ) {}
 

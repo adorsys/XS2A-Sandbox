@@ -30,6 +30,7 @@ import { AccountComponent } from '../account/account.component';
 import { AccountDetailComponent } from './account-detail.component';
 import { ConvertBalancePipe } from 'src/app/pipes/convertBalance.pipe';
 import { TestDataGenerationService } from '../../services/test.data.generation.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('AccountDetailComponent', () => {
   let component: AccountDetailComponent;
@@ -37,21 +38,20 @@ describe('AccountDetailComponent', () => {
   let accountService: AccountService;
   let testDataGenerationService: TestDataGenerationService;
   let infoService: InfoService;
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          RouterTestingModule.withRoutes([{ path: 'accounts', component: AccountComponent }]),
-          ReactiveFormsModule,
-          HttpClientTestingModule,
-          InfoModule,
-          FormsModule,
-        ],
-        declarations: [AccountDetailComponent, AccountComponent, ConvertBalancePipe],
-        providers: [AccountService, InfoService, TestDataGenerationService],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule.withRoutes([{ path: 'accounts', component: AccountComponent }]),
+        ReactiveFormsModule,
+        HttpClientTestingModule,
+        InfoModule,
+        FormsModule,
+        BrowserAnimationsModule
+      ],
+      declarations: [AccountDetailComponent, AccountComponent, ConvertBalancePipe],
+      providers: [AccountService, InfoService, TestDataGenerationService],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AccountDetailComponent);

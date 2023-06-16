@@ -1,12 +1,12 @@
 <mat-list-item (click)="openFundsConfirmation()">
-  <span class="btn-toggle d-inline-flex align-items-center border-0 collapsed rounded">
+  <span class="main-list-item btn-toggle d-inline-flex align-items-center border-0 collapsed rounded">
     <mat-icon [ngClass]="{ rotated: fundsConfirmationMenu }" class="menu-button">expand_more</mat-icon>
     {{ 'TEST_CASES.SIDE_NAV.FUNDS.FUNDS_CONFIRMATION' | translate }}</span
   >
 </mat-list-item>
 <mat-nav-list *ngIf="fundsConfirmationMenu">
   <mat-list-item
-    class="ml-3 link-dark d-inline-flex text-decoration-none rounded"
+    class="ms-3 link-dark d-inline-flex text-decoration-none rounded"
     routerLinkActive="is-active"
     routerLink="/test-cases/funds-confirmation"
   >

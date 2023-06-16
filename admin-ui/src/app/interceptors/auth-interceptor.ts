@@ -26,7 +26,7 @@ import {
 } from '@angular/common/http';
 import { EMPTY, Observable, throwError as observableThrowError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { fromPromise } from 'rxjs/internal-compatibility';
+import { from } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { ERROR_MESSAGE } from '@commons/constant/constant';
@@ -41,7 +41,7 @@ export class AuthInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    return fromPromise(this.handleRequest(request, next)).pipe(
+    return from(this.handleRequest(request, next)).pipe(
       tap((event: HttpEvent<any>) => {
         if (
           event instanceof HttpResponse &&

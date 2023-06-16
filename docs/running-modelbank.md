@@ -9,7 +9,7 @@ For build and run ModelBank requires GNU Make to be installed on your local mach
 > cd XS2A-Sandbox
 ```
 
-2.This ModelBank runs with the docker-compose that can be found at: [docker-compose.yml](docker-compose.yml) and [Makefile](Makefile).
+2.This ModelBank runs with the docker-compose that can be found at: [docker-compose.yml](../docker-compose.yml) and [Makefile](../Makefile).
 But before you run this, first of all you should check if all build dependencies are installed:
 
 ```sh
@@ -35,10 +35,10 @@ List of dependencies that are required to use ModelBank: **Java 11**, **nodeJs**
 Here are links where you can install needed dependencies:
 
 | Dependency          | Link                                    |
-| ------------------- | --------------------------------------- |
+|---------------------| --------------------------------------- |
 | Java 11             | https://openjdk.java.net/install/       |
-| Node.js 12.x        | https://nodejs.org/en/download          |
-| Angular CLI 8.x     | https://angular.io/guide/quickstart     |
+| Node.js 18.x        | https://nodejs.org/en/download          |
+| Angular CLI 15.x    | https://angular.io/guide/quickstart     |
 | Asciidoctor 2.0     | https://asciidoctor.org                 |
 | jq 1.6              | https://stedolan.github.io/jq/download  |
 | Docker 1.17         | https://www.docker.com/get-started      |

@@ -24,7 +24,7 @@
         <div class="col-sm">
           <button
             mat-raised-button
-            class="btn btn-primary btn-block"
+            class="btn btn-primary w-100"
             [routerLink]="['/create']"
           >
             <mat-icon>person_add</mat-icon> Create a TPP
@@ -33,7 +33,7 @@
         <div class="col-sm">
           <button
             mat-raised-button
-            class="btn btn-primary btn-block"
+            class="btn btn-primary w-100"
             (click)="deleteTestData()"
             type="button"
           >
@@ -44,10 +44,10 @@
     </div>
     <div class="col-9 col-md-12 mt-3">
       <div class="row">
-        <div class="col-sm mr-2">
+        <div class="col-sm me-2">
           <label for="country">TPP Login:</label>
           <div class="filter">
-            <div class="form-group has-search">
+            <div class="mb-3 has-search">
               <span class="form-control-feedback">
                 <img src="./assets/icons/search.svg" alt="search logo" />
               </span>
@@ -65,7 +65,7 @@
         <div class="col-sm">
           <label>TPP ID:</label>
           <div class="filter">
-            <div class="form-group has-search">
+            <div class="mb-3 has-search">
               <span class="form-control-feedback">
                 <img src="./assets/icons/search.svg" alt="search logo" />
               </span>
@@ -121,7 +121,7 @@
   <div class="card-body">
     <div class="table-responsive">
       <div class="container-fluid configs-container">
-        <div class="row d-flex justify-content-between confgs fixed-width">
+        <div class="d-flex justify-content-between confgs">
           <div class="paginator">
             <app-pagination-container
               [paginationConfig]="config"
@@ -211,7 +211,7 @@
             matTooltip="Send Password Update Link"
             [matTooltipPosition]="position.value"
             aria-label="Send password update link"
-            class="btn btn-primary mr-4 ml-3"
+            class="btn btn-primary me-4 ms-3"
             (click)="resetPasswordViaEmail(tpp.login)"
             type="button"
             title="Send Password Update Link"
@@ -226,7 +226,7 @@
             (click)="
               openConfirmation(deleteConfirmationModal, tpp.id, 'delete')
             "
-            class="btn btn-outline-danger mr-2"
+            class="btn btn-outline-danger me-2"
           >
             <mat-icon color="white">delete</mat-icon>
           </button>
@@ -236,11 +236,10 @@
               <h4 class="modal-title" id="modal-basic-title">TPP deletion</h4>
               <button
                 type="button"
-                class="close"
+                class="btn-close"
                 aria-label="Close"
                 (click)="modal.dismiss('Cross click')"
               >
-                <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
@@ -271,11 +270,10 @@
               </h4>
               <button
                 type="button"
-                class="close"
+                class="btn-close"
                 aria-label="Close"
                 (click)="modal.dismiss('Cross click')"
               >
-                <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
@@ -303,12 +301,12 @@
       </tr>
     </tbody>
   </table>
-  <p *ngIf="tpps.length > 1" class="text-center font-weight-bold">
+  <p *ngIf="tpps.length > 1" class="text-center fw-bold">
     No suitable TPP is available
   </p>
 
   <div class="container-fluid">
-    <div class="row d-flex justify-content-start">
+    <div class="d-flex justify-content-start">
       <app-pagination-container
         [paginationConfig]="config"
         (pageDataConfig)="pageChange($event)"

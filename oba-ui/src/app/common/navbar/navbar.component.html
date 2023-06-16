@@ -18,36 +18,42 @@
 
 <nav class="navbar navbar-light py-3">
   <div class="navbar">
-    <a class="navbar-brand text-primary mr-4" routerLink="/">
+    <a class="navbar-brand text-primary me-4" routerLink="/">
       <img class="logo" [src]="customizeService.getLogo()" />
     </a>
-    <span class="ml-3 navbar-brand">
+    <span class="ms-3 navbar-brand">
       <span *ngIf="!customizeService.isCustom()">adorsys</span>
       {{ title }}
     </span>
   </div>
-  <ul class="nav">
-    <li class="dropdown ml-auto" (click)="showDropdown()">
-      <a
-        class="nav-item dropdown-toggle mr-3 no-underline clickable"
-        id="dropdownMenuButton"
-        data-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false"
-        *ngIf="obaUser?.login"
-        >{{ obaUser?.login }}
-      </a>
-      <div
-        class="dropdown-menu dropdown-menu-right"
-        [ngClass]="{ show: toggleFlag }"
-      >
-        <a routerLink="/profile" class="dropdown-item py-2">
+
+  <div ngbDropdown class="nav dropdown">
+    <a
+      ngbDropdownToggle
+      role="button"
+      class="nav-item dropdown-toggle me-3 no-underline clickable text-decoration-none"
+      id="dropdownMenuButton"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+      *ngIf="obaUser?.login"
+      (click)="showDropdown()"
+      >{{ obaUser?.login }}
+    </a>
+    <ul
+      ngbDropdownMenu
+      aria-labelledby="dropdownMenuButton"
+      class="dropdown-menu dropdown-menu-end"
+      [ngClass]="{ show: toggleFlag }"
+    >
+      <li>
+        <a ngbDropdownItem routerLink="/profile" class="dropdown-item py-2">
           <div>
             <img src="./assets/icons/user.svg" />
             <span>Profile</span>
           </div>
         </a>
         <a
+          ngbDropdownItem
           (click)="onLogout()"
           [routerLinkActive]="['active']"
           class="dropdown-item clickable pb-2"
@@ -57,7 +63,7 @@
             <span class="nav__title"> Sign out</span>
           </div>
         </a>
-      </div>
-    </li>
-  </ul>
+      </li>
+    </ul>
+  </div>
 </nav>

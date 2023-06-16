@@ -5,9 +5,11 @@
 /tmp
 /out-tsc
 
+# angular
+/.angular/cache
+
 # dependencies
 /node_modules
-.angular
 
 # api
 /api

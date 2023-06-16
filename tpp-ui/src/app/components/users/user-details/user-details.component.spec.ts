@@ -40,15 +40,13 @@ describe('UserDetailsComponent', () => {
   let router: Router;
   let infoService: InfoService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule.withRoutes([]), ReactiveFormsModule, HttpClientTestingModule, BrowserAnimationsModule, OverlayModule],
-        declarations: [UserDetailsComponent],
-        providers: [UserService, AccountService, EmailVerificationService, InfoService],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule.withRoutes([]), ReactiveFormsModule, HttpClientTestingModule, BrowserAnimationsModule, OverlayModule],
+      declarations: [UserDetailsComponent],
+      providers: [UserService, AccountService, EmailVerificationService, InfoService],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserDetailsComponent);

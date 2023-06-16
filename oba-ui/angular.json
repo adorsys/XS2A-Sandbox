@@ -26,12 +26,15 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/assets/themes", "./node_modules"]
+            },
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": [ "./node_modules/@popperjs/core/dist/umd/popper.min.js", "./node_modules/bootstrap/dist/js/bootstrap.min.js"],
             "aot": true
           },
           "configurations": {
@@ -87,6 +90,9 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/assets/themes", "./node_modules"]
+            },
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
@@ -130,6 +136,5 @@
         }
       }
     }
-  },
-  "defaultProject": "oba-ui"
+  }
 }

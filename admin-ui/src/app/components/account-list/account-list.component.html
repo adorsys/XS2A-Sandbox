@@ -22,8 +22,8 @@
     <div class="col-12 col-md-12 mt-3">
       <div class="row">
         <div class="col-sm">
-          <div class="mr-2">
-            <div class="form-group has-search">
+          <div class="me-2">
+            <div class="mb-3 has-search">
               <label>IBAN:</label>
               <span class="form-control-feedback">
                 <img src="./assets/icons/search.svg" alt="search logo" />
@@ -37,8 +37,8 @@
             </div>
           </div>
         </div>
-        <div class="col-sm mr-2">
-          <div class="form-group has-search">
+        <div class="col-sm me-2">
+          <div class="mb-3 has-search">
             <label>TPP ID:</label>
             <span class="form-control-feedback">
               <img src="./assets/icons/search.svg" alt="search logo" />
@@ -52,7 +52,7 @@
           </div>
         </div>
         <div class="col-sm">
-          <div class="select mr-2">
+          <div class="select me-2">
             <label for="country">Country:</label>
             <select
               name="country"
@@ -91,7 +91,7 @@
     <div class="card-body">
       <div class="table-responsive">
         <div class="container-fluid configs-container">
-          <div class="row d-flex justify-cosntent-between configs fixed-width">
+          <div class="d-flex justify-cosntent-between configs fixed-width">
             <div class="paginator">
               <app-pagination-container
                 [paginationConfig]="config"
@@ -186,7 +186,7 @@
                   title="Deposit Cash"
                   [matTooltipPosition]="position.value"
                   *ngIf="!account.blocked"
-                  class="btn btn-table-btn mr-2"
+                  class="btn btn-table-btn me-2"
                   [disabled]="!isAccountEnabled(account)"
                   (click)="goToDepositCash(account)"
                 >
@@ -207,7 +207,7 @@
                   "
                   [matTooltipPosition]="position.value"
                   aria-label="Block the account"
-                  class="btn btn-table-btn mr-2"
+                  class="btn btn-table-btn me-2"
                   (click)="
                     openConfirmation(
                       blockConfirmation,
@@ -223,15 +223,14 @@
                 <ng-template #deleteConfirmationModal let-modal>
                   <div class="modal-header">
                     <h4 class="modal-title" id="modal-basic-title">
-                      TPP deletion
+                      Account deletion
                     </h4>
                     <button
                       type="button"
-                      class="close"
+                      class="btn-close"
                       aria-label="Close"
                       (click)="modal.dismiss('Cross click')"
                     >
-                      <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
                   <div class="modal-body">
@@ -239,15 +238,13 @@
                   </div>
                   <div class="modal-footer">
                     <button
-                      mat-raised-button
                       type="button"
-                      class="btn btn-outline-secondary mr-2"
+                      class="btn btn-outline-secondary me-2"
                       (click)="modal.dismiss('cancel click')"
                     >
                       Cancel
                     </button>
                     <button
-                      mat-raised-button
                       type="button"
                       class="btn btn-danger"
                       (click)="modal.close('Ok click')"
@@ -263,11 +260,10 @@
                     </h4>
                     <button
                       type="button"
-                      class="close"
+                      class="btn-close"
                       aria-label="Close"
                       (click)="modal.dismiss('Cross click')"
                     >
-                      <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
                   <div class="modal-body">
@@ -276,15 +272,13 @@
                   </div>
                   <div class="modal-footer">
                     <button
-                      mat-raised-button
                       type="button"
-                      class="btn btn-outline-secondary mr-2"
+                      class="btn btn-outline-secondary me-2"
                       (click)="modal.dismiss('cancel click')"
                     >
                       Cancel
                     </button>
                     <button
-                      mat-raised-button
                       type="button"
                       class="btn btn-danger"
                       (click)="modal.close('Ok click')"
@@ -299,7 +293,7 @@
                   title="Delete the account"
                   [matTooltipPosition]="position.value"
                   aria-label="Delete the account"
-                  class="btn btn-outline-danger mr-2"
+                  class="btn btn-outline-danger me-2"
                   (click)="
                     openConfirmation(
                       deleteConfirmationModal,
@@ -314,12 +308,12 @@
             </tr>
           </tbody>
         </table>
-        <p *ngIf="accounts.length > 1" class="text-center font-weight-bold">
+        <p *ngIf="accounts.length > 1" class="text-center fw-bold">
           No suitable user account available
         </p>
 
         <div class="container-fluid">
-          <div class="row d-flex justify-content-start">
+          <div class="d-flex justify-content-start">
             <app-pagination-container
               [paginationConfig]="config"
               (pageDataConfig)="pageChange($event)"

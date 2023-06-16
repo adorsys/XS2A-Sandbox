@@ -44,3 +44,5 @@ Thumbs.db
 *.log
 
 tpp-ui/.idea
+tpp-ui/.angular
+workspace.xml

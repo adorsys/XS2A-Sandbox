@@ -18,9 +18,9 @@
 
 /* You can add global styles to this file, and also import other style files */
 @import './assets/themes/variables';
-@import '~bootstrap/scss/bootstrap';
+@import 'bootstrap/scss/bootstrap';
 @import './assets/themes/mobile';
-@import '~material-icons/iconfont/material-icons.css';
+@import 'material-icons/iconfont/material-icons.css';
 
 * {
   margin: 0;
@@ -248,7 +248,7 @@ nav {
 
 .page-item {
   .page-link {
-    color: var(--colorSecondary);
+    background-color: transparent;
   }
 }
 

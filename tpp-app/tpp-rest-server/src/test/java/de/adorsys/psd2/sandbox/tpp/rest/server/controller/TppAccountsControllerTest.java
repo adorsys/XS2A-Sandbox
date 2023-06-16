@@ -76,7 +76,7 @@ class TppAccountsControllerTest {
         when(accountMgmtStaffRestClient.createDepositAccountForUser(any(), any())).thenAnswer(i -> ResponseEntity.ok().build());
 
         // When
-        ResponseEntity<Void> response = accountsController.createAccount(USER_ID, getDepositAccount());
+        ResponseEntity<Boolean> response = accountsController.createAccount(USER_ID, getDepositAccount());
 
         // Then
         assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();

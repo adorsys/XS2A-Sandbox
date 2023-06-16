@@ -17,7 +17,11 @@
  */
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
@@ -40,7 +44,7 @@ import { AuthService } from '../../common/services/auth.service';
 })
 export class TanConfirmationComponent implements OnInit, OnDestroy {
   public authResponse: PaymentAuthorizeResponse;
-  public tanForm: FormGroup;
+  public tanForm: UntypedFormGroup;
   public invalidTanCount = 0;
 
   private unsubscribe = new Subject<void>();
@@ -48,7 +52,7 @@ export class TanConfirmationComponent implements OnInit, OnDestroy {
   private oauth2Param: boolean;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private router: Router,
     private route: ActivatedRoute,
     private pisCancellationService: PisCancellationService,

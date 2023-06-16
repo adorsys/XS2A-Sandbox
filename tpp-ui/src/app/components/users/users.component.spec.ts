@@ -32,30 +32,30 @@ import { PaginationConfigModel } from '../../models/pagination-config.model';
 import { InfoService } from '../../commons/info/info.service';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ADMIN_KEY } from '../../commons/constant/constant';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('UsersComponent', () => {
   let component: UsersComponent;
   let fixture: ComponentFixture<UsersComponent>;
   let usersService: UserService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          FormsModule,
-          FilterPipeModule,
-          RouterTestingModule,
-          HttpClientTestingModule,
-          NgbPaginationModule,
-          NgbPaginationModule,
-          OverlayModule,
-        ],
-        declarations: [UsersComponent, PaginationContainerComponent],
-        providers: [UserService, InfoService],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        FormsModule,
+        FilterPipeModule,
+        RouterTestingModule,
+        HttpClientTestingModule,
+        NgbPaginationModule,
+        NgbPaginationModule,
+        OverlayModule,
+      ],
+      declarations: [UsersComponent, PaginationContainerComponent],
+      providers: [UserService, InfoService],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UsersComponent);

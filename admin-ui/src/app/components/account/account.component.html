@@ -89,20 +89,20 @@
         Access management
       </button>
       <button
-        class="btn btn-primary ml-3 mt-2"
+        class="btn btn-primary ms-3 mt-2"
         (click)="openSetCreditLimitConfirmation(setCreditLimitModal)"
       >
         Set Credit Limit
       </button>
       <button
-        class="btn btn-primary ml-3 mt-2"
+        class="btn btn-primary ms-3 mt-2"
         [disabled]="isAccountDeleted"
         (click)="goToDepositCash()"
       >
         Deposit cash
       </button>
       <button
-        class="btn btn-outline-danger ml-3 mt-2"
+        class="btn btn-outline-danger ms-3 mt-2"
         (click)="openDeleteConfirmation(deleteConfirmationModal)"
       >
         Delete transactions
@@ -116,11 +116,10 @@
     <h4 class="modal-title" id="modal-basic-title">Transactions deletion</h4>
     <button
       type="button"
-      class="close"
+      class="btn-close"
       aria-label="Close"
       (click)="modal.dismiss('Cross click')"
     >
-      <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
@@ -149,11 +148,10 @@
     <h4 class="modal-title" id="modal-basic-title1">Set Credit Limit</h4>
     <button
       type="button"
-      class="close"
+      class="btn-close"
       aria-label="Close"
       (click)="modal.dismiss('Cross click')"
     >
-      <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">

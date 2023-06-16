@@ -17,7 +17,11 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomizeService } from '../../common/services/customize.service';
 import { OnlineBankingOauthAuthorizationService } from '../../api/services/online-banking-oauth-authorization.service';
@@ -31,13 +35,13 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./authorize.component.scss'],
 })
 export class AuthorizeComponent implements OnInit {
-  authorizeForm: FormGroup;
+  authorizeForm: UntypedFormGroup;
   private redirectUri: string;
 
   constructor(
     public customizeService: CustomizeService,
     private oAuthService: OauthService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {}

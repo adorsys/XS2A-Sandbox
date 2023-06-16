@@ -27,14 +27,12 @@ describe('CertificateComponent', () => {
   let component: CertificateComponent;
   let fixture: ComponentFixture<CertificateComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, RouterTestingModule, HttpClientModule],
-        declarations: [CertificateComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, RouterTestingModule, HttpClientModule],
+      declarations: [CertificateComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CertificateComponent);

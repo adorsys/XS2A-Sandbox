@@ -17,9 +17,8 @@
  */
 
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
-import { EMPTY, Observable, throwError as observableThrowError } from 'rxjs';
+import { EMPTY, Observable, throwError , from } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { fromPromise } from 'rxjs/internal-compatibility';
 import { Injectable } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { ERROR_MESSAGE } from '../commons/constant/constant';
@@ -32,7 +31,7 @@ export class AuthInterceptor implements HttpInterceptor {
   private authTokenStorageKey = 'access_token';
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return fromPromise(this.handleRequest(request, next)).pipe(
+    return from(this.handleRequest(request, next)).pipe(
       tap((event: HttpEvent<any>) => {
         if (event instanceof HttpResponse && event.headers.has(this.authTokenStorageKey)) {
           this.saveAccessToken(event.headers.get(this.authTokenStorageKey));
@@ -50,7 +49,7 @@ export class AuthInterceptor implements HttpInterceptor {
             this.authService.logout();
           }
         }
-        return observableThrowError(errors);
+        return throwError(errors);
       })
     );
   }

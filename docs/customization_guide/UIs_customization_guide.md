@@ -71,11 +71,11 @@
 
 ### General information
 
-All three user interfaces provided inside of ModelBank support customization. Depending on your needs, you can choose, which fields and UIs to customize.
+All four user interfaces provided inside of ModelBank support customization. Depending on your needs, you can choose, which fields and UIs to customize.
 
 For **Developer Portal** you can customize logo, CSS styles, content of all the pages, `xml` and `json` examples in _Play with Data_ section, currency of the examples, available SCA approaches and supported languages.
 
-For Online Banking UI and TPP UI you can customize logo and CSS styles.
+For Online Banking UI, Admin UI and TPP UI you can customize logo and CSS styles.
 
 ### Step-by-step guide
 
@@ -796,7 +796,7 @@ Content of all the pages of Developer Portal could be customized and changed. Th
 
 ![Content structure](../customization_guide/pictures/contentStructure.png)
 
-This is a default content, including 4 languages and pages for them. Each `.md` file name corresponds to a page or a component. To change a content of a page, you simply must change `.md` file with the name of the page (for example, "home.md").
+This is a default content, including 3 languages and pages for them. Each `.md` file name corresponds to a page or a component. To change a content of a page, you simply must change `.md` file with the name of the page (for example, "home.md").
 
 #### Adding more languages to Developer Portal
 

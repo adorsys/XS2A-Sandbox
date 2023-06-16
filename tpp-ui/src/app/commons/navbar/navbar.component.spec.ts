@@ -30,15 +30,13 @@ describe('NavbarComponent', () => {
   let fixture: ComponentFixture<NavbarComponent>;
   const authServiceSpy = jasmine.createSpyObj('AuthService', ['isLoggedIn', 'logout']);
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, HttpClientTestingModule, ReactiveFormsModule, IconModule],
-        providers: [TestBed.overrideProvider(AuthService, { useValue: authServiceSpy }), CustomizeService, TppUserService, AuthService],
-        declarations: [NavbarComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, HttpClientTestingModule, ReactiveFormsModule, IconModule],
+      providers: [{ provide: AuthService, useValue: authServiceSpy }, CustomizeService, TppUserService],
+      declarations: [NavbarComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NavbarComponent);

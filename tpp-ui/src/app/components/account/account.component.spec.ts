@@ -37,15 +37,13 @@ describe('AccountComponent', () => {
   let infoService: InfoService;
   let tppService: TppManagementService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, HttpClientTestingModule, InfoModule, IconModule],
-        declarations: [AccountComponent, ConvertBalancePipe],
-        providers: [AccountService, NgbModal, TppManagementService, InfoService],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, HttpClientTestingModule, InfoModule, IconModule],
+      declarations: [AccountComponent, ConvertBalancePipe],
+      providers: [AccountService, NgbModal, TppManagementService, InfoService],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AccountComponent);

@@ -18,9 +18,9 @@
 
 import { Component, OnInit } from '@angular/core';
 import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { debounceTime, tap } from 'rxjs/operators';
@@ -51,7 +51,7 @@ export class AdminsComponent implements OnInit {
     totalItems: 0,
   };
 
-  searchForm: FormGroup = this.formBuilder.group({
+  searchForm: UntypedFormGroup = this.formBuilder.group({
     itemsPerPage: [this.config.itemsPerPage, Validators.required],
   });
   newPin: string;
@@ -64,7 +64,7 @@ export class AdminsComponent implements OnInit {
     'left',
     'right',
   ];
-  position = new FormControl(this.positionOptions[0]);
+  position = new UntypedFormControl(this.positionOptions[0]);
 
   constructor(
     private userService: UserService,
@@ -72,7 +72,7 @@ export class AdminsComponent implements OnInit {
     private pageNavigationService: PageNavigationService,
     private tppManagementService: TppManagementService,
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private modalService: NgbModal,
     private router: Router,
     private userInfoService: TppUserService

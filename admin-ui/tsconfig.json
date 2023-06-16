@@ -10,14 +10,28 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es2015",
+    "target": "ES2022",
     "paths": {
-      "jszip": ["node_modules/jszip/dist/jszip.min.js"],
-      "@assets/*": ["src/assets/*"],
-      "@environment/*": ["src/environments/*"],
-      "@commons/*": ["src/app/commons/*"]
+      "jszip": [
+        "node_modules/jszip/dist/jszip.min.js"
+      ],
+      "@assets/*": [
+        "src/assets/*"
+      ],
+      "@environment/*": [
+        "src/environments/*"
+      ],
+      "@commons/*": [
+        "src/app/commons/*"
+      ]
     },
-    "typeRoots": ["node_modules/@types"],
-    "lib": ["es2017", "dom"]
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+    "useDefineForClassFields": false
   }
 }

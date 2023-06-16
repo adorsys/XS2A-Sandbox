@@ -18,7 +18,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../services/user.service';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { User } from '../../../models/user.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs/operators';
@@ -41,7 +41,7 @@ export class UserUpdateComponent implements OnInit {
   admin: string;
   tppId: string;
   user: User;
-  updateUserForm: FormGroup;
+  updateUserForm: UntypedFormGroup;
   methods: string[];
   httpMethods: string[];
 
@@ -51,7 +51,7 @@ export class UserUpdateComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private tppUserService: TppUserService,
     private tppManagementService: TppManagementService,
     private router: Router,
@@ -182,7 +182,7 @@ export class UserUpdateComponent implements OnInit {
         email: this.user.email,
         login: this.user.login,
       });
-      const scaUserData = <FormArray>this.updateUserForm.get('scaUserData');
+      const scaUserData = <UntypedFormArray>this.updateUserForm.get('scaUserData');
       this.user.scaUserData.forEach((value, i) => {
         this.extractScaData(value);
         if (scaUserData.length < i + 1) {
@@ -217,12 +217,12 @@ export class UserUpdateComponent implements OnInit {
   }
 
   addScaDataItem() {
-    const control = <FormArray>this.updateUserForm.controls['scaUserData'];
+    const control = <UntypedFormArray>this.updateUserForm.controls['scaUserData'];
     control.push(this.initScaData());
   }
 
   removeScaDataItem(i: number) {
-    const control = <FormArray>this.updateUserForm.controls['scaUserData'];
+    const control = <UntypedFormArray>this.updateUserForm.controls['scaUserData'];
     control.removeAt(i);
   }
 

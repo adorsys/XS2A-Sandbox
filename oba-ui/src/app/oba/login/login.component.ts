@@ -17,7 +17,11 @@
  */
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription, throwError } from 'rxjs';
 
@@ -40,7 +44,7 @@ import browser from 'browser-detect';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  loginForm: FormGroup;
+  loginForm: UntypedFormGroup;
   errorMessage: string;
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
@@ -50,7 +54,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(
     public customizeService: CustomizeService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private router: Router,
     private authService: AuthService,
     private snackBar: MatSnackBar

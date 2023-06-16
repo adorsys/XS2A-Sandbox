@@ -139,9 +139,7 @@ export const routes: Routes = [
 
 @NgModule({
   declarations: [],
-  imports: [
-    RouterModule.forRoot(routes, { relativeLinkResolution: 'corrected' }),
-  ],
+  imports: [RouterModule.forRoot(routes, {})],
   exports: [RouterModule],
   providers: [
     {

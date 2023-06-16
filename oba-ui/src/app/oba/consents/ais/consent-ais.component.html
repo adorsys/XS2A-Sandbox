@@ -18,7 +18,7 @@
             (pageChange)="pageChange($event)"
           ></ngb-pagination>
           <select
-            class="custom-select custom-select-sm ml-4 mb-4"
+            class="form-select form-select-sm ms-4 mb-4"
             style="width: auto"
             formControlName="itemsPerPage"
           >
@@ -125,7 +125,7 @@
               <td>{{ consent.aisAccountConsent.validUntil }}</td>
               <td>
                 <button
-                  class="btn btn-primary mr-2"
+                  class="btn btn-primary me-2"
                   [disabled]="!isConsentEnabled(consent)"
                   (click)="revokeConsent(consent)"
                 >
@@ -149,7 +149,7 @@
             (pageChange)="pageChange($event)"
           ></ngb-pagination>
           <select
-            class="custom-select custom-select-sm ml-4 mb-4"
+            class="form-select form-select-sm ms-4 mb-4"
             style="width: auto"
             formControlName="itemsPerPage"
           >

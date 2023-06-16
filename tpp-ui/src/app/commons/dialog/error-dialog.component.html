@@ -1,10 +1,12 @@
-<div>
-  <h2>
-    <mat-icon class="error-icon mb-2 mr-2" aria-hidden="false" aria-label="Warning icon">warning</mat-icon>
-    {{ data.heading }}
-  </h2>
-</div>
-<p>{{ data.description }}</p>
-<mat-dialog-actions align="center">
-  <button mat-button [mat-dialog-close]="true">Okay</button>
-</mat-dialog-actions>
+<mat-dialog-content>
+  <div>
+    <h2>
+      <mat-icon class="error-icon mb-2 me-2" aria-hidden="false" aria-label="Warning icon">warning</mat-icon>
+      {{ data.heading }}
+    </h2>
+  </div>
+  <p>{{ data.description }}</p>
+  <mat-dialog-actions align="center">
+    <button mat-button [mat-dialog-close]="true">Okay</button>
+  </mat-dialog-actions>
+</mat-dialog-content>

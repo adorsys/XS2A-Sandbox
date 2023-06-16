@@ -39,7 +39,7 @@ describe('AccountsComponent', () => {
         declarations: [AccountsComponent],
         imports: [RouterTestingModule, HttpClientTestingModule],
         providers: [
-          TestBed.overrideProvider(AuthService, { useValue: authServiceSpy }),
+          { provide: AuthService, useValue: authServiceSpy },
         ],
       }).compileComponents();
     })

@@ -16,7 +16,7 @@
  * contact us at psd2@adorsys.com.
  */
 
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IconComponent } from './icon.component';
 
@@ -24,5 +24,6 @@ import { IconComponent } from './icon.component';
   imports: [CommonModule],
   declarations: [IconComponent],
   exports: [IconComponent],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA],
 })
 export class IconModule {}

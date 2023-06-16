@@ -38,7 +38,7 @@
           <div class="card-body">
             <div class="card__headline text-center">
               <div class="card__headline text-center mb-4">
-                <h2 class="card-title font-weight-bold">Create TPP</h2>
+                <h2 class="card-title fw-bold">Create TPP</h2>
               </div>
             </div>
 
@@ -47,7 +47,7 @@
             </div>
 
             <div class="form__margin">
-              <div class="form-group">
+              <div class="mb-3">
                 <label for="country"> Country*</label>
                 <select
                   [(ngModel)]="selectedCountry"
@@ -74,7 +74,7 @@
               </div>
 
               <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-                <div class="form-group">
+                <div class="mb-3">
                   <label for="id">TPP ID*</label>
                   <div class="input-group">
                     <input
@@ -92,7 +92,12 @@
                     />
                     <div class="input-group-append">
                       <button
-                        class="btn btn-outline-secondary bg-light text-black-50 mb-0"
+                        class="
+                          btn btn-outline-secondary
+                          bg-light
+                          text-black-50
+                          mb-0
+                        "
                         type="button"
                         (click)="generateTppId(selectedCountry)"
                       >
@@ -123,7 +128,7 @@
                   </div>
                 </div>
 
-                <div class="form-group">
+                <div class="mb-3">
                   <label for="email">E-Mail Address*</label>
                   <input
                     [ngClass]="{
@@ -152,7 +157,7 @@
                   </div>
                 </div>
 
-                <div class="form-group">
+                <div class="mb-3">
                   <label for="registerTTP">Login*</label>
                   <input
                     [ngClass]="{
@@ -175,7 +180,7 @@
                   </div>
                 </div>
 
-                <div class="form-group">
+                <div class="mb-3">
                   <label for="pin">PIN*</label>
                   <input
                     [ngClass]="{
@@ -204,7 +209,7 @@
                       !generateCertificate ? 'Register' : 'Register & Generate'
                     "
                     class="btn btn-primary btn-block mb-3"
-                    [disabled]="selectedCountry == undefined || !userForm.valid"
+                    [disabled]="selectedCountry === undefined || !userForm.valid"
                   ></button>
                 </div>
               </form>

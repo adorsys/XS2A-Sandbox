@@ -17,7 +17,7 @@
  */
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../../services/auth.service';
@@ -34,7 +34,7 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['../auth.component.scss'],
 })
 export class ResetPasswordComponent implements OnInit, OnDestroy {
-  resetPasswordForm: FormGroup;
+  resetPasswordForm: UntypedFormGroup;
   submitted: boolean;
   errorMessage: string;
 
@@ -42,7 +42,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
 
   constructor(
     private authService: AuthService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private router: Router,
     public customizeService: CustomizeService,
     private tppUserService: TppUserService,

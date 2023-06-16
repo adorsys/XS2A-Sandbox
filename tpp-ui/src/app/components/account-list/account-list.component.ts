@@ -23,7 +23,7 @@ import { Account, AccountResponse } from '../../models/account.model';
 import { Subscription } from 'rxjs';
 import { tap, debounceTime } from 'rxjs/operators';
 import { PageConfig, PaginationConfigModel } from '../../models/pagination-config.model';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators, UntypedFormControl } from '@angular/forms';
 import { PageNavigationService } from '../../services/page-navigation.service';
 import { TppManagementService } from '../../services/tpp-management.service';
 import { User } from '../../models/user.model';
@@ -55,8 +55,8 @@ export class AccountListComponent implements OnInit, OnDestroy {
     totalItems: 0,
   };
   positionOptions: TooltipPosition[] = ['above', 'before', 'after', 'below', 'left', 'right'];
-  position = new FormControl(this.positionOptions[0]);
-  searchForm: FormGroup = this.formBuilder.group({
+  position = new UntypedFormControl(this.positionOptions[0]);
+  searchForm: UntypedFormGroup = this.formBuilder.group({
     ibanParam: '',
     tppId: '',
     tppLogin: '',
@@ -67,7 +67,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
 
   constructor(
     private accountService: AccountService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     public router: Router,
     private countryService: CountryService,
     public pageNavigationService: PageNavigationService,
@@ -254,7 +254,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
       });
     } else if (this.admin === 'false') {
       this.accountService.deleteAccount(accountId).subscribe(() => {
-        this.infoService.openFeedback('Account was successfully blocked!', {
+        this.infoService.openFeedback('Account was successfully deleted!', {
           severity: 'info',
         });
         this.getAccounts(this.config.currentPageNumber, this.config.itemsPerPage, {});

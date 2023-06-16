@@ -18,10 +18,11 @@
 
 /* You can add global styles to this file, and also import other style files */
 // Base Variables
-@import './assets/themes/variables';
-@import '~bootstrap/scss/bootstrap';
-@import '~font-awesome/css/font-awesome.css';
-@import '~material-icons/iconfont/material-icons.css';
+@import 'variables';
+@import 'bootstrap/scss/bootstrap';
+@import "ngx-bootstrap/datepicker/bs-datepicker";
+@import 'font-awesome/css/font-awesome.css';
+@import 'material-icons/iconfont/material-icons.css';
 
 * {
   margin: 0;
@@ -32,6 +33,7 @@ body {
   font-family: var(--fontFamily);
   color: var(--bodyFontColor);
   background: var(--bodyBG);
+  height: 100%;
 
   @media screen and (max-width: 768px) {
     font-size: var(--textFontSize768px);
@@ -184,11 +186,11 @@ select {
   }
 }
 
-.page-item {
-  .page-link {
-    color: var(--colorSecondary);
-  }
-}
+// .page-item {
+//   .page-link {
+//     color: var(--colorSecondary);
+//   }
+// }
 
 .link-color {
   color: #a0a0a0;
@@ -198,9 +200,17 @@ select {
   }
 }
 
-tr {
-  color: var(--tr-color);
-  border-bottom: var(--border-bottom);
+thead {
+  tr {
+    border-bottom: 1px solid #dee2e6 !important;
+  }
+}
+
+tbody {
+  tr:not(:last-child) {
+    color: var(--tr-color);
+    border-bottom: 1px solid #dee2e6 !important;
+  }
 }
 
 .disabled-text {
@@ -208,7 +218,8 @@ tr {
 }
 
 td {
-  padding: 0.5rem 1.25rem;
+  // padding: 0.5rem 1.25rem !important;
+  border: none;
 }
 
 .nowrap {
@@ -223,6 +234,8 @@ th {
   font-size: 1.125rem !important;
   color: #545b68 !important;
   font-weight: 700 !important;
+  border: none;
+
 }
 
 tr:hover {
@@ -235,27 +248,28 @@ tr:hover {
   border-radius: var(--buttonBorderRadius);
   font-size: 1.1rem;
   font-weight: 500;
-  padding: var(--btn-padding);
   height: var(--button-heigh) !important;
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif !important;
+  letter-spacing: normal !important;
 
   &-primary {
-    color: var(--buttonTextColor);
-    background: var(--buttonBG);
+    color: var(--buttonTextColor) !important;
+    background: var(--buttonBG) !important;
     border: none;
 
     &:hover {
-      background: var(--buttonHovered);
+      background: var(--buttonHovered) !important;
     }
 
     &:disabled {
-      opacity: var(--button-opacity);
-      background: var(--buttonBGDisabled);
-      color: var(--buttonColorTextDisabled);
+      opacity: var(--button-opacity) !important;
+      background: var(--buttonBGDisabled) !important;
+      color: var(--buttonColorTextDisabled) !important;
     }
 
     &:focus {
       outline: none;
-      background: var(--buttonClicked);
+      background: var(--buttonClicked) !important;
     }
 
     &:active {
@@ -383,6 +397,10 @@ a {
   margin-bottom: 0;
 }
 
+.modal-header {
+  align-items: baseline;
+}
+
 .nav-item {
   &:not(:last-of-type) {
     margin-bottom: 10px;
@@ -401,8 +419,8 @@ a {
 
   &__close-icon {
     position: absolute;
-    top: $grid-gutter-width / 2;
-    right: $grid-gutter-width / 2;
+    top: calc($grid-gutter-width / 2);
+    right: calc($grid-gutter-width / 2);
   }
 }
 
@@ -478,7 +496,9 @@ a {
 .table th,
 .table td {
   vertical-align: baseline !important;
+  padding: 0.75rem;
 }
+
 
 .table thead th {
   border-bottom: none;
@@ -500,11 +520,9 @@ input {
   }
 }
 
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
-}
+
+
+/* Importing Datepicker SCSS file. */
+
+/* Importing Bootstrap SCSS file. */
+// @import 'bootstrap/scss/bootstrap';

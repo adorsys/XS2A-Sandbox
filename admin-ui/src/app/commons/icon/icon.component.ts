@@ -24,20 +24,16 @@ import {
   ElementRef,
   SimpleChanges,
   OnChanges,
+  HostBinding,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { take } from 'rxjs/operators';
 import { IconRegistry } from './icon-registry';
 
-/* tslint:disable no-host-metadata-property */
 @Component({
   selector: 'app-icon',
   template: '<ng-content></ng-content>',
   styleUrls: ['./icon.component.scss'],
-  host: {
-    class: 'app-icon',
-    '[class.app-icon--inline]': 'inline',
-  },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -46,6 +42,8 @@ export class IconComponent implements OnChanges {
    * Whether the icon should be inlined, automatically sizing the icon to match the font size of
    * the element the icon is contained in.
    */
+  @HostBinding('class') classes = 'app-icon';
+  @HostBinding('class.app-icon--inline')
   @Input()
   inline = false;
 

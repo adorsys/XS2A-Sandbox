@@ -16,9 +16,7 @@
  * contact us at psd2@adorsys.com.
  */
 
-@import '~ngx-toastr/toastr.css';
-@import './assets/themes/variables';
-@import '~node_modules/bootstrap-scss/bootstrap.scss';
+@import 'variables';
 
 * {
   box-sizing: border-box;
@@ -98,6 +96,7 @@ p {
 
 a {
   color: var(--anchorFontColor);
+  text-decoration: none;
 }
 
 a:hover,
@@ -222,13 +221,14 @@ button,
 a.redirect-btn,
 .btn,
 .btn-light {
-  color: var(--buttonTextColor);
+  color: var(--buttonTextColor) !important;
   background: var(--buttonBG);
   border-radius: var(--buttonBorderRadius);
   border: 0px;
 
   &:hover {
-    background: var(--buttonHovered);
+    background: var(--buttonHovered) !important;
+    color: var(--buttonTextColor) !important;
   }
 
   &:focus {
@@ -480,14 +480,14 @@ strong {
 
   .footer-item {
     width: 25%;
-    color: var(--footerFontColor);
+    color: var(--footerFontColor) !important;
     text-decoration: none;
     white-space: nowrap;
     opacity: var(--opacity-item);
     margin-left: var(--margin-left-item);
 
     &:hover {
-      opacity: var(--opacity-item-hover);
+      opacity: var(--opacity-item-hover) !important;
       background-color: transparent;
     }
 
@@ -499,7 +499,7 @@ strong {
     }
 
     p > a {
-      color: inherit;
+      color: inherit !important;
       display: inline-block;
       margin-bottom: 1.1em;
 
@@ -585,4 +585,28 @@ body {
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.is-active .mdc-list-item__primary-text {
+  font-weight: 900;
+  font-size: 18pt;
+  color: #0a8f70 !important;
+  border: #1ab394 !important;
+}
+
+.mat-mdc-list-item,
+.mat-mdc-list-base .mat-list-option {
+  width: 100%;
+  &:hover {
+    color: rgba(0, 0, 0, 0.85);
+    background-color: #d2f4ea !important;
+  }
+}
+
+.mat-mdc-list-item:hover .btn-toggle {
+  color: rgba(0, 0, 0, 0.85) !important;
+}
+
+.main-list-item {
+  padding-left: 0!important;
 }

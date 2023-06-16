@@ -32,6 +32,7 @@ import { InfoService } from '@commons/info/info.service';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ADMIN_KEY } from '@commons/constant/constant';
 import { TppManagementService } from '../../services/tpp-management.service';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('UsersComponent', () => {
   let component: UsersComponent;
@@ -53,6 +54,7 @@ describe('UsersComponent', () => {
         ],
         declarations: [UsersComponent, PaginationContainerComponent],
         providers: [TppManagementService, InfoService],
+        schemas: [NO_ERRORS_SCHEMA],
       }).compileComponents();
     })
   );

@@ -19,9 +19,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TppManagementService } from '../../services/tpp-management.service';
 import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import {
@@ -60,7 +60,7 @@ export class TppsComponent implements OnInit, OnDestroy {
     'left',
     'right',
   ];
-  position = new FormControl(this.positionOptions[0]);
+  position = new UntypedFormControl(this.positionOptions[0]);
 
   config: PaginationConfigModel = {
     itemsPerPage: 10,
@@ -68,7 +68,7 @@ export class TppsComponent implements OnInit, OnDestroy {
     totalItems: 0,
   };
 
-  searchForm: FormGroup = this.formBuilder.group({
+  searchForm: UntypedFormGroup = this.formBuilder.group({
     userLogin: '',
     tppId: '',
     tppLogin: '',
@@ -82,7 +82,7 @@ export class TppsComponent implements OnInit, OnDestroy {
 
   constructor(
     private accountService: AccountService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private tppManagementService: TppManagementService,
     private infoService: InfoService,
     public router: Router,

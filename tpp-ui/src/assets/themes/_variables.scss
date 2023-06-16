@@ -1,8 +1,8 @@
 // Overwrite bootstrap variables
 @import './bootstrap-overrides';
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/variables';
-@import '~bootstrap/scss/mixins';
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins';
 
 $light-grey: #a0a0a0;
 $light-grey-10: #f8f8f8;
@@ -16,7 +16,7 @@ $green: #059c85;
 :root {
   /* Fonts */
 
-  --fontFamily: 'Verdana', sans-serif;
+  --fontFamily: "Verdana", sans-serif;
 
   --textFontSize: 1rem;
   --textFontWeight: bold;

@@ -62,26 +62,24 @@ const tppManagementServiceMock = {
 describe('AccountAccessManagementComponent', () => {
   let component: AccountAccessManagementComponent;
   let fixture: ComponentFixture<AccountAccessManagementComponent>;
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, HttpClientTestingModule, NgbTypeaheadModule, InfoModule, FormsModule],
-        declarations: [AccountAccessManagementComponent],
-        providers: [
-          AccountService,
-          InfoService,
-          { provide: TppManagementService, use: tppManagementServiceMock },
-          { provide: Router, useValue: mockRouter },
-          { provide: ActivatedRoute, useValue: mockActivatedRoute },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, HttpClientTestingModule, NgbTypeaheadModule, InfoModule, FormsModule],
+      declarations: [AccountAccessManagementComponent],
+      providers: [
+        AccountService,
+        InfoService,
+        { provide: TppManagementService, use: tppManagementServiceMock },
+        { provide: Router, useValue: mockRouter },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+      ],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(AccountAccessManagementComponent);
-      component = fixture.componentInstance;
+    fixture = TestBed.createComponent(AccountAccessManagementComponent);
+    component = fixture.componentInstance;
 
-      component.ngOnInit();
-    })
-  );
+    component.ngOnInit();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();

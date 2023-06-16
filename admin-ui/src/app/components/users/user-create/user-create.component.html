@@ -36,7 +36,7 @@
       autocomplete="off"
     >
       <div class="card-body">
-        <div class="form-group required col-md-6 pd-0" for="tppId">
+        <div class="mb-3 required col-md-6 pd-0" for="tppId">
           <label class="control-label">Type TPP ID</label>
           <input
             [(ngModel)]="asyncSelected"
@@ -53,7 +53,7 @@
       <div class="border-bottom">
         <div class="card-body">
           <div class="row">
-            <div class="col-12 col-md-6 form-group">
+            <div class="col-12 col-md-6 mb-3">
               <label class="control-label" for="email">Email</label>
               <input
                 [ngClass]="{
@@ -90,7 +90,7 @@
             </div>
             <div class="col-12">
               <div class="row">
-                <div class="col-12 col-md-6 form-group">
+                <div class="col-12 col-md-6 mb-3">
                   <label class="control-label" for="login">Login</label>
                   <input
                     [ngClass]="{
@@ -196,14 +196,13 @@
                 (click)="removeScaDataItem(i)"
                 *ngIf="userForm.controls['scaUserData']['controls'].length"
                 aria-label="Close"
-                class="close box__close-icon"
+                class="btn-close box__close-icon"
                 type="button"
               >
-                <span aria-hidden="true">&times;</span>
               </button>
               <div class="row">
                 <div class="col-12 col-md-8">
-                  <div [formGroupName]="i" class="form-group">
+                  <div [formGroupName]="i" class="mb-3">
                     <label class="control-label" for="scaData"
                       >Method Value</label
                     >
@@ -214,7 +213,7 @@
                     >
                       <option
                         *ngFor="let httpMethod of httpMethods"
-                        [selected]="httpMethod == 'POST'"
+                        [selected]="httpMethod === 'POST'"
                       >
                         {{ httpMethod }}
                       </option>
@@ -276,7 +275,7 @@
                   </div>
                 </div>
                 <div class="col-12 col-md-8">
-                  <div [formGroupName]="i" class="form-group">
+                  <div [formGroupName]="i" class="mb-3">
                     <label class="control-label" for="scaData"
                       >Static TAN</label
                     >
@@ -308,7 +307,7 @@
                 <div class="col-12 col-md-4 my-auto">
                   <div [formGroupName]="i">
                     <div class="d-flex">
-                      <div class="form-check mr-4">
+                      <div class="form-check me-4">
                         <input
                           class="form-check-input"
                           formControlName="usesStaticTan"

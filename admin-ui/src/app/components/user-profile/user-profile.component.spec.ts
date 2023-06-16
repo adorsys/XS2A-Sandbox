@@ -33,6 +33,7 @@ import {
 } from '@angular/platform-browser/animations';
 import { InfoService } from '@commons/info/info.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
@@ -82,6 +83,7 @@ describe('UserProfileComponent', () => {
           { provide: TppUserService, useValue: mockTppUserService },
         ],
         declarations: [UserProfileComponent],
+        schemas: [NO_ERRORS_SCHEMA],
       }).compileComponents();
     })
   );

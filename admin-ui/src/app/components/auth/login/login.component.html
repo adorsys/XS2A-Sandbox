@@ -23,7 +23,7 @@
       <a class="navbar-brand" href="#">
         <img class="logo" [src]="customizeService.getLogo()" /> </a
       ><br />
-      <h2 class="card-title font-weight-bold">
+      <h2 class="card-title fw-bold">
         <p *ngIf="!customizeService.isCustom()">
           Welcome to <br />adorsys ADMIN UI
         </p>
@@ -34,7 +34,7 @@
         {{ errorMessage }}
       </div>
       <div class="mrb-3 mrt">
-        <div class="form-group">
+        <div class="mb-3">
           <label class="p-2" for="login" *ngIf="!customizeService.isCustom()"
             >Username</label
           >
@@ -61,7 +61,7 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="mb-3">
           <label class="p-2" for="pin" *ngIf="!customizeService.isCustom()"
             >Password</label
           >

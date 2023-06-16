@@ -400,27 +400,31 @@ export class PlayWthDataComponent implements OnInit {
   private processResponse(resp): void {
     this.response = Object.assign(resp);
 
-    if (this.response.body.hasOwnProperty('_links') && this.response.body._links.hasOwnProperty('scaRedirect')) {
+    if (this.response?.body == null) {
+      return;
+    }
+
+    if (this.response?.body.hasOwnProperty('_links') && this.response?.body._links.hasOwnProperty('scaRedirect')) {
       this.redirectUrl = this.response.body._links.scaRedirect.href;
-    } else if (this.response.body.hasOwnProperty('paymentId')) {
+    } else if (this.response?.body.hasOwnProperty('paymentId')) {
       this.paymentId = this.response.body.paymentId;
       LocalStorageService.set('paymentId', this.response.body.paymentId);
-    } else if (this.response.body.hasOwnProperty('authorisationId')) {
+    } else if (this.response?.body.hasOwnProperty('authorisationId')) {
       this.authorisationId = this.response.body.authorisationId;
       LocalStorageService.set('authorisationId', this.authorisationId);
-    } else if (this.response.body.hasOwnProperty('consentId')) {
+    } else if (this.response?.body.hasOwnProperty('consentId')) {
       this.consentId = this.response.body.consentId;
       LocalStorageService.set('consentId', this.consentId);
-    } else if (this.response.body.hasOwnProperty('cancellationId')) {
+    } else if (this.response?.body.hasOwnProperty('cancellationId')) {
       this.cancellationId = this.response.body.cancellationId;
       LocalStorageService.set('cancellationId', this.cancellationId);
-    } else if (this.response.body.hasOwnProperty('accountId')) {
+    } else if (this.response?.body.hasOwnProperty('accountId')) {
       this.accountId = this.response.body.accountId;
       LocalStorageService.set('accountId', this.accountId);
-    } else if (this.response.body.hasOwnProperty('transactionId')) {
+    } else if (this.response?.body.hasOwnProperty('transactionId')) {
       this.transactionId = this.response.body.transactionId;
       LocalStorageService.set('transactionId', this.transactionId);
-    } else if (this.response.body.hasOwnProperty('accounts')) {
+    } else if (this.response?.body.hasOwnProperty('accounts')) {
       for (const a of this.response.body.accounts) {
         const id = a.resourceId;
         if (id) {

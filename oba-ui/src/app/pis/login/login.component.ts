@@ -1,6 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
@@ -21,7 +25,7 @@ import LoginUsingPOST3Params = PSUPISProvidesAccessToOnlineBankingPaymentFunctio
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  loginForm: FormGroup;
+  loginForm: UntypedFormGroup;
   errorMessage: string;
   invalidCredentials: boolean;
 
@@ -32,7 +36,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(
     public customizeService: CustomizeService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private infoService: InfoService,
     private router: Router,
     private activatedRoute: ActivatedRoute,

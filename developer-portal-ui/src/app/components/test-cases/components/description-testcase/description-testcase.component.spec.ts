@@ -5,6 +5,7 @@ import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-transla
 import { HttpLoaderFactory, LanguageService } from '../../../../services/language.service';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('DescriptionTestcaseComponent', () => {
   let component: DescriptionTestcaseComponent;
@@ -13,6 +14,7 @@ describe('DescriptionTestcaseComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [DescriptionTestcaseComponent],
+      schemas: [NO_ERRORS_SCHEMA],
       imports: [
         TranslateModule.forRoot({
           loader: {

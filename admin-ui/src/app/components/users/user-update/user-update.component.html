@@ -41,7 +41,7 @@
       <div class="border-bottom">
         <div class="card-body">
           <div class="row">
-            <div class="col-12 col-md-6 form-group">
+            <div class="col-12 col-md-6 mb-3">
               <label class="control-label" for="email">Email</label>
               <input
                 [ngClass]="{
@@ -78,7 +78,7 @@
             </div>
             <div class="col-12">
               <div class="row">
-                <div class="col-12 col-md-6 form-group">
+                <div class="col-12 col-md-6 mb-3">
                   <label class="control-label" for="login">Login</label>
                   <input
                     [ngClass]="{
@@ -107,7 +107,7 @@
               </div>
               <div class="row">
                 <button
-                  class="btn btn-primary mr-4 ml-3"
+                  class="btn btn-primary me-4 ms-3"
                   (click)="resetPasswordViaEmail(user.login)"
                   type="button"
                 >
@@ -148,14 +148,13 @@
                 (click)="removeScaDataItem(i)"
                 *ngIf="updateUserForm.controls['scaUserData'].length"
                 aria-label="Close"
-                class="close box__close-icon"
+                class="btn-close box__close-icon"
                 type="button"
               >
-                <span aria-hidden="true">&times;</span>
               </button>
               <div class="row">
                 <div class="col-12 col-md-8">
-                  <div [formGroupName]="i" class="form-group">
+                  <div [formGroupName]="i" class="mb-3">
                     <label class="control-label" for="scaData{{ i }}"
                       >Method Value</label
                     >
@@ -170,7 +169,7 @@
                         <option
                           *ngFor="let httpMethod of httpMethods"
                           [selected]="
-                            httpMethod == scaDataItem.get('pushMethod').value
+                            httpMethod === scaDataItem.get('pushMethod').value
                           "
                         >
                           {{ httpMethod }}
@@ -220,7 +219,7 @@
                       <option
                         *ngFor="let method of methods"
                         [selected]="
-                          method == scaDataItem.get('scaMethod').value
+                          method === scaDataItem.get('scaMethod').value
                         "
                       >
                         {{ method }}
@@ -229,7 +228,7 @@
                   </div>
                 </div>
                 <div class="col-12 col-md-8">
-                  <div [formGroupName]="i" class="form-group">
+                  <div [formGroupName]="i" class="mb-3">
                     <label class="control-label" for="scaData{{ i }}"
                       >Static TAN</label
                     >
@@ -271,7 +270,7 @@
                 <div class="col-12 col-md-4 my-auto">
                   <div [formGroupName]="i">
                     <div class="d-flex">
-                      <div class="form-check mr-4">
+                      <div class="form-check me-4">
                         <input
                           class="form-check-input"
                           formControlName="usesStaticTan"
@@ -296,7 +295,7 @@
 
         <div class="form-group2 d-flex flex-row justify-content-lg-between">
           <button
-            class="btn mr-sm-2 mr-md-3 btn-outline-danger"
+            class="btn me-sm-2 me-md-3 btn-outline-danger"
             (click)="onCancel()"
           >
             Cancel

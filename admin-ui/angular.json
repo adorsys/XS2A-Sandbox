@@ -23,12 +23,15 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
+            "allowedCommonJsDependencies": [
+              "jszip"
+            ],
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss"],
+            "styles": ["./node_modules/@angular/material/prebuilt-themes/indigo-pink.css","src/styles.scss"],
             "stylePreprocessorOptions": {
-              "includePaths": ["src/assets/styles/mixins"]
+              "includePaths": ["src/assets/styles/mixins", "node_modules", "src/assets/themes"]
             },
-            "scripts": []
+            "scripts": ["./node_modules/bootstrap/dist/js/bootstrap.js", "./node_modules/@popperjs/core/dist/umd/popper.min.js"]
           },
           "configurations": {
             "production": {
@@ -85,15 +88,18 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss"],
-            "scripts": []
+            "styles": ["./node_modules/@angular/material/prebuilt-themes/indigo-pink.css","src/styles.scss"],
+            "scripts": ["./node_modules/bootstrap/dist/js/bootstrap.js", "./node_modules/@popperjs/core/dist/umd/popper.min.js"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/assets/styles/mixins", "node_modules", "src/assets/themes"]
+            }
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": ["tsconfig.app.json", "tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**"]
+            "eslintConfig": ".eslintrc.json",
+            "lintFilePatterns": ["**/*.spec.ts", "**/*.ts"]
           }
         },
         "e2e": {
@@ -111,7 +117,6 @@
       }
     }
   },
-  "defaultProject": "admin-ui",
   "cli": {
     "analytics": false
   }

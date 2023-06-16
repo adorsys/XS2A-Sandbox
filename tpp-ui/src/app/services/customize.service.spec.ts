@@ -16,7 +16,7 @@
  * contact us at psd2@adorsys.com.
  */
 
-import { TestBed } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
@@ -154,7 +154,8 @@ describe('CustomizeService', () => {
     expect(typeof service.getLogo()).toBe('string');
   });
 
-  it('should change font', async (done) => {
+
+  it('should change font', fakeAsync(() => {
     service.setUserTheme({
       ...defTheme,
       globalSettings: {
@@ -164,22 +165,21 @@ describe('CustomizeService', () => {
         },
       },
     });
-    setTimeout(() => {
-      const tmp = getComputedStyle(document.body).getPropertyValue('--fontFamily');
-      expect(tmp).toEqual('Helvetica, Arial, sans-serif');
-      done();
-    }, 100);
-  });
+  
+    tick(100);
+  
+    const tmp = getComputedStyle(document.body).getPropertyValue('--fontFamily');
+    expect(tmp).toEqual('Helvetica, Arial, sans-serif');
+  }));
 
-  it('should left default', async (done) => {
+  it('should left default', fakeAsync(() => {
     document.documentElement.removeAttribute('style');
     service.setUserTheme(defTheme);
-    setTimeout(() => {
-      const tmp = getComputedStyle(document.body).getPropertyValue('--fontFamily');
-      expect(tmp).toEqual(' "Verdana", sans-serif');
-      done();
-    }, 100);
-  });
+    tick(100);
+  
+    const tmp = getComputedStyle(document.body).getPropertyValue('--fontFamily').trim();
+    expect(tmp).toEqual('"Verdana", sans-serif');
+  }));
 
   it('should validate theme', () => {
     let tmp = service.validateTheme(defTheme).length;

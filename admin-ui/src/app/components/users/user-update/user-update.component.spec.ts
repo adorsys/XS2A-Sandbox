@@ -20,7 +20,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UserUpdateComponent } from './user-update.component';
 import { UserService } from '../../../services/user.service';
 import { Router } from '@angular/router';
-import { FormArray, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormArray, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 import { User } from '../../../models/user.model';
@@ -30,6 +30,7 @@ import { TppManagementService } from '../../../services/tpp-management.service';
 import { InfoService } from '@commons/info/info.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('UserUpdateComponent', () => {
   let component: UserUpdateComponent;
@@ -51,6 +52,7 @@ describe('UserUpdateComponent', () => {
         ],
         providers: [UserService, TppManagementService, InfoService],
         declarations: [UserUpdateComponent],
+        schemas: [NO_ERRORS_SCHEMA],
       }).compileComponents();
     })
   );
@@ -112,10 +114,10 @@ describe('UserUpdateComponent', () => {
   });
 
   it('validate addScaData method', () => {
-    const length = (<FormArray>component.updateUserForm.controls['scaUserData'])
+    const length = (<UntypedFormArray>component.updateUserForm.controls['scaUserData'])
       .length;
     component.addScaDataItem();
-    const newLength = (<FormArray>(
+    const newLength = (<UntypedFormArray>(
       component.updateUserForm.controls['scaUserData']
     )).length;
     expect(newLength).toEqual(length + 1);
@@ -123,7 +125,7 @@ describe('UserUpdateComponent', () => {
 
   it('validate removeScaDataItem method', () => {
     component.removeScaDataItem(0);
-    const length = (<FormArray>component.updateUserForm.controls['scaUserData'])
+    const length = (<UntypedFormArray>component.updateUserForm.controls['scaUserData'])
       .length;
     expect(length).toEqual(0);
   });
@@ -192,7 +194,7 @@ describe('UserUpdateComponent', () => {
     } as User;
     spyOn(userService, 'getUser').and.returnValue(of(mockUser));
     component.getUserDetails();
-    const scaUserDataGroups = <FormArray>(
+    const scaUserDataGroups = <UntypedFormArray>(
       component.updateUserForm.get('scaUserData')
     );
     const length = scaUserDataGroups.length;

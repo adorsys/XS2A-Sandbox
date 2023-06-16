@@ -17,7 +17,11 @@
  */
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -36,14 +40,14 @@ import { SettingsService } from 'src/app/common/services/settings.service';
 export class SelectScaComponent implements OnInit, OnDestroy {
   public authResponse: PaymentAuthorizeResponse;
   public selectedScaMethod: ScaUserDataTO;
-  public scaForm: FormGroup;
+  public scaForm: UntypedFormGroup;
   public isScaMethodNotAvailable = false;
   public devPortalLink: string;
 
   public subscriptions: Subscription[] = [];
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private pisService: PisService,

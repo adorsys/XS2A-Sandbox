@@ -27,7 +27,7 @@ import {
 import {
   NgbModalModule,
   NgbPaginationModule,
-  NgbTypeaheadModule,
+  NgbTypeaheadModule, NgbModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { NgHttpLoaderModule } from 'ng-http-loader';
 import { FileUploadModule } from 'ng2-file-upload';
@@ -137,6 +137,7 @@ export function app_Init(settingsHttpService: SettingsHttpService) {
     MatButtonModule,
     MatTooltipModule,
     MatSnackBarModule,
+    NgbModule,
   ],
   providers: [
     AutoLogoutService,

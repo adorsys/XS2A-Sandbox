@@ -17,7 +17,7 @@
  */
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -37,7 +37,7 @@ export class GrantConsentComponent implements OnInit, OnDestroy {
   public authResponse: ConsentAuthorizeResponse;
   public encryptedConsentId: string;
   public authorisationId: string;
-  public bankOfferedForm: FormGroup;
+  public bankOfferedForm: UntypedFormGroup;
   public bankOffered: boolean;
   private oauth2Param: boolean;
 
@@ -45,7 +45,7 @@ export class GrantConsentComponent implements OnInit, OnDestroy {
 
   constructor(
     public customizeService: CustomizeService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private aisService: AisService,

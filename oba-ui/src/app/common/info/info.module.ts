@@ -25,6 +25,5 @@ import { OverlayModule } from '@angular/cdk/overlay';
 @NgModule({
   imports: [CommonModule, OverlayModule],
   declarations: [InfoComponent],
-  entryComponents: [InfoComponent],
 })
 export class InfoModule {}

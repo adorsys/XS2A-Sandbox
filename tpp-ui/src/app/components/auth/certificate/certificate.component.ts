@@ -17,7 +17,7 @@
  */
 
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-certificate',
@@ -27,13 +27,13 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class CertificateComponent implements OnInit {
   @Output() certificateValue = new EventEmitter();
 
-  certificateFormGroup: FormGroup;
+  certificateFormGroup: UntypedFormGroup;
   rolesOptionsError = false;
 
   public roles: Array<string> = ['PIISP', 'PISP', 'AISP'];
   selectedOptions = ['PIISP', 'PISP', 'AISP'];
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder) {}
 
   ngOnInit() {
     this.initializeCertificateGeneratorForm();
@@ -83,6 +83,6 @@ export class CertificateComponent implements OnInit {
   }
 
   get checkboxArray() {
-    return <FormArray>this.certificateFormGroup.get('roles');
+    return <UntypedFormArray>this.certificateFormGroup.get('roles');
   }
 }

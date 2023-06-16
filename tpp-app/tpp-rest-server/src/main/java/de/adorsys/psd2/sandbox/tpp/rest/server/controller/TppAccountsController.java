@@ -52,7 +52,7 @@ public class TppAccountsController implements TppAccountsRestApi {
     private final DownloadResourceService downloadResourceService;
 
     @Override
-    public ResponseEntity<Void> createAccount(String userId, DepositAccount account) {
+    public ResponseEntity<Boolean> createAccount(String userId, DepositAccount account) {
         return accountMgmtStaffRestClient.createDepositAccountForUser(userId, accountMapper.toAccountDetailsTO(account));
     }
 

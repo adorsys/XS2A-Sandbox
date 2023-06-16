@@ -27,7 +27,7 @@ import { Account } from '../../models/account.model';
 import { User } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
 import { merge, Observable, Subject, Subscription } from 'rxjs';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from '../../services/account.service';
 import { InfoService } from '../../commons/info/info.service';
@@ -55,7 +55,7 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
   account: Account;
   subscription = new Subscription();
   tppId: string;
-  accountAccessForm: FormGroup;
+  accountAccessForm: UntypedFormGroup;
 
   submitted = false;
   errorMessage = null;
@@ -66,7 +66,7 @@ export class AccountAccessManagementComponent implements OnInit, OnDestroy {
     private accountService: AccountService,
     private tppManagementService: TppManagementService,
     private infoService: InfoService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private router: Router,
     private route: ActivatedRoute,
     private location: Location

@@ -18,7 +18,7 @@ $ gem install asciidoctor
 * create architecture documentation
 +
 ```sh
-$ make docs/arc42/modelbank-arc42.html
+$ make build-arc-42
 ```
 
 == Tools Used for Diagrams

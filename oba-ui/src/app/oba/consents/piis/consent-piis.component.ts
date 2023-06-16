@@ -1,5 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { debounceTime, takeUntil, tap } from 'rxjs/operators';
 import { OnlineBankingService } from '../../../common/services/online-banking.service';
@@ -16,7 +20,7 @@ import { EConsentStatus } from '../../../common/enums/consent-status.enum';
   styleUrls: ['./consent-piis.component.scss'],
 })
 export class ConsentPiisComponent implements OnInit, OnDestroy {
-  formModel: FormGroup;
+  formModel: UntypedFormGroup;
   consents: IPiisConsentContent[] = [];
   config: IPaginatorInterface = {
     itemsPerPage: 10,
@@ -30,7 +34,7 @@ export class ConsentPiisComponent implements OnInit, OnDestroy {
   constructor(
     private activatedRoute: ActivatedRoute,
     private onlineBankingService: OnlineBankingService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private infoService: InfoService,
     private pisService: PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService
   ) {}

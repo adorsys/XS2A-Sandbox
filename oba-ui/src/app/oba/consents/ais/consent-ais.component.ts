@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { debounceTime, map, tap } from 'rxjs/operators';
 import { ObaAisConsent } from '../../../api/models/oba-ais-consent';
@@ -13,7 +17,7 @@ import { OnlineBankingConsentsService } from '../../../api/services/online-banki
   styleUrls: ['./consent-ais.component.scss'],
 })
 export class ConsentAisComponent implements OnInit {
-  formModel: FormGroup;
+  formModel: UntypedFormGroup;
   consents: ObaAisConsent[] = [];
   config: {
     itemsPerPage: number;
@@ -30,7 +34,7 @@ export class ConsentAisComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private onlineBankingService: OnlineBankingService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private infoService: InfoService
   ) {}
 

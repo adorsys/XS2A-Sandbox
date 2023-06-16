@@ -7,13 +7,20 @@ This document describes how to configure ModelBank in your environment.
 To enable mail sending you should configure environment variables for ledgers service:
 
 ```
-  - SPRING_MAIL_HOST=
-  - SPRING_MAIL_PORT=
-  - SPRING_MAIL_USERNAME=
-  - SPRING_MAIL_PASSWORD=
-  - SPRING_MAIL_PROPERTIES_MAIL_FROM=
-  - SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH=
-  - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=
+      - SPRING_MAIL_HOST=
+      - SPRING_MAIL_PORT=
+      - SPRING_MAIL_HOST=
+      - SPRING_MAIL_PORT=
+      - SPRING_MAIL_USERNAME=
+      - SPRING_MAIL_PASSWORD=
+      - SPRING_MAIL_PROPERTIES_SMTP_AUTH=
+      - SPRING_MAIL_PROPERTIES_SMTP_SSL=
+      - SPRING_MAIL_PROPERTIES_SMTP_START_TLS=
+      - SPRING_MAIL_PROPERTIES_SMTP_FROM=
+      - SPRING_MAIL_PROPERTIES_SMTP_FROM_DISPLAY_NAME=
+      - SPRING_MAIL_PROPERTIES_SMTP_ENVELOPE_FROM=
+      - SPRING_MAIL_PROPERTIES_SMTP_REPLY_TO=
+      - SPRING_MAIL_PROPERTIES_SMTP_REPLY_TO_DISPLAY_NAME=
  ```
 
  If you want to debug mail messages you can add this properties as well:

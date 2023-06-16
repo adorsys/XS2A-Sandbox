@@ -20,7 +20,11 @@ import { Component, OnInit } from '@angular/core';
 import { PaymentTO } from '../../api/models/payment-to';
 import { OnlineBankingService } from '../../common/services/online-banking.service';
 import { InfoService } from '../../common/info/info.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { debounceTime, map, tap } from 'rxjs/operators';
 import { OnlineBankingConsentsService } from '../../api/services/online-banking-consents.service';
@@ -36,7 +40,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./periodic-payments.component.scss'],
 })
 export class PeriodicPaymentsComponent implements OnInit {
-  formModel: FormGroup;
+  formModel: UntypedFormGroup;
   config: {
     itemsPerPage: number;
     currentPage: number;
@@ -56,7 +60,7 @@ export class PeriodicPaymentsComponent implements OnInit {
   constructor(
     private infoService: InfoService,
     private activatedRoute: ActivatedRoute,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private modalService: NgbModal,
     private onlineBankingService: OnlineBankingService,
     private authService: AuthService

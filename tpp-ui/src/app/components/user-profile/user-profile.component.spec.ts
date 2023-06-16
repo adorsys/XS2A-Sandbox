@@ -31,6 +31,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { Store } from '@ngxs/store';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {  NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
@@ -59,31 +60,32 @@ describe('UserProfileComponent', () => {
     },
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          HttpClientTestingModule,
-          OverlayModule,
-          RouterTestingModule,
-          RouterTestingModule.withRoutes([]),
-          BrowserAnimationsModule,
-        ],
-        providers: [
-          NgbModal,
-          AuthService,
-          TppUserService,
-          InfoService,
-          { provide: Store, useValue: {} },
-          { provide: BsModalService, useValue: {} },
-          { provide: AuthService, useValue: mockAuthUserService },
-          { provide: TppUserService, useValue: mockTppUserService },
-        ],
-        declarations: [UserProfileComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        HttpClientTestingModule,
+        OverlayModule,
+        RouterTestingModule,
+        RouterTestingModule.withRoutes([]),
+        BrowserAnimationsModule,
+      ],
+      providers: [
+        NgbModal,
+        AuthService,
+        TppUserService,
+        InfoService,
+        { provide: Store, useValue: {} },
+        { provide: BsModalService, useValue: {} },
+        { provide: AuthService, useValue: mockAuthUserService },
+        { provide: TppUserService, useValue: mockTppUserService },
+      ],
+      declarations: [UserProfileComponent],
+      schemas: [
+        NO_ERRORS_SCHEMA
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserProfileComponent);

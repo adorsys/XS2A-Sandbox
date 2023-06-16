@@ -40,7 +40,7 @@
     <div class="card-body">
       <div class="table-responsive">
         <div class="container-fluid configs-container">
-          <div class="row d-flex justify-content-between configs">
+          <div class="d-flex justify-content-between configs">
             <div class="paginator">
               <app-pagination-container
                 [paginationConfig]="config"
@@ -76,7 +76,7 @@
                   matTooltip="Edit"
                   title="Edit"
                   [matTooltipPosition]="position.value"
-                  class="btn btn-table-btn btn-sm wd-120 mr-3"
+                  class="btn btn-table-btn btn-sm wd-120 me-3"
                   [routerLink]="['/edit/' + user.id]"
                   [queryParams]="{ admin: config.totalItems }"
                 >
@@ -88,7 +88,7 @@
                   matTooltip="Change PIN"
                   title="Change PIN"
                   [matTooltipPosition]="position.value"
-                  class="btn btn-table-btn btn-sm wd-120 mr-3"
+                  class="btn btn-table-btn btn-sm wd-120 me-3"
                   (click)="openConfirmation(changePinModal, user.id, 'pin')"
                 >
                   <mat-icon>pin</mat-icon>
@@ -118,15 +118,13 @@
                   </div>
                   <div class="modal-footer">
                     <button
-                      mat-raised-button
                       type="button"
-                      class="btn btn-outline-secondary mr-2"
+                      class="btn btn-outline-secondary me-2"
                       (click)="modal.dismiss('cancel click')"
                     >
                       Cancel
                     </button>
                     <button
-                      mat-raised-button
                       type="button"
                       class="btn btn-danger"
                       (click)="modal.close('Ok click')"
@@ -142,7 +140,7 @@
                     </h4>
                   </div>
                   <div class="modal-body">
-                    <div class="form-group">
+                    <div class="mb-3">
                       <input
                         class="form-control"
                         [(ngModel)]="newPin"
@@ -159,7 +157,7 @@
                       </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="mb-3">
                       <input
                         class="form-control"
                         [(ngModel)]="confirmNewPin"
@@ -187,9 +185,8 @@
                   </div>
                   <div class="modal-footer">
                     <button
-                      mat-raised-button
                       type="button"
-                      class="btn btn-outline-secondary mr-2"
+                      class="btn btn-outline-secondary me-2"
                       (click)="modal.dismiss('cancel click')"
                     >
                       Cancel
@@ -210,7 +207,7 @@
         </table>
 
         <div class="container-fluid">
-          <div class="row d-flex justify-content-start">
+          <div class="d-flex justify-content-start">
             <app-pagination-container
               [paginationConfig]="config"
               (pageDataConfig)="pageChange($event)"

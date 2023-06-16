@@ -17,7 +17,7 @@
  */
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { TppUserService } from '../../services/tpp.user.service';
@@ -37,7 +37,7 @@ import { takeUntil } from 'rxjs/operators';
 export class UserProfileUpdateComponent implements OnInit, OnDestroy {
   user: User;
   tppId: string;
-  userForm: FormGroup;
+  userForm: UntypedFormGroup;
   submitted: boolean;
   admin: string;
   private currentLogin: string;
@@ -47,7 +47,7 @@ export class UserProfileUpdateComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private userInfoService: TppUserService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
     private tppManagementService: TppManagementService,
     private infoService: InfoService,

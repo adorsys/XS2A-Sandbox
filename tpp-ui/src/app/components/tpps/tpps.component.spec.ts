@@ -30,6 +30,7 @@ import { CountryService } from '../../services/country.service';
 import { TppUserService } from '../../services/tpp.user.service';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { of } from 'rxjs';
+import {  NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('TppsComponent', () => {
   let component: TppsComponent;
@@ -40,24 +41,25 @@ describe('TppsComponent', () => {
     queryParams: of({}),
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule, FormsModule, ReactiveFormsModule, OverlayModule],
-        providers: [
-          InfoService,
-          AccountService,
-          TppManagementService,
-          TppUserService,
-          PageNavigationService,
-          CountryService,
-          { provide: Router, useValue: {} },
-          { provide: ActivatedRoute, useValue: mockRoute },
-        ],
-        declarations: [TppsComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule, FormsModule, ReactiveFormsModule, OverlayModule],
+      providers: [
+        InfoService,
+        AccountService,
+        TppManagementService,
+        TppUserService,
+        PageNavigationService,
+        CountryService,
+        { provide: Router, useValue: {} },
+        { provide: ActivatedRoute, useValue: mockRoute },
+      ],
+      declarations: [TppsComponent],
+      schemas: [
+        NO_ERRORS_SCHEMA
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TppsComponent);

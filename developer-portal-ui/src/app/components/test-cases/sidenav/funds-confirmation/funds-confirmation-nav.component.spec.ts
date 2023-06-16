@@ -5,6 +5,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../../../../services/language.service';
 import { HttpClient } from '@angular/common/http';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('FundsConfirmationNavComponent', () => {
   let component: FundsConfirmationNavComponent;
@@ -13,6 +14,7 @@ describe('FundsConfirmationNavComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [FundsConfirmationNavComponent],
+      schemas: [NO_ERRORS_SCHEMA],
       imports: [
         HttpClientTestingModule,
         TranslateModule.forRoot({

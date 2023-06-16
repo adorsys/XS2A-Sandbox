@@ -58,7 +58,7 @@
         [(ngModel)]="paymentProduct"
         (ngModelChange)="handlePaymentProductChanged($event)"
       >
-        <option [value]="'/' + pp" *ngFor="let pp of paymentProductSelect" [selected]="'/' + pp == paymentProduct">{{ pp }}</option>
+        <option [value]="'/' + pp" *ngFor="let pp of paymentProductSelect" [selected]="'/' + pp === paymentProduct">{{ pp }}</option>
       </select>
       <span class="top-line" *ngIf="paymentIdFlag || consentIdFlag">/</span>
 
@@ -195,7 +195,7 @@
         />
       </div>
       <app-pop-up
-        class="ml-1 pb-3"
+        class="ms-1 pb-3"
         [default]="default"
         *ngIf="item.key === 'TPP-QWAC-Certificate'"
         [certificate]="headers['TPP-QWAC-Certificate']"
@@ -236,14 +236,14 @@
 
     <div *ngIf="response['error']" class="response-body">
       <span class="status-style">Error details</span>
-      <p class="response-body-text" *ngIf="!acceptHeader || acceptHeader == 'application/json'">{{ response['error'] | json }}</p>
-      <p class="response-body-text" *ngIf="acceptHeader == 'application/xml'">{{ response['error'] }}</p>
+      <p class="response-body-text" *ngIf="!acceptHeader || acceptHeader === 'application/json'">{{ response['error'] | json }}</p>
+      <p class="response-body-text" *ngIf="acceptHeader === 'application/xml'">{{ response['error'] }}</p>
     </div>
 
     <div *ngIf="response.body" class="response-body">
       <span>Response body</span>
-      <p class="response-body-text" *ngIf="!acceptHeader || acceptHeader == 'application/json'">{{ response.body | json }}</p>
-      <p class="response-body-text" *ngIf="acceptHeader == 'application/xml'">{{ response.body }}</p>
+      <p class="response-body-text" *ngIf="!acceptHeader || acceptHeader === 'application/json'">{{ response.body | json }}</p>
+      <p class="response-body-text" *ngIf="acceptHeader === 'application/xml'">{{ response.body }}</p>
     </div>
 
     <div *ngIf="(fieldsToCopy || resourceIds) && response.body">

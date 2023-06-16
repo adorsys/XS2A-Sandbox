@@ -17,7 +17,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { AccountService } from '../../services/account.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -27,7 +27,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./cash-deposit.component.scss'],
 })
 export class CashDepositComponent implements OnInit {
-  cashDepositForm: FormGroup;
+  cashDepositForm: UntypedFormGroup;
 
   submitted: boolean;
   accountId: string;
@@ -37,7 +37,7 @@ export class CashDepositComponent implements OnInit {
     private accountService: AccountService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) {}
 
   ngOnInit() {

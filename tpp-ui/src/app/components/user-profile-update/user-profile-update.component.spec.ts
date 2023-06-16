@@ -67,26 +67,24 @@ describe('UserProfileUpdateComponent', () => {
     },
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule.withRoutes([]), ReactiveFormsModule, InfoModule, HttpClientTestingModule, BrowserAnimationsModule],
-        providers: [
-          {
-            provide: InfoService,
-            TppUserService,
-            AuthService,
-            TppManagementService,
-            NgbModal,
-          },
-          { provide: ActivatedRoute, useValue: mockRoute },
-          { provide: TppUserService, useValue: mockTppUserService },
-          { provide: Router, useValue: mockRouter },
-        ],
-        declarations: [UserProfileUpdateComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule.withRoutes([]), ReactiveFormsModule, InfoModule, HttpClientTestingModule, BrowserAnimationsModule],
+      providers: [
+        {
+          provide: InfoService,
+          TppUserService,
+          AuthService,
+          TppManagementService,
+          NgbModal,
+        },
+        { provide: ActivatedRoute, useValue: mockRoute },
+        { provide: TppUserService, useValue: mockTppUserService },
+        { provide: Router, useValue: mockRouter },
+      ],
+      declarations: [UserProfileUpdateComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserProfileUpdateComponent);

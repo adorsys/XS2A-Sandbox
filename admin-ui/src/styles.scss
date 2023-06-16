@@ -16,10 +16,10 @@
  * contact us at psd2@adorsys.com.
  */
 
-@import "src/assets/themes/variables";
-@import "~bootstrap/scss/bootstrap";
-@import "~font-awesome/css/font-awesome.css";
-@import "~material-icons/iconfont/material-icons.css";
+@import "variables";
+@import "bootstrap/scss/bootstrap";
+@import "font-awesome/css/font-awesome.css";
+@import "material-icons/iconfont/material-icons.css";
 
 * {
   margin: 0;
@@ -184,7 +184,7 @@ select {
 
 .page-item {
   .page-link {
-    color: var(--colorSecondary);
+    background-color: var(--selectBG);
   }
 }
 
@@ -196,9 +196,17 @@ select {
   }
 }
 
-tr {
-  color: var(--tr-color);
-  border-bottom: var(--border-bottom);
+thead {
+  tr {
+    border-bottom: 1px solid #dee2e6 !important;
+  }
+}
+
+tbody {
+  tr:not(:last-child) {
+    color: var(--tr-color);
+    border-bottom: 1px solid #dee2e6 !important;
+  }
 }
 
 .disabled-text {
@@ -207,6 +215,7 @@ tr {
 
 td {
   padding: 0.5rem 1.25rem;
+  border: none;
 }
 
 .nowrap {
@@ -221,6 +230,8 @@ th {
   font-size: 1.125rem !important;
   color: #545b68 !important;
   font-weight: 700 !important;
+  border: none;
+
 }
 
 tr:hover {
@@ -235,29 +246,31 @@ tr:hover {
   font-weight: 500;
   padding: var(--btn-padding);
   height: var(--button-heigh) !important;
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif !important;
+  letter-spacing: normal !important;
 
   &-primary {
-    color: var(--buttonTextColor);
-    background: var(--buttonBG);
-    border: none;
+    color: var(--buttonTextColor) !important;
+    background: var(--buttonBG) !important;
+    border: none !important;
 
     &:hover {
-      background: var(--buttonHovered);
+      background: var(--buttonHovered) !important;
     }
 
     &:disabled {
-      opacity: var(--button-opacity);
-      background: var(--buttonBGDisabled);
-      color: var(--buttonColorTextDisabled);
+      opacity: var(--button-opacity) !important;
+      background: var(--buttonBGDisabled) !important;
+      color: var(--buttonColorTextDisabled) !important;
     }
 
     &:focus {
-      outline: none;
-      background: var(--buttonClicked);
+      outline: none !important;
+      background: var(--buttonClicked) !important;
     }
 
     &:active {
-      background-color: inherit;
+      background-color: inherit !important;
     }
   }
 
@@ -400,8 +413,8 @@ a {
 
   &__close-icon {
     position: absolute;
-    top: $grid-gutter-width / 2;
-    right: $grid-gutter-width / 2;
+    top: calc($grid-gutter-width / 2);
+    right: calc($grid-gutter-width / 2);
   }
 }
 
@@ -508,11 +521,11 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-.mat-fab.mat-accent:hover {
-  background-color: red;
-}
+// .mat-mdc-fab.mat-accent:hover {
+//   background-color: red;
+// }
 
-.mat-fab.mat-accent {
-  background-color: #ff4081;
-  color: white;
-}
+// .mat-mdc-fab.mat-accent {
+//   background-color: #ff4081;
+//   color: white;
+// }

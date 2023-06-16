@@ -22,13 +22,11 @@ import { CountryService } from './country.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('CountryService', () => {
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+    }).compileComponents();
+  }));
 
   beforeEach(() => TestBed.configureTestingModule({}));
 

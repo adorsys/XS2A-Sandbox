@@ -62,6 +62,9 @@ export class AuthInterceptor implements HttpInterceptor {
             this.authService.logout();
           }
         }
+        if (errors.status === 401 && errors.statusText?.match('Unauthorized')) {
+          errors.error.message = 'You have been logged out due to inactivity.';
+        }
         return throwError(errors);
       })
     );

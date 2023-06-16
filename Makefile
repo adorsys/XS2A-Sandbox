@@ -50,17 +50,15 @@ lint-tpp-ui:
 	find tpp-ui -type f -name "*.json" -not -path "tpp-ui/node_modules/*" -exec jsonlint -q {} \; # lint all json
 	find tpp-ui -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
 	find tpp-ui -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
-	#cd tpp-ui && npm ci && npm install
-	#cd tpp-ui && npm run lint
-	#cd tpp-ui && npm run prettier-check
+	cd tpp-ui && npm ci && npm install
+	cd tpp-ui && npm run lint
 
 lint-admin-ui:
 	find admin-ui -type f -name "*.json" -not -path "admin-ui/node_modules/*" -exec jsonlint -q {} \; # lint all json
 	find admin-ui -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
 	find admin-ui -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
-	#cd admin-ui && npm ci && npm install
-	#cd admin-ui && npm run lint
-	#cd admin-ui && npm run prettier-check
+	cd admin-ui && npm ci && npm install
+	cd admin-ui && npm run lint
 
 lint-oba-ui:
 	cd oba-ui
@@ -69,7 +67,6 @@ lint-oba-ui:
 	find oba-ui -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
 	cd oba-ui && npm ci && npm install
 	cd oba-ui && npm run lint
-	cd oba-ui && npm run prettier-check
 
 lint-developer-portal-ui:
 	find developer-portal-ui -type f -name "*.json" -not -path "developer-portal-ui/node_modules/*" -exec jsonlint -q {} \; # lint all json
@@ -77,7 +74,6 @@ lint-developer-portal-ui:
 	find developer-portal-ui -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \;
 	cd developer-portal-ui && npm ci && npm install
 	cd developer-portal-ui && npm run lint
-	cd developer-portal-ui && npm run prettier-check
 
 lint-tpp-rest-server:
 	find tpp-app -type f -name "*.json" -exec jsonlint -q {} \; # lint all json
@@ -106,10 +102,10 @@ run:  ## Run services from Docker Hub without building:
 	docker-compose pull && docker-compose up
 
 start: ## Run everything with docker-compose build dockerimages without building applications
-	docker-compose -f docker-compose.yml -f docker-compose-build-template.yml up
+	docker-compose -f docker-compose.yml up
 
 all: lint-all build-ui-services build-java-services unit-tests-all-frontend unit-tests-backend ## Run everything with docker-compose after building
-	docker-compose -f docker-compose.yml -f docker-compose-build-template.yml up
+	docker-compose -f docker-compose.yml up
 
 ## Build section ##
 build-java-services: ## Build java services
@@ -145,8 +141,8 @@ unit-tests-backend:
 	mvn -ntp --settings scripts/mvn-release-settings.xml -DskipITs --fail-at-end clean install
 
 ## Build arc42
-build-arc-42: arc42/images/generated $(ARC42_SRC) docs/arc42/xs2a-sandbox-arc42.adoc developer-portal-ui/package.json ## Generate arc42 html documentation
-	cd docs/arc42 && asciidoctor -a acc-version=$(VERSION) xs2a-sandbox-arc42.adoc
+build-arc-42: arc42/images/generated $(ARC42_SRC) docs/arc42/modelbank-arc42.adoc developer-portal-ui/package.json ## Generate arc42 html documentation
+	cd docs/arc42 && asciidoctor -a acc-version=$(VERSION) modelbank-arc42.adoc
 
 arc42/images/generated: $(PLANTUML_SRC) ## Generate images from .puml files
 # Note: Because plantuml doesnt update the images/generated timestamp we need to touch it afterwards

@@ -18,7 +18,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { RecoveryPoint } from '../../models/recovery-point.models';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { ResetLedgersService } from '../../services/reset-ledgers.service';
 import { InfoService } from '../../commons/info/info.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
@@ -38,14 +38,14 @@ export class ModalComponent implements OnInit {
   public title: string;
   public list: Array<string>;
   public closeBtnName: string;
-  public userForm: FormGroup;
+  public userForm: UntypedFormGroup;
 
   constructor(
     public modal: BsModalService,
     private ledgersService: ResetLedgersService,
     private infoService: InfoService,
     private store: Store,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private _bsModalRef: BsModalRef
   ) {}
 

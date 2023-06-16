@@ -52,7 +52,7 @@
     align-items: center;
     z-index: 100;
     top: 0;
-    color: var(--headerFontColor);
+    color: var(--headerFontColor) !important;
     background-color: var(--headerBG);
     border-top: var(--headerBorderTop);
     box-shadow: var(--headerBoxShadowBottom);
@@ -118,7 +118,7 @@
   }
 
   .header-item {
-    color: var(--headerFontColor);
+    color: var(--headerFontColor) !important;
     background-color: var(--headerBG);
     margin-right: 1.5em;
     text-decoration: none;
@@ -271,5 +271,5 @@ a.redirect-btn,
 .btn,
 .btn-light {
   background: white !important;
-  color: black;
+  color: black !important;
 }

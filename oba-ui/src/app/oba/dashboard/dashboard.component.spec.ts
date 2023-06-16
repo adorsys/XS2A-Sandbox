@@ -46,7 +46,7 @@ describe('DashboardComponent', () => {
           ReactiveFormsModule,
         ],
         providers: [
-          TestBed.overrideProvider(AuthService, { useValue: authServiceSpy }),
+          { provide: AuthService, useValue: authServiceSpy },
         ],
         declarations: [
           DashboardComponent,

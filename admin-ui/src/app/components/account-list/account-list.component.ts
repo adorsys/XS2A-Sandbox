@@ -26,9 +26,9 @@ import {
   PaginationConfigModel,
 } from '../../models/pagination-config.model';
 import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { PageNavigationService } from '../../services/page-navigation.service';
@@ -64,8 +64,8 @@ export class AccountListComponent implements OnInit, OnDestroy {
     'left',
     'right',
   ];
-  position = new FormControl(this.positionOptions[0]);
-  searchForm: FormGroup = this.formBuilder.group({
+  position = new UntypedFormControl(this.positionOptions[0]);
+  searchForm: UntypedFormGroup = this.formBuilder.group({
     ibanParam: '',
     tppId: '',
     tppLogin: '',
@@ -78,7 +78,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
   private onDestroy = new Subject<void>();
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     public router: Router,
     private countryService: CountryService,
     public pageNavigationService: PageNavigationService,

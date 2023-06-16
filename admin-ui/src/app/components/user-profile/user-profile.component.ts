@@ -27,7 +27,7 @@ import { CountryService } from '../../services/country.service';
 import { PageNavigationService } from '../../services/page-navigation.service';
 import { AccountAccess } from '../../models/account-access.model';
 import { InfoService } from '@commons/info/info.service';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { TooltipPosition } from '@angular/material/tooltip';
 
@@ -37,7 +37,7 @@ import { TooltipPosition } from '@angular/material/tooltip';
   styleUrls: ['./user-profile.component.scss'],
 })
 export class UserProfileComponent implements OnInit {
-  public userForm: FormGroup;
+  public userForm: UntypedFormGroup;
   public bsModalRef: BsModalRef;
   tppUser: User;
   countries: any;
@@ -51,7 +51,7 @@ export class UserProfileComponent implements OnInit {
     'left',
     'right',
   ];
-  position = new FormControl(this.positionOptions[0]);
+  position = new UntypedFormControl(this.positionOptions[0]);
 
   constructor(
     public pageNavigationService: PageNavigationService,

@@ -17,7 +17,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../../services/user.service';
 import { User } from '../../../models/user.model';
@@ -44,14 +44,14 @@ export class UserCreateComponent implements OnInit {
   admin: string;
   methods: string[];
   httpMethods: string[];
-  userForm: FormGroup;
+  userForm: UntypedFormGroup;
   submitted: boolean;
   asyncSelected: string;
   typeaheadLoading: boolean;
 
   constructor(
     private userService: UserService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private router: Router,
     private infoService: InfoService,
     private route: ActivatedRoute,
@@ -179,12 +179,12 @@ export class UserCreateComponent implements OnInit {
   }
 
   addScaDataItem() {
-    const control = <FormArray>this.userForm.controls['scaUserData'];
+    const control = <UntypedFormArray>this.userForm.controls['scaUserData'];
     control.push(this.initScaData());
   }
 
   removeScaDataItem(i: number) {
-    const control = <FormArray>this.userForm.controls['scaUserData'];
+    const control = <UntypedFormArray>this.userForm.controls['scaUserData'];
     control.removeAt(i);
   }
 

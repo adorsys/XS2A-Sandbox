@@ -26,6 +26,7 @@ import { AuthService } from '../../services/auth.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 describe('NavbarComponent', () => {
   let component: NavbarComponent;
   let fixture: ComponentFixture<NavbarComponent>;
@@ -45,12 +46,12 @@ describe('NavbarComponent', () => {
           IconModule,
         ],
         providers: [
-          TestBed.overrideProvider(AuthService, { useValue: authServiceSpy }),
+          { provide: AuthService, useValue: authServiceSpy },
           CustomizeService,
           TppUserService,
-          AuthService,
         ],
         declarations: [NavbarComponent],
+        schemas: [NO_ERRORS_SCHEMA],
       }).compileComponents();
     })
   );

@@ -41,6 +41,7 @@ import { ErrorDialogComponent } from './common/dialog/error-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 export function app_Init(settingsHttpService: SettingsHttpService) {
   return () => settingsHttpService.initializeApp();
@@ -68,6 +69,7 @@ export function app_Init(settingsHttpService: SettingsHttpService) {
     MatDialogModule,
     MatIconModule,
     MatButtonModule,
+    NgbModule,
   ],
   providers: [
     AisService,

@@ -50,7 +50,7 @@
             (click)="item.upload()"
             *ngIf="uploader.queue.length === 1"
             [disabled]="item.isUploading || item.isSuccess"
-            class="btn btn-primary mr-1"
+            class="btn btn-primary me-1"
           >
             <i class="fa fa-upload"></i>
             <span>Upload</span>
@@ -64,6 +64,6 @@
     </tbody>
   </table>
   <div *ngIf="uploader.queue.length > 0">
-    <div class="form-group"></div>
+    <div class="mb-3"></div>
   </div>
 </div>

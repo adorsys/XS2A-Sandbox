@@ -1,3 +1,5 @@
+/// <reference types="@angular/localize" />
+
 /*
  * Copyright 2018-2023 adorsys GmbH & Co KG
  *

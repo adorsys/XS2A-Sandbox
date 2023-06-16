@@ -94,7 +94,7 @@ describe('CustomizeService', () => {
     });
 
     const req = httpTestingController.expectOne(
-      '../assets/UI/defaultTheme.json'
+      '../assets/UI/custom/UITheme.json'
     );
     expect(req.request.method).toEqual('GET');
   });
@@ -160,7 +160,7 @@ describe('CustomizeService', () => {
     expect(typeof service.getLogo()).toBe('string');
   });
 
-  it('should change font', async (done) => {
+  it('should change font', (done) => {
     service.setUserTheme({
       ...defTheme,
       globalSettings: {
@@ -179,14 +179,14 @@ describe('CustomizeService', () => {
     }, 100);
   });
 
-  it('should left default', async (done) => {
+  it('should left default', (done) => {
     document.documentElement.removeAttribute('style');
     service.setUserTheme(defTheme);
     setTimeout(() => {
       const tmp = getComputedStyle(document.body).getPropertyValue(
         '--fontFamily'
-      );
-      expect(tmp).toEqual(' Verdana, sans-serif');
+      ).trim();
+      expect(tmp).toEqual('Verdana, sans-serif');
       done();
     }, 100);
   });

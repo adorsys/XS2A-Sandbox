@@ -18,10 +18,7 @@
 
 package de.adorsys.psd2.sandbox.tpp.rest.server.mapper;
 
-import de.adorsys.ledgers.middleware.api.domain.account.AccountBalanceTO;
-import de.adorsys.ledgers.middleware.api.domain.account.AccountDetailsTO;
-import de.adorsys.ledgers.middleware.api.domain.account.AccountReportTO;
-import de.adorsys.ledgers.middleware.api.domain.account.UsageTypeTO;
+import de.adorsys.ledgers.middleware.api.domain.account.*;
 import de.adorsys.ledgers.middleware.api.domain.payment.AmountTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccessTypeTO;
 import de.adorsys.ledgers.middleware.api.domain.um.AccountAccessTO;
@@ -52,10 +49,36 @@ class AccountMapperTest {
     private final AccountMapper accountMapper = Mappers.getMapper(AccountMapper.class);
 
     @Test
-    void toAccountDetailsTOTest() {
+    void toAccountDetailsTOTest_activeAccount() {
         // Given
-        DepositAccount input = getTppUiDepositAccount();
-        AccountDetailsTO expectedResult = getAccountDetailsTO();
+        DepositAccount input = getTppUiDepositAccount(AccountStatus.ENABLED);
+        AccountDetailsTO expectedResult = getAccountDetailsTO(false, ENABLED);
+
+        // When
+        AccountDetailsTO result = accountMapper.toAccountDetailsTO(input);
+
+        // Then
+        assertEquals(expectedResult, result);
+    }
+
+    @Test
+    void toAccountDetailsTOTest_blockedAccount() {
+        // Given
+        DepositAccount input = getTppUiDepositAccount(AccountStatus.BLOCKED);
+        AccountDetailsTO expectedResult = getAccountDetailsTO(true, AccountStatusTO.BLOCKED);
+
+        // When
+        AccountDetailsTO result = accountMapper.toAccountDetailsTO(input);
+
+        // Then
+        assertEquals(expectedResult, result);
+    }
+
+    @Test
+    void toAccountDetailsTOTest_deletedAccount() {
+        // Given
+        DepositAccount input = getTppUiDepositAccount(AccountStatus.DELETED);
+        AccountDetailsTO expectedResult = getAccountDetailsTO(true, AccountStatusTO.DELETED);
 
         // When
         AccountDetailsTO result = accountMapper.toAccountDetailsTO(input);
@@ -86,7 +109,7 @@ class AccountMapperTest {
         AccountReport result = accountMapper.toAccountReport(getReportTO());
 
         // Then
-        assertThat(result).isEqualToComparingFieldByFieldRecursively(expected);
+        assertThat(result).usingRecursiveComparison().isEqualTo(expected);
     }
 
     private AccountReportTO getReportTO() {
@@ -111,14 +134,14 @@ class AccountMapperTest {
         return details;
     }
 
-    private AccountDetailsTO getAccountDetailsTO() {
-        return new AccountDetailsTO(null, IBAN, null, null, null, null, CURRENCY, null, null, null, CASH, ENABLED, null, null, UsageTypeTO.PRIV, null, null, false, false, BigDecimal.ZERO, null);
+    private AccountDetailsTO getAccountDetailsTO(boolean blockedStatus, AccountStatusTO accountStatus) {
+        return new AccountDetailsTO(null, IBAN, null, null, null, null, CURRENCY, null, null, null, CASH, accountStatus, null, null, UsageTypeTO.PRIV, null, null, blockedStatus, false, BigDecimal.ZERO, null);
     }
 
-    private DepositAccount getTppUiDepositAccount() {
+    private DepositAccount getTppUiDepositAccount(AccountStatus accountStatus) {
         DepositAccount depositAccount = new DepositAccount();
         depositAccount.setId("XYZ");
-        depositAccount.setAccountStatus(AccountStatus.ENABLED);
+        depositAccount.setAccountStatus(accountStatus);
         depositAccount.setAccountType(AccountType.CASH);
         depositAccount.setCurrency(CURRENCY);
         depositAccount.setIban(IBAN);

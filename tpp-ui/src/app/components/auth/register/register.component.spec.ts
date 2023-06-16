@@ -53,15 +53,13 @@ describe('RegisterComponent', () => {
     type: TppIdType.n,
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, HttpClientTestingModule, RouterTestingModule, BrowserAnimationsModule, InfoModule, FormsModule],
-        providers: [AuthService, CountryService, InfoService, CertificateGenerationService, CertificateDownloadService],
-        declarations: [RegisterComponent, CertificateComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, HttpClientTestingModule, RouterTestingModule, BrowserAnimationsModule, InfoModule, FormsModule],
+      providers: [AuthService, CountryService, InfoService, CertificateGenerationService, CertificateDownloadService],
+      declarations: [RegisterComponent, CertificateComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     registerFixture = TestBed.createComponent(RegisterComponent);

@@ -17,7 +17,7 @@
  */
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { combineLatest, Subject } from 'rxjs';
 
@@ -43,7 +43,7 @@ import { takeUntil } from 'rxjs/operators';
 export class RegisterComponent implements OnInit, OnDestroy {
   admin = false;
 
-  userForm: FormGroup;
+  userForm: UntypedFormGroup;
   certificateValue = {};
 
   generateCertificate: boolean;
@@ -67,7 +67,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private generationService: TestDataGenerationService,
     private infoService: InfoService,
     private router: Router,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private settingsService: SettingsService,
     public customizeService: CustomizeService,
     private pageNavigationService: PageNavigationService,

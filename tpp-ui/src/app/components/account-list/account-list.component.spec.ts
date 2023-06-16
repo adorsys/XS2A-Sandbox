@@ -39,25 +39,23 @@ describe('AccountListComponent', () => {
   let fixture: ComponentFixture<AccountListComponent>;
   let accountService: AccountService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          RouterTestingModule,
-          ReactiveFormsModule,
-          HttpClientTestingModule,
-          InfoModule,
-          RouterTestingModule,
-          FilterPipeModule,
-          IconModule,
-          NgbPaginationModule,
-          FormsModule,
-        ],
-        declarations: [AccountListComponent, PaginationContainerComponent],
-        providers: [AccountService, InfoService],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule,
+        ReactiveFormsModule,
+        HttpClientTestingModule,
+        InfoModule,
+        RouterTestingModule,
+        FilterPipeModule,
+        IconModule,
+        NgbPaginationModule,
+        FormsModule,
+      ],
+      declarations: [AccountListComponent, PaginationContainerComponent],
+      providers: [AccountService, InfoService],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AccountListComponent);

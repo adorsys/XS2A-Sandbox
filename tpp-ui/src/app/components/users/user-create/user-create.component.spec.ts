@@ -18,7 +18,7 @@
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormArray, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormArray, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -29,6 +29,7 @@ import { UserService } from '../../../services/user.service';
 import { UserCreateComponent } from './user-create.component';
 import { ScaMethods } from '../../../models/scaMethods';
 import { of } from 'rxjs';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('UserCreateComponent', () => {
   let component: UserCreateComponent;
@@ -36,15 +37,14 @@ describe('UserCreateComponent', () => {
   let userService: UserService;
   let router: Router;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, InfoModule, RouterTestingModule.withRoutes([]), HttpClientTestingModule, IconModule],
-        providers: [UserService, InfoService],
-        declarations: [UserCreateComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, InfoModule, RouterTestingModule.withRoutes([]), HttpClientTestingModule, IconModule],
+      providers: [UserService, InfoService],
+      declarations: [UserCreateComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserCreateComponent);
@@ -156,15 +156,15 @@ describe('UserCreateComponent', () => {
   });
 
   it('validate addScaData method', () => {
-    const length = (<FormArray>component.userForm.controls['scaUserData']).length;
+    const length = (<UntypedFormArray>component.userForm.controls['scaUserData']).length;
     component.addScaDataItem();
-    const newLength = (<FormArray>component.userForm.controls['scaUserData']).length;
+    const newLength = (<UntypedFormArray>component.userForm.controls['scaUserData']).length;
     expect(newLength).toEqual(length + 1);
   });
 
   it('validate removeScaDataItem method', () => {
     component.removeScaDataItem(0);
-    const length = (<FormArray>component.userForm.controls['scaUserData']).length;
+    const length = (<UntypedFormArray>component.userForm.controls['scaUserData']).length;
     expect(length).toEqual(0);
   });
 

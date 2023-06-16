@@ -43,7 +43,7 @@ describe('NavbarComponent', () => {
           ReactiveFormsModule,
         ],
         providers: [
-          TestBed.overrideProvider(AuthService, { useValue: authServiceSpy }),
+          { provide: AuthService, useValue: authServiceSpy },
           ShareDataService,
           CurrentUserService,
         ],

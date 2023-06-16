@@ -48,7 +48,7 @@ describe('DashboardComponent', () => {
           IconModule,
         ],
         providers: [
-          TestBed.overrideProvider(AuthService, { useValue: authServiceSpy }),
+          { provide: AuthService, useValue: authServiceSpy },
         ],
         declarations: [
           DashboardComponent,

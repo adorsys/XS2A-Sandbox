@@ -17,7 +17,6 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-
 import { User } from '../../models/user.model';
 import { TppUserService } from '../../services/tpp.user.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -29,7 +28,7 @@ import { AccountAccess } from '../../models/account-access.model';
 import { InfoService } from '../../commons/info/info.service';
 import { ResetLedgersService } from '../../services/reset-ledgers.service';
 import { RecoveryPoint } from '../../models/recovery-point.models';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { ADMIN_KEY } from '../../commons/constant/constant';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ModalComponent } from '../modal/modal.component';
@@ -48,7 +47,7 @@ import { TooltipPosition } from '@angular/material/tooltip';
 export class UserProfileComponent implements OnInit {
   @Select(RecoveryPointState.getRecoveryPointsList)
   ngxsrecoveryPoint: Observable<RecoveryPoint[]>;
-  public userForm: FormGroup;
+  public userForm: UntypedFormGroup;
   public bsModalRef: BsModalRef;
   admin;
   tppUser: User;
@@ -56,7 +55,7 @@ export class UserProfileComponent implements OnInit {
   userAmount = 0;
   private newPin = 'pin';
   positionOptions: TooltipPosition[] = ['above', 'before', 'after', 'below', 'left', 'right'];
-  position = new FormControl(this.positionOptions[0]);
+  position = new UntypedFormControl(this.positionOptions[0]);
 
   constructor(
     public pageNavigationService: PageNavigationService,
@@ -75,7 +74,7 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.admin = sessionStorage.getItem(ADMIN_KEY);
-    if (this.admin === false) {
+    if (this.admin === 'false') {
       this.store.dispatch(new GetRecoveryPoint());
     }
     this.setUpCountries();

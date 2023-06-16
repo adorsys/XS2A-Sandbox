@@ -1,12 +1,11 @@
 {
-  "cardNumber": "string",
   "account": {
-    "iban": "YOUR_USER_IBAN",
+    "iban": "DE80760700240271232400",
     "currency": "EUR"
   },
-  "payee": "string",
   "instructedAmount": {
-    "currency": "EUR",
-    "amount": "123"
-  }
+    "amount": "0.01",
+    "currency": "EUR"
+  },
+  "payee": "Check24"
 }

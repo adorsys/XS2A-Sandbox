@@ -36,7 +36,7 @@
             (pageChange)="pageChange($event)"
           ></ngb-pagination>
           <select
-            class="custom-select custom-select-sm ml-4 mb-4"
+            class="form-select form-select-sm ms-4 mb-4"
             style="width: auto"
             formControlName="itemsPerPage"
           >
@@ -96,7 +96,7 @@
               <td>
                 <button
                   *ngIf="isCancellable(payment.transactionStatus)"
-                  class="btn btn-primary ml-3"
+                  class="btn btn-primary ms-3"
                   (click)="
                     openCancelPaymentModal(
                       confirmCancelModal,
@@ -127,7 +127,7 @@
             (pageChange)="pageChange($event)"
           ></ngb-pagination>
           <select
-            class="custom-select custom-select-sm ml-4 mb-4"
+            class="form-select form-select-sm ms-4 mb-4"
             style="width: auto"
             formControlName="itemsPerPage"
           >
@@ -206,7 +206,7 @@
             [checked]="i == 0"
             (change)="handleMethodSelectedEvent(scaMethod)"
           />
-          <label class="form-check-label ml-4" [for]="scaMethod.id">
+          <label class="form-check-label ms-4" [for]="scaMethod.id">
             {{ scaMethod.scaMethod }} with value {{ scaMethod.methodValue }}
           </label>
         </div>

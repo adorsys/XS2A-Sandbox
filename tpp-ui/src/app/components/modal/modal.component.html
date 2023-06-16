@@ -18,8 +18,7 @@
 
 <div class="modal-header">
   <h4 class="modal-title pull-left">{{ title }}</h4>
-  <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
-    <span aria-hidden="true">&times;</span>
+  <button type="button" class="btn-close pull-right" aria-label="Close" (click)="close()">
   </button>
 </div>
 <div class="modal-body">
@@ -30,7 +29,7 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button class="btn btn-primary mr-2" (click)="createRecoveryPoints()">Create State</button>
+  <button class="btn btn-primary me-2" (click)="createRecoveryPoints()">Create State</button>
   <button type="button" class="btn btn-outline-secondary" (click)="close()">
     {{ closeBtnName }}
   </button>

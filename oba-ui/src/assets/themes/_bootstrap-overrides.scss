@@ -12,3 +12,7 @@ $nav-tabs-link-active-color: red;
 
 /* CARD */
 $card-border-radius: 0;
+
+:host ::ng-deep .pagination > li.page-item.active > a.page-link > span {
+    display: none;
+}

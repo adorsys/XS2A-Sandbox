@@ -5,6 +5,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../../../../services/language.service';
 import { HttpClient } from '@angular/common/http';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('AccountInformationComponentComponent', () => {
   let component: AccountInformationComponent;
@@ -13,6 +14,7 @@ describe('AccountInformationComponentComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AccountInformationComponent],
+      schemas: [NO_ERRORS_SCHEMA],
       imports: [
         HttpClientTestingModule,
         TranslateModule.forRoot({

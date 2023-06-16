@@ -17,7 +17,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { AccountStatus, AccountType, UsageType } from '../../models/account.model';
 import { AccountService } from '../../services/account.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -30,12 +30,12 @@ import { InfoService } from '../../commons/info/info.service';
   styleUrls: ['./account-detail.component.scss'],
 })
 export class AccountDetailComponent implements OnInit {
-  accountForm = new FormGroup({
-    accountType: new FormControl('CASH', Validators.required),
-    usageType: new FormControl(UsageType.PRIV, Validators.required),
-    currency: new FormControl('EUR', Validators.required),
-    iban: new FormControl(null, Validators.required),
-    accountStatus: new FormControl(AccountStatus.ENABLED, Validators.required),
+  accountForm = new UntypedFormGroup({
+    accountType: new UntypedFormControl('CASH', Validators.required),
+    usageType: new UntypedFormControl(UsageType.PRIV, Validators.required),
+    currency: new UntypedFormControl('EUR', Validators.required),
+    iban: new UntypedFormControl(null, Validators.required),
+    accountStatus: new UntypedFormControl(AccountStatus.ENABLED, Validators.required),
   });
   accountTypes = Object.keys(AccountType);
   accountStatuses = Object.keys(AccountStatus);
@@ -99,7 +99,14 @@ export class AccountDetailComponent implements OnInit {
     if (this.accountForm.invalid) {
       return;
     }
-    this.accountService.createAccount(this.userId, this.accountForm.getRawValue()).subscribe(() => this.router.navigate(['/accounts']));
+    this.accountService.createAccount(this.userId, this.accountForm.getRawValue()).subscribe((data) => {
+      if (data) {
+      this.infoService.openFeedback('Account has been successfully created');
+      this.router.navigate(['/accounts']);
+      } else {
+      this.infoService.openFeedback('Account creation has failed!');
+      }
+    });
   }
 
   generateIban() {

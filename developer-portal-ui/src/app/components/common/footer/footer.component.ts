@@ -46,7 +46,7 @@ export class FooterComponent implements OnInit, AfterViewChecked {
       this.pathToFile = `${this.customizeService.currentLanguageFolder}/${data}/footer.md`;
       this.markdownStylingService.createTableOfContent(true);
       this.markdownService.getSource(this.pathToFile).subscribe((result) => {
-        this.compiledMarkDown = this.markdownService.compile(result);
+        this.compiledMarkDown = this.markdownService.parse(result);
       });
     });
   }

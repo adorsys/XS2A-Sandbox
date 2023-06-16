@@ -26,7 +26,7 @@
           {{ errorMessage }}
         </div>
 
-        <div class="form-group">
+        <div class="mb-3">
           <label for="amount">Amount</label>
           <input
             [ngClass]="{
@@ -45,7 +45,7 @@
           <div *ngIf="cashDepositForm.get('amount')?.errors?.min" class="invalid-feedback">The amount should be more than 0</div>
         </div>
 
-        <div class="form-group">
+        <div class="mb-3">
           <label for="currency">Currency</label>
           <input
             [ngClass]="{
@@ -60,8 +60,8 @@
           />
           <div *ngIf="cashDepositForm.get('currency')?.errors?.required" class="invalid-feedback">Currency is required</div>
         </div>
-        <div class="form-group d-flex flex-row justify-content-lg-between">
-          <button class="btn mr-sm-2 mr-md-3 btn-outline-danger" (click)="onCancel()">Cancel</button>
+        <div class="mb-3 d-flex flex-row justify-content-lg-between">
+          <button class="btn me-sm-2 me-md-3 btn-outline-danger" (click)="onCancel()">Cancel</button>
           <button class="btn btn-primary" type="submit">Deposit</button>
         </div>
       </form>

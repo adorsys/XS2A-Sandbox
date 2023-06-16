@@ -18,8 +18,8 @@
 
 <div class="container-fluid" [formGroup]="searchForm">
   <div class="row header">
-    <div class="col-3 col-md-10 header__title">List of users</div>
-    <div class="col-12 col-md-2 right">
+    <div class="col-3 col-md-9 header__title">List of users</div>
+    <div class="col-12 col-md-3 right">
       <div class="row flex-end">
         <button
           mat-raised-button
@@ -36,7 +36,7 @@
         <div class="col-sm">
           <label for="country">User login:</label>
           <div class="filter">
-            <div class="form-group has-search">
+            <div class="mb-3 has-search">
               <span class="form-control-feedback">
                 <img src="./assets/icons/search.svg" alt="search logo" />
               </span>
@@ -51,9 +51,9 @@
             </div>
           </div>
         </div>
-        <div class="col-sm mr-2">
+        <div class="col-sm me-2">
           <label for="country">TPP login:</label>
-          <div class="form-group has-search">
+          <div class="mb-3 has-search">
             <span class="form-control-feedback">
               <img src="./assets/icons/search.svg" alt="search logo" />
             </span>
@@ -65,8 +65,8 @@
             />
           </div>
         </div>
-        <div class="col-sm mr-2">
-          <div class="form-group has-search">
+        <div class="col-sm me-2">
+          <div class="mb-3 has-search">
             <label>TPP ID:</label>
             <span class="form-control-feedback">
               <img src="./assets/icons/search.svg" alt="search logo" />
@@ -121,7 +121,7 @@
   <div class="card-body">
     <div class="table-responsive">
       <div class="container-fluid configs-container">
-        <div class="row d-flex justify-content-between configs fixed-width">
+        <div class="d-flex justify-content-between configs fixed-width">
           <div class="paginator">
             <app-pagination-container
               [paginationConfig]="config"
@@ -210,18 +210,18 @@
               </ul>
             </td>
             <td class="action d-flex">
-              <a
+              <button
                 matTooltip="Create Deposit Account"
                 [matTooltipPosition]="position.value"
                 aria-label="Create Deposit Account"
                 mat-fab
-                class="btn btn-table-btn mr-2"
+                class="btn btn-table-btn me-2"
                 routerLink="/users/{{ user.id }}/create-deposit-account"
                 [queryParams]="{ tppId: user.branch, userId: user.id }"
                 *ngIf="!user.blocked"
               >
                 <mat-icon>account_balance</mat-icon>
-              </a>
+              </button>
               <button
                 mat-fab
                 [matTooltip]="
@@ -230,7 +230,7 @@
                 [title]="!user.blocked ? 'Block the user' : 'Unblock the user'"
                 [matTooltipPosition]="position.value"
                 aria-label="Block the user"
-                class="btn btn-table-btn mr-2"
+                class="btn btn-table-btn me-2"
                 (click)="
                   openConfirmation(
                     blockConfirmation,
@@ -250,11 +250,10 @@
                   </h4>
                   <button
                     type="button"
-                    class="close"
+                    class="btn-close"
                     aria-label="Close"
                     (click)="modal.dismiss('Cross click')"
                   >
-                    <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
@@ -262,15 +261,13 @@
                 </div>
                 <div class="modal-footer">
                   <button
-                    mat-raised-button
                     type="button"
-                    class="btn btn-outline-secondary mr-2"
+                    class="btn btn-outline-secondary me-2"
                     (click)="modal.dismiss('cancel click')"
                   >
                     Cancel
                   </button>
                   <button
-                    mat-raised-button
                     type="button"
                     class="btn btn-danger"
                     (click)="modal.close('Ok click')"
@@ -286,11 +283,10 @@
                   </h4>
                   <button
                     type="button"
-                    class="close"
+                    class="btn-close"
                     aria-label="Close"
                     (click)="modal.dismiss('Cross click')"
                   >
-                    <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
@@ -299,15 +295,13 @@
                 </div>
                 <div class="modal-footer">
                   <button
-                    mat-raised-button
                     type="button"
-                    class="btn btn-outline-secondary mr-2"
+                    class="btn btn-outline-secondary me-2"
                     (click)="modal.dismiss('cancel click')"
                   >
                     Cancel
                   </button>
                   <button
-                    mat-raised-button
                     type="button"
                     class="btn btn-danger"
                     (click)="modal.close('Ok click')"
@@ -322,7 +316,7 @@
                 title="Delete the user"
                 [matTooltipPosition]="position.value"
                 aria-label="Delete the user"
-                class="btn btn-outline-danger mr-2"
+                class="btn btn-outline-danger me-2"
                 (click)="
                   openConfirmation(deleteConfirmationModal, user.id, 'delete')
                 "
@@ -333,12 +327,12 @@
           </tr>
         </tbody>
       </table>
-      <p *ngIf="users.length > 1" class="text-center font-weight-bold">
+      <p *ngIf="users.length > 1" class="text-center fw-bold">
         No suitable user is available
       </p>
 
       <div class="container-fluid">
-        <div class="row d-flex justify-content-start">
+        <div class="d-flex justify-content-start">
           <app-pagination-container
             [paginationConfig]="config"
             (pageDataConfig)="pageChange($event)"

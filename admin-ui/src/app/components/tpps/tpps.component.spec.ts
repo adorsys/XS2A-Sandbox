@@ -29,6 +29,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('TppsComponent', () => {
   let component: TppsComponent;
@@ -57,6 +58,7 @@ describe('TppsComponent', () => {
           { provide: ActivatedRoute, useValue: mockRoute },
         ],
         declarations: [TppsComponent],
+        schemas: [NO_ERRORS_SCHEMA],
       }).compileComponents();
     })
   );

@@ -18,9 +18,9 @@
 
 import { Component, OnInit } from '@angular/core';
 import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { debounceTime, tap } from 'rxjs/operators';
@@ -60,8 +60,8 @@ export class UsersComponent implements OnInit {
     'left',
     'right',
   ];
-  position = new FormControl(this.positionOptions[0]);
-  searchForm: FormGroup = this.formBuilder.group({
+  position = new UntypedFormControl(this.positionOptions[0]);
+  searchForm: UntypedFormGroup = this.formBuilder.group({
     userLogin: '',
     tppId: '',
     tppLogin: '',
@@ -77,7 +77,7 @@ export class UsersComponent implements OnInit {
     private pageNavigationService: PageNavigationService,
     private tppManagementService: TppManagementService,
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private modalService: NgbModal
   ) {}
 

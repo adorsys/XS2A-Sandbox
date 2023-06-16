@@ -17,7 +17,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { InfoService } from '@commons/info/info.service';
@@ -33,14 +33,14 @@ import { Location } from '@angular/common';
   styleUrls: ['./admin-create.component.scss'],
 })
 export class AdminCreateComponent implements OnInit {
-  public userForm: FormGroup;
+  public userForm: UntypedFormGroup;
   public submitted: boolean;
   public errorMessage: string;
 
   constructor(
     private infoService: InfoService,
     private router: Router,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private settingsService: SettingsService,
     public customizeService: CustomizeService,
     private pageNavigationService: PageNavigationService,

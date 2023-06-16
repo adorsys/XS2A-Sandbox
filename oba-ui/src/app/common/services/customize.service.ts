@@ -45,7 +45,7 @@ export class CustomizeService {
   }
 
   public getJSON(): Observable<Theme> {
-    return this.http.get('../assets/UI/defaultTheme.json').pipe(
+    return this.http.get('../assets/UI/custom/UITheme.json').pipe(
       map((data) => {
         let theme = data;
         this.IS_CUSTOM = true;
