@@ -51,9 +51,12 @@ export class GlobalErrorsHandler implements ErrorHandler {
     } else {
       this.zone.run(() => {
         const errorMessage = errorObj.message;
-        this.infoService.openFeedback(errorMessage, {
-          severity: 'info',
-        });
+        // TODO: next line ignore the error if it's beacause of unresolved promise. It should be removed when the issue #1145 is fixed
+        if (!errorMessage.includes('Uncaught (in promise)')) {
+          this.infoService.openFeedback(errorMessage, {
+            severity: 'info',
+          });
+        }
       });
     }
   }
