@@ -6,7 +6,7 @@ For upcoming versions see our xref:Roadmap.adoc[Roadmap].
 
 === Mainline 7.x (Development)
 
-* xref:release_notes/Release_notes_7.6.md[Version 7.6 (release date: xx.xx.2023)]
+* xref:release_notes/Release_notes_7.6.md[Version 7.6 (release date: 19.06.2023)]
 * xref:release_notes/Release_notes_7.5.md[Version 7.5 (release date: 10.01.2023)]
 * xref:release_notes/Release_notes_7.4.md[Version 7.4 (release date: 02.08.2022)]
 * xref:release_notes/Release_notes_7.3.md[Version 7.3 (release date: 07.06.2022)]
@@ -16,7 +16,7 @@ For upcoming versions see our xref:Roadmap.adoc[Roadmap].
 
 === Mainline 6.x (Stable)
 
-* xref:release_notes/Release_notes_6.6.md[Version 6.6 (release date: xx.xx.2023)]
+* xref:release_notes/Release_notes_6.6.md[Version 6.6 (release date: 19.06.2023)]
 * xref:release_notes/Release_notes_6.5.md[Version 6.5 (release date: 10.01.2023)]
 * xref:release_notes/Release_notes_6.4.md[Version 6.4 (release date: 02.08.2022)]
 * xref:release_notes/Release_notes_6.3.md[Version 6.3 (release date: 15.06.2022)]
