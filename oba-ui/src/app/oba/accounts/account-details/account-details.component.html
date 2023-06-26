@@ -187,7 +187,7 @@
               <td>{{ transaction.valueDate }}</td>
               <td>{{ transaction?.creditorName }}</td>
               <td>{{ transaction.creditorAccount?.iban }}</td>
-              <td>{{ transaction.remittanceInformationUnstructured }}</td>
+              <td>{{ transaction.remittanceInformationUnstructuredArray[0] }}</td>
               <td>{{ transaction.transactionId }}</td>
               <td>{{ transaction.endToEndId }}</td>
             </tr>

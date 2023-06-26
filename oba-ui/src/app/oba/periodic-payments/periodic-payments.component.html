@@ -71,7 +71,7 @@
                 <div *ngFor="let tag of payment.targets">
                   {{ tag.instructedAmount.amount }}
                   <br />
-                  {{ payment.debtorAccount.currency }}
+                  {{ tag.instructedAmount.currency }}
                 </div>
               </td>
               <td>

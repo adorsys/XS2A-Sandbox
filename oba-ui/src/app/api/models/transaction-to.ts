@@ -37,7 +37,7 @@ export interface TransactionTO {
   proprietaryBankTransactionCode?: string;
   purposeCode?: string;
   remittanceInformationStructured?: RemittanceInformationStructuredTO;
-  remittanceInformationUnstructured?: string;
+  remittanceInformationUnstructuredArray?: Array<string>;
   transactionId?: string;
   ultimateCreditor?: string;
   ultimateDebtor?: string;

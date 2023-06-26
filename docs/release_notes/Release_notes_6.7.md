@@ -7,3 +7,5 @@ Current version consists of following components:
 3. **ASPSP-Profile v.14.xx**
 4. **Consent-Management v.14.xx**
 5. **XS2A Connector-Examples v.14.xx**
+
+-   Fixed payments' currency displaying in Online Banking UI (PASD-236).
