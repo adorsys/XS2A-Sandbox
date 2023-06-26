@@ -168,8 +168,8 @@
               <th scope="col">Creditor Name</th>
               <th scope="col">Creditor Account</th>
               <th scope="col">Remittance</th>
-              <th scope="col">transactionId</th>
-              <th scope="col">endToEndId</th>
+              <th scope="col">Transaction ID</th>
+              <th scope="col">End To End ID</th>
             </tr>
           </thead>
           <tbody>
@@ -187,7 +187,7 @@
               <td>{{ transaction.valueDate }}</td>
               <td>{{ transaction?.creditorName }}</td>
               <td>{{ transaction.creditorAccount?.iban }}</td>
-              <td>{{ transaction.remittanceInformationUnstructuredArray[0] }}</td>
+              <td>{{ transaction.remittanceInformationUnstructuredArray }}</td>
               <td>{{ transaction.transactionId }}</td>
               <td>{{ transaction.endToEndId }}</td>
             </tr>
