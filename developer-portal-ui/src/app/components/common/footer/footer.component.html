@@ -16,4 +16,36 @@
   ~ contact us at psd2@adorsys.com.
   -->
 
-<div id="markdown" [innerHTML]="compiledMarkDown | sanitizeHtml"></div>
+<div class="footer-bar">
+  <div class="footer-top-items">
+    <img
+      *ngIf="navBarSettings?.logo; else emptyTemplate"
+      class="logo"
+      [src]="navBarSettings.logo"
+      (click)="navigationService.goToLogoLink(navBarSettings.logoLink, '/home')"
+      alt="Logo"
+    />
+
+    <ng-template #emptyTemplate>
+      <div class="empty-logo"></div>
+    </ng-template>
+
+    <div>
+      <a
+        *ngFor="let navItem of navigation"
+        class="footer-item"
+        [routerLink]="createRouterLinks(navItem)"
+        (click)="navigationService.navigateTo(navItem)"
+      >
+        {{ navItem.navName }}
+      </a>
+    </div>
+  </div>
+
+  <div class="social-media">
+    <a href={{socialMedia?.facebookLink}}><i class="social-media-icon fab fa-facebook-f"></i></a>
+    <a href={{socialMedia?.twitterLink}}><i class="social-media-icon fab fa-twitter"></i></a>
+    <a href={{socialMedia?.xingLink}}><i class="social-media-icon fab fa-xing"></i></a>
+    <a href={{socialMedia?.linkedinLink}}><i class="social-media-icon fab fa-linkedin-in"></i></a>
+  </div>
+</div>

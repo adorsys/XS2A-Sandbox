@@ -164,7 +164,7 @@ Falls Sie es wollen benutze einen ersten Weg:
 _make_
 
 2. Nach dem Gebäude der Dienste können Sie ModelBank mit einem einfachen Docker-Befehl ausführen.
-Bitte beachten Sie, dass Sie die Docker images der Adorsys-Anwendungen zunächst lokal erstellen müssen, um sie verwenden zu können.
+   Bitte beachten Sie, dass Sie die Docker images der Adorsys-Anwendungen zunächst lokal erstellen müssen, um sie verwenden zu können.
 
 _docker-compose up_
 

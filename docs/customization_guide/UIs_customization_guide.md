@@ -71,7 +71,7 @@
 
 ### General information
 
-All four user interfaces provided inside of ModelBank support customization. Depending on your needs, you can choose, which fields and UIs to customize.
+All four user interfaces provided inside ModelBank support customization. Depending on your needs, you can choose, which fields and UIs to customize.
 
 For **Developer Portal** you can customize logo, CSS styles, content of all the pages, `xml` and `json` examples in _Play with Data_ section, currency of the examples, available SCA approaches and supported languages.
 
@@ -79,7 +79,7 @@ For Online Banking UI, Admin UI and TPP UI you can customize logo and CSS styles
 
 ### Step-by-step guide
 
-Here is a general instruction on how to customize any user interface in ModelBank. Detailed examples of customization and features of each user interface you can find in related sections of [Table of Content](#table-of-content).
+Here is a general instruction on how to customize any user interface in ModelBank except Developer Portal. Detailed examples of customization and features of each user interface you can find in related sections of [Table of Content](#table-of-content).
 
 1.  Create `json` file with name UITheme (e.g. UITheme.json).
 2.  `Json` example (this is a general example which can be used in any of user interfaces. For more features see `json` example for every user interface you want to customize):
@@ -513,6 +513,10 @@ You can customize html body background color and font color with the following p
 
 ### Details about Developer Portal customization
 
+1.  Create a `json` file with name UITheme (e.g. UITheme.json).
+2.  Fill all the needed fields.
+3.  When you create `UITheme.json` file and fill all required fields, put this file with `logo` (e.g. `logo.png`) and `favicon` and other needed images in the folder `./src/assets/content/custom-content/` of your user interface.
+
 Here is a detailed example json for Developer portal:
 
 ```json
@@ -521,16 +525,20 @@ Here is a detailed example json for Developer portal:
         "supportedLanguagesDictionary": {
             "en": "united-kingdom.png",
             "de": "germany.png",
-            "es": "spain.png",
             "ua": "ukraine.png"
         },
-        "socialMedia": {
-            "facebook": "https://www.facebook.com/adorsysGmbH",
-            "twitter": "https://twitter.com/adorsys",
-            "xing": "https://www.xing.com/companies/adorsysgmbh%26cokg",
-            "linkedin": "https://www.linkedin.com/company/adorsys"
-        },
-        "googleAnalyticsTrackingId": "UA-160845388-1"
+        "googleAnalyticsTrackingId": "UA-160845388-1",
+        "logo": "Logo_XS2ASandbox.png",
+        "favicon": "favicon.ico",
+        "cssVariables": {
+            "fontFamily": "Arial, sans-serif",
+            "buttonBgGradient1": "#2D3364",
+            "buttonBgGradient2": "#F85F3D",
+            "buttonHoveredGradient1": "#2D3364",
+            "buttonHoveredGradient2": "#000000",
+            "buttonClickedGradient1": "#2D3364",
+            "buttonClickedGradient2": "#000000"
+        }
     },
     "pagesSettings": {
         "contactPageSettings": {
@@ -569,12 +577,15 @@ Here is a detailed example json for Developer portal:
             "showSlider": true
         },
         "navigationBarSettings": {
-            "allowedNavigationSize": 5,
-            "logo": "Logo_XS2ASandbox.png"
+            "allowedNavigationSize": 5
         },
         "footerSettings": {
-            "allowedNavigationSize": 5,
-            "logo": "Logo_XS2ASandbox.png"
+            "socialMedia": {
+                "facebookLink": "https://www.facebook.com/adorsysGmbH",
+                "twitterLink": "https://twitter.com/adorsys",
+                "xingLink": "https://www.xing.com/companies/adorsysgmbh%26cokg",
+                "linkedinLink": "https://www.linkedin.com/company/adorsys"
+            }
         },
         "playWithDataSettings": {
             "supportedApproaches": ["redirect", "embedded"],
@@ -593,16 +604,17 @@ Additional properties for Developer Portal:
 | Name                     | Usage                                                                                                                                                                        | Parent property                         | Child properties                                                              | Accepted values                                                                      | Required |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ | -------- |
 | globalSettings           | Global settings of Developer Portal                                                                                                                                          | -                                       | supportedLanguagesDictionary, socialMedia, googleAnalyticsTrackingId, favicon | child properties                                                                     | Yes      |
+| cssVariables             | A set of CSS variables used for styling customization                                                                                                                        | globalSettings                          | -                                                                             | child properties                                                                     | No      |
 | pagesSettings            | Content settings of Developer Portal                                                                                                                                         | -                                       | contactPageSettings, homePageSettings, navigationBarSettings                  | child properties                                                                     | No       |
 | contactPageSettings      | Content settings of Contact Page                                                                                                                                             | pagesSettings                           | contactInfo, officesInfo                                                      | child properties                                                                     | No       |
 | homePageSettings         | Content settings of Home Page                                                                                                                                                | pagesSettings                           | showProductHistory, contactInfo, showSlider                                   | child properties                                                                     | No       |
 | showProductHistory       | Defines if product history should be shown on Home Page or not                                                                                                               | homePageSettings                        | -                                                                             | boolean                                                                              | No       |
 | showSlider               | Defines if slider with ModelBank features should be shown on Home Page or not                                                                                                | homePageSettings                        | -                                                                             | boolean                                                                              | No       |
 | navigationBarSettings    | Navigation bar settings                                                                                                                                                      | pagesSettings                           | allowedNavigationSize, logo, logoLink                                         | child properties                                                                     | No       |
-| footerSettings           | Footer settings                                                                                                                                                              | pagesSettings                           | allowedNavigationSize, logo, logoLink                                         | child properties                                                                     | No       |
+| footerSettings           | Footer settings                                                                                                                                                              | pagesSettings                           | allowedNavigationSize, socialMedia                                            | child properties                                                                     | Yes      |
 | allowedNavigationSize    | Defines the amount of the Menu items displays in Navigation Bar. If the amount of menu items is more than allowedNavigationSize, menu would be collapsed in mobile view menu | navigationBarSettings                   | -                                                                             | number                                                                               | Yes      |
-| logo                     | Used to set a path to a logo picture                                                                                                                                         | footerSettings or navigationBarSettings | -                                                                             | string, http url or file name with extension or ' '                                  | Yes      |
-| logoLink                 | Used to set a link for the click on logo picture                                                                                                                             | footerSettings or navigationBarSettings | -                                                                             | http url                                                                             | No       |
+| logo                     | Used to set a path to a logo picture                                                                                                                                         | globalSettings                          | -                                                                             | string, http url or file name with extension or ' '                                  | Yes      |
+| logoLink                 | Used to set a link for the click on logo picture                                                                                                                             | globalSettings                          | -                                                                             | http url                                                                             | No       |
 | contactInfo              | Used for customizing contact information on `Contact` page and `Ask questions` card (lower section of the `Home` page)                                                       | contactPageSettings or homePageSettings | name, position, img, phone                                                    | child properties                                                                     | Yes      |
 | name                     | Used for customizing name of the person in contact information on `Contact` page and `Ask questions` card (lower section of the `Home` page)                                 | contactInfo                             | -                                                                             | string                                                                               | Yes      |
 | position                 | Used for customizing position of the person in contact information on `Contact` page and `Ask questions` card (lower section of the `Home` page)                             | contactInfo                             | -                                                                             | string                                                                               | Yes      |

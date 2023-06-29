@@ -26,6 +26,10 @@
 
 <div class="spacer" id="spacer"></div>
 
-<app-footer></app-footer>
+<app-footer
+*ngIf="supportedLanguagesDictionary && navigation"
+[supportedLanguagesDictionary]="supportedLanguagesDictionary"
+[navigation]="navigation"
+></app-footer>
 
 <ng-http-loader [debounceDelay]="500" [minDuration]="1200"></ng-http-loader>

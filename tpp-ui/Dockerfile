@@ -1,5 +1,5 @@
 # Stage SERVE
-FROM nginx:1.17.3
+FROM nginx:1.22.1
 LABEL maintainer="https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox"
 
 ENV NGINX_ACCESS_LOG_DEBUG combined
@@ -7,7 +7,7 @@ ENV NGINX_ERROR_LOG_DEBUG error
 
 RUN \
   apt-get update && \
-  apt-get install -y ruby2.5=2.5.5-3+deb10u4 --no-install-recommends \
+  apt-get install -y ruby2.7=2.7.4-1+deb11u1 --no-install-recommends \
   && rm -rf /var/lib/apt/lists/*
 
 COPY ./nginx.conf.erb /etc/nginx/conf.d/default.conf.erb

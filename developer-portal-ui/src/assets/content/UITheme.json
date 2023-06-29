@@ -5,7 +5,8 @@
       "de": "germany.png",
       "ua": "ukraine.png"
     },
-    "googleAnalyticsTrackingId": "UA-160845388-1"
+    "googleAnalyticsTrackingId": "UA-160845388-1",
+    "logo": "Logo_XS2ASandbox.png"
   },
   "pagesSettings": {
     "contactPageSettings": {
@@ -44,8 +45,15 @@
       "showSlider": true
     },
     "navigationBarSettings": {
-      "allowedNavigationSize": 5,
-      "logo": "Logo_XS2ASandbox.png"
+      "allowedNavigationSize": 5
+    },
+    "footerSettings" : {
+      "socialMedia" : {
+        "facebookLink": "https://www.facebook.com/adorsysGmbH",
+        "twitterLink": "https://twitter.com/adorsys",
+        "xingLink": "https://www.xing.com/companies/adorsysgmbh%26cokg",
+        "linkedinLink": "https://www.linkedin.com/company/adorsys"
+      }
     },
     "playWithDataSettings": {
       "fundConfirmationSupported": true,

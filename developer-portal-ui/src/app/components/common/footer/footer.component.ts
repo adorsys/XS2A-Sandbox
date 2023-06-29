@@ -16,13 +16,16 @@
  * contact us at psd2@adorsys.com.
  */
 
-import { Component, OnInit, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, Input } from '@angular/core';
 import { CustomizeService } from '../../../services/customize.service';
-import { MarkdownStylingService } from '../../../services/markdown-styling.service';
 import { LanguageService } from '../../../services/language.service';
 import { UrlService } from 'src/app/services/url.service';
 import { EnvLink } from 'src/app/models/envLink.model';
-import { MarkdownService } from 'ngx-markdown';
+import { NavigationSettings, Theme } from 'src/app/models/theme.model';
+import { NavigationService } from 'src/app/services/navigation.service';
+import { NavItem } from 'src/app/models/navItem.model';
+import { SocialMedia } from './../../../models/theme.model';
+
 
 @Component({
   selector: 'app-footer',
@@ -30,25 +33,45 @@ import { MarkdownService } from 'ngx-markdown';
   styleUrls: ['./footer.component.scss'],
 })
 export class FooterComponent implements OnInit, AfterViewChecked {
-  pathToFile = `./assets/content/i18n/en/footer.md`;
-  compiledMarkDown = '';
+  language = 'en';
+  supportedLanguages: string[];
+  socialMedia: SocialMedia;
+  
+  navBarSettings: NavigationSettings;
+  @Input() supportedLanguagesDictionary;
+  @Input() navigation;
+
 
   constructor(
     private customizeService: CustomizeService,
-    private markdownStylingService: MarkdownStylingService,
     private languageService: LanguageService,
     private urlService: UrlService,
-    private markdownService: MarkdownService
-  ) {}
+    public navigationService: NavigationService
+
+  ) {    this.customizeService.currentTheme.subscribe((data: Theme) => {
+    if (data.globalSettings.logo) {
+      this.navBarSettings = {logo: data.globalSettings.logo}
+    };
+    if (data.pagesSettings) {
+      const footerSettings = data.pagesSettings.footerSettings;
+      if (footerSettings) {
+        this.setSocialMediaSettings(footerSettings.socialMedia);
+      }
+    }
+  });}
 
   ngOnInit() {
     this.languageService.currentLanguage.subscribe((data) => {
-      this.pathToFile = `${this.customizeService.currentLanguageFolder}/${data}/footer.md`;
-      this.markdownStylingService.createTableOfContent(true);
-      this.markdownService.getSource(this.pathToFile).subscribe((result) => {
-        this.compiledMarkDown = this.markdownService.parse(result);
-      });
+      this.language = data;
     });
+
+    if (this.supportedLanguagesDictionary) {
+      this.supportedLanguages = Object.keys(this.supportedLanguagesDictionary);
+    }
+
+    if (this.navigation) {
+      this.toggleMenuIfOutOfSize();
+    }
   }
 
   ngAfterViewChecked() {
@@ -62,5 +85,29 @@ export class FooterComponent implements OnInit, AfterViewChecked {
     if (anchorNode) {
       anchorNode.setAttribute('href', link);
     }
+  }
+
+  setSocialMediaSettings(socialMedia: SocialMedia) {
+    if (socialMedia) {
+      this.socialMedia = socialMedia
+    }
+  }
+
+  private toggleMenuIfOutOfSize() {
+    if (
+      this.navBarSettings &&
+      this.navBarSettings.allowedNavigationSize &&
+      this.navigation.length > this.navBarSettings.allowedNavigationSize
+    ) {
+      document.getElementById('navLinks').style.display = 'none';
+      document.getElementById('dropDownIcon').style.display = 'block';
+    }
+  }
+
+  createRouterLinks(navItem: NavItem): string[] {
+    if (navItem.type === 'markdown') {
+      return ['/page/faq'];
+    }
+    return [navItem.route];
   }
 }

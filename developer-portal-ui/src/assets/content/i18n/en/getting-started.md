@@ -164,7 +164,7 @@ _make check_
 If something is missing, install it to your local machine, otherwise the build will fail. List of dependencies that are required to use ModelBank: Java 11, NodeJs, Angular CLI, Asciidoctor, jq, Docker, Docker Compose, Maven, PlantUML. Here are links where you can install needed dependencies:
 
 | Dependency          |                  Link                   |
-| ------------------- | :-------------------------------------: |
+|---------------------| :-------------------------------------: |
 | Java 11             |    https://openjdk.java.net/install/    |
 | Node.js 18.x        |     https://nodejs.org/en/download      |
 | Angular CLI 15.x    |   https://angular.io/guide/quickstart   |
@@ -214,7 +214,7 @@ If you want use a first way:
 _make_
 
 2. After building services you can run ModelBank with a simple docker command.
-Please note, to be able to use adorsys' applications docker images you have to build them on your local first.
+   Please note, to be able to use adorsys' applications docker images you have to build them on your local first.
 
 _docker-compose up_
 

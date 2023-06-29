@@ -1,4 +1,4 @@
-FROM nginx:1.17.3
+FROM nginx:1.22.1
 LABEL maintainer="https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox"
 
 ENV NGINX_ACCESS_LOG_DEBUG combined

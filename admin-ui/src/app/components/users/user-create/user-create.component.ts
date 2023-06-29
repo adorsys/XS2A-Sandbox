@@ -17,7 +17,12 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormArray,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../../services/user.service';
 import { User } from '../../../models/user.model';
@@ -47,6 +52,7 @@ export class UserCreateComponent implements OnInit {
   submitted: boolean;
   asyncSelected: string;
   typeaheadLoading: boolean;
+  tppIds: string[] = [];
 
   constructor(
     private userService: UserService,
@@ -70,6 +76,7 @@ export class UserCreateComponent implements OnInit {
     this.listUsers();
     this.setupUserFormControl();
     this.getMethodsValues();
+    this.getTppIds();
   }
 
   public getStatesAsObservable(token: string): Observable<User[]> {
@@ -205,22 +212,42 @@ export class UserCreateComponent implements OnInit {
     this.submitted = true;
 
     if (this.userForm.invalid) {
+      console.log('Invalid form!');
       return;
     }
+
     const body = this.updateValue();
     this.tppManagementService
       .createUser(body, this.userForm.get('tppId').value)
-      .subscribe(() => {
-        this.infoService.openFeedback('User was successfully created!', {
-          severity: 'info',
-        });
-        this.router.navigate(['/users/all']);
+      .subscribe({
+        error: (e) => {
+          this.infoService.openFeedback(
+            e.error.message ? e.error.message : 'User creation failed!',
+            {
+              severity: 'info',
+            }
+          );
+        },
+        complete: () => {
+          this.infoService.openFeedback('User was successfully created!', {
+            severity: 'info',
+          });
+          this.router.navigate(['/users/all']);
+        },
       });
   }
 
   getMethodsValues() {
     this.methods = Object.keys(ScaMethods);
     this.httpMethods = Object.keys(HttpMethod);
+  }
+
+  getTppIds() {
+    this.tppManagementService.getTpps(0, 500).subscribe((resp: any) => {
+      resp.tpps?.map((tpp: any) => {
+        this.tppIds.push(tpp.id)
+      });
+    });
   }
 
   onCancel() {

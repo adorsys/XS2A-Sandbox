@@ -7,6 +7,11 @@ server {
   access_log /var/log/nginx/access.log <%= ENV['NGINX_ACCESS_LOG_DEBUG'] %>;
   error_log /var/log/nginx/error.log <%= ENV['NGINX_ERROR_LOG_DEBUG'] %>;
 
+  add_header Content-Security-Policy "default-src 'self';";
+  add_header Strict-Transport-Security "max-age=31536000; includeSubDomains";
+  add_header X-Content-Type-Options nosniff;
+  add_header Cache-Control private;
+
   location ~* \.(?:css|cur|js|jpeg|gif|ico|png|html|xml|svg|json|woff2|woff|ttf)$ {
     expires 8h;
     add_header Cache-Control public;

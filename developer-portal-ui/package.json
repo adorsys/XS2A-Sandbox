@@ -4,7 +4,6 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json --port 4206",
-    "start:proxy:dev": "ng serve --port=4206 --proxy-config=proxy.dev.conf.json",
     "build": "ng build",
     "build:prod": "ng build --prod",
     "test": "ng test",
@@ -35,7 +34,7 @@
     "browser-detect": "^0.2.28",
     "classlist.js": "^1.1.20150312",
     "core-js": "^3.30.1",
-    "css-vars-ponyfill": "^2.2.0",
+    "css-vars-ponyfill": "^2.4.8",
     "custom-event-polyfill": "^1.0.7",
     "file-saver": "^2.0.5",
     "http-status-codes": "^2.2.0",

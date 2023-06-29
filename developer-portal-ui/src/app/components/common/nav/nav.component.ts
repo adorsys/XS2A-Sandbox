@@ -48,14 +48,15 @@ export class NavComponent implements OnInit {
     public navigationService: NavigationService
   ) {
     this.customizeService.currentTheme.subscribe((data: Theme) => {
-      if (data.pagesSettings && data.pagesSettings.navigationBarSettings) {
-        this.navBarSettings = data.pagesSettings.navigationBarSettings;
+      if (data.globalSettings.logo) {
+        this.navBarSettings = {logo: data.globalSettings.logo}
       }
     });
-
+    
     this.setLangCollapsed(true);
   }
-
+  
+  
   ngOnInit() {
     this.languageService.currentLanguage.subscribe((data) => {
       this.language = data;

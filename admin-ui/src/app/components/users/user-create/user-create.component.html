@@ -37,16 +37,15 @@
     >
       <div class="card-body">
         <div class="mb-3 required col-md-6 pd-0" for="tppId">
-          <label class="control-label">Type TPP ID</label>
-          <input
-            [(ngModel)]="asyncSelected"
-            [typeahead]="dataSource"
-            [typeaheadAsync]="true"
-            typeaheadOptionField="branch"
-            (typeaheadLoading)="changeTypeaheadLoading($event)"
-            formControlName="tppId"
-            class="form-control arrow"
-          />
+          <label class="control-label">TPP ID</label>
+          <div >
+            <select formControlName="tppId" class="form-control">
+              <option value=""></option>
+              <option *ngFor="let t of tppIds" [value]="t">
+                {{ t }}
+              </option>
+            </select>
+          </div>
         </div>
         <h5>User Information</h5>
       </div>
