@@ -2,11 +2,11 @@
 
 Current version consists of following components:
 
-1. **Ledgers v.4.xx**
-2. **XS2A v.15.xx**
-3. **ASPSP-Profile v.15.xx**
-4. **Consent-Management v.15.xx**
-5. **XS2A Connector-Examples v.15.xx**
+1. **Ledgers v.4.22**
+2. **XS2A v.15.8**
+3. **ASPSP-Profile v.15.8**
+4. **Consent-Management v.15.8**
+5. **XS2A Connector-Examples v.15.8**
 
 -   Fixed payments' currency displaying in Online Banking UI (PASD-236).
 
