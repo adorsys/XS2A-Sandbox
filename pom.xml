@@ -98,6 +98,18 @@
             <organization>LLC Golden Dimension</organization>
             <organizationUrl>https://adorsys.com.ua/</organizationUrl>
         </developer>
+        <developer>
+            <name>Isabella Caspari</name>
+            <email>ith@adorsys.de</email>
+            <organization>adorsys GmbH &amp; Co KG</organization>
+            <organizationUrl>https://adorsys.de</organizationUrl>
+        </developer>
+        <developer>
+            <name>Sajjad Heidarzadeh</name>
+            <email>Sajjad.Heidarzadeh@adorsys.com</email>
+            <organization>adorsys GmbH &amp; Co KG</organization>
+            <organizationUrl>https://adorsys.de</organizationUrl>
+        </developer>
     </developers>
 
     <properties>
@@ -123,33 +135,34 @@
         <pmd.plugin.version>3.13.0</pmd.plugin.version>
 
         <!-- XS2A version -->
-        <xs2a.version>14.8</xs2a.version>
-        <connector.version>14.8</connector.version>
+        <xs2a.version>14.9-SNAPSHOT</xs2a.version>
+        <connector.version>14.9-SNAPSHOT</connector.version>
 
         <!-- Ledgers version -->
         <ledgers.version>4.22</ledgers.version>
 
         <!-- Spring-related versions -->
-        <spring-boot-dependencies.version>2.7.10</spring-boot-dependencies.version>
-        <spring-cloud-dependencies.version>2021.0.6</spring-cloud-dependencies.version>
-        <spring-test.version>5.3.26</spring-test.version>
+        <spring-boot-dependencies.version>2.7.13</spring-boot-dependencies.version>
+        <spring-cloud-dependencies.version>2021.0.8</spring-cloud-dependencies.version>
+        <spring-test.version>5.3.28</spring-test.version>
 
         <!-- Other versions -->
         <jetbrains.annotations.version>15.0</jetbrains.annotations.version>
-        <org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
-        <springdoc-openapi-ui.version>1.6.9</springdoc-openapi-ui.version>
-        <swagger-annotations.version>2.2.0</swagger-annotations.version>
-        <nimbus-jose-jwt.version>7.9</nimbus-jose-jwt.version>
+        <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
+        <springdoc-openapi-ui.version>1.7.0</springdoc-openapi-ui.version>
+        <swagger-annotations.version>2.2.10</swagger-annotations.version>
+        <nimbus-jose-jwt.version>9.25.6</nimbus-jose-jwt.version>
         <lombok.version>1.18.4</lombok.version>
-        <commons-io.version>2.8.0</commons-io.version>
+        <commons-io.version>2.11.0</commons-io.version>
         <junit-jupiter.version>5.9.0</junit-jupiter.version>
         <mockito-junit-jupiter.version>3.11.2</mockito-junit-jupiter.version>
         <hamcrest-library.version>2.2</hamcrest-library.version>
         <javax.validation-api.version>2.0.1.Final</javax.validation-api.version>
-        <jackson-core.version>2.13.2</jackson-core.version>
-        <opencsv.version>5.6</opencsv.version>
+        <jackson-core.version>2.14.2</jackson-core.version>
+        <opencsv.version>5.7.1</opencsv.version>
         <feign-okhttp.version>10.10.1</feign-okhttp.version>
         <commons-validator.version>1.7</commons-validator.version>
+        <snakeyaml.version>2.0</snakeyaml.version>
 
         <!--Sonar -->
         <sonar.core.coveragePlugin>jacoco</sonar.core.coveragePlugin>
@@ -283,6 +296,12 @@
                 <groupId>com.opencsv</groupId>
                 <artifactId>opencsv</artifactId>
                 <version>${opencsv.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.yaml</groupId>
+                <artifactId>snakeyaml</artifactId>
+                <version>${snakeyaml.version}</version>
             </dependency>
 
             <dependency>
