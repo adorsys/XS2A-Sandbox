@@ -52,12 +52,40 @@
           "CONTENT": "Embedded und redirected Ansätze"
         },
         "POINT_4": {
-          "TITLE": "Release ModelBank Ver. 1.0",
+          "TITLE": "Release ver 1.0",
           "CONTENT": "Unterstützen von embedded und redirected Ansätzen: TPP-UI, Online Banking"
         },
         "POINT_5": {
-          "TITLE": "Release XS2ASandbox Ver. 1.1",
+          "TITLE": "Release ver 1.1",
           "CONTENT": "Multilevel SCA, Multi-Währungs-Konto"
+        },
+        "POINT_6": {
+          "TITLE": "Release ver 1.8",
+          "CONTENT": "Erweiterte TPP-UI-Funktionalität"
+        },
+        "POINT_7": {
+          "TITLE": "Release ver 3.0",
+          "CONTENT": "Auf Java 11 verschoben"
+        },
+        "POINT_8": {
+          "TITLE": "Release ver 5.0",
+          "CONTENT": "Mit Keycloak IDP in neue Hauptbücher verschoben"
+        },
+        "POINT_9": {
+          "TITLE": "Release ver 5.7",
+          "CONTENT": "Alle Frontend-Anwendungen nach Angular 11 verschoben"
+        },
+        "POINT_10": {
+          "TITLE": "Release ver 6.0/7.0",
+          "CONTENT": "Administratorfunktionalität in ein anderes Modul getrennt"
+        },
+        "POINT_11": {
+          "TITLE": "Release ver 6.4/7.4",
+          "CONTENT": "Verbesserte Funktionalität des Entwicklerportals"
+        },
+        "POINT_12": {
+          "TITLE": "Release ver 6.7/7.7",
+          "CONTENT": "Frontend-Anwendungen auf Angular Version 15 verschoben, Versionen der Backend-Bibliotheken aktualisiert"
         }
       }
     },

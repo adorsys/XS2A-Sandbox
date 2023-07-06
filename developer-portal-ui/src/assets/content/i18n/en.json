@@ -58,6 +58,34 @@
         "POINT_5": {
           "TITLE": "Release ver 1.1",
           "CONTENT": "Multilevel SCA, Multicurrency accounts"
+        },
+        "POINT_6": {
+          "TITLE": "Release ver 1.8",
+          "CONTENT": "Extended TPP UI functionality"
+        },
+        "POINT_7": {
+          "TITLE": "Release ver 3.0",
+          "CONTENT": "Moved to Java 11"
+        },
+        "POINT_8": {
+          "TITLE": "Release ver 5.0",
+          "CONTENT": "Moved to new Ledgers with Keycloak IDP"
+        },
+        "POINT_9": {
+          "TITLE": "Release ver 5.7",
+          "CONTENT": "Moved all frontend application to Angular 11"
+        },
+        "POINT_10": {
+          "TITLE": "Release ver 6.0/7.0",
+          "CONTENT": "Separated administrator functionality to another module"
+        },
+        "POINT_11": {
+          "TITLE": "Release ver 6.4/7.4",
+          "CONTENT": "Improved Developer portal functionality"
+        },
+        "POINT_12": {
+          "TITLE": "Release ver 6.7/7.7",
+          "CONTENT": "Moved frontend applications to Angular version 15, updated backend libraries versions"
         }
       }
     },
