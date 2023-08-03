@@ -121,6 +121,11 @@ export class AdminsComponent implements OnInit {
       });
   }
 
+  createLastVisitedPageLink(id: string): string {
+    this.pageNavigationService.setLastVisitedPage('/adm/all');
+    return `/profile/${id}`;
+  }
+
   openConfirmation(content, userId: string, type: string) {
     this.modalService.open(content).result.then(() => {
       this.userInfoService.getUserInfo().subscribe((user: User) => {

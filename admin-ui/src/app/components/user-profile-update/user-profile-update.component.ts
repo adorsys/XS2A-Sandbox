@@ -55,7 +55,6 @@ export class UserProfileUpdateComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getCurrentUserLogin();
     this.setupEditUserFormControl();
-    this.getUserDetails();
     this.setUpTppOrAdmin();
   }
 

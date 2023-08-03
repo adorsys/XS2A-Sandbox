@@ -73,7 +73,7 @@
       <div class="api-table bg"><span>PSU-IP-Address</span> <span>1.1.1.1</span></div>
       <div class="api-table"><span>TPP-QWAC-Certificate</span> <span> -----BEGIN CERTIFICATE-----</span></div>
       <p>
-        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_10' | translate }} <span class="bold-text">YOUR_USER_LOGIN</span>
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_10' | translate }} <span class="bold-text">"PSU-ID"</span>
         {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_11' | translate }}
       </p>
       <p>
@@ -105,7 +105,7 @@
       <app-code-area [json]="jsonData3" [id]="'EPICP-3'"></app-code-area>
 
       <p>
-        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_21' | translate }} <span class="bold-text">YOUR_USER_IBAN</span>
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_21' | translate }} <span class="bold-text">"iban"</span>
         {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_22' | translate }}
       </p>
       <app-code-area [json]="jsonData4" [id]="'EPICP-4'"></app-code-area>

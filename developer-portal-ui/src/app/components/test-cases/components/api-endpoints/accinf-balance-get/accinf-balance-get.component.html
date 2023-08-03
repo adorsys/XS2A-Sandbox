@@ -54,7 +54,7 @@
       <div class="api-table"><span>PSU-IP-Address</span> <span>1.1.1.1</span></div>
       <div class="api-table bg"><span>TPP-QWAC-Certificate</span> <span> -----BEGIN CERTIFICATE-----</span></div>
       <p>
-        {{ 'TEST_CASES.COMPONENTS.AC_INF_BAL.PART_3' | translate }} <span class="bold-text">CONSENT_ID</span>
+        {{ 'TEST_CASES.COMPONENTS.AC_INF_BAL.PART_3' | translate }} <span class="bold-text">"Consent-ID"</span>
         {{ 'TEST_CASES.COMPONENTS.AC_INF_BAL.PART_4' | translate }}
       </p>
     </div>
@@ -65,6 +65,7 @@
         method="GET"
         [headers]="headers"
         [accountIdFlag]="true"
+        [accountId]="accountId"
         [variablePathEnd]="'/balances'"
         url="v1/accounts"
         eventName="get_balances"

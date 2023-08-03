@@ -83,7 +83,7 @@
       </div>
       <div class="api-table bg"><span>TPP-QWAC-Certificate</span> <span> -----BEGIN CERTIFICATE-----</span></div>
       <p>
-        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_10' | translate }} <span class="bold-text">YOUR_USER_LOGIN</span>
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_10' | translate }} <span class="bold-text">"PSU-ID"</span>
         {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_11' | translate }}
       </p>
       <p>
@@ -122,7 +122,7 @@
       <app-code-area [json]="jsonData3" [id]="'RPIP-3'"></app-code-area>
 
       <p>
-        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_21' | translate }} <span class="bold-text">YOUR_USER_IBAN</span>
+        {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_21' | translate }} <span class="bold-text">"iban"</span>
         {{ 'TEST_CASES.COMPONENTS.RDCT_PAY_INIT_POST.PART_22' | translate }}
       </p>
       <app-code-area [json]="jsonData4" [id]="'RPIP-4'"></app-code-area>
@@ -145,6 +145,7 @@
         [body]="body"
         [paymentServiceFlag]="true"
         [paymentProductFlag]="true"
+        [paymentIdFlag]="false"
         [url]="'v1/'"
         [fieldsToCopy]="['paymentId']"
         eventName="redirect_post_initiate_payment"

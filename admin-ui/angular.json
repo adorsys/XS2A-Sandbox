@@ -31,7 +31,7 @@
             "stylePreprocessorOptions": {
               "includePaths": ["src/assets/styles/mixins", "node_modules", "src/assets/themes"]
             },
-            "scripts": ["./node_modules/bootstrap/dist/js/bootstrap.js", "./node_modules/@popperjs/core/dist/umd/popper.min.js"]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -60,7 +60,15 @@
                   "maximumError": "10kb"
                 }
               ]
-            }
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+             }
           }
         },
         "serve": {
@@ -71,8 +79,12 @@
           "configurations": {
             "production": {
               "browserTarget": "admin-ui:build:production"
+            },
+            "development": {
+              "browserTarget": "admin-ui:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -89,7 +101,7 @@
             "karmaConfig": "karma.conf.js",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["./node_modules/@angular/material/prebuilt-themes/indigo-pink.css","src/styles.scss"],
-            "scripts": ["./node_modules/bootstrap/dist/js/bootstrap.js", "./node_modules/@popperjs/core/dist/umd/popper.min.js"],
+            "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": ["src/assets/styles/mixins", "node_modules", "src/assets/themes"]
             }

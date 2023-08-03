@@ -125,7 +125,6 @@ export function app_Init(settingsHttpService: SettingsHttpService) {
     InfoModule,
     BrowserAnimationsModule,
     NoopAnimationsModule,
-    AppRoutingModule,
     FileUploadModule,
     FilterPipeModule,
     NgHttpLoaderModule.forRoot(),

@@ -68,14 +68,14 @@
       <div class="api-table bg"><span>PSU-ID</span> <span>YOUR_USER_LOGIN</span></div>
       <div class="api-table"><span>PSU-IP-Address</span> <span>1.1.1.1</span></div>
       <p>
-        {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_19' | translate }} <span class="bold-text">YOUR_USER_LOGIN</span>
-        {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_51' | translate }}
+        {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_19' | translate }} <span class="bold-text">"PSU-ID"</span>
+        {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_20' | translate }}
       </p>
       <p>{{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_21' | translate }}</p>
       <app-code-area [json]="jsonData1" [id]="'ECP-2'"></app-code-area>
 
       <p>
-        {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_22' | translate }} <span class="bold-text">YOUR_USER_TAN</span>
+        {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_22' | translate }} <span class="bold-text">"scaAuthenticationData"</span>
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_51' | translate }}
       </p>
       <p>
@@ -118,7 +118,7 @@
       <app-code-area [json]="jsonData2" [id]="'ECP-4'"></app-code-area>
 
       <p>
-        {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_38' | translate }} <span class="bold-text">YOUR_USER_TAN</span>
+        {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_38' | translate }} <span class="bold-text">"scaAuthenticationData"</span>
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_51' | translate }}
       </p>
       <p>
@@ -130,7 +130,7 @@
       <app-code-area [json]="jsonData3" [id]="'ECP-5'"></app-code-area>
 
       <p>
-        {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_43' | translate }} <span class="italic-text">YOUR_AUTHENTICATION_METHOD_ID</span>
+        {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_43' | translate }} <span class="bold-text">"authenticationMethodId"</span>
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_44' | translate }}
         <app-line-command title="200 HTTP code"></app-line-command>
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_45' | translate }}
@@ -154,8 +154,10 @@
         [headers]="headers"
         [body]="body"
         [consentIdFlag]="true"
+        [consentId]="consentId"
         [variablePathEnd]="'/authorisations'"
         [authorisationIdFlag]="true"
+        [authorisationId]="authorisationId"
         url="v1/consents"
         eventName="embedded_put_authorise_consent"
         eventCategory="send_request"

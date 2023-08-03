@@ -406,7 +406,7 @@ export class PlayWthDataComponent implements OnInit {
 
     if (this.response?.body.hasOwnProperty('_links') && this.response?.body._links.hasOwnProperty('scaRedirect')) {
       this.redirectUrl = this.response.body._links.scaRedirect.href;
-    } else if (this.response?.body.hasOwnProperty('paymentId')) {
+    } if (this.response?.body.hasOwnProperty('paymentId')) {
       this.paymentId = this.response.body.paymentId;
       LocalStorageService.set('paymentId', this.response.body.paymentId);
     } else if (this.response?.body.hasOwnProperty('authorisationId')) {
@@ -431,6 +431,7 @@ export class PlayWthDataComponent implements OnInit {
           this.resourceIds.push(id);
         }
       }
+      LocalStorageService.set('accountId', this.resourceIds);
     }
   }
 

@@ -17,6 +17,7 @@
  */
 
 import { Component } from '@angular/core';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
   selector: 'app-accinf-accounts-get',
@@ -27,6 +28,10 @@ export class AccinfAccountsGetComponent {
   headers: object = {
     'Consent-ID': 'CONSENT_ID',
   };
+
+  constructor (public localStorageService: LocalStorageService) {
+    this.headers['Consent-ID'] = LocalStorageService.get('consentId')
+  }
 
   changeSegment(segment) {
     if (segment === 'documentation' || segment === 'play-data') {

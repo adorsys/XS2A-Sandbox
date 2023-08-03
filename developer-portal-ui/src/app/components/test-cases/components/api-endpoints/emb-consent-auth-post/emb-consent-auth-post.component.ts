@@ -17,6 +17,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
   selector: 'app-emb-consent-auth-post',
@@ -29,7 +30,11 @@ export class EmbConsentAuthPostComponent implements OnInit {
     'PSU-ID': 'YOUR_USER_LOGIN',
   };
 
-  constructor() {}
+  consentId: string;
+
+  constructor(public localStorageService: LocalStorageService) {
+    this.consentId = LocalStorageService.get('consentId');
+  }
 
   changeSegment(segment) {
     if (segment === 'documentation' || segment === 'play-data') {

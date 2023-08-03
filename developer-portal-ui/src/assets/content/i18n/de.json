@@ -527,33 +527,33 @@
       },
       "AC_INF_ACS": {
         "PART_1": "1. Nutzen Sie den GET Endpunkt",
-        "PART_2": ", um die Konten mit der entsprechenden consent-id zu erhalten.",
+        "PART_2": ", um die Konten mit der entsprechenden consent ID zu erhalten.",
         "PART_3": "Geben Sie anstelle von ",
-        "PART_4": " die consent-id der Konten an, die Sie erhalten möchten. (Sie können Nutzer und deren Daten in der TPP-UI einsehen)."
+        "PART_4": " die consent ID der Konten an, die Sie erhalten möchten. (Sie können Nutzer und deren Daten in der TPP-UI einsehen)."
       },
       "AC_INF_AC": {
         "PART_1": "1. Nutzen Sie den GET Endpunkt ",
-        "PART_2": ", um das Konto mit der entsprechenden account-id zu erhalten. ",
+        "PART_2": ", um das Konto mit der entsprechenden account ID zu erhalten. ",
         "PART_3": "Geben Sie anstelle von ",
-        "PART_4": " die consent-id der Konten an, die Sie erhalten möchten. (Sie können Nutzer und deren Daten in der TPP-UI einsehen)."
+        "PART_4": " die consent ID der Konten an, die Sie erhalten möchten. (Sie können Nutzer und deren Daten in der TPP-UI einsehen)."
       },
       "AC_INF_BAL": {
         "PART_1": "1. Nutzen Sie den GET Endpunkt",
         "PART_2": ", um die Liste der Salden des Kontos zu erhalten.",
         "PART_3": "Geben Sie anstelle von ",
-        "PART_4": " die consent-id der Konten an, die Sie erhalten möchten. (Sie können Nutzer und deren Daten in der TPP-UI einsehen)."
+        "PART_4": " die consent ID der Konten an, die Sie erhalten möchten. (Sie können Nutzer und deren Daten in der TPP-UI einsehen)."
       },
       "AC_INF_TRS": {
         "PART_1": "1. Nutzen Sie den GET Endpunkt",
         "PART_2": ", um von diesem Konto eine Liste aller Transaktionen und deren Buchungsstatus zu erhalten.",
         "PART_3": "Geben Sie anstelle von ",
-        "PART_4": " die consent-id der Konten an, die Sie erhalten möchten. (Sie können Nutzer und deren Daten in der TPP-UI einsehen). "
+        "PART_4": " die consent ID der Konten an, die Sie erhalten möchten. (Sie können Nutzer und deren Daten in der TPP-UI einsehen). "
       },
       "AC_INF_TR": {
         "PART_1": "1. Nutzen Sie den GET Endpunkt",
         "PART_2": ", um die Transaktion des Kontos mit der angegebenen ID zu erhalten.",
         "PART_3": "Geben Sie anstelle von ",
-        "PART_4": " die consent-id der Konten an, die Sie erhalten möchten. (Sie können Nutzer und deren Daten in der TPP-UI einsehen). "
+        "PART_4": " die consent ID der Konten an, die Sie erhalten möchten. (Sie können Nutzer und deren Daten in der TPP-UI einsehen). "
       },
       "FUNDS_CONFIRMATION": {
         "TH": "Fonds Bestätigung:",

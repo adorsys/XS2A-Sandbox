@@ -63,7 +63,7 @@ export class AdminCreateComponent implements OnInit {
     }
 
     let message: string;
-    const navigateUrl = '/admin/all';
+    const navigateUrl = '/adm/all';
     this.tppManagementService.createAdmin(this.userForm.value).subscribe(() => {
       message = `New Admin has been successfully registered.`;
       this.navigateAndGiveFeedback(navigateUrl, message);

@@ -17,6 +17,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
   selector: 'app-emb-payment-cancellation-post',
@@ -25,8 +26,12 @@ import { Component, OnInit } from '@angular/core';
 export class EmbPaymentCancellationPostComponent implements OnInit {
   activeSegment = 'documentation';
   headers: object = {};
+  paymentId: string;
 
-  constructor() {}
+
+  constructor(public localStorageService: LocalStorageService) {
+    this.paymentId = LocalStorageService.get('paymentId');
+  }
 
   changeSegment(segment) {
     if (segment === 'documentation' || segment === 'play-data') {

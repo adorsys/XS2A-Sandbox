@@ -75,11 +75,11 @@ const routes: Routes = [
         component: CashDepositComponent,
       },
       {
-        path: 'admin/all',
+        path: 'adm/all',
         component: AdminsComponent,
       },
       {
-        path: 'admin/create',
+        path: 'adm/create',
         component: AdminCreateComponent,
       },
       {

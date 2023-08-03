@@ -115,7 +115,7 @@
               <th scope="col">Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody *ngIf="accounts && accounts.length > 0">
             <tr
               *ngFor="let account of accounts; index as i"
               [ngClass]="{ 'disabled-text': account.blocked }"
@@ -308,7 +308,7 @@
             </tr>
           </tbody>
         </table>
-        <p *ngIf="accounts.length > 1" class="text-center fw-bold">
+        <p *ngIf="accounts && accounts.length > 1" class="text-center fw-bold">
           No suitable user account available
         </p>
 

@@ -72,7 +72,7 @@
       <app-code-area [json]="jsonData1" [id]="'EPCPut-2'"></app-code-area>
 
       <p>
-        {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_22' | translate }} <span class="bold-text">YOUR_USER_TAN</span>
+        {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_22' | translate }} <span class="bold-text">"scaAuthenticationData"</span>
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_51' | translate }}
       </p>
       <p>
@@ -116,7 +116,7 @@
       <app-code-area [json]="jsonData1" [id]="'EPCPut-4'"></app-code-area>
 
       <p>
-        {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_37' | translate }} <span class="bold-text">YOUR_USER_TAN</span>
+        {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_37' | translate }} <span class="bold-text">"scaAuthenticationData"</span>
         {{ 'TEST_CASES.COMPONENTS.EMB_CONS_PUT.PART_51' | translate }}
       </p>
       <p>
@@ -128,7 +128,7 @@
       <app-code-area [json]="jsonData3" [id]="'EPCPut-5'"></app-code-area>
 
       <p>
-        {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_42' | translate }} <span class="italic-text">YOUR_AUTHENTICATION_METHOD_ID</span>
+        {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_42' | translate }} <span class="bold-text">"authenticationMethodId"</span>
         {{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_43' | translate }} <app-line-command title="200 HTTP code"></app-line-command>.
       </p>
       <p>{{ 'TEST_CASES.COMPONENTS.EMB_CANS_PUT.PART_44' | translate }}</p>
@@ -149,8 +149,10 @@
         [paymentServiceFlag]="true"
         [paymentProductFlag]="true"
         [paymentIdFlag]="true"
+        [paymentId]="paymentId"
         [variablePathEnd]="'/cancellation-authorisations'"
-        [cancellationIdFlag]="true"
+        [authorisationIdFlag]="true"
+        [authorisationId]="authorisationId"
         url="v1/"
         eventName="embedded_put_authorise_payment_cancellation"
         eventCategory="send_request"

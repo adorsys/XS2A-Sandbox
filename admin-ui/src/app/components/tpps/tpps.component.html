@@ -145,7 +145,7 @@
         <th scope="col">Actions</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody *ngIf="tpps && tpps.length > 0">
       <tr
         *ngFor="let tpp of tpps; index as i"
         [ngClass]="{ 'disabled-text': tpp.blocked }"
@@ -301,7 +301,7 @@
       </tr>
     </tbody>
   </table>
-  <p *ngIf="tpps.length > 1" class="text-center fw-bold">
+  <p *ngIf="tpps && tpps.length > 1" class="text-center fw-bold">
     No suitable TPP is available
   </p>
 

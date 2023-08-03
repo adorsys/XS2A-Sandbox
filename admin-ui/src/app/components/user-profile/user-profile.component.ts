@@ -40,6 +40,7 @@ export class UserProfileComponent implements OnInit {
   public userForm: UntypedFormGroup;
   public bsModalRef: BsModalRef;
   tppUser: User;
+  tppId: string;
   countries: any;
   userAmount = 0;
   private newPin = 'pin';
@@ -67,10 +68,11 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.setUpCountries();
+    this.tppId = this.route.snapshot.params['id'];
+    if (this.tppId) {
+      this.setUpTppOrAdmin();
+    } else {
     this.setUpCurrentUser();
-    const tppId = this.route.snapshot.params['id'];
-    if (tppId) {
-      this.getUserInfo(tppId);
     }
   }
 
@@ -88,15 +90,26 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
-  private getUserInfo(tppId: string) {
-    this.tppService.getTppById(tppId).subscribe((user: User) => {
-      if (user) {
-        this.tppUser = user;
-        this.countUsers(this.tppUser.accountAccesses, this.tppUser.id);
-      } else {
-        this.setUpCurrentUser();
-      }
-    });
+  private getUserInfo(tppId: string, adminSize?) {
+    if (adminSize) {
+      this.tppService.getAdminById(tppId,adminSize).subscribe((user: User) => {
+        if (user) {
+          this.tppUser = user;
+          this.countUsers(this.tppUser.accountAccesses, this.tppUser.id);
+        } else {
+          this.setUpCurrentUser();
+        }
+      });
+    } else {
+      this.tppService.getTppById(tppId).subscribe((user: User) => {
+        if (user) {
+          this.tppUser = user;
+          this.countUsers(this.tppUser.accountAccesses, this.tppUser.id);
+        } else {
+          this.setUpCurrentUser();
+        }
+      });
+    }
   }
 
   openConfirmation(content, type: string) {
@@ -151,6 +164,12 @@ export class UserProfileComponent implements OnInit {
           this.userAmount = userSet.size;
         });
     }
+  }
+
+  private setUpTppOrAdmin() {
+    this.route.queryParams.subscribe((params) => {
+      this.getUserInfo(this.tppId, params['admin']);
+    });
   }
 
   deleteRecoveryPointById() {

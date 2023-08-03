@@ -17,6 +17,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
   selector: 'app-emb-payment-init-get',
@@ -26,7 +27,11 @@ export class EmbPaymentInitGetComponent implements OnInit {
   activeSegment = 'documentation';
   headers: object = {};
 
-  constructor() {}
+  paymentId: string;
+
+  constructor(public localStorageService: LocalStorageService) {
+    this.paymentId = LocalStorageService.get('paymentId');
+  }
 
   changeSegment(segment) {
     if (segment === 'documentation' || segment === 'play-data') {

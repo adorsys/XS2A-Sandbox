@@ -18,6 +18,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { JsonService } from '../../../../../services/json.service';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
   selector: 'app-emb-consent-put',
@@ -33,8 +34,10 @@ export class EmbConsentPutComponent implements OnInit {
     'PSU-ID': 'YOUR_USER_LOGIN',
   };
   body: object;
+  consentId: string;
+  authorisationId: string;
 
-  constructor(private jsonService: JsonService) {
+  constructor(private jsonService: JsonService, public localStorageService: LocalStorageService) {
     this.jsonService.getPreparedJsonData(jsonService.jsonLinks.psuData).subscribe(
       (data) => (this.jsonData1 = data),
       (error) => console.log(error)
@@ -51,6 +54,9 @@ export class EmbConsentPutComponent implements OnInit {
       (data) => (this.jsonData3 = data),
       (error) => console.log(error)
     );
+
+    this.authorisationId = LocalStorageService.get('authorisationId');
+    this.consentId = LocalStorageService.get('consentId');
   }
 
   changeSegment(segment) {

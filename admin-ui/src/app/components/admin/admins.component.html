@@ -26,7 +26,7 @@
             <button
               mat-raised-button
               class="btn btn-primary btn-block mb-4"
-              routerLink="/admin/create"
+              routerLink="/adm/create"
             >
               <mat-icon>person_add</mat-icon> New Administrator
             </button>
@@ -58,18 +58,32 @@
               <th scope="col">Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody *ngIf="users && users.length > 0">
             <tr
               *ngFor="let user of users; index as i"
               [ngClass]="{ 'disabled-text': user.blocked }"
             >
-              <th scope="row">
+              <th
+                scope="row"
+                [routerLink]="[createLastVisitedPageLink(user.id)]"
+                [queryParams]="{ admin: config.totalItems }"
+              >
                 {{
                   (config.currentPageNumber - 1) * config.itemsPerPage + i + 1
                 }}
               </th>
-              <td>{{ user.login }}</td>
-              <td>{{ user.email }}</td>
+              <td
+                [routerLink]="[createLastVisitedPageLink(user.id)]"
+                [queryParams]="{ admin: config.totalItems }"
+              >
+                {{ user.login }}
+              </td>
+              <td
+                [routerLink]="[createLastVisitedPageLink(user.id)]"
+                [queryParams]="{ admin: config.totalItems }"
+              >
+                {{ user.email }}
+              </td>
               <td class="actions d-flex">
                 <button
                   mat-fab
@@ -136,7 +150,7 @@
                 <ng-template #changePinModal let-modal>
                   <div class="modal-header">
                     <h4 class="modal-title" id="modal-basic-title-2">
-                      Change PIN for Admin
+                      Change PIN for {{ user.login }}
                     </h4>
                   </div>
                   <div class="modal-body">
