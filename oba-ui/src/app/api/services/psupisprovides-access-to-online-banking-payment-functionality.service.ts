@@ -34,8 +34,7 @@ import { PaymentAuthorizeResponse } from '../models/payment-authorize-response';
 import { IPaginatorInterface } from '../../common/interfaces/paginator.interface';
 import { AuthService } from '../../common/services/auth.service';
 import {
-  IPiisConsent,
-  IPiisConsentContent,
+  IPiisConsent
 } from '../../common/interfaces/piisConsent.interface';
 
 /**
@@ -71,56 +70,6 @@ class PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService extends __B
     config: Partial<IPaginatorInterface>
   ): Observable<IPiisConsent> {
     const login = this.authService.getAuthorizedUser();
-    // todo mockDate must be deleted
-    const mockData: IPiisConsentContent = {
-      cmsPiisConsent: {
-        account: {
-          aspspAccountId: '123-DEDE89370400440532013000-EUR',
-          bban: 89370400440532010000,
-          cashAccountType: 'string',
-          currency: 'EUR',
-          iban: 'DE89370400440532013000',
-          maskedPan: '2356xxxxxx1234',
-          msisdn: '+49(0)911 360698-0',
-          other: '30-163033-7',
-          pan: '2356 5746 3217 1234',
-          resourceId: 'string',
-        },
-        cardExpiryDate: 'string',
-        cardInformation: 'string',
-        cardNumber: 'string',
-        consentStatus: 'RECEIVED',
-        creationTimestamp: '2022-03-03T10:33:14.238Z',
-        expireDate: 'string',
-        id: 'string',
-        instanceId: 'string',
-        lastActionDate: 'string',
-        psuData: {
-          additionalPsuIdData: {
-            psuAccept: 'string',
-            psuAcceptCharset: 'string',
-            psuAcceptEncoding: 'string',
-            psuAcceptLanguage: 'string',
-            psuDeviceId: 'string',
-            psuGeoLocation: 'string',
-            psuHttpMethod: 'string',
-            psuIpPort: 'string',
-            psuUserAgent: 'string',
-          },
-          psuCorporateId: 'string',
-          psuCorporateIdType: 'string',
-          psuId: 'string',
-          psuIdType: 'string',
-          psuIpAddress: 'string',
-        },
-        recurringIndicator: true,
-        registrationInformation: 'string',
-        requestDateTime: '2022-03-03T10:33:14.238Z',
-        statusChangeTimestamp: '2022-03-03T10:33:14.238Z',
-        tppAuthorisationNumber: 'string',
-      },
-      encryptedConsent: 'string',
-    };
 
     return this.http
       .get<IPiisConsent>(
@@ -129,9 +78,6 @@ class PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService extends __B
       )
       .pipe(
         map((item) => {
-          if (item.content.length <= 0) {
-            item.content.push(mockData);
-          }
           return item;
         })
       );

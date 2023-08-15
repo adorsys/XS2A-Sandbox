@@ -21,6 +21,6 @@ Current version consists of following components:
     -   jackson-core - to 2.14.2
     -   opencsv - to 5.7.1
 
--   Fixed bugs in Admin-UI
+-   Fixed bugs in Admin-UI and Oba-UI
 
 -   UI/UX improvements in Developer Portal

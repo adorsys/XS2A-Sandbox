@@ -26,11 +26,11 @@
         (ngSubmit)="onSubmit()"
         autocomplete="off"
       >
-        <div class="row">
-          <label class="control-label col-12 col-md-3" for="username"
+        <div class="row mx-1">
+          <label class="control-label col-12 col-md-3 p-0" for="username"
             >Login</label
           >
-          <div class="col-12 col-md-10">
+          <div class="col-12 p-0">
             <input
               [ngClass]="{
                 'is-invalid':
@@ -55,9 +55,9 @@
             </div>
           </div>
         </div>
-        <div class="row">
-          <label class="col-12 col-md-6" for="email">Email</label>
-          <div class="col-12 col-md-10">
+        <div class="row mx-1">
+          <label class="col-12 col-md-6 p-0" for="email">Email</label>
+          <div class="col-12 p-0">
             <input
               [ngClass]="{
                 'is-invalid':
@@ -91,26 +91,24 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row mx-1">
           <button
-            class="btn btn-general me-4 ms-3"
+            class="btn btn-general"
             (click)="resetPasswordViaEmail(obaUser.login)"
             type="button"
           >
             Send password update link
           </button>
         </div>
-        <div class="row">
-          <button class="btn btn-general me-4 ms-3" type="submit">
-            Submit
-          </button>
+        <div class="row mx-1">
           <button
-            class="btn btn-outline-dark me-4 ms-3"
+            class="btn btn-outline-dark col me-1"
             routerLink="/profile"
             type="button"
           >
             Cancel
           </button>
+          <button class="btn btn-general col ms-1" type="submit">Submit</button>
         </div>
       </form>
     </div>

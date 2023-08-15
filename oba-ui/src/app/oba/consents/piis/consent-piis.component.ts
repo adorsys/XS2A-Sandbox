@@ -37,7 +37,7 @@ export class ConsentPiisComponent implements OnInit, OnDestroy {
     private fb: UntypedFormBuilder,
     private infoService: InfoService,
     private pisService: PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService
-  ) {}
+    ) {}
 
   ngOnInit() {
     this.formInit();
