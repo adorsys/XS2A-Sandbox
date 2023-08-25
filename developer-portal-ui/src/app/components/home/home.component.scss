@@ -194,6 +194,7 @@ div ::ng-deep {
       margin: 0 auto;
       align-items: center;
       justify-content: center;
+      min-height: 60px;
 
       span {
         color: #606060;
@@ -213,12 +214,16 @@ div ::ng-deep {
         margin: 0;
       }
 
+      &:hover {
+        background: #13b4bf !important;
+      }
+
       border: 1px solid #979797;
       height: 13px;
       width: 13px;
       padding: 0;
       border-radius: 50%;
-      background-color: #fff;
+      background: #fff;
     }
   }
 
