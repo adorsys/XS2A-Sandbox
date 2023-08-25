@@ -98,7 +98,7 @@ variables:
     - docker logout
 
 .sync_changes_github: &sync_changes_github
-  image: alpine/git
+#  image: alpine/git
   dependencies: []
   script:
     - git config --global user.name "$GITHUB_USERNAME"
@@ -631,7 +631,10 @@ Change dependencies versions (demo):
 Clone to github:
   stage: "Clone to github"
   <<: *sync_changes_github
-  image: alpine/git:latest
+#  image: alpine/git:latest
+  image:
+    name: alpine/git:latest
+    entrypoint: [ "" ]
   only:
     - /^.*release-${GITHUB_PROJECT_CLONE_VERSION}.*$/
     - support-${GITHUB_PROJECT_CLONE_VERSION}.x
