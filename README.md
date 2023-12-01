@@ -1,4 +1,4 @@
-<p align=center><img src="adorsys-ModelBank.png" height="200"></p>
+<p align=center><img src="modelbank.png" height="200"></p>
 
 # ModelBank
 
