@@ -1,15 +1,20 @@
 <p align=center><img src="modelbank.png" height="200"></p>
 
-# ModelBank
+# ModelBank: A dynamic PSD2 Sandbox environment for realistic TPP integration testing
 
-This is the try-out version of adorsys ModelBank: an open source (AGPL v3) solution to get acquainted with adorsys’ implementation of a NextGenPSD2 compliant dynamic sandbox. 
+This is adorsys ModelBank: a dynamic sandbox environment that fully meets the PSD2 requirements for providing APIs for Third-Party Providers (TPP). Based on the Berlin Group’s NextGen PSD2 specification for access to accounts (XS2A), ModelBank meets all the regulatory requirements and is NISP compliant. 
 
-This software is delivered as-is and we're happy about any contributions done by the community to improve it.
+ModelBank is an open source (AGPL v3) try out solution. It is delivered as-is and comes without any warranty, to the extent permitted by applicable law.
 
-For try-out version you can build the sources on your local. To do so, download or checkout the definite branch (branch name is actually a release name) and build it. For any further assistance, please contact us directly.
+Caveat: This repository is not the latest version of Modelbank as it runs with our enterprise clients. Do not use it for commercial purposes! This public repository will only be updated every 6 months or so. It may contain security related issues that are already fixed with our customers but did not make it to the public repository, yet.
 
-We currently focus on collaborative projects with our customers where our frameworks can be used as a basis for building new individual XS2A solutions.
-If you are an organisation that would like to commercially use our solutions beyond AGPL v3 requirements, we are open to discuss alternative individual licensing options. If you are interested in working with us or have any other inquiries, please contact us under [psd2@adorsys.com](mailto:psd2@adorsys.com).
+Enterprise Version: There is an enterprise version of Model Bank that we proudly manage, adapt, extend, improve and operate for our enterprise clients, mostly European banks and open banking aggregators. This version consists of latest Berlin Group implementation of XS2A Core.
+
+Partnerships: If you are an organization that would like to commercially use our solutions beyond AGPL v3 requirements, please get in contact. We currently focus on collaborative projects with our customers where our frameworks can be used as a basis for building new individual PSD2 solutions.
+
+Upcoming Regulation: If you are interested in this project's further developments in the context of Berlin Group, Open Banking UK, PSD3, PSR, DORA and FIDA, please get in contact.
+
+For any inquiries please write to [sales@adorsys.com](sales@adorsys.com).
 
 ## What is it
 
@@ -65,8 +70,9 @@ Any person is free to join us by implementing some parts of code or fixing some 
 
 ## Contact
 
-For commercial support please contact [adorsys team](https://adorsys.com/en/products/).
+For commercial support please contact [sales@adorsys.com](sales@adorsys.com).
+Visit our Website at: [adorsys](https://adorsys.com/services/open-and-digital-finance/)
 
 ## License
 
-This project is licensed under Affero GNU General Public License v.3 (AGPL v.3). See the [LICENSE](LICENSE) file for details. For alternative individual licensing options please contact us at [psd2@adorsys.com](mailto:psd2@adorsys.com).
+This project is licensed under Affero GNU General Public License v.3 (AGPL v.3). See the [LICENSE](https://github.com/adorsys/xs2a/blob/release-14.8/LICENSE) file for details. For alternative individual licensing options please contact us at [adorsys](https://adorsys.com/services/open-and-digital-finance/)
