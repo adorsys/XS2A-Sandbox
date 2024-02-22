@@ -75,4 +75,4 @@ Visit our Website at: [adorsys](https://adorsys.com/services/open-and-digital-fi
 
 ## License
 
-This project is licensed under Affero GNU General Public License v.3 (AGPL v.3). See the [LICENSE](https://github.com/adorsys/xs2a/blob/release-14.8/LICENSE) file for details. For alternative individual licensing options please contact us at [adorsys](https://adorsys.com/services/open-and-digital-finance/)
+This project is licensed under Affero GNU General Public License v.3 (AGPL v.3). See the [LICENSE](https://github.com/adorsys/XS2A-Sandbox/blob/support-6.x/LICENSE) file for details. For alternative individual licensing options please contact us at [adorsys](https://adorsys.com/services/open-and-digital-finance/)
