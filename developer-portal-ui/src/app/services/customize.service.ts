@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2023 adorsys GmbH & Co KG
+ * Copyright 2018-2024 adorsys GmbH & Co KG
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU Affero General Public License as published
@@ -13,7 +13,7 @@
  * along with this program. If not, see https://www.gnu.org/licenses/.
  *
  * This project is also available under a separate commercial license. You can
- * contact us at psd2@adorsys.com.
+ * contact us at sales@adorsys.com.
  */
 
 import { Injectable } from '@angular/core';
@@ -99,7 +99,7 @@ export class CustomizeService {
   setStyling(theme: Theme) {
     if (theme.globalSettings.cssVariables) {
       this.updateCSS(theme.globalSettings.cssVariables);
-      
+
     }
 
     if (theme.globalSettings.favicon) {
@@ -133,7 +133,7 @@ export class CustomizeService {
     if (theme.globalSettings && theme.globalSettings.logo) {
       theme.globalSettings.logo = `${folder}/${theme.globalSettings.logo}`;
     }
-    
+
     const pagesSettings = theme.pagesSettings;
     // const defaultSettingPath = this._defaultContentFolderPath
     if (pagesSettings) {

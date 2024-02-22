@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2023 adorsys GmbH & Co KG
+ * Copyright 2018-2024 adorsys GmbH & Co KG
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU Affero General Public License as published
@@ -13,7 +13,7 @@
  * along with this program. If not, see https://www.gnu.org/licenses/.
  *
  * This project is also available under a separate commercial license. You can
- * contact us at psd2@adorsys.com.
+ * contact us at sales@adorsys.com.
  */
 
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
@@ -165,9 +165,9 @@ describe('CustomizeService', () => {
         },
       },
     });
-  
+
     tick(100);
-  
+
     const tmp = getComputedStyle(document.body).getPropertyValue('--fontFamily');
     expect(tmp).toEqual('Helvetica, Arial, sans-serif');
   }));
@@ -176,7 +176,7 @@ describe('CustomizeService', () => {
     document.documentElement.removeAttribute('style');
     service.setUserTheme(defTheme);
     tick(100);
-  
+
     const tmp = getComputedStyle(document.body).getPropertyValue('--fontFamily').trim();
     expect(tmp).toEqual('"Verdana", sans-serif');
   }));
