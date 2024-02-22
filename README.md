@@ -14,7 +14,7 @@ ModelBank is an open source (AGPL v3) try out solution. It is delivered as-is an
 
 **Upcoming Regulation**: If you are interested in this project's further developments in the context of Berlin Group, Open Banking UK, PSD3, PSR, DORA and FIDA, please get in contact.
 
-For any inquiries please write to [sales@adorsys.com](sales@adorsys.com).
+For any inquiries please write to [sales@adorsys.com](mailto:sales@adorsys.com).
 
 ## What is it
 
@@ -70,7 +70,7 @@ Any person is free to join us by implementing some parts of code or fixing some 
 
 ## Contact
 
-For commercial support please contact [sales@adorsys.com](sales@adorsys.com).
+For commercial support please contact [sales@adorsys.com](mailto:sales@adorsys.com).
 Visit our Website at: [adorsys](https://adorsys.com/services/open-and-digital-finance/)
 
 ## License
