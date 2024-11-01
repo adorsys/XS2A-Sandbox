@@ -10,4 +10,5 @@ Current version consists of following components:
 
 
 -   Dependencies versions were bumped up:
+-   URL links updated.
 
