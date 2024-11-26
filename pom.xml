@@ -143,7 +143,7 @@
         <ledgers.version>6.0</ledgers.version>
 
         <!-- Spring-related versions -->
-        <spring-boot-dependencies.version>3.3.3</spring-boot-dependencies.version>
+        <spring-boot-dependencies.version>3.2.7</spring-boot-dependencies.version>
         <spring-cloud-dependencies.version>2023.0.3</spring-cloud-dependencies.version>
         <spring-test.version>6.1.13</spring-test.version>
         <spring-security.version>6.3.3</spring-security.version>
