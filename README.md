@@ -58,9 +58,7 @@ In general ModelBank Team follows [SemVer](https://semver.org/) for versioning. 
 
 -   C - is the hotfix version, used to deliver patches between releases when needed. If omitted, version 4.5 will be considered equal to 4.5.0.
 
-We support one release version at the moment.
-
-New version is released on a regular basis every 3 to 6 months.
+In the open-source repository, we support only one release version. New versions are released to the public at irregular intervals. However, enterprise license customers have access to additional versions, including the latest hotfix versions.
 
 ## Development and contributing
 
