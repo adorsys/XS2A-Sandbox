@@ -322,7 +322,7 @@ Lint (Admin Backend):
     - make lint-admin-rest-server
 
 Lint (Docker Compose):
-  image: maven:3.6.3-openjdk-17-slim
+  image: maven:3.8.3-openjdk-17-slim
   stage: "Lint"
   except:
     - schedules
@@ -334,7 +334,7 @@ Lint (Docker Compose):
     - make lint-docker-compose
 
 Lint (PMD CPD):
-  image: maven:3.6.3-openjdk-17-slim
+  image: maven:3.8.3-openjdk-17-slim
   stage: "Lint"
   except:
     - schedules
@@ -479,7 +479,7 @@ Test (Javadoc):
     - mvn -ntp --settings scripts/mvn-release-settings.xml -Dmaven.test.skip=true -Pjavadoc verify javadoc:javadoc
 
 Test (Unit Tests):
-  image: maven:3.6.3-openjdk-17-slim
+  image: maven:3.8.3-openjdk-17-slim
   stage: "Test"
   except:
     - schedules
