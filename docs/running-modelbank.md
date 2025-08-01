@@ -1,127 +1,296 @@
-## Running the ModelBank
+## Running the ModelBank using our open source code
 
-For build and run ModelBank requires GNU Make to be installed on your local machine. Please, make sure it is installed.
+### Install software
 
-1.Download the project and go to the project directory:
+Make sure that the following programs are installed:
+- IntelliJ
+- Docker Desktop
+- Maven
+- Java 17
 
-```sh
-> git clone https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox.git
-> cd XS2A-Sandbox
+Make sure that $JAVA_HOME Env is set to Version 17
+
+This is an example for ~/.bash_profile MacOS.
+
+export JAVA_HOME=$(/usr/libexec/java_home -v17)
+
+### Edit /etc/hosts file
+
+Open the hosts file
+``` bash
+    sudo vi /etc/hosts
 ```
 
-2.This ModelBank runs with the docker-compose that can be found at: [docker-compose.yml](../docker-compose.yml) and [Makefile](../Makefile).
-But before you run this, first of all you should check if all build dependencies are installed:
-
-```sh
-> make check
+Add one entry in the hosts file
+```bash
+    127.0.0.1 ledgers-keycloak
 ```
 
-As our Modelbank features Keycloak as IDP in docker containers in its proprietary sub-network it is required to update your `hosts` file with keycloak container mapping in order to run it properly.
-The typical localtion of hosts file for:
+### Clone all the repositories
 
-```sh
-MacOS & Linux: etc/hosts
-Windows: C:\Windows\System32\drivers\etc\hosts
+- XS2A
+   ```bash
+    git clone https://github.com/adorsys/xs2a.git
+   ```
+
+- Ledgers
+   ```bash
+    git clone https://github.com/adorsys/ledgers.git
+   ```
+
+- Connector
+   ```bash
+    git clone https://github.com/adorsys/xs2a-connector-examples.git
+   ```
+
+- Sandbox
+   ```bash
+    git clone https://github.com/adorsys/XS2A-Sandbox.git
+   ```
+  
+Important: Check out this Branch in Git:
+- xs2a
+   ```bash
+    git checkout support-18.x
+   ```
+- ledgers
+   ```bash
+    git checkout develop
+   ```
+- connector-examples
+   ```bash
+    git checkout support-18.x
+   ```
+- xs2a-sandbox
+   ```bash
+    git checkout support-10.x
+   ```
+
+At first lookup in the sandbox project in the root pom.xml, which versions of xs2a, connector-examples and ledgers are needed?
+
+pom.xml(xs2a-sandbox (18.2-SNAPSHOT)) Important: Check the Version in the pom file!
+
+https://github.com/adorsys/XS2A-Sandbox/blob/support-10.x/pom.xml
+
+```bash
+    <xs2a.version>18.2-SNAPSHOT</xs2a.version>
+    <connector.version>18.2-SNAPSHOT</connector.version>
+    <ledgers.version>6.2-SNAPSHOT</ledgers.version>
+```
+OR
+
+```bash
+    <xs2a.version>18.1</xs2a.version>
+    <connector.version>18.1</connector.version>
+    <ledgers.version>6.1</ledgers.version>
 ```
 
-Line to add:
+*Getting the projects ready*
 
-```sh
-127.0.0.1 ledgers-keycloak
-```
+- ### Run the database
 
-If something is missing, install it to your local machine, otherwise the build will fail.
-List of dependencies that are required to use ModelBank: **Java 17**, **nodeJs**, **AngularCLI**, **asciidoctor**, **jq**, **docker**, **docker-compose**, **maven**, **plantuml**.
-Here are links where you can install needed dependencies:
+    Start Docker desktop, make sure no other process is attached to port 5432, and start the Postgres database
 
-| Dependency          | Link                                    |
-|---------------------| --------------------------------------- |
-| Java 17             | https://openjdk.java.net/install/       |
-| Node.js 18.x        | https://nodejs.org/en/download          |
-| Angular CLI 15.x    | https://angular.io/guide/quickstart     |
-| Asciidoctor 2.0     | https://asciidoctor.org                 |
-| jq 1.6              | https://stedolan.github.io/jq/download  |
-| Docker 1.17         | https://www.docker.com/get-started      |
-| Docker Compose 1.24 | https://docs.docker.com/compose/install |
-| Maven 3.5           | https://maven.apache.org/download.cgi   |
-| PlantUML 1.2019.3   | http://plantuml.com/en/starting         |
+    #### Run the command in a terminal
 
----
+    ```bash
+        docker run --name consent-postgres -p 5432:5432 -e POSTGRES_USER=cms -e POSTGRES_PASSWORD=cms -e POSTGRES_DB=consent -d postgres:latest
+    ```
+- ### Download and run Keycloak (version 26.0.2)
 
-**Note1:**
-Check amount of memory given to **Docker** (Open Docker Desktop -> Preferences -> Advanced -> Memory).
-For a fast and painless start of all the services it should be not less than 5 GB.
+    Ledgers 5.0 use Keycloak version 22.0.3
+    Ledgers 6.2 use Keycloak version 26.0.2 (current version on develop branch)
 
----
+    Download and unzip the Keycloak files from the Keycloak site, take the Distribution powered by Quarkus Version, and start Keycloak:
+    
+    https://www.keycloak.org/downloads-archive.html
+    
+    https://www.keycloak.org/archive/downloads-26.0.2.html (Distribution powered by Quarkus)
 
----
+    - Unzip the keycloak file
+      - You'll need to to build the Ledgers project to complete the steps below:
 
-**Note2:**
-If you clone master branch or tag version of ModelBank you should run service with commands like `docker-compose up` or `make run`.
+          - After the building of the Ledgers application, copy `keycloak-token-exchange.jar` file from the directory `keycloak/keycloak-token-exchange/target` of the Ledgers project to dir `/providers` of your keycloak directory:
 
----
+          - Go to the `/bin` folder and run keycloak with the following command in your terminal
+              ```java
+                    ./kc.sh start-dev
+              ```
+            Tip: building ledgers when keycloak is not already running? do `mvn clean install -Dmaven.test.skip=true`
 
-3.Build and run the project:
+IMPORTANT: If you are running Keycloak for the first time, please open the Keycloak console URL (by default it is http://localhost:8080) and create an Admin user with login: admin and password: admin. These credentials are used by Ledgers to create a realm and test user data
 
-You can build and run ModelBank in two ways - with a docker command or with Makefile commands.
+- ### Ledgers
 
-If you want use a first way:
+    - In the **LedgersApplication** add Active profiles
+  
+    ```java
+        develop, postgres
+    ```
+    - Save the changes and exit.
+    - Open the Database Tab (on the right hand side of IntelliJ) and add a new Databasesource/Postgres. And Test the connection, if everything works fine, apply and save.
 
-Build all the services with command:
+    ```java
+        User:cms
+        Password:cms
+        Database: consent
+    ```
 
-```sh
-> make
-```
+    - At the bottom left, test the db connectivity and then make sure it is okay before you exit.
+    - In the Database Console, create a new schema with the following commands
+    ```sql
+            CREATE SCHEMA consent;
+            CREATE SCHEMA public;
+    ```
 
-After building services you can run ModelBank with a simple docker command:
+- ### XS2A
 
-```sh
-> docker-compose up
-```
+    Now edit the Configurations for the separate services, and add the parameter.
+    
+    Sometimes Intellij does not recognize the services, then you can add new Debug/Run configurations, choose Spring
 
-In Makefile you can use one of three commands:
+    - In the **AspsProfileApplication** add the Active profiles:
 
--   Run services from Docker Hub registry without build:
+        ```java
+                debug_mode
+        ```
+    - In the **ConsentManagementStandaloneApp** add the Environment variables:
+        ```java
+              server_key=mySecretKey
+        ```
+      
+    -  Save and exit
 
-```sh
-> make run
-```
+    -  Open the Database Tab (on the right hand side of IntelliJ) and add a new Databasesource/Postgres. And Test the connection, if everything works fine, apply and save.
+              
+        ```java
+                User:cms
+                Password:cms
+                Database: consent
+          ```
+        
+    - At the bottom left, test the DB connectivity and ensure it is okay before you exit.
+        
+    - In the Database Console, create a new schema with the following commands
+        
+      ```java
+              CREATE SCHEMA consent;
+              CREATE SCHEMA public;
+      ```
+        
+    - Before you start, search the file `consent-management/cms-db-schema/liquibase.example.properties`, copy the file and rename the new file to `liquibase.properties`, The content should be the following.
+      ```properties
+                        url=jdbc:postgresql://localhost/consent?currentSchema=consent
+                        username=cms
+                        password=cms
+        
+                        changeLogFile=src/main/resources/master.xml
+      ```
 
--   Build, make docker images and run services:
+    Tip: You can search a file with a double shift in Intelli
+    
+    ```properties
+              cd consent-management/cms-db-schema
+              mvn liquibase:update
+    ```
 
-```sh
-> make all
-```
+    Tip: If the build fails, close IntelliJ or Use invalidate Caches/Restart from the menu
 
--   Make docker images and run services without build:
+-  ### XS2A-connector-example
 
-```sh
-> make start
-```
+ - In the **LedgersXs2aGatewayApplication** add the active profiles
 
-Once you have built the project you can run it without build next time - command **docker-compose up** or **make start** from Makefile.
+    ```java
+        mock-qwac
+    ```
 
-Remember that after you update the project you should rebuild it - command **make** or **make all** from Makefile.
+    and the Environment variables
+    ```java
+        server_key=123
+    ```
 
-4.Open [Developer Portal](http://localhost:4206) and follow the manual to try XS2A endpoints. Using Developer Portal you can try the Payment flow and Consent flow in Redirect mode. This means you will be redirected to Online Banking application to process your payments and consents. Developer Portal is provided for supporting the convenient way to send requests to XS2A system with testing purposes. To test the main flows, you may use out-of-box bank customers which are listed below.
+    Save the changes and exit.
 
-5.By opening [TPP UI](http://localhost:4205) you can register your own TPP and manage its users and their accounts. Before using TPP UI functionality, you need to create your own TPP and then login with its credentials.
+- ### Maven Build
 
-6.Opening [Online Banking](http://localhost:4400) allows you to login as a bank customer. Default users are provided out-of-box, their logins are:
+    Open each of these projects in IntelliJ, checkout to the proper branch version from the previous step, run the terminal in each project and start a maven build
 
--   marion.mueller (no SCA methods)
--   anton.brueckner (1 SCA method)
--   max.musterman (several SCA methods)
+    - #### XS2A, Connector, Ledgers, Sandbox
 
-with the password `12345` for all those users.
+    ```bash
+          mvn clean install
+    ```
 
-7.Stop running containers in terminal with key combination **Control + C**. Please note, that it takes some time to stop all the modules, so be patient and do not kill them with `-force` key.
+    For faster build time, you can try
 
-8.Afterwards you can remove all the ModelBank containers from Docker with the following command:
+    ```bash
+            mvn clean install -Dmaven.test.skip=true
+    ```
 
-```sh
-> docker-compose rm -s -f -v
-```
+  - ### Run the applications
+
+      When the clean install is done for all the projects,
+
+      - In **XS2A**, run the two services(`AspsProfileApplication` and `ConsentManagementStandaloneApp`) via the Services Tab in IntelliJ.
+
+      - In **Ledgers**, run the `LedgersApplication` still via the service tap in IntelliJ
+
+      - Start the `LedgerXS2aGatewayapplication` in the **xs2a-connector-examples**
+    
+    Tips: 
+    - run keycloak before running Ledgers. 
+    - run Ledgers before running xs2a-connector-examples.
+    - run xs2a, Ledgers, xs2a-connector-examples before running XS2A-Sandbox.
+
+- ### XS2A-SANDBOX
+
+    Set up the tpp-database
+
+    Open the Database Tab (on the right hand side of IntelliJ) and add a new Databasesource/Postgres. And Test the connection, if everything works fine, apply and save.
+
+    ```java
+            User:cms
+            Password:cms
+            Database: consent
+    ```
+
+  - In the Database Console, create a new schema with the following commands
+
+    ```java
+            CREATE SCHEMA tpp;
+    ```
+
+  **Then you can start the three services:**
+
+  - AdminApplication
+  - LedgersXs2aObaApplication
+  - TppApplication
+
+  #### **You can now start the UIs.** 
+
+  - Open the folders:
+  - developer-portal-ui
+  - admin-ui
+  - oba-ui
+  - tpp-ui
+  
+  run `npm ci` to build UI app 
+    - open the package.json and click the play button right beside "start".
+
+After all, you may check the web-pages in your browser:
+
+- Developer Portal: http://localhost:4206
+- TPP UI: http://localhost:4205
+- Admin UI: http://localhost:4207
+- Online-Banking UI: http://localhost:4400
+
+- ### Possible solutions in case of errors
+
+    - Restart Intellij
+    - Invalidate Caches, and set all hooks. Run `mvn clean install` or `mvn clean install -Dmaven.test.skip=true`
+    - Reindexing Mvn → Reload mvn projects, Generate Source and update all folders
+    - Check the Java Version, if mulitble versions installed switch to V17
+    - export JAVA_HOME=`/usr/libexec/java_home -v 17`
 
 ## Links to local Swagger Interfaces
 
