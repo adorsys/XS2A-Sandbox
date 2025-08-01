@@ -39,7 +39,8 @@ All four SCA approaches are supported: REDIRECT, OAUTH, EMBEDDED, DECOUPLED. Two
 
 ## How to try it
 
--   [Running ModelBank instructions](docs/running-modelbank.md) will help you with getting a copy of the project up and running on your local machine.
+-   [Running ModelBank instructions](docs/running-modelbank.md) will help you with getting a copy of the project (open source version) up and running on your local machine.
+-   [Running ModelBank instructions](docs/running-modelbank-with-commercial-products.md) will help you with getting a copy of the project(commercial version) up and running on your local machine.
 
 ## Version policy
 
