@@ -136,11 +136,11 @@
         <pmd.plugin.version>3.21.2</pmd.plugin.version>
 
         <!-- XS2A versions -->
-        <xs2a.version>19.2-SNAPSHOT</xs2a.version>
-        <connector.version>19.2-SNAPSHOT</connector.version>
+        <xs2a.version>19.1</xs2a.version>
+        <connector.version>19.1</connector.version>
 
         <!-- Ledgers version -->
-        <ledgers.version>6.1-SNAPSHOT</ledgers.version>
+        <ledgers.version>6.1</ledgers.version>
 
         <!-- Spring-related versions -->
         <spring-boot-dependencies.version>3.3.5</spring-boot-dependencies.version>
