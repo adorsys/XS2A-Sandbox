@@ -1,4 +1,4 @@
-# Release notes v.11.0
+# Release notes v.11.1
 
 ## Current version consists of following components:
 
