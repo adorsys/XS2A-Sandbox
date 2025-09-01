@@ -92,6 +92,12 @@
     "ngx-loading": {
       "@angular/common": "^18.0.0",
       "@angular/core": "^18.0.0"
-    }
+    },
+    "nth-check": "2.1.1",
+    "postcss": "8.4.31",
+    "webpack-dev-server": "5.2.2",
+    "svgo": "2.8.0",
+    "css-select": "5.1.0",
+    "resolve-url-loader": "5.0.0"
   }
-}
+  }
