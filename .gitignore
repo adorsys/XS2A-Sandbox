@@ -5,6 +5,7 @@
 /tmp
 /out-tsc
 **/.angular
+.vscode
 
 # dependencies
 node_modules
