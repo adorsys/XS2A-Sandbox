@@ -46,3 +46,7 @@ Thumbs.db
 *.log
 
 workspace.xml
+
+# IDE artifacts
+**/.factorypath
+.vscode/
