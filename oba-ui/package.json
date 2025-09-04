@@ -3,10 +3,15 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "load-api": "bash load-api.sh",
+    "swagger-gen": "npm run load-api && ng-swagger-gen -i ./src/app/api/swagger/oba.json -o ./src/app/api",
+    "remove-and-swagger-gen": "rm -rf ./src/app/api && npm run swagger-gen",
+    "start": "ng serve --port=4400 --proxy-config=proxy.conf.json",
     "build": "ng build",
+    "build:prod": "ng build --prod",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "test-ci": "ng test --browsers ChromeCi --watch=false --code-coverage",
     "lint": "npx eslint src/app/. ",
     "lint:fix": "npx eslint src/app/. --fix"
   },
