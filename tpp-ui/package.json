@@ -6,7 +6,7 @@
     "load-api": "bash load-api.sh",
     "swagger-gen": "npm run load-api && ng-swagger-gen -i ./src/app/api/swagger/tpp.json -o ./src/app/api",
     "remove-and-swagger-gen": "rm -rf ./src/app/api && npm run swagger-gen",
-    "start": "ng serve --port=4200 --proxy-config proxy.conf.json",
+    "start": "ng serve --port=4205 --proxy-config proxy.conf.json",
     "build": "ng build",
     "build:prod": "ng build --prod",
     "watch": "ng build --watch --configuration development",

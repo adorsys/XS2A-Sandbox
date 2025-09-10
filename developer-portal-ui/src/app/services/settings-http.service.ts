@@ -47,8 +47,7 @@ export class SettingsHttpService {
       this.getThemeUrl().then((url) => {
         this.http
           .get(url)
-          .toPromise()
-          .then((data: Theme) => {
+          .subscribe((data: Theme) => {
             this.customizeService.theme = data;
             localStorage.setItem('currentLanguageFolder', this.customizeService.currentLanguageFolder + '/');
             resolve(true);
@@ -58,21 +57,22 @@ export class SettingsHttpService {
   }
 
   private getThemeUrl(): Promise<string> {
-    return this.http
-      .get(this.customContentFolderPath + this.themeJsonName)
-      .toPromise()
-      .then(
-        (theme) => {
-          if (SettingsHttpService.isThemeValid(theme)) {
-            this.customizeService.setCustom();
-            return this.customContentFolderPath + this.themeJsonName;
+    return new Promise((resolve) => {
+      this.http
+        .get(this.customContentFolderPath + this.themeJsonName)
+        .subscribe({
+          next: (theme) => {
+            if (SettingsHttpService.isThemeValid(theme)) {
+              this.customizeService.setCustom();
+              resolve(this.customContentFolderPath + this.themeJsonName);
+            } else {
+              resolve(this.defaultContentFolderPath + this.themeJsonName);
+            }
+          },
+          error: () => {
+            resolve(this.defaultContentFolderPath + this.themeJsonName);
           }
-
-          return this.defaultContentFolderPath + this.themeJsonName;
-        },
-        () => {
-          return this.defaultContentFolderPath + this.themeJsonName;
-        }
-      );
+        });
+    });
   }
 }

@@ -197,13 +197,16 @@ export class CustomizeService {
   }
 
   private getCorrectLanguage(lang: string, languageLink: string) {
-    return this.http
-      .get(languageLink, { responseType: 'blob' })
-      .toPromise()
-      .then(() => lang)
-      .catch(() => {
-        console.log(`Could not parse image for language ${lang}, language is excluded from list.`);
-        return '';
-      });
+    return new Promise<string>((resolve) => {
+      this.http
+        .get(languageLink, { responseType: 'blob' })
+        .subscribe({
+          next: () => resolve(lang),
+          error: () => {
+            console.log(`Could not parse image for language ${lang}, language is excluded from list.`);
+            resolve('');
+          }
+        });
+    });
   }
 }

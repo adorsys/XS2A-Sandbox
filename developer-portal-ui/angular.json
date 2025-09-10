@@ -87,7 +87,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "buildTarget": "developer-portal:build"
+            "buildTarget": "developer-portal:build",
+            "proxyConfig": "proxy.conf.json"
           },
           "configurations": {
             "production": {

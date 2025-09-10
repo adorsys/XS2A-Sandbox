@@ -1,5 +1,5 @@
 {
-  "/ledgers/*": {
+  "/ledgers/**": {
     "target": "http://localhost:8088",
     "secure": false,
     "changeOrigin": true,
@@ -9,7 +9,7 @@
     }
   },
 
-  "/certgen/*": {
+  "/certgen/**": {
     "target": "http://localhost:8092",
     "secure": false,
     "changeOrigin": true,
@@ -19,7 +19,7 @@
     }
   },
 
-  "/tpp/*": {
+  "/tpp/**": {
     "target": "http://localhost:8093",
     "secure": false,
     "changeOrigin": true,

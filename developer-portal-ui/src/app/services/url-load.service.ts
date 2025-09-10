@@ -46,8 +46,7 @@ export class UrlLoadService {
       this.getEnvUrl().then((url) => {
         this.http
           .get(url)
-          .toPromise()
-          .then((data: EnvLink) => {
+          .subscribe((data: EnvLink) => {
             this.urlService.setUrl(data);
             resolve(true);
           });
@@ -55,20 +54,22 @@ export class UrlLoadService {
     });
   }
   private getEnvUrl(): Promise<string> {
-    return this.http
-      .get(this.customContentFolderPath + this.urlJsonName)
-      .toPromise()
-      .then(
-        (url) => {
-          if (UrlLoadService.isJSONValid(url)) {
-            this.urlService.setCustom();
-            return this.customContentFolderPath + this.urlJsonName;
+    return new Promise((resolve) => {
+      this.http
+        .get(this.customContentFolderPath + this.urlJsonName)
+        .subscribe({
+          next: (url) => {
+            if (UrlLoadService.isJSONValid(url)) {
+              this.urlService.setCustom();
+              resolve(this.customContentFolderPath + this.urlJsonName);
+            } else {
+              resolve(this.defaultContentFolderPath + this.urlJsonName);
+            }
+          },
+          error: () => {
+            resolve(this.defaultContentFolderPath + this.urlJsonName);
           }
-          return this.defaultContentFolderPath + this.urlJsonName;
-        },
-        () => {
-          return this.defaultContentFolderPath + this.urlJsonName;
-        }
-      );
+        });
+    });
   }
 }

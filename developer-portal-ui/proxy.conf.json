@@ -1,5 +1,5 @@
 {
-  "/xs2a-proxy/*": {
+  "/xs2a-proxy/**": {
     "target": "http://localhost:8089",
     "secure": false,
     "changeOrigin": true,
@@ -8,13 +8,22 @@
       "^/xs2a-proxy": ""
     }
   },
-  "/aspsp-proxy/*": {
+  "/aspsp-proxy/**": {
     "target": "http://localhost:48080",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug",
     "pathRewrite": {
       "^/aspsp-proxy": ""
+    }
+  },
+  "/oba-proxy/**": {
+    "target": "http://localhost:4400",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/oba-proxy": ""
     }
   }
 }
