@@ -7,6 +7,7 @@ For upcoming versions see our xref:Roadmap.adoc[Roadmap].
 === Mainline 11.x (Development)
 
 * xref:release_notes/Release_notes_11.3.md[Version 11.1 (release date: xx.xx.2025)]
+* xref:release_notes/Release_notes_11.2.1.md[Version 11.2.1 (release date: 22.09.2025)]
 * xref:release_notes/Release_notes_11.2.md[Version 11.2 (release date: 18.08.2025)]
 * xref:release_notes/Release_notes_11.1.md[Version 11.1 (release date: 18.08.2025)]
 * xref:release_notes/Release_notes_11.0.md[Version 11.0 (release date: 16.10.2024)]
