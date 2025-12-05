@@ -114,7 +114,7 @@
 
     <properties>
         <!-- Common properties -->
-        <java.version>17</java.version>
+        <java.version>21</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <ruleset.basedir>${project.basedir}</ruleset.basedir>
@@ -133,7 +133,7 @@
         <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
         <maven-javadoc-plugin.version>3.6.0</maven-javadoc-plugin.version>
         <liquibase-maven-plugin.version>4.25.1</liquibase-maven-plugin.version>
-        <pmd.plugin.version>3.21.2</pmd.plugin.version>
+        <pmd.plugin.version>3.25.0</pmd.plugin.version>
 
         <!-- XS2A versions -->
         <xs2a.version>19.3</xs2a.version>

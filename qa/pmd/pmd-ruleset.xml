@@ -47,15 +47,10 @@ http://pmd.sourceforge.net/ruleset/2.0.0 ">
   <rule ref="category/java/bestpractices.xml/ReplaceVectorWithList"/>
   <rule ref="category/java/bestpractices.xml/SwitchStmtsShouldHaveDefault"/>
   <rule ref="category/java/bestpractices.xml/SystemPrintln"/>
-  <rule ref="category/java/bestpractices.xml/UnusedImports"/>
   <rule ref="category/java/bestpractices.xml/UnusedFormalParameter"/>
   <rule ref="category/java/bestpractices.xml/UnusedLocalVariable"/>
   <rule ref="category/java/bestpractices.xml/UnusedPrivateField"/>
   <rule ref="category/java/bestpractices.xml/UnusedPrivateMethod"/>
-  <rule ref="category/java/bestpractices.xml/UseAssertEqualsInsteadOfAssertTrue"/>
-  <rule ref="category/java/bestpractices.xml/UseAssertNullInsteadOfAssertTrue"/>
-  <rule ref="category/java/bestpractices.xml/UseAssertSameInsteadOfAssertTrue"/>
-  <rule ref="category/java/bestpractices.xml/UseAssertTrueInsteadOfAssertEquals"/>
   <rule ref="category/java/bestpractices.xml/UseCollectionIsEmpty"/>
   <rule ref="category/java/bestpractices.xml/UseVarargs"/>
 
@@ -64,8 +59,6 @@ http://pmd.sourceforge.net/ruleset/2.0.0 ">
   <rule ref="category/java/codestyle.xml/AvoidUsingNativeCode"/>
   <rule ref="category/java/codestyle.xml/BooleanGetMethodName"/>
   <rule ref="category/java/codestyle.xml/ControlStatementBraces"/>
-  <rule ref="category/java/codestyle.xml/DontImportJavaLang"/>
-  <rule ref="category/java/codestyle.xml/DuplicateImports"/>
   <rule ref="category/java/codestyle.xml/EmptyMethodInAbstractClassShouldBeAbstract"/>
   <rule ref="category/java/codestyle.xml/ExtendsObject"/>
   <rule ref="category/java/codestyle.xml/FieldDeclarationsShouldBeAtStartOfClass"/>
@@ -112,14 +105,11 @@ http://pmd.sourceforge.net/ruleset/2.0.0 ">
   <rule ref="category/java/design.xml/GodClass"/>
   <rule ref="category/java/design.xml/DoNotExtendJavaLangError"/>
   <rule ref="category/java/design.xml/ExceptionAsFlowControl"/>
-  <rule ref="category/java/design.xml/ExcessiveClassLength"/>
-  <rule ref="category/java/design.xml/ExcessiveMethodLength"/>
   <rule ref="category/java/design.xml/ExcessivePublicCount"/>
   <rule ref="category/java/design.xml/FinalFieldCouldBeStatic"/>
   <rule ref="category/java/design.xml/NPathComplexity"/>
   <rule ref="category/java/design.xml/SignatureDeclareThrowsException"/>
   <rule ref="category/java/design.xml/SimplifiedTernary"/>
-  <rule ref="category/java/design.xml/SimplifyBooleanAssertion"/>
   <rule ref="category/java/design.xml/SimplifyBooleanExpressions"/>
   <rule ref="category/java/design.xml/SimplifyBooleanReturns"/>
   <rule ref="category/java/design.xml/SingularField"/>
@@ -140,16 +130,6 @@ http://pmd.sourceforge.net/ruleset/2.0.0 ">
   <rule ref="category/java/errorprone.xml/ClassCastExceptionWithToArray"/>
   <rule ref="category/java/errorprone.xml/DontUseFloatTypeForLoopIndices"/>
   <rule ref="category/java/errorprone.xml/EmptyCatchBlock"/>
-  <rule ref="category/java/errorprone.xml/EmptyFinallyBlock"/>
-  <rule ref="category/java/errorprone.xml/EmptyIfStmt"/>
-  <rule ref="category/java/errorprone.xml/EmptyInitializer"/>
-  <rule ref="category/java/errorprone.xml/EmptyStatementBlock"/>
-  <rule ref="category/java/errorprone.xml/EmptyStatementNotInLoop"/>
-  <rule ref="category/java/errorprone.xml/EmptySwitchStatements"/>
-  <rule ref="category/java/errorprone.xml/EmptySynchronizedBlock"/>
-  <rule ref="category/java/errorprone.xml/EmptyTryBlock"/>
-  <rule ref="category/java/errorprone.xml/EmptyWhileStmt"/>
-  <rule ref="category/java/errorprone.xml/ImportFromSamePackage"/>
   <rule ref="category/java/errorprone.xml/JumbledIncrementer"/>
   <rule ref="category/java/errorprone.xml/MisplacedNullCheck"/>
   <rule ref="category/java/errorprone.xml/OverrideBothEqualsAndHashcode"/>
@@ -164,5 +144,4 @@ http://pmd.sourceforge.net/ruleset/2.0.0 ">
   <rule ref="category/java/multithreading.xml/DoubleCheckedLocking"/>
 
   <rule ref="category/java/performance.xml/BigIntegerInstantiation"/>
-  <rule ref="category/java/performance.xml/BooleanInstantiation"/>
 </ruleset>
