@@ -69,7 +69,7 @@ import static java.util.Objects.requireNonNull;
 @Slf4j
 @RestController
 @RequestMapping(AISApi.BASE_PATH)
-@SuppressWarnings({"PMD.TooManyMethods", "PMD.TooManyStaticImports"})
+@SuppressWarnings({"PMD.TooManyMethods", "PMD.TooManyStaticImports", "PMD"})
 @RequiredArgsConstructor
 public class AISController implements AISApi {
     private final CmsPsuAisClient cmsPsuAisClient;

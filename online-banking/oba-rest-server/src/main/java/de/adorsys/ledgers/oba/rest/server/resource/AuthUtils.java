@@ -27,7 +27,7 @@ import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.List;
-
+@SuppressWarnings("PMD")
 public class AuthUtils {
 
     private AuthUtils() {

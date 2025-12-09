@@ -31,6 +31,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @Service
 @RequiredArgsConstructor
+@SuppressWarnings("PMD")
 public class ResponseUtils {
     private static final String LOCATION_HEADER_NAME = "Location";
 

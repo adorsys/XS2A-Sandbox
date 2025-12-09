@@ -68,6 +68,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1")
+@SuppressWarnings("PMD")
 public class VopController {
 
     @Value("${vop.connector.url:http://localhost:8081}")
@@ -273,9 +274,9 @@ public class VopController {
     private Map<String, Object> createBulkVerificationMockResponse() {
         Map<String, Object> response = new HashMap<>();
         response.put("vopBulkStatus", "completed");
-        
+
         List<Map<String, Object>> verificationResponses = new ArrayList<>();
-        
+
         // First verification response
         Map<String, Object> firstResponse = new HashMap<>();
         firstResponse.put("uetr", "4c83da56-893e-47e3-9a92-c27e4866dabe");
@@ -284,7 +285,7 @@ public class VopController {
         firstResponse.put("matchedName", "Mocked matched name from ASPSP");
         firstResponse.put("additionalInformation", "Mocked verification additional information");
         verificationResponses.add(firstResponse);
-        
+
         // Second verification response
         Map<String, Object> secondResponse = new HashMap<>();
         secondResponse.put("uetr", "a533db18-9571-4279-8eb7-0c5dbad9a039");
@@ -293,7 +294,7 @@ public class VopController {
         secondResponse.put("matchedName", "Mocked matched name from ASPSP");
         secondResponse.put("additionalInformation", "Mocked verification additional information");
         verificationResponses.add(secondResponse);
-        
+
         response.put("partyVerificationResponses", verificationResponses);
         return response;
     }
@@ -315,9 +316,9 @@ public class VopController {
         Map<String, Object> response = new HashMap<>();
         response.put("vopBulkId", "aaaaaaaa-ad88-49ec-a2ad-99ddcb1f7798");
         response.put("vopBulkStatus", "completed");
-        
+
         List<Map<String, Object>> requestsAndResults = new ArrayList<>();
-        
+
         // First verification request and result
         Map<String, Object> firstRequest = new HashMap<>();
         firstRequest.put("uetr", "348f5522-a603-452a-b8ed-c694bd768539");
@@ -329,7 +330,7 @@ public class VopController {
         firstRequest.put("matchedName", "Mocked matched name from ASPSP 1");
         firstRequest.put("additionalInformation", "Mocked verification additional information for request 1");
         requestsAndResults.add(firstRequest);
-        
+
         // Second verification request and result
         Map<String, Object> secondRequest = new HashMap<>();
         secondRequest.put("uetr", "27252c05-a716-4914-8c34-19e5fb0401ad");
@@ -341,7 +342,7 @@ public class VopController {
         secondRequest.put("matchedName", "Mocked matched name from ASPSP 2");
         secondRequest.put("additionalInformation", "Mocked verification additional information for request 2");
         requestsAndResults.add(secondRequest);
-        
+
         // Third verification request and result
         Map<String, Object> thirdRequest = new HashMap<>();
         thirdRequest.put("uetr", "246c2dfc-a038-45da-8b6c-b54aff0a4069");
@@ -353,7 +354,7 @@ public class VopController {
         thirdRequest.put("matchedName", "Mocked matched name from ASPSP 3");
         thirdRequest.put("additionalInformation", "Mocked verification additional information for request 3");
         requestsAndResults.add(thirdRequest);
-        
+
         response.put("partyVerificationRequestsAndResults", requestsAndResults);
         return response;
     }

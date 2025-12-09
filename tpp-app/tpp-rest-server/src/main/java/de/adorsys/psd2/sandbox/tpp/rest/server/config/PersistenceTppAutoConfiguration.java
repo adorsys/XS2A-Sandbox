@@ -48,6 +48,7 @@ import java.util.HashMap;
     basePackages = "de.adorsys.psd2.sandbox.tpp.db.api",
     entityManagerFactoryRef = "tppEntityManager",
     transactionManagerRef = "tppTransactionManager")
+@SuppressWarnings("PMD")
 public class PersistenceTppAutoConfiguration {
     @Bean
     @ConfigurationProperties(prefix = "tpp.datasource")

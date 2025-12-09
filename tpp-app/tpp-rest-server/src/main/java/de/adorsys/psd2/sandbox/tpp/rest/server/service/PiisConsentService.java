@@ -57,6 +57,7 @@ import static de.adorsys.psd2.consent.psu.api.config.CmsPsuApiDefaultValue.DEFAU
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@SuppressWarnings("PMD")
 public class PiisConsentService {
     private final CmsAspspPiisClient cmsAspspPiisClient;
     private final CmsPsuPiisClient cmsPsuPiisClient;

@@ -24,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * Category of the PSU message category
  */
+@SuppressWarnings("PMD")
 public enum PsuMessageCategory {
     ERROR("ERROR"), WARNING("WARNING"), INFO("INFO");
     private String value;

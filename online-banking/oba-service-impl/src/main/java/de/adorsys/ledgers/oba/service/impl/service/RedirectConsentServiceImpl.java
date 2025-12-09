@@ -70,6 +70,7 @@ import static java.util.Objects.requireNonNull;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@SuppressWarnings("PMD")
 public class RedirectConsentServiceImpl implements RedirectConsentService {
     private final CmsPsuAisClient cmsPsuAisClient;
     private final CmsPsuPiisV2Client cmsPsuPiisV2Client;

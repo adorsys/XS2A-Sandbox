@@ -37,6 +37,7 @@ import java.util.HashMap;
 @Configuration
 @PropertySource("classpath:cms.properties")
 @Import(value = Xs2aCmsConfig.class)
+@SuppressWarnings("PMD")
 public class Xs2aCmsAutoConfiguration {
 
     public Xs2aCmsAutoConfiguration() {

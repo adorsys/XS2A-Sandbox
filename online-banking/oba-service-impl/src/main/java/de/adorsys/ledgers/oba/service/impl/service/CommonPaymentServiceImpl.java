@@ -66,6 +66,7 @@ import static java.util.Objects.requireNonNull;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@SuppressWarnings("PMD")
 public class CommonPaymentServiceImpl implements CommonPaymentService {
     private final ConsentReferencePolicy referencePolicy;
     private final AuthRequestInterceptor authInterceptor;

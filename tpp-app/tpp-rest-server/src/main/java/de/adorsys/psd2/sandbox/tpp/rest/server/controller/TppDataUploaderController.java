@@ -47,6 +47,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(TppDataUploaderRestApi.BASE_PATH)
+@SuppressWarnings("PMD")
 public class TppDataUploaderController implements TppDataUploaderRestApi {
     private static final String FILE_NAME = "transactions_template.csv";
 

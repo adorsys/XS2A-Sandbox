@@ -72,6 +72,7 @@ import static java.util.Objects.requireNonNull;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@SuppressWarnings("PMD")
 public class ConsentServiceImpl implements ConsentService {
     private static final String RESPONSE_ERROR = "Error in response from CMS, please contact admin.";
     private static final String GET_CONSENTS_ERROR_MSG = "Failed to retrieve consents for user: %s, code: %s, message: %s";
