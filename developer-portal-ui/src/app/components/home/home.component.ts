@@ -225,17 +225,25 @@ export class HomeComponent implements OnInit, AfterViewInit {
     {
       title: 'HOME.HISTORY.PRODUCT.POINT_22.TITLE',
       text: 'HOME.HISTORY.PRODUCT.POINT_22.CONTENT',
-      date: 1745000000000,
+      date: 1761955200000,
       isToday: false,
       orderNumber: 21,
     },
     {
       title: 'HOME.HISTORY.PRODUCT.POINT_23.TITLE',
       text: 'HOME.HISTORY.PRODUCT.POINT_23.CONTENT',
-      date: 1750000000000,
+      date: 1764547200000,
       isToday: false,
       orderNumber: 22,
-    }
+    },
+    {
+      title: 'HOME.HISTORY.PRODUCT.POINT_24.TITLE',
+      text: 'HOME.HISTORY.PRODUCT.POINT_24.CONTENT',
+      date: 1764547200000,
+      isToday: false,
+      orderNumber: 23,
+    },
+
   ];
 
   pathToFile = `./assets/content/i18n/en/home.md`;

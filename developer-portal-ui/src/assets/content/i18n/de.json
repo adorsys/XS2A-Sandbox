@@ -125,11 +125,15 @@
         },
         "POINT_22": {
           "TITLE": "Release Version 12.0",
-          "CONTENT": "Umstieg auf Java 21, neue Testanfrage zur Verifizierung einer Partei hinzugefügt, Migration auf die neueste Berlin Group-Version der XS2A-API: 1.3.15"
+          "CONTENT": "Migrated to Java 21"
         },
         "POINT_23": {
-          "TITLE": "Release Version 13.0",
-          "CONTENT": "Umstieg auf Java 21, neue Testanfrage zur Verifizierung einer Partei hinzugefügt, Migration auf die neueste Berlin Group-Version der XS2A-API: 1.3.15"
+          "TITLE": "Release Version 14.0",
+          "CONTENT": "Migrated to Java 21, added new test request for the verification of party, migrated to the lastest Berlin Group version of the XS2A API: 1.3.15"
+        },
+        "POINT_24": {
+          "TITLE": "Release Version 15.0",
+          "CONTENT": "Migrated to Java 21, added new test request for the verification of party, migrated to the lastest Berlin Group version of the XS2A API: 1.3.15"
         }
       }
     },

@@ -5,13 +5,17 @@ On this page release notes for each version released are published.
 For upcoming versions see our xref:Roadmap.adoc[Roadmap].
 
 
-=== Mainline 11.x (Development)
+=== Mainline 15.x (Development)
 
-* xref:release_notes/Release_notes_13.0.md[Version 13.0 (release date: 09.12.2025)]
+* xref:release_notes/Release_notes_15.0.md[Version 15.0 (release date: 09.12.2025)]
+
+=== Mainline 14.x (Stable)
+
+* xref:release_notes/Release_notes_14.0.md[Version 14.0 (release date: 09.12.2025)]
+
 
 === Mainline 12.x (Stable)
-
-* xref:release_notes/Release_notes_12.0.md[Version 12.0 (release date: 09.12.2025)]
+* xref:release_notes/Release_notes_12.0.md[Version 12.0 (release date: 06.11.2025)]
 
 
 === Mainline 11.x (Development)
