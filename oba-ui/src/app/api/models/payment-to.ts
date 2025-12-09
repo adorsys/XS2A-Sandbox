@@ -58,5 +58,9 @@ export interface PaymentTO {
     | 'RJCT'
     | 'CANC'
     | 'ACFC'
-    | 'PATC';
+    | 'PATC'
+    | 'PART'
+    | 'RVCM'
+    | 'RVNC'
+    | 'RCVC';
 }

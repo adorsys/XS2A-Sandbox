@@ -90,6 +90,46 @@
         "POINT_13": {
           "TITLE": "Release ver 9.0",
           "CONTENT": "Auf Java 17 verschoben, Spring Boot 3"
+        },
+        "POINT_14": {
+          "TITLE": "Release Version 9.1",
+          "CONTENT": "Behoben: Fehlerhafte IBAN-Fehlerbehandlung in der TPP-Benutzeroberfläche"
+        },
+        "POINT_15": {
+          "TITLE": "Release Version 8.2/9.2",
+          "CONTENT": "Die Nginx-Version in den UI-Docker-Images wurde auf 1.25.4 aktualisiert, um Sicherheitslücken zu schließen"
+        },
+        "POINT_16": {
+          "TITLE": "Release Version 8.3",
+          "CONTENT": "Umstellung auf Angular 17 und Java 17"
+        },
+        "POINT_17": {
+          "TITLE": "Release Version 9.3",
+          "CONTENT": "Umstellung auf Angular 17"
+        },
+        "POINT_18": {
+          "TITLE": "Release Version 10.0",
+          "CONTENT": "Aktualisierte Links zu Adorsys-Diensten in den Swagger-UIs"
+        },
+        "POINT_19": {
+          "TITLE": "Release Version 10.1/10.2.1",
+          "CONTENT": "Aktualisierte Abhängigkeitsversionen und URL-Links"
+        },
+        "POINT_20": {
+          "TITLE": "Release Version 10.2",
+          "CONTENT": "Aktualisierte Node-Version auf 20 und Angular-Version auf 18.2.13"
+        },
+        "POINT_21": {
+          "TITLE": "Release Version 11.2",
+          "CONTENT": "Spring-Security-Update und Behebungen von Abhängigkeitsproblemen"
+        },
+        "POINT_22": {
+          "TITLE": "Release Version 12.0",
+          "CONTENT": "Umstieg auf Java 21, neue Testanfrage zur Verifizierung einer Partei hinzugefügt, Migration auf die neueste Berlin Group-Version der XS2A-API: 1.3.15"
+        },
+        "POINT_23": {
+          "TITLE": "Release Version 13.0",
+          "CONTENT": "Umstieg auf Java 21, neue Testanfrage zur Verifizierung einer Partei hinzugefügt, Migration auf die neueste Berlin Group-Version der XS2A-API: 1.3.15"
         }
       }
     },
@@ -162,6 +202,21 @@
       "FUNDS": {
         "FUNDS_CONFIRMATION": "Funds confirmation",
         "CONFIRMATION_OF_FUNDS_REQUEST": "Confirmation of funds request"
+      },
+      "VOP": {
+        "VERIFICATION_OF_PAY": "Verification of Pay",
+        "SINGLE_VERIFICATION_OF_PAY": {
+          "SINGLE_VOP": "Single Verification of Pay",
+          "SUBMIT_VERIFICATION_OF_PARTY": "Submit Verification of party",
+          "SUBMIT_VERIFICATION_OF_PARTY_WITH_NAME_MATCHED": "Submit verification of party with name match",
+          "SUBMIT_VERIFICATION_OF_PARTY_WITH_IDENTIFICATION_MATCHED": "Submit verification of party with identification match"
+        },
+        "BULK_VERIFICATION_OF_PAY": {
+          "BULK_VOP": "Bulk Verification of Pay",
+          "SUBMIT_BULK_VERIFICATION": "Submit Bulk Verification",
+          "READ_STATUS_OF_BULK_VERIFICATION": "Read Status of Bulk Verification",
+          "RETRIEVE_BULK_VERIFICATION_OF_PARTY": "Retrieve Bulk Verification of Party"
+        }
       }
     },
     "COMPONENTS": {
@@ -441,12 +496,6 @@
         "PART_45": "Da eine Sca-Methode zuvor festgelegt wurde,daher wurde die generierte TAN bereits an die angegebene Nutzer-Mail geschickt.",
         "PART_46": "Diese TAN wird nun in der Json für den auszuführenden PUT Befehl angegeben. Als Antwort sollten Sie erneu"
       },
-      "EMB_CANS_GET": {
-        "PART_1": "1. Nutzen Sie den GET Endpunkt",
-        "PART_2": ", um den aktuellen Status der Stornierung zu erhalten.",
-        "PART_3": "2. Nutzen Sie den GET Endpunkt",
-        "PART_4": ", um den aktuellen Status der Zahlung zu erhalten. Der Status sollte nach erfolgreichen stornieren CANC sein (CANC steht für „cancelled“)."
-      },
       "EMB_CONS_AUTH": {
         "TITLE": "STEP 2: Consent authorisation ",
         "SUBTITLE": "2.1 Starte Consent Autorisierungsprozess",
@@ -567,6 +616,47 @@
         "PART_3": "2. Fügen Sie folgenden Json Code in das Anforderungsfeld ein:",
         "PART_4": "3. Ändern Sie nun ",
         "PART_5": " zu der IBAN des ausgewählten Nutzers an folgender Stelle der Json."
+      },
+      "VOP_NAME_MATCH": {
+        "TH": "Verification of Party - Name Match:",
+        "TH2": "Submit verification of party with name match",
+        "PART_1": "1. Try POST endpoint",
+        "PART_2": " to verify party information with name matching. Fill the header fields with the following values:",
+        "PART_3": "2. Insert into request body the following json:",
+        "PART_4": "3. Execute the request to verify party information with name matching.",
+        "PART_5": "The response will indicate whether the party name matches the provided information."
+      },
+      "VOP_IDENTIFICATION_MATCH": {
+        "TH": "Verification of Party - Identification Match:",
+        "TH2": "Submit verification of party with identification match",
+        "PART_1": "1. Try POST endpoint",
+        "PART_2": " to verify party information with identification matching. Fill the header fields with the following values:",
+        "PART_3": "2. Insert into request body the following json:",
+        "PART_4": "3. Execute the request to verify party information with identification matching.",
+        "PART_5": "The response will indicate whether the party identification matches the provided information."
+      },
+      "VOP_BULK_VERIFICATION": {
+        "TH": "Verification of Party - Bulk Verification:",
+        "TH2": "Submit bulk verification of party",
+        "PART_1": "1. Try POST endpoint",
+        "PART_2": " to verify multiple party information in a single request. Fill the header fields with the following values:",
+        "PART_3": "2. Insert into request body the following json:",
+        "PART_4": "3. Execute the request to verify multiple party information in bulk.",
+        "PART_5": "The response will contain verification results for all parties in the request, with individual status for each verification."
+      },
+      "VOP_READ_BULK_STATUS": {
+        "TH": "Verification of Party - Read Bulk Status:",
+        "TH2": "Read status of bulk verification",
+        "PART_1": "1. Try GET endpoint",
+        "PART_2": " to read the status of a bulk verification request. Fill the header fields with the following values:",
+        "PART_3": "2. The response will contain the current status of the bulk verification process."
+      },
+      "VOP_RETRIEVE_BULK_VERIFICATION": {
+        "TH": "Verification of Party - Retrieve Bulk Verification:",
+        "TH2": "Retrieve bulk verification of party",
+        "PART_1": "1. Try GET endpoint",
+        "PART_2": " to retrieve the results of a bulk verification request. Fill the header fields with the following values:",
+        "PART_3": "2. The response will contain the detailed verification results for all parties in the bulk request."
       }
     }
   },

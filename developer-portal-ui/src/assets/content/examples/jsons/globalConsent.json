@@ -6,7 +6,7 @@
     "allPsd2": "allAccounts"
   },
   "recurringIndicator": true,
-  "validUntil": "2020-03-03",
+  "validUntil": "2030-03-03",
   "frequencyPerDay": 4,
   "combinedServiceIndicator": false
 }

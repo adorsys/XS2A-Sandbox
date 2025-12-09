@@ -60,6 +60,22 @@
       >
         <option [value]="'/' + pp" *ngFor="let pp of paymentProductSelect" [selected]="'/' + pp === paymentProduct">{{ pp }}</option>
       </select>
+      <select
+        id="bulkVerification"
+        *ngIf="bulkVerificationFlag"
+        [(ngModel)]="bulkVerificationType"
+        (ngModelChange)="handleBulkVerificationChanged($event)"
+      >
+        <option [value]="bv" *ngFor="let bv of bulkVerificationSelect">{{ bv }}</option>
+      </select>
+      <select
+        id="singleVerification"
+        *ngIf="singleVerificationFlag"
+        [(ngModel)]="singleVerificationType"
+        (ngModelChange)="handleSingleVerificationChanged($event)"
+      >
+        <option [value]="sv" *ngFor="let sv of singleVerificationSelect">{{ sv }}</option>
+      </select>
       <span class="top-line" *ngIf="paymentIdFlag || consentIdFlag">/</span>
 
       <input

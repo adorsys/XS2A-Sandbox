@@ -1,0 +1,206 @@
+{
+  "partyVerificationRequests": [
+    {
+      "uetr": "99435c7e-ad88-49ec-a2ad-99ddcb1f5555",
+      "partyAccount": {
+        "iban": "FR7612345987650123456789014",
+        "maskedPan": "Text, maximum of 35 characters.",
+        "msisdn": "Text, maximum of 35 characters.",
+        "other": {
+          "identification": "Text, maximum of 35 characters.",
+          "schemeNameCode": "Text, maximum of 35 characters.",
+          "schemeNameProprietary": "Text, maximum of 35 characters.",
+          "issuer": "Text, maximum of 35 characters."
+        },
+        "currency": "EUR",
+        "cashAccountType": "string"
+      },
+      "partyAgent": {
+        "financialInstitutionId": {
+          "bicfi": "ECBFDEFFFIM",
+          "clearingSystemMemberId": {
+            "memberId": "Text, maximum of 35 characters.",
+            "clearingSystemIdentificationCode": "ATBLZ",
+            "clearingSystemIdentificationProprietary": "Text, maximum of 35 characters."
+          },
+          "name": "Text, maximum of 140 characters.",
+          "postalAddress": {
+            "addressLines": ["Text, Mx140 c."],
+            "department": "Text, Mx70 c.",
+            "subDepartment": "Text, Mx70 c.",
+            "streetName": "Text, Mx70 c.",
+            "buildingNumber": "Mx16 c.",
+            "buildingName": "Text, Mx35 c.",
+            "floor": "Text, Mx70 c.",
+            "postBox": "Mx16 c.",
+            "room": "Text, Mx70 c.",
+            "postCode": "Mx16 c.",
+            "townName": "Text, Mx35 c.",
+            "townLocationName": "Text, Mx35 c.",
+            "districtName": "Text, Mx35 c.",
+            "countrySubDivision": "Text, Mx35 c.",
+            "country": "SE"
+          },
+          "other": {
+            "identification": "Text, maximum of 35 characters.",
+            "schemeNameCode": "string",
+            "schemeNameProprietary": "Text, maximum of 35 characters.",
+            "issuer": "Text, maximum of 35 characters."
+          }
+        },
+        "branchIdentificationId": "Text, maximum of 35 characters.",
+        "branchIdentificationName": "Text, maximum of 140 characters."
+      },
+      "party": {
+        "name": "NAME1",
+        "identification": {
+          "organisationId": {
+            "anyBIC": "ECBFDEFFFIM",
+            "lei": "549300DTUYXVMJXZNY75",
+            "others": [
+              {
+                "identification": "Text, maximum of 35 characters.",
+                "schemeNameCode": "BANK",
+                "schemeNameProprietary": "Text, maximum of 35 characters.",
+                "issuer": "Text, maximum of 35 characters."
+              }
+            ]
+          },
+          "privateId": {
+            "birthDate": "2020-01-01",
+            "provinceOfBirth": "Text, maximum of 35 characters.",
+            "cityOfBirth": "Text, maximum of 35 characters.",
+            "countryOfBirth": "SE",
+            "others": [
+              {
+                "identification": "Text, maximum of 35 characters.",
+                "schemeNameCode": "ARNU",
+                "schemeNameProprietary": "Text, maximum of 35 characters.",
+                "issuer": "Text, maximum of 35 characters."
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "uetr": "88435c7e-ad88-49ec-a2ad-99ddcb1f5555",
+      "partyAccount": {
+        "iban": "DE7612345987650123456789014",
+        "maskedPan": "Text, maximum of 35 characters.",
+        "msisdn": "Text, maximum of 35 characters.",
+        "other": {
+          "identification": "Text, maximum of 35 characters.",
+          "schemeNameCode": "Text, maximum of 35 characters.",
+          "schemeNameProprietary": "Text, maximum of 35 characters.",
+          "issuer": "Text, maximum of 35 characters."
+        },
+        "currency": "EUR",
+        "cashAccountType": "string"
+      },
+      "partyAgent": {
+        "financialInstitutionId": {
+          "bicfi": "ECBFDEFFFIM",
+          "clearingSystemMemberId": {
+            "memberId": "Text, maximum of 35 characters.",
+            "clearingSystemIdentificationCode": "ATBLZ",
+            "clearingSystemIdentificationProprietary": "Text, maximum of 35 characters."
+          },
+          "name": "Text, maximum of 140 characters.",
+          "postalAddress": {
+            "addressLines": ["Text, Mx140 c."],
+            "department": "Text, Mx70 c.",
+            "subDepartment": "Text, Mx70 c.",
+            "streetName": "Text, Mx70 c.",
+            "buildingNumber": "Mx16 c.",
+            "buildingName": "Text, Mx35 c.",
+            "floor": "Text, Mx70 c.",
+            "postBox": "Mx16 c.",
+            "room": "Text, Mx70 c.",
+            "postCode": "Mx16 c.",
+            "townName": "Text, Mx35 c.",
+            "townLocationName": "Text, Mx35 c.",
+            "districtName": "Text, Mx35 c.",
+            "countrySubDivision": "Text, Mx35 c.",
+            "country": "SE"
+          },
+          "other": {
+            "identification": "Text, maximum of 35 characters.",
+            "schemeNameCode": "string",
+            "schemeNameProprietary": "Text, maximum of 35 characters.",
+            "issuer": "Text, maximum of 35 characters."
+          }
+        },
+        "branchIdentificationId": "Text, maximum of 35 characters.",
+        "branchIdentificationName": "Text, maximum of 140 characters."
+      },
+      "party": {
+        "name": "NAME2",
+        "identification": {
+          "organisationId": {
+            "anyBIC": "ECBFDEFFFIM",
+            "lei": "549300DTUYXVMJXZNY80",
+            "others": [
+              {
+                "identification": "Text, maximum of 35 characters.",
+                "schemeNameCode": "BANK",
+                "schemeNameProprietary": "Text, maximum of 35 characters.",
+                "issuer": "Text, maximum of 35 characters."
+              }
+            ]
+          },
+          "privateId": {
+            "birthDate": "2020-01-01",
+            "provinceOfBirth": "Text, maximum of 35 characters.",
+            "cityOfBirth": "Text, maximum of 35 characters.",
+            "countryOfBirth": "SE",
+            "others": [
+              {
+                "identification": "Text, maximum of 35 characters.",
+                "schemeNameCode": "ARNU",
+                "schemeNameProprietary": "Text, maximum of 35 characters.",
+                "issuer": "Text, maximum of 35 characters."
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "requestingAgent": {
+    "financialInstitutionId": {
+      "bicfi": "ECBFDEFFFIM",
+      "clearingSystemMemberId": {
+        "memberId": "Text, maximum of 35 characters.",
+        "clearingSystemIdentificationCode": "ATBLZ",
+        "clearingSystemIdentificationProprietary": "Text, maximum of 35 characters."
+      },
+      "name": "Text, maximum of 140 characters.",
+      "postalAddress": {
+        "addressLines": ["Text, Mx140 c."],
+        "department": "Text, Mx70 c.",
+        "subDepartment": "Text, Mx70 c.",
+        "streetName": "Text, Mx70 c.",
+        "buildingNumber": "Mx16 c.",
+        "buildingName": "Text, Mx35 c.",
+        "floor": "Text, Mx70 c.",
+        "postBox": "Mx16 c.",
+        "room": "Text, Mx70 c.",
+        "postCode": "Mx16 c.",
+        "townName": "Text, Mx35 c.",
+        "townLocationName": "Text, Mx35 c.",
+        "districtName": "Text, Mx35 c.",
+        "countrySubDivision": "Text, Mx35 c.",
+        "country": "SE"
+      },
+      "other": {
+        "identification": "Text, maximum of 35 characters.",
+        "schemeNameCode": "string",
+        "schemeNameProprietary": "Text, maximum of 35 characters.",
+        "issuer": "Text, maximum of 35 characters."
+      }
+    },
+    "branchIdentificationId": "Text, maximum of 35 characters.",
+    "branchIdentificationName": "Text, maximum of 140 characters."
+  }
+}

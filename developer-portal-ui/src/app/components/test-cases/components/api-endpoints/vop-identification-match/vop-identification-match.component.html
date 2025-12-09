@@ -1,0 +1,107 @@
+<!--
+  ~ Copyright 2018-2025 adorsys GmbH & Co KG
+  ~
+  ~ This program is free software: you can redistribute it and/or modify it
+  ~ under the terms of the GNU Affero General Public License as published
+  ~ by the Free Software Foundation, either version 3 of the License, or (at
+  ~ your option) any later version. This program is distributed in the hope that
+  ~ it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+  ~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  ~ See the GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program. If not, see https://www.gnu.org/licenses/.
+  ~
+  ~ This project is also available under a separate commercial license. You can
+  ~ contact us at sales@adorsys.com.
+  -->
+
+<div class="endpoint-wrapper">
+  <!-- Segments -->
+  <div class="endpoint-segment-wrapper">
+    <div
+      class="endpoint-segment-item"
+      [ngClass]="activeSegment === 'documentation' ? 'left-item' : 'unactive-item'"
+      (click)="changeSegment('documentation')"
+    >
+      <span>{{ 'TEST_CASES.COMPONENTS.TABS.DOC' | translate }}</span>
+    </div>
+    <div
+      class="endpoint-segment-item"
+      [ngClass]="activeSegment === 'play-data' ? 'left-item' : 'unactive-item'"
+      (click)="changeSegment('play-data')"
+    >
+      <span>{{ 'TEST_CASES.COMPONENTS.TABS.PLAY' | translate }}</span>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="endpoint-main-content">
+    <!-- Documentation -->
+    <div class="endpoint-documentation" *ngIf="activeSegment === 'documentation'; else play_with_data">
+      <h1>{{ 'TEST_CASES.COMPONENTS.VOP_IDENTIFICATION_MATCH.TH2' | translate }}</h1>
+      <br />
+      <p>
+        {{ 'TEST_CASES.COMPONENTS.VOP_IDENTIFICATION_MATCH.PART_1' | translate }}
+        <app-line-command title="/v1/verification-of-party"></app-line-command>
+        {{ 'TEST_CASES.COMPONENTS.VOP_IDENTIFICATION_MATCH.PART_2' | translate }}
+      </p>
+      <div class="api-table bg th">
+        <span>{{ 'TEST_CASES.COMPONENTS.TH.TH_1' | translate }}</span>
+        <span>{{ 'TEST_CASES.COMPONENTS.TH.TH_2' | translate }}</span>
+      </div>
+      <div class="api-table">
+        <span>Accept</span>
+        <span>application/json</span>
+      </div>
+      <div class="api-table bg">
+        <span>Accept-Encoding</span>
+        <span>gzip, deflate</span>
+      </div>
+      <div class="api-table">
+        <span>Connection</span>
+        <span>keep-alive</span>
+      </div>
+      <div class="api-table bg">
+        <span>Content-Type</span>
+        <span>application/json</span>
+      </div>
+      <div class="api-table">
+        <span>X-Request-ID</span>
+        <span>99391c7e-ad88-49ec-a2ad-99ddcb1f7721</span>
+      </div>
+      <div class="api-table bg">
+        <span>Digest</span>
+        <span>SHA-256=hl1/Eps8BEQW58FJhDApwJXjiBuYbsUfZ0c2JA4nG5s=</span>
+      </div>
+      <div class="api-table">
+        <span>API-Contract-ID</span>
+        <span>your-api-contract-id</span>
+      </div>
+      <div class="api-table bg">
+        <span>Accept-Language</span>
+        <span>en-US</span>
+      </div>
+      <div class="api-table">
+        <span>Body-Body-Sig-Profile</span>
+        <span>your-signature-profile</span>
+      </div>
+
+      <p>
+        {{ 'TEST_CASES.COMPONENTS.VOP_IDENTIFICATION_MATCH.PART_3' | translate }}
+      </p>
+      <app-code-area [json]="body"></app-code-area>
+      <p>
+        {{ 'TEST_CASES.COMPONENTS.VOP_IDENTIFICATION_MATCH.PART_4' | translate }}
+      </p>
+      <p>
+        {{ 'TEST_CASES.COMPONENTS.VOP_IDENTIFICATION_MATCH.PART_5' | translate }}
+      </p>
+    </div>
+
+    <!-- Play with data -->
+    <ng-template #play_with_data>
+      <app-play-wth-data method="POST" [headers]="headers" url="v1/" [body]="body" [singleVerificationFlag]="true"></app-play-wth-data>
+    </ng-template>
+  </div>
+</div>

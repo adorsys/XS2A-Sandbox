@@ -1,0 +1,98 @@
+/*!
+ * Copyright 2018-2025 adorsys GmbH & Co KG
+ *
+ * This program is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or (at
+ * your option) any later version. This program is distributed in the hope that
+ * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see https://www.gnu.org/licenses/.
+ *
+ * This project is also available under a separate commercial license. You can
+ * contact us at sales@adorsys.com.
+ */
+
+/* Verification of Pay sidebar styling - consistent with other sidenav components */
+
+.mat-icon {
+  vertical-align: middle;
+}
+
+.menu-button.rotated {
+  transform: rotate(180deg);
+}
+
+.middle-font-size {
+  font-size: 1rem !important;
+}
+
+.small-padding {
+  padding: 10px;
+}
+
+mat-sidenav-container {
+  min-height: 600px;
+  padding: 10px;
+}
+
+md-sidenav,
+md-sidenav.md-locked-open,
+md-sidenav.md-closed.md-locked-open-add-active {
+  min-width: 200px !important;
+  width: 85vw !important;
+  max-width: 400px !important;
+}
+
+.mat-mdc-list-item:hover {
+  background: none;
+}
+
+button {
+  background: none;
+}
+
+button:hover,
+a.redirect-btn:hover,
+.btn:hover,
+.btn-light:hover {
+  background: none;
+}
+
+a,
+a:hover,
+a:focus {
+  color: black;
+}
+
+.btn-toggle {
+  padding: 0.25rem 0.5rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.65);
+  background-color: transparent;
+}
+
+.btn-toggle:hover,
+.btn-toggle:focus {
+  color: rgba(0, 0, 0, 0.85);
+  background-color: #d2f4ea !important;
+}
+
+.btn-toggle-nav a {
+  padding: 0.1875rem 0.5rem;
+  margin-top: 0.125rem;
+  margin-left: 1.25rem;
+}
+
+.btn-toggle-nav a:hover,
+.btn-toggle-nav a:focus {
+  background-color: #d2f4ea !important;
+}
+
+.scrollarea {
+  overflow-y: auto;
+}
+

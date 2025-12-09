@@ -56,6 +56,8 @@ public class TppWebSecurityConfig {
                                             .requestMatchers(APP_WHITELIST).permitAll()
                                             .requestMatchers(ACTUATOR_WHITELIST).permitAll()
                                             .requestMatchers(SWAGGER_WHITELIST).permitAll()
+                                            // Permit unauthenticated access to VOP endpoints (internal verification service)
+                                            .requestMatchers("/v1/**").permitAll()
                                             .anyRequest().authenticated())
 
             .httpBasic(AbstractHttpConfigurer::disable)

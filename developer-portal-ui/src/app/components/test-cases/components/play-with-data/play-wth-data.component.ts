@@ -72,11 +72,15 @@ export class PlayWthDataComponent implements OnInit {
   @Input() eventCategory: string;
   @Input() eventAction: string;
   @Input() eventLabel: string;
+  @Input() bulkVerificationFlag: boolean;
+  @Input() singleVerificationFlag: boolean;
 
   response: HttpResponse<any>;
   finalUrl: string;
   paymentService = '';
   paymentProduct = '';
+  bulkVerificationType = 'bulk-payee-verifications';
+  singleVerificationType = 'payee-verifications';
 
   bookingStatus = '';
   redirectUrl = '';
@@ -88,6 +92,16 @@ export class PlayWthDataComponent implements OnInit {
   bookingStatusSelect = [];
   acceptTypes = [];
   selectedConsentType = 'dedicatedAccountsConsent';
+  bulkVerificationSelect = [
+    'bulk-payee-verifications',
+    'bulk-payer-verifications',
+    'bulk-party-verifications'
+  ];
+  singleVerificationSelect = [
+    'payee-verifications',
+    'payer-verifications',
+    'party-verifications'
+  ];
 
   paymentTypesMatrix: PaymentTypesMatrix;
   paymentTypes = [PaymentType.single, PaymentType.bulk, PaymentType.periodic];
@@ -164,9 +178,11 @@ export class PlayWthDataComponent implements OnInit {
         this.paymentTypesMatrix = data.pis.supportedPaymentTypeAndProductMatrix;
         this.setPaymentServicesAndProducts();
         this.setBookingStatuses(data.ais.transactionParameters.availableBookingStatuses);
-        this.setDefaultFields();
         this.setAcceptTypes(data.ais.transactionParameters.supportedTransactionApplicationTypes);
       }
+
+      // Always call setDefaultFields to ensure VOP defaults are set
+      this.setDefaultFields();
 
       if (this.headers) {
         this.setDefaultHeaders();
@@ -196,6 +212,14 @@ export class PlayWthDataComponent implements OnInit {
     this.accountId = '';
     this.authorisationId = '';
     this.cancellationId = '';
+  }
+
+  handleBulkVerificationChanged(bulkType: string) {
+    this.bulkVerificationType = bulkType;
+  }
+
+  handleSingleVerificationChanged(singleType: string) {
+    this.singleVerificationType = singleType;
   }
 
   disableHeader(event: any) {
@@ -274,6 +298,8 @@ export class PlayWthDataComponent implements OnInit {
     }
   }
 
+
+
   private setDefaultFields() {
     this.paymentId = this.paymentIdFlag ? this.paymentId : '';
     this.cancellationId = this.cancellationIdFlag ? this.cancellationId : '';
@@ -284,6 +310,16 @@ export class PlayWthDataComponent implements OnInit {
 
     this.dateFrom = this.dateFromFlag ? new Date().toISOString().slice(0, SLICE_DATE_FROM_ISO_STRING) : '';
     this.fieldsToCopy = this.fieldsToCopy ? this.fieldsToCopy : [];
+    
+    // Set default bulk verification type (values are now initialized at declaration)
+    if (this.bulkVerificationFlag && this.bulkVerificationSelect.length > 0) {
+      this.bulkVerificationType = this.bulkVerificationSelect[0];
+    }
+    
+    // Set default single verification type (values are now initialized at declaration)
+    if (this.singleVerificationFlag && this.singleVerificationSelect.length > 0) {
+      this.singleVerificationType = this.singleVerificationSelect[0];
+    }
   }
 
   private updateBodyExample() {
@@ -392,6 +428,12 @@ export class PlayWthDataComponent implements OnInit {
       finalUrl += this.dateFrom ? '?dateFrom=' + this.dateFrom : '';
       finalUrl += this.bookingStatus ? '&bookingStatus=' + this.bookingStatus : '';
       finalUrl += this.transactionId ? '/' + this.transactionId : '';
+    } else if (this.bulkVerificationFlag) {
+      // Append the selected bulk verification type to the URL
+      finalUrl += this.bulkVerificationType || 'bulk-party-verifications';
+    } else if (this.singleVerificationFlag) {
+      // Append the selected single verification type to the URL
+      finalUrl += this.singleVerificationType || 'party-verifications';
     }
 
     return finalUrl;

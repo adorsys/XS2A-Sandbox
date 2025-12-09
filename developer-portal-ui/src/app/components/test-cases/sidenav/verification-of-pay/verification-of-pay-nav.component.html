@@ -1,0 +1,63 @@
+<mat-list-item (click)="openVerificationOfPay()">
+  <span class="main-list-item btn-toggle d-inline-flex align-items-center border-0 collapsed rounded">
+    <mat-icon [ngClass]="{ rotated: verificationOfPayMenu }" class="menu-button">expand_more</mat-icon>
+    {{ 'TEST_CASES.SIDE_NAV.VOP.VERIFICATION_OF_PAY' | translate }}</span
+  >
+</mat-list-item>
+
+<mat-nav-list *ngIf="verificationOfPayMenu">
+  <mat-list-item (click)="openSingleVopApproach()">
+    <span class="btn-toggle d-inline-flex align-items-center border-0 collapsed rounded">
+      <mat-icon [ngClass]="{ rotated: singleVopApproach }" class="menu-button">expand_more</mat-icon>
+      {{ 'TEST_CASES.SIDE_NAV.VOP.SINGLE_VERIFICATION_OF_PAY.SINGLE_VOP' | translate }}</span
+    >
+  </mat-list-item>
+
+  <mat-nav-list *ngIf="singleVopApproach">
+    <mat-list-item
+      class="ms-5 link-dark d-inline-flex text-decoration-none rounded"
+      routerLinkActive="is-active"
+      routerLink="/test-cases/vop-name-match"
+    >
+      {{ 'TEST_CASES.SIDE_NAV.VOP.SINGLE_VERIFICATION_OF_PAY.SUBMIT_VERIFICATION_OF_PARTY_WITH_NAME_MATCHED' | translate }}
+    </mat-list-item>
+    <mat-list-item
+      class="ms-5 link-dark d-inline-flex text-decoration-none rounded"
+      routerLinkActive="is-active"
+      routerLink="/test-cases/vop-identification-match"
+    >
+      {{ 'TEST_CASES.SIDE_NAV.VOP.SINGLE_VERIFICATION_OF_PAY.SUBMIT_VERIFICATION_OF_PARTY_WITH_IDENTIFICATION_MATCHED' | translate }}
+    </mat-list-item>
+  </mat-nav-list>
+
+  <mat-list-item (click)="openBulkVopApproach()">
+    <span class="btn-toggle d-inline-flex align-items-center border-0 collapsed rounded">
+      <mat-icon [ngClass]="{ rotated: bulkVopApproach }" class="menu-button">expand_more</mat-icon>
+      {{ 'TEST_CASES.SIDE_NAV.VOP.BULK_VERIFICATION_OF_PAY.BULK_VOP' | translate }}</span
+    >
+  </mat-list-item>
+
+  <mat-nav-list *ngIf="bulkVopApproach">
+    <mat-list-item
+      class="ms-5 link-dark d-inline-flex text-decoration-none rounded"
+      routerLinkActive="is-active"
+      routerLink="/test-cases/vop-bulk-verification"
+    >
+      {{ 'TEST_CASES.SIDE_NAV.VOP.BULK_VERIFICATION_OF_PAY.SUBMIT_BULK_VERIFICATION' | translate }}
+    </mat-list-item>
+    <mat-list-item
+      class="ms-5 link-dark d-inline-flex text-decoration-none rounded"
+      routerLinkActive="is-active"
+      routerLink="/test-cases/vop-read-bulk-status"
+    >
+      {{ 'TEST_CASES.SIDE_NAV.VOP.BULK_VERIFICATION_OF_PAY.READ_STATUS_OF_BULK_VERIFICATION' | translate }}
+    </mat-list-item>
+    <mat-list-item
+      class="ms-5 link-dark d-inline-flex text-decoration-none rounded"
+      routerLinkActive="is-active"
+      routerLink="/test-cases/vop-retrieve-bulk-verification"
+    >
+      {{ 'TEST_CASES.SIDE_NAV.VOP.BULK_VERIFICATION_OF_PAY.RETRIEVE_BULK_VERIFICATION_OF_PARTY' | translate }}
+    </mat-list-item>
+  </mat-nav-list>
+</mat-nav-list>

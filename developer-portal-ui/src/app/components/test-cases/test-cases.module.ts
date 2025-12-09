@@ -77,8 +77,14 @@ import { ConcentInitationComponent } from './sidenav/concent-initation/concent-i
 import { PaymentInitationComponent } from './sidenav/payment-initation/payment-initation.component';
 import { IntroComponent } from './sidenav/intro/intro.component';
 import { FundsConfirmationNavComponent } from './sidenav/funds-confirmation/funds-confirmation-nav.component';
+import { VerificationOfPayNavComponent } from './sidenav/verification-of-pay/verification-of-pay-nav.component';
 import { FundsConfirmationComponent } from './components/api-endpoints/funds-confirmation/funds-confirmation.component';
 import { EmbPaymentCancellPutTanComponent } from './components/api-endpoints/emb-payment-cancell-put-tan/emb-payment-cancell-put-component-tan.component';
+import { VopNameMatchComponent } from './components/api-endpoints/vop-name-match/vop-name-match.component';
+import { VopIdentificationMatchComponent } from './components/api-endpoints/vop-identification-match/vop-identification-match.component';
+import { VopBulkVerificationComponent } from './components/api-endpoints/vop-bulk-verification/vop-bulk-verification.component';
+import { VopReadBulkStatusComponent } from './components/api-endpoints/vop-read-bulk-status/vop-read-bulk-status.component';
+import { VopRetrieveBulkVerificationComponent } from './components/api-endpoints/vop-retrieve-bulk-verification/vop-retrieve-bulk-verification.component';
 
 @NgModule({
     declarations: [
@@ -114,6 +120,11 @@ import { EmbPaymentCancellPutTanComponent } from './components/api-endpoints/emb
         PrettyJsonPipe,
         PopUpComponent,
         FundsConfirmationComponent,
+        VopNameMatchComponent,
+        VopIdentificationMatchComponent,
+        VopBulkVerificationComponent,
+        VopReadBulkStatusComponent,
+        VopRetrieveBulkVerificationComponent,
         DescriptionTestcaseComponent,
         EmbConsentPutTanComponent,
         AccountInformationComponent,
@@ -121,6 +132,7 @@ import { EmbPaymentCancellPutTanComponent } from './components/api-endpoints/emb
         PaymentInitationComponent,
         IntroComponent,
         FundsConfirmationNavComponent,
+        VerificationOfPayNavComponent,
         EmbPaymentCancellPutTanComponent,
     ],
     imports: [

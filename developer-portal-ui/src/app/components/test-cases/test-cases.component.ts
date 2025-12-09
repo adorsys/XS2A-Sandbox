@@ -45,6 +45,9 @@ export class TestCasesComponent implements OnInit {
   consentRdctMenu = false;
   accountInformationMenu = false;
   fundsConfirmationMenu = false;
+  verificationOfPayMenu = false;
+  singleVopApproach = false;
+  bulkVopApproach = false;
 
   @ViewChild(MatAccordion) accordion: MatAccordion;
   step = 0;
@@ -75,6 +78,9 @@ export class TestCasesComponent implements OnInit {
     this.consentMenu = localStorage.getItem('consentMenu') === 'true';
     this.accountInformationMenu = localStorage.getItem('accountInformationMenu') === 'true';
     this.fundsConfirmationMenu = localStorage.getItem('fundsConfirmationMenu') === 'true';
+    this.verificationOfPayMenu = localStorage.getItem('verificationOfPayMenu') === 'true';
+    this.singleVopApproach = localStorage.getItem('singleVopApproach') === 'true';
+    this.bulkVopApproach = localStorage.getItem('bulkVopApproach') === 'true';
   }
 
   ngOnInit() {
@@ -153,6 +159,21 @@ export class TestCasesComponent implements OnInit {
   openFundsConfirmation() {
     this.fundsConfirmationMenu = !this.fundsConfirmationMenu;
     localStorage.setItem('fundsConfirmationMenu', String(this.fundsConfirmationMenu));
+  }
+
+  openVerificationOfPay() {
+    this.verificationOfPayMenu = !this.verificationOfPayMenu;
+    localStorage.setItem('verificationOfPayMenu', String(this.verificationOfPayMenu));
+  }
+
+  openSingleVopApproach() {
+    this.singleVopApproach = !this.singleVopApproach;
+    localStorage.setItem('singleVopApproach', String(this.singleVopApproach));
+  }
+
+  openBulkVopApproach() {
+    this.bulkVopApproach = !this.bulkVopApproach;
+    localStorage.setItem('bulkVopApproach', String(this.bulkVopApproach));
   }
 
   closeSidenav() {

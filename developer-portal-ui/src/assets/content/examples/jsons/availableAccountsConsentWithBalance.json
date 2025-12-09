@@ -6,7 +6,7 @@
     "availableAccountsWithBalance": "allAccounts"
   },
   "recurringIndicator": false,
-  "validUntil": "2020-03-03",
+  "validUntil": "2030-03-03",
   "frequencyPerDay": 1,
   "combinedServiceIndicator": true
 }

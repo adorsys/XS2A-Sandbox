@@ -48,6 +48,9 @@ export class JsonService {
     scaAuthenticationData: 'scaAuthenticationData',
     authenticationMethodId: 'authenticationMethodId',
     fundsConfirmation: 'funds-confirmation',
+    submitVerificationOfPartyNameMatched: 'verification-of-pay/submitVerificationOfPartyNameMatched',
+    submitVerificationOfPartyIdentificationMatched: 'verification-of-pay/submitVerificationOfPartyIdentificationMatched',
+    submitBulkVerification: 'verification-of-pay/submitBulkVerification',
   };
 
   private currency = 'EUR';
