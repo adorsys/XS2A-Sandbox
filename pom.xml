@@ -175,7 +175,7 @@
         <sonar.core.coveragePlugin>jacoco</sonar.core.coveragePlugin>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
+        <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
         <sonar.language>java</sonar.language>
         <sonar.coverage.exclusions>
             **/*Entity.java,**/*TO.java,**/*BO.java,**/*PO.java,**/*Application.java,**/*Exception.java,**/*Filter.java,
@@ -190,6 +190,19 @@
             **/consent-psu-rest-client/**/*,**/*Configuration.java,**/*Properties.java,**/*PermittedResources.java
         </sonar.exclusions>
         <sonar.moduleName>${project.artifactId}</sonar.moduleName>
+        <sonar.projectKey>psd2-dynamic-sandbox-support</sonar.projectKey>
+        <sonar.projectName>psd2-dynamic-sandbox-support</sonar.projectName>
+        <sonar.qualitygate.wait>true</sonar.qualitygate.wait>
+
+        <sonar.java.pmd.reportPaths>target/pmd.xml</sonar.java.pmd.reportPaths>
+
+        <sonar.dependencyCheck.jsonReportPath>target/dependency-check-report.json</sonar.dependencyCheck.jsonReportPath>
+        <sonar.dependencyCheck.htmlReportPath>target/dependency-check-report.html</sonar.dependencyCheck.htmlReportPath>
+        <sonar.dependencyCheck.summarize>true</sonar.dependencyCheck.summarize>
+        <sonar.dependencyCheck.securityHotspot>true</sonar.dependencyCheck.securityHotspot>
+
+        <dependency-check-maven.version>12.2.0</dependency-check-maven.version>
+
         <skipITs>true</skipITs>
         <skipTests>false</skipTests>
     </properties>
@@ -473,6 +486,19 @@
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>${maven-javadoc-plugin.version}</version>
                 </plugin>
+
+                <plugin>
+                    <groupId>org.owasp</groupId>
+                    <artifactId>dependency-check-maven</artifactId>
+                    <version>${dependency-check-maven.version}</version>
+                    <configuration>
+                        <formats>
+                            <format>JSON</format>
+                            <format>HTML</format>
+                        </formats>
+                        <failBuildOnCVSS>7</failBuildOnCVSS>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -538,7 +564,6 @@
                         <exclude>**/generated-sources/**</exclude>
                         <exclude>**/*Config*.*</exclude>
                     </excludes>
-
                 </configuration>
                 <executions>
                     <execution>

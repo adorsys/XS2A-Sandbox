@@ -66,7 +66,7 @@ variables:
 
 .build_java: &build_java
   script:
-    - sdk java use $BUILD_JAVA_VERSION
+    - sdk use java $BUILD_JAVA_VERSION
     - java -XX:+PrintFlagsFinal -version | grep -Ei "maxheapsize|maxram"
     - make build-java-services
   cache:
@@ -76,7 +76,7 @@ variables:
 
 .release_java_private: &release_java_private
   script:
-    - sdk java use $BUILD_JAVA_VERSION
+    - sdk use java $BUILD_JAVA_VERSION
     - java -XX:+PrintFlagsFinal -version | grep -Ei "maxheapsize|maxram"
     - mvn -ntp --settings scripts/mvn-release-settings.xml -Pgitlab-maven -DskipTests -U deploy
   cache:
@@ -362,6 +362,31 @@ Lint (PMD CPD):
     name: "${CI_PROJECT_NAME}-${CI_BUILD_REF_NAME#*v}-pmd"
     expire_in: "10 day"
 
+Lint (owasp-dep-check):
+  stage: "Lint"
+  variables:
+    JAVA_TOOL_OPTIONS: "-XX:+UnlockExperimentalVMOptions -Xmx2048m"
+  script:
+    - mvn -B -ntp --settings scripts/mvn-release-settings.xml -DnvdApiKey=$NVD_API_KEY -DdataDirectory=dependency-check-data org.owasp:dependency-check-maven:aggregate
+  timeout: 4h # downloading NVD records for the first time might take a long time
+  allow_failure: true
+  artifacts:
+    when: always
+    paths:
+      - target/dependency-check-report.html
+      - target/dependency-check-report.json
+    expire_in: "10 days"
+  cache:
+    - key: "maven-cache-$CI_COMMIT_REF_SLUG"
+      paths:
+        - ".m2/repository"
+      policy: pull-push
+    - key: dependency-check
+      paths:
+        - dependency-check-data
+      policy: pull-push
+      when: always
+
 #-------------------------------------------------------------------
 # Compile
 #-------------------------------------------------------------------
@@ -483,7 +508,7 @@ Test (Javadoc):
     JAVA_TOOL_OPTIONS: "-Djavax.net.ssl.trustStorePassword=changeit -XX:MaxRAM=3G"
     JAVA_VERSION: "21.0.2-open"
   script:
-    - sdk java use ${JAVA_VERSION}
+    - sdk use java ${JAVA_VERSION}
     - java -XX:+PrintFlagsFinal -version | grep -Ei "maxheapsize|maxram"
     - mvn -ntp --settings scripts/mvn-release-settings.xml -Dmaven.test.skip=true -Pjavadoc verify javadoc:javadoc
 
@@ -630,6 +655,33 @@ Build and push to private repo (tags):
     DOCKERHUB_REGISTRY: gitlab-registry.adorsys.de
     DOCKERHUB_NAMESPACE: "adorsys/xs2a/psd2-dynamic-sandbox"
   <<: *build_and_push_dockerhub_images_private
+
+Upload to SonarQube:
+  stage: Package
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  before_script: []
+  cache:
+    - key: "sonar-cache-$CI_COMMIT_REF_SLUG"
+      paths:
+        - "${SONAR_USER_HOME}/cache"
+      policy: pull-push
+    - key: "maven-cache-$CI_COMMIT_REF_SLUG"
+      paths:
+        - ".m2/repository"
+      policy: pull-push
+  dependencies:
+    - "Build (Modelbank)"
+    - "Test (Unit Tests)"
+    - "Lint (owasp-dep-check)"
+    - "Lint (PMD CPD)"
+  script:
+    - mvn -B -ntp --settings scripts/mvn-release-settings.xml -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository sonar:sonar -Dsonar.qualitygate.wait=true
+  allow_failure: true
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'support-14.x'
+    - if: $CI_COMMIT_BRANCH == 'sonarqube-support'
 
 #-------------------------------------------------------------------
 # Release
