@@ -2,7 +2,7 @@
 
   <div class="footer-top-items">
 
-[<img src="../assets/content/Logo_XS2ASandbox.png" class="logo">](https://dev-modelbank-devportal.cloud.adorsys.de/home)
+[<img src="../assets/content/Logo_XS2ASandbox.png" class="logo">](https://devportal-modelbank.sol-adorsys.com/home)
 
   <div>
 

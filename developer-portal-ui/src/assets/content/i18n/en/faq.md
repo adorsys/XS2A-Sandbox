@@ -154,7 +154,7 @@ Solution: First of all you try to remove all containers from docker with followi
 
 4._docker system prune -a -_ input _y_ to confirm
 
-If building still fails, you need to manually kill the existing ports with _kill \$(lsof -t -i :PORT_NUMBER)_. Instead of PORT_NUMBER please write the number of the conflicting port, e.g. 8092 for the "Certificate Generator" or 38080 for the "Consent Management System". The port number should be mentioned in the error message, if there is just the name of the environment, you can simply find the corresponding port number in the ['Links to environments' table.](https://demo-dynamicsandbox-developerportalui.cloud.adorsys.de/getting-started)
+If building still fails, you need to manually kill the existing ports with _kill \$(lsof -t -i :PORT_NUMBER)_. Instead of PORT_NUMBER please write the number of the conflicting port, e.g. 8092 for the "Certificate Generator" or 38080 for the "Consent Management System". The port number should be mentioned in the error message, if there is just the name of the environment, you can simply find the corresponding port number in the ['Links to environments' table.](https://devportal-modelbank.sol-adorsys.com/getting-started)
 
 In worst case you need to reboot you computer.
 

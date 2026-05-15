@@ -153,7 +153,7 @@ Lösung: Zuerst, solten Sie versuchen alle Docker Container zu löschen. Führen
 
 4._docker system prune -a_ - input _y_ to confirm
 
-Falls Sie immer noch Probleme haben sollten, müssen Sie mit dem Befehl _kill \$(lsof -t -i :PORT_NUMBER)_ den Problem verursachenden Port beenden. Anstelle von PORT_NUMBER geben Sie die Nummer des Ports an, der den Konflikt verursacht, bspw. 8092 für den "Certificate Generator" oder 38080 für das "Consent Management System". Die Portnummer sollte in der Fehlermeldung stehen, falls nur der Name angegeben sein sollte, können Sie die entsprechende Nummer in unserer ['Links to environments' Tabelle](https://demo-dynamicsandbox-developerportalui.cloud.adorsys.de/getting-started) einsehen.
+Falls Sie immer noch Probleme haben sollten, müssen Sie mit dem Befehl _kill \$(lsof -t -i :PORT_NUMBER)_ den Problem verursachenden Port beenden. Anstelle von PORT_NUMBER geben Sie die Nummer des Ports an, der den Konflikt verursacht, bspw. 8092 für den "Certificate Generator" oder 38080 für das "Consent Management System". Die Portnummer sollte in der Fehlermeldung stehen, falls nur der Name angegeben sein sollte, können Sie die entsprechende Nummer in unserer ['Links to environments' Tabelle](https://devportal-modelbank.sol-adorsys.com/getting-started) einsehen.
 Im schlimmsten Fall ist ein Neustart Ihres Computers notwendig.
 
 **Warnung:** Dies löscht all Ihre lokalen TPPs, User, Konten und Transaktionen dauerhaft.
