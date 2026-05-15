@@ -112,7 +112,10 @@ variables:
   script:
     - git config --global user.name "$GITHUB_USERNAME"
     - git config --global user.email "$GITHUB_EMAIL"
+    - git config --global credential.helper store
+    - echo "https://$GITHUB_TOKEN:x-oauth-basic@github.com" | git credential approve
     - git remote add github https://$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git
+    - export GIT_TERMINAL_PROMPT=0
     - for branch in $(git branch -r | grep -E "origin/.*(release-${GITHUB_PROJECT_CLONE_VERSION}.*|support-${GITHUB_PROJECT_CLONE_VERSION}.x).*"); do
         branch=${branch#origin/};
         git checkout $branch;
