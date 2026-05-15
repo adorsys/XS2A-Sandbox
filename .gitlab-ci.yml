@@ -863,6 +863,7 @@ Clone to github:
   stage: "Clone to github"
   <<: *sync_changes_github
   image: alpine/git:latest
+  before_script: []
   needs: []
   only:
     - /^.*release-${GITHUB_PROJECT_CLONE_VERSION}.*$/
