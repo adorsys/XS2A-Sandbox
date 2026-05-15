@@ -111,7 +111,8 @@ variables:
   image: alpine/git
   script:
     - git config --global user.name "$GITHUB_USERNAME"
-    - git remote add github https://$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git #Token expires on Sat, 11.05.2024
+    - git config --global user.email "$GITHUB_EMAIL"
+    - git remote add github https://$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git
     - for branch in $(git branch -r | grep -E "origin/.*(release-${GITHUB_PROJECT_CLONE_VERSION}.*|support-${GITHUB_PROJECT_CLONE_VERSION}.x).*"); do
         branch=${branch#origin/};
         git checkout $branch;
@@ -858,17 +859,17 @@ Change dependencies versions (INTEG):
     - git commit -m "changed dependencies versions"
     - git push origin master
 
-#Clone to github:
-#  stage: "Clone to github"
-#  <<: *sync_changes_github
-#  image: alpine/git:latest
-#  needs: []
-#  only:
-#    - /^.*release-${GITHUB_PROJECT_CLONE_VERSION}.*$/
-#    - support-${GITHUB_PROJECT_CLONE_VERSION}.x
-#  except:
-#    - schedules
-#  variables:
-#    GITHUB_USERNAME: adorsys
-#    GITHUB_REPOSITORY: adorsys/XS2A-Sandbox
-#    GITHUB_PROJECT_CLONE_VERSION: "6"
+Clone to github:
+  stage: "Clone to github"
+  <<: *sync_changes_github
+  image: alpine/git:latest
+  needs: []
+  only:
+    - /^.*release-${GITHUB_PROJECT_CLONE_VERSION}.*$/
+    - support-${GITHUB_PROJECT_CLONE_VERSION}.x
+    - schedules
+  variables:
+    GITHUB_USERNAME: adorsys
+    GITHUB_EMAIL: github@adorsys.de
+    GITHUB_REPOSITORY: adorsys/XS2A-Sandbox
+    GITHUB_PROJECT_CLONE_VERSION: "14"
