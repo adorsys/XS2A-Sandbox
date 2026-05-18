@@ -312,6 +312,19 @@
                 <scope>test</scope>
             </dependency>
 
+            <!-- Override Spring Boot BOM versions for security patches -->
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-core</artifactId>
+                <version>${tomcat.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
+            </dependency>
+
             <!-- swagger -->
 
             <dependency>
