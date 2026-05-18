@@ -143,10 +143,10 @@
         <ledgers.version>7.0</ledgers.version>
 
         <!-- Spring-related versions -->
-        <spring-boot-dependencies.version>3.3.5</spring-boot-dependencies.version>
+        <spring-boot-dependencies.version>3.3.13</spring-boot-dependencies.version>
         <spring-cloud-dependencies.version>2023.0.3</spring-cloud-dependencies.version>
         <spring-test.version>6.1.14</spring-test.version>
-        <spring-security.version>6.3.3</spring-security.version>
+        <spring-security.version>6.3.10</spring-security.version>
 
         <!-- Other versions -->
         <jetbrains.annotations.version>15.0</jetbrains.annotations.version>
@@ -157,6 +157,10 @@
         <lombok.version>1.18.30</lombok.version>
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
         <commons-io.version>2.16.1</commons-io.version>
+        <commons-beanutils.version>1.11.0</commons-beanutils.version>
+        <commons-fileupload.version>1.6.0</commons-fileupload.version>
+        <postgresql.version>42.7.11</postgresql.version>
+        <tomcat.version>10.1.55</tomcat.version>
         <junit-jupiter.version>5.10.0</junit-jupiter.version>
         <mockito-junit-jupiter.version>5.2.0</mockito-junit-jupiter.version>
         <hamcrest-library.version>2.2</hamcrest-library.version>
@@ -425,6 +429,18 @@
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${commons-io.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>${commons-beanutils.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>${commons-fileupload.version}</version>
             </dependency>
 
             <!-- Test dependencies -->
