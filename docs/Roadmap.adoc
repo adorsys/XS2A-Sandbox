@@ -61,10 +61,51 @@ a| * DevPortal: UX improvement in navigation, menu collapsing, and structuring
 * Bug fix: TPP UI: Can't log in with a newly registered user credentials
 * Bug fix: Generate test data doesn't work in Demo env.
 
+| 21.10.2024          | 8.0     | 9.0
+a| * Java upgraded to LTS version (Java 21)
+* Angular upgraded to version 18.x
+* Node.js updated to version 18.x
+* Keycloak integration improvements
+* Enhanced security and performance optimizations
+* Updated dependencies and libraries
 
-| Further development |         |
-a| * Ledger's email settings should be synchronised with Keycloak
-* The field "fundsAvailable" should be supported in the response to Payment Initiation Status Request
-* Support List of Trusted Beneficiaries in Ledgers
+| 05.01.2024          | 8.1     | 9.1
+a| * Security patches and bug fixes
+* Performance improvements
+* Documentation updates
+* Dependency updates for security compliance
+
+| 15.02.2024          | 8.2     | 9.2
+a| * Additional security enhancements
+* Code quality improvements
+* Bug fixes and stability improvements
+
+| 14.10.2024          |         | 9.3
+a| * Latest Angular 18 features
+* Enhanced API compatibility
+* Improved error handling
+
+| 16.10.2024          | 10.0    | 11.0
+a| * Major release with significant improvements
+* Java 21 as standard requirement
+* Angular 18.x framework
+* Node.js 18.x runtime
+* Enhanced security features
+* Performance optimizations
+
+| 16.06.2025          | 10.0.1  |
+a| * Security patches and bug fixes
+* Stability improvements
+
+| 09.12.2025          | 14.0    | 15.0
+a| * Latest features and improvements
+* Enhanced compatibility
+* Latest dependencies and frameworks
+* Current stable release with full Java 21 support
+
+| Further development |  14.x   | 15.x
+a| * Continuous improvements and bug fixes
+* Ongoing modernization efforts
+* Framework and dependency updates
 
 |====

@@ -31,14 +31,14 @@ Line to add:
 ```
 
 If something is missing, install it to your local machine, otherwise the build will fail.
-List of dependencies that are required to use ModelBank: **Java 17**, **nodeJs**, **AngularCLI**, **asciidoctor**, **jq**, **docker**, **docker-compose**, **maven**, **plantuml**.
+List of dependencies that are required to use ModelBank: **Java 21**, **nodeJs**, **AngularCLI**, **asciidoctor**, **jq**, **docker**, **docker-compose**, **maven**, **plantuml**.
 Here are links where you can install needed dependencies:
 
 | Dependency          | Link                                    |
 |---------------------| --------------------------------------- |
-| Java 17             | https://openjdk.java.net/install/       |
+| Java 21             | https://openjdk.java.net/install/       |
 | Node.js 18.x        | https://nodejs.org/en/download          |
-| Angular CLI 15.x    | https://angular.io/guide/quickstart     |
+| Angular CLI 18.x    | https://angular.io/guide/quickstart     |
 | Asciidoctor 2.0     | https://asciidoctor.org                 |
 | jq 1.6              | https://stedolan.github.io/jq/download  |
 | Docker 1.17         | https://www.docker.com/get-started      |
