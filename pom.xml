@@ -143,10 +143,10 @@
         <ledgers.version>7.0</ledgers.version>
 
         <!-- Spring-related versions -->
-        <spring-boot-dependencies.version>3.3.13</spring-boot-dependencies.version>
-        <spring-cloud-dependencies.version>2023.0.3</spring-cloud-dependencies.version>
-        <spring-test.version>6.1.14</spring-test.version>
-        <spring-security.version>6.3.10</spring-security.version>
+        <spring-boot-dependencies.version>3.5.14</spring-boot-dependencies.version>
+        <spring-cloud-dependencies.version>2025.0.2</spring-cloud-dependencies.version>
+        <spring-test.version>6.2.18</spring-test.version>
+        <spring-security.version>6.5.10</spring-security.version>
 
         <!-- Other versions -->
         <jetbrains.annotations.version>15.0</jetbrains.annotations.version>
@@ -168,12 +168,18 @@
         <jakarta.annotation-api.version>3.0.0</jakarta.annotation-api.version>
         <jakarta.validation-api.version>3.1.0</jakarta.validation-api.version>
         <jakarta.persistence-api.version>3.1.0</jakarta.persistence-api.version>
-        <jackson-core.version>2.18.1</jackson-core.version>
+        <jackson-core.version>2.21.1</jackson-core.version>
+        <jackson-annotations.version>2.21</jackson-annotations.version>
         <opencsv.version>5.9</opencsv.version>
         <feign-okhttp.version>10.10.1</feign-okhttp.version>
         <commons-validator.version>1.7</commons-validator.version>
         <snakeyaml.version>2.0</snakeyaml.version>
         <iban4j.version>3.2.4-RELEASE</iban4j.version>
+        <bcprov-jdk18on.version>1.84</bcprov-jdk18on.version>
+        <angus-mail.version>2.0.5</angus-mail.version>
+        <assertj-core.version>3.27.7</assertj-core.version>
+        <keycloak-core.version>26.5.2</keycloak-core.version>
+        <keycloak-server-spi-private.version>26.6.0</keycloak-server-spi-private.version>
 
         <!-- Sonar -->
         <sonar.core.coveragePlugin>jacoco</sonar.core.coveragePlugin>
@@ -422,7 +428,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
-                <version>${jackson-core.version}</version>
+                <version>${jackson-annotations.version}</version>
             </dependency>
 
             <dependency>
@@ -490,6 +496,38 @@
                 <artifactId>hamcrest-library</artifactId>
                 <version>${hamcrest-library.version}</version>
                 <scope>test</scope>
+            </dependency>
+
+            <!-- Override transitive dependencies for security patches -->
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk18on</artifactId>
+                <version>${bcprov-jdk18on.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.angus</groupId>
+                <artifactId>angus-mail</artifactId>
+                <version>${angus-mail.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>${assertj-core.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.keycloak</groupId>
+                <artifactId>keycloak-core</artifactId>
+                <version>${keycloak-core.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.keycloak</groupId>
+                <artifactId>keycloak-server-spi-private</artifactId>
+                <version>${keycloak-server-spi-private.version}</version>
             </dependency>
 
         </dependencies>
