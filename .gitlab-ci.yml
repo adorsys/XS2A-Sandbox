@@ -119,12 +119,12 @@ variables:
     - git remote add github https://github.com/$GITHUB_REPOSITORY.git
     - export GIT_TERMINAL_PROMPT=0
     - |
-      TOKEN_LOGIN=$(curl -fsS -H "Authorization: Bearer ${GITHUB_TOKEN_CLEAN}" -H "Accept: application/vnd.github+json" https://api.github.com/user | jq -r '.login // empty')
-      if [ -z "$TOKEN_LOGIN" ]; then
-        echo "GitHub token diagnostic failed: unable to read token owner login from API";
-        exit 1;
+      TOKEN_LOGIN=$(curl -sS -H "Authorization: token ${GITHUB_TOKEN_CLEAN}" -H "Accept: application/vnd.github+json" https://api.github.com/user | jq -r '.login // empty')
+      if [ -n "$TOKEN_LOGIN" ]; then
+        echo "GitHub token resolves to login: ${TOKEN_LOGIN}"
+      else
+        echo "GitHub token diagnostic warning: unable to resolve login via API (/user). Continuing with git auth preflight."
       fi
-      echo "GitHub token resolves to login: ${TOKEN_LOGIN}"
       echo "Configured GITHUB_USERNAME: ${GITHUB_USERNAME}"
 
       git -c http.https://github.com/.extraheader="AUTHORIZATION: basic ${AUTH_HEADER}" ls-remote --exit-code github >/dev/null || {
