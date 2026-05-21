@@ -113,15 +113,29 @@ variables:
     - git config --global user.name "$GITHUB_USERNAME"
     - git config --global user.email "$GITHUB_EMAIL"
     - test -n "$GITHUB_TOKEN"
-    - git config --global credential.helper store
-    - printf "protocol=https\nhost=github.com\nusername=%s\npassword=%s\n" "$GITHUB_USERNAME" "$GITHUB_TOKEN" | git credential approve
+    - apk add --no-cache curl jq
+    - GITHUB_TOKEN_CLEAN=$(printf "%s" "$GITHUB_TOKEN" | tr -d '\r\n')
+    - AUTH_HEADER=$(printf "%s:%s" "$GITHUB_USERNAME" "$GITHUB_TOKEN_CLEAN" | base64 | tr -d '\n')
     - git remote add github https://github.com/$GITHUB_REPOSITORY.git
     - export GIT_TERMINAL_PROMPT=0
     - |
+      TOKEN_LOGIN=$(curl -fsS -H "Authorization: Bearer ${GITHUB_TOKEN_CLEAN}" -H "Accept: application/vnd.github+json" https://api.github.com/user | jq -r '.login // empty')
+      if [ -z "$TOKEN_LOGIN" ]; then
+        echo "GitHub token diagnostic failed: unable to read token owner login from API";
+        exit 1;
+      fi
+      echo "GitHub token resolves to login: ${TOKEN_LOGIN}"
+      echo "Configured GITHUB_USERNAME: ${GITHUB_USERNAME}"
+
+      git -c http.https://github.com/.extraheader="AUTHORIZATION: basic ${AUTH_HEADER}" ls-remote --exit-code github >/dev/null || {
+        echo "GitHub authentication preflight failed. Check token validity, token owner username, repo access, and SSO authorization.";
+        exit 1;
+      }
+
       for branch in $(git branch -r | grep -E "origin/.*(release-${GITHUB_PROJECT_CLONE_VERSION}.*|support-${GITHUB_PROJECT_CLONE_VERSION}.x).*"); do
         branch=${branch#origin/}
         git checkout "$branch"
-        git push github "$branch"
+        git -c http.https://github.com/.extraheader="AUTHORIZATION: basic ${AUTH_HEADER}" push github "$branch"
       done
 
 # ------------------------------------------------------------------
