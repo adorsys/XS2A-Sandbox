@@ -112,14 +112,57 @@ variables:
   script:
     - git config --global user.name "$GITHUB_USERNAME"
     - git config --global user.email "$GITHUB_EMAIL"
-    - git config --global credential.helper store
-    - printf "protocol=https\nhost=github.com\nusername=git\npassword=$GITHUB_TOKEN\n" | git credential approve
-    - git remote add github https://github.com/$GITHUB_REPOSITORY.git
+    - test -n "$GITHUB_TOKEN"
+    - apk add --no-cache curl jq
+    - GITHUB_TOKEN_CLEAN=$(printf "%s" "$GITHUB_TOKEN" | tr -d '\r\n')
     - export GIT_TERMINAL_PROMPT=0
-    - for branch in $(git branch -r | grep -E "origin/.*(release-${GITHUB_PROJECT_CLONE_VERSION}.*|support-${GITHUB_PROJECT_CLONE_VERSION}.x).*"); do
-        branch=${branch#origin/};
-        git checkout $branch;
-        git push github $branch;
+    - |
+      # --- Safe token diagnostics (no secret values printed) ---
+      TOKEN_LEN=${#GITHUB_TOKEN_CLEAN}
+      TOKEN_PREFIX=$(printf "%s" "$GITHUB_TOKEN_CLEAN" | cut -c1-4)
+      echo "Configured GITHUB_USERNAME: ${GITHUB_USERNAME}"
+      echo "Token length: ${TOKEN_LEN}"
+      echo "Token prefix (first 4 chars): ${TOKEN_PREFIX}"
+      echo "Expected prefixes: ghp_ (classic PAT), github_pat_ (fine-grained PAT), gho_ (OAuth), ghs_ (GitHub App)"
+
+      USER_TOKEN_CODE=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: token ${GITHUB_TOKEN_CLEAN}" -H "Accept: application/vnd.github+json" https://api.github.com/user)
+      USER_BEARER_CODE=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: Bearer ${GITHUB_TOKEN_CLEAN}" -H "Accept: application/vnd.github+json" https://api.github.com/user)
+      REPO_TOKEN_CODE=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: token ${GITHUB_TOKEN_CLEAN}" -H "Accept: application/vnd.github+json" "https://api.github.com/repos/${GITHUB_REPOSITORY}")
+      echo "GET /user      (token)  HTTP ${USER_TOKEN_CODE}"
+      echo "GET /user      (Bearer) HTTP ${USER_BEARER_CODE}"
+      echo "GET /repos/${GITHUB_REPOSITORY} (token) HTTP ${REPO_TOKEN_CODE}"
+
+      if [ "$USER_TOKEN_CODE" != "200" ] && [ "$USER_BEARER_CODE" != "200" ] && [ "$REPO_TOKEN_CODE" != "200" ]; then
+        echo ""
+        echo "ERROR: All GitHub API auth probes failed (status codes above)."
+        echo "Likely causes:"
+        echo "  1) GITHUB_TOKEN in GitLab CI/CD variables is invalid, expired, or revoked."
+        echo "  2) Token belongs to an account with no access to ${GITHUB_REPOSITORY}."
+        echo "  3) Organization SSO authorization is required but not granted for this token."
+        echo "  4) Token was pasted with surrounding whitespace/quotes when set as a CI variable."
+        echo "Action: Per GitLab docs, regenerate a classic or fine-grained PAT with 'repo' and 'Contents: write' scope"
+        echo "        for an account that can push to ${GITHUB_REPOSITORY}, update the GitLab CI/CD variable, and re-run."
+        exit 1
+      fi
+      # ---------------------------------------------------------
+
+      # Per GitLab docs: https://docs.gitlab.com/user/project/repository/mirror/push/
+      # Use https://<username>:<token>@github.com/<repo>.git format for HTTPS mirroring
+      git remote add github "https://${GITHUB_USERNAME}:${GITHUB_TOKEN_CLEAN}@github.com/${GITHUB_REPOSITORY}.git"
+
+      git ls-remote --exit-code github >/dev/null || {
+        echo "GitHub ls-remote failed even though API probes succeeded.";
+        echo "Check that the token has push ('Contents: write') permission on ${GITHUB_REPOSITORY}.";
+        exit 1;
+      }
+
+      # Fetch latest from GitHub to stay in sync before pushing
+      git fetch github --all
+
+      for branch in $(git branch -r | grep -E "origin/.*(release-${GITHUB_PROJECT_CLONE_VERSION}.*|support-${GITHUB_PROJECT_CLONE_VERSION}.x).*"); do
+        branch=${branch#origin/}
+        git checkout "$branch"
+        git push github "$branch"
       done
 
 # ------------------------------------------------------------------
