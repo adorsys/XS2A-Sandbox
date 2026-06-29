@@ -146,7 +146,7 @@
         <spring-boot-dependencies.version>3.5.14</spring-boot-dependencies.version>
         <spring-cloud-dependencies.version>2025.0.2</spring-cloud-dependencies.version>
         <spring-test.version>6.2.18</spring-test.version>
-        <spring-security.version>6.5.10</spring-security.version>
+        <spring-security.version>6.5.11</spring-security.version>
 
         <!-- Other versions -->
         <jetbrains.annotations.version>15.0</jetbrains.annotations.version>
@@ -275,6 +275,12 @@
 
     <dependencyManagement>
         <dependencies>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>6.2.19</version>
+      <!-- Security fix: CVE-2026-41838, CVE-2026-41842, CVE-2026-41848, CVE-2026-41850, CVE-2026-41851 -->
+    </dependency>
 
             <!-- Ledgers dependencies -->
             <dependency>
