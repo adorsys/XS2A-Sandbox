@@ -146,7 +146,7 @@
         <spring-boot-dependencies.version>3.5.14</spring-boot-dependencies.version>
         <spring-cloud-dependencies.version>2025.0.2</spring-cloud-dependencies.version>
         <spring-test.version>6.2.18</spring-test.version>
-        <spring-security.version>6.5.10</spring-security.version>
+        <spring-security.version>6.5.11</spring-security.version>
 
         <!-- Other versions -->
         <jetbrains.annotations.version>15.0</jetbrains.annotations.version>
@@ -160,7 +160,7 @@
         <commons-beanutils.version>1.11.0</commons-beanutils.version>
         <commons-fileupload.version>1.6.0</commons-fileupload.version>
         <postgresql.version>42.7.11</postgresql.version>
-        <tomcat.version>10.1.55</tomcat.version>
+        <tomcat.version>10.1.56</tomcat.version>
         <junit-jupiter.version>5.10.0</junit-jupiter.version>
         <mockito-junit-jupiter.version>5.2.0</mockito-junit-jupiter.version>
         <hamcrest-library.version>2.2</hamcrest-library.version>
@@ -168,7 +168,7 @@
         <jakarta.annotation-api.version>3.0.0</jakarta.annotation-api.version>
         <jakarta.validation-api.version>3.1.0</jakarta.validation-api.version>
         <jakarta.persistence-api.version>3.1.0</jakarta.persistence-api.version>
-        <jackson-core.version>2.21.1</jackson-core.version>
+        <jackson-core.version>2.21.4</jackson-core.version>
         <jackson-annotations.version>2.21</jackson-annotations.version>
         <opencsv.version>5.9</opencsv.version>
         <feign-okhttp.version>10.10.1</feign-okhttp.version>
@@ -275,6 +275,12 @@
 
     <dependencyManagement>
         <dependencies>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>6.2.19</version>
+      <!-- Security fix: CVE-2026-41855, CVE-2026-41838, CVE-2026-41842, CVE-2026-41848, CVE-2026-41850 -->
+    </dependency>
 
             <!-- Ledgers dependencies -->
             <dependency>
