@@ -10,7 +10,7 @@ RUN \
 
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf.template
 COPY entry.sh /opt/entry.sh
-COPY dist/oba-ui /usr/share/nginx/html
+COPY dist/oba-ui/browser /usr/share/nginx/html
 COPY info.json /usr/share/nginx/html
 
 RUN chgrp -R root /var/cache/nginx && \

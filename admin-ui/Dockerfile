@@ -14,7 +14,7 @@ RUN \
 
 COPY ./nginx.conf.erb /etc/nginx/conf.d/default.conf.erb
 COPY entry.sh /opt/entry.sh
-COPY dist/admin-ui /usr/share/nginx/html
+COPY dist/admin-ui/browser /usr/share/nginx/html
 COPY info.json /usr/share/nginx/html
 
 RUN chgrp -R root /var/cache/nginx && \
