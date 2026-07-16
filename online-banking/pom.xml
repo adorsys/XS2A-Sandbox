@@ -29,7 +29,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>online-banking</artifactId>
-    <version>14.2-SNAPSHOT</version>
+    <version>14.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
