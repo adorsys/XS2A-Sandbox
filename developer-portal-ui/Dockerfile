@@ -17,6 +17,10 @@ RUN chgrp -R root /var/cache/nginx && \
     chmod 775 /opt/entry.sh && \
     chmod -R 775 /etc/nginx/conf.d
 
+RUN chown -R nginx:nginx /var/cache/nginx /var/run /etc/nginx/conf.d /usr/share/nginx/html /opt/entry.sh
+
+USER nginx
+
 EXPOSE 4206
 
 ENTRYPOINT [ "/opt/entry.sh" ]

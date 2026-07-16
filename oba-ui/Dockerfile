@@ -5,7 +5,6 @@ ENV NGINX_ACCESS_LOG_DEBUG combined
 ENV NGINX_ERROR_LOG_DEBUG error
 
 RUN \
-  apt-get update && \
   apt-get remove -y curl && \
   rm -rf /var/lib/apt/lists/*
 
@@ -21,6 +20,10 @@ RUN chgrp -R root /var/cache/nginx && \
     chmod 775 /opt/entry.sh && \
     chmod -R 775 /etc/nginx/conf.d && \
     chmod 644 /usr/share/nginx/html/assets/settings.json
+
+  RUN chown -R nginx:nginx /var/cache/nginx /var/run /etc/nginx/conf.d /usr/share/nginx/html /opt/entry.sh
+
+  USER nginx
 
 EXPOSE 4400
 
