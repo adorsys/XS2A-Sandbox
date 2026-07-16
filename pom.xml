@@ -145,8 +145,9 @@
         <!-- Spring-related versions -->
         <spring-boot-dependencies.version>3.5.14</spring-boot-dependencies.version>
         <spring-cloud-dependencies.version>2025.0.2</spring-cloud-dependencies.version>
-        <spring-test.version>6.2.18</spring-test.version>
-        <spring-security.version>6.5.10</spring-security.version>
+        <spring-framework.version>6.2.19</spring-framework.version>
+        <spring-test.version>6.2.19</spring-test.version>
+        <spring-security.version>6.5.11</spring-security.version>
 
         <!-- Other versions -->
         <jetbrains.annotations.version>15.0</jetbrains.annotations.version>
@@ -159,8 +160,8 @@
         <commons-io.version>2.16.1</commons-io.version>
         <commons-beanutils.version>1.11.0</commons-beanutils.version>
         <commons-fileupload.version>1.6.0</commons-fileupload.version>
-        <postgresql.version>42.7.11</postgresql.version>
-        <tomcat.version>10.1.55</tomcat.version>
+        <postgresql.version>42.7.13</postgresql.version>
+        <tomcat.version>10.1.57</tomcat.version>
         <junit-jupiter.version>5.10.0</junit-jupiter.version>
         <mockito-junit-jupiter.version>5.2.0</mockito-junit-jupiter.version>
         <hamcrest-library.version>2.2</hamcrest-library.version>
@@ -170,6 +171,7 @@
         <jakarta.persistence-api.version>3.1.0</jakarta.persistence-api.version>
         <jackson-core.version>2.21.1</jackson-core.version>
         <jackson-annotations.version>2.21</jackson-annotations.version>
+        <commons-lang3.version>3.18.0</commons-lang3.version>
         <opencsv.version>5.9</opencsv.version>
         <feign-okhttp.version>10.10.1</feign-okhttp.version>
         <commons-validator.version>1.7</commons-validator.version>
@@ -542,6 +544,31 @@
                 <version>${keycloak-server-spi-private.version}</version>
             </dependency>
 
+            <!-- Import Spring Framework BOM to override all Spring Framework modules to 6.2.19 -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>${spring-framework.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Override Spring Security BOM -->
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-bom</artifactId>
+                <version>${spring-security.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- commons-lang3: patched to 3.18.0 (CVE-2025-48924 fix) -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -575,6 +602,9 @@
                             <format>JSON</format>
                             <format>HTML</format>
                         </formats>
+                        <suppressionFiles>
+                            <suppressionFile>${maven.multiModuleProjectDirectory}/qa/owasp/dependency-check-suppressions.xml</suppressionFile>
+                        </suppressionFiles>
                         <failBuildOnCVSS>7</failBuildOnCVSS>
                     </configuration>
                 </plugin>
