@@ -11,6 +11,8 @@ For upcoming versions see our xref:Roadmap.adoc[Roadmap].
 
 === Mainline 14.x (Stable)
 
+* xref:release_notes/Release_notes_14.1.md[Version 14.2 (release date: dd.mm.2026)]
+* xref:release_notes/Release_notes_14.1.md[Version 14.1 (release date: 16.07.2026)]
 * xref:release_notes/Release_notes_14.0.md[Version 14.0 (release date: 09.12.2025)]
 
 
