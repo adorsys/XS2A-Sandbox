@@ -198,6 +198,10 @@ Build (OBA UI):
     - jq --arg VERSION "$VERSION"  --arg BUILD_ID "$CI_PIPELINE_ID" '.version = $VERSION | .build_number = $BUILD_ID' oba-ui/info.json >> info.json
     - mv info.json oba-ui/info.json
     - make npm-install-oba-ui
+  artifacts:
+    paths:
+      - oba-ui/dist/
+      - oba-ui/info.json
 
 Build (TPP UI):
   image: node:20.19.0-bookworm-slim
@@ -209,6 +213,10 @@ Build (TPP UI):
     - jq --arg VERSION "$VERSION"  --arg BUILD_ID "$CI_PIPELINE_ID" '.version = $VERSION | .build_number = $BUILD_ID' tpp-ui/info.json >> info.json
     - mv info.json tpp-ui/info.json
     - make npm-install-tpp-ui
+  artifacts:
+    paths:
+      - tpp-ui/dist/
+      - tpp-ui/info.json
 
 Build (Admin UI):
   image: node:20.19.0-bookworm-slim
@@ -220,6 +228,10 @@ Build (Admin UI):
     - jq --arg VERSION "$VERSION"  --arg BUILD_ID "$CI_PIPELINE_ID" '.version = $VERSION | .build_number = $BUILD_ID' admin-ui/info.json >> info.json
     - mv info.json admin-ui/info.json
     - make npm-install-admin-ui
+  artifacts:
+    paths:
+      - admin-ui/dist/
+      - admin-ui/info.json
 
 Build (DevPortal UI):
   image: node:20.19.0-bookworm-slim
@@ -232,6 +244,10 @@ Build (DevPortal UI):
     - mv info.json developer-portal-ui/info.json
     - scripts/.update-postman-test-files.sh
     - make npm-install-developer-portal-ui
+  artifacts:
+    paths:
+      - developer-portal-ui/dist/
+      - developer-portal-ui/info.json
 
 Test (Javadoc):
   extends: .test-javadoc-with-settings
@@ -307,9 +323,55 @@ Build and push to private repo (develop):
   extends: .docker-build-push-base-legacy
   stage: "Package"
   rules: !reference [.pipeline-develop-only, rules]
+  needs:
+    - job: "Build (Modelbank)"
+      artifacts: true
+    - job: "Test (Javadoc)"
+      artifacts: true
+    - job: "Trivy Dockerfile Scan (gate)"
+      artifacts: true
+    - job: "Build (OBA UI)"
+      artifacts: true
+    - job: "Build (TPP UI)"
+      artifacts: true
+    - job: "Build (Admin UI)"
+      artifacts: true
+    - job: "Build (DevPortal UI)"
+      artifacts: true
   variables:
     DOCKER_TAG: develop
   script:
+    - |
+      if [ ! -f online-banking/online-banking-app/target/online-banking-app.jar ] || \
+         ! ls tpp-app/tpp-rest-server/target/tpp-rest-server*jar >/dev/null 2>&1 || \
+         ! ls admin-app/admin-rest-server/target/admin-rest-server*jar >/dev/null 2>&1; then
+        echo "Backend jars not found in workspace. Rebuilding backend modules before docker build."
+        if ! command -v mvn >/dev/null 2>&1; then
+          echo "Maven is not available in this job image. Cannot rebuild backend jars."
+          exit 1
+        fi
+        mvn -ntp --settings scripts/mvn-release-settings.xml -DskipTests clean package -Dci.build.number="Build:${CI_PIPELINE_ID}"
+      fi
+    - |
+      missing=0
+      for required in \
+        oba-ui/dist/oba-ui \
+        tpp-ui/dist/tpp-ui \
+        admin-ui/dist/admin-ui \
+        developer-portal-ui/dist/developer-portal \
+        oba-ui/info.json \
+        tpp-ui/info.json \
+        admin-ui/info.json \
+        developer-portal-ui/info.json; do
+        if [ ! -e "$required" ]; then
+          echo "Missing build artifact: $required"
+          missing=1
+        fi
+      done
+      if [ "$missing" -ne 0 ]; then
+        echo "Required UI artifacts are missing. Ensure UI build jobs ran and artifacts were downloaded to this package job."
+        exit 1
+      fi
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${DOCKER_TAG}" online-banking/online-banking-app
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:${DOCKER_TAG}" oba-ui
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_REST_SERVER}:${DOCKER_TAG}" tpp-app/tpp-rest-server
@@ -329,9 +391,55 @@ Build and push to private repo (master):
   extends: .docker-build-push-base-legacy
   stage: "Package"
   rules: !reference [.pipeline-master-only, rules]
+  needs:
+    - job: "Build (Modelbank)"
+      artifacts: true
+    - job: "Test (Javadoc)"
+      artifacts: true
+    - job: "Trivy Dockerfile Scan (gate)"
+      artifacts: true
+    - job: "Build (OBA UI)"
+      artifacts: true
+    - job: "Build (TPP UI)"
+      artifacts: true
+    - job: "Build (Admin UI)"
+      artifacts: true
+    - job: "Build (DevPortal UI)"
+      artifacts: true
   variables:
     DOCKER_TAG: latest
   script:
+    - |
+      if [ ! -f online-banking/online-banking-app/target/online-banking-app.jar ] || \
+         ! ls tpp-app/tpp-rest-server/target/tpp-rest-server*jar >/dev/null 2>&1 || \
+         ! ls admin-app/admin-rest-server/target/admin-rest-server*jar >/dev/null 2>&1; then
+        echo "Backend jars not found in workspace. Rebuilding backend modules before docker build."
+        if ! command -v mvn >/dev/null 2>&1; then
+          echo "Maven is not available in this job image. Cannot rebuild backend jars."
+          exit 1
+        fi
+        mvn -ntp --settings scripts/mvn-release-settings.xml -DskipTests clean package -Dci.build.number="Build:${CI_PIPELINE_ID}"
+      fi
+    - |
+      missing=0
+      for required in \
+        oba-ui/dist/oba-ui \
+        tpp-ui/dist/tpp-ui \
+        admin-ui/dist/admin-ui \
+        developer-portal-ui/dist/developer-portal \
+        oba-ui/info.json \
+        tpp-ui/info.json \
+        admin-ui/info.json \
+        developer-portal-ui/info.json; do
+        if [ ! -e "$required" ]; then
+          echo "Missing build artifact: $required"
+          missing=1
+        fi
+      done
+      if [ "$missing" -ne 0 ]; then
+        echo "Required UI artifacts are missing. Ensure UI build jobs ran and artifacts were downloaded to this package job."
+        exit 1
+      fi
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${DOCKER_TAG}" online-banking/online-banking-app
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:${DOCKER_TAG}" oba-ui
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_REST_SERVER}:${DOCKER_TAG}" tpp-app/tpp-rest-server
@@ -351,9 +459,55 @@ Build and push to private repo (tags):
   extends: .docker-build-push-base-legacy
   stage: "Package"
   rules: !reference [.pipeline-tags-only, rules]
+  needs:
+    - job: "Build (Modelbank)"
+      artifacts: true
+    - job: "Test (Javadoc)"
+      artifacts: true
+    - job: "Trivy Dockerfile Scan (gate)"
+      artifacts: true
+    - job: "Build (OBA UI)"
+      artifacts: true
+    - job: "Build (TPP UI)"
+      artifacts: true
+    - job: "Build (Admin UI)"
+      artifacts: true
+    - job: "Build (DevPortal UI)"
+      artifacts: true
   variables:
     DOCKER_TAG: $CI_COMMIT_TAG
   script:
+    - |
+      if [ ! -f online-banking/online-banking-app/target/online-banking-app.jar ] || \
+         ! ls tpp-app/tpp-rest-server/target/tpp-rest-server*jar >/dev/null 2>&1 || \
+         ! ls admin-app/admin-rest-server/target/admin-rest-server*jar >/dev/null 2>&1; then
+        echo "Backend jars not found in workspace. Rebuilding backend modules before docker build."
+        if ! command -v mvn >/dev/null 2>&1; then
+          echo "Maven is not available in this job image. Cannot rebuild backend jars."
+          exit 1
+        fi
+        mvn -ntp --settings scripts/mvn-release-settings.xml -DskipTests clean package -Dci.build.number="Build:${CI_PIPELINE_ID}"
+      fi
+    - |
+      missing=0
+      for required in \
+        oba-ui/dist/oba-ui \
+        tpp-ui/dist/tpp-ui \
+        admin-ui/dist/admin-ui \
+        developer-portal-ui/dist/developer-portal \
+        oba-ui/info.json \
+        tpp-ui/info.json \
+        admin-ui/info.json \
+        developer-portal-ui/info.json; do
+        if [ ! -e "$required" ]; then
+          echo "Missing build artifact: $required"
+          missing=1
+        fi
+      done
+      if [ "$missing" -ne 0 ]; then
+        echo "Required UI artifacts are missing. Ensure UI build jobs ran and artifacts were downloaded to this package job."
+        exit 1
+      fi
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING}:${DOCKER_TAG}" online-banking/online-banking-app
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_ONLINE_BANKING_UI}:${DOCKER_TAG}" oba-ui
     - docker build -t "${DOCKERHUB_REGISTRY}/${DOCKERHUB_NAMESPACE}/${DOCKER_IMAGE_NAME_XS2A_TPP_REST_SERVER}:${DOCKER_TAG}" tpp-app/tpp-rest-server
@@ -459,3 +613,4 @@ Notify Slack (security failure):
       optional: true
     - job: "SonarQube"
       optional: true
+
