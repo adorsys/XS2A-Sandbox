@@ -126,8 +126,7 @@
                         class="form-control"
                         [(ngModel)]="confirmNewPin"
                         [ngClass]="{
-                          'is-invalid': !confirmNewPin || confirmNewPin === '',
-                          'is-invalid': newPin !== confirmNewPin
+                          'is-invalid': (!confirmNewPin || confirmNewPin === '') || (newPin !== confirmNewPin)
                         }"
                         [ngModelOptions]="{ standalone: true }"
                         type="password"
