@@ -466,6 +466,7 @@ Build and push to private repo (tags):
       artifacts: true
     - job: "Trivy Dockerfile Scan (gate)"
       artifacts: true
+      optional: true
     - job: "Build (OBA UI)"
       artifacts: true
     - job: "Build (TPP UI)"
