@@ -19,7 +19,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 
-@Pipe({ name: 'convertBalance' })
+@Pipe({
+    name: 'convertBalance',
+    standalone: false
+})
 export class ConvertBalancePipe implements PipeTransform {
   transform(value: number): string {
     const pipe = new DecimalPipe('en-US');

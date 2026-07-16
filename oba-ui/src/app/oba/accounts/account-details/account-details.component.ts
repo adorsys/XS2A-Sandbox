@@ -35,9 +35,10 @@ import {
 import { ExtendedBalance } from '../../../api/models/extendedBalance';
 
 @Component({
-  selector: 'app-account-details',
-  templateUrl: './account-details.component.html',
-  styleUrls: ['./account-details.component.scss'],
+    selector: 'app-account-details',
+    templateUrl: './account-details.component.html',
+    styleUrls: ['./account-details.component.scss'],
+    standalone: false
 })
 export class AccountDetailsComponent implements OnInit {
   account: AccountDetailsTO;

@@ -22,6 +22,7 @@ import { CertificateService } from '../../../../../services/certificate.service'
 import { DataService } from '../../../../../services/data.service';
 
 @Component({
+  standalone: false,
   selector: 'app-pop-up',
   templateUrl: './pop-up.component.html',
   styleUrls: ['./pop-up.component.scss'],

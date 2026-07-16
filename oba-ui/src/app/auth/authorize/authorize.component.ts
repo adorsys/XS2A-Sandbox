@@ -30,9 +30,10 @@ import OauthCodeUsingPOSTParams = OnlineBankingOauthAuthorizationService.OauthCo
 import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-authorize',
-  templateUrl: './authorize.component.html',
-  styleUrls: ['./authorize.component.scss'],
+    selector: 'app-authorize',
+    templateUrl: './authorize.component.html',
+    styleUrls: ['./authorize.component.scss'],
+    standalone: false
 })
 export class AuthorizeComponent implements OnInit {
   authorizeForm: UntypedFormGroup;

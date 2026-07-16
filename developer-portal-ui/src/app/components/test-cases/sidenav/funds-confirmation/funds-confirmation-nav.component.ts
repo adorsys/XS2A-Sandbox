@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-funds-confirmation-nav',
   templateUrl: './funds-confirmation-nav.component.html',
   styleUrls: ['./funds-confirmation-nav.component.scss'],

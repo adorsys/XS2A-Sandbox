@@ -23,9 +23,10 @@ import { ShareDataService } from '../services/share-data.service';
 import { CurrentUserService } from '../services/current-user.service';
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss'],
+    selector: 'app-navbar',
+    templateUrl: './navbar.component.html',
+    styleUrls: ['./navbar.component.scss'],
+    standalone: false
 })
 export class NavbarComponent implements OnInit, DoCheck {
   public title: string;

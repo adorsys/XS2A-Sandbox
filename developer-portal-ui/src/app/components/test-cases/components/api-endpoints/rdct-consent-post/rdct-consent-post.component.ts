@@ -26,6 +26,7 @@ import { LocalStorageService } from '../../../../../services/local-storage.servi
 import { TPP_NOK_REDIRECT_URL_KEY, TPP_REDIRECT_URL_KEY } from '../../../../common/constant/constants';
 
 @Component({
+  standalone: false,
   selector: 'app-rdct-consent-post',
   templateUrl: './rdct-consent-post.component.html',
 })

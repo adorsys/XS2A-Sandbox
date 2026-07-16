@@ -32,10 +32,11 @@ import { TppManagementService } from '../../services/tpp-management.service';
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-account-access-management',
-  templateUrl: './account-access-management.component.html',
-  styleUrls: ['./account-access-management.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+    selector: 'app-account-access-management',
+    templateUrl: './account-access-management.component.html',
+    styleUrls: ['./account-access-management.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class AccountAccessManagementComponent implements OnInit, OnDestroy {
   constructor(

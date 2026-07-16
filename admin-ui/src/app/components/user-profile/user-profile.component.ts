@@ -32,6 +32,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { TooltipPosition } from '@angular/material/tooltip';
 
 @Component({
+  standalone: false,
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss'],

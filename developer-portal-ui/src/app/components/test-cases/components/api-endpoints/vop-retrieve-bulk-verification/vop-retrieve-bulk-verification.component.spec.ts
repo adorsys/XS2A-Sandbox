@@ -27,6 +27,7 @@ describe('VopRetrieveBulkVerificationComponent', () => {
   let fixture: ComponentFixture<VopRetrieveBulkVerificationComponent>;
 
   @Component({
+  standalone: false,
     selector: 'app-play-wth-data',
     template: '',
   })
@@ -36,7 +37,7 @@ describe('VopRetrieveBulkVerificationComponent', () => {
     @Input() url: string;
   }
 
-  @Pipe({ name: 'translate' })
+  @Pipe({ standalone: false, name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');

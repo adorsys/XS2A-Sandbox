@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-concent-initation-component',
   templateUrl: './concent-initation.component.html',
   styleUrls: ['./concent-initation.component.scss'],

@@ -19,6 +19,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-emb-payment-cancell-get',
   templateUrl: './emb-payment-cancell-get.html',
 })

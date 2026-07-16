@@ -24,6 +24,7 @@ import { By } from '@angular/platform-browser';
 
 @Component({
   template: '<div> {{ balance | convertBalance }} </div>',
+  standalone: false
 })
 export class ConvertBalancePipeHostComponent {
   balance: number;

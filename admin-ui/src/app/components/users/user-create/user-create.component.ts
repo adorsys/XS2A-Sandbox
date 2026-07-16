@@ -35,6 +35,7 @@ import { HttpMethod } from '../../../models/http-method';
 import { SettingsService } from '../../../services/settings.service';
 
 @Component({
+  standalone: false,
   selector: 'app-user-create',
   templateUrl: './user-create.component.html',
   styleUrls: ['./user-create.component.scss'],

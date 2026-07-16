@@ -27,6 +27,7 @@ describe('VopReadBulkStatusComponent', () => {
   let fixture: ComponentFixture<VopReadBulkStatusComponent>;
 
   @Component({
+  standalone: false,
     selector: 'app-play-wth-data',
     template: '',
   })
@@ -37,7 +38,7 @@ describe('VopReadBulkStatusComponent', () => {
     @Input() variablePathEnd: string;
   }
 
-  @Pipe({ name: 'translate' })
+  @Pipe({ standalone: false, name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');

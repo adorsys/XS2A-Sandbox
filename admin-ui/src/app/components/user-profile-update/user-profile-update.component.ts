@@ -29,6 +29,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
+  standalone: false,
   selector: 'app-user-profile-update',
   templateUrl: './user-profile-update.component.html',
   styleUrls: ['./user-profile-update.component.scss'],

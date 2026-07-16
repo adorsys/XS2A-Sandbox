@@ -29,6 +29,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
+  standalone: false,
   selector: 'test-data-generation',
   templateUrl: './test-data-generation.component.html',
   styleUrls: ['./test-data-generation.component.scss'],

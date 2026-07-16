@@ -26,9 +26,10 @@ import { SpinnerVisibilityService } from 'ng-http-loader';
 let nextUniqueId = 0;
 
 @Component({
-  selector: 'app-document-upload',
-  templateUrl: './document-upload.component.html',
-  styleUrls: ['./document-upload.component.scss'],
+    selector: 'app-document-upload',
+    templateUrl: './document-upload.component.html',
+    styleUrls: ['./document-upload.component.scss'],
+    standalone: false
 })
 export class DocumentUploadComponent implements OnInit {
   private _uniqueId = `document-upload-${++nextUniqueId}`;

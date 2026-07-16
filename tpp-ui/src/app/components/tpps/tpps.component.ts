@@ -34,9 +34,10 @@ import { ADMIN_KEY } from '../../commons/constant/constant';
 import { TooltipPosition } from '@angular/material/tooltip';
 
 @Component({
-  selector: 'app-tpps',
-  templateUrl: './tpps.component.html',
-  styleUrls: ['./tpps.component.scss'],
+    selector: 'app-tpps',
+    templateUrl: './tpps.component.html',
+    styleUrls: ['./tpps.component.scss'],
+    standalone: false
 })
 // TODO Merge UsersComponent, TppsComponent and AccountListComponent into one single component
 //  https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/-/issues/713

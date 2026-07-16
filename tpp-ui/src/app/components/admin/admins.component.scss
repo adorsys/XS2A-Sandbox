@@ -16,7 +16,7 @@
  * contact us at sales@adorsys.com.
  */
 
-@import 'src/assets/themes/table';
+@use 'src/assets/themes/table' as *;
 
 .has-search .form-control {
   padding-left: 2.375rem;

@@ -19,6 +19,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-vop-read-bulk-status',
   templateUrl: './vop-read-bulk-status.component.html',
 })

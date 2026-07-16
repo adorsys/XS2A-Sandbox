@@ -30,6 +30,7 @@ describe('VopBulkVerificationComponent', () => {
   let mockJsonService: jasmine.SpyObj<JsonService>;
 
   @Component({
+  standalone: false,
     selector: 'app-play-wth-data',
     template: '',
   })
@@ -42,6 +43,7 @@ describe('VopBulkVerificationComponent', () => {
   }
 
   @Component({
+    standalone: false,
     selector: 'app-code-area',
     template: '',
   })
@@ -49,7 +51,7 @@ describe('VopBulkVerificationComponent', () => {
     @Input() json: any;
   }
 
-  @Pipe({ name: 'translate' })
+  @Pipe({ standalone: false, name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');

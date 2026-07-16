@@ -27,6 +27,7 @@ describe('RdctPaymentCancellationDeleteComponent', () => {
   let fixture: ComponentFixture<RdctPaymentCancellationDeleteComponent>;
 
   @Component({
+  standalone: false,
     selector: 'app-play-wth-data',
     template: '',
   })
@@ -37,7 +38,7 @@ describe('RdctPaymentCancellationDeleteComponent', () => {
     @Input() paymentIdFlag: boolean;
   }
 
-  @Pipe({ name: 'translate' })
+  @Pipe({ standalone: false, name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');

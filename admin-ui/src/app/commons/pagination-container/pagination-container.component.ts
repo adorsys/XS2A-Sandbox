@@ -24,6 +24,7 @@ import {
 } from '../../models/pagination-config.model';
 
 @Component({
+  standalone: false,
   selector: 'app-pagination-container',
   templateUrl: './pagination-container.component.html',
   styleUrls: ['./pagination-container.component.scss'],

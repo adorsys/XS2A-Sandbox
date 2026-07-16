@@ -31,9 +31,10 @@ import { PiisConsentService } from 'src/app/services/piis-consent.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-user-details',
-  templateUrl: './user-details.component.html',
-  styleUrls: ['./user-details.component.scss'],
+    selector: 'app-user-details',
+    templateUrl: './user-details.component.html',
+    styleUrls: ['./user-details.component.scss'],
+    standalone: false
 })
 export class UserDetailsComponent implements OnInit {
   admin;

@@ -31,6 +31,7 @@ import { HttpMethod } from '../../../models/http-method';
 import { SettingsService } from '../../../services/settings.service';
 
 @Component({
+  standalone: false,
   selector: 'app-user-update',
   templateUrl: './user-update.component.html',
   styleUrls: ['./user-update.component.scss'],

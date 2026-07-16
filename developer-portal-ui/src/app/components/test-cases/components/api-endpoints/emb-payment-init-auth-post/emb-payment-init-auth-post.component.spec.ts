@@ -27,6 +27,7 @@ describe('EmbPaymentInitAuthPostComponent', () => {
   let fixture: ComponentFixture<EmbPaymentInitAuthPostComponent>;
 
   @Component({
+  standalone: false,
     selector: 'app-play-wth-data',
     template: '',
   })
@@ -40,7 +41,7 @@ describe('EmbPaymentInitAuthPostComponent', () => {
     @Input() paymentId: string;
   }
 
-  @Pipe({ name: 'translate' })
+  @Pipe({ standalone: false, name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');

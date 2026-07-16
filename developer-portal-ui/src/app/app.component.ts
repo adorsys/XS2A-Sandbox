@@ -33,6 +33,7 @@ import { TPP_NOK_REDIRECT_URL_KEY, TPP_REDIRECT_URL_KEY } from './components/com
 declare let gtag;
 
 @Component({
+  standalone: false,
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],

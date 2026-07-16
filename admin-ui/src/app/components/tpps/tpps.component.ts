@@ -42,6 +42,7 @@ import { TooltipPosition } from '@angular/material/tooltip';
 import { Subject } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'app-tpps',
   templateUrl: './tpps.component.html',
   styleUrls: ['./tpps.component.scss'],

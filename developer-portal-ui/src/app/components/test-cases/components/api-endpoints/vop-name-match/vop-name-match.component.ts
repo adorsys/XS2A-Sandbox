@@ -20,6 +20,7 @@ import { Component, OnInit } from '@angular/core';
 import { JsonService } from '../../../../../services/json.service';
 
 @Component({
+  standalone: false,
   selector: 'app-vop-name-match',
   templateUrl: './vop-name-match.component.html',
 })

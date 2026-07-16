@@ -22,6 +22,7 @@ import { AccountService } from '../../services/account.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
+  standalone: false,
   selector: 'app-cash-deposit',
   templateUrl: './cash-deposit.component.html',
   styleUrls: ['./cash-deposit.component.scss'],

@@ -29,9 +29,10 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-test-data-generation',
-  templateUrl: './test-data-generation.component.html',
-  styleUrls: ['./test-data-generation.component.scss'],
+    selector: 'app-test-data-generation',
+    templateUrl: './test-data-generation.component.html',
+    styleUrls: ['./test-data-generation.component.scss'],
+    standalone: false
 })
 export class TestDataGenerationComponent implements OnInit, OnDestroy {
   submitted: boolean;

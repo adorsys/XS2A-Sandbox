@@ -33,9 +33,10 @@ import { ShareDataService } from '../../common/services/share-data.service';
 import { SettingsService } from 'src/app/common/services/settings.service';
 
 @Component({
-  selector: 'app-select-sca',
-  templateUrl: './select-sca.component.html',
-  styleUrls: ['./select-sca.component.scss'],
+    selector: 'app-select-sca',
+    templateUrl: './select-sca.component.html',
+    styleUrls: ['./select-sca.component.scss'],
+    standalone: false
 })
 export class SelectScaComponent implements OnInit, OnDestroy {
   public authResponse: PaymentAuthorizeResponse;

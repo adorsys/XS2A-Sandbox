@@ -25,6 +25,7 @@ import { Theme } from '../../models/theme.model';
 import { MatAccordion } from '@angular/material/expansion';
 
 @Component({
+  standalone: false,
   selector: 'app-test-cases',
   templateUrl: './test-cases.component.html',
   styleUrls: ['./test-cases.component.scss'],

@@ -30,9 +30,10 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-user-profile-update',
-  templateUrl: './user-profile-update.component.html',
-  styleUrls: ['./user-profile-update.component.scss'],
+    selector: 'app-user-profile-update',
+    templateUrl: './user-profile-update.component.html',
+    styleUrls: ['./user-profile-update.component.scss'],
+    standalone: false
 })
 export class UserProfileUpdateComponent implements OnInit, OnDestroy {
   user: User;

@@ -26,9 +26,10 @@ import { RoutingPath } from '../../common/models/routing-path.model';
 import { ShareDataService } from '../../common/services/share-data.service';
 
 @Component({
-  selector: 'app-confirm-cancellation',
-  templateUrl: './confirm-cancellation.component.html',
-  styleUrls: ['./confirm-cancellation.component.scss'],
+    selector: 'app-confirm-cancellation',
+    templateUrl: './confirm-cancellation.component.html',
+    styleUrls: ['./confirm-cancellation.component.scss'],
+    standalone: false
 })
 export class ConfirmCancellationComponent implements OnInit, OnDestroy {
   public authResponse: ConsentAuthorizeResponse;

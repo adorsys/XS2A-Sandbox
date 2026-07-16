@@ -22,6 +22,7 @@ import { LocalStorageService } from '../../../../../services/local-storage.servi
 import { TPP_NOK_REDIRECT_URL_KEY, TPP_REDIRECT_URL_KEY } from '../../../../common/constant/constants';
 
 @Component({
+  standalone: false,
   selector: 'app-rdct-cancellation-post',
   templateUrl: './rdct-payment-cancellation-post.component.html',
 })

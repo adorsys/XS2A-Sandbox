@@ -23,6 +23,7 @@ import { TestDataGenerationService } from '../services/test.data.generation.serv
 import { InfoService } from '@commons/info/info.service';
 
 @Component({
+  standalone: false,
   selector: 'app-upload-file',
   templateUrl: './uploadFile.component.html',
   styleUrls: ['./uploadFile.component.scss'],

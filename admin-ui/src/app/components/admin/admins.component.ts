@@ -39,6 +39,7 @@ import { TppUserService } from '../../services/tpp.user.service';
 import { TooltipPosition } from '@angular/material/tooltip';
 
 @Component({
+  standalone: false,
   selector: 'app-admins',
   templateUrl: './admins.component.html',
   styleUrls: ['./admins.component.scss'],

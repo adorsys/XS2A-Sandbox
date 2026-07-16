@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-verification-of-pay-nav',
   templateUrl: './verification-of-pay-nav.component.html',
   styleUrls: ['./verification-of-pay-nav.component.scss'],

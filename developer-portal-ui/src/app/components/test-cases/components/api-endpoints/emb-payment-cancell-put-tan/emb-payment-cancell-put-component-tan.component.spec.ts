@@ -38,6 +38,7 @@ describe('EmbPaymentCancellPutComponent', () => {
   let jsonService: JsonService;
 
   @Component({
+  standalone: false,
     selector: 'app-play-wth-data',
     template: '',
   })
@@ -51,7 +52,7 @@ describe('EmbPaymentCancellPutComponent', () => {
     @Input() cancellationIdFlag: boolean;
   }
 
-  @Pipe({ name: 'translate' })
+  @Pipe({ standalone: false, name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -59,7 +60,7 @@ describe('EmbPaymentCancellPutComponent', () => {
     }
   }
 
-  @Pipe({ name: 'prettyJson' })
+  @Pipe({ standalone: false, name: 'prettyJson' })
   class PrettyJsonPipe implements PipeTransform {
     transform(value) {
       return JSON.stringify(value, null, JSON_SPACING);

@@ -21,6 +21,7 @@ import { JsonService } from '../../../../../services/json.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
+  standalone: false,
   selector: 'app-emb-consent-put',
   templateUrl: './emb-consent-put.component.html',
 })

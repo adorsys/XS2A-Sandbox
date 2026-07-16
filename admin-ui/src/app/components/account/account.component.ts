@@ -32,6 +32,7 @@ import { TppUserService } from '../../services/tpp.user.service';
 import { ExtendedBalance } from '../../models/extendedBalance';
 
 @Component({
+  standalone: false,
   selector: 'app-account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss'],

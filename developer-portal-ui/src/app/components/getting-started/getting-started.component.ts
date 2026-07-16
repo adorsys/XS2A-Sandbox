@@ -24,6 +24,7 @@ import { UrlService } from 'src/app/services/url.service';
 import { EnvLink } from 'src/app/models/envLink.model';
 
 @Component({
+  standalone: false,
   selector: 'app-getting-started',
   templateUrl: './getting-started.component.html',
   styleUrls: ['./getting-started.component.scss'],

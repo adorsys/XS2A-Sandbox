@@ -23,9 +23,10 @@ import { AccountDetailsTO } from '../../api/models/account-details-to';
 import { OnlineBankingService } from '../../common/services/online-banking.service';
 
 @Component({
-  selector: 'app-accounts',
-  templateUrl: './accounts.component.html',
-  styleUrls: ['./accounts.component.scss'],
+    selector: 'app-accounts',
+    templateUrl: './accounts.component.html',
+    styleUrls: ['./accounts.component.scss'],
+    standalone: false
 })
 export class AccountsComponent implements OnInit, OnDestroy {
   accounts: AccountDetailsTO[];

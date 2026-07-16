@@ -20,6 +20,7 @@ import { Component } from '@angular/core';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
+  standalone: false,
   selector: 'app-accinf-transactions-get',
   templateUrl: './accinf-transactions-get.component.html',
 })

@@ -23,9 +23,10 @@ import { TestDataGenerationService } from '../services/test.data.generation.serv
 import { InfoService } from '../commons/info/info.service';
 
 @Component({
-  selector: 'app-upload-file',
-  templateUrl: './uploadFile.component.html',
-  styleUrls: ['./uploadFile.component.scss'],
+    selector: 'app-upload-file',
+    templateUrl: './uploadFile.component.html',
+    styleUrls: ['./uploadFile.component.scss'],
+    standalone: false
 })
 export class UploadFileComponent implements OnInit {
   uploadDataConfigs: UploadOptions[];

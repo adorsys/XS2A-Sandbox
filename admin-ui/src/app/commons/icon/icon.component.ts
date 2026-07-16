@@ -31,6 +31,7 @@ import { take } from 'rxjs/operators';
 import { IconRegistry } from './icon-registry';
 
 @Component({
+  standalone: false,
   selector: 'app-icon',
   template: '<ng-content></ng-content>',
   styleUrls: ['./icon.component.scss'],

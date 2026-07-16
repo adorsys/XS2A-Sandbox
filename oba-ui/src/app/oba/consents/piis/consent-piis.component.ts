@@ -17,9 +17,10 @@ import { IPiisConsentContent } from '../../../common/interfaces/piisConsent.inte
 import { EConsentStatus } from '../../../common/enums/consent-status.enum';
 
 @Component({
-  selector: 'app-consent-piis',
-  templateUrl: './consent-piis.component.html',
-  styleUrls: ['./consent-piis.component.scss'],
+    selector: 'app-consent-piis',
+    templateUrl: './consent-piis.component.html',
+    styleUrls: ['./consent-piis.component.scss'],
+    standalone: false
 })
 export class ConsentPiisComponent implements OnInit, OnDestroy {
   formModel: UntypedFormGroup;

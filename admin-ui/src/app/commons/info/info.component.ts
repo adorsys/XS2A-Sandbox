@@ -29,6 +29,7 @@ import { Subject } from 'rxjs';
 import { InfoOptions } from './info-options';
 
 @Component({
+  standalone: false,
   selector: 'app-feedback',
   templateUrl: './info.component.html',
   styleUrls: ['./info.component.scss'],

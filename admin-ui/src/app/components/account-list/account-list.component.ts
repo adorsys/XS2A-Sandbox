@@ -42,6 +42,7 @@ import { InfoService } from '@commons/info/info.service';
 import { TooltipPosition } from '@angular/material/tooltip';
 
 @Component({
+  standalone: false,
   selector: 'app-account-list',
   templateUrl: './account-list.component.html',
   styleUrls: ['./account-list.component.scss'],

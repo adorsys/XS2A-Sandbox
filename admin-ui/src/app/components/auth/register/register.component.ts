@@ -38,6 +38,7 @@ import { CertificateGenerationService } from '../../../services/certificate/cert
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
+  standalone: false,
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['../auth.component.scss'],

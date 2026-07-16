@@ -32,10 +32,10 @@ export class MarkdownStylingService {
   }
 
   public createTableOfContent(contentTable?: boolean) {
-    this.markdownService.renderer.heading = (text: string, level: number) => {
-      const headerTag = `<section id="${this.counter}"><h${level}> ${text} </h${level}></section>`;
+    this.markdownService.renderer.heading = ({ text, depth }) => {
+      const headerTag = `<section id="${this.counter}"><h${depth}> ${text} </h${depth}></section>`;
 
-      if (level === 1) {
+      if (depth === 1) {
         if (contentTable) {
           this.addHeaderToTable(text, this.counter);
         }

@@ -27,9 +27,10 @@ import { PsupisprovidesGetPsuAccsService } from '../../api/services/psupisprovid
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-payment-details',
-  templateUrl: './payment-details.component.html',
-  styleUrls: ['./payment-details.component.scss'],
+    selector: 'app-payment-details',
+    templateUrl: './payment-details.component.html',
+    styleUrls: ['./payment-details.component.scss'],
+    standalone: false
 })
 export class PaymentDetailsComponent implements OnInit, OnDestroy {
   private unsubscribe = new Subject();

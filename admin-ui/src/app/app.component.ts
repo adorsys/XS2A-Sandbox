@@ -27,6 +27,7 @@ import { Title } from '@angular/platform-browser';
 import { CountryService } from './services/country.service';
 
 @Component({
+  standalone: false,
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],

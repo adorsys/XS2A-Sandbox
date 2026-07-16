@@ -21,6 +21,7 @@ import { JsonService } from '../../../../../services/json.service';
 import { LocalStorageService } from '../../../../../services/local-storage.service';
 
 @Component({
+  standalone: false,
   selector: 'app-emb-payment-init-put',
   templateUrl: './emb-payment-init-put-tan.component.html',
 })

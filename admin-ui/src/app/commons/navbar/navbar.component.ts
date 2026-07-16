@@ -24,6 +24,7 @@ import { User } from '../../models/user.model';
 import { TppUserService } from '../../services/tpp.user.service';
 
 @Component({
+  standalone: false,
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],

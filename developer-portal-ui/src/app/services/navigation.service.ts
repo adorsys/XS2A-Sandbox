@@ -28,7 +28,7 @@ export class NavigationService {
   constructor(private router: Router, private http: HttpClient) {}
 
   goToLogoLink(customLink: string, defaultLink: string) {
-    if (customLink && customLink.includes('http' || 'https' || 'www')) {
+    if (customLink && (customLink.includes('http') || customLink.includes('https') || customLink.includes('www'))) {
       window.open(customLink);
     } else {
       this.router.navigateByUrl(defaultLink);

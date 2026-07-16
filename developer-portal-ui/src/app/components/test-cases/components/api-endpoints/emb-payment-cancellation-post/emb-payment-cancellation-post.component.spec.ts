@@ -27,6 +27,7 @@ describe('EmbPaymentCancellationPostComponent', () => {
   let fixture: ComponentFixture<EmbPaymentCancellationPostComponent>;
 
   @Component({
+  standalone: false,
     selector: 'app-play-wth-data',
     template: '',
   })
@@ -39,7 +40,7 @@ describe('EmbPaymentCancellationPostComponent', () => {
     @Input() fieldsToCopy: string[];
   }
 
-  @Pipe({ name: 'translate' })
+  @Pipe({ standalone: false, name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');

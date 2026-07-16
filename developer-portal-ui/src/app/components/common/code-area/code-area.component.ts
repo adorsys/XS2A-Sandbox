@@ -21,6 +21,7 @@ import { DataService } from '../../../services/data.service';
 import { JSON_SPACING } from '../constant/constants';
 
 @Component({
+  standalone: false,
   selector: 'app-code-area',
   templateUrl: './code-area.component.html',
   styleUrls: ['./code-area.component.scss'],

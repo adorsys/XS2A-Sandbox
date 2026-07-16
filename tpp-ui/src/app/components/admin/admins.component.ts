@@ -32,9 +32,10 @@ import { TppUserService } from '../../services/tpp.user.service';
 import { TooltipPosition } from '@angular/material/tooltip';
 
 @Component({
-  selector: 'app-admins',
-  templateUrl: './admins.component.html',
-  styleUrls: ['./admins.component.scss'],
+    selector: 'app-admins',
+    templateUrl: './admins.component.html',
+    styleUrls: ['./admins.component.scss'],
+    standalone: false
 })
 export class AdminsComponent implements OnInit {
   admin: string;

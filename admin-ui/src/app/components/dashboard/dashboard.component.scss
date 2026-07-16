@@ -16,7 +16,7 @@
  * contact us at sales@adorsys.com.
  */
 
-@import "variables";
+@use 'variables' as *;
 
 .router {
   background-color: var(--mainBG);

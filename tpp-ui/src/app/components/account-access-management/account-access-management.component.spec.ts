@@ -55,7 +55,7 @@ const tppManagementServiceMock = {
     ];
     const userResponse = { users: mockUsers };
 
-    return Observable.of(userResponse);
+    return of(userResponse);
   },
 };
 

@@ -36,9 +36,10 @@ import { InfoService } from '../../commons/info/info.service';
 import { TooltipPosition } from '@angular/material/tooltip';
 
 @Component({
-  selector: 'app-account-list',
-  templateUrl: './account-list.component.html',
-  styleUrls: ['./account-list.component.scss'],
+    selector: 'app-account-list',
+    templateUrl: './account-list.component.html',
+    styleUrls: ['./account-list.component.scss'],
+    standalone: false
 })
 // TODO Merge UsersComponent, TppsComponent and AccountListComponent into one single component
 //  https://git.adorsys.de/adorsys/xs2a/psd2-dynamic-sandbox/-/issues/713

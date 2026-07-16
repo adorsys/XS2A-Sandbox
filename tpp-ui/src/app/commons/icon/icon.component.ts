@@ -22,15 +22,16 @@ import { take } from 'rxjs/operators';
 import { IconRegistry } from './icon-registry';
 
 @Component({
-  selector: 'app-icon',
-  template: '<ng-content></ng-content>',
-  styleUrls: ['./icon.component.scss'],
-  host: {
-    class: 'app-icon',
-    '[class.app-icon--inline]': 'inline',
-  },
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-icon',
+    template: '<ng-content></ng-content>',
+    styleUrls: ['./icon.component.scss'],
+    host: {
+        class: 'app-icon',
+        '[class.app-icon--inline]': 'inline',
+    },
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class IconComponent implements OnChanges {
   /**

@@ -36,9 +36,10 @@ import { CertificateGenerationService } from '../../../services/certificate/cert
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['../auth.component.scss'],
+    selector: 'app-register',
+    templateUrl: './register.component.html',
+    styleUrls: ['../auth.component.scss'],
+    standalone: false
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   admin = false;
