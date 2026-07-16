@@ -2,6 +2,7 @@
 
 #  ModelBank  
 
+
 This is the try-out version of adorsys ModelBank: an open source (AGPL v3) solution to get acquainted with adorsys’ implementation of a NextGenPSD2 compliant dynamic sandbox. 
 
 This software is delivered as-is and we're happy about any contributions done by the community to improve it.
