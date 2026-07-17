@@ -555,6 +555,24 @@ clone_to_github:
     GITHUB_USERNAME: adorsys
     GITHUB_REPOSITORY: adorsys/XS2A-Sandbox
     GITHUB_PROJECT_CLONE_VERSION: "14"
+  script:
+    - git config --global user.name "$GITHUB_USERNAME"
+    - git remote add github "https://$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
+    - |
+      set -eu
+      for remote_branch in $(git branch -r | grep -E "origin/.*(release-${GITHUB_PROJECT_CLONE_VERSION}.*|support-${GITHUB_PROJECT_CLONE_VERSION}.x).*"); do
+        branch_name="${remote_branch#origin/}"
+        git checkout -B "$branch_name" "$remote_branch"
+
+        github_ref="refs/heads/$branch_name"
+        github_old_sha="$(git ls-remote github "$github_ref" | awk '{print $1}')"
+
+        if [ -n "$github_old_sha" ]; then
+          git push --force-with-lease="$github_ref:$github_old_sha" github "$branch_name:$branch_name"
+        else
+          git push github "$branch_name:$branch_name"
+        fi
+      done
 
 CycloneDX + OWASP (on push):
   extends: .cyclonedx-owasp-maven-settings
