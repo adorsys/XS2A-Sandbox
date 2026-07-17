@@ -578,16 +578,25 @@ Unified Remediation:
 # ── Version Control (sandbox-openshift dependency tag updates) ─────────────────
 
 Change dependencies versions (develop):
+  stage: "Version Control"
   rules:
     - when: never
+  script:
+    - "true"
 
 Change dependencies versions (E2E):
+  stage: "Version Control"
   rules:
     - when: never
+  script:
+    - "true"
 
 Change dependencies versions (INTEG):
+  stage: "Version Control"
   rules:
     - when: never
+  script:
+    - "true"
 
 Renovate Update:
   extends: .renovate-update
