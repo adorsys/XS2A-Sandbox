@@ -308,8 +308,9 @@ Test (OBA UI Tests):
 Postman Tests:
   stage: "Test"
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule" && $SCHEDULE_TYPE != "security-scan"'
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && $SCHEDULE_TYPE == "postman-tests"'
       when: always
+    - when: never
   image:
     name: postman/newman_alpine33
     entrypoint: [""]
@@ -578,24 +579,12 @@ Unified Remediation:
 
 Change dependencies versions (develop):
   extends: .sandbox-version-control-dev
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule" && $SCHEDULE_TYPE == "dependency-update" && $CI_COMMIT_BRANCH == "develop"'
-      when: always
-    - when: never
 
 Change dependencies versions (E2E):
   extends: .sandbox-version-control-e2e
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule" && $SCHEDULE_TYPE == "dependency-update" && ($CI_COMMIT_BRANCH =~ /release-14/ || $CI_COMMIT_BRANCH == "support-14.x")'
-      when: always
-    - when: never
 
 Change dependencies versions (INTEG):
   extends: .sandbox-version-control-integ
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule" && $SCHEDULE_TYPE == "dependency-update" && ($CI_COMMIT_BRANCH =~ /release-14/ || $CI_COMMIT_BRANCH == "support-14.x")'
-      when: always
-    - when: never
 
 Renovate Update:
   extends: .renovate-update
