@@ -27,7 +27,7 @@
                 <httpHeaders>
                 <property>
                     <name>Deploy-Token</name>
-                    <value>${GITLAB_MAVEN_DEPLOY_TOKEN}</value>
+                    <value>${env.GITLAB_MAVEN_DEPLOY_TOKEN}</value>
                 </property>
                 </httpHeaders>
             </configuration>
