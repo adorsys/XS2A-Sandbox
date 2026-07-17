@@ -39,6 +39,7 @@ import { InfoService } from '@commons/info/info.service';
 import { TooltipPosition } from '@angular/material/tooltip';
 
 @Component({
+  standalone: false,
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],

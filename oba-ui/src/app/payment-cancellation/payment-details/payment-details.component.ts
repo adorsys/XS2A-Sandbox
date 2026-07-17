@@ -24,9 +24,10 @@ import { ShareDataService } from '../../common/services/share-data.service';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-payment-details',
-  templateUrl: './payment-details.component.html',
-  styleUrls: ['./payment-details.component.scss'],
+    selector: 'app-payment-details',
+    templateUrl: './payment-details.component.html',
+    styleUrls: ['./payment-details.component.scss'],
+    standalone: false
 })
 export class PaymentDetailsComponent implements OnInit, OnDestroy {
   public authResponse: PaymentAuthorizeResponse;

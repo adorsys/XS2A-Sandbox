@@ -37,6 +37,7 @@ import { formatDate } from '@angular/common';
 import { map } from 'rxjs/operators';
 
 @Component({
+  standalone: false,
   selector: 'app-play-wth-data',
   templateUrl: './play-wth-data.component.html',
   styleUrls: ['./play-wth-data.component.scss'],

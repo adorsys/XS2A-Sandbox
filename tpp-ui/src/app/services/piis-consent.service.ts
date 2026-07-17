@@ -3,7 +3,6 @@ import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { PiisConsent } from '../models/user.model';
-import 'rxjs-compat/add/observable/of';
 import { PaginationResponse } from '../models/pagination-reponse';
 
 @Injectable({

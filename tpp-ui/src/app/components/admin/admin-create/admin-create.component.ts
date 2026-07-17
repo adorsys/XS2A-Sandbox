@@ -28,9 +28,10 @@ import { PageNavigationService } from '../../../services/page-navigation.service
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-create-admin',
-  templateUrl: './admin-create.component.html',
-  styleUrls: ['./admin-create.component.scss'],
+    selector: 'app-create-admin',
+    templateUrl: './admin-create.component.html',
+    styleUrls: ['./admin-create.component.scss'],
+    standalone: false
 })
 export class AdminCreateComponent implements OnInit {
   public userForm: UntypedFormGroup;

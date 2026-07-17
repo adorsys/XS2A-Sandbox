@@ -25,6 +25,7 @@ import { NavigationSettings, Theme } from '../../../models/theme.model';
 import { NavItem } from 'src/app/models/navItem.model';
 
 @Component({
+  standalone: false,
   selector: 'app-nav',
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.scss'],

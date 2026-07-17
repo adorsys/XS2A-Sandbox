@@ -11,9 +11,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Subject } from 'rxjs';
 
 @Component({
-  selector: 'app-user-create-funds-confirmation',
-  templateUrl: './user-create-funds-confirmation.component.html',
-  styleUrls: ['./user-create-funds-confirmation.component.scss'],
+    selector: 'app-user-create-funds-confirmation',
+    templateUrl: './user-create-funds-confirmation.component.html',
+    styleUrls: ['./user-create-funds-confirmation.component.scss'],
+    standalone: false
 })
 export class UserCreateFundsConfirmationComponent implements OnInit {
   user: User;

@@ -26,6 +26,7 @@ import { SpinnerVisibilityService } from 'ng-http-loader';
 let nextUniqueId = 0;
 
 @Component({
+  standalone: false,
   selector: 'app-document-upload',
   templateUrl: './document-upload.component.html',
   styleUrls: ['./document-upload.component.scss'],

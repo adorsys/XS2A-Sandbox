@@ -26,9 +26,10 @@ import { TppUserService } from '../../../services/tpp.user.service';
 import { InfoService } from '../../../commons/info/info.service';
 
 @Component({
-  selector: 'app-reset-password',
-  templateUrl: './reset-password.component.html',
-  styleUrls: ['../auth.component.scss'],
+    selector: 'app-reset-password',
+    templateUrl: './reset-password.component.html',
+    styleUrls: ['../auth.component.scss'],
+    standalone: false
 })
 export class ResetPasswordComponent implements OnInit {
   resetPasswordForm: UntypedFormGroup;

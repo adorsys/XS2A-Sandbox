@@ -1,0 +1,25 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "enabled": false,
+  "branchPrefix": "bugFix/issue-0001-",
+  "baseBranchPatterns": ["develop", "support-14.x"],
+  "enabledManagers": ["maven", "npm", "dockerfile"],
+  "packageRules": [
+    {
+      "matchPackageNames": ["de.adorsys.psd2.sandbox:*"],
+      "enabled": false
+    }
+  ],
+  "npm": {
+    "fileMatch": [
+      "oba-ui/package\\.json$",
+      "tpp-ui/package\\.json$",
+      "admin-ui/package\\.json$",
+      "developer-portal-ui/package\\.json$"
+    ]
+  },
+  "prConcurrentLimit": 0,
+  "prHourlyLimit": 0,
+  "suppressNotifications": ["prIgnoreNotification"],
+  "rebaseWhen": "conflicted"
+}

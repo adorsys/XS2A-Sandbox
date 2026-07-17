@@ -22,9 +22,10 @@ import { AccountService } from '../../services/account.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-cash-deposit',
-  templateUrl: './cash-deposit.component.html',
-  styleUrls: ['./cash-deposit.component.scss'],
+    selector: 'app-cash-deposit',
+    templateUrl: './cash-deposit.component.html',
+    styleUrls: ['./cash-deposit.component.scss'],
+    standalone: false
 })
 export class CashDepositComponent implements OnInit {
   cashDepositForm: UntypedFormGroup;

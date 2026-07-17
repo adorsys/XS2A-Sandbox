@@ -24,9 +24,10 @@ import { AuthService } from '../../../services/auth.service';
 import { CustomizeService } from '../../../services/customize.service';
 
 @Component({
-  selector: 'app-confirm-new-password',
-  templateUrl: './confirm-new-password.component.html',
-  styleUrls: ['../auth.component.scss'],
+    selector: 'app-confirm-new-password',
+    templateUrl: './confirm-new-password.component.html',
+    styleUrls: ['../auth.component.scss'],
+    standalone: false
 })
 export class ConfirmNewPasswordComponent implements OnInit {
   confirmNewPasswordForm: UntypedFormGroup;

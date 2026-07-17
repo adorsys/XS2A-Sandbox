@@ -16,8 +16,8 @@
  * contact us at sales@adorsys.com.
  */
 
-@import 'table';
-@import 'variables';
+@use 'table' as *;
+@use 'variables' as *;
 
 .justify-space-between {
   justify-content: space-between;

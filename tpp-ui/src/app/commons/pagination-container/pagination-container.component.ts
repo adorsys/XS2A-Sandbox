@@ -21,9 +21,10 @@ import { NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
 import { PaginationConfigModel, PageConfig } from '../../models/pagination-config.model';
 
 @Component({
-  selector: 'app-pagination-container',
-  templateUrl: './pagination-container.component.html',
-  styleUrls: ['./pagination-container.component.scss'],
+    selector: 'app-pagination-container',
+    templateUrl: './pagination-container.component.html',
+    styleUrls: ['./pagination-container.component.scss'],
+    standalone: false
 })
 export class PaginationContainerComponent {
   @Output() pageDataConfig = new EventEmitter<PageConfig>();

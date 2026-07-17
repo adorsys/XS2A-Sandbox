@@ -28,6 +28,7 @@ import { PageNavigationService } from '../../../services/page-navigation.service
 import { Location } from '@angular/common';
 
 @Component({
+  standalone: false,
   selector: 'app-create-admin',
   templateUrl: './admin-create.component.html',
   styleUrls: ['./admin-create.component.scss'],

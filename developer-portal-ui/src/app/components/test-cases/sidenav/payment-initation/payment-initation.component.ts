@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-payment-initation-component',
   templateUrl: './payment-initation.component.html',
   styleUrls: ['./payment-initation.component.scss'],

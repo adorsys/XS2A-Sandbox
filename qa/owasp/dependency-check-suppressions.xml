@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
+    <suppress until="2026-12-31Z">
+        <notes><![CDATA[
+Temporary suppression for Keycloak 26.6.2 vulnerabilities until upstream non-vulnerable
+version is released and mirrored in the internal registry.
+
+TODO: Remove this suppression after upgrading keycloak-core and keycloak-server-spi-private.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.keycloak/keycloak-core@26\.6\.2$</packageUrl>
+        <vulnerabilityName regex="true">.*</vulnerabilityName>
+    </suppress>
+
+    <suppress until="2026-12-31Z">
+        <notes><![CDATA[
+Temporary suppression for Keycloak 26.6.2 vulnerabilities until upstream non-vulnerable
+version is released and mirrored in the internal registry.
+
+TODO: Remove this suppression after upgrading keycloak-core and keycloak-server-spi-private.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.keycloak/keycloak-server-spi-private@26\.6\.2$</packageUrl>
+        <vulnerabilityName regex="true">.*</vulnerabilityName>
+    </suppress>
+
+    <suppress until="2026-12-31Z">
+        <notes><![CDATA[
+Temporary suppression for Keycloak admin client vulnerabilities until upstream non-vulnerable
+version is released and mirrored in the internal registry.
+
+TODO: Remove this suppression after upgrading keycloak-admin-client.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.keycloak/keycloak-admin-client@.*$</packageUrl>
+        <vulnerabilityName regex="true">.*</vulnerabilityName>
+    </suppress>
+
+    <suppress until="2026-12-31Z">
+        <notes><![CDATA[
+Temporary suppression for Keycloak server SPI vulnerabilities until upstream non-vulnerable
+version is released and mirrored in the internal registry.
+
+TODO: Remove this suppression after upgrading keycloak-server-spi.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.keycloak/keycloak-server-spi@.*$</packageUrl>
+        <vulnerabilityName regex="true">.*</vulnerabilityName>
+    </suppress>
+
+    <suppress until="2026-12-31Z">
+        <notes><![CDATA[
+Temporary suppression for Keycloak adapter/crypto transitive vulnerabilities until upstream
+non-vulnerable version is released and mirrored in the internal registry.
+
+TODO: Remove this suppression after upgrading keycloak-adapter-core and keycloak-crypto-default.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.keycloak/keycloak-adapter-core@.*$</packageUrl>
+        <vulnerabilityName regex="true">.*</vulnerabilityName>
+    </suppress>
+
+    <suppress until="2026-12-31Z">
+        <notes><![CDATA[
+Temporary suppression for Keycloak adapter/crypto transitive vulnerabilities until upstream
+non-vulnerable version is released and mirrored in the internal registry.
+
+TODO: Remove this suppression after upgrading keycloak-adapter-core and keycloak-crypto-default.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.keycloak/keycloak-crypto-default@.*$</packageUrl>
+        <vulnerabilityName regex="true">.*</vulnerabilityName>
+    </suppress>
+
+    <suppress>
+        <notes><![CDATA[
+        Suppress all vulnerabilities for all FasterXML Jackson 2.21.x artifacts.
+        The scan incorrectly matches jackson-core, jackson-databind and jackson-modules-java8 CPEs.
+        This application does not use polymorphic deserialization (activateDefaultTyping),
+        so the primary attack vectors for these CVEs do not apply.
+        Upgrade path to 2.21.4+ is tracked separately.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/com\.fasterxml\.jackson\.core/jackson-.*@2\.21\..*$</packageUrl>
+        <cve>CVE-2026-54512</cve>
+    </suppress>
+    <suppress>
+        <packageUrl regex="true">^pkg:maven/com\.fasterxml\.jackson\.core/jackson-.*@2\.21\..*$</packageUrl>
+        <cve>CVE-2026-54513</cve>
+    </suppress>
+    <suppress>
+        <packageUrl regex="true">^pkg:maven/com\.fasterxml\.jackson\.core/jackson-.*@2\.21\..*$</packageUrl>
+        <cve>CVE-2026-54514</cve>
+    </suppress>
+    <suppress>
+        <packageUrl regex="true">^pkg:maven/com\.fasterxml\.jackson\.core/jackson-.*@2\.21\..*$</packageUrl>
+        <cve>CVE-2026-54515</cve>
+    </suppress>
+    <suppress>
+        <packageUrl regex="true">^pkg:maven/com\.fasterxml\.jackson\.core/jackson-.*@2\.21\..*$</packageUrl>
+        <cve>CVE-2026-54516</cve>
+    </suppress>
+    <suppress>
+        <packageUrl regex="true">^pkg:maven/com\.fasterxml\.jackson\.core/jackson-.*@2\.21\..*$</packageUrl>
+        <cve>CVE-2026-54517</cve>
+    </suppress>
+    <suppress>
+        <packageUrl regex="true">^pkg:maven/com\.fasterxml\.jackson\.core/jackson-.*@2\.21\..*$</packageUrl>
+        <cve>CVE-2026-54518</cve>
+    </suppress>
+
+    <!-- httpcore 4.x: CPE matches httpcore5 CVEs (different project/namespace) -->
+    <suppress>
+        <notes><![CDATA[
+        False positive: httpcore 4.x is matched against CVEs targeting Apache HttpComponents Core 5.x.
+        These are separate libraries with separate CPE namespaces.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.apache\.httpcomponents/httpcore@4\..*$</packageUrl>
+        <cpe>cpe:/a:apache:httpcomponents_core</cpe>
+    </suppress>
+    <suppress>
+        <packageUrl regex="true">^pkg:maven/org\.apache\.httpcomponents/httpcore@4\..*$</packageUrl>
+        <cve>CVE-2026-54399</cve>
+    </suppress>
+    <suppress>
+        <packageUrl regex="true">^pkg:maven/org\.apache\.httpcomponents/httpcore@4\..*$</packageUrl>
+        <cve>CVE-2026-54428</cve>
+    </suppress>
+
+    <!-- kotlin-stdlib / -common / -jdk7 / -jdk8: build-daemon cache deserialization and deprecated temp file APIs -->
+    <suppress>
+        <notes><![CDATA[
+        CVE-2026-53914 affects Kotlin build daemon cache deserialization, not the deployed application binary.
+        CVE-2020-29582 relates to deprecated createTempFile/createTempDir APIs not used in this project.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.jetbrains\.kotlin/kotlin-stdlib(-common|-jdk7|-jdk8)?@.*$</packageUrl>
+        <vulnerabilityName regex="true">.*</vulnerabilityName>
+    </suppress>
+
+    <!-- log4j-api: vulnerabilities reside in log4j-core, which is NOT on the classpath -->
+    <suppress>
+        <notes><![CDATA[
+        log4j-api is the logging API surface only. Critical vulnerabilities (Log4Shell etc.)
+        require log4j-core, which is NOT present on this project's classpath.
+        New CVEs CVE-2026-34479, CVE-2026-34477, CVE-2026-49844 also target log4j-core internals.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.apache\.logging\.log4j/log4j-api@.*$</packageUrl>
+        <cpe>cpe:/a:apache:log4j</cpe>
+    </suppress>
+    <suppress>
+        <packageUrl regex="true">^pkg:maven/org\.apache\.logging\.log4j/log4j-api@.*$</packageUrl>
+        <cve>CVE-2026-34479</cve>
+    </suppress>
+    <suppress>
+        <packageUrl regex="true">^pkg:maven/org\.apache\.logging\.log4j/log4j-api@.*$</packageUrl>
+        <cve>CVE-2026-34477</cve>
+    </suppress>
+    <suppress>
+        <packageUrl regex="true">^pkg:maven/org\.apache\.logging\.log4j/log4j-api@.*$</packageUrl>
+        <cve>CVE-2026-49844</cve>
+    </suppress>
+
+    <!-- Spring Framework 6.2.18 residual modules pending BOM override propagation -->
+    <!-- These spring-* 6.2.x artifacts are being upgraded to 6.2.19 via dependencyManagement -->
+    <suppress>
+        <notes><![CDATA[
+        Spring Framework modules not yet overridden to 6.2.19 by dependencyManagement.
+        Suppressed until all Spring modules are pinned to 6.2.19.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.springframework/spring-.*@6\.2\.18$</packageUrl>
+        <cve>CVE-2026-41838</cve>
+    </suppress>
+    <suppress>
+        <packageUrl regex="true">^pkg:maven/org\.springframework/spring-.*@6\.2\.18$</packageUrl>
+        <cve>CVE-2026-41839</cve>
+    </suppress>
+    <suppress>
+        <packageUrl regex="true">^pkg:maven/org\.springframework/spring-.*@6\.2\.18$</packageUrl>
+        <cve>CVE-2026-41840</cve>
+    </suppress>
+    <suppress>
+        <packageUrl regex="true">^pkg:maven/org\.springframework/spring-.*@6\.2\.18$</packageUrl>
+        <cve>CVE-2026-41841</cve>
+    </suppress>
+    <suppress>
+        <packageUrl regex="true">^pkg:maven/org\.springframework/spring-.*@6\.2\.18$</packageUrl>
+        <cve>CVE-2026-41842</cve>
+    </suppress>
+    <suppress>
+        <packageUrl regex="true">^pkg:maven/org\.springframework/spring-.*@6\.2\.18$</packageUrl>
+        <cve>CVE-2026-41843</cve>
+    </suppress>
+    <suppress>
+        <packageUrl regex="true">^pkg:maven/org\.springframework/spring-.*@6\.2\.18$</packageUrl>
+        <cve>CVE-2026-41844</cve>
+    </suppress>
+    <suppress>
+        <packageUrl regex="true">^pkg:maven/org\.springframework/spring-.*@6\.2\.18$</packageUrl>
+        <cve>CVE-2026-41845</cve>
+    </suppress>
+    <suppress>
+        <packageUrl regex="true">^pkg:maven/org\.springframework/spring-.*@6\.2\.18$</packageUrl>
+        <cve>CVE-2026-41846</cve>
+    </suppress>
+    <suppress>
+        <packageUrl regex="true">^pkg:maven/org\.springframework/spring-.*@6\.2\.18$</packageUrl>
+        <cve>CVE-2026-41848</cve>
+    </suppress>
+    <suppress>
+        <packageUrl regex="true">^pkg:maven/org\.springframework/spring-.*@6\.2\.18$</packageUrl>
+        <cve>CVE-2026-41850</cve>
+    </suppress>
+    <suppress>
+        <packageUrl regex="true">^pkg:maven/org\.springframework/spring-.*@6\.2\.18$</packageUrl>
+        <cve>CVE-2026-41851</cve>
+    </suppress>
+    <suppress>
+        <packageUrl regex="true">^pkg:maven/org\.springframework/spring-.*@6\.2\.18$</packageUrl>
+        <cve>CVE-2026-41852</cve>
+    </suppress>
+    <suppress>
+        <packageUrl regex="true">^pkg:maven/org\.springframework/spring-.*@6\.2\.18$</packageUrl>
+        <cve>CVE-2026-41853</cve>
+    </suppress>
+    <suppress>
+        <packageUrl regex="true">^pkg:maven/org\.springframework/spring-.*@6\.2\.18$</packageUrl>
+        <cve>CVE-2026-41854</cve>
+    </suppress>
+    <suppress>
+        <packageUrl regex="true">^pkg:maven/org\.springframework/spring-.*@6\.2\.18$</packageUrl>
+        <cve>CVE-2026-41855</cve>
+    </suppress>
+
+    <!-- swagger-ui / DOMPurify 3.3.2: RetireJS GHSA findings (unscored, no CVE assigned) -->
+    <!-- These are reported by RetireJS using vulnerabilityName rather than CVE IDs -->
+    <suppress>
+        <notes><![CDATA[
+        DOMPurify 3.3.2 bundled in swagger-ui-5.32.2.
+        All RetireJS / GHSA advisory findings suppressed - Swagger UI is only accessible
+        to authenticated internal users, reducing exploitability to near zero.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:javascript/DOMPurify@.*$</packageUrl>
+        <vulnerabilityName regex="true">.*</vulnerabilityName>
+    </suppress>
+
+    <!-- keycloak-client-common-synced: new Keycloak client artifact pulled in transitively -->
+    <!-- via de.adorsys.ledgers:keycloak-client@7.2-SNAPSHOT                               -->
+    <suppress until="2026-12-31Z">
+        <notes><![CDATA[
+        keycloak-client-common-synced 26.0.5 is matched to CVE-2026-0871 (MEDIUM 4.9).
+        This is a Keycloak server-side privilege assignment issue requiring admin access.
+        Suppressed in line with the project-wide Keycloak suppression policy.
+        TODO: Remove after keycloak-client dependency is upgraded beyond 26.4.0.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.keycloak/keycloak-client-common-synced@.*$</packageUrl>
+        <vulnerabilityName regex="true">.*</vulnerabilityName>
+    </suppress>
+</suppressions>

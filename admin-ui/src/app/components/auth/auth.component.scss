@@ -16,7 +16,7 @@
  * contact us at sales@adorsys.com.
  */
 
-@import "src/assets/themes/variables";
+@use 'src/assets/themes/variables' as *;
 
 form {
   font-weight: 100;

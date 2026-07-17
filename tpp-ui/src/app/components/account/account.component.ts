@@ -33,9 +33,10 @@ import { TppUserService } from '../../services/tpp.user.service';
 import { ExtendedBalance } from '../../models/extendedBalance';
 
 @Component({
-  selector: 'app-account',
-  templateUrl: './account.component.html',
-  styleUrls: ['./account.component.scss'],
+    selector: 'app-account',
+    templateUrl: './account.component.html',
+    styleUrls: ['./account.component.scss'],
+    standalone: false
 })
 export class AccountComponent implements OnInit {
   admin;

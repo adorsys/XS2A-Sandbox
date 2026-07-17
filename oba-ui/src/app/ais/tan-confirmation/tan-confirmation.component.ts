@@ -37,9 +37,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../common/services/auth.service';
 
 @Component({
-  selector: 'app-tan-confirmation',
-  templateUrl: './tan-confirmation.component.html',
-  styleUrls: ['./tan-confirmation.component.scss'],
+    selector: 'app-tan-confirmation',
+    templateUrl: './tan-confirmation.component.html',
+    styleUrls: ['./tan-confirmation.component.scss'],
+    standalone: false
 })
 export class TanConfirmationComponent implements OnInit, OnDestroy {
   public authResponse: ConsentAuthorizeResponse;

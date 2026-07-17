@@ -27,9 +27,10 @@ import { PSUPISProvidesAccessToOnlineBankingPaymentFunctionalityService } from '
 import { AuthService } from '../../common/services/auth.service';
 
 @Component({
-  selector: 'app-result-page',
-  templateUrl: './result-page.component.html',
-  styleUrls: ['./result-page.component.scss'],
+    selector: 'app-result-page',
+    templateUrl: './result-page.component.html',
+    styleUrls: ['./result-page.component.scss'],
+    standalone: false
 })
 export class ResultPageComponent implements OnInit {
   public authResponse: PaymentAuthorizeResponse;

@@ -20,6 +20,7 @@ import { Component, OnInit } from '@angular/core';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
+  standalone: false,
   selector: 'app-emb-payment-init-get',
   templateUrl: './emb-payment-init-get.component.html',
 })

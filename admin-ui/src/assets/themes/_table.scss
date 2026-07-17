@@ -16,7 +16,8 @@
  * contact us at sales@adorsys.com.
  */
 
-@import "variables";
+@use 'variables' as *;
+@forward 'variables';
 
 .table>:not(caption)>*>* {
   background-color: transparent;

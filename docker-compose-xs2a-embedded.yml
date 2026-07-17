@@ -278,9 +278,9 @@ services:
   certificate-generator:
     image: gitlab-registry.adorsys.de/adorsys/xs2a/aspsp-xs2a/xs2a-certificate-generator:${XS2A_CONSENT_MANAGEMENT_VERSION}
     restart: on-failure
-    build:
-      context: certificate-generator
-      dockerfile: Dockerfile
+    # build:
+    #   context: certificate-generator
+    #   dockerfile: Dockerfile
     ports:
       - "8092:8092"
     networks:

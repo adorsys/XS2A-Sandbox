@@ -23,6 +23,7 @@ import { CustomizeService } from '../../../../services/customize.service';
 import { EVENT_VALUE } from '../../../common/constant/constants';
 
 @Component({
+  standalone: false,
   selector: 'app-postman-testing',
   templateUrl: './postman-testing.component.html',
   styleUrls: ['./postman-testing.component.scss'],

@@ -21,6 +21,7 @@ import { LanguageService } from '../../../../services/language.service';
 import { CustomizeService } from '../../../../services/customize.service';
 
 @Component({
+  standalone: false,
   selector: 'app-get-started',
   templateUrl: './embedded.component.html',
   styleUrls: ['./embedded.component.scss'],

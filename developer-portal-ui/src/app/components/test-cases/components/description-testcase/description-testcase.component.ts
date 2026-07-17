@@ -3,6 +3,7 @@ import { LanguageService } from '../../../../services/language.service';
 import { CustomizeService } from '../../../../services/customize.service';
 
 @Component({
+  standalone: false,
   selector: 'app-description-testcase',
   templateUrl: './description-testcase.component.html',
   styleUrls: ['./description-testcase.component.scss'],

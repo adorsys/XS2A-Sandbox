@@ -20,9 +20,10 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-certificate',
-  templateUrl: './certificate.component.html',
-  styleUrls: ['../auth.component.scss'],
+    selector: 'app-certificate',
+    templateUrl: './certificate.component.html',
+    styleUrls: ['../auth.component.scss'],
+    standalone: false
 })
 export class CertificateComponent implements OnInit {
   @Output() certificateValue = new EventEmitter();

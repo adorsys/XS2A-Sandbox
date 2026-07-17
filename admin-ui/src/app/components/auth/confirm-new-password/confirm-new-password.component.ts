@@ -24,6 +24,7 @@ import { AuthService } from '../../../services/auth.service';
 import { CustomizeService } from '../../../services/customize.service';
 
 @Component({
+  standalone: false,
   selector: 'app-confirm-new-password',
   templateUrl: './confirm-new-password.component.html',
   styleUrls: ['../auth.component.scss'],

@@ -22,9 +22,10 @@ import { ConsentAuthorizeResponse } from '../../api/models/consent-authorize-res
 import { ShareDataService } from '../../common/services/share-data.service';
 
 @Component({
-  selector: 'app-account-details',
-  templateUrl: './account-details.component.html',
-  styleUrls: ['./account-details.component.scss'],
+    selector: 'app-account-details',
+    templateUrl: './account-details.component.html',
+    styleUrls: ['./account-details.component.scss'],
+    standalone: false
 })
 export class AccountDetailsComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];

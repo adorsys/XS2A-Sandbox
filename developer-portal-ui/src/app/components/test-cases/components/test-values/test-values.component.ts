@@ -23,6 +23,7 @@ import { CertificateService } from '../../../../services/certificate.service';
 import { DataService } from '../../../../services/data.service';
 
 @Component({
+  standalone: false,
   selector: 'app-test-values',
   templateUrl: './test-values.component.html',
   styleUrls: ['./test-values.component.scss'],

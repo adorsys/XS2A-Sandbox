@@ -12,9 +12,10 @@ import { InfoService } from '../../../common/info/info.service';
 import { OnlineBankingConsentsService } from '../../../api/services/online-banking-consents.service';
 
 @Component({
-  selector: 'app-consent-ais',
-  templateUrl: './consent-ais.component.html',
-  styleUrls: ['./consent-ais.component.scss'],
+    selector: 'app-consent-ais',
+    templateUrl: './consent-ais.component.html',
+    styleUrls: ['./consent-ais.component.scss'],
+    standalone: false
 })
 export class ConsentAisComponent implements OnInit {
   formModel: UntypedFormGroup;

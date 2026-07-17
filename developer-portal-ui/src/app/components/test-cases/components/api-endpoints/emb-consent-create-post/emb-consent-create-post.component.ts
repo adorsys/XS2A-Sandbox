@@ -25,6 +25,7 @@ import { combineLatest } from 'rxjs';
 import { SpinnerVisibilityService } from 'ng-http-loader';
 
 @Component({
+  standalone: false,
   selector: 'app-emb-consent-create-post',
   templateUrl: './emb-consent-create-post.component.html',
 })

@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-intro-component',
   templateUrl: './intro.component.html',
   styleUrls: ['./intro.component.scss'],

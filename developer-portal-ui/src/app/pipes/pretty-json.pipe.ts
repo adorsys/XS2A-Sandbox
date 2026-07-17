@@ -20,6 +20,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { JSON_SPACING } from '../components/common/constant/constants';
 
 @Pipe({
+  standalone: false,
   name: 'prettyJson',
 })
 export class PrettyJsonPipe implements PipeTransform {

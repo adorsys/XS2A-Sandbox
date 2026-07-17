@@ -111,7 +111,8 @@ describe('TestCasesComponent', () => {
     getRouterUrl: () => '',
   };
 
-  @Pipe({ name: 'translate' })
+  @Pipe({
+  standalone: false, name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');

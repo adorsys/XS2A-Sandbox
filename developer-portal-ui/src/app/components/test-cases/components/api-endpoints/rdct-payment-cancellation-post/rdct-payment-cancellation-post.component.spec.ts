@@ -38,6 +38,7 @@ describe('RdctPaymentCancellationPostComponent', () => {
   let jsonService: JsonService;
 
   @Component({
+  standalone: false,
     selector: 'app-play-wth-data',
     template: '',
   })
@@ -49,7 +50,7 @@ describe('RdctPaymentCancellationPostComponent', () => {
     @Input() fieldsToCopy: string[];
   }
 
-  @Pipe({ name: 'translate' })
+  @Pipe({ standalone: false, name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');
@@ -57,7 +58,7 @@ describe('RdctPaymentCancellationPostComponent', () => {
     }
   }
 
-  @Pipe({ name: 'prettyJson' })
+  @Pipe({ standalone: false, name: 'prettyJson' })
   class PrettyJsonPipe implements PipeTransform {
     transform(value) {
       return JSON.stringify(value, null, JSON_SPACING);

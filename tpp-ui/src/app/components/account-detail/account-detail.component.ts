@@ -26,9 +26,10 @@ import { InfoService } from '../../commons/info/info.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'app-account-detail',
-  templateUrl: './account-detail.component.html',
-  styleUrls: ['./account-detail.component.scss'],
+    selector: 'app-account-detail',
+    templateUrl: './account-detail.component.html',
+    styleUrls: ['./account-detail.component.scss'],
+    standalone: false
 })
 export class AccountDetailComponent implements OnInit {
   accountForm = new UntypedFormGroup({

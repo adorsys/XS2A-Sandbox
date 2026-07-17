@@ -24,9 +24,10 @@ import { User } from '../../models/user.model';
 import { TppUserService } from '../../services/tpp.user.service';
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss'],
+    selector: 'app-navbar',
+    templateUrl: './navbar.component.html',
+    styleUrls: ['./navbar.component.scss'],
+    standalone: false
 })
 export class NavbarComponent implements DoCheck, OnInit {
   public tppUser: User;

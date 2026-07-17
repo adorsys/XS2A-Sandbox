@@ -31,9 +31,10 @@ import { ShareDataService } from '../../common/services/share-data.service';
 import { AuthService } from '../../common/services/auth.service';
 
 @Component({
-  selector: 'app-user-profile-edit',
-  templateUrl: './user-profile-update.component.html',
-  styleUrls: ['./user-profile-update.component.scss'],
+    selector: 'app-user-profile-edit',
+    templateUrl: './user-profile-update.component.html',
+    styleUrls: ['./user-profile-update.component.scss'],
+    standalone: false
 })
 export class UserProfileUpdateComponent implements OnInit {
   public obaUser: UserTO;

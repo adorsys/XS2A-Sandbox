@@ -20,6 +20,7 @@ import { Component, OnInit } from '@angular/core';
 import { LocalStorageService } from '../../../../../services/local-storage.service';
 
 @Component({
+  standalone: false,
   selector: 'app-emb-payment-init-auth-post',
   templateUrl: './emb-payment-init-auth-post.component.html',
 })

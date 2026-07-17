@@ -32,9 +32,10 @@ import { HttpMethod } from '../../../models/http-method';
 import { SettingsService } from '../../../services/settings.service';
 
 @Component({
-  selector: 'app-user-update',
-  templateUrl: './user-update.component.html',
-  styleUrls: ['./user-update.component.scss'],
+    selector: 'app-user-update',
+    templateUrl: './user-update.component.html',
+    styleUrls: ['./user-update.component.scss'],
+    standalone: false
 })
 export class UserUpdateComponent implements OnInit {
   public url = `${this.settingsService.settings.tppBackendBasePath}` + '/tpp/push/tan';

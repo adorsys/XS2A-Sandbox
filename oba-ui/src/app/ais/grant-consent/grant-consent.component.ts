@@ -29,9 +29,10 @@ import { CustomizeService } from '../../common/services/customize.service';
 import { ShareDataService } from '../../common/services/share-data.service';
 
 @Component({
-  selector: 'app-grant-consent',
-  templateUrl: './grant-consent.component.html',
-  styleUrls: ['./grant-consent.component.scss'],
+    selector: 'app-grant-consent',
+    templateUrl: './grant-consent.component.html',
+    styleUrls: ['./grant-consent.component.scss'],
+    standalone: false
 })
 export class GrantConsentComponent implements OnInit, OnDestroy {
   public authResponse: ConsentAuthorizeResponse;

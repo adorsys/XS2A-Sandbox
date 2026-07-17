@@ -20,6 +20,7 @@ import { Component, OnInit } from '@angular/core';
 import { JsonService } from '../../../../../services/json.service';
 
 @Component({
+  standalone: false,
   selector: 'app-vop-bulk-verification',
   templateUrl: './vop-bulk-verification.component.html',
 })

@@ -35,9 +35,10 @@ import { ScaUserDataTO } from '../../api/models/sca-user-data-to';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'app-periodic-payments',
-  templateUrl: './periodic-payments.component.html',
-  styleUrls: ['./periodic-payments.component.scss'],
+    selector: 'app-periodic-payments',
+    templateUrl: './periodic-payments.component.html',
+    styleUrls: ['./periodic-payments.component.scss'],
+    standalone: false
 })
 export class PeriodicPaymentsComponent implements OnInit {
   formModel: UntypedFormGroup;

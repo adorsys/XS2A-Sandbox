@@ -27,6 +27,7 @@ describe('AccinfTransactionsGetComponent', () => {
   let fixture: ComponentFixture<AccinfTransactionsGetComponent>;
 
   @Component({
+  standalone: false,
     selector: 'app-play-wth-data',
     template: '',
   })
@@ -38,7 +39,7 @@ describe('AccinfTransactionsGetComponent', () => {
     @Input() dateFromFlag: boolean;
   }
 
-  @Pipe({ name: 'translate' })
+  @Pipe({ standalone: false, name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');

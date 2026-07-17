@@ -19,6 +19,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-vop-retrieve-bulk-verification',
   templateUrl: './vop-retrieve-bulk-verification.component.html',
 })

@@ -21,9 +21,10 @@ import { UserTO } from '../../api/models/user-to';
 import { CurrentUserService } from '../../common/services/current-user.service';
 
 @Component({
-  selector: 'app-user-profile',
-  templateUrl: './user-profile.component.html',
-  styleUrls: ['./user-profile.component.scss'],
+    selector: 'app-user-profile',
+    templateUrl: './user-profile.component.html',
+    styleUrls: ['./user-profile.component.scss'],
+    standalone: false
 })
 export class UserProfileComponent implements OnInit {
   public obaUser: UserTO;

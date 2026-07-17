@@ -42,6 +42,7 @@ import { TppManagementService } from '../../services/tpp-management.service';
 import { Location } from '@angular/common';
 
 @Component({
+  standalone: false,
   selector: 'app-account-access-management',
   templateUrl: './account-access-management.component.html',
   styleUrls: ['./account-access-management.component.scss'],

@@ -1,4 +1,4 @@
-// Overwrite bootstrap variables
+@use 'sass:color';
 @import './bootstrap-overrides';
 
 @import 'bootstrap/scss/functions';
@@ -20,7 +20,7 @@ $green: #059c85;
 $primary-gradient: linear-gradient(129.54deg, #0db0e2 0%, #10317d 100%);
 $danger-gradient: linear-gradient(
   129.54deg,
-  lighten($danger, 7%) 0%,
+  color.adjust($danger, $lightness: 7%) 0%,
   $danger 100%
 );
 

@@ -30,9 +30,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../../../commons/dialog/error-dialog.component';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['../auth.component.scss'],
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['../auth.component.scss'],
+    standalone: false
 })
 export class LoginComponent implements OnInit {
   loginForm: UntypedFormGroup;

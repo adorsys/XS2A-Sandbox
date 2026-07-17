@@ -27,6 +27,7 @@ describe('AccinfBalanceGetComponent', () => {
   let fixture: ComponentFixture<AccinfBalanceGetComponent>;
 
   @Component({
+  standalone: false,
     selector: 'app-play-wth-data',
     template: '',
   })
@@ -36,7 +37,7 @@ describe('AccinfBalanceGetComponent', () => {
     @Input() variablePathEnd: string;
   }
 
-  @Pipe({ name: 'translate' })
+  @Pipe({ standalone: false, name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');

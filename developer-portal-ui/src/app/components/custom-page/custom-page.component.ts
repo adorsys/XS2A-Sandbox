@@ -22,6 +22,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CustomizeService } from '../../services/customize.service';
 
 @Component({
+  standalone: false,
   selector: 'app-custom-page',
   templateUrl: './custom-page.component.html',
   styleUrls: ['./custom-page.component.scss'],

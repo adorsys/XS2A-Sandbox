@@ -29,9 +29,10 @@ import { PsupisprovidesGetPsuAccsService } from '../../api/services/psupisprovid
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-confirm-payment',
-  templateUrl: './confirm-payment.component.html',
-  styleUrls: ['./confirm-payment.component.scss'],
+    selector: 'app-confirm-payment',
+    templateUrl: './confirm-payment.component.html',
+    styleUrls: ['./confirm-payment.component.scss'],
+    standalone: false
 })
 export class ConfirmPaymentComponent implements OnInit, OnDestroy {
   public payAuthResponse: PaymentAuthorizeResponse;

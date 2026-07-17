@@ -27,6 +27,7 @@ describe('EmbConsentGetComponent', () => {
   let fixture: ComponentFixture<EmbConsentGetComponent>;
 
   @Component({
+  standalone: false,
     selector: 'app-play-wth-data',
     template: '',
   })
@@ -35,7 +36,7 @@ describe('EmbConsentGetComponent', () => {
     @Input() consentIdFlag: boolean;
   }
 
-  @Pipe({ name: 'translate' })
+  @Pipe({ standalone: false, name: 'translate' })
   class TranslatePipe implements PipeTransform {
     transform(value) {
       const tmp = value.split('.');

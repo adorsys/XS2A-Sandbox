@@ -32,6 +32,7 @@ import { ERROR_MESSAGE } from '@commons/constant/constant';
 import { InfoService } from '@commons/info/info.service';
 
 @Component({
+  standalone: false,
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['../auth.component.scss'],

@@ -20,6 +20,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
+  standalone: false,
   selector: 'app-certificate',
   templateUrl: './certificate.component.html',
   styleUrls: ['../auth.component.scss'],

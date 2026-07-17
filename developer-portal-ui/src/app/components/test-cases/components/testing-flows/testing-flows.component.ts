@@ -23,6 +23,7 @@ import { EnvLink } from '../../../../models/envLink.model';
 import { UrlService } from '../../../../services/url.service';
 
 @Component({
+  standalone: false,
   selector: 'app-error',
   templateUrl: './testing-flows.component.html',
   styleUrls: ['./testing-flows.component.scss'],

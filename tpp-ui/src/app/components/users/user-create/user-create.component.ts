@@ -31,9 +31,10 @@ import { HttpMethod } from '../../../models/http-method';
 import { SettingsService } from '../../../services/settings.service';
 
 @Component({
-  selector: 'app-user-create',
-  templateUrl: './user-create.component.html',
-  styleUrls: ['./user-create.component.scss'],
+    selector: 'app-user-create',
+    templateUrl: './user-create.component.html',
+    styleUrls: ['./user-create.component.scss'],
+    standalone: false
 })
 export class UserCreateComponent implements OnInit {
   public url = `${this.settingsService.settings.tppBackendBasePath}` + '/tpp/push/tan';

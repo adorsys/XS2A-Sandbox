@@ -34,9 +34,10 @@ import { InfoService } from '../../commons/info/info.service';
 import { TooltipPosition } from '@angular/material/tooltip';
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss'],
+    selector: 'app-users',
+    templateUrl: './users.component.html',
+    styleUrls: ['./users.component.scss'],
+    standalone: false
 })
 
 // TODO Merge UsersComponent, TppsComponent and AccountListComponent into one single component

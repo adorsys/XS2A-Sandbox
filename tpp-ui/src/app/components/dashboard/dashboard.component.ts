@@ -22,9 +22,10 @@ import { Router } from '@angular/router';
 import { ADMIN_KEY } from '../../commons/constant/constant';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+    selector: 'app-dashboard',
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.scss'],
+    standalone: false
 })
 export class DashboardComponent {
   private role = sessionStorage.getItem(ADMIN_KEY);

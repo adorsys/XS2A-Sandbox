@@ -6,9 +6,10 @@ import { map } from 'rxjs/operators';
 import { PiisConsentService } from '../../../services/piis-consent.service';
 
 @Component({
-  selector: 'app-user-funds-confirmation-details',
-  templateUrl: './user-funds-confirmation-details.component.html',
-  styleUrls: ['./user-funds-confirmation-details.component.scss'],
+    selector: 'app-user-funds-confirmation-details',
+    templateUrl: './user-funds-confirmation-details.component.html',
+    styleUrls: ['./user-funds-confirmation-details.component.scss'],
+    standalone: false
 })
 export class UserFundsConfirmationDetailsComponent implements OnInit {
   piisConsent?: PiisConsent;
