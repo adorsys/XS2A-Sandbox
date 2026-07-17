@@ -547,13 +547,13 @@ clone_to_github:
   stage: "Clone to github"
   needs: []
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule" && $SCHEDULE_TYPE != "security-scan" && ($CI_COMMIT_BRANCH =~ /release-6/ || $CI_COMMIT_BRANCH == "support-6.x")'
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && $SCHEDULE_TYPE == "gitlab-sync" && ($CI_COMMIT_BRANCH =~ /release-14/ || $CI_COMMIT_BRANCH == "support-14.x")'
       when: always
     - when: never
   variables:
     GITHUB_USERNAME: adorsys
     GITHUB_REPOSITORY: adorsys/XS2A-Sandbox
-    GITHUB_PROJECT_CLONE_VERSION: "6"
+    GITHUB_PROJECT_CLONE_VERSION: "14"
 
 CycloneDX + OWASP (on push):
   extends: .cyclonedx-owasp-maven-settings
@@ -578,12 +578,24 @@ Unified Remediation:
 
 Change dependencies versions (develop):
   extends: .sandbox-version-control-dev
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && $SCHEDULE_TYPE == "dependency-update" && $CI_COMMIT_BRANCH == "develop"'
+      when: always
+    - when: never
 
 Change dependencies versions (E2E):
   extends: .sandbox-version-control-e2e
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && $SCHEDULE_TYPE == "dependency-update" && ($CI_COMMIT_BRANCH =~ /release-14/ || $CI_COMMIT_BRANCH == "support-14.x")'
+      when: always
+    - when: never
 
 Change dependencies versions (INTEG):
   extends: .sandbox-version-control-integ
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && $SCHEDULE_TYPE == "dependency-update" && ($CI_COMMIT_BRANCH =~ /release-14/ || $CI_COMMIT_BRANCH == "support-14.x")'
+      when: always
+    - when: never
 
 Renovate Update:
   extends: .renovate-update
