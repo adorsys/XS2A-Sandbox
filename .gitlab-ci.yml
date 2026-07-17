@@ -560,18 +560,33 @@ clone_to_github:
     - git remote add github "https://$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
     - |
       set -eu
+      protected_branch="support-${GITHUB_PROJECT_CLONE_VERSION}.x"
       for remote_branch in $(git branch -r | grep -E "origin/.*(release-${GITHUB_PROJECT_CLONE_VERSION}.*|support-${GITHUB_PROJECT_CLONE_VERSION}.x).*"); do
         branch_name="${remote_branch#origin/}"
         git checkout -B "$branch_name" "$remote_branch"
 
         github_ref="refs/heads/$branch_name"
         github_old_sha="$(git ls-remote github "$github_ref" | awk '{print $1}')"
+        local_sha="$(git rev-parse HEAD)"
 
-        if [ -n "$github_old_sha" ]; then
-          git push --force-with-lease="$github_ref:$github_old_sha" github "$branch_name:$branch_name"
-        else
+        if [ -z "$github_old_sha" ]; then
           git push github "$branch_name:$branch_name"
+          continue
         fi
+
+        if git merge-base --is-ancestor "$github_old_sha" "$local_sha"; then
+          git push github "$branch_name:$branch_name"
+          continue
+        fi
+
+        if [ "$branch_name" = "$protected_branch" ]; then
+          sync_branch="gitlab-sync/$branch_name"
+          echo "GitHub branch $branch_name is divergent and protected; pushing $local_sha to $sync_branch for manual reconciliation."
+          git push github "$branch_name:$sync_branch"
+          continue
+        fi
+
+        git push --force-with-lease="$github_ref:$github_old_sha" github "$branch_name:$branch_name"
       done
 
 CycloneDX + OWASP (on push):
