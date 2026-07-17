@@ -25,10 +25,14 @@
             <id>gitlab-maven</id>
             <configuration>
                 <httpHeaders>
-                <property>
-                    <name>Deploy-Token</name>
-                    <value>${env.GITLAB_MAVEN_DEPLOY_TOKEN}</value>
-                </property>
+                    <property>
+                        <name>Job-Token</name>
+                        <value>${env.CI_JOB_TOKEN}</value>
+                    </property>
+                    <property>
+                        <name>Private-Token</name>
+                        <value>${env.GITLAB_MAVEN_DEPLOY_TOKEN}</value>
+                    </property>
                 </httpHeaders>
             </configuration>
         </server>
